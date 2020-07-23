@@ -4,12 +4,13 @@ use crate::{
     lit::Lit,
     typescript::TsTypeParamInstantiation,
 };
+use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
 /// Used for `obj` property of `JSXMemberExpr`.
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 #[allow(variant_size_differences)]
 pub enum JSXObject {
     #[tag("JSXMemberExpression")]

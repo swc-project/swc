@@ -1,5 +1,5 @@
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
@@ -7,26 +7,21 @@ pub(super) struct ThisInStaticFolder {
 
 noop_fold_type!(ThisInStaticFolder);
 
-impl Fold<Expr> for ThisInStaticFolder {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+impl Fold for ThisInStaticFolder {
+    fn fold_class(&mut self, n: Class) -> Class {
+        n
+    }
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::This(..) => Expr::Ident(self.ident.clone()),
             _ => e,
         }
     }
-}
 
-macro_rules! nop {
-    ($T:ty) => {
-        impl Fold<$T> for ThisInStaticFolder {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-    };
+    fn fold_function(&mut self, n: Function) -> Function {
+        n
+    }
 }
-
-nop!(Function);
-nop!(Class);

@@ -6,8 +6,9 @@ use self::{
 use crate::{util::DataMapExt, version::should_enable, Versions};
 use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Visit, VisitWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 mod builtin;
 mod data;
@@ -121,9 +122,9 @@ impl UsageVisitor {
 //    },
 
 /// Detects usage of types
-impl Visit<Ident> for UsageVisitor {
-    fn visit(&mut self, node: &Ident) {
-        node.visit_children(self);
+impl Visit for UsageVisitor {
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+        node.visit_children_with(self);
 
         for (name, builtin) in BUILTIN_TYPES {
             if node.sym == **name {
@@ -131,11 +132,9 @@ impl Visit<Ident> for UsageVisitor {
             }
         }
     }
-}
 
-impl Visit<VarDeclarator> for UsageVisitor {
-    fn visit(&mut self, d: &VarDeclarator) {
-        d.visit_children(self);
+    fn visit_var_declarator(&mut self, d: &VarDeclarator, _: &dyn Node) {
+        d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
             match d.name {
@@ -154,30 +153,27 @@ impl Visit<VarDeclarator> for UsageVisitor {
             }
         }
     }
-}
 
-impl Visit<AssignExpr> for UsageVisitor {
-    fn visit(&mut self, e: &AssignExpr) {
-        e.visit_children(self);
+    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+        e.visit_children_with(self);
 
-        match e.left {
+        match &e.left {
             // ({ keys, values } = Object)
-            PatOrExpr::Pat(box Pat::Object(ref o)) => {
-                self.visit_object_pat_props(&e.right, &o.props)
-            }
+            PatOrExpr::Pat(pat) => match &**pat {
+                Pat::Object(ref o) => self.visit_object_pat_props(&e.right, &o.props),
+                _ => {}
+            },
             _ => {}
         }
     }
-}
 
-/// Detects usage of instance properties and static properties.
-///
-///  - `Array.from`
-impl Visit<MemberExpr> for UsageVisitor {
-    fn visit(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(self);
+    /// Detects usage of instance properties and static properties.
+    ///
+    ///  - `Array.from`
+    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
+        node.obj.visit_with(node as _, self);
         if node.computed {
-            node.prop.visit_with(self);
+            node.prop.visit_with(node as _, self);
         }
         //enter(path: NodePath) {
         //    const { node } = path;
@@ -262,73 +258,74 @@ impl Visit<MemberExpr> for UsageVisitor {
         }
 
         match node.obj {
-            ExprOrSuper::Expr(box Expr::Ident(ref obj)) => {
-                for (ty, props) in STATIC_PROPERTIES {
-                    if obj.sym == **ty {
-                        match *node.prop {
-                            Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
-                                for (name, imports) in INSTANCE_PROPERTIES {
-                                    if *value == **name {
-                                        self.add(imports);
+            ExprOrSuper::Expr(ref e) => match &**e {
+                Expr::Ident(obj) => {
+                    for (ty, props) in STATIC_PROPERTIES {
+                        if obj.sym == **ty {
+                            match *node.prop {
+                                Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
+                                    for (name, imports) in INSTANCE_PROPERTIES {
+                                        if *value == **name {
+                                            self.add(imports);
+                                        }
                                     }
                                 }
-                            }
 
-                            Expr::Ident(ref p) if !node.computed => {
-                                for (prop, imports) in *props {
-                                    if p.sym == **prop {
-                                        self.add(imports);
+                                Expr::Ident(ref p) if !node.computed => {
+                                    for (prop, imports) in *props {
+                                        if p.sym == **prop {
+                                            self.add(imports);
+                                        }
                                     }
                                 }
-                            }
 
-                            _ => {}
+                                _ => {}
+                            }
                         }
                     }
                 }
-            }
+                _ => {}
+            },
             _ => {}
         }
     }
-}
 
-///
-/// - `arr[Symbol.iterator]()`
-impl Visit<CallExpr> for UsageVisitor {
-    fn visit(&mut self, e: &CallExpr) {
-        e.visit_children(self);
+    ///
+    /// - `arr[Symbol.iterator]()`
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+        e.visit_children_with(self);
 
-        if match e.callee {
-            ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                computed: true,
-                ref prop,
-                ..
-            })) if is_symbol_iterator(&prop) => true,
+        if match &e.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Member(MemberExpr {
+                    computed: true,
+                    prop,
+                    ..
+                }) if is_symbol_iterator(&prop) => true,
+                _ => false,
+            },
             _ => false,
         } {
             self.add(&["web.dom.iterable"])
         }
     }
-}
 
-///
-/// - `Symbol.iterator in arr`
-impl Visit<BinExpr> for UsageVisitor {
-    fn visit(&mut self, e: &BinExpr) {
-        e.visit_children(self);
+    ///
+    /// - `Symbol.iterator in arr`
+
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+        e.visit_children_with(self);
 
         match e.op {
             op!("in") if is_symbol_iterator(&e.left) => self.add(&["web.dom.iterable"]),
             _ => {}
         }
     }
-}
 
-///
-/// - `yield*`
-impl Visit<YieldExpr> for UsageVisitor {
-    fn visit(&mut self, e: &YieldExpr) {
-        e.visit_children(self);
+    ///
+    /// - `yield*`
+    fn visit_yield_expr(&mut self, e: &YieldExpr, _: &dyn Node) {
+        e.visit_children_with(self);
         println!("Yield");
 
         if e.delegate {
@@ -338,21 +335,25 @@ impl Visit<YieldExpr> for UsageVisitor {
 }
 
 fn is_symbol_iterator(e: &Expr) -> bool {
-    match *e {
+    match e {
         Expr::Member(MemberExpr {
-            obj:
-                ExprOrSuper::Expr(box Expr::Ident(Ident {
-                    sym: js_word!("Symbol"),
-                    ..
-                })),
-            prop:
-                box Expr::Ident(Ident {
-                    sym: js_word!("iterator"),
-                    ..
-                }),
+            obj: ExprOrSuper::Expr(obj),
+            prop,
             computed: false,
             ..
-        }) => true,
+        }) => match &**obj {
+            Expr::Ident(Ident {
+                sym: js_word!("Symbol"),
+                ..
+            }) => match &**prop {
+                Expr::Ident(Ident {
+                    sym: js_word!("iterator"),
+                    ..
+                }) => true,
+                _ => false,
+            },
+            _ => false,
+        },
         _ => false,
     }
 }

@@ -1,10 +1,10 @@
-use crate::pass::Pass;
 use std::collections::HashSet;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Spanned};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
-pub fn duplicate_keys() -> impl Pass {
+pub fn duplicate_keys() -> impl Fold {
     DuplicateKeys
 }
 
@@ -12,9 +12,9 @@ struct DuplicateKeys;
 
 noop_fold_type!(DuplicateKeys);
 
-impl Fold<Expr> for DuplicateKeys {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+impl Fold for DuplicateKeys {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Object(ObjectLit { span, props }) => {
@@ -39,14 +39,12 @@ struct PropFolder {
 
 noop_fold_type!(PropFolder);
 
-impl Fold<Expr> for PropFolder {
-    fn fold(&mut self, node: Expr) -> Expr {
+impl Fold for PropFolder {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
         node
     }
-}
 
-impl Fold<Prop> for PropFolder {
-    fn fold(&mut self, prop: Prop) -> Prop {
+    fn fold_prop(&mut self, prop: Prop) -> Prop {
         match prop {
             Prop::Shorthand(ident) => {
                 //
@@ -56,9 +54,9 @@ impl Fold<Prop> for PropFolder {
                     Prop::KeyValue(KeyValueProp {
                         key: PropName::Computed(ComputedPropName {
                             span: ident.span,
-                            expr: box Expr::Lit(Lit::Str(quote_str!(ident.sym.clone()))),
+                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(ident.sym.clone())))),
                         }),
-                        value: box Expr::Ident(ident),
+                        value: Box::new(Expr::Ident(ident)),
                     })
                 } else {
                     Prop::Shorthand(ident)
@@ -67,17 +65,17 @@ impl Fold<Prop> for PropFolder {
 
             Prop::Assign(..) => unreachable!("assign property in object literal is invalid"),
 
-            Prop::Getter(..) => prop.fold_children(&mut PropNameFolder {
+            Prop::Getter(..) => prop.fold_children_with(&mut PropNameFolder {
                 props: &mut self.getter_props,
             }),
-            Prop::Setter(..) => prop.fold_children(&mut PropNameFolder {
+            Prop::Setter(..) => prop.fold_children_with(&mut PropNameFolder {
                 props: &mut self.setter_props,
             }),
             _ => {
-                let prop = prop.fold_children(&mut PropNameFolder {
+                let prop = prop.fold_children_with(&mut PropNameFolder {
                     props: &mut self.getter_props,
                 });
-                prop.fold_children(&mut PropNameFolder {
+                prop.fold_children_with(&mut PropNameFolder {
                     props: &mut self.setter_props,
                 })
             }
@@ -88,14 +86,12 @@ impl Fold<Prop> for PropFolder {
 struct PropNameFolder<'a> {
     props: &'a mut HashSet<JsWord>,
 }
-impl<'a> Fold<Expr> for PropNameFolder<'a> {
-    fn fold(&mut self, node: Expr) -> Expr {
+impl<'a> Fold for PropNameFolder<'a> {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
         node
     }
-}
 
-impl<'a> Fold<PropName> for PropNameFolder<'a> {
-    fn fold(&mut self, name: PropName) -> PropName {
+    fn fold_prop_name(&mut self, name: PropName) -> PropName {
         let span = name.span();
 
         match name {
@@ -103,11 +99,11 @@ impl<'a> Fold<PropName> for PropNameFolder<'a> {
                 if !self.props.insert(ident.sym.clone()) {
                     PropName::Computed(ComputedPropName {
                         span,
-                        expr: box Expr::Lit(Lit::Str(Str {
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
                             span,
                             value: ident.sym,
                             has_escape: false,
-                        })),
+                        }))),
                     })
                 } else {
                     PropName::Ident(ident)
@@ -117,7 +113,7 @@ impl<'a> Fold<PropName> for PropNameFolder<'a> {
                 if !self.props.insert(s.value.clone()) {
                     PropName::Computed(ComputedPropName {
                         span: s.span,
-                        expr: box Expr::Lit(Lit::Str(s)),
+                        expr: Box::new(Expr::Lit(Lit::Str(s))),
                     })
                 } else {
                     PropName::Str(s)

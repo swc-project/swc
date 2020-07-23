@@ -1,8 +1,4 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
 extern crate test;
 
 use std::{
@@ -12,11 +8,13 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{Fold, FoldWith};
+use swc_common::comments::Comments;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::fixer;
+use swc_ecma_utils::{DropSpan, COMMENTS};
+use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -108,7 +106,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 
@@ -159,8 +157,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     "\n\n========== Running fixer test {}\nSource:\n{}\n",
                     file_name, input
                 );
-                let mut wr = Buf(Arc::new(RwLock::new(vec![])));
-                let mut wr2 = Buf(Arc::new(RwLock::new(vec![])));
 
                 ::testing::run_test(false, |cm, handler| {
                     let src = cm.load_file(&entry.path()).expect("failed to load file");
@@ -168,9 +164,12 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         .load_file(&normal.join(file_name))
                         .expect("failed to load reference file");
 
-                    {
-                        let handlers = box MyHandlers;
-                        let handlers2 = box MyHandlers;
+                    COMMENTS.set(&Comments::default(), || {
+                        let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+                        let mut wr2 = Buf(Arc::new(RwLock::new(vec![])));
+
+                        let handlers = Box::new(MyHandlers);
+                        let handlers2 = Box::new(MyHandlers);
                         let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
@@ -178,89 +177,91 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             None,
                         );
 
-                        let mut emitter = Emitter {
-                            cfg: swc_ecma_codegen::Config { minify: false },
-                            cm: cm.clone(),
-                            wr: box swc_ecma_codegen::text_writer::JsWriter::new(
-                                cm.clone(),
-                                "\n",
-                                &mut wr,
-                                None,
-                            ),
-                            comments: None,
-                            handlers,
-                        };
-                        let mut expected_emitter = Emitter {
-                            cfg: swc_ecma_codegen::Config { minify: false },
-                            cm: cm.clone(),
-                            wr: box swc_ecma_codegen::text_writer::JsWriter::new(
-                                cm, "\n", &mut wr2, None,
-                            ),
-                            comments: None,
-                            handlers: handlers2,
-                        };
+                        {
+                            let mut emitter = Emitter {
+                                cfg: swc_ecma_codegen::Config { minify: false },
+                                cm: cm.clone(),
+                                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                                    cm.clone(),
+                                    "\n",
+                                    &mut wr,
+                                    None,
+                                )),
+                                comments: None,
+                                handlers,
+                            };
+                            let mut expected_emitter = Emitter {
+                                cfg: swc_ecma_codegen::Config { minify: false },
+                                cm: cm.clone(),
+                                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                                    cm, "\n", &mut wr2, None,
+                                )),
+                                comments: None,
+                                handlers: handlers2,
+                            };
 
-                        // Parse source
+                            // Parse source
 
-                        let mut e_parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
-                            Session { handler: &handler },
-                            Syntax::default(),
-                            (&*expected).into(),
-                            None,
-                        );
+                            let mut e_parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> =
+                                Parser::new(
+                                    Session { handler: &handler },
+                                    Syntax::default(),
+                                    (&*expected).into(),
+                                    None,
+                                );
 
-                        if module {
-                            let module = parser
-                                .parse_module()
-                                .map(normalize)
-                                .map(|p| p.fold_with(&mut fixer()))
-                                .map_err(|mut e| {
-                                    e.emit();
-                                })?;
-                            let module2 = e_parser
-                                .parse_module()
-                                .map(normalize)
-                                .map_err(|mut e| {
-                                    e.emit();
-                                })
-                                .expect("failed to parse reference file");
-                            if module == module2 {
-                                return Ok(());
+                            if module {
+                                let module = parser
+                                    .parse_module()
+                                    .map(normalize)
+                                    .map(|p| p.fold_with(&mut fixer()))
+                                    .map_err(|mut e| {
+                                        e.emit();
+                                    })?;
+                                let module2 = e_parser
+                                    .parse_module()
+                                    .map(normalize)
+                                    .map_err(|mut e| {
+                                        e.emit();
+                                    })
+                                    .expect("failed to parse reference file");
+                                if module == module2 {
+                                    return Ok(());
+                                }
+                                emitter.emit_module(&module).unwrap();
+                                expected_emitter.emit_module(&module2).unwrap();
+                            } else {
+                                let script = parser
+                                    .parse_script()
+                                    .map(normalize)
+                                    .map(|p| p.fold_with(&mut fixer()))
+                                    .map_err(|mut e| {
+                                        e.emit();
+                                    })?;
+                                let script2 = e_parser
+                                    .parse_script()
+                                    .map(normalize)
+                                    .map(|p| p.fold_with(&mut fixer()))
+                                    .map_err(|mut e| {
+                                        e.emit();
+                                    })?;
+
+                                if script == script2 {
+                                    return Ok(());
+                                }
+                                emitter.emit_script(&script).unwrap();
+                                expected_emitter.emit_script(&script2).unwrap();
                             }
-                            emitter.emit_module(&module).unwrap();
-                            expected_emitter.emit_module(&module2).unwrap();
-                        } else {
-                            let script = parser
-                                .parse_script()
-                                .map(normalize)
-                                .map(|p| p.fold_with(&mut fixer()))
-                                .map_err(|mut e| {
-                                    e.emit();
-                                })?;
-                            let script2 = e_parser
-                                .parse_script()
-                                .map(normalize)
-                                .map(|p| p.fold_with(&mut fixer()))
-                                .map_err(|mut e| {
-                                    e.emit();
-                                })?;
-
-                            if script == script2 {
-                                return Ok(());
-                            }
-                            emitter.emit_script(&script).unwrap();
-                            expected_emitter.emit_script(&script2).unwrap();
                         }
-                    }
+                        let output = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
+                        let expected = String::from_utf8_lossy(&*wr2.0.read().unwrap()).to_string();
+                        if output == expected {
+                            return Ok(());
+                        }
+                        eprintln!("Wrong output:\n{}\n-----\n{}", output, expected);
 
-                    let output = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
-                    let expected = String::from_utf8_lossy(&*wr2.0.read().unwrap()).to_string();
-                    if output == expected {
-                        return Ok(());
-                    }
-                    eprintln!("Wrong output:\n{}\n-----\n{}", output, expected);
-
-                    Err(())
+                        Err(())
+                    })
                 })
                 .expect("failed to run test");
             }
@@ -291,23 +292,20 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold<Stmt> for Normalizer {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
+impl Fold for Normalizer {
+    fn fold_new_expr(&mut self, expr: NewExpr) -> NewExpr {
+        let mut expr = expr.fold_children_with(self);
 
-        match stmt {
-            Stmt::Expr(ExprStmt {
-                span,
-                expr: box Expr::Paren(ParenExpr { expr, .. }),
-            }) => Stmt::Expr(ExprStmt { span, expr }),
-            _ => stmt,
-        }
+        expr.args = match expr.args {
+            Some(..) => expr.args,
+            None => Some(vec![]),
+        };
+
+        expr
     }
-}
 
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, name: PropName) -> PropName {
-        let name = name.fold_children(self);
+    fn fold_prop_name(&mut self, name: PropName) -> PropName {
+        let name = name.fold_children_with(self);
 
         match name {
             PropName::Ident(i) => PropName::Str(Str {
@@ -334,25 +332,25 @@ impl Fold<PropName> for Normalizer {
             _ => name,
         }
     }
-}
 
-impl Fold<NewExpr> for Normalizer {
-    fn fold(&mut self, expr: NewExpr) -> NewExpr {
-        let mut expr = expr.fold_children(self);
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children_with(self);
 
-        expr.args = match expr.args {
-            Some(..) => expr.args,
-            None => Some(vec![]),
-        };
-
-        expr
+        match stmt {
+            Stmt::Expr(ExprStmt { span, expr }) => match *expr {
+                Expr::Paren(ParenExpr { expr, .. }) => Stmt::Expr(ExprStmt { span, expr }),
+                _ => Stmt::Expr(ExprStmt { span, expr }),
+            },
+            _ => stmt,
+        }
     }
 }
 
 fn normalize<T>(node: T) -> T
 where
-    T: FoldWith<Normalizer> + FoldWith<::testing::DropSpan>,
+    T: FoldWith<Normalizer> + FoldWith<DropSpan>,
 {
-    node.fold_with(&mut Normalizer)
-        .fold_with(&mut ::testing::DropSpan)
+    node.fold_with(&mut Normalizer).fold_with(&mut DropSpan {
+        preserve_ctxt: false,
+    })
 }

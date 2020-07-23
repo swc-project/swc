@@ -1,18 +1,16 @@
 use self::{case::CaseHandler, hoist::hoist};
-use crate::{
-    pass::Pass,
-    util::{contains_this_expr, prepend, ExprFactory, StmtLike},
-};
+use crate::util::{contains_this_expr, prepend, ExprFactory, StmtLike};
 use std::mem::replace;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 mod case;
 mod hoist;
 mod leap;
 
-pub fn regenerator(global_mark: Mark) -> impl Pass {
+pub fn regenerator(global_mark: Mark) -> impl Fold {
     Regenerator {
         global_mark,
         regenerator_runtime: Default::default(),
@@ -42,45 +40,23 @@ fn rt(global_mark: Mark, rt: Ident) -> Stmt {
         decls: vec![VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(rt),
-            init: Some(box Expr::Call(CallExpr {
+            init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
                 args: vec![quote_str!("regenerator-runtime").as_arg()],
                 type_args: Default::default(),
-            })),
+            }))),
             definite: false,
         }],
     }))
 }
 
-/// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-impl Fold<Module> for Regenerator {
-    fn fold(&mut self, m: Module) -> Module {
-        let mut m: Module = m.fold_children(self);
-        if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
-        }
-        m
-    }
-}
-
-/// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-impl Fold<Script> for Regenerator {
-    fn fold(&mut self, s: Script) -> Script {
-        let mut s: Script = s.fold_children(self);
-        if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
-        }
-        s
-    }
-}
-
-impl<T> Fold<Vec<T>> for Regenerator
-where
-    T: FoldWith<Self> + StmtLike,
-    Vec<T>: FoldWith<Self> + VisitWith<Finder>,
-{
-    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+impl Regenerator {
+    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    where
+        T: FoldWith<Self> + StmtLike,
+        Vec<T>: FoldWith<Self> + VisitWith<Finder>,
+    {
         if !Finder::find(&items) {
             return items;
         }
@@ -109,70 +85,13 @@ where
     }
 }
 
-impl Fold<Prop> for Regenerator {
-    fn fold(&mut self, p: Prop) -> Prop {
-        let p = p.fold_children(self);
-
-        match p {
-            Prop::Method(p) if p.function.is_generator => {
-                //
-                let marked = private_ident!("_callee");
-                let (ident, function) = self.fold_fn(Some(marked.clone()), marked, p.function);
-                let mark_expr = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: self
-                        .regenerator_runtime
-                        .clone()
-                        .unwrap()
-                        .member(quote_ident!("mark"))
-                        .as_callee(),
-                    args: vec![FnExpr { ident, function }.as_arg()],
-                    type_args: None,
-                });
-                return Prop::Method(MethodProp {
-                    function: Function {
-                        span: DUMMY_SP,
-                        params: vec![],
-                        decorators: vec![],
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(
-                                    box CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: mark_expr.as_callee(),
-                                        args: vec![],
-                                        type_args: Default::default(),
-                                    }
-                                    .into(),
-                                ),
-                            }
-                            .into()],
-                        }),
-                        is_generator: false,
-                        is_async: false,
-                        type_params: None,
-                        return_type: None,
-                    },
-                    ..p
-                });
-            }
-
-            _ => {}
-        }
-
-        p
-    }
-}
-
-impl Fold<Expr> for Regenerator {
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for Regenerator {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         if !Finder::find(&e) {
             return e;
         }
 
-        let e: Expr = e.fold_children(self);
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::Fn(FnExpr {
@@ -190,7 +109,7 @@ impl Fold<Expr> for Regenerator {
                         .regenerator_runtime
                         .clone()
                         .unwrap()
-                        .member(quote_ident!("mark"))
+                        .make_member(quote_ident!("mark"))
                         .as_callee(),
                     args: vec![FnExpr { ident, function }.as_arg()],
                     type_args: None,
@@ -202,10 +121,8 @@ impl Fold<Expr> for Regenerator {
 
         e
     }
-}
 
-impl Fold<FnDecl> for Regenerator {
-    fn fold(&mut self, f: FnDecl) -> FnDecl {
+    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
         if !Finder::find(&f) {
             return f;
         }
@@ -214,24 +131,24 @@ impl Fold<FnDecl> for Regenerator {
             self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
         }
 
-        let f = f.fold_children(self);
+        let f = f.fold_children_with(self);
 
         let marked = private_ident!("_marked");
 
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(marked.clone()),
-            init: Some(box Expr::Call(CallExpr {
+            init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: self
                     .regenerator_runtime
                     .clone()
                     .unwrap()
-                    .member(quote_ident!("mark"))
+                    .make_member(quote_ident!("mark"))
                     .as_callee(),
                 args: vec![f.ident.clone().as_arg()],
                 type_args: None,
-            })),
+            }))),
             definite: false,
         });
 
@@ -243,15 +160,21 @@ impl Fold<FnDecl> for Regenerator {
             ..f
         }
     }
-}
 
-impl Fold<ModuleDecl> for Regenerator {
-    fn fold(&mut self, i: ModuleDecl) -> ModuleDecl {
+    fn fold_module(&mut self, m: Module) -> Module {
+        let mut m: Module = m.fold_children_with(self);
+        if let Some(rt_ident) = self.regenerator_runtime.take() {
+            prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
+        }
+        m
+    }
+
+    fn fold_module_decl(&mut self, i: ModuleDecl) -> ModuleDecl {
         if !Finder::find(&i) {
             return i;
         }
 
-        let i = i.fold_children(self);
+        let i = i.fold_children_with(self);
 
         match i {
             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -270,7 +193,7 @@ impl Fold<ModuleDecl> for Regenerator {
 
                 return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
-                    expr: box FnExpr { ident, function }.into(),
+                    expr: Box::new(FnExpr { ident, function }.into()),
                 });
             }
 
@@ -278,6 +201,79 @@ impl Fold<ModuleDecl> for Regenerator {
         }
 
         i
+    }
+
+    fn fold_prop(&mut self, p: Prop) -> Prop {
+        let p = p.fold_children_with(self);
+
+        match p {
+            Prop::Method(p) if p.function.is_generator => {
+                //
+                let marked = private_ident!("_callee");
+                let (ident, function) = self.fold_fn(Some(marked.clone()), marked, p.function);
+                let mark_expr = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: self
+                        .regenerator_runtime
+                        .clone()
+                        .unwrap()
+                        .make_member(quote_ident!("mark"))
+                        .as_callee(),
+                    args: vec![FnExpr { ident, function }.as_arg()],
+                    type_args: None,
+                });
+                return Prop::Method(MethodProp {
+                    function: Function {
+                        span: DUMMY_SP,
+                        params: vec![],
+                        decorators: vec![],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: mark_expr.as_callee(),
+                                        args: vec![],
+                                        type_args: Default::default(),
+                                    }
+                                    .into(),
+                                )),
+                            }
+                            .into()],
+                        }),
+                        is_generator: false,
+                        is_async: false,
+                        type_params: None,
+                        return_type: None,
+                    },
+                    ..p
+                });
+            }
+
+            _ => {}
+        }
+
+        p
+    }
+
+    /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
+    fn fold_script(&mut self, s: Script) -> Script {
+        let mut s: Script = s.fold_children_with(self);
+        if let Some(rt_ident) = self.regenerator_runtime.take() {
+            prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
+        }
+        s
+    }
+
+    /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 }
 
@@ -319,13 +315,13 @@ impl Regenerator {
                 VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(id.clone()),
-                    init: Some(
-                        box Ident {
+                    init: Some(Box::new(
+                        Ident {
                             sym: js_word!("arguments"),
                             ..id
                         }
                         .into(),
-                    ),
+                    )),
                     definite: false,
                 }
             }));
@@ -341,52 +337,58 @@ impl Regenerator {
         // Intentionally fall through to the "end" case...
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(box Expr::Lit(Lit::Num(Number {
+            test: Some(Box::new(Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
                 value: handler.final_loc() as _,
-            }))),
+            })))),
             // fallthrough
             cons: vec![],
         });
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(box Expr::Lit(Lit::Str(Str {
+            test: Some(Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
                 value: "end".into(),
                 has_escape: false,
-            }))),
+            })))),
             cons: vec![ReturnStmt {
                 span: DUMMY_SP,
                 // _ctx.stop()
-                arg: Some(box Expr::Call(CallExpr {
+                arg: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: ctx.clone().member(quote_ident!("stop")).as_callee(),
+                    callee: ctx.clone().make_member(quote_ident!("stop")).as_callee(),
                     args: vec![],
                     type_args: Default::default(),
-                })),
+                }))),
             }
             .into()],
         });
 
         let stmts = vec![Stmt::While(WhileStmt {
             span: DUMMY_SP,
-            test: box Expr::Lit(Lit::Num(Number {
+            test: Box::new(Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
                 value: 1.0,
-            })),
-            body: box SwitchStmt {
-                span: DUMMY_SP,
-                // _ctx.prev = _ctx.next
-                discriminant: box AssignExpr {
+            }))),
+            body: Box::new(
+                SwitchStmt {
                     span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Expr(box ctx.clone().member(quote_ident!("prev"))),
-                    right: box ctx.clone().member(quote_ident!("next")),
+                    // _ctx.prev = _ctx.next
+                    discriminant: Box::new(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Expr(Box::new(
+                                ctx.clone().make_member(quote_ident!("prev")),
+                            )),
+                            right: Box::new(ctx.clone().make_member(quote_ident!("next"))),
+                        }
+                        .into(),
+                    ),
+                    cases,
                 }
                 .into(),
-                cases,
-            }
-            .into(),
+            ),
         })];
 
         (
@@ -409,13 +411,13 @@ impl Regenerator {
                         buf.push(
                             ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(box Expr::Call(CallExpr {
+                                arg: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: self
                                         .regenerator_runtime
                                         .clone()
                                         .unwrap()
-                                        .member(quote_ident!("wrap"))
+                                        .make_member(quote_ident!("wrap"))
                                         .as_callee(),
                                     args: {
                                         let mut args = vec![Expr::Fn(FnExpr {
@@ -464,7 +466,7 @@ impl Regenerator {
                                         args
                                     },
                                     type_args: None,
-                                })),
+                                }))),
                             }
                             .into(),
                         );
@@ -482,15 +484,15 @@ struct FnSentVisitor {
     ctx: Ident,
 }
 
-impl Fold<Expr> for FnSentVisitor {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children(self);
+impl Fold for FnSentVisitor {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::MetaProp(MetaPropExpr { meta, prop })
                 if meta.sym == *"function" && prop.sym == *"sent" =>
             {
-                return self.ctx.clone().member(quote_ident!("_sent"));
+                return self.ctx.clone().make_member(quote_ident!("_sent"));
             }
 
             _ => {}
@@ -508,17 +510,17 @@ struct Finder {
 impl Finder {
     fn find<T: VisitWith<Self>>(node: &T) -> bool {
         let mut v = Finder { found: false };
-        node.visit_with(&mut v);
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
         v.found
     }
 }
 
-impl Visit<Function> for Finder {
-    fn visit(&mut self, node: &Function) {
+impl Visit for Finder {
+    fn visit_function(&mut self, node: &Function, _: &dyn Node) {
         if node.is_generator {
             self.found = true;
             return;
         }
-        node.visit_children(self);
+        node.visit_children_with(self);
     }
 }

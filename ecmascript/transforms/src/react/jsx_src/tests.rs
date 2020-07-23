@@ -1,7 +1,7 @@
 use super::*;
 use swc_common::FilePathMapping;
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Fold {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     jsx_src(true, cm)
 }

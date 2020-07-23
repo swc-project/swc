@@ -1,6 +1,6 @@
 use super::*;
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Fold {
     display_name()
 }
 

@@ -5,8 +5,9 @@ use crate::util::{
 };
 use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, VisitWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 #[derive(Debug, Default)]
 pub(super) struct Legacy {
@@ -17,9 +18,54 @@ pub(super) struct Legacy {
 
 noop_fold_type!(Legacy);
 
-impl Fold<Module> for Legacy {
-    fn fold(&mut self, m: Module) -> Module {
-        let mut m = m.fold_children(self);
+impl Fold for Legacy {
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
+        let decl: Decl = decl.fold_children_with(self);
+
+        match decl {
+            Decl::Class(c) => {
+                let expr = self.handle(ClassExpr {
+                    class: c.class,
+                    ident: Some(c.ident.clone()),
+                });
+
+                return Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(c.ident),
+                        init: Some(expr),
+                        definite: false,
+                    }],
+                });
+            }
+
+            _ => {}
+        }
+
+        decl
+    }
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e: Expr = e.fold_children_with(self);
+
+        match e {
+            Expr::Class(e) => {
+                let expr = self.handle(e);
+
+                return *expr;
+            }
+
+            _ => {}
+        }
+
+        e
+    }
+
+    fn fold_module(&mut self, m: Module) -> Module {
+        let mut m = m.fold_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
             prepend(
@@ -47,66 +93,9 @@ impl Fold<Module> for Legacy {
 
         m
     }
-}
 
-impl Fold<Script> for Legacy {
-    fn fold(&mut self, s: Script) -> Script {
-        let mut s = s.fold_children(self);
-
-        if !self.uninitialized_vars.is_empty() {
-            prepend(
-                &mut s.body,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: replace(&mut self.uninitialized_vars, Default::default()),
-                    declare: false,
-                })),
-            );
-        }
-
-        s
-    }
-}
-
-impl<T> Fold<Vec<T>> for Legacy
-where
-    T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
-    Vec<T>: VisitWith<DecoratorFinder>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        if !super::usage::has_decorator(&stmts) {
-            return stmts;
-        }
-
-        let mut buf = Vec::with_capacity(stmts.len() + 4);
-
-        for stmt in stmts {
-            if !super::usage::has_decorator(&stmt) {
-                buf.push(stmt);
-                continue;
-            }
-
-            let stmt = stmt.fold_with(self);
-
-            if !self.initialized_vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: replace(&mut self.initialized_vars, Default::default()),
-                    declare: false,
-                }))));
-            }
-
-            buf.push(stmt);
-        }
-
-        buf
-    }
-}
-impl Fold<ModuleItem> for Legacy {
-    fn fold(&mut self, item: ModuleItem) -> ModuleItem {
-        let item: ModuleItem = item.fold_children(self);
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
+        let item: ModuleItem = item.fold_children_with(self);
 
         match item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -142,54 +131,67 @@ impl Fold<ModuleItem> for Legacy {
 
         item
     }
-}
 
-impl Fold<Expr> for Legacy {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children(self);
+    fn fold_script(&mut self, s: Script) -> Script {
+        let mut s = s.fold_children_with(self);
 
-        match e {
-            Expr::Class(e) => {
-                let expr = self.handle(e);
-
-                return *expr;
-            }
-
-            _ => {}
+        if !self.uninitialized_vars.is_empty() {
+            prepend(
+                &mut s.body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: replace(&mut self.uninitialized_vars, Default::default()),
+                    declare: false,
+                })),
+            );
         }
 
-        e
+        s
+    }
+
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 }
 
-impl Fold<Decl> for Legacy {
-    fn fold(&mut self, decl: Decl) -> Decl {
-        let decl: Decl = decl.fold_children(self);
-
-        match decl {
-            Decl::Class(c) => {
-                let expr = self.handle(ClassExpr {
-                    class: c.class,
-                    ident: Some(c.ident.clone()),
-                });
-
-                return Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(c.ident),
-                        init: Some(expr),
-                        definite: false,
-                    }],
-                });
-            }
-
-            _ => {}
+impl Legacy {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
+        Vec<T>: VisitWith<DecoratorFinder>,
+    {
+        if !super::usage::has_decorator(&stmts) {
+            return stmts;
         }
 
-        decl
+        let mut buf = Vec::with_capacity(stmts.len() + 4);
+
+        for stmt in stmts {
+            if !super::usage::has_decorator(&stmt) {
+                buf.push(stmt);
+                continue;
+            }
+
+            let stmt = stmt.fold_with(self);
+
+            if !self.initialized_vars.is_empty() {
+                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: replace(&mut self.initialized_vars, Default::default()),
+                    declare: false,
+                }))));
+            }
+
+            buf.push(stmt);
+        }
+
+        buf
     }
 }
 
@@ -210,8 +212,8 @@ impl Legacy {
 
         let prototype = MemberExpr {
             span: DUMMY_SP,
-            obj: ExprOrSuper::Expr(box Expr::Ident(cls_ident.clone())),
-            prop: box quote_ident!("prototype").into(),
+            obj: ExprOrSuper::Expr(Box::new(Expr::Ident(cls_ident.clone()))),
+            prop: Box::new(quote_ident!("prototype").into()),
             computed: false,
         };
 
@@ -261,12 +263,12 @@ impl Legacy {
                             dec.expr
                         };
 
-                        dec_inits.push(box Expr::Assign(AssignExpr {
+                        dec_inits.push(Box::new(Expr::Assign(AssignExpr {
                             span: dec.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(box Pat::Ident(i.clone())),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
                             right,
-                        }));
+                        })));
                     }
 
                     dec_exprs.push(Some(i.as_arg()))
@@ -283,7 +285,7 @@ impl Legacy {
 
                 extra_exprs.extend(dec_inits);
 
-                extra_exprs.push(box Expr::Call(CallExpr {
+                extra_exprs.push(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee,
                     // (_class2.prototype, "method2", [_dec7, _dec8],
@@ -312,7 +314,7 @@ impl Legacy {
                         prototype.clone(),
                     ],
                     type_args: None,
-                }));
+                })));
 
                 Some(ClassMember::Method(ClassMethod {
                     function: Function {
@@ -361,11 +363,11 @@ impl Legacy {
 
                 // TODO: Handle s prop name
                 let name = match *p.key {
-                    Expr::Ident(ref i) => box Expr::Lit(Lit::Str(Str {
+                    Expr::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                         span: i.span,
                         value: i.sym.clone(),
                         has_escape: false,
-                    })),
+                    }))),
                     _ => p.key.clone(),
                 };
                 let init = private_ident!("_init");
@@ -382,34 +384,34 @@ impl Legacy {
                     span: DUMMY_SP,
                     props: vec![
                         // configurable: true,
-                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("configurable").into(),
-                            value: box Expr::Lit(Lit::Bool(Bool {
+                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: DUMMY_SP,
                                 value: true,
-                            })),
-                        })), // enumerable: true,
-                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                            }))),
+                        }))), // enumerable: true,
+                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("enumerable").into(),
-                            value: box Expr::Lit(Lit::Bool(Bool {
+                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: DUMMY_SP,
                                 value: true,
-                            })),
-                        })),
+                            }))),
+                        }))),
                         // writable: true,
-                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("writable").into(),
-                            value: box Expr::Lit(Lit::Bool(Bool {
+                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: DUMMY_SP,
                                 value: true,
-                            })),
-                        })),
+                            }))),
+                        }))),
                         // initializer: function () {
                         //     return 2;
                         // }
-                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("initializer").into(),
-                            value: box Expr::Fn(FnExpr {
+                            value: Box::new(Expr::Fn(FnExpr {
                                 ident: None,
                                 function: Function {
                                     decorators: Default::default(),
@@ -423,7 +425,7 @@ impl Legacy {
                                         stmts: vec![ReturnStmt {
                                             span: DUMMY_SP,
                                             arg: if p.is_static {
-                                                Some(box Expr::Ident(init.clone()))
+                                                Some(Box::new(Expr::Ident(init.clone())))
                                             } else {
                                                 value.take().unwrap()
                                             },
@@ -434,8 +436,8 @@ impl Legacy {
                                     type_params: Default::default(),
                                     return_type: Default::default(),
                                 },
-                            }),
-                        })),
+                            })),
+                        }))),
                     ],
                 });
 
@@ -443,32 +445,32 @@ impl Legacy {
                     property_descriptor = Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
-                            box Expr::Assign(AssignExpr {
+                            Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(init.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone()))),
                                 op: op!("="),
                                 // Object.getOwnPropertyDescriptor(_class, "enumconfwrite")
-                                right: box Expr::Call(CallExpr {
+                                right: Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: member_expr!(DUMMY_SP, Object.getOwnPropertyDescriptor)
                                         .as_callee(),
                                     args: vec![cls_ident.clone().as_arg(), name.clone().as_arg()],
                                     type_args: Default::default(),
-                                }),
-                            }),
+                                })),
+                            })),
                             // _init = _init ? _init.value : void 0
-                            box Expr::Assign(AssignExpr {
+                            Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(init.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(init.clone()))),
                                 op: op!("="),
-                                right: box Expr::Cond(CondExpr {
+                                right: Box::new(Expr::Cond(CondExpr {
                                     span: DUMMY_SP,
-                                    test: box Expr::Ident(init.clone()),
-                                    cons: box init.clone().member(quote_ident!("value")),
+                                    test: Box::new(Expr::Ident(init.clone())),
+                                    cons: Box::new(init.clone().make_member(quote_ident!("value"))),
                                     alt: undefined(DUMMY_SP),
-                                }),
-                            }),
-                            box property_descriptor,
+                                })),
+                            })),
+                            Box::new(property_descriptor),
                         ],
                     });
                 }
@@ -481,7 +483,7 @@ impl Legacy {
                 //         return 2;
                 //     }
                 // }))
-                let call_expr = box Expr::Call(CallExpr {
+                let call_expr = Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(apply_decorated_descriptor, "applyDecoratedDescriptor"),
                     args: {
@@ -511,15 +513,15 @@ impl Legacy {
                         }
                     },
                     type_args: Default::default(),
-                });
+                }));
 
                 if !p.is_static {
-                    extra_exprs.push(box Expr::Assign(AssignExpr {
+                    extra_exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(box Pat::Ident(descriptor.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(descriptor.clone()))),
                         right: call_expr,
-                    }));
+                    })));
                 } else {
                     extra_exprs.push(call_expr);
                 }
@@ -605,25 +607,25 @@ impl Legacy {
                 .extend(constructor_stmts)
         }
 
-        let cls_assign = box Expr::Assign(AssignExpr {
+        let cls_assign = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: PatOrExpr::Pat(box Pat::Ident(cls_ident.clone())),
-            right: box Expr::Class(ClassExpr {
+            left: PatOrExpr::Pat(Box::new(Pat::Ident(cls_ident.clone()))),
+            right: Box::new(Expr::Class(ClassExpr {
                 ident: c.ident.clone(),
                 class: Class {
                     decorators: vec![],
                     ..c.class
                 },
-            }),
-        });
+            })),
+        }));
 
-        let var_init = box Expr::Bin(BinExpr {
+        let var_init = Box::new(Expr::Bin(BinExpr {
             span: DUMMY_SP,
             left: cls_assign,
             op: op!("||"),
-            right: box Expr::Ident(cls_ident.clone()),
-        });
+            right: Box::new(Expr::Ident(cls_ident.clone())),
+        }));
 
         let expr = self.apply(
             if extra_exprs.is_empty() {
@@ -631,12 +633,12 @@ impl Legacy {
             } else {
                 extra_exprs.insert(0, var_init);
                 // Return value.
-                extra_exprs.push(box Expr::Ident(cls_ident));
+                extra_exprs.push(Box::new(Expr::Ident(cls_ident)));
 
-                box Expr::Seq(SeqExpr {
+                Box::new(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: extra_exprs,
-                })
+                }))
             },
             c.class.decorators,
         );
@@ -656,12 +658,12 @@ impl Legacy {
                 });
             }
 
-            expr = box Expr::Call(CallExpr {
+            expr = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: i.as_callee(),
                 args: vec![expr.as_arg()],
                 type_args: None,
-            });
+            }));
         }
 
         expr
@@ -676,8 +678,16 @@ struct ClassFieldAccessConverter {
 
 noop_fold_type!(ClassFieldAccessConverter);
 
-impl Fold<MemberExpr> for ClassFieldAccessConverter {
-    fn fold(&mut self, node: MemberExpr) -> MemberExpr {
+impl Fold for ClassFieldAccessConverter {
+    fn fold_ident(&mut self, node: Ident) -> Ident {
+        if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
+            return self.alias.clone();
+        }
+
+        node
+    }
+
+    fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
         if node.computed {
             MemberExpr {
                 obj: node.obj.fold_with(self),
@@ -690,15 +700,5 @@ impl Fold<MemberExpr> for ClassFieldAccessConverter {
                 ..node
             }
         }
-    }
-}
-
-impl Fold<Ident> for ClassFieldAccessConverter {
-    fn fold(&mut self, node: Ident) -> Ident {
-        if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
-            return self.alias.clone();
-        }
-
-        node
     }
 }

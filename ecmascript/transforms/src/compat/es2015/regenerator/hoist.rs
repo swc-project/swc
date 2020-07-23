@@ -1,8 +1,9 @@
 use crate::util::find_ids;
 use smallvec::SmallVec;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub(super) type Vars = SmallVec<[Ident; 32]>;
 
@@ -29,7 +30,7 @@ noop_fold_type!(Hoister);
 
 impl Hoister {
     fn var_decl_to_expr(&mut self, var: VarDecl) -> Expr {
-        let var = var.fold_children(self);
+        let var = var.fold_children_with(self);
 
         let ids = find_ids(&var);
         self.vars.extend(ids);
@@ -38,15 +39,15 @@ impl Hoister {
 
         for decl in var.decls {
             if let Some(init) = decl.init {
-                exprs.push(
-                    box AssignExpr {
+                exprs.push(Box::new(
+                    AssignExpr {
                         span: decl.span,
-                        left: PatOrExpr::Pat(box decl.name),
+                        left: PatOrExpr::Pat(Box::new(decl.name)),
                         op: op!("="),
                         right: init,
                     }
                     .into(),
-                );
+                ));
             }
         }
 
@@ -57,89 +58,9 @@ impl Hoister {
     }
 }
 
-impl Fold<VarDeclOrPat> for Hoister {
-    fn fold(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
-        match v {
-            VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children(self)),
-
-            VarDeclOrPat::VarDecl(mut var) => {
-                if var.decls.len() == 1 && var.decls[0].init.is_none() {
-                    return var.decls.remove(0).name.into();
-                }
-
-                var.into()
-            }
-        }
-    }
-}
-
-impl Fold<VarDecl> for Hoister {
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
-        unreachable!("VarDecl should be removed by other pass: {:?}", var);
-    }
-}
-
-impl Fold<VarDeclOrExpr> for Hoister {
-    fn fold(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
-        match var {
-            VarDeclOrExpr::VarDecl(var) => VarDeclOrExpr::Expr(box self.var_decl_to_expr(var)),
-            _ => var.fold_children(self),
-        }
-    }
-}
-
-impl Fold<Stmt> for Hoister {
-    fn fold(&mut self, s: Stmt) -> Stmt {
-        match s {
-            Stmt::Decl(Decl::Var(var)) => {
-                let span = var.span;
-                let expr = box self.var_decl_to_expr(var);
-
-                return Stmt::Expr(ExprStmt { span, expr });
-            }
-
-            _ => {}
-        }
-
-        s.fold_children(self)
-    }
-}
-
-impl Fold<ModuleDecl> for Hoister {
-    fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        match decl {
-            ModuleDecl::ExportDecl(ExportDecl {
-                span,
-                decl: Decl::Var(var),
-            }) => {
-                return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    span,
-                    expr: box self.var_decl_to_expr(var),
-                })
-            }
-
-            _ => {}
-        }
-
-        decl.fold_children(self)
-    }
-}
-
-impl Fold<MemberExpr> for Hoister {
-    fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
-        e.obj = e.obj.fold_with(self);
-
-        if e.computed {
-            e.prop = e.prop.fold_with(self);
-        }
-
-        e
-    }
-}
-
-impl Fold<Expr> for Hoister {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+impl Fold for Hoister {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Ident(Ident {
@@ -157,5 +78,75 @@ impl Fold<Expr> for Hoister {
         }
 
         e
+    }
+
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        e.obj = e.obj.fold_with(self);
+
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+
+        e
+    }
+
+    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
+        match decl {
+            ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl: Decl::Var(var),
+            }) => {
+                return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span,
+                    expr: Box::new(self.var_decl_to_expr(var)),
+                })
+            }
+
+            _ => {}
+        }
+
+        decl.fold_children_with(self)
+    }
+
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
+        match s {
+            Stmt::Decl(Decl::Var(var)) => {
+                let span = var.span;
+                let expr = Box::new(self.var_decl_to_expr(var));
+
+                return Stmt::Expr(ExprStmt { span, expr });
+            }
+
+            _ => {}
+        }
+
+        s.fold_children_with(self)
+    }
+
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
+        unreachable!("VarDecl should be removed by other pass: {:?}", var);
+    }
+
+    fn fold_var_decl_or_pat(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
+        match v {
+            VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children_with(self)),
+
+            VarDeclOrPat::VarDecl(mut var) => {
+                if var.decls.len() == 1 && var.decls[0].init.is_none() {
+                    return var.decls.remove(0).name.into();
+                }
+
+                var.into()
+            }
+        }
+    }
+
+    fn fold_var_decl_or_expr(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
+        match var {
+            VarDeclOrExpr::VarDecl(var) => {
+                VarDeclOrExpr::Expr(Box::new(self.var_decl_to_expr(var)))
+            }
+            _ => var.fold_children_with(self),
+        }
     }
 }

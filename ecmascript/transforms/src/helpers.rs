@@ -1,13 +1,14 @@
 use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
-use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 use swc_ecma_utils::{
     options::{CM, SESSION},
     prepend_stmts, quote_ident, quote_str, DropSpan,
 };
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -33,7 +34,11 @@ macro_rules! add_to {
             );
             let stmts = Parser::new_from(*SESSION, lexer)
                 .parse_script()
-                .map(|script| script.body.fold_with(&mut DropSpan))
+                .map(|script| {
+                    script.body.fold_with(&mut DropSpan {
+                        preserve_ctxt: false,
+                    })
+                })
                 .map_err(|mut e| {
                     e.emit();
                     ()
@@ -250,8 +255,8 @@ impl InjectHelpers {
     }
 }
 
-impl Fold<Module> for InjectHelpers {
-    fn fold(&mut self, module: Module) -> Module {
+impl Fold for InjectHelpers {
+    fn fold_module(&mut self, module: Module) -> Module {
         let mut module = validate!(module);
         let helpers = self.mk_helpers();
 
@@ -264,8 +269,8 @@ struct Marker(Mark);
 
 noop_fold_type!(Marker);
 
-impl Fold<Span> for Marker {
-    fn fold(&mut self, sp: Span) -> Span {
+impl Fold for Marker {
+    fn fold_span(&mut self, sp: Span) -> Span {
         sp.apply_mark(self.0)
     }
 }
@@ -273,6 +278,7 @@ impl Fold<Span> for Marker {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::pass::noop;
 
     #[test]
     fn external_helper() {
@@ -281,7 +287,9 @@ swcHelpers._throw()";
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    ::testing::DropSpan,
+                    DropSpan {
+                        preserve_ctxt: false,
+                    },
                     "output.js",
                     Default::default(),
                     "import * as swcHelpers1 from '@swc/helpers';
@@ -358,7 +366,7 @@ let _throw1 = null;
     fn use_strict_abort() {
         crate::tests::test_transform(
             Default::default(),
-            |_| {},
+            |_| noop(),
             "'use strict'
 
 let x = 4;",

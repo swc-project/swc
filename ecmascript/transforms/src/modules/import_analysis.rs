@@ -1,10 +1,10 @@
 use super::util::Scope;
-use crate::pass::Pass;
 use swc_atoms::js_word;
-use swc_common::{Fold, Visit, VisitWith};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, Node, Visit};
 
-pub fn import_analyzer() -> impl Pass {
+pub fn import_analyzer() -> impl Fold {
     ImportAnalyzer {
         scope: Default::default(),
     }
@@ -18,9 +18,9 @@ struct ImportAnalyzer {
 noop_fold_type!(ImportAnalyzer);
 noop_visit_type!(ImportAnalyzer);
 
-impl Fold<Module> for ImportAnalyzer {
-    fn fold(&mut self, module: Module) -> Module {
-        module.visit_with(self);
+impl Fold for ImportAnalyzer {
+    fn fold_module(&mut self, module: Module) -> Module {
+        self.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
 
         for (_, ty) in self.scope.import_types.drain() {
             if ty {
@@ -34,43 +34,16 @@ impl Fold<Module> for ImportAnalyzer {
     }
 }
 
-impl Visit<ExportAll> for ImportAnalyzer {
-    fn visit(&mut self, export: &ExportAll) {
+impl Visit for ImportAnalyzer {
+    fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {
         *self
             .scope
             .import_types
             .entry(export.src.value.clone())
             .or_default() = true
     }
-}
 
-impl Visit<NamedExport> for ImportAnalyzer {
-    fn visit(&mut self, export: &NamedExport) {
-        for &ExportNamedSpecifier { ref orig, .. } in export.specifiers.iter().map(|e| match *e {
-            ExportSpecifier::Named(ref e) => e,
-            _ => unreachable!("export default from 'foo'; should be removed by previous pass"),
-        }) {
-            let is_import_default = orig.sym == js_word!("default");
-
-            if let Some(ref src) = export.src {
-                if is_import_default {
-                    self.scope
-                        .import_types
-                        .entry(src.value.clone())
-                        .or_insert(false);
-                } else {
-                    self.scope
-                        .import_types
-                        .entry(src.value.clone())
-                        .and_modify(|v| *v = true);
-                }
-            }
-        }
-    }
-}
-
-impl Visit<ImportDecl> for ImportAnalyzer {
-    fn visit(&mut self, import: &ImportDecl) {
+    fn visit_import_decl(&mut self, import: &ImportDecl, _parent: &dyn Node) {
         if import.specifiers.is_empty() {
             // import 'foo';
             //   -> require('foo');
@@ -121,6 +94,29 @@ impl Visit<ImportDecl> for ImportAnalyzer {
                                 .and_modify(|v| *v = true);
                         }
                     }
+                }
+            }
+        }
+    }
+
+    fn visit_named_export(&mut self, export: &NamedExport, _parent: &dyn Node) {
+        for &ExportNamedSpecifier { ref orig, .. } in export.specifiers.iter().map(|e| match *e {
+            ExportSpecifier::Named(ref e) => e,
+            _ => unreachable!("export default from 'foo'; should be removed by previous pass"),
+        }) {
+            let is_import_default = orig.sym == js_word!("default");
+
+            if let Some(ref src) = export.src {
+                if is_import_default {
+                    self.scope
+                        .import_types
+                        .entry(src.value.clone())
+                        .or_insert(false);
+                } else {
+                    self.scope
+                        .import_types
+                        .entry(src.value.clone())
+                        .and_modify(|v| *v = true);
                 }
             }
         }

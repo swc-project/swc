@@ -1,8 +1,9 @@
 use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn, Invalid};
+use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum Pat {
     #[tag("Identifier")]
     Ident(Ident),
@@ -89,7 +90,7 @@ pub struct RestPat {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ObjectPatProp {
     #[tag("KeyValuePatternProperty")]
     KeyValue(KeyValuePatProp),

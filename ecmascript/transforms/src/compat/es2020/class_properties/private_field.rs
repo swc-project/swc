@@ -1,8 +1,12 @@
-use crate::util::{alias_ident_for, alias_if_required, prepend, ExprFactory};
+use crate::{
+    ext::{AsOptExpr, PatOrExprExt},
+    util::{alias_ident_for, alias_if_required, prepend, ExprFactory},
+};
 use std::{collections::HashSet, iter, mem};
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
@@ -14,15 +18,48 @@ pub(super) struct FieldAccessFolder<'a> {
 
 noop_fold_type!(FieldAccessFolder<'_>);
 
-impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
-    fn fold(&mut self, e: Expr) -> Expr {
+macro_rules! take_vars {
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, f: $T) -> $T {
+            assert!(self.vars.is_empty());
+            if f.body.is_none() {
+                return f;
+            }
+
+            let mut f = f.fold_children_with(self);
+
+            if !self.vars.is_empty() {
+                prepend(
+                    &mut f.body.as_mut().unwrap().stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: mem::replace(&mut self.vars, vec![]),
+
+                        declare: false,
+                    })),
+                )
+            }
+
+            f
+        }
+    };
+}
+
+impl<'a> Fold for FieldAccessFolder<'a> {
+    take_vars!(fold_function, Function);
+    take_vars!(fold_constructor, Constructor);
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Update(UpdateExpr {
                 span,
                 prefix,
                 op,
-                arg: box Expr::Member(arg),
-            }) => {
+                arg,
+            }) if arg.is_member() => {
+                let arg = arg.member().unwrap();
+
                 let n = match *arg.prop {
                     Expr::PrivateName(ref n) => n,
                     _ => {
@@ -30,9 +67,9 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             span,
                             prefix,
                             op,
-                            arg: box Expr::Member(arg),
+                            arg: Box::new(Expr::Member(arg)),
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                 };
 
@@ -42,9 +79,9 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             span,
                             prefix,
                             op,
-                            arg: box Expr::Member(arg),
+                            arg: Box::new(Expr::Member(arg)),
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
@@ -73,7 +110,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     });
                     AssignExpr {
                         span: obj.span(),
-                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone()))),
                         op: op!("="),
                         right: obj,
                     }
@@ -91,21 +128,21 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 }
 
                 let value = {
-                    let arg = box self.fold_private_get(arg, Some(var)).0;
-                    let left = box Expr::Unary(UnaryExpr {
+                    let arg = Box::new(self.fold_private_get(arg, Some(var)).0);
+                    let left = Box::new(Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
                         op: op!(unary, "+"),
                         arg,
-                    });
+                    }));
                     let left = if prefix {
                         left
                     } else {
-                        box Expr::Assign(AssignExpr {
+                        Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(old_var.clone())),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(old_var.clone()))),
                             op: op!("="),
                             right: left,
-                        })
+                        }))
                     };
 
                     BinExpr {
@@ -115,10 +152,10 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             op!("++") => op!(bin, "+"),
                             op!("--") => op!(bin, "-"),
                         },
-                        right: box Expr::Lit(Lit::Num(Number {
+                        right: Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
                             value: 1.0,
-                        })),
+                        }))),
                     }
                     .as_arg()
                 };
@@ -154,33 +191,30 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 } else {
                     Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
-                        exprs: vec![box expr, box Expr::Ident(old_var)],
+                        exprs: vec![Box::new(expr), Box::new(Expr::Ident(old_var))],
                     })
                 }
             }
 
             Expr::Assign(AssignExpr {
                 span,
-                left: PatOrExpr::Pat(box Pat::Expr(box Expr::Member(left))),
+                left,
                 op,
                 right,
-            })
-            | Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Expr(box Expr::Member(left)),
-                op,
-                right,
-            }) => {
+            }) if left.as_expr().is_some() && left.as_expr().unwrap().is_member() => {
+                let left = left.normalize_expr();
+                let left: MemberExpr = left.expr().unwrap().member().unwrap();
+
                 let n = match *left.prop {
                     Expr::PrivateName(ref n) => n.clone(),
                     _ => {
                         return Expr::Assign(AssignExpr {
                             span,
-                            left: PatOrExpr::Expr(box Expr::Member(left)),
+                            left: PatOrExpr::Expr(Box::new(Expr::Member(left))),
                             op,
                             right,
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                 };
 
@@ -188,14 +222,14 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     ExprOrSuper::Super(..) => {
                         return Expr::Assign(AssignExpr {
                             span,
-                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                prop: box Expr::PrivateName(n),
+                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                prop: Box::new(Expr::PrivateName(n)),
                                 ..left
-                            })),
+                            }))),
                             op,
                             right,
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
@@ -224,7 +258,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     });
                     AssignExpr {
                         span: obj.span(),
-                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone()))),
                         op: op!("="),
                         right: obj,
                     }
@@ -234,7 +268,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 let value = if op == op!("=") {
                     right.as_arg()
                 } else {
-                    let left = box self.fold_private_get(left, Some(var)).0;
+                    let left = Box::new(self.fold_private_get(left, Some(var)).0);
 
                     BinExpr {
                         span: DUMMY_SP,
@@ -312,54 +346,52 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(box Expr::Member(callee)),
+                callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) => {
+            }) if callee.is_member() => {
+                let callee = callee.member().unwrap();
+
                 let (e, this) = self.fold_private_get(callee, None);
 
                 if let Some(this) = this {
                     Expr::Call(CallExpr {
                         span,
-                        callee: e.member(quote_ident!("call")).as_callee(),
+                        callee: e.make_member(quote_ident!("call")).as_callee(),
                         args: iter::once(this.as_arg()).chain(args).collect(),
                         type_args,
                     })
                 } else {
                     Expr::Call(CallExpr {
                         span,
-                        callee: ExprOrSuper::Expr(box e),
+                        callee: ExprOrSuper::Expr(Box::new(e)),
                         args,
                         type_args,
                     })
-                    .fold_children(self)
+                    .fold_children_with(self)
                 }
             }
             Expr::Member(e) => self.fold_private_get(e, None).0,
-            _ => e.fold_children(self),
+            _ => e.fold_children_with(self),
         }
     }
-}
 
-impl Fold<Pat> for FieldAccessFolder<'_> {
-    fn fold(&mut self, p: Pat) -> Pat {
-        match p {
-            Pat::Expr(box Expr::Member(MemberExpr {
-                prop: box Expr::PrivateName(..),
-                ..
-            })) => {
-                self.in_assign_pat = true;
-                let p = p.fold_children(self);
-                self.in_assign_pat = false;
+    fn fold_pat(&mut self, p: Pat) -> Pat {
+        if let Pat::Expr(expr) = &p {
+            if let Expr::Member(me) = &**expr {
+                if let Expr::PrivateName(..) = &*me.prop {
+                    self.in_assign_pat = true;
+                    let p = p.fold_children_with(self);
+                    self.in_assign_pat = false;
 
-                p
-            }
-            _ => {
-                self.in_assign_pat = false;
-
-                p.fold_children(self)
+                    return p;
+                }
             }
         }
+
+        self.in_assign_pat = false;
+
+        p.fold_children_with(self)
     }
 }
 
@@ -384,7 +416,7 @@ impl<'a> FieldAccessFolder<'a> {
             ExprOrSuper::Super(..) => {
                 return (
                     Expr::Member(MemberExpr {
-                        prop: box Expr::PrivateName(n),
+                        prop: Box::new(Expr::PrivateName(n)),
                         ..e
                     }),
                     None,
@@ -434,7 +466,7 @@ impl<'a> FieldAccessFolder<'a> {
 
                             type_args: Default::default(),
                         }
-                        .member(quote_ident!("value"))
+                        .make_member(quote_ident!("value"))
                         .into(),
                         Some(Expr::This(this)),
                     ),
@@ -483,7 +515,7 @@ impl<'a> FieldAccessFolder<'a> {
                                     if aliased {
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone()))),
                                             op: op!("="),
                                             right: obj,
                                         }
@@ -505,36 +537,3 @@ impl<'a> FieldAccessFolder<'a> {
         }
     }
 }
-
-macro_rules! take_vars {
-    ($T:tt) => {
-        impl<'a> Fold<$T> for FieldAccessFolder<'a> {
-            fn fold(&mut self, f: $T) -> $T {
-                assert!(self.vars.is_empty());
-                if f.body.is_none() {
-                    return f;
-                }
-
-                let mut f = f.fold_children(self);
-
-                if !self.vars.is_empty() {
-                    prepend(
-                        &mut f.body.as_mut().unwrap().stmts,
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: mem::replace(&mut self.vars, vec![]),
-
-                            declare: false,
-                        })),
-                    )
-                }
-
-                f
-            }
-        }
-    };
-}
-
-take_vars!(Function);
-take_vars!(Constructor);

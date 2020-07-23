@@ -1,5 +1,4 @@
 #![feature(test)]
-#![feature(specialization)]
 
 extern crate test;
 
@@ -7,7 +6,7 @@ extern crate test;
 static GLOBAL: System = System;
 
 use std::alloc::System;
-use swc_common::{chain, FileName, FoldWith, Mark};
+use swc_common::{chain, FileName, Mark};
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput};
 use swc_ecma_transforms::{compat, helpers};
 use test::Bencher;
@@ -86,6 +85,7 @@ module.exports = {
 /// Benchmark a folder
 macro_rules! tr {
     ($b:expr, $tr:expr) => {
+        use swc_ecma_visit::FoldWith;
         $b.bytes = SOURCE.len() as _;
 
         let _ = ::testing::run_test(false, |cm, handler| {

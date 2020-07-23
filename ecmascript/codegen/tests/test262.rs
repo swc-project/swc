@@ -1,5 +1,3 @@
-#![feature(box_syntax)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
@@ -87,7 +85,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 
@@ -150,7 +148,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 );
 
                 let comments = Comments::default();
-                let handlers = box MyHandlers;
+                let handlers = Box::new(MyHandlers);
                 let lexer = Lexer::new(
                     Session { handler: &handler },
                     Syntax::default(),
@@ -165,9 +163,9 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let mut emitter = Emitter {
                         cfg: Default::default(),
                         cm: cm.clone(),
-                        wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                             cm, "\n", &mut wr, None,
-                        ),
+                        )),
                         comments: Some(&comments),
                         handlers,
                     };

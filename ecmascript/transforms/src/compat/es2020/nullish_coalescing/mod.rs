@@ -1,15 +1,13 @@
-use crate::{
-    pass::Pass,
-    util::{alias_if_required, undefined, StmtLike},
-};
+use crate::util::{alias_if_required, undefined, StmtLike};
 use std::mem::replace;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
 
-pub fn nullish_coalescing() -> impl Pass + 'static {
+pub fn nullish_coalescing() -> impl Fold + 'static {
     NullishCoalescing::default()
 }
 
@@ -18,11 +16,11 @@ struct NullishCoalescing {
     vars: Vec<VarDeclarator>,
 }
 
-impl<T> Fold<Vec<T>> for NullishCoalescing
-where
-    T: FoldWith<Self> + StmtLike,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl NullishCoalescing {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: FoldWith<Self> + StmtLike,
+    {
         let mut buf = Vec::with_capacity(stmts.len() + 2);
 
         for stmt in stmts {
@@ -44,9 +42,17 @@ where
     }
 }
 
-impl Fold<Expr> for NullishCoalescing {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+impl Fold for NullishCoalescing {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Bin(BinExpr {
@@ -71,7 +77,7 @@ impl Fold<Expr> for NullishCoalescing {
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(box Pat::Ident(l.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(l.clone()))),
                         right: left,
                     })
                 } else {
@@ -80,23 +86,23 @@ impl Fold<Expr> for NullishCoalescing {
 
                 return Expr::Cond(CondExpr {
                     span,
-                    test: box Expr::Bin(BinExpr {
+                    test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
-                        left: box Expr::Bin(BinExpr {
+                        left: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
-                            left: box var_expr,
+                            left: Box::new(var_expr),
                             op: op!("!=="),
-                            right: box Expr::Lit(Lit::Null(Null { span: DUMMY_SP })),
-                        }),
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
                         op: op!("&&"),
-                        right: box Expr::Bin(BinExpr {
+                        right: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
-                            left: box Expr::Ident(l.clone()),
+                            left: Box::new(Expr::Ident(l.clone())),
                             op: op!("!=="),
                             right: undefined(DUMMY_SP),
-                        }),
-                    }),
-                    cons: box Expr::Ident(l.clone()),
+                        })),
+                    })),
+                    cons: Box::new(Expr::Ident(l.clone())),
                     alt: right,
                 });
             }

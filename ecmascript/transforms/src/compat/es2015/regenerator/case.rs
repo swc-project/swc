@@ -8,9 +8,10 @@ use std::mem::replace;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
-    BytePos, Fold, FoldWith, Span, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
+    BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
@@ -130,7 +131,7 @@ impl CaseHandler<'_> {
                         .map(|loc| {
                             loc.map(|loc| ExprOrSpread {
                                 spread: None,
-                                expr: box loc.to_stmt_index(),
+                                expr: Box::new(loc.to_stmt_index()),
                             })
                         })
                         .collect::<Vec<_>>();
@@ -140,10 +141,10 @@ impl CaseHandler<'_> {
                     }
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: box Expr::Array(ArrayLit {
+                        expr: Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
                             elems,
-                        }),
+                        })),
                     })
                 })
                 .collect(),
@@ -173,7 +174,10 @@ impl CaseHandler<'_> {
             self.unmarked_loc()
         };
 
-        self.emit_assign(self.ctx.clone().member(quote_ident!("prev")), loc.expr());
+        self.emit_assign(
+            self.ctx.clone().make_member(quote_ident!("prev")),
+            loc.expr(),
+        );
     }
 
     fn emit(&mut self, stmt: Stmt) {
@@ -185,8 +189,8 @@ impl CaseHandler<'_> {
             AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Expr(box lhs),
-                right: box right,
+                left: PatOrExpr::Expr(Box::new(lhs)),
+                right: Box::new(right),
             }
             .into_stmt(),
         );
@@ -200,7 +204,7 @@ impl CaseHandler<'_> {
         let res = self
             .ctx
             .clone()
-            .member(quote_ident!(format!("t{}", self.temp_idx)));
+            .make_member(quote_ident!(format!("t{}", self.temp_idx)));
 
         self.temp_idx += 1;
 
@@ -340,7 +344,12 @@ impl CaseHandler<'_> {
                 let mut new_args = vec![];
 
                 let callee = match callee {
-                    ExprOrSuper::Expr(box Expr::Member(me)) => {
+                    ExprOrSuper::Expr(e) if e.is_member() => {
+                        let me = match *e {
+                            Expr::Member(me) => me,
+                            _ => unreachable!(),
+                        };
+
                         if has_leaping_args {
                             // If the arguments of the CallExpression contained any yield
                             // expressions, then we need to be sure to evaluate the callee
@@ -369,21 +378,22 @@ impl CaseHandler<'_> {
                                 },
                             );
 
-                            ExprOrSuper::Expr(
-                                box MemberExpr {
+                            ExprOrSuper::Expr(Box::new(
+                                MemberExpr {
                                     span: me.span,
                                     obj,
                                     prop,
                                     computed: me.computed,
                                 }
-                                .member(quote_ident!("call")),
-                            )
+                                .make_member(quote_ident!("call")),
+                            ))
                         } else {
-                            ExprOrSuper::Expr(box self.explode_expr(Expr::Member(me), false))
+                            ExprOrSuper::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
                         }
                     }
 
-                    ExprOrSuper::Expr(box callee) => {
+                    ExprOrSuper::Expr(callee) => {
+                        let callee = *callee;
                         let callee = self.explode_expr(callee, false);
 
                         let callee = match callee {
@@ -396,19 +406,21 @@ impl CaseHandler<'_> {
                                 // by using the (0, object.property)(...) trick; otherwise, it
                                 // will receive the object of the MemberExpression as its `this`
                                 // object.
-                                ExprOrSuper::Expr(box Expr::Seq(SeqExpr {
+                                ExprOrSuper::Expr(Box::new(Expr::Seq(SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
-                                        box Lit::Num(Number {
-                                            span: DUMMY_SP,
-                                            value: 0.0,
-                                        })
-                                        .into(),
-                                        box callee,
+                                        Box::new(
+                                            Lit::Num(Number {
+                                                span: DUMMY_SP,
+                                                value: 0.0,
+                                            })
+                                            .into(),
+                                        ),
+                                        Box::new(callee),
                                     ],
-                                }))
+                                })))
                             }
-                            _ => ExprOrSuper::Expr(box callee),
+                            _ => ExprOrSuper::Expr(Box::new(callee)),
                         };
 
                         callee
@@ -455,20 +467,23 @@ impl CaseHandler<'_> {
                     .map(|prop| {
                         //
                         match prop {
-                            PropOrSpread::Prop(box p) => PropOrSpread::Prop(box match p {
-                                Prop::Method(_)
-                                | Prop::Setter(_)
-                                | Prop::Getter(_)
-                                | Prop::Shorthand(_) => p,
-                                Prop::KeyValue(p) => Prop::KeyValue(KeyValueProp {
-                                    value: p.value.map(|e| self.explode_expr(e, false)),
-                                    ..p
-                                }),
-                                Prop::Assign(p) => Prop::Assign(AssignProp {
-                                    value: p.value.map(|e| self.explode_expr(e, false)),
-                                    ..p
-                                }),
-                            }),
+                            PropOrSpread::Prop(p) => {
+                                let p = *p;
+                                PropOrSpread::Prop(Box::new(match p {
+                                    Prop::Method(_)
+                                    | Prop::Setter(_)
+                                    | Prop::Getter(_)
+                                    | Prop::Shorthand(_) => p,
+                                    Prop::KeyValue(p) => Prop::KeyValue(KeyValueProp {
+                                        value: p.value.map(|e| self.explode_expr(e, false)),
+                                        ..p
+                                    }),
+                                    Prop::Assign(p) => Prop::Assign(AssignProp {
+                                        value: p.value.map(|e| self.explode_expr(e, false)),
+                                        ..p
+                                    }),
+                                }))
+                            }
                             _ => prop,
                         }
                     })
@@ -621,13 +636,15 @@ impl CaseHandler<'_> {
                 let expr: Expr = AssignExpr {
                     left: PatOrExpr::Expr(left),
                     op: op!("="),
-                    right: box AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Expr(box tmp),
-                        op: e.op,
-                        right,
-                    }
-                    .into(),
+                    right: Box::new(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Expr(Box::new(tmp)),
+                            op: e.op,
+                            right,
+                        }
+                        .into(),
+                    ),
                     ..e
                 }
                 .into();
@@ -656,12 +673,12 @@ impl CaseHandler<'_> {
                     let ret = ReturnStmt {
                         // Preserve span
                         span,
-                        arg: Some(box Expr::Call(CallExpr {
+                        arg: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: self
                                 .ctx
                                 .clone()
-                                .member(quote_ident!("delegateYield"))
+                                .make_member(quote_ident!("delegateYield"))
                                 .as_callee(),
                             args: vec![
                                 arg.unwrap().as_arg(),
@@ -669,26 +686,29 @@ impl CaseHandler<'_> {
                                 after.to_stmt_index().as_arg(),
                             ],
                             type_args: Default::default(),
-                        })),
+                        }))),
                     }
                     .into();
 
                     self.emit(ret);
                     let after = self.mark(after);
                     match self.listing.last_mut().unwrap() {
-                        Stmt::Return(ReturnStmt {
-                            arg: Some(box Expr::Call(CallExpr { args, .. })),
-                            ..
-                        }) => {
-                            *args.last_mut().unwrap() = after.to_stmt_index().as_arg();
-                        }
+                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => match **arg {
+                            Expr::Call(CallExpr { ref mut args, .. }) => {
+                                *args.last_mut().unwrap() = after.to_stmt_index().as_arg();
+                            }
+                            _ => unreachable!(),
+                        },
                         _ => unreachable!(),
                     }
 
                     return result;
                 }
 
-                self.emit_assign(self.ctx.clone().member(quote_ident!("next")), after.expr());
+                self.emit_assign(
+                    self.ctx.clone().make_member(quote_ident!("next")),
+                    after.expr(),
+                );
 
                 let ret = ReturnStmt {
                     span: DUMMY_SP,
@@ -698,7 +718,7 @@ impl CaseHandler<'_> {
                 self.emit(ret);
                 self.mark(after);
 
-                finish!(self.ctx.clone().member(quote_ident!("sent")))
+                finish!(self.ctx.clone().make_member(quote_ident!("sent")))
             }
         }
     }
@@ -719,10 +739,10 @@ impl CaseHandler<'_> {
         for (i, stmt) in stmts.into_iter().enumerate() {
             let case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(box Expr::Lit(Lit::Num(Number {
+                test: Some(Box::new(Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
                     value: i as _,
-                }))),
+                })))),
                 cons: vec![],
             };
 
@@ -778,10 +798,14 @@ impl CaseHandler<'_> {
     ) {
         let stmt = ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(
-                box CallExpr {
+            arg: Some(Box::new(
+                CallExpr {
                     span: DUMMY_SP,
-                    callee: self.ctx.clone().member(quote_ident!("abrupt")).as_callee(),
+                    callee: self
+                        .ctx
+                        .clone()
+                        .make_member(quote_ident!("abrupt"))
+                        .as_callee(),
                     args: {
                         let ty_arg = Lit::Str(Str {
                             span: DUMMY_SP,
@@ -803,7 +827,7 @@ impl CaseHandler<'_> {
                     type_args: Default::default(),
                 }
                 .into(),
-            ),
+            )),
         }
         .into();
         self.emit(stmt)
@@ -816,7 +840,7 @@ impl CaseHandler<'_> {
     }
 
     fn jump_expr(&mut self, next: Expr) {
-        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), next);
+        self.emit_assign(self.ctx.clone().make_member(quote_ident!("next")), next);
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
             label: None,
@@ -828,25 +852,27 @@ impl CaseHandler<'_> {
             IfStmt {
                 span: DUMMY_SP,
                 test,
-                cons: box BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![
-                        AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Expr(
-                                box self.ctx.clone().member(quote_ident!("next")),
-                            ),
-                            right: box to.expr(),
-                        }
-                        .into_stmt(),
-                        Stmt::Break(BreakStmt {
-                            span: DUMMY_SP,
-                            label: None,
-                        }),
-                    ],
-                }
-                .into(),
+                cons: Box::new(
+                    BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Expr(Box::new(
+                                    self.ctx.clone().make_member(quote_ident!("next")),
+                                )),
+                                right: Box::new(to.expr()),
+                            }
+                            .into_stmt(),
+                            Stmt::Break(BreakStmt {
+                                span: DUMMY_SP,
+                                label: None,
+                            }),
+                        ],
+                    }
+                    .into(),
+                ),
                 alt: None,
             }
             .into(),
@@ -858,36 +884,38 @@ impl CaseHandler<'_> {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => arg,
-            _ => box Expr::Unary(UnaryExpr {
+            _ => Box::new(Expr::Unary(UnaryExpr {
                 span: test.span(),
                 op: op!("!"),
                 arg: test,
-            }),
+            })),
         };
 
         self.emit(
             IfStmt {
                 span: DUMMY_SP,
                 test: negated_test,
-                cons: box BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![
-                        AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Expr(
-                                box self.ctx.clone().member(quote_ident!("next")),
-                            ),
-                            right: box to.expr(),
-                        }
-                        .into_stmt(),
-                        Stmt::Break(BreakStmt {
-                            span: DUMMY_SP,
-                            label: None,
-                        }),
-                    ],
-                }
-                .into(),
+                cons: Box::new(
+                    BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Expr(Box::new(
+                                    self.ctx.clone().make_member(quote_ident!("next")),
+                                )),
+                                right: Box::new(to.expr()),
+                            }
+                            .into_stmt(),
+                            Stmt::Break(BreakStmt {
+                                span: DUMMY_SP,
+                                label: None,
+                            }),
+                        ],
+                    }
+                    .into(),
+                ),
                 alt: None,
             }
             .into(),
@@ -921,9 +949,9 @@ impl CaseHandler<'_> {
                 match *expr {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
-                        arg: box Expr::Lit(..),
+                        ref arg,
                         ..
-                    }) => {}
+                    }) if arg.is_lit() => {}
 
                     _ => self.emit(Stmt::Expr(ExprStmt { span, expr })),
                 }
@@ -989,7 +1017,7 @@ impl CaseHandler<'_> {
                 };
                 let after = self.loc();
 
-                let test = box self.explode_expr(*s.test, false);
+                let test = Box::new(self.explode_expr(*s.test, false));
                 self.jump_if_not(test, else_loc.unwrap_or(after));
 
                 self.explode_stmt(*s.cons, None);
@@ -1029,14 +1057,14 @@ impl CaseHandler<'_> {
                         condition = Expr::Cond(CondExpr {
                             span: DUMMY_SP,
 
-                            test: box Expr::Bin(BinExpr {
+                            test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                left: box disc.clone(),
+                                left: Box::new(disc.clone()),
                                 op: op!("==="),
                                 right: test.clone(),
-                            }),
-                            cons: box case_locs[i].expr(),
-                            alt: box condition,
+                            })),
+                            cons: Box::new(case_locs[i].expr()),
+                            alt: Box::new(condition),
                         });
                     } else {
                         case_locs[i] = default_loc;
@@ -1156,12 +1184,12 @@ impl CaseHandler<'_> {
                         let callee = folder
                             .ctx
                             .clone()
-                            .member(quote_ident!("finish"))
+                            .make_member(quote_ident!("finish"))
                             .as_callee();
                         folder.emit(
                             ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(box Expr::Call(CallExpr {
+                                arg: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     args: vec![try_entry
                                         .finally_entry
@@ -1172,7 +1200,7 @@ impl CaseHandler<'_> {
                                         .as_arg()],
                                     callee,
                                     type_args: Default::default(),
-                                })),
+                                }))),
                             }
                             .into(),
                         );
@@ -1246,8 +1274,8 @@ impl CaseHandler<'_> {
                     // expression then we do not care about
                     // its result.
                     match init {
-                        VarDeclOrExpr::Expr(box expr) => {
-                            self.explode_expr(expr, true);
+                        VarDeclOrExpr::Expr(expr) => {
+                            self.explode_expr(*expr, true);
                         }
                         _ => unreachable!("VarDeclaration in for loop must be hoisted"),
                     }
@@ -1309,24 +1337,29 @@ impl CaseHandler<'_> {
                 let key_info_tmp_var = self.make_var();
 
                 self.jump_if(
-                    box AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Expr(box key_info_tmp_var.clone().into()),
-                        right: box CallExpr {
+                    Box::new(
+                        AssignExpr {
                             span: DUMMY_SP,
-                            callee: key_iter_next_fn.as_callee(),
-                            args: vec![],
-                            type_args: Default::default(),
+                            op: op!("="),
+                            left: PatOrExpr::Expr(Box::new(key_info_tmp_var.clone().into())),
+                            right: Box::new(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: key_iter_next_fn.as_callee(),
+                                    args: vec![],
+                                    type_args: Default::default(),
+                                }
+                                .into(),
+                            ),
                         }
-                        .into(),
-                    }
-                    .member(quote_ident!("done")),
+                        .make_member(quote_ident!("done")),
+                    ),
                     after,
                 );
 
                 {
-                    let right = box key_info_tmp_var.clone().member(quote_ident!("value"));
+                    let right =
+                        Box::new(key_info_tmp_var.clone().make_member(quote_ident!("value")));
                     match s.left {
                         VarDeclOrPat::VarDecl(var) => unreachable!(
                             "VarDeclaration in for-in statement must be hoisted: {:?}",
@@ -1336,7 +1369,7 @@ impl CaseHandler<'_> {
                             AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(box pat),
+                                left: PatOrExpr::Pat(Box::new(pat)),
                                 right,
                             }
                             .into_stmt(),
@@ -1375,27 +1408,27 @@ struct LeapFinder {
 }
 
 macro_rules! leap {
-    ($T:ty) => {
-        impl Visit<$T> for LeapFinder {
-            fn visit(&mut self, _: &$T) {
-                self.found = true;
-            }
+    ($name:ident,$T:ty) => {
+        fn $name(&mut self, _: &$T, _: &dyn Node) {
+            self.found = true;
         }
     };
 }
 
-leap!(YieldExpr);
-leap!(BreakStmt);
-leap!(ContinueStmt);
-leap!(ReturnStmt);
-leap!(ThrowStmt);
+impl Visit for LeapFinder {
+    leap!(visit_yield_expr, YieldExpr);
+    leap!(visit_break_stmt, BreakStmt);
+    leap!(visit_continue_stmt, ContinueStmt);
+    leap!(visit_return_stmt, ReturnStmt);
+    leap!(visit_throw_stmt, ThrowStmt);
+}
 
 fn contains_leap<T>(node: &T) -> bool
 where
     T: VisitWith<LeapFinder>,
 {
     let mut v = LeapFinder { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 
@@ -1404,9 +1437,9 @@ struct UnmarkedInvalidHandler {
     case_id: usize,
 }
 
-impl Fold<Expr> for UnmarkedInvalidHandler {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+impl Fold for UnmarkedInvalidHandler {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Invalid(Invalid { span }) => Expr::Lit(Lit::Num(Number {
@@ -1423,9 +1456,9 @@ struct InvalidToLit<'a> {
     // Map from loc-id to stmt index
     map: &'a [Loc],
 }
-impl Fold<Expr> for InvalidToLit<'_> {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+impl Fold for InvalidToLit<'_> {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Invalid(Invalid { span }) => {
@@ -1456,8 +1489,8 @@ struct CatchParamHandler<'a> {
 
 noop_fold_type!(CatchParamHandler<'_>);
 
-impl Fold<Expr> for CatchParamHandler<'_> {
-    fn fold(&mut self, node: Expr) -> Expr {
+impl Fold for CatchParamHandler<'_> {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
         match self.param {
             None => return node,
             Some(Pat::Ident(i)) => match &node {
@@ -1471,6 +1504,6 @@ impl Fold<Expr> for CatchParamHandler<'_> {
             _ => {}
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }

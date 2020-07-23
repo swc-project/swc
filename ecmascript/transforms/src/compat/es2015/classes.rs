@@ -13,8 +13,9 @@ use crate::util::{
 };
 use fxhash::FxBuildHasher;
 use std::iter;
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 #[macro_use]
 mod macros;
@@ -70,11 +71,11 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
-impl<T> Fold<Vec<T>> for Classes
-where
-    T: StmtLike + ModuleItemLike + FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Classes {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + ModuleItemLike + FoldWith<Self>,
+    {
         let mut buf = Vec::with_capacity(stmts.len());
         let mut first = true;
         let old = self.in_strict;
@@ -91,7 +92,7 @@ where
                                 let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
 
                                 let decl = self.fold_class_as_var_decl(ident.clone(), class);
-                                let decl = decl.fold_children(self);
+                                let decl = decl.fold_children_with(self);
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
 
                                 buf.push(
@@ -124,7 +125,7 @@ where
                                 ..
                             }) => {
                                 let decl = self.fold_class_as_var_decl(ident, class);
-                                let decl = decl.fold_children(self);
+                                let decl = decl.fold_children_with(self);
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         ExportDecl {
@@ -137,12 +138,12 @@ where
                                     },
                                 );
                             }
-                            _ => {
-                                buf.push(match T::try_from_module_decl(decl.fold_children(self)) {
+                            _ => buf.push(
+                                match T::try_from_module_decl(decl.fold_children_with(self)) {
                                     Ok(t) => t,
                                     Err(..) => unreachable!(),
-                                })
-                            }
+                                },
+                            ),
                         };
                     }
                     Err(..) => unreachable!(),
@@ -152,7 +153,7 @@ where
                         self.in_strict |= stmt.is_use_strict();
                     }
 
-                    let stmt = stmt.fold_children(self);
+                    let stmt = stmt.fold_children_with(self);
                     buf.push(T::from_stmt(stmt));
                 }
             }
@@ -165,19 +166,27 @@ where
     }
 }
 
-impl Fold<Decl> for Classes {
-    fn fold(&mut self, n: Decl) -> Decl {
+impl Fold for Classes {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(items)
+    }
+
+    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(items)
+    }
+
+    fn fold_decl(&mut self, n: Decl) -> Decl {
         fn should_work(node: &Decl) -> bool {
             struct Visitor {
                 found: bool,
             };
-            impl Visit<Class> for Visitor {
-                fn visit(&mut self, _: &Class) {
+            impl Visit for Visitor {
+                fn visit_class(&mut self, _: &Class, _: &dyn Node) {
                     self.found = true
                 }
             }
             let mut v = Visitor { found: false };
-            node.visit_with(&mut v);
+            node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
             v.found
         }
         // fast path
@@ -190,18 +199,16 @@ impl Fold<Decl> for Classes {
             _ => n,
         };
 
-        validate!(n.fold_children(self))
+        validate!(n.fold_children_with(self))
     }
-}
 
-impl Fold<Expr> for Classes {
-    fn fold(&mut self, n: Expr) -> Expr {
+    fn fold_expr(&mut self, n: Expr) -> Expr {
         let n = validate!(n);
 
         validate!(match n {
-            Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children(self),
+            Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children_with(self),
 
-            _ => n.fold_children(self),
+            _ => n.fold_children_with(self),
         })
     }
 }
@@ -216,7 +223,7 @@ impl Classes {
             kind: VarDeclKind::Let,
             decls: vec![VarDeclarator {
                 span,
-                init: Some(box rhs),
+                init: Some(Box::new(rhs)),
                 // Foo in var Foo =
                 name: ident.into(),
                 definite: false,
@@ -279,10 +286,10 @@ impl Classes {
         let cnt_of_non_directive = stmts
             .iter()
             .filter(|stmt| match stmt {
-                Stmt::Expr(ExprStmt {
-                    expr: box Expr::Lit(Lit::Str(..)),
-                    ..
-                }) => false,
+                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+                    Expr::Lit(Lit::Str(..)) => false,
+                    _ => true,
+                },
                 _ => true,
             })
             .count();
@@ -505,14 +512,14 @@ impl Classes {
                     if is_always_initialized {
                         body.push(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(box Expr::Ident(this)),
+                            arg: Some(Box::new(Expr::Ident(this))),
                         }));
                     } else {
                         let possible_return_value =
-                            box make_possible_return_value(ReturningMode::Returning {
+                            Box::new(make_possible_return_value(ReturningMode::Returning {
                                 mark: this_mark,
                                 arg: None,
-                            });
+                            }));
                         body.push(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(possible_return_value),
@@ -575,10 +582,10 @@ impl Classes {
             && stmts
                 .iter()
                 .filter(|stmt| match stmt {
-                    Stmt::Expr(ExprStmt {
-                        expr: box Expr::Lit(Lit::Str(..)),
-                        ..
-                    }) => false,
+                    Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+                        Expr::Lit(Lit::Str(..)) => false,
+                        _ => true,
+                    },
                     _ => true,
                 })
                 .count()
@@ -590,7 +597,7 @@ impl Classes {
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(box Expr::Ident(class_name)),
+            arg: Some(Box::new(Expr::Ident(class_name))),
         }));
 
         stmts
@@ -630,7 +637,7 @@ impl Classes {
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
-                        init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
+                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
                 })),
@@ -663,10 +670,10 @@ impl Classes {
                 key: PropName::Ident(quote_ident!(key.span(), "key")),
                 value: match *key {
                     PropName::Ident(ref i) => {
-                        box Expr::Lit(Lit::Str(quote_str!(i.span, i.sym.clone())))
+                        Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym.clone()))))
                     }
-                    PropName::Str(ref s) => box Expr::Lit(Lit::Str(s.clone())),
-                    PropName::Num(n) => box Expr::Lit(Lit::Num(n)),
+                    PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                    PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
                     PropName::Computed(ref c) => c.expr.clone(),
                 },
             })
@@ -686,12 +693,12 @@ impl Classes {
                         macro_rules! add {
                             ($field:expr, $kind:expr, $s:literal) => {{
                                 if let Some(value) = $field {
-                                    props.push(PropOrSpread::Prop(box Prop::KeyValue(
+                                    props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
                                             key: PropName::Ident(quote_ident!($s)),
                                             value,
                                         },
-                                    )));
+                                    ))));
                                 }
                             }};
                         }
@@ -734,7 +741,7 @@ impl Classes {
 
         for m in methods {
             let key = HashKey::from(&m.key);
-            let key_prop = box mk_key_prop(&m.key);
+            let key_prop = Box::new(mk_key_prop(&m.key));
             let computed = match m.key {
                 PropName::Computed(..) => true,
                 _ => false,
@@ -770,7 +777,7 @@ impl Classes {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
-                            init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
+                            init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
                     })),
@@ -789,7 +796,7 @@ impl Classes {
                 );
             }
 
-            let value = box Expr::Fn(FnExpr {
+            let value = Box::new(Expr::Fn(FnExpr {
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(ident),
@@ -802,7 +809,7 @@ impl Classes {
                     None
                 },
                 function,
-            });
+            }));
 
             let data = append_to.entry(key).or_insert_with(|| Data {
                 key_prop,
@@ -867,24 +874,24 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
         found: bool,
     }
 
-    impl Visit<ExprOrSuper> for SuperFinder {
-        fn visit(&mut self, node: &ExprOrSuper) {
+    impl Visit for SuperFinder {
+        fn visit_expr_or_super(&mut self, node: &ExprOrSuper, _: &dyn Node) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
-                _ => node.visit_children(self),
+                _ => node.visit_children_with(self),
             }
         }
     }
 
     let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt {
-            expr:
-                box Expr::Call(CallExpr {
-                    callee: ExprOrSuper::Super(..),
-                    ..
-                }),
-            ..
-        }) => true,
+        Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                ..
+            }) => true,
+
+            _ => false,
+        },
         _ => false,
     }) {
         Some(pos) => pos,
@@ -894,7 +901,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
 
-    body.visit_with(&mut v);
+    v.visit_stmts(body, &Invalid { span: DUMMY_SP });
 
     if v.found {
         return false;

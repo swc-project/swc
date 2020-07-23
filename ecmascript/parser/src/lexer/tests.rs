@@ -422,7 +422,7 @@ fn simple_regex() {
 
 #[test]
 fn complex_regex() {
-    testing::assert_eq_ignore_span!(
+    assert_eq!(
         lex_tokens(Syntax::default(), "f(); function foo() {} /42/i"),
         vec![
             Word(Word::Ident("f".into())),
@@ -648,7 +648,7 @@ fn str_lit() {
             has_escape: false,
         }],
     );
-    testing::assert_eq_ignore_span!(
+    assert_eq!(
         lex_tokens(Syntax::default(), "'\\\nabc'"),
         vec![Token::Str {
             value: "abc".into(),

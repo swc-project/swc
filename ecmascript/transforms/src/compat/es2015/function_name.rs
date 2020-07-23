@@ -1,6 +1,6 @@
-use crate::{pass::Pass, util::UsageFinder};
-use swc_common::{Fold, FoldWith};
+use crate::{ext::PatOrExprExt, util::UsageFinder};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// `@babel/plugin-transform-function-name`
 ///
@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 /// }
 /// var Foo = (class Foo {});
 /// ```
-pub fn function_name() -> impl Pass {
+pub fn function_name() -> impl Fold {
     FnName
 }
 
@@ -47,20 +47,40 @@ fn prepare(i: Ident, force: bool) -> Ident {
     }
 }
 
-impl Fold<KeyValueProp> for FnName {
-    fn fold(&mut self, p: KeyValueProp) -> KeyValueProp {
-        let mut p = p.fold_children(self);
+impl Fold for FnName {
+    fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
+        let mut expr = expr.fold_children_with(self);
+
+        if expr.op != op!("=") {
+            return expr;
+        }
+
+        if let Some(ident) = expr.left.as_ident_mut() {
+            let mut folder = Renamer {
+                name: Some(ident.clone()),
+            };
+
+            let right = expr.right.fold_with(&mut folder);
+
+            return AssignExpr { right, ..expr };
+        }
+
+        expr
+    }
+
+    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
+        let mut p = p.fold_children_with(self);
 
         p.value = match *p.value {
             Expr::Fn(expr @ FnExpr { ident: None, .. }) => {
                 //
                 if let PropName::Ident(ref i) = p.key {
-                    box Expr::Fn(FnExpr {
+                    Box::new(Expr::Fn(FnExpr {
                         ident: Some(prepare(i.clone(), false)),
                         ..expr
-                    })
+                    }))
                 } else {
-                    box Expr::Fn(expr)
+                    Box::new(Expr::Fn(expr))
                 }
             }
             _ => p.value,
@@ -68,11 +88,9 @@ impl Fold<KeyValueProp> for FnName {
 
         p
     }
-}
 
-impl Fold<VarDeclarator> for FnName {
-    fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
-        let mut decl = decl.fold_children(self);
+    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
+        let mut decl = decl.fold_children_with(self);
 
         match decl.name {
             Pat::Ident(ref mut ident) => {
@@ -88,60 +106,34 @@ impl Fold<VarDeclarator> for FnName {
     }
 }
 
-impl Fold<AssignExpr> for FnName {
-    fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
-        let mut expr = expr.fold_children(self);
-
-        if expr.op != op!("=") {
-            return expr;
-        }
-
-        match expr.left {
-            PatOrExpr::Pat(box Pat::Ident(ref mut ident))
-            | PatOrExpr::Expr(box Expr::Ident(ref mut ident)) => {
-                let mut folder = Renamer {
-                    name: Some(ident.clone()),
-                };
-
-                let right = expr.right.fold_with(&mut folder);
-
-                AssignExpr { right, ..expr }
-            }
-            _ => expr,
-        }
-    }
-}
-
 macro_rules! impl_for {
-    ($T:tt) => {
-        impl Fold<$T> for Renamer {
-            fn fold(&mut self, node: $T) -> $T {
-                match node.ident {
-                    Some(..) => return node,
-                    None => {
-                        //
-                        let name = match self.name.take() {
-                            None => {
-                                return $T {
-                                    ident: None,
-                                    ..node
-                                };
-                            }
-                            Some(name) => name,
-                        };
-                        // If function's body references the name of variable, we just skip the
-                        // function
-                        if UsageFinder::find(&name, &node) {
-                            // self.name = Some(name);
-                            $T {
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, node: $T) -> $T {
+            match node.ident {
+                Some(..) => return node,
+                None => {
+                    //
+                    let name = match self.name.take() {
+                        None => {
+                            return $T {
                                 ident: None,
                                 ..node
-                            }
-                        } else {
-                            $T {
-                                ident: Some(name),
-                                ..node
-                            }
+                            };
+                        }
+                        Some(name) => name,
+                    };
+                    // If function's body references the name of variable, we just skip the
+                    // function
+                    if UsageFinder::find(&name, &node) {
+                        // self.name = Some(name);
+                        $T {
+                            ident: None,
+                            ..node
+                        }
+                    } else {
+                        $T {
+                            ident: Some(name),
+                            ..node
                         }
                     }
                 }
@@ -149,23 +141,24 @@ macro_rules! impl_for {
         }
     };
 }
-impl_for!(FnExpr);
-impl_for!(ClassExpr);
 
 macro_rules! noop {
-    ($T:tt) => {
-        impl Fold<$T> for Renamer {
-            /// Don't recurse.
-            fn fold(&mut self, node: $T) -> $T {
-                node
-            }
+    ($name:ident, $T:tt) => {
+        /// Don't recurse.
+        fn $name(&mut self, node: $T) -> $T {
+            node
         }
     };
 }
 
-noop!(ObjectLit);
-noop!(ArrayLit);
-noop!(CallExpr);
-noop!(NewExpr);
-noop!(BinExpr);
-noop!(UnaryExpr);
+impl Fold for Renamer {
+    impl_for!(fold_fn_expr, FnExpr);
+    impl_for!(fold_class_expr, ClassExpr);
+
+    noop!(fold_object_lit, ObjectLit);
+    noop!(fold_array_lit, ArrayLit);
+    noop!(fold_call_expr, CallExpr);
+    noop!(fold_new_expr, NewExpr);
+    noop!(fold_bin_expr, BinExpr);
+    noop!(fold_unary_expr, UnaryExpr);
+}

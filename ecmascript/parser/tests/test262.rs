@@ -1,23 +1,23 @@
-#![feature(box_syntax)]
-#![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
 
+use common::Normalizer;
 use std::{
     env,
     fs::{read_dir, File},
     io::{self, Read},
     path::Path,
 };
-use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
 use testing::{NormalizedOutput, StdErr};
+
+mod common;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporalily ignored
@@ -93,7 +93,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 
@@ -349,112 +349,8 @@ fn error() {
 
 pub fn normalize<T>(t: T) -> T
 where
-    Normalizer: Fold<T>,
+    T: FoldWith<Normalizer>,
 {
     let mut n = Normalizer;
-    n.fold(t)
-}
-
-pub struct Normalizer;
-impl Fold<Span> for Normalizer {
-    fn fold(&mut self, _: Span) -> Span {
-        Span::default()
-    }
-}
-impl Fold<Str> for Normalizer {
-    fn fold(&mut self, s: Str) -> Str {
-        Str {
-            span: Default::default(),
-            has_escape: false,
-            ..s
-        }
-    }
-}
-impl Fold<Expr> for Normalizer {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
-
-        match e {
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
-            Expr::New(n @ NewExpr { args: None, .. }) => Expr::New(NewExpr {
-                args: Some(vec![]),
-                ..n
-            }),
-            // Flatten comma expressions.
-            Expr::Seq(SeqExpr { mut exprs, span }) => {
-                let need_work = exprs.iter().any(|n| match **n {
-                    Expr::Seq(..) => true,
-                    _ => false,
-                });
-
-                if need_work {
-                    exprs = exprs.into_iter().fold(vec![], |mut v, e| {
-                        match *e {
-                            Expr::Seq(SeqExpr { exprs, .. }) => v.extend(exprs),
-                            _ => v.push(e),
-                        }
-                        v
-                    });
-                }
-                Expr::Seq(SeqExpr { exprs, span })
-            }
-            _ => e,
-        }
-    }
-}
-
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, n: PropName) -> PropName {
-        let n = n.fold_children(self);
-
-        match n {
-            PropName::Ident(Ident { sym, .. }) => PropName::Str(Str {
-                span: Default::default(),
-                value: sym,
-                has_escape: false,
-            }),
-            PropName::Num(num) => PropName::Str(Str {
-                span: Default::default(),
-                value: num.to_string().into(),
-                has_escape: false,
-            }),
-            _ => n,
-        }
-    }
-}
-
-impl Fold<Pat> for Normalizer {
-    fn fold(&mut self, mut node: Pat) -> Pat {
-        node = node.fold_children(self);
-
-        match node {
-            Pat::Expr(box Expr::Ident(i)) => Pat::Ident(i),
-            _ => node,
-        }
-    }
-}
-
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children(self);
-
-        match node {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
-            _ => node,
-        }
-    }
-}
-
-impl Fold<Vec<ClassMember>> for Normalizer {
-    fn fold(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
-        node = node.fold_children(self);
-
-        node.retain(|v| match v {
-            ClassMember::Empty(..) => false,
-            _ => true,
-        });
-
-        node
-    }
+    t.fold_with(&mut n)
 }

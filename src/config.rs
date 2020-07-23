@@ -22,10 +22,11 @@ use swc_ecmascript::{
     transforms::{
         const_modules, modules,
         optimization::{simplifier, InlineGlobals, JsonParse},
-        pass::{noop, Optional, Pass},
+        pass::{noop, Optional},
         proposals::{decorators, export},
         react, resolver_with_mark, typescript,
     },
+    visit,
 };
 
 #[cfg(test)]
@@ -166,7 +167,7 @@ impl Options {
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
-    ) -> BuiltConfig<impl Pass> {
+    ) -> BuiltConfig<impl visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         if let Some(ref c) = self.config {
             config.merge(c)
@@ -497,7 +498,7 @@ impl Config {
 }
 
 /// One `BuiltConfig` per a directory with swcrc
-pub struct BuiltConfig<P: Pass> {
+pub struct BuiltConfig<P: visit::Fold> {
     pub pass: P,
     pub syntax: Syntax,
     pub target: JscTarget,
@@ -546,14 +547,14 @@ impl ModuleConfig {
         cm: Arc<SourceMap>,
         root_mark: Mark,
         config: Option<ModuleConfig>,
-    ) -> Box<dyn Pass> {
+    ) -> Box<dyn visit::Fold> {
         match config {
-            None | Some(ModuleConfig::Es6) => box noop(),
+            None | Some(ModuleConfig::Es6) => Box::new(noop()),
             Some(ModuleConfig::CommonJs(config)) => {
-                box modules::common_js::common_js(root_mark, config)
+                Box::new(modules::common_js::common_js(root_mark, config))
             }
-            Some(ModuleConfig::Umd(config)) => box modules::umd::umd(cm, root_mark, config),
-            Some(ModuleConfig::Amd(config)) => box modules::amd::amd(config),
+            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(cm, root_mark, config)),
+            Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(config)),
         }
     }
 }
@@ -658,7 +659,7 @@ impl GlobalPassOption {
                     });
 
                 let expr = match module.body.pop() {
-                    Some(ModuleItem::Stmt(Stmt::Expr(ExprStmt { box expr, .. }))) => expr,
+                    Some(ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. }))) => *expr,
                     _ => panic!("{} is not a valid expression", v_str),
                 };
 

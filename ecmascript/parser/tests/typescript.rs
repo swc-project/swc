@@ -1,10 +1,8 @@
-#![feature(box_syntax)]
-#![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
 
+use crate::common::Normalizer;
 use pretty_assertions::assert_eq;
 use std::{
     env,
@@ -12,16 +10,18 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{
     lexer::Lexer, JscTarget, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig,
 };
+use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
 use testing::StdErr;
 use walkdir::WalkDir;
+
+mod common;
 
 fn add_test<F: FnOnce() + Send + 'static>(
     tests: &mut Vec<TestDescAndFn>,
@@ -40,7 +40,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 
@@ -260,60 +260,5 @@ fn is_backtrace_enabled() -> bool {
     match ::std::env::var("RUST_BACKTRACE") {
         Ok(val) => val == "1" || val == "full",
         _ => false,
-    }
-}
-
-struct Normalizer;
-
-impl Fold<Pat> for Normalizer {
-    fn fold(&mut self, mut node: Pat) -> Pat {
-        node = node.fold_children(self);
-
-        match node {
-            Pat::Expr(box Expr::Ident(i)) => Pat::Ident(i),
-            _ => node,
-        }
-    }
-}
-
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children(self);
-
-        match node {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
-            _ => node,
-        }
-    }
-}
-
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, node: PropName) -> PropName {
-        let node = node.fold_children(self);
-
-        match node {
-            PropName::Computed(ComputedPropName {
-                expr: box Expr::Lit(ref l),
-                ..
-            }) => match l {
-                Lit::Str(s) => s.clone().into(),
-                Lit::Num(v) => v.clone().into(),
-
-                _ => node,
-            },
-
-            _ => node,
-        }
-    }
-}
-
-/// We are not debugging serde_json
-impl Fold<Number> for Normalizer {
-    fn fold(&mut self, mut node: Number) -> Number {
-        node.value =
-            serde_json::from_str(&serde_json::to_string(&node.value).unwrap()).unwrap_or(f64::NAN);
-
-        node
     }
 }

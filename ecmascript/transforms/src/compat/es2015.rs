@@ -6,10 +6,9 @@ pub use self::{
     shorthand_property::Shorthand, spread::spread, sticky_regex::StickyRegex,
     template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
-use crate::pass::Pass;
 use serde::Deserialize;
 use swc_common::{chain, Mark};
-use swc_ecma_ast::Expr;
+use swc_ecma_visit::Fold;
 
 mod arrow;
 mod block_scoped_fn;
@@ -29,9 +28,8 @@ mod sticky_regex;
 mod template_literal;
 mod typeof_symbol;
 
-fn exprs() -> impl Pass {
-    chain_at!(
-        Expr,
+fn exprs() -> impl Fold {
+    chain!(
         arrow(),
         duplicate_keys(),
         StickyRegex,
@@ -42,7 +40,7 @@ fn exprs() -> impl Pass {
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015(global_mark: Mark, c: Config) -> impl Pass {
+pub fn es2015(global_mark: Mark, c: Config) -> impl Fold {
     chain!(
         BlockScopedFns,
         TemplateLiteral::default(),

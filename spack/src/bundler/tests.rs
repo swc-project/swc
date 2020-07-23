@@ -3,10 +3,11 @@ use super::Bundler;
 use crate::{loaders::swc::SwcLoader, resolve::NodeResolver, util::HygieneRemover};
 use pretty_assertions::assert_eq;
 use std::{path::PathBuf, sync::Arc};
-use swc_common::{fold::FoldWith, FileName};
+use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
-use testing::drop_span;
+use swc_ecma_utils::drop_span;
+use swc_ecma_visit::FoldWith;
 
 pub struct Tester<'a> {
     pub bundler: Bundler<'a>,

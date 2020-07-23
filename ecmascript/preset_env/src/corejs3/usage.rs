@@ -13,8 +13,9 @@ use crate::{
 };
 use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Visit, VisitWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
@@ -143,87 +144,91 @@ impl UsageVisitor {
     }
 }
 
-/// import('something').then(...)
-impl Visit<CallExpr> for UsageVisitor {
-    fn visit(&mut self, e: &CallExpr) {
-        e.visit_children(self);
+impl Visit for UsageVisitor {
+    /// `[a, b] = c`
+    fn visit_array_pat(&mut self, p: &ArrayPat, _: &dyn Node) {
+        p.visit_children_with(self);
 
-        match e.callee {
-            ExprOrSuper::Expr(box Expr::Ident(Ident {
-                sym: js_word!("import"),
-                ..
-            })) => self.add(PROMISE_DEPENDENCIES),
+        self.add(COMMON_ITERATORS)
+    }
 
+    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match &e.left {
+            // ({ keys, values } = Object)
+            PatOrExpr::Pat(pat) => match &**pat {
+                Pat::Object(ref o) => self.visit_object_pat_props(&e.right, &o.props),
+                _ => {}
+            },
             _ => {}
         }
     }
-}
 
-impl Visit<Function> for UsageVisitor {
-    fn visit(&mut self, f: &Function) {
-        f.visit_children(self);
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+        e.visit_children_with(self);
 
-        if f.is_async {
-            self.add(PROMISE_DEPENDENCIES)
+        match e.op {
+            op!("in") => {
+                // 'entries' in Object
+                // 'entries' in [1, 2, 3]
+                self.add_property_deps(&e.right, &e.left);
+            }
+            _ => {}
         }
     }
-}
 
-/// for-of
-impl Visit<ForOfStmt> for UsageVisitor {
-    fn visit(&mut self, s: &ForOfStmt) {
-        s.visit_children(self);
+    /// import('something').then(...)
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+        e.visit_children_with(self);
 
-        self.add(COMMON_ITERATORS)
-    }
-}
-
-/// `[a, b] = c`
-impl Visit<ArrayPat> for UsageVisitor {
-    fn visit(&mut self, p: &ArrayPat) {
-        p.visit_children(self);
-
-        self.add(COMMON_ITERATORS)
-    }
-}
-
-/// `[...spread]`
-impl Visit<ExprOrSpread> for UsageVisitor {
-    fn visit(&mut self, e: &ExprOrSpread) {
-        e.visit_children(self);
-        if e.spread.is_some() {
-            self.add(COMMON_ITERATORS)
+        if let ExprOrSuper::Expr(expr) = &e.callee {
+            match &**expr {
+                Expr::Ident(Ident {
+                    sym: js_word!("import"),
+                    ..
+                }) => self.add(PROMISE_DEPENDENCIES),
+                _ => {}
+            }
         }
     }
-}
 
-/// `yield*`
-impl Visit<YieldExpr> for UsageVisitor {
-    fn visit(&mut self, e: &YieldExpr) {
-        e.visit_children(self);
-
-        if e.delegate {
-            self.add(COMMON_ITERATORS)
-        }
-    }
-}
-
-impl Visit<Expr> for UsageVisitor {
-    fn visit(&mut self, e: &Expr) {
-        e.visit_children(self);
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+        e.visit_children_with(self);
 
         match e {
             Expr::Ident(i) => self.add_builtin(&i.sym),
             _ => {}
         }
     }
-}
 
-impl Visit<MemberExpr> for UsageVisitor {
-    fn visit(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(self);
+    /// `[...spread]`
+    fn visit_expr_or_spread(&mut self, e: &ExprOrSpread, _: &dyn Node) {
+        e.visit_children_with(self);
+        if e.spread.is_some() {
+            self.add(COMMON_ITERATORS)
+        }
+    }
+
+    /// for-of
+    fn visit_for_of_stmt(&mut self, s: &ForOfStmt, _: &dyn Node) {
+        s.visit_children_with(self);
+
+        self.add(COMMON_ITERATORS)
+    }
+
+    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+        f.visit_children_with(self);
+
+        if f.is_async {
+            self.add(PROMISE_DEPENDENCIES)
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e as _, self);
         if e.computed {
-            e.prop.visit_with(self);
+            e.prop.visit_with(e as _, self);
         }
 
         // Object.entries
@@ -234,11 +239,9 @@ impl Visit<MemberExpr> for UsageVisitor {
             _ => {}
         }
     }
-}
 
-impl Visit<VarDeclarator> for UsageVisitor {
-    fn visit(&mut self, d: &VarDeclarator) {
-        d.visit_children(self);
+    fn visit_var_declarator(&mut self, d: &VarDeclarator, _: &dyn Node) {
+        d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
             match d.name {
@@ -257,35 +260,15 @@ impl Visit<VarDeclarator> for UsageVisitor {
             }
         }
     }
-}
 
-impl Visit<AssignExpr> for UsageVisitor {
-    fn visit(&mut self, e: &AssignExpr) {
-        e.visit_children(self);
+    // TODO: https://github.com/babel/babel/blob/00758308/packages/babel-preset-env/src/polyfills/corejs3/usage-plugin.js#L198-L206
 
-        match e.left {
-            // ({ keys, values } = Object)
-            PatOrExpr::Pat(box Pat::Object(ref o)) => {
-                self.visit_object_pat_props(&e.right, &o.props)
-            }
-            _ => {}
-        }
-    }
-}
+    /// `yield*`
+    fn visit_yield_expr(&mut self, e: &YieldExpr, _: &dyn Node) {
+        e.visit_children_with(self);
 
-// TODO: https://github.com/babel/babel/blob/00758308/packages/babel-preset-env/src/polyfills/corejs3/usage-plugin.js#L198-L206
-
-impl Visit<BinExpr> for UsageVisitor {
-    fn visit(&mut self, e: &BinExpr) {
-        e.visit_children(self);
-
-        match e.op {
-            op!("in") => {
-                // 'entries' in Object
-                // 'entries' in [1, 2, 3]
-                self.add_property_deps(&e.right, &e.left);
-            }
-            _ => {}
+        if e.delegate {
+            self.add(COMMON_ITERATORS)
         }
     }
 }

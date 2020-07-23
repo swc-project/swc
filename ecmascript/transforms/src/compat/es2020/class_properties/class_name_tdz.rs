@@ -1,6 +1,7 @@
 use crate::util::ExprFactory;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,
@@ -8,8 +9,8 @@ pub(super) struct ClassNameTdzFolder<'a> {
 
 noop_fold_type!(ClassNameTdzFolder<'_>);
 
-impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl<'a> Fold for ClassNameTdzFolder<'a> {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         match expr {
             Expr::Ident(i) => {
                 //
@@ -18,7 +19,7 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                     Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
-                            box Expr::Call(CallExpr {
+                            Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(class_name_tdz_error, "classNameTDZError"),
                                 args: vec![Lit::Str(Str {
@@ -29,8 +30,8 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                                 .as_arg()],
 
                                 type_args: Default::default(),
-                            }),
-                            box Expr::Ident(i),
+                            })),
+                            Box::new(Expr::Ident(i)),
                         ],
                     })
                 } else {
@@ -38,7 +39,7 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                 }
             }
 
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         }
     }
 }

@@ -8,7 +8,6 @@ use swc_common::{ast_node, Span};
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
-    #[cfg_attr(feature = "fold", fold(ignore))]
     pub sym: JsWord,
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,

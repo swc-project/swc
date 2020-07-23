@@ -10,15 +10,13 @@ use std::{
     sync::atomic::Ordering,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    fold::FoldWith, Fold, Mark, Span, Spanned, SyntaxContext, VisitMut, VisitMutWith, VisitWith,
-    DUMMY_SP,
-};
+use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{
     find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
 };
+use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
 impl Bundler<'_> {
     /// Merge `targets` into `entry`.
@@ -299,7 +297,7 @@ impl Bundler<'_> {
                                     decls: vec![VarDeclarator {
                                         span: DUMMY_SP,
                                         name: Pat::Ident(load_var.clone()),
-                                        init: Some(box Expr::Call(CallExpr {
+                                        init: Some(Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
                                             callee: {
                                                 info.helpers.require.store(true, Ordering::SeqCst);
@@ -307,7 +305,7 @@ impl Bundler<'_> {
                                                     "__spack_require__".into(),
                                                     DUMMY_SP.apply_mark(self.top_level_mark),
                                                 )
-                                                .member(Ident::new("bind".into(), DUMMY_SP))
+                                                .make_member(Ident::new("bind".into(), DUMMY_SP))
                                                 .as_callee()
                                             },
                                             args: vec![
@@ -315,7 +313,7 @@ impl Bundler<'_> {
                                                 module_fn.as_arg(),
                                             ],
                                             type_args: None,
-                                        })),
+                                        }))),
                                         definite: false,
                                     }],
                                 }));
@@ -370,8 +368,8 @@ struct Unexporter;
 
 noop_fold_type!(Unexporter);
 
-impl Fold<ModuleItem> for Unexporter {
-    fn fold(&mut self, item: ModuleItem) -> ModuleItem {
+impl Fold for Unexporter {
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         match item {
             ModuleItem::ModuleDecl(decl) => match decl {
                 ModuleDecl::ExportDecl(decl) => ModuleItem::Stmt(Stmt::Decl(decl.decl)),
@@ -424,11 +422,11 @@ impl ExportRenamer<'_> {
     }
 }
 
-impl<T> Fold<Vec<T>> for ExportRenamer<'_>
-where
-    T: FoldWith<Self> + StmtLike,
-{
-    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+impl ExportRenamer<'_> {
+    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    where
+        T: FoldWith<Self> + StmtLike,
+    {
         let mut buf = Vec::with_capacity(items.len() + 4);
 
         for item in items {
@@ -442,15 +440,23 @@ where
     }
 }
 
-impl Fold<ModuleItem> for ExportRenamer<'_> {
-    fn fold(&mut self, item: ModuleItem) -> ModuleItem {
+impl Fold for ExportRenamer<'_> {
+    fn fold_class(&mut self, node: Class) -> Class {
+        node
+    }
+
+    fn fold_function(&mut self, node: Function) -> Function {
+        node
+    }
+
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         let mut actual = ActualMarker {
             mark: self.mark,
             imports: self.imports,
         };
 
         let span = item.span();
-        let item: ModuleItem = item.fold_children(self);
+        let item: ModuleItem = item.fold_children_with(self);
 
         match item {
             ModuleItem::Stmt(..) => return item,
@@ -510,7 +516,7 @@ impl Fold<ModuleItem> for ExportRenamer<'_> {
                         var_decls.push(VarDeclarator {
                             span,
                             name: Pat::Ident(i.replace_mark(self.mark).into_ident()),
-                            init: Some(box Expr::Ident(orig)),
+                            init: Some(Box::new(Expr::Ident(orig))),
                             definite: false,
                         })
                     } else {
@@ -542,11 +548,11 @@ impl Fold<ModuleItem> for ExportRenamer<'_> {
                     | Decl::TsModule(_) => ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)),
 
                     Decl::Class(mut c) => {
-                        c.ident = actual.fold(c.ident);
+                        c.ident = c.ident.fold_with(&mut actual);
                         Stmt::Decl(Decl::Class(c)).into()
                     }
                     Decl::Fn(mut f) => {
-                        f.ident = actual.fold(f.ident);
+                        f.ident = f.ident.fold_with(&mut actual);
                         Stmt::Decl(Decl::Fn(f)).into()
                     }
                     Decl::Var(..) => {
@@ -560,17 +566,13 @@ impl Fold<ModuleItem> for ExportRenamer<'_> {
 
         item
     }
-}
 
-impl Fold<Function> for ExportRenamer<'_> {
-    fn fold(&mut self, node: Function) -> Function {
-        node
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(items)
     }
-}
 
-impl Fold<Class> for ExportRenamer<'_> {
-    fn fold(&mut self, node: Class) -> Class {
-        node
+    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(items)
     }
 }
 
@@ -583,8 +585,12 @@ struct ActualMarker<'a> {
 
 noop_fold_type!(ActualMarker<'_>);
 
-impl Fold<Ident> for ActualMarker<'_> {
-    fn fold(&mut self, ident: Ident) -> Ident {
+impl Fold for ActualMarker<'_> {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
+        node
+    }
+
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
         if let Some(mut ident) = self.imports.iter().find_map(|s| match s {
             Specifier::Specific {
                 alias: Some(alias),
@@ -603,12 +609,6 @@ impl Fold<Ident> for ActualMarker<'_> {
         }
 
         ident
-    }
-}
-
-impl Fold<Expr> for ActualMarker<'_> {
-    fn fold(&mut self, node: Expr) -> Expr {
-        node
     }
 }
 
@@ -644,7 +644,7 @@ impl<'a> LocalMarker<'a> {
     where
         I: for<'any> VisitWith<DestructuringFinder<'any, Id>>,
     {
-        let ids = find_ids(&excluded_idents);
+        let ids = find_ids(excluded_idents);
 
         self.excluded.extend(ids);
         Excluder { inner: self }
@@ -669,95 +669,52 @@ impl<'a, 'b> DerefMut for Excluder<'a, 'b> {
     }
 }
 
-impl Fold<FnExpr> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: FnExpr) -> FnExpr {
-        let mut f = self.exclude(&node.ident);
-
-        node.function = node.function.fold_with(&mut f);
-
+impl Fold for LocalMarker<'_> {
+    fn fold_catch_clause(&mut self, mut node: CatchClause) -> CatchClause {
+        let mut f = self.exclude(&node.param);
+        node.body = node.body.fold_with(&mut *f);
         node
     }
-}
 
-impl Fold<FnDecl> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: FnDecl) -> FnDecl {
-        self.excluded.push((&node.ident).into());
-        node.function = node.function.fold_with(self);
-        node
-    }
-}
-
-impl Fold<ClassExpr> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: ClassExpr) -> ClassExpr {
-        let mut f = self.exclude(&node.ident);
-        node.class = node.class.fold_with(&mut f);
-        node
-    }
-}
-
-impl Fold<ClassDecl> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: ClassDecl) -> ClassDecl {
+    fn fold_class_decl(&mut self, mut node: ClassDecl) -> ClassDecl {
         self.excluded.push((&node.ident).into());
         node.class = node.class.fold_with(self);
         node
     }
-}
 
-impl Fold<Function> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: Function) -> Function {
+    fn fold_class_expr(&mut self, mut node: ClassExpr) -> ClassExpr {
+        let mut f = self.exclude(&node.ident);
+        node.class = node.class.fold_with(&mut *f);
+        node
+    }
+
+    fn fold_constructor(&mut self, mut node: Constructor) -> Constructor {
         let mut f = self.exclude(&node.params);
-        node.body = node.body.fold_with(&mut f);
+        node.body = node.body.fold_with(&mut *f);
         node
     }
-}
 
-impl Fold<Constructor> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: Constructor) -> Constructor {
+    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
+        self.excluded.push((&node.ident).into());
+        node.function = node.function.fold_with(self);
+        node
+    }
+
+    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
+        let mut f = self.exclude(&node.ident);
+
+        node.function = node.function.fold_with(&mut *f);
+
+        node
+    }
+
+    fn fold_function(&mut self, mut node: Function) -> Function {
         let mut f = self.exclude(&node.params);
-        node.body = node.body.fold_with(&mut f);
+        node.body = node.body.fold_with(&mut *f);
         node
     }
-}
 
-impl Fold<SetterProp> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: SetterProp) -> SetterProp {
-        let mut f = self.exclude(&node.param);
-        node.body = node.body.fold_with(&mut f);
-        node
-    }
-}
-
-impl Fold<CatchClause> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: CatchClause) -> CatchClause {
-        let mut f = self.exclude(&node.param);
-        node.body = node.body.fold_with(&mut f);
-        node
-    }
-}
-
-impl Fold<LabeledStmt> for LocalMarker<'_> {
-    fn fold(&mut self, node: LabeledStmt) -> LabeledStmt {
-        LabeledStmt {
-            body: node.body.fold_with(self),
-            ..node
-        }
-    }
-}
-
-impl Fold<MemberExpr> for LocalMarker<'_> {
-    fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
-        e.obj = e.obj.fold_with(self);
-
-        if e.computed {
-            e.prop = e.prop.fold_with(self);
-        }
-
-        e
-    }
-}
-
-impl Fold<Ident> for LocalMarker<'_> {
-    fn fold(&mut self, mut node: Ident) -> Ident {
+    fn fold_ident(&mut self, mut node: Ident) -> Ident {
         if self.excluded.iter().any(|i| *i == node) {
             return node;
         }
@@ -771,6 +728,29 @@ impl Fold<Ident> for LocalMarker<'_> {
 
         node
     }
+
+    fn fold_labeled_stmt(&mut self, node: LabeledStmt) -> LabeledStmt {
+        LabeledStmt {
+            body: node.body.fold_with(self),
+            ..node
+        }
+    }
+
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        e.obj = e.obj.fold_with(self);
+
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+
+        e
+    }
+
+    fn fold_setter_prop(&mut self, mut node: SetterProp) -> SetterProp {
+        let mut f = self.exclude(&node.param);
+        node.body = node.body.fold_with(&mut *f);
+        node
+    }
 }
 
 struct Es6ModuleInjector {
@@ -778,8 +758,8 @@ struct Es6ModuleInjector {
     src: Str,
 }
 
-impl VisitMut<Vec<ModuleItem>> for Es6ModuleInjector {
-    fn visit_mut(&mut self, orig: &mut Vec<ModuleItem>) {
+impl VisitMut for Es6ModuleInjector {
+    fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
         let items = take(orig);
         let mut buf = Vec::with_capacity(self.imported.len() + items.len());
 
@@ -822,8 +802,8 @@ impl GlobalMarker {
     }
 }
 
-impl Fold<Span> for GlobalMarker {
-    fn fold(&mut self, span: Span) -> Span {
+impl Fold for GlobalMarker {
+    fn fold_span(&mut self, span: Span) -> Span {
         if self.is_marked_as_used(span) {
             return span.apply_mark(self.module_mark);
         }
@@ -837,9 +817,9 @@ struct RequireReplacer {
     load: CallExpr,
 }
 
-impl VisitMut<ModuleItem> for RequireReplacer {
-    fn visit_mut(&mut self, node: &mut ModuleItem) {
-        node.visit_mut_children(self);
+impl VisitMut for RequireReplacer {
+    fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
+        node.visit_mut_children_with(self);
 
         match node {
             ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
@@ -866,7 +846,7 @@ impl VisitMut<ModuleItem> for RequireReplacer {
                                 if let Some(imported) = s.imported {
                                     props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
                                         key: imported.into(),
-                                        value: box s.local.into(),
+                                        value: Box::new(s.local.into()),
                                     }));
                                 } else {
                                     props.push(ObjectPatProp::Assign(AssignPatProp {
@@ -879,7 +859,7 @@ impl VisitMut<ModuleItem> for RequireReplacer {
                             ImportSpecifier::Default(s) => {
                                 props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
                                     key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
-                                    value: box s.local.into(),
+                                    value: Box::new(s.local.into()),
                                 }));
                             }
                             ImportSpecifier::Namespace(ns) => {
@@ -890,15 +870,15 @@ impl VisitMut<ModuleItem> for RequireReplacer {
                                     decls: vec![VarDeclarator {
                                         span: ns.span,
                                         name: ns.local.into(),
-                                        init: Some(
-                                            box CallExpr {
+                                        init: Some(Box::new(
+                                            CallExpr {
                                                 span: DUMMY_SP,
                                                 callee: self.load.clone().as_callee(),
                                                 args: vec![],
                                                 type_args: None,
                                             }
                                             .into(),
-                                        ),
+                                        )),
                                         definite: false,
                                     }],
                                 })));
@@ -919,7 +899,7 @@ impl VisitMut<ModuleItem> for RequireReplacer {
                                 optional: false,
                                 type_ann: None,
                             }),
-                            init: Some(box self.load.clone().into()),
+                            init: Some(Box::new(self.load.clone().into())),
                             definite: false,
                         }],
                     })));
@@ -929,26 +909,29 @@ impl VisitMut<ModuleItem> for RequireReplacer {
             _ => {}
         }
     }
-}
 
-impl VisitMut<CallExpr> for RequireReplacer {
-    fn visit_mut(&mut self, node: &mut CallExpr) {
-        node.visit_mut_children(self);
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
+        node.visit_mut_children_with(self);
 
         match &node.callee {
-            ExprOrSuper::Expr(box Expr::Ident(i)) => {
-                // TODO: Check for global mark
-                if i.sym == *"require" && node.args.len() == 1 {
-                    match &*node.args[0].expr {
-                        Expr::Lit(Lit::Str(s)) => {
-                            if self.src == s.value {
-                                *node = self.load.clone();
+            ExprOrSuper::Expr(e) => {
+                match &**e {
+                    Expr::Ident(i) => {
+                        // TODO: Check for global mark
+                        if i.sym == *"require" && node.args.len() == 1 {
+                            match &*node.args[0].expr {
+                                Expr::Lit(Lit::Str(s)) => {
+                                    if self.src == s.value {
+                                        *node = self.load.clone();
 
-                                log::debug!("Found, and replacing require");
+                                        log::debug!("Found, and replacing require");
+                                    }
+                                }
+                                _ => {}
                             }
                         }
-                        _ => {}
                     }
+                    _ => {}
                 }
             }
             _ => {}

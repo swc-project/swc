@@ -1,11 +1,12 @@
-use crate::{pass::Pass, util::undefined};
+use crate::util::undefined;
 use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{util::map::Map, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike,
 };
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 ///
 ///
@@ -20,7 +21,7 @@ use swc_ecma_utils::{
 /// 	});
 /// }
 /// ```
-pub fn block_scoping() -> impl Pass {
+pub fn block_scoping() -> impl Fold {
     BlockScoping {
         scope: Default::default(),
         vars: vec![],
@@ -105,7 +106,7 @@ impl BlockScoping {
         body.map(|body| {
             {
                 let mut v = FunctionFinder { found: false };
-                body.visit_with(&mut v);
+                body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 if !v.found {
                     return body;
                 }
@@ -127,8 +128,8 @@ impl BlockScoping {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(var_name.clone()),
-                    init: Some(
-                        box FnExpr {
+                    init: Some(Box::new(
+                        FnExpr {
                             ident: None,
                             function: Function {
                                 span: DUMMY_SP,
@@ -158,7 +159,7 @@ impl BlockScoping {
                             },
                         }
                         .into(),
-                    ),
+                    )),
                     definite: false,
                 });
 
@@ -169,7 +170,7 @@ impl BlockScoping {
                         .into_iter()
                         .map(|i| ExprOrSpread {
                             spread: None,
-                            expr: box Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
+                            expr: Box::new(Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)))),
                         })
                         .collect(),
                     type_args: None,
@@ -187,7 +188,7 @@ impl BlockScoping {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(ret.clone()),
-                                init: Some(box call.into()),
+                                init: Some(Box::new(call.into())),
                                 definite: false,
                             }],
                         })),
@@ -200,34 +201,36 @@ impl BlockScoping {
                         Some(
                             IfStmt {
                                 span: DUMMY_SP,
-                                test: box Expr::Bin(BinExpr {
+                                test: Box::new(Expr::Bin(BinExpr {
                                     span: DUMMY_SP,
                                     op: BinaryOp::EqEqEq,
                                     left: {
                                         // _typeof(_ret)
                                         let callee = helper!(type_of, "typeof");
 
-                                        box Expr::Call(CallExpr {
+                                        Expr::Call(CallExpr {
                                             span: Default::default(),
                                             callee,
                                             args: vec![ExprOrSpread {
                                                 spread: None,
-                                                expr: box ret.clone().into(),
+                                                expr: Box::new(ret.clone().into()),
                                             }],
                                             type_args: None,
                                         })
+                                        .into()
                                     },
                                     //"object"
-                                    right: box Expr::Lit(Lit::Str(Str {
+                                    right: Expr::Lit(Lit::Str(Str {
                                         span: DUMMY_SP,
                                         value: js_word!("object"),
                                         has_escape: false,
-                                    })),
-                                }),
-                                cons: box Stmt::Return(ReturnStmt {
+                                    }))
+                                    .into(),
+                                })),
+                                cons: Box::new(Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
-                                    arg: Some(box ret.clone().member(quote_ident!("v"))),
-                                }),
+                                    arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
+                                })),
                                 alt: None,
                             }
                             .into(),
@@ -243,7 +246,7 @@ impl BlockScoping {
                             cases.push(
                                 SwitchCase {
                                     span: DUMMY_SP,
-                                    test: Some(box quote_str!("break").into()),
+                                    test: Some(Box::new(quote_str!("break").into())),
                                     // TODO: Handle labelled statements
                                     cons: vec![Stmt::Break(BreakStmt {
                                         span: DUMMY_SP,
@@ -258,7 +261,7 @@ impl BlockScoping {
                             cases.push(
                                 SwitchCase {
                                     span: DUMMY_SP,
-                                    test: Some(box quote_str!("continue").into()),
+                                    test: Some(Box::new(quote_str!("continue").into())),
                                     // TODO: Handle labelled statements
                                     cons: vec![Stmt::Continue(ContinueStmt {
                                         span: DUMMY_SP,
@@ -278,7 +281,7 @@ impl BlockScoping {
                         stmts.push(
                             SwitchStmt {
                                 span: DUMMY_SP,
-                                discriminant: box ret.clone().into(),
+                                discriminant: Box::new(ret.clone().into()),
                                 cases,
                             }
                             .into(),
@@ -289,12 +292,13 @@ impl BlockScoping {
                             stmts.push(
                                 IfStmt {
                                     span: DUMMY_SP,
-                                    test: box ret.clone().make_eq(quote_str!("break")),
+                                    test: ret.clone().make_eq(quote_str!("break")).into(),
                                     // TODO: Handle labelled statements
-                                    cons: box Stmt::Break(BreakStmt {
+                                    cons: Stmt::Break(BreakStmt {
                                         span: DUMMY_SP,
                                         label: None,
-                                    }),
+                                    })
+                                    .into(),
                                     alt: None,
                                 }
                                 .into(),
@@ -305,12 +309,13 @@ impl BlockScoping {
                             stmts.push(
                                 IfStmt {
                                     span: DUMMY_SP,
-                                    test: box ret.clone().make_eq(quote_str!("continue")),
+                                    test: ret.clone().make_eq(quote_str!("continue")).into(),
                                     // TODO: Handle labelled statements
-                                    cons: box Stmt::Continue(ContinueStmt {
+                                    cons: Stmt::Continue(ContinueStmt {
                                         span: DUMMY_SP,
                                         label: None,
-                                    }),
+                                    })
+                                    .into(),
                                     alt: None,
                                 }
                                 .into(),
@@ -335,28 +340,91 @@ impl BlockScoping {
     }
 }
 
-impl Fold<DoWhileStmt> for BlockScoping {
-    fn fold(&mut self, node: DoWhileStmt) -> DoWhileStmt {
+impl Fold for BlockScoping {
+    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
+        ArrowExpr {
+            params: f.params.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
+    }
+
+    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
+        Constructor {
+            key: f.key.fold_with(self),
+            params: f.params.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
+    }
+
+    fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
         let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
         let test = node.test.fold_with(self);
 
         DoWhileStmt { body, test, ..node }
     }
-}
 
-impl Fold<WhileStmt> for BlockScoping {
-    fn fold(&mut self, node: WhileStmt) -> WhileStmt {
-        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
+    fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
+        let left = self.fold_with_scope(ScopeKind::Block, node.left);
+        let mut vars = find_vars(&left);
+        let args = vars.clone();
 
-        let test = node.test.fold_with(self);
+        let right = node.right.fold_with(self);
 
-        WhileStmt { body, test, ..node }
+        find_infected(&mut vars, &node.body);
+
+        let kind = if vars.is_empty() {
+            ScopeKind::Loop
+        } else {
+            ScopeKind::ForLetLoop {
+                all: vars,
+                args,
+                used: vec![],
+            }
+        };
+        let body = self.fold_with_scope(kind, node.body);
+        let body = self.handle_vars(body);
+
+        ForInStmt {
+            left,
+            right,
+            body,
+            ..node
+        }
     }
-}
 
-impl Fold<ForStmt> for BlockScoping {
-    fn fold(&mut self, node: ForStmt) -> ForStmt {
+    fn fold_for_of_stmt(&mut self, node: ForOfStmt) -> ForOfStmt {
+        let left = self.fold_with_scope(ScopeKind::Block, node.left);
+        let mut vars = find_vars(&left);
+        let args = vars.clone();
+
+        let right = node.right.fold_with(self);
+
+        find_infected(&mut vars, &node.body);
+
+        let kind = if vars.is_empty() {
+            ScopeKind::Loop
+        } else {
+            ScopeKind::ForLetLoop {
+                all: vars,
+                args,
+                used: vec![],
+            }
+        };
+        let body = self.fold_with_scope(kind, node.body);
+        let body = self.handle_vars(body);
+
+        ForOfStmt {
+            left,
+            right,
+            body,
+            ..node
+        }
+    }
+
+    fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
         let init = node.init.fold_with(self);
 
         let mut vars = find_vars(&init);
@@ -387,72 +455,8 @@ impl Fold<ForStmt> for BlockScoping {
             ..node
         }
     }
-}
 
-impl Fold<ForOfStmt> for BlockScoping {
-    fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
-        let left = self.fold_with_scope(ScopeKind::Block, node.left);
-        let mut vars = find_vars(&left);
-        let args = vars.clone();
-
-        let right = node.right.fold_with(self);
-
-        find_infected(&mut vars, &node.body);
-
-        let kind = if vars.is_empty() {
-            ScopeKind::Loop
-        } else {
-            ScopeKind::ForLetLoop {
-                all: vars,
-                args,
-                used: vec![],
-            }
-        };
-        let body = self.fold_with_scope(kind, node.body);
-        let body = self.handle_vars(body);
-
-        ForOfStmt {
-            left,
-            right,
-            body,
-            ..node
-        }
-    }
-}
-
-impl Fold<ForInStmt> for BlockScoping {
-    fn fold(&mut self, node: ForInStmt) -> ForInStmt {
-        let left = self.fold_with_scope(ScopeKind::Block, node.left);
-        let mut vars = find_vars(&left);
-        let args = vars.clone();
-
-        let right = node.right.fold_with(self);
-
-        find_infected(&mut vars, &node.body);
-
-        let kind = if vars.is_empty() {
-            ScopeKind::Loop
-        } else {
-            ScopeKind::ForLetLoop {
-                all: vars,
-                args,
-                used: vec![],
-            }
-        };
-        let body = self.fold_with_scope(kind, node.body);
-        let body = self.handle_vars(body);
-
-        ForInStmt {
-            left,
-            right,
-            body,
-            ..node
-        }
-    }
-}
-
-impl Fold<Function> for BlockScoping {
-    fn fold(&mut self, f: Function) -> Function {
+    fn fold_function(&mut self, f: Function) -> Function {
         Function {
             params: f.params.fold_with(self),
             decorators: f.decorators.fold_with(self),
@@ -460,41 +464,23 @@ impl Fold<Function> for BlockScoping {
             ..f
         }
     }
-}
 
-impl Fold<ArrowExpr> for BlockScoping {
-    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-        ArrowExpr {
-            params: f.params.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
-    }
-}
-
-impl Fold<Constructor> for BlockScoping {
-    fn fold(&mut self, f: Constructor) -> Constructor {
-        Constructor {
-            key: f.key.fold_with(self),
-            params: f.params.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
-    }
-}
-
-impl Fold<GetterProp> for BlockScoping {
-    fn fold(&mut self, f: GetterProp) -> GetterProp {
+    fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
         GetterProp {
             key: f.key.fold_with(self),
             body: self.fold_with_scope(ScopeKind::Fn, f.body),
             ..f
         }
     }
-}
 
-impl Fold<SetterProp> for BlockScoping {
-    fn fold(&mut self, f: SetterProp) -> SetterProp {
+    fn fold_ident(&mut self, node: Ident) -> Ident {
+        let id = node.to_id();
+        self.mark_as_used(id);
+
+        node
+    }
+
+    fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
         SetterProp {
             key: f.key.fold_with(self),
             param: f.param.fold_with(self),
@@ -502,13 +488,11 @@ impl Fold<SetterProp> for BlockScoping {
             ..f
         }
     }
-}
 
-impl Fold<VarDecl> for BlockScoping {
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         let old = self.var_decl_kind;
         self.var_decl_kind = var.kind;
-        let var = var.fold_children(self);
+        let var = var.fold_children_with(self);
 
         self.var_decl_kind = old;
 
@@ -517,11 +501,9 @@ impl Fold<VarDecl> for BlockScoping {
             ..var
         }
     }
-}
 
-impl Fold<VarDeclarator> for BlockScoping {
-    fn fold(&mut self, var: VarDeclarator) -> VarDeclarator {
-        let var = var.fold_children(self);
+    fn fold_var_declarator(&mut self, var: VarDeclarator) -> VarDeclarator {
+        let var = var.fold_children_with(self);
 
         let init = if self.in_loop_body() && var.init.is_none() {
             if self.var_decl_kind == VarDeclKind::Var {
@@ -535,24 +517,31 @@ impl Fold<VarDeclarator> for BlockScoping {
 
         VarDeclarator { init, ..var }
     }
-}
 
-impl Fold<Ident> for BlockScoping {
-    fn fold(&mut self, node: Ident) -> Ident {
-        let id = node.to_id();
-        self.mark_as_used(id);
+    fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
+        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
-        node
+        let test = node.test.fold_with(self);
+
+        WhileStmt { body, test, ..node }
+    }
+
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 }
 
-impl<T> Fold<Vec<T>> for BlockScoping
-where
-    T: StmtLike,
-    Vec<T>: FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        let mut stmts = stmts.fold_children(self);
+impl BlockScoping {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike,
+        Vec<T>: FoldWith<Self>,
+    {
+        let mut stmts = stmts.fold_children_with(self);
 
         if !self.vars.is_empty() {
             prepend(
@@ -575,7 +564,7 @@ where
 {
     let mut vars = vec![];
     let mut v = VarCollector { to: &mut vars };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
     vars
 }
@@ -588,7 +577,7 @@ where
         vars: ids,
         found: false,
     };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 }
 
 /// In the code below,
@@ -605,28 +594,12 @@ struct InfectionFinder<'a> {
 
 noop_visit_type!(InfectionFinder<'_>);
 
-impl Visit<VarDeclarator> for InfectionFinder<'_> {
-    fn visit(&mut self, node: &VarDeclarator) {
+impl Visit for InfectionFinder<'_> {
+    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         let old = self.found;
         self.found = false;
 
-        node.init.visit_with(self);
-
-        if self.found {
-            let ids = find_ids(&node.name);
-            self.vars.extend(ids);
-        }
-
-        self.found = old;
-    }
-}
-
-impl Visit<AssignExpr> for InfectionFinder<'_> {
-    fn visit(&mut self, node: &AssignExpr) {
-        let old = self.found;
-        self.found = false;
-
-        node.right.visit_with(self);
+        node.right.visit_with(node as _, self);
 
         if self.found {
             let ids = find_ids(&node.left);
@@ -635,24 +608,8 @@ impl Visit<AssignExpr> for InfectionFinder<'_> {
 
         self.found = old;
     }
-}
 
-impl Visit<MemberExpr> for InfectionFinder<'_> {
-    fn visit(&mut self, e: &MemberExpr) {
-        if self.found {
-            return;
-        }
-
-        e.obj.visit_with(self);
-
-        if e.computed {
-            e.prop.visit_with(self);
-        }
-    }
-}
-
-impl Visit<Ident> for InfectionFinder<'_> {
-    fn visit(&mut self, i: &Ident) {
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if self.found {
             return;
         }
@@ -663,6 +620,32 @@ impl Visit<Ident> for InfectionFinder<'_> {
                 break;
             }
         }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        e.obj.visit_with(e as _, self);
+
+        if e.computed {
+            e.prop.visit_with(e as _, self);
+        }
+    }
+
+    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+        let old = self.found;
+        self.found = false;
+
+        node.init.visit_with(node as _, self);
+
+        if self.found {
+            let ids = find_ids(&node.name);
+            self.vars.extend(ids);
+        }
+
+        self.found = old;
     }
 }
 
@@ -676,20 +659,16 @@ struct FlowHelper {
 noop_fold_type!(FlowHelper);
 
 /// noop
-impl Fold<Function> for FlowHelper {
-    fn fold(&mut self, f: Function) -> Function {
+impl Fold for FlowHelper {
+    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         f
     }
-}
 
-impl Fold<ArrowExpr> for FlowHelper {
-    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+    fn fold_function(&mut self, f: Function) -> Function {
         f
     }
-}
 
-impl Fold<Stmt> for FlowHelper {
-    fn fold(&mut self, node: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, node: Stmt) -> Stmt {
         let span = node.span();
 
         match node {
@@ -697,22 +676,25 @@ impl Fold<Stmt> for FlowHelper {
                 self.has_continue = true;
                 return Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(box Expr::Lit(Lit::Str(Str {
-                        span,
-                        value: "continue".into(),
-                        has_escape: false,
-                    }))),
+                    arg: Some(
+                        Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: "continue".into(),
+                            has_escape: false,
+                        }))
+                        .into(),
+                    ),
                 });
             }
             Stmt::Break(..) => {
                 self.has_break = true;
                 return Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(box Expr::Lit(Lit::Str(Str {
+                    arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: "break".into(),
                         has_escape: false,
-                    }))),
+                    })))),
                 });
             }
             Stmt::Return(s) => {
@@ -721,22 +703,22 @@ impl Fold<Stmt> for FlowHelper {
 
                 return Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(box Expr::Object(ObjectLit {
+                    arg: Some(Box::new(Expr::Object(ObjectLit {
                         span,
-                        props: vec![PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                        props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
                             value: s.arg.unwrap_or_else(|| {
-                                box Expr::Unary(UnaryExpr {
+                                Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
                                     op: UnaryOp::Void,
                                     arg: undefined(DUMMY_SP),
-                                })
+                                }))
                             }),
-                        }))],
-                    })),
+                        })))],
+                    }))),
                 });
             }
-            _ => node.fold_children(self),
+            _ => node.fold_children_with(self),
         }
     }
 }
@@ -748,8 +730,8 @@ struct FunctionFinder {
 
 noop_visit_type!(FunctionFinder);
 
-impl Visit<Function> for FunctionFinder {
-    fn visit(&mut self, _: &Function) {
+impl Visit for FunctionFinder {
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {
         self.found = true
     }
 }

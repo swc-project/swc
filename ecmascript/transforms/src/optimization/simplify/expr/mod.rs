@@ -1,14 +1,25 @@
-use crate::{pass::RepeatedJsPass, util::*};
+use crate::{ext::ExprRefExt, pass::RepeatedJsPass, util::*};
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    Fold, FoldWith, Span, Spanned,
+    Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
+
+macro_rules! try_val {
+    ($v:expr) => {{
+        match $v {
+            Value::Known(v) => v,
+            Value::Unknown => return Value::Unknown,
+        }
+    }};
+}
 
 /// Not intended for general use. Use [simplifier] instead.
 ///
@@ -40,158 +51,6 @@ impl Repeated for SimplifyExpr {
     }
 }
 
-impl Fold<Pat> for SimplifyExpr {
-    fn fold(&mut self, p: Pat) -> Pat {
-        match p {
-            Pat::Assign(a) => AssignPat {
-                right: {
-                    let default = a.right.fold_with(self);
-                    if default.is_undefined()
-                        || match *default {
-                            Expr::Unary(UnaryExpr {
-                                op: op!("void"),
-                                ref arg,
-                                ..
-                            }) => !arg.may_have_side_effects(),
-                            _ => false,
-                        }
-                    {
-                        return *a.left;
-                    }
-
-                    default
-                },
-                ..a
-            }
-            .into(),
-            _ => p,
-        }
-    }
-}
-
-impl Fold<Expr> for SimplifyExpr {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        // fold children before doing something more.
-        let expr = expr.fold_children(self);
-
-        match expr {
-            // Do nothing.
-            Expr::Lit(_) | Expr::This(..) => expr,
-
-            // Remove parenthesis. This may break ast, but it will be fixed up later.
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
-
-            Expr::Unary(expr) => self.fold_unary(expr),
-            Expr::Bin(expr) => self.fold_bin(expr),
-
-            Expr::Member(e) => self.fold_member_expr(e),
-
-            Expr::Cond(CondExpr {
-                span,
-                test,
-                cons,
-                alt,
-            }) => match test.as_bool() {
-                (p, Known(val)) => {
-                    let expr_value = if val { cons } else { alt };
-                    if p.is_pure() {
-                        *expr_value
-                    } else {
-                        Expr::Seq(SeqExpr {
-                            span,
-                            exprs: vec![test, expr_value],
-                        })
-                    }
-                }
-                _ => Expr::Cond(CondExpr {
-                    span,
-                    test,
-                    cons,
-                    alt,
-                }),
-            },
-
-            // Simplify sequence expression.
-            Expr::Seq(SeqExpr { span, exprs }) => {
-                if exprs.len() == 1 {
-                    //TODO: Respan
-                    *exprs.into_iter().next().unwrap()
-                } else {
-                    assert!(!exprs.is_empty(), "sequence expression should not be empty");
-                    //TODO: remove unused
-                    Expr::Seq(SeqExpr { span, exprs })
-                }
-            }
-
-            Expr::Array(ArrayLit { span, elems, .. }) => {
-                let mut e = Vec::with_capacity(elems.len());
-
-                for elem in elems {
-                    match elem {
-                        Some(ExprOrSpread {
-                            spread: Some(..),
-                            expr: box Expr::Array(ArrayLit { elems, .. }),
-                        }) => e.extend(elems),
-
-                        _ => e.push(elem),
-                    }
-                }
-
-                ArrayLit { span, elems: e }.into()
-            }
-
-            Expr::Object(ObjectLit { span, props, .. }) => {
-                let should_work = props.iter().any(|p| match &*p {
-                    PropOrSpread::Spread(..) => true,
-                    _ => false,
-                });
-                if !should_work {
-                    return ObjectLit { span, props }.into();
-                }
-
-                let mut ps = Vec::with_capacity(props.len());
-
-                for p in props {
-                    match p {
-                        PropOrSpread::Spread(SpreadElement {
-                            expr: box Expr::Object(ObjectLit { props, .. }),
-                            ..
-                        }) => ps.extend(props),
-
-                        _ => ps.push(p),
-                    }
-                }
-
-                ObjectLit { span, props: ps }.into()
-            }
-
-            Expr::New(e) => {
-                if e.callee.is_ident_ref_to(js_word!("String"))
-                    && e.args.is_some()
-                    && e.args.as_ref().unwrap().len() == 1
-                    && e.args.as_ref().unwrap()[0].spread.is_none()
-                    && is_literal(&e.args.as_ref().unwrap()[0].expr)
-                {
-                    let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
-                    if let Known(value) = e.as_string() {
-                        return Expr::Lit(Lit::Str(Str {
-                            span: e.span(),
-                            value: value.into(),
-                            has_escape: false,
-                        }));
-                    }
-                    unreachable!()
-                }
-
-                return NewExpr { ..e }.into();
-            }
-
-            // be conservative.
-            _ => expr,
-        }
-    }
-}
-
 impl SimplifyExpr {
     fn fold_member_expr(&mut self, e: MemberExpr) -> Expr {
         #[derive(Clone, PartialEq, Eq)]
@@ -218,7 +77,7 @@ impl SimplifyExpr {
 
         let obj = match e.obj {
             ExprOrSuper::Super(_) => return Expr::Member(e),
-            ExprOrSuper::Expr(box o) => o,
+            ExprOrSuper::Expr(o) => *o,
         };
 
         match obj {
@@ -249,7 +108,7 @@ impl SimplifyExpr {
                     }
                 }
                 _ => Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(box obj),
+                    obj: ExprOrSuper::Expr(Box::new(obj)),
                     ..e
                 }),
             },
@@ -267,7 +126,7 @@ impl SimplifyExpr {
 
                 if has_spread {
                     return Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(box obj),
+                        obj: ExprOrSuper::Expr(Box::new(obj)),
                         ..e
                     });
                 }
@@ -293,7 +152,7 @@ impl SimplifyExpr {
 
                 if has_spread {
                     return Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(box Expr::Array(ArrayLit { span, elems })),
+                        obj: ExprOrSuper::Expr(Box::new(Expr::Array(ArrayLit { span, elems }))),
                         ..e
                     });
                 }
@@ -313,7 +172,11 @@ impl SimplifyExpr {
                     Some(e) => *e.expr,
                 };
 
-                preserve_effects(span, v, once(box Expr::Array(ArrayLit { span, elems })))
+                preserve_effects(
+                    span,
+                    v,
+                    once(Box::new(Expr::Array(ArrayLit { span, elems }))),
+                )
             }
 
             // { foo: true }['foo']
@@ -327,7 +190,10 @@ impl SimplifyExpr {
 
                     if has_spread {
                         return Expr::Member(MemberExpr {
-                            obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
+                            obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit {
+                                props,
+                                span,
+                            }))),
                             ..e
                         });
                     }
@@ -364,24 +230,24 @@ impl SimplifyExpr {
                                     },
                                     _ => unreachable!(),
                                 },
-                                once(box Expr::Object(ObjectLit { props, span })),
+                                once(Box::new(Expr::Object(ObjectLit { props, span }))),
                             )
                         }
                         None => preserve_effects(
                             span,
                             *undefined(span),
-                            once(box Expr::Object(ObjectLit { props, span })),
+                            once(Box::new(Expr::Object(ObjectLit { props, span }))),
                         ),
                     }
                 }
                 _ => Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
+                    obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit { props, span }))),
                     ..e
                 }),
             },
 
             _ => Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box obj),
+                obj: ExprOrSuper::Expr(Box::new(obj)),
                 ..e
             }),
         }
@@ -675,16 +541,16 @@ impl SimplifyExpr {
                                 span,
                                 left: left_lhs,
                                 op: left_op,
-                                right: box Expr::Lit(Lit::Num(Number { value, span })),
+                                right: Box::new(Expr::Lit(Lit::Num(Number { value, span }))),
                             });
                         }
                     }
-                    left = box Expr::Bin(BinExpr {
+                    left = Box::new(Expr::Bin(BinExpr {
                         left: left_lhs,
                         op: left_op,
                         span: left_span,
                         right: left_rhs,
-                    })
+                    }))
                 }
 
                 (left, right)
@@ -797,10 +663,10 @@ impl SimplifyExpr {
             op!("void") if !may_have_side_effects => {
                 return Expr::Unary(UnaryExpr {
                     op: op!("void"),
-                    arg: box Expr::Lit(Lit::Num(Number {
+                    arg: Box::new(Expr::Lit(Lit::Num(Number {
                         value: 0.0,
                         span: arg.span(),
-                    })),
+                    }))),
                     span,
                 });
             }
@@ -994,15 +860,19 @@ impl SimplifyExpr {
             (
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref li, .. }),
+                    arg: ref la,
                     ..
                 }),
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref ri, .. }),
+                    arg: ref ra,
                     ..
                 }),
-            ) if li == ri => return Known(false),
+            ) if la.as_ident().is_some()
+                && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+            {
+                return Known(false)
+            }
             _ => {}
         }
 
@@ -1023,7 +893,7 @@ impl SimplifyExpr {
 
         // Then, try to evaluate based on the value of the node. Try comparing as
         // numbers.
-        let (lv, rv) = (left.as_number()?, right.as_number()?);
+        let (lv, rv) = (try_val!(left.as_number()), try_val!(right.as_number()));
         if lv.is_nan() || rv.is_nan() {
             return Known(will_negate);
         }
@@ -1033,7 +903,7 @@ impl SimplifyExpr {
 
     /// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
     fn perform_abstract_eq_cmp(&mut self, span: Span, left: &Expr, right: &Expr) -> Value<bool> {
-        let (lt, rt) = (left.get_type()?, right.get_type()?);
+        let (lt, rt) = (try_val!(left.get_type()), try_val!(right.get_type()));
 
         if lt == rt {
             return self.perform_strict_eq_cmp(span, left, right);
@@ -1042,7 +912,7 @@ impl SimplifyExpr {
         match (lt, rt) {
             (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
             (NumberType, StringType) | (_, BoolType) => {
-                let rv = right.as_number()?;
+                let rv = try_val!(right.as_number());
                 self.perform_abstract_eq_cmp(
                     span,
                     left,
@@ -1051,7 +921,7 @@ impl SimplifyExpr {
             }
 
             (StringType, NumberType) | (BoolType, _) => {
-                let lv = left.as_number()?;
+                let lv = try_val!(left.as_number());
                 self.perform_abstract_eq_cmp(
                     span,
                     &Expr::Lit(Lit::Num(Number { value: lv, span })),
@@ -1079,19 +949,23 @@ impl SimplifyExpr {
             (
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref li, .. }),
+                    arg: ref la,
                     ..
                 }),
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref ri, .. }),
+                    arg: ref ra,
                     ..
                 }),
-            ) if li == ri => return Known(true),
+            ) if la.as_ident().is_some()
+                && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+            {
+                return Known(true)
+            }
             _ => {}
         }
 
-        let (lt, rt) = (left.get_type()?, right.get_type()?);
+        let (lt, rt) = (try_val!(left.get_type()), try_val!(right.get_type()));
         // Strict equality can only be true for values of the same type.
         if lt != rt {
             return Known(false);
@@ -1099,9 +973,9 @@ impl SimplifyExpr {
 
         match lt {
             UndefinedType | NullType => Known(true),
-            NumberType => Known(left.as_number()? == right.as_number()?),
+            NumberType => Known(try_val!(left.as_number()) == try_val!(right.as_number())),
             StringType => {
-                let (lv, rv) = (left.as_string()?, right.as_string()?);
+                let (lv, rv) = (try_val!(left.as_string()), try_val!(right.as_string()));
                 // In JS, browsers parse \v differently. So do not consider strings
                 // equal if one contains \v.
                 if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
@@ -1121,10 +995,158 @@ impl SimplifyExpr {
     }
 }
 
-/// Drops unused values
-impl Fold<SeqExpr> for SimplifyExpr {
-    fn fold(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e = e.fold_children(self);
+impl Fold for SimplifyExpr {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        // fold children before doing something more.
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            // Do nothing.
+            Expr::Lit(_) | Expr::This(..) => expr,
+
+            // Remove parenthesis. This may break ast, but it will be fixed up later.
+            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+
+            Expr::Unary(expr) => self.fold_unary(expr),
+            Expr::Bin(expr) => self.fold_bin(expr),
+
+            Expr::Member(e) => self.fold_member_expr(e),
+
+            Expr::Cond(CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+            }) => match test.as_bool() {
+                (p, Known(val)) => {
+                    let expr_value = if val { cons } else { alt };
+                    if p.is_pure() {
+                        *expr_value
+                    } else {
+                        Expr::Seq(SeqExpr {
+                            span,
+                            exprs: vec![test, expr_value],
+                        })
+                    }
+                }
+                _ => Expr::Cond(CondExpr {
+                    span,
+                    test,
+                    cons,
+                    alt,
+                }),
+            },
+
+            // Simplify sequence expression.
+            Expr::Seq(SeqExpr { span, exprs }) => {
+                if exprs.len() == 1 {
+                    //TODO: Respan
+                    *exprs.into_iter().next().unwrap()
+                } else {
+                    assert!(!exprs.is_empty(), "sequence expression should not be empty");
+                    //TODO: remove unused
+                    Expr::Seq(SeqExpr { span, exprs })
+                }
+            }
+
+            Expr::Array(ArrayLit { span, elems, .. }) => {
+                let mut e = Vec::with_capacity(elems.len());
+
+                for elem in elems {
+                    match elem {
+                        Some(ExprOrSpread {
+                            spread: Some(..),
+                            expr,
+                        }) if expr.is_array() => e.extend(expr.array().unwrap().elems),
+
+                        _ => e.push(elem),
+                    }
+                }
+
+                ArrayLit { span, elems: e }.into()
+            }
+
+            Expr::Object(ObjectLit { span, props, .. }) => {
+                let should_work = props.iter().any(|p| match &*p {
+                    PropOrSpread::Spread(..) => true,
+                    _ => false,
+                });
+                if !should_work {
+                    return ObjectLit { span, props }.into();
+                }
+
+                let mut ps = Vec::with_capacity(props.len());
+
+                for p in props {
+                    match p {
+                        PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
+                            let props = expr.object().unwrap().props;
+                            ps.extend(props)
+                        }
+
+                        _ => ps.push(p),
+                    }
+                }
+
+                ObjectLit { span, props: ps }.into()
+            }
+
+            Expr::New(e) => {
+                if e.callee.is_ident_ref_to(js_word!("String"))
+                    && e.args.is_some()
+                    && e.args.as_ref().unwrap().len() == 1
+                    && e.args.as_ref().unwrap()[0].spread.is_none()
+                    && is_literal(&e.args.as_ref().unwrap()[0].expr)
+                {
+                    let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
+                    if let Known(value) = e.as_string() {
+                        return Expr::Lit(Lit::Str(Str {
+                            span: e.span(),
+                            value: value.into(),
+                            has_escape: false,
+                        }));
+                    }
+                    unreachable!()
+                }
+
+                return NewExpr { ..e }.into();
+            }
+
+            // be conservative.
+            _ => expr,
+        }
+    }
+
+    fn fold_pat(&mut self, p: Pat) -> Pat {
+        match p {
+            Pat::Assign(a) => AssignPat {
+                right: {
+                    let default = a.right.fold_with(self);
+                    if default.is_undefined()
+                        || match *default {
+                            Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                ref arg,
+                                ..
+                            }) => !arg.may_have_side_effects(),
+                            _ => false,
+                        }
+                    {
+                        return *a.left;
+                    }
+
+                    default
+                },
+                ..a
+            }
+            .into(),
+            _ => p,
+        }
+    }
+
+    /// Drops unused values
+    fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
+        let mut e = e.fold_children_with(self);
 
         let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");
 
@@ -1146,7 +1168,7 @@ impl Fold<SeqExpr> for SimplifyExpr {
                     if is_simple {
                         exprs.extend(elems.into_iter().filter_map(|e| e).map(|e| e.expr));
                     } else {
-                        exprs.push(box ArrayLit { span, elems }.into());
+                        exprs.push(Box::new(ArrayLit { span, elems }.into()));
                     }
                 }
 

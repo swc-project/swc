@@ -1,10 +1,8 @@
-use crate::{
-    pass::Pass,
-    util::{contains_this_expr, ExprFactory},
-};
-use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use crate::util::{contains_this_expr, ExprFactory};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -13,7 +11,7 @@ use swc_ecma_utils::quote_ident;
 ///## In
 /// ```js
 /// var a = () => {};
-/// var a = (b) => b;
+/// var a = (b) => b;ß
 ///
 /// const double = [1,2,3].map((num) => num * 2);
 /// console.log(double); // [2,4,6]
@@ -54,7 +52,7 @@ use swc_ecma_utils::quote_ident;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow() -> impl Pass {
+pub fn arrow() -> impl Fold {
     Arrow
 }
 
@@ -62,15 +60,15 @@ struct Arrow;
 
 noop_fold_type!(Arrow);
 
-impl Fold<Expr> for Arrow {
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for Arrow {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         // fast path
         if !contains_arrow_expr(&e) {
             return e;
         }
 
         let e = validate!(e);
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Arrow(ArrowExpr {
@@ -120,7 +118,7 @@ impl Fold<Expr> for Arrow {
 
                 Expr::Call(CallExpr {
                     span,
-                    callee: fn_expr.member(quote_ident!("bind")).as_callee(),
+                    callee: fn_expr.make_member(quote_ident!("bind")).as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                     type_args: Default::default(),
                 })
@@ -135,15 +133,15 @@ where
     N: VisitWith<ArrowVisitor>,
 {
     let mut v = ArrowVisitor { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 
 struct ArrowVisitor {
     found: bool,
 }
-impl Visit<ArrowExpr> for ArrowVisitor {
-    fn visit(&mut self, _: &ArrowExpr) {
+impl Visit for ArrowVisitor {
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
         self.found = true;
     }
 }

@@ -1,6 +1,6 @@
 [package]
 name = "swc_common"
-version = "0.6.2"
+version = "0.7.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -8,15 +8,10 @@ documentation = "https://swc-project.github.io/rustdoc/swc_common/"
 description = "Common utilities for the swc project."
 edition = "2018"
 
-[features]
-default = []
-# Enable folder and visitor. Requires nightly compiler.
-fold = ["ast_node/fold"]
-
-
 [dependencies]
-ast_node = { version = "0.6", path = "../macros/ast_node" }
+ast_node = { version = "0.7", path = "../macros/ast_node" }
 from_variant = { version = "0.1", path = "../macros/from_variant" }
+swc_visit = { version = "0.1", path = "../visit" }
 string_cache = "0.8"
 either = "1.5"
 scoped-tls = { version = "1" }

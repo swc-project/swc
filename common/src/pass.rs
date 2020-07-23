@@ -1,86 +1,28 @@
-#[cfg(feature = "fold")]
-use crate::{Fold, FoldWith};
-use serde::export::PhantomData;
 use std::borrow::Cow;
+pub use swc_visit::*;
 
 pub trait CompilerPass {
-    /// Name should follow hyphen-case
     ///
-    /// TODO: timing
+    /// - name should follow hyphen-case.
+    /// - an implementation should return same name
     fn name() -> Cow<'static, str>;
 }
 
-pub trait Repeated: CompilerPass {
-    /// Should run again?
-    fn changed(&self) -> bool;
-
-    /// Reset.
-    fn reset(&mut self);
-}
-
-pub trait RepeatedPass<At>: Repeated + CompilerPass {}
-
-impl<T, P> RepeatedPass<T> for P where P: CompilerPass + Repeated {}
-
-#[derive(Debug, Copy, Clone)]
-pub struct Repeat<P, At>
+impl<V> CompilerPass for Repeat<V>
 where
-    P: RepeatedPass<At>,
-{
-    pass: P,
-    at: PhantomData<At>,
-}
-
-impl<P, At> Repeat<P, At>
-where
-    P: RepeatedPass<At>,
-{
-    pub fn new(pass: P) -> Self {
-        Self {
-            pass,
-            at: PhantomData,
-        }
-    }
-}
-
-impl<P, At> CompilerPass for Repeat<P, At>
-where
-    P: RepeatedPass<At>,
+    V: CompilerPass + Repeated,
 {
     fn name() -> Cow<'static, str> {
-        format!("Repeat({})", P::name()).into()
+        Cow::Owned(format!("repeat({})", V::name()))
     }
 }
 
-impl<P, At> Repeated for Repeat<P, At>
+impl<A, B> CompilerPass for AndThen<A, B>
 where
-    P: RepeatedPass<At>,
+    A: CompilerPass,
+    B: CompilerPass,
 {
-    fn changed(&self) -> bool {
-        self.pass.changed()
-    }
-
-    fn reset(&mut self) {
-        self.pass.reset()
-    }
-}
-
-#[cfg(feature = "fold")]
-impl<P, At> Fold<At> for Repeat<P, At>
-where
-    At: FoldWith<Self> + FoldWith<P>,
-    P: RepeatedPass<At>,
-{
-    fn fold(&mut self, mut node: At) -> At {
-        loop {
-            self.pass.reset();
-            node = node.fold_with(&mut self.pass);
-
-            if !self.pass.changed() {
-                break;
-            }
-        }
-
-        node
+    fn name() -> Cow<'static, str> {
+        Cow::Owned(format!("{} -> {}", A::name(), B::name()))
     }
 }

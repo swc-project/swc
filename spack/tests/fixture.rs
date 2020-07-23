@@ -1,6 +1,3 @@
-#![feature(box_syntax)]
-#![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
@@ -39,7 +36,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 

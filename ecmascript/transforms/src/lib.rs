@@ -1,10 +1,3 @@
-#![feature(box_patterns)]
-#![feature(box_syntax)]
-#![feature(try_trait)]
-#![feature(specialization)]
-#![feature(core_intrinsics)]
-#![feature(nll)]
-#![feature(trace_macros)]
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
 
@@ -20,6 +13,7 @@ pub use self::{
 
 #[macro_use]
 mod macros;
+mod ext;
 #[cfg(test)]
 #[macro_use]
 mod tests;

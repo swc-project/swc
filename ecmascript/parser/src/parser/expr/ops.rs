@@ -366,6 +366,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 mod tests {
     use super::*;
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_visit::assert_eq_ignore_span;
 
     fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
@@ -377,7 +378,7 @@ mod tests {
 
     #[test]
     fn simple() {
-        testing::assert_eq_ignore_span!(
+        assert_eq_ignore_span!(
             bin("5 + 4 * 7"),
             Box::new(Expr::Bin(BinExpr {
                 span,
@@ -390,7 +391,7 @@ mod tests {
 
     #[test]
     fn same_prec() {
-        testing::assert_eq_ignore_span!(
+        assert_eq_ignore_span!(
             bin("5 + 4 + 7"),
             Box::new(Expr::Bin(BinExpr {
                 span,

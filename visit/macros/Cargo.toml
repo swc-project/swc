@@ -1,0 +1,21 @@
+[package]
+name = "swc_visit_macros"
+version = "0.1.0"
+license = "Apache-2.0/MIT"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+repository = "https://github.com/swc-project/swc.git"
+description = "Visitor generator for stable rustc"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+proc-macro = true
+
+[dependencies]
+swc_macros_common = { version = "0.3", path ="../../macros/common" }
+proc-macro2 = "1"
+pmutil = "0.5.1"
+quote = "1"
+syn = { version = "1", features = ["parsing", "full"] }
+Inflector = "0.11.4"

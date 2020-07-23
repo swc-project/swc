@@ -1,10 +1,5 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
-use swc_common::{chain, Fold, Mark};
-use swc_ecma_ast::Module;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::{
@@ -14,6 +9,7 @@ use swc_ecma_transforms::{
     modules::common_js::common_js,
     resolver,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -22,7 +18,7 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Fold {
     object_rest_spread()
 }
 

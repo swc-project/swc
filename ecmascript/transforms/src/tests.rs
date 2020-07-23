@@ -1,7 +1,4 @@
-use crate::{
-    helpers::{InjectHelpers, HELPERS},
-    pass::Pass,
-};
+use crate::helpers::{InjectHelpers, HELPERS};
 use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
@@ -10,10 +7,12 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, SourceMap};
-use swc_ecma_ast::*;
+use swc_common::{comments::Comments, errors::Handler, FileName, SourceMap};
+use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_utils::{DropSpan, COMMENTS};
+use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
 struct MyHandlers;
@@ -34,10 +33,12 @@ impl<'a> Tester<'a> {
         let out = ::testing::run_test(false, |cm, handler| {
             crate::util::HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
-                    op(&mut Tester {
-                        cm,
-                        handler,
-                        comments: Comments::default(),
+                    COMMENTS.set(&Comments::default(), || {
+                        op(&mut Tester {
+                            cm,
+                            handler,
+                            comments: Comments::default(),
+                        })
                     })
                 })
             })
@@ -103,7 +104,7 @@ impl<'a> Tester<'a> {
         Ok(stmts.pop().unwrap())
     }
 
-    pub fn apply_transform<T: Fold<Module>>(
+    pub fn apply_transform<T: Fold>(
         &mut self,
         mut tr: T,
         name: &str,
@@ -127,26 +128,28 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut ::testing::DropSpan)
+            .fold_with(&mut DropSpan {
+                preserve_ctxt: true,
+            })
             .fold_with(&mut Normalizer);
 
         Ok(module)
     }
 
     pub fn print(&mut self, module: &Module) -> String {
-        let handlers = box MyHandlers;
+        let handlers = Box::new(MyHandlers);
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
                 cm: self.cm.clone(),
-                wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
                     &mut wr,
                     None,
-                ),
+                )),
                 comments: None,
                 handlers,
             };
@@ -161,10 +164,10 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Pass
+fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
-    P: Pass,
+    P: Fold,
 {
     op(tester)
 }
@@ -188,10 +191,17 @@ pub(crate) fn test_transform<F, P>(
     ok_if_code_eq: bool,
 ) where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     crate::tests::Tester::run(|tester| {
-        let expected =
-            tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
+        let expected = tester.apply_transform(
+            ::swc_ecma_utils::DropSpan {
+                preserve_ctxt: true,
+            },
+            "output.js",
+            syntax,
+            expected,
+        )?;
 
         println!("----- Actual -----");
 
@@ -286,6 +296,7 @@ macro_rules! exec_tr {
 pub(crate) fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     Tester::run(|tester| {
         let tr = make_tr(test_name, tr, tester);
@@ -397,18 +408,22 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
-        match n {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            _ => n,
+impl Fold for Normalizer {
+    fn fold_pat_or_expr(&mut self, mut n: PatOrExpr) -> PatOrExpr {
+        if let PatOrExpr::Pat(pat) = n {
+            if let Pat::Expr(expr) = *pat {
+                return PatOrExpr::Expr(expr);
+            }
+            n = PatOrExpr::Pat(pat);
         }
+
+        n
     }
 }
 
 pub(crate) struct HygieneVisualizer;
-impl Fold<Ident> for HygieneVisualizer {
-    fn fold(&mut self, ident: Ident) -> Ident {
+impl Fold for HygieneVisualizer {
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
             sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
             ..ident

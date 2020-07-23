@@ -1,10 +1,5 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
-use swc_common::{chain, Fold};
-use swc_ecma_ast::Module;
+use swc_common::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     modules::{
@@ -13,6 +8,7 @@ use swc_ecma_transforms::{
     },
     resolver,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -21,7 +17,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr(config: Config) -> impl Fold<Module> {
+fn tr(config: Config) -> impl Fold {
     chain!(resolver(), amd(config))
 }
 

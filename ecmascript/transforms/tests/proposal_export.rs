@@ -1,12 +1,7 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
-use swc_common::Fold;
-use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::proposals::export;
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -24,7 +19,7 @@ fn syntax_namespace() -> Syntax {
     })
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Fold {
     export()
 }
 

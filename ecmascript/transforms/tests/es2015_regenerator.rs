@@ -1,16 +1,12 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::{es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator},
     modules::common_js::common_js,
-    pass::Pass,
     resolver,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -19,7 +15,7 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr(_: ()) -> impl Pass {
+fn tr(_: ()) -> impl Fold {
     chain!(resolver(), regenerator(Mark::fresh(Mark::root())))
 }
 

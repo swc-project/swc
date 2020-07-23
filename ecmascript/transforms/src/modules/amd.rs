@@ -2,18 +2,16 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::{
-    pass::Pass,
-    util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
-};
+use crate::util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
+use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
-pub fn amd(config: Config) -> impl Pass {
+pub fn amd(config: Config) -> impl Fold {
     Amd {
         config,
         in_top_level: Default::default(),
@@ -41,8 +39,14 @@ pub struct Config {
     pub config: util::Config,
 }
 
-impl Fold<Module> for Amd {
-    fn fold(&mut self, module: Module) -> Module {
+impl Fold for Amd {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let top_level = self.in_top_level;
+
+        Scope::fold_expr(self, self.exports.0.clone(), top_level, expr)
+    }
+
+    fn fold_module(&mut self, module: Module) -> Module {
         let items = module.body;
         self.in_top_level = true;
 
@@ -151,11 +155,11 @@ impl Fold<Module> for Amd {
                             append_to.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(
-                                        box exports_ident.clone().member(ident.clone()),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        exports_ident.clone().make_member(ident.clone()),
+                                    )),
                                     op: op!("="),
-                                    right: box ident.into(),
+                                    right: Box::new(ident.into()),
                                 }
                                 .into_stmt(),
                             );
@@ -166,14 +170,17 @@ impl Fold<Module> for Amd {
                         }) => {
                             extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
 
-                            var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.declared_vars,
-                            });
+                            var.decls.visit_with(
+                                &Invalid { span: DUMMY_SP } as _,
+                                &mut VarCollector {
+                                    to: &mut self.scope.declared_vars,
+                                },
+                            );
 
                             let mut found: Vec<Ident> = vec![];
                             for decl in var.decls {
                                 let mut v = DestructuringFinder { found: &mut found };
-                                decl.visit_with(&mut v);
+                                decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
                                 for ident in found.drain(..) {
                                     self.scope
@@ -186,11 +193,11 @@ impl Fold<Module> for Amd {
                                     extra_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(
-                                                box exports_ident.clone().member(ident.clone()),
-                                            ),
+                                            left: PatOrExpr::Expr(Box::new(
+                                                exports_ident.clone().make_member(ident.clone()),
+                                            )),
                                             op: op!("="),
-                                            right: box ident.into(),
+                                            right: Box::new(ident.into()),
                                         }
                                         .into_stmt(),
                                     );
@@ -213,13 +220,13 @@ impl Fold<Module> for Amd {
                                 extra_stmts.push(
                                     AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(
-                                            box exports_ident
+                                        left: PatOrExpr::Expr(Box::new(
+                                            exports_ident
                                                 .clone()
-                                                .member(quote_ident!("default")),
-                                        ),
+                                                .make_member(quote_ident!("default")),
+                                        )),
                                         op: op!("="),
-                                        right: box ident.into(),
+                                        right: Box::new(ident.into()),
                                     }
                                     .into_stmt(),
                                 );
@@ -233,13 +240,13 @@ impl Fold<Module> for Amd {
                                 extra_stmts.push(
                                     AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(
-                                            box exports_ident
+                                        left: PatOrExpr::Expr(Box::new(
+                                            exports_ident
                                                 .clone()
-                                                .member(quote_ident!("default")),
-                                        ),
+                                                .make_member(quote_ident!("default")),
+                                        )),
                                         op: op!("="),
-                                        right: box ident.clone().into(),
+                                        right: Box::new(ident.clone().into()),
                                     }
                                     .into_stmt(),
                                 );
@@ -274,11 +281,11 @@ impl Fold<Module> for Amd {
                             extra_stmts.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(
-                                        box exports_ident.clone().member(quote_ident!("default")),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        exports_ident.clone().make_member(quote_ident!("default")),
+                                    )),
                                     op: op!("="),
-                                    right: box ident.into(),
+                                    right: Box::new(ident.into()),
                                 }
                                 .into_stmt(),
                             );
@@ -334,10 +341,10 @@ impl Fold<Module> for Amd {
                                 }
 
                                 let value = match imported {
-                                    Some(ref imported) => {
-                                        box imported.clone().unwrap().member(orig.clone())
-                                    }
-                                    None => box Expr::Ident(orig.clone()).fold_with(self),
+                                    Some(ref imported) => Box::new(
+                                        imported.clone().unwrap().make_member(orig.clone()),
+                                    ),
+                                    None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
                                 };
 
                                 // True if we are exporting our own stuff.
@@ -356,11 +363,11 @@ impl Fold<Module> for Amd {
                                     extra_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(
-                                                box exports_ident
+                                            left: PatOrExpr::Expr(Box::new(
+                                                exports_ident
                                                     .clone()
-                                                    .member(exported.unwrap_or(orig)),
-                                            ),
+                                                    .make_member(exported.unwrap_or(orig)),
+                                            )),
                                             op: op!("="),
                                             right: value,
                                         }
@@ -430,7 +437,7 @@ impl Fold<Module> for Amd {
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(exported_names.clone()),
-                        init: Some(box Expr::Object(ObjectLit {
+                        init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
                                 .into_iter()
@@ -439,16 +446,18 @@ impl Fold<Module> for Amd {
                                         return None;
                                     }
 
-                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(Ident::new(export, DUMMY_SP)),
-                                        value: box Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        })),
-                                    })))
+                                    Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                        KeyValueProp {
+                                            key: PropName::Ident(Ident::new(export, DUMMY_SP)),
+                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                                span: DUMMY_SP,
+                                                value: true,
+                                            }))),
+                                        },
+                                    ))))
                                 })
                                 .collect(),
-                        })),
+                        }))),
                         definite: false,
                     }],
                     declare: false,
@@ -497,7 +506,7 @@ impl Fold<Module> for Amd {
                 if let Some(&wildcard) = ty {
                     if !self.config.config.no_interop {
                         let imported = ident.clone();
-                        let right = box Expr::Call(CallExpr {
+                        let right = Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: if wildcard {
                                 helper!(interop_require_wildcard, "interopRequireWildcard")
@@ -506,11 +515,11 @@ impl Fold<Module> for Amd {
                             },
                             args: vec![imported.as_arg()],
                             type_args: Default::default(),
-                        });
+                        }));
                         import_stmts.push(
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone()))),
                                 op: op!("="),
                                 right,
                             }
@@ -566,37 +575,28 @@ impl Fold<Module> for Amd {
             ..module
         }
     }
-}
 
-impl Fold<Prop> for Amd {
-    fn fold(&mut self, p: Prop) -> Prop {
+    fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
             Prop::Shorthand(ident) => {
                 let top_level = self.in_top_level;
                 Scope::fold_shorthand_prop(self, top_level, ident)
             }
 
-            _ => p.fold_children(self),
+            _ => p.fold_children_with(self),
         }
     }
-}
 
-impl Fold<Expr> for Amd {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let top_level = self.in_top_level;
-
-        Scope::fold_expr(self, self.exports.0.clone(), top_level, expr)
-    }
-}
-
-impl Fold<VarDecl> for Amd {
     ///
     /// - collects all declared variables for let and var.
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
-            var.decls.visit_with(&mut VarCollector {
-                to: &mut self.scope.declared_vars,
-            });
+            var.decls.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut VarCollector {
+                    to: &mut self.scope.declared_vars,
+                },
+            );
         }
 
         VarDecl {
@@ -604,6 +604,8 @@ impl Fold<VarDecl> for Amd {
             ..var
         }
     }
+
+    mark_as_nested!();
 }
 
 impl ModulePass for Amd {
@@ -619,4 +621,3 @@ impl ModulePass for Amd {
         &mut self.scope
     }
 }
-mark_as_nested!(Amd);

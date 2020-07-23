@@ -3,16 +3,14 @@ use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
     make_require_call, use_strict, ModulePass, Scope,
 };
-use crate::{
-    pass::Pass,
-    util::{var::VarCollector, DestructuringFinder, ExprFactory},
-};
+use crate::util::{var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
+use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
-pub fn common_js(root_mark: Mark, config: Config) -> impl Pass {
+pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
     CommonJs {
         root_mark,
         config,
@@ -30,8 +28,8 @@ struct CommonJs {
 
 noop_fold_type!(CommonJs);
 
-impl Fold<Vec<ModuleItem>> for CommonJs {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold for CommonJs {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
@@ -135,11 +133,11 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             append_to.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(
-                                        box quote_ident!("exports").member(ident.clone()),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        quote_ident!("exports").make_member(ident.clone()),
+                                    )),
                                     op: op!("="),
-                                    right: box ident.into(),
+                                    right: Box::new(ident.into()),
                                 }
                                 .into_stmt()
                                 .into(),
@@ -153,14 +151,17 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 var.clone().fold_with(self),
                             ))));
 
-                            var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.declared_vars,
-                            });
+                            var.decls.visit_with(
+                                &Invalid { span: DUMMY_SP } as _,
+                                &mut VarCollector {
+                                    to: &mut self.scope.declared_vars,
+                                },
+                            );
 
                             let mut found: Vec<Ident> = vec![];
                             for decl in var.decls {
                                 let mut v = DestructuringFinder { found: &mut found };
-                                decl.visit_with(&mut v);
+                                decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
                                 for ident in found.drain(..) {
                                     self.scope
@@ -173,11 +174,11 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     extra_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(
-                                                box quote_ident!("exports").member(ident.clone()),
-                                            ),
+                                            left: PatOrExpr::Expr(Box::new(
+                                                quote_ident!("exports").make_member(ident.clone()),
+                                            )),
                                             op: op!("="),
-                                            right: box ident.into(),
+                                            right: Box::new(ident.into()),
                                         }
                                         .into_stmt()
                                         .into(),
@@ -212,7 +213,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                                 exports.default
                                             )),
                                             op: op!("="),
-                                            right: box ident.into(),
+                                            right: Box::new(ident.into()),
                                         }
                                         .into_stmt()
                                         .into(),
@@ -240,7 +241,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                                 exports.default
                                             )),
                                             op: op!("="),
-                                            right: box ident.into(),
+                                            right: Box::new(ident.into()),
                                         }
                                         .into_stmt()
                                         .into(),
@@ -276,7 +277,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
                                     op: op!("="),
-                                    right: box ident.into(),
+                                    right: Box::new(ident.into()),
                                 }
                                 .into_stmt()
                                 .into(),
@@ -364,10 +365,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 self.in_top_level = is_top_level;
 
                                 let value = match imported {
-                                    Some(ref imported) => {
-                                        box imported.clone().unwrap().member(orig.clone())
-                                    }
-                                    None => box Expr::Ident(orig.clone()).fold_with(self),
+                                    Some(ref imported) => Box::new(
+                                        imported.clone().unwrap().make_member(orig.clone()),
+                                    ),
+                                    None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
                                 };
 
                                 // True if we are exporting our own stuff.
@@ -388,10 +389,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     extra_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(
-                                                box quote_ident!("exports")
-                                                    .member(exported.unwrap_or(orig)),
-                                            ),
+                                            left: PatOrExpr::Expr(Box::new(
+                                                quote_ident!("exports")
+                                                    .make_member(exported.unwrap_or(orig)),
+                                            )),
                                             op: op!("="),
                                             right: value,
                                         }
@@ -439,7 +440,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(exported_names.clone()),
-                        init: Some(box Expr::Object(ObjectLit {
+                        init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
                                 .into_iter()
@@ -448,16 +449,18 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                         return None;
                                     }
 
-                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(Ident::new(export, DUMMY_SP)),
-                                        value: box Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        })),
-                                    })))
+                                    Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                        KeyValueProp {
+                                            key: PropName::Ident(Ident::new(export, DUMMY_SP)),
+                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                                span: DUMMY_SP,
+                                                value: true,
+                                            }))),
+                                        },
+                                    ))))
                                 })
                                 .collect(),
-                        })),
+                        }))),
                         definite: false,
                     }],
                     declare: false,
@@ -501,19 +504,19 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     let ty = self.scope.import_types.get(&src);
 
                     let rhs = match ty {
-                        Some(true) if !self.config.no_interop => box Expr::Call(CallExpr {
+                        Some(true) if !self.config.no_interop => Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
                             args: vec![require.as_arg()],
                             type_args: Default::default(),
-                        }),
-                        Some(false) if !self.config.no_interop => box Expr::Call(CallExpr {
+                        })),
+                        Some(false) if !self.config.no_interop => Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(interop_require_default, "interopRequireDefault"),
                             args: vec![require.as_arg()],
                             type_args: Default::default(),
-                        }),
-                        _ => box require,
+                        })),
+                        _ => Box::new(require),
                     };
 
                     let ident = Ident::new(import.0, import.1);
@@ -521,7 +524,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     if lazy {
                         let return_data = Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(box quote_ident!("data").into()),
+                            arg: Some(Box::new(quote_ident!("data").into())),
                         });
 
                         stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
@@ -549,25 +552,27 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                         // foo = function() { return data; };
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(box Pat::Ident(ident)),
+                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ident))),
                                             op: op!("="),
-                                            right: box FnExpr {
-                                                ident: None,
-                                                function: Function {
-                                                    span: DUMMY_SP,
-                                                    is_async: false,
-                                                    is_generator: false,
-                                                    decorators: Default::default(),
-                                                    body: Some(BlockStmt {
+                                            right: Box::new(
+                                                FnExpr {
+                                                    ident: None,
+                                                    function: Function {
                                                         span: DUMMY_SP,
-                                                        stmts: vec![return_data.clone()],
-                                                    }),
-                                                    params: vec![],
-                                                    type_params: Default::default(),
-                                                    return_type: Default::default(),
-                                                },
-                                            }
-                                            .into(),
+                                                        is_async: false,
+                                                        is_generator: false,
+                                                        decorators: Default::default(),
+                                                        body: Some(BlockStmt {
+                                                            span: DUMMY_SP,
+                                                            stmts: vec![return_data.clone()],
+                                                        }),
+                                                        params: vec![],
+                                                        type_params: Default::default(),
+                                                        return_type: Default::default(),
+                                                    },
+                                                }
+                                                .into(),
+                                            ),
                                         }
                                         .into_stmt(),
                                         // return data
@@ -604,36 +609,33 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
         stmts
     }
-}
 
-impl Fold<Expr> for CommonJs {
-    fn fold(&mut self, expr: Expr) -> Expr {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let top_level = self.in_top_level;
         Scope::fold_expr(self, quote_ident!("exports"), top_level, expr)
     }
-}
 
-impl Fold<Prop> for CommonJs {
-    fn fold(&mut self, p: Prop) -> Prop {
+    fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
             Prop::Shorthand(ident) => {
                 let top_level = self.in_top_level;
                 Scope::fold_shorthand_prop(self, top_level, ident)
             }
 
-            _ => p.fold_children(self),
+            _ => p.fold_children_with(self),
         }
     }
-}
 
-impl Fold<VarDecl> for CommonJs {
     ///
     /// - collects all declared variables for let and var.
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
-            var.decls.visit_with(&mut VarCollector {
-                to: &mut self.scope.declared_vars,
-            });
+            var.decls.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut VarCollector {
+                    to: &mut self.scope.declared_vars,
+                },
+            );
         }
 
         VarDecl {
@@ -641,16 +643,16 @@ impl Fold<VarDecl> for CommonJs {
             ..var
         }
     }
-}
 
-impl Fold<FnDecl> for CommonJs {
-    fn fold(&mut self, node: FnDecl) -> FnDecl {
+    fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
         self.scope
             .declared_vars
             .push((node.ident.sym.clone(), node.ident.span.ctxt()));
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
+
+    mark_as_nested!();
 }
 
 impl ModulePass for CommonJs {
@@ -666,5 +668,3 @@ impl ModulePass for CommonJs {
         &mut self.scope
     }
 }
-
-mark_as_nested!(CommonJs);

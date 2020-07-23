@@ -2,8 +2,6 @@ use super::{pat::PatType, *};
 use crate::{error::SyntaxError, make_span};
 use swc_atoms::js_word;
 use swc_common::Spanned;
-#[cfg(test)]
-use testing::assert_eq_ignore_span;
 
 mod module_item;
 
@@ -1153,6 +1151,7 @@ mod tests {
     use super::*;
     use crate::{EsConfig, TsConfig};
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_visit::assert_eq_ignore_span;
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| {
@@ -1206,7 +1205,7 @@ mod tests {
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,
-                            arg: box Pat::Ident(Ident::new("a34".into(), span)),
+                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span))),
                             type_ann: None
                         })],
                         type_ann: None,
@@ -1251,9 +1250,9 @@ mod tests {
                     }],
                     declare: false,
                 }),
-                right: box Expr::Ident(Ident::new("b".into(), span)),
+                right: Box::new(Expr::Ident(Ident::new("b".into(), span))),
 
-                body: box Stmt::Empty(EmptyStmt { span })
+                body: Box::new(Stmt::Empty(EmptyStmt { span })),
             })
         )
     }
@@ -1285,8 +1284,8 @@ mod tests {
             Stmt::If(IfStmt {
                 span,
                 test: expr("a"),
-                cons: box stmt("b;"),
-                alt: Some(box stmt("c")),
+                cons: Box::new(stmt("b;")),
+                alt: Some(Box::new(stmt("c"))),
             })
         );
     }

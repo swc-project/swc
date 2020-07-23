@@ -2386,7 +2386,7 @@ mod tests {
     };
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
-    use testing::assert_eq_ignore_span;
+    use swc_ecma_visit::assert_eq_ignore_span;
 
     #[test]
     fn issue_708_1() {
@@ -2405,13 +2405,13 @@ mod tests {
                     declare: false,
                     id: Ident::new("test".into(), DUMMY_SP),
                     type_params: None,
-                    type_ann: box TsType::TsLitType(TsLitType {
+                    type_ann: Box::new(TsType::TsLitType(TsLitType {
                         span: DUMMY_SP,
                         lit: TsLit::Number(Number {
                             span: DUMMY_SP,
                             value: -1.0,
                         }),
-                    }),
+                    })),
                 })));
                 vec![first]
             },
@@ -2439,14 +2439,14 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(Ident::new("t".into(), DUMMY_SP)),
-                        init: Some(box Expr::Unary(UnaryExpr {
+                        init: Some(Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!(unary, "-"),
-                            arg: box Expr::Lit(Lit::Num(Number {
+                            arg: Box::new(Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
-                            })),
-                        })),
+                            }))),
+                        }))),
                         definite: false,
                     }],
                 })));

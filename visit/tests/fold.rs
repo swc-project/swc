@@ -1,5 +1,5 @@
 use std::any::Any;
-use swc_ecma_visit_macros::define;
+use swc_visit::define;
 
 /// Visitable nodes.
 pub trait Node: Any {}

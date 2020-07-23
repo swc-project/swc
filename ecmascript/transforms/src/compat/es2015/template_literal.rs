@@ -1,8 +1,9 @@
 use crate::util::{is_literal, prepend_stmts, ExprFactory, StmtLike};
 use std::{iter, mem};
 use swc_atoms::js_word;
-use swc_common::{BytePos, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[derive(Default, Clone)]
 pub struct TemplateLiteral {
@@ -11,31 +12,11 @@ pub struct TemplateLiteral {
 
 noop_fold_type!(TemplateLiteral);
 
-impl Fold<Module> for TemplateLiteral {
-    fn fold(&mut self, m: Module) -> Module {
-        let mut body = m.body.fold_children(self);
-
-        prepend_stmts(&mut body, self.added.drain(..).map(ModuleItem::from_stmt));
-
-        Module { body, ..m }
-    }
-}
-
-impl Fold<Script> for TemplateLiteral {
-    fn fold(&mut self, m: Script) -> Script {
-        let mut body = m.body.fold_children(self);
-
-        prepend_stmts(&mut body, self.added.drain(..));
-
-        Script { body, ..m }
-    }
-}
-
-impl Fold<Expr> for TemplateLiteral {
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for TemplateLiteral {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = validate!(e);
 
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
         let e = validate!(e);
 
         match e {
@@ -50,13 +31,15 @@ impl Fold<Expr> for TemplateLiteral {
                 // TODO: Optimize
 
                 // This makes result of addition string
-                let mut obj: Box<Expr> = box Lit::Str(
-                    quasis[0]
-                        .cooked
-                        .clone()
-                        .unwrap_or_else(|| quasis[0].raw.clone()),
-                )
-                .into();
+                let mut obj: Box<Expr> = Box::new(
+                    Lit::Str(
+                        quasis[0]
+                            .cooked
+                            .clone()
+                            .unwrap_or_else(|| quasis[0].raw.clone()),
+                    )
+                    .into(),
+                );
 
                 let len = quasis.len() + exprs.len();
 
@@ -76,7 +59,7 @@ impl Fold<Expr> for TemplateLiteral {
 
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
-                                box Lit::Str(cooked.unwrap_or_else(|| raw)).into()
+                                Box::new(Lit::Str(cooked.unwrap_or_else(|| raw)).into())
                             }
                             _ => unreachable!(),
                         }
@@ -118,19 +101,19 @@ impl Fold<Expr> for TemplateLiteral {
                                     has_escape: r_has_escape,
                                 })) = *expr
                                 {
-                                    obj = box Expr::Lit(Lit::Str(Str {
+                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
                                         span: span.with_hi(r_span.hi()),
                                         value: format!("{}{}", value, r_value).into(),
                                         has_escape: has_escape || r_has_escape,
-                                    }));
+                                    })));
 
                                     continue;
                                 } else {
-                                    obj = box Expr::Lit(Lit::Str(Str {
+                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
                                         span,
                                         value,
                                         has_escape,
-                                    }))
+                                    })))
                                 }
                             }
                         }
@@ -140,36 +123,36 @@ impl Fold<Expr> for TemplateLiteral {
                         }
 
                         if last && !args.is_empty() {
-                            obj = box validate!(Expr::Call(CallExpr {
+                            obj = Box::new(Expr::Call(CallExpr {
                                 span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
                                     obj: ExprOrSuper::Expr(validate!(obj)),
-                                    prop: box Expr::Ident(Ident::new(
+                                    prop: Box::new(Expr::Ident(Ident::new(
                                         js_word!("concat"),
-                                        expr_span
-                                    )),
+                                        expr_span,
+                                    ))),
 
                                     computed: false,
-                                })),
+                                }))),
                                 args: mem::replace(&mut args, vec![]),
                                 type_args: Default::default(),
                             }));
                         }
                     } else {
                         if !args.is_empty() {
-                            obj = box validate!(Expr::Call(CallExpr {
+                            obj = Box::new(Expr::Call(CallExpr {
                                 span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
                                     obj: ExprOrSuper::Expr(validate!(obj)),
-                                    prop: box Expr::Ident(Ident::new(
+                                    prop: Box::new(Expr::Ident(Ident::new(
                                         js_word!("concat"),
-                                        expr_span
-                                    )),
+                                        expr_span,
+                                    ))),
 
                                     computed: false,
-                                })),
+                                }))),
                                 args: mem::replace(&mut args, vec![]),
                                 type_args: Default::default(),
                             }));
@@ -221,7 +204,7 @@ impl Fold<Expr> for TemplateLiteral {
                                 span: DUMMY_SP,
                                 name: quote_ident!("data").into(),
                                 definite: false,
-                                init: Some(box Expr::Call(CallExpr {
+                                init: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: helper!(
                                         tagged_template_literal,
@@ -267,7 +250,7 @@ impl Fold<Expr> for TemplateLiteral {
                                         .collect()
                                     },
                                     type_args: Default::default(),
-                                })),
+                                }))),
                             }],
                         };
 
@@ -277,9 +260,9 @@ impl Fold<Expr> for TemplateLiteral {
                         let assign_expr = {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box fn_ident.clone().into()),
+                                left: PatOrExpr::Pat(Box::new(fn_ident.clone().into())),
                                 op: op!("="),
-                                right: box Expr::Fn(FnExpr {
+                                right: Box::new(Expr::Fn(FnExpr {
                                     ident: None,
                                     function: Function {
                                         span: DUMMY_SP,
@@ -290,14 +273,14 @@ impl Fold<Expr> for TemplateLiteral {
                                             span: DUMMY_SP,
                                             stmts: vec![Stmt::Return(ReturnStmt {
                                                 span: DUMMY_SP,
-                                                arg: Some(box quote_ident!("data").into()),
+                                                arg: Some(Box::new(quote_ident!("data").into())),
                                             })],
                                         }),
                                         decorators: Default::default(),
                                         type_params: Default::default(),
                                         return_type: Default::default(),
                                     },
-                                }),
+                                })),
                             })
                         };
 
@@ -309,7 +292,7 @@ impl Fold<Expr> for TemplateLiteral {
                                 assign_expr.into_stmt(),
                                 Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
-                                    arg: Some(box quote_ident!("data").into()),
+                                    arg: Some(Box::new(quote_ident!("data").into())),
                                 }),
                             ],
                         })
@@ -344,5 +327,21 @@ impl Fold<Expr> for TemplateLiteral {
 
             _ => e,
         }
+    }
+
+    fn fold_module(&mut self, m: Module) -> Module {
+        let mut body = m.body.fold_children_with(self);
+
+        prepend_stmts(&mut body, self.added.drain(..).map(ModuleItem::from_stmt));
+
+        Module { body, ..m }
+    }
+
+    fn fold_script(&mut self, m: Script) -> Script {
+        let mut body = m.body.fold_children_with(self);
+
+        prepend_stmts(&mut body, self.added.drain(..));
+
+        Script { body, ..m }
     }
 }

@@ -1,10 +1,7 @@
-use crate::{
-    pass::Pass,
-    util::{
-        drop_span,
-        options::{CM, SESSION},
-        ExprFactory, HANDLER,
-    },
+use crate::util::{
+    drop_span,
+    options::{CM, SESSION},
+    ExprFactory, HANDLER,
 };
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -12,9 +9,10 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{iter::IdentifyLast, FileName, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{iter::IdentifyLast, FileName, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -95,7 +93,7 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(options: Options) -> impl Pass {
+pub fn jsx(options: Options) -> impl Fold {
     Jsx {
         pragma: ExprOrSuper::Expr(parse_option("pragma", options.pragma)),
         pragma_frag: ExprOrSpread {
@@ -194,7 +192,7 @@ impl Jsx {
 
     fn fold_attrs(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
-            return box Expr::Lit(Lit::Null(Null { span: DUMMY_SP }));
+            return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
 
         let is_complex = attrs.iter().any(|a| match *a {
@@ -221,7 +219,7 @@ impl Jsx {
             for attr in attrs {
                 match attr {
                     JSXAttrOrSpread::JSXAttr(a) => {
-                        cur_obj_props.push(PropOrSpread::Prop(box attr_to_prop(a)))
+                        cur_obj_props.push(PropOrSpread::Prop(Box::new(attr_to_prop(a))))
                     }
                     JSXAttrOrSpread::SpreadElement(e) => {
                         check!();
@@ -232,7 +230,7 @@ impl Jsx {
             check!();
 
             // calls `_extends` or `Object.assign`
-            box Expr::Call(CallExpr {
+            Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: {
                     if self.use_builtins {
@@ -243,9 +241,9 @@ impl Jsx {
                 },
                 args,
                 type_args: None,
-            })
+            }))
         } else {
-            box Expr::Object(ObjectLit {
+            Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
                 props: attrs
                     .into_iter()
@@ -258,34 +256,44 @@ impl Jsx {
                     .map(Box::new)
                     .map(PropOrSpread::Prop)
                     .collect(),
-            })
+            }))
         }
     }
 }
 
-impl Fold<Expr> for Jsx {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+impl Fold for Jsx {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let mut expr = expr.fold_children_with(self);
 
-        match expr {
-            Expr::Paren(ParenExpr {
-                expr: box Expr::JSXElement(el),
-                ..
-            })
-            | Expr::JSXElement(el) => {
-                // <div></div> => React.createElement('div', null);
-                self.jsx_elem_to_expr(*el)
-            }
-            Expr::Paren(ParenExpr {
-                expr: box Expr::JSXFragment(frag),
-                ..
-            })
-            | Expr::JSXFragment(frag) => {
-                // <></> => React.createElement(React.Fragment, null);
-                self.jsx_frag_to_expr(frag)
-            }
-            _ => expr,
+        if let Expr::JSXElement(el) = expr {
+            // <div></div> => React.createElement('div', null);
+            return self.jsx_elem_to_expr(*el);
         }
+        if let Expr::JSXFragment(frag) = expr {
+            // <></> => React.createElement(React.Fragment, null);
+            return self.jsx_frag_to_expr(frag);
+        }
+
+        if let Expr::Paren(ParenExpr {
+            span,
+            expr: inner_expr,
+            ..
+        }) = expr
+        {
+            if let Expr::JSXElement(el) = *inner_expr {
+                return self.jsx_elem_to_expr(*el);
+            }
+            if let Expr::JSXFragment(frag) = *inner_expr {
+                // <></> => React.createElement(React.Fragment, null);
+                return self.jsx_frag_to_expr(frag);
+            }
+            expr = Expr::Paren(ParenExpr {
+                span,
+                expr: inner_expr,
+            });
+        }
+
+        expr
     }
 }
 
@@ -298,17 +306,17 @@ impl Jsx {
                 let c = i.sym.chars().next().unwrap();
 
                 if i.sym == js_word!("this") {
-                    return box Expr::This(ThisExpr { span });
+                    return Box::new(Expr::This(ThisExpr { span }));
                 }
 
                 if c.is_ascii_lowercase() {
-                    box Expr::Lit(Lit::Str(Str {
+                    Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: i.sym,
                         has_escape: false,
-                    }))
+                    })))
                 } else {
-                    box Expr::Ident(i)
+                    Box::new(Expr::Ident(i))
                 }
             }
             JSXElementName::JSXNamespacedName(JSXNamespacedName { ref ns, ref name }) => {
@@ -325,11 +333,11 @@ impl Jsx {
                             .emit()
                     });
                 }
-                box Expr::Lit(Lit::Str(Str {
+                Box::new(Expr::Lit(Lit::Str(Str {
                     span,
                     value: format!("{}:{}", ns.sym, name.sym).into(),
                     has_escape: false,
-                }))
+                })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
                 fn convert_obj(obj: JSXObject) -> ExprOrSuper {
@@ -338,25 +346,28 @@ impl Jsx {
                     match obj {
                         JSXObject::Ident(i) => {
                             if i.sym == js_word!("this") {
-                                return ExprOrSuper::Expr(box Expr::This(ThisExpr { span }));
+                                return ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr { span })));
                             }
                             i.as_obj()
                         }
-                        JSXObject::JSXMemberExpr(box JSXMemberExpr { obj, prop }) => MemberExpr {
-                            span,
-                            obj: convert_obj(obj),
-                            prop: box Expr::Ident(prop),
-                            computed: false,
+                        JSXObject::JSXMemberExpr(e) => {
+                            let e = *e;
+                            MemberExpr {
+                                span,
+                                obj: convert_obj(e.obj),
+                                prop: Box::new(Expr::Ident(e.prop)),
+                                computed: false,
+                            }
+                            .as_obj()
                         }
-                        .as_obj(),
                     }
                 }
-                box Expr::Member(MemberExpr {
+                Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: convert_obj(obj),
-                    prop: box Expr::Ident(prop),
+                    prop: Box::new(Expr::Ident(prop)),
                     computed: false,
-                })
+                }))
             }
         }
     }
@@ -371,19 +382,19 @@ fn attr_to_prop(a: JSXAttr) -> Prop {
                 expr: JSXExpr::Expr(e),
                 ..
             }) => e,
-            JSXAttrValue::JSXElement(e) => box Expr::JSXElement(e),
-            JSXAttrValue::JSXFragment(e) => box Expr::JSXFragment(e),
-            JSXAttrValue::Lit(lit) => box lit.into(),
+            JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
+            JSXAttrValue::JSXFragment(e) => Box::new(Expr::JSXFragment(e)),
+            JSXAttrValue::Lit(lit) => Box::new(lit.into()),
             JSXAttrValue::JSXExprContainer(JSXExprContainer {
                 span: _,
                 expr: JSXExpr::JSXEmptyExpr(_),
             }) => unreachable!("attr_to_prop(JSXEmptyExpr)"),
         })
         .unwrap_or_else(|| {
-            box Expr::Lit(Lit::Bool(Bool {
+            Box::new(Expr::Lit(Lit::Bool(Bool {
                 span: key.span(),
                 value: true,
-            }))
+            })))
         });
     Prop::KeyValue(KeyValueProp { key, value })
 }

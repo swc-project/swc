@@ -1,8 +1,9 @@
 use crate::util::{calc_literal_cost, ExprFactory};
 use serde_json::Value;
 use std::usize;
-use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Trnasform to optimize performance of literals.
 ///
@@ -39,9 +40,9 @@ impl Default for JsonParse {
     }
 }
 
-impl Fold<Expr> for JsonParse {
-    /// Hnaldes parent expressions before child expressions.
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for JsonParse {
+    /// Handles parent expressions before child expressions.
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         if self.min_cost == usize::MAX {
             return e;
         }
@@ -75,7 +76,7 @@ impl Fold<Expr> for JsonParse {
             _ => e,
         };
 
-        e.fold_children(self)
+        e.fold_children_with(self)
     }
 }
 
@@ -85,10 +86,10 @@ fn jsonify(e: Expr) -> Value {
             obj.props
                 .into_iter()
                 .map(|v| match v {
-                    PropOrSpread::Prop(box Prop::KeyValue(p)) => p,
+                    PropOrSpread::Prop(p) if p.is_key_value() => p.key_value().unwrap(),
                     _ => unreachable!(),
                 })
-                .map(|p| {
+                .map(|p: KeyValueProp| {
                     let value = jsonify(*p.value);
                     let key = match p.key {
                         PropName::Str(s) => s.value.to_string(),
@@ -119,8 +120,8 @@ mod tests {
     use super::*;
 
     struct Normalizer;
-    impl Fold<Str> for Normalizer {
-        fn fold(&mut self, mut node: Str) -> Str {
+    impl Fold for Normalizer {
+        fn fold_str(&mut self, mut node: Str) -> Str {
             node.has_escape = false;
             node
         }

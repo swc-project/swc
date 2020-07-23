@@ -5,10 +5,11 @@ use crate::{
     lit::Str,
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
 };
+use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
     Import(ImportDecl),
@@ -106,12 +107,13 @@ pub struct ExportDefaultDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum DefaultDecl {
     #[tag("ClassExpression")]
     Class(ClassExpr),
 
     #[tag("FunctionExpression")]
+    #[is(name = "fn_expr")]
     Fn(FnExpr),
 
     #[tag("TsInterfaceDeclaration")]
@@ -119,7 +121,7 @@ pub enum DefaultDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ImportSpecifier {
     #[tag("ImportSpecifier")]
     Named(ImportNamedSpecifier),
@@ -160,7 +162,7 @@ pub struct ImportNamedSpecifier {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ExportSpecifier {
     #[tag("ExportNamespaceSpecifier")]
     Namespace(ExportNamespaceSpecifier),

@@ -1,5 +1,3 @@
-#![feature(box_syntax)]
-
 use once_cell::sync::Lazy;
 use std::{
     fmt::{self, Display, Formatter},

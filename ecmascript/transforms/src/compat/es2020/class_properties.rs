@@ -6,7 +6,6 @@ use self::{
 };
 use crate::{
     compat::es2015::classes::SuperFieldAccessFolder,
-    pass::Pass,
     util::{
         alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
         undefined, ExprFactory, ModuleItemLike, StmtLike,
@@ -14,8 +13,9 @@ use crate::{
 };
 use std::collections::HashSet;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 mod class_name_tdz;
 mod private_field;
@@ -29,7 +29,7 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export defaul class
-pub fn class_properties() -> impl Pass {
+pub fn class_properties() -> impl Fold {
     ClassProperties { mark: Mark::root() }
 }
 
@@ -38,18 +38,118 @@ struct ClassProperties {
     mark: Mark,
 }
 
-impl<T> Fold<Vec<T>> for ClassProperties
-where
-    T: StmtLike + ModuleItemLike + FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for ClassProperties {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        let span = body.span();
+
+        match body {
+            BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
+                let ClassExpr { ident, class } = expr.class().unwrap();
+
+                let mut stmts = vec![];
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(Box::new(Expr::Ident(ident))),
+                }));
+
+                BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
+            }
+            _ => body.fold_children_with(self),
+        }
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            // TODO(kdy1): Make it generate smaller code.
+            //
+            // We currently creates a iife for a class expression.
+            // Although this results in a large code, but it's ok as class expression is rarely used
+            // in wild.
+            Expr::Class(ClassExpr { ident, class }) => {
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let mut stmts = vec![];
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(Box::new(Expr::Ident(ident))),
+                }));
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+                            decorators: vec![],
+                            is_async: false,
+                            is_generator: false,
+                            params: vec![],
+
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            }),
+
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    }
+                    .as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                })
+            }
+            _ => expr,
+        }
+    }
+}
+
+impl ClassProperties {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + ModuleItemLike + FoldWith<Self>,
+    {
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
             match T::try_into_stmt(stmt) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(decl) => {
-                        let decl = decl.fold_children(self);
+                        let decl = decl.fold_children_with(self);
 
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -128,7 +228,7 @@ where
                     Err(..) => unreachable!(),
                 },
                 Ok(stmt) => {
-                    let stmt = stmt.fold_children(self);
+                    let stmt = stmt.fold_children_with(self);
                     // Fold class
                     match stmt {
                         Stmt::Decl(Decl::Class(ClassDecl {
@@ -155,98 +255,6 @@ where
         }
 
         buf
-    }
-}
-
-impl Fold<Expr> for ClassProperties {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
-
-        match expr {
-            // TODO(kdy1): Make it generate smaller code.
-            //
-            // We currently creates a iife for a class expression.
-            // Although this results in a large code, but it's ok as class expression is rarely used
-            // in wild.
-            Expr::Class(ClassExpr { ident, class }) => {
-                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let mut stmts = vec![];
-                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
-
-                if !vars.is_empty() {
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vars,
-                        declare: false,
-                    })));
-                }
-                stmts.push(Stmt::Decl(decl));
-                stmts.append(&mut extra_stmts);
-
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(box Expr::Ident(ident)),
-                }));
-
-                Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: FnExpr {
-                        ident: None,
-                        function: Function {
-                            span: DUMMY_SP,
-                            decorators: vec![],
-                            is_async: false,
-                            is_generator: false,
-                            params: vec![],
-
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts,
-                            }),
-
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        },
-                    }
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                })
-            }
-            _ => expr,
-        }
-    }
-}
-
-impl Fold<BlockStmtOrExpr> for ClassProperties {
-    fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        let span = body.span();
-
-        match body {
-            BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
-                let mut stmts = vec![];
-                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
-                if !vars.is_empty() {
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vars,
-                        declare: false,
-                    })));
-                }
-                stmts.push(Stmt::Decl(decl));
-                stmts.append(&mut extra_stmts);
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(box Expr::Ident(ident)),
-                }));
-
-                BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
-            }
-            _ => body.fold_children(self),
-        }
     }
 }
 
@@ -291,7 +299,7 @@ impl ClassProperties {
                             // string.
                             PropName::Computed(ComputedPropName {
                                 span: c_span,
-                                expr: box Expr::Ident(ident),
+                                expr: Box::new(Expr::Ident(ident)),
                             })
                         }
                         _ => method.key,
@@ -306,13 +314,19 @@ impl ClassProperties {
                         .fold_with(&mut ClassNameTdzFolder { class_name: &ident });
 
                     if !prop.is_static {
-                        prop.key.visit_with(&mut UsedNameCollector {
-                            used_names: &mut used_key_names,
-                        });
+                        prop.key.visit_with(
+                            &Invalid { span: DUMMY_SP } as _,
+                            &mut UsedNameCollector {
+                                used_names: &mut used_key_names,
+                            },
+                        );
 
-                        prop.value.visit_with(&mut UsedNameCollector {
-                            used_names: &mut used_names,
-                        });
+                        prop.value.visit_with(
+                            &Invalid { span: DUMMY_SP } as _,
+                            &mut UsedNameCollector {
+                                used_names: &mut used_names,
+                            },
+                        );
                     }
 
                     let key = match *prop.key {
@@ -380,12 +394,12 @@ impl ClassProperties {
                             .into_stmt(),
                         )
                     } else {
-                        constructor_exprs.push(box Expr::Call(CallExpr {
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee,
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), key, value],
                             type_args: Default::default(),
-                        }));
+                        })));
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
@@ -399,63 +413,70 @@ impl ClassProperties {
                         // We use `self.mark` for private variables.
                         prop.key.span.apply_mark(self.mark),
                     );
-                    prop.value.visit_with(&mut UsedNameCollector {
-                        used_names: &mut used_names,
-                    });
+                    prop.value.visit_with(
+                        &Invalid { span: DUMMY_SP } as _,
+                        &mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        },
+                    );
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
                     let extra_init = if prop.is_static {
-                        box Expr::Object(ObjectLit {
+                        Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![
-                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                     key: PropName::Ident(quote_ident!("writable")),
-                                    value: box Expr::Lit(Lit::Bool(Bool {
+                                    value: Box::new(Expr::Lit(Lit::Bool(Bool {
                                         span: DUMMY_SP,
                                         value: true,
-                                    })),
-                                })),
-                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    }))),
+                                }))),
+                                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                     key: PropName::Ident(quote_ident!("value")),
                                     value,
-                                })),
+                                }))),
                             ],
-                        })
+                        }))
                     } else {
-                        constructor_exprs.push(box Expr::Call(CallExpr {
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: ident.clone().member(quote_ident!("set")).as_callee(),
+                            callee: ident.clone().make_member(quote_ident!("set")).as_callee(),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 ObjectLit {
                                     span: DUMMY_SP,
                                     props: vec![
                                         // writeable: true
-                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("writable")),
-                                            value: box Expr::Lit(Lit::Bool(Bool {
-                                                value: true,
-                                                span: DUMMY_SP,
-                                            })),
-                                        })),
+                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(quote_ident!("writable")),
+                                                value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                                    value: true,
+                                                    span: DUMMY_SP,
+                                                }))),
+                                            },
+                                        ))),
                                         // value: value,
-                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("value")),
-                                            value,
-                                        })),
+                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(quote_ident!("value")),
+                                                value,
+                                            },
+                                        ))),
                                     ],
                                 }
                                 .as_arg(),
                             ],
                             type_args: Default::default(),
-                        }));
+                        })));
 
-                        box Expr::New(NewExpr {
+                        Box::new(Expr::New(NewExpr {
                             span: DUMMY_SP,
-                            callee: box Expr::Ident(quote_ident!("WeakMap")),
+                            callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
                             args: Some(vec![]),
                             type_args: Default::default(),
-                        })
+                        }))
                     };
 
                     extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {

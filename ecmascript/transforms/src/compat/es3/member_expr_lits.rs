@@ -1,6 +1,6 @@
 use crate::util::is_valid_ident;
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// babel: `transform-member-expression-literals`
 ///
@@ -24,32 +24,26 @@ pub struct MemberExprLit;
 
 noop_fold_type!(MemberExprLit);
 
-impl Fold<Module> for MemberExprLit {
-    fn fold(&mut self, node: Module) -> Module {
-        validate!(node.fold_children(self))
-    }
-}
-
-impl Fold<MemberExpr> for MemberExprLit {
-    fn fold(&mut self, e: MemberExpr) -> MemberExpr {
-        let mut e = validate!(e.fold_children(self));
+impl Fold for MemberExprLit {
+    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
+        let mut e = validate!(e.fold_children_with(self));
 
         macro_rules! handle {
             ($sym:expr, $span:expr) => {
                 if $sym.is_reserved_for_es3() || !is_valid_ident(&$sym) {
                     return MemberExpr {
                         computed: true,
-                        prop: box Expr::Lit(Lit::Str(Str {
+                        prop: Box::new(Expr::Lit(Lit::Str(Str {
                             span: $span,
                             value: $sym,
                             has_escape: false,
-                        })),
+                        }))),
                         ..e
                     };
                 } else {
                     return MemberExpr {
                         computed: false,
-                        prop: box Expr::Ident(quote_ident!($span, $sym)),
+                        prop: Box::new(Expr::Ident(quote_ident!($span, $sym))),
                         ..e
                     };
                 }
@@ -59,7 +53,7 @@ impl Fold<MemberExpr> for MemberExprLit {
         e.prop = match *e.prop {
             Expr::Ident(i) => {
                 if e.computed {
-                    box Expr::Ident(i)
+                    Box::new(Expr::Ident(i))
                 } else {
                     handle!(i.sym, i.span)
                 }
@@ -68,6 +62,10 @@ impl Fold<MemberExpr> for MemberExprLit {
         };
 
         e
+    }
+
+    fn fold_module(&mut self, node: Module) -> Module {
+        validate!(node.fold_children_with(self))
     }
 }
 

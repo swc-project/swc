@@ -1,14 +1,112 @@
 use num_bigint::BigInt as BigIntValue;
-use std::any::Any;
+use std::{any::Any, fmt::Debug};
 use swc_atoms::JsWord;
-use swc_common::Span;
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit_macros::define;
+use swc_visit::{define, AndThen, Repeat, Repeated};
 
 /// Visitable nodes.
 pub trait Node: Any {}
 
 impl<T: ?Sized> Node for T where T: Any {}
+
+impl<A, B> Fold for AndThen<A, B>
+where
+    A: Fold,
+
+    B: Fold,
+{
+    fn fold_module(&mut self, n: Module) -> Module {
+        let n = self.first.fold_module(n);
+        self.second.fold_module(n)
+    }
+
+    fn fold_script(&mut self, n: Script) -> Script {
+        let n = self.first.fold_script(n);
+        self.second.fold_script(n)
+    }
+}
+
+impl<A, B> Visit for AndThen<A, B>
+where
+    A: Visit,
+    B: Visit,
+{
+    fn visit_module(&mut self, n: &Module, _parent: &dyn Node) {
+        self.first.visit_module(n, _parent);
+        self.second.visit_module(n, _parent);
+    }
+
+    fn visit_script(&mut self, n: &Script, _parent: &dyn Node) {
+        self.first.visit_script(n, _parent);
+        self.second.visit_script(n, _parent);
+    }
+}
+
+impl<V> Fold for Repeat<V>
+where
+    V: Fold + Repeated,
+{
+    fn fold_module(&mut self, mut node: Module) -> Module {
+        loop {
+            self.pass.reset();
+            node = node.fold_with(&mut self.pass);
+
+            if !self.pass.changed() {
+                break;
+            }
+        }
+
+        node
+    }
+
+    fn fold_script(&mut self, mut node: Script) -> Script {
+        loop {
+            self.pass.reset();
+            node = node.fold_with(&mut self.pass);
+
+            if !self.pass.changed() {
+                break;
+            }
+        }
+
+        node
+    }
+}
+
+/// Not a public api.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+struct SpanRemover;
+
+/// Returns a `Fold` which changes all span into `DUMMY_SP`.
+pub fn span_remover() -> impl Debug + Fold + Copy + Eq + Default + 'static {
+    SpanRemover
+}
+
+impl Fold for SpanRemover {
+    fn fold_span(&mut self, _: Span) -> Span {
+        DUMMY_SP
+    }
+}
+
+#[macro_export]
+macro_rules! assert_eq_ignore_span {
+    ($l:expr, $r:expr) => {{
+        use $crate::FoldWith;
+        let l = $l.fold_with(&mut $crate::span_remover());
+        let r = $r.fold_with(&mut $crate::span_remover());
+
+        assert_eq!(l, r);
+    }};
+
+    ($l:expr, $r:expr, $($tts:tt)*) => {{
+        use $crate::FoldWith;
+        let l = $l.fold_with(&mut $crate::span_remover());
+        let r = $r.fold_with(&mut $crate::span_remover());
+
+        assert_eq!(l, r, $($tts)*);
+    }};
+}
 
 define!({
     pub struct Class {

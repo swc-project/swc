@@ -7,8 +7,8 @@ use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 use rayon::prelude::*;
-use swc_common::fold::FoldWith;
 use swc_ecma_transforms::{fixer, hygiene, optimization::simplify::dce::dce};
+use swc_ecma_visit::FoldWith;
 
 mod merge;
 

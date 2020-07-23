@@ -10,9 +10,8 @@ use crate::{
     },
     EmptyStmt,
 };
+use is_macro::Is;
 use serde::{Deserialize, Serialize};
-#[cfg(feature = "fold")]
-use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -44,7 +43,7 @@ pub struct Class {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ClassMember {
     #[tag("Constructor")]
     Constructor(Constructor),
@@ -124,7 +123,6 @@ macro_rules! method {
 
             pub function: Function,
 
-            #[cfg_attr(feature = "fold", fold(ignore))]
             pub kind: MethodKind,
 
             #[serde(default)]
@@ -176,7 +174,6 @@ pub struct Decorator {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum MethodKind {
     #[serde(rename = "method")]
     Method,

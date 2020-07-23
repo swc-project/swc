@@ -12,9 +12,10 @@ edition = "2018"
 [dependencies]
 swc_ecma_ast = { path ="./ast" }
 swc_ecma_codegen = { path ="./codegen" }
-swc_ecma_parser = { path ="./parser", features = ["verify"] }
+swc_ecma_parser = { path ="./parser" }
 swc_ecma_preset_env = { path ="preset_env" }
 swc_ecma_utils = { path ="./utils" }
 swc_ecma_transforms = { path ="./transforms" }
+swc_ecma_visit = { path ="./visit" }
 
 [dev-dependencies]

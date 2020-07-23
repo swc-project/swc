@@ -1,17 +1,16 @@
-use crate::pass::Pass;
-use swc_common::Fold;
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 struct OptionalCatchBinding;
 
 noop_fold_type!(OptionalCatchBinding);
 
-pub fn optional_catch_binding() -> impl Pass {
+pub fn optional_catch_binding() -> impl Fold {
     OptionalCatchBinding
 }
 
-impl Fold<CatchClause> for OptionalCatchBinding {
-    fn fold(&mut self, cc: CatchClause) -> CatchClause {
+impl Fold for OptionalCatchBinding {
+    fn fold_catch_clause(&mut self, cc: CatchClause) -> CatchClause {
         if cc.param.is_some() {
             return cc;
         }

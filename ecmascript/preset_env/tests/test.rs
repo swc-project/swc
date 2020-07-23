@@ -1,5 +1,3 @@
-#![feature(box_syntax)]
-#![feature(try_blocks)]
 #![feature(test)]
 
 extern crate test;
@@ -16,11 +14,12 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
-use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant, Mark};
+use swc_common::{input::SourceFileInput, FromVariant, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
+use swc_ecma_visit::FoldWith;
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;
@@ -158,10 +157,10 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
                 allow_fail: false,
                 should_panic: ShouldPanic::No,
             },
-            testfn: TestFn::DynTestFn(box move || {
+            testfn: TestFn::DynTestFn(Box::new(move || {
                 //
                 exec(cfg, e.path().to_path_buf()).expect("failed to run test")
-            }),
+            })),
         });
     }
 
@@ -203,17 +202,17 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let print = |m: &Module| {
                 let mut buf = vec![];
                 {
-                    let handlers = box MyHandlers;
+                    let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify: false },
                         comments: None,
                         cm: cm.clone(),
-                        wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                             cm.clone(),
                             "\n",
                             &mut buf,
                             None,
-                        ),
+                        )),
                         handlers,
                     };
 

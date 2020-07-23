@@ -1,16 +1,12 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     compat::{es2015::classes::Classes, es2020::class_properties},
-    pass::Pass,
     proposals::{decorators, decorators::Config},
     resolver, typescript,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -24,12 +20,12 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     })
 }
 
-fn tr() -> impl Pass {
+fn tr() -> impl Fold {
     chain!(decorators(Default::default()), class_properties(),)
 }
 
 /// Folder for `transformation_*` tests
-fn transformation() -> impl Pass {
+fn transformation() -> impl Fold {
     chain!(decorators(Default::default()), class_properties(),)
 }
 

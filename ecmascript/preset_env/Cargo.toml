@@ -12,6 +12,7 @@ swc_atoms = { path = "../../atoms" }
 swc_common = { path = "../../common" }
 swc_ecma_ast = { path = "../ast" }
 swc_ecma_transforms = { path = "../transforms" }
+swc_ecma_visit = { path = "../visit" }
 string_enum = { path = "../../macros/string_enum" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
@@ -24,6 +25,6 @@ dashmap = "=3.5.1"
 
 [dev-dependencies]
 swc_ecma_codegen = { path = "../codegen" }
-swc_ecma_parser = { path = "../parser", features = ["verify"] }
+swc_ecma_parser = { path = "../parser" }
 testing = { path = "../../testing" }
 pretty_assertions = "0.6"

@@ -11,7 +11,7 @@ pub(crate) fn new_handler(
     let e = BufferedError::default();
 
     let handler = Handler::with_emitter_and_flags(
-        box e.clone(),
+        Box::new(e.clone()),
         HandlerFlags {
             treat_err_as_bug,
             can_emit_warnings: true,

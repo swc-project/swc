@@ -1,16 +1,13 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
 use common::Tester;
 use std::collections::HashMap;
-use swc_ecma_transforms::{const_modules, pass::Pass};
+use swc_ecma_transforms::const_modules;
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
 
-fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Pass {
+fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
     let mut m = HashMap::default();
 
     for (src, values) in sources {

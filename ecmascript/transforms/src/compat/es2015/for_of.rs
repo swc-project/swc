@@ -1,11 +1,9 @@
-use crate::{
-    pass::Pass,
-    util::{alias_if_required, prepend, ExprFactory, StmtLike},
-};
+use crate::util::{alias_if_required, prepend, ExprFactory, StmtLike};
 use serde::Deserialize;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -41,7 +39,7 @@ use swc_ecma_ast::*;
 ///   }
 /// }
 /// ```
-pub fn for_of(c: Config) -> impl Pass {
+pub fn for_of(c: Config) -> impl Fold {
     ForOf { c }
 }
 
@@ -94,27 +92,27 @@ impl Actual {
 
             let i = private_ident!("_i");
 
-            let test = Some(box Expr::Bin(BinExpr {
+            let test = Some(Box::new(Expr::Bin(BinExpr {
                 span: DUMMY_SP,
-                left: box Expr::Ident(i.clone()),
+                left: Box::new(Expr::Ident(i.clone())),
                 op: op!("<"),
-                right: box arr.clone().member(quote_ident!("length")),
-            }));
-            let update = Some(box Expr::Update(UpdateExpr {
+                right: Box::new(arr.clone().make_member(quote_ident!("length"))),
+            })));
+            let update = Some(Box::new(Expr::Update(UpdateExpr {
                 span: DUMMY_SP,
                 prefix: false,
                 op: op!("++"),
-                arg: box Expr::Ident(i.clone()),
-            }));
+                arg: Box::new(Expr::Ident(i.clone())),
+            })));
 
             let mut decls = Vec::with_capacity(2);
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(i.clone()),
-                init: Some(box Expr::Lit(Lit::Num(Number {
+                init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
                     value: 0f64,
-                }))),
+                })))),
                 definite: false,
             });
 
@@ -151,7 +149,7 @@ impl Actual {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
-                                init: Some(box Expr::Ident(arr.clone()).computed_member(i)),
+                                init: Some(Box::new(Expr::Ident(arr.clone()).computed_member(i))),
                                 definite: false,
                             }],
                         })),
@@ -162,9 +160,9 @@ impl Actual {
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box pat),
+                        left: PatOrExpr::Pat(Box::new(pat)),
                         op: op!("="),
-                        right: box Expr::Ident(arr.clone()).computed_member(i),
+                        right: Box::new(Expr::Ident(arr.clone()).computed_member(i)),
                     }
                     .into_stmt(),
                 ),
@@ -180,14 +178,14 @@ impl Actual {
                 })),
                 test,
                 update,
-                body: box Stmt::Block(body),
+                body: Box::new(Stmt::Block(body)),
             });
 
             return match label {
                 Some(label) => LabeledStmt {
                     span,
                     label,
-                    body: box stmt,
+                    body: Box::new(stmt),
                 }
                 .into(),
                 _ => stmt,
@@ -205,7 +203,7 @@ impl Actual {
         };
 
         let step = quote_ident!(var_span, "_step");
-        let step_value = box step.clone().member(quote_ident!("value"));
+        let step_value = Box::new(step.clone().make_member(quote_ident!("value")));
         body.stmts.insert(
             0,
             match left {
@@ -223,7 +221,7 @@ impl Actual {
                 }
                 VarDeclOrPat::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(box pat),
+                    left: PatOrExpr::Pat(Box::new(pat)),
                     op: op!("="),
                     right: step_value,
                 }
@@ -233,33 +231,36 @@ impl Actual {
 
         let iterator = quote_ident!(var_span, "_iterator");
         // `_iterator.return`
-        let iterator_return = box iterator.clone().member(quote_ident!("return"));
+        let iterator_return = Box::new(iterator.clone().make_member(quote_ident!("return")));
 
         let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(normal_completion_ident.clone()),
-            init: Some(box Expr::Lit(Lit::Bool(Bool {
+            init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                 span: DUMMY_SP,
                 value: true,
-            }))),
+            })))),
             definite: false,
         });
         let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(error_flag_ident.clone()),
-            init: Some(box Expr::Lit(Lit::Bool(Bool {
+            init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                 span: DUMMY_SP,
                 value: false,
-            }))),
+            })))),
             definite: false,
         });
         let error_ident = Ident::new("_iteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(error_ident.clone()),
-            init: Some(box Expr::Ident(Ident::new(js_word!("undefined"), DUMMY_SP))),
+            init: Some(Box::new(Expr::Ident(Ident::new(
+                js_word!("undefined"),
+                DUMMY_SP,
+            )))),
             definite: false,
         });
 
@@ -273,14 +274,14 @@ impl Actual {
                     VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(iterator.clone()),
-                        init: Some(box Expr::Call(CallExpr {
+                        init: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: right
                                 .computed_member(*member_expr!(DUMMY_SP, Symbol.iterator))
                                 .as_callee(),
                             args: vec![],
                             type_args: Default::default(),
-                        })),
+                        }))),
                         definite: false,
                     },
                     VarDeclarator {
@@ -292,46 +293,46 @@ impl Actual {
                 ],
             })),
             // !(_iteratorNormalCompletion = (_step = _iterator.next()).done)
-            test: Some(box Expr::Unary(UnaryExpr {
+            test: Some(Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("!"),
                 arg: {
-                    let step_expr = box Expr::Assign(AssignExpr {
+                    let step_expr = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(step)),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(step))),
                         op: op!("="),
                         // `_iterator.next()`
-                        right: box Expr::Call(CallExpr {
+                        right: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             // `_iterator.next`
-                            callee: iterator.member(quote_ident!("next")).as_callee(),
+                            callee: iterator.make_member(quote_ident!("next")).as_callee(),
                             args: vec![],
                             type_args: Default::default(),
-                        }),
-                    });
+                        })),
+                    }));
 
-                    let iteration_normal_completion = box Expr::Assign(AssignExpr {
+                    let iteration_normal_completion = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(normal_completion_ident.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone()))),
                         op: op!("="),
-                        right: box step_expr.member(quote_ident!("done")),
-                    });
+                        right: Box::new(step_expr.make_member(quote_ident!("done"))),
+                    }));
 
                     iteration_normal_completion
                 },
-            })),
+            }))),
 
             // `_iteratorNormalCompletion = true`
-            update: Some(box Expr::Assign(AssignExpr {
+            update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(box Pat::Ident(normal_completion_ident.clone())),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone()))),
                 op: op!("="),
-                right: box Expr::Lit(Lit::Bool(Bool {
+                right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
                     value: true,
-                })),
-            })),
-            body: box Stmt::Block(body),
+                }))),
+            }))),
+            body: Box::new(Stmt::Block(body)),
         }
         .into();
 
@@ -339,7 +340,7 @@ impl Actual {
             Some(label) => Stmt::Labeled(LabeledStmt {
                 span,
                 label,
-                body: box for_stmt,
+                body: Box::new(for_stmt),
             }),
             None => for_stmt,
         };
@@ -361,20 +362,20 @@ impl Actual {
                         // _didIteratorError = true;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(error_flag_ident.clone())),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(error_flag_ident.clone()))),
                             op: op!("="),
-                            right: box Expr::Lit(Lit::Bool(Bool {
+                            right: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: DUMMY_SP,
                                 value: true,
-                            })),
+                            }))),
                         }
                         .into_stmt(),
                         // _iteratorError = err;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(error_ident.clone())),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(error_ident.clone()))),
                             op: op!("="),
-                            right: box Expr::Ident(quote_ident!("err")),
+                            right: Box::new(Expr::Ident(quote_ident!("err"))),
                         }
                         .into_stmt(),
                     ],
@@ -393,8 +394,8 @@ impl Actual {
     }
 }
 
-impl Fold<Stmt> for Actual {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
+impl Fold for Actual {
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         match stmt {
             Stmt::Labeled(LabeledStmt { span, label, body }) => {
                 // Handle label
@@ -403,12 +404,12 @@ impl Fold<Stmt> for Actual {
                     _ => Stmt::Labeled(LabeledStmt {
                         span,
                         label,
-                        body: body.fold_children(self),
+                        body: body.fold_children_with(self),
                     }),
                 }
             }
             Stmt::ForOf(stmt) => self.fold_for_stmt(None, stmt),
-            _ => stmt.fold_children(self),
+            _ => stmt.fold_children_with(self),
         }
     }
 }
@@ -442,22 +443,22 @@ fn make_finally_block(
                 // }
                 Stmt::If(IfStmt {
                     span: DUMMY_SP,
-                    test: box Expr::Bin(BinExpr {
+                    test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
-                        left: box Expr::Unary(UnaryExpr {
+                        left: Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!("!"),
-                            arg: box Expr::Ident(normal_completion_ident.clone()),
-                        }),
+                            arg: Box::new(Expr::Ident(normal_completion_ident.clone())),
+                        })),
                         op: op!("&&"),
-                        right: box Expr::Bin(BinExpr {
+                        right: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
                             left: iterator_return.clone(),
                             op: op!("!="),
-                            right: box Expr::Lit(Lit::Null(Null { span: DUMMY_SP })),
-                        }),
-                    }),
-                    cons: box Stmt::Block(BlockStmt {
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
+                    })),
+                    cons: Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![CallExpr {
                             span: DUMMY_SP,
@@ -466,7 +467,7 @@ fn make_finally_block(
                             type_args: Default::default(),
                         }
                         .into_stmt()],
-                    }),
+                    })),
                     alt: None,
                 }),
             ],
@@ -481,14 +482,14 @@ fn make_finally_block(
                 // }
                 Stmt::If(IfStmt {
                     span: DUMMY_SP,
-                    test: box Expr::Ident(error_flag_ident),
-                    cons: box Stmt::Block(BlockStmt {
+                    test: Box::new(Expr::Ident(error_flag_ident)),
+                    cons: Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Throw(ThrowStmt {
                             span: DUMMY_SP,
-                            arg: box Expr::Ident(error_ident),
+                            arg: Box::new(Expr::Ident(error_ident)),
                         })],
-                    }),
+                    })),
                     alt: None,
                 }),
             ],
@@ -496,16 +497,27 @@ fn make_finally_block(
     })
 }
 
-impl<T: StmtLike + VisitWith<ForOfFinder>> Fold<Vec<T>> for ForOf
-where
-    Vec<T>: FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for ForOf {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl ForOf {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + VisitWith<ForOfFinder>,
+        Vec<T>: FoldWith<Self> + VisitWith<ForOfFinder>,
+    {
         if !contains_for_of(&stmts) {
             return stmts;
         }
 
-        let stmts = stmts.fold_children(self);
+        let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
 
@@ -544,7 +556,7 @@ where
     N: VisitWith<ForOfFinder>,
 {
     let mut v = ForOfFinder { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 
@@ -552,8 +564,8 @@ struct ForOfFinder {
     found: bool,
 }
 
-impl Visit<ForOfStmt> for ForOfFinder {
-    fn visit(&mut self, _: &ForOfStmt) {
+impl Visit for ForOfFinder {
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {
         self.found = true;
     }
 }

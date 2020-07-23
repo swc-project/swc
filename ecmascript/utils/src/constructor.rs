@@ -1,9 +1,9 @@
 use crate::{prepend_stmts, ExprFactory};
 use std::iter;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
-#[allow(clippy::vec_box)]
 pub fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
     // Allow using super multiple time
     let mut folder = Injector {
@@ -27,91 +27,80 @@ struct Injector<'a> {
     exprs: &'a [Box<Expr>],
 }
 
-impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
-    fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+impl<'a> Fold for Injector<'a> {
+    fn fold_class(&mut self, c: Class) -> Class {
+        c
+    }
+
+    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
+        n
+    }
+
+    fn fold_function(&mut self, n: Function) -> Function {
+        n
+    }
+
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
         if self.exprs.is_empty() {
             return stmts;
         }
 
         let mut buf = Vec::with_capacity(stmts.len() + 8);
 
-        stmts.into_iter().for_each(|stmt| match stmt {
-            Stmt::Expr(ExprStmt {
-                expr:
-                    box Expr::Call(CallExpr {
+        stmts.into_iter().for_each(|stmt| {
+            if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
+                match &**expr {
+                    Expr::Call(CallExpr {
                         callee: ExprOrSuper::Super(..),
                         ..
-                    }),
-                ..
-            }) => {
-                self.injected = true;
-                buf.push(stmt);
-                buf.extend(self.exprs.iter().cloned().map(|v| v.into_stmt()));
+                    }) => {
+                        self.injected = true;
+                        buf.push(stmt);
+                        buf.extend(self.exprs.iter().cloned().map(|v| v.into_stmt()));
+                        return;
+                    }
+                    _ => {}
+                }
             }
-            _ => {
-                let mut folder = Injector {
+
+            let mut folder = Injector {
+                injected: false,
+                exprs: self.exprs,
+            };
+            let stmt = stmt.fold_children_with(&mut folder);
+            self.injected |= folder.injected;
+            if folder.injected {
+                buf.push(stmt);
+            } else {
+                let mut folder = ExprInjector {
                     injected: false,
                     exprs: self.exprs,
+                    injected_tmp: None,
                 };
-                let stmt = stmt.fold_children(&mut folder);
+                let stmt = stmt.fold_with(&mut folder);
+
                 self.injected |= folder.injected;
-                if folder.injected {
-                    buf.push(stmt);
-                } else {
-                    let mut folder = ExprInjector {
-                        injected: false,
-                        exprs: self.exprs,
-                        injected_tmp: None,
-                    };
-                    let stmt = stmt.fold_with(&mut folder);
 
-                    self.injected |= folder.injected;
-
-                    buf.extend(folder.injected_tmp.map(|ident| {
-                        Stmt::Decl(Decl::Var(VarDecl {
+                buf.extend(folder.injected_tmp.map(|ident| {
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(ident),
-                                init: None,
-                                definite: false,
-                            }],
-                            declare: false,
-                        }))
-                    }));
-                    buf.push(stmt);
-                }
+                            name: Pat::Ident(ident),
+                            init: None,
+                            definite: false,
+                        }],
+                        declare: false,
+                    }))
+                }));
+                buf.push(stmt);
             }
         });
 
         buf
     }
 }
-
-impl Fold<Class> for Injector<'_> {
-    fn fold(&mut self, c: Class) -> Class {
-        c
-    }
-}
-
-macro_rules! fold_noop {
-    ($T:tt) => {
-        impl<'a> Fold<$T> for Injector<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-
-        impl<'a> Fold<$T> for ExprInjector<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-    };
-}
-fold_noop!(Function);
-fold_noop!(Constructor);
 
 /// Handles code like `foo(super())`
 struct ExprInjector<'a> {
@@ -120,17 +109,19 @@ struct ExprInjector<'a> {
     injected_tmp: Option<Ident>,
 }
 
-impl Fold<Class> for ExprInjector<'_> {
-    fn fold(&mut self, c: Class) -> Class {
+impl Fold for ExprInjector<'_> {
+    fn fold_class(&mut self, c: Class) -> Class {
         let super_class = c.super_class.fold_with(self);
 
         Class { super_class, ..c }
     }
-}
 
-impl<'a> Fold<Expr> for ExprInjector<'a> {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
+        n
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Call(CallExpr {
@@ -146,22 +137,26 @@ impl<'a> Fold<Expr> for ExprInjector<'a> {
 
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
-                    exprs: iter::once(box Expr::Assign(AssignExpr {
+                    exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
                             self.injected_tmp.as_ref().cloned().unwrap(),
-                        )),
+                        ))),
                         op: op!("="),
-                        right: box expr,
-                    }))
+                        right: Box::new(expr),
+                    })))
                     .chain(self.exprs.iter().cloned())
-                    .chain(iter::once(box Expr::Ident(
+                    .chain(iter::once(Box::new(Expr::Ident(
                         self.injected_tmp.as_ref().cloned().unwrap(),
-                    )))
+                    ))))
                     .collect(),
                 })
             }
             _ => expr,
         }
+    }
+
+    fn fold_function(&mut self, n: Function) -> Function {
+        n
     }
 }

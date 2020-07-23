@@ -8,10 +8,11 @@ use std::{
     sync::Arc,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -111,8 +112,8 @@ impl ImportHandler<'_, '_> {
     }
 }
 
-impl Fold<ImportDecl> for ImportHandler<'_, '_> {
-    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+impl Fold for ImportHandler<'_, '_> {
+    fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
             if is_core_module(&import.src.value) {
                 return import;
@@ -169,10 +170,8 @@ impl Fold<ImportDecl> for ImportHandler<'_, '_> {
 
         import
     }
-}
 
-impl Fold<Vec<ModuleItem>> for ImportHandler<'_, '_> {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.top_level = true;
         let items = items.move_flat_map(|item| {
             //
@@ -223,17 +222,13 @@ impl Fold<Vec<ModuleItem>> for ImportHandler<'_, '_> {
 
         items
     }
-}
 
-impl Fold<Vec<Stmt>> for ImportHandler<'_, '_> {
-    fn fold(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
+    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         self.top_level = false;
-        items.fold_children(self)
+        items.fold_children_with(self)
     }
-}
 
-impl Fold<Expr> for ImportHandler<'_, '_> {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Member(mut e) => {
                 e.obj = e.obj.fold_with(self);
@@ -242,72 +237,77 @@ impl Fold<Expr> for ImportHandler<'_, '_> {
                     e.prop = e.prop.fold_with(self);
                 }
 
-                match e.obj {
-                    ExprOrSuper::Expr(box Expr::Ident(ref i)) => {
-                        // Search for namespace imports.
-                        // If possible, we de-glob namespace imports.
-                        if let Some(import) = self.info.imports.iter().find(|import| {
-                            for s in &import.specifiers {
-                                match s {
-                                    ImportSpecifier::Namespace(n) => {
-                                        return i.sym == n.local.sym
-                                            && i.span.ctxt() == n.local.span.ctxt()
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            false
-                        }) {
-                            let mark = self.mark_for(&import.src.value);
-                            let mark = match mark {
-                                None => return e.into(),
-                                Some(mark) => mark,
-                            };
-
-                            if self.deglob_phase {
-                                if self.forces_ns.contains(&import.src.value) {
-                                    //
-                                    return e.into();
-                                }
-
-                                let i = match &*e.prop {
-                                    Expr::Ident(i) => {
-                                        let mut i = i.clone();
-                                        i.span = i.span.apply_mark(mark);
-                                        i
-                                    }
-                                    _ => unreachable!(
-                                        "Non-computed member expression with property other than \
-                                         ident is invalid"
-                                    ),
-                                };
-
-                                return Expr::Ident(i);
-                            } else {
-                                if e.computed {
-                                    self.forces_ns.insert(import.src.value.clone());
-                                } else {
-                                    let i = match &*e.prop {
-                                        Expr::Ident(i) => {
-                                            let mut i = i.clone();
-                                            i.span = i.span.apply_mark(mark);
-                                            i
+                match &e.obj {
+                    ExprOrSuper::Expr(obj) => {
+                        match &**obj {
+                            Expr::Ident(i) => {
+                                // Search for namespace imports.
+                                // If possible, we de-glob namespace imports.
+                                if let Some(import) = self.info.imports.iter().find(|import| {
+                                    for s in &import.specifiers {
+                                        match s {
+                                            ImportSpecifier::Namespace(n) => {
+                                                return i.sym == n.local.sym
+                                                    && i.span.ctxt() == n.local.span.ctxt()
+                                            }
+                                            _ => {}
                                         }
-                                        _ => unreachable!(
-                                            "Non-computed member expression with property other \
-                                             than ident is invalid"
-                                        ),
+                                    }
+
+                                    false
+                                }) {
+                                    let mark = self.mark_for(&import.src.value);
+                                    let mark = match mark {
+                                        None => return e.into(),
+                                        Some(mark) => mark,
                                     };
 
-                                    self.ns_usage
-                                        .entry(import.src.value.clone())
-                                        .or_default()
-                                        .push(i.to_id());
+                                    if self.deglob_phase {
+                                        if self.forces_ns.contains(&import.src.value) {
+                                            //
+                                            return e.into();
+                                        }
+
+                                        let i = match &*e.prop {
+                                            Expr::Ident(i) => {
+                                                let mut i = i.clone();
+                                                i.span = i.span.apply_mark(mark);
+                                                i
+                                            }
+                                            _ => unreachable!(
+                                                "Non-computed member expression with property \
+                                                 other than ident is invalid"
+                                            ),
+                                        };
+
+                                        return Expr::Ident(i);
+                                    } else {
+                                        if e.computed {
+                                            self.forces_ns.insert(import.src.value.clone());
+                                        } else {
+                                            let i = match &*e.prop {
+                                                Expr::Ident(i) => {
+                                                    let mut i = i.clone();
+                                                    i.span = i.span.apply_mark(mark);
+                                                    i
+                                                }
+                                                _ => unreachable!(
+                                                    "Non-computed member expression with property \
+                                                     other than ident is invalid"
+                                                ),
+                                            };
+
+                                            self.ns_usage
+                                                .entry(import.src.value.clone())
+                                                .or_default()
+                                                .push(i.to_id());
+                                        }
+                                    }
+
+                                    return e.into();
                                 }
                             }
-
-                            return e.into();
+                            _ => {}
                         }
                     }
 
@@ -320,24 +320,30 @@ impl Fold<Expr> for ImportHandler<'_, '_> {
             _ => {}
         }
 
-        let e: Expr = e.fold_children(self);
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::Call(e) if e.args.len() == 1 => {
                 let src = match e.args.first().unwrap() {
-                    ExprOrSpread {
-                        spread: None,
-                        expr: box Expr::Lit(Lit::Str(s)),
-                    } => s,
+                    ExprOrSpread { spread: None, expr } => match &**expr {
+                        Expr::Lit(Lit::Str(s)) => s,
+                        _ => return Expr::Call(e),
+                    },
                     _ => return Expr::Call(e),
                 };
 
-                match e.callee {
-                    ExprOrSuper::Expr(box Expr::Ident(Ident {
-                        span,
-                        sym: js_word!("require"),
-                        ..
-                    })) => {
+                match &e.callee {
+                    ExprOrSuper::Expr(callee)
+                        if match &**callee {
+                            Expr::Ident(Ident {
+                                sym: js_word!("require"),
+                                ..
+                            }) => true,
+                            _ => false,
+                        } =>
+                    {
+                        let span = callee.span();
+
                         let decl = ImportDecl {
                             span,
                             specifiers: vec![],
@@ -354,12 +360,15 @@ impl Fold<Expr> for ImportHandler<'_, '_> {
                         return Expr::Call(e);
                     }
 
-                    ExprOrSuper::Expr(box Expr::Ident(Ident {
-                        sym: js_word!("import"),
-                        ..
-                    })) => {
-                        self.info.dynamic_imports.push(src.clone());
-                    }
+                    ExprOrSuper::Expr(ref e) => match &**e {
+                        Expr::Ident(Ident {
+                            sym: js_word!("import"),
+                            ..
+                        }) => {
+                            self.info.dynamic_imports.push(src.clone());
+                        }
+                        _ => {}
+                    },
 
                     _ => {}
                 }
@@ -372,77 +381,83 @@ impl Fold<Expr> for ImportHandler<'_, '_> {
 
         e
     }
-}
 
-/// ```js
-/// const { readFile } = required('fs');
-/// ```
-///
-/// is treated as
-///
-///  ```js
-/// import { readFile } from 'fs';
-/// ```
-impl Fold<VarDeclarator> for ImportHandler<'_, '_> {
-    fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
-        match node.init {
-            Some(box Expr::Call(CallExpr {
-                span,
-                callee:
-                    ExprOrSuper::Expr(box Expr::Ident(Ident {
+    /// ```js
+    /// const { readFile } = required('fs');
+    /// ```
+    ///
+    /// is treated as
+    ///
+    ///  ```js
+    /// import { readFile } from 'fs';
+    /// ```
+    fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
+        match &node.init {
+            Some(init) => match &**init {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ExprOrSuper::Expr(ref callee),
+                    ref args,
+                    ..
+                }) if match &**callee {
+                    Expr::Ident(Ident {
                         sym: js_word!("require"),
                         ..
-                    })),
-                ref args,
-                ..
-            })) if args.len() == 1 => {
-                let src = match args.first().unwrap() {
-                    ExprOrSpread {
-                        spread: None,
-                        expr: box Expr::Lit(Lit::Str(s)),
-                    } => s.clone(),
-                    _ => return node,
-                };
-                if is_core_module(&src.value) {
-                    return node;
+                    }) => true,
+                    _ => false,
+                } && args.len() == 1 =>
+                {
+                    let span = *span;
+                    let src = match args.first().unwrap() {
+                        ExprOrSpread { spread: None, expr } => match &**expr {
+                            Expr::Lit(Lit::Str(s)) => s.clone(),
+                            _ => return node,
+                        },
+                        _ => return node,
+                    };
+                    if is_core_module(&src.value) {
+                        return node;
+                    }
+
+                    let ids: Vec<Ident> = find_ids(&node.name);
+
+                    let decl = ImportDecl {
+                        span,
+                        specifiers: ids
+                            .into_iter()
+                            .map(|ident| {
+                                ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span,
+                                    local: ident,
+                                    imported: None,
+                                })
+                            })
+                            .collect(),
+                        src,
+                        type_only: false,
+                    };
+
+                    // if self.top_level {
+                    //     self.info.imports.push(decl);
+                    //     node.init = None;
+                    //     node.name = Pat::Invalid(Invalid { span: DUMMY_SP });
+                    //     return node;
+                    // }
+
+                    self.info.lazy_imports.push(decl);
+
+                    return VarDeclarator {
+                        name: node.name.fold_with(self),
+                        ..node
+                    };
                 }
 
-                let ids: Vec<Ident> = find_ids(&node.name);
-
-                let decl = ImportDecl {
-                    span,
-                    specifiers: ids
-                        .into_iter()
-                        .map(|ident| {
-                            ImportSpecifier::Named(ImportNamedSpecifier {
-                                span,
-                                local: ident,
-                                imported: None,
-                            })
-                        })
-                        .collect(),
-                    src,
-                    type_only: false,
-                };
-
-                // if self.top_level {
-                //     self.info.imports.push(decl);
-                //     node.init = None;
-                //     node.name = Pat::Invalid(Invalid { span: DUMMY_SP });
-                //     return node;
-                // }
-
-                self.info.lazy_imports.push(decl);
-
-                return VarDeclarator {
-                    name: node.name.fold_with(self),
-                    ..node
-                };
-            }
+                _ => {}
+            },
 
             _ => {}
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }

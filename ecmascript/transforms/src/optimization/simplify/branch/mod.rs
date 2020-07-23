@@ -5,12 +5,12 @@ use crate::{
 use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
-    fold::VisitWith,
     pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
-    Fold, FoldWith, Spanned, Visit, DUMMY_SP,
+    Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -46,156 +46,253 @@ struct Remover {
 
 noop_fold_type!(Remover);
 
-impl<T: StmtLike> Fold<Vec<T>> for Remover
-where
-    Self: Fold<T>,
-    T: VisitWith<Hoister>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        let is_block_stmt = self.normal_block;
-        self.normal_block = false;
+impl Fold for Remover {
+    fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
+        let mut p: ArrayPat = p.fold_children_with(self);
 
-        let mut buf = Vec::with_capacity(stmts.len());
-
-        let mut iter = stmts.into_iter();
-        while let Some(stmt_like) = iter.next() {
-            self.normal_block = true;
-            let stmt_like = self.fold(stmt_like);
-            self.normal_block = false;
-
-            let stmt_like = match stmt_like.try_into_stmt() {
-                Ok(stmt) => {
-                    let stmt = match stmt {
-                        // Remove empty statements.
-                        Stmt::Empty(..) => continue,
-
-                        Stmt::Expr(ExprStmt {
-                            expr: box Expr::Lit(..),
-                            ..
-                        }) if is_block_stmt => continue,
-
-                        // Control flow
-                        Stmt::Throw(..)
-                        | Stmt::Return { .. }
-                        | Stmt::Continue { .. }
-                        | Stmt::Break { .. } => {
-                            let decls: Vec<_> = iter
-                                .flat_map(|t| extract_var_ids(&t))
-                                .map(|i| VarDeclarator {
-                                    span: i.span,
-                                    name: Pat::Ident(i),
-                                    init: None,
-                                    definite: false,
-                                })
-                                .collect();
-                            if !decls.is_empty() {
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Var,
-                                    decls,
-                                    declare: false,
-                                }))));
-                            }
-
-                            let stmt_like = T::from_stmt(stmt);
-                            buf.push(stmt_like);
-
-                            return buf;
-                        }
-
-                        Stmt::Block(BlockStmt { span, stmts, .. }) => {
-                            if stmts.len() == 0 {
-                                continue;
-                            }
-
-                            if !is_ok_to_inline_block(&stmts) {
-                                BlockStmt {
-                                    span,
-                                    stmts: stmts.fold_with(self),
-                                }
-                                .into()
-                            } else {
-                                buf.extend(
-                                    stmts
-                                        .into_iter()
-                                        .filter(|s| match s {
-                                            Stmt::Empty(..) => false,
-                                            _ => true,
-                                        })
-                                        .map(T::from_stmt),
-                                );
-                                continue;
-                            }
-                        }
-
-                        // Optimize if statement.
-                        Stmt::If(IfStmt {
-                            test,
-                            cons,
-                            alt,
-                            span,
-                        }) => {
-                            // check if
-                            match test.as_bool() {
-                                (purity, Known(val)) => {
-                                    self.changed = true;
-                                    if !purity.is_pure() {
-                                        let expr = ignore_result(*test);
-
-                                        if let Some(expr) = expr {
-                                            buf.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                                span: DUMMY_SP,
-                                                expr: box expr,
-                                            })));
-                                        }
-                                    }
-
-                                    if val {
-                                        // Hoist vars from alt
-                                        if let Some(var) =
-                                            alt.and_then(|alt| alt.extract_var_ids_as_var())
-                                        {
-                                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
-                                        }
-                                        *cons
-                                    } else {
-                                        // Hoist vars from cons
-                                        if let Some(var) = cons.extract_var_ids_as_var() {
-                                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
-                                        }
-                                        match alt {
-                                            Some(alt) => *alt,
-                                            None => continue,
-                                        }
-                                    }
-                                }
-                                _ => Stmt::If(IfStmt {
-                                    test,
-                                    cons,
-                                    alt,
-                                    span,
-                                }),
-                            }
-                        }
-
-                        _ => stmt,
-                    };
-
-                    T::from_stmt(stmt)
-                }
-                Err(stmt_like) => stmt_like,
+        let mut preserved = None;
+        let len = p.elems.len();
+        for (i, p) in p.elems.iter().enumerate() {
+            let can_be_removed = match p {
+                Some(Pat::Array(ref p)) if p.elems.is_empty() => true,
+                Some(Pat::Object(ref p)) if p.props.is_empty() => true,
+                _ => false,
             };
 
-            buf.push(stmt_like);
+            if !can_be_removed {
+                preserved = Some(min(i + 1, len))
+            }
         }
 
-        buf
-    }
-}
+        if let Some(i) = preserved {
+            p.elems.drain(i..);
+        }
 
-impl Fold<Stmt> for Remover {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
+        ArrayPat { ..p }
+    }
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e: Expr = e.fold_children_with(self);
+
+        match e {
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: PatOrExpr::Pat(l),
+                right: r,
+                ..
+            }) if match &*l {
+                Pat::Ident(l) => match &*r {
+                    Expr::Ident(r) => l.sym == r.sym && l.span.ctxt() == r.span.ctxt(),
+                    _ => false,
+                },
+                _ => false,
+            } =>
+            {
+                return Expr::Ident(r.ident().unwrap())
+            }
+
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: PatOrExpr::Pat(left),
+                right,
+                ..
+            }) if match &*left {
+                Pat::Array(arr) => arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()),
+                _ => false,
+            } =>
+            {
+                return *right;
+            }
+
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: PatOrExpr::Pat(left),
+                right,
+                ..
+            }) if match &*left {
+                Pat::Object(obj) => obj.props.is_empty(),
+                _ => false,
+            } =>
+            {
+                return *right;
+            }
+
+            Expr::Cond(e)
+                if !e.test.may_have_side_effects()
+                    && (e.cons.is_undefined()
+                        || match *e.cons {
+                            Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                ref arg,
+                                ..
+                            }) if !arg.may_have_side_effects() => true,
+                            _ => false,
+                        })
+                    && (e.alt.is_undefined()
+                        || match *e.alt {
+                            Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                ref arg,
+                                ..
+                            }) if !arg.may_have_side_effects() => true,
+                            _ => false,
+                        }) =>
+            {
+                return *e.cons
+            }
+
+            _ => {}
+        }
+
+        e
+    }
+
+    fn fold_for_stmt(&mut self, s: ForStmt) -> ForStmt {
+        let s = s.fold_children_with(self);
+
+        ForStmt {
+            init: s.init.and_then(|e| match e {
+                VarDeclOrExpr::Expr(e) => ignore_result(*e).map(Box::new).map(VarDeclOrExpr::from),
+                _ => Some(e),
+            }),
+            update: s.update.and_then(|e| ignore_result(*e).map(Box::new)),
+            test: s.test.and_then(|e| {
+                let span = e.span();
+                if let Known(value) = e.as_pure_bool() {
+                    return if value {
+                        None
+                    } else {
+                        Some(Box::new(Expr::Lit(Lit::Bool(Bool { span, value: false }))))
+                    };
+                }
+
+                Some(e)
+            }),
+            ..s
+        }
+    }
+
+    fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
+        let mut p = p.fold_children_with(self);
+
+        // Don't remove if there exists a rest pattern
+        if p.props.iter().any(|p| match p {
+            ObjectPatProp::Rest(..) => true,
+            _ => false,
+        }) {
+            return p;
+        }
+
+        fn is_computed(k: &PropName) -> bool {
+            match k {
+                PropName::Computed(..) => true,
+                _ => false,
+            }
+        }
+
+        p.props.retain(|p| match p {
+            ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. })
+                if match &**value {
+                    Pat::Object(p) => !is_computed(&key) && p.props.is_empty(),
+                    _ => false,
+                } =>
+            {
+                false
+            }
+
+            ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. })
+                if match &**value {
+                    Pat::Array(p) => !is_computed(&key) && p.elems.is_empty(),
+                    _ => false,
+                } =>
+            {
+                false
+            }
+            _ => true,
+        });
+
+        p
+    }
+
+    fn fold_object_pat_prop(&mut self, p: ObjectPatProp) -> ObjectPatProp {
+        let p = p.fold_children_with(self);
+
+        match p {
+            ObjectPatProp::Assign(AssignPatProp {
+                span,
+                key,
+                value: Some(expr),
+            }) if expr.is_undefined()
+                || match *expr {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"),
+                        ref arg,
+                        ..
+                    }) => is_literal(&**arg),
+                    _ => false,
+                } =>
+            {
+                return ObjectPatProp::Assign(AssignPatProp {
+                    span,
+                    key,
+                    value: None,
+                });
+            }
+
+            _ => {}
+        }
+
+        p
+    }
+
+    fn fold_pat(&mut self, p: Pat) -> Pat {
+        let p = p.fold_children_with(self);
+
+        match p {
+            Pat::Assign(p)
+                if p.right.is_undefined()
+                    || match *p.right {
+                        Expr::Unary(UnaryExpr {
+                            op: op!("void"),
+                            ref arg,
+                            ..
+                        }) => is_literal(&**arg),
+                        _ => false,
+                    } =>
+            {
+                return *p.left;
+            }
+
+            Pat::Assign(p)
+                if match *p.left {
+                    Pat::Object(ref o) => o.props.is_empty(),
+                    _ => false,
+                } && p.right.is_number() =>
+            {
+                return *p.left;
+            }
+
+            _ => {}
+        }
+
+        p
+    }
+
+    fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
+        let mut e: SeqExpr = e.fold_children_with(self);
+        if e.exprs.is_empty() {
+            return e;
+        }
+
+        let last = e.exprs.pop().unwrap();
+        let mut exprs = e.exprs.move_flat_map(|e| ignore_result(*e).map(Box::new));
+        exprs.push(last);
+
+        SeqExpr { exprs, ..e }
+    }
+
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children_with(self);
 
         match stmt {
             Stmt::If(IfStmt {
@@ -208,10 +305,10 @@ impl Fold<Stmt> for Remover {
                     Stmt::If(IfStmt { alt: Some(..), .. }) => {
                         return IfStmt {
                             test,
-                            cons: box Stmt::Block(BlockStmt {
+                            cons: Box::new(Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![*cons],
-                            }),
+                            })),
                             alt,
                             span,
                         }
@@ -255,8 +352,8 @@ impl Fold<Stmt> for Remover {
                     return Stmt::Block(BlockStmt { span, stmts }).fold_with(self);
                 }
 
-                let alt = match alt {
-                    Some(box Stmt::Empty(..)) => None,
+                let alt = match &alt {
+                    Some(stmt) if stmt.is_empty() => None,
                     _ => alt,
                 };
                 if alt.is_none() {
@@ -264,14 +361,14 @@ impl Fold<Stmt> for Remover {
                         Stmt::Empty(..) => {
                             self.changed = true;
 
-                            if let Some(expr) = ignore_result(*test) {
-                                return Stmt::Expr(ExprStmt {
+                            return if let Some(expr) = ignore_result(*test) {
+                                Stmt::Expr(ExprStmt {
                                     span,
-                                    expr: box expr,
-                                });
+                                    expr: Box::new(expr),
+                                })
                             } else {
-                                return Stmt::Empty(EmptyStmt { span });
-                            }
+                                Stmt::Empty(EmptyStmt { span })
+                            };
                         }
                         _ => {}
                     }
@@ -289,31 +386,34 @@ impl Fold<Stmt> for Remover {
                 Stmt::Empty(EmptyStmt { span: v.span })
             }
 
-            Stmt::Labeled(LabeledStmt {
-                span,
-                body: box Stmt::Empty(..),
-                ..
-            }) => Stmt::Empty(EmptyStmt { span }),
+            Stmt::Labeled(LabeledStmt { span, body, .. }) if body.is_empty() => {
+                Stmt::Empty(EmptyStmt { span })
+            }
 
             Stmt::Labeled(LabeledStmt {
                 span,
-                body:
-                    box Stmt::Break(BreakStmt {
-                        label: Some(ref b), ..
-                    }),
+                body,
                 ref label,
                 ..
-            }) if label.sym == b.sym => Stmt::Empty(EmptyStmt { span }),
+            }) if match &*body {
+                Stmt::Break(BreakStmt { label: Some(b), .. }) => label.sym == b.sym,
+                _ => false,
+            } =>
+            {
+                Stmt::Empty(EmptyStmt { span })
+            }
 
             // `1;` -> `;`
-            Stmt::Expr(ExprStmt {
-                span,
-                expr: box expr,
-                ..
-            }) => match ignore_result(expr) {
-                Some(e) => Stmt::Expr(ExprStmt { span, expr: box e }),
-                None => Stmt::Empty(EmptyStmt { span: DUMMY_SP }),
-            },
+            Stmt::Expr(ExprStmt { span, expr, .. }) => {
+                let expr = *expr;
+                match ignore_result(expr) {
+                    Some(e) => Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(e),
+                    }),
+                    None => Stmt::Empty(EmptyStmt { span: DUMMY_SP }),
+                }
+            }
 
             Stmt::Block(BlockStmt { span, stmts }) => {
                 if stmts.is_empty() {
@@ -422,15 +522,13 @@ impl Fold<Stmt> for Remover {
 
                 // Remove empty switch
                 if s.cases.is_empty() {
-                    match ignore_result(*s.discriminant) {
-                        Some(expr) => {
-                            return Stmt::Expr(ExprStmt {
-                                span: s.span,
-                                expr: box expr,
-                            })
-                        }
-                        None => return Stmt::Empty(EmptyStmt { span: s.span }),
-                    }
+                    return match ignore_result(*s.discriminant) {
+                        Some(expr) => Stmt::Expr(ExprStmt {
+                            span: s.span,
+                            expr: Box::new(expr),
+                        }),
+                        None => Stmt::Empty(EmptyStmt { span: s.span }),
+                    };
                 }
 
                 // Handle a switch statement with only default.
@@ -593,9 +691,14 @@ impl Fold<Stmt> for Remover {
                         }
 
                         let res = match case.test {
-                            Some(box Expr::Lit(Lit::Num(..)))
-                            | Some(box Expr::Lit(Lit::Str(..)))
-                            | Some(box Expr::Lit(Lit::Null(..))) => {
+                            Some(e)
+                                if match &*e {
+                                    Expr::Lit(Lit::Num(..))
+                                    | Expr::Lit(Lit::Str(..))
+                                    | Expr::Lit(Lit::Null(..)) => true,
+                                    _ => false,
+                                } =>
+                            {
                                 case.cons
                                     .into_iter()
                                     .for_each(|stmt| var_ids.extend(stmt.extract_var_ids()));
@@ -636,10 +739,17 @@ impl Fold<Stmt> for Remover {
                 }
 
                 if is_matching_literal
-                    && s.cases.iter().all(|case| match case.test {
-                        Some(box Expr::Lit(Lit::Str(..)))
-                        | Some(box Expr::Lit(Lit::Null(..)))
-                        | Some(box Expr::Lit(Lit::Num(..))) => true,
+                    && s.cases.iter().all(|case| match &case.test {
+                        Some(e)
+                            if match &**e {
+                                Expr::Lit(Lit::Str(..))
+                                | Expr::Lit(Lit::Null(..))
+                                | Expr::Lit(Lit::Num(..)) => true,
+                                _ => false,
+                            } =>
+                        {
+                            true
+                        }
                         _ => false,
                     })
                 {
@@ -676,14 +786,15 @@ impl Fold<Stmt> for Remover {
                 SwitchStmt { ..s }.into()
             }
 
-            Stmt::For(
-                s
-                @
-                ForStmt {
-                    test: Some(box Expr::Lit(Lit::Bool(Bool { value: false, .. }))),
-                    ..
-                },
-            ) => {
+            Stmt::For(s)
+                if match &s.test {
+                    Some(test) => match &**test {
+                        Expr::Lit(Lit::Bool(Bool { value: false, .. })) => true,
+                        _ => false,
+                    },
+                    _ => false,
+                } =>
+            {
                 let decl = s.body.extract_var_ids_as_var();
                 let body = if let Some(var) = decl {
                     Stmt::Decl(Decl::Var(var))
@@ -693,7 +804,7 @@ impl Fold<Stmt> for Remover {
 
                 if s.init.is_some() {
                     Stmt::For(ForStmt {
-                        body: box body,
+                        body: Box::new(body),
                         update: None,
                         ..s
                     })
@@ -706,10 +817,10 @@ impl Fold<Stmt> for Remover {
                 if let (purity, Known(v)) = s.test.as_bool() {
                     if v {
                         Stmt::While(WhileStmt {
-                            test: box Expr::Lit(Lit::Bool(Bool {
+                            test: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: s.test.span(),
                                 value: true,
-                            })),
+                            }))),
                             ..s
                         })
                     } else {
@@ -717,7 +828,7 @@ impl Fold<Stmt> for Remover {
                             Stmt::Empty(EmptyStmt { span: s.span })
                         } else {
                             Stmt::While(WhileStmt {
-                                body: box Stmt::Empty(EmptyStmt { span: s.span }),
+                                body: Box::new(Stmt::Empty(EmptyStmt { span: s.span })),
                                 ..s
                             })
                         }
@@ -786,143 +897,9 @@ impl Fold<Stmt> for Remover {
             _ => stmt,
         }
     }
-}
 
-impl Fold<Pat> for Remover {
-    fn fold(&mut self, p: Pat) -> Pat {
-        let p = p.fold_children(self);
-
-        match p {
-            Pat::Assign(p)
-                if p.right.is_undefined()
-                    || match *p.right {
-                        Expr::Unary(UnaryExpr {
-                            op: op!("void"),
-                            ref arg,
-                            ..
-                        }) => is_literal(&arg),
-                        _ => false,
-                    } =>
-            {
-                return *p.left;
-            }
-
-            Pat::Assign(p)
-                if match *p.left {
-                    Pat::Object(ref o) => o.props.is_empty(),
-                    _ => false,
-                } && p.right.is_number() =>
-            {
-                return *p.left;
-            }
-
-            _ => {}
-        }
-
-        p
-    }
-}
-
-impl Fold<ArrayPat> for Remover {
-    fn fold(&mut self, p: ArrayPat) -> ArrayPat {
-        let mut p: ArrayPat = p.fold_children(self);
-
-        let mut preserved = None;
-        let len = p.elems.len();
-        for (i, p) in p.elems.iter().enumerate() {
-            let can_be_removed = match p {
-                Some(Pat::Array(ref p)) if p.elems.is_empty() => true,
-                Some(Pat::Object(ref p)) if p.props.is_empty() => true,
-                _ => false,
-            };
-
-            if !can_be_removed {
-                preserved = Some(min(i + 1, len))
-            }
-        }
-
-        if let Some(i) = preserved {
-            p.elems.drain(i..);
-        }
-
-        ArrayPat { ..p }
-    }
-}
-
-impl Fold<ObjectPat> for Remover {
-    fn fold(&mut self, p: ObjectPat) -> ObjectPat {
-        let mut p = p.fold_children(self);
-
-        // Don't remove if there exists a rest pattern
-        if p.props.iter().any(|p| match p {
-            ObjectPatProp::Rest(..) => true,
-            _ => false,
-        }) {
-            return p;
-        }
-
-        fn is_computed(k: &PropName) -> bool {
-            match k {
-                PropName::Computed(..) => true,
-                _ => false,
-            }
-        }
-
-        p.props.retain(|p| match p {
-            ObjectPatProp::KeyValue(KeyValuePatProp {
-                key,
-                value: box Pat::Object(p),
-                ..
-            }) if !is_computed(&key) && p.props.is_empty() => false,
-
-            ObjectPatProp::KeyValue(KeyValuePatProp {
-                key,
-                value: box Pat::Array(p),
-                ..
-            }) if !is_computed(&key) && p.elems.is_empty() => false,
-            _ => true,
-        });
-
-        p
-    }
-}
-
-impl Fold<ObjectPatProp> for Remover {
-    fn fold(&mut self, p: ObjectPatProp) -> ObjectPatProp {
-        let p = p.fold_children(self);
-
-        match p {
-            ObjectPatProp::Assign(AssignPatProp {
-                span,
-                key,
-                value: Some(expr),
-            }) if expr.is_undefined()
-                || match *expr {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"),
-                        ref arg,
-                        ..
-                    }) => is_literal(&arg),
-                    _ => false,
-                } =>
-            {
-                return ObjectPatProp::Assign(AssignPatProp {
-                    span,
-                    key,
-                    value: None,
-                });
-            }
-
-            _ => {}
-        }
-
-        p
-    }
-}
-
-impl Fold<SwitchStmt> for Remover {
-    fn fold(&mut self, s: SwitchStmt) -> SwitchStmt {
-        let s: SwitchStmt = s.fold_children(self);
+    fn fold_switch_stmt(&mut self, s: SwitchStmt) -> SwitchStmt {
+        let s: SwitchStmt = s.fold_children_with(self);
 
         if s.cases.iter().all(|case| {
             if case.cons.is_empty() {
@@ -939,108 +916,158 @@ impl Fold<SwitchStmt> for Remover {
 
         s
     }
-}
 
-impl Fold<SeqExpr> for Remover {
-    fn fold(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e: SeqExpr = e.fold_children(self);
-        if e.exprs.is_empty() {
-            return e;
-        }
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
 
-        let last = e.exprs.pop().unwrap();
-        let mut exprs = e.exprs.move_flat_map(|e| ignore_result(*e).map(Box::new));
-        exprs.push(last);
-
-        SeqExpr { exprs, ..e }
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 }
 
-impl Fold<Expr> for Remover {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children(self);
+impl Remover {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + VisitWith<Hoister> + FoldWith<Self>,
+    {
+        let is_block_stmt = self.normal_block;
+        self.normal_block = false;
 
-        match e {
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: PatOrExpr::Pat(box Pat::Ident(ref l)),
-                right: box Expr::Ident(r),
-                ..
-            }) if l.sym == r.sym && l.span.ctxt() == r.span.ctxt() => return Expr::Ident(r),
+        let mut buf = Vec::with_capacity(stmts.len());
 
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: PatOrExpr::Pat(box Pat::Array(ref arr)),
-                right,
-                ..
-            }) if arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()) => {
-                return *right;
-            }
+        let mut iter = stmts.into_iter();
+        while let Some(stmt_like) = iter.next() {
+            self.normal_block = true;
+            let stmt_like = stmt_like.fold_with(self);
+            self.normal_block = false;
 
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: PatOrExpr::Pat(box Pat::Object(ref obj)),
-                right,
-                ..
-            }) if obj.props.is_empty() => {
-                return *right;
-            }
+            let stmt_like = match stmt_like.try_into_stmt() {
+                Ok(stmt) => {
+                    let stmt = match stmt {
+                        // Remove empty statements.
+                        Stmt::Empty(..) => continue,
 
-            Expr::Cond(e)
-                if !e.test.may_have_side_effects()
-                    && (e.cons.is_undefined()
-                        || match *e.cons {
-                            Expr::Unary(UnaryExpr {
-                                op: op!("void"),
-                                ref arg,
-                                ..
-                            }) if !arg.may_have_side_effects() => true,
-                            _ => false,
-                        })
-                    && (e.alt.is_undefined()
-                        || match *e.alt {
-                            Expr::Unary(UnaryExpr {
-                                op: op!("void"),
-                                ref arg,
-                                ..
-                            }) if !arg.may_have_side_effects() => true,
-                            _ => false,
-                        }) =>
-            {
-                return *e.cons
-            }
+                        Stmt::Expr(ExprStmt { ref expr, .. }) if expr.is_lit() && is_block_stmt => {
+                            continue
+                        }
 
-            _ => {}
-        }
+                        // Control flow
+                        Stmt::Throw(..)
+                        | Stmt::Return { .. }
+                        | Stmt::Continue { .. }
+                        | Stmt::Break { .. } => {
+                            let decls: Vec<_> = iter
+                                .flat_map(|t| extract_var_ids(&t))
+                                .map(|i| VarDeclarator {
+                                    span: i.span,
+                                    name: Pat::Ident(i),
+                                    init: None,
+                                    definite: false,
+                                })
+                                .collect();
+                            if !decls.is_empty() {
+                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    decls,
+                                    declare: false,
+                                }))));
+                            }
 
-        e
-    }
-}
+                            let stmt_like = T::from_stmt(stmt);
+                            buf.push(stmt_like);
 
-impl Fold<ForStmt> for Remover {
-    fn fold(&mut self, s: ForStmt) -> ForStmt {
-        let s = s.fold_children(self);
+                            return buf;
+                        }
 
-        ForStmt {
-            init: s.init.and_then(|e| match e {
-                VarDeclOrExpr::Expr(e) => ignore_result(*e).map(Box::new).map(VarDeclOrExpr::from),
-                _ => Some(e),
-            }),
-            update: s.update.and_then(|e| ignore_result(*e).map(Box::new)),
-            test: s.test.and_then(|e| {
-                let span = e.span();
-                if let Known(value) = e.as_pure_bool() {
-                    if value {
-                        return None;
-                    } else {
-                        return Some(box Expr::Lit(Lit::Bool(Bool { span, value: false })));
-                    }
+                        Stmt::Block(BlockStmt { span, stmts, .. }) => {
+                            if stmts.len() == 0 {
+                                continue;
+                            }
+
+                            if !is_ok_to_inline_block(&stmts) {
+                                BlockStmt {
+                                    span,
+                                    stmts: stmts.fold_with(self),
+                                }
+                                .into()
+                            } else {
+                                buf.extend(
+                                    stmts
+                                        .into_iter()
+                                        .filter(|s| match s {
+                                            Stmt::Empty(..) => false,
+                                            _ => true,
+                                        })
+                                        .map(T::from_stmt),
+                                );
+                                continue;
+                            }
+                        }
+
+                        // Optimize if statement.
+                        Stmt::If(IfStmt {
+                            test,
+                            cons,
+                            alt,
+                            span,
+                        }) => {
+                            // check if
+                            match test.as_bool() {
+                                (purity, Known(val)) => {
+                                    self.changed = true;
+                                    if !purity.is_pure() {
+                                        let expr = ignore_result(*test);
+
+                                        if let Some(expr) = expr {
+                                            buf.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                                                span: DUMMY_SP,
+                                                expr: Box::new(expr),
+                                            })));
+                                        }
+                                    }
+
+                                    if val {
+                                        // Hoist vars from alt
+                                        if let Some(var) =
+                                            alt.and_then(|alt| alt.extract_var_ids_as_var())
+                                        {
+                                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
+                                        }
+                                        *cons
+                                    } else {
+                                        // Hoist vars from cons
+                                        if let Some(var) = cons.extract_var_ids_as_var() {
+                                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
+                                        }
+                                        match alt {
+                                            Some(alt) => *alt,
+                                            None => continue,
+                                        }
+                                    }
+                                }
+                                _ => Stmt::If(IfStmt {
+                                    test,
+                                    cons,
+                                    alt,
+                                    span,
+                                }),
+                            }
+                        }
+
+                        _ => stmt,
+                    };
+
+                    T::from_stmt(stmt)
                 }
+                Err(stmt_like) => stmt_like,
+            };
 
-                Some(e)
-            }),
-            ..s
+            buf.push(stmt_like);
         }
+
+        buf
     }
 }
 
@@ -1064,10 +1091,19 @@ fn ignore_result(e: Expr) -> Option<Expr> {
 
         Expr::Assign(AssignExpr {
             op: op!("="),
-            left: PatOrExpr::Pat(box Pat::Ident(ref l)),
-            right: box Expr::Ident(r),
+            left: PatOrExpr::Pat(left),
+            right,
             ..
-        }) if l.sym == r.sym && l.span.ctxt() == r.span.ctxt() => None,
+        }) if match &*left {
+            Pat::Ident(l) => match &*right {
+                Expr::Ident(r) => l.sym == r.sym && l.span.ctxt() == r.span.ctxt(),
+                _ => false,
+            },
+            _ => false,
+        } =>
+        {
+            None
+        }
 
         Expr::Bin(BinExpr {
             span,
@@ -1079,9 +1115,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             let right = ignore_result(*right);
 
             match (left, right) {
-                (Some(l), Some(r)) => {
-                    ignore_result(preserve_effects(span, *undefined(span), vec![box l, box r]))
-                }
+                (Some(l), Some(r)) => ignore_result(preserve_effects(
+                    span,
+                    *undefined(span),
+                    vec![Box::new(l), Box::new(r)],
+                )),
                 (Some(l), None) => Some(l),
                 (None, Some(r)) => Some(r),
                 (None, None) => None,
@@ -1096,7 +1134,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }) => {
             if op == op!("&&") {
                 let right = if let Some(right) = ignore_result(*right) {
-                    box right
+                    Box::new(right)
                 } else {
                     return ignore_result(*left);
                 };
@@ -1131,7 +1169,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                             span,
                             left,
                             op,
-                            right: box right,
+                            right: Box::new(right),
                         }))
                     } else {
                         ignore_result(*left)
@@ -1163,7 +1201,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 Some(ExprOrSpread { spread: None, expr }) => ignore_result(*expr).map(|expr| {
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: box expr,
+                        expr: Box::new(expr),
                     })
                 }),
             });
@@ -1187,7 +1225,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             let props = props.move_flat_map(|v| match v {
                 PropOrSpread::Spread(..) => Some(v),
                 PropOrSpread::Prop(ref p) => {
-                    if is_literal(&p) {
+                    if is_literal(&**p) {
                         None
                     } else {
                         Some(v)
@@ -1201,7 +1239,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 ignore_result(preserve_effects(
                     span,
                     *undefined(DUMMY_SP),
-                    once(box Expr::Object(ObjectLit { span, props })),
+                    once(Box::new(Expr::Object(ObjectLit { span, props }))),
                 ))
             }
         }
@@ -1284,15 +1322,15 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                     span,
                     left: test,
                     op: op!("||"),
-                    right: box alt,
+                    right: Box::new(alt),
                 }));
             };
 
             Some(Expr::Cond(CondExpr {
                 span,
                 test,
-                cons: box cons,
-                alt: box alt,
+                cons: Box::new(cons),
+                alt: Box::new(alt),
             }))
         }
 
@@ -1426,63 +1464,49 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         found: bool,
     }
 
-    impl Visit<Function> for Visitor {
-        fn visit(&mut self, _: &Function) {}
-    }
-
-    impl Visit<Class> for Visitor {
-        fn visit(&mut self, _: &Class) {}
-    }
-
-    impl Visit<IfStmt> for Visitor {
-        fn visit(&mut self, node: &IfStmt) {
+    impl Visit for Visitor {
+        fn visit_switch_case(&mut self, node: &SwitchCase, _: &dyn Node) {
             let old = self.in_cond;
             self.in_cond = true;
-            node.cons.visit_with(self);
-            self.in_cond = true;
-            node.alt.visit_with(self);
+            node.cons.visit_with(node as _, self);
             self.in_cond = old;
         }
-    }
 
-    impl Visit<SwitchCase> for Visitor {
-        fn visit(&mut self, node: &SwitchCase) {
-            let old = self.in_cond;
-            self.in_cond = true;
-            node.cons.visit_with(self);
-            self.in_cond = old;
-        }
-    }
-
-    impl Visit<BreakStmt> for Visitor {
-        fn visit(&mut self, s: &BreakStmt) {
+        fn visit_break_stmt(&mut self, s: &BreakStmt, _: &dyn Node) {
             if self.in_cond && s.label.is_none() {
                 self.found = true
             }
         }
-    }
 
-    impl Visit<ContinueStmt> for Visitor {
-        fn visit(&mut self, s: &ContinueStmt) {
+        fn visit_continue_stmt(&mut self, s: &ContinueStmt, _: &dyn Node) {
             if self.in_cond && s.label.is_none() {
                 self.found = true
             }
         }
-    }
 
-    impl Visit<ReturnStmt> for Visitor {
-        fn visit(&mut self, _: &ReturnStmt) {
+        fn visit_return_stmt(&mut self, _: &ReturnStmt, _: &dyn Node) {
             if self.in_cond {
                 self.found = true
             }
         }
-    }
 
-    impl Visit<ThrowStmt> for Visitor {
-        fn visit(&mut self, _: &ThrowStmt) {
+        fn visit_throw_stmt(&mut self, _: &ThrowStmt, _: &dyn Node) {
             if self.in_cond {
                 self.found = true
             }
+        }
+
+        fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
+
+        fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+        fn visit_if_stmt(&mut self, node: &IfStmt, _: &dyn Node) {
+            let old = self.in_cond;
+            self.in_cond = true;
+            node.cons.visit_with(node as _, self);
+            self.in_cond = true;
+            node.alt.visit_with(node as _, self);
+            self.in_cond = old;
         }
     }
 
@@ -1490,6 +1514,6 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         in_cond: !only_conditional,
         found: false,
     };
-    s.visit_with(&mut v);
+    v.visit_stmts(s, &Invalid { span: DUMMY_SP } as _);
     v.found
 }

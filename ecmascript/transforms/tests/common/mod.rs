@@ -9,21 +9,20 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, SourceMap};
+use swc_common::{chain, comments::Comments, errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
-use swc_ecma_transforms::{
-    helpers::{InjectHelpers, HELPERS},
-    pass::Pass,
-};
+use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
+use swc_ecma_utils::{DropSpan, COMMENTS};
+use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
-pub fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
-    box ::swc_common::Fold::then(
+pub fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Fold> {
+    Box::new(chain!(
         tr,
         swc_ecma_transforms::debug::validator::Validator { name },
-    )
+    ))
 }
 
 macro_rules! validating {
@@ -34,7 +33,7 @@ macro_rules! validating {
 
 macro_rules! validate {
     ($e:expr) => {{
-        use swc_common::fold::FoldWith;
+        use swc_ecma_visit::FoldWith;
         if cfg!(debug_assertions) {
             $e.fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
                 name: concat!(file!(), ':', line!(), ':', column!()),
@@ -113,7 +112,7 @@ impl<'a> Tester<'a> {
         })
     }
 
-    pub fn apply_transform<T: Fold<Module>>(
+    pub fn apply_transform<T: Fold>(
         &mut self,
         mut tr: T,
         name: &str,
@@ -135,28 +134,32 @@ impl<'a> Tester<'a> {
             })?
         };
 
-        let module = validate!(module)
-            .fold_with(&mut tr)
-            .fold_with(&mut ::testing::DropSpan)
-            .fold_with(&mut Normalizer);
+        let module = COMMENTS.set(&Comments::default(), || {
+            validate!(module)
+                .fold_with(&mut tr)
+                .fold_with(&mut DropSpan {
+                    preserve_ctxt: true,
+                })
+                .fold_with(&mut Normalizer)
+        });
 
         Ok(module)
     }
 
     pub fn print(&mut self, module: &Module) -> String {
-        let handlers = box MyHandlers;
+        let handlers = Box::new(MyHandlers);
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
                 cm: self.cm.clone(),
-                wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
                     &mut wr,
                     None,
-                ),
+                )),
                 comments: None,
                 handlers,
             };
@@ -171,10 +174,10 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Pass
+fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
-    P: Pass,
+    P: Fold,
 {
     op(tester)
 }
@@ -193,10 +196,17 @@ macro_rules! test_transform {
 pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, ok_if_code_eq: bool)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     Tester::run(|tester| {
-        let expected =
-            tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
+        let expected = tester.apply_transform(
+            DropSpan {
+                preserve_ctxt: true,
+            },
+            "output.js",
+            syntax,
+            expected,
+        )?;
 
         println!(">>>>> Orig <<<<<\n{}", input);
         println!("----- Actual -----");
@@ -212,12 +222,20 @@ where
             _ => {}
         }
 
-        let actual = actual
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
-            .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut swc_ecma_transforms::fixer())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+        let actual = COMMENTS.set(&Comments::default(), || {
+            actual
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-1",
+                })
+                .fold_with(&mut swc_ecma_transforms::hygiene())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-2",
+                })
+                .fold_with(&mut swc_ecma_transforms::fixer())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-3",
+                })
+        });
 
         if actual == expected {
             return Ok(());
@@ -291,6 +309,7 @@ macro_rules! exec_tr {
 pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     Tester::run(|tester| {
         let tr = make_tr(test_name, tr, tester);
@@ -314,12 +333,20 @@ where
             _ => {}
         }
 
-        let module = module
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
-            .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut swc_ecma_transforms::fixer())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+        let module = COMMENTS.set(&Comments::default(), || {
+            module
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-1",
+                })
+                .fold_with(&mut swc_ecma_transforms::hygiene())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-2",
+                })
+                .fold_with(&mut swc_ecma_transforms::fixer())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-3",
+                })
+        });
 
         let src_without_helpers = tester.print(&module);
         let module = module.fold_with(&mut InjectHelpers {});
@@ -402,18 +429,23 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
-        match n {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            _ => n,
+impl Fold for Normalizer {
+    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children_with(self);
+
+        match node {
+            PatOrExpr::Pat(pat) => match *pat {
+                Pat::Expr(expr) => PatOrExpr::Expr(expr),
+                _ => PatOrExpr::Pat(pat),
+            },
+            _ => node,
         }
     }
 }
 
 struct HygieneVisualizer;
-impl Fold<Ident> for HygieneVisualizer {
-    fn fold(&mut self, ident: Ident) -> Ident {
+impl Fold for HygieneVisualizer {
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
             sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
             ..ident

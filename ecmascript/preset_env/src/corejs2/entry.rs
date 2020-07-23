@@ -2,8 +2,9 @@ use super::builtin::BUILTINS;
 use crate::{version::should_enable, Versions};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[derive(Debug)]
 pub struct Entry {
@@ -62,55 +63,9 @@ impl Entry {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for Entry {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        items.move_flat_map(|item| {
-            let item: ModuleItem = item.fold_with(self);
-
-            match item {
-                ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                    expr:
-                        box Expr::Call(CallExpr {
-                            callee:
-                                ExprOrSuper::Expr(box Expr::Ident(Ident {
-                                    sym: js_word!("require"),
-                                    ..
-                                })),
-                            ref args,
-                            ..
-                        }),
-                    ..
-                })) => {
-                    if args.len() == 1
-                        && match args[0] {
-                            ExprOrSpread {
-                                spread: None,
-                                expr: box Expr::Lit(Lit::Str(ref s)),
-                            } => {
-                                s.value == *"core-js"
-                                    || s.value == *"@swc/polyfill"
-                                    || s.value == *"@babel/polyfill"
-                            }
-                            _ => false,
-                        }
-                    {
-                        if self.add_all("@swc/polyfill") {
-                            return None;
-                        }
-                    }
-                }
-
-                _ => {}
-            }
-
-            Some(item)
-        })
-    }
-}
-
-impl Fold<ImportDecl> for Entry {
-    fn fold(&mut self, i: ImportDecl) -> ImportDecl {
-        let i: ImportDecl = i.fold_children(self);
+impl Fold for Entry {
+    fn fold_import_decl(&mut self, i: ImportDecl) -> ImportDecl {
+        let i: ImportDecl = i.fold_children_with(self);
 
         let remove = i.specifiers.is_empty() && self.add_all(&i.src.value);
 
@@ -126,5 +81,51 @@ impl Fold<ImportDecl> for Entry {
         } else {
             i
         }
+    }
+
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        items.move_flat_map(|item| {
+            let item: ModuleItem = item.fold_with(self);
+
+            match &item {
+                ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(callee),
+                        ref args,
+                        ..
+                    }) => match &**callee {
+                        Expr::Ident(Ident {
+                            sym: js_word!("require"),
+                            ..
+                        }) => {
+                            if args.len() == 1
+                                && match &args[0] {
+                                    ExprOrSpread { spread: None, expr } => match &**expr {
+                                        Expr::Lit(Lit::Str(s)) => {
+                                            s.value == *"core-js"
+                                                || s.value == *"@swc/polyfill"
+                                                || s.value == *"@babel/polyfill"
+                                        }
+                                        _ => false,
+                                    },
+                                    _ => false,
+                                }
+                            {
+                                if self.add_all("@swc/polyfill") {
+                                    return None;
+                                }
+                            }
+                        }
+
+                        _ => {}
+                    },
+                    _ => {}
+                },
+
+                _ => {}
+            }
+
+            Some(item)
+        })
     }
 }

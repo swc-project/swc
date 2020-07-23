@@ -5,10 +5,11 @@ use crate::{
 };
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{SyntaxContext, Visit, VisitWith};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::noop_visit_type;
 use swc_ecma_utils::find_ids;
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 impl Bundler<'_> {
     /// This method removes exported pure constants from the module.
@@ -22,7 +23,7 @@ impl Bundler<'_> {
         self.swc.run(|| {
             let mut v = ExportFinder::default();
 
-            module.visit_with(&mut v);
+            module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
             v.info
         })
@@ -50,8 +51,8 @@ struct ExportFinder {
 
 noop_visit_type!(ExportFinder);
 
-impl Visit<ModuleItem> for ExportFinder {
-    fn visit(&mut self, item: &ModuleItem) {
+impl Visit for ExportFinder {
+    fn visit_module_item(&mut self, item: &ModuleItem, _: &dyn Node) {
         match item {
             // TODO: Optimize pure constants
             //            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {

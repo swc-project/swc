@@ -1,6 +1,6 @@
 [package]
 name = "testing"
-version = "0.6.0"
+version = "0.7.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -9,7 +9,7 @@ description = "Testing utilities for the swc project."
 edition = "2018"
 
 [dependencies]
-swc_common = { version = "0.6", path ="../common", features = ["fold"] }
+swc_common = { version = "0.7.0", path ="../common" }
 once_cell = "1"
 regex = "1"
 relative-path = "1"

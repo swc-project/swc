@@ -1,10 +1,7 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{compat::es2015::TemplateLiteral, pass::Pass};
+use swc_ecma_transforms::compat::es2015::TemplateLiteral;
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -13,7 +10,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr(_: ()) -> impl Pass {
+fn tr(_: ()) -> impl Fold {
     TemplateLiteral::default()
 }
 

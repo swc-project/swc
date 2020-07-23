@@ -1,9 +1,7 @@
-use crate::{
-    pass::Pass,
-    util::{ExprFactory, StmtLike},
-};
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use crate::util::{ExprFactory, StmtLike};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-computed-properties`
 ///
@@ -36,7 +34,7 @@ use swc_ecma_ast::*;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties() -> impl Pass {
+pub fn computed_properties() -> impl Fold {
     ComputedProps
 }
 
@@ -50,10 +48,10 @@ struct ObjectLitFolder {
     used_define_enum_props: bool,
 }
 
-impl Fold<Expr> for ObjectLitFolder {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for ObjectLitFolder {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Object(ObjectLit { mut props, span }) => {
@@ -77,27 +75,27 @@ impl Fold<Expr> for ObjectLitFolder {
                 let props_cnt = props.len();
 
                 exprs.push(if props_cnt == 1 {
-                    box Expr::Object(ObjectLit {
+                    Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: obj_props,
-                    })
+                    }))
                 } else {
-                    box Expr::Assign(AssignExpr {
+                    Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(obj_ident.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone()))),
                         op: op!("="),
-                        right: box Expr::Object(ObjectLit {
+                        right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: obj_props,
-                        }),
-                    })
+                        })),
+                    }))
                 });
 
                 for prop in props {
                     let span = prop.span();
 
                     let (key, value) = match prop {
-                        PropOrSpread::Prop(box prop) => match prop {
+                        PropOrSpread::Prop(prop) => match *prop {
                             Prop::Shorthand(ident) => (
                                 Expr::Lit(Lit::Str(Str {
                                     span: ident.span,
@@ -171,34 +169,34 @@ impl Fold<Expr> for ObjectLitFolder {
                                     mutator_map.clone().computed_member(prop_name_to_expr(key));
 
                                 // mutator[f] = mutator[f] || {}
-                                exprs.push(box Expr::Assign(AssignExpr {
+                                exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(box mutator_elem.clone()),
+                                    left: PatOrExpr::Expr(Box::new(mutator_elem.clone())),
                                     op: op!("="),
-                                    right: box Expr::Bin(BinExpr {
+                                    right: Box::new(Expr::Bin(BinExpr {
                                         span,
-                                        left: box mutator_elem.clone(),
+                                        left: Box::new(mutator_elem.clone()),
                                         op: op!("||"),
-                                        right: box Expr::Object(ObjectLit {
+                                        right: Box::new(Expr::Object(ObjectLit {
                                             span,
                                             props: vec![],
-                                        }),
-                                    }),
-                                }));
+                                        })),
+                                    })),
+                                })));
 
                                 // mutator[f].get = function(){}
-                                exprs.push(box Expr::Assign(AssignExpr {
+                                exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(
-                                        box mutator_elem
-                                            .member(quote_ident!(gs_prop_name.unwrap())),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        mutator_elem
+                                            .make_member(quote_ident!(gs_prop_name.unwrap())),
+                                    )),
                                     op: op!("="),
-                                    right: box Expr::Fn(FnExpr {
+                                    right: Box::new(Expr::Fn(FnExpr {
                                         ident: None,
                                         function,
-                                    }),
-                                }));
+                                    })),
+                                })));
 
                                 continue;
                                 // unimplemented!("getter /setter property")
@@ -222,12 +220,12 @@ impl Fold<Expr> for ObjectLitFolder {
                             type_args: Default::default(),
                         });
                     }
-                    exprs.push(box Expr::Call(CallExpr {
+                    exprs.push(Box::new(Expr::Call(CallExpr {
                         span,
                         callee: helper!(define_property, "defineProperty"),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
-                    }));
+                    })));
                 }
 
                 self.vars.push(VarDeclarator {
@@ -240,22 +238,22 @@ impl Fold<Expr> for ObjectLitFolder {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(mutator_map.clone()),
-                        init: Some(box Expr::Object(ObjectLit {
+                        init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![],
-                        })),
+                        }))),
                         definite: false,
                     });
-                    exprs.push(box Expr::Call(CallExpr {
+                    exprs.push(Box::new(Expr::Call(CallExpr {
                         span,
                         callee: helper!(define_enumerable_properties, "defineEnumerableProperties"),
                         args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                         type_args: Default::default(),
-                    }));
+                    })));
                 }
 
                 // Last value
-                exprs.push(box Expr::Ident(obj_ident));
+                exprs.push(Box::new(Expr::Ident(obj_ident)));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,
@@ -268,7 +266,7 @@ impl Fold<Expr> for ObjectLitFolder {
 
 fn is_complex<T: VisitWith<ComplexVisitor>>(node: &T) -> bool {
     let mut visitor = ComplexVisitor::default();
-    node.visit_children(&mut visitor);
+    node.visit_children_with(&mut visitor);
     visitor.found
 }
 
@@ -277,8 +275,8 @@ struct ComplexVisitor {
     found: bool,
 }
 
-impl Visit<PropName> for ComplexVisitor {
-    fn visit(&mut self, pn: &PropName) {
+impl Visit for ComplexVisitor {
+    fn visit_prop_name(&mut self, pn: &PropName, _: &dyn Node) {
         match *pn {
             PropName::Computed(..) => self.found = true,
             _ => {}
@@ -286,17 +284,28 @@ impl Visit<PropName> for ComplexVisitor {
     }
 }
 
-impl<T> Fold<Vec<T>> for ComputedProps
-where
-    T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for ComputedProps {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl ComputedProps {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
+        Vec<T>: VisitWith<ShouldWork>,
+    {
         // Fast path when there's no computed properties.
         if !contains_computed_expr(&stmts) {
             return stmts;
         }
 
-        // let stmts = stmts.fold_children(self);
+        // let stmts = stmts.fold_children_with(self);
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
@@ -344,7 +353,7 @@ where
     N: VisitWith<ShouldWork>,
 {
     let mut v = ShouldWork { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 
@@ -352,8 +361,8 @@ struct ShouldWork {
     found: bool,
 }
 
-impl Visit<PropName> for ShouldWork {
-    fn visit(&mut self, node: &PropName) {
+impl Visit for ShouldWork {
+    fn visit_prop_name(&mut self, node: &PropName, _: &dyn Node) {
         match *node {
             PropName::Computed(_) => self.found = true,
             _ => {}

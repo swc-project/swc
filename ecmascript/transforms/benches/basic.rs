@@ -1,5 +1,4 @@
 #![feature(test)]
-#![feature(specialization)]
 
 extern crate test;
 
@@ -7,9 +6,10 @@ extern crate test;
 static GLOBAL: System = System;
 
 use std::alloc::System;
-use swc_common::{chain, FileName, FoldWith};
+use swc_common::{chain, FileName};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::helpers;
+use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
 static SOURCE: &str = include_str!("../../parser/benches/files/angular-1.2.5.js");

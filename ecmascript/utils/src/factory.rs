@@ -8,7 +8,7 @@ pub trait ExprFactory: Into<Expr> {
     #[inline]
     fn as_arg(self) -> ExprOrSpread {
         ExprOrSpread {
-            expr: box self.into(),
+            expr: Box::new(self.into()),
             spread: None,
         }
     }
@@ -18,22 +18,22 @@ pub trait ExprFactory: Into<Expr> {
     fn into_stmt(self) -> Stmt {
         Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
-            expr: box self.into(),
+            expr: Box::new(self.into()),
         })
     }
 
     #[inline]
     fn as_callee(self) -> ExprOrSuper {
-        ExprOrSuper::Expr(box self.into())
+        ExprOrSuper::Expr(Box::new(self.into()))
     }
 
     #[inline]
     fn as_obj(self) -> ExprOrSuper {
-        ExprOrSuper::Expr(box self.into())
+        ExprOrSuper::Expr(Box::new(self.into()))
     }
 
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.member(Ident::new(js_word!("apply"), span));
+        let apply = self.make_member(Ident::new(js_word!("apply"), span));
 
         Expr::Call(CallExpr {
             span,
@@ -45,7 +45,7 @@ pub trait ExprFactory: Into<Expr> {
 
     #[inline]
     fn wrap_with_paren(self) -> Expr {
-        let expr = box self.into();
+        let expr = Box::new(self.into());
         let span = expr.span();
         Expr::Paren(ParenExpr { expr, span })
     }
@@ -65,26 +65,26 @@ pub trait ExprFactory: Into<Expr> {
     where
         T: Into<Expr>,
     {
-        let right = box right.into();
+        let right = Box::new(right.into());
 
         Expr::Bin(BinExpr {
             span: DUMMY_SP,
-            left: box self.into(),
+            left: Box::new(self.into()),
             op,
             right,
         })
     }
 
     #[inline]
-    fn member<T>(self, prop: T) -> Expr
+    fn make_member<T>(self, prop: T) -> Expr
     where
         T: Into<Expr>,
     {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(box self.into()),
+            obj: ExprOrSuper::Expr(Box::new(self.into())),
             span: DUMMY_SP,
             computed: false,
-            prop: box prop.into(),
+            prop: Box::new(prop.into()),
         })
     }
 
@@ -94,10 +94,10 @@ pub trait ExprFactory: Into<Expr> {
         T: Into<Expr>,
     {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(box self.into()),
+            obj: ExprOrSuper::Expr(Box::new(self.into())),
             span: DUMMY_SP,
             computed: true,
-            prop: box prop.into(),
+            prop: Box::new(prop.into()),
         })
     }
 }

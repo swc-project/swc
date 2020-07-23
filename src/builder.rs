@@ -2,19 +2,18 @@ use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
 use either::Either;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{chain, errors::Handler, fold::and_then::AndThen, Mark, SourceMap};
+use swc_common::{chain, errors::Handler, Mark, SourceMap};
 use swc_ecmascript::{
     parser::Syntax,
     preset_env,
     transforms::{
-        compat, const_modules, fixer, helpers, hygiene, modules,
-        pass::{Optional, Pass},
-        typescript,
+        compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional, typescript,
     },
+    visit,
 };
 
 /// Builder is used to create a high performance `Compiler`.
-pub struct PassBuilder<'a, 'b, P: Pass> {
+pub struct PassBuilder<'a, 'b, P: visit::Fold> {
     cm: &'a Arc<SourceMap>,
     handler: &'b Handler,
     env: Option<preset_env::Config>,
@@ -26,7 +25,7 @@ pub struct PassBuilder<'a, 'b, P: Pass> {
     fixer: bool,
 }
 
-impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
+impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
     pub fn new(
         cm: &'a Arc<SourceMap>,
         handler: &'b Handler,
@@ -47,7 +46,10 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         }
     }
 
-    pub fn then<N>(self, next: N) -> PassBuilder<'a, 'b, AndThen<P, N>> {
+    pub fn then<N>(self, next: N) -> PassBuilder<'a, 'b, swc_visit::AndThen<P, N>>
+    where
+        N: swc_ecmascript::visit::Fold,
+    {
         let pass = chain!(self.pass, next);
         PassBuilder {
             cm: self.cm,
@@ -77,16 +79,16 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
     pub fn const_modules(
         self,
         globals: HashMap<JsWord, HashMap<JsWord, String>>,
-    ) -> PassBuilder<'a, 'b, impl Pass> {
+    ) -> PassBuilder<'a, 'b, impl visit::Fold> {
         self.then(const_modules(globals))
     }
 
-    pub fn inline_globals(self, c: GlobalPassOption) -> PassBuilder<'a, 'b, impl Pass> {
+    pub fn inline_globals(self, c: GlobalPassOption) -> PassBuilder<'a, 'b, impl visit::Fold> {
         let pass = c.build(&self.cm, &self.handler);
         self.then(pass)
     }
 
-    pub fn strip_typescript(self) -> PassBuilder<'a, 'b, impl Pass> {
+    pub fn strip_typescript(self) -> PassBuilder<'a, 'b, impl visit::Fold> {
         self.then(typescript::strip())
     }
 
@@ -117,7 +119,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         root_mark: Mark,
         syntax: Syntax,
         module: Option<ModuleConfig>,
-    ) -> impl Pass {
+    ) -> impl visit::Fold {
         let need_interop_analysis = match module {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,

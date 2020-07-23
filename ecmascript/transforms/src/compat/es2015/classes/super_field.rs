@@ -2,9 +2,10 @@ use super::get_prototype_of;
 use crate::util::{alias_ident_for, is_rest_arguments, ExprFactory};
 use std::iter;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Process function body.
 ///
@@ -61,32 +62,26 @@ struct SuperCalleeFolder<'a> {
 noop_fold_type!(SuperCalleeFolder<'_>);
 
 macro_rules! mark_nested {
-    ($T:tt) => {
-        impl<'a> Fold<$T> for SuperFieldAccessFolder<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                // injected `_defineProperty` should be handled like method
-                if self.folding_constructor && !self.in_injected_define_property_call {
-                    let old = self.in_nested_scope;
-                    self.in_nested_scope = true;
-                    let n = n.fold_children(self);
-                    self.in_nested_scope = old;
-                    n
-                } else {
-                    n.fold_children(self)
-                }
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, n: $T) -> $T {
+            // injected `_defineProperty` should be handled like method
+            if self.folding_constructor && !self.in_injected_define_property_call {
+                let old = self.in_nested_scope;
+                self.in_nested_scope = true;
+                let n = n.fold_children_with(self);
+                self.in_nested_scope = old;
+                n
+            } else {
+                n.fold_children_with(self)
             }
         }
     };
 }
 
-mark_nested!(Function);
-mark_nested!(Class);
+impl<'a> Fold for SuperCalleeFolder<'a> {
+    fold_only_key!();
 
-fold_only_key!(SuperFieldAccessFolder);
-fold_only_key!(SuperCalleeFolder);
-
-impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
-    fn fold(&mut self, n: Expr) -> Expr {
+    fn fold_expr(&mut self, n: Expr) -> Expr {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
                 if self.this_alias_mark.is_none() {
@@ -126,10 +121,10 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                         true,
                         prop,
                         op,
-                        box Expr::Lit(Lit::Num(Number {
+                        Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
                             value: 1.0,
-                        })),
+                        }))),
                     )
                 }
                 _ => {
@@ -143,34 +138,57 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
             },
             Expr::Assign(AssignExpr {
                 span,
-                left,
+                mut left,
                 op,
                 right,
-            }) => match left {
-                PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                    obj:
-                        ExprOrSuper::Super(Super {
-                            span: super_token, ..
-                        }),
-                    prop,
-                    ..
-                }))
-                | PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
-                    obj:
-                        ExprOrSuper::Super(Super {
-                            span: super_token, ..
-                        }),
-                    prop,
-                    ..
-                }))) => self.super_to_set_call(super_token, false, prop, op, right),
-                _ => Expr::Assign(AssignExpr {
+            }) => {
+                //
+                if let PatOrExpr::Expr(expr) = left {
+                    match *expr {
+                        Expr::Member(MemberExpr {
+                            obj:
+                                ExprOrSuper::Super(Super {
+                                    span: super_token, ..
+                                }),
+                            prop,
+                            ..
+                        }) => {
+                            return self.super_to_set_call(super_token, false, prop, op, right);
+                        }
+                        _ => {
+                            left = PatOrExpr::Expr(expr);
+                        }
+                    }
+                }
+                if let PatOrExpr::Pat(pat) = left {
+                    match *pat {
+                        Pat::Expr(expr) => match *expr {
+                            Expr::Member(MemberExpr {
+                                obj:
+                                    ExprOrSuper::Super(Super {
+                                        span: super_token, ..
+                                    }),
+                                prop,
+                                ..
+                            }) => {
+                                return self.super_to_set_call(super_token, false, prop, op, right);
+                            }
+                            _ => {
+                                left = PatOrExpr::Pat(Box::new(Pat::Expr(expr)));
+                            }
+                        },
+                        _ => left = PatOrExpr::Pat(pat),
+                    }
+                }
+
+                Expr::Assign(AssignExpr {
                     span,
-                    left: left.fold_children(self),
+                    left: left.fold_children_with(self),
                     op,
-                    right: right.fold_children(self),
-                }),
-            },
-            _ => n.fold_children(self),
+                    right: right.fold_children_with(self),
+                })
+            }
+            _ => n.fold_children_with(self),
         };
 
         match n {
@@ -198,7 +216,9 @@ impl<'a> SuperCalleeFolder<'a> {
             Expr::Ident(self.class_name.clone())
         } else {
             // Foo.prototype
-            self.class_name.clone().member(quote_ident!("prototype"))
+            self.class_name
+                .clone()
+                .make_member(quote_ident!("prototype"))
         })
         .as_arg();
 
@@ -274,8 +294,12 @@ impl<'a> SuperCalleeFolder<'a> {
             }
         }
 
-        let proto_arg =
-            get_prototype_of(self.class_name.clone().member(quote_ident!("prototype"))).as_arg();
+        let proto_arg = get_prototype_of(
+            self.class_name
+                .clone()
+                .make_member(quote_ident!("prototype")),
+        )
+        .as_arg();
 
         let prop_arg = match *prop {
             Expr::Ident(Ident {
@@ -293,7 +317,7 @@ impl<'a> SuperCalleeFolder<'a> {
             op!("=") => prop_arg.as_arg(),
             _ => AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(box Pat::Ident(ref_ident.clone())),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone()))),
                 op: op!("="),
                 right: prop,
             }
@@ -303,20 +327,25 @@ impl<'a> SuperCalleeFolder<'a> {
         let rhs_arg = match op {
             op!("=") => rhs.as_arg(),
             _ => {
-                let left =
-                    box self.super_to_get_call(super_token, box Expr::Ident(ref_ident), true);
+                let left = Box::new(self.super_to_get_call(
+                    super_token,
+                    Box::new(Expr::Ident(ref_ident)),
+                    true,
+                ));
                 let left = if is_update {
-                    box AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(update_ident.clone())),
-                        op: op!("="),
-                        right: box Expr::Unary(UnaryExpr {
+                    Box::new(
+                        AssignExpr {
                             span: DUMMY_SP,
-                            op: op!(unary, "+"),
-                            arg: left,
-                        }),
-                    }
-                    .into()
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(update_ident.clone()))),
+                            op: op!("="),
+                            right: Box::new(Expr::Unary(UnaryExpr {
+                                span: DUMMY_SP,
+                                op: op!(unary, "+"),
+                                arg: left,
+                            })),
+                        }
+                        .into(),
+                    )
                 } else {
                     left
                 };
@@ -372,7 +401,7 @@ impl<'a> SuperCalleeFolder<'a> {
         if is_update {
             Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
-                exprs: vec![box expr, box Expr::Ident(update_ident)],
+                exprs: vec![Box::new(expr), Box::new(Expr::Ident(update_ident))],
             })
         } else {
             expr
@@ -380,28 +409,33 @@ impl<'a> SuperCalleeFolder<'a> {
     }
 }
 
-impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
-    fn fold(&mut self, n: Expr) -> Expr {
+impl<'a> Fold for SuperFieldAccessFolder<'a> {
+    mark_nested!(fold_function, Function);
+    mark_nested!(fold_class, Class);
+
+    fold_only_key!();
+
+    fn fold_expr(&mut self, n: Expr) -> Expr {
         // We pretend method folding mode for while folding injected `_defineProperty`
         // calls.
-        if n.span().is_dummy() {
-            match n {
-                Expr::Call(CallExpr {
-                    callee:
-                        ExprOrSuper::Expr(box Expr::Ident(Ident {
-                            sym: js_word!("_defineProperty"),
-                            ..
-                        })),
+        match n {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(ref expr),
+                ..
+            }) => match &**expr {
+                Expr::Ident(Ident {
+                    sym: js_word!("_defineProperty"),
                     ..
                 }) => {
                     let old = self.in_injected_define_property_call;
                     self.in_injected_define_property_call = true;
-                    let n = n.fold_children(self);
+                    let n = n.fold_children_with(self);
                     self.in_injected_define_property_call = old;
                     return n;
                 }
                 _ => {}
-            }
+            },
+            _ => {}
         }
 
         let mut callee_folder = SuperCalleeFolder {
@@ -417,13 +451,15 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
 
         let should_invoke_call = match n {
             Expr::Call(CallExpr {
-                callee:
-                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
-                    })),
+                callee: ExprOrSuper::Expr(ref expr),
                 ..
-            }) => true,
+            }) => match &**expr {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(..),
+                    ..
+                }) => true,
+                _ => false,
+            },
             _ => false,
         };
 
@@ -451,7 +487,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                             callee: MemberExpr {
                                 span: DUMMY_SP,
                                 obj: callee,
-                                prop: box Expr::Ident(quote_ident!("apply")),
+                                prop: Box::new(Expr::Ident(quote_ident!("apply"))),
                                 computed: false,
                             }
                             .as_callee(),
@@ -471,7 +507,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                         callee: MemberExpr {
                             span: DUMMY_SP,
                             obj: callee,
-                            prop: box Expr::Ident(quote_ident!("call")),
+                            prop: Box::new(Expr::Ident(quote_ident!("call"))),
                             computed: false,
                         }
                         .as_callee(),
@@ -483,6 +519,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             }
         }
 
-        n.fold_children(self)
+        n.fold_children_with(self)
     }
 }

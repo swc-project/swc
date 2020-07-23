@@ -1,7 +1,8 @@
 use crate::util::{prepend_stmts, ExprFactory};
 use arrayvec::ArrayVec;
-use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub fn parameters() -> Params {
     Params
@@ -37,7 +38,7 @@ impl Params {
                     decls.push(VarDeclarator {
                         span,
                         name: param.pat,
-                        init: Some(box Expr::Ident(binding)),
+                        init: Some(Box::new(Expr::Ident(binding))),
                         definite: false,
                     })
                 }
@@ -53,7 +54,7 @@ impl Params {
                     decls.push(VarDeclarator {
                         span,
                         name: param.pat,
-                        init: Some(box Expr::Ident(binding)),
+                        init: Some(Box::new(Expr::Ident(binding))),
                         definite: false,
                     })
                 }
@@ -79,7 +80,7 @@ impl Params {
                             decls_after_unpack.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: arg,
-                                init: Some(box tmp_ident.clone().into()),
+                                init: Some(Box::new(tmp_ident.clone().into())),
                                 definite: false,
                             });
                             tmp_ident
@@ -94,33 +95,35 @@ impl Params {
                             // `len - $i`
                             let bin: Expr = validate!(BinExpr {
                                 span,
-                                left: box Expr::Ident(ident.clone()),
+                                left: Box::new(Expr::Ident(ident.clone())),
                                 op: op!(bin, "-"),
-                                right: box Expr::Lit(Lit::Num(Number {
+                                right: Box::new(Expr::Lit(Lit::Num(Number {
                                     span,
                                     value: i as f64,
-                                })),
+                                }))),
                             })
                             .into();
                             if !min_zero {
                                 return bin;
                             }
 
-                            validate!(Expr::Cond(CondExpr {
+                            Expr::Cond(CondExpr {
                                 span,
-                                test: box BinExpr {
-                                    span,
-                                    left: box len_ident.clone().into(),
-                                    op: op!(">"),
-                                    right: box Expr::Lit(Lit::Num(Number {
+                                test: Box::new(
+                                    BinExpr {
                                         span,
-                                        value: i as _,
-                                    })),
-                                }
-                                .into(),
-                                cons: box bin,
-                                alt: box Expr::Lit(Lit::Num(Number { span, value: 0.0 })),
-                            }))
+                                        left: Box::new(len_ident.clone().into()),
+                                        op: op!(">"),
+                                        right: Box::new(Expr::Lit(Lit::Num(Number {
+                                            span,
+                                            value: i as _,
+                                        }))),
+                                    }
+                                    .into(),
+                                ),
+                                cons: Box::new(bin),
+                                alt: Box::new(Expr::Lit(Lit::Num(Number { span, value: 0.0 }))),
+                            })
                         }
                     };
 
@@ -141,70 +144,72 @@ impl Params {
                                 VarDeclarator {
                                     span,
                                     name: Pat::Ident(arg.clone()),
-                                    init: Some(box Expr::New(NewExpr {
+                                    init: Some(Box::new(Expr::New(NewExpr {
                                         span,
-                                        callee: box quote_ident!("Array").into(),
+                                        callee: Box::new(quote_ident!("Array").into()),
                                         args: Some(vec![{
                                             // `len` or  `len - $i`
                                             make_minus_i(&len_ident, true).as_arg()
                                         }]),
                                         type_args: Default::default(),
-                                    })),
+                                    }))),
                                     definite: false,
                                 },
                                 // _key = 0
                                 VarDeclarator {
                                     span,
                                     name: Pat::Ident(idx_ident.clone()),
-                                    init: Some(box Expr::Lit(Lit::Num(Number {
+                                    init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,
-                                    }))),
+                                    })))),
                                     definite: false,
                                 },
                             ],
                             declare: false,
                         })),
                         // `_key < _len`
-                        test: Some(box Expr::Bin(BinExpr {
+                        test: Some(Box::new(Expr::Bin(BinExpr {
                             span,
-                            left: box idx_ident.clone().into(),
+                            left: Box::new(idx_ident.clone().into()),
                             op: op!("<"),
-                            right: box len_ident.clone().into(),
-                        })),
+                            right: Box::new(len_ident.clone().into()),
+                        }))),
                         // _key++
-                        update: Some(box Expr::Update(UpdateExpr {
+                        update: Some(Box::new(Expr::Update(UpdateExpr {
                             span,
                             op: op!("++"),
                             prefix: false,
-                            arg: box idx_ident.clone().into(),
-                        })),
-                        body: box Stmt::Block(BlockStmt {
+                            arg: Box::new(idx_ident.clone().into()),
+                        }))),
+                        body: Box::new(Stmt::Block(BlockStmt {
                             span,
                             stmts: vec![{
-                                let prop = box Expr::Ident(idx_ident.clone());
+                                let prop = Box::new(Expr::Ident(idx_ident.clone()));
                                 // a1[_key - i] = arguments[_key];
                                 let expr = AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(
-                                        box arg.computed_member(make_minus_i(&idx_ident, false)),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        arg.computed_member(make_minus_i(&idx_ident, false)),
+                                    )),
                                     op: op!("="),
-                                    right: box validate!(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: ExprOrSuper::Expr(
-                                            box quote_ident!(span, "arguments").into(),
-                                        ),
-                                        computed: true,
-                                        prop,
-                                    })
-                                    .into(),
+                                    right: Box::new(
+                                        MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: ExprOrSuper::Expr(Box::new(
+                                                quote_ident!(span, "arguments").into(),
+                                            )),
+                                            computed: true,
+                                            prop,
+                                        }
+                                        .into(),
+                                    ),
                                 }
                                 .into_stmt();
 
                                 validate!(expr)
                             }],
-                        }),
+                        })),
                     }))
                 }
                 _ => params.push(param),
@@ -222,7 +227,7 @@ impl Params {
                 declare: false,
             })))
         }
-        iter.extend(validate!(unpack_rest));
+        iter.extend(unpack_rest);
         if !decls_after_unpack.is_empty() {
             iter.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
@@ -243,4 +248,6 @@ impl Params {
     }
 }
 
-impl_fold_fn!(Params);
+impl Fold for Params {
+    impl_fold_fn!();
+}

@@ -6,17 +6,17 @@ use crate::{
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
+use is_macro::Is;
 use string_enum::StringEnum;
-#[cfg(feature = "fold")]
-use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum Decl {
     #[tag("ClassDeclaration")]
     Class(ClassDecl),
     #[tag("FunctionDeclaration")]
+    #[is(name = "fn_decl")]
     Fn(FnDecl),
     #[tag("VariableDeclaration")]
     Var(VarDecl),
@@ -73,7 +73,6 @@ pub struct VarDecl {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum VarDeclKind {
     /// `var`
     Var,

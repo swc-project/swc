@@ -1,14 +1,15 @@
 use crate::{
-    pass::Pass,
+    ext::ExprRefExt,
     util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike},
 };
 use serde::Deserialize;
 use std::mem;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
-pub fn spread(c: Config) -> impl Pass {
+pub fn spread(c: Config) -> impl Fold {
     Spread { c }
 }
 
@@ -34,11 +35,21 @@ struct ActualFolder {
 
 noop_fold_type!(ActualFolder);
 
-impl<T> Fold<Vec<T>> for Spread
-where
-    T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
-{
-    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+impl Fold for Spread {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Spread {
+    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
+    {
         let mut folder = ActualFolder {
             c: self.c,
             vars: vec![],
@@ -60,9 +71,9 @@ where
     }
 }
 
-impl Fold<Expr> for ActualFolder {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = validate!(e.fold_children(self));
+impl Fold for ActualFolder {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = validate!(e.fold_children_with(self));
 
         match e {
             Expr::Array(ArrayLit { span, elems }) => {
@@ -100,18 +111,20 @@ impl Fold<Expr> for ActualFolder {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(Super { span, .. }),
                         ..
-                    }) => (box Expr::This(ThisExpr { span }), callee),
+                    }) => (Box::new(Expr::This(ThisExpr { span })), callee),
 
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(ref expr @ box Expr::This(..)),
+                        obj: ExprOrSuper::Expr(ref expr),
                         ..
-                    }) => (expr.clone(), callee),
+                    }) if expr.is_this() => (expr.clone(), callee),
 
                     // Injected variables can be accessed without any side effect
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(box Expr::Ident(ref i)),
+                        obj: ExprOrSuper::Expr(ref e),
                         ..
-                    }) if i.span.is_dummy() => (box Expr::Ident(i.clone()), callee),
+                    }) if e.as_ident().is_some() && e.as_ident().unwrap().span.is_dummy() => {
+                        (Box::new(Expr::Ident(e.as_ident().unwrap().clone())), callee)
+                    }
 
                     Expr::Ident(Ident { span, .. }) => (undefined(span), callee),
 
@@ -130,30 +143,30 @@ impl Fold<Expr> for ActualFolder {
                             init: None,
                         });
 
-                        let this = box Expr::Ident(ident.clone());
+                        let this = Box::new(Expr::Ident(ident.clone()));
                         let callee = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(ident)),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ident))),
                             op: op!("="),
                             right: expr,
                         });
                         (
                             this,
-                            box Expr::Member(MemberExpr {
+                            Box::new(Expr::Member(MemberExpr {
                                 span,
                                 obj: callee.as_obj(),
                                 prop,
                                 computed,
-                            }),
+                            })),
                         )
                     }
 
                     // https://github.com/swc-project/swc/issues/400
                     // _ => (undefined(callee.span()), callee),
                     _ => (
-                        box Expr::This(ThisExpr {
+                        Box::new(Expr::This(ThisExpr {
                             span: callee.span(),
-                        }),
+                        })),
                         callee,
                     ),
                 };
@@ -169,7 +182,7 @@ impl Fold<Expr> for ActualFolder {
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee.as_callee(),
-                    prop: box Ident::new(js_word!("apply"), span).into(),
+                    prop: Box::new(Ident::new(js_word!("apply"), span).into()),
                     computed: false,
                 };
 
@@ -310,7 +323,7 @@ impl ActualFolder {
                                                 span: DUMMY_SP,
                                                 elems: vec![],
                                             }
-                                            .member(quote_ident!("concat"))
+                                            .make_member(quote_ident!("concat"))
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
                                             type_args: Default::default(),
@@ -356,7 +369,7 @@ impl ActualFolder {
             let callee = buf
                 .remove(0)
                 .expr
-                .member(Ident::new(js_word!("concat"), DUMMY_SP))
+                .make_member(Ident::new(js_word!("concat"), DUMMY_SP))
                 .as_callee();
 
             if buf[0].spread.is_none() {
@@ -391,7 +404,7 @@ impl ActualFolder {
                         elems: vec![],
                     })
                 })
-                .member(Ident::new(js_word!("concat"), span))
+                .make_member(Ident::new(js_word!("concat"), span))
                 .as_callee(),
 
             args: buf,
@@ -407,14 +420,27 @@ fn expand_literal_args(
         buf: &mut Vec<Option<ExprOrSpread>>,
         args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
     ) {
-        for arg in args {
-            match arg {
-                Some(ExprOrSpread {
-                    spread: Some(..),
-                    expr: box Expr::Array(arr),
-                }) => expand(buf, arr.elems.into_iter()),
-                _ => buf.push(arg),
+        for mut arg in args {
+            if let Some(ExprOrSpread {
+                spread: Some(spread_span),
+                expr,
+            }) = arg
+            {
+                match *expr {
+                    Expr::Array(arr) => {
+                        expand(buf, arr.elems.into_iter());
+                        return;
+                    }
+                    _ => {
+                        arg = Some(ExprOrSpread {
+                            spread: Some(spread_span),
+                            expr,
+                        })
+                    }
+                }
             }
+
+            buf.push(arg)
         }
     }
 

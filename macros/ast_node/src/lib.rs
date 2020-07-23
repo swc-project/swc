@@ -9,46 +9,7 @@ use syn::{self, *};
 
 mod ast_node_macro;
 mod enum_deserialize;
-mod fold;
 mod spanned;
-mod visit;
-mod visit_mut;
-
-/// Implements `FoldWith<F>` and `VisitWith<F>`.
-///
-/// ## Attributes
-/// `#[fold(ignore)]`
-/// Skip a field.
-///
-/// `#[fold(bound)]`
-/// Add bound to the generated impl block.
-/// Generic fields typically requires this attribute.
-#[proc_macro_derive(Fold, attributes(fold))]
-pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
-    let name = input.ident.clone();
-
-    let fold_item = self::fold::derive(input.clone());
-    let visit_item = self::visit::derive(input.clone());
-    let visit_mut_item = self::visit_mut::derive(input);
-    let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
-        Vars {
-            fold_item,
-            visit_item,
-            visit_mut_item,
-            NAME: Ident::new(&format!("IMPL_FOLD_FOR_{}",name), Span::call_site()),
-        },
-        {
-            const NAME: () = {
-                fold_item
-                visit_item
-                visit_mut_item
-            };
-        }
-    ));
-
-    print("derive(Fold)", item.dump())
-}
 
 #[proc_macro_derive(Spanned, attributes(span))]
 pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
@@ -109,7 +70,6 @@ pub fn ast_node(
                     ::swc_common::DeserializeEnum,
                 )]
                 #[serde(untagged)]
-                #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input
             }))
         }
@@ -154,7 +114,6 @@ pub fn ast_node(
                     serde_tag
                     #[serde(rename_all = "camelCase")]
                     serde_rename
-                    #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                     input
                 }));
 

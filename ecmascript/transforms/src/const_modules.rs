@@ -1,19 +1,17 @@
-use crate::{
-    pass::Pass,
-    util::{
-        drop_span,
-        options::{CM, SESSION},
-    },
+use crate::util::{
+    drop_span,
+    options::{CM, SESSION},
 };
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
+use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
+use swc_ecma_visit::{Fold, FoldWith};
 
-pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Pass {
+pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Fold {
     ConstModules {
         globals: globals
             .into_iter()
@@ -81,11 +79,8 @@ struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
-impl Fold<Vec<ModuleItem>> for ConstModules
-where
-    Vec<ModuleItem>: FoldWith<Self>,
-{
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold for ConstModules {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         items.move_flat_map(|item| match item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                 let entry = self.globals.get(&import.src.value);
@@ -118,10 +113,8 @@ where
             _ => Some(item.fold_with(self)),
         })
     }
-}
 
-impl Fold<Expr> for ConstModules {
-    fn fold(&mut self, expr: Expr) -> Expr {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::Member(expr) => {
                 if expr.computed {
@@ -137,7 +130,7 @@ impl Fold<Expr> for ConstModules {
                     })
                 }
             }
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         };
         match expr {
             Expr::Ident(Ident { ref sym, .. }) => {

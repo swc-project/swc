@@ -10,14 +10,11 @@ use std::{
     fmt::{self, Debug, Display, Formatter},
 };
 use swc_atoms::{js_word, JsWord};
-#[cfg(feature = "fold")]
-use swc_common::Fold;
 use swc_common::SpanData;
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
 #[derive(Kind, Debug, Clone, PartialEq)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Token {
     /// Identifier, "null", "true", "false".
@@ -126,7 +123,7 @@ pub enum Token {
     Num(f64),
 
     #[kind(starts_expr)]
-    BigInt(#[cfg_attr(feature = "fold", fold(ignore))] BigIntValue),
+    BigInt(BigIntValue),
 
     JSXName {
         name: JsWord,
@@ -140,11 +137,10 @@ pub enum Token {
     JSXTagEnd,
 
     Shebang(JsWord),
-    Error(#[cfg_attr(feature = "fold", fold(ignore))] Error),
+    Error(Error),
 }
 
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 #[kind(functions(starts_expr = "bool"))]
 pub enum BinOpToken {
     /// `==`
@@ -223,7 +219,6 @@ pub struct TokenAndSpan {
 }
 
 #[derive(Kind, Clone, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Word {
     #[kind(delegate)]
@@ -371,7 +366,6 @@ impl Debug for Word {
 
 /// Keywords
 #[derive(Kind, Clone, Copy, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
 pub enum Keyword {
     /// Spec says this might be identifier.

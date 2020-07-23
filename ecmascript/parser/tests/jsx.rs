@@ -1,6 +1,3 @@
-#![feature(box_syntax)]
-#![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
@@ -14,9 +11,10 @@ use std::{
     path::Path,
     sync::Arc,
 };
-use swc_common::{errors::Handler, Fold, FoldWith, SourceMap};
+use swc_common::{errors::Handler, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput};
+use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -37,7 +35,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 
@@ -91,7 +89,10 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 }
 
                 // Parse source
-                parse_module(cm, handler, &path).expect_err("should fail, but parsed as");
+                let _ = parse_module(cm, handler, &path);
+                if !handler.has_errors() {
+                    panic!("should emit error, but parsed without error")
+                }
 
                 Err(())
             })
@@ -234,24 +235,30 @@ fn error() {
 
 struct Normalizer;
 
-impl Fold<Pat> for Normalizer {
-    fn fold(&mut self, mut node: Pat) -> Pat {
-        node = node.fold_children(self);
+impl Fold for Normalizer {
+    fn fold_pat(&mut self, mut node: Pat) -> Pat {
+        node = node.fold_children_with(self);
 
-        match node {
-            Pat::Expr(box Expr::Ident(i)) => Pat::Ident(i),
-            _ => node,
+        if let Pat::Expr(expr) = node {
+            match *expr {
+                Expr::Ident(i) => return Pat::Ident(i),
+                _ => {
+                    node = Pat::Expr(expr);
+                }
+            }
         }
-    }
-}
 
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children(self);
+        node
+    }
+
+    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children_with(self);
 
         match node {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
+            PatOrExpr::Pat(pat) => match *pat {
+                Pat::Expr(expr) => PatOrExpr::Expr(expr),
+                _ => PatOrExpr::Pat(pat),
+            },
             _ => node,
         }
     }

@@ -1,16 +1,12 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     compat::es2015::{arrow, block_scoping, spread, Classes},
-    pass::Pass,
     react::jsx,
     resolver,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -19,11 +15,11 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr() -> impl Pass {
+fn tr() -> impl Fold {
     Classes::default()
 }
 
-fn spec_tr() -> impl Pass {
+fn spec_tr() -> impl Fold {
     chain!(
         resolver(),
         Classes::default(),

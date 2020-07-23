@@ -1,7 +1,7 @@
 use super::*;
 use swc_ecma_parser::{EsConfig, Syntax};
 
-fn tr(_: ()) -> impl Pass {
+fn tr(_: ()) -> impl Fold {
     nullish_coalescing()
 }
 

@@ -1,7 +1,7 @@
 use super::*;
 use crate::tests::HygieneVisualizer;
 use std::collections::HashMap;
-use swc_common::{hygiene::*, Fold, DUMMY_SP};
+use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 
 struct Marker {
@@ -14,8 +14,8 @@ fn marker(markers: &[(&str, Mark)]) -> Marker {
     }
 }
 
-impl Fold<Ident> for Marker {
-    fn fold(&mut self, mut ident: Ident) -> Ident {
+impl Fold for Marker {
+    fn fold_ident(&mut self, mut ident: Ident) -> Ident {
         if let Some(mark) = self.map.get(&ident.sym) {
             ident.span = ident.span.apply_mark(*mark);
         }
@@ -39,8 +39,8 @@ impl OnceMarker {
     }
 }
 
-impl Fold<Ident> for OnceMarker {
-    fn fold(&mut self, mut ident: Ident) -> Ident {
+impl Fold for OnceMarker {
+    fn fold_ident(&mut self, mut ident: Ident) -> Ident {
         if let Some(marks) = self.map.get_mut(&ident.sym) {
             ident.span = ident.span.apply_mark(marks.remove(0));
         }

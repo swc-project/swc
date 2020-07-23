@@ -1,15 +1,12 @@
-#![feature(box_syntax)]
 #![feature(test)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{compat::es2020::optional_chaining, pass::Pass};
+use swc_ecma_transforms::compat::es2020::optional_chaining;
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
 
-fn tr(_: ()) -> impl Pass {
+fn tr(_: ()) -> impl Fold {
     optional_chaining()
 }
 
