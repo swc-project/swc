@@ -1,9 +1,10 @@
 #![feature(test)]
 extern crate test;
 
-use swc_common::{FileName, FoldWith, Mark};
+use swc_common::{FileName, Mark};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_preset_env::{preset_env, Config};
+use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
 fn run(b: &mut Bencher, src: &str, config: Config) {

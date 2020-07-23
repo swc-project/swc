@@ -1,10 +1,11 @@
 #![feature(test)]
 extern crate test;
 
-use swc_common::{FileName, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
+use swc_common::{FileName, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
-use swc_ecma_transforms::util::ExprFactory;
+use swc_ecma_transforms::{pass::noop, util::ExprFactory};
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use test::Bencher;
 
 static SOURCE: &str = r#"
@@ -108,7 +109,6 @@ fn module_clone(b: &mut Bencher) {
 fn fold_empty(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
-    struct Noop;
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
         let lexer = Lexer::new(
@@ -125,7 +125,7 @@ fn fold_empty(b: &mut Bencher) {
                 e.emit();
             })
             .unwrap();
-        let mut folder = Noop;
+        let mut folder = noop();
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));
         Ok(())
@@ -135,16 +135,6 @@ fn fold_empty(b: &mut Bencher) {
 /// Optimized out
 #[bench]
 fn fold_noop_impl_all(b: &mut Bencher) {
-    struct Noop;
-    impl<T> Fold<T> for Noop
-    where
-        T: FoldWith<Self>,
-    {
-        fn fold(&mut self, node: T) -> T {
-            node
-        }
-    }
-
     b.bytes = SOURCE.len() as _;
 
     let _ = ::testing::run_test(false, |cm, handler| {
@@ -164,7 +154,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
                 e.emit();
             })
             .unwrap();
-        let mut folder = Noop;
+        let mut folder = noop();
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));
         Ok(())
@@ -174,16 +164,6 @@ fn fold_noop_impl_all(b: &mut Bencher) {
 /// Optimized out
 #[bench]
 fn fold_noop_impl_vec(b: &mut Bencher) {
-    struct Noop;
-    impl<T> Fold<Vec<T>> for Noop
-    where
-        Vec<T>: FoldWith<Self>,
-    {
-        fn fold(&mut self, node: Vec<T>) -> Vec<T> {
-            node
-        }
-    }
-
     b.bytes = SOURCE.len() as _;
 
     let _ = ::testing::run_test(false, |cm, handler| {
@@ -202,7 +182,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
                 e.emit();
             })
             .unwrap();
-        let mut folder = Noop;
+        let mut folder = noop();
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));
         Ok(())
@@ -240,10 +220,8 @@ fn boxing_unboxed_clone(b: &mut Bencher) {
 
 #[bench]
 fn boxing_boxed(b: &mut Bencher) {
-    struct Noop;
-
     let _ = ::testing::run_test(false, |_, _| {
-        let mut folder = Noop;
+        let mut folder = noop();
         let expr = Box::new(mk_expr());
 
         b.iter(|| test::black_box(expr.clone().fold_with(&mut folder)));
@@ -253,10 +231,8 @@ fn boxing_boxed(b: &mut Bencher) {
 
 #[bench]
 fn boxing_unboxed(b: &mut Bencher) {
-    struct Noop;
-
     let _ = ::testing::run_test(false, |_, _| {
-        let mut folder = Noop;
+        let mut folder = noop();
         let expr = mk_expr();
 
         b.iter(|| test::black_box(expr.clone().fold_with(&mut folder)));
@@ -297,24 +273,20 @@ fn visit_contains_this(b: &mut Bencher) {
             found: bool,
         }
 
-        impl Visit<ThisExpr> for Visitor {
-            fn visit(&mut self, _: &ThisExpr) {
+        impl Visit for Visitor {
+            /// Don't recurse into fn
+            fn visit_fn_expr(&mut self, _: &FnExpr, _: &dyn Node) {}
+
+            /// Don't recurse into fn
+            fn visit_fn_decl(&mut self, _: &FnDecl, _: &dyn Node) {}
+
+            fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
                 self.found = true;
             }
         }
 
-        impl Visit<FnExpr> for Visitor {
-            /// Don't recurse into fn
-            fn visit(&mut self, _: &FnExpr) {}
-        }
-
-        impl Visit<FnDecl> for Visitor {
-            /// Don't recurse into fn
-            fn visit(&mut self, _: &FnDecl) {}
-        }
-
         let mut visitor = Visitor { found: false };
-        body.visit_with(&mut visitor);
+        body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
         visitor.found
     }
 

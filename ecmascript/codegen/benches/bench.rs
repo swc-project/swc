@@ -106,19 +106,19 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
         b.iter(|| {
             let mut buf = vec![];
             {
-                let handlers = box MyHandlers;
+                let handlers = Box::new(MyHandlers);
                 let mut emitter = Emitter {
                     cfg: swc_ecma_codegen::Config {
                         ..Default::default()
                     },
                     comments: None,
                     cm: cm.clone(),
-                    wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                         cm.clone(),
                         "\n",
                         &mut buf,
                         Some(&mut src_map_buf),
-                    ),
+                    )),
                     handlers,
                 };
 
