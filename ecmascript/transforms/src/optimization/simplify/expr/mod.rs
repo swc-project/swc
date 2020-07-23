@@ -6,6 +6,7 @@ use swc_common::{
     Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
@@ -867,7 +868,11 @@ impl SimplifyExpr {
                     arg: ref ra,
                     ..
                 }),
-            ) if la.as_ident().is_some() && la.as_ident() == ra.as_ident() => return Known(false),
+            ) if la.as_ident().is_some()
+                && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+            {
+                return Known(false)
+            }
             _ => {}
         }
 
