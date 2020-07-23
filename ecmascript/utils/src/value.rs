@@ -1,5 +1,5 @@
 use self::Value::{Known, Unknown};
-use std::ops::{Not, Try};
+use std::ops::Not;
 
 /// Runtime value.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -35,18 +35,27 @@ impl Value<Type> {
 /// Value could not be determined
 pub struct UnknownError;
 
-impl<T> Try for Value<T> {
-    type Ok = T;
-    type Error = UnknownError;
-    fn from_ok(t: T) -> Self {
-        Known(t)
-    }
-    fn from_error(_: UnknownError) -> Self {
-        Unknown
-    }
-    fn into_result(self) -> Result<T, UnknownError> {
+// impl<T> Try for Value<T> {
+//     type Ok = T;
+//     type Error = UnknownError;
+//     fn from_ok(t: T) -> Self {
+//         Known(t)
+//     }
+//     fn from_error(_: UnknownError) -> Self {
+//         Unknown
+//     }
+//     fn into_result(self) -> Result<T, UnknownError> {
+//         match self {
+//             Known(t) => Ok(t),
+//             Unknown => Err(UnknownError),
+//         }
+//     }
+// }
+
+impl<T> Value<T> {
+    pub fn into_result(self) -> Result<T, UnknownError> {
         match self {
-            Known(t) => Ok(t),
+            Known(v) => Ok(v),
             Unknown => Err(UnknownError),
         }
     }

@@ -11,6 +11,15 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[cfg(test)]
 mod tests;
 
+macro_rules! try_val {
+    ($v:expr) => {{
+        match $v {
+            Value::Known(v) => v,
+            Value::Unknown => return Value::Unknown,
+        }
+    }};
+}
+
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
@@ -879,7 +888,7 @@ impl SimplifyExpr {
 
         // Then, try to evaluate based on the value of the node. Try comparing as
         // numbers.
-        let (lv, rv) = (left.as_number()?, right.as_number()?);
+        let (lv, rv) = (try_val!(left.as_number()), try_val!(right.as_number()));
         if lv.is_nan() || rv.is_nan() {
             return Known(will_negate);
         }
@@ -889,7 +898,7 @@ impl SimplifyExpr {
 
     /// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
     fn perform_abstract_eq_cmp(&mut self, span: Span, left: &Expr, right: &Expr) -> Value<bool> {
-        let (lt, rt) = (left.get_type()?, right.get_type()?);
+        let (lt, rt) = (try_val!(left.get_type()), try_val!(right.get_type()));
 
         if lt == rt {
             return self.perform_strict_eq_cmp(span, left, right);
@@ -898,7 +907,7 @@ impl SimplifyExpr {
         match (lt, rt) {
             (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
             (NumberType, StringType) | (_, BoolType) => {
-                let rv = right.as_number()?;
+                let rv = try_val!(right.as_number());
                 self.perform_abstract_eq_cmp(
                     span,
                     left,
@@ -907,7 +916,7 @@ impl SimplifyExpr {
             }
 
             (StringType, NumberType) | (BoolType, _) => {
-                let lv = left.as_number()?;
+                let lv = try_val!(left.as_number());
                 self.perform_abstract_eq_cmp(
                     span,
                     &Expr::Lit(Lit::Num(Number { value: lv, span })),
@@ -947,7 +956,7 @@ impl SimplifyExpr {
             _ => {}
         }
 
-        let (lt, rt) = (left.get_type()?, right.get_type()?);
+        let (lt, rt) = (try_val!(left.get_type()), try_val!(right.get_type()));
         // Strict equality can only be true for values of the same type.
         if lt != rt {
             return Known(false);
@@ -955,9 +964,9 @@ impl SimplifyExpr {
 
         match lt {
             UndefinedType | NullType => Known(true),
-            NumberType => Known(left.as_number()? == right.as_number()?),
+            NumberType => Known(try_val!(left.as_number()) == try_val!(right.as_number())),
             StringType => {
-                let (lv, rv) = (left.as_string()?, right.as_string()?);
+                let (lv, rv) = (try_val!(left.as_string()), try_val!(right.as_string()));
                 // In JS, browsers parse \v differently. So do not consider strings
                 // equal if one contains \v.
                 if lv.contains('\u{000B}') || rv.contains('\u{000B}') {

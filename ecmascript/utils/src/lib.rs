@@ -576,7 +576,10 @@ pub trait ExprExt {
             }
 
             Expr::Tpl(..) | Expr::Object(ObjectLit { .. }) | Expr::Array(ArrayLit { .. }) => {
-                return num_from_str(&*self.as_string()?);
+                return num_from_str(&*match self.as_string() {
+                    Known(v) => v,
+                    Unknown => return Value::Unknown,
+                });
             }
 
             _ => return Unknown,
@@ -615,10 +618,15 @@ pub trait ExprExt {
                 op: op!("!"),
                 ref arg,
                 ..
-            }) => Known(Cow::Borrowed(if arg.as_pure_bool()? {
-                "false"
-            } else {
-                "true"
+            }) => Known(Cow::Borrowed(match arg.as_pure_bool() {
+                Known(v) => {
+                    if v {
+                        "false"
+                    } else {
+                        "true"
+                    }
+                }
+                Unknown => return Value::Unknown,
             })),
             Expr::Array(ArrayLit { ref elems, .. }) => {
                 let mut first = true;
@@ -633,7 +641,10 @@ pub trait ExprExt {
                                     sym: js_word!("undefined"),
                                     ..
                                 }) => Cow::Borrowed(""),
-                                _ => expr.as_string()?,
+                                _ => match expr.as_string() {
+                                    Known(v) => v,
+                                    Unknown => return Value::Unknown,
+                                },
                             },
                         },
                         None => Cow::Borrowed(""),
