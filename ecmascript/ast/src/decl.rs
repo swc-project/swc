@@ -6,15 +6,17 @@ use crate::{
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
+use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum Decl {
     #[tag("ClassDeclaration")]
     Class(ClassDecl),
     #[tag("FunctionDeclaration")]
+    #[is(name = "fn_decl")]
     Fn(FnDecl),
     #[tag("VariableDeclaration")]
     Var(VarDecl),

@@ -8,6 +8,7 @@ use crate::{
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, RestPat},
 };
+use is_macro::Is;
 use serde::{
     de::{self, Unexpected, Visitor},
     Deserialize, Deserializer, Serialize,
@@ -77,7 +78,7 @@ pub struct TsParamProp {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsParamPropParam {
     #[tag("Identifier")]
     Ident(Ident),
@@ -96,7 +97,7 @@ pub struct TsQualifiedName {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 #[allow(variant_size_differences)]
 pub enum TsEntityName {
     #[tag("TsQualifiedName")]
@@ -107,7 +108,7 @@ pub enum TsEntityName {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsSignatureDecl {
     #[tag("TsCallSignatureDeclaration")]
     TsCallSignatureDecl(TsCallSignatureDecl),
@@ -130,7 +131,7 @@ pub enum TsSignatureDecl {
 // ================
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsTypeElement {
     #[tag("TsCallSignatureDeclaration")]
     TsCallSignatureDecl(TsCallSignatureDecl),
@@ -218,7 +219,7 @@ pub struct TsIndexSignature {
 // ================
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsType {
     #[tag("TsKeywordType")]
     TsKeywordType(TsKeywordType),
@@ -284,7 +285,7 @@ pub enum TsType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsFnOrConstructorType {
     #[tag("TsFunctionType")]
     TsFnType(TsFnType),
@@ -369,7 +370,7 @@ pub struct TsThisType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsFnParam {
     #[tag("Identifier")]
     Ident(Ident),
@@ -427,7 +428,7 @@ pub struct TsTypePredicate {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 #[allow(variant_size_differences)]
 pub enum TsThisTypeOrIdent {
     #[tag("TsThisType")]
@@ -446,7 +447,7 @@ pub struct TsTypeQuery {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsTypeQueryExpr {
     #[tag("TsQualifiedName")]
     #[tag("Identifier")]
@@ -512,7 +513,7 @@ pub struct TsRestType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsUnionOrIntersectionType {
     #[tag("TsUnionType")]
     TsUnionType(TsUnionType),
@@ -672,7 +673,7 @@ pub struct TsLitType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsLit {
     #[tag("NumericLiteral")]
     Number(Number),
@@ -754,7 +755,7 @@ pub struct TsEnumMember {
 ///
 /// - Invalid: [Ident] with empty symbol.
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsEnumMemberId {
     #[tag("Identifier")]
     Ident(Ident),
@@ -778,7 +779,7 @@ pub struct TsModuleDecl {
 /// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as
 /// its body.
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsNamespaceBody {
     #[tag("TsModuleBlock")]
     TsModuleBlock(TsModuleBlock),
@@ -806,7 +807,7 @@ pub struct TsNamespaceDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsModuleName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -826,7 +827,7 @@ pub struct TsImportEqualsDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum TsModuleRef {
     #[tag("TsQualifiedName")]
     #[tag("Identifier")]

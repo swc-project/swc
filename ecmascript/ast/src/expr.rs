@@ -15,11 +15,12 @@ use crate::{
     },
     Invalid,
 };
+use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum Expr {
     #[tag("ThisExpression")]
     This(ThisExpr),
@@ -31,6 +32,7 @@ pub enum Expr {
     Object(ObjectLit),
 
     #[tag("FunctionExpression")]
+    #[is(name = "fn_expr")]
     Fn(FnExpr),
 
     #[tag("UnaryExpression")]
@@ -99,12 +101,14 @@ pub enum Expr {
     Class(ClassExpr),
 
     #[tag("YieldExpression")]
+    #[is(name = "yield_expr")]
     Yield(YieldExpr),
 
     #[tag("MetaProperty")]
     MetaProp(MetaPropExpr),
 
     #[tag("AwaitExpression")]
+    #[is(name = "await_expr")]
     Await(AwaitExpr),
 
     #[tag("ParenthesisExpression")]
@@ -177,7 +181,7 @@ pub struct ObjectLit {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum PropOrSpread {
     /// Spread properties, e.g., `{a: 1, ...obj, b: 2}`.
     #[tag("SpreadElement")]
@@ -442,9 +446,10 @@ pub struct ParenExpr {
 
 #[ast_node]
 #[allow(variant_size_differences)]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ExprOrSuper {
     #[tag("Super")]
+    #[is(name = "super_")]
     Super(Super),
 
     #[tag("*")]
@@ -477,7 +482,7 @@ impl Spanned for ExprOrSpread {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 #[allow(variant_size_differences)]
 pub enum BlockStmtOrExpr {
     #[tag("BlockStatement")]
@@ -487,7 +492,7 @@ pub enum BlockStmtOrExpr {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum PatOrExpr {
     #[tag("ThisExpression")]
     #[tag("ArrayExpression")]

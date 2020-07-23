@@ -4,6 +4,7 @@ use crate::{
     ident::Ident,
     pat::Pat,
 };
+use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 /// Use when only block statements are allowed.
@@ -17,7 +18,7 @@ pub struct BlockStmt {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum Stmt {
     #[tag("BlockStatement")]
     Block(BlockStmt),
@@ -32,18 +33,22 @@ pub enum Stmt {
     With(WithStmt),
 
     #[tag("ReturnStatement")]
+    #[is(name = "return_stmt")]
     Return(ReturnStmt),
 
     #[tag("LabeledStatement")]
     Labeled(LabeledStmt),
 
     #[tag("BreakStatement")]
+    #[is(name = "break_stmt")]
     Break(BreakStmt),
 
     #[tag("ContinueStatement")]
+    #[is(name = "continue_stmt")]
     Continue(ContinueStmt),
 
     #[tag("IfStatement")]
+    #[is(name = "if_stmt")]
     If(IfStmt),
 
     #[tag("SwitchStatement")]
@@ -54,15 +59,18 @@ pub enum Stmt {
 
     /// A try statement. If handler is null then finalizer must be a BlockStmt.
     #[tag("TryStatement")]
+    #[is(name = "try_stmt")]
     Try(TryStmt),
 
     #[tag("WhileStatement")]
+    #[is(name = "while_stmt")]
     While(WhileStmt),
 
     #[tag("DoWhileStatement")]
     DoWhile(DoWhileStmt),
 
     #[tag("ForStatement")]
+    #[is(name = "for_stmt")]
     For(ForStmt),
 
     #[tag("ForInStatement")]
@@ -275,7 +283,7 @@ pub struct CatchClause {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum VarDeclOrPat {
     #[tag("VariableDeclaration")]
     VarDecl(VarDecl),
@@ -285,7 +293,7 @@ pub enum VarDeclOrPat {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 #[allow(variant_size_differences)]
 pub enum VarDeclOrExpr {
     #[tag("VariableDeclaration")]

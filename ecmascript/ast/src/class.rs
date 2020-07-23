@@ -10,6 +10,7 @@ use crate::{
     },
     EmptyStmt,
 };
+use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, Span};
 
@@ -42,7 +43,7 @@ pub struct Class {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ClassMember {
     #[tag("Constructor")]
     Constructor(Constructor),

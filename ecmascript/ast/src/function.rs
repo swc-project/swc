@@ -4,6 +4,7 @@ use crate::{
     stmt::BlockStmt,
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
+use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.
@@ -44,7 +45,7 @@ pub struct Param {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ParamOrTsParamProp {
     #[tag("TsParameterProperty")]
     TsParamProp(TsParamProp),

@@ -7,10 +7,11 @@ use crate::{
     stmt::BlockStmt,
     typescript::TsTypeAnn,
 };
+use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum Prop {
     /// `a` in `{ a, }`
     #[tag("Identifier")]
@@ -83,7 +84,7 @@ pub struct MethodProp {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum PropName {
     #[tag("Identifier")]
     Ident(Ident),

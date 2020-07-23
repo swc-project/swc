@@ -1,9 +1,10 @@
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
+use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum Program {
     #[tag("Module")]
     Module(Module),
@@ -34,7 +35,7 @@ pub struct Script {
 }
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Is)]
 pub enum ModuleItem {
     #[tag("ImportDeclaration")]
     #[tag("ExportDeclaration")]
