@@ -134,7 +134,7 @@ impl Fold for CommonJs {
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(Box::new(
-                                        quote_ident!("exports").member(ident.clone()),
+                                        quote_ident!("exports").make_member(ident.clone()),
                                     )),
                                     op: op!("="),
                                     right: Box::new(ident.into()),
@@ -175,7 +175,7 @@ impl Fold for CommonJs {
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
-                                                quote_ident!("exports").member(ident.clone()),
+                                                quote_ident!("exports").make_member(ident.clone()),
                                             )),
                                             op: op!("="),
                                             right: Box::new(ident.into()),
@@ -365,9 +365,9 @@ impl Fold for CommonJs {
                                 self.in_top_level = is_top_level;
 
                                 let value = match imported {
-                                    Some(ref imported) => {
-                                        Box::new(imported.clone().unwrap().member(orig.clone()))
-                                    }
+                                    Some(ref imported) => Box::new(
+                                        imported.clone().unwrap().make_member(orig.clone()),
+                                    ),
                                     None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
                                 };
 
@@ -391,7 +391,7 @@ impl Fold for CommonJs {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
                                                 quote_ident!("exports")
-                                                    .member(exported.unwrap_or(orig)),
+                                                    .make_member(exported.unwrap_or(orig)),
                                             )),
                                             op: op!("="),
                                             right: value,

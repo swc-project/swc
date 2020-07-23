@@ -265,25 +265,26 @@ impl Fold for Jsx {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children_with(self);
 
-        match expr {
-            Expr::Paren(ParenExpr {
-                expr: box Expr::JSXElement(el),
-                ..
-            })
-            | Expr::JSXElement(el) => {
-                // <div></div> => React.createElement('div', null);
-                self.jsx_elem_to_expr(*el)
-            }
-            Expr::Paren(ParenExpr {
-                expr: box Expr::JSXFragment(frag),
-                ..
-            })
-            | Expr::JSXFragment(frag) => {
-                // <></> => React.createElement(React.Fragment, null);
-                self.jsx_frag_to_expr(frag)
-            }
-            _ => expr,
+        if let Expr::JSXElement(el) = expr {
+            // <div></div> => React.createElement('div', null);
+            return self.jsx_elem_to_expr(*el);
         }
+        if let Expr::JSXFragment(frag) = expr {
+            // <></> => React.createElement(React.Fragment, null);
+            return self.jsx_frag_to_expr(frag);
+        }
+
+        if let Expr::Paren(ParenExpr { expr, .. }) = expr {
+            if let Expr::JSXElement(el) = *expr {
+                return self.jsx_elem_to_expr(*el);
+            }
+            if let Expr::JSXFragment(frag) = *expr {
+                // <></> => React.createElement(React.Fragment, null);
+                return self.jsx_frag_to_expr(frag);
+            }
+        }
+
+        expr
     }
 }
 
@@ -340,13 +341,16 @@ impl Jsx {
                             }
                             i.as_obj()
                         }
-                        JSXObject::JSXMemberExpr(box JSXMemberExpr { obj, prop }) => MemberExpr {
-                            span,
-                            obj: convert_obj(obj),
-                            prop: Box::new(Expr::Ident(prop)),
-                            computed: false,
+                        JSXObject::JSXMemberExpr(e) => {
+                            let e = *e;
+                            MemberExpr {
+                                span,
+                                obj: convert_obj(e.obj),
+                                prop: Box::new(Expr::Ident(e.prop)),
+                                computed: false,
+                            }
+                            .as_obj()
                         }
-                        .as_obj(),
                     }
                 }
                 Box::new(Expr::Member(MemberExpr {

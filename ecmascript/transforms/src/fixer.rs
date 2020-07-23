@@ -105,7 +105,7 @@ impl Fold for Fixer {
         self.ctx = Context::Default;
         let mut node = node.fold_children_with(self);
         node.body = match node.body {
-            BlockStmtOrExpr::Expr(e @ box Expr::Seq(..)) => {
+            BlockStmtOrExpr::Expr(e) if e.is_seq() => {
                 BlockStmtOrExpr::Expr(Box::new(self.wrap(*e)))
             }
             _ => node.body,
@@ -129,7 +129,7 @@ impl Fold for Fixer {
         let body = body.fold_children_with(self);
 
         match body {
-            BlockStmtOrExpr::Expr(box expr @ Expr::Object(..)) => {
+            BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
                 BlockStmtOrExpr::Expr(Box::new(self.wrap(expr)))
             }
 
@@ -142,7 +142,7 @@ impl Fold for Fixer {
         self.ctx = Context::Default;
         let mut node: Class = node.fold_children_with(self);
         node.super_class = match node.super_class {
-            Some(e @ box Expr::Seq(..)) => Some(Box::new(self.wrap(*e))),
+            Some(e) if e.is_seq() => Some(Box::new(self.wrap(*e))),
             _ => node.super_class,
         };
         self.ctx = old;

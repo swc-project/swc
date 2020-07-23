@@ -372,7 +372,7 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                     let apply = Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: get_prototype_of(Expr::Ident(class_name))
-                            .member(fn_name)
+                            .make_member(fn_name)
                             .as_callee(),
 
                         // super(foo, bar) => possibleReturnCheck(this, foo, bar)

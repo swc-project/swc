@@ -188,7 +188,8 @@ impl Fold for ObjectLitFolder {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span,
                                     left: PatOrExpr::Expr(Box::new(
-                                        mutator_elem.member(quote_ident!(gs_prop_name.unwrap())),
+                                        mutator_elem
+                                            .make_member(quote_ident!(gs_prop_name.unwrap())),
                                     )),
                                     op: op!("="),
                                     right: Box::new(Expr::Fn(FnExpr {

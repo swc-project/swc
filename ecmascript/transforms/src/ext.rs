@@ -1,11 +1,11 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
-pub trait PatOrExprExt {
+pub(crate) trait PatOrExprExt {
     fn as_ref(&self) -> &PatOrExpr;
     fn as_mut(&mut self) -> &mut PatOrExpr;
 
-    fn as_expr(&mut self) -> Option<&Expr> {
+    fn as_expr(&self) -> Option<&Expr> {
         match self.as_ref() {
             PatOrExpr::Expr(e) => Some(e),
             PatOrExpr::Pat(p) => match &**p {
@@ -54,8 +54,8 @@ pub trait PatOrExprExt {
         }
 
         match self.as_mut() {
-            PatOrExpr::Pat(p) => match p {
-                Pat::Ident(i) => Some(&mut *i),
+            PatOrExpr::Pat(p) => match **p {
+                Pat::Ident(ref mut i) => Some(i),
 
                 _ => None,
             },
@@ -73,3 +73,14 @@ impl PatOrExprExt for PatOrExpr {
         self
     }
 }
+
+pub(crate) trait ExprRefExt: ExprExt {
+    fn as_ident(&self) -> Option<&Ident> {
+        match self.as_expr() {
+            Expr::Ident(ref i) => Some(i),
+            _ => None,
+        }
+    }
+}
+
+impl<T> ExprRefExt for T where T: ExprExt {}

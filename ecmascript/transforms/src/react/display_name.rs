@@ -1,3 +1,4 @@
+use crate::ext::PatOrExprExt;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -25,17 +26,13 @@ impl Fold for DisplayName {
             return expr;
         }
 
-        match expr.left {
-            PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
-                prop: box Expr::Ident(ref prop),
-                computed: false,
-                ..
-            })))
-            | PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                prop: box Expr::Ident(ref prop),
-                computed: false,
-                ..
-            })) => {
+        if let Some(Expr::Member(MemberExpr {
+            prop,
+            computed: false,
+            ..
+        })) = expr.left.as_expr()
+        {
+            if let Expr::Ident(ref prop) = &**prop {
                 let right = expr.right.fold_with(&mut Folder {
                     name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: prop.span,
@@ -43,23 +40,23 @@ impl Fold for DisplayName {
                         has_escape: false,
                     })))),
                 });
-                AssignExpr { right, ..expr }
+                return AssignExpr { right, ..expr };
             }
-
-            PatOrExpr::Pat(box Pat::Ident(ref ident))
-            | PatOrExpr::Expr(box Expr::Ident(ref ident)) => {
-                let right = expr.right.fold_with(&mut Folder {
-                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span: ident.span,
-                        value: ident.sym.clone(),
-                        has_escape: false,
-                    })))),
-                });
-
-                AssignExpr { right, ..expr }
-            }
-            _ => expr,
         }
+
+        if let Some(ident) = expr.left.as_ident() {
+            let right = expr.right.fold_with(&mut Folder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: ident.span,
+                    value: ident.sym.clone(),
+                    has_escape: false,
+                })))),
+            });
+
+            return AssignExpr { right, ..expr };
+        }
+
+        expr
     }
 
     fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
@@ -150,35 +147,46 @@ impl Fold for Folder {
 }
 
 fn is_create_class_call(call: &CallExpr) -> bool {
-    match call.callee {
-        ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-            obj:
-                ExprOrSuper::Expr(box Expr::Ident(Ident {
-                    sym: js_word!("React"),
-                    ..
-                })),
-            prop:
-                box Expr::Ident(Ident {
-                    sym: js_word!("createClass"),
-                    ..
-                }),
+    let callee = match call.callee {
+        ExprOrSuper::Super(_) => return false,
+        ExprOrSuper::Expr(callee) => &*callee,
+    };
+
+    match callee {
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            prop,
             computed: false,
             ..
-        }))
-        | ExprOrSuper::Expr(box Expr::Ident(Ident {
+        }) => match &**obj {
+            Expr::Ident(Ident {
+                sym: js_word!("React"),
+                ..
+            }) => match &**prop {
+                Expr::Ident(Ident {
+                    sym: js_word!("createClass"),
+                    ..
+                }) => return true,
+                _ => {}
+            },
+            _ => {}
+        },
+        Expr::Ident(Ident {
             sym: js_word!("createReactClass"),
             ..
-        })) => true,
-        _ => false,
+        }) => return true,
+        _ => {}
     }
+
+    false
 }
 
 fn add_display_name(mut call: CallExpr, name: Box<Expr>) -> CallExpr {
     let props = match call.args.first_mut() {
-        Some(&mut ExprOrSpread {
-            expr: box Expr::Object(ObjectLit { ref mut props, .. }),
-            ..
-        }) => props,
+        Some(&mut ExprOrSpread { expr, .. }) => match *expr {
+            Expr::Object(ObjectLit { ref mut props, .. }) => props,
+            _ => return call,
+        },
         _ => return call,
     };
 

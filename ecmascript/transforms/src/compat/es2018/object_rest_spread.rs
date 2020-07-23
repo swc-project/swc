@@ -159,10 +159,11 @@ impl Fold for RestFolder {
         match expr {
             Expr::Assign(AssignExpr {
                 span,
-                left: PatOrExpr::Pat(box pat),
+                left: PatOrExpr::Pat(pat),
                 op: op!("="),
                 right,
             }) => {
+                let pat = *pat;
                 let mut var_ident = alias_ident_for(&right, "_tmp");
                 var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
@@ -544,10 +545,12 @@ impl ObjectRest {
 
 impl RestFolder {
     fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
-        if let Some(box Expr::Ident(ref i1)) = decl.init {
-            if let Pat::Ident(ref i2) = decl.name {
-                if *i1 == *i2 {
-                    return;
+        if let Some(e1) = decl.init {
+            if let Expr::Ident(ref i1) = *e1 {
+                if let Pat::Ident(ref i2) = decl.name {
+                    if *i1 == *i2 {
+                        return;
+                    }
                 }
             }
         }
@@ -561,10 +564,12 @@ impl RestFolder {
     }
 
     fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
-        if let Some(box Expr::Ident(ref i1)) = decl.init {
-            if let Pat::Ident(ref i2) = decl.name {
-                if *i1 == *i2 {
-                    return;
+        if let Some(e1) = decl.init {
+            if let Expr::Ident(ref i1) = *e1 {
+                if let Pat::Ident(ref i2) = decl.name {
+                    if *i1 == *i2 {
+                        return;
+                    }
                 }
             }
         }
@@ -597,18 +602,11 @@ impl RestFolder {
                 );
                 match param.pat {
                     Pat::Rest(..) | Pat::Ident(..) => param,
-                    Pat::Assign(AssignPat {
-                        left: box Pat::Ident(..),
-                        ..
-                    })
-                    | Pat::Assign(AssignPat {
-                        left: box Pat::Rest(..),
-                        ..
-                    })
-                    | Pat::Assign(AssignPat {
-                        left: box Pat::Array(..),
-                        ..
-                    }) => param,
+                    Pat::Assign(AssignPat { ref left, .. })
+                        if left.is_ident() || left.is_rest() || left.is_array() =>
+                    {
+                        param
+                    }
                     Pat::Array(n) => {
                         let ArrayPat { span, elems, .. } = n;
                         let elems = elems
@@ -966,7 +964,7 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
                         span: DUMMY_SP,
                         elems: excluded_props,
                     }
-                    .member(Ident::new("map".into(), DUMMY_SP))
+                    .make_member(Ident::new("map".into(), DUMMY_SP))
                     .as_callee(),
                     args: vec![helper_expr!(to_property_key, "toPropertyKey").as_arg()],
                     type_args: Default::default(),
@@ -1022,12 +1020,22 @@ fn simplify_pat(pat: Pat) -> Pat {
             match pat {
                 Pat::Object(o) => {
                     let ObjectPat { span, props, .. } = o;
-                    let props = props.move_flat_map(|prop| match prop {
-                        ObjectPatProp::KeyValue(KeyValuePatProp {
-                            value: box Pat::Object(ObjectPat { ref props, .. }),
-                            ..
-                        }) if props.is_empty() => None,
-                        _ => Some(prop),
+                    let props = props.move_flat_map(|prop| {
+                        match prop {
+                            ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
+                                match *value {
+                                    Pat::Object(ObjectPat { ref props, .. })
+                                        if props.is_empty() =>
+                                    {
+                                        return None;
+                                    }
+                                    _ => {}
+                                }
+                            }
+                            _ => {}
+                        }
+
+                        Some(prop)
                     });
 
                     Pat::Object(ObjectPat { span, props, ..o })

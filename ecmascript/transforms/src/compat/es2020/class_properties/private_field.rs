@@ -53,8 +53,10 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 span,
                 prefix,
                 op,
-                arg: box Expr::Member(arg),
-            }) => {
+                arg,
+            }) if arg.is_member() => {
+                let arg = arg.member().unwrap();
+
                 let n = match *arg.prop {
                     Expr::PrivateName(ref n) => n,
                     _ => {
@@ -344,16 +346,18 @@ impl<'a> Fold for FieldAccessFolder<'a> {
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(box Expr::Member(callee)),
+                callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) => {
+            }) if callee.is_member() => {
+                let callee = callee.member().unwrap();
+
                 let (e, this) = self.fold_private_get(callee, None);
 
                 if let Some(this) = this {
                     Expr::Call(CallExpr {
                         span,
-                        callee: e.member(quote_ident!("call")).as_callee(),
+                        callee: e.make_member(quote_ident!("call")).as_callee(),
                         args: iter::once(this.as_arg()).chain(args).collect(),
                         type_args,
                     })
@@ -464,7 +468,7 @@ impl<'a> FieldAccessFolder<'a> {
 
                             type_args: Default::default(),
                         }
-                        .member(quote_ident!("value"))
+                        .make_member(quote_ident!("value"))
                         .into(),
                         Some(Expr::This(this)),
                     ),

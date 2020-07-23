@@ -118,7 +118,7 @@ impl Fold for Arrow {
 
                 Expr::Call(CallExpr {
                     span,
-                    callee: fn_expr.member(quote_ident!("bind")).as_callee(),
+                    callee: fn_expr.make_member(quote_ident!("bind")).as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                     type_args: Default::default(),
                 })

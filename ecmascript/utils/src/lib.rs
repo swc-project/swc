@@ -300,7 +300,7 @@ impl Visit for Hoister {
 
 /// Extension methods for [Expr].
 pub trait ExprExt {
-    fn as_expr_kind(&self) -> &Expr;
+    fn as_expr(&self) -> &Expr;
 
     /// Returns true if this is an immutable value.
     fn is_immutable_value(&self) -> bool {
@@ -312,7 +312,7 @@ pub trait ExprExt {
         //    be side-effected by other expressions.
         // This should only be used to say the value is immutable and
         // hasSideEffects and canBeSideEffected should be used for the other case.
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Lit(Lit::Bool(..))
             | Expr::Lit(Lit::Str(..))
             | Expr::Lit(Lit::Num(..))
@@ -348,21 +348,21 @@ pub trait ExprExt {
     }
 
     fn is_number(&self) -> bool {
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Lit(Lit::Num(..)) => true,
             _ => false,
         }
     }
 
     fn is_str(&self) -> bool {
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Lit(Lit::Str(..)) => true,
             _ => false,
         }
     }
 
     fn is_array_lit(&self) -> bool {
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Array(..) => true,
             _ => false,
         }
@@ -378,7 +378,7 @@ pub trait ExprExt {
     }
 
     fn is_void(&self) -> bool {
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
             }) => true,
@@ -388,7 +388,7 @@ pub trait ExprExt {
 
     /// Is `self` an IdentifierReference to `id`?
     fn is_ident_ref_to(&self, id: JsWord) -> bool {
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Ident(Ident { ref sym, .. }) if *sym == id => true,
             _ => false,
         }
@@ -407,7 +407,7 @@ pub trait ExprExt {
     ///Note: unlike getPureBooleanValue this function does not return `None`
     ///for expressions with side-effects.
     fn as_bool(&self) -> (Purity, BoolValue) {
-        let expr = self.as_expr_kind();
+        let expr = self.as_expr();
         if expr.is_ident_ref_to(js_word!("undefined")) {
             return (Pure, Known(false));
         }
@@ -523,7 +523,7 @@ pub trait ExprExt {
 
     /// Emulates javascript Number() cast function.
     fn as_number(&self) -> Value<f64> {
-        let expr = self.as_expr_kind();
+        let expr = self.as_expr();
         let v = match *expr {
             Expr::Lit(ref l) => match *l {
                 Lit::Bool(Bool { value: true, .. }) => 1.0,
@@ -589,7 +589,7 @@ pub trait ExprExt {
 
     /// Returns Known only if it's pure.
     fn as_string(&self) -> Value<Cow<'_, str>> {
-        let expr = self.as_expr_kind();
+        let expr = self.as_expr();
         match *expr {
             Expr::Lit(ref l) => match *l {
                 Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
@@ -658,7 +658,7 @@ pub trait ExprExt {
     /// Apply the supplied predicate against all possible result Nodes of the
     /// expression.
     fn get_type(&self) -> Value<Type> {
-        let expr = self.as_expr_kind();
+        let expr = self.as_expr();
 
         match *expr {
             Expr::Assign(AssignExpr {
@@ -828,7 +828,7 @@ pub trait ExprExt {
             return true;
         }
 
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
                 ..
@@ -852,7 +852,7 @@ pub trait ExprExt {
             return false;
         }
 
-        match *self.as_expr_kind() {
+        match *self.as_expr() {
             Expr::Lit(..)
             | Expr::Ident(..)
             | Expr::This(..)
@@ -996,13 +996,13 @@ fn num_from_str(s: &str) -> Value<f64> {
 }
 
 impl ExprExt for Box<Expr> {
-    fn as_expr_kind(&self) -> &Expr {
+    fn as_expr(&self) -> &Expr {
         &self
     }
 }
 
 impl ExprExt for Expr {
-    fn as_expr_kind(&self) -> &Expr {
+    fn as_expr(&self) -> &Expr {
         &self
     }
 }

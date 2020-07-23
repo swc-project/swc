@@ -305,7 +305,7 @@ impl Bundler<'_> {
                                                     "__spack_require__".into(),
                                                     DUMMY_SP.apply_mark(self.top_level_mark),
                                                 )
-                                                .member(Ident::new("bind".into(), DUMMY_SP))
+                                                .make_member(Ident::new("bind".into(), DUMMY_SP))
                                                 .as_callee()
                                             },
                                             args: vec![

@@ -229,7 +229,7 @@ impl BlockScoping {
                                 })),
                                 cons: Box::new(Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
-                                    arg: Some(ret.clone().member(quote_ident!("v")).into()),
+                                    arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
                                 })),
                                 alt: None,
                             }

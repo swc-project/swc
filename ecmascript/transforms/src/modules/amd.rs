@@ -156,7 +156,7 @@ impl Fold for Amd {
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(Box::new(
-                                        exports_ident.clone().member(ident.clone()),
+                                        exports_ident.clone().make_member(ident.clone()),
                                     )),
                                     op: op!("="),
                                     right: Box::new(ident.into()),
@@ -194,7 +194,7 @@ impl Fold for Amd {
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
-                                                exports_ident.clone().member(ident.clone()),
+                                                exports_ident.clone().make_member(ident.clone()),
                                             )),
                                             op: op!("="),
                                             right: Box::new(ident.into()),
@@ -221,7 +221,9 @@ impl Fold for Amd {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Expr(Box::new(
-                                            exports_ident.clone().member(quote_ident!("default")),
+                                            exports_ident
+                                                .clone()
+                                                .make_member(quote_ident!("default")),
                                         )),
                                         op: op!("="),
                                         right: Box::new(ident.into()),
@@ -239,7 +241,9 @@ impl Fold for Amd {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Expr(Box::new(
-                                            exports_ident.clone().member(quote_ident!("default")),
+                                            exports_ident
+                                                .clone()
+                                                .make_member(quote_ident!("default")),
                                         )),
                                         op: op!("="),
                                         right: Box::new(ident.clone().into()),
@@ -278,7 +282,7 @@ impl Fold for Amd {
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(Box::new(
-                                        exports_ident.clone().member(quote_ident!("default")),
+                                        exports_ident.clone().make_member(quote_ident!("default")),
                                     )),
                                     op: op!("="),
                                     right: Box::new(ident.into()),
@@ -337,9 +341,9 @@ impl Fold for Amd {
                                 }
 
                                 let value = match imported {
-                                    Some(ref imported) => {
-                                        Box::new(imported.clone().unwrap().member(orig.clone()))
-                                    }
+                                    Some(ref imported) => Box::new(
+                                        imported.clone().unwrap().make_member(orig.clone()),
+                                    ),
                                     None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
                                 };
 
@@ -362,7 +366,7 @@ impl Fold for Amd {
                                             left: PatOrExpr::Expr(Box::new(
                                                 exports_ident
                                                     .clone()
-                                                    .member(exported.unwrap_or(orig)),
+                                                    .make_member(exported.unwrap_or(orig)),
                                             )),
                                             op: op!("="),
                                             right: value,

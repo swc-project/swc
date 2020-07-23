@@ -514,30 +514,31 @@ impl Fold for Strip {
                         },
                     ),
                     TsParamPropParam::Assign(AssignPat {
-                        span,
-                        left: box Pat::Ident(i),
-                        right,
-                        ..
-                    }) => (
-                        i.clone(),
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: Pat::Assign(AssignPat {
-                                span,
-                                left: Box::new(Pat::Ident(i)),
-                                right,
-                                type_ann: None,
-                            }),
-                        },
-                    ),
+                        span, left, right, ..
+                    }) if left.is_ident() => {
+                        let i = left.ident().unwrap();
+
+                        (
+                            i.clone(),
+                            Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat: Pat::Assign(AssignPat {
+                                    span,
+                                    left: Box::new(Pat::Ident(i)),
+                                    right,
+                                    type_ann: None,
+                                }),
+                            },
+                        )
+                    }
                     _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                 };
                 stmts.push(
                     AssignExpr {
                         span: DUMMY_SP,
                         left: PatOrExpr::Expr(Box::new(
-                            ThisExpr { span: DUMMY_SP }.member(ident.clone()),
+                            ThisExpr { span: DUMMY_SP }.make_member(ident.clone()),
                         )),
                         op: op!("="),
                         right: Box::new(Expr::Ident(ident)),
@@ -822,9 +823,10 @@ impl Fold for Strip {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    expr: box Expr::Ident(ref i),
+                    expr,
                     ..
-                })) => {
+                })) if expr.is_ident() => {
+                    let i = expr.ident().unwrap();
                     // type MyType = string;
                     // export default MyType;
 

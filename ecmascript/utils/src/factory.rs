@@ -33,7 +33,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.member(Ident::new(js_word!("apply"), span));
+        let apply = self.make_member(Ident::new(js_word!("apply"), span));
 
         Expr::Call(CallExpr {
             span,
@@ -76,7 +76,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[inline]
-    fn member<T>(self, prop: T) -> Expr
+    fn make_member<T>(self, prop: T) -> Expr
     where
         T: Into<Expr>,
     {

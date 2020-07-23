@@ -323,7 +323,7 @@ impl ActualFolder {
                                                 span: DUMMY_SP,
                                                 elems: vec![],
                                             }
-                                            .member(quote_ident!("concat"))
+                                            .make_member(quote_ident!("concat"))
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
                                             type_args: Default::default(),
@@ -369,7 +369,7 @@ impl ActualFolder {
             let callee = buf
                 .remove(0)
                 .expr
-                .member(Ident::new(js_word!("concat"), DUMMY_SP))
+                .make_member(Ident::new(js_word!("concat"), DUMMY_SP))
                 .as_callee();
 
             if buf[0].spread.is_none() {
@@ -404,7 +404,7 @@ impl ActualFolder {
                         elems: vec![],
                     })
                 })
-                .member(Ident::new(js_word!("concat"), span))
+                .make_member(Ident::new(js_word!("concat"), span))
                 .as_callee(),
 
             args: buf,

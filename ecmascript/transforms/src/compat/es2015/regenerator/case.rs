@@ -174,7 +174,10 @@ impl CaseHandler<'_> {
             self.unmarked_loc()
         };
 
-        self.emit_assign(self.ctx.clone().member(quote_ident!("prev")), loc.expr());
+        self.emit_assign(
+            self.ctx.clone().make_member(quote_ident!("prev")),
+            loc.expr(),
+        );
     }
 
     fn emit(&mut self, stmt: Stmt) {
@@ -201,7 +204,7 @@ impl CaseHandler<'_> {
         let res = self
             .ctx
             .clone()
-            .member(quote_ident!(format!("t{}", self.temp_idx)));
+            .make_member(quote_ident!(format!("t{}", self.temp_idx)));
 
         self.temp_idx += 1;
 
@@ -382,7 +385,7 @@ impl CaseHandler<'_> {
                                     prop,
                                     computed: me.computed,
                                 }
-                                .member(quote_ident!("call")),
+                                .make_member(quote_ident!("call")),
                             ))
                         } else {
                             ExprOrSuper::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
@@ -675,7 +678,7 @@ impl CaseHandler<'_> {
                             callee: self
                                 .ctx
                                 .clone()
-                                .member(quote_ident!("delegateYield"))
+                                .make_member(quote_ident!("delegateYield"))
                                 .as_callee(),
                             args: vec![
                                 arg.unwrap().as_arg(),
@@ -690,8 +693,8 @@ impl CaseHandler<'_> {
                     self.emit(ret);
                     let after = self.mark(after);
                     match self.listing.last_mut().unwrap() {
-                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => match arg {
-                            Expr::Call(CallExpr { args, .. }) => {
+                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => match **arg {
+                            Expr::Call(CallExpr { ref mut args, .. }) => {
                                 *args.last_mut().unwrap() = after.to_stmt_index().as_arg();
                             }
                             _ => unreachable!(),
@@ -702,7 +705,10 @@ impl CaseHandler<'_> {
                     return result;
                 }
 
-                self.emit_assign(self.ctx.clone().member(quote_ident!("next")), after.expr());
+                self.emit_assign(
+                    self.ctx.clone().make_member(quote_ident!("next")),
+                    after.expr(),
+                );
 
                 let ret = ReturnStmt {
                     span: DUMMY_SP,
@@ -712,7 +718,7 @@ impl CaseHandler<'_> {
                 self.emit(ret);
                 self.mark(after);
 
-                finish!(self.ctx.clone().member(quote_ident!("sent")))
+                finish!(self.ctx.clone().make_member(quote_ident!("sent")))
             }
         }
     }
@@ -795,7 +801,11 @@ impl CaseHandler<'_> {
             arg: Some(Box::new(
                 CallExpr {
                     span: DUMMY_SP,
-                    callee: self.ctx.clone().member(quote_ident!("abrupt")).as_callee(),
+                    callee: self
+                        .ctx
+                        .clone()
+                        .make_member(quote_ident!("abrupt"))
+                        .as_callee(),
                     args: {
                         let ty_arg = Lit::Str(Str {
                             span: DUMMY_SP,
@@ -830,7 +840,7 @@ impl CaseHandler<'_> {
     }
 
     fn jump_expr(&mut self, next: Expr) {
-        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), next);
+        self.emit_assign(self.ctx.clone().make_member(quote_ident!("next")), next);
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
             label: None,
@@ -850,7 +860,7 @@ impl CaseHandler<'_> {
                                 span: DUMMY_SP,
                                 op: op!("="),
                                 left: PatOrExpr::Expr(Box::new(
-                                    self.ctx.clone().member(quote_ident!("next")),
+                                    self.ctx.clone().make_member(quote_ident!("next")),
                                 )),
                                 right: Box::new(to.expr()),
                             }
@@ -893,7 +903,7 @@ impl CaseHandler<'_> {
                                 span: DUMMY_SP,
                                 op: op!("="),
                                 left: PatOrExpr::Expr(Box::new(
-                                    self.ctx.clone().member(quote_ident!("next")),
+                                    self.ctx.clone().make_member(quote_ident!("next")),
                                 )),
                                 right: Box::new(to.expr()),
                             }
@@ -1174,7 +1184,7 @@ impl CaseHandler<'_> {
                         let callee = folder
                             .ctx
                             .clone()
-                            .member(quote_ident!("finish"))
+                            .make_member(quote_ident!("finish"))
                             .as_callee();
                         folder.emit(
                             ReturnStmt {
@@ -1342,13 +1352,14 @@ impl CaseHandler<'_> {
                                 .into(),
                             ),
                         }
-                        .member(quote_ident!("done")),
+                        .make_member(quote_ident!("done")),
                     ),
                     after,
                 );
 
                 {
-                    let right = Box::new(key_info_tmp_var.clone().member(quote_ident!("value")));
+                    let right =
+                        Box::new(key_info_tmp_var.clone().make_member(quote_ident!("value")));
                     match s.left {
                         VarDeclOrPat::VarDecl(var) => unreachable!(
                             "VarDeclaration in for-in statement must be hoisted: {:?}",

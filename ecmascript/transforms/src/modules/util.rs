@@ -230,7 +230,7 @@ impl Scope {
                 args: vec![imported.as_arg()],
                 type_args: Default::default(),
             }
-            .member(quote_ident!("forEach"))
+            .make_member(quote_ident!("forEach"))
             .as_callee(),
             args: vec![FnExpr {
                 ident: None,
@@ -420,7 +420,7 @@ impl Scope {
                     // import * as foo from 'foo';
                     Ok(obj)
                 } else {
-                    Ok(obj.member(Ident::new(prop, DUMMY_SP)))
+                    Ok(obj.make_member(Ident::new(prop, DUMMY_SP)))
                 }
             }
         }
@@ -450,7 +450,7 @@ impl Scope {
                         left: PatOrExpr::Expr(Box::new(
                             exports
                                 .clone()
-                                .member(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
+                                .make_member(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
                         )),
                         op: op!("="),
                         right: e,
@@ -483,10 +483,11 @@ impl Scope {
 
             Expr::Update(UpdateExpr {
                 span,
-                arg: box Expr::Ident(arg),
+                arg,
                 op,
                 prefix,
-            }) => {
+            }) if arg.is_ident() => {
+                let arg = arg.ident().unwrap();
                 let entry = entry!(arg);
 
                 match entry {
@@ -606,7 +607,8 @@ impl Scope {
                 }
 
                 match expr.left {
-                    PatOrExpr::Pat(box Pat::Ident(ref i)) => {
+                    PatOrExpr::Pat(pat) if pat.is_ident() => {
+                        let i = pat.ident().unwrap();
                         let entry = entry!(i);
 
                         match entry {
@@ -748,7 +750,9 @@ pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsW
     for name in initialized.into_iter() {
         rhs = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
-            left: PatOrExpr::Expr(Box::new(exports.clone().member(Ident::new(name, DUMMY_SP)))),
+            left: PatOrExpr::Expr(Box::new(
+                exports.clone().make_member(Ident::new(name, DUMMY_SP)),
+            )),
             op: op!("="),
             right: rhs,
         }));

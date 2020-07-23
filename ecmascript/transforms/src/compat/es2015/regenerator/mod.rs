@@ -109,7 +109,7 @@ impl Fold for Regenerator {
                         .regenerator_runtime
                         .clone()
                         .unwrap()
-                        .member(quote_ident!("mark"))
+                        .make_member(quote_ident!("mark"))
                         .as_callee(),
                     args: vec![FnExpr { ident, function }.as_arg()],
                     type_args: None,
@@ -144,7 +144,7 @@ impl Fold for Regenerator {
                     .regenerator_runtime
                     .clone()
                     .unwrap()
-                    .member(quote_ident!("mark"))
+                    .make_member(quote_ident!("mark"))
                     .as_callee(),
                 args: vec![f.ident.clone().as_arg()],
                 type_args: None,
@@ -217,7 +217,7 @@ impl Fold for Regenerator {
                         .regenerator_runtime
                         .clone()
                         .unwrap()
-                        .member(quote_ident!("mark"))
+                        .make_member(quote_ident!("mark"))
                         .as_callee(),
                     args: vec![FnExpr { ident, function }.as_arg()],
                     type_args: None,
@@ -356,7 +356,7 @@ impl Regenerator {
                 // _ctx.stop()
                 arg: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: ctx.clone().member(quote_ident!("stop")).as_callee(),
+                    callee: ctx.clone().make_member(quote_ident!("stop")).as_callee(),
                     args: vec![],
                     type_args: Default::default(),
                 }))),
@@ -379,9 +379,9 @@ impl Regenerator {
                             span: DUMMY_SP,
                             op: op!("="),
                             left: PatOrExpr::Expr(Box::new(
-                                ctx.clone().member(quote_ident!("prev")),
+                                ctx.clone().make_member(quote_ident!("prev")),
                             )),
-                            right: Box::new(ctx.clone().member(quote_ident!("next"))),
+                            right: Box::new(ctx.clone().make_member(quote_ident!("next"))),
                         }
                         .into(),
                     ),
@@ -417,7 +417,7 @@ impl Regenerator {
                                         .regenerator_runtime
                                         .clone()
                                         .unwrap()
-                                        .member(quote_ident!("wrap"))
+                                        .make_member(quote_ident!("wrap"))
                                         .as_callee(),
                                     args: {
                                         let mut args = vec![Expr::Fn(FnExpr {
@@ -492,7 +492,7 @@ impl Fold for FnSentVisitor {
             Expr::MetaProp(MetaPropExpr { meta, prop })
                 if meta.sym == *"function" && prop.sym == *"sent" =>
             {
-                return self.ctx.clone().member(quote_ident!("_sent"));
+                return self.ctx.clone().make_member(quote_ident!("_sent"));
             }
 
             _ => {}

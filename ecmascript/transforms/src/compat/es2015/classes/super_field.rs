@@ -209,7 +209,9 @@ impl<'a> SuperCalleeFolder<'a> {
             Expr::Ident(self.class_name.clone())
         } else {
             // Foo.prototype
-            self.class_name.clone().member(quote_ident!("prototype"))
+            self.class_name
+                .clone()
+                .make_member(quote_ident!("prototype"))
         })
         .as_arg();
 
@@ -285,8 +287,12 @@ impl<'a> SuperCalleeFolder<'a> {
             }
         }
 
-        let proto_arg =
-            get_prototype_of(self.class_name.clone().member(quote_ident!("prototype"))).as_arg();
+        let proto_arg = get_prototype_of(
+            self.class_name
+                .clone()
+                .make_member(quote_ident!("prototype")),
+        )
+        .as_arg();
 
         let prop_arg = match *prop {
             Expr::Ident(Ident {

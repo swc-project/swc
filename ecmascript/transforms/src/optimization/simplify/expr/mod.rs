@@ -850,15 +850,15 @@ impl SimplifyExpr {
             (
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref li, .. }),
+                    arg: ref la,
                     ..
                 }),
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref ri, .. }),
+                    arg: ref ra,
                     ..
                 }),
-            ) if li == ri => return Known(false),
+            ) if la.as_ident().is_some() && la.as_ident() == ra.is_ident() => return Known(false),
             _ => {}
         }
 

@@ -230,7 +230,10 @@ impl AssignFolder {
                             name: *arg,
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
-                                callee: ref_ident.clone().member(quote_ident!("slice")).as_callee(),
+                                callee: ref_ident
+                                    .clone()
+                                    .make_member(quote_ident!("slice"))
+                                    .as_callee(),
                                 args: vec![Lit::Num(Number {
                                     value: i as f64,
                                     span: dot3_token,
@@ -671,7 +674,7 @@ impl Fold for AssignFolder {
                                             span: DUMMY_SP,
                                             callee: ref_ident
                                                 .clone()
-                                                .member(quote_ident!("slice"))
+                                                .make_member(quote_ident!("slice"))
                                                 .as_callee(),
                                             args: vec![(i as f64).as_arg()],
                                             type_args: Default::default(),

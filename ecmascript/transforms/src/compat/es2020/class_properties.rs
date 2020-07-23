@@ -51,7 +51,9 @@ impl Fold for ClassProperties {
         let span = body.span();
 
         match body {
-            BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
+            BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
+                let ClassExpr { ident, class } = expr.class().unwrap();
+
                 let mut stmts = vec![];
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
@@ -439,7 +441,7 @@ impl ClassProperties {
                     } else {
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: ident.clone().member(quote_ident!("set")).as_callee(),
+                            callee: ident.clone().make_member(quote_ident!("set")).as_callee(),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 ObjectLit {

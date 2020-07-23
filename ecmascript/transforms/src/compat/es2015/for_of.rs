@@ -96,7 +96,7 @@ impl Actual {
                 span: DUMMY_SP,
                 left: Box::new(Expr::Ident(i.clone())),
                 op: op!("<"),
-                right: Box::new(arr.clone().member(quote_ident!("length"))),
+                right: Box::new(arr.clone().make_member(quote_ident!("length"))),
             })));
             let update = Some(Box::new(Expr::Update(UpdateExpr {
                 span: DUMMY_SP,
@@ -203,7 +203,7 @@ impl Actual {
         };
 
         let step = quote_ident!(var_span, "_step");
-        let step_value = Box::new(step.clone().member(quote_ident!("value")));
+        let step_value = Box::new(step.clone().make_member(quote_ident!("value")));
         body.stmts.insert(
             0,
             match left {
@@ -231,7 +231,7 @@ impl Actual {
 
         let iterator = quote_ident!(var_span, "_iterator");
         // `_iterator.return`
-        let iterator_return = Box::new(iterator.clone().member(quote_ident!("return")));
+        let iterator_return = Box::new(iterator.clone().make_member(quote_ident!("return")));
 
         let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
@@ -305,7 +305,7 @@ impl Actual {
                         right: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             // `_iterator.next`
-                            callee: iterator.member(quote_ident!("next")).as_callee(),
+                            callee: iterator.make_member(quote_ident!("next")).as_callee(),
                             args: vec![],
                             type_args: Default::default(),
                         })),
@@ -315,7 +315,7 @@ impl Actual {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(Box::new(Pat::Ident(normal_completion_ident.clone()))),
                         op: op!("="),
-                        right: Box::new(step_expr.member(quote_ident!("done"))),
+                        right: Box::new(step_expr.make_member(quote_ident!("done"))),
                     }));
 
                     iteration_normal_completion

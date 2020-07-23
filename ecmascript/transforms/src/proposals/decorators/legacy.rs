@@ -466,7 +466,7 @@ impl Legacy {
                                 right: Box::new(Expr::Cond(CondExpr {
                                     span: DUMMY_SP,
                                     test: Box::new(Expr::Ident(init.clone())),
-                                    cons: Box::new(init.clone().member(quote_ident!("value"))),
+                                    cons: Box::new(init.clone().make_member(quote_ident!("value"))),
                                     alt: undefined(DUMMY_SP),
                                 })),
                             })),

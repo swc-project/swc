@@ -28,7 +28,7 @@ macro_rules! helper_expr {
         let external = crate::helpers::HELPERS.with(|helper| helper.external());
 
         if external {
-            quote_ident!(span, "swcHelpers").member(quote_ident!($span, external_name!($s)))
+            quote_ident!(span, "swcHelpers").make_member(quote_ident!($span, external_name!($s)))
         } else {
             Expr::from(quote_ident!(span, concat!('_', $s)))
         }
