@@ -1,4 +1,5 @@
 use super::{Inlining, Phase};
+use crate::ext::ExprRefExt;
 use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::map::{Entry, IndexMap};
 use std::{
@@ -600,9 +601,11 @@ impl<'a> Scope<'a> {
                 }
             }
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box Expr::Ident(ref ri)),
+                obj: ExprOrSuper::Expr(right_expr),
                 ..
-            }) => {
+            }) if right_expr.is_ident() => {
+                let ri = right_expr.as_ident().unwrap();
+
                 if let Some(v) = self.find_binding_from_current(&ri.to_id()) {
                     return v.inline_prevented.get();
                 }

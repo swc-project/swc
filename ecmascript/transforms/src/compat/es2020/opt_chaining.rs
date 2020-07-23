@@ -168,18 +168,20 @@ impl OptChaining {
             _ => e.obj,
         };
 
-        if let ExprOrSuper::Expr(box Expr::OptChain(o)) = obj {
-            let expr = self.unwrap(o);
+        if let ExprOrSuper::Expr(obj) = obj {
+            if let Expr::OptChain(obj) = *obj {
+                let expr = self.unwrap(obj);
 
-            return CondExpr {
-                span: DUMMY_SP,
-                alt: Box::new(Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(expr.alt),
-                    ..e
-                })),
-                ..expr
+                return CondExpr {
+                    span: DUMMY_SP,
+                    alt: Box::new(Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(expr.alt),
+                        ..e
+                    })),
+                    ..expr
+                }
+                .into();
             }
-            .into();
         }
 
         Expr::Member(MemberExpr { obj, ..e })
@@ -191,13 +193,15 @@ impl OptChaining {
 
         match *e.expr {
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box Expr::OptChain(o)),
+                obj: ExprOrSuper::Expr(obj),
                 prop,
                 computed,
                 span: m_span,
-            }) => {
-                let o_span = o.span;
-                let obj = self.unwrap(o);
+            }) if obj.is_opt_chain() => {
+                let obj = obj.opt_chain().unwrap();
+
+                let obj_span = obj.span;
+                let obj = self.unwrap(obj);
 
                 let alt = Box::new(Expr::Member(MemberExpr {
                     span: m_span,
@@ -206,7 +210,7 @@ impl OptChaining {
                     computed,
                 }));
                 let alt = Box::new(Expr::OptChain(OptChainExpr {
-                    span: o_span,
+                    span: obj_span,
                     expr: alt,
                 }));
 
@@ -215,11 +219,12 @@ impl OptChaining {
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(box Expr::OptChain(o)),
+                callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) => {
-                let obj = self.unwrap(o);
+            }) if callee.is_opt_chain() => {
+                let callee = callee.opt_chain().unwrap();
+                let obj = self.unwrap(callee);
 
                 let alt = Box::new(Expr::Call(CallExpr {
                     span,
@@ -241,11 +246,12 @@ impl OptChaining {
 
         match *e.expr.clone() {
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box obj),
+                obj: ExprOrSuper::Expr(obj),
                 prop,
                 computed,
                 ..
             }) => {
+                let obj = *obj;
                 let obj_span = obj.span();
 
                 let (left, right, alt) = match obj {
@@ -305,11 +311,12 @@ impl OptChaining {
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(box obj),
+                callee: ExprOrSuper::Expr(obj),
                 args,
                 type_args,
                 ..
             }) => {
+                let obj = *obj;
                 let obj_span = obj.span();
                 let is_super_access = match obj {
                     Expr::Member(MemberExpr {

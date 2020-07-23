@@ -1,4 +1,4 @@
-use crate::{pass::RepeatedJsPass, util::*};
+use crate::{ext::ExprRefExt, pass::RepeatedJsPass, util::*};
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -67,7 +67,7 @@ impl SimplifyExpr {
 
         let obj = match e.obj {
             ExprOrSuper::Super(_) => return Expr::Member(e),
-            ExprOrSuper::Expr(box o) => o,
+            ExprOrSuper::Expr(o) => *o,
         };
 
         match obj {
@@ -858,7 +858,7 @@ impl SimplifyExpr {
                     arg: ref ra,
                     ..
                 }),
-            ) if la.as_ident().is_some() && la.as_ident() == ra.is_ident() => return Known(false),
+            ) if la.as_ident().is_some() && la.as_ident() == ra.as_ident() => return Known(false),
             _ => {}
         }
 
@@ -935,15 +935,15 @@ impl SimplifyExpr {
             (
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref li, .. }),
+                    arg: ref la,
                     ..
                 }),
                 &Expr::Unary(UnaryExpr {
                     op: op!("typeof"),
-                    arg: box Expr::Ident(Ident { sym: ref ri, .. }),
+                    arg: ref ra,
                     ..
                 }),
-            ) if li == ri => return Known(true),
+            ) if la.as_ident().is_none() && la.as_ident() == ra.as_ident() => return Known(true),
             _ => {}
         }
 
@@ -1038,8 +1038,8 @@ impl Fold for SimplifyExpr {
                     match elem {
                         Some(ExprOrSpread {
                             spread: Some(..),
-                            expr: box Expr::Array(ArrayLit { elems, .. }),
-                        }) => e.extend(elems),
+                            expr,
+                        }) if expr.is_array() => e.extend(expr.array().unwrap().elems),
 
                         _ => e.push(elem),
                     }
@@ -1061,10 +1061,10 @@ impl Fold for SimplifyExpr {
 
                 for p in props {
                     match p {
-                        PropOrSpread::Spread(SpreadElement {
-                            expr: box Expr::Object(ObjectLit { props, .. }),
-                            ..
-                        }) => ps.extend(props),
+                        PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
+                            let props = expr.object().unwrap().props;
+                            ps.extend(props)
+                        }
 
                         _ => ps.push(p),
                     }

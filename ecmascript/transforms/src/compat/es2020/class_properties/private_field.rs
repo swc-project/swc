@@ -1,4 +1,7 @@
-use crate::util::{alias_ident_for, alias_if_required, prepend, ExprFactory};
+use crate::{
+    ext::{AsOptExpr, PatOrExprExt},
+    util::{alias_ident_for, alias_if_required, prepend, ExprFactory},
+};
 use std::{collections::HashSet, iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, DUMMY_SP};
@@ -195,16 +198,13 @@ impl<'a> Fold for FieldAccessFolder<'a> {
 
             Expr::Assign(AssignExpr {
                 span,
-                left: PatOrExpr::Pat(box Pat::Expr(box Expr::Member(left))),
+                left,
                 op,
                 right,
-            })
-            | Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Expr(box Expr::Member(left)),
-                op,
-                right,
-            }) => {
+            }) if left.as_expr().is_some() && left.as_expr().unwrap().is_member() => {
+                let left = left.normalize_expr();
+                let left: MemberExpr = left.expr().unwrap().member().unwrap();
+
                 let n = match *left.prop {
                     Expr::PrivateName(ref n) => n.clone(),
                     _ => {
@@ -377,23 +377,21 @@ impl<'a> Fold for FieldAccessFolder<'a> {
     }
 
     fn fold_pat(&mut self, p: Pat) -> Pat {
-        match p {
-            Pat::Expr(box Expr::Member(MemberExpr {
-                prop: box Expr::PrivateName(..),
-                ..
-            })) => {
-                self.in_assign_pat = true;
-                let p = p.fold_children_with(self);
-                self.in_assign_pat = false;
+        if let Pat::Expr(expr) = &p {
+            if let Expr::Member(me) = &**expr {
+                if let Expr::PrivateName(prop) = &*me.prop {
+                    self.in_assign_pat = true;
+                    let p = p.fold_children_with(self);
+                    self.in_assign_pat = false;
 
-                p
-            }
-            _ => {
-                self.in_assign_pat = false;
-
-                p.fold_children_with(self)
+                    return p;
+                }
             }
         }
+
+        self.in_assign_pat = false;
+
+        p.fold_children_with(self)
     }
 }
 

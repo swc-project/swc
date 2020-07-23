@@ -730,7 +730,7 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
     match &*stmts.first().unwrap() {
         ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
             Expr::Lit(Lit::Str(Str { ref value, .. })) => return &*value == "use strict",
-            _ => false,
+            _ => {}
         },
         _ => {}
     }

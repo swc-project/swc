@@ -86,10 +86,10 @@ fn jsonify(e: Expr) -> Value {
             obj.props
                 .into_iter()
                 .map(|v| match v {
-                    PropOrSpread::Prop(box Prop::KeyValue(p)) => p,
+                    PropOrSpread::Prop(p) if p.is_key_value() => p.key_value().unwrap(),
                     _ => unreachable!(),
                 })
-                .map(|p| {
+                .map(|p: KeyValueProp| {
                     let value = jsonify(*p.value);
                     let key = match p.key {
                         PropName::Str(s) => s.value.to_string(),

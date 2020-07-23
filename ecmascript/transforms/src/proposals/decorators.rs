@@ -166,24 +166,10 @@ impl Fold for Decorators {
                 return;
             }
 
-            //
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl:
-                        DefaultDecl::Class(ClassExpr {
-                            ident: Some(ident),
-                            class,
-                        }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    expr:
-                        box Expr::Class(ClassExpr {
-                            ident: Some(ident),
-                            class,
-                        }),
-                    ..
-                })) => {
+            macro_rules! handle_class {
+                ($cls:expr, $ident:expr) => {{
+                    let class = $cls;
+                    let ident = $ident;
                     let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
                     buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -212,7 +198,27 @@ impl Fold for Decorators {
                             type_only: false,
                         },
                     )));
-                }
+                }};
+            }
+            //
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Class(ClassExpr {
+                            ident: Some(ident),
+                            class,
+                        }),
+                    ..
+                })) => handle_class!(class, ident),
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    expr,
+                    ..
+                })) => match *expr {
+                    Expr::Class(ClassExpr {
+                        ident: Some(ident),
+                        class,
+                    }) => handle_class!(class, ident),
+                },
                 _ => {
                     buf.push(item.fold_with(self));
                 }

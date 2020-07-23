@@ -1,4 +1,7 @@
-use crate::util::{ExprFactory, COMMENTS};
+use crate::{
+    ext::{AsOptExpr, PatOrExprExt},
+    util::{ExprFactory, COMMENTS},
+};
 use fxhash::FxHashMap;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
@@ -130,7 +133,7 @@ impl Fold for Fixer {
 
         match body {
             BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
-                BlockStmtOrExpr::Expr(Box::new(self.wrap(expr)))
+                BlockStmtOrExpr::Expr(Box::new(self.wrap(*expr)))
             }
 
             _ => body,
@@ -177,12 +180,13 @@ impl Fold for Fixer {
             Expr::Member(MemberExpr {
                 span,
                 computed,
-                obj: obj @ ExprOrSuper::Expr(box Expr::Object(..)),
+                obj,
                 prop,
-            }) if match self.ctx {
-                Context::ForcedExpr { is_var_decl: true } => true,
-                _ => false,
-            } =>
+            }) if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
+                && match self.ctx {
+                    Context::ForcedExpr { is_var_decl: true } => true,
+                    _ => false,
+                } =>
             {
                 MemberExpr {
                     span,
@@ -196,87 +200,33 @@ impl Fold for Fixer {
             Expr::Member(MemberExpr {
                 span,
                 computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Fn(_)),
+                obj: ExprOrSuper::Expr(obj),
                 prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Assign(_)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Seq(_)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Update(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Unary(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Bin(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Object(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Cond(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::New(NewExpr { args: None, .. })),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Arrow(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Class(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Yield(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::Await(..)),
-                prop,
-            }) => validate!(MemberExpr {
-                span,
-                computed,
-                obj: self.wrap(*obj).as_obj(),
-                prop,
-            })
-            .into(),
+            }) if obj.is_fn_expr()
+                || obj.is_cond()
+                || obj.is_unary()
+                || obj.is_seq()
+                || obj.is_update()
+                || obj.is_bin()
+                || obj.is_object()
+                || obj.is_assign()
+                || obj.is_arrow()
+                || obj.is_class()
+                || obj.is_yield_expr()
+                || obj.is_await_expr()
+                || match *obj {
+                    Expr::New(NewExpr { args: None, .. }) => true,
+                    _ => false,
+                } =>
+            {
+                validate!(MemberExpr {
+                    span,
+                    computed,
+                    obj: self.wrap(*obj).as_obj(),
+                    prop,
+                })
+                .into()
+            }
 
             // Flatten seq expr
             Expr::Seq(SeqExpr { span, exprs }) => {
@@ -468,14 +418,12 @@ impl Fold for Fixer {
             Expr::Assign(expr) => {
                 let right = match *expr.right {
                     // `foo = (bar = baz)` => foo = bar = baz
-                    Expr::Assign(AssignExpr {
-                        left: PatOrExpr::Pat(box Pat::Ident(..)),
-                        ..
-                    })
-                    | Expr::Assign(AssignExpr {
-                        left: PatOrExpr::Expr(box Expr::Ident(..)),
-                        ..
-                    }) => expr.right,
+                    Expr::Assign(AssignExpr { left, .. })
+                    | Expr::Assign(AssignExpr { left, .. })
+                        if left.as_ident().is_some() =>
+                    {
+                        expr.right
+                    }
 
                     // Handle `foo = bar = init()
                     Expr::Seq(right) => Box::new(self.wrap(right)),
@@ -487,10 +435,10 @@ impl Fold for Fixer {
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee @ box Expr::Arrow(_)),
+                callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) => validate!(Expr::Call(CallExpr {
+            }) if callee.is_arrow() => validate!(Expr::Call(CallExpr {
                 span,
                 callee: self.wrap(*callee).as_callee(),
                 args,
@@ -500,10 +448,10 @@ impl Fold for Fixer {
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
+                callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) => match self.ctx {
+            }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr { .. } => validate!(Expr::Call(CallExpr {
                     span,
                     callee: callee.as_callee(),
@@ -527,10 +475,10 @@ impl Fold for Fixer {
             },
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee @ box Expr::Assign(_)),
+                callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) => validate!(Expr::Call(CallExpr {
+            }) if callee.is_assign() => validate!(Expr::Call(CallExpr {
                 span,
                 callee: self.wrap(*callee).as_callee(),
                 args,
@@ -710,10 +658,10 @@ impl Fixer {
             // ({ a } = foo)
             Expr::Assign(AssignExpr {
                 span,
-                left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+                left: PatOrExpr::Pat(left),
                 op,
                 right,
-            }) => self.wrap(AssignExpr {
+            }) if left.is_object() => self.wrap(AssignExpr {
                 span,
                 left: PatOrExpr::Pat(left),
                 op,

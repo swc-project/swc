@@ -1,5 +1,5 @@
 use self::scope::{Scope, ScopeKind, VarType};
-use crate::{pass::RepeatedJsPass, scope::IdentType};
+use crate::{ext::PatOrExprExt, pass::RepeatedJsPass, scope::IdentType};
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
@@ -99,27 +99,30 @@ impl Fold for Inlining<'_> {
     fn fold_assign_expr(&mut self, e: AssignExpr) -> AssignExpr {
         log::trace!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
-        let e = AssignExpr {
-            left: match e.left {
-                PatOrExpr::Expr(left) | PatOrExpr::Pat(box Pat::Expr(left)) => {
-                    //
-                    match *left {
-                        Expr::Member(ref left) => {
-                            log::trace!("Assign to member expression!");
-                            let mut v = IdentListVisitor {
-                                scope: &mut self.scope,
-                            };
 
-                            left.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-                            e.right.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        let e = AssignExpr {
+            left: {
+                match e.left.normalize_expr() {
+                    PatOrExpr::Expr(left) => {
+                        //
+                        match *left {
+                            Expr::Member(ref left) => {
+                                log::trace!("Assign to member expression!");
+                                let mut v = IdentListVisitor {
+                                    scope: &mut self.scope,
+                                };
+
+                                left.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                                e.right.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                            }
+
+                            _ => {}
                         }
 
-                        _ => {}
+                        PatOrExpr::Expr(left)
                     }
-
-                    PatOrExpr::Expr(left)
+                    PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
                 }
-                PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
             },
             right: e.right.fold_with(self),
             ..e
@@ -149,9 +152,8 @@ impl Fold for Inlining<'_> {
         match *e.right {
             Expr::Lit(..) | Expr::Ident(..) => {
                 //
-                match e.left {
-                    PatOrExpr::Pat(box Pat::Ident(ref i))
-                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                match e.left.as_ident() {
+                    Some(i) => {
                         let id = i.to_id();
                         self.scope.add_write(&id, false);
 
@@ -260,20 +262,16 @@ impl Fold for Inlining<'_> {
         if self.phase == Phase::Inlining {
             match node {
                 Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
-                    match e.left {
-                        PatOrExpr::Pat(box Pat::Ident(ref i))
-                        | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                            if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
-                                if var.is_undefined.get() && !var.is_inline_prevented() {
-                                    if !self.scope.is_inline_prevented(&e.right) {
-                                        *var.value.borrow_mut() = Some(*e.right.clone());
-                                        var.is_undefined.set(false);
-                                        return *e.right;
-                                    }
+                    if let Some(i) = e.left.as_ident() {
+                        if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
+                            if var.is_undefined.get() && !var.is_inline_prevented() {
+                                if !self.scope.is_inline_prevented(&e.right) {
+                                    *var.value.borrow_mut() = Some(*e.right.clone());
+                                    var.is_undefined.set(false);
+                                    return *e.right;
                                 }
                             }
                         }
-                        _ => {}
                     }
 
                     return Expr::Assign(e);
@@ -628,11 +626,14 @@ impl Fold for Inlining<'_> {
                         }
 
                         // Constants
-                        Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..))
-                            if self.var_decl_kind == VarDeclKind::Const =>
+                        Some(e)
+                            if (e.is_lit() || e.is_ident())
+                                && self.var_decl_kind == VarDeclKind::Const =>
                         {
                             if self.is_first_run {
-                                self.scope.constants.insert(name.to_id(), Some(e.clone()));
+                                self.scope
+                                    .constants
+                                    .insert(name.to_id(), Some((**e).clone()));
                             }
                         }
                         Some(..) if self.var_decl_kind == VarDeclKind::Const => {
@@ -642,7 +643,7 @@ impl Fold for Inlining<'_> {
                         }
 
                         // Bindings
-                        Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
+                        Some(e) | Some(e) if e.is_lit() || e.is_ident() => {
                             self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false, kind);
 
                             if self.scope.is_inline_prevented(&e) {
@@ -683,8 +684,8 @@ impl Fold for Inlining<'_> {
                             let init = node.init.take().fold_with(self);
                             log::trace!("\tInit: {:?}", init);
 
-                            match init {
-                                Some(box Expr::Ident(ref ri)) => {
+                            if let Some(init) = init {
+                                if let Expr::Ident(ri) = *init {
                                     self.declare(
                                         name.to_id(),
                                         Some(Cow::Owned(Expr::Ident(ri.clone()))),
@@ -692,8 +693,6 @@ impl Fold for Inlining<'_> {
                                         kind,
                                     );
                                 }
-
-                                _ => {}
                             }
 
                             match init {
@@ -714,7 +713,8 @@ impl Fold for Inlining<'_> {
                             let e = match init {
                                 None => None,
                                 Some(e) if e.is_lit() || e.is_ident() => Some(e),
-                                Some(box e) => {
+                                Some(e) => {
+                                    let e = *e;
                                     if self.scope.is_inline_prevented(&Expr::Ident(name.clone())) {
                                         node.init = Some(Box::new(e));
                                         return node;
@@ -722,7 +722,7 @@ impl Fold for Inlining<'_> {
 
                                     if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
                                         if cnt == 1 {
-                                            Some(e)
+                                            Some(Box::new(e))
                                         } else {
                                             node.init = Some(Box::new(e));
                                             return node;
@@ -737,7 +737,7 @@ impl Fold for Inlining<'_> {
                             // log::trace!("({}): Inserting {:?}", self.scope.depth(),
                             // name.to_id());
 
-                            self.declare(name.to_id(), e.map(Cow::Owned), false, kind);
+                            self.declare(name.to_id(), e.map(|e| Cow::Owned(*e)), false, kind);
 
                             return node;
                         }

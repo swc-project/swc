@@ -34,60 +34,48 @@ impl Fold for InlineGlobals {
         match expr {
             Expr::Ident(Ident { ref sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
-                if let Some(value) = self.globals.get(sym) {
+                return if let Some(value) = self.globals.get(sym) {
                     value.clone().fold_with(self)
                 } else {
                     expr
-                }
+                };
             }
             Expr::Member(MemberExpr {
                 span,
-                obj:
-                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        obj:
-                            ExprOrSuper::Expr(box Expr::Ident(Ident {
-                                sym: js_word!("process"),
-                                span: process_span,
-                                ..
-                            })),
-                        prop:
-                            box Expr::Ident(Ident {
-                                sym: js_word!("env"),
-                                span: env_span,
-                                ..
-                            }),
-                        span: obj_span,
-                        computed: obj_computed,
-                    })),
+                obj: ExprOrSuper::Expr(ref obj),
                 prop,
                 computed,
-            }) => {
-                match *prop {
-                    Expr::Lit(Lit::Str(Str { value: ref sym, .. }))
-                    | Expr::Ident(Ident { ref sym, .. }) => {
-                        if let Some(env) = self.envs.get(sym) {
-                            return env.clone();
-                        }
-                    }
-                    _ => {}
-                }
+            }) => match &**obj {
                 Expr::Member(MemberExpr {
-                    span,
-                    obj: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
-                            js_word!("process"),
-                            process_span,
-                        )))),
-                        prop: Box::new(Expr::Ident(Ident::new(js_word!("env"), env_span))),
-                        span: obj_span,
-                        computed: obj_computed,
-                    }))),
-                    prop,
-                    computed,
-                })
-            }
-            _ => expr,
+                    obj: ExprOrSuper::Expr(first_obj),
+                    prop: second_obj,
+                    span: obj_span,
+                    computed: obj_computed,
+                }) => match &**first_obj {
+                    Expr::Ident(Ident {
+                        sym: js_word!("process"),
+                        ..
+                    }) => match &**second_obj {
+                        Expr::Ident(Ident {
+                            sym: js_word!("env"),
+                            ..
+                        }) => match *prop {
+                            Expr::Lit(Lit::Str(Str { value: ref sym, .. }))
+                            | Expr::Ident(Ident { ref sym, .. }) => {
+                                if let Some(env) = self.envs.get(sym) {
+                                    return env.clone();
+                                }
+                            }
+                            _ => {}
+                        },
+                    },
+                },
+                _ => {}
+            },
+            _ => {}
         }
+
+        expr
     }
 }
 
