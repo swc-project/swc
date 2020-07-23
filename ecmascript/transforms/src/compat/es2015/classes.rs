@@ -286,10 +286,10 @@ impl Classes {
         let cnt_of_non_directive = stmts
             .iter()
             .filter(|stmt| match stmt {
-                Stmt::Expr(ExprStmt {
-                    expr: box Expr::Lit(Lit::Str(..)),
-                    ..
-                }) => false,
+                Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+                    Expr::Lit(Lit::Str(..)) => false,
+                    _ => true,
+                },
                 _ => true,
             })
             .count();
@@ -582,10 +582,10 @@ impl Classes {
             && stmts
                 .iter()
                 .filter(|stmt| match stmt {
-                    Stmt::Expr(ExprStmt {
-                        expr: box Expr::Lit(Lit::Str(..)),
-                        ..
-                    }) => false,
+                    Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+                        Expr::Lit(Lit::Str(..)) => false,
+                        _ => true,
+                    },
                     _ => true,
                 })
                 .count()
@@ -884,14 +884,14 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt {
-            expr:
-                box Expr::Call(CallExpr {
-                    callee: ExprOrSuper::Super(..),
-                    ..
-                }),
-            ..
-        }) => true,
+        Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                ..
+            }) => true,
+
+            _ => false,
+        },
         _ => false,
     }) {
         Some(pos) => pos,

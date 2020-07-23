@@ -1,4 +1,4 @@
-use crate::util::UsageFinder;
+use crate::{ext::PatOrExprExt, util::UsageFinder};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -55,19 +55,17 @@ impl Fold for FnName {
             return expr;
         }
 
-        match expr.left {
-            PatOrExpr::Pat(box Pat::Ident(ref mut ident))
-            | PatOrExpr::Expr(box Expr::Ident(ref mut ident)) => {
-                let mut folder = Renamer {
-                    name: Some(ident.clone()),
-                };
+        if let Some(ident) = expr.left.as_ident_mut() {
+            let mut folder = Renamer {
+                name: Some(ident.clone()),
+            };
 
-                let right = expr.right.fold_with(&mut folder);
+            let right = expr.right.fold_with(&mut folder);
 
-                AssignExpr { right, ..expr }
-            }
-            _ => expr,
+            return AssignExpr { right, ..expr };
         }
+
+        expr
     }
 
     fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {

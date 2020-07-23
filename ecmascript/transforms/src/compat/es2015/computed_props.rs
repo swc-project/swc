@@ -95,7 +95,7 @@ impl Fold for ObjectLitFolder {
                     let span = prop.span();
 
                     let (key, value) = match prop {
-                        PropOrSpread::Prop(box prop) => match prop {
+                        PropOrSpread::Prop(prop) => match *prop {
                             Prop::Shorthand(ident) => (
                                 Expr::Lit(Lit::Str(Str {
                                     span: ident.span,

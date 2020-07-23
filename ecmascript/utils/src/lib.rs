@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![feature(try_trait)]
 
 pub use self::{
@@ -540,13 +539,18 @@ pub trait ExprExt {
             },
             Expr::Unary(UnaryExpr {
                 op: op!(unary, "-"),
-                arg:
-                    box Expr::Ident(Ident {
-                        sym: js_word!("Infinity"),
-                        ..
-                    }),
+                ref arg,
                 ..
-            }) => -INFINITY,
+            }) if match &**arg {
+                Expr::Ident(Ident {
+                    sym: js_word!("Infinity"),
+                    ..
+                }) => true,
+                _ => false,
+            } =>
+            {
+                -INFINITY
+            }
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
@@ -907,7 +911,7 @@ pub trait ExprExt {
             }
 
             Expr::Object(ObjectLit { ref props, .. }) => props.iter().any(|node| match node {
-                PropOrSpread::Prop(box node) => match *node {
+                PropOrSpread::Prop(node) => match &**node {
                     Prop::Shorthand(..) => false,
                     Prop::KeyValue(KeyValueProp { ref key, ref value }) => {
                         let k = match *key {
@@ -1396,15 +1400,15 @@ pub fn default_constructor(has_super: bool) -> Constructor {
 
 /// Check if `e` is `...arguments`
 pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
-    match *e {
-        ExprOrSpread {
-            spread: Some(..),
-            expr:
-                box Expr::Ident(Ident {
-                    sym: js_word!("arguments"),
-                    ..
-                }),
-        } => true,
+    if e.spread.is_none() {
+        return false;
+    }
+
+    match *e.expr {
+        Expr::Ident(Ident {
+            sym: js_word!("arguments"),
+            ..
+        }) => true,
         _ => false,
     }
 }
@@ -1425,10 +1429,14 @@ pub fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()
         .position(|item| match item.as_stmt() {
-            Some(&Stmt::Expr(ExprStmt {
-                expr: box Expr::Lit(Lit::Str(..)),
-                ..
-            })) => false,
+            Some(&Stmt::Expr(ExprStmt { ref expr, .. }))
+                if match &**expr {
+                    Expr::Lit(Lit::Str(..)) => true,
+                    _ => false,
+                } =>
+            {
+                false
+            }
             _ => true,
         })
         .unwrap_or(stmts.len());
@@ -1444,10 +1452,14 @@ pub fn prepend_stmts<T: StmtLike>(
     let idx = to
         .iter()
         .position(|item| match item.as_stmt() {
-            Some(&Stmt::Expr(ExprStmt {
-                expr: box Expr::Lit(Lit::Str(..)),
-                ..
-            })) => false,
+            Some(&Stmt::Expr(ExprStmt { ref expr, .. }))
+                if match &**expr {
+                    Expr::Lit(Lit::Str(..)) => true,
+                    _ => false,
+                } =>
+            {
+                false
+            }
             _ => true,
         })
         .unwrap_or(to.len());
@@ -1612,7 +1624,8 @@ where
     /// Add side effects of `expr` to `v`
     /// preserving order and conditions. (think a() ? yield b() : c())
     #[allow(clippy::vec_box)]
-    fn add_effects(v: &mut Vec<Box<Expr>>, box expr: Box<Expr>) {
+    fn add_effects(v: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
+        let expr = *expr;
         match expr {
             Expr::Lit(..)
             | Expr::This(..)
@@ -1630,12 +1643,19 @@ where
             Expr::MetaProp(_) => v.push(Box::new(expr)),
 
             Expr::Call(_) => v.push(Box::new(expr)),
-            Expr::New(NewExpr {
-                callee: box Expr::Ident(Ident { ref sym, .. }),
-                ref args,
-                ..
-            }) if *sym == js_word!("Date") && args.is_empty() => {}
-            Expr::New(_) => v.push(Box::new(expr)),
+            Expr::New(e) => {
+                // Known constructors
+                match *e.callee {
+                    Expr::Ident(Ident { ref sym, .. }) => {
+                        if *sym == js_word!("Date") && e.args.is_empty() {
+                            return;
+                        }
+                    }
+                    _ => {}
+                }
+
+                v.push(Box::new(Expr::New(e)))
+            }
             Expr::Member(_) => v.push(Box::new(expr)),
 
             // We are at here because we could not determine value of test.
@@ -1657,7 +1677,7 @@ where
                 //
                 let mut has_spread = false;
                 props.retain(|node| match node {
-                    PropOrSpread::Prop(box node) => match node {
+                    PropOrSpread::Prop(node) => match &**node {
                         Prop::Shorthand(..) => false,
                         Prop::KeyValue(KeyValueProp { key, value }) => {
                             if let PropName::Computed(e) = key {
@@ -1691,7 +1711,7 @@ where
                     v.push(Box::new(Expr::Object(ObjectLit { span, props })))
                 } else {
                     props.into_iter().for_each(|prop| match prop {
-                        PropOrSpread::Prop(box node) => match node {
+                        PropOrSpread::Prop(node) => match *node {
                             Prop::Shorthand(..) => {}
                             Prop::KeyValue(KeyValueProp { key, value }) => {
                                 if let PropName::Computed(e) = key {

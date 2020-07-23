@@ -954,12 +954,16 @@ fn module_ref_to_expr(r: TsModuleRef) -> Expr {
 fn ts_entity_name_to_expr(n: TsEntityName) -> Expr {
     match n {
         TsEntityName::Ident(i) => i.into(),
-        TsEntityName::TsQualifiedName(box TsQualifiedName { left, right }) => MemberExpr {
-            span: DUMMY_SP,
-            obj: ExprOrSuper::Expr(Box::new(ts_entity_name_to_expr(left))),
-            prop: Box::new(right.into()),
-            computed: false,
+        TsEntityName::TsQualifiedName(q) => {
+            let TsQualifiedName { left, right } = *q;
+
+            MemberExpr {
+                span: DUMMY_SP,
+                obj: ExprOrSuper::Expr(Box::new(ts_entity_name_to_expr(left))),
+                prop: Box::new(right.into()),
+                computed: false,
+            }
+            .into()
         }
-        .into(),
     }
 }

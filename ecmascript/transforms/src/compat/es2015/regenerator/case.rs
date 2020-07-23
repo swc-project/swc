@@ -341,7 +341,12 @@ impl CaseHandler<'_> {
                 let mut new_args = vec![];
 
                 let callee = match callee {
-                    ExprOrSuper::Expr(box Expr::Member(me)) => {
+                    ExprOrSuper::Expr(e) if e.is_member() => {
+                        let me = match *e {
+                            Expr::Member(me) => me,
+                            _ => unreachable!(),
+                        };
+
                         if has_leaping_args {
                             // If the arguments of the CallExpression contained any yield
                             // expressions, then we need to be sure to evaluate the callee
@@ -384,7 +389,8 @@ impl CaseHandler<'_> {
                         }
                     }
 
-                    ExprOrSuper::Expr(box callee) => {
+                    ExprOrSuper::Expr(callee) => {
+                        let callee = *callee;
                         let callee = self.explode_expr(callee, false);
 
                         let callee = match callee {
@@ -458,20 +464,23 @@ impl CaseHandler<'_> {
                     .map(|prop| {
                         //
                         match prop {
-                            PropOrSpread::Prop(box p) => PropOrSpread::Prop(Box::new(match p {
-                                Prop::Method(_)
-                                | Prop::Setter(_)
-                                | Prop::Getter(_)
-                                | Prop::Shorthand(_) => p,
-                                Prop::KeyValue(p) => Prop::KeyValue(KeyValueProp {
-                                    value: p.value.map(|e| self.explode_expr(e, false)),
-                                    ..p
-                                }),
-                                Prop::Assign(p) => Prop::Assign(AssignProp {
-                                    value: p.value.map(|e| self.explode_expr(e, false)),
-                                    ..p
-                                }),
-                            })),
+                            PropOrSpread::Prop(p) => {
+                                let p = *p;
+                                PropOrSpread::Prop(Box::new(match p {
+                                    Prop::Method(_)
+                                    | Prop::Setter(_)
+                                    | Prop::Getter(_)
+                                    | Prop::Shorthand(_) => p,
+                                    Prop::KeyValue(p) => Prop::KeyValue(KeyValueProp {
+                                        value: p.value.map(|e| self.explode_expr(e, false)),
+                                        ..p
+                                    }),
+                                    Prop::Assign(p) => Prop::Assign(AssignProp {
+                                        value: p.value.map(|e| self.explode_expr(e, false)),
+                                        ..p
+                                    }),
+                                }))
+                            }
                             _ => prop,
                         }
                     })
@@ -681,12 +690,12 @@ impl CaseHandler<'_> {
                     self.emit(ret);
                     let after = self.mark(after);
                     match self.listing.last_mut().unwrap() {
-                        Stmt::Return(ReturnStmt {
-                            arg: Some(box Expr::Call(CallExpr { args, .. })),
-                            ..
-                        }) => {
-                            *args.last_mut().unwrap() = after.to_stmt_index().as_arg();
-                        }
+                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => match arg {
+                            Expr::Call(CallExpr { args, .. }) => {
+                                *args.last_mut().unwrap() = after.to_stmt_index().as_arg();
+                            }
+                            _ => unreachable!(),
+                        },
                         _ => unreachable!(),
                     }
 
@@ -930,9 +939,9 @@ impl CaseHandler<'_> {
                 match *expr {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
-                        arg: box Expr::Lit(..),
+                        ref arg,
                         ..
-                    }) => {}
+                    }) if arg.is_lit() => {}
 
                     _ => self.emit(Stmt::Expr(ExprStmt { span, expr })),
                 }
@@ -1255,8 +1264,8 @@ impl CaseHandler<'_> {
                     // expression then we do not care about
                     // its result.
                     match init {
-                        VarDeclOrExpr::Expr(box expr) => {
-                            self.explode_expr(expr, true);
+                        VarDeclOrExpr::Expr(expr) => {
+                            self.explode_expr(*expr, true);
                         }
                         _ => unreachable!("VarDeclaration in for loop must be hoisted"),
                     }

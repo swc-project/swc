@@ -14,15 +14,11 @@ impl Fold for BlockScopedFns {
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         for stmt in items {
-            match stmt {
-                Stmt::Expr(ExprStmt {
-                    expr: box Expr::Lit(Lit::Str(..)),
-                    ..
-                }) => {
+            if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
+                if let Expr::Lit(Lit::Str(..)) = &**expr {
                     stmts.push(stmt);
                     continue;
                 }
-                _ => {}
             }
 
             // This is to preserve function Class()

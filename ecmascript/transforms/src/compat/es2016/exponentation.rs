@@ -1,4 +1,7 @@
-use crate::util::{ExprFactory, StmtLike};
+use crate::{
+    ext::PatOrExprExt,
+    util::{ExprFactory, StmtLike},
+};
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
@@ -49,8 +52,7 @@ impl Fold for AssignFolder {
                 right,
             }) => {
                 let lhs: Ident = match left {
-                    PatOrExpr::Pat(box Pat::Ident(ref i))
-                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => i.clone(),
+                    _ if left.as_ident().is_some() => left.as_ident().unwrap().clone(),
 
                     // unimplemented
                     PatOrExpr::Expr(ref e) => {

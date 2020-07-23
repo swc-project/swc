@@ -224,12 +224,10 @@ impl AssignFolder {
 
                     let var_decl = match elem {
                         Pat::Rest(RestPat {
-                            dot3_token,
-                            box arg,
-                            ..
+                            dot3_token, arg, ..
                         }) => VarDeclarator {
                             span: dot3_token,
-                            name: arg,
+                            name: *arg,
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: ref_ident.clone().member(quote_ident!("slice")).as_callee(),
@@ -408,22 +406,27 @@ impl AssignFolder {
                     "desturcturing pattern binding requires initializer"
                 );
 
-                let tmp_ident = match decl.init {
-                    Some(box Expr::Ident(ref i)) if i.span.ctxt() != SyntaxContext::empty() => {
-                        i.clone()
+                let tmp_ident: Ident = (|| {
+                    match decl.init {
+                        Some(ref e) => match &**e {
+                            Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
+                                return i.clone();
+                            }
+                            _ => {}
+                        },
+                        _ => {}
                     }
-                    _ => {
-                        let tmp_ident = private_ident!(span, "tmp");
-                        decls.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(tmp_ident.clone()),
-                            init: decl.init,
-                            definite: false,
-                        });
 
-                        tmp_ident
-                    }
-                };
+                    let tmp_ident = private_ident!(span, "tmp");
+                    decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(tmp_ident.clone()),
+                        init: decl.init,
+                        definite: false,
+                    });
+
+                    tmp_ident
+                })();
 
                 let var_decl = VarDeclarator {
                     span,
@@ -914,75 +917,79 @@ fn make_ref_ident_for_array(
     init: Option<Box<Expr>>,
     elem_cnt: Option<usize>,
 ) -> Ident {
-    match init {
-        Some(box Expr::Ident(i)) if elem_cnt.is_none() => i,
-        init => {
-            let span = init.span();
-
-            let (ref_ident, aliased) = if c.loose {
-                if let Some(ref init) = init {
-                    alias_if_required(&init, "ref")
-                } else {
-                    (private_ident!(span, "ref"), true)
-                }
-            } else {
-                if let Some(ref init) = init {
-                    (alias_ident_for(&init, "ref"), true)
-                } else {
-                    (private_ident!(span, "ref"), true)
-                }
-            };
-
-            if aliased {
-                decls.push(VarDeclarator {
-                    span,
-                    name: Pat::Ident(ref_ident.clone()),
-                    init: init.map(|v| {
-                        if c.loose
-                            || match *v {
-                                Expr::Array(..) => true,
-                                _ => false,
-                            }
-                        {
-                            v
-                        } else {
-                            match elem_cnt {
-                                None => v,
-                                Some(std::usize::MAX) => Box::new(
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: helper!(to_array, "toArray"),
-                                        args: vec![v.as_arg()],
-                                        type_args: Default::default(),
-                                    }
-                                    .into(),
-                                ),
-                                Some(value) => Box::new(
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: helper!(sliced_to_array, "slicedToArray"),
-                                        args: vec![
-                                            v.as_arg(),
-                                            Lit::Num(Number {
-                                                span: DUMMY_SP,
-                                                value: value as _,
-                                            })
-                                            .as_arg(),
-                                        ],
-                                        type_args: Default::default(),
-                                    }
-                                    .into(),
-                                ),
-                            }
-                        }
-                    }),
-                    definite: false,
-                });
+    if elem_cnt.is_none() {
+        if let Some(e) = init {
+            match *e {
+                Expr::Ident(i) => return i,
+                _ => {}
             }
-
-            ref_ident
         }
     }
+
+    let span = init.span();
+
+    let (ref_ident, aliased) = if c.loose {
+        if let Some(ref init) = init {
+            alias_if_required(&init, "ref")
+        } else {
+            (private_ident!(span, "ref"), true)
+        }
+    } else {
+        if let Some(ref init) = init {
+            (alias_ident_for(&init, "ref"), true)
+        } else {
+            (private_ident!(span, "ref"), true)
+        }
+    };
+
+    if aliased {
+        decls.push(VarDeclarator {
+            span,
+            name: Pat::Ident(ref_ident.clone()),
+            init: init.map(|v| {
+                if c.loose
+                    || match *v {
+                        Expr::Array(..) => true,
+                        _ => false,
+                    }
+                {
+                    v
+                } else {
+                    match elem_cnt {
+                        None => v,
+                        Some(std::usize::MAX) => Box::new(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(to_array, "toArray"),
+                                args: vec![v.as_arg()],
+                                type_args: Default::default(),
+                            }
+                            .into(),
+                        ),
+                        Some(value) => Box::new(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(sliced_to_array, "slicedToArray"),
+                                args: vec![
+                                    v.as_arg(),
+                                    Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: value as _,
+                                    })
+                                    .as_arg(),
+                                ],
+                                type_args: Default::default(),
+                            }
+                            .into(),
+                        ),
+                    }
+                }
+            }),
+            definite: false,
+        });
+    }
+
+    ref_ident
 }
 
 fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {

@@ -8,7 +8,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{comments::Comments, errors::Handler, FileName, SourceMap};
-use swc_ecma_ast::*;
+use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_utils::{DropSpan, COMMENTS};
@@ -410,10 +410,13 @@ impl Write for Buf {
 struct Normalizer;
 impl Fold for Normalizer {
     fn fold_pat_or_expr(&mut self, n: PatOrExpr) -> PatOrExpr {
-        match n {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            _ => n,
+        if let PatOrExpr::Pat(pat) = n {
+            if let Pat::Expr(expr) = *pat {
+                return PatOrExpr::Expr(expr);
+            }
         }
+
+        n
     }
 }
 

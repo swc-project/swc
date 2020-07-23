@@ -1,4 +1,7 @@
-use crate::util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike};
+use crate::{
+    ext::ExprRefExt,
+    util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike},
+};
 use serde::Deserialize;
 use std::mem;
 use swc_atoms::js_word;
@@ -111,15 +114,17 @@ impl Fold for ActualFolder {
                     }) => (Box::new(Expr::This(ThisExpr { span })), callee),
 
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(ref expr @ box Expr::This(..)),
+                        obj: ExprOrSuper::Expr(ref expr),
                         ..
-                    }) => (expr.clone(), callee),
+                    }) if expr.is_this() => (expr.clone(), callee),
 
                     // Injected variables can be accessed without any side effect
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(box Expr::Ident(ref i)),
+                        obj: ExprOrSuper::Expr(e),
                         ..
-                    }) if i.span.is_dummy() => (Box::new(Expr::Ident(i.clone())), callee),
+                    }) if e.as_ident().is_some() && e.as_ident().unwrap().span.is_dummy() => {
+                        (Box::new(Expr::Ident(e.as_ident().unwrap().clone())), callee)
+                    }
 
                     Expr::Ident(Ident { span, .. }) => (undefined(span), callee),
 
@@ -416,13 +421,21 @@ fn expand_literal_args(
         args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
     ) {
         for arg in args {
-            match arg {
-                Some(ExprOrSpread {
-                    spread: Some(..),
-                    expr: box Expr::Array(arr),
-                }) => expand(buf, arr.elems.into_iter()),
-                _ => buf.push(arg),
+            if let Some(ExprOrSpread {
+                spread: Some(..),
+                expr,
+            }) = arg
+            {
+                match *expr {
+                    Expr::Array(arr) => {
+                        expand(buf, arr.elems.into_iter());
+                        return;
+                    }
+                    _ => {}
+                }
             }
+
+            buf.push(arg)
         }
     }
 

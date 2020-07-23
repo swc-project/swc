@@ -13,6 +13,7 @@ pub use self::{
 
 #[macro_use]
 mod macros;
+mod ext;
 #[cfg(test)]
 #[macro_use]
 mod tests;

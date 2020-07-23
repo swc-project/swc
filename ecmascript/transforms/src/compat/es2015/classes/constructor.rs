@@ -22,14 +22,14 @@ impl SuperCallFinder {
     /// - `Some(Assign)`: `_this = ...`
     pub fn find(node: &Vec<Stmt>) -> Option<SuperFoldingMode> {
         match node.last() {
-            Some(Stmt::Expr(ExprStmt {
-                expr:
-                    box Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Super(..),
-                        ..
-                    }),
-                ..
-            })) => return None,
+            Some(Stmt::Expr(ExprStmt { ref expr, .. })) => match &**expr {
+                Expr::Call(CallExpr {
+                    callee: ExprOrSuper::Super(..),
+                    ..
+                }) => {
+                    return None;
+                }
+            },
             _ => {}
         }
 
@@ -107,12 +107,16 @@ impl Visit for SuperCallFinder {
         e.visit_children_with(self);
 
         match e.obj {
-            ExprOrSuper::Expr(box Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
-                ..
-            })) => {
-                // super().foo
-                self.mode = Some(SuperFoldingMode::Assign)
+            ExprOrSuper::Expr(ref expr) => {
+                match &**expr {
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Super(..),
+                        ..
+                    }) => {
+                        // super().foo
+                        self.mode = Some(SuperFoldingMode::Assign)
+                    }
+                }
             }
             _ => {}
         }
@@ -233,49 +237,51 @@ impl Fold for ConstructorFolder<'_> {
         let stmt = stmt.fold_children_with(self);
 
         match stmt {
-            Stmt::Expr(ExprStmt {
-                expr:
-                    box Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Super(..),
-                        args,
-                        ..
-                    }),
-                ..
-            }) => {
-                let expr = make_possible_return_value(ReturningMode::Prototype {
-                    is_constructor_default: self.is_constructor_default,
-                    class_name: self.class_name.clone(),
-                    args: Some(args),
-                });
+            Stmt::Expr(ExprStmt { expr, .. }) => match *expr {
+                Expr::Call(CallExpr {
+                    callee: ExprOrSuper::Super(..),
+                    args,
+                    ..
+                }) => {
+                    let expr = make_possible_return_value(ReturningMode::Prototype {
+                        is_constructor_default: self.is_constructor_default,
+                        class_name: self.class_name.clone(),
+                        args: Some(args),
+                    });
 
-                match self.mode {
-                    Some(SuperFoldingMode::Assign) => AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(quote_ident!(
-                            DUMMY_SP.apply_mark(self.mark),
-                            "_this"
-                        )))),
-                        op: op!("="),
-                        right: expr.into(),
-                    }
-                    .into_stmt(),
-                    Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        declare: false,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
+                    match self.mode {
+                        Some(SuperFoldingMode::Assign) => AssignExpr {
                             span: DUMMY_SP,
-                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this")),
-                            init: Some(expr.into()),
-                            definite: false,
-                        }],
-                    })),
-                    None => Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(expr.into()),
-                    }),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(quote_ident!(
+                                DUMMY_SP.apply_mark(self.mark),
+                                "_this"
+                            )))),
+                            op: op!("="),
+                            right: expr.into(),
+                        }
+                        .into_stmt(),
+                        Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            declare: false,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(quote_ident!(
+                                    DUMMY_SP.apply_mark(self.mark),
+                                    "_this"
+                                )),
+                                init: Some(expr.into()),
+                                definite: false,
+                            }],
+                        })),
+                        None => Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(expr.into()),
+                        }),
+                    }
                 }
-            }
+                _ => stmt,
+            },
             _ => stmt,
         }
     }

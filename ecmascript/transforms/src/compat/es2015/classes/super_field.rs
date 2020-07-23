@@ -2,7 +2,7 @@ use super::get_prototype_of;
 use crate::util::{alias_ident_for, is_rest_arguments, ExprFactory};
 use std::iter;
 use swc_atoms::js_word;
-use swc_common::{Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
@@ -141,30 +141,46 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
                 left,
                 op,
                 right,
-            }) => match left {
-                PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                    obj:
-                        ExprOrSuper::Super(Super {
-                            span: super_token, ..
-                        }),
-                    prop,
-                    ..
-                }))
-                | PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
-                    obj:
-                        ExprOrSuper::Super(Super {
-                            span: super_token, ..
-                        }),
-                    prop,
-                    ..
-                }))) => self.super_to_set_call(super_token, false, prop, op, right),
-                _ => Expr::Assign(AssignExpr {
+            }) => {
+                //
+                if let PatOrExpr::Expr(expr) = left {
+                    match *expr {
+                        Expr::Member(MemberExpr {
+                            obj:
+                                ExprOrSuper::Super(Super {
+                                    span: super_token, ..
+                                }),
+                            prop,
+                            ..
+                        }) => {
+                            return self.super_to_set_call(super_token, false, prop, op, right);
+                        }
+                    }
+                }
+                if let PatOrExpr::Pat(pat) = left {
+                    match *pat {
+                        Pat::Expr(expr) => match *expr {
+                            Expr::Member(MemberExpr {
+                                obj:
+                                    ExprOrSuper::Super(Super {
+                                        span: super_token, ..
+                                    }),
+                                prop,
+                                ..
+                            }) => {
+                                return self.super_to_set_call(super_token, false, prop, op, right);
+                            }
+                        },
+                    }
+                }
+
+                Expr::Assign(AssignExpr {
                     span,
                     left: left.fold_children_with(self),
                     op,
                     right: right.fold_children_with(self),
-                }),
-            },
+                })
+            }
             _ => n.fold_children_with(self),
         };
 
@@ -389,14 +405,13 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
     fn fold_expr(&mut self, n: Expr) -> Expr {
         // We pretend method folding mode for while folding injected `_defineProperty`
         // calls.
-        if n.span().is_dummy() {
-            match n {
-                Expr::Call(CallExpr {
-                    callee:
-                        ExprOrSuper::Expr(box Expr::Ident(Ident {
-                            sym: js_word!("_defineProperty"),
-                            ..
-                        })),
+        match n {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(expr),
+                ..
+            }) => match *expr {
+                Expr::Ident(Ident {
+                    sym: js_word!("_defineProperty"),
                     ..
                 }) => {
                     let old = self.in_injected_define_property_call;
@@ -406,7 +421,8 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
                     return n;
                 }
                 _ => {}
-            }
+            },
+            _ => {}
         }
 
         let mut callee_folder = SuperCalleeFolder {
@@ -422,13 +438,15 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
 
         let should_invoke_call = match n {
             Expr::Call(CallExpr {
-                callee:
-                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
-                    })),
+                callee: ExprOrSuper::Expr(ref expr),
                 ..
-            }) => true,
+            }) => match &**expr {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(..),
+                    ..
+                }) => true,
+                _ => false,
+            },
             _ => false,
         };
 
