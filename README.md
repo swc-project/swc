@@ -25,6 +25,8 @@
    </a>
 </p>
 
+swc is a super-fast typescript / javascript compiler written in rust.
+
 <h2 align="center">Supporting swc</h2>
 
 <p align="center">
