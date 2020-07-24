@@ -5,11 +5,19 @@ use swc_ecma_transforms::{
     compat::{es2015::classes::Classes, es2020::class_properties},
     proposals::{decorators, decorators::Config},
     resolver, typescript,
+    typescript::strip,
 };
 use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
+
+fn ts() -> Syntax {
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    })
+}
 
 fn syntax(decorators_before_export: bool) -> Syntax {
     Syntax::Es(EsConfig {
@@ -24,9 +32,20 @@ fn tr() -> impl Fold {
     chain!(decorators(Default::default()), class_properties(),)
 }
 
+fn ts_transform() -> impl Fold {
+    chain!(
+        strip(),
+        decorators(Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+    )
+}
+
 /// Folder for `transformation_*` tests
 fn transformation() -> impl Fold {
-    chain!(decorators(Default::default()), class_properties(),)
+    chain!(strip(), decorators(Default::default()), class_properties(),)
 }
 
 // transformation_declaration
@@ -4328,4 +4347,60 @@ let Person = ((_class = function() {
 ], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();"
+);
+
+test!(
+    ts(),
+    |_| ts_transform(),
+    issue_862_1,
+    "
+ @Entity()
+export class Product extends TimestampedEntity {
+  @PrimaryGeneratedColumn('uuid')
+  public id!: string;
+
+  @Column()
+  public price!: number;
+
+  @Column({ enum: ProductType })
+  public type!: ProductType;
+
+  @Column()
+  public productEntityId!: string;
+
+  /* ANCHOR: Relations ------------------------------------------------------ */
+  @OneToMany(() => Order, (order) => order.product)
+  public orders!: Order[];
+
+  @OneToMany(() => Discount, (discount) => discount.product)
+  public discounts!: Discount[];
+}   
+",
+    ""
+);
+
+test!(
+    ts(),
+    |_| ts_transform(),
+    issue_862_2,
+    "@Entity()
+export class Product extends TimestampedEntity {
+  @PrimaryGeneratedColumn('uuid')
+  public id!: string;
+}
+",
+    "export let Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn('uuid'), _dec(_class = \
+     (_class2 = (_temp = class Product extends TimestampedEntity {
+  constructor(...args) {
+    super(...args);
+
+    _initializerDefineProperty(this, 'id', _descriptor, this);
+  }
+
+}, _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'id', [_dec2], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+})), _class2)) || _class);"
 );
