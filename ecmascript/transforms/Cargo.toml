@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_transforms"
-version = "0.13.0"
+version = "0.14.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -13,7 +13,7 @@ swc_atoms = { version = "0.2.0", path ="../../atoms" }
 swc_common = { version = "0.7.0", path ="../../common" }
 swc_ecma_ast = { version = "0.24.0", path ="../ast" }
 swc_ecma_utils = { version = "0.12.0", path ="../utils" }
-swc_ecma_parser = { version = "0.28.0", path ="../parser" }
+swc_ecma_parser = { version = "0.29.0", path ="../parser" }
 swc_ecma_visit = { version = "0.9.0", path ="../visit" }
 dashmap = "=3.5.1"
 either = "1.5"
@@ -34,7 +34,7 @@ log = "0.4.8"
 
 [dev-dependencies]
 testing = { version = "0.7", path ="../../testing" }
-swc_ecma_codegen = { version = "0.26.0", path ="../codegen" }
+swc_ecma_codegen = { version = "0.27.0", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.6"
 sourcemap = "6"
