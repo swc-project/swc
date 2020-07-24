@@ -167,7 +167,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         DiagnosticBuilder::from(ErrorToDiag {
             handler: self.session.handler,
             span,
-            error,
+            error: Box::new(error),
         })
         .emit();
     }

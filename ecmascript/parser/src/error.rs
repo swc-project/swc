@@ -35,13 +35,13 @@ impl<'a> Debug for Eof<'a> {
 pub(crate) struct ErrorToDiag<'a> {
     pub handler: &'a Handler,
     pub span: Span,
-    pub error: SyntaxError,
+    pub error: Box<SyntaxError>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
     pub span: Span,
-    pub error: SyntaxError,
+    pub error: Box<SyntaxError>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -230,7 +230,7 @@ impl<'a> From<ErrorToDiag<'a>> for Error {
 impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
     #[cold]
     fn from(e: ErrorToDiag<'a>) -> Self {
-        let msg: Cow<'static, _> = match e.error {
+        let msg: Cow<'static, _> = match *e.error {
             TopLevelAwait => "top level await requires target to es2017 or higher and \
                               topLevelAwait:true for ecmascript"
                 .into(),
@@ -387,7 +387,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
         let mut db = e.handler.struct_err(&msg);
         db.set_span(e.span);
 
-        match e.error {
+        match *e.error {
             ExpectedSemiForExprStmt { expr } => {
                 db.span_note(
                     expr,
@@ -402,4 +402,9 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
 
         db
     }
+}
+
+#[test]
+fn size_of_error() {
+    assert_eq!(std::mem::size_of::<Error>(), 16);
 }

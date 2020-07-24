@@ -102,7 +102,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let err = ErrorToDiag {
             handler: self.session.handler,
             span,
-            error: kind,
+            error: Box::new(kind),
         };
         Err(err.into())
     }
@@ -118,7 +118,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let err = ErrorToDiag {
             handler: self.session.handler,
             span,
-            error: kind,
+            error: Box::new(kind),
         };
         DiagnosticBuilder::from(err).emit();
     }
