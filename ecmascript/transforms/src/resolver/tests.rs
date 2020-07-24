@@ -1155,5 +1155,14 @@ export class HygieneTest {
     return this.duration
   }
 }",
-    ""
+    "const DURATION = 1000;
+export class HygieneTest {
+    getDuration() {
+        return this.duration;
+    }
+    constructor(duration?: number){
+        _defineProperty(this, 'duration', DURATION);
+        this.duration = duration ?? DURATION;
+    }
+}"
 );
