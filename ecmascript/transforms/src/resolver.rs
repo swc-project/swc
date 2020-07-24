@@ -289,6 +289,27 @@ impl<'a> Fold for Resolver<'a> {
         ClassMethod { key, function, ..m }
     }
 
+    fn fold_class_prop(&mut self, p: ClassProp) -> ClassProp {
+        let decorators = p.decorators.fold_with(self);
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        let key = p.key.fold_with(self);
+        self.ident_type = old;
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        let value = p.value.fold_with(self);
+        self.ident_type = old;
+
+        ClassProp {
+            decorators,
+            key,
+            value,
+            ..p
+        }
+    }
+
     fn fold_constructor(&mut self, c: Constructor) -> Constructor {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;

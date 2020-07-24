@@ -1354,6 +1354,9 @@ impl<'a> Emitter<'a> {
         } else {
             // TODO: span
             self.wr.write_symbol(ident.span, &ident.sym)?;
+            if ident.optional {
+                punct!("?");
+            }
 
             if let Some(ty) = &ident.type_ann {
                 punct!(":");

@@ -1,10 +1,13 @@
 use super::*;
 use crate::{
-    compat::es2015::{block_scoping, destructuring, Classes},
+    compat::{
+        es2015::{block_scoping, destructuring, Classes},
+        es2020::class_properties,
+    },
     modules::common_js::common_js,
 };
 use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 
 fn tr() -> impl Fold {
     chain!(resolver(), block_scoping())
@@ -13,6 +16,13 @@ fn tr() -> impl Fold {
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
         class_props: true,
+        ..Default::default()
+    })
+}
+
+fn ts() -> Syntax {
+    Syntax::Typescript(TsConfig {
+        decorators: true,
         ..Default::default()
     })
 }
@@ -1126,4 +1136,33 @@ identical!(
         console.log(e);
     }
 });"
+);
+
+test!(
+    ts(),
+    |_| chain!(resolver(), class_properties()),
+    issue_890_1,
+    "const DURATION = 1000
+
+export class HygieneTest {
+  private readonly duration: number = DURATION
+
+  constructor(duration?: number) {
+    this.duration = duration ?? DURATION
+  }
+
+  getDuration() {
+    return this.duration
+  }
+}",
+    "const DURATION = 1000;
+export class HygieneTest {
+    getDuration() {
+        return this.duration;
+    }
+    constructor(duration?: number){
+        _defineProperty(this, 'duration', DURATION);
+        this.duration = duration ?? DURATION;
+    }
+}"
 );

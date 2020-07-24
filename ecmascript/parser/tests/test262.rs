@@ -17,6 +17,7 @@ use test::{
 };
 use testing::{NormalizedOutput, StdErr};
 
+#[path = "common/mod.rs"]
 mod common;
 
 const IGNORED_PASS_TESTS: &[&str] = &[

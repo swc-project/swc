@@ -539,8 +539,21 @@ impl ClassProperties {
                     used_names,
                 };
 
-                // Handle collisions
+                // Handle collisions like
+                //
+                // var foo = "bar";
+                //
+                // class Foo {
+                //     bar = foo;
+                //     static bar = baz;
+                //
+                //     constructor() {
+                //     var foo = "foo";
+                //     var baz = "baz";
+                //     }
+                // }
                 let body = c.body.fold_with(&mut folder);
+
                 let params = c.params.fold_with(&mut folder);
                 Constructor { body, params, ..c }
             })

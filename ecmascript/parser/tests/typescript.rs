@@ -21,6 +21,7 @@ use test::{
 use testing::StdErr;
 use walkdir::WalkDir;
 
+#[path = "common/mod.rs"]
 mod common;
 
 fn add_test<F: FnOnce() + Send + 'static>(
