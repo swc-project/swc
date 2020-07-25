@@ -158,9 +158,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 }
             } else {
                 with_parser(is_backtrace_enabled(), &path, !errors, |p| {
-                    let module = p
-                        .parse_typescript_module()?
-                        .fold_with(&mut Normalizer { drop_span: false });
+                    let module = p.parse_typescript_module()?.fold_with(&mut Normalizer {
+                        drop_span: false,
+                        is_test262: false,
+                    });
 
                     let json = serde_json::to_string_pretty(&module)
                         .expect("failed to serialize module as json");
@@ -172,8 +173,16 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         panic!()
                     }
 
+                    let module = module.fold_with(&mut Normalizer {
+                        drop_span: true,
+                        is_test262: false,
+                    });
+
                     let deser = match serde_json::from_str::<Module>(&json) {
-                        Ok(v) => v.fold_with(&mut Normalizer { drop_span: true }),
+                        Ok(v) => v.fold_with(&mut Normalizer {
+                            drop_span: true,
+                            is_test262: false,
+                        }),
                         Err(err) => {
                             if err.to_string().contains("invalid type: null, expected f64") {
                                 return Ok(());

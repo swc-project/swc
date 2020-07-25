@@ -58,11 +58,14 @@ impl Fold for Normalizer {
         let node = node.fold_children_with(self);
 
         match node {
+            PatOrExpr::Expr(expr) => match *expr {
+                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                _ => PatOrExpr::Expr(expr),
+            },
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => PatOrExpr::Expr(expr),
                 _ => PatOrExpr::Pat(pat),
             },
-            _ => node,
         }
     }
 
