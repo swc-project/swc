@@ -103,6 +103,9 @@ macro_rules! property {
             pub readonly: bool,
 
             #[serde(default)]
+            pub declare: bool,
+
+            #[serde(default)]
             pub definite: bool,
         }
     };
