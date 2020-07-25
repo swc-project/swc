@@ -45,7 +45,7 @@
 //!     errors::{ColorConfig, Handler},
 //!     FileName, FilePathMapping, SourceMap,
 //! };
-//! use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+//! use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
 //!
 //! fn main() {
 //!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
@@ -100,11 +100,11 @@ pub use self::{
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::Handler, Span, SpanData};
+use swc_common::{Span, SpanData};
 
 #[macro_use]
 mod macros;
-mod error;
+pub mod error;
 pub mod lexer;
 mod parser;
 pub mod token;
