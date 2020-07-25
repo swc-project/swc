@@ -557,14 +557,44 @@
           "type": "ClassProperty",
           "span": {
             "start": 433,
-            "end": 443,
+            "end": 471,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 441,
-              "end": 442,
+              "start": 465,
+              "end": 470,
+              "ctxt": 0
+            },
+            "value": "dpisr",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "computed": false,
+          "accessibility": "private",
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": true,
+          "declare": true,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 476,
+            "end": 486,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 484,
+              "end": 485,
               "ctxt": 0
             },
             "value": "d",

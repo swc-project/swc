@@ -19,5 +19,6 @@ abstract class C {
     public abstract readonly puar;
     public static readonly pusr;
     declare public readonly dpur;
+    declare private static readonly dpisr;
     declare d;
 }

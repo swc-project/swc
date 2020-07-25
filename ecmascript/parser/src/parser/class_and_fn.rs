@@ -734,6 +734,9 @@ impl<'a, I: Tokens> Parser<I> {
         if is_constructor(&key) {
             syntax_error!(key.span(), SyntaxError::PropertyNamedConstructor);
         }
+        if declare && key.is_left() {
+            syntax_error!(key.span(), SyntaxError::DeclarePrivateIdentifier);
+        }
         let definite = self.input.syntax().typescript() && !is_optional && eat!('!');
 
         let type_ann = self.try_parse_ts_type_ann()?;
