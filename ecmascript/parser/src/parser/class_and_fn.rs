@@ -772,7 +772,6 @@ impl<'a, I: Tokens> Parser<I> {
                     is_abstract,
                     is_optional,
                     readonly,
-                    declare,
                     definite,
                     type_ann,
                     computed: false,
