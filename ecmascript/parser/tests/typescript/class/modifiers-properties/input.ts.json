@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 396,
+    "end": 445,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 396,
+        "end": 445,
         "ctxt": 0
       },
       "decorators": [],
@@ -54,6 +54,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -99,6 +100,7 @@
           "isAbstract": false,
           "isOptional": true,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -128,6 +130,7 @@
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
+          "declare": false,
           "definite": false
         },
         {
@@ -157,6 +160,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
+          "declare": false,
           "definite": false
         },
         {
@@ -186,6 +190,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
+          "declare": false,
           "definite": false
         },
         {
@@ -215,6 +220,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
+          "declare": false,
           "definite": false
         },
         {
@@ -244,6 +250,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
+          "declare": false,
           "definite": false
         },
         {
@@ -273,6 +280,7 @@
           "isAbstract": true,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -302,6 +310,7 @@
           "isAbstract": true,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -331,6 +340,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -360,6 +370,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -389,6 +400,7 @@
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
+          "declare": false,
           "definite": false
         },
         {
@@ -418,6 +430,7 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
+          "declare": false,
           "definite": false
         },
         {
@@ -447,6 +460,7 @@
           "isAbstract": true,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -476,6 +490,7 @@
           "isAbstract": true,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
           "definite": false
         },
         {
@@ -505,6 +520,67 @@
           "isAbstract": false,
           "isOptional": false,
           "readonly": true,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 399,
+            "end": 428,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 423,
+              "end": 427,
+              "ctxt": 0
+            },
+            "value": "dpur",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": "public",
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": true,
+          "declare": true,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 433,
+            "end": 443,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 441,
+              "end": 442,
+              "ctxt": 0
+            },
+            "value": "d",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": true,
           "definite": false
         }
       ],

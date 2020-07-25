@@ -18,4 +18,6 @@ abstract class C {
     public readonly abstract pura;
     public abstract readonly puar;
     public static readonly pusr;
+    declare public readonly dpur;
+    declare d;
 }
