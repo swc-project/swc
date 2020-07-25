@@ -637,16 +637,14 @@ impl GlobalPassOption {
                 };
                 let v_str = v.clone();
                 let fm = cm.new_source_file(FileName::Custom(format!("GLOBAL.{}", k)), v);
-                let session = ParseSess { handler };
                 let lexer = Lexer::new(
-                    session,
                     Syntax::Es(Default::default()),
                     Default::default(),
                     SourceFileInput::from(&*fm),
                     None,
                 );
 
-                let mut p = Parser::new_from(session, lexer);
+                let mut p = Parser::new_from(lexer);
                 let module = p.parse_module();
 
                 for e in p.take_errors() {

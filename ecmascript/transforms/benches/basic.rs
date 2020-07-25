@@ -7,7 +7,7 @@ static GLOBAL: System = System;
 
 use std::alloc::System;
 use swc_common::{chain, FileName};
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 use swc_ecma_transforms::helpers;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
@@ -19,22 +19,11 @@ macro_rules! tr {
     ($b:expr, $tr:expr) => {
         $b.bytes = SOURCE.len() as _;
 
-        let _ = ::testing::run_test(false, |cm, handler| {
+        let _ = ::testing::run_test(false, |cm, _| {
             let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-            let mut parser = Parser::new(
-                Session { handler: &handler },
-                Syntax::default(),
-                SourceFileInput::from(&*fm),
-                None,
-            );
-            let module = parser
-                .parse_module()
-                .map_err(|mut e| {
-                    e.emit();
-                    ()
-                })
-                .unwrap();
+            let mut parser = Parser::new(Syntax::default(), SourceFileInput::from(&*fm), None);
+            let module = parser.parse_module().map_err(|_| ()).unwrap();
             helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = $tr();
 

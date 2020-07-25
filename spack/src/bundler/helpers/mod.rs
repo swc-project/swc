@@ -3,10 +3,7 @@ use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
 use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
-use swc_ecma_utils::{
-    options::{CM, SESSION},
-    prepend_stmts, DropSpan,
-};
+use swc_ecma_utils::{options::CM, prepend_stmts, DropSpan};
 use swc_ecma_visit::FoldWith;
 
 #[derive(Debug, Default)]
@@ -30,19 +27,17 @@ macro_rules! define {
                     let fm =
                         CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
                     let lexer = Lexer::new(
-                        *SESSION,
                         Default::default(),
                         Default::default(),
                         SourceFileInput::from(&*fm),
                         None,
                     );
-                    let stmts = Parser::new_from(*SESSION, lexer)
+                    let stmts = Parser::new_from(lexer)
                         .parse_module()
                         .map(|script| script.body.fold_with(&mut DropSpan {
                             preserve_ctxt:false,
                         }))
-                        .map_err(|mut e| {
-                            e.emit();
+                        .map_err(|_| {
                             ()
                         })
                         .unwrap();

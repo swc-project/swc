@@ -178,7 +178,7 @@ impl Compiler {
                     e.into_diagnostic(&self.handler).emit();
                 }
 
-                s.map_err(|mut e| {
+                s.map_err(|e| {
                     e.into_diagnostic(&self.handler).emit();
                     Error::msg("failed to parse module")
                 })

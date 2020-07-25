@@ -88,23 +88,16 @@ macro_rules! tr {
         use swc_ecma_visit::FoldWith;
         $b.bytes = SOURCE.len() as _;
 
-        let _ = ::testing::run_test(false, |cm, handler| {
+        let _ = ::testing::run_test(false, |cm, _| {
             let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
             let lexer = Lexer::new(
-                Session { handler: &handler },
                 Default::default(),
                 Default::default(),
                 SourceFileInput::from(&*fm),
                 None,
             );
-            let mut parser = Parser::new_from(Session { handler: &handler }, lexer);
-            let module = parser
-                .parse_module()
-                .map_err(|mut e| {
-                    e.emit();
-                    ()
-                })
-                .unwrap();
+            let mut parser = Parser::new_from(lexer);
+            let module = parser.parse_module().map_err(|_| ()).unwrap();
             helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = $tr();
 

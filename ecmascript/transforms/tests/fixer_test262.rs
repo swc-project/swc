@@ -173,10 +173,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         let mut parser: Parser<Lexer<SourceFileInput>> =
                             Parser::new(Syntax::default(), (&*src).into(), None);
 
-                        for e in parser.take_errors() {
-                            e.into_diagnostic(handler).emit();
-                        }
-
                         {
                             let mut emitter = Emitter {
                                 cfg: swc_ecma_codegen::Config { minify: false },
@@ -202,27 +198,22 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                             // Parse source
 
-                            let mut e_parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> =
-                                Parser::new(
-                                    Session { handler: &handler },
-                                    Syntax::default(),
-                                    (&*expected).into(),
-                                    None,
-                                );
+                            let mut e_parser: Parser<Lexer<SourceFileInput>> =
+                                Parser::new(Syntax::default(), (&*expected).into(), None);
 
                             if module {
                                 let module = parser
                                     .parse_module()
                                     .map(normalize)
                                     .map(|p| p.fold_with(&mut fixer()))
-                                    .map_err(|mut e| {
-                                        e.emit();
+                                    .map_err(|e| {
+                                        e.into_diagnostic(handler).emit();
                                     })?;
                                 let module2 = e_parser
                                     .parse_module()
                                     .map(normalize)
-                                    .map_err(|mut e| {
-                                        e.emit();
+                                    .map_err(|e| {
+                                        e.into_diagnostic(handler).emit();
                                     })
                                     .expect("failed to parse reference file");
                                 if module == module2 {
@@ -235,15 +226,15 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                     .parse_script()
                                     .map(normalize)
                                     .map(|p| p.fold_with(&mut fixer()))
-                                    .map_err(|mut e| {
-                                        e.emit();
+                                    .map_err(|e| {
+                                        e.into_diagnostic(&handler).emit();
                                     })?;
                                 let script2 = e_parser
                                     .parse_script()
                                     .map(normalize)
                                     .map(|p| p.fold_with(&mut fixer()))
-                                    .map_err(|mut e| {
-                                        e.emit();
+                                    .map_err(|e| {
+                                        e.into_diagnostic(&handler).emit();
                                     })?;
 
                                 if script == script2 {
@@ -253,6 +244,11 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 expected_emitter.emit_script(&script2).unwrap();
                             }
                         }
+
+                        for e in parser.take_errors() {
+                            e.into_diagnostic(handler).emit();
+                        }
+
                         let output = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
                         let expected = String::from_utf8_lossy(&*wr2.0.read().unwrap()).to_string();
                         if output == expected {
