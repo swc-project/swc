@@ -1,12 +1,12 @@
-error: TS1109
- --> $DIR/tests/test262-parser/fail/85ee036d67974729.js:1:7
-  |
-1 | ({get +:3})
-  |       ^
-
 error: Unexpected token Some(Colon)
  --> $DIR/tests/test262-parser/fail/85ee036d67974729.js:1:8
   |
 1 | ({get +:3})
   |        ^
+
+error: TS1109
+ --> $DIR/tests/test262-parser/fail/85ee036d67974729.js:1:7
+  |
+1 | ({get +:3})
+  |       ^
 

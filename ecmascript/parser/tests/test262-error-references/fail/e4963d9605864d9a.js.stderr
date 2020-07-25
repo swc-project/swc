@@ -1,12 +1,12 @@
-error: Not a pattern
- --> $DIR/tests/test262-parser/fail/e4963d9605864d9a.js:1:3
-  |
-1 | ([(a = b)] = []
-  |   ^^^^^^^
-
 error: Expected RParen, got None
  --> $DIR/tests/test262-parser/fail/e4963d9605864d9a.js:1:15
   |
 1 | ([(a = b)] = []
   |               ^
+
+error: Not a pattern
+ --> $DIR/tests/test262-parser/fail/e4963d9605864d9a.js:1:3
+  |
+1 | ([(a = b)] = []
+  |   ^^^^^^^
 

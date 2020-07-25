@@ -1,12 +1,12 @@
-error: TS1109
- --> $DIR/tests/test262-parser/fail/c45a4b00a2a24c2b.js:1:10
-  |
-1 | p = { "q"/ }
-  |          ^
-
 error: Unexpected token Some(RBrace)
  --> $DIR/tests/test262-parser/fail/c45a4b00a2a24c2b.js:1:12
   |
 1 | p = { "q"/ }
   |            ^
+
+error: TS1109
+ --> $DIR/tests/test262-parser/fail/c45a4b00a2a24c2b.js:1:10
+  |
+1 | p = { "q"/ }
+  |          ^
 
