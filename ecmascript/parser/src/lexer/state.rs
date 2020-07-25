@@ -134,7 +134,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
         self.errors.borrow_mut().push(error);
     }
 
-    fn take_errors(&self) -> Vec<Error> {
+    fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 }

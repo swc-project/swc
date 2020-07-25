@@ -52,36 +52,36 @@
 //!         let cm: Arc<SourceMap> = Default::default();
 //!         let handler =
 //!             Handler::with_tty_emitter(ColorConfig::Auto, true, false,
-//! Some(cm.clone()));
-//!
-//!         let session = Session { handler: &handler };
+//!             Some(cm.clone()));
 //!
 //!         // Real usage
 //!         // let fm = cm
 //!         //     .load_file(Path::new("test.js"))
 //!         //     .expect("failed to load test.js");
-//!
-//!
 //!         let fm = cm.new_source_file(
 //!             FileName::Custom("test.js".into()),
 //!             "function foo() {}".into(),
 //!         );
 //!         let lexer = Lexer::new(
-//!             session,
+//!             // We want to parse ecmascript
 //!             Syntax::Es(Default::default()),
-//!              Default::default(),
+//!             // JscTarget defaults to es5
+//!             Default::default(),
 //!             SourceFileInput::from(&*fm),
 //!             None,
 //!         );
 //!
-//!         let mut parser = Parser::new_from(session, lexer);
+//!         let mut parser = Parser::new_from(lexer);
 //!
+//!         for e in parser.take_errors() {
+//!             e.into_diagnostic(&handler).emit();
+//!         }
 //!
 //!         let _module = parser
 //!             .parse_module()
 //!             .map_err(|mut e| {
-//!                 e.emit();
-//!                 ()
+//!                 // Unrecoverable fatal error occurred
+//!                 e.into_diagnostic(&handler).emit()
 //!             })
 //!             .expect("failed to parser module");
 //!     });
@@ -430,7 +430,7 @@ pub struct Context {
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&Handler, SourceFileInput<'_>) -> Result<Ret, ()>,
+    F: FnOnce(&swc_common::errors::Handler, SourceFileInput<'_>) -> Result<Ret, ()>,
 {
     use swc_common::FileName;
 

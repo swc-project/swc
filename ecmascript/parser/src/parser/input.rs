@@ -25,7 +25,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     /// It is required because parser should backtrack while parsing typescript
     /// code.
     fn add_error(&self, error: Error);
-    fn take_errors(&self) -> Vec<Error>;
+    fn take_errors(&mut self) -> Vec<Error>;
 }
 
 #[derive(Clone)]
@@ -93,7 +93,7 @@ impl Tokens for TokensInput {
         self.errors.borrow_mut().push(error);
     }
 
-    fn take_errors(&self) -> Vec<Error> {
+    fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 }
@@ -191,7 +191,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.add_error(error);
     }
 
-    fn take_errors(&self) -> Vec<Error> {
+    fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
     }
 }

@@ -67,6 +67,10 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    pub fn take_errors(&mut self) -> Vec<Error> {
+        self.input().take_errors()
+    }
+
     pub(crate) fn target(&self) -> JscTarget {
         self.input.target()
     }
@@ -179,7 +183,7 @@ where
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
 
-        for err in p.input_ref().take_errors() {
+        for err in p.take_errors() {
             err.into_diagnostic(handler).emit();
         }
 
@@ -198,7 +202,7 @@ where
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
 
-        for err in p.input_ref().take_errors() {
+        for err in p.take_errors() {
             err.into_diagnostic(handler).emit();
         }
 

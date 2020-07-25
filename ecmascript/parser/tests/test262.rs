@@ -10,7 +10,7 @@ use std::{
     path::Path,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, SourceFileInput, Syntax};
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -274,7 +274,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             err, json
                         )
                     })
-                    .fold_with(&mut Normalizer);
+                    .fold_with(&mut Normalizer { drop_span: true });
                 assert_eq!(src, deser, "JSON:\n{}", json);
             } else {
                 let p = |explicit| {
@@ -305,22 +305,20 @@ fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
 
 fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput<'_>>>) -> PResult<'a, Ret>,
+    F: FnOnce(&mut Parser<Lexer<SourceFileInput<'_>>>) -> PResult<Ret>,
 {
     let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-        let res = f(&mut Parser::new(
-            Session { handler: &handler },
-            Syntax::default(),
-            (&*fm).into(),
-            None,
-        ))
-        .map_err(|mut e| {
-            e.emit();
-        });
+        let mut p = Parser::new(Syntax::default(), (&*fm).into(), None);
+
+        let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
+
+        for e in p.take_errors() {
+            e.into_diagnostic(&handler).emit();
+        }
 
         if handler.has_errors() {
             return Err(());
@@ -352,6 +350,6 @@ pub fn normalize<T>(t: T) -> T
 where
     T: FoldWith<Normalizer>,
 {
-    let mut n = Normalizer;
+    let mut n = Normalizer { drop_span: true };
     t.fold_with(&mut n)
 }

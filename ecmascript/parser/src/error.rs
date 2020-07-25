@@ -343,6 +343,8 @@ impl Error {
             TS1110 => "type expected".into(),
             TS1141 => "literal in an import type should be string literal".into(),
 
+            Eof => "Unexpected eof".into(),
+
             // TODO:
             _ => format!("{:?}", self.error).into(),
         };

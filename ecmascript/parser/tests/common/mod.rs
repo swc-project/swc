@@ -2,7 +2,10 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
-pub struct Normalizer;
+pub struct Normalizer {
+    pub drop_span: bool,
+}
+
 impl Fold for Normalizer {
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
@@ -88,8 +91,12 @@ impl Fold for Normalizer {
         }
     }
 
-    fn fold_span(&mut self, _: Span) -> Span {
-        Span::default()
+    fn fold_span(&mut self, span: Span) -> Span {
+        if self.drop_span {
+            Span::default()
+        } else {
+            span
+        }
     }
 
     fn fold_class_members(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
