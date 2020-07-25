@@ -1,10 +1,10 @@
-error: TS1005
+error: Unexpected token Some(Bang)
  --> $DIR/tests/typescript-errors/class/input.ts:2:5
   |
 2 |   x?!: number;
   |     ^
 
-error: Unexpected token Some(Bang)
+error: TS1005
  --> $DIR/tests/typescript-errors/class/input.ts:2:5
   |
 2 |   x?!: number;

@@ -274,7 +274,10 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             err, json
                         )
                     })
-                    .fold_with(&mut Normalizer { drop_span: true });
+                    .fold_with(&mut Normalizer {
+                        drop_span: true,
+                        is_test262: true,
+                    });
                 assert_eq!(src, deser, "JSON:\n{}", json);
             } else {
                 let p = |explicit| {
@@ -350,6 +353,9 @@ pub fn normalize<T>(t: T) -> T
 where
     T: FoldWith<Normalizer>,
 {
-    let mut n = Normalizer { drop_span: true };
+    let mut n = Normalizer {
+        drop_span: true,
+        is_test262: true,
+    };
     t.fold_with(&mut n)
 }
