@@ -12,7 +12,7 @@ use std::{
 use swc_common::{chain, comments::Comments, errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, SourceFileInput, Syntax};
 use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
 use swc_ecma_utils::{DropSpan, COMMENTS};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -85,31 +85,24 @@ impl<'a> Tester<'a> {
         op: F,
     ) -> Result<T, ()>
     where
-        F: FnOnce(&mut Parser<'_, Lexer<'_, SourceFileInput<'_>>>) -> Result<T, ()>,
+        F: FnOnce(&mut Parser<Lexer<SourceFileInput>>) -> Result<T, Error>,
     {
         let fm = self
             .cm
             .new_source_file(FileName::Real(file_name.into()), src.into());
 
-        let sess = Session {
-            handler: &self.handler,
-        };
+        let mut p = Parser::new(syntax, SourceFileInput::from(&*fm), Some(&self.comments));
+        let res = op(&mut p);
 
-        let mut p = Parser::new(
-            sess,
-            syntax,
-            SourceFileInput::from(&*fm),
-            Some(&self.comments),
-        );
-        op(&mut p)
+        for e in p.take_errors() {
+            e.into_diagnostic(&self.handler).emit();
+        }
+
+        res.map_err(|e| e.into_diagnostic(&self.handler).emit())
     }
 
     pub fn parse_module(&mut self, file_name: &str, src: &str) -> Result<Module, ()> {
-        self.with_parser(file_name, Syntax::default(), src, |p| {
-            p.parse_module().map_err(|mut e| {
-                e.emit();
-            })
-        })
+        self.with_parser(file_name, Syntax::default(), src, |p| p.parse_module())
     }
 
     pub fn apply_transform<T: Fold>(
@@ -124,14 +117,16 @@ impl<'a> Tester<'a> {
             .new_source_file(FileName::Real(name.into()), src.into());
 
         let module = {
-            let sess = Session {
-                handler: &self.handler,
-            };
+            let mut p = Parser::new(syntax, SourceFileInput::from(&*fm), None);
+            let res = p.parse_module().map_err(|e| {
+                e.into_diagnostic(&self.handler).emit();
+            });
 
-            let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm), None);
-            p.parse_module().map_err(|mut e| {
-                e.emit();
-            })?
+            for e in p.take_errors() {
+                e.into_diagnostic(&self.handler).emit();
+            }
+
+            res?
         };
 
         let module = COMMENTS.set(&Comments::default(), || {

@@ -1,7 +1,4 @@
-use crate::util::{
-    drop_span,
-    options::{CM, SESSION},
-};
+use crate::util::{drop_span, options::CM};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use std::{collections::HashMap, sync::Arc};
@@ -9,6 +6,7 @@ use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
+use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};
 
 pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Fold {
@@ -41,16 +39,17 @@ fn parse_option(name: &str, src: String) -> Arc<Expr> {
     }
 
     let lexer = Lexer::new(
-        *SESSION,
         Default::default(),
         Default::default(),
         SourceFileInput::from(&*fm),
         None,
     );
-    let expr = Parser::new_from(*SESSION, lexer)
+    let expr = Parser::new_from(lexer)
         .parse_expr()
-        .map_err(|mut e| {
-            e.emit();
+        .map_err(|e| {
+            if HANDLER.is_set() {
+                HANDLER.with(|h| e.into_diagnostic(h).emit())
+            }
         })
         .map(drop_span)
         .unwrap_or_else(|()| {

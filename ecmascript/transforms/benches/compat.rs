@@ -7,7 +7,7 @@ static GLOBAL: System = System;
 
 use std::alloc::System;
 use swc_common::{chain, FileName, Mark};
-use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput};
+use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 use swc_ecma_transforms::{compat, helpers};
 use test::Bencher;
 

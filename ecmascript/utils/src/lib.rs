@@ -1622,6 +1622,7 @@ impl<'a> UsageFinder<'a> {
     }
 }
 
+// Used for error reporting in transform.
 scoped_thread_local!(pub static HANDLER: Handler);
 scoped_thread_local!(pub static COMMENTS: Comments);
 

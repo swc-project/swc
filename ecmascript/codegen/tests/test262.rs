@@ -11,7 +11,7 @@ use std::{
 };
 use swc_common::comments::Comments;
 use swc_ecma_codegen::{self, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -150,14 +150,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let comments = Comments::default();
                 let handlers = Box::new(MyHandlers);
                 let lexer = Lexer::new(
-                    Session { handler: &handler },
                     Syntax::default(),
                     Default::default(),
                     (&*src).into(),
                     Some(&comments),
                 );
-                let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> =
-                    Parser::new_from(Session { handler: &handler }, lexer);
+                let mut parser: Parser<Lexer<SourceFileInput>> = Parser::new_from(lexer);
 
                 {
                     let mut emitter = Emitter {
@@ -173,15 +171,19 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     // Parse source
                     if module {
                         emitter
-                            .emit_module(&parser.parse_module().map_err(|mut e| {
-                                e.emit();
-                            })?)
+                            .emit_module(
+                                &parser
+                                    .parse_module()
+                                    .map_err(|e| e.into_diagnostic(handler).emit())?,
+                            )
                             .unwrap();
                     } else {
                         emitter
-                            .emit_script(&parser.parse_script().map_err(|mut e| {
-                                e.emit();
-                            })?)
+                            .emit_script(
+                                &parser
+                                    .parse_script()
+                                    .map_err(|e| e.into_diagnostic(handler).emit())?,
+                            )
                             .unwrap();
                     }
                 }

@@ -1,8 +1,4 @@
-use crate::util::{
-    drop_span,
-    options::{CM, SESSION},
-    ExprFactory, HANDLER,
-};
+use crate::util::{drop_span, options::CM, ExprFactory, HANDLER};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -67,23 +63,20 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
         return expr.clone();
     }
 
-    let expr = Parser::new(
-        *SESSION,
-        Syntax::default(),
-        SourceFileInput::from(&*fm),
-        None,
-    )
-    .parse_expr()
-    .map_err(|mut e| {
-        e.emit();
-    })
-    .map(drop_span)
-    .unwrap_or_else(|()| {
-        panic!(
-            "faield to parse jsx option {}: '{}' is not an expression",
-            name, fm.src,
-        )
-    });
+    let expr = Parser::new(Syntax::default(), SourceFileInput::from(&*fm), None)
+        .parse_expr()
+        .map_err(|e| {
+            if HANDLER.is_set() {
+                HANDLER.with(|h| e.into_diagnostic(h).emit())
+            }
+        })
+        .map(drop_span)
+        .unwrap_or_else(|()| {
+            panic!(
+                "faield to parse jsx option {}: '{}' is not an expression",
+                name, fm.src,
+            )
+        });
 
     CACHE.insert(fm.src.clone(), expr.clone());
 
