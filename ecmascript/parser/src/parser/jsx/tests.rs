@@ -10,11 +10,7 @@ fn jsx(src: &'static str) -> Box<Expr> {
             jsx: true,
             ..Default::default()
         }),
-        |p| {
-            p.parse_expr().map_err(|mut e| {
-                e.emit();
-            })
-        },
+        |p| p.parse_expr(),
     )
 }
 

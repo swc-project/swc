@@ -10,8 +10,8 @@ mod tests;
 mod verifier;
 
 #[parser]
-impl<'a, I: Tokens> Parser<'a, I> {
-    pub fn parse_expr(&mut self) -> PResult<'a, Box<Expr>> {
+impl<'a, I: Tokens> Parser<I> {
+    pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_expr);
 
         let expr = self.parse_assignment_expr()?;
@@ -33,7 +33,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     ///`parseMaybeAssign` (overrided)
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_assignment_expr);
 
         if self.input.syntax().typescript() {
@@ -97,7 +97,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// operators like `+=`.
     ///
     /// `parseMaybeAssign`
-    fn parse_assignment_expr_base(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_assignment_expr_base);
 
         if self.ctx().in_generator && is!("yield") {
@@ -126,11 +126,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.finish_assignment_expr(start, cond)
     }
 
-    fn finish_assignment_expr(
-        &mut self,
-        start: BytePos,
-        cond: Box<Expr>,
-    ) -> PResult<'a, Box<Expr>> {
+    fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
         trace_cur!(finish_assignment_expr);
 
         match cur!(false) {
@@ -177,7 +173,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Spec: 'ConditionalExpression'
-    fn parse_cond_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_cond_expr);
 
         let start = cur_pos!();
@@ -212,7 +208,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// Parse a primary expression or arrow function
     #[allow(clippy::cognitive_complexity)]
-    pub(super) fn parse_primary_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_primary_expr);
 
         let _ = cur!(false);
@@ -384,7 +380,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         unexpected!()
     }
 
-    fn parse_array_lit(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_array_lit);
 
         let start = cur_pos!();
@@ -414,12 +410,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
     }
 
-    fn parse_member_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
     }
 
     /// `parseImportMetaProperty`
-    pub(super) fn parse_import_meta_prop(&mut self, import: Ident) -> PResult<'a, MetaPropExpr> {
+    pub(super) fn parse_import_meta_prop(&mut self, import: Ident) -> PResult<MetaPropExpr> {
         let start = cur_pos!();
 
         let meta = import;
@@ -436,7 +432,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
-    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<'a, Box<Expr>> {
+    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(parse_member_expr_or_new_expr);
 
         let start = cur_pos!();
@@ -510,14 +506,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// Parse `NewExpresion`.
     /// This includes `MemberExpression`.
-    pub(super) fn parse_new_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_new_expr);
 
         self.parse_member_expr_or_new_expr(true)
     }
 
     /// Parse `Arguments[Yield, Await]`
-    pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<'a, Vec<ExprOrSpread>> {
+    pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(parse_args);
 
         let start = cur_pos!();
@@ -550,7 +546,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// AssignmentExpression[+In, ?Yield, ?Await]
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
-    pub(super) fn parse_expr_or_spread(&mut self) -> PResult<'a, ExprOrSpread> {
+    pub(super) fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(parse_expr_or_spread);
 
         let start = cur_pos!();
@@ -571,7 +567,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         can_be_arrow: bool,
         async_span: Option<Span>,
-    ) -> PResult<'a, Box<Expr>> {
+    ) -> PResult<Box<Expr>> {
         trace_cur!(parse_paren_expr_or_arrow_fn);
 
         let expr_start = async_span.map(|x| x.lo()).unwrap_or(cur_pos!());
@@ -676,7 +672,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let expr_or_spreads = paren_items
             .into_iter()
-            .map(|item| -> PResult<'a, _> {
+            .map(|item| -> PResult<_> {
                 match item {
                     PatOrExprOrSpread::ExprOrSpread(e) => Ok(e),
                     _ => syntax_error!(item.span(), SyntaxError::InvalidExpr),
@@ -755,7 +751,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     fn parse_tpl_elements(
         &mut self,
         is_tagged: bool,
-    ) -> PResult<'a, (Vec<Box<Expr>>, Vec<TplElement>)> {
+    ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
         trace_cur!(parse_tpl_elements);
 
         let mut exprs = vec![];
@@ -780,7 +776,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         tag: Box<Expr>,
         type_params: Option<TsTypeParamInstantiation>,
-    ) -> PResult<'a, TaggedTpl> {
+    ) -> PResult<TaggedTpl> {
         let tagged_tpl_start = tag.span().lo();
         trace_cur!(parse_tagged_tpl);
 
@@ -800,7 +796,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    pub(super) fn parse_tpl(&mut self) -> PResult<'a, Tpl> {
+    pub(super) fn parse_tpl(&mut self) -> PResult<Tpl> {
         trace_cur!(parse_tpl);
         let start = cur_pos!();
 
@@ -818,7 +814,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<'a, TplElement> {
+    fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
         let start = cur_pos!();
 
         let (raw, cooked) = match *cur!(true)? {
@@ -853,7 +849,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<'a, Box<Expr>> {
+    fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
         loop {
             obj = match self.parse_subscript(obj, no_call)? {
                 (expr, false) => return Ok(expr),
@@ -864,11 +860,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// returned bool is true if this method should be called again.
     #[allow(clippy::cognitive_complexity)]
-    fn parse_subscript(
-        &mut self,
-        obj: ExprOrSuper,
-        no_call: bool,
-    ) -> PResult<'a, (Box<Expr>, bool)> {
+    fn parse_subscript(&mut self, obj: ExprOrSuper, no_call: bool) -> PResult<(Box<Expr>, bool)> {
         let _ = cur!(false);
         let start = obj.span().lo();
 
@@ -1048,7 +1040,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
     /// Parse call, dot, and `[]`-subscript expressions.
-    pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!();
 
         // parse jsx
@@ -1149,12 +1141,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<Box<Expr>> {
         self.parse_expr()
     }
 
     #[allow(clippy::cognitive_complexity)]
-    pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, Vec<PatOrExprOrSpread>> {
+    pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<PatOrExprOrSpread>> {
         trace_cur!(parse_args_or_pats);
 
         expect!('(');
@@ -1426,8 +1418,8 @@ pub(in crate::parser) enum PatOrExprOrSpread {
 
 /// simple leaf methods.
 #[parser]
-impl<'a, I: Tokens> Parser<'a, I> {
-    fn parse_yield_expr(&mut self) -> PResult<'a, Box<Expr>> {
+impl<'a, I: Tokens> Parser<I> {
+    fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!();
 
         assert_and_bump!("yield");
@@ -1462,7 +1454,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
 
-    fn at_possible_async(&mut self, expr: &Expr) -> PResult<'a, bool> {
+    fn at_possible_async(&mut self, expr: &Expr) -> PResult<bool> {
         // TODO(kdy1): !this.state.containsEsc &&
 
         Ok(self.state.potential_arrow_start == Some(expr.span().lo())
@@ -1476,7 +1468,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// 12.2.5 Array Initializer
-    pub(super) fn parse_lit(&mut self) -> PResult<'a, Lit> {
+    pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!();
 
         let v = match *cur!(true)? {
@@ -1523,7 +1515,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         start: BytePos,
         import_ident: Ident,
-    ) -> PResult<'a, Box<Expr>> {
+    ) -> PResult<Box<Expr>> {
         if !self.input.syntax().dynamic_import() {
             syntax_error!(span!(start), SyntaxError::DynamicImport);
         }

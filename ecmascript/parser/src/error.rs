@@ -2,41 +2,12 @@
 
 use self::SyntaxError::*;
 use crate::token::Token;
-use std::{
-    borrow::Cow,
-    fmt::{self, Debug, Formatter},
-};
+use std::{borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,
 };
-
-#[derive(Copy, Clone)]
-pub(crate) struct Eof<'a> {
-    pub last: Span,
-    pub handler: &'a Handler,
-}
-
-impl<'a> From<Eof<'a>> for DiagnosticBuilder<'a> {
-    fn from(Eof { handler, last }: Eof<'a>) -> Self {
-        let mut db = handler.struct_err("Unexpected eof");
-        db.set_span(last);
-        db
-    }
-}
-
-impl<'a> Debug for Eof<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Debug::fmt("<eof>", f)
-    }
-}
-
-pub(crate) struct ErrorToDiag<'a> {
-    pub handler: &'a Handler,
-    pub span: Span,
-    pub error: Box<SyntaxError>,
-}
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
@@ -45,7 +16,9 @@ pub struct Error {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+#[non_exhaustive]
 pub enum SyntaxError {
+    Eof,
     TopLevelAwait,
 
     LegacyDecimal,
@@ -217,20 +190,10 @@ pub enum SyntaxError {
     TS2703,
 }
 
-impl<'a> From<ErrorToDiag<'a>> for Error {
+impl Error {
     #[cold]
-    fn from(e: ErrorToDiag<'a>) -> Self {
-        Error {
-            span: e.span,
-            error: e.error,
-        }
-    }
-}
-
-impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
-    #[cold]
-    fn from(e: ErrorToDiag<'a>) -> Self {
-        let msg: Cow<'static, _> = match *e.error {
+    pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
+        let msg: Cow<'static, _> = match *self.error {
             TopLevelAwait => "top level await requires target to es2017 or higher and \
                               topLevelAwait:true for ecmascript"
                 .into(),
@@ -381,13 +344,13 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             TS1141 => "literal in an import type should be string literal".into(),
 
             // TODO:
-            _ => format!("{:?}", e.error).into(),
+            _ => format!("{:?}", self.error).into(),
         };
 
-        let mut db = e.handler.struct_err(&msg);
-        db.set_span(e.span);
+        let mut db = handler.struct_err(&msg);
+        db.set_span(self.span);
 
-        match *e.error {
+        match *self.error {
             ExpectedSemiForExprStmt { expr } => {
                 db.span_note(
                     expr,

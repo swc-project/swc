@@ -427,22 +427,17 @@ pub struct Context {
     in_case_cond: bool,
 }
 
-#[derive(Clone, Copy)]
-pub struct Session<'a> {
-    pub handler: &'a Handler,
-}
-
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(Session<'_>, SourceFileInput<'_>) -> Result<Ret, ()>,
+    F: FnOnce(&Handler, SourceFileInput<'_>) -> Result<Ret, ()>,
 {
     use swc_common::FileName;
 
     ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
-        f(Session { handler: &handler }, (&*fm).into())
+        f(handler, (&*fm).into())
     })
 }
 

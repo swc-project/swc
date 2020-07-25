@@ -12,11 +12,11 @@ use self::{state::State, util::*};
 use crate::{
     error::{Error, SyntaxError},
     token::*,
-    Context, JscTarget, Session, Syntax,
+    Context, JscTarget, Syntax,
 };
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use std::{char, iter::FusedIterator, mem::take};
+use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
@@ -95,7 +95,6 @@ impl FusedIterator for CharIter {}
 
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
-    session: Session<'a>,
     comments: Option<&'a Comments>,
     leading_comments_buffer: Option<Vec<Comment>>,
     pub(crate) ctx: Context,
@@ -104,6 +103,8 @@ pub struct Lexer<'a, I: Input> {
     pub(crate) syntax: Syntax,
     pub(crate) target: JscTarget,
 
+    errors: Rc<RefCell<Vec<Error>>>,
+
     buf: String,
 }
 
@@ -111,14 +112,12 @@ impl<I: Input> FusedIterator for Lexer<'_, I> {}
 
 impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(
-        session: Session<'a>,
         syntax: Syntax,
         target: JscTarget,
         input: I,
         comments: Option<&'a Comments>,
     ) -> Self {
         Lexer {
-            session,
             leading_comments_buffer: if comments.is_some() {
                 Some(Default::default())
             } else {
@@ -130,6 +129,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             ctx: Default::default(),
             syntax,
             target,
+            errors: Default::default(),
             buf: String::with_capacity(16),
         }
     }

@@ -7,9 +7,9 @@ use swc_common::{Span, Spanned, SyntaxContext};
 mod tests;
 
 #[parser]
-impl<'a, I: Tokens> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<I> {
     /// Parse next token as JSX identifier
-    pub(super) fn parse_jsx_ident(&mut self) -> PResult<'a, Ident> {
+    pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {
         debug_assert!(self.input.syntax().jsx());
 
         let ctx = self.ctx();
@@ -27,7 +27,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parse namespaced identifier.
-    pub(super) fn parse_jsx_namespaced_name(&mut self) -> PResult<'a, JSXAttrName> {
+    pub(super) fn parse_jsx_namespaced_name(&mut self) -> PResult<JSXAttrName> {
         debug_assert!(self.input.syntax().jsx());
 
         let ns = self.parse_jsx_ident()?;
@@ -44,7 +44,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// Parses element name in any form - namespaced, member or single
     /// identifier.
-    pub(super) fn parse_jsx_element_name(&mut self) -> PResult<'a, JSXElementName> {
+    pub(super) fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
         debug_assert!(self.input.syntax().jsx());
 
         let start_pos = cur_pos!();
@@ -70,7 +70,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parses any type of JSX attribute value.
     ///
     /// TODO(kdy1): Change return type to JSXAttrValue
-    pub(super) fn parse_jsx_attr_value(&mut self) -> PResult<'a, JSXAttrValue> {
+    pub(super) fn parse_jsx_attr_value(&mut self) -> PResult<JSXAttrValue> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!();
@@ -105,7 +105,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// JSXEmptyExpression is unique type since it doesn't actually parse
     /// anything, and so it should start at the end of last read token (left
     /// brace) and finish at the beginning of the next one (right brace).
-    pub(super) fn parse_jsx_empty_expr(&mut self) -> PResult<'a, JSXEmptyExpr> {
+    pub(super) fn parse_jsx_empty_expr(&mut self) -> PResult<JSXEmptyExpr> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!();
 
@@ -115,7 +115,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parse JSX spread child
-    pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<'a, JSXSpreadChild> {
+    pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<JSXSpreadChild> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!();
         expect!('{');
@@ -130,10 +130,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parses JSX expression enclosed into curly brackets.
-    pub(super) fn parse_jsx_expr_container(
-        &mut self,
-        start: BytePos,
-    ) -> PResult<'a, JSXExprContainer> {
+    pub(super) fn parse_jsx_expr_container(&mut self, start: BytePos) -> PResult<JSXExprContainer> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!();
@@ -151,7 +148,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parses following JSX attribute name-value pair.
-    pub(super) fn parse_jsx_attr(&mut self) -> PResult<'a, JSXAttrOrSpread> {
+    pub(super) fn parse_jsx_attr(&mut self) -> PResult<JSXAttrOrSpread> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!();
 
@@ -183,7 +180,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
         start: BytePos,
-    ) -> PResult<'a, Either<JSXOpeningFragment, JSXOpeningElement>> {
+    ) -> PResult<Either<JSXOpeningFragment, JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(JSXTagEnd) {
@@ -200,7 +197,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         start: BytePos,
         name: JSXElementName,
-    ) -> PResult<'a, JSXOpeningElement> {
+    ) -> PResult<JSXOpeningElement> {
         debug_assert!(self.input.syntax().jsx());
 
         let type_args = if self.input.syntax().typescript() && is!('<') {
@@ -235,7 +232,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     fn parse_jsx_closing_element_at(
         &mut self,
         start: BytePos,
-    ) -> PResult<'a, Either<JSXClosingFragment, JSXClosingElement>> {
+    ) -> PResult<Either<JSXClosingFragment, JSXClosingElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(JSXTagEnd) {
@@ -257,7 +254,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_jsx_element_at(
         &mut self,
         start_pos: BytePos,
-    ) -> PResult<'a, Either<JSXFragment, JSXElement>> {
+    ) -> PResult<Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         let _ = cur!(true);
@@ -374,7 +371,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parses entire JSX element from current position.
     ///
     /// babel: `jsxParseElement`
-    pub(super) fn parse_jsx_element(&mut self) -> PResult<'a, Either<JSXFragment, JSXElement>> {
+    pub(super) fn parse_jsx_element(&mut self) -> PResult<Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
         debug_assert!({
             match *cur!(true)? {
@@ -388,7 +385,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_jsx_element_at(start_pos)
     }
 
-    pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {
+    pub(super) fn parse_jsx_text(&mut self) -> PResult<JSXText> {
         debug_assert!(self.input.syntax().jsx());
         debug_assert!({
             match cur!(false) {

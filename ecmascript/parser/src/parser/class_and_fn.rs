@@ -7,32 +7,32 @@ use swc_ecma_parser_macros::parser;
 
 #[parser]
 /// Parser for function expression and function declaration.
-impl<'a, I: Tokens> Parser<'a, I> {
-    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<'a, Box<Expr>> {
+impl<'a, I: Tokens> Parser<I> {
+    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!();
         expect!("async");
         self.parse_fn(Some(start), vec![])
     }
 
     /// Parse function expression
-    pub(super) fn parse_fn_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_fn(None, vec![])
     }
 
-    pub(super) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Decl> {
+    pub(super) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
         let start = cur_pos!();
         expect!("async");
         self.parse_fn(Some(start), decorators)
     }
 
-    pub(super) fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Decl> {
+    pub(super) fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
         self.parse_fn(None, decorators)
     }
 
     pub(super) fn parse_default_async_fn(
         &mut self,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, ExportDefaultDecl> {
+    ) -> PResult<ExportDefaultDecl> {
         let start = cur_pos!();
         expect!("async");
         self.parse_fn(Some(start), decorators)
@@ -41,7 +41,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_default_fn(
         &mut self,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, ExportDefaultDecl> {
+    ) -> PResult<ExportDefaultDecl> {
         self.parse_fn(None, decorators)
     }
 
@@ -50,7 +50,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         start: BytePos,
         class_start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, Decl> {
+    ) -> PResult<Decl> {
         self.parse_class(start, class_start, decorators)
     }
 
@@ -58,7 +58,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, Box<Expr>> {
+    ) -> PResult<Box<Expr>> {
         self.parse_class(start, start, decorators)
     }
 
@@ -67,7 +67,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         start: BytePos,
         class_start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, ExportDefaultDecl> {
+    ) -> PResult<ExportDefaultDecl> {
         self.parse_class(start, class_start, decorators)
     }
 
@@ -76,10 +76,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         start: BytePos,
         class_start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, T>
+    ) -> PResult<T>
     where
         T: OutputType,
-        Self: MaybeOptionalIdentParser<'a, T::Ident>,
+        Self: MaybeOptionalIdentParser<T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
             expect!("class");
@@ -181,7 +181,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    pub(super) fn parse_decorators(&mut self, allow_export: bool) -> PResult<'a, Vec<Decorator>> {
+    pub(super) fn parse_decorators(&mut self, allow_export: bool) -> PResult<Vec<Decorator>> {
         if !self.syntax().decorators() {
             return Ok(vec![]);
         }
@@ -211,7 +211,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(decorators)
     }
 
-    fn parse_decorator(&mut self) -> PResult<'a, Decorator> {
+    fn parse_decorator(&mut self) -> PResult<Decorator> {
         let start = cur_pos!();
 
         assert_and_bump!('@');
@@ -251,7 +251,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
+    fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let type_args = if self.input.syntax().typescript() && is!('<') {
             Some(self.parse_ts_type_args()?)
         } else {
@@ -271,7 +271,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })))
     }
 
-    fn parse_class_body(&mut self) -> PResult<'a, Vec<ClassMember>> {
+    fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
         let mut elems = vec![];
         while !eof!() && !is!('}') {
             if eat_exact!(';') {
@@ -287,7 +287,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(elems)
     }
 
-    pub(super) fn parse_access_modifier(&mut self) -> PResult<'a, Option<Accessibility>> {
+    pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
             .parse_ts_modifier(&["public", "protected", "private"])?
             .map(|s| match s {
@@ -298,7 +298,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }))
     }
 
-    fn parse_class_member(&mut self) -> PResult<'a, ClassMember> {
+    fn parse_class_member(&mut self) -> PResult<ClassMember> {
         let start = cur_pos!();
         let decorators = self.parse_decorators(false)?;
 
@@ -425,7 +425,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         accessibility: Option<Accessibility>,
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, ClassMember> {
+    ) -> PResult<ClassMember> {
         let is_static = static_token.is_some();
         let modifier = self.parse_ts_modifier(&["abstract", "readonly"])?;
         let modifier_span = if let Some(..) = modifier {
@@ -728,7 +728,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         is_optional: bool,
         readonly: bool,
         is_abstract: bool,
-    ) -> PResult<'a, ClassMember> {
+    ) -> PResult<ClassMember> {
         if !self.input.syntax().class_props() {
             syntax_error!(span!(start), SyntaxError::ClassProperty)
         }
@@ -803,11 +803,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn is_class_method(&mut self) -> PResult<'a, bool> {
+    fn is_class_method(&mut self) -> PResult<bool> {
         Ok(is!('(') || (self.input.syntax().typescript() && is!('<')))
     }
 
-    fn is_class_property(&mut self) -> PResult<'a, bool> {
+    fn is_class_property(&mut self) -> PResult<bool> {
         Ok((self.input.syntax().typescript() && is_one_of!('!', ':')) || is_one_of!('=', ';', '}'))
     }
 
@@ -815,10 +815,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         start_of_async: Option<BytePos>,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, T>
+    ) -> PResult<T>
     where
         T: OutputType,
-        Self: MaybeOptionalIdentParser<'a, T::Ident>,
+        Self: MaybeOptionalIdentParser<T::Ident>,
         T::Ident: Spanned,
     {
         let start = start_of_async.unwrap_or(cur_pos!());
@@ -890,9 +890,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         parse_args: F,
         is_async: bool,
         is_generator: bool,
-    ) -> PResult<'a, Function>
+    ) -> PResult<Function>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Vec<Param>>,
+        F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
         // let prev_in_generator = self.ctx().in_generator;
         let ctx = Context {
@@ -959,7 +959,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn parse_class_prop_name(&mut self) -> PResult<'a, Either<PrivateName, PropName>> {
+    fn parse_class_prop_name(&mut self) -> PResult<Either<PrivateName, PropName>> {
         if is!('#') {
             self.parse_private_name().map(Either::Left)
         } else {
@@ -967,9 +967,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
 
-    pub(super) fn parse_fn_body<T>(&mut self, is_async: bool, is_generator: bool) -> PResult<'a, T>
+    pub(super) fn parse_fn_body<T>(&mut self, is_async: bool, is_generator: bool) -> PResult<T>
     where
-        Self: FnBodyParser<'a, T>,
+        Self: FnBodyParser<T>,
     {
         if self.ctx().in_declare && self.syntax().typescript() && is!('{') {
             //            self.emit_err(
@@ -995,7 +995,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 }
 
-impl<'a, I: Tokens> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<I> {
     fn make_method<F>(
         &mut self,
         parse_args: F,
@@ -1011,9 +1011,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
             is_async,
             is_generator,
         }: MakeMethodArgs,
-    ) -> PResult<'a, ClassMember>
+    ) -> PResult<ClassMember>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Vec<Param>>,
+        F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
         let is_static = static_token.is_some();
         let ctx = Context {
@@ -1178,13 +1178,13 @@ impl OutputType for Decl {
     }
 }
 
-pub(super) trait FnBodyParser<'a, Body> {
-    fn parse_fn_body_inner(&mut self) -> PResult<'a, Body>;
+pub(super) trait FnBodyParser<Body> {
+    fn parse_fn_body_inner(&mut self) -> PResult<Body>;
 }
 
 #[parser]
-impl<'a, I: Tokens> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
-    fn parse_fn_body_inner(&mut self) -> PResult<'a, BlockStmtOrExpr> {
+impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
+    fn parse_fn_body_inner(&mut self) -> PResult<BlockStmtOrExpr> {
         if is!('{') {
             self.parse_block(false).map(BlockStmtOrExpr::BlockStmt)
         } else {
@@ -1194,8 +1194,8 @@ impl<'a, I: Tokens> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Tokens> FnBodyParser<'a, Option<BlockStmt>> for Parser<'a, I> {
-    fn parse_fn_body_inner(&mut self) -> PResult<'a, Option<BlockStmt>> {
+impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
+    fn parse_fn_body_inner(&mut self) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
         if self.input.syntax().typescript() && !is!('{') && eat!(';') {
             return Ok(None);
@@ -1248,19 +1248,11 @@ mod tests {
     use swc_ecma_visit::assert_eq_ignore_span;
 
     fn lhs(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| {
-            p.parse_lhs_expr().map_err(|mut e| {
-                e.emit();
-            })
-        })
+        test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())
     }
 
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| {
-            p.parse_expr().map_err(|mut e| {
-                e.emit();
-            })
-        })
+        test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
 
     #[test]

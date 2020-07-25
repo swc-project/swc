@@ -6,11 +6,10 @@
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, Char, LexResult, Lexer};
-use crate::error::{ErrorToDiag, SyntaxError};
+use crate::error::{Error, SyntaxError};
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
-    errors::DiagnosticBuilder,
     BytePos, Span, SpanData, SyntaxContext,
 };
 use unicode_xid::UnicodeXID;
@@ -99,12 +98,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     #[cold]
     pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
-        let err = ErrorToDiag {
-            handler: self.session.handler,
+        Err(Error {
             span,
             error: Box::new(kind),
-        };
-        Err(err.into())
+        })
     }
 
     #[cold]
@@ -115,12 +112,11 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     #[cold]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
-        let err = ErrorToDiag {
-            handler: self.session.handler,
+        let err = Error {
             span,
             error: Box::new(kind),
         };
-        DiagnosticBuilder::from(err).emit();
+        self.errors.borrow_mut().push(err);
     }
 
     /// Skip comments or whitespaces.

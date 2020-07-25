@@ -5,14 +5,14 @@ use log::trace;
 use swc_common::Spanned;
 
 #[parser]
-impl<'a, I: Tokens> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         let ctx = self.ctx();
 
         let left = match self.parse_unary_expr() {
             Ok(v) => v,
-            Err(mut err) => {
+            Err(err) => {
                 match {
                     let is_err_token = match self.input.cur() {
                         Some(&Token::Error(..)) => true,
@@ -28,22 +28,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     }
                 } {
                     &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
-                        err.cancel();
-
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                        Box::new(Expr::Invalid(Invalid {
-                            span: err.span.primary_span().unwrap(),
-                        }))
+                        Box::new(Expr::Invalid(Invalid { span: err.span }))
                     }
                     &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
-                        err.cancel();
-
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                        Box::new(Expr::Invalid(Invalid {
-                            span: err.span.primary_span().unwrap(),
-                        }))
+                        Box::new(Expr::Invalid(Invalid { span: err.span }))
                     }
                     _ => return Err(err),
                 }
@@ -65,7 +57,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         left: Box<Expr>,
         min_prec: u8,
-    ) -> PResult<'a, Box<Expr>> {
+    ) -> PResult<Box<Expr>> {
         const PREC_OF_IN: u8 = 7;
 
         if self.input.syntax().typescript()
@@ -213,7 +205,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parse unary expression and update expression.
     ///
     /// spec: 'UnaryExpression'
-    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!();
 
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
@@ -267,8 +259,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let arg_start = cur_pos!() - BytePos(1);
             let arg = match self.parse_unary_expr() {
                 Ok(expr) => expr,
-                Err(mut err) => {
-                    err.emit();
+                Err(err) => {
+                    self.emit_error(err);
                     Box::new(Expr::Invalid(Invalid {
                         span: Span::new(arg_start, arg_start, Default::default()),
                     }))
@@ -338,7 +330,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(expr)
     }
 
-    pub(crate) fn parse_await_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(crate) fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!();
 
         assert_and_bump!("await");
@@ -369,11 +361,7 @@ mod tests {
     use swc_ecma_visit::assert_eq_ignore_span;
 
     fn bin(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| {
-            p.parse_bin_expr().map_err(|mut e| {
-                e.emit();
-            })
-        })
+        test_parser(s, Syntax::default(), |p| p.parse_bin_expr())
     }
 
     #[test]

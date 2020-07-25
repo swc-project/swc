@@ -1,8 +1,8 @@
 use super::{Context, Input, Lexer};
-use crate::{input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
+use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use log::trace;
-use std::mem;
+use std::{mem, mem::take};
 use swc_common::BytePos;
 
 /// State of lexer.
@@ -128,6 +128,14 @@ impl<I: Input> Tokens for Lexer<'_, I> {
 
     fn set_token_context(&mut self, c: TokenContexts) {
         self.state.context = c;
+    }
+
+    fn add_error(&self, error: Error) {
+        self.errors.borrow_mut().push(error);
+    }
+
+    fn take_errors(&self) -> Vec<Error> {
+        take(&mut self.errors.borrow_mut())
     }
 }
 
@@ -613,8 +621,8 @@ pub(crate) fn with_lexer<F, Ret>(
 where
     F: FnOnce(&mut Lexer<'_, crate::lexer::input::SourceFileInput<'_>>) -> Result<Ret, ()>,
 {
-    crate::with_test_sess(s, |sess, fm| {
-        let mut l = Lexer::new(sess, syntax, Default::default(), fm, None);
+    crate::with_test_sess(s, |handler, fm| {
+        let mut l = Lexer::new(syntax, Default::default(), fm, None);
         let res = f(&mut l);
 
         let c = vec![TokenContext::BraceStmt];
