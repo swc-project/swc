@@ -3,12 +3,10 @@ use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    FileName, SourceMap,
-};
+use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::Expr;
-use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
+use swc_ecma_utils::HANDLER;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -22,10 +20,6 @@ pub struct Config {
 
 impl Config {
     pub(super) fn build(self, cm: Arc<SourceMap>) -> BuiltConfig {
-        let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
-
-        let session = Session { handler: &handler };
-
         BuiltConfig {
             config: self.config,
             globals: self
@@ -37,16 +31,17 @@ impl Config {
                             .new_source_file(FileName::Custom(format!("<umd-config-{}.js>", s)), s);
 
                         let lexer = Lexer::new(
-                            session,
                             Syntax::default(),
                             Default::default(),
                             SourceFileInput::from(&*fm),
                             None,
                         );
-                        Parser::new_from(session, lexer)
+                        Parser::new_from(lexer)
                             .parse_expr()
-                            .map_err(|mut e| {
-                                e.emit();
+                            .map_err(|e| {
+                                if HANDLER.is_set() {
+                                    HANDLER.with(|h| e.into_diagnostic(h).emit())
+                                }
                             })
                             .unwrap()
                     };

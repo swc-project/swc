@@ -1,12 +1,12 @@
-error: TS1109
- --> $DIR/tests/test262-parser/fail/e3a388ec11e4d061.js:1:18
-  |
-1 | var obj = { *test** }
-  |                  ^^
-
 error: Unexpected token Some(RBrace)
  --> $DIR/tests/test262-parser/fail/e3a388ec11e4d061.js:1:21
   |
 1 | var obj = { *test** }
   |                     ^
+
+error: TS1109
+ --> $DIR/tests/test262-parser/fail/e3a388ec11e4d061.js:1:18
+  |
+1 | var obj = { *test** }
+  |                  ^^
 

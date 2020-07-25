@@ -17,7 +17,7 @@ use swc_common::{errors::Handler, FileName, Mark, SourceMap};
 pub use swc_ecmascript::parser::JscTarget;
 use swc_ecmascript::{
     ast::{Expr, ExprStmt, ModuleItem, Stmt},
-    parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax, TsConfig},
+    parser::{lexer::Lexer, Parser, SourceFileInput, Syntax, TsConfig},
     preset_env,
     transforms::{
         const_modules, modules,
@@ -637,20 +637,22 @@ impl GlobalPassOption {
                 };
                 let v_str = v.clone();
                 let fm = cm.new_source_file(FileName::Custom(format!("GLOBAL.{}", k)), v);
-                let session = ParseSess { handler };
                 let lexer = Lexer::new(
-                    session,
                     Syntax::Es(Default::default()),
                     Default::default(),
                     SourceFileInput::from(&*fm),
                     None,
                 );
 
-                let mut module = Parser::new_from(session, lexer)
-                    .parse_module()
-                    .map_err(|mut e| {
-                        e.emit();
-                    })
+                let mut p = Parser::new_from(lexer);
+                let module = p.parse_module();
+
+                for e in p.take_errors() {
+                    e.into_diagnostic(handler).emit()
+                }
+
+                let mut module = module
+                    .map_err(|e| e.into_diagnostic(handler).emit())
                     .unwrap_or_else(|()| {
                         panic!(
                             "failed to parse global variable {}=`{}` as module",

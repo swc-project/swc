@@ -95,7 +95,6 @@ After cloning the project there are a few steps required to get the project runn
 3.  Setup some environment variables which is required for tests.
 
     ```bash
-    export RUST_MIN_STACK=16777216
     export RUSTFLAGS='--cfg procmacro2_semver_exempt'
     export RUST_BACKTRACE=full
     export PATH="$PATH:$PWD/ecmascript/transforms/node_modules/.bin"

@@ -13,7 +13,7 @@ use std::{
 };
 use swc_common::{errors::Handler, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, SourceFileInput};
 use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -195,24 +195,26 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, ()>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput<'_>>>) -> PResult<'a, Ret>,
+    F: FnOnce(&mut Parser<Lexer<SourceFileInput<'_>>>) -> PResult<Ret>,
 {
     let fm = cm
         .load_file(file_name)
         .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-    let res = f(&mut Parser::new(
-        Session { handler: &handler },
+    let mut p = Parser::new(
         ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
             jsx: true,
             ..Default::default()
         }),
         (&*fm).into(),
         None,
-    ))
-    .map_err(|mut e| {
-        e.emit();
-    });
+    );
+
+    let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
+
+    for e in p.take_errors() {
+        e.into_diagnostic(&handler).emit();
+    }
 
     res
 }

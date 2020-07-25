@@ -45,43 +45,43 @@
 //!     errors::{ColorConfig, Handler},
 //!     FileName, FilePathMapping, SourceMap,
 //! };
-//! use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+//! use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
 //!
 //! fn main() {
 //!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
 //!         let cm: Arc<SourceMap> = Default::default();
 //!         let handler =
 //!             Handler::with_tty_emitter(ColorConfig::Auto, true, false,
-//! Some(cm.clone()));
-//!
-//!         let session = Session { handler: &handler };
+//!             Some(cm.clone()));
 //!
 //!         // Real usage
 //!         // let fm = cm
 //!         //     .load_file(Path::new("test.js"))
 //!         //     .expect("failed to load test.js");
-//!
-//!
 //!         let fm = cm.new_source_file(
 //!             FileName::Custom("test.js".into()),
 //!             "function foo() {}".into(),
 //!         );
 //!         let lexer = Lexer::new(
-//!             session,
+//!             // We want to parse ecmascript
 //!             Syntax::Es(Default::default()),
-//!              Default::default(),
+//!             // JscTarget defaults to es5
+//!             Default::default(),
 //!             SourceFileInput::from(&*fm),
 //!             None,
 //!         );
 //!
-//!         let mut parser = Parser::new_from(session, lexer);
+//!         let mut parser = Parser::new_from(lexer);
 //!
+//!         for e in parser.take_errors() {
+//!             e.into_diagnostic(&handler).emit();
+//!         }
 //!
 //!         let _module = parser
 //!             .parse_module()
 //!             .map_err(|mut e| {
-//!                 e.emit();
-//!                 ()
+//!                 // Unrecoverable fatal error occurred
+//!                 e.into_diagnostic(&handler).emit()
 //!             })
 //!             .expect("failed to parser module");
 //!     });
@@ -100,11 +100,11 @@ pub use self::{
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::Handler, Span, SpanData};
+use swc_common::{Span, SpanData};
 
 #[macro_use]
 mod macros;
-mod error;
+pub mod error;
 pub mod lexer;
 mod parser;
 pub mod token;
@@ -427,22 +427,17 @@ pub struct Context {
     in_case_cond: bool,
 }
 
-#[derive(Clone, Copy)]
-pub struct Session<'a> {
-    pub handler: &'a Handler,
-}
-
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(Session<'_>, SourceFileInput<'_>) -> Result<Ret, ()>,
+    F: FnOnce(&swc_common::errors::Handler, SourceFileInput<'_>) -> Result<Ret, ()>,
 {
     use swc_common::FileName;
 
     ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
-        f(Session { handler: &handler }, (&*fm).into())
+        f(handler, (&*fm).into())
     })
 }
 

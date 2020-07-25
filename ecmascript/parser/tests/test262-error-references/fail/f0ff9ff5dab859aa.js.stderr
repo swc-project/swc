@@ -1,12 +1,12 @@
-error: TS1014
- --> $DIR/tests/test262-parser/fail/f0ff9ff5dab859aa.js:1:15
-  |
-1 | function f(a, ...b, c)
-  |               ^^^
-
 error: Expected LBrace, got None
  --> $DIR/tests/test262-parser/fail/f0ff9ff5dab859aa.js:1:22
   |
 1 | function f(a, ...b, c)
   |                      ^
+
+error: TS1014
+ --> $DIR/tests/test262-parser/fail/f0ff9ff5dab859aa.js:1:15
+  |
+1 | function f(a, ...b, c)
+  |               ^^^
 

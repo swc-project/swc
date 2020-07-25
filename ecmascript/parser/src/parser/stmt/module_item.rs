@@ -1,9 +1,9 @@
 use super::*;
 
 #[parser]
-impl<'a, I: Tokens> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<I> {
     #[allow(clippy::cognitive_complexity)]
-    fn parse_import(&mut self) -> PResult<'a, ModuleItem> {
+    fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!();
 
         if self.input.syntax().import_meta() && peeked_is!('.') {
@@ -118,7 +118,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
-    fn parse_import_specifier(&mut self) -> PResult<'a, ImportSpecifier> {
+    fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
         let start = cur_pos!();
         match cur!(false) {
             Ok(&Word(..)) => {
@@ -152,11 +152,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
 
-    fn parse_imported_default_binding(&mut self) -> PResult<'a, Ident> {
+    fn parse_imported_default_binding(&mut self) -> PResult<Ident> {
         self.parse_imported_binding()
     }
 
-    fn parse_imported_binding(&mut self) -> PResult<'a, Ident> {
+    fn parse_imported_binding(&mut self) -> PResult<Ident> {
         let ctx = Context {
             in_async: false,
             in_generator: false,
@@ -166,7 +166,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     #[allow(clippy::cognitive_complexity)]
-    fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
+    fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
         let _ = cur!(true);
@@ -475,7 +475,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }))
     }
 
-    fn parse_named_export_specifier(&mut self) -> PResult<'a, ExportNamedSpecifier> {
+    fn parse_named_export_specifier(&mut self) -> PResult<ExportNamedSpecifier> {
         let start = cur_pos!();
 
         let orig = self.parse_ident_name()?;
@@ -493,7 +493,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn parse_from_clause_and_semi(&mut self) -> PResult<'a, Str> {
+    fn parse_from_clause_and_semi(&mut self) -> PResult<Str> {
         expect!("from");
 
         let str_start = cur_pos!();
@@ -523,12 +523,12 @@ impl IsDirective for ModuleItem {
 }
 
 #[parser]
-impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
+impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
     fn handle_import_export(
         &mut self,
         top_level: bool,
         decorators: Vec<Decorator>,
-    ) -> PResult<'a, ModuleItem> {
+    ) -> PResult<ModuleItem> {
         if !top_level {
             syntax_error!(SyntaxError::NonTopLevelImportExport);
         }
@@ -567,7 +567,7 @@ export default class Foo {
                 decorators_before_export: true,
                 ..Default::default()
             }),
-            |p| p.parse_module().map_err(|mut e| e.emit()),
+            |p| p.parse_module(),
         );
     }
 }

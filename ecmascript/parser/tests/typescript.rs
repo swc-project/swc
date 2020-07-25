@@ -12,7 +12,7 @@ use std::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{
-    lexer::Lexer, JscTarget, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig,
+    lexer::Lexer, JscTarget, PResult, Parser, SourceFileInput, Syntax, TsConfig,
 };
 use swc_ecma_visit::FoldWith;
 use test::{
@@ -158,7 +158,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 }
             } else {
                 with_parser(is_backtrace_enabled(), &path, !errors, |p| {
-                    let module = p.parse_typescript_module()?.fold_with(&mut Normalizer);
+                    let module = p.parse_typescript_module()?.fold_with(&mut Normalizer {
+                        drop_span: false,
+                        is_test262: false,
+                    });
 
                     let json = serde_json::to_string_pretty(&module)
                         .expect("failed to serialize module as json");
@@ -170,8 +173,16 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         panic!()
                     }
 
+                    let module = module.fold_with(&mut Normalizer {
+                        drop_span: true,
+                        is_test262: false,
+                    });
+
                     let deser = match serde_json::from_str::<Module>(&json) {
-                        Ok(v) => v.fold_with(&mut Normalizer),
+                        Ok(v) => v.fold_with(&mut Normalizer {
+                            drop_span: true,
+                            is_test262: false,
+                        }),
                         Err(err) => {
                             if err.to_string().contains("invalid type: null, expected f64") {
                                 return Ok(());
@@ -203,7 +214,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput<'_>>>) -> PResult<'a, Ret>,
+    F: FnOnce(&mut Parser<Lexer<SourceFileInput<'_>>>) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
@@ -212,7 +223,6 @@ where
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let lexer = Lexer::new(
-            Session { handler: &handler },
             Syntax::Typescript(TsConfig {
                 dts: fname.ends_with(".d.ts"),
                 tsx: fname.contains("tsx"),
@@ -226,10 +236,13 @@ where
             None,
         );
 
-        let res =
-            f(&mut Parser::new_from(Session { handler: &handler }, lexer)).map_err(|mut e| {
-                e.emit();
-            });
+        let mut p = Parser::new_from(lexer);
+
+        let res = f(&mut p).map_err(|e| e.into_diagnostic(&handler).emit());
+
+        for err in p.take_errors() {
+            err.into_diagnostic(&handler).emit();
+        }
 
         if handler.has_errors() {
             return Err(());

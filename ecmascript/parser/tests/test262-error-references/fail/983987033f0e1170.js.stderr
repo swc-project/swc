@@ -1,10 +1,10 @@
-error: TS1109
+error: Unexpected token None
  --> $DIR/tests/test262-parser/fail/983987033f0e1170.js:1:1
   |
 1 | **
   | ^^
 
-error: Unexpected token None
+error: TS1109
  --> $DIR/tests/test262-parser/fail/983987033f0e1170.js:1:1
   |
 1 | **

@@ -17,7 +17,7 @@ use std::{
 use swc_common::{input::SourceFileInput, FromVariant, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
+use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_visit::FoldWith;
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
@@ -225,7 +225,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 .load_file(&dir.join("input.mjs"))
                 .expect("failed to load file");
             let mut p = Parser::new(
-                Session { handler: &handler },
                 Syntax::Es(EsConfig {
                     dynamic_import: true,
                     ..Default::default()
@@ -234,7 +233,14 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 None,
             );
 
-            let module = p.parse_module().map_err(|mut e| e.emit())?;
+            let module = p
+                .parse_module()
+                .map_err(|e| e.into_diagnostic(&handler).emit())?;
+
+            for e in p.take_errors() {
+                e.into_diagnostic(&handler).emit()
+            }
+
             let actual = module.fold_with(&mut pass);
 
             // debug mode?
@@ -256,7 +262,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     .expect("failed to load output file");
 
                 let mut p = Parser::new(
-                    Session { handler: &handler },
                     Syntax::Es(EsConfig {
                         dynamic_import: true,
                         ..Default::default()
@@ -265,7 +270,13 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     None,
                 );
 
-                let mut m = p.parse_module().map_err(|mut e| e.emit())?;
+                let mut m = p
+                    .parse_module()
+                    .map_err(|e| e.into_diagnostic(&handler).emit())?;
+
+                for e in p.take_errors() {
+                    e.into_diagnostic(&handler).emit()
+                }
 
                 m.body.sort_by(|a, b| match *a {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {

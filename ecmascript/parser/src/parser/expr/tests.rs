@@ -15,39 +15,23 @@ fn syntax() -> Syntax {
 }
 
 fn lhs(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| {
-        p.parse_lhs_expr().map_err(|mut e| {
-            e.emit();
-        })
-    })
+    test_parser(s, syntax(), |p| p.parse_lhs_expr())
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| {
-        p.parse_new_expr().map_err(|mut e| {
-            e.emit();
-        })
-    })
+    test_parser(s, syntax(), |p| p.parse_new_expr())
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| {
-        p.parse_member_expr().map_err(|mut e| {
-            e.emit();
-        })
-    })
+    test_parser(s, syntax(), |p| p.parse_member_expr())
 }
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
-        p.parse_stmt(true)
-            .map(|stmt| match stmt {
-                Stmt::Expr(expr) => expr.expr,
-                _ => unreachable!(),
-            })
-            .map_err(|mut e| {
-                e.emit();
-            })
+        p.parse_stmt(true).map(|stmt| match stmt {
+            Stmt::Expr(expr) => expr.expr,
+            _ => unreachable!(),
+        })
     })
 }
 
@@ -353,11 +337,7 @@ fn issue_328() {
                 dynamic_import: true,
                 ..Default::default()
             }),
-            |p| {
-                p.parse_stmt(true).map_err(|mut e| {
-                    e.emit();
-                })
-            }
+            |p| { p.parse_stmt(true) }
         ),
         Stmt::Expr(ExprStmt {
             span,
@@ -383,11 +363,7 @@ fn issue_337() {
     test_parser(
         "const foo = 'bar' in bas ? 'beep' : 'boop';",
         Default::default(),
-        |p| {
-            p.parse_module().map_err(|mut e| {
-                e.emit();
-            })
-        },
+        |p| p.parse_module(),
     );
 }
 

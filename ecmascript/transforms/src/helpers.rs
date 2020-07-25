@@ -4,10 +4,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
-use swc_ecma_utils::{
-    options::{CM, SESSION},
-    prepend_stmts, quote_ident, quote_str, DropSpan,
-};
+use swc_ecma_utils::{options::CM, prepend_stmts, quote_ident, quote_str, DropSpan};
 use swc_ecma_visit::{Fold, FoldWith};
 
 #[macro_export]
@@ -26,22 +23,20 @@ macro_rules! add_to {
             let code = include_str!(concat!("helpers/_", stringify!($name), ".js"));
             let fm = CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
             let lexer = Lexer::new(
-                *SESSION,
                 Default::default(),
                 Default::default(),
                 SourceFileInput::from(&*fm),
                 None,
             );
-            let stmts = Parser::new_from(*SESSION, lexer)
+            let stmts = Parser::new_from(lexer)
                 .parse_script()
                 .map(|script| {
                     script.body.fold_with(&mut DropSpan {
                         preserve_ctxt: false,
                     })
                 })
-                .map_err(|mut e| {
-                    e.emit();
-                    ()
+                .map_err(|e| {
+                    unreachable!("Error occurred while parsing error: {:?}", e);
                 })
                 .unwrap();
             stmts

@@ -63,9 +63,9 @@ impl Context {
     }
 }
 
-impl<'a, I: Tokens> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<I> {
     /// Original context is restored when returned guard is dropped.
-    pub(super) fn with_ctx<'w>(&'w mut self, ctx: Context) -> WithCtx<'w, 'a, I> {
+    pub(super) fn with_ctx(&mut self, ctx: Context) -> WithCtx<I> {
         let orig_ctx = self.ctx();
         self.set_ctx(ctx);
         WithCtx {
@@ -75,7 +75,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Original state is restored when returned guard is dropped.
-    pub(super) fn with_state<'w>(&'w mut self, state: State) -> WithState<'w, 'a, I> {
+    pub(super) fn with_state(&mut self, state: State) -> WithState<I> {
         let orig_state = std::mem::replace(&mut self.state, state);
         WithState {
             orig_state,
@@ -87,7 +87,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.input.set_ctx(ctx);
     }
 
-    pub(super) fn strict_mode<'w>(&'w mut self) -> WithCtx<'w, 'a, I> {
+    pub(super) fn strict_mode(&mut self) -> WithCtx<I> {
         let ctx = Context {
             strict: true,
             ..self.ctx()
@@ -96,7 +96,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Original context is restored when returned guard is dropped.
-    pub(super) fn in_type<'w>(&'w mut self) -> WithCtx<'w, 'a, I> {
+    pub(super) fn in_type(&mut self) -> WithCtx<I> {
         let ctx = Context {
             in_type: true,
             ..self.ctx()
@@ -105,7 +105,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Original context is restored when returned guard is dropped.
-    pub(super) fn include_in_expr<'w>(&'w mut self, include_in_expr: bool) -> WithCtx<'w, 'a, I> {
+    pub(super) fn include_in_expr(&mut self, include_in_expr: bool) -> WithCtx<I> {
         let ctx = Context {
             include_in_expr,
             ..self.ctx()
@@ -114,9 +114,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parse with given closure
-    pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> PResult<'a, Ret>
+    pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> PResult<Ret>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Ret>,
+        F: FnOnce(&mut Self) -> PResult<Ret>,
     {
         f(self)
     }
@@ -138,52 +138,52 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.input.syntax()
     }
 }
-pub trait ParseObject<'a, Obj> {
+pub trait ParseObject<Obj> {
     type Prop;
-    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Obj>;
-    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop>;
+    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Obj>;
+    fn parse_object_prop(&mut self) -> PResult<Self::Prop>;
 }
 
-pub struct WithState<'w, 'a: 'w, I: 'w + Tokens> {
-    inner: &'w mut Parser<'a, I>,
+pub struct WithState<'w, I: 'w + Tokens> {
+    inner: &'w mut Parser<I>,
     orig_state: State,
 }
-impl<'w, 'a, I: Tokens> Deref for WithState<'w, 'a, I> {
-    type Target = Parser<'a, I>;
+impl<'w, I: Tokens> Deref for WithState<'w, I> {
+    type Target = Parser<I>;
 
-    fn deref(&self) -> &Parser<'a, I> {
+    fn deref(&self) -> &Parser<I> {
         &self.inner
     }
 }
-impl<'w, 'a, I: Tokens> DerefMut for WithState<'w, 'a, I> {
-    fn deref_mut(&mut self) -> &mut Parser<'a, I> {
+impl<'w, I: Tokens> DerefMut for WithState<'w, I> {
+    fn deref_mut(&mut self) -> &mut Parser<I> {
         &mut self.inner
     }
 }
-impl<'w, 'a, I: Tokens> Drop for WithState<'w, 'a, I> {
+impl<'w, I: Tokens> Drop for WithState<'w, I> {
     fn drop(&mut self) {
         std::mem::swap(&mut self.inner.state, &mut self.orig_state);
     }
 }
 
-pub struct WithCtx<'w, 'a: 'w, I: 'w + Tokens> {
-    inner: &'w mut Parser<'a, I>,
+pub struct WithCtx<'w, I: 'w + Tokens> {
+    inner: &'w mut Parser<I>,
     orig_ctx: Context,
 }
-impl<'w, 'a, I: Tokens> Deref for WithCtx<'w, 'a, I> {
-    type Target = Parser<'a, I>;
+impl<'w, I: Tokens> Deref for WithCtx<'w, I> {
+    type Target = Parser<I>;
 
-    fn deref(&self) -> &Parser<'a, I> {
+    fn deref(&self) -> &Parser<I> {
         &self.inner
     }
 }
-impl<'w, 'a, I: Tokens> DerefMut for WithCtx<'w, 'a, I> {
-    fn deref_mut(&mut self) -> &mut Parser<'a, I> {
+impl<'w, I: Tokens> DerefMut for WithCtx<'w, I> {
+    fn deref_mut(&mut self) -> &mut Parser<I> {
         &mut self.inner
     }
 }
 
-impl<'w, 'a, I: Tokens> Drop for WithCtx<'w, 'a, I> {
+impl<'w, I: Tokens> Drop for WithCtx<'w, I> {
     fn drop(&mut self) {
         self.inner.set_ctx(self.orig_ctx);
     }

@@ -130,7 +130,7 @@ fn module_legacy_decimal() {
         lex_module(Syntax::default(), "08"),
         vec![Token::Error(Error {
             span: make_span(sp(0..2)),
-            error: SyntaxError::LegacyDecimal,
+            error: Box::new(SyntaxError::LegacyDecimal),
         })
         .span(0..2)
         .lb(),]
@@ -143,7 +143,7 @@ fn module_legacy_comment_1() {
         lex_module(Syntax::default(), "<!-- foo oo"),
         vec![Token::Error(Error {
             span: make_span(sp(0..11)),
-            error: SyntaxError::LegacyCommentInModule,
+            error: Box::new(SyntaxError::LegacyCommentInModule),
         })
         .span(0..11)
         .lb(),]
@@ -156,7 +156,7 @@ fn module_legacy_comment_2() {
         lex_module(Syntax::default(), "-->"),
         vec![Token::Error(Error {
             span: make_span(sp(0..3)),
-            error: SyntaxError::LegacyCommentInModule,
+            error: Box::new(SyntaxError::LegacyCommentInModule),
         })
         .span(0..3)
         .lb(),]

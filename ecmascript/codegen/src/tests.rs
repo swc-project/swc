@@ -1,4 +1,4 @@
-use self::swc_ecma_parser::{EsConfig, Parser, Session, SourceFileInput, Syntax};
+use self::swc_ecma_parser::{EsConfig, Parser, SourceFileInput, Syntax};
 use super::*;
 use crate::config::Config;
 use std::{
@@ -58,15 +58,16 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
 
         let comments = Default::default();
         let res = {
-            let mut parser = Parser::new(
-                Session { handler: &handler },
-                syntax,
-                SourceFileInput::from(&*src),
-                Some(&comments),
-            );
-            parser.parse_module().map_err(|mut e| {
-                e.emit();
-            })?
+            let mut parser = Parser::new(syntax, SourceFileInput::from(&*src), Some(&comments));
+            let res = parser
+                .parse_module()
+                .map_err(|e| e.into_diagnostic(handler).emit());
+
+            for err in parser.take_errors() {
+                err.into_diagnostic(handler).emit()
+            }
+
+            res?
         };
 
         let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());

@@ -18,7 +18,7 @@ pub use ecmascript::parser::SourceFileInput;
 use ecmascript::{
     ast::Program,
     codegen::{self, Emitter, Node},
-    parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
+    parser::{lexer::Lexer, Parser, Syntax},
     transforms::{
         helpers::{self, Helpers},
         util,
@@ -148,11 +148,7 @@ impl Compiler {
         parse_comments: bool,
     ) -> Result<Program, Error> {
         self.run(|| {
-            let session = ParseSess {
-                handler: &self.handler,
-            };
             let lexer = Lexer::new(
-                session,
                 syntax,
                 target,
                 SourceFileInput::from(&*fm),
@@ -162,23 +158,31 @@ impl Compiler {
                     None
                 },
             );
-            let mut parser = Parser::new_from(session, lexer);
+            let mut parser = Parser::new_from(lexer);
             let program = if is_module {
-                parser
-                    .parse_module()
-                    .map_err(|mut e| {
-                        e.emit();
-                        Error::msg("failed to parse module")
-                    })
-                    .map(Program::Module)?
+                let m = parser.parse_module();
+
+                for e in parser.take_errors() {
+                    e.into_diagnostic(&self.handler).emit();
+                }
+
+                m.map_err(|e| {
+                    e.into_diagnostic(&self.handler).emit();
+                    Error::msg("failed to parse module")
+                })
+                .map(Program::Module)?
             } else {
-                parser
-                    .parse_script()
-                    .map_err(|mut e| {
-                        e.emit();
-                        Error::msg("failed to parse module")
-                    })
-                    .map(Program::Script)?
+                let s = parser.parse_script();
+
+                for e in parser.take_errors() {
+                    e.into_diagnostic(&self.handler).emit();
+                }
+
+                s.map_err(|e| {
+                    e.into_diagnostic(&self.handler).emit();
+                    Error::msg("failed to parse module")
+                })
+                .map(Program::Script)?
             };
 
             Ok(program)

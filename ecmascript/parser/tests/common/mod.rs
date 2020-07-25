@@ -2,14 +2,18 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
-pub struct Normalizer;
+pub struct Normalizer {
+    pub drop_span: bool,
+    pub is_test262: bool,
+}
+
 impl Fold for Normalizer {
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
         match e {
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
-            Expr::New(n @ NewExpr { args: None, .. }) => Expr::New(NewExpr {
+            Expr::Paren(ParenExpr { expr, .. }) if self.is_test262 => *expr,
+            Expr::New(n @ NewExpr { args: None, .. }) if self.is_test262 => Expr::New(NewExpr {
                 args: Some(vec![]),
                 ..n
             }),
@@ -54,25 +58,32 @@ impl Fold for Normalizer {
         let node = node.fold_children_with(self);
 
         match node {
+            PatOrExpr::Expr(expr) => match *expr {
+                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                _ => PatOrExpr::Expr(expr),
+            },
             PatOrExpr::Pat(pat) => match *pat {
                 Pat::Expr(expr) => PatOrExpr::Expr(expr),
                 _ => PatOrExpr::Pat(pat),
             },
-            _ => node,
         }
     }
 
     fn fold_prop_name(&mut self, n: PropName) -> PropName {
         let n = n.fold_children_with(self);
 
+        if !self.is_test262 {
+            return n;
+        }
+
         match n {
-            PropName::Ident(Ident { sym, .. }) => PropName::Str(Str {
-                span: Default::default(),
+            PropName::Ident(Ident { span, sym, .. }) => PropName::Str(Str {
+                span,
                 value: sym,
                 has_escape: false,
             }),
             PropName::Num(num) => PropName::Str(Str {
-                span: Default::default(),
+                span: num.span,
                 value: num.to_string().into(),
                 has_escape: false,
             }),
@@ -81,19 +92,33 @@ impl Fold for Normalizer {
     }
 
     fn fold_str(&mut self, s: Str) -> Str {
-        Str {
-            span: Default::default(),
-            has_escape: false,
-            ..s
+        let span = s.span.fold_with(self);
+
+        if self.is_test262 {
+            Str {
+                span,
+                has_escape: false,
+                ..s
+            }
+        } else {
+            Str { span, ..s }
         }
     }
 
-    fn fold_span(&mut self, _: Span) -> Span {
-        Span::default()
+    fn fold_span(&mut self, span: Span) -> Span {
+        if self.drop_span {
+            Span::default()
+        } else {
+            span
+        }
     }
 
     fn fold_class_members(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
         node = node.fold_children_with(self);
+
+        if !self.is_test262 {
+            return node;
+        }
 
         node.retain(|v| match v {
             ClassMember::Empty(..) => false,

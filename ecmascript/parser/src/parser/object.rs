@@ -6,11 +6,11 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 
 #[parser]
-impl<'a, I: Tokens> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.
-    pub(super) fn parse_object<T>(&mut self) -> PResult<'a, T>
+    pub(super) fn parse_object<T>(&mut self) -> PResult<T>
     where
-        Self: ParseObject<'a, T>,
+        Self: ParseObject<T>,
     {
         let start = cur_pos!();
         assert_and_bump!('{');
@@ -37,7 +37,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// spec: 'PropertyName'
-    pub(super) fn parse_prop_name(&mut self) -> PResult<'a, PropName> {
+    pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
         let ctx = self.ctx();
         self.with_ctx(Context {
             in_property_name: true,
@@ -106,15 +106,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
+impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
     type Prop = PropOrSpread;
 
-    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Box<Expr>> {
+    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Box<Expr>> {
         Ok(Box::new(Expr::Object(ObjectLit { span, props })))
     }
 
     /// spec: 'PropertyDefinition'
-    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
+    fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
         let start = cur_pos!();
         // Parse as 'MethodDefinition'
 
@@ -353,10 +353,10 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
+impl<I: Tokens> ParseObject<Pat> for Parser<I> {
     type Prop = ObjectPatProp;
 
-    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Pat> {
+    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Pat> {
         let len = props.len();
         for (i, p) in props.iter().enumerate() {
             if i == len - 1 {
@@ -387,7 +387,7 @@ impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
     }
 
     /// Production 'BindingProperty'
-    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
+    fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
         let start = cur_pos!();
 
         if eat!("...") {

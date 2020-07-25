@@ -1,12 +1,12 @@
-error: TS1109
- --> $DIR/tests/jsx/errors/attribute-empty-expression/input.js:1:13
-  |
-1 | <foo bar={} />
-  |             ^
-
 error: Unexpected token Some(JSXTagEnd)
  --> $DIR/tests/jsx/errors/attribute-empty-expression/input.js:1:14
   |
 1 | <foo bar={} />
   |              ^
+
+error: TS1109
+ --> $DIR/tests/jsx/errors/attribute-empty-expression/input.js:1:13
+  |
+1 | <foo bar={} />
+  |             ^
 

@@ -1,11 +1,12 @@
 use super::Parser;
 use crate::{
+    error::Error,
     lexer::{self},
     token::*,
     Context, JscTarget, Syntax,
 };
 use lexer::TokenContexts;
-use std::{cell::RefCell, mem, rc::Rc};
+use std::{cell::RefCell, mem, mem::take, rc::Rc};
 use swc_common::{BytePos, Span, SpanData, DUMMY_SP};
 
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
@@ -18,6 +19,13 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
     fn set_token_context(&mut self, _c: lexer::TokenContexts);
+
+    /// Implementors should use Rc<RefCell<Vec<Error>>>.
+    ///
+    /// It is required because parser should backtrack while parsing typescript
+    /// code.
+    fn add_error(&self, error: Error);
+    fn take_errors(&mut self) -> Vec<Error>;
 }
 
 #[derive(Clone)]
@@ -27,6 +35,7 @@ pub struct TokensInput {
     syntax: Syntax,
     target: JscTarget,
     token_ctx: TokenContexts,
+    errors: Rc<RefCell<Vec<Error>>>,
 }
 
 impl TokensInput {
@@ -37,6 +46,7 @@ impl TokensInput {
             syntax,
             target,
             token_ctx: Default::default(),
+            errors: Default::default(),
         }
     }
 }
@@ -77,6 +87,14 @@ impl Tokens for TokensInput {
 
     fn set_token_context(&mut self, c: TokenContexts) {
         self.token_ctx = c;
+    }
+
+    fn add_error(&self, error: Error) {
+        self.errors.borrow_mut().push(error);
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.errors.borrow_mut())
     }
 }
 
@@ -168,6 +186,14 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn set_token_context(&mut self, c: TokenContexts) {
         self.inner.set_token_context(c)
     }
+
+    fn add_error(&self, error: Error) {
+        self.inner.add_error(error);
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        self.inner.take_errors()
+    }
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -181,9 +207,12 @@ pub(super) struct Buffer<I: Tokens> {
     next: Option<TokenAndSpan>,
 }
 
-impl<I: Tokens> Parser<'_, I> {
+impl<I: Tokens> Parser<I> {
     pub fn input(&mut self) -> &mut I {
         &mut self.input.iter
+    }
+    pub(crate) fn input_ref(&self) -> &I {
+        &self.input.iter
     }
 }
 

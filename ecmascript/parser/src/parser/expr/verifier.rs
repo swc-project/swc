@@ -2,8 +2,8 @@ use super::*;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_visit::{Node, Visit, VisitWith};
 
-impl<'a, I: Tokens> Parser<'a, I> {
-    pub(in crate::parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
+impl<'a, I: Tokens> Parser<I> {
+    pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let mut v = Verifier { errors: vec![] };
 
         v.visit_expr(&expr, &Invalid { span: DUMMY_SP } as _);

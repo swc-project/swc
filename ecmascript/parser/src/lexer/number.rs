@@ -444,9 +444,8 @@ mod tests {
     where
         F: FnOnce(&mut Lexer<'_, SourceFileInput<'_>>) -> Ret,
     {
-        crate::with_test_sess(s, |sess, fm| {
+        crate::with_test_sess(s, |handler, fm| {
             let mut l = Lexer::new(
-                sess,
                 Syntax::Es(EsConfig {
                     num_sep: true,
                     ..Default::default()
@@ -576,9 +575,8 @@ mod tests {
                 });
 
             let vec = panic::catch_unwind(|| {
-                crate::with_test_sess(case, |mut sess, input| {
-                    let mut l =
-                        Lexer::new(sess, Syntax::default(), Default::default(), input, None);
+                crate::with_test_sess(case, |handler, input| {
+                    let mut l = Lexer::new(Syntax::default(), Default::default(), input, None);
                     l.ctx.strict = strict;
                     Ok(l.map(|ts| ts.token).collect::<Vec<_>>())
                 })
