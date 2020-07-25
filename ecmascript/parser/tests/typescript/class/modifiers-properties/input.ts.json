@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 488,
+    "end": 509,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 488,
+        "end": 509,
         "ctxt": 0
       },
       "decorators": [],
@@ -598,6 +598,36 @@
               "ctxt": 0
             },
             "value": "d",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": true,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 491,
+            "end": 507,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 499,
+              "end": 506,
+              "ctxt": 0
+            },
+            "value": "declare",
             "typeAnnotation": null,
             "optional": false
           },
