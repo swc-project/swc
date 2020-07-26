@@ -4512,3 +4512,53 @@ class Product {
 var nums = Array.from({ length: 2 }, (_, i) => i);
 expect(log).toEqual(nums)"
 );
+
+test!(
+    ts(),
+    |_| ts_transform(),
+    issue_863_1,
+    "class ProductController {
+  @bar()
+  findById(
+    @foo()
+    id: number
+  ) {
+    // ...
+  }
+}",
+    ""
+);
+
+test_exec!(
+    ts(),
+    |_| ts_transform(),
+    issue_863_2,
+    "const logs: number[] = [];
+
+function foo() {
+  return function (target: any, member: any, ix: any) {
+    logs.push(0);
+  };
+}
+function bar() {
+  return function (target: any, member: any, ix: any) {
+    logs.push(1);
+  };
+}
+
+class ProductController {
+  findById(
+    @foo()
+    @bar()
+    id: number
+  ) {
+    // ...
+  }
+}
+
+expect(logs).toEqual([0, 1])
+
+const c = new ProductController();
+c.findById(100);
+"
+);
