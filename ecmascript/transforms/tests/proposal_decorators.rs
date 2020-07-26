@@ -4526,7 +4526,17 @@ test!(
     // ...
   }
 }",
-    ""
+    " var _class, _dec;
+let ProductController = ((_class = function() {
+    class ProductController {
+        findById(id) {
+        }
+    }
+    return ProductController;
+}()) || _class, foo()(_class.prototype, 'findById', 0), _dec = bar(), \
+     _applyDecoratedDescriptor(_class.prototype, 'findById', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'findById'), _class.prototype), _class);"
 );
 
 test_exec!(
