@@ -4493,24 +4493,22 @@ test_exec!(
     ts(),
     |_| ts_transform(),
     issue_862_3,
-    "var log = [];
-function push(x) { log.push(x); return x; }
+    "var log: number[] = [];
+function push(x: number) { log.push(x); return x; }
 
-function logFinisher(x) {
-  return function (el) {
-    return Object.assign(el, {
-      finisher() { push(x); }
-    });
-  };
+function saveOrder(x: number) {
+    return function (el: any) {
+        log.push(x);
+        return el;
+    };
 }
 
-@logFinisher(0)
+@saveOrder(1)
 class Product {
-  @logFinisher(1)
-  public id!: string;
+    @saveOrder(0)
+    public id!: string;
 }
 
-var nums = Array.from({ length: 10 }, (_, i) => i);
-expect(log).toEqual(nums);
-"
+var nums = Array.from({ length: 2 }, (_, i) => i);
+expect(log).toEqual(nums)"
 );
