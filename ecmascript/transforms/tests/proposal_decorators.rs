@@ -4376,7 +4376,84 @@ export class Product extends TimestampedEntity {
   public discounts!: Discount[];
 }   
 ",
-    ""
+    "var _class, _descriptor, _descriptor1, _descriptor2, _descriptor3, _descriptor4, \
+     _descriptor5;
+var _dec = Entity(), _dec1 = PrimaryGeneratedColumn('uuid'), _dec2 = Column(), _dec3 = Column({
+    enum: ProductType
+}), _dec4 = Column(), _dec5 = OneToMany(()=>Order
+, (order)=>order.product
+), _dec6 = OneToMany(()=>Discount
+, (discount)=>discount.product
+);
+export let Product = _dec(((_class = function() {
+    class Product extends TimestampedEntity {
+        constructor(...args){
+            super(...args);
+            _initializerDefineProperty(this, 'id', _descriptor, this);
+            _initializerDefineProperty(this, 'price', _descriptor1, this);
+            _initializerDefineProperty(this, 'type', _descriptor2, this);
+            _initializerDefineProperty(this, 'productEntityId', _descriptor3, this);
+            _initializerDefineProperty(this, 'orders', _descriptor4, this);
+            _initializerDefineProperty(this, 'discounts', _descriptor5, this);
+        }
+    }
+    return Product;
+}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
+    _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'price', [
+    _dec2
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'type', [
+    _dec3
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'productEntityId', [
+    _dec4
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'orders', [
+    _dec5
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'discounts', [
+    _dec6
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _class));
+"
 );
 
 test!(
@@ -4389,18 +4466,51 @@ export class Product extends TimestampedEntity {
   public id!: string;
 }
 ",
-    "export let Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn('uuid'), _dec(_class = \
-     (_class2 = (_temp = class Product extends TimestampedEntity {
-  constructor(...args) {
-    super(...args);
+    "var _class, _descriptor;
+var _dec = Entity(), _dec1 = PrimaryGeneratedColumn('uuid');
+export let Product = _dec(((_class = function() {
+    class Product extends TimestampedEntity {
+        constructor(...args){
+            super(...args);
+            _initializerDefineProperty(this, 'id', _descriptor, this);
+        }
+    }
+    return Product;
+}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
+    _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _class));
+"
+);
 
-    _initializerDefineProperty(this, 'id', _descriptor, this);
-  }
+test_exec!(
+    ts(),
+    |_| ts_transform(),
+    issue_862_3,
+    "var log = [];
+function push(x) { log.push(x); return x; }
 
-}, _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'id', [_dec2], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: null
-})), _class2)) || _class);"
+function logFinisher(x) {
+  return function (el) {
+    return Object.assign(el, {
+      finisher() { push(x); }
+    });
+  };
+}
+
+@logFinisher(0)
+class Product {
+  @logFinisher(1)
+  public id!: string;
+}
+
+var nums = Array.from({ length: 10 }, (_, i) => i);
+expect(log).toEqual(nums);
+"
 );
