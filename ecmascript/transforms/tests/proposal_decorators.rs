@@ -4378,14 +4378,14 @@ export class Product extends TimestampedEntity {
 ",
     "var _class, _descriptor, _descriptor1, _descriptor2, _descriptor3, _descriptor4, \
      _descriptor5;
-var _dec = Entity(), _dec1 = PrimaryGeneratedColumn('uuid'), _dec2 = Column(), _dec3 = Column({
+var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Column(), _dec2 = Column({
     enum: ProductType
-}), _dec4 = Column(), _dec5 = OneToMany(()=>Order
+}), _dec3 = Column(), _dec4 = OneToMany(()=>Order
 , (order)=>order.product
-), _dec6 = OneToMany(()=>Discount
+), _dec5 = OneToMany(()=>Discount
 , (discount)=>discount.product
-);
-export let Product = _dec(((_class = function() {
+), _dec6 = Entity();
+export let Product = _dec6(((_class = function() {
     class Product extends TimestampedEntity {
         constructor(...args){
             super(...args);
@@ -4399,7 +4399,7 @@ export let Product = _dec(((_class = function() {
     }
     return Product;
 }()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
-    _dec1
+    _dec
 ], {
     configurable: true,
     enumerable: true,
@@ -4408,7 +4408,7 @@ export let Product = _dec(((_class = function() {
         return;
     }
 }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'price', [
-    _dec2
+    _dec1
 ], {
     configurable: true,
     enumerable: true,
@@ -4417,7 +4417,7 @@ export let Product = _dec(((_class = function() {
         return;
     }
 }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'type', [
-    _dec3
+    _dec2
 ], {
     configurable: true,
     enumerable: true,
@@ -4426,7 +4426,7 @@ export let Product = _dec(((_class = function() {
         return;
     }
 }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'productEntityId', [
-    _dec4
+    _dec3
 ], {
     configurable: true,
     enumerable: true,
@@ -4435,7 +4435,7 @@ export let Product = _dec(((_class = function() {
         return;
     }
 }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'orders', [
-    _dec5
+    _dec4
 ], {
     configurable: true,
     enumerable: true,
@@ -4444,7 +4444,7 @@ export let Product = _dec(((_class = function() {
         return;
     }
 }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'discounts', [
-    _dec6
+    _dec5
 ], {
     configurable: true,
     enumerable: true,
@@ -4467,8 +4467,8 @@ export class Product extends TimestampedEntity {
 }
 ",
     "var _class, _descriptor;
-var _dec = Entity(), _dec1 = PrimaryGeneratedColumn('uuid');
-export let Product = _dec(((_class = function() {
+var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Entity();
+export let Product = _dec1(((_class = function() {
     class Product extends TimestampedEntity {
         constructor(...args){
             super(...args);
@@ -4477,7 +4477,7 @@ export let Product = _dec(((_class = function() {
     }
     return Product;
 }()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
-    _dec1
+    _dec
 ], {
     configurable: true,
     enumerable: true,
