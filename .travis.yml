@@ -37,11 +37,9 @@ install:
   - npm install
   - npm install browserslist regenerator
   - npm install -g jest
-  - travis_wait 50 RUST_BACKTRACE=0 cargo test --no-run --color always --all --all-features
 
 script:
 #  - RUST_BACKTRACE=0 cargo check --color always --all --all-targets
-#  - RUST_BACKTRACE=full cargo test --color always --all --all-features
   - true
 
 before_deploy:

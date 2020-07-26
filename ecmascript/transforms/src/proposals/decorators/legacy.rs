@@ -207,7 +207,9 @@ impl Legacy {
             definite: false,
         });
 
+        // Injected to sequence expression which is wrapped with parenthesis.
         let mut extra_exprs = vec![];
+        // Injected to constructor
         let mut constructor_stmts = SmallVec::<[_; 8]>::new();
 
         let prototype = MemberExpr {
@@ -218,7 +220,10 @@ impl Legacy {
         };
 
         c.class.body = c.class.body.move_flat_map(|m| match m {
-            ClassMember::Method(m) if !m.function.decorators.is_empty() => {
+            ClassMember::Method(mut m)
+                if !m.function.decorators.is_empty()
+                    || m.function.params.iter().any(|p| !p.decorators.is_empty()) =>
+            {
                 let prototype = if m.is_static {
                     cls_ident.clone().as_arg()
                 } else {
@@ -274,14 +279,44 @@ impl Legacy {
                     dec_exprs.push(Some(i.as_arg()))
                 }
 
-                let callee = helper!(apply_decorated_descriptor, "applyDecoratedDescriptor");
-
                 let name = match m.key {
                     PropName::Computed(..) => {
                         unimplemented!("decorators on methods with computed key")
                     }
                     _ => prop_name_to_expr_value(m.key.clone()),
                 };
+
+                {
+                    // https://github.com/swc-project/swc/issues/863
+                    let mut new_params = Vec::with_capacity(m.function.params.len());
+                    for (index, param) in m.function.params.into_iter().enumerate() {
+                        for dec in param.decorators {
+                            //
+                            extra_exprs.push(Box::new(Expr::Call(CallExpr {
+                                span: dec.span,
+                                callee: dec.expr.as_callee(),
+                                args: vec![
+                                    prototype.clone(),
+                                    name.clone().as_arg(),
+                                    Lit::Num(Number {
+                                        span: param.span,
+                                        value: index as _,
+                                    })
+                                    .as_arg(),
+                                ],
+                                type_args: None,
+                            })))
+                        }
+
+                        new_params.push(Param {
+                            decorators: Default::default(),
+                            ..param
+                        });
+                    }
+                    m.function.params = new_params;
+                }
+
+                let callee = helper!(apply_decorated_descriptor, "applyDecoratedDescriptor");
 
                 extra_exprs.extend(dec_inits);
 
@@ -646,6 +681,7 @@ impl Legacy {
         expr
     }
 
+    /// Apply class decorators.
     fn apply(&mut self, mut expr: Box<Expr>, decorators: Vec<Decorator>) -> Box<Expr> {
         for dec in decorators.into_iter().rev() {
             let (i, aliased) = alias_if_required(&dec.expr, "_dec");

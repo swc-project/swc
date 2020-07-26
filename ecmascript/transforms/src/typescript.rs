@@ -722,8 +722,12 @@ impl Fold for Strip {
             | ClassMember::Method(ClassMethod {
                 function: Function { body: None, .. },
                 ..
-            })
-            | ClassMember::ClassProp(ClassProp { value: None, .. }) => None,
+            }) => None,
+            ClassMember::ClassProp(ClassProp {
+                value: None,
+                ref decorators,
+                ..
+            }) if decorators.is_empty() => None,
 
             _ => Some(member),
         })

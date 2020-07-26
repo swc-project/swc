@@ -5,11 +5,19 @@ use swc_ecma_transforms::{
     compat::{es2015::classes::Classes, es2020::class_properties},
     proposals::{decorators, decorators::Config},
     resolver, typescript,
+    typescript::strip,
 };
 use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
+
+fn ts() -> Syntax {
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    })
+}
 
 fn syntax(decorators_before_export: bool) -> Syntax {
     Syntax::Es(EsConfig {
@@ -24,9 +32,20 @@ fn tr() -> impl Fold {
     chain!(decorators(Default::default()), class_properties(),)
 }
 
+fn ts_transform() -> impl Fold {
+    chain!(
+        strip(),
+        decorators(Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+    )
+}
+
 /// Folder for `transformation_*` tests
 fn transformation() -> impl Fold {
-    chain!(decorators(Default::default()), class_properties(),)
+    chain!(strip(), decorators(Default::default()), class_properties(),)
 }
 
 // transformation_declaration
@@ -4328,4 +4347,228 @@ let Person = ((_class = function() {
 ], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();"
+);
+
+test!(
+    ts(),
+    |_| ts_transform(),
+    issue_862_1,
+    "
+ @Entity()
+export class Product extends TimestampedEntity {
+  @PrimaryGeneratedColumn('uuid')
+  public id!: string;
+
+  @Column()
+  public price!: number;
+
+  @Column({ enum: ProductType })
+  public type!: ProductType;
+
+  @Column()
+  public productEntityId!: string;
+
+  /* ANCHOR: Relations ------------------------------------------------------ */
+  @OneToMany(() => Order, (order) => order.product)
+  public orders!: Order[];
+
+  @OneToMany(() => Discount, (discount) => discount.product)
+  public discounts!: Discount[];
+}   
+",
+    "var _class, _descriptor, _descriptor1, _descriptor2, _descriptor3, _descriptor4, \
+     _descriptor5;
+var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Column(), _dec2 = Column({
+    enum: ProductType
+}), _dec3 = Column(), _dec4 = OneToMany(()=>Order
+, (order)=>order.product
+), _dec5 = OneToMany(()=>Discount
+, (discount)=>discount.product
+), _dec6 = Entity();
+export let Product = _dec6(((_class = function() {
+    class Product extends TimestampedEntity {
+        constructor(...args){
+            super(...args);
+            _initializerDefineProperty(this, 'id', _descriptor, this);
+            _initializerDefineProperty(this, 'price', _descriptor1, this);
+            _initializerDefineProperty(this, 'type', _descriptor2, this);
+            _initializerDefineProperty(this, 'productEntityId', _descriptor3, this);
+            _initializerDefineProperty(this, 'orders', _descriptor4, this);
+            _initializerDefineProperty(this, 'discounts', _descriptor5, this);
+        }
+    }
+    return Product;
+}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
+    _dec
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'price', [
+    _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'type', [
+    _dec2
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'productEntityId', [
+    _dec3
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'orders', [
+    _dec4
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'discounts', [
+    _dec5
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _class));
+"
+);
+
+test!(
+    ts(),
+    |_| ts_transform(),
+    issue_862_2,
+    "@Entity()
+export class Product extends TimestampedEntity {
+  @PrimaryGeneratedColumn('uuid')
+  public id!: string;
+}
+",
+    "var _class, _descriptor;
+var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Entity();
+export let Product = _dec1(((_class = function() {
+    class Product extends TimestampedEntity {
+        constructor(...args){
+            super(...args);
+            _initializerDefineProperty(this, 'id', _descriptor, this);
+        }
+    }
+    return Product;
+}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
+    _dec
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return;
+    }
+}), _class));
+"
+);
+
+test_exec!(
+    ts(),
+    |_| ts_transform(),
+    issue_862_3,
+    "var log: number[] = [];
+function push(x: number) { log.push(x); return x; }
+
+function saveOrder(x: number) {
+    return function (el: any) {
+        log.push(x);
+        return el;
+    };
+}
+
+@saveOrder(1)
+class Product {
+    @saveOrder(0)
+    public id!: string;
+}
+
+var nums = Array.from({ length: 2 }, (_, i) => i);
+expect(log).toEqual(nums)"
+);
+
+test!(
+    ts(),
+    |_| ts_transform(),
+    issue_863_1,
+    "class ProductController {
+  @bar()
+  findById(
+    @foo()
+    id: number
+  ) {
+    // ...
+  }
+}",
+    " var _class, _dec;
+let ProductController = ((_class = function() {
+    class ProductController {
+        findById(id) {
+        }
+    }
+    return ProductController;
+}()) || _class, foo()(_class.prototype, 'findById', 0), _dec = bar(), \
+     _applyDecoratedDescriptor(_class.prototype, 'findById', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'findById'), _class.prototype), _class);"
+);
+
+test_exec!(
+    ts(),
+    |_| ts_transform(),
+    issue_863_2,
+    "const logs: number[] = [];
+
+function foo() {
+  return function (target: any, member: any, ix: any) {
+    logs.push(0);
+  };
+}
+function bar() {
+  return function (target: any, member: any, ix: any) {
+    logs.push(1);
+  };
+}
+
+class ProductController {
+  findById(
+    @foo()
+    @bar()
+    id: number
+  ) {
+    // ...
+  }
+}
+
+expect(logs).toEqual([0, 1])
+
+const c = new ProductController();
+c.findById(100);
+"
 );
