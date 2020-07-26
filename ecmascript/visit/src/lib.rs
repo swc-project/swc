@@ -142,6 +142,7 @@ define!({
         pub is_abstract: bool,
         pub is_optional: bool,
         pub readonly: bool,
+        pub declare: bool,
         pub definite: bool,
     }
     pub struct PrivateProp {

@@ -63,53 +63,90 @@ pub enum ClassMember {
     Empty(EmptyStmt),
 }
 
-macro_rules! property {
-    ($name:ident, $ty:literal, $KEY:ty) => {
-        #[ast_node($ty)]
-        #[derive(Eq, Hash)]
-        pub struct $name {
-            #[serde(default)]
-            pub span: Span,
+#[ast_node("ClassProperty")]
+#[derive(Eq, Hash)]
+pub struct ClassProp {
+    #[serde(default)]
+    pub span: Span,
 
-            pub key: $KEY,
+    pub key: Box<Expr>,
 
-            #[serde(default)]
-            pub value: Option<Box<Expr>>,
+    #[serde(default)]
+    pub value: Option<Box<Expr>>,
 
-            #[serde(default, rename = "typeAnnotation")]
-            pub type_ann: Option<TsTypeAnn>,
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<TsTypeAnn>,
 
-            #[serde(default)]
-            pub is_static: bool,
+    #[serde(default)]
+    pub is_static: bool,
 
-            #[serde(default)]
-            pub decorators: Vec<Decorator>,
+    #[serde(default)]
+    pub decorators: Vec<Decorator>,
 
-            #[serde(default)]
-            pub computed: bool,
+    #[serde(default)]
+    pub computed: bool,
 
-            /// Typescript extension.
-            #[serde(default)]
-            pub accessibility: Option<Accessibility>,
+    /// Typescript extension.
+    #[serde(default)]
+    pub accessibility: Option<Accessibility>,
 
-            /// Typescript extension.
-            #[serde(default)]
-            pub is_abstract: bool,
+    /// Typescript extension.
+    #[serde(default)]
+    pub is_abstract: bool,
 
-            #[serde(default)]
-            pub is_optional: bool,
+    #[serde(default)]
+    pub is_optional: bool,
 
-            #[serde(default)]
-            pub readonly: bool,
+    #[serde(default)]
+    pub readonly: bool,
 
-            #[serde(default)]
-            pub definite: bool,
-        }
-    };
+    #[serde(default)]
+    pub declare: bool,
+
+    #[serde(default)]
+    pub definite: bool,
 }
 
-property!(ClassProp, "ClassProperty", Box<Expr>);
-property!(PrivateProp, "PrivateProperty", PrivateName);
+#[ast_node("PrivateProperty")]
+#[derive(Eq, Hash)]
+pub struct PrivateProp {
+    #[serde(default)]
+    pub span: Span,
+
+    pub key: PrivateName,
+
+    #[serde(default)]
+    pub value: Option<Box<Expr>>,
+
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<TsTypeAnn>,
+
+    #[serde(default)]
+    pub is_static: bool,
+
+    #[serde(default)]
+    pub decorators: Vec<Decorator>,
+
+    #[serde(default)]
+    pub computed: bool,
+
+    /// Typescript extension.
+    #[serde(default)]
+    pub accessibility: Option<Accessibility>,
+
+    /// Typescript extension.
+    #[serde(default)]
+    pub is_abstract: bool,
+
+    #[serde(default)]
+    pub is_optional: bool,
+
+    #[serde(default)]
+    pub readonly: bool,
+
+    #[serde(default)]
+    pub definite: bool,
+}
 
 macro_rules! method {
     ($name:ident, $ty:literal, $KEY:ty) => {

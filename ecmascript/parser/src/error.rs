@@ -126,6 +126,7 @@ pub enum SyntaxError {
 
     AsyncConstructor,
     PropertyNamedConstructor,
+    DeclarePrivateIdentifier,
     ClassProperty,
     ReadOnlyMethod,
     TsBindingPatCannotBeOptional,
@@ -306,6 +307,9 @@ impl Error {
             AsyncConstructor => "Constructor can't be an async function".into(),
             PropertyNamedConstructor => {
                 "Classes may not have a non-static field named 'constructor'".into()
+            }
+            DeclarePrivateIdentifier => {
+                "'declare' modifier cannot be used with a private identifier".into()
             }
             ClassProperty => "Class property requires `jsc.parser.classProperty` to be true".into(),
             ReadOnlyMethod => "A method cannot be readonly".into(),

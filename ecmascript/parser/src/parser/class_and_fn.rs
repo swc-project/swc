@@ -301,14 +301,14 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_class_member(&mut self) -> PResult<ClassMember> {
         let start = cur_pos!();
         let decorators = self.parse_decorators(false)?;
+        let declare = self.syntax().typescript() && eat!("declare");
+        let accessibility = if self.input.syntax().typescript() {
+            self.parse_access_modifier()?
+        } else {
+            None
+        };
 
-        if self.syntax().typescript() && eat!("declare") {
-            let accessibility = if self.input.syntax().typescript() {
-                self.parse_access_modifier()?
-            } else {
-                None
-            };
-
+        if declare && accessibility.is_none() {
             // Handle declare(){}
             if self.is_class_method()? {
                 let key = Either::Right(PropName::Ident(Ident::new(
@@ -348,17 +348,12 @@ impl<'a, I: Tokens> Parser<I> {
                     is_optional,
                     false,
                     false,
+                    false,
                 );
             } else {
                 self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1031);
             }
         }
-
-        let accessibility = if self.input.syntax().typescript() {
-            self.parse_access_modifier()?
-        } else {
-            None
-        };
 
         let static_token = {
             let start = cur_pos!();
@@ -408,6 +403,7 @@ impl<'a, I: Tokens> Parser<I> {
                     false,
                     is_optional,
                     false,
+                    declare,
                     false,
                 );
             } else {
@@ -415,13 +411,20 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        self.parse_class_member_with_is_static(start, accessibility, static_token, decorators)
+        self.parse_class_member_with_is_static(
+            start,
+            declare,
+            accessibility,
+            static_token,
+            decorators,
+        )
     }
 
     #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
         start: BytePos,
+        declare: bool,
         accessibility: Option<Accessibility>,
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
@@ -602,6 +605,7 @@ impl<'a, I: Tokens> Parser<I> {
                 is_static,
                 is_optional,
                 readonly,
+                declare,
                 is_abstract,
             );
         }
@@ -727,6 +731,7 @@ impl<'a, I: Tokens> Parser<I> {
         is_static: bool,
         is_optional: bool,
         readonly: bool,
+        declare: bool,
         is_abstract: bool,
     ) -> PResult<ClassMember> {
         if !self.input.syntax().class_props() {
@@ -735,6 +740,9 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is_constructor(&key) {
             syntax_error!(key.span(), SyntaxError::PropertyNamedConstructor);
+        }
+        if declare && key.is_left() {
+            syntax_error!(key.span(), SyntaxError::DeclarePrivateIdentifier);
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!('!');
 
@@ -795,6 +803,7 @@ impl<'a, I: Tokens> Parser<I> {
                     is_abstract,
                     is_optional,
                     readonly,
+                    declare,
                     definite,
                     type_ann,
                 }
