@@ -646,16 +646,20 @@ impl Legacy {
         expr
     }
 
+    /// Apply class decorators.
     fn apply(&mut self, mut expr: Box<Expr>, decorators: Vec<Decorator>) -> Box<Expr> {
         for dec in decorators.into_iter().rev() {
             let (i, aliased) = alias_if_required(&dec.expr, "_dec");
             if aliased {
-                self.initialized_vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(i.clone()),
-                    init: Some(dec.expr),
-                    definite: false,
-                });
+                self.initialized_vars.insert(
+                    0,
+                    VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(i.clone()),
+                        init: Some(dec.expr),
+                        definite: false,
+                    },
+                );
             }
 
             expr = Box::new(Expr::Call(CallExpr {
