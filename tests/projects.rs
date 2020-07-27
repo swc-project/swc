@@ -540,7 +540,7 @@ fn issue_879() {
     .unwrap();
     println!("{}", f);
 
-    assert!(f.find("function X"), "swc should compile class");
+    assert!(f.find("function X").is_some(), "swc should compile class");
     assert_eq!(
         f.find("function X"),
         f.rfind("function X"),
