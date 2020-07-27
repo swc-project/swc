@@ -3,6 +3,7 @@ use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     compat::{es2015::classes::Classes, es2020::class_properties},
+    optimization::simplify::inlining,
     proposals::{decorators, decorators::Config},
     resolver, typescript,
     typescript::strip,
@@ -4571,4 +4572,23 @@ expect(logs).toEqual([0, 1])
 const c = new ProductController();
 c.findById(100);
 "
+);
+
+test!(
+    ts(),
+    |_| chain!(
+        strip(),
+        inlining::inlining(inlining::Config {}),
+        decorators(Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+    ),
+    issue_879_1,
+    "export default class X {
+    @networked
+    prop: string = '';
+}",
+    ""
 );
