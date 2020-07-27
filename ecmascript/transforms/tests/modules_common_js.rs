@@ -1,5 +1,6 @@
 #![feature(test)]
 use swc_common::{chain, Mark};
+use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{
     compat,
     compat::es2020::class_properties,
@@ -20,8 +21,13 @@ use swc_ecma_visit::Fold;
 #[macro_use]
 mod common;
 
-fn syntax() -> ::swc_ecma_parser::Syntax {
+fn syntax() -> Syntax {
     Default::default()
+}
+fn ts_syntax() -> Syntax {
+    Syntax::Typescript(TsConfig {
+        ..Default::default()
+    })
 }
 
 fn tr(config: Config) -> impl Fold {
@@ -4152,4 +4158,30 @@ const resources = [
           label: 'Instagram'
       }
   ];"
+);
+
+test!(
+    ts_syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_895,
+    "import { queryString } from './url'
+
+export function setup(url: string, obj: any) {
+  const _queryString = queryString(obj)
+  const _url = url + '?' + _queryString
+  return _url
+}",
+    "'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.setup = setup;
+var _url = require('./url');
+function setup(url: string, obj: any) {
+    const _queryString = _url.queryString(obj);
+    const _url1 = url + '?' + _queryString;
+    return _url1;
+}"
 );
