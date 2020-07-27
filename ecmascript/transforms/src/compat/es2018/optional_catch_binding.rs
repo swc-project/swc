@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 struct OptionalCatchBinding;
 
@@ -10,7 +10,9 @@ pub fn optional_catch_binding() -> impl Fold {
 }
 
 impl Fold for OptionalCatchBinding {
-    fn fold_catch_clause(&mut self, cc: CatchClause) -> CatchClause {
+    fn fold_catch_clause(&mut self, mut cc: CatchClause) -> CatchClause {
+        cc = cc.fold_children_with(self);
+
         if cc.param.is_some() {
             return cc;
         }
