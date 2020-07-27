@@ -29,9 +29,7 @@ mod macros;
 pub mod constructor;
 mod factory;
 pub mod ident;
-pub mod load;
 pub mod options;
-pub mod resolve;
 mod value;
 pub mod var;
 
