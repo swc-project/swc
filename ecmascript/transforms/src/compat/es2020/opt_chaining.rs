@@ -200,6 +200,7 @@ impl OptChaining {
                 span: m_span,
             }) if obj.is_opt_chain() => {
                 let obj = obj.opt_chain().unwrap();
+                let question_dot_token = obj.question_dot_token;
 
                 let obj_span = obj.span;
                 let obj = self.unwrap(obj);
@@ -212,6 +213,7 @@ impl OptChaining {
                 }));
                 let alt = Box::new(Expr::OptChain(OptChainExpr {
                     span: obj_span,
+                    question_dot_token,
                     expr: alt,
                 }));
 
@@ -225,6 +227,8 @@ impl OptChaining {
                 type_args,
             }) if callee.is_opt_chain() => {
                 let callee = callee.opt_chain().unwrap();
+                let question_dot_token = callee.question_dot_token;
+
                 let obj = self.unwrap(callee);
 
                 let alt = Box::new(Expr::Call(CallExpr {
@@ -233,7 +237,11 @@ impl OptChaining {
                     args,
                     type_args,
                 }));
-                let alt = Box::new(Expr::OptChain(OptChainExpr { span, expr: alt }));
+                let alt = Box::new(Expr::OptChain(OptChainExpr {
+                    span,
+                    question_dot_token,
+                    expr: alt,
+                }));
 
                 return validate!(CondExpr {
                     span: DUMMY_SP,

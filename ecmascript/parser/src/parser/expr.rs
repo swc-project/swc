@@ -946,15 +946,22 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let is_optional_chaining =
-            self.input.syntax().optional_chaining() && is!('?') && peeked_is!('.') && eat!('?');
+        let question_dot_token =
+            if self.input.syntax().optional_chaining() && is!('?') && peeked_is!('.') {
+                let start = cur_pos!();
+                eat!('?');
+                Some(span!(start))
+            } else {
+                None
+            };
 
         /// Wrap with optional chaining
         macro_rules! wrap {
             ($e:expr) => {{
-                if is_optional_chaining {
+                if let Some(question_dot_token) = question_dot_token {
                     Expr::OptChain(OptChainExpr {
                         span: span!(self, start),
+                        question_dot_token,
                         expr: Box::new($e),
                     })
                 } else {
@@ -964,7 +971,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // $obj[name()]
-        if (is_optional_chaining && is!('.') && peeked_is!('[') && eat!('.') && eat!('['))
+        if (question_dot_token.is_some() && is!('.') && peeked_is!('[') && eat!('.') && eat!('['))
             || eat!('[')
         {
             let prop = self.include_in_expr(true).parse_expr()?;
@@ -983,7 +990,7 @@ impl<'a, I: Tokens> Parser<I> {
             ));
         }
 
-        if (is_optional_chaining && is!('.') && peeked_is!('(') && eat!('.'))
+        if (question_dot_token.is_some() && is!('.') && peeked_is!('(') && eat!('.'))
             || (!no_call && (is!('(')))
         {
             let args = self.parse_args(is_import(&obj))?;

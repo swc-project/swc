@@ -1,0 +1,137 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 53,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 53,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 53,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 7,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 10,
+              "end": 53,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "MethodProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 16,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "params": [],
+                "decorators": [],
+                "span": {
+                  "start": 16,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 19,
+                    "end": 51,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ReturnStatement",
+                      "span": {
+                        "start": 29,
+                        "end": 45,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "OptionalChainingExpression",
+                        "span": {
+                          "start": 36,
+                          "end": 44,
+                          "ctxt": 0
+                        },
+                        "questionDotToken": {
+                          "start": 41,
+                          "end": 42,
+                          "ctxt": 0
+                        },
+                        "expr": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 36,
+                            "end": 44,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "Super",
+                            "span": {
+                              "start": 36,
+                              "end": 41,
+                              "ctxt": 0
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 43,
+                              "end": 44,
+                              "ctxt": 0
+                            },
+                            "value": "c",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "computed": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
