@@ -474,6 +474,15 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        let local = s.local.fold_with(self);
+        self.ident_type = old;
+
+        ImportNamedSpecifier { local, ..s }
+    }
+
     fn fold_method_prop(&mut self, m: MethodProp) -> MethodProp {
         let key = m.key.fold_with(self);
 
