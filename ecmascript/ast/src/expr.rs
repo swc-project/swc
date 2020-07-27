@@ -577,6 +577,7 @@ impl From<Str> for Expr {
 #[derive(Eq, Hash)]
 pub struct OptChainExpr {
     pub span: Span,
+    pub question_dot_token: Span,
     pub expr: Box<Expr>,
 }
 
