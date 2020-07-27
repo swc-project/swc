@@ -4590,5 +4590,24 @@ test!(
     @networked
     prop: string = '';
 }",
-    ""
+    "var _class, _descriptor;
+let X = ((_class = function() {
+    class X {
+        constructor(){
+            _initializerDefineProperty(this, 'prop', _descriptor, this);
+        }
+    }
+    return X;
+}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'prop', [
+    networked
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return '';
+    }
+}), _class);
+export { X as default };
+"
 );
