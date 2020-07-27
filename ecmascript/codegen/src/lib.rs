@@ -896,10 +896,7 @@ impl<'a> Emitter<'a> {
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators);
 
-        if let Some(a) = n.accessibility {
-            emit!(a);
-            space!();
-        }
+        self.emit_accesibility(n.accessibility)?;
 
         if n.readonly {
             keyword!("readonly");
