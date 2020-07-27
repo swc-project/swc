@@ -547,3 +547,16 @@ fn issue_879() {
         "swc should not emit `function X` twice"
     );
 }
+
+#[test]
+fn issue_895() {
+    let f = file("tests/projects/issue-895/input.ts").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("_url ="));
+    assert!(f.contains("_url.queryString"));
+    let s = f.replace("_url =", "").replace("_url.queryString", "");
+
+    assert!(!s.contains("_url."));
+    assert!(!s.contains("_url,"));
+}
