@@ -894,7 +894,7 @@ impl<'a> Emitter<'a> {
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators);
+        self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
         self.emit_accesibility(n.accessibility)?;
 
