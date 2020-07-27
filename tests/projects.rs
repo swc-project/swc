@@ -1,10 +1,13 @@
 use rayon::prelude::*;
 use std::{path::Path, sync::Arc};
 use swc::{
-    config::{Config, Options, SourceMapsConfig},
+    config::{Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig},
     Compiler,
 };
-use swc_ecmascript::preset_env;
+use swc_ecmascript::{
+    parser::{Syntax, TsConfig},
+    preset_env,
+};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -39,7 +42,7 @@ fn file_with_opt(f: &str, options: Options) -> Result<NormalizedOutput, StdErr> 
                     Ok(v.code.into())
                 }
             }
-            Err(err) => panic!("Error: {}", err),
+            Err(err) => panic!("Error: {:?}", err),
         }
     })
 }
@@ -506,4 +509,41 @@ fn issue_801() {
 #[test]
 fn concurrency() {
     par_project("tests/deno-unit");
+}
+
+#[test]
+fn issue_879() {
+    let f = file_with_opt(
+        "tests/projects/issue-879/input.ts",
+        Options {
+            is_module: true,
+            config: Some(Config {
+                env: Some(Default::default()),
+                module: Some(ModuleConfig::CommonJs(Default::default())),
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        decorators: true,
+                        ..Default::default()
+                    })),
+                    transform: Some(TransformConfig {
+                        legacy_decorator: true,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", f);
+
+    assert!(f.find("function X").is_some(), "swc should compile class");
+    assert_eq!(
+        f.find("function X"),
+        f.rfind("function X"),
+        "swc should not emit `function X` twice"
+    );
 }

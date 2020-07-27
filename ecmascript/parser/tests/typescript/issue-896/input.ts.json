@@ -1,0 +1,29 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 14,
+    "end": 45,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportAllDeclaration",
+      "span": {
+        "start": 14,
+        "end": 45,
+        "ctxt": 0
+      },
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 33,
+          "end": 45,
+          "ctxt": 0
+        },
+        "value": "../typings",
+        "hasEscape": false
+      }
+    }
+  ],
+  "interpreter": null
+}

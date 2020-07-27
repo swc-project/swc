@@ -236,6 +236,8 @@ impl<'a, I: Tokens> Parser<I> {
         let mut export_ns = None;
         let ns_export_specifier_start = cur_pos!();
 
+        let type_only = self.input.syntax().typescript() && eat!("type");
+
         if eat!('*') {
             has_star = true;
             if is!("from") {
@@ -258,8 +260,6 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
             }
         }
-
-        let type_only = self.input.syntax().typescript() && eat!("type");
 
         // Some("default") if default is exported from 'src'
         let mut export_default = None;

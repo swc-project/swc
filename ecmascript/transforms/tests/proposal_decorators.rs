@@ -3,6 +3,7 @@ use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     compat::{es2015::classes::Classes, es2020::class_properties},
+    optimization::simplify::inlining,
     proposals::{decorators, decorators::Config},
     resolver, typescript,
     typescript::strip,
@@ -4570,5 +4571,43 @@ expect(logs).toEqual([0, 1])
 
 const c = new ProductController();
 c.findById(100);
+"
+);
+
+test!(
+    ts(),
+    |_| chain!(
+        strip(),
+        inlining::inlining(inlining::Config {}),
+        decorators(Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+    ),
+    issue_879_1,
+    "export default class X {
+    @networked
+    prop: string = '';
+}",
+    "var _class, _descriptor;
+let X = ((_class = function() {
+    class X {
+        constructor(){
+            _initializerDefineProperty(this, 'prop', _descriptor, this);
+        }
+    }
+    return X;
+}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'prop', [
+    networked
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return '';
+    }
+}), _class);
+export { X as default };
 "
 );
