@@ -1986,7 +1986,7 @@ impl<'a> Emitter<'a> {
         keyword!("catch");
         formatting_space!();
 
-        if let Some(param) = node.param {
+        if let Some(param) = &node.param {
             punct!("(");
             emit!(param);
             punct!(")");
