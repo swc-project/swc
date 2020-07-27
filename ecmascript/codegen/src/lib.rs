@@ -894,7 +894,31 @@ impl<'a> Emitter<'a> {
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_private_prop")
+        self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators);
+
+        if let Some(a) = n.accessibility {
+            emit!(a);
+            space!();
+        }
+
+        if n.readonly {
+            keyword!("readonly");
+            space!();
+        }
+
+        emit!(n.key);
+        if let Some(type_ann) = &n.type_ann {
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
+
+        if let Some(value) = &n.value {
+            punct!("=");
+            emit!(value);
+        }
+
+        semi!();
     }
 
     #[emitter]
