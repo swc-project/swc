@@ -1,0 +1,421 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 97,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 11,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 0,
+          "end": 11,
+          "ctxt": 0
+        },
+        "questionDotToken": {
+          "start": 3,
+          "end": 4,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 0,
+            "end": 11,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 0,
+              "end": 3,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": "expr",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": true
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 13,
+        "end": 33,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 13,
+          "end": 33,
+          "ctxt": 0
+        },
+        "questionDotToken": {
+          "start": 24,
+          "end": 25,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 13,
+            "end": 33,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 13,
+              "end": 24,
+              "ctxt": 0
+            },
+            "questionDotToken": {
+              "start": 16,
+              "end": 17,
+              "ctxt": 0
+            },
+            "expr": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 13,
+                "end": 24,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 13,
+                  "end": 16,
+                  "ctxt": 0
+                },
+                "value": "obj",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 19,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "value": "expr",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": true
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 27,
+              "end": 32,
+              "ctxt": 0
+            },
+            "value": "other",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": true
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 35,
+        "end": 46,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 35,
+          "end": 46,
+          "ctxt": 0
+        },
+        "questionDotToken": {
+          "start": 38,
+          "end": 39,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 35,
+            "end": 46,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 35,
+              "end": 38,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 41,
+              "end": 45,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "computed": true
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 48,
+        "end": 67,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 48,
+          "end": 67,
+          "ctxt": 0
+        },
+        "questionDotToken": {
+          "start": 59,
+          "end": 60,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 48,
+            "end": 67,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 48,
+              "end": 59,
+              "ctxt": 0
+            },
+            "questionDotToken": {
+              "start": 51,
+              "end": 52,
+              "ctxt": 0
+            },
+            "expr": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 48,
+                "end": 59,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 48,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "value": "obj",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 54,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "computed": true
+            }
+          },
+          "property": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 62,
+              "end": 66,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "computed": true
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 69,
+        "end": 82,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 69,
+          "end": 82,
+          "ctxt": 0
+        },
+        "questionDotToken": {
+          "start": 74,
+          "end": 75,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 69,
+            "end": 82,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 69,
+              "end": 74,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 69,
+                "end": 72,
+                "ctxt": 0
+              },
+              "value": "obj",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 73,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": "a",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 77,
+              "end": 81,
+              "ctxt": 0
+            },
+            "value": "expr",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": true
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 84,
+        "end": 97,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 84,
+          "end": 97,
+          "ctxt": 0
+        },
+        "questionDotToken": {
+          "start": 89,
+          "end": 90,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 84,
+            "end": 97,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 84,
+              "end": 89,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 84,
+                "end": 87,
+                "ctxt": 0
+              },
+              "value": "obj",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 88,
+                "end": 89,
+                "ctxt": 0
+              },
+              "value": "a",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          },
+          "property": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 92,
+              "end": 96,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "computed": true
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

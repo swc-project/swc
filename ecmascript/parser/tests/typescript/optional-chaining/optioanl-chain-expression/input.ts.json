@@ -1,0 +1,93 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 8,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 8,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 0,
+          "end": 8,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "OptionalChainingExpression",
+          "span": {
+            "start": 0,
+            "end": 6,
+            "ctxt": 0
+          },
+          "questionDotToken": {
+            "start": 3,
+            "end": 4,
+            "ctxt": 0
+          },
+          "expr": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 0,
+              "end": 6,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 0,
+                "end": 3,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 0,
+                  "end": 1,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 5,
+                "end": 6,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          }
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}
