@@ -1,8 +1,8 @@
 function foo() {
-    console.log('a()');
+    console.log("a()");
 }
 function bar() {
-    console.log('a()');
+    console.log("a()");
 }
 function a() {
 }
