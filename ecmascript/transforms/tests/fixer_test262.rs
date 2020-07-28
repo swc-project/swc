@@ -11,7 +11,7 @@ use std::{
 use swc_common::comments::Comments;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::fixer;
 use swc_ecma_utils::{DropSpan, COMMENTS};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -170,7 +170,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                         let handlers = Box::new(MyHandlers);
                         let handlers2 = Box::new(MyHandlers);
-                        let mut parser: Parser<Lexer<SourceFileInput>> =
+                        let mut parser: Parser<Lexer<StringInput>> =
                             Parser::new(Syntax::default(), (&*src).into(), None);
 
                         {
@@ -198,7 +198,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                             // Parse source
 
-                            let mut e_parser: Parser<Lexer<SourceFileInput>> =
+                            let mut e_parser: Parser<Lexer<StringInput>> =
                                 Parser::new(Syntax::default(), (&*expected).into(), None);
 
                             if module {

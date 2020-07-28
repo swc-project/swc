@@ -14,7 +14,7 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
-use swc_common::{input::SourceFileInput, FromVariant, Mark};
+use swc_common::{input::StringInput, FromVariant, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
@@ -230,7 +230,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     dynamic_import: true,
                     ..Default::default()
                 }),
-                SourceFileInput::from(&*fm),
+                StringInput::from(&*fm),
                 None,
             );
 
@@ -267,7 +267,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                         dynamic_import: true,
                         ..Default::default()
                     }),
-                    SourceFileInput::from(&*fm),
+                    StringInput::from(&*fm),
                     None,
                 );
 

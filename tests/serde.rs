@@ -4,13 +4,13 @@ use swc::{
         ast::Module,
         parser::{lexer::Lexer, PResult, Parser, Syntax},
     },
-    SourceFileInput,
+    StringInput,
 };
 use testing::NormalizedOutput;
 
 fn with_parser<F, Ret>(file_name: &str, f: F) -> Result<Ret, NormalizedOutput>
 where
-    F: FnOnce(&mut Parser<Lexer<SourceFileInput>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer<StringInput>>) -> PResult<Ret>,
 {
     let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm

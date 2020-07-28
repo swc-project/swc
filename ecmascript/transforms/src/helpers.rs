@@ -3,7 +3,7 @@ use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::{options::CM, prepend_stmts, quote_ident, quote_str, DropSpan};
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -25,7 +25,7 @@ macro_rules! add_to {
             let lexer = Lexer::new(
                 Default::default(),
                 Default::default(),
-                SourceFileInput::from(&*fm),
+                StringInput::from(&*fm),
                 None,
             );
             let stmts = Parser::new_from(lexer)

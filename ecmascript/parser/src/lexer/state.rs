@@ -619,7 +619,7 @@ pub(crate) fn with_lexer<F, Ret>(
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&mut Lexer<'_, crate::lexer::input::SourceFileInput<'_>>) -> Result<Ret, ()>,
+    F: FnOnce(&mut Lexer<'_, crate::lexer::input::StringInput<'_>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |handler, fm| {
         let mut l = Lexer::new(syntax, Default::default(), fm, None);

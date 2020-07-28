@@ -17,7 +17,7 @@ use swc_common::{errors::Handler, FileName, Mark, SourceMap};
 pub use swc_ecmascript::parser::JscTarget;
 use swc_ecmascript::{
     ast::{Expr, ExprStmt, ModuleItem, Stmt},
-    parser::{lexer::Lexer, Parser, SourceFileInput, Syntax, TsConfig},
+    parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig},
     preset_env,
     transforms::{
         const_modules, modules,
@@ -640,7 +640,7 @@ impl GlobalPassOption {
                 let lexer = Lexer::new(
                     Syntax::Es(Default::default()),
                     Default::default(),
-                    SourceFileInput::from(&*fm),
+                    StringInput::from(&*fm),
                     None,
                 );
 

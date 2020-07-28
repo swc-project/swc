@@ -14,7 +14,7 @@ use common::{
     errors::Handler,
     BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
 };
-pub use ecmascript::parser::SourceFileInput;
+pub use ecmascript::parser::StringInput;
 use ecmascript::{
     ast::Program,
     codegen::{self, Emitter, Node},
@@ -151,7 +151,7 @@ impl Compiler {
             let lexer = Lexer::new(
                 syntax,
                 target,
-                SourceFileInput::from(&*fm),
+                StringInput::from(&*fm),
                 if parse_comments {
                     Some(&self.comments)
                 } else {

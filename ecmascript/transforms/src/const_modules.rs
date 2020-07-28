@@ -5,7 +5,7 @@ use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -41,7 +41,7 @@ fn parse_option(name: &str, src: String) -> Arc<Expr> {
     let lexer = Lexer::new(
         Default::default(),
         Default::default(),
-        SourceFileInput::from(&*fm),
+        StringInput::from(&*fm),
         None,
     );
     let expr = Parser::new_from(lexer)

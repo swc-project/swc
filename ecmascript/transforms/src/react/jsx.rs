@@ -7,7 +7,7 @@ use std::{iter, mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, FileName, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
@@ -63,7 +63,7 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
         return expr.clone();
     }
 
-    let expr = Parser::new(Syntax::default(), SourceFileInput::from(&*fm), None)
+    let expr = Parser::new(Syntax::default(), StringInput::from(&*fm), None)
         .parse_expr()
         .map_err(|e| {
             if HANDLER.is_set() {

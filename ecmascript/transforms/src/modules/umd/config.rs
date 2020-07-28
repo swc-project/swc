@@ -5,7 +5,7 @@ use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::Expr;
-use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::HANDLER;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -33,7 +33,7 @@ impl Config {
                         let lexer = Lexer::new(
                             Syntax::default(),
                             Default::default(),
-                            SourceFileInput::from(&*fm),
+                            StringInput::from(&*fm),
                             None,
                         );
                         Parser::new_from(lexer)

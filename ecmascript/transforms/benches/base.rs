@@ -3,7 +3,7 @@ extern crate test;
 
 use swc_common::{FileName, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{pass::noop, util::ExprFactory};
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use test::Bencher;
@@ -88,7 +88,7 @@ fn module_clone(b: &mut Bencher) {
         let lexer = Lexer::new(
             Syntax::default(),
             Default::default(),
-            SourceFileInput::from(&*fm),
+            StringInput::from(&*fm),
             None,
         );
         let mut parser = Parser::new_from(lexer);
@@ -117,7 +117,7 @@ fn fold_empty(b: &mut Bencher) {
         let lexer = Lexer::new(
             Syntax::default(),
             Default::default(),
-            SourceFileInput::from(&*fm),
+            StringInput::from(&*fm),
             None,
         );
         let mut parser = Parser::new_from(lexer);
@@ -150,7 +150,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
         let lexer = Lexer::new(
             Syntax::default(),
             Default::default(),
-            SourceFileInput::from(&*fm),
+            StringInput::from(&*fm),
             None,
         );
         let mut parser = Parser::new_from(lexer);
@@ -180,7 +180,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
         let lexer = Lexer::new(
             Syntax::default(),
             Default::default(),
-            SourceFileInput::from(&*fm),
+            StringInput::from(&*fm),
             None,
         );
         let mut parser = Parser::new_from(lexer);
@@ -262,7 +262,7 @@ fn visit_empty(b: &mut Bencher) {
         let lexer = Lexer::new(
             Syntax::default(),
             Default::default(),
-            SourceFileInput::from(&*fm),
+            StringInput::from(&*fm),
             None,
         );
         let mut parser = Parser::new_from(lexer);
@@ -304,7 +304,7 @@ fn visit_contains_this(b: &mut Bencher) {
         let lexer = Lexer::new(
             Syntax::default(),
             Default::default(),
-            SourceFileInput::from(&*fm),
+            StringInput::from(&*fm),
             None,
         );
         let mut parser = Parser::new_from(lexer);

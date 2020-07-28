@@ -436,13 +436,13 @@ fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static
 
 #[cfg(test)]
 mod tests {
-    use super::{input::SourceFileInput, *};
+    use super::{input::StringInput, *};
     use crate::EsConfig;
     use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<'_, SourceFileInput<'_>>) -> Ret,
+        F: FnOnce(&mut Lexer<'_, StringInput<'_>>) -> Ret,
     {
         crate::with_test_sess(s, |handler, fm| {
             let mut l = Lexer::new(

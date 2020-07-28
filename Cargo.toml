@@ -16,7 +16,7 @@ name = "swc"
 
 [dependencies]
 swc_atoms = { path ="./atoms" }
-swc_common = { path ="./common" }
+swc_common = { path ="./common", features = ["sourcemap"] }
 swc_ecmascript = { path ="./ecmascript" }
 swc_visit = { path ="./visit" }
 anyhow = "1"

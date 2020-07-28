@@ -176,7 +176,7 @@ impl<I: Tokens> Parser<I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer<crate::SourceFileInput<'_>>>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
         let lexer = Lexer::new(syntax, JscTarget::Es2019, input, None);
@@ -195,7 +195,7 @@ where
 #[cfg(test)]
 pub fn test_parser_comment<F, Ret>(c: &Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer<crate::SourceFileInput<'_>>>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
         let lexer = Lexer::new(syntax, JscTarget::Es2019, input, Some(&c));
@@ -214,7 +214,7 @@ where
 #[cfg(test)]
 pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
 where
-    F: for<'a> FnMut(&'a mut Parser<Lexer<'a, crate::SourceFileInput<'_>>>) -> PResult<()>,
+    F: for<'a> FnMut(&'a mut Parser<Lexer<'a, crate::StringInput<'_>>>) -> PResult<()>,
 {
     b.bytes = s.len() as u64;
 
