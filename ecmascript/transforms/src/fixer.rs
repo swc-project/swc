@@ -584,7 +584,6 @@ impl Fold for Fixer {
         let n = n.fold_children_with(self);
         COMMENTS.with(|c| {
             for (to, from) in self.span_map.drain() {
-                let (from, to) = (from.data(), to.data());
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }
@@ -600,7 +599,6 @@ impl Fold for Fixer {
         let n = n.fold_children_with(self);
         COMMENTS.with(|c| {
             for (to, from) in self.span_map.drain() {
-                let (from, to) = (from.data(), to.data());
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }

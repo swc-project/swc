@@ -1463,10 +1463,9 @@ impl Fold for InvalidToLit<'_> {
         match e {
             Expr::Invalid(Invalid { span }) => {
                 //
-                let data = span.data();
-                if data.lo == data.hi {
+                if span.lo == span.hi {
                     if let Some(Loc { stmt_index, .. }) =
-                        self.map.iter().find(|loc| loc.id == data.lo.0)
+                        self.map.iter().find(|loc| loc.id == span.lo.0)
                     {
                         return Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
