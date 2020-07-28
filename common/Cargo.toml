@@ -17,7 +17,6 @@ default = []
 ast_node = { version = "0.7", path = "../macros/ast_node" }
 from_variant = { version = "0.1", path = "../macros/from_variant" }
 swc_visit = { version = "0.1", path = "../visit" }
-string_cache = "0.8"
 either = "1.5"
 scoped-tls = { version = "1" }
 unicode-width = "0.1.4"
