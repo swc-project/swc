@@ -1,3 +1,14 @@
+//! Utilities for the swc project
+//!
+//!
+//! # Cargo features
+//!
+//! ## `tty-emitter`
+//!
+//! ## `parking_lot`
+//!
+//! ## `sourcemap`
+
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
     pos::{

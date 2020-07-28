@@ -8,6 +8,11 @@ documentation = "https://swc-project.github.io/rustdoc/swc_common/"
 description = "Common utilities for the swc project."
 edition = "2018"
 
+[features]
+tty-emitter = ["atty", "termcolor"]
+default = []
+
+
 [dependencies]
 ast_node = { version = "0.7", path = "../macros/ast_node" }
 from_variant = { version = "0.1", path = "../macros/from_variant" }
@@ -18,13 +23,13 @@ scoped-tls = { version = "1" }
 unicode-width = "0.1.4"
 cfg-if = "0.1.2"
 log = "0.4"
-atty = "0.2"
-parking_lot = "0.7.1"
-termcolor = "1.0"
+atty = { version = "0.2", optional = true }
+parking_lot = { version = "0.7.1" }
+termcolor = { version = "1.0", optional = true }
 serde = { version = "1", features = ["derive"] }
 dashmap = "=3.5.1"
 fxhash = "0.2.1"
-sourcemap = "6"
+sourcemap = { version = "6", optional = true }
 
 [dev-dependencies]
 rayon = "1"

@@ -1,0 +1,39 @@
+name: Compilation
+
+on: [push, pull_request]
+#on:
+#  push:
+#    # Ignore commits created by bors
+#    branches-ignore:
+#      - 'staging'
+#      - 'trying'
+#  pull_request:
+#    branches-ignore:
+#      - 'staging'
+#      - 'trying'
+
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
+
+jobs:
+  check:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+      - name: Check swc_common
+        run: |
+          cargo build -p swc_common
+          cargo build -p swc_common --feature ttu-emitter
+          cargo build -p swc_common --feature parking_lot
+          cargo build -p swc_common --feature sourcemap
