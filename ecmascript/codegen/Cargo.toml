@@ -19,5 +19,6 @@ sourcemap = "6"
 num-bigint = { version = "0.2", features = ["serde"] }
 
 [dev-dependencies]
+swc_common = { version = "0.7", path ="../../common", features = ["sourcemap"] }
 swc_ecma_parser = { version = "0.31", path ="../parser" }
 testing = { version = "0.7", path ="../../testing" }
