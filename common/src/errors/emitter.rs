@@ -56,8 +56,7 @@ pub trait Emitter {
 }
 
 #[cfg(feature = "tty-emitter")]
-#[doc(cfg(feature = "ttu-emitter"))]
-impl Emitter for EmitterWriter {
+"emitter-impl"impl Emitter for EmitterWriter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let mut primary_span = db.span.clone();
         let mut children = db.children.clone();
@@ -146,8 +145,7 @@ impl ColorConfig {
 }
 
 #[cfg(feature = "tty-emitter")]
-#[doc(cfg(feature = "ttu-emitter"))]
-pub struct EmitterWriter {
+"emitter-impl"pub struct EmitterWriter {
     dst: Destination,
     sm: Option<Arc<SourceMapperDyn>>,
     short_message: bool,
@@ -1514,21 +1512,17 @@ fn emit_to_destination(
 
 pub enum Destination {
     #[cfg(feature = "tty-emitter")]
-    #[doc(cfg(feature = "ttu-emitter"))]
-    Terminal(StandardStream),
+    "emitter-impl"Terminal(StandardStream),
     #[cfg(feature = "tty-emitter")]
-    #[doc(cfg(feature = "ttu-emitter"))]
-    Buffered(BufferWriter),
+    "emitter-impl"Buffered(BufferWriter),
     Raw(Box<dyn Write + Send>),
 }
 
 pub enum WritableDst<'a> {
     #[cfg(feature = "tty-emitter")]
-    #[doc(cfg(feature = "ttu-emitter"))]
-    Terminal(&'a mut StandardStream),
+    "emitter-impl"Terminal(&'a mut StandardStream),
     #[cfg(feature = "tty-emitter")]
-    #[doc(cfg(feature = "ttu-emitter"))]
-    Buffered(&'a mut BufferWriter, Buffer),
+    "emitter-impl"Buffered(&'a mut BufferWriter, Buffer),
     Raw(&'a mut (dyn Write + Send)),
 }
 
@@ -1612,8 +1606,7 @@ impl<'a> WritableDst<'a> {
     }
 
     #[cfg(feature = "tty-emitter")]
-    #[doc(cfg(feature = "ttu-emitter"))]
-    fn set_color(&mut self, color: &ColorSpec) -> io::Result<()> {
+    "emitter-impl"fn set_color(&mut self, color: &ColorSpec) -> io::Result<()> {
         match *self {
             WritableDst::Terminal(ref mut t) => t.set_color(color),
             WritableDst::Buffered(_, ref mut t) => t.set_color(color),

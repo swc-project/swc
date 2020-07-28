@@ -5,9 +5,12 @@
 //!
 //! ## `tty-emitter`
 //!
-//! ## `parking_lot`
+//! Adds default implementation of Emitter.
+//! Enabling this feature will add tty-related dependencies.
 //!
 //! ## `sourcemap`
+//!
+//! Adds methods to generator web sourcemap.
 #![deny(dead_code)]
 #![deny(unused_imports)]
 
