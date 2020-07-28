@@ -1,7 +1,5 @@
 use super::*;
 use either::Either;
-use once_cell::sync::Lazy;
-use regex::Regex;
 
 impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
@@ -71,8 +69,13 @@ impl<'a, I: Input> Lexer<'a, I> {
             Ok(c)
         }
 
-        static HEX_NUMBER: Lazy<Regex> = Lazy::new(|| Regex::new(r"^[\da-fA-F]+$").unwrap());
-        static DECIMAL_NUMBER: Lazy<Regex> = Lazy::new(|| Regex::new(r"^\d+$").unwrap());
+        fn is_hex(s: &str) -> bool {
+            s.chars().all(|c| c.is_digit(16))
+        }
+
+        fn is_dec(s: &str) -> bool {
+            s.chars().all(|c| c.is_digit(10))
+        }
 
         let mut s = String::new();
 
@@ -92,10 +95,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             if c == ';' {
                 if s.starts_with('#') {
                     if s[1..].starts_with('x') {
-                        if HEX_NUMBER.is_match(&s[2..]) {
+                        if is_hex(&s[2..]) {
                             return from_code(&s[2..], 16);
                         }
-                    } else if DECIMAL_NUMBER.is_match(&s[1..]) {
+                    } else if is_dec(&s[1..]) {
                         return from_code(&s[1..], 10);
                     }
                 } else if let Some(entity) = xhtml(&s) {
