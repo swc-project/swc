@@ -23,6 +23,7 @@ use crate::{
     sync::{Lock, LockGuard, MappedLockGuard},
 };
 use log::debug;
+#[cfg(feature = "sourcemap")]
 use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
@@ -994,11 +995,16 @@ impl SourceMap {
         None
     }
 
+    ///
+    #[cfg(feature = "sourcemap")]
+    #[doc(cfg(feature = "sourcemap"))]
     pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
         self.build_source_map_from(mappings, None)
     }
 
     /// Creates a `.map` file.
+    #[cfg(feature = "sourcemap")]
+    #[doc(cfg(feature = "sourcemap"))]
     pub fn build_source_map_from(
         &self,
         mappings: &mut Vec<(BytePos, LineCol)>,

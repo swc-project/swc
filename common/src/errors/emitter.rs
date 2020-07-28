@@ -8,25 +8,40 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+#[cfg(feature = "tty-emitter")]
 use self::Destination::*;
+#[cfg(feature = "tty-emitter")]
+use super::snippet::{Annotation, Line};
+use super::DiagnosticBuilder;
+#[cfg(feature = "tty-emitter")]
 use super::{
-    snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
+    snippet::{AnnotationType, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
-    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
+    CodeSuggestion, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
-use crate::syntax_pos::{MultiSpan, SourceFile, Span};
+#[cfg(feature = "tty-emitter")]
+use crate::syntax_pos::SourceFile;
+#[cfg(feature = "tty-emitter")]
+use crate::syntax_pos::{MultiSpan, Span};
+#[cfg(feature = "tty-emitter")]
 use atty;
-use std::{
-    borrow::Cow,
-    cmp::{min, Reverse},
-    collections::HashMap,
-    io::{self, prelude::*},
-    ops::Range,
-    sync::Arc,
-};
+#[cfg(feature = "tty-emitter")]
+use std::borrow::Cow;
+#[cfg(feature = "tty-emitter")]
+use std::cmp::{min, Reverse};
+#[cfg(feature = "tty-emitter")]
+use std::collections::HashMap;
+use std::io::{self, prelude::*};
+#[cfg(feature = "tty-emitter")]
+use std::ops::Range;
+#[cfg(feature = "tty-emitter")]
+use std::sync::Arc;
+#[cfg(feature = "tty-emitter")]
 use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
+#[cfg(feature = "tty-emitter")]
 use unicode_width;
 
+#[cfg(feature = "tty-emitter")]
 const ANONYMIZED_LINE_NUM: &str = "LL";
 
 /// Emitter trait for emitting errors.
@@ -40,6 +55,8 @@ pub trait Emitter {
     }
 }
 
+#[cfg(feature = "tty-emitter")]
+#[doc(cfg(feature = "ttu-emitter"))]
 impl Emitter for EmitterWriter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let mut primary_span = db.span.clone();
@@ -111,6 +128,7 @@ pub enum ColorConfig {
 }
 
 impl ColorConfig {
+    #[cfg(feature = "tty-emitter")]
     fn to_color_choice(self) -> ColorChoice {
         match self {
             ColorConfig::Always => {
@@ -127,6 +145,8 @@ impl ColorConfig {
     }
 }
 
+#[cfg(feature = "tty-emitter")]
+#[doc(cfg(feature = "ttu-emitter"))]
 pub struct EmitterWriter {
     dst: Destination,
     sm: Option<Arc<SourceMapperDyn>>,
@@ -135,12 +155,14 @@ pub struct EmitterWriter {
     ui_testing: bool,
 }
 
+#[cfg(feature = "tty-emitter")]
 struct FileWithAnnotatedLines {
     file: Arc<SourceFile>,
     lines: Vec<Line>,
     multiline_depth: usize,
 }
 
+#[cfg(feature = "tty-emitter")]
 impl EmitterWriter {
     pub fn stderr(
         color_config: ColorConfig,
@@ -1375,14 +1397,17 @@ impl EmitterWriter {
     }
 }
 
+#[cfg(feature = "tty-emitter")]
 fn draw_col_separator(buffer: &mut StyledBuffer, line: usize, col: usize) {
     buffer.puts(line, col, "| ", Style::LineNumber);
 }
 
+#[cfg(feature = "tty-emitter")]
 fn draw_col_separator_no_space(buffer: &mut StyledBuffer, line: usize, col: usize) {
     draw_col_separator_no_space_with_style(buffer, line, col, Style::LineNumber);
 }
 
+#[cfg(feature = "tty-emitter")]
 fn draw_col_separator_no_space_with_style(
     buffer: &mut StyledBuffer,
     line: usize,
@@ -1392,6 +1417,7 @@ fn draw_col_separator_no_space_with_style(
     buffer.putc(line, col, '|', style);
 }
 
+#[cfg(feature = "tty-emitter")]
 fn draw_range(
     buffer: &mut StyledBuffer,
     symbol: char,
@@ -1405,10 +1431,12 @@ fn draw_range(
     }
 }
 
+#[cfg(feature = "tty-emitter")]
 fn draw_note_separator(buffer: &mut StyledBuffer, line: usize, col: usize) {
     buffer.puts(line, col, "= ", Style::LineNumber);
 }
 
+#[cfg(feature = "tty-emitter")]
 fn draw_multiline_line(
     buffer: &mut StyledBuffer,
     line: usize,
@@ -1419,6 +1447,7 @@ fn draw_multiline_line(
     buffer.putc(line, offset + depth - 1, '|', style);
 }
 
+#[cfg(feature = "tty-emitter")]
 fn num_overlap(
     a_start: usize,
     a_end: usize,
@@ -1432,6 +1461,7 @@ fn num_overlap(
     }
     contains(b_start..b_end + extra, a_start) || contains(a_start..a_end + extra, b_start)
 }
+#[cfg(feature = "tty-emitter")]
 fn overlaps(a1: &Annotation, a2: &Annotation, padding: usize) -> bool {
     num_overlap(
         a1.start_col,
@@ -1442,6 +1472,7 @@ fn overlaps(a1: &Annotation, a2: &Annotation, padding: usize) -> bool {
     )
 }
 
+#[cfg(feature = "tty-emitter")]
 fn emit_to_destination(
     rendered_buffer: &[Vec<StyledString>],
     lvl: Level,
@@ -1482,18 +1513,27 @@ fn emit_to_destination(
 }
 
 pub enum Destination {
+    #[cfg(feature = "tty-emitter")]
+    #[doc(cfg(feature = "ttu-emitter"))]
     Terminal(StandardStream),
+    #[cfg(feature = "tty-emitter")]
+    #[doc(cfg(feature = "ttu-emitter"))]
     Buffered(BufferWriter),
     Raw(Box<dyn Write + Send>),
 }
 
 pub enum WritableDst<'a> {
+    #[cfg(feature = "tty-emitter")]
+    #[doc(cfg(feature = "ttu-emitter"))]
     Terminal(&'a mut StandardStream),
+    #[cfg(feature = "tty-emitter")]
+    #[doc(cfg(feature = "ttu-emitter"))]
     Buffered(&'a mut BufferWriter, Buffer),
     Raw(&'a mut (dyn Write + Send)),
 }
 
 impl Destination {
+    #[cfg(feature = "tty-emitter")]
     fn from_stderr(color: ColorConfig) -> Destination {
         let choice = color.to_color_choice();
         // On Windows we'll be performing global synchronization on the entire
@@ -1509,9 +1549,12 @@ impl Destination {
         }
     }
 
+    #[cfg(feature = "tty-emitter")]
     fn writable(&mut self) -> WritableDst<'_> {
         match *self {
+            #[cfg(feature = "tty-emitter")]
             Destination::Terminal(ref mut t) => WritableDst::Terminal(t),
+            #[cfg(feature = "tty-emitter")]
             Destination::Buffered(ref mut t) => {
                 let buf = t.buffer();
                 WritableDst::Buffered(t, buf)
@@ -1522,6 +1565,8 @@ impl Destination {
 }
 
 impl<'a> WritableDst<'a> {
+    #[cfg(feature = "tty-emitter")]
+    #[doc(cfg(feature = "tty-emitter"))]
     fn apply_style(&mut self, lvl: Level, style: Style) -> io::Result<()> {
         let mut spec = ColorSpec::new();
         match style {
@@ -1566,6 +1611,8 @@ impl<'a> WritableDst<'a> {
         self.set_color(&spec)
     }
 
+    #[cfg(feature = "tty-emitter")]
+    #[doc(cfg(feature = "ttu-emitter"))]
     fn set_color(&mut self, color: &ColorSpec) -> io::Result<()> {
         match *self {
             WritableDst::Terminal(ref mut t) => t.set_color(color),
@@ -1574,6 +1621,7 @@ impl<'a> WritableDst<'a> {
         }
     }
 
+    #[cfg(feature = "tty-emitter")]
     fn reset(&mut self) -> io::Result<()> {
         match *self {
             WritableDst::Terminal(ref mut t) => t.reset(),
@@ -1586,7 +1634,9 @@ impl<'a> WritableDst<'a> {
 impl<'a> Write for WritableDst<'a> {
     fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
         match *self {
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Terminal(ref mut t) => t.write(bytes),
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Buffered(_, ref mut buf) => buf.write(bytes),
             WritableDst::Raw(ref mut w) => w.write(bytes),
         }
@@ -1594,7 +1644,9 @@ impl<'a> Write for WritableDst<'a> {
 
     fn flush(&mut self) -> io::Result<()> {
         match *self {
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Terminal(ref mut t) => t.flush(),
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Buffered(_, ref mut buf) => buf.flush(),
             WritableDst::Raw(ref mut w) => w.flush(),
         }
@@ -1603,6 +1655,7 @@ impl<'a> Write for WritableDst<'a> {
 
 impl<'a> Drop for WritableDst<'a> {
     fn drop(&mut self) {
+        #[cfg(feature = "tty-emitter")]
         if let WritableDst::Buffered(ref mut dst, ref mut buf) = self {
             drop(dst.print(buf));
         }

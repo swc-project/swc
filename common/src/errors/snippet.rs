@@ -12,12 +12,14 @@
 
 use super::Level;
 
+#[cfg(feature = "tty-emitter")]
 #[derive(Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct Line {
     pub line_index: usize,
     pub annotations: Vec<Annotation>,
 }
 
+#[cfg(feature = "tty-emitter")]
 #[derive(Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct MultilineAnnotation {
     pub depth: usize,
@@ -29,6 +31,7 @@ pub struct MultilineAnnotation {
     pub label: Option<String>,
 }
 
+#[cfg(feature = "tty-emitter")]
 impl MultilineAnnotation {
     pub fn increase_depth(&mut self) {
         self.depth += 1;
@@ -65,6 +68,7 @@ impl MultilineAnnotation {
     }
 }
 
+#[cfg(feature = "tty-emitter")]
 #[derive(Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum AnnotationType {
     /// Annotation under a single line of code
@@ -94,6 +98,7 @@ pub enum AnnotationType {
     MultilineLine(usize),
 }
 
+#[cfg(feature = "tty-emitter")]
 #[derive(Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct Annotation {
     /// Start column, 0-based indexing -- counting *characters*, not
@@ -116,6 +121,7 @@ pub struct Annotation {
     pub annotation_type: AnnotationType,
 }
 
+#[cfg(feature = "tty-emitter")]
 impl Annotation {
     /// Whether this annotation is a vertical line placeholder.
     pub fn is_line(&self) -> bool {

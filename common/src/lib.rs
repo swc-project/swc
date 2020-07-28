@@ -8,6 +8,8 @@
 //! ## `parking_lot`
 //!
 //! ## `sourcemap`
+#![deny(dead_code)]
+#![deny(unused_imports)]
 
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
