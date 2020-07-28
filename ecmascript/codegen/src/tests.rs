@@ -307,6 +307,26 @@ fn issue_639() {
     test_from_to(r"`\x1b[33m Yellow \x1b[0m`;", r"`\x1b[33m Yellow \x1b[0m`;");
 }
 
+#[test]
+fn issue_910() {
+    test_from_to(
+        "console.log(\"Hello World\");",
+        "console.log(\"Hello World\");",
+    );
+
+    test_from_to("console.log('Hello World');", "console.log('Hello World');");
+
+    test_from_to(
+        "console.log(\"Hello\\\" World\");",
+        "console.log(\"Hello\\\" World\");",
+    );
+
+    test_from_to(
+        "console.log('Hello\\' World');",
+        "console.log('Hello\\' World');",
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {

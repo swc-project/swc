@@ -113,7 +113,7 @@ mod tests {
         assert_min("this.bar", "this.bar;");
         assert_min("10..fooz", "10..fooz;");
         assert_min("foo[10]", "foo[10];");
-        assert_min(r#"foo["bar"]"#, r#"foo['bar'];"#);
+        assert_min(r#"foo["bar"]"#, r#"foo["bar"];"#);
     }
 
     #[test]
