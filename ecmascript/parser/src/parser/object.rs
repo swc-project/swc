@@ -1,7 +1,7 @@
 //! Parser for object literal.
 
 use super::*;
-use crate::{make_span, parser::class_and_fn::is_not_this};
+use crate::parser::class_and_fn::is_not_this;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
@@ -202,7 +202,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         };
 
         if eat!('?') {
-            self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1162);
+            self.emit_err(self.input.prev_span(), SyntaxError::TS1162);
         }
 
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
@@ -231,7 +231,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         match ident.sym {
             js_word!("get") | js_word!("set") | js_word!("async") => {
                 if has_modifiers {
-                    self.emit_err(make_span(modifiers_span), SyntaxError::TS1042);
+                    self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
 
                 let is_generator = ident.sym == js_word!("async") && eat!('*');

@@ -10,10 +10,13 @@ use crate::error::{Error, SyntaxError};
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
-    BytePos, Span, SpanData, SyntaxContext,
+    BytePos, Span, SyntaxContext,
 };
 use unicode_xid::UnicodeXID;
 
+/// Collector for raw string.
+///
+/// Methods of this struct is noop if the value is [None].
 pub(super) struct Raw(pub Option<String>);
 
 impl Raw {
@@ -39,7 +42,7 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub(super) fn span(&self, start: BytePos) -> SpanData {
+    pub(super) fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
             unreachable!(
@@ -48,7 +51,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 start.0, end.0
             )
         }
-        SpanData {
+        Span {
             lo: start,
             hi: end,
             ctxt: SyntaxContext::empty(),

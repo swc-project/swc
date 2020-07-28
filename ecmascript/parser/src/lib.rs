@@ -92,15 +92,14 @@
 //! [tc39/test262]:https://github.com/tc39/test262
 
 #![cfg_attr(test, feature(test))]
-#![deny(unreachable_patterns)]
-#![deny(unsafe_code)]
+#![deny(unused)]
 
 pub use self::{
     lexer::input::{Input, StringInput},
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::{Span, SpanData};
+use swc_common::Span;
 
 #[macro_use]
 mod macros;
@@ -439,8 +438,4 @@ where
 
         f(handler, (&*fm).into())
     })
-}
-
-fn make_span(data: SpanData) -> Span {
-    Span::new(data.lo, data.hi, data.ctxt)
 }

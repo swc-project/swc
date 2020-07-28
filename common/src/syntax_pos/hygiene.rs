@@ -178,18 +178,17 @@ impl SyntaxContext {
         SyntaxContext(0)
     }
 
-    pub(crate) fn as_u32(self) -> u32 {
-        self.0
-    }
-
-    pub(crate) fn from_u32(raw: u32) -> SyntaxContext {
-        SyntaxContext(raw)
-    }
+    // pub(crate) fn as_u32(self) -> u32 {
+    //     self.0
+    // }
+    //
+    // pub(crate) fn from_u32(raw: u32) -> SyntaxContext {
+    //     SyntaxContext(raw)
+    // }
 
     /// Extend a syntax context with a given mark and default transparency for
     /// that mark.
     pub fn apply_mark(self, mark: Mark) -> SyntaxContext {
-        assert_ne!(mark, Mark::root());
         assert_ne!(mark, Mark::root());
         return self.apply_mark_internal(mark);
     }

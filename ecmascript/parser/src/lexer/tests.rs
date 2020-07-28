@@ -4,16 +4,12 @@ use super::{
     state::{lex, lex_module, lex_tokens, with_lexer},
     *,
 };
-use crate::{
-    error::{Error, SyntaxError},
-    make_span,
-};
+use crate::error::{Error, SyntaxError};
 use std::{ops::Range, str};
-use swc_common::SpanData;
 use test::{black_box, Bencher};
 
-fn sp(r: Range<usize>) -> SpanData {
-    SpanData {
+fn sp(r: Range<usize>) -> Span {
+    Span {
         lo: BytePos(r.start as u32),
         hi: BytePos(r.end as u32),
         ctxt: Default::default(),
@@ -42,9 +38,9 @@ impl SpanRange for usize {
         )
     }
 }
-impl SpanRange for SpanData {
+impl SpanRange for Span {
     fn into_span(self) -> Span {
-        Span::new(self.lo, self.hi, self.ctxt)
+        self
     }
 }
 impl SpanRange for Range<usize> {
@@ -65,7 +61,7 @@ trait WithSpan: Sized {
         TokenAndSpan {
             token: self.into_token(),
             had_line_break: false,
-            span: span.into_span().data(),
+            span: span.into_span(),
         }
     }
     fn into_token(self) -> Token;
@@ -129,7 +125,7 @@ fn module_legacy_decimal() {
     assert_eq!(
         lex_module(Syntax::default(), "08"),
         vec![Token::Error(Error {
-            span: make_span(sp(0..2)),
+            span: sp(0..2),
             error: Box::new(SyntaxError::LegacyDecimal),
         })
         .span(0..2)
@@ -142,7 +138,7 @@ fn module_legacy_comment_1() {
     assert_eq!(
         lex_module(Syntax::default(), "<!-- foo oo"),
         vec![Token::Error(Error {
-            span: make_span(sp(0..11)),
+            span: sp(0..11),
             error: Box::new(SyntaxError::LegacyCommentInModule),
         })
         .span(0..11)
@@ -155,7 +151,7 @@ fn module_legacy_comment_2() {
     assert_eq!(
         lex_module(Syntax::default(), "-->"),
         vec![Token::Error(Error {
-            span: make_span(sp(0..3)),
+            span: sp(0..3),
             error: Box::new(SyntaxError::LegacyCommentInModule),
         })
         .span(0..3)

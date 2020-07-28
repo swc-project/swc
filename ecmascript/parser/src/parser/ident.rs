@@ -1,6 +1,6 @@
 //! 12.1 Identifiers
 use super::*;
-use crate::{make_span, token::Keyword};
+use crate::token::Keyword;
 use either::Either;
 use swc_atoms::js_word;
 use swc_ecma_parser_macros::parser;
@@ -88,10 +88,7 @@ impl<'a, I: Tokens> Parser<I> {
             // "package", "private", "protected",  "public", "static", or "yield".
             match w {
                 Word::Ident(js_word!("enum")) => {
-                    p.emit_err(
-                        make_span(p.input.prev_span()),
-                        SyntaxError::InvalidIdentInStrict,
-                    );
+                    p.emit_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
                 }
                 Word::Keyword(Keyword::Yield)
                 | Word::Ident(js_word!("static"))
@@ -104,10 +101,7 @@ impl<'a, I: Tokens> Parser<I> {
                 | Word::Ident(js_word!("public"))
                     if strict =>
                 {
-                    p.emit_err(
-                        make_span(p.input.prev_span()),
-                        SyntaxError::InvalidIdentInStrict,
-                    );
+                    p.emit_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
                 }
                 _ => {}
             }
@@ -125,7 +119,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module => {
-                    syntax_error!(make_span(p.input.prev_span()), SyntaxError::ExpectedIdent)
+                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
                 Word::Keyword(Keyword::This) if p.input.syntax().typescript() => {
                     Ok(js_word!("this"))
@@ -135,7 +129,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
                 Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
-                    syntax_error!(make_span(p.input.prev_span()), SyntaxError::ExpectedIdent)
+                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
             }
         })?;

@@ -11,15 +11,14 @@
 //! ## `sourcemap`
 //!
 //! Adds methods to generator web sourcemap.
-#![deny(dead_code)]
-#![deny(unused_imports)]
+#![deny(unused)]
 
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
     pos::{
         hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
-        SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError, Spanned,
-        SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
+        SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, Spanned, SyntaxContext,
+        DUMMY_SP, GLOBALS, NO_EXPANSION,
     },
     source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
     syntax_pos::LineCol,

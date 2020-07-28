@@ -1,5 +1,5 @@
 use super::{pat::PatType, *};
-use crate::{error::SyntaxError, make_span};
+use crate::error::SyntaxError;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
@@ -661,10 +661,10 @@ impl<'a, I: Tokens> Parser<I> {
             // NewLine is ok
             if is_exact!(';') || eof!() {
                 let prev_span = self.input.prev_span();
-                let span = if prev_span == var_span.data() {
+                let span = if prev_span == var_span {
                     Span::new(prev_span.hi, prev_span.hi, Default::default())
                 } else {
-                    make_span(prev_span)
+                    prev_span
                 };
                 self.emit_err(span, SyntaxError::TS1009);
                 break;
