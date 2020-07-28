@@ -333,7 +333,7 @@ impl Drop for Handler {
 
 impl Handler {
     #[cfg(feature = "tty-emitter")]
-    "emitter-impl"pub fn with_tty_emitter(
+    pub fn with_tty_emitter(
         color_config: ColorConfig,
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
@@ -351,7 +351,7 @@ impl Handler {
     }
 
     #[cfg(feature = "tty-emitter")]
-    "emitter-impl"pub fn with_tty_emitter_and_flags(
+    pub fn with_tty_emitter_and_flags(
         color_config: ColorConfig,
         cm: Option<Arc<SourceMapperDyn>>,
         flags: HandlerFlags,

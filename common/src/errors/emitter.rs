@@ -56,7 +56,7 @@ pub trait Emitter {
 }
 
 #[cfg(feature = "tty-emitter")]
-"emitter-impl"impl Emitter for EmitterWriter {
+impl Emitter for EmitterWriter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let mut primary_span = db.span.clone();
         let mut children = db.children.clone();
@@ -145,7 +145,7 @@ impl ColorConfig {
 }
 
 #[cfg(feature = "tty-emitter")]
-"emitter-impl"pub struct EmitterWriter {
+pub struct EmitterWriter {
     dst: Destination,
     sm: Option<Arc<SourceMapperDyn>>,
     short_message: bool,
@@ -1512,17 +1512,17 @@ fn emit_to_destination(
 
 pub enum Destination {
     #[cfg(feature = "tty-emitter")]
-    "emitter-impl"Terminal(StandardStream),
+    Terminal(StandardStream),
     #[cfg(feature = "tty-emitter")]
-    "emitter-impl"Buffered(BufferWriter),
+    Buffered(BufferWriter),
     Raw(Box<dyn Write + Send>),
 }
 
 pub enum WritableDst<'a> {
     #[cfg(feature = "tty-emitter")]
-    "emitter-impl"Terminal(&'a mut StandardStream),
+    Terminal(&'a mut StandardStream),
     #[cfg(feature = "tty-emitter")]
-    "emitter-impl"Buffered(&'a mut BufferWriter, Buffer),
+    Buffered(&'a mut BufferWriter, Buffer),
     Raw(&'a mut (dyn Write + Send)),
 }
 
@@ -1560,7 +1560,6 @@ impl Destination {
 
 impl<'a> WritableDst<'a> {
     #[cfg(feature = "tty-emitter")]
-    #[doc(cfg(feature = "tty-emitter"))]
     fn apply_style(&mut self, lvl: Level, style: Style) -> io::Result<()> {
         let mut spec = ColorSpec::new();
         match style {
@@ -1606,7 +1605,7 @@ impl<'a> WritableDst<'a> {
     }
 
     #[cfg(feature = "tty-emitter")]
-    "emitter-impl"fn set_color(&mut self, color: &ColorSpec) -> io::Result<()> {
+    fn set_color(&mut self, color: &ColorSpec) -> io::Result<()> {
         match *self {
             WritableDst::Terminal(ref mut t) => t.set_color(color),
             WritableDst::Buffered(_, ref mut t) => t.set_color(color),
