@@ -33,6 +33,6 @@ jobs:
 
       - name: Check swc_common
         run: |
-          cargo build -p swc_common
-          cargo build -p swc_common --features tty-emitter
-          cargo build -p swc_common --features sourcemap
+          (cd common && cargo build)
+          (cd common && cargo build --features tty-emitter)
+          (cd common && cargo build --features sourcemap)
