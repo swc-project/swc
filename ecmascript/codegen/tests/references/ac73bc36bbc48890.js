@@ -1,2 +1,2 @@
-'use strict';
+"use strict";
 with (a)b = c;

@@ -160,7 +160,7 @@ fn issue_225() {
     println!("{}", s);
 
     assert!(s.contains("function _interopRequireDefault"));
-    assert!(s.contains("var _foo = _interopRequireDefault(require('foo'))"));
+    assert!(s.contains("var _foo = _interopRequireDefault(require(\"foo\"))"));
 }
 
 /// should handle exportNamespaceFrom configured by .swcrc
@@ -179,7 +179,7 @@ fn issue_351() {
     let s = file("tests/projects/issue-351/input.js").unwrap();
     println!("{}", s);
 
-    assert!(s.contains(".default.createElement('div', null);"));
+    assert!(s.contains(".default.createElement(\"div\", null);"));
 }
 
 /// should handle cjs imports
@@ -221,7 +221,7 @@ fn issue_409_2() {
 fn issue_414() {
     let s1 = file("tests/projects/issue-414/a.js").unwrap();
     println!("{}", s1);
-    assert!(s1.contains("require('foo')"));
+    assert!(s1.contains("require(\"foo\")"));
 
     let s2 = file("tests/projects/issue-414/b.ts").unwrap();
     println!("{}", s2);
@@ -427,7 +427,7 @@ fn issue_779_1() {
     let f = file("tests/projects/issue-779-1/input.js").unwrap();
     println!("{}", f);
 
-    assert!(f.contains("require('core-js/modules/es.array-buffer.constructor');"))
+    assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor\");"))
 }
 
 #[test]
@@ -435,7 +435,7 @@ fn issue_779_2() {
     let f = file("tests/projects/issue-779-2/input.js").unwrap();
     println!("{}", f);
 
-    assert!(f.contains("require('core-js');"));
+    assert!(f.contains("require(\"core-js\");"));
 }
 
 #[test]
@@ -443,8 +443,8 @@ fn issue_783() {
     let f = file("tests/projects/issue-783/input.js").unwrap();
     println!("{}", f);
 
-    assert!(!f.contains("require('core-js');"));
-    assert!(f.contains("require('core-js/modules/es.array-buffer.constructor');"))
+    assert!(!f.contains("require(\"core-js\");"));
+    assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor\");"))
 }
 
 #[test]

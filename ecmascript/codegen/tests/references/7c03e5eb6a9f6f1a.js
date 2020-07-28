@@ -1,4 +1,4 @@
 function a() {
     'use strict';
-    '\0';
+    "\0";
 }

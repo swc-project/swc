@@ -1,4 +1,4 @@
 b: {
     if (a) break b;
-    c.d('e');
+    c.d("e");
 }

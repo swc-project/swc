@@ -386,6 +386,12 @@ impl<'a> Emitter<'a> {
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
+        let single_quote = if let Ok(s) = self.cm.span_to_snippet(node.span) {
+            s.starts_with("'")
+        } else {
+            true
+        };
+
         // if let Some(s) = get_text_of_node(&self.cm, node, false) {
         //     self.wr.write_str_lit(node.span, &s)?;
         //     return Ok(());
@@ -393,19 +399,16 @@ impl<'a> Emitter<'a> {
         let value = escape(&node.value);
         // let value = node.value.replace("\n", "\\n");
 
-        if !node.value.contains('\'') {
-            punct!("'");
-            self.wr.write_str_lit(node.span, &value)?;
-            punct!("'");
-        } else if !node.value.contains('\"') {
-            punct!("\"");
-            self.wr.write_str_lit(node.span, &value)?;
-            punct!("\"");
-        } else {
+        if single_quote {
             punct!("'");
             self.wr
                 .write_str_lit(node.span, &value.replace("'", "\\'"))?;
             punct!("'");
+        } else {
+            punct!("\"");
+            self.wr
+                .write_str_lit(node.span, &value.replace("\"", "\\\""))?;
+            punct!("\"");
         }
     }
 

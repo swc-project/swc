@@ -1,5 +1,5 @@
 ({
-    '__proto__': null,
+    "__proto__": null,
     set __proto__ (a){
     }
 });

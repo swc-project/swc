@@ -1,5 +1,5 @@
 function a() {
     new [
-        'b'
+        "b"
     ];
 }

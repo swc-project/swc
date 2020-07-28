@@ -1,2 +1,2 @@
-'use strict';
+"use strict";
 var { yield: a  } = b;
