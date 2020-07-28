@@ -1,6 +1,6 @@
 class a {
     constructor(){
     }
-    ['constructor']() {
+    ["constructor"]() {
     }
 }

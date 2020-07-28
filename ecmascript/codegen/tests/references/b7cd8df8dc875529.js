@@ -1,5 +1,5 @@
-while(!((a && b) || (c + '0'))){
-    d.e('f');
+while(!((a && b) || (c + "0"))){
+    d.e("f");
     var a;
     function b() {
     }

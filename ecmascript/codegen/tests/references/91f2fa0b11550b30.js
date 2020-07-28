@@ -1,3 +1,3 @@
 function* a() {
-    yield 'a';
+    yield "a";
 }

@@ -1,6 +1,6 @@
 // adapted from http://asmjs.org/spec/latest/
 function a(b, c, d) {
-    'use asm';
+    "use asm";
     var e = b.f.e;
     var g = b.f.g;
     var h = new b.i(d);

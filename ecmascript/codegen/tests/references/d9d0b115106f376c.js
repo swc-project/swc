@@ -1,7 +1,7 @@
 (function() {
     switch(a){
         case 1:
-            b('c');
+            b("c");
         default:
     }
 }());

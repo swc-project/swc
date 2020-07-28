@@ -2,6 +2,6 @@
     switch(a){
         case 1:
         default:
-            b('c');
+            b("c");
     }
 }());

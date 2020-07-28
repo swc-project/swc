@@ -1,3 +1,3 @@
 function a() {
-    return '<!--HTML-->comment in<!--string literal-->';
+    return "<!--HTML-->comment in<!--string literal-->";
 }
