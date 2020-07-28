@@ -34,6 +34,5 @@ jobs:
       - name: Check swc_common
         run: |
           cargo build -p swc_common
-          cargo build -p swc_common --feature ttu-emitter
-          cargo build -p swc_common --feature parking_lot
+          cargo build -p swc_common --feature tty-emitter
           cargo build -p swc_common --feature sourcemap
