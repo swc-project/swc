@@ -1,5 +1,5 @@
 [package]
-name = "swc_jsdoc"
+name = "jsdoc"
 version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
