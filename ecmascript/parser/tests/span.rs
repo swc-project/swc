@@ -9,7 +9,7 @@ use std::{
 };
 use swc_common::{comments::Comments, errors::Handler, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::{Node, Visit, VisitWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -46,6 +46,13 @@ fn load_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         if !entry.metadata()?.is_file() {
             continue;
         }
+        if !entry.path().ends_with(".js")
+            && !entry.path().ends_with(".ts")
+            && !entry.path().ends_with(".tsx")
+        {
+            continue;
+        }
+
         let file_name = entry
             .path()
             .strip_prefix(&dir)
@@ -65,7 +72,13 @@ fn load_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let comments = Comments::default();
                 let lexer = Lexer::new(
-                    Syntax::default(),
+                    Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        decorators: true,
+                        dynamic_import: false,
+                        dts: false,
+                        no_early_errors: true,
+                    }),
                     Default::default(),
                     (&*src).into(),
                     Some(&comments),
