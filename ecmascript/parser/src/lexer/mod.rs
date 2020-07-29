@@ -96,6 +96,7 @@ impl FusedIterator for CharIter {}
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     comments: Option<&'a Comments>,
+    /// [r
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
     /// [Some] iff lexer is in the backtracking mode
     backtracking_comments_buf: Option<Rc<RefCell<Vec<Comment>>>>,

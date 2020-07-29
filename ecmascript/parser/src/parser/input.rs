@@ -9,11 +9,20 @@ use lexer::TokenContexts;
 use std::{cell::RefCell, mem, mem::take, rc::Rc};
 use swc_common::{BytePos, Span, DUMMY_SP};
 
+/// Clone should be cheap if you are parsing typescript because typescript
+/// syntax requires backtracking.
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
     fn syntax(&self) -> Syntax;
     fn target(&self) -> JscTarget;
+
+    /// Initialize special comment buffer of the lexer. This may be called
+    /// multiple time for nested backtracking.
+    fn start_backtracking(&mut self);
+
+    ///
+    fn stop_backtracking(&mut self, success: bool);
 
     fn set_expr_allowed(&mut self, allow: bool);
     fn token_context(&self) -> &lexer::TokenContexts;

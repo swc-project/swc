@@ -424,10 +424,6 @@ pub struct Context {
 
     /// If true, `:` should not be treated as a type annotation.
     in_case_cond: bool,
-
-    /// [true] while backtracking. If it's true, lexer uses special buffer to
-    /// store comments.
-    backtracking: bool,
 }
 
 #[cfg(test)]
