@@ -617,6 +617,11 @@ pub fn parse_tag_item(start: BytePos, end: BytePos, i: &str) -> IResult<&str, Js
             let (input, extras) = parse_str(i)?;
             i = input;
             Tag::Unknown(UnknownTag { span, extras })
+
+        _ => {
+            let (input, extras) = parse_str(i);
+            i = input;
+            JsDocTag::Unknown(JsDocUnknownTag { span, extras })
         }
     };
 
