@@ -901,10 +901,10 @@ impl<'a> Emitter<'a> {
 
         self.emit_accesibility(n.accessibility)?;
 
-        if n.readonly {
-            keyword!("readonly");
-            space!();
-        }
+        // if n.readonly {
+        //     keyword!("readonly");
+        //     space!();
+        // }
 
         emit!(n.key);
         if let Some(type_ann) = &n.type_ann {

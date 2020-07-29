@@ -594,3 +594,33 @@ to!(
     Direction[Direction['Left'] = 3] = 'Left';
 })(Direction || (Direction = {}));"
 );
+
+to!(
+    issue_915,
+    "export class Logger {
+    #level: LogLevels;
+    #handlers: BaseHandler[];
+    readonly #loggerName: string;
+    
+    constructor(
+        loggerName: string,
+        levelName: LevelName,
+        options: LoggerOptions = {},
+    ) {
+        this.#loggerName = loggerName;
+        this.#level = getLevelByName(levelName);
+        this.#handlers = options.handlers || [];
+    }
+}",
+    "export class Logger {
+    #level;
+    #handlers;
+    #loggerName;
+    constructor(loggerName, levelName, options = {
+    }){
+        this.#loggerName = loggerName;
+        this.#level = getLevelByName(levelName);
+        this.#handlers = options.handlers || [];
+    }
+}"
+);
