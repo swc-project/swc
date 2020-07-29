@@ -15,7 +15,7 @@ pub struct JsDoc {
 pub struct JsDocTagItem {
     pub span: Span,
     #[serde(rename = "tagName")]
-    pub tag_name: Ident,
+    pub tag_name: JsWord,
     #[serde(flatten)]
     pub tag: JsDocTag,
 }

@@ -4,17 +4,18 @@ use nom::{
     character::is_alphabetic,
     IResult,
 };
+use swc_common::{BytePos, Span};
 
 pub mod ast;
 
-pub fn parse(i: &str) -> IResult<&str, JsDoc> {}
+pub fn parse(start: BytePos, end: BytePos, i: &str) -> IResult<&str, JsDoc> {}
 
-pub fn parse_tag_item(i: &str) -> IResult<&str, JsDocTagItem> {
+pub fn parse_tag_item(start: BytePos, end: BytePos, i: &str) -> IResult<&str, JsDocTagItem> {
     let (i, _) = tag("@")(i)?;
 
     let (i, tag_name) = take_while(is_alphabetic)(i)?;
 
-    match tag_name {
+    let tag = match tag_name {
         "abstract" | "virtual" => {}
         "access" => {}
         "alias" => {}
@@ -80,5 +81,14 @@ pub fn parse_tag_item(i: &str) -> IResult<&str, JsDocTagItem> {
         "variation" => {}
         "version" => {}
         "yields" | "yield" => {}
-    }
+    };
+
+    Ok((
+        i,
+        JsDocTagItem {
+            span: Span::new(start, end, Default::default()),
+            tag_name: tag_name.into(),
+            tag,
+        },
+    ))
 }
