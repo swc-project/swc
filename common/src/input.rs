@@ -29,7 +29,7 @@ impl<'a> StringInput<'a> {
 
         StringInput {
             start_pos: start,
-            last_pos: end,
+            last_pos: start,
             orig: src,
             iter: src.char_indices(),
             orig_start: start,
