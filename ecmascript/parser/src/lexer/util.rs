@@ -126,8 +126,6 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self) -> LexResult<()> {
-        let mut line_break = false;
-
         while let Some(c) = self.cur() {
             match c {
                 // white spaces
@@ -197,7 +195,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 text: s.into(),
             };
             if is_for_next {
-                if let Some(buf) = self.leading_comments_buffer {
+                if let Some(buf) = &self.leading_comments_buffer {
                     buf.borrow_mut().push(cmt);
                 }
             } else {
@@ -244,9 +242,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                         text: s.into(),
                     };
 
-                    let peek = self.input.peek();
+                    let _ = self.input.peek();
                     if is_for_next {
-                        if let Some(buf) = self.leading_comments_buffer {
+                        if let Some(buf) = &self.leading_comments_buffer {
                             buf.borrow_mut().push(cmt);
                         }
                     } else {

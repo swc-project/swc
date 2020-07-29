@@ -475,7 +475,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read an escaped charater for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, mut raw: &mut Raw) -> LexResult<Option<Char>> {
+    fn read_escaped_char(&mut self, raw: &mut Raw) -> LexResult<Option<Char>> {
         debug_assert_eq!(self.cur(), Some('\\'));
         let start = self.cur_pos();
         self.bump(); // '\'
@@ -769,7 +769,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         if self.eat('{') {
             raw.push('{');
-            let cp_start = self.cur_pos();
+            // let cp_start = self.cur_pos();
             let c = self.read_code_point(raw)?;
 
             if !self.eat('}') {
@@ -787,10 +787,10 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// THis method returns [Char] as non-utf8 character is valid in javsacript.
     /// See https://github.com/swc-project/swc/issues/261
-    fn read_hex_char(&mut self, start: BytePos, count: u8, mut raw: &mut Raw) -> LexResult<Char> {
+    fn read_hex_char(&mut self, start: BytePos, count: u8, raw: &mut Raw) -> LexResult<Char> {
         debug_assert!(count == 2 || count == 4);
 
-        let pos = self.cur_pos();
+        // let pos = self.cur_pos();
         match self.read_int_u32(16, count, raw)? {
             Some(val) => Ok(val.into()),
             None => self.error(start, SyntaxError::ExpectedHexChars { count })?,
@@ -798,7 +798,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Read `CodePoint`.
-    fn read_code_point(&mut self, mut raw: &mut Raw) -> LexResult<Char> {
+    fn read_code_point(&mut self, raw: &mut Raw) -> LexResult<Char> {
         let start = self.cur_pos();
         let val = self.read_int_u32(16, 0, raw)?;
         match val {
@@ -863,7 +863,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         let (mut escaped, mut in_class) = (false, false);
-        let content_start = self.cur_pos();
+        // let content_start = self.cur_pos();
         let content = self.with_buf(|l, buf| {
             while let Some(c) = l.cur() {
                 // This is ported from babel.
@@ -890,7 +890,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             Ok((&**buf).into())
         })?;
-        let content_span = Span::new(content_start, self.cur_pos(), Default::default());
+        // let content_span = Span::new(content_start, self.cur_pos(),
+        // Default::default());
 
         // input is terminated without following `/`
         if !self.is('/') {
@@ -904,7 +905,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
-        let flags_start = self.cur_pos();
+        // let flags_start = self.cur_pos();
         let flags = self
             .may_read_word_as_str()?
             .map(|(value, _)| value)

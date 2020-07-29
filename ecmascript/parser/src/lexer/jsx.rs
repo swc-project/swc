@@ -202,7 +202,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(self.input.cur().is_some());
         debug_assert!(self.input.cur().unwrap().is_ident_start());
 
-        let cur_pos = self.input.cur_pos();
         let mut first = true;
         let slice = self.input.uncons_while(|c| {
             if first {

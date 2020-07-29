@@ -429,7 +429,7 @@ impl State {
                         .before_expr()
                 }
 
-                Word(Word::Ident(ref ident)) => {
+                Word(Word::Ident(..)) => {
                     // variable declaration
                     match prev {
                         Some(prev) => match prev {
@@ -643,7 +643,7 @@ pub(crate) fn with_lexer<F, Ret>(
 where
     F: FnOnce(&mut Lexer<'_, crate::lexer::input::StringInput<'_>>) -> Result<Ret, ()>,
 {
-    crate::with_test_sess(s, |handler, fm| {
+    crate::with_test_sess(s, |_, fm| {
         let mut l = Lexer::new(syntax, Default::default(), fm, None);
         let res = f(&mut l);
 
