@@ -1,0 +1,205 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | / a?.b?.c
+2 | | A?.['B']?.()
+  | |____________^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^^^^
+
+warning: OptChainExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^^^^
+
+warning: MemberExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^
+
+warning: OptChainExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^
+
+warning: MemberExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:4
+  |
+1 | a?.b?.c
+  |    ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:4
+  |
+1 | a?.b?.c
+  |    ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:7
+  |
+1 | a?.b?.c
+  |       ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:7
+  |
+1 | a?.b?.c
+  |       ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^^^^^
+
+warning: OptChainExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^
+
+warning: OptChainExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^
+
+warning: MemberExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:5
+  |
+2 | A?.['B']?.()
+  |     ^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:5
+  |
+2 | A?.['B']?.()
+  |     ^^^
+
+warning: Str
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:5
+  |
+2 | A?.['B']?.()
+  |     ^^^
+
