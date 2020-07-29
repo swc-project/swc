@@ -1,5 +1,6 @@
 use crate::ast::{
-    JsDoc, JsDocAbstractTag, JsDocAccessTag, JsDocAliasTag, JsDocTag, JsDocTagItem, JsDocUnknownTag,
+    JsDoc, JsDocAbstractTag, JsDocAccessTag, JsDocAliasTag, JsDocAsyncTag, JsDocAugmentsTag,
+    JsDocAuthorTag, JsDocTag, JsDocTagItem, JsDocUnknownTag,
 };
 use nom::{
     bytes::complete::{tag, take_while},
@@ -7,6 +8,7 @@ use nom::{
     IResult,
     IResult, InputIter, Slice,
 };
+use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 
 pub mod ast;
@@ -26,6 +28,7 @@ pub fn parse_tag_item(start: BytePos, end: BytePos, i: &str) -> IResult<&str, Js
 
     let tag = match tag_name {
         "abstract" | "virtual" => JsDocTag::Abstract(JsDocAbstractTag { span }),
+
         "access" => {
             let (input, access) = parse_one_of(i, &["private", "protected", "package", "public"])?;
             i = input;
@@ -34,72 +37,145 @@ pub fn parse_tag_item(start: BytePos, end: BytePos, i: &str) -> IResult<&str, Js
                 access: access.into(),
             })
         }
+
         "alias" => {
             let (input, name_path) = parse_name_path(i)?;
             i = input;
             JsDocTag::Alias(JsDocAliasTag { span, name_path })
         }
-        "async" => {}
-        "augments" | "extends" => {}
-        "author" => {}
+
+        "async" => JsDocTag::Async(JsDocAsyncTag { span }),
+
+        "augments" | "extends" => {
+            let (input, name_path) = parse_name_path(i)?;
+            i = input;
+            JsDocTag::Augments(JsDocAugmentsTag {
+                span,
+                class: name_path,
+            })
+        }
+
+        "author" => {
+            let (input, author) = parse_line(i)?;
+            i = input;
+            JsDocTag::Author(JsDocAuthorTag { span, author })
+        }
+
         "borrows" => {}
+
         "callback" => {}
+
         "class" | "constructor" => {}
+
         "classdesc" => {}
+
         "constant" | "const" => {}
+
         "constructs" => {}
+
         "copyright" => {}
+
         "default" | "defaultvalue" => {}
+
         "deprecated" => {}
+
         "description" | "desc" => {}
+
         "enum" => {}
+
         "event" => {}
+
         "example" => {}
+
         "exports" => {}
+
         "external" => {}
+
         "file" => {}
+
         "fires" => {}
+
         "function" => {}
+
         "generator" => {}
+
         "global" => {}
+
         "hideconstructor" => {}
+
         "ignore" => {}
+
         "implements" => {}
+
         "inheritdoc" => {}
+
         "inner" => {}
+
         "instance" => {}
+
         "interface" => {}
+
         "kind" => {}
-        "lendsx" => {}
+
+        "lends" => {}
+
         "license" => {}
+
         "listens" => {}
+
         "member" | "var" => {}
+
         "memberof" => {}
+
         "mixes" => {}
+
         "mixin" => {}
+
         "module" => {}
+
         "name" => {}
+
         "namespace" => {}
+
         "override" => {}
+
         "package" => {}
+
         "param" | "arg" | "argument" => {}
+
         "private" => {}
+
         "property" | "prop" => {}
+
         "protected" => {}
+
         "public" => {}
+
         "readonly" => {}
+
         "requires" => {}
         "returns" | "return" => {}
+
         "see" => {}
+
         "since" => {}
+
         "static" => {}
+
         "summary" => {}
+
         "this" => {}
+
         "tutorial" => {}
+
         "type" => {}
+
         "typedef" => {}
+
         "variation" => {}
+
         "version" => {}
+
         "yields" | "yield" => {}
             Tag::Alias(AliasTag { span, name_path })
         }

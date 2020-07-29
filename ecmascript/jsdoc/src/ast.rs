@@ -185,6 +185,8 @@ pub enum JsDocTag {
     Access(JsDocAccessTag),
     #[tag("JsDocAliasTag")]
     Alias(JsDocAliasTag),
+    #[tag("JsDocAsyncTag")]
+    Async(JsDocAsyncTag),
     #[tag("JsDocUnknownTag")]
     Unknown(JsDocUnknownTag),
     #[tag("JsDocAugmentsTag")]
@@ -241,6 +243,11 @@ pub struct JsDocAliasTag {
 }
 
 #[ast_node]
+pub struct JsDocAsyncTag {
+    pub span: Span,
+}
+
+#[ast_node]
 pub struct JsDocUnknownTag {
     pub span: Span,
     pub extras: Str,
@@ -250,7 +257,7 @@ pub struct JsDocUnknownTag {
 #[ast_node]
 pub struct JsDocAugmentsTag {
     pub span: Span,
-    pub class: JsDocExprWithTypeArgs,
+    pub class: JsDocNamePath,
 }
 
 #[ast_node]
@@ -271,8 +278,7 @@ pub struct JsDocExprWithTypeArgs {
 pub enum JsDocExpr {
     #[tag("Identifier")]
     Ident(Ident),
-    #[tag("TsQualifiedName")]
-    Property(TsQualifiedName),
+    Property(JsDocNamePath),
 }
 
 #[ast_node]
