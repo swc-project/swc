@@ -7,5 +7,6 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+swc_common = { version = "0.7.0", path = "../../common" }
 swc_ecma_ast = { version = "0.26.0", path = "../ast" }
 nom = "5.1.2"

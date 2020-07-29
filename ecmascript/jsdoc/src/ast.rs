@@ -1,5 +1,6 @@
 use crate::{Ident, Str, TsEntityName, TsQualifiedName, TsTypeParamDecl};
 use swc_common::{ast_node, Span};
+use swc_ecma_ast::{Ident, Str};
 
 #[ast_node]
 pub struct JsDoc {
