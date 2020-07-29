@@ -17,6 +17,7 @@ neon-build = "0.4.0"
 
 [dependencies]
 swc = { path = "../" }
+swc_common = { path = "../common", features = ["sourcemap"] }
 spack = { path = "../spack" }
 backtrace = "0.3"
 fxhash = "0.2"
