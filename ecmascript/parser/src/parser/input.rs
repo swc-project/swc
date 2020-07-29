@@ -17,14 +17,6 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn syntax(&self) -> Syntax;
     fn target(&self) -> JscTarget;
 
-    /// Initialize special comment buffer of the lexer. This may be called
-    /// multiple time for nested backtracking.
-    fn start_backtracking(&mut self, start: BytePos);
-
-    /// If `success` is true, comments collected while backtracking are used.
-    /// If `success` is false, comments are discarded.
-    fn stop_backtracking(&mut self, start: BytePos, success: bool);
-
     fn set_expr_allowed(&mut self, allow: bool);
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;

@@ -268,7 +268,14 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             {
                 self.comments.as_ref().unwrap().add_leading(
                     start,
-                    mem::replace(&mut self.leading_comments_buffer.as_mut().unwrap(), vec![]),
+                    mem::replace(
+                        &mut self
+                            .leading_comments_buffer
+                            .as_ref()
+                            .map(|v| v.borrow_mut())
+                            .unwrap(),
+                        vec![],
+                    ),
                 );
             }
             self.state.update(start, &token);

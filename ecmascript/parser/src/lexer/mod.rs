@@ -11,7 +11,6 @@ use crate::{
     Context, JscTarget, Syntax,
 };
 use either::Either::{Left, Right};
-use fxhash::FxHashMap;
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc};
 use swc_atoms::{js_word, JsWord};
@@ -95,8 +94,6 @@ pub struct Lexer<'a, I: Input> {
     comments: Option<&'a Comments>,
     /// [r
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
-    /// [Some] iff lexer is in the backtracking mode
-    backtracking_comments_buf: Option<Rc<RefCell<FxHashMap<BytePos, Vec<Comment>>>>>,
 
     pub(crate) ctx: Context,
     input: I,
@@ -132,7 +129,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             target,
             errors: Default::default(),
             buf: String::with_capacity(16),
-            backtracking_comments_buf: None,
         }
     }
 
@@ -602,7 +598,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 impl<'a, I: Input> Lexer<'a, I> {
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some('/'));
-        let start = self.cur_pos();
+        // let start = self.cur_pos();
 
         // Regex
         if self.state.is_expr_allowed {
