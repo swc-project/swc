@@ -5,8 +5,6 @@ use crate::{
 use dashmap::{mapref::one::Ref, DashMap};
 use fxhash::FxBuildHasher;
 
-pub trait CommentStore {}
-
 pub type CommentMap = DashMap<BytePos, Vec<Comment>, FxBuildHasher>;
 
 #[derive(Debug)]
