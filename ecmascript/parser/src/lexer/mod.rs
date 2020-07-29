@@ -97,7 +97,7 @@ pub struct Lexer<'a, I: Input> {
 
     pub(crate) ctx: Context,
     input: I,
-    /// Stores last start position of a comment.
+    /// Stores last position of the last comment.
     ///
     /// [Rc] and [RefCell] is used because this value should always increment,
     /// even if backtracking fails.

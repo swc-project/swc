@@ -192,12 +192,17 @@ impl<'a, I: Input> Lexer<'a, I> {
                 span: Span::new(start, end, SyntaxContext::empty()),
                 text: s.into(),
             };
-            if is_for_next {
-                if let Some(buf) = &self.leading_comments_buffer {
-                    buf.borrow_mut().push(cmt);
+
+            if start >= *self.last_comment_pos.borrow() {
+                *self.last_comment_pos.borrow_mut() = end;
+
+                if is_for_next {
+                    if let Some(buf) = &self.leading_comments_buffer {
+                        buf.borrow_mut().push(cmt);
+                    }
+                } else {
+                    comments.add_trailing(self.state.prev_hi, cmt);
                 }
-            } else {
-                comments.add_trailing(self.state.prev_hi, cmt);
             }
         }
 
@@ -230,23 +235,27 @@ impl<'a, I: Input> Lexer<'a, I> {
                 debug_assert_eq!(self.cur(), Some('/'));
                 self.bump(); // '/'
 
-                let pos = self.cur_pos();
+                let end = self.cur_pos();
                 if let Some(ref comments) = self.comments {
-                    let src = self.input.slice(slice_start, pos);
+                    let src = self.input.slice(slice_start, end);
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
                         kind: CommentKind::Block,
-                        span: Span::new(start, pos, SyntaxContext::empty()),
+                        span: Span::new(start, end, SyntaxContext::empty()),
                         text: s.into(),
                     };
 
                     let _ = self.input.peek();
-                    if is_for_next {
-                        if let Some(buf) = &self.leading_comments_buffer {
-                            buf.borrow_mut().push(cmt);
+                    if start >= *self.last_comment_pos.borrow() {
+                        *self.last_comment_pos.borrow_mut() = end;
+
+                        if is_for_next {
+                            if let Some(buf) = &self.leading_comments_buffer {
+                                buf.borrow_mut().push(cmt);
+                            }
+                        } else {
+                            comments.add_trailing(self.state.prev_hi, cmt);
                         }
-                    } else {
-                        comments.add_trailing(self.state.prev_hi, cmt);
                     }
                 }
                 return Ok(());
