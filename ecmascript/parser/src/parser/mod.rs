@@ -159,8 +159,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.emit_error(Error {
-            span,
-            error: Box::new(error),
+            error: Box::new((span, error)),
         })
     }
 

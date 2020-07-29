@@ -92,11 +92,17 @@ impl FusedIterator for CharIter {}
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     comments: Option<&'a Comments>,
-    /// [r
+    /// [Some] if comment comment parsing is enabled. Otherwise [None]
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
 
     pub(crate) ctx: Context,
     input: I,
+    /// Stores last start position of a comment.
+    ///
+    /// [Rc] and [RefCell] is used because this value should always increment,
+    /// even if backtracking fails.
+    last_comment_pos: Rc<RefCell<BytePos>>,
+
     state: State,
     pub(crate) syntax: Syntax,
     pub(crate) target: JscTarget,
@@ -123,6 +129,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             },
             comments,
             input,
+            last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
             ctx: Default::default(),
             syntax,

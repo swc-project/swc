@@ -30,12 +30,12 @@ impl<'a, I: Tokens> Parser<I> {
                     &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                        Box::new(Expr::Invalid(Invalid { span: err.span }))
+                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
                     }
                     &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                        Box::new(Expr::Invalid(Invalid { span: err.span }))
+                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
                     }
                     _ => return Err(err),
                 }

@@ -125,8 +125,7 @@ fn module_legacy_decimal() {
     assert_eq!(
         lex_module(Syntax::default(), "08"),
         vec![Token::Error(Error {
-            span: sp(0..2),
-            error: Box::new(SyntaxError::LegacyDecimal),
+            error: Box::new((sp(0..2), SyntaxError::LegacyDecimal)),
         })
         .span(0..2)
         .lb(),]
@@ -138,8 +137,7 @@ fn module_legacy_comment_1() {
     assert_eq!(
         lex_module(Syntax::default(), "<!-- foo oo"),
         vec![Token::Error(Error {
-            span: sp(0..11),
-            error: Box::new(SyntaxError::LegacyCommentInModule),
+            error: Box::new((sp(0..11), SyntaxError::LegacyCommentInModule)),
         })
         .span(0..11)
         .lb(),]
@@ -151,8 +149,7 @@ fn module_legacy_comment_2() {
     assert_eq!(
         lex_module(Syntax::default(), "-->"),
         vec![Token::Error(Error {
-            span: sp(0..3),
-            error: Box::new(SyntaxError::LegacyCommentInModule),
+            error: Box::new((sp(0..3), SyntaxError::LegacyCommentInModule)),
         })
         .span(0..3)
         .lb(),]
