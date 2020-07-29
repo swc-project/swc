@@ -1,6 +1,9 @@
+#![deny(unused)]
+
 use crate::ast::{
     JsDoc, JsDocAbstractTag, JsDocAccessTag, JsDocAliasTag, JsDocAsyncTag, JsDocAugmentsTag,
-    JsDocAuthorTag, JsDocBorrowsTag, JsDocTag, JsDocTagItem, JsDocUnknownTag,
+    JsDocAuthorTag, JsDocBorrowsTag, JsDocCallbackTag, JsDocNamePath, JsDocTag, JsDocTagItem,
+    JsDocUnknownTag,
 };
 use nom::{
     bytes::complete::{tag, take_while},
@@ -69,7 +72,11 @@ pub fn parse_tag_item(start: BytePos, end: BytePos, i: &str) -> IResult<&str, Js
             JsDocTag::Borrows(JsDocBorrowsTag { span, from, to })
         }
 
-        "callback" => {}
+        "callback" => {
+            let (input, name_path) = parse_name_path(i)?;
+            i = input;
+            JsDocTag::Callback(JsDocCallbackTag { span, name_path })
+        }
 
         "class" | "constructor" => {}
 

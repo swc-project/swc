@@ -340,10 +340,7 @@ pub struct ReadonlyTag {
 #[ast_node]
 pub struct JsDocCallbackTag {
     pub span: Span,
-    pub name: Option<Ident>,
-    #[serde(rename = "fullName")]
-    pub full_name: Option<JsDocNamespaceBody>,
-    // TODO: pub type_expr: JSDocSignature;
+    pub name_path: JsDocNamePath,
 }
 
 #[ast_node]
