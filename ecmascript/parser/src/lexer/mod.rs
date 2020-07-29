@@ -96,7 +96,10 @@ impl FusedIterator for CharIter {}
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     comments: Option<&'a Comments>,
-    leading_comments_buffer: Option<Vec<Comment>>,
+    leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
+    /// [Some] iff lexer is in the backtracking mode
+    backtracking_comments_buf: Option<Rc<RefCell<Vec<Comment>>>>,
+
     pub(crate) ctx: Context,
     input: I,
     state: State,
@@ -131,6 +134,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             target,
             errors: Default::default(),
             buf: String::with_capacity(16),
+            backtracking_comments_buf: None,
         }
     }
 

@@ -162,7 +162,10 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
             let c = match self.input.cur() {
                 Some(c) => c,
+                // End of input.
                 None => {
+                    // Treat last comments as trailing.
+
                     if self
                         .leading_comments_buffer
                         .as_ref()
@@ -170,6 +173,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         .unwrap_or(false)
                     {
                         let last = self.state.prev_hi;
+
                         for c in self.leading_comments_buffer.as_mut().unwrap().drain(..) {
                             self.comments.as_mut().unwrap().add_trailing(last, c);
                         }
