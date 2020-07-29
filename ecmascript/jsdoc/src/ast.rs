@@ -201,6 +201,8 @@ pub enum JsDocTag {
     Class(JsDocClassTag),
     #[tag("JSDocClassDescTag")]
     ClassDesc(JSDocClassDescTag),
+    #[tag("JsDocConstTag")]
+    Const(JsDocConstTag),
     #[tag("JsDocPublicTag")]
     Public(JsDocPublicTag),
     #[tag("JsDocPrivateTag")]
@@ -262,6 +264,13 @@ pub struct JsDocBorrowsTag {
 pub struct JSDocClassDescTag {
     pub span: Span,
     pub desc: Str,
+}
+
+#[ast_node]
+pub struct JsDocConstTag {
+    pub span: Span,
+    pub ty: Option<Str>,
+    pub name: Option<Str>,
 }
 
 #[ast_node]

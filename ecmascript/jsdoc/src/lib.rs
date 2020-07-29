@@ -1,10 +1,6 @@
 #![deny(unused)]
 
-use crate::ast::{
-    JSDocClassDescTag, JsDoc, JsDocAbstractTag, JsDocAccessTag, JsDocAliasTag, JsDocAsyncTag,
-    JsDocAugmentsTag, JsDocAuthorTag, JsDocBorrowsTag, JsDocCallbackTag, JsDocClassTag,
-    JsDocNamePath, JsDocTag, JsDocTagItem, JsDocUnknownTag,
-};
+use crate::ast::*;
 use nom::{
     bytes::complete::{tag, take_while},
     character::is_alphabetic,
@@ -94,7 +90,13 @@ pub fn parse_tag_item(start: BytePos, end: BytePos, i: &str) -> IResult<&str, Js
             JsDocTag::ClassDesc(JSDocClassDescTag { span, desc })
         }
 
-        "constant" | "const" => {}
+        "constant" | "const" => {
+            // TODO: name is must if ty is some
+            let (input, ty) = parse_opt_str(i)?;
+            let (input, name) = parse_opt_str(input)?;
+            i = input;
+            JsDocTag::Const(JsDocConstTag { span, ty, name })
+        }
 
         "constructs" => {}
 
