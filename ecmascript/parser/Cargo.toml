@@ -25,6 +25,7 @@ either = { version = "1.4" }
 serde = { version = "1", features = ["derive"] }
 smallvec = "1"
 num-bigint = "0.2"
+fxhash = "0.2.1"
 
 
 [dev-dependencies]

@@ -1,9 +1,5 @@
 //! ECMAScript lexer.
-//!
-//! In future, this might use string directly.
 
-#![allow(unused_mut)]
-#![allow(unused_variables)]
 pub use self::{
     input::Input,
     state::{TokenContext, TokenContexts},
@@ -15,6 +11,7 @@ use crate::{
     Context, JscTarget, Syntax,
 };
 use either::Either::{Left, Right};
+use fxhash::FxHashMap;
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc};
 use swc_atoms::{js_word, JsWord};
@@ -99,7 +96,7 @@ pub struct Lexer<'a, I: Input> {
     /// [r
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
     /// [Some] iff lexer is in the backtracking mode
-    backtracking_comments_buf: Option<Rc<RefCell<Vec<Comment>>>>,
+    backtracking_comments_buf: Option<Rc<RefCell<FxHashMap<BytePos, Vec<Comment>>>>>,
 
     pub(crate) ctx: Context,
     input: I,

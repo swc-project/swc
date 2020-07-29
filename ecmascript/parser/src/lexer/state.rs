@@ -169,12 +169,18 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     if self
                         .leading_comments_buffer
                         .as_ref()
-                        .map(|v| !v.is_empty())
+                        .map(|v| !v.borrow().is_empty())
                         .unwrap_or(false)
                     {
                         let last = self.state.prev_hi;
 
-                        for c in self.leading_comments_buffer.as_mut().unwrap().drain(..) {
+                        for c in self
+                            .leading_comments_buffer
+                            .as_ref()
+                            .map(|v| v.borrow_mut())
+                            .unwrap()
+                            .drain(..)
+                        {
                             self.comments.as_mut().unwrap().add_trailing(last, c);
                         }
                     }
@@ -253,7 +259,12 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         let span = self.span(start);
         if let Some(ref token) = token {
             if self.leading_comments_buffer.is_some()
-                && !self.leading_comments_buffer.as_ref().unwrap().is_empty()
+                && !self
+                    .leading_comments_buffer
+                    .as_ref()
+                    .unwrap()
+                    .borrow()
+                    .is_empty()
             {
                 self.comments.as_ref().unwrap().add_leading(
                     start,
