@@ -1,4 +1,4 @@
-use crate::{Ident, Str, TsEntityName, TsQualifiedName, TsTypeParamDecl};
+use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 use swc_ecma_ast::{Ident, Str};
 
@@ -18,10 +18,173 @@ pub struct JsDocTagItem {
     pub tag_name: JsWord,
     #[serde(flatten)]
     pub tag: JsDocTag,
+    pub tag: Tag,
+}
+
+#[ast_node]
+#[non_exhaustive]
+pub enum Tag {
+    #[tag("Yield")]
+    Yield(YieldTag),
+    #[tag("TypeDef")]
+    TypeDef(TypeDefTag),
+    #[tag("Throw")]
+    Throw(ThrowTag),
+    #[tag("Todo")]
+    Todo(TodoTag),
+    #[tag("Tutorial")]
+    Tutorial(TutorialTag),
+    #[tag("Static")]
+    Static(StaticTag),
+    #[tag("Summary")]
+    Summary(SummaryTag),
+    #[tag("See")]
+    See(SeeTag),
+    #[tag("Since")]
+    Since(SinceTag),
+    #[tag("Requires")]
+    Requires(RequiresTag),
+    #[tag("Override")]
+    Override(OverrideTag),
+    #[tag("Package")]
+    Package(PackageTag),
+    #[tag("Module")]
+    Module(ModuleTag),
+    #[tag("Name")]
+    Name(NameTag),
+    #[tag("Namespace")]
+    Namespace(NamespaceTag),
+    #[tag("Variation")]
+    Variation(VariationTag),
+    #[tag("Version")]
+    Version(VersionTag),
+    #[tag("MemberOf")]
+    MemberOf(MemberOfTag),
+    #[tag("Mixes")]
+    Mixes(MixesTag),
+    #[tag("Mixin")]
+    Mixin(MixinTag),
+    #[tag("Member")]
+    Member(MemberTag),
+    #[tag("Listens")]
+    Listens(ListensTag),
+    #[tag("License")]
+    License(LicenseTag),
+    #[tag("Kind")]
+    Kind(KindTag),
+    #[tag("Lends")]
+    Lends(LendsTag),
+    #[tag("Instance")]
+    Instance(InstanceTag),
+    #[tag("Interface")]
+    Interface(InterfaceTag),
+    #[tag("Inner")]
+    Inner(InnerTag),
+    #[tag("InheritDoc")]
+    InheritDoc(InheritDocTag),
+    #[tag("IgnoreTag")]
+    Ignore(IgnoreTag),
+    #[tag("HideConstructorTag")]
+    HideConstructor(HideConstructorTag),
+    #[tag("GeneratorTag")]
+    Generator(GeneratorTag),
+    #[tag("FunctionTag")]
+    Function(FunctionTag),
+    #[tag("FilelTag")]
+    File(FilelTag),
+    #[tag("ConstructsTag")]
+    Constructs(ConstructsTag),
+    #[tag("CopyrightTag")]
+    Copyright(CopyrightTag),
+    #[tag("AbstractTag")]
+    Abstract(AbstractTag),
+    #[tag("AccessTag")]
+    Access(AccessTag),
+    #[tag("AliasTag")]
+    Alias(AliasTag),
+    #[tag("AsyncTag")]
+    Async(AsyncTag),
+    #[tag("UnknownTag")]
+    Unknown(UnknownTag),
+    #[tag("AugmentsTag")]
+    Augments(AugmentsTag),
+    #[tag("ImplementsTag")]
+    Implements(ImplementsTag),
+    #[tag("AuthorTag")]
+    Author(AuthorTag),
+    #[tag("BorrowsTag")]
+    Borrows(BorrowsTag),
+    #[tag("ClassTag")]
+    Class(ClassTag),
+    #[tag("JSDocClassDescTag")]
+    ClassDesc(JSDocClassDescTag),
+    #[tag("ConstTag")]
+    Const(ConstTag),
+    #[tag("PublicTag")]
+    Public(PublicTag),
+    #[tag("PrivateTag")]
+    Private(PrivateTag),
+    #[tag("ProtectedTag")]
+    Protected(ProtectedTag),
+    #[tag("ReadonlyTag")]
+    Readonly(ReadonlyTag),
+    #[tag("CallbackTag")]
+    Callback(CallbackTag),
+    #[tag("EnumTag")]
+    Enum(EnumTag),
+    #[tag("ParameterTag")]
+    Parameter(ParameterTag),
+    #[tag("ReturnTag")]
+    Return(ReturnTag),
+    #[tag("ThisTag")]
+    This(ThisTag),
+    #[tag("TypeTag")]
+    Type(TypeTag),
+    #[tag("TemplateTag")]
+    Template(TemplateTag),
+    #[tag("TypedefTag")]
+    Typedef(TypedefTag),
+    #[tag("PropertyTag")]
+    Property(PropertyTag),
+    #[tag("DescriptionTag")]
+    Description(DescriptionTag),
+    #[tag("ExampleTag")]
+    Example(ExampleTag),
+    #[tag("ExportsTag")]
+    Exports(ExportsTag),
+    #[tag("ExternalTag")]
+    External(ExternalTag),
+    #[tag("DefaultTag")]
+    Default(DefaultTag),
+    #[tag("DeprecatedTag")]
+    Deprecated(DeprecatedTag),
+}
+
+#[ast_node]
+pub struct AbstractTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct AccessTag {
+    pub span: Span,
+    pub access: Str,
+}
+
+#[ast_node]
+pub struct AliasTag {
+    pub span: Span,
+    pub name_path: NamePath,
 }
 
 #[ast_node]
 pub enum JsDocTag {
+    #[tag("JsDocAbstractTag")]
+    Abstract(JsDocAbstractTag),
+    #[tag("JsDocAccessTag")]
+    Access(JsDocAccessTag),
+    #[tag("JsDocAliasTag")]
+    Alias(JsDocAliasTag),
     #[tag("JsDocUnknownTag")]
     Unknown(JsDocUnknownTag),
     #[tag("JsDocAugmentsTag")]
@@ -58,6 +221,23 @@ pub enum JsDocTag {
     Typedef(JsDocTypedefTag),
     #[tag("JsDocPropertyTag")]
     Property(JsDocPropertyTag),
+}
+
+#[ast_node]
+pub struct JsDocAbstractTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct JsDocAccessTag {
+    pub span: Span,
+    pub access: JsWord,
+}
+
+#[ast_node]
+pub struct JsDocAliasTag {
+    pub span: Span,
+    pub name_path: JsDocNamePath,
 }
 
 #[ast_node]
@@ -111,24 +291,33 @@ pub struct JsDocClassTag {
 #[ast_node]
 #[derive(Copy, Eq)]
 pub struct JsDocPublicTag {
+#[derive(Eq)]
+pub struct PublicTag {
     pub span: Span,
 }
 
 #[ast_node]
 #[derive(Copy, Eq)]
 pub struct JsDocPrivateTag {
+#[derive(Eq)]
+pub struct PrivateTag {
     pub span: Span,
 }
 
 #[ast_node]
 #[derive(Copy, Eq)]
 pub struct JsDocProtectedTag {
+#[derive(Eq)]
+pub struct ProtectedTag {
     pub span: Span,
+    pub ty: Option<Str>,
 }
 
 #[ast_node]
 #[derive(Copy, Eq)]
 pub struct JsDocReadonlyTag {
+#[derive(Eq)]
+pub struct ReadonlyTag {
     pub span: Span,
 }
 
@@ -178,11 +367,14 @@ pub struct JsDocReturnTag {
     pub span: Span,
     #[serde(rename = "typeExpression")]
     type_expr: Option<JsDocTypeExpr>,
+    pub ty: Option<Str>,
+    pub description: Str,
 }
 
 #[ast_node]
 #[derive(Copy, Eq)]
 pub struct JsDocThisTag {
+pub struct ThisTag {
     pub span: Span,
 }
 
@@ -191,6 +383,7 @@ pub struct JsDocTypeTag {
     pub span: Span,
     #[serde(rename = "typeExpression")]
     pub type_expr: JsDocTypeExpr,
+    pub name: Str,
 }
 
 #[ast_node]
@@ -254,12 +447,16 @@ pub struct JsDocParenType {
 #[ast_node]
 #[derive(Copy, Eq)]
 pub struct JsDocAllType {
+#[derive(Eq)]
+pub struct AllType {
     pub span: Span,
 }
 
 #[ast_node]
 #[derive(Copy, Eq)]
 pub struct JsDocUnknownType {
+#[derive(Eq)]
+pub struct UnknownType {
     pub span: Span,
 }
 
@@ -344,4 +541,256 @@ pub enum JsDocPropOrParam {
     Prop(JsDocPropertyTag),
     #[tag("JsDocParameterTag")]
     Param(JsDocParameterTag),
+}
+
+#[ast_node]
+pub struct JsDocNamePath {
+    pub components: Vec<Ident>,
+}
+
+#[ast_node]
+pub struct CopyrightTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct DescriptionTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct ExampleTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct ExportsTag {
+    pub span: Span,
+    pub module_name: Str,
+}
+
+#[ast_node]
+pub struct ExternalTag {
+    pub span: Span,
+    pub name: Str,
+}
+
+#[ast_node]
+pub struct ConstructsTag {
+    pub span: Span,
+    pub name: Str,
+}
+
+#[ast_node]
+pub struct DefaultTag {
+    pub span: Span,
+    pub value: Str,
+}
+
+#[ast_node]
+pub struct DeprecatedTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct FilelTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct FunctionTag {
+    pub span: Span,
+    pub name: Option<Str>,
+}
+
+#[ast_node]
+pub struct GeneratorTag {
+    pub span: Span,
+}
+#[ast_node]
+pub struct HideConstructorTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct IgnoreTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct InheritDocTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct InnerTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct InstanceTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct InterfaceTag {
+    pub span: Span,
+    pub name: Option<Str>,
+}
+#[ast_node]
+pub struct KindTag {
+    pub span: Span,
+    pub name: Str,
+}
+
+#[ast_node]
+pub struct LendsTag {
+    pub span: Span,
+    pub name: NamePath,
+}
+
+#[ast_node]
+pub struct LicenseTag {
+    pub span: Span,
+    pub identifier: Str,
+}
+
+#[ast_node]
+pub struct ListensTag {
+    pub span: Span,
+    pub event_name: Str,
+}
+
+#[ast_node]
+pub struct MemberTag {
+    pub span: Span,
+    pub ty: Str,
+    pub name: Str,
+}
+
+#[ast_node]
+pub struct MemberOfTag {
+    pub span: Span,
+    pub parent_name_path: NamePath,
+}
+
+#[ast_node]
+pub struct TypeDefTag {
+    pub span: Span,
+    pub ty: Option<Str>,
+    pub name_path: NamePath,
+}
+
+#[ast_node]
+pub struct MixesTag {
+    pub span: Span,
+    pub name_path: NamePath,
+}
+
+#[ast_node]
+pub struct MixinTag {
+    pub span: Span,
+    pub name: Str,
+}
+
+#[ast_node]
+pub struct ModuleTag {
+    pub span: Span,
+    pub name: Str,
+    pub ty: Str,
+}
+
+#[ast_node]
+pub struct NameTag {
+    pub span: Span,
+    pub name_path: NamePath,
+}
+
+#[ast_node]
+pub struct NamespaceTag {
+    pub span: Span,
+    pub ty: Option<Str>,
+    pub name: Option<Str>,
+}
+
+#[ast_node]
+pub struct OverrideTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct PackageTag {
+    pub span: Span,
+    pub ty: Option<Str>,
+}
+
+#[ast_node]
+pub struct RequiresTag {
+    pub span: Span,
+    pub name_path: NamePath,
+}
+
+#[ast_node]
+pub struct SeeTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct SinceTag {
+    pub span: Span,
+    pub version: Str,
+}
+
+#[ast_node]
+pub struct SummaryTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct StaticTag {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct ThrowTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct TodoTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct TutorialTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct VariationTag {
+    pub span: Span,
+    pub number: Str,
+}
+
+#[ast_node]
+pub struct VersionTag {
+    pub span: Span,
+    pub value: Str,
+}
+
+#[ast_node]
+pub struct YieldTag {
+    pub span: Span,
+    pub value: Option<Str>,
+    pub description: Str,
 }
