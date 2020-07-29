@@ -1,6 +1,6 @@
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
-use swc_ecma_ast::{Ident, Str};
+use swc_ecma_ast::{Ident, Str, TsTypeParamDecl};
 
 #[ast_node]
 pub struct JsDoc {
@@ -195,6 +195,8 @@ pub enum JsDocTag {
     Implements(JsDocImplementsTag),
     #[tag("JsDocAuthorTag")]
     Author(JsDocAuthorTag),
+    #[tag("JsDocBorrowsTag")]
+    Borrows(JsDocBorrowsTag),
     #[tag("JsDocClassTag")]
     Class(JsDocClassTag),
     #[tag("JsDocPublicTag")]
@@ -248,6 +250,13 @@ pub struct JsDocAsyncTag {
 }
 
 #[ast_node]
+pub struct JsDocBorrowsTag {
+    pub span: Span,
+    pub from: JsDocNamePath,
+    pub to: JsDocNamePath,
+}
+
+#[ast_node]
 pub struct JsDocUnknownTag {
     pub span: Span,
     pub extras: Str,
@@ -278,6 +287,7 @@ pub struct JsDocExprWithTypeArgs {
 pub enum JsDocExpr {
     #[tag("Identifier")]
     Ident(Ident),
+    #[tag("JsDocNamePath")]
     Property(JsDocNamePath),
 }
 
@@ -340,7 +350,7 @@ pub struct JsDocCallbackTag {
 pub struct JsDocPropertyTag {
     pub span: Span,
 
-    pub name: TsEntityName,
+    pub name: JsDocNamePath,
     #[serde(rename = "typeExpression")]
     pub type_expr: Option<JsDocTypeExpr>,
     /// Whether the property name came before the type -- non-standard for
@@ -353,7 +363,7 @@ pub struct JsDocPropertyTag {
 pub struct JsDocParameterTag {
     pub span: Span,
 
-    pub name: TsEntityName,
+    pub name: JsDocNamePath,
     #[serde(rename = "typeExpression")]
     pub type_expr: Option<JsDocTypeExpr>,
     /// Whether the property name came before the type -- non-standard for
@@ -551,6 +561,7 @@ pub enum JsDocPropOrParam {
 
 #[ast_node]
 pub struct JsDocNamePath {
+    pub span: Span,
     pub components: Vec<Ident>,
 }
 
