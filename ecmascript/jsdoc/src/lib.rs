@@ -1,9 +1,9 @@
 #![deny(unused)]
 
 use crate::ast::{
-    JsDoc, JsDocAbstractTag, JsDocAccessTag, JsDocAliasTag, JsDocAsyncTag, JsDocAugmentsTag,
-    JsDocAuthorTag, JsDocBorrowsTag, JsDocCallbackTag, JsDocNamePath, JsDocTag, JsDocTagItem,
-    JsDocUnknownTag,
+    JSDocClassDescTag, JsDoc, JsDocAbstractTag, JsDocAccessTag, JsDocAliasTag, JsDocAsyncTag,
+    JsDocAugmentsTag, JsDocAuthorTag, JsDocBorrowsTag, JsDocCallbackTag, JsDocClassTag,
+    JsDocNamePath, JsDocTag, JsDocTagItem, JsDocUnknownTag,
 };
 use nom::{
     bytes::complete::{tag, take_while},
@@ -78,9 +78,21 @@ pub fn parse_tag_item(start: BytePos, end: BytePos, i: &str) -> IResult<&str, Js
             JsDocTag::Callback(JsDocCallbackTag { span, name_path })
         }
 
-        "class" | "constructor" => {}
+        "class" | "constructor" => {
+            // TODO: name is must if ty is some
+            let (input, ty) = parse_opt_str(i)?;
+            let (input, name) = parse_opt_str(input)?;
+            i = input;
 
-        "classdesc" => {}
+            JsDocTag::Class(JsDocClassTag { span, ty, name })
+        }
+
+        "classdesc" => {
+            let (input, desc) = parse_line(i)?;
+            i = input;
+
+            JsDocTag::ClassDesc(JSDocClassDescTag { span, desc })
+        }
 
         "constant" | "const" => {}
 
