@@ -197,7 +197,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 text: s.into(),
             };
             if is_for_next {
-                self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+                if let Some(buf) = self.leading_comments_buffer {
+                    buf.borrow_mut().push(cmt);
+                }
             } else {
                 comments.add_trailing(self.state.prev_hi, cmt);
             }
@@ -244,7 +246,9 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                     let peek = self.input.peek();
                     if is_for_next {
-                        self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+                        if let Some(buf) = self.leading_comments_buffer {
+                            buf.borrow_mut().push(cmt);
+                        }
                     } else {
                         comments.add_trailing(self.state.prev_hi, cmt);
                     }
