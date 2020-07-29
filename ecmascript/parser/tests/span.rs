@@ -46,10 +46,12 @@ fn load_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         if !entry.metadata()?.is_file() {
             continue;
         }
-        if !entry.path().ends_with(".js")
-            && !entry.path().ends_with(".ts")
-            && !entry.path().ends_with(".tsx")
-        {
+
+        let ext = match entry.path().extension() {
+            None => continue,
+            Some(v) => v.to_string_lossy().to_string(),
+        };
+        if ext != "js" && ext != "ts" && ext != "tsx" {
             continue;
         }
 
