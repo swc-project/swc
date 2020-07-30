@@ -516,7 +516,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
             '\n' | '\u{2028}' | '\u{2029}' => {
                 match c {
-                    '\n' => raw.push_str("\\n"),
+                    '\n' => raw.push_str("\n"),
                     '\u{2028}' => raw.push_str("\\u{2028}"),
                     '\u{2029}' => raw.push_str("\\u{2029}"),
                     _ => unreachable!(),

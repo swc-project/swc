@@ -594,3 +594,55 @@ to!(
     Direction[Direction['Left'] = 3] = 'Left';
 })(Direction || (Direction = {}));"
 );
+
+to!(
+    issue_915,
+    "export class Logger {
+    #level: LogLevels;
+    #handlers: BaseHandler[];
+    readonly #loggerName: string;
+    
+    constructor(
+        loggerName: string,
+        levelName: LevelName,
+        options: LoggerOptions = {},
+    ) {
+        this.#loggerName = loggerName;
+        this.#level = getLevelByName(levelName);
+        this.#handlers = options.handlers || [];
+    }
+}",
+    "export class Logger {
+    #level;
+    #handlers;
+    #loggerName;
+    constructor(loggerName, levelName, options = {
+    }){
+        this.#loggerName = loggerName;
+        this.#level = getLevelByName(levelName);
+        this.#handlers = options.handlers || [];
+    }
+}"
+);
+
+to!(
+    issue_915_2,
+    r#"Deno.test("[ws] WebSocket should act as asyncIterator", async () => {
+  enum Frames {
+    ping,
+    hello,
+    close,
+    end,
+  }
+});"#,
+    r#"Deno.test("[ws] WebSocket should act as asyncIterator", async ()=>{
+    var Frames;
+    (function(Frames) {
+        Frames[Frames["ping"] = 0] = "ping";
+        Frames[Frames["hello"] = 1] = "hello";
+        Frames[Frames["close"] = 2] = "close";
+        Frames[Frames["end"] = 3] = "end";
+    })(Frames || (Frames = {
+    }));
+});"#
+);
