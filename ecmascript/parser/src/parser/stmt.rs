@@ -1145,7 +1145,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
 mod tests {
     use super::*;
     use crate::{EsConfig, TsConfig};
-    use swc_common::DUMMY_SP as span;
+    use swc_common::{comments::SingleThreadedComments, DUMMY_SP as span};
     use swc_ecma_visit::assert_eq_ignore_span;
 
     fn stmt(s: &'static str) -> Stmt {
@@ -1595,7 +1595,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_856() {
-        let c = Comments::default();
+        let c = SingleThreadedComments::default();
         let s = "class Foo {
     static _extensions: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1613,13 +1613,13 @@ export default function waitUntil(callback, options = {}) {
         );
 
         let (leading, trailing) = c.take_all();
-        assert!(trailing.is_empty());
-        assert_eq!(leading.len(), 1);
+        assert!(trailing.borrow().is_empty());
+        assert_eq!(leading.borrow().len(), 1);
     }
 
     #[test]
     fn issue_856_2() {
-        let c = Comments::default();
+        let c = SingleThreadedComments::default();
         let s = "type ConsoleExamineFunc = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csl: any,
@@ -1638,13 +1638,13 @@ export default function waitUntil(callback, options = {}) {
         );
 
         let (leading, trailing) = c.take_all();
-        assert!(trailing.is_empty());
-        assert_eq!(leading.len(), 1);
+        assert!(trailing.borrow().is_empty());
+        assert_eq!(leading.borrow().len(), 1);
     }
 
     #[test]
     fn issue_856_3() {
-        let c = Comments::default();
+        let c = SingleThreadedComments::default();
         let s = "type RequireWrapper = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   exports: any,
@@ -1665,13 +1665,13 @@ export default function waitUntil(callback, options = {}) {
         );
 
         let (leading, trailing) = c.take_all();
-        assert!(trailing.is_empty());
-        assert_eq!(leading.len(), 2);
+        assert!(trailing.borrow().is_empty());
+        assert_eq!(leading.borrow().len(), 2);
     }
 
     #[test]
     fn issue_856_4() {
-        let c = Comments::default();
+        let c = SingleThreadedComments::default();
         let s = "const _extensions: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: (module: Module, filename: string) => any;
@@ -1687,7 +1687,7 @@ export default function waitUntil(callback, options = {}) {
         );
 
         let (leading, trailing) = c.take_all();
-        assert!(trailing.is_empty());
-        assert_eq!(leading.len(), 1);
+        assert!(trailing.borrow().is_empty());
+        assert_eq!(leading.borrow().len(), 1);
     }
 }

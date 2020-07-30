@@ -7,7 +7,7 @@ use std::{
     io::{self},
     path::Path,
 };
-use swc_common::{comments::Comments, errors::Handler, Spanned, DUMMY_SP};
+use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::{Node, Visit, VisitWith};
@@ -72,7 +72,7 @@ fn load_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             let content = ::testing::run_test(false, |cm, handler| -> Result<(), _> {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
 
-                let comments = Comments::default();
+                let comments = SingleThreadedComments::default();
                 let lexer = Lexer::new(
                     Syntax::Typescript(TsConfig {
                         tsx: true,

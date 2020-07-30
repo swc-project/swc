@@ -6,7 +6,7 @@ use std::{
     io::Write,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, FileName, SourceMap};
+use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
 
 struct Noop;
@@ -15,7 +15,7 @@ impl Handlers for Noop {}
 struct Builder {
     cfg: Config,
     cm: Arc<SourceMap>,
-    comments: Comments,
+    comments: SingleThreadedComments,
 }
 
 impl Builder {

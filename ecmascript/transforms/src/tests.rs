@@ -7,11 +7,11 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, errors::Handler, FileName, SourceMap};
+use swc_common::{comments::SingleThreadedComments, errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_utils::{DropSpan, COMMENTS};
+use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
@@ -22,7 +22,7 @@ impl swc_ecma_codegen::Handlers for MyHandlers {}
 pub(crate) struct Tester<'a> {
     pub cm: Arc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: Comments,
+    pub comments: SingleThreadedComments,
 }
 
 impl<'a> Tester<'a> {
@@ -33,12 +33,10 @@ impl<'a> Tester<'a> {
         let out = ::testing::run_test(false, |cm, handler| {
             crate::util::HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
-                    COMMENTS.set(&Comments::default(), || {
-                        op(&mut Tester {
-                            cm,
-                            handler,
-                            comments: Comments::default(),
-                        })
+                    op(&mut Tester {
+                        cm,
+                        handler,
+                        comments: Default::default(),
                     })
                 })
             })
@@ -211,7 +209,7 @@ pub(crate) fn test_transform<F, P>(
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::fixer::fixer(None))
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         if actual == expected {
@@ -315,7 +313,7 @@ where
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::fixer::fixer(None))
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);

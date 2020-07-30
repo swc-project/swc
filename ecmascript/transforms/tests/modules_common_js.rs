@@ -96,7 +96,7 @@ test!(
             InjectHelpers,
             common_js(mark, Default::default()),
             hygiene(),
-            fixer()
+            fixer(None)
         )
     },
     issue_389_2,

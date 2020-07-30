@@ -44,7 +44,7 @@ fn resolver(b: &mut Bencher) {
 
 #[bench]
 fn fixer(b: &mut Bencher) {
-    tr!(b, || swc_ecma_transforms::fixer());
+    tr!(b, || swc_ecma_transforms::fixer(None));
 }
 
 #[bench]

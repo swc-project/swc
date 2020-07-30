@@ -22,7 +22,6 @@ use ecmascript::{
     transforms::{
         helpers::{self, Helpers},
         util,
-        util::COMMENTS,
     },
 };
 use serde::Serialize;
@@ -68,13 +67,7 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, || {
-            //
-            COMMENTS.set(&self.comments, || {
-                //
-                op()
-            })
-        })
+        GLOBALS.set(&self.globals, || op())
     }
 
     fn get_orig_src_map(

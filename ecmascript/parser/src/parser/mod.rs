@@ -52,7 +52,7 @@ struct State {
 }
 
 impl<'a, I: Input> Parser<Lexer<'a, I>> {
-    pub fn new(syntax: Syntax, input: I, comments: Option<&'a Comments>) -> Self {
+    pub fn new(syntax: Syntax, input: I, comments: Option<&'a dyn Comments>) -> Self {
         Self::new_from(Lexer::new(syntax, Default::default(), input, comments))
     }
 }
@@ -192,7 +192,7 @@ where
 }
 
 #[cfg(test)]
-pub fn test_parser_comment<F, Ret>(c: &Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
+pub fn test_parser_comment<F, Ret>(c: &dyn Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
 where
     F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
 {

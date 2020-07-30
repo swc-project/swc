@@ -19,7 +19,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{comments::Comments, errors::Handler, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{errors::Handler, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 use unicode_xid::UnicodeXID;
@@ -1622,7 +1622,6 @@ impl<'a> UsageFinder<'a> {
 
 // Used for error reporting in transform.
 scoped_thread_local!(pub static HANDLER: Handler);
-scoped_thread_local!(pub static COMMENTS: Comments);
 
 /// make a new expression which evaluates `val` preserving side effects, if any.
 pub fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr

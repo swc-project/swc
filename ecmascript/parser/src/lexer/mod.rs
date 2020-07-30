@@ -91,7 +91,7 @@ impl FusedIterator for CharIter {}
 
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
-    comments: Option<&'a Comments>,
+    comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
 
@@ -119,7 +119,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         syntax: Syntax,
         target: JscTarget,
         input: I,
-        comments: Option<&'a Comments>,
+        comments: Option<&'a dyn Comments>,
     ) -> Self {
         Lexer {
             leading_comments_buffer: if comments.is_some() {

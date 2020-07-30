@@ -299,7 +299,7 @@ swcHelpers._throw();",
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
                     .fold_with(&mut crate::hygiene::hygiene())
-                    .fold_with(&mut crate::fixer::fixer());
+                    .fold_with(&mut crate::fixer::fixer(None));
 
                 if actual == expected {
                     return Ok(());

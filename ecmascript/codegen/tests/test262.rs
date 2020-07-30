@@ -9,7 +9,7 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::comments::Comments;
+use swc_common::comments::SingleThreadedComments;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use test::{
@@ -147,7 +147,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     src.count_lines()
                 );
 
-                let comments = Comments::default();
+                let comments = SingleThreadedComments::default();
                 let handlers = Box::new(MyHandlers);
                 let lexer = Lexer::new(
                     Syntax::default(),

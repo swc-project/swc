@@ -1,24 +1,26 @@
 use crate::{
     ext::{AsOptExpr, PatOrExprExt},
-    util::{ExprFactory, COMMENTS},
+    util::ExprFactory,
 };
 use fxhash::FxHashMap;
 use swc_common::{
+    comments::Comments,
     util::{map::Map, move_map::MoveMap},
     Span, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
-pub fn fixer() -> impl Fold {
+pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold {
     Fixer {
+        comments,
         ctx: Default::default(),
         span_map: Default::default(),
     }
 }
 
-#[derive(Debug)]
-struct Fixer {
+struct Fixer<'a> {
+    comments: Option<&'a dyn Comments>,
     ctx: Context,
     /// A hash map to preserve original span.
     ///
@@ -96,7 +98,7 @@ macro_rules! array {
     };
 }
 
-impl Fold for Fixer {
+impl Fold for Fixer<'_> {
     context_fn_args!(fold_new_expr, NewExpr, true);
     context_fn_args!(fold_call_expr, CallExpr, false);
 
@@ -582,12 +584,12 @@ impl Fold for Fixer {
         self.span_map.clear();
 
         let n = n.fold_children_with(self);
-        COMMENTS.with(|c| {
+        if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain() {
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }
-        });
+        }
 
         n
     }
@@ -597,18 +599,18 @@ impl Fold for Fixer {
         self.span_map.clear();
 
         let n = n.fold_children_with(self);
-        COMMENTS.with(|c| {
+        if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain() {
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }
-        });
+        }
 
         n
     }
 }
 
-impl Fixer {
+impl Fixer<'_> {
     fn wrap<T>(&mut self, e: T) -> Expr
     where
         T: Into<Expr>,

@@ -266,10 +266,10 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     .borrow()
                     .is_empty()
             {
-                self.comments.as_ref().unwrap().add_leading(
+                self.comments.as_ref().unwrap().add_leading_comments(
                     start,
                     mem::replace(
-                        &mut self
+                        &mut *self
                             .leading_comments_buffer
                             .as_ref()
                             .map(|v| v.borrow_mut())

@@ -54,7 +54,7 @@ impl<'a, N: Node> Node for &'a N {
 pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Arc<SourceMap>,
-    pub comments: Option<&'a Comments>,
+    pub comments: Option<&'a dyn Comments>,
     pub wr: Box<(dyn 'a + WriteJs)>,
     pub handlers: Box<(dyn 'a + Handlers)>,
 }
@@ -1887,7 +1887,7 @@ impl<'a> Emitter<'a> {
                 let lo = node.arg.span().lo();
 
                 // see #415
-                cmt.leading_comments(lo).is_some()
+                cmt.has_leading(lo)
             } else {
                 false
             };

@@ -2,91 +2,296 @@ use crate::{
     pos::Spanned,
     syntax_pos::{BytePos, Span},
 };
-use dashmap::{mapref::one::Ref, DashMap};
-use fxhash::FxBuildHasher;
+use fxhash::FxHashMap;
+use std::{cell::RefCell, rc::Rc, sync::Arc};
 
-pub type CommentMap = DashMap<BytePos, Vec<Comment>, FxBuildHasher>;
+/// Stores comment.
+///
+/// ## Implementation notes
+///
+/// Methods uses `(&self)` instead of `(&mut self)` for some reasons. Firstly,
+/// this is similar to the previous api. Secondly, typescript parser requires
+/// backtracking, which requires [Clone]. To avoid cloning large vectors, we
+/// must use [Rc<RefCell<Comments>>]. We have two option. We may implement it in
+/// the parser or in the implementation. If we decide to go with first option,
+/// we should pass [Comments] to parser, and as a result we need another method
+/// to take comments back. If we decide to go with second way, we can just pass
+/// [&Comments] to the parser. Thirdly, `(&self)` allows multi-threaded
+/// use-cases such as swc itself.
+///
+/// We use [Option] instead of no-op Comments implementation to avoid allocation
+/// unless required.
+pub trait Comments {
+    fn add_leading(&self, pos: BytePos, cmt: Comment);
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>);
+    fn has_leading(&self, pos: BytePos) -> bool;
+    fn move_leading(&self, from: BytePos, to: BytePos);
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>>;
 
-#[derive(Debug)]
-pub struct Comments {
-    leading: CommentMap,
-    trailing: CommentMap,
+    fn add_trailing(&self, pos: BytePos, cmt: Comment);
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>);
+    fn has_trailing(&self, pos: BytePos) -> bool;
+    fn move_trailing(&self, from: BytePos, to: BytePos);
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
 }
 
-impl Default for Comments {
-    fn default() -> Self {
-        fn mk() -> CommentMap {
-            DashMap::with_hasher(Default::default())
-        }
+impl<T> Comments for &'_ T
+where
+    T: ?Sized + Comments,
+{
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_leading(pos, cmt)
+    }
 
-        Comments {
-            leading: mk(),
-            trailing: mk(),
-        }
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_leading_comments(pos, comments)
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        (**self).has_leading(pos)
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        (**self).move_leading(from, to)
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_leading(pos)
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_trailing(pos, cmt)
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_trailing_comments(pos, comments)
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        (**self).has_trailing(pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        (**self).move_trailing(from, to)
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_trailing(pos)
     }
 }
 
-impl Comments {
-    pub fn add_leading(&self, pos: BytePos, cmt: Vec<Comment>) {
-        self.leading.entry(pos).or_default().extend(cmt);
+impl<T> Comments for Arc<T>
+where
+    T: ?Sized + Comments,
+{
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_leading(pos, cmt)
     }
 
-    pub fn add_trailing(&self, pos: BytePos, cmt: Comment) {
-        self.trailing.entry(pos).or_default().push(cmt);
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_leading_comments(pos, comments)
     }
 
-    pub fn take_trailing_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.remove(&pos).map(|v| v.1)
+    fn has_leading(&self, pos: BytePos) -> bool {
+        (**self).has_leading(pos)
     }
 
-    pub fn trailing_comments(
-        &self,
-        pos: BytePos,
-    ) -> Option<Ref<'_, BytePos, Vec<Comment>, FxBuildHasher>> {
-        self.trailing.get(&pos)
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        (**self).move_leading(from, to)
     }
 
-    pub fn take_leading_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.remove(&pos).map(|v| v.1)
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_leading(pos)
     }
 
-    pub fn leading_comments(
-        &self,
-        pos: BytePos,
-    ) -> Option<Ref<'_, BytePos, Vec<Comment>, FxBuildHasher>> {
-        self.leading.get(&pos)
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_trailing(pos, cmt)
     }
 
-    pub fn move_leading(&self, from: BytePos, to: BytePos) {
-        let cmt = self.leading.remove(&from);
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_trailing_comments(pos, comments)
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        (**self).has_trailing(pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        (**self).move_trailing(from, to)
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_trailing(pos)
+    }
+}
+
+impl<T> Comments for Rc<T>
+where
+    T: ?Sized + Comments,
+{
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_leading(pos, cmt)
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_leading_comments(pos, comments)
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        (**self).has_leading(pos)
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        (**self).move_leading(from, to)
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_leading(pos)
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_trailing(pos, cmt)
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_trailing_comments(pos, comments)
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        (**self).has_trailing(pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        (**self).move_trailing(from, to)
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_trailing(pos)
+    }
+}
+
+impl<T> Comments for Box<T>
+where
+    T: ?Sized + Comments,
+{
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_leading(pos, cmt)
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_leading_comments(pos, comments)
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        (**self).has_leading(pos)
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        (**self).move_leading(from, to)
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_leading(pos)
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        (**self).add_trailing(pos, cmt)
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        (**self).add_trailing_comments(pos, comments)
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        (**self).has_trailing(pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        (**self).move_trailing(from, to)
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        (**self).take_trailing(pos)
+    }
+}
+
+pub type SingleThreadedCommentsMap = Rc<RefCell<FxHashMap<BytePos, Vec<Comment>>>>;
+
+/// Single-threaded storage for comments.
+#[derive(Debug, Clone, Default)]
+pub struct SingleThreadedComments {
+    leading: SingleThreadedCommentsMap,
+    trailing: SingleThreadedCommentsMap,
+}
+
+impl Comments for SingleThreadedComments {
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        self.leading.borrow_mut().entry(pos).or_default().push(cmt);
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.leading
+            .borrow_mut()
+            .entry(pos)
+            .or_default()
+            .extend(comments);
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        self.leading.borrow().contains_key(&pos)
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        let cmt = self.leading.borrow_mut().remove(&from);
 
         if let Some(cmt) = cmt {
-            self.leading.entry(to).or_default().extend(cmt.1);
+            self.leading.borrow_mut().entry(to).or_default().extend(cmt);
         }
     }
 
-    pub fn move_trailing(&self, from: BytePos, to: BytePos) {
-        let cmt = self.trailing.remove(&from);
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.borrow_mut().remove(&pos)
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        self.trailing.borrow_mut().entry(pos).or_default().push(cmt);
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.trailing
+            .borrow_mut()
+            .entry(pos)
+            .or_default()
+            .extend(comments);
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        self.trailing.borrow().contains_key(&pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        let cmt = self.trailing.borrow_mut().remove(&from);
 
         if let Some(cmt) = cmt {
-            self.trailing.entry(to).or_default().extend(cmt.1);
+            self.trailing
+                .borrow_mut()
+                .entry(to)
+                .or_default()
+                .extend(cmt);
         }
     }
 
-    pub fn retain_leading(&self, f: impl FnMut(&BytePos, &mut Vec<Comment>) -> bool) {
-        self.leading.retain(f);
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.borrow_mut().remove(&pos)
     }
+}
 
-    pub fn retain_trailing(&self, f: impl FnMut(&BytePos, &mut Vec<Comment>) -> bool) {
-        self.trailing.retain(f);
-    }
-
+impl SingleThreadedComments {
     /// Takes all the comments as (leading, trailing).
-    pub fn take_all(self) -> (CommentMap, CommentMap) {
+    pub fn take_all(self) -> (SingleThreadedCommentsMap, SingleThreadedCommentsMap) {
         (self.leading, self.trailing)
     }
 }
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Comment {
     pub kind: CommentKind,

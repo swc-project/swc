@@ -9,12 +9,12 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{chain, comments::Comments, errors::Handler, FileName, SourceMap};
+use swc_common::{chain, comments::SingleThreadedComments, errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
-use swc_ecma_utils::{DropSpan, COMMENTS};
+use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
@@ -51,7 +51,7 @@ impl swc_ecma_codegen::Handlers for MyHandlers {}
 pub struct Tester<'a> {
     pub cm: Arc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: Comments,
+    pub comments: SingleThreadedComments,
 }
 
 impl<'a> Tester<'a> {
@@ -65,7 +65,7 @@ impl<'a> Tester<'a> {
                     op(&mut Tester {
                         cm,
                         handler,
-                        comments: Comments::default(),
+                        comments: Default::default(),
                     })
                 })
             })
@@ -129,14 +129,12 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = COMMENTS.set(&Comments::default(), || {
-            validate!(module)
-                .fold_with(&mut tr)
-                .fold_with(&mut DropSpan {
-                    preserve_ctxt: true,
-                })
-                .fold_with(&mut Normalizer)
-        });
+        let module = validate!(module)
+            .fold_with(&mut tr)
+            .fold_with(&mut DropSpan {
+                preserve_ctxt: true,
+            })
+            .fold_with(&mut Normalizer);
 
         Ok(module)
     }
@@ -217,20 +215,12 @@ where
             _ => {}
         }
 
-        let actual = COMMENTS.set(&Comments::default(), || {
-            actual
-                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                    name: "actual-1",
-                })
-                .fold_with(&mut swc_ecma_transforms::hygiene())
-                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                    name: "actual-2",
-                })
-                .fold_with(&mut swc_ecma_transforms::fixer())
-                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                    name: "actual-3",
-                })
-        });
+        let actual = actual
+            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
+            .fold_with(&mut swc_ecma_transforms::hygiene())
+            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut swc_ecma_transforms::fixer(None))
+            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
 
         if actual == expected {
             return Ok(());
@@ -328,20 +318,12 @@ where
             _ => {}
         }
 
-        let module = COMMENTS.set(&Comments::default(), || {
-            module
-                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                    name: "actual-1",
-                })
-                .fold_with(&mut swc_ecma_transforms::hygiene())
-                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                    name: "actual-2",
-                })
-                .fold_with(&mut swc_ecma_transforms::fixer())
-                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                    name: "actual-3",
-                })
-        });
+        let module = module
+            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
+            .fold_with(&mut swc_ecma_transforms::hygiene())
+            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut swc_ecma_transforms::fixer(None))
+            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
         let module = module.fold_with(&mut InjectHelpers {});
