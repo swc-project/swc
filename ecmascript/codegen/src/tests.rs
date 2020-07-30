@@ -383,15 +383,15 @@ fn tpl_escape_5() {
 #[test]
 fn tpl_escape_6() {
     let from = r#"export class MultipartReader {
-        readonly newLine = encoder.encode("\r\n");
-        readonly newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
-        readonly dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
-    }"#;
+    newLine = encoder.encode("\r\n");
+    newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
+    dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
+}"#;
     let to = r#"export class MultipartReader {
-        newLine = encoder.encode("\r\n");
-        newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
-        dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
-    }"#;
+    newLine = encoder.encode("\r\n");
+    newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
+    dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
+}"#;
 
     let out = parse_then_emit(
         from,

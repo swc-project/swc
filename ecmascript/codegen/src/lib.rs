@@ -2344,9 +2344,9 @@ fn unescape(s: &str) -> String {
             Some(c) => {
                 match c {
                     '\\' => result.push_str(r"\\"),
-                    'n' => result.push_str("\\\n"),
-                    'r' => result.push_str("\\\r"),
-                    't' => result.push_str("\\\t"),
+                    'n' => result.push_str("\\n"),
+                    'r' => result.push_str("\\r"),
+                    't' => result.push_str("\\t"),
                     'b' => result.push_str("\\\u{0008}"),
                     'f' => result.push_str("\\\u{000C}"),
                     'v' => result.push_str("\\\u{000B}"),
