@@ -654,5 +654,5 @@ to!(
 }"#,
     r#"export class MultipartReader {
     newLine = encoder.encode("\r\n");
-"#
+}"#
 );
