@@ -2298,7 +2298,13 @@ fn unescape(s: &str) -> String {
 
             8 => write!(buf, "\\o{:o}", v).unwrap(),
 
-            16 => write!(buf, "\\x{:x}", v).unwrap(),
+            16 => {
+                if v < 16 {
+                    write!(buf, "\\x0{:x}", v).unwrap()
+                } else {
+                    write!(buf, "\\x{:x}", v).unwrap()
+                }
+            }
 
             _ => unreachable!(),
         }
