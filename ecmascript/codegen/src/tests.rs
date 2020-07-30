@@ -327,6 +327,51 @@ fn issue_910() {
     );
 }
 
+#[test]
+fn tpl_1() {
+    test_from_to(
+        "`id '${id}' must be a non-empty string`;",
+        "`id '${id}' must be a non-empty string`;",
+    )
+}
+
+#[test]
+fn tpl_2() {
+    test_from_to(
+        "`${Module.wrapper[0]}${script}${Module.wrapper[1]}`",
+        "`${Module.wrapper[0]}${script}${Module.wrapper[1]}`;",
+    );
+}
+
+#[test]
+fn tpl_escape_1() {
+    test_from_to(
+        "`${parent.path}\x00${request}`",
+        "`${parent.path}\x00${request}`;",
+    )
+}
+
+#[test]
+fn tpl_escape_2() {
+    test_from_to("`${arg}\0`", "`${arg}\0`;");
+}
+
+#[test]
+fn tpl_escape_3() {
+    test_from_to(
+        "`${resolvedDevice.toLowerCase()}\\`",
+        "`${resolvedDevice.toLowerCase()}\\`;",
+    );
+}
+
+#[test]
+fn tpl_eccape_4() {
+    test_from_to(
+        "`\\\\${firstPart}\\${path.slice(last)}`",
+        "`\\\\${firstPart}\\${path.slice(last)}`;",
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
