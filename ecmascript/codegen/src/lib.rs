@@ -2308,15 +2308,10 @@ fn unescape(s: &str) -> String {
         }
     }
 
-    // let s = s.replace("\\\\", "\\");
-
     let mut result = String::with_capacity(s.len() * 6 / 5);
     let mut chars = s.chars();
 
-    println!("S: {:?}", s);
-
     while let Some(c) = chars.next() {
-        println!("C: {:?}", c);
         if c != '\\' {
             result.push(c);
             continue;
@@ -2328,7 +2323,6 @@ fn unescape(s: &str) -> String {
                 result.push('\\');
             }
             Some(c) => {
-                println!("E: {:?}", c);
                 match c {
                     '\\' => result.push_str(r"\\"),
                     'n' => result.push_str("\\\n"),
