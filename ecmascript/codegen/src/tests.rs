@@ -359,16 +359,16 @@ fn tpl_escape_2() {
 #[test]
 fn tpl_escape_3() {
     test_from_to(
-        "`${resolvedDevice.toLowerCase()}\\`",
-        "`${resolvedDevice.toLowerCase()}\\`;",
+        r#"`${resolvedDevice.toLowerCase()}\\`"#,
+        r#"`${resolvedDevice.toLowerCase()}\\`;"#,
     );
 }
 
 #[test]
-fn tpl_eccape_4() {
+fn tpl_escape_4() {
     test_from_to(
-        "`\\\\${firstPart}\\${path.slice(last)}`",
-        "`\\\\${firstPart}\\${path.slice(last)}`;",
+        r#"`\\\\${firstPart}\\${path.slice(last)}`"#,
+        r#"`\\\\${firstPart}\\${path.slice(last)}`;"#,
     );
 }
 
