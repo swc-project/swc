@@ -94,6 +94,10 @@ fn test_from_to(from: &str, to: &str) {
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
 
+fn test_identical(from: &str) {
+    test_from_to(from, from)
+}
+
 fn test_from_to_custom_config(from: &str, to: &str, cfg: Config, syntax: Syntax) {
     let out = parse_then_emit(from, cfg, syntax);
 
@@ -370,6 +374,26 @@ fn tpl_escape_4() {
         r#"`\\\\${firstPart}\\${path.slice(last)}`"#,
         r#"`\\\\${firstPart}\\${path.slice(last)}`;"#,
     );
+}
+
+#[test]
+fn issue_915_1() {
+    test_identical(r#"relResolveCacheIdentifier = `${parent.path}\x00${request}`;"#);
+}
+
+#[test]
+fn issue_915_2() {
+    test_identical(r#"relResolveCacheIdentifier = `${parent.path}\x00${request}`;"#);
+}
+
+#[test]
+fn issue_915_3() {
+    test_identical(r#"encoder.encode("\r\n")"#);
+}
+
+#[test]
+fn issue_915_4() {
+    test_identical(r#"`\r\n--${this.boundary}`"#);
 }
 
 #[derive(Debug, Clone)]
