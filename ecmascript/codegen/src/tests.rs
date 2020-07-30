@@ -388,12 +388,12 @@ fn issue_915_2() {
 
 #[test]
 fn issue_915_3() {
-    test_identical(r#"encoder.encode("\r\n")"#);
+    test_identical(r#"encoder.encode("\\r\\n");"#);
 }
 
 #[test]
 fn issue_915_4() {
-    test_identical(r#"`\r\n--${this.boundary}`"#);
+    test_identical(r#"`\\r\\n--${this.boundary}`;"#);
 }
 
 #[derive(Debug, Clone)]

@@ -2319,7 +2319,20 @@ fn unescape(s: &str) -> String {
 
     while let Some(c) = chars.next() {
         if c != '\\' {
-            result.push(c);
+            match c {
+                '\r' => {
+                    result.push_str("\\r");
+                }
+                '\n' => {
+                    result.push_str("\\n");
+                }
+
+                // TODO: Handle all escapes
+                _ => {
+                    result.push(c);
+                }
+            }
+
             continue;
         }
 
