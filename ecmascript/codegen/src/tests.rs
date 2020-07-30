@@ -88,10 +88,16 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
-fn test_from_to(from: &str, to: &str) {
+fn test_from_to(from: &str, expected: &str) {
     let out = parse_then_emit(from, Default::default(), Syntax::default());
 
-    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+    dbg!(&out);
+    dbg!(&expected);
+
+    assert_eq!(
+        DebugUsingDisplay(out.trim()),
+        DebugUsingDisplay(expected.trim()),
+    );
 }
 
 fn test_identical(from: &str) {

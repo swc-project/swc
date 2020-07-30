@@ -2356,7 +2356,7 @@ fn unescape(s: &str) -> String {
                         Some('x') => read_escaped(16, Some(2), &mut result, &mut chars),
                         nc => {
                             // This is wrong, but it seems like a mistake made by user.
-                            result.push('0');
+                            result.push_str("\\0");
                             result.extend(nc);
                         }
                     },
