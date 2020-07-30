@@ -675,6 +675,12 @@ impl Fold for Strip {
         prop
     }
 
+    fn fold_class_prop(&mut self, mut prop: ClassProp) -> ClassProp {
+        prop = prop.fold_children_with(self);
+        prop.readonly = false;
+        prop
+    }
+
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 

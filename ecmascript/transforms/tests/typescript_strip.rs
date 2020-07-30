@@ -646,3 +646,13 @@ to!(
     }));
 });"#
 );
+
+to!(
+    issue_915_3,
+    r#"export class MultipartReader {
+    readonly newLine = encoder.encode("\r\n");
+}"#,
+    r#"export class MultipartReader {
+    newLine = encoder.encode("\r\n");
+"#
+);
