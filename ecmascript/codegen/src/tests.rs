@@ -373,6 +373,35 @@ fn tpl_escape_4() {
 }
 
 #[test]
+fn tpl_escape_5() {
+    test_from_to(
+        r#"const data = text.encode(`${arg}\0`);"#,
+        r#"const data = text.encode(`${arg}\0`);"#,
+    );
+}
+
+#[test]
+fn tpl_escape_6() {
+    let from = r#"export class MultipartReader {
+        readonly newLine = encoder.encode("\r\n");
+        readonly newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
+        readonly dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
+    }"#;
+    let to = r#"export class MultipartReader {
+        newLine = encoder.encode("\r\n");
+        newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
+        dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
+    }"#;
+
+    let out = parse_then_emit(
+        from,
+        Default::default(),
+        Syntax::Typescript(Default::default()),
+    );
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+}
+
+#[test]
 fn issue_915_1() {
     test_identical(r#"relResolveCacheIdentifier = `${parent.path}\x00${request}`;"#);
 }
