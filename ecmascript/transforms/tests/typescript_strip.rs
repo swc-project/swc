@@ -656,3 +656,15 @@ to!(
     newLine = encoder.encode("\r\n");
 }"#
 );
+
+to!(
+    issue_915_4,
+    r#"const data = text.encode(`${arg}\\0`);"#,
+    r#"const data = text.encode(`${arg}\\0`);"#
+);
+
+to!(
+    issue_915_5,
+    r#"const data = text.encode(`${arg}\0`);"#,
+    r#"const data = text.encode(`${arg}\0`);"#
+);
