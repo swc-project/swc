@@ -280,12 +280,8 @@ fn issue_450() {
 \`\`\`html
 <h1>It works!</h1>
 \`\`\`
-`)"#,
-        r#"console.log(`
-\`\`\`html
-<h1>It works!</h1>
-\`\`\`
 `);"#,
+        r#"console.log(`\n\`\`\`html\n<h1>It works!</h1>\n\`\`\`\n`);"#,
     );
 }
 
