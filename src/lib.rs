@@ -14,6 +14,7 @@ use common::{
     errors::Handler,
     BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
 };
+use dashmap::DashMap;
 pub use ecmascript::parser::StringInput;
 use ecmascript::{
     ast::Program,
@@ -477,3 +478,13 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
         .map(Rc::Single)
         .map_err(convert_json_err)
 }
+
+type CommentMap = Arc<DashMap<BytePos, Vec<Comment>>>;
+
+#[derive(Clone)]
+pub struct MultiThreadComments {
+    leading: CommentMap,
+    trailing: CommentMap,
+}
+
+impl Comments for MultiThreadComments {}
