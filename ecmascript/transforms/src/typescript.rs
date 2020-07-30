@@ -3,8 +3,11 @@ use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+
+/// Value does not contain TsLit::Bool
+type EnumValues = FxHashMap<Id, TsLit>;
 
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
@@ -126,10 +129,10 @@ impl Strip {
         node
     }
 
-    fn handle_enum(&mut self, e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
-        /// Value does not contain TsLit::Bool
-        type EnumValues = FxHashMap<Id, TsLit>;
-
+    fn handle_enum<T>(&mut self, e: TsEnumDecl, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
         /// Called only for enums.
         ///
         /// If both of the default value and the initialization is None, this
@@ -342,7 +345,7 @@ impl Strip {
             _ => true,
         });
 
-        stmts.push(
+        stmts.push(T::from_stmt(
             CallExpr {
                 span: DUMMY_SP,
                 callee: FnExpr {
@@ -437,9 +440,8 @@ impl Strip {
                 .as_arg()],
                 type_args: Default::default(),
             }
-            .into_stmt()
-            .into(),
-        )
+            .into_stmt(),
+        ))
     }
 }
 
@@ -667,6 +669,18 @@ impl Fold for Strip {
         }
     }
 
+    fn fold_private_prop(&mut self, mut prop: PrivateProp) -> PrivateProp {
+        prop = prop.fold_children_with(self);
+        prop.readonly = false;
+        prop
+    }
+
+    fn fold_class_prop(&mut self, mut prop: ClassProp) -> ClassProp {
+        prop = prop.fold_children_with(self);
+        prop.readonly = false;
+        prop
+    }
+
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
@@ -686,6 +700,58 @@ impl Fold for Strip {
             },
             _ => stmt,
         }
+    }
+
+    fn fold_stmts(&mut self, mut orig: Vec<Stmt>) -> Vec<Stmt> {
+        let old = self.phase;
+
+        // First pass
+        self.phase = Phase::Analysis;
+        orig = orig.fold_children_with(self);
+        self.phase = Phase::DropImports;
+
+        // Second pass
+        let mut stmts = Vec::with_capacity(orig.len());
+        for item in orig {
+            self.was_side_effect_import = false;
+            match item {
+                Stmt::Empty(..) => continue,
+
+                Stmt::Decl(Decl::TsEnum(e)) => {
+                    // var Foo;
+                    // (function (Foo) {
+                    //     Foo[Foo["a"] = 0] = "a";
+                    // })(Foo || (Foo = {}));
+
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: e.span,
+                            name: Pat::Ident(e.id.clone()),
+                            definite: false,
+                            init: None,
+                        }],
+                    })));
+                    self.handle_enum(e, &mut stmts)
+                }
+
+                // Strip out ts-only extensions
+                Stmt::Decl(Decl::Fn(FnDecl {
+                    function: Function { body: None, .. },
+                    ..
+                }))
+                | Stmt::Decl(Decl::TsInterface(..))
+                | Stmt::Decl(Decl::TsModule(..))
+                | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
+
+                _ => stmts.push(item.fold_with(self)),
+            };
+        }
+        self.phase = old;
+
+        stmts
     }
 
     fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {

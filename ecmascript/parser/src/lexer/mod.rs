@@ -505,20 +505,20 @@ impl<'a, I: Input> Lexer<'a, I> {
             'v' => push_c_and_ret!('\u{000b}'),
             'f' => push_c_and_ret!('\u{000c}'),
             '\r' => {
-                raw.push_str("\\r");
+                raw.push_str("\r");
                 self.bump(); // remove '\r'
 
                 if self.cur() == Some('\n') {
-                    raw.push_str("\\n");
+                    raw.push_str("\n");
                     self.bump();
                 }
                 return Ok(None);
             }
             '\n' | '\u{2028}' | '\u{2029}' => {
                 match c {
-                    '\n' => raw.push_str("\\n"),
-                    '\u{2028}' => raw.push_str("\\u{2028}"),
-                    '\u{2029}' => raw.push_str("\\u{2029}"),
+                    '\n' => raw.push_str("\n"),
+                    '\u{2028}' => raw.push_str("\u{2028}"),
+                    '\u{2029}' => raw.push_str("\u{2029}"),
                     _ => unreachable!(),
                 }
                 self.bump();
@@ -538,6 +538,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
             // octal escape sequences
             '0'..='7' => {
+                raw.push(c);
                 self.bump();
                 let first_c = if c == '0' {
                     match self.cur() {

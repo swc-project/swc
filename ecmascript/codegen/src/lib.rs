@@ -2298,7 +2298,13 @@ fn unescape(s: &str) -> String {
 
             8 => write!(buf, "\\o{:o}", v).unwrap(),
 
-            16 => write!(buf, "\\x{:x}", v).unwrap(),
+            16 => {
+                if v < 16 {
+                    write!(buf, "\\x0{:x}", v).unwrap()
+                } else {
+                    write!(buf, "\\x{:x}", v).unwrap()
+                }
+            }
 
             _ => unreachable!(),
         }
@@ -2308,14 +2314,25 @@ fn unescape(s: &str) -> String {
         }
     }
 
-    let s = s.replace("\\\\", "\\");
-
     let mut result = String::with_capacity(s.len() * 6 / 5);
     let mut chars = s.chars();
 
     while let Some(c) = chars.next() {
         if c != '\\' {
-            result.push(c);
+            match c {
+                '\r' => {
+                    result.push_str("\\r");
+                }
+                '\n' => {
+                    result.push_str("\\n");
+                }
+
+                // TODO: Handle all escapes
+                _ => {
+                    result.push(c);
+                }
+            }
+
             continue;
         }
 
@@ -2324,30 +2341,32 @@ fn unescape(s: &str) -> String {
                 // This is wrong, but it seems like a mistake made by user.
                 result.push('\\');
             }
-            Some(c) => match c {
-                '\\' => result.push('\\'),
-                'n' => result.push_str("\\\n"),
-                'r' => result.push_str("\\\r"),
-                't' => result.push_str("\\\t"),
-                'b' => result.push_str("\\\u{0008}"),
-                'f' => result.push_str("\\\u{000C}"),
-                'v' => result.push_str("\\\u{000B}"),
-                '0' => match chars.next() {
-                    Some('b') => read_escaped(2, None, &mut result, &mut chars),
-                    Some('o') => read_escaped(8, None, &mut result, &mut chars),
-                    Some('x') => read_escaped(16, Some(2), &mut result, &mut chars),
-                    nc => {
-                        // This is wrong, but it seems like a mistake made by user.
-                        result.push('0');
-                        result.extend(nc);
-                    }
-                },
+            Some(c) => {
+                match c {
+                    '\\' => result.push_str(r"\\"),
+                    'n' => result.push_str("\\n"),
+                    'r' => result.push_str("\\r"),
+                    't' => result.push_str("\\t"),
+                    'b' => result.push_str("\\\u{0008}"),
+                    'f' => result.push_str("\\\u{000C}"),
+                    'v' => result.push_str("\\\u{000B}"),
+                    '0' => match chars.next() {
+                        Some('b') => read_escaped(2, None, &mut result, &mut chars),
+                        Some('o') => read_escaped(8, None, &mut result, &mut chars),
+                        Some('x') => read_escaped(16, Some(2), &mut result, &mut chars),
+                        nc => {
+                            // This is wrong, but it seems like a mistake made by user.
+                            result.push_str("\\0");
+                            result.extend(nc);
+                        }
+                    },
 
-                _ => {
-                    result.push('\\');
-                    result.push(c);
+                    _ => {
+                        result.push('\\');
+                        result.push(c);
+                    }
                 }
-            },
+            }
         }
     }
 

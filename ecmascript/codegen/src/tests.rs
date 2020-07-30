@@ -88,10 +88,20 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
-fn test_from_to(from: &str, to: &str) {
+fn test_from_to(from: &str, expected: &str) {
     let out = parse_then_emit(from, Default::default(), Syntax::default());
 
-    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+    dbg!(&out);
+    dbg!(&expected);
+
+    assert_eq!(
+        DebugUsingDisplay(out.trim()),
+        DebugUsingDisplay(expected.trim()),
+    );
+}
+
+fn test_identical(from: &str) {
+    test_from_to(from, from)
 }
 
 fn test_from_to_custom_config(from: &str, to: &str, cfg: Config, syntax: Syntax) {
@@ -276,12 +286,8 @@ fn issue_450() {
 \`\`\`html
 <h1>It works!</h1>
 \`\`\`
-`)"#,
-        r#"console.log(`
-\`\`\`html
-<h1>It works!</h1>
-\`\`\`
 `);"#,
+        r#"console.log(`\n\`\`\`html\n<h1>It works!</h1>\n\`\`\`\n`);"#,
     );
 }
 
@@ -325,6 +331,100 @@ fn issue_910() {
         "console.log('Hello\\' World');",
         "console.log('Hello\\' World');",
     );
+}
+
+#[test]
+fn tpl_1() {
+    test_from_to(
+        "`id '${id}' must be a non-empty string`;",
+        "`id '${id}' must be a non-empty string`;",
+    )
+}
+
+#[test]
+fn tpl_2() {
+    test_from_to(
+        "`${Module.wrapper[0]}${script}${Module.wrapper[1]}`",
+        "`${Module.wrapper[0]}${script}${Module.wrapper[1]}`;",
+    );
+}
+
+#[test]
+fn tpl_escape_1() {
+    test_from_to(
+        "`${parent.path}\x00${request}`",
+        "`${parent.path}\x00${request}`;",
+    )
+}
+
+#[test]
+fn tpl_escape_2() {
+    test_from_to("`${arg}\0`", "`${arg}\0`;");
+}
+
+#[test]
+fn tpl_escape_3() {
+    test_from_to(
+        r#"`${resolvedDevice.toLowerCase()}\\`"#,
+        r#"`${resolvedDevice.toLowerCase()}\\`;"#,
+    );
+}
+
+#[test]
+fn tpl_escape_4() {
+    test_from_to(
+        r#"`\\\\${firstPart}\\${path.slice(last)}`"#,
+        r#"`\\\\${firstPart}\\${path.slice(last)}`;"#,
+    );
+}
+
+#[test]
+fn tpl_escape_5() {
+    test_from_to(
+        r#"const data = text.encode(`${arg}\0`);"#,
+        r#"const data = text.encode(`${arg}\0`);"#,
+    );
+}
+
+#[test]
+fn tpl_escape_6() {
+    let from = r#"export class MultipartReader {
+    newLine = encoder.encode("\r\n");
+    newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
+    dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
+}"#;
+    let to = r#"export class MultipartReader {
+    newLine = encoder.encode("\r\n");
+    newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
+    dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
+}"#;
+
+    let out = parse_then_emit(
+        from,
+        Default::default(),
+        Syntax::Typescript(Default::default()),
+    );
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+}
+
+#[test]
+fn issue_915_1() {
+    test_identical(r#"relResolveCacheIdentifier = `${parent.path}\x00${request}`;"#);
+}
+
+#[test]
+fn issue_915_2() {
+    test_identical(r#"relResolveCacheIdentifier = `${parent.path}\x00${request}`;"#);
+}
+
+#[test]
+fn issue_915_3() {
+    test_identical(r#"encoder.encode("\\r\\n");"#);
+}
+
+#[test]
+fn issue_915_4() {
+    test_identical(r#"`\\r\\n--${this.boundary}`;"#);
 }
 
 #[derive(Debug, Clone)]

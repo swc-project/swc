@@ -1058,6 +1058,27 @@ fn issue_481() {
     );
 }
 
+#[test]
+fn issue_915_1() {
+    assert_eq!(
+        lex_tokens(
+            crate::Syntax::Es(crate::EsConfig {
+                ..Default::default()
+            }),
+            r##"encode("\r\n")"##
+        ),
+        vec![
+            Word(Word::Ident("encode".into())),
+            LParen,
+            Token::Str {
+                value: "\r\n".into(),
+                has_escape: true
+            },
+            RParen
+        ]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
