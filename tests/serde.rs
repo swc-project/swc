@@ -1,11 +1,7 @@
 use std::path::Path;
-use swc::{
-    ecmascript::{
-        ast::Module,
-        parser::{lexer::Lexer, PResult, Parser, Syntax},
-    },
-    StringInput,
-};
+use swc_common::input::StringInput;
+use swc_ecma_ast::Module;
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax};
 use testing::NormalizedOutput;
 
 fn with_parser<F, Ret>(file_name: &str, f: F) -> Result<Ret, NormalizedOutput>

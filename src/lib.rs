@@ -1,9 +1,6 @@
 #![deny(unused)]
 
 pub use sourcemap;
-pub use swc_atoms as atoms;
-pub use swc_common as common;
-pub use swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
@@ -11,22 +8,7 @@ use crate::config::{
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
-use common::{
-    comments::{Comment, Comments},
-    errors::Handler,
-    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
-};
 use dashmap::DashMap;
-pub use ecmascript::parser::StringInput;
-use ecmascript::{
-    ast::Program,
-    codegen::{self, Emitter, Node},
-    parser::{lexer::Lexer, Parser, Syntax},
-    transforms::{
-        helpers::{self, Helpers},
-        util,
-    },
-};
 use serde::Serialize;
 use serde_json::error::Category;
 use std::{
@@ -34,7 +16,20 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc_ecmascript::{visit, visit::FoldWith};
+use swc_common::{
+    comments::{Comment, Comments},
+    errors::Handler,
+    input::StringInput,
+    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
+};
+use swc_ecma_ast::Program;
+use swc_ecma_codegen::{self, Emitter, Node};
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_transforms::{
+    helpers::{self, Helpers},
+    util,
+};
+use swc_ecma_visit::FoldWith;
 
 mod builder;
 pub mod config;
@@ -203,10 +198,10 @@ impl Compiler {
                 {
                     let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
-                        cfg: codegen::Config { minify },
+                        cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
-                        wr: Box::new(codegen::text_writer::JsWriter::new(
+                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                             self.cm.clone(),
                             "\n",
                             &mut buf,
@@ -351,7 +346,7 @@ impl Compiler {
         &'a self,
         opts: &Options,
         name: &FileName,
-    ) -> Result<BuiltConfig<impl 'a + ecmascript::visit::Fold>, Error> {
+    ) -> Result<BuiltConfig<impl 'a + swc_ecma_visit::Fold>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
             let built = opts.build(
@@ -381,7 +376,7 @@ impl Compiler {
         &self,
         program: Program,
         external_helpers: bool,
-        mut pass: impl visit::Fold,
+        mut pass: impl swc_ecma_visit::Fold,
     ) -> Program {
         self.run_transform(external_helpers, || {
             // Fold module
@@ -430,7 +425,7 @@ impl Compiler {
         &self,
         program: Program,
         orig: Option<&sourcemap::SourceMap>,
-        config: BuiltConfig<impl visit::Fold>,
+        config: BuiltConfig<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             if config.minify {
@@ -456,7 +451,7 @@ impl Compiler {
 
 struct MyHandlers;
 
-impl ecmascript::codegen::Handlers for MyHandlers {}
+impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {

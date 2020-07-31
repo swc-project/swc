@@ -1,4 +1,4 @@
-use crate::{builder::PassBuilder, SwcComments};
+use crate::builder::PassBuilder;
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -13,20 +13,16 @@ use std::{
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
-use swc_common::{errors::Handler, FileName, Mark, SourceMap};
-pub use swc_ecmascript::parser::JscTarget;
-use swc_ecmascript::{
-    ast::{Expr, ExprStmt, ModuleItem, Stmt},
-    parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig},
-    preset_env,
-    transforms::{
-        const_modules, modules,
-        optimization::{simplifier, InlineGlobals, JsonParse},
-        pass::{noop, Optional},
-        proposals::{decorators, export},
-        react, resolver_with_mark, typescript,
-    },
-    visit,
+use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
+use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
+pub use swc_ecma_parser::JscTarget;
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms::{
+    const_modules, modules,
+    optimization::{simplifier, InlineGlobals, JsonParse},
+    pass::{noop, Optional},
+    proposals::{decorators, export},
+    react, resolver_with_mark, typescript,
 };
 
 #[cfg(test)]
@@ -167,8 +163,8 @@ impl Options {
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
-        comments: Option<&'a SwcComments>,
-    ) -> BuiltConfig<impl 'a + visit::Fold> {
+        comments: Option<&'a dyn Comments>,
+    ) -> BuiltConfig<impl 'a + swc_ecma_visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         if let Some(ref c) = self.config {
             config.merge(c)
@@ -415,7 +411,7 @@ impl Rc {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
-    pub env: Option<preset_env::Config>,
+    pub env: Option<swc_ecma_preset_env::Config>,
 
     #[serde(default)]
     pub test: Option<FileMatcher>,
@@ -499,7 +495,7 @@ impl Config {
 }
 
 /// One `BuiltConfig` per a directory with swcrc
-pub struct BuiltConfig<P: visit::Fold> {
+pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub pass: P,
     pub syntax: Syntax,
     pub target: JscTarget,
@@ -548,7 +544,7 @@ impl ModuleConfig {
         cm: Arc<SourceMap>,
         root_mark: Mark,
         config: Option<ModuleConfig>,
-    ) -> Box<dyn visit::Fold> {
+    ) -> Box<dyn swc_ecma_visit::Fold> {
         match config {
             None | Some(ModuleConfig::Es6) => Box::new(noop()),
             Some(ModuleConfig::CommonJs(config)) => {
@@ -732,7 +728,7 @@ impl Merge for Config {
     }
 }
 
-impl Merge for preset_env::Config {
+impl Merge for swc_ecma_preset_env::Config {
     fn merge(&mut self, from: &Self) {
         *self = from.clone();
     }

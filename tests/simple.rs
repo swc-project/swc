@@ -1,10 +1,10 @@
 use std::sync::Arc;
 use swc::{
     config::{Config, JscConfig, Options},
-    ecmascript::parser::{EsConfig, Syntax},
     Compiler,
 };
 use swc_common::FileName;
+use swc_ecma_parser::{EsConfig, Syntax};
 use testing::Tester;
 
 fn compile(src: &str, options: Options) -> String {

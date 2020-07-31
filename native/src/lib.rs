@@ -10,10 +10,8 @@ use anyhow::Error;
 use backtrace::Backtrace;
 use neon::prelude::*;
 use std::{env, panic::set_hook, sync::Arc};
-use swc::{
-    common::{self, errors::Handler, FilePathMapping, SourceMap},
-    Compiler, TransformOutput,
-};
+use swc::{Compiler, TransformOutput};
+use swc_common::{self, errors::Handler, FilePathMapping, SourceMap};
 
 mod bundle;
 mod parse;
@@ -31,7 +29,7 @@ fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
     let handler = Arc::new(Handler::with_tty_emitter(
-        common::errors::ColorConfig::Always,
+        swc_common::errors::ColorConfig::Always,
         true,
         false,
         Some(cm.clone()),

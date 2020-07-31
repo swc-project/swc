@@ -1,25 +1,18 @@
-use crate::{
-    config::{GlobalPassOption, JscTarget, ModuleConfig},
-    SwcComments,
-};
+use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
 use either::Either;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{chain, errors::Handler, Mark, SourceMap};
-use swc_ecmascript::{
-    parser::Syntax,
-    preset_env,
-    transforms::{
-        compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional, typescript,
-    },
-    visit,
+use swc_common::{chain, comments::Comments, errors::Handler, Mark, SourceMap};
+use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
+    compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional, typescript,
 };
 
 /// Builder is used to create a high performance `Compiler`.
-pub struct PassBuilder<'a, 'b, P: visit::Fold> {
+pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     cm: &'a Arc<SourceMap>,
     handler: &'b Handler,
-    env: Option<preset_env::Config>,
+    env: Option<swc_ecma_preset_env::Config>,
     pass: P,
     global_mark: Mark,
     target: JscTarget,
@@ -28,7 +21,7 @@ pub struct PassBuilder<'a, 'b, P: visit::Fold> {
     fixer: bool,
 }
 
-impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
+impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     pub fn new(
         cm: &'a Arc<SourceMap>,
         handler: &'b Handler,
@@ -51,7 +44,7 @@ impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
 
     pub fn then<N>(self, next: N) -> PassBuilder<'a, 'b, swc_visit::AndThen<P, N>>
     where
-        N: swc_ecmascript::visit::Fold,
+        N: swc_ecma_visit::Fold,
     {
         let pass = chain!(self.pass, next);
         PassBuilder {
@@ -82,16 +75,19 @@ impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
     pub fn const_modules(
         self,
         globals: HashMap<JsWord, HashMap<JsWord, String>>,
-    ) -> PassBuilder<'a, 'b, impl visit::Fold> {
+    ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
         self.then(const_modules(globals))
     }
 
-    pub fn inline_globals(self, c: GlobalPassOption) -> PassBuilder<'a, 'b, impl visit::Fold> {
+    pub fn inline_globals(
+        self,
+        c: GlobalPassOption,
+    ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
         let pass = c.build(&self.cm, &self.handler);
         self.then(pass)
     }
 
-    pub fn strip_typescript(self) -> PassBuilder<'a, 'b, impl visit::Fold> {
+    pub fn strip_typescript(self) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
         self.then(typescript::strip())
     }
 
@@ -100,7 +96,7 @@ impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
         self
     }
 
-    pub fn preset_env(mut self, env: Option<preset_env::Config>) -> Self {
+    pub fn preset_env(mut self, env: Option<swc_ecma_preset_env::Config>) -> Self {
         self.env = env;
         self
     }
@@ -122,8 +118,11 @@ impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
         root_mark: Mark,
         syntax: Syntax,
         module: Option<ModuleConfig>,
-        comments: Option<&'cmt SwcComments>,
-    ) -> impl 'cmt + visit::Fold {
+        comments: Option<&'cmt dyn Comments>,
+    ) -> impl 'cmt + swc_ecma_visit::Fold
+    where
+        P: 'cmt,
+    {
         let need_interop_analysis = match module {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
@@ -133,7 +132,7 @@ impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
 
         // compat
         let compat_pass = if let Some(env) = self.env {
-            Either::Left(preset_env::preset_env(self.global_mark, env))
+            Either::Left(swc_ecma_preset_env::preset_env(self.global_mark, env))
         } else {
             Either::Right(chain!(
                 Optional::new(

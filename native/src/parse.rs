@@ -5,12 +5,9 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::{
-    common::{FileName, SourceFile},
-    config::ParseOptions,
-    ecmascript::ast::Program,
-    Compiler,
-};
+use swc::{config::ParseOptions, Compiler};
+use swc_common::{FileName, SourceFile};
+use swc_ecma_ast::Program;
 
 // ----- Parsing -----
 
