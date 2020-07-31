@@ -6,16 +6,14 @@ license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecmascript/"
 description = "Ecmascript"
-publish = false
 edition = "2018"
 
 [dependencies]
-swc_ecma_ast = { path ="./ast" }
-swc_ecma_codegen = { path ="./codegen" }
-swc_ecma_parser = { path ="./parser" }
-swc_ecma_preset_env = { path ="preset_env" }
-swc_ecma_utils = { path ="./utils" }
-swc_ecma_transforms = { path ="./transforms" }
-swc_ecma_visit = { path ="./visit" }
+swc_ecma_ast = { version = "0.26.0", path ="./ast" }
+swc_ecma_codegen = { version = "0.29.0", path ="./codegen" }
+swc_ecma_parser = { version = "0.31.0", path ="./parser" }
+swc_ecma_utils = { version = "0.15", path ="./utils" }
+swc_ecma_transforms = { version = "0.16", path ="./transforms" }
+swc_ecma_visit = { version = "0.11", path ="./visit" }
 
 [dev-dependencies]

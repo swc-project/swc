@@ -1,5 +1,5 @@
 [workspace]
-members = ["native", "spack", "wasm"]
+members = ["ecmascript", "native", "spack", "wasm"]
 
 [package]
 name = "swc"
