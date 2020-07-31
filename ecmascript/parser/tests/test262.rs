@@ -10,7 +10,7 @@ use std::{
     path::Path,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax};
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -308,7 +308,7 @@ fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
 
 fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<SourceFileInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
 {
     let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm

@@ -45,7 +45,7 @@
 //!     errors::{ColorConfig, Handler},
 //!     FileName, FilePathMapping, SourceMap,
 //! };
-//! use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
+//! use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 //!
 //! fn main() {
 //!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
@@ -67,7 +67,7 @@
 //!             Syntax::Es(Default::default()),
 //!             // JscTarget defaults to es5
 //!             Default::default(),
-//!             SourceFileInput::from(&*fm),
+//!             StringInput::from(&*fm),
 //!             None,
 //!         );
 //!
@@ -92,15 +92,14 @@
 //! [tc39/test262]:https://github.com/tc39/test262
 
 #![cfg_attr(test, feature(test))]
-#![deny(unreachable_patterns)]
-#![deny(unsafe_code)]
+#![deny(unused)]
 
 pub use self::{
-    lexer::input::{Input, SourceFileInput},
+    lexer::input::{Input, StringInput},
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::{Span, SpanData};
+use swc_common::Span;
 
 #[macro_use]
 mod macros;
@@ -430,7 +429,7 @@ pub struct Context {
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&swc_common::errors::Handler, SourceFileInput<'_>) -> Result<Ret, ()>,
+    F: FnOnce(&swc_common::errors::Handler, StringInput<'_>) -> Result<Ret, ()>,
 {
     use swc_common::FileName;
 
@@ -439,8 +438,4 @@ where
 
         f(handler, (&*fm).into())
     })
-}
-
-fn make_span(data: SpanData) -> Span {
-    Span::new(data.lo, data.hi, data.ctxt)
 }

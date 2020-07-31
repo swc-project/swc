@@ -7,7 +7,7 @@ static GLOBAL: System = System;
 
 use std::alloc::System;
 use swc_common::{chain, FileName};
-use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms::helpers;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
@@ -22,7 +22,7 @@ macro_rules! tr {
         let _ = ::testing::run_test(false, |cm, _| {
             let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-            let mut parser = Parser::new(Syntax::default(), SourceFileInput::from(&*fm), None);
+            let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
             let module = parser.parse_module().map_err(|_| ()).unwrap();
             helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = $tr();
@@ -44,7 +44,7 @@ fn resolver(b: &mut Bencher) {
 
 #[bench]
 fn fixer(b: &mut Bencher) {
-    tr!(b, || swc_ecma_transforms::fixer());
+    tr!(b, || swc_ecma_transforms::fixer(None));
 }
 
 #[bench]

@@ -99,7 +99,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
             let dec_val = self.read_int(10, 0, &mut raw)?;
-            val = self.with_buf(|l, s| {
+            val = self.with_buf(|_, s| {
                 write!(s, "{}.", val).unwrap();
 
                 if let Some(..) = dec_val {
@@ -436,15 +436,15 @@ fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static
 
 #[cfg(test)]
 mod tests {
-    use super::{input::SourceFileInput, *};
+    use super::{input::StringInput, *};
     use crate::EsConfig;
     use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<'_, SourceFileInput<'_>>) -> Ret,
+        F: FnOnce(&mut Lexer<'_, StringInput<'_>>) -> Ret,
     {
-        crate::with_test_sess(s, |handler, fm| {
+        crate::with_test_sess(s, |_, fm| {
             let mut l = Lexer::new(
                 Syntax::Es(EsConfig {
                     num_sep: true,
@@ -575,7 +575,7 @@ mod tests {
                 });
 
             let vec = panic::catch_unwind(|| {
-                crate::with_test_sess(case, |handler, input| {
+                crate::with_test_sess(case, |_, input| {
                     let mut l = Lexer::new(Syntax::default(), Default::default(), input, None);
                     l.ctx.strict = strict;
                     Ok(l.map(|ts| ts.token).collect::<Vec<_>>())

@@ -10,7 +10,7 @@ use std::{
     fmt::{self, Debug, Display, Formatter},
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::SpanData;
+use swc_common::Span;
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
@@ -215,7 +215,7 @@ pub struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?
     pub had_line_break: bool,
-    pub span: SpanData,
+    pub span: Span,
 }
 
 #[derive(Kind, Clone, PartialEq, Eq, Hash)]

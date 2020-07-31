@@ -7,28 +7,29 @@
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
-
+#[cfg(feature = "tty-emitter")]
+pub use self::emitter::EmitterWriter;
 use self::Level::*;
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
-    emitter::{ColorConfig, Emitter, EmitterWriter},
+    emitter::{ColorConfig, Emitter},
 };
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
+#[cfg(feature = "tty-emitter")]
+use std::sync::Arc;
 use std::{
     borrow::Cow,
     cell::RefCell,
     collections::HashSet,
     error, fmt, panic,
-    sync::{
-        atomic::{AtomicUsize, Ordering::SeqCst},
-        Arc,
-    },
+    sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
+#[cfg(feature = "tty-emitter")]
 use termcolor::{Color, ColorSpec};
 
 mod diagnostic;
@@ -331,6 +332,7 @@ impl Drop for Handler {
 }
 
 impl Handler {
+    #[cfg(feature = "tty-emitter")]
     pub fn with_tty_emitter(
         color_config: ColorConfig,
         can_emit_warnings: bool,
@@ -348,6 +350,7 @@ impl Handler {
         )
     }
 
+    #[cfg(feature = "tty-emitter")]
     pub fn with_tty_emitter_and_flags(
         color_config: ColorConfig,
         cm: Option<Arc<SourceMapperDyn>>,
@@ -769,6 +772,7 @@ impl fmt::Display for Level {
 }
 
 impl Level {
+    #[cfg(feature = "tty-emitter")]
     fn color(self) -> ColorSpec {
         let mut spec = ColorSpec::new();
         match self {

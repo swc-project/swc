@@ -7,7 +7,7 @@ static GLOBAL: System = System;
 
 use std::alloc::System;
 use swc_common::{chain, FileName, Mark};
-use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_transforms::{compat, helpers};
 use test::Bencher;
 
@@ -93,7 +93,7 @@ macro_rules! tr {
             let lexer = Lexer::new(
                 Default::default(),
                 Default::default(),
-                SourceFileInput::from(&*fm),
+                StringInput::from(&*fm),
                 None,
             );
             let mut parser = Parser::new_from(lexer);

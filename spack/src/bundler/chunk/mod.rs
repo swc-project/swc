@@ -59,7 +59,7 @@ impl Bundler<'_> {
                         let module = module
                             .fold_with(&mut dce(Default::default()))
                             .fold_with(&mut hygiene())
-                            .fold_with(&mut fixer());
+                            .fold_with(&mut fixer(Some(&self.swc.comments() as _)));
 
                         Bundle { kind, id, module }
                     })

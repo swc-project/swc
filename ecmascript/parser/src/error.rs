@@ -6,13 +6,25 @@ use std::{borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
-    Span,
+    Span, Spanned,
 };
 
+/// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
-    pub span: Span,
-    pub error: Box<SyntaxError>,
+    pub(crate) error: Box<(Span, SyntaxError)>,
+}
+
+impl Spanned for Error {
+    fn span(&self) -> Span {
+        (*self.error).0
+    }
+}
+
+impl Error {
+    pub fn kind(self) -> SyntaxError {
+        self.error.1
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -194,7 +206,10 @@ pub enum SyntaxError {
 impl Error {
     #[cold]
     pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
-        let msg: Cow<'static, _> = match *self.error {
+        let span = self.span();
+
+        let kind = self.kind();
+        let msg: Cow<'static, _> = match kind {
             TopLevelAwait => "top level await requires target to es2017 or higher and \
                               topLevelAwait:true for ecmascript"
                 .into(),
@@ -350,13 +365,13 @@ impl Error {
             Eof => "Unexpected eof".into(),
 
             // TODO:
-            _ => format!("{:?}", self.error).into(),
+            _ => format!("{:?}", kind).into(),
         };
 
         let mut db = handler.struct_err(&msg);
-        db.set_span(self.span);
+        db.set_span(span);
 
-        match *self.error {
+        match kind {
             ExpectedSemiForExprStmt { expr } => {
                 db.span_note(
                     expr,
@@ -375,5 +390,5 @@ impl Error {
 
 #[test]
 fn size_of_error() {
-    assert_eq!(std::mem::size_of::<Error>(), 16);
+    assert_eq!(std::mem::size_of::<Error>(), 8);
 }

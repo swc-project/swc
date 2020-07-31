@@ -192,11 +192,7 @@ macro_rules! cur {
         if is_err_token {
             match $p.input.bump() {
                 $crate::token::Token::Error(e) => {
-                    let err = crate::error::Error {
-                        span: e.span,
-                        error: e.error,
-                    };
-                    return Err(err.into());
+                    return Err(e);
                 }
                 _ => unreachable!(),
             }
@@ -207,14 +203,12 @@ macro_rules! cur {
             None => {
                 if $required {
                     let err = crate::error::Error {
-                        span: last,
-                        error: Box::new(crate::error::SyntaxError::Eof),
+                        error: Box::new((last, crate::error::SyntaxError::Eof)),
                     };
-                    return Err(err.into());
+                    return Err(err);
                 }
                 Err(crate::error::Error {
-                    span: last,
-                    error: Box::new(crate::error::SyntaxError::Eof),
+                    error: Box::new((last, crate::error::SyntaxError::Eof)),
                 })
             }
         }
@@ -236,8 +230,7 @@ Current token is {:?}",
             Some(c) => Ok(c),
             None => {
                 let err = crate::error::Error {
-                    span: last,
-                    error: Box::new(crate::error::SyntaxError::Eof),
+                    error: Box::new((last, crate::error::SyntaxError::Eof)),
                 };
                 Err(err)
             }
@@ -310,8 +303,7 @@ macro_rules! span {
 macro_rules! make_error {
     ($p:expr, $span:expr, $err:expr) => {{
         crate::error::Error {
-            span: $span,
-            error: Box::new($err),
+            error: Box::new(($span, $err)),
         }
     }};
 }

@@ -1,7 +1,7 @@
 pub use crate::syntax_pos::{
     hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
-    SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError, SyntaxContext,
-    DUMMY_SP, GLOBALS, NO_EXPANSION,
+    SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, SyntaxContext, DUMMY_SP,
+    GLOBALS, NO_EXPANSION,
 };
 use std::{borrow::Cow, sync::Arc};
 

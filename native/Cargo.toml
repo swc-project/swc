@@ -17,6 +17,9 @@ neon-build = "0.4.0"
 
 [dependencies]
 swc = { path = "../" }
+swc_common = { path = "../common", features = ["tty-emitter", "sourcemap"] }
+swc_ecma_ast = { path = "../ecmascript/ast" }
+swc_ecma_parser = { path = "../ecmascript/parser" }
 spack = { path = "../spack" }
 backtrace = "0.3"
 fxhash = "0.2"

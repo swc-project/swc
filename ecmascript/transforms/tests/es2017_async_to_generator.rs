@@ -45,7 +45,7 @@ fn tr() -> impl Fold {
         validating!(destructuring(destructuring::Config { loose: false })),
         validating!(function_name()),
         async_to_generator(),
-        fixer()
+        fixer(None)
     )
 }
 

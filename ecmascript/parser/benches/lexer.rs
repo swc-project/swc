@@ -4,7 +4,7 @@ extern crate test;
 
 use std::hint::black_box;
 use swc_common::FileName;
-use swc_ecma_parser::{lexer::Lexer, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, StringInput, Syntax};
 use test::Bencher;
 
 #[bench]
@@ -79,12 +79,7 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
         b.iter(|| {
-            let lexer = Lexer::new(
-                syntax,
-                Default::default(),
-                SourceFileInput::from(&*fm),
-                None,
-            );
+            let lexer = Lexer::new(syntax, Default::default(), StringInput::from(&*fm), None);
             for t in lexer {
                 black_box(t);
             }

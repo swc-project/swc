@@ -5,14 +5,14 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc::{
-    common::{
-        errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
-        FileName, FilePathMapping, SourceMap,
-    },
     config::{Options, ParseOptions, SourceMapsConfig},
-    ecmascript::ast::Program,
     Compiler,
 };
+use swc_common::{
+    errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
+    FileName, FilePathMapping, SourceMap,
+};
+use swc_ecmascript::ast::Program;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen(js_name = "parseSync")]

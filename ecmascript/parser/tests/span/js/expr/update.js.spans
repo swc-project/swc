@@ -1,0 +1,177 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/update.js:1:1
+  |
+1 | / ++a
+2 | | b++
+3 | | c--
+4 | | --d
+  | |___^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/update.js:1:1
+  |
+1 | ++a
+  | ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/update.js:1:1
+  |
+1 | ++a
+  | ^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/update.js:1:1
+  |
+1 | ++a
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:1:1
+  |
+1 | ++a
+  | ^^^
+
+warning: UpdateExpr
+ --> $DIR/tests/span/js/expr/update.js:1:1
+  |
+1 | ++a
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:1:3
+  |
+1 | ++a
+  |   ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/update.js:1:3
+  |
+1 | ++a
+  |   ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/update.js:2:1
+  |
+2 | b++
+  | ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/update.js:2:1
+  |
+2 | b++
+  | ^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/update.js:2:1
+  |
+2 | b++
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:2:1
+  |
+2 | b++
+  | ^^^
+
+warning: UpdateExpr
+ --> $DIR/tests/span/js/expr/update.js:2:1
+  |
+2 | b++
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:2:1
+  |
+2 | b++
+  | ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/update.js:2:1
+  |
+2 | b++
+  | ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/update.js:3:1
+  |
+3 | c--
+  | ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/update.js:3:1
+  |
+3 | c--
+  | ^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/update.js:3:1
+  |
+3 | c--
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:3:1
+  |
+3 | c--
+  | ^^^
+
+warning: UpdateExpr
+ --> $DIR/tests/span/js/expr/update.js:3:1
+  |
+3 | c--
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:3:1
+  |
+3 | c--
+  | ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/update.js:3:1
+  |
+3 | c--
+  | ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/update.js:4:1
+  |
+4 | --d
+  | ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/update.js:4:1
+  |
+4 | --d
+  | ^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/update.js:4:1
+  |
+4 | --d
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:4:1
+  |
+4 | --d
+  | ^^^
+
+warning: UpdateExpr
+ --> $DIR/tests/span/js/expr/update.js:4:1
+  |
+4 | --d
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/update.js:4:3
+  |
+4 | --d
+  |   ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/update.js:4:3
+  |
+4 | --d
+  |   ^
+

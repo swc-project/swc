@@ -1,30 +1,54 @@
 use crate::syntax_pos::{BytePos, SourceFile};
 use std::str;
 
+pub type SourceFileInput<'a> = StringInput<'a>;
+
+/// Implementation of [Input].
 #[derive(Clone)]
-pub struct SourceFileInput<'a> {
-    fm: &'a SourceFile,
+pub struct StringInput<'a> {
     start_pos: BytePos,
     last_pos: BytePos,
-    orig: &'a str,
+    /// Current cursor
     iter: str::CharIndices<'a>,
+    orig: &'a str,
+    /// Original start position.
+    orig_start: BytePos,
 }
 
-impl<'a> From<&'a SourceFile> for SourceFileInput<'a> {
-    fn from(fm: &'a SourceFile) -> Self {
-        let src = &fm.src;
+impl<'a> StringInput<'a> {
+    /// `start` and `end` can be arbitrary value, but start should be less than
+    /// or equal to end.
+    ///
+    ///
+    /// `swc` get this value from [SourceMap] because code generator depends on
+    /// some methods of [SourceMap].
+    /// If you are not going to use methods from
+    /// [SourceMap], you may use any value.
+    pub fn new(src: &'a str, start: BytePos, end: BytePos) -> Self {
+        assert!(start <= end);
 
-        SourceFileInput {
-            start_pos: fm.start_pos,
-            last_pos: fm.start_pos,
+        StringInput {
+            start_pos: start,
+            last_pos: start,
             orig: src,
             iter: src.char_indices(),
-            fm,
+            orig_start: start,
         }
     }
 }
 
-impl<'a> Input for SourceFileInput<'a> {
+/// Creates an [Input] from [SourceFile]. This is an alias for
+///
+/// ```ignore
+///    StringInput::new(&fm.src, fm.start_pos, fm.end_pos)
+/// ```
+impl<'a> From<&'a SourceFile> for StringInput<'a> {
+    fn from(fm: &'a SourceFile) -> Self {
+        StringInput::new(&fm.src, fm.start_pos, fm.end_pos)
+    }
+}
+
+impl<'a> Input for StringInput<'a> {
     fn cur(&mut self) -> Option<char> {
         self.iter.clone().nth(0).map(|i| i.1)
     }
@@ -46,7 +70,7 @@ impl<'a> Input for SourceFileInput<'a> {
     }
 
     fn is_at_start(&self) -> bool {
-        self.fm.start_pos == self.last_pos
+        self.orig_start == self.last_pos
     }
 
     fn cur_pos(&mut self) -> BytePos {
@@ -65,8 +89,8 @@ impl<'a> Input for SourceFileInput<'a> {
         assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
 
-        let start_idx = (start - self.fm.start_pos).0 as usize;
-        let end_idx = (end - self.fm.start_pos).0 as usize;
+        let start_idx = (start - self.orig_start).0 as usize;
+        let end_idx = (end - self.orig_start).0 as usize;
 
         let ret = &s[start_idx..end_idx];
 
@@ -126,7 +150,7 @@ impl<'a> Input for SourceFileInput<'a> {
 
     fn reset_to(&mut self, to: BytePos) {
         let orig = self.orig;
-        let idx = (to - self.fm.start_pos).0 as usize;
+        let idx = (to - self.orig_start).0 as usize;
 
         let s = &orig[idx..];
         self.iter = s.char_indices();
@@ -171,7 +195,7 @@ mod tests {
 
     fn with_test_sess<F>(src: &str, f: F)
     where
-        F: FnOnce(SourceFileInput<'_>),
+        F: FnOnce(StringInput<'_>),
     {
         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());

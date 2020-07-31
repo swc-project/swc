@@ -1,14 +1,9 @@
-pub use self::{
-    hygiene::{Mark, SyntaxContext},
-    span_encoding::{Span, DUMMY_SP},
-};
+pub use self::hygiene::{Mark, SyntaxContext};
 use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock};
 use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
-    cell::Cell,
-    cmp::{self, Ordering},
-    fmt,
+    cmp, fmt,
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
@@ -17,18 +12,42 @@ use std::{
 
 mod analyze_source_file;
 pub mod hygiene;
-mod span_encoding;
+
+/// Spans represent a region of code, used for error reporting. Positions in
+/// spans are *absolute* positions from the beginning of the source_map, not
+/// positions relative to SourceFiles. Methods on the SourceMap can be used to
+/// relate spans back to the original source.
+/// You must be careful if the span crosses more than one file - you will not be
+/// able to use many of the functions on spans in source_map and you cannot
+/// assume that the length of the span = hi - lo; there may be space in the
+/// BytePos range between files.
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
+pub struct Span {
+    #[serde(rename = "start")]
+    pub lo: BytePos,
+    #[serde(rename = "end")]
+    pub hi: BytePos,
+    /// Information about where the macro came from, if this piece of
+    /// code was created by a macro expansion.
+    pub ctxt: SyntaxContext,
+}
+
+/// Dummy span, both position and length are zero, syntax context is zero as
+/// well.
+pub const DUMMY_SP: Span = Span {
+    lo: BytePos(0),
+    hi: BytePos(0),
+    ctxt: SyntaxContext::empty(),
+};
 
 #[derive(Default)]
 pub struct Globals {
-    span_interner: Lock<span_encoding::SpanInterner>,
     hygiene_data: Lock<hygiene::HygieneData>,
 }
 
 impl Globals {
     pub fn new() -> Globals {
         Globals {
-            span_interner: Lock::new(span_encoding::SpanInterner::default()),
             hygiene_data: Lock::new(hygiene::HygieneData::new()),
         }
     }
@@ -111,55 +130,6 @@ impl FileName {
     }
 }
 
-/// Spans represent a region of code, used for error reporting. Positions in
-/// spans are *absolute* positions from the beginning of the source_map, not
-/// positions relative to SourceFiles. Methods on the SourceMap can be used to
-/// relate spans back to the original source.
-/// You must be careful if the span crosses more than one file - you will not be
-/// able to use many of the functions on spans in source_map and you cannot
-/// assume that the length of the span = hi - lo; there may be space in the
-/// BytePos range between files.
-///
-/// `SpanData` is public because `Span` uses a thread-local interner and can't
-/// be sent to other threads, but some pieces of performance infra run in a
-/// separate thread. Using `Span` is generally preferred.
-#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
-pub struct SpanData {
-    #[serde(rename = "start")]
-    pub lo: BytePos,
-    #[serde(rename = "end")]
-    pub hi: BytePos,
-    /// Information about where the macro came from, if this piece of
-    /// code was created by a macro expansion.
-    pub ctxt: SyntaxContext,
-}
-
-impl SpanData {
-    #[inline]
-    pub fn with_lo(&self, lo: BytePos) -> Span {
-        Span::new(lo, self.hi, self.ctxt)
-    }
-    #[inline]
-    pub fn with_hi(&self, hi: BytePos) -> Span {
-        Span::new(self.lo, hi, self.ctxt)
-    }
-    #[inline]
-    pub fn with_ctxt(&self, ctxt: SyntaxContext) -> Span {
-        Span::new(self.lo, self.hi, ctxt)
-    }
-}
-
-impl PartialOrd for Span {
-    fn partial_cmp(&self, rhs: &Self) -> Option<Ordering> {
-        PartialOrd::partial_cmp(&self.data(), &rhs.data())
-    }
-}
-impl Ord for Span {
-    fn cmp(&self, rhs: &Self) -> Ordering {
-        Ord::cmp(&self.data(), &rhs.data())
-    }
-}
-
 /// A collection of spans. Spans have two orthogonal attributes:
 ///
 /// - they can be *primary spans*. In this case they are the locus of the error,
@@ -175,48 +145,55 @@ pub struct MultiSpan {
 impl Span {
     #[inline]
     pub fn lo(self) -> BytePos {
-        self.data().lo
+        self.lo
     }
     #[inline]
-    pub fn with_lo(self, lo: BytePos) -> Span {
-        self.data().with_lo(lo)
+    pub fn new(mut lo: BytePos, mut hi: BytePos, ctxt: SyntaxContext) -> Self {
+        if lo > hi {
+            std::mem::swap(&mut lo, &mut hi);
+        }
+
+        Span { lo, hi, ctxt }
+    }
+
+    #[inline]
+    pub fn with_lo(&self, lo: BytePos) -> Span {
+        Span::new(lo, self.hi, self.ctxt)
     }
     #[inline]
     pub fn hi(self) -> BytePos {
-        self.data().hi
+        self.hi
     }
+
     #[inline]
-    pub fn with_hi(self, hi: BytePos) -> Span {
-        self.data().with_hi(hi)
+    pub fn with_hi(&self, hi: BytePos) -> Span {
+        Span::new(self.lo, hi, self.ctxt)
     }
     #[inline]
     pub fn ctxt(self) -> SyntaxContext {
-        self.data().ctxt
+        self.ctxt
     }
     #[inline]
-    pub fn with_ctxt(self, ctxt: SyntaxContext) -> Span {
-        self.data().with_ctxt(ctxt)
+    pub fn with_ctxt(&self, ctxt: SyntaxContext) -> Span {
+        Span::new(self.lo, self.hi, ctxt)
     }
 
     /// Returns `true` if this is a dummy span with any hygienic context.
     #[inline]
     pub fn is_dummy(self) -> bool {
-        let span = self.data();
-        span.lo.0 == 0 && span.hi.0 == 0
+        self.lo.0 == 0 && self.hi.0 == 0
     }
 
     /// Returns a new span representing an empty span at the beginning of this
     /// span
     #[inline]
     pub fn shrink_to_lo(self) -> Span {
-        let span = self.data();
-        span.with_hi(span.lo)
+        self.with_hi(self.lo)
     }
     /// Returns a new span representing an empty span at the end of this span
     #[inline]
     pub fn shrink_to_hi(self) -> Span {
-        let span = self.data();
-        span.with_lo(span.hi)
+        self.with_lo(self.hi)
     }
 
     /// Returns `self` if `self` is not the dummy span, and `other` otherwise.
@@ -230,9 +207,7 @@ impl Span {
 
     /// Return true if `self` fully encloses `other`.
     pub fn contains(self, other: Span) -> bool {
-        let span = self.data();
-        let other = other.data();
-        span.lo <= other.lo && other.hi <= span.hi
+        self.lo <= other.lo && other.hi <= self.hi
     }
 
     /// Return true if the spans are equal with regards to the source text.
@@ -240,17 +215,13 @@ impl Span {
     /// Use this instead of `==` when either span could be generated code,
     /// and you only care that they point to the same bytes of source text.
     pub fn source_equal(self, other: Span) -> bool {
-        let span = self.data();
-        let other = other.data();
-        span.lo == other.lo && span.hi == other.hi
+        self.lo == other.lo && self.hi == other.hi
     }
 
     /// Returns `Some(span)`, where the start is trimmed by the end of `other`
     pub fn trim_start(self, other: Span) -> Option<Span> {
-        let span = self.data();
-        let other = other.data();
-        if span.hi > other.hi {
-            Some(span.with_lo(cmp::max(span.lo, other.hi)))
+        if self.hi > other.hi {
+            Some(self.with_lo(cmp::max(self.lo, other.hi)))
         } else {
             None
         }
@@ -258,8 +229,8 @@ impl Span {
 
     /// Return a `Span` that would enclose both `self` and `end`.
     pub fn to(self, end: Span) -> Span {
-        let span_data = self.data();
-        let end_data = end.data();
+        let span_data = self;
+        let end_data = end;
         // FIXME(jseyfried): self.ctxt should always equal end.ctxt here (c.f. issue
         // #23480) Return the macro span on its own to avoid weird diagnostic
         // output. It is preferable to have an incomplete span than a completely
@@ -286,8 +257,7 @@ impl Span {
 
     /// Return a `Span` between the end of `self` to the beginning of `end`.
     pub fn between(self, end: Span) -> Span {
-        let span = self.data();
-        let end = end.data();
+        let span = self;
         Span::new(
             span.hi,
             end.lo,
@@ -302,8 +272,7 @@ impl Span {
     /// Return a `Span` between the beginning of `self` to the beginning of
     /// `end`.
     pub fn until(self, end: Span) -> Span {
-        let span = self.data();
-        let end = end.data();
+        let span = self;
         Span::new(
             span.lo,
             end.lo,
@@ -316,7 +285,7 @@ impl Span {
     }
 
     pub fn from_inner_byte_pos(self, start: usize, end: usize) -> Span {
-        let span = self.data();
+        let span = self;
         Span::new(
             span.lo + BytePos::from_usize(start),
             span.lo + BytePos::from_usize(end),
@@ -326,13 +295,13 @@ impl Span {
 
     #[inline]
     pub fn apply_mark(self, mark: Mark) -> Span {
-        let span = self.data();
+        let span = self;
         span.with_ctxt(span.ctxt.apply_mark(mark))
     }
 
     #[inline]
     pub fn remove_mark(&mut self) -> Mark {
-        let mut span = self.data();
+        let mut span = *self;
         let mark = span.ctxt.remove_mark();
         *self = Span::new(span.lo, span.hi, span.ctxt);
         mark
@@ -340,7 +309,7 @@ impl Span {
 
     #[inline]
     pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
-        let mut span = self.data();
+        let mut span = *self;
         let mark = span.ctxt.adjust(expansion);
         *self = Span::new(span.lo, span.hi, span.ctxt);
         mark
@@ -352,7 +321,7 @@ impl Span {
         expansion: Mark,
         glob_ctxt: SyntaxContext,
     ) -> Option<Option<Mark>> {
-        let mut span = self.data();
+        let mut span = *self;
         let mark = span.ctxt.glob_adjust(expansion, glob_ctxt);
         *self = Span::new(span.lo, span.hi, span.ctxt);
         mark
@@ -364,7 +333,7 @@ impl Span {
         expansion: Mark,
         glob_ctxt: SyntaxContext,
     ) -> Option<Option<Mark>> {
-        let mut span = self.data();
+        let mut span = *self;
         let mark = span.ctxt.reverse_glob_adjust(expansion, glob_ctxt);
         *self = Span::new(span.lo, span.hi, span.ctxt);
         mark
@@ -387,27 +356,6 @@ pub struct SpanLabel {
 impl Default for Span {
     fn default() -> Self {
         DUMMY_SP
-    }
-}
-
-fn default_span_debug(span: Span, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    let span = span.data();
-    f.debug_struct("Span")
-        .field("lo", &span.lo)
-        .field("hi", &span.hi)
-        .field("ctxt", &span.ctxt)
-        .finish()
-}
-
-impl fmt::Debug for Span {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        SPAN_DEBUG.with(|span_debug| span_debug.get()(*self, f))
-    }
-}
-
-impl fmt::Debug for SpanData {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        SPAN_DEBUG.with(|span_debug| span_debug.get()(Span::new(self.lo, self.hi, self.ctxt), f))
     }
 }
 
@@ -935,9 +883,6 @@ pub struct FileLines {
     pub lines: Vec<LineInfo>,
 }
 
-thread_local!(pub static SPAN_DEBUG: Cell<fn(Span, &mut fmt::Formatter<'_>) -> fmt::Result> =
-                Cell::new(default_span_debug));
-
 // _____________________________________________________________________________
 // SpanLinesError, SpanSnippetError, DistinctSources,
 // MalformedSourceMapPositions
@@ -985,7 +930,7 @@ fn lookup_line(lines: &[BytePos], pos: BytePos) -> isize {
 
 #[cfg(test)]
 mod tests {
-    use super::{lookup_line, BytePos};
+    use super::{lookup_line, BytePos, Span};
 
     #[test]
     fn test_lookup_line() {
@@ -1001,5 +946,10 @@ mod tests {
 
         assert_eq!(lookup_line(lines, BytePos(28)), 2);
         assert_eq!(lookup_line(lines, BytePos(29)), 2);
+    }
+
+    #[test]
+    fn size_of_span() {
+        assert_eq!(std::mem::size_of::<Span>(), 12);
     }
 }

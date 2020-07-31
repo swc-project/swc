@@ -4,9 +4,9 @@ use neon::prelude::*;
 use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
-    ecmascript::ast::Program,
     Compiler, TransformOutput,
 };
+use swc_ecma_ast::Program;
 
 // ----- Printing -----
 

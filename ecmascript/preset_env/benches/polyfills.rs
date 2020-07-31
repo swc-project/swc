@@ -2,7 +2,7 @@
 extern crate test;
 
 use swc_common::{FileName, Mark};
-use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_preset_env::{preset_env, Config};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
@@ -13,7 +13,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
-        let mut parser = Parser::new(Syntax::default(), SourceFileInput::from(&*fm), None);
+        let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
         let module = parser
             .parse_module()
             .map_err(|e| e.into_diagnostic(&handler).emit())

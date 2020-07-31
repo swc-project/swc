@@ -1,11 +1,8 @@
 use std::{path::Path, sync::Arc};
-use swc::{
-    self,
-    common::{
-        errors::{ColorConfig, Handler},
-        SourceMap,
-    },
-    config::Options,
+use swc::{self, config::Options};
+use swc_common::{
+    errors::{ColorConfig, Handler},
+    SourceMap,
 };
 
 fn main() {

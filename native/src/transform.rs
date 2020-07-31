@@ -6,12 +6,10 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::{
-    common::{FileName, SourceFile},
-    config::Options,
-    ecmascript::ast::Program,
-    Compiler, TransformOutput,
-};
+use swc::{config::Options, Compiler, TransformOutput};
+use swc_common::{FileName, SourceFile};
+use swc_ecma_ast::Program;
+
 /// Input to transform
 #[derive(Debug)]
 pub enum Input {

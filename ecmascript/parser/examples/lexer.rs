@@ -4,7 +4,7 @@ use swc_common::{
     errors::{ColorConfig, Handler},
     FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax};
 
 fn main() {
     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
@@ -24,7 +24,7 @@ fn main() {
         let lexer = Lexer::new(
             Syntax::Es(Default::default()),
             Default::default(),
-            SourceFileInput::from(&*fm),
+            StringInput::from(&*fm),
             None,
         );
 

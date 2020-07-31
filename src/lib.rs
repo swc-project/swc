@@ -1,7 +1,6 @@
+#![deny(unused)]
+
 pub use sourcemap;
-pub use swc_atoms as atoms;
-pub use swc_common as common;
-pub use swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
@@ -9,22 +8,7 @@ use crate::config::{
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
-use common::{
-    comments::{Comment, Comments},
-    errors::Handler,
-    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
-};
-pub use ecmascript::parser::SourceFileInput;
-use ecmascript::{
-    ast::Program,
-    codegen::{self, Emitter, Node},
-    parser::{lexer::Lexer, Parser, Syntax},
-    transforms::{
-        helpers::{self, Helpers},
-        util,
-        util::COMMENTS,
-    },
-};
+use dashmap::DashMap;
 use serde::Serialize;
 use serde_json::error::Category;
 use std::{
@@ -32,7 +16,20 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc_ecmascript::{visit, visit::FoldWith};
+use swc_common::{
+    comments::{Comment, Comments},
+    errors::Handler,
+    input::StringInput,
+    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
+};
+use swc_ecma_ast::Program;
+use swc_ecma_codegen::{self, Emitter, Node};
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_transforms::{
+    helpers::{self, Helpers},
+    util,
+};
+use swc_ecma_visit::FoldWith;
 
 mod builder;
 pub mod config;
@@ -45,7 +42,7 @@ pub struct Compiler {
     /// CodeMap
     pub cm: Arc<SourceMap>,
     pub handler: Arc<Handler>,
-    comments: Comments,
+    comments: SwcComments,
 }
 
 #[derive(Debug, Serialize)]
@@ -57,7 +54,7 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
-    pub fn comments(&self) -> &Comments {
+    pub fn comments(&self) -> &SwcComments {
         &self.comments
     }
 
@@ -68,13 +65,7 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, || {
-            //
-            COMMENTS.set(&self.comments, || {
-                //
-                op()
-            })
-        })
+        GLOBALS.set(&self.globals, || op())
     }
 
     fn get_orig_src_map(
@@ -151,7 +142,7 @@ impl Compiler {
             let lexer = Lexer::new(
                 syntax,
                 target,
-                SourceFileInput::from(&*fm),
+                StringInput::from(&*fm),
                 if parse_comments {
                     Some(&self.comments)
                 } else {
@@ -207,10 +198,10 @@ impl Compiler {
                 {
                     let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
-                        cfg: codegen::Config { minify },
+                        cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
-                        wr: Box::new(codegen::text_writer::JsWriter::new(
+                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                             self.cm.clone(),
                             "\n",
                             &mut buf,
@@ -351,14 +342,20 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    pub fn config_for_file(
-        &self,
+    pub fn config_for_file<'a>(
+        &'a self,
         opts: &Options,
         name: &FileName,
-    ) -> Result<BuiltConfig<impl ecmascript::visit::Fold>, Error> {
+    ) -> Result<BuiltConfig<impl 'a + swc_ecma_visit::Fold>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
-            let built = opts.build(&self.cm, &self.handler, opts.is_module, Some(config));
+            let built = opts.build(
+                &self.cm,
+                &self.handler,
+                opts.is_module,
+                Some(config),
+                Some(&self.comments),
+            );
             Ok(built)
         })
         .with_context(|| format!("failed to load config for file '{:?}'", name))
@@ -379,7 +376,7 @@ impl Compiler {
         &self,
         program: Program,
         external_helpers: bool,
-        mut pass: impl visit::Fold,
+        mut pass: impl swc_ecma_visit::Fold,
     ) -> Program {
         self.run_transform(external_helpers, || {
             // Fold module
@@ -428,7 +425,7 @@ impl Compiler {
         &self,
         program: Program,
         orig: Option<&sourcemap::SourceMap>,
-        config: BuiltConfig<impl visit::Fold>,
+        config: BuiltConfig<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             if config.minify {
@@ -436,8 +433,8 @@ impl Compiler {
                     vc.retain(|c: &Comment| c.text.starts_with("!"));
                     !vc.is_empty()
                 };
-                self.comments.retain_leading(preserve_excl);
-                self.comments.retain_trailing(preserve_excl);
+                self.comments.leading.retain(preserve_excl);
+                self.comments.trailing.retain(preserve_excl);
             }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
@@ -454,7 +451,7 @@ impl Compiler {
 
 struct MyHandlers;
 
-impl ecmascript::codegen::Handlers for MyHandlers {}
+impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {
@@ -483,4 +480,63 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     serde_json::from_str::<Config>(&content)
         .map(Rc::Single)
         .map_err(convert_json_err)
+}
+
+type CommentMap = Arc<DashMap<BytePos, Vec<Comment>>>;
+
+/// Multi-threaded implementation of [Comments]
+#[derive(Clone, Default)]
+pub struct SwcComments {
+    leading: CommentMap,
+    trailing: CommentMap,
+}
+
+impl Comments for SwcComments {
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        self.leading.entry(pos).or_default().push(cmt);
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.leading.entry(pos).or_default().extend(comments);
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        self.leading.contains_key(&pos)
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        let cmt = self.leading.remove(&from);
+
+        if let Some(cmt) = cmt {
+            self.leading.entry(to).or_default().extend(cmt.1);
+        }
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.remove(&pos).map(|v| v.1)
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        self.trailing.entry(pos).or_default().push(cmt)
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.trailing.entry(pos).or_default().extend(comments)
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        self.trailing.contains_key(&pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        let cmt = self.trailing.remove(&from);
+
+        if let Some(cmt) = cmt {
+            self.trailing.entry(to).or_default().extend(cmt.1);
+        }
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.remove(&pos).map(|v| v.1)
+    }
 }

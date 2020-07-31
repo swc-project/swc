@@ -49,7 +49,7 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
-        let cmts = comments.take_trailing_comments(pos);
+        let cmts = comments.take_trailing(pos);
 
         write_comments!(self, prefix_space, &cmts)
     }
@@ -64,6 +64,6 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
-        write_comments!(self, false, comments.take_leading_comments(pos))
+        write_comments!(self, false, comments.take_leading(pos))
     }
 }

@@ -1,4 +1,4 @@
-use self::swc_ecma_parser::{EsConfig, Parser, SourceFileInput, Syntax};
+use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use super::*;
 use crate::config::Config;
 use std::{
@@ -6,7 +6,7 @@ use std::{
     io::Write,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, FileName, SourceMap};
+use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
 
 struct Noop;
@@ -15,7 +15,7 @@ impl Handlers for Noop {}
 struct Builder {
     cfg: Config,
     cm: Arc<SourceMap>,
-    comments: Comments,
+    comments: SingleThreadedComments,
 }
 
 impl Builder {
@@ -58,7 +58,7 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
 
         let comments = Default::default();
         let res = {
-            let mut parser = Parser::new(syntax, SourceFileInput::from(&*src), Some(&comments));
+            let mut parser = Parser::new(syntax, StringInput::from(&*src), Some(&comments));
             let res = parser
                 .parse_module()
                 .map_err(|e| e.into_diagnostic(handler).emit());

@@ -7,8 +7,10 @@ use crate::{
 };
 use lexer::TokenContexts;
 use std::{cell::RefCell, mem, mem::take, rc::Rc};
-use swc_common::{BytePos, Span, SpanData, DUMMY_SP};
+use swc_common::{BytePos, Span, DUMMY_SP};
 
+/// Clone should be cheap if you are parsing typescript because typescript
+/// syntax requires backtracking.
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
@@ -201,7 +203,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
 pub(super) struct Buffer<I: Tokens> {
     iter: I,
     /// Span of the previous token.
-    prev_span: SpanData,
+    prev_span: Span,
     cur: Option<TokenAndSpan>,
     /// Peeked token
     next: Option<TokenAndSpan>,
@@ -221,7 +223,7 @@ impl<I: Tokens> Buffer<I> {
         Buffer {
             iter: lexer,
             cur: None,
-            prev_span: DUMMY_SP.data(),
+            prev_span: DUMMY_SP,
             next: None,
         }
     }
@@ -381,7 +383,7 @@ impl<I: Tokens> Buffer<I> {
 
     /// Returns span of the previous token.
     #[inline(always)]
-    pub fn prev_span(&self) -> SpanData {
+    pub fn prev_span(&self) -> Span {
         self.prev_span
     }
 

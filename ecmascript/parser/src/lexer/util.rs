@@ -10,10 +10,13 @@ use crate::error::{Error, SyntaxError};
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
-    BytePos, Span, SpanData, SyntaxContext,
+    BytePos, Span, SyntaxContext,
 };
 use unicode_xid::UnicodeXID;
 
+/// Collector for raw string.
+///
+/// Methods of this struct is noop if the value is [None].
 pub(super) struct Raw(pub Option<String>);
 
 impl Raw {
@@ -39,7 +42,7 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub(super) fn span(&self, start: BytePos) -> SpanData {
+    pub(super) fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
             unreachable!(
@@ -48,7 +51,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 start.0, end.0
             )
         }
-        SpanData {
+        Span {
             lo: start,
             hi: end,
             ctxt: SyntaxContext::empty(),
@@ -99,8 +102,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
         Err(Error {
-            span,
-            error: Box::new(kind),
+            error: Box::new((span, kind)),
         })
     }
 
@@ -113,8 +115,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
         let err = Error {
-            span,
-            error: Box::new(kind),
+            error: Box::new((span, kind)),
         };
         self.errors.borrow_mut().push(err);
     }
@@ -123,8 +124,6 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self) -> LexResult<()> {
-        let mut line_break = false;
-
         while let Some(c) = self.cur() {
             match c {
                 // white spaces
@@ -193,10 +192,17 @@ impl<'a, I: Input> Lexer<'a, I> {
                 span: Span::new(start, end, SyntaxContext::empty()),
                 text: s.into(),
             };
-            if is_for_next {
-                self.leading_comments_buffer.as_mut().unwrap().push(cmt);
-            } else {
-                comments.add_trailing(self.state.prev_hi, cmt);
+
+            if start >= *self.last_comment_pos.borrow() {
+                *self.last_comment_pos.borrow_mut() = end;
+
+                if is_for_next {
+                    if let Some(buf) = &self.leading_comments_buffer {
+                        buf.borrow_mut().push(cmt);
+                    }
+                } else {
+                    comments.add_trailing(self.state.prev_hi, cmt);
+                }
             }
         }
 
@@ -229,21 +235,27 @@ impl<'a, I: Input> Lexer<'a, I> {
                 debug_assert_eq!(self.cur(), Some('/'));
                 self.bump(); // '/'
 
-                let pos = self.cur_pos();
+                let end = self.cur_pos();
                 if let Some(ref comments) = self.comments {
-                    let src = self.input.slice(slice_start, pos);
+                    let src = self.input.slice(slice_start, end);
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
                         kind: CommentKind::Block,
-                        span: Span::new(start, pos, SyntaxContext::empty()),
+                        span: Span::new(start, end, SyntaxContext::empty()),
                         text: s.into(),
                     };
 
-                    let peek = self.input.peek();
-                    if is_for_next {
-                        self.leading_comments_buffer.as_mut().unwrap().push(cmt);
-                    } else {
-                        comments.add_trailing(self.state.prev_hi, cmt);
+                    let _ = self.input.peek();
+                    if start >= *self.last_comment_pos.borrow() {
+                        *self.last_comment_pos.borrow_mut() = end;
+
+                        if is_for_next {
+                            if let Some(buf) = &self.leading_comments_buffer {
+                                buf.borrow_mut().push(cmt);
+                            }
+                        } else {
+                            comments.add_trailing(self.state.prev_hi, cmt);
+                        }
                     }
                 }
                 return Ok(());

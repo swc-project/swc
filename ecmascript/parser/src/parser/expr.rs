@@ -1,5 +1,5 @@
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{lexer::TokenContext, make_span, token::AssignOpToken};
+use crate::{lexer::TokenContext, token::AssignOpToken};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{ast_node, Spanned};
@@ -255,7 +255,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             if can_be_arrow && peeked_is!('(') {
                 expect!("async");
-                let async_span = make_span(self.input.prev_span());
+                let async_span = self.input.prev_span();
                 return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
             }
         }
@@ -332,10 +332,7 @@ impl<'a, I: Tokens> Parser<I> {
                     | js_word!("private")
                     | js_word!("protected")
                     | js_word!("public") => {
-                        self.emit_err(
-                            make_span(self.input.prev_span()),
-                            SyntaxError::InvalidIdentInStrict,
-                        );
+                        self.emit_err(self.input.prev_span(), SyntaxError::InvalidIdentInStrict);
                     }
                     _ => {}
                 }
@@ -1196,7 +1193,7 @@ impl<'a, I: Tokens> Parser<I> {
                     && (is!(IdentRef) || (is!("...") && peeked_is!(IdentRef)))
                 {
                     let spread = if eat!("...") {
-                        Some(make_span(self.input.prev_span()))
+                        Some(self.input.prev_span())
                     } else {
                         None
                     };
@@ -1227,7 +1224,7 @@ impl<'a, I: Tokens> Parser<I> {
                         assert_and_bump!('?');
                         let _ = cur!(false);
                         if arg.spread.is_some() {
-                            self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1047);
+                            self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
                         }
                         match *arg.expr {
                             Expr::Ident(..) => {}
@@ -1437,10 +1434,7 @@ impl<'a, I: Tokens> Parser<I> {
         // function because any expressions that are part of FormalParameters are
         // evaluated before the resulting generator object is in a resumable state.
         if self.ctx().in_parameters {
-            syntax_error!(
-                make_span(self.input.prev_span()),
-                SyntaxError::YieldParamInGen
-            )
+            syntax_error!(self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 
         if is!(';') || (!is!('*') && !cur!(false).map(Token::starts_expr).unwrap_or(true)) {

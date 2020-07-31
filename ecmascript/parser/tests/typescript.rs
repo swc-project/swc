@@ -11,9 +11,7 @@ use std::{
     path::Path,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{
-    lexer::Lexer, JscTarget, PResult, Parser, SourceFileInput, Syntax, TsConfig,
-};
+use swc_ecma_parser::{lexer::Lexer, JscTarget, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -214,7 +212,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<SourceFileInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {

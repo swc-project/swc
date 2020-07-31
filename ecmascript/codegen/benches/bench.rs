@@ -5,7 +5,7 @@ extern crate test;
 use std::hint::black_box;
 use swc_common::FileName;
 use swc_ecma_codegen::{self, Emitter};
-use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{Parser, StringInput, Syntax};
 use test::Bencher;
 
 const COLORS_JS: &str = r#"
@@ -87,7 +87,7 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
 
     let _ = ::testing::run_test(true, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, s.into());
-        let mut parser = Parser::new(Syntax::default(), SourceFileInput::from(&*fm), None);
+        let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
 
         let mut src_map_buf = vec![];
         let module = parser
