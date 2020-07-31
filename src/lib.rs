@@ -59,7 +59,7 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
-    pub fn comments(&self) -> &Comments {
+    pub fn comments(&self) -> &SwcComments {
         &self.comments
     }
 
@@ -347,14 +347,20 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    pub fn config_for_file(
-        &self,
+    pub fn config_for_file<'a>(
+        &'a self,
         opts: &Options,
         name: &FileName,
-    ) -> Result<BuiltConfig<impl ecmascript::visit::Fold>, Error> {
+    ) -> Result<BuiltConfig<impl 'a + ecmascript::visit::Fold>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
-            let built = opts.build(&self.cm, &self.handler, opts.is_module, Some(config));
+            let built = opts.build(
+                &self.cm,
+                &self.handler,
+                opts.is_module,
+                Some(config),
+                Some(&self.comments),
+            );
             Ok(built)
         })
         .with_context(|| format!("failed to load config for file '{:?}'", name))
@@ -432,8 +438,8 @@ impl Compiler {
                     vc.retain(|c: &Comment| c.text.starts_with("!"));
                     !vc.is_empty()
                 };
-                self.comments.retain_leading(preserve_excl);
-                self.comments.retain_trailing(preserve_excl);
+                self.comments.leading.retain(preserve_excl);
+                self.comments.trailing.retain(preserve_excl);
             }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
@@ -484,7 +490,7 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
 type CommentMap = Arc<DashMap<BytePos, Vec<Comment>>>;
 
 /// Multi-threaded implementation of [Comments]
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct SwcComments {
     leading: CommentMap,
     trailing: CommentMap,

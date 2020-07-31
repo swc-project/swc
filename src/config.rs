@@ -1,4 +1,4 @@
-use crate::builder::PassBuilder;
+use crate::{builder::PassBuilder, SwcComments};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -161,13 +161,14 @@ impl Default for InputSourceMap {
 }
 
 impl Options {
-    pub fn build(
+    pub fn build<'a>(
         &self,
         cm: &Arc<SourceMap>,
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
-    ) -> BuiltConfig<impl visit::Fold> {
+        comments: Option<&'a SwcComments>,
+    ) -> BuiltConfig<impl 'a + visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         if let Some(ref c) = self.config {
             config.merge(c)
@@ -252,7 +253,7 @@ impl Options {
             .hygiene(!self.disable_hygiene)
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
-            .finalize(root_mark, syntax, config.module);
+            .finalize(root_mark, syntax, config.module, comments);
 
         BuiltConfig {
             minify: config.minify.unwrap_or(false),

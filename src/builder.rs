@@ -1,4 +1,7 @@
-use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
+use crate::{
+    config::{GlobalPassOption, JscTarget, ModuleConfig},
+    SwcComments,
+};
 use either::Either;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
@@ -114,12 +117,13 @@ impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - helper injector
     ///  - identifier hygiene handler if enabled
     ///  - fixer if enabled
-    pub fn finalize(
+    pub fn finalize<'cmt>(
         self,
         root_mark: Mark,
         syntax: Syntax,
         module: Option<ModuleConfig>,
-    ) -> impl visit::Fold {
+        comments: Option<&'cmt SwcComments>,
+    ) -> impl 'cmt + visit::Fold {
         let need_interop_analysis = match module {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
@@ -181,7 +185,7 @@ impl<'a, 'b, P: visit::Fold> PassBuilder<'a, 'b, P> {
             helpers::InjectHelpers,
             ModuleConfig::build(self.cm.clone(), root_mark, module),
             Optional::new(hygiene(), self.hygiene),
-            Optional::new(fixer(), self.fixer),
+            Optional::new(fixer(comments), self.fixer),
         )
     }
 }
