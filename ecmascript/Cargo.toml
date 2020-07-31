@@ -16,11 +16,11 @@ transforms = ["swc_ecma_transforms"]
 visit = ["swc_ecma_visit"]
 
 [dependencies]
-swc_ecma_ast = { version = "0.26.0", path ="./ast" }
-swc_ecma_codegen = { version = "0.29.0", path ="./codegen", optional = true }
-swc_ecma_parser = { version = "0.31.0", path ="./parser", optional = true }
-swc_ecma_utils = { version = "0.15", path ="./utils", optional = true }
-swc_ecma_transforms = { version = "0.16", path ="./transforms", optional = true }
-swc_ecma_visit = { version = "0.11", path ="./visit", optional = true }
+swc_ecma_ast = { version = "0.27.0", path ="./ast" }
+swc_ecma_codegen = { version = "0.30.0", path ="./codegen", optional = true }
+swc_ecma_parser = { version = "0.32.0", path ="./parser", optional = true }
+swc_ecma_utils = { version = "0.16", path ="./utils", optional = true }
+swc_ecma_transforms = { version = "0.17", path ="./transforms", optional = true }
+swc_ecma_visit = { version = "0.12", path ="./visit", optional = true }
 
 [dev-dependencies]
