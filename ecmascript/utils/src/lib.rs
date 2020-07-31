@@ -1462,6 +1462,10 @@ pub fn prepend_stmts<T: StmtLike>(
             Some(&Stmt::Expr(ExprStmt { ref expr, .. }))
                 if match &**expr {
                     Expr::Lit(Lit::Str(..)) => true,
+                    Expr::Call(expr) => match expr.callee {
+                        ExprOrSuper::Super(_) => true,
+                        ExprOrSuper::Expr(_) => false,
+                    },
                     _ => false,
                 } =>
             {
