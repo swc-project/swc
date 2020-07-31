@@ -656,3 +656,18 @@ to!(
     newLine = encoder.encode("\r\n");
 }"#
 );
+
+to!(
+    issue_912,
+    r#"export class BadRequestError extends Error {
+    constructor(public readonly message: string) {
+      super(message)
+    }
+}"#,
+    r#"export class BadRequestError extends Error {
+    constructor(message) {
+      super(message)
+      this.message = message
+    }
+}"#
+);
