@@ -127,7 +127,7 @@ impl Fold for Fixer<'_> {
         let value = node.value.fold_with(self);
         self.ctx = old;
 
-        validate!(AssignPatProp { key, value, ..node })
+        AssignPatProp { key, value, ..node }
     }
 
     fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
@@ -173,9 +173,7 @@ impl Fold for Fixer<'_> {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = validate!(expr);
         let expr = expr.fold_children_with(self);
-        let expr = validate!(expr);
         let expr = self.unwrap_expr(expr);
 
         match expr {
@@ -221,12 +219,12 @@ impl Fold for Fixer<'_> {
                     _ => false,
                 } =>
             {
-                validate!(MemberExpr {
+                MemberExpr {
                     span,
                     computed,
                     obj: self.wrap(*obj).as_obj(),
                     prop,
-                })
+                }
                 .into()
             }
 
@@ -257,7 +255,7 @@ impl Fold for Fixer<'_> {
                     if exprs.len() == 1 {
                         return *exprs.pop().unwrap();
                     }
-                    validate!(Expr::Seq(SeqExpr { span, exprs }))
+                    Expr::Seq(SeqExpr { span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
                     for (i, expr) in exprs.into_iter().enumerate() {
@@ -287,15 +285,15 @@ impl Fold for Fixer<'_> {
                         return *buf.pop().unwrap();
                     }
                     buf.shrink_to_fit();
-                    validate!(Expr::Seq(SeqExpr { span, exprs: buf }))
+                    Expr::Seq(SeqExpr { span, exprs: buf })
                 };
 
                 match self.ctx {
-                    Context::ForcedExpr { .. } => validate!(Expr::Paren(ParenExpr {
+                    Context::ForcedExpr { .. } => Expr::Paren(ParenExpr {
                         span,
                         expr: Box::new(expr),
-                    })),
-                    _ => validate!(expr),
+                    }),
+                    _ => expr,
                 }
             }
 
@@ -310,10 +308,10 @@ impl Fold for Fixer<'_> {
                         if op_of_rhs.precedence() <= expr.op.precedence() {
                             Box::new(self.wrap(*expr.right))
                         } else {
-                            validate!(expr.right)
+                            expr.right
                         }
                     }
-                    _ => validate!(expr.right),
+                    _ => expr.right,
                 };
 
                 match *expr.left {
@@ -321,12 +319,12 @@ impl Fold for Fixer<'_> {
                     // But it should be `(1 + x) * Nan`
                     Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
                         if op_of_lhs.precedence() < expr.op.precedence() {
-                            Expr::Bin(validate!(BinExpr {
+                            Expr::Bin(BinExpr {
                                 left: Box::new(self.wrap(*expr.left)),
                                 ..expr
-                            }))
+                            })
                         } else {
-                            Expr::Bin(validate!(expr))
+                            Expr::Bin(expr)
                         }
                     }
 
@@ -345,10 +343,10 @@ impl Fold for Fixer<'_> {
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
                     | e @ Expr::Assign(..)
-                    | e @ Expr::Arrow(..) => validate!(Expr::Bin(BinExpr {
+                    | e @ Expr::Arrow(..) => Expr::Bin(BinExpr {
                         left: Box::new(self.wrap(e)),
                         ..expr
-                    })),
+                    }),
                     e @ Expr::Object(..)
                         if expr.op == op!("instanceof")
                             || expr.op == op!("==")
@@ -356,12 +354,12 @@ impl Fold for Fixer<'_> {
                             || expr.op == op!("!=")
                             || expr.op == op!("!==") =>
                     {
-                        validate!(Expr::Bin(BinExpr {
+                        Expr::Bin(BinExpr {
                             left: Box::new(e.wrap_with_paren()),
                             ..expr
-                        }))
+                        })
                     }
-                    _ => validate!(Expr::Bin(expr)),
+                    _ => Expr::Bin(expr),
                 }
             }
 
@@ -391,12 +389,12 @@ impl Fold for Fixer<'_> {
                     e @ Expr::Seq(..) => Box::new(self.wrap(e)),
                     _ => expr.alt,
                 };
-                let expr = validate!(Expr::Cond(CondExpr {
+                let expr = Expr::Cond(CondExpr {
                     test,
                     cons,
                     alt,
                     ..expr
-                }));
+                });
                 match self.ctx {
                     Context::Callee { is_new: true } => self.wrap(expr),
                     _ => expr,
@@ -414,7 +412,7 @@ impl Fold for Fixer<'_> {
                     _ => expr.arg,
                 };
 
-                validate!(Expr::Unary(UnaryExpr { arg, ..expr }))
+                Expr::Unary(UnaryExpr { arg, ..expr })
             }
 
             Expr::Assign(expr) => {
@@ -429,7 +427,7 @@ impl Fold for Fixer<'_> {
                     _ => expr.right,
                 };
 
-                validate!(Expr::Assign(AssignExpr { right, ..expr }))
+                Expr::Assign(AssignExpr { right, ..expr })
             }
 
             Expr::Call(CallExpr {
@@ -437,12 +435,12 @@ impl Fold for Fixer<'_> {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) if callee.is_arrow() => validate!(Expr::Call(CallExpr {
+            }) if callee.is_arrow() => Expr::Call(CallExpr {
                 span,
                 callee: self.wrap(*callee).as_callee(),
                 args,
                 type_args,
-            })),
+            }),
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
@@ -451,12 +449,12 @@ impl Fold for Fixer<'_> {
                 args,
                 type_args,
             }) if callee.is_fn_expr() => match self.ctx {
-                Context::ForcedExpr { .. } => validate!(Expr::Call(CallExpr {
+                Context::ForcedExpr { .. } => Expr::Call(CallExpr {
                     span,
                     callee: callee.as_callee(),
                     args,
                     type_args,
-                })),
+                }),
 
                 Context::Callee { is_new: true } => self.wrap(CallExpr {
                     span,
@@ -465,24 +463,24 @@ impl Fold for Fixer<'_> {
                     type_args,
                 }),
 
-                _ => validate!(Expr::Call(CallExpr {
+                _ => Expr::Call(CallExpr {
                     span,
                     callee: self.wrap(*callee).as_callee(),
                     args,
                     type_args,
-                })),
+                }),
             },
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) if callee.is_assign() => validate!(Expr::Call(CallExpr {
+            }) if callee.is_assign() => Expr::Call(CallExpr {
                 span,
                 callee: self.wrap(*callee).as_callee(),
                 args,
                 type_args,
-            })),
+            }),
             _ => expr,
         }
     }
@@ -529,7 +527,7 @@ impl Fold for Fixer<'_> {
 
         let value = node.value.fold_with(self);
 
-        validate!(KeyValuePatProp { key, value })
+        KeyValuePatProp { key, value }
     }
 
     fn fold_key_value_prop(&mut self, prop: KeyValueProp) -> KeyValueProp {
@@ -565,7 +563,7 @@ impl Fold for Fixer<'_> {
             _ => stmt,
         };
 
-        validate!(stmt)
+        stmt
     }
 
     fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
@@ -643,7 +641,7 @@ impl Fixer<'_> {
                 self.span_map.insert(e.span(), paren_span);
                 e
             }
-            _ => validate!(e),
+            _ => e,
         }
     }
 

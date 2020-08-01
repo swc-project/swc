@@ -82,6 +82,7 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             move || {
                 ::testing::run_test(false, |cm, handler| -> Result<(), ()> {
                     let src = cm.load_file(&entry.path()).expect("failed to load file");
+                    println!("{}", src.src);
 
                     let mut parser: Parser<Lexer<StringInput>> = Parser::new(
                         Syntax::Typescript(TsConfig {
@@ -136,12 +137,12 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             decorators: true,
                             decorators_before_export: true,
                             export_default_from: true,
-                            export_namespace_from: false,
+                            export_namespace_from: true,
                             dynamic_import: true,
                             nullish_coalescing: true,
-                            optional_chaining: false,
-                            import_meta: false,
-                            top_level_await: false,
+                            optional_chaining: true,
+                            import_meta: true,
+                            top_level_await: true,
                             ..Default::default()
                         }),
                         (&*js_fm).into(),

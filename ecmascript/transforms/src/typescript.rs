@@ -570,7 +570,7 @@ impl Fold for Strip {
         self.non_top_level = true;
         let decl = decl.fold_children_with(self);
         self.non_top_level = old;
-        validate!(decl)
+        decl
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -587,9 +587,9 @@ impl Fold for Strip {
             Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
             Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
                 type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                validate!(*expr)
+                *expr
             }
-            _ => validate!(expr),
+            _ => expr,
         };
 
         let expr = match expr {
