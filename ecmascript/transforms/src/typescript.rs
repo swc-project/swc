@@ -832,6 +832,64 @@ impl Fold for Strip {
         for item in items {
             self.was_side_effect_import = false;
             match item {
+                // Strip out ts-only extensions
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                    function: Function { body: None, .. },
+                    ..
+                })))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsInterface(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsModule(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsTypeAlias(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl:
+                        Decl::Fn(FnDecl {
+                            function: Function { body: None, .. },
+                            ..
+                        }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Fn(FnExpr {
+                            function: Function { body: None, .. },
+                            ..
+                        }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl: DefaultDecl::TsInterfaceDecl(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Class(ClassDecl { declare: true, .. }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(VarDecl { declare: true, .. }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsEnum(TsEnumDecl { declare: true, .. }),
+                    ..
+                }))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { declare: true, .. }))) => {
+                    continue
+                }
+
                 ModuleItem::Stmt(Stmt::Empty(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     type_only: true, ..
@@ -909,56 +967,6 @@ impl Fold for Strip {
                     if preserve {
                         stmts.push(item)
                     }
-                }
-
-                // Strip out ts-only extensions
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                    function: Function { body: None, .. },
-                    ..
-                })))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsInterface(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsModule(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsTypeAlias(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl:
-                        Decl::Fn(FnDecl {
-                            function: Function { body: None, .. },
-                            ..
-                        }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl:
-                        DefaultDecl::Fn(FnExpr {
-                            function: Function { body: None, .. },
-                            ..
-                        }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl: DefaultDecl::TsInterfaceDecl(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Class(ClassDecl { declare: true, .. }),
-                    ..
-                }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { declare: true, .. }))) => {
-                    continue
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
