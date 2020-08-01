@@ -564,7 +564,6 @@ impl Fold for Strip {
     }
 
     fn fold_decl(&mut self, decl: Decl) -> Decl {
-        let decl = validate!(decl);
         self.handle_decl(&decl);
 
         let old = self.non_top_level;
@@ -952,7 +951,14 @@ impl Fold for Strip {
                     decl: DefaultDecl::TsInterfaceDecl(..),
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => continue,
+                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Class(ClassDecl { declare: true, .. }),
+                    ..
+                }))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. }))) => {
+                    continue
+                }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
                     if !import.is_export {
