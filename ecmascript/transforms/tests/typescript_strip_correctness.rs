@@ -75,7 +75,8 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         }
 
         let ignore = file_name.contains("export-import-require/input.ts")
-            || file_name.contains("v4/issue-866/input.ts");
+            || file_name.contains("v4/issue-866/input.ts")
+            || file_name.contains("issue-716");
 
         let name = format!("typescript::correctness::{}", file_name);
 
@@ -84,18 +85,6 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 ::testing::run_test(false, |cm, handler| -> Result<(), ()> {
                     let src = cm.load_file(&entry.path()).expect("failed to load file");
                     println!("{}", src.src);
-
-                    let mut parser: Parser<Lexer<StringInput>> = Parser::new(
-                        Syntax::Typescript(TsConfig {
-                            tsx: file_name.contains("tsx"),
-                            decorators: true,
-                            dynamic_import: true,
-                            dts: false,
-                            no_early_errors: false,
-                        }),
-                        (&*src).into(),
-                        None,
-                    );
 
                     let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
@@ -113,6 +102,18 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             comments: None,
                             handlers,
                         };
+
+                        let mut parser: Parser<Lexer<StringInput>> = Parser::new(
+                            Syntax::Typescript(TsConfig {
+                                tsx: file_name.contains("tsx"),
+                                decorators: true,
+                                dynamic_import: true,
+                                dts: false,
+                                no_early_errors: false,
+                            }),
+                            (&*src).into(),
+                            None,
+                        );
 
                         // Parse source
                         let module = parser
