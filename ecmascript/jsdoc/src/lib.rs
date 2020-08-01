@@ -7,6 +7,7 @@ use nom::{
     character::is_alphabetic,
     IResult,
     IResult, InputIter, Slice,
+    IResult, Slice,
 };
 use swc_ecma_ast::Str;
 
@@ -787,18 +788,11 @@ fn parse_line(i: Input) -> IResult<Input, Str> {
     let res = i.src.char_indices().find(|(_, c)| c == '\n' || c == '\r');
 
     if let Some((idx, _)) = res {
-        let ret = &i.src[..idx];
+        let ret = i.slice(..idx);
 
-        Ok((
-            i,
-            Str {
-                span: i.start,
-                value: Default::default(),
-                has_escape: false,
-            },
-        ))
+        Ok((i, ret.into()))
     } else {
-        Ok((i, ""))
+        Ok((i, Input::empty().into()))
     }
 }
 
