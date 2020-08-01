@@ -781,6 +781,7 @@ impl Fold for Strip {
         let members = members.fold_children_with(self);
 
         members.move_flat_map(|member| match member {
+            ClassMember::TsIndexSignature(..) => None,
             ClassMember::Constructor(Constructor { body: None, .. }) => None,
             ClassMember::Method(ClassMethod {
                 is_abstract: true, ..
