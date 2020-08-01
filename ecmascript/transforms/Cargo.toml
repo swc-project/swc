@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_transforms"
-version = "0.17.2"
+version = "0.17.3"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -38,3 +38,4 @@ swc_ecma_codegen = { version = "0.30.0", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.6"
 sourcemap = "6"
+walkdir = "2"
