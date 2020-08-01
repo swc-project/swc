@@ -956,7 +956,8 @@ impl Fold for Strip {
                     decl: Decl::Class(ClassDecl { declare: true, .. }),
                     ..
                 }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. }))) => {
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { declare: true, .. }))) => {
                     continue
                 }
 
@@ -1020,6 +1021,12 @@ impl Fold for Strip {
         self.phase = old;
 
         stmts
+    }
+
+    fn fold_var_declarator(&mut self, mut d: VarDeclarator) -> VarDeclarator {
+        d = d.fold_children_with(self);
+        d.definite = false;
+        d
     }
 }
 

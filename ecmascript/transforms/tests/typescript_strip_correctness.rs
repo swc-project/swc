@@ -74,7 +74,8 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             continue;
         }
 
-        let ignore = false;
+        let ignore = file_name.contains("export-import-require/input.ts")
+            || file_name.contains("v4/issue-866/input.ts");
 
         let name = format!("typescript::correctness::{}", file_name);
 
