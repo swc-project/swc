@@ -1,5 +1,6 @@
 #![deny(unused)]
 
+pub use self::input::Input;
 use crate::ast::*;
 use nom::{
     bytes::complete::{tag, take_while},
@@ -7,7 +8,7 @@ use nom::{
     IResult,
     IResult, InputIter, Slice,
 };
-use swc_common::{BytePos, Span};
+use swc_ecma_ast::Str;
 
 pub mod ast;
 
@@ -22,6 +23,7 @@ pub struct Input<'i> {
     pub end: BytePos,
     pub src: &'i str,
 }
+mod input;
 
 pub fn parse(i: Input) -> IResult<Input, JsDoc> {}
 
@@ -30,11 +32,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
 
     let (mut i, tag_name) = take_while(is_alphabetic)(i)?;
 
-    let span = Span::new(
-        i.start,
-        i.start + BytePos(tag_name.0 as _),
-        Default::default(),
-    );
+    let span = tag_name.span();
 
     let tag = match tag_name {
         "abstract" | "virtual" => JsDocTag::Abstract(JsDocAbstractTag { span }),
@@ -785,7 +783,24 @@ mod tests {
 
 fn parse_name_path(i: Input) -> IResult<Input, &str> {}
 
-fn parse_line(i: Input) -> IResult<Input, &str> {}
+fn parse_line(i: Input) -> IResult<Input, Str> {
+    let res = i.src.char_indices().find(|(_, c)| c == '\n' || c == '\r');
+
+    if let Some((idx, _)) = res {
+        let ret = &i.src[..idx];
+
+        Ok((
+            i,
+            Str {
+                span: i.start,
+                value: Default::default(),
+                has_escape: false,
+            },
+        ))
+    } else {
+        Ok((i, ""))
+    }
+}
 
 fn parse_opt_str(i: Input) -> IResult<Input, &str> {}
 
