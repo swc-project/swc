@@ -671,3 +671,11 @@ to!(
     }
 }"#
 );
+
+to!(
+    issue_921,
+    "export abstract class Kernel {
+  [key: string]: any
+}",
+    "export abstract class Kernel {}"
+);
