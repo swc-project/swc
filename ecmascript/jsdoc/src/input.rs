@@ -1,5 +1,8 @@
 use nom::{Compare, CompareResult, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
-use std::ops::{Deref, Range, RangeFrom, RangeTo};
+use std::{
+    ops::{Deref, Range, RangeFrom, RangeTo},
+    str::{CharIndices, Chars},
+};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::Str;
 
@@ -79,10 +82,10 @@ impl InputLength for Input<'_> {
 
 impl UnspecializedInput for Input<'_> {}
 
-impl InputIter for Input<'_> {
+impl<'a> InputIter for Input<'a> {
     type Item = char;
-    type Iter = <str as InputIter>::Iter;
-    type IterElem = <str as InputIter>::IterElem;
+    type Iter = CharIndices<'a>;
+    type IterElem = Chars<'a>;
 
     fn iter_indices(&self) -> Self::Iter {
         self.src.iter_indices()
