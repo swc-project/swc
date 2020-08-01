@@ -4,11 +4,12 @@ set -eu
 export CARGO_INCREMENTAL=0
 export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests"
 export RUSTDOCFLAGS="-Cpanic=abort"
+export CARGO_TARGET_DIR=".COVERAGE_DIR"
 
-git clone https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc
 
-cargo test --no-run --all --all-features --exclude node-swc wasm
-cargo test --all --all-features --exclude node-swc wasm
+git clone https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc || true
+
+cargo test --all --all-features --exclude node-swc --exclude wasm --exclude spack
 
 zip -0 ccov.zip `find . \( -name "swc*.gc*" -o -name 'ast_node*.gc*' -o -name 'enum_kind*.gc*' -o -name 'string-enum*.gc*' -o -name 'from_variant*.gc*' \) -print`;
 

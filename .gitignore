@@ -34,7 +34,8 @@ package-lock.json
 # Coverage datas
 *.zip
 *.info
-
+# Custom cargo target directory for converages
+.COVERAGE_DIR
 
 **/*~
 **/node_modules
