@@ -1,4 +1,4 @@
-use nom::{Compare, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
+use nom::{Compare, CompareResult, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
 use std::ops::{Deref, Range, RangeFrom, RangeTo};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::Str;
@@ -61,7 +61,15 @@ impl InputTake for Input<'_> {
     }
 }
 
-impl<'a> Compare<&'a str> for Input<'_> {}
+impl<'a> Compare<&'a str> for Input<'_> {
+    fn compare(&self, t: &'a str) -> CompareResult {
+        self.src.compare(t)
+    }
+
+    fn compare_no_case(&self, t: &'a str) -> CompareResult {
+        self.src.compare_no_case(t)
+    }
+}
 
 impl InputLength for Input<'_> {
     fn input_len(&self) -> usize {
@@ -71,7 +79,30 @@ impl InputLength for Input<'_> {
 
 impl UnspecializedInput for Input<'_> {}
 
-impl InputIter for Input<'_> {}
+impl InputIter for Input<'_> {
+    type Item = char;
+    type Iter = <str as InputIter>::Iter;
+    type IterElem = <str as InputIter>::IterElem;
+
+    fn iter_indices(&self) -> Self::Iter {
+        self.src.iter_indices()
+    }
+
+    fn iter_elements(&self) -> Self::IterElem {
+        self.src.iter_elements()
+    }
+
+    fn position<P>(&self, predicate: P) -> Option<usize>
+    where
+        P: Fn(Self::Item) -> bool,
+    {
+        self.src.position(predicate)
+    }
+
+    fn slice_index(&self, count: usize) -> Option<usize> {
+        self.src.slice_index(count)
+    }
+}
 
 impl Deref for Input<'_> {
     type Target = str;
