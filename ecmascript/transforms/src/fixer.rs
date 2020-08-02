@@ -542,6 +542,22 @@ impl Fold for Fixer<'_> {
         }
     }
 
+    fn fold_prop_name(&mut self, mut name: PropName) -> PropName {
+        name = name.fold_children_with(self);
+
+        match name {
+            PropName::Computed(c) if c.expr.is_seq() => {
+                return PropName::Computed(ComputedPropName {
+                    span: c.span,
+                    expr: Box::new(self.wrap(*c.expr)),
+                });
+            }
+            _ => {}
+        }
+
+        name
+    }
+
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = match stmt {
             Stmt::Expr(expr) => {
