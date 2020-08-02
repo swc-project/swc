@@ -147,7 +147,7 @@ impl Fold for Fixer<'_> {
         self.ctx = Context::Default;
         let mut node: Class = node.fold_children_with(self);
         node.super_class = match node.super_class {
-            Some(e) if e.is_seq() => Some(Box::new(self.wrap(*e))),
+            Some(e) if e.is_seq() || e.is_await_expr() => Some(Box::new(self.wrap(*e))),
             _ => node.super_class,
         };
         self.ctx = old;
