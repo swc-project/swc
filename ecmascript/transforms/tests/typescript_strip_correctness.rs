@@ -77,6 +77,10 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let ignored = &[
             // Cannot run the test with current test suite
             "tsc/directives/multilinex",
+            // Stack size
+            "stack-size",
+            "issue-716",
+            "tsc/types/specifyingTypes/typeLiterals/parenthesizedTypes/input.ts",
             // TODO: Unignore unicode escape test
             "unicodeExtendedEscapes",
             // Trolling with yield
@@ -87,6 +91,8 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             "tsc/es6/functionDeclarations/FunctionDeclaration7_es6/input.ts",
             // Trolling with pattern
             "tsc/es6/destructuring/restPropertyWithBindingPattern/input.ts",
+            "tsc/expressions/optionalChaining/elementAccessChain/elementAccessChain.3/input.ts",
+            "tsc/expressions/optionalChaining/propertyAccessChain/propertyAccessChain.3/input.ts",
             // TODO: Unignore
             // These tests are hard to debug because file is large
             "tsc/es7/exponentiationOperator/\
@@ -101,13 +107,34 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
              exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands/input.ts",
             // `let[0] = 'foo'` is useless
             "tsc/expressions/elementAccess/letIdentifierInElementAccess01/input.ts",
+            // Parser issue
+            "tsc/expressions/superCalls/errorSuperCalls/input.ts",
+            // TypeScript parser issue
+            "tsc/expressions/objectLiterals/objectLiteralGettersAndSetters/input.ts",
+            "tsc/parser/ecmascript5/SuperExpressions/parserSuperExpression2/input.ts",
+            // TODO: Unignore
+            "tsc/jsx",
+            "tsc/types/contextualTypes/jsxAttributes/\
+             contextuallyTypedStringLiteralsInJsxAttributes01x/input.tsx",
+            "tsc/types/contextualTypes/jsxAttributes/\
+             contextuallyTypedStringLiteralsInJsxAttributes02x/input.tsx",
+            // TODO: Unignore
+            // Tests require ast change
+            "tsc/types/thisType/thisTypeInAccessors/input.ts",
+            "tsc/types/thisType/thisTypeInAccessorsNegative/input.ts",
+            // Invalid syntax
+            "tsc/types/rest/objectRestNegative/input.ts",
+            "tsc/jsdoc/jsdocDisallowedInTypescript/input.ts",
+            "tsc/types/rest/restElementMustBeLast/input.ts",
+            "tsc/types/rest/objectRestPropertyMustBeLast/input.ts",
+            "tsc/types/objectTypeLiteral/propertySignatures/propertyNamesOfReservedWords/input.ts",
+            "tsc/types/objectTypeLiteral/callSignatures/callSignaturesWithParameterInitializers/\
+             input.ts",
         ];
 
         // TODO: Unignore const enum test
         let ignore = file_name.contains("export-import-require/input.ts")
             || file_name.contains("v4/issue-866/input.ts")
-            || file_name.contains("issue-716")
-            || file_name.contains("stack-size")
             || file_name.contains("jsdocTypeFromChainedAssignment3")
             || file_name.contains("tsc/enums/enumConstantMembers/input.ts")
             || ignored.iter().any(|ignored| file_name.contains(ignored));
@@ -151,9 +178,10 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                         // Parse source
                         let module = parser
-                            .parse_module()
+                            .parse_typescript_module()
                             .map(|p| p.fold_with(&mut strip()).fold_with(&mut fixer(None)))
                             .map_err(|e| {
+                                eprintln!("failed to parse as typescript module");
                                 e.into_diagnostic(handler).emit();
                             })?;
 
@@ -162,7 +190,7 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                     let js_content = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
 
-                    println!("-------------------\n\n{}", js_content);
+                    println!("---------------- JS ----------------\n\n{}", js_content);
 
                     let js_fm = cm.new_source_file(FileName::Anon, js_content.clone());
 
