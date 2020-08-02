@@ -8,7 +8,7 @@ edition = "2018"
 
 [dependencies]
 swc_atoms = { version = "0.2", path = "../../atoms" }
-swc_common = { version = "0.7.0", path = "../../common" }
-swc_ecma_ast = { version = "0.26.0", path = "../ast" }
+swc_common = { version = "0.8.0", path = "../../common" }
+swc_ecma_ast = { version = "0.27.0", path = "../ast" }
 nom = "5.1.2"
 serde = { version = "1", features = ["derive"] }
