@@ -129,6 +129,9 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     }
 
                     let js_content = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
+
+                    println!("-------------------\n\n{}", js_content);
+
                     let js_fm = cm.new_source_file(FileName::Anon, js_content.clone());
 
                     let mut parser: Parser<Lexer<StringInput>> = Parser::new(
