@@ -630,6 +630,31 @@ impl Fold for Strip {
         }
     }
 
+    fn fold_if_stmt(&mut self, mut s: IfStmt) -> IfStmt {
+        s = s.fold_children_with(self);
+        let span = s.span;
+
+        s.cons = match *s.cons {
+            Stmt::Decl(Decl::TsEnum(e)) => {
+                let mut stmts = vec![];
+                self.handle_enum(e, &mut stmts);
+                Box::new(Stmt::Block(BlockStmt { span, stmts }))
+            }
+            _ => s.cons,
+        };
+
+        s.alt = s.alt.map(|s| match *s {
+            Stmt::Decl(Decl::TsEnum(e)) => {
+                let mut stmts = vec![];
+                self.handle_enum(e, &mut stmts);
+                Box::new(Stmt::Block(BlockStmt { span, stmts }))
+            }
+            _ => s,
+        });
+
+        s
+    }
+
     fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
         match self.phase {
             Phase::Analysis => {
@@ -698,7 +723,6 @@ impl Fold for Strip {
 
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
-        let span = stmt.span();
 
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -710,12 +734,6 @@ impl Fold for Strip {
                 | Decl::Fn(FnDecl { declare: true, .. }) => {
                     let span = decl.span();
                     Stmt::Empty(EmptyStmt { span })
-                }
-
-                Decl::TsEnum(decl) => {
-                    let mut stmts = vec![];
-                    self.handle_enum(decl, &mut stmts);
-                    Stmt::Block(BlockStmt { span, stmts })
                 }
 
                 _ => Stmt::Decl(decl),
