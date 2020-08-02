@@ -475,6 +475,14 @@ macro_rules! type_to_none {
 }
 
 impl Fold for Strip {
+    fn fold_array_pat(&mut self, mut pat: ArrayPat) -> ArrayPat {
+        pat = pat.fold_children_with(self);
+
+        pat.optional = false;
+
+        pat
+    }
+
     fn fold_class(&mut self, node: Class) -> Class {
         Class {
             span: node.span,
@@ -564,14 +572,13 @@ impl Fold for Strip {
     }
 
     fn fold_decl(&mut self, decl: Decl) -> Decl {
-        let decl = validate!(decl);
         self.handle_decl(&decl);
 
         let old = self.non_top_level;
         self.non_top_level = true;
         let decl = decl.fold_children_with(self);
         self.non_top_level = old;
-        validate!(decl)
+        decl
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -588,9 +595,9 @@ impl Fold for Strip {
             Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
             Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
                 type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                validate!(*expr)
+                *expr
             }
-            _ => validate!(expr),
+            _ => expr,
         };
 
         let expr = match expr {
@@ -621,6 +628,31 @@ impl Fold for Strip {
             optional: false,
             ..i.fold_children_with(self)
         }
+    }
+
+    fn fold_if_stmt(&mut self, mut s: IfStmt) -> IfStmt {
+        s = s.fold_children_with(self);
+        let span = s.span;
+
+        s.cons = match *s.cons {
+            Stmt::Decl(Decl::TsEnum(e)) => {
+                let mut stmts = vec![];
+                self.handle_enum(e, &mut stmts);
+                Box::new(Stmt::Block(BlockStmt { span, stmts }))
+            }
+            _ => s.cons,
+        };
+
+        s.alt = s.alt.map(|s| match *s {
+            Stmt::Decl(Decl::TsEnum(e)) => {
+                let mut stmts = vec![];
+                self.handle_enum(e, &mut stmts);
+                Box::new(Stmt::Block(BlockStmt { span, stmts }))
+            }
+            _ => s,
+        });
+
+        s
     }
 
     fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
@@ -669,6 +701,14 @@ impl Fold for Strip {
         }
     }
 
+    fn fold_object_pat(&mut self, mut pat: ObjectPat) -> ObjectPat {
+        pat = pat.fold_children_with(self);
+
+        pat.optional = false;
+
+        pat
+    }
+
     fn fold_private_prop(&mut self, mut prop: PrivateProp) -> PrivateProp {
         prop = prop.fold_children_with(self);
         prop.readonly = false;
@@ -698,6 +738,7 @@ impl Fold for Strip {
 
                 _ => Stmt::Decl(decl),
             },
+
             _ => stmt,
         }
     }
@@ -833,6 +874,64 @@ impl Fold for Strip {
         for item in items {
             self.was_side_effect_import = false;
             match item {
+                // Strip out ts-only extensions
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                    function: Function { body: None, .. },
+                    ..
+                })))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsInterface(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsModule(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsTypeAlias(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl:
+                        Decl::Fn(FnDecl {
+                            function: Function { body: None, .. },
+                            ..
+                        }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Fn(FnExpr {
+                            function: Function { body: None, .. },
+                            ..
+                        }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl: DefaultDecl::TsInterfaceDecl(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Class(ClassDecl { declare: true, .. }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(VarDecl { declare: true, .. }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsEnum(TsEnumDecl { declare: true, .. }),
+                    ..
+                }))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { declare: true, .. }))) => {
+                    continue
+                }
+
                 ModuleItem::Stmt(Stmt::Empty(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     type_only: true, ..
@@ -912,48 +1011,6 @@ impl Fold for Strip {
                     }
                 }
 
-                // Strip out ts-only extensions
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                    function: Function { body: None, .. },
-                    ..
-                })))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsInterface(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsModule(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsTypeAlias(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl:
-                        Decl::Fn(FnDecl {
-                            function: Function { body: None, .. },
-                            ..
-                        }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl:
-                        DefaultDecl::Fn(FnExpr {
-                            function: Function { body: None, .. },
-                            ..
-                        }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl: DefaultDecl::TsInterfaceDecl(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => continue,
-
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
                     if !import.is_export {
                         continue;
@@ -1014,6 +1071,12 @@ impl Fold for Strip {
         self.phase = old;
 
         stmts
+    }
+
+    fn fold_var_declarator(&mut self, mut d: VarDeclarator) -> VarDeclarator {
+        d = d.fold_children_with(self);
+        d.definite = false;
+        d
     }
 }
 
