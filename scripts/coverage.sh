@@ -6,8 +6,7 @@ export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Co
 export RUSTDOCFLAGS="-Cpanic=abort"
 export CARGO_TARGET_DIR=".COVERAGE_DIR"
 
-
-cargo test --all --all-features --exclude node-swc --exclude wasm --exclude spack
+cargo test --all --all-features --exclude node-swc --exclude wasm
 
 zip -0 ccov.zip `find $CARGO_TARGET_DIR \( -name "swc*.gc*" -o -name 'ast_node*.gc*' -o -name 'spack*.gc*' -o -name 'enum_kind*.gc*' -o -name 'string-enum*.gc*' -o -name 'from_variant*.gc*' \) -print`;
 
