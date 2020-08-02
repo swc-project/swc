@@ -682,6 +682,7 @@ impl Fold for Strip {
 
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
+        let span = stmt.span();
 
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -695,8 +696,15 @@ impl Fold for Strip {
                     Stmt::Empty(EmptyStmt { span })
                 }
 
+                Decl::TsEnum(decl) => {
+                    let mut stmts = vec![];
+                    self.handle_enum(decl, &mut stmts);
+                    Stmt::Block(BlockStmt { span, stmts })
+                }
+
                 _ => Stmt::Decl(decl),
             },
+
             _ => stmt,
         }
     }
