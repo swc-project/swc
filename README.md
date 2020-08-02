@@ -27,6 +27,29 @@
 
 swc is a super-fast typescript / javascript compiler written in rust.
 
+# Documentation
+
+Check out the documentation [in the website](https://swc-project.github.io/docs/installation).
+
+# Features
+
+Please see [comparison with babel](https://swc-project.github.io/docs/comparison-babel).
+
+# Performance
+
+The lower bound of the speedup compared to babel is **18**. The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
+
+|                    |              performance               |
+| ------------------ | :------------------------------------: |
+| swc (es3)          |  761 ops/sec ±0.23% (89 runs sampled)  |
+| swc (es2015)       |  800 ops/sec ±1.02% (87 runs sampled)  |
+| swc (es2016)       | 2123 ops/sec ±0.84% (88 runs sampled) |
+| swc (es2017)       | 2131 ops/sec ±1.13% (90 runs sampled) |
+| swc (es2018)       | 2981 ops/sec ±0.25% (90 runs sampled) |
+| swc-optimize (es3) |  712 ops/sec ±0.21% (86 runs sampled)  |
+| babel              | 41.75 ops/sec ±8.07% (56 runs sampled) |
+
+
 <h2 align="center">Supporting swc</h2>
 
 <p align="center">
@@ -77,29 +100,6 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 </a>
 
 [Become a backer](https://opencollective.com/swc#backer) and get your image on our README on Github with a link to your site.
-
-
-# Documentation
-
-Check out the documentation [in the website](https://swc-project.github.io/docs/installation).
-
-# Features
-
-Please see [comparison with babel](https://swc-project.github.io/docs/comparison-babel).
-
-# Performance
-
-The lower bound of the speedup compared to babel is **18**. The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
-
-|                    |              performance               |
-| ------------------ | :------------------------------------: |
-| swc (es3)          |  761 ops/sec ±0.23% (89 runs sampled)  |
-| swc (es2015)       |  800 ops/sec ±1.02% (87 runs sampled)  |
-| swc (es2016)       | 2123 ops/sec ±0.84% (88 runs sampled) |
-| swc (es2017)       | 2131 ops/sec ±1.13% (90 runs sampled) |
-| swc (es2018)       | 2981 ops/sec ±0.25% (90 runs sampled) |
-| swc-optimize (es3) |  712 ops/sec ±0.21% (86 runs sampled)  |
-| babel              | 41.75 ops/sec ±8.07% (56 runs sampled) |
 
 ## Contributing
 
