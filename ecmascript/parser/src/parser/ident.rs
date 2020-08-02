@@ -113,7 +113,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             match w {
                 Word::Keyword(Keyword::Await) if p.input.syntax().typescript() => {
-                    Ok(js_word!("this"))
+                    Ok(js_word!("await"))
                 }
 
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
