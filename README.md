@@ -17,7 +17,7 @@
     </a>
 </p>
 <p align="center">
-   <a href="https://travis-ci.org/swc-project/swc">
+   <a href="https://travis-ci.com/github/swc-project/swc">
       <img alt="Travis Status" src="https://img.shields.io/travis/swc-project/swc/master.svg?label=travis&maxAge=43200">
    </a>
    <a href="https://codecov.io/gh/swc-project/swc">
