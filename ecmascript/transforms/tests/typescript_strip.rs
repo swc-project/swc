@@ -679,3 +679,19 @@ to!(
 }",
     "export abstract class Kernel {}"
 );
+
+to!(
+    issue_926,
+    "class A extends Object {
+  constructor(public a, private b) {
+    super();
+  }
+}",
+    "class A extends Object {
+    constructor(a, b){
+        super();
+        this.a = a;
+        this.b = b;
+    }
+}"
+);

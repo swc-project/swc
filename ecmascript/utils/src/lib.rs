@@ -1458,20 +1458,20 @@ pub fn prepend_stmts<T: StmtLike>(
 ) {
     let idx = to
         .iter()
-        .position(|item| match item.as_stmt() {
-            Some(&Stmt::Expr(ExprStmt { ref expr, .. }))
-                if match &**expr {
-                    Expr::Lit(Lit::Str(..)) => true,
+        .position(|item| {
+            match item.as_stmt() {
+                Some(&Stmt::Expr(ExprStmt { ref expr, .. })) => match &**expr {
+                    Expr::Lit(Lit::Str(..)) => return false,
                     Expr::Call(expr) => match expr.callee {
-                        ExprOrSuper::Super(_) => true,
-                        ExprOrSuper::Expr(_) => false,
+                        ExprOrSuper::Super(_) => return false,
+                        ExprOrSuper::Expr(_) => {}
                     },
-                    _ => false,
-                } =>
-            {
-                false
+                    _ => {}
+                },
+                _ => {}
             }
-            _ => true,
+
+            true
         })
         .unwrap_or(to.len());
 
