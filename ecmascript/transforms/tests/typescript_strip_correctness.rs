@@ -156,9 +156,17 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         None,
                     );
 
-                    parser
-                        .parse_module()
-                        .unwrap_or_else(|_| panic!("{} is invalid", js_content));
+                    // It's very unscientific.
+                    // TODO: Change this with visitor
+                    if js_content.contains("import") || js_content.contains("export") {
+                        parser.parse_module().unwrap_or_else(|err| {
+                            panic!("{} is invalid module\n{:?}", js_content, err)
+                        });
+                    } else {
+                        parser.parse_script().unwrap_or_else(|err| {
+                            panic!("{} is invalid script\n{:?}", js_content, err)
+                        });
+                    }
 
                     Ok(())
                 })
