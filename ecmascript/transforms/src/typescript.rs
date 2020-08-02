@@ -475,6 +475,14 @@ macro_rules! type_to_none {
 }
 
 impl Fold for Strip {
+    fn fold_array_pat(&mut self, mut pat: ArrayPat) -> ArrayPat {
+        pat = pat.fold_children_with(self);
+
+        pat.optional = false;
+
+        pat
+    }
+
     fn fold_class(&mut self, node: Class) -> Class {
         Class {
             span: node.span,
@@ -666,6 +674,14 @@ impl Fold for Strip {
                 import
             }
         }
+    }
+
+    fn fold_object_pat(&mut self, mut pat: ObjectPat) -> ObjectPat {
+        pat = pat.fold_children_with(self);
+
+        pat.optional = false;
+
+        pat
     }
 
     fn fold_private_prop(&mut self, mut prop: PrivateProp) -> PrivateProp {
