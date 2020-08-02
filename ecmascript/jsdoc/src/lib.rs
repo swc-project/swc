@@ -799,8 +799,14 @@ fn parse_line(i: Input) -> IResult<Input, Str> {
     }
 }
 
-fn parse_opt_str(i: Input) -> IResult<Input, &str> {}
+fn parse_opt_str(i: Input) -> IResult<Input, Str> {
+    parse_line(i)
+}
 
-fn parse_str(i: Input) -> IResult<Input, &str> {}
+fn parse_str(i: Input) -> IResult<Input, Str> {
+    parse_line(i)
+}
 
-fn parse_type(i: Input) -> IResult<Input, &str> {}
+fn parse_type(i: Input) -> IResult<Input, Str> {
+    parse_line(i)
+}
