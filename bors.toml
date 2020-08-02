@@ -1,6 +1,0 @@
-status = [
-#  "fmt",
-#  "test-debug",
-  "%"
-]
-use_squash_merge = true

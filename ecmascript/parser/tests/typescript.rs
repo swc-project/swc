@@ -100,7 +100,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES5")
             || file_name
                 .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES6")
-            || file_name.contains("tsc/es6/variableDeclarations/VariableDeclaration6_es6");
+            || file_name.contains("tsc/es6/variableDeclarations/VariableDeclaration6_es6")
+            || file_name.contains(
+                "tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decimal",
+            );
 
         // Useful only for error reporting
         let ignore = ignore

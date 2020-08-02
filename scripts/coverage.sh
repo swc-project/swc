@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -eu
 
 export CARGO_INCREMENTAL=0
@@ -6,6 +6,8 @@ export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Co
 export RUSTDOCFLAGS="-Cpanic=abort"
 export CARGO_TARGET_DIR=".COVERAGE_DIR"
 
+git clone https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc || true
+(cd ecmascript/parser/tests/typescript/tsc && git pull)
 
 cargo test --all --all-features --exclude node-swc --exclude wasm --exclude spack
 
