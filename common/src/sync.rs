@@ -52,6 +52,7 @@ use std::{
 
 #[cfg(feature = "concurrent")]
 mod concurrent {
+    pub use once_cell::sync::OnceCell;
     pub use parking_lot::{
         MappedMutexGuard as MappedLockGuard, MappedRwLockReadGuard as MappedReadGuard,
         MappedRwLockWriteGuard as MappedWriteGuard, MutexGuard as LockGuard,

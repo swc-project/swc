@@ -44,6 +44,6 @@ mod pos;
 mod rustc_data_structures;
 pub mod serializer;
 mod source_map;
-mod sync;
+pub mod sync;
 mod syntax_pos;
 pub mod util;
