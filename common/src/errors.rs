@@ -15,13 +15,13 @@ pub use self::{
     diagnostic_builder::DiagnosticBuilder,
     emitter::{ColorConfig, Emitter},
 };
+#[cfg(feature = "tty-emitter")]
+use crate::sync::Lrc;
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
-#[cfg(feature = "tty-emitter")]
-use std::sync::Arc;
 use std::{
     borrow::Cow,
     cell::RefCell,
@@ -101,9 +101,9 @@ pub struct SubstitutionPart {
     pub snippet: String,
 }
 
-pub type SourceMapperDyn = dyn SourceMapper + Send + Sync;
+pub type SourceMapperDyn = dyn SourceMapper;
 
-pub trait SourceMapper {
+pub trait SourceMapper: crate::sync::Send + crate::sync::Sync {
     fn lookup_char_pos(&self, pos: BytePos) -> Loc;
     fn span_to_lines(&self, sp: Span) -> FileLinesResult;
     fn span_to_string(&self, sp: Span) -> String;
@@ -274,7 +274,7 @@ pub struct Handler {
     pub flags: HandlerFlags,
 
     err_count: AtomicUsize,
-    emitter: Lock<Box<dyn Emitter + Send>>,
+    emitter: Lock<Box<dyn Emitter>>,
     continue_after_error: LockCell<bool>,
     delayed_span_bugs: Lock<Vec<Diagnostic>>,
 
@@ -337,7 +337,7 @@ impl Handler {
         color_config: ColorConfig,
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        cm: Option<Arc<SourceMapperDyn>>,
+        cm: Option<Lrc<SourceMapperDyn>>,
     ) -> Handler {
         Handler::with_tty_emitter_and_flags(
             color_config,
@@ -353,7 +353,7 @@ impl Handler {
     #[cfg(feature = "tty-emitter")]
     pub fn with_tty_emitter_and_flags(
         color_config: ColorConfig,
-        cm: Option<Arc<SourceMapperDyn>>,
+        cm: Option<Lrc<SourceMapperDyn>>,
         flags: HandlerFlags,
     ) -> Handler {
         let emitter = Box::new(EmitterWriter::stderr(color_config, cm, false, false));
@@ -375,7 +375,7 @@ impl Handler {
         )
     }
 
-    pub fn with_emitter_and_flags(e: Box<dyn Emitter + Send>, flags: HandlerFlags) -> Handler {
+    pub fn with_emitter_and_flags(e: Box<dyn Emitter>, flags: HandlerFlags) -> Handler {
         Handler {
             flags,
             err_count: AtomicUsize::new(0),

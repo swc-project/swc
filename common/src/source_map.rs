@@ -20,7 +20,7 @@ pub use crate::syntax_pos::*;
 use crate::{
     errors::SourceMapper,
     rustc_data_structures::stable_hasher::StableHasher,
-    sync::{Lock, LockGuard, MappedLockGuard},
+    sync::{Lock, LockGuard, Lrc, MappedLockGuard},
 };
 use log::debug;
 #[cfg(feature = "sourcemap")]
@@ -33,10 +33,7 @@ use std::{
     hash::Hash,
     io::{self, Read},
     path::{Path, PathBuf},
-    sync::{
-        atomic::{AtomicUsize, Ordering::SeqCst},
-        Arc,
-    },
+    sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 
 // _____________________________________________________________________________
@@ -102,8 +99,8 @@ impl StableSourceFileId {
 
 #[derive(Default)]
 pub(super) struct SourceMapFiles {
-    pub(super) source_files: Vec<Arc<SourceFile>>,
-    stable_id_to_source_file: HashMap<StableSourceFileId, Arc<SourceFile>>,
+    pub(super) source_files: Vec<Lrc<SourceFile>>,
+    stable_id_to_source_file: HashMap<StableSourceFileId, Lrc<SourceFile>>,
 }
 
 pub struct SourceMap {
@@ -156,20 +153,20 @@ impl SourceMap {
         self.file_loader.file_exists(path)
     }
 
-    pub fn load_file(&self, path: &Path) -> io::Result<Arc<SourceFile>> {
+    pub fn load_file(&self, path: &Path) -> io::Result<Lrc<SourceFile>> {
         let src = self.file_loader.read_file(path)?;
         let filename = path.to_owned().into();
         Ok(self.new_source_file(filename, src))
     }
 
-    pub fn files(&self) -> MappedLockGuard<'_, Vec<Arc<SourceFile>>> {
+    pub fn files(&self) -> MappedLockGuard<'_, Vec<Lrc<SourceFile>>> {
         LockGuard::map(self.files.borrow(), |files| &mut files.source_files)
     }
 
     pub fn source_file_by_stable_id(
         &self,
         stable_id: StableSourceFileId,
-    ) -> Option<Arc<SourceFile>> {
+    ) -> Option<Lrc<SourceFile>> {
         self.files
             .borrow()
             .stable_id_to_source_file
@@ -185,7 +182,7 @@ impl SourceMap {
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
-    pub fn new_source_file(&self, filename: FileName, src: String) -> Arc<SourceFile> {
+    pub fn new_source_file(&self, filename: FileName, src: String) -> Lrc<SourceFile> {
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
@@ -207,7 +204,7 @@ impl SourceMap {
 
         let start_pos = self.next_start_pos(src.len());
 
-        let source_file = Arc::new(SourceFile::new(
+        let source_file = Lrc::new(SourceFile::new(
             filename,
             was_remapped,
             unmapped_path,
@@ -259,7 +256,7 @@ impl SourceMap {
     /// This method exists only for optimization and it's not part of public
     /// api.
     #[doc(hidden)]
-    pub fn lookup_char_pos_with(&self, fm: Arc<SourceFile>, pos: BytePos) -> Loc {
+    pub fn lookup_char_pos_with(&self, fm: Lrc<SourceFile>, pos: BytePos) -> Loc {
         let line_info = self.lookup_line_with(fm, pos);
         match line_info {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
@@ -337,7 +334,7 @@ impl SourceMap {
     }
 
     /// If the relevant source_file is empty, we don't return a line number.
-    pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Arc<SourceFile>> {
+    pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Lrc<SourceFile>> {
         let f = self.lookup_source_file(pos);
 
         self.lookup_line_with(f, pos)
@@ -350,9 +347,9 @@ impl SourceMap {
     #[doc(hidden)]
     pub fn lookup_line_with(
         &self,
-        f: Arc<SourceFile>,
+        f: Lrc<SourceFile>,
         pos: BytePos,
-    ) -> Result<SourceFileAndLine, Arc<SourceFile>> {
+    ) -> Result<SourceFileAndLine, Lrc<SourceFile>> {
         match f.lookup_line(pos) {
             Some(line) => Ok(SourceFileAndLine { sf: f, line }),
             None => Err(f),
@@ -798,7 +795,7 @@ impl SourceMap {
         }
     }
 
-    pub fn get_source_file(&self, filename: &FileName) -> Option<Arc<SourceFile>> {
+    pub fn get_source_file(&self, filename: &FileName) -> Option<Lrc<SourceFile>> {
         for sf in self.files.borrow().source_files.iter() {
             if *filename == sf.name {
                 return Some(sf.clone());
@@ -863,9 +860,9 @@ impl SourceMap {
     /// api.
     #[doc(hidden)]
     pub fn lookup_source_file_in(
-        files: &[Arc<SourceFile>],
+        files: &[Lrc<SourceFile>],
         pos: BytePos,
-    ) -> Option<Arc<SourceFile>> {
+    ) -> Option<Lrc<SourceFile>> {
         let count = files.len();
 
         // Binary search for the source_file.
@@ -891,7 +888,7 @@ impl SourceMap {
     ///
     /// This is not a public api.
     #[doc(hidden)]
-    pub fn lookup_source_file(&self, pos: BytePos) -> Arc<SourceFile> {
+    pub fn lookup_source_file(&self, pos: BytePos) -> Lrc<SourceFile> {
         let files = self.files.borrow();
         let files = &files.source_files;
         let fm = Self::lookup_source_file_in(&files, pos);
@@ -1013,7 +1010,7 @@ impl SourceMap {
         // // This method is optimized based on the fact that mapping is sorted.
         // mappings.sort_by_key(|v| v.0);
 
-        let mut cur_file: Option<Arc<SourceFile>> = None;
+        let mut cur_file: Option<Lrc<SourceFile>> = None;
         let mut src_id = 0;
 
         let mut ch_start = 0;
@@ -1137,7 +1134,7 @@ impl FilePathMapping {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::sync::Arc;
+    use std::sync::Lrc;
 
     fn init_source_map() -> SourceMap {
         let sm = SourceMap::new(FilePathMapping::empty());
@@ -1335,7 +1332,7 @@ mod tests {
     trait SourceMapExtension {
         fn span_substr(
             &self,
-            file: &Arc<SourceFile>,
+            file: &Lrc<SourceFile>,
             source_text: &str,
             substring: &str,
             n: usize,
@@ -1345,7 +1342,7 @@ mod tests {
     impl SourceMapExtension for SourceMap {
         fn span_substr(
             &self,
-            file: &Arc<SourceFile>,
+            file: &Lrc<SourceFile>,
             source_text: &str,
             substring: &str,
             n: usize,

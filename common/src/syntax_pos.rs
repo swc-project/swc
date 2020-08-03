@@ -1,5 +1,8 @@
 pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock};
+use crate::{
+    rustc_data_structures::stable_hasher::StableHasher,
+    sync::{Lock, Lrc},
+};
 use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
@@ -7,7 +10,6 @@ use std::{
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
-    sync::Arc,
 };
 
 mod analyze_source_file;
@@ -561,7 +563,7 @@ pub struct SourceFile {
     /// Indicates which crate this SourceFile was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
-    pub src: Arc<String>,
+    pub src: Lrc<String>,
     /// The source code's hash
     pub src_hash: u128,
     /// The start position of this source in the SourceMap
@@ -614,7 +616,7 @@ impl SourceFile {
             name_was_remapped,
             unmapped_path: Some(unmapped_path),
             crate_of_origin: 0,
-            src: Arc::new(src),
+            src: Lrc::new(src),
             src_hash,
             start_pos,
             end_pos: Pos::from_usize(end_pos),
@@ -827,7 +829,7 @@ impl Sub for CharPos {
 #[derive(Debug, Clone)]
 pub struct Loc {
     /// Information about the original source
-    pub file: Arc<SourceFile>,
+    pub file: Lrc<SourceFile>,
     /// The (1-based) line number
     pub line: usize,
     /// The (0-based) column offset
@@ -844,18 +846,18 @@ pub struct LocWithOpt {
     pub filename: FileName,
     pub line: usize,
     pub col: CharPos,
-    pub file: Option<Arc<SourceFile>>,
+    pub file: Option<Lrc<SourceFile>>,
 }
 
 // used to be structural records. Better names, anyone?
 #[derive(Debug)]
 pub struct SourceFileAndLine {
-    pub sf: Arc<SourceFile>,
+    pub sf: Lrc<SourceFile>,
     pub line: usize,
 }
 #[derive(Debug)]
 pub struct SourceFileAndBytePos {
-    pub sf: Arc<SourceFile>,
+    pub sf: Lrc<SourceFile>,
     pub pos: BytePos,
 }
 
@@ -879,7 +881,7 @@ pub struct LineCol {
 }
 
 pub struct FileLines {
-    pub file: Arc<SourceFile>,
+    pub file: Lrc<SourceFile>,
     pub lines: Vec<LineInfo>,
 }
 
