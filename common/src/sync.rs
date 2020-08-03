@@ -52,7 +52,7 @@ use std::{
 
 #[cfg(feature = "concurrent")]
 mod concurrent {
-    pub use once_cell::sync::OnceCell;
+    pub use once_cell::sync::{Lazy, OnceCell};
     pub use parking_lot::{
         MappedMutexGuard as MappedLockGuard, MappedRwLockReadGuard as MappedReadGuard,
         MappedRwLockWriteGuard as MappedWriteGuard, MutexGuard as LockGuard,
@@ -66,6 +66,7 @@ mod concurrent {
 
 #[cfg(not(feature = "concurrent"))]
 mod single {
+    pub use once_cell::unsync::{Lazy, OnceCell};
     /// Dummy trait because swc_common is in single thread mode.
     pub trait Send {}
     /// Dummy trait because swc_common is in single thread mode.

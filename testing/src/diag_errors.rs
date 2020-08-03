@@ -1,11 +1,12 @@
-use std::sync::{Arc, RwLock};
-use swc_common::errors::{
-    Diagnostic, DiagnosticBuilder, Emitter, Handler, HandlerFlags, SourceMapperDyn,
+use std::sync::RwLock;
+use swc_common::{
+    errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HandlerFlags, SourceMapperDyn},
+    sync::Lrc,
 };
 
 /// Creates a new handler for testing.
 pub(crate) fn new_handler(
-    _: Arc<SourceMapperDyn>,
+    _: Lrc<SourceMapperDyn>,
     treat_err_as_bug: bool,
 ) -> (Handler, BufferedError) {
     let e = BufferedError::default();
@@ -23,7 +24,7 @@ pub(crate) fn new_handler(
 }
 
 #[derive(Clone, Default)]
-pub(crate) struct BufferedError(Arc<RwLock<Vec<Diagnostic>>>);
+pub(crate) struct BufferedError(Lrc<RwLock<Vec<Diagnostic>>>);
 
 impl Emitter for BufferedError {
     fn emit(&mut self, db: &DiagnosticBuilder) {
