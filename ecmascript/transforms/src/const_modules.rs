@@ -1,4 +1,4 @@
-#![cfg(feature = "const-module")]
+#![cfg(feature = "const-modules")]
 
 use crate::util::drop_span;
 use dashmap::DashMap;
@@ -22,7 +22,7 @@ pub fn const_modules(
                 let map = map
                     .into_iter()
                     .map(|(key, value)| {
-                        let value = parse_option(&key, value);
+                        let value = parse_option(&cm, &key, value);
 
                         (key, value)
                     })
@@ -35,10 +35,10 @@ pub fn const_modules(
     }
 }
 
-fn parse_option(name: &str, src: String) -> Arc<Expr> {
+fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
     static CACHE: Lazy<DashMap<Arc<String>, Arc<Expr>>> = Lazy::new(|| DashMap::default());
 
-    let fm = CM.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
+    let fm = cm.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&fm.src) {
         return expr.clone();
     }

@@ -10,7 +10,7 @@ edition = "2018"
 
 [features]
 const-modules = ["dashmap"]
-jsx = ["dashmap"]
+react = ["dashmap"]
 default = []
 
 [dependencies]

@@ -32,7 +32,6 @@ pub mod modules;
 pub mod optimization;
 pub mod pass;
 pub mod proposals;
-#[cfg(feature = "react")]
 pub mod react;
 pub mod resolver;
 pub mod scope;

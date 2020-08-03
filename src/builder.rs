@@ -76,7 +76,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self,
         globals: HashMap<JsWord, HashMap<JsWord, String>>,
     ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
-        self.then(const_modules(globals))
+        let cm = self.cm.clone();
+        self.then(const_modules(cm, globals))
     }
 
     pub fn inline_globals(

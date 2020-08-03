@@ -7,7 +7,7 @@ use swc_ecma_visit::Fold;
 #[macro_use]
 mod common;
 
-fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
+fn tr(t: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
     let mut m = HashMap::default();
 
     for (src, values) in sources {
@@ -19,7 +19,7 @@ fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
         m.insert((*src).into(), values);
     }
 
-    const_modules(m)
+    const_modules(t.cm.clone(), m)
 }
 
 test!(

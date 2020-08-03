@@ -193,7 +193,7 @@ impl Options {
 
             let globals = config.globals;
 
-            Optional::new(const_modules(globals), enabled)
+            Optional::new(const_modules(cm.clone(), globals), enabled)
         };
 
         let json_parse_pass = {
