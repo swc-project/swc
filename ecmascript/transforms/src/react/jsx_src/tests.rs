@@ -1,8 +1,8 @@
 use super::*;
-use swc_common::FilePathMapping;
+use swc_common::{sync::Lrc, FilePathMapping};
 
 fn tr() -> impl Fold {
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     jsx_src(true, cm)
 }
 
