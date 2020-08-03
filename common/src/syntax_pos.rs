@@ -1,8 +1,5 @@
 pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{
-    rustc_data_structures::stable_hasher::StableHasher,
-    sync::{Lock, Lrc},
-};
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
