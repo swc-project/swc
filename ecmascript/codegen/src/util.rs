@@ -1,5 +1,5 @@
 use super::list::ListFormat;
-use std::sync::Arc;
+use std::{rc::Rc, sync::Arc};
 use swc_common::{
     errors::SourceMapper, BytePos, SourceMap, SourceMapperDyn, Span, Spanned, SyntaxContext,
 };
@@ -133,8 +133,19 @@ impl SourceMapperExt for Arc<SourceMapperDyn> {
         &**self
     }
 }
+impl SourceMapperExt for Rc<SourceMapperDyn> {
+    fn get_code_map(&self) -> &dyn SourceMapper {
+        &**self
+    }
+}
 
 impl SourceMapperExt for Arc<SourceMap> {
+    fn get_code_map(&self) -> &dyn SourceMapper {
+        &**self
+    }
+}
+
+impl SourceMapperExt for Rc<SourceMap> {
     fn get_code_map(&self) -> &dyn SourceMapper {
         &**self
     }
