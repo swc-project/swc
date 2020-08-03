@@ -1,15 +1,14 @@
-use swc_common;
-
-use std::sync::Arc;
 use swc_common::{
+    self,
     errors::{ColorConfig, Handler},
+    sync::Lrc,
     FileName, SourceMap,
 };
 use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax};
 
 fn main() {
     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
-        let cm: Arc<SourceMap> = Default::default();
+        let cm: Lrc<SourceMap> = Default::default();
         let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 
         // Real usage

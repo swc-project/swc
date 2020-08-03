@@ -9,9 +9,8 @@ use std::{
     fs::File,
     io::{self, Read},
     path::Path,
-    sync::Arc,
 };
-use swc_common::{errors::Handler, SourceMap};
+use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -184,12 +183,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     Ok(())
 }
 
-fn parse_module<'a>(cm: Arc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Module, ()> {
+fn parse_module<'a>(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Module, ()> {
     with_parser(cm, handler, file_name, |p| p.parse_module())
 }
 
 fn with_parser<F, Ret>(
-    cm: Arc<SourceMap>,
+    cm: Lrc<SourceMap>,
     handler: &Handler,
     file_name: &Path,
     f: F,
