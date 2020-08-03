@@ -1,3 +1,5 @@
+#![cfg(feature = "concurrent")]
+
 use rayon::prelude::*;
 use std::{env, path::PathBuf, sync::Arc};
 use swc_common::{sync::Lrc, FilePathMapping, SourceFile, SourceMap};

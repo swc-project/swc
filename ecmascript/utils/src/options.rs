@@ -7,4 +7,3 @@ use swc_common::{
 /// SourceMap used by transforms.
 pub static CM: Lazy<Lrc<SourceMap>> =
     Lazy::new(|| Lrc::new(SourceMap::new(FilePathMapping::empty())));
-å
