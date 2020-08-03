@@ -1,9 +1,9 @@
 use super::super::util;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, sync::Arc};
+use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_common::{FileName, SourceMap};
+use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::Expr;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::HANDLER;
@@ -19,7 +19,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub(super) fn build(self, cm: Arc<SourceMap>) -> BuiltConfig {
+    pub(super) fn build(self, cm: Lrc<SourceMap>) -> BuiltConfig {
         BuiltConfig {
             config: self.config,
             globals: self
