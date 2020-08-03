@@ -1,10 +1,10 @@
 use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
-use swc_common::{FileName, Mark, Span, DUMMY_SP};
+use swc_common::{FileName, FilePathMapping, Mark, SourceMap, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
-use swc_ecma_utils::{options::CM, prepend_stmts, quote_ident, quote_str, DropSpan};
+use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
 use swc_ecma_visit::{Fold, FoldWith};
 
 #[macro_export]
@@ -20,8 +20,9 @@ macro_rules! enable_helper {
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
+            let cm = SourceMap::new(FilePathMapping::empty());
             let code = include_str!(concat!("helpers/_", stringify!($name), ".js"));
-            let fm = CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
+            let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
             let lexer = Lexer::new(
                 Default::default(),
                 Default::default(),

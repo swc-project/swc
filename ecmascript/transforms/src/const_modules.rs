@@ -1,15 +1,20 @@
-use crate::util::{drop_span, options::CM};
+#![cfg(feature = "const-module")]
+
+use crate::util::drop_span;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, FileName};
+use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};
 
-pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Fold {
+pub fn const_modules(
+    cm: Lrc<SourceMap>,
+    globals: HashMap<JsWord, HashMap<JsWord, String>>,
+) -> impl Fold {
     ConstModules {
         globals: globals
             .into_iter()

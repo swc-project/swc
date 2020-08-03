@@ -10,6 +10,7 @@ edition = "2018"
 
 [features]
 const-modules = ["dashmap"]
+jsx = ["dashmap"]
 default = []
 
 [dependencies]
@@ -23,6 +24,7 @@ dashmap = { version = "=3.5.1", optional = true }
 either = "1.5"
 fxhash = "0.2"
 indexmap = "1"
+once_cell = "1"
 serde = { version = "1", features = ["derive"] }
 ordered-float = "1.0.1"
 Inflector = { version = "0.11.4", default-features = false }

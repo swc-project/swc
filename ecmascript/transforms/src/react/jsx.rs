@@ -1,11 +1,11 @@
-use crate::util::{drop_span, options::CM, ExprFactory, HANDLER};
+use crate::util::{drop_span, ExprFactory, HANDLER};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{iter::IdentifyLast, FileName, Spanned, DUMMY_SP};
+use swc_common::{iter::IdentifyLast, sync::Lrc, FileName, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -55,10 +55,10 @@ fn default_throw_if_namespace() -> bool {
     true
 }
 
-fn parse_option(name: &str, src: String) -> Box<Expr> {
+fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
     static CACHE: Lazy<DashMap<Arc<String>, Box<Expr>>> = Lazy::new(|| DashMap::with_capacity(2));
 
-    let fm = CM.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
+    let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&fm.src) {
         return expr.clone();
     }
@@ -86,12 +86,12 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(options: Options) -> impl Fold {
+pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Fold {
     Jsx {
-        pragma: ExprOrSuper::Expr(parse_option("pragma", options.pragma)),
+        pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
         pragma_frag: ExprOrSpread {
             spread: None,
-            expr: parse_option("pragmaFrag", options.pragma_frag),
+            expr: parse_option(&cm, "pragmaFrag", options.pragma_frag),
         },
         use_builtins: options.use_builtins,
         throw_if_namespace: options.throw_if_namespace,

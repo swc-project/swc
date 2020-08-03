@@ -16,12 +16,12 @@ name = "swc"
 
 [dependencies]
 swc_atoms = { path ="./atoms" }
-swc_common = { path ="./common", features = ["sourcemap"] }
+swc_common = { path ="./common", features = ["sourcemap", "concurrent"] }
 swc_ecma_ast = { path ="./ecmascript/ast" }
 swc_ecma_codegen = { path ="./ecmascript/codegen" }
 swc_ecma_parser = { path ="./ecmascript/parser" }
 swc_ecma_preset_env = { path ="./ecmascript/preset_env" }
-swc_ecma_transforms = { path ="./ecmascript/transforms" }
+swc_ecma_transforms = { path ="./ecmascript/transforms", features = ["const-modules", "jsx"] }
 swc_ecma_visit = { path ="./ecmascript/visit" }
 swc_visit = { path ="./visit" }
 anyhow = "1"
