@@ -24,7 +24,7 @@ jobs:
           path: |
             ~/.cargo/
             **/target/
-          key: ${{ runner.os }}-cargo-test
+          key: ${{ runner.os }}-cargo-integration
 
       - name: Prepare
         run: |
