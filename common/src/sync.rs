@@ -123,7 +123,13 @@ impl<T> Lock<T> {
         }
     }
 
-    #[cfg(not(parallel_compiler))]
+    #[cfg(feature = "concurrent")]
+    #[inline(always)]
+    pub fn lock(&self) -> LockGuard<'_, T> {
+        self.0.lock()
+    }
+
+    #[cfg(not(feature = "concurrent"))]
     #[inline(always)]
     pub fn lock(&self) -> LockGuard<'_, T> {
         self.0.borrow_mut()
