@@ -23,6 +23,7 @@ unicode-width = "0.1.4"
 cfg-if = "0.1.2"
 log = "0.4"
 atty = { version = "0.2", optional = true }
+owning_ref = "0.4"
 parking_lot = { version = "0.7.1", optional = true }
 termcolor = { version = "1.0", optional = true }
 serde = { version = "1", features = ["derive"] }
