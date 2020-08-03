@@ -1,9 +1,9 @@
 use once_cell::sync::Lazy;
 use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
-use swc_common::FileName;
+use swc_common::{FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
-use swc_ecma_utils::{options::CM, prepend_stmts, DropSpan};
+use swc_ecma_utils::{prepend_stmts, DropSpan};
 use swc_ecma_visit::FoldWith;
 
 #[derive(Debug, Default)]
@@ -23,9 +23,10 @@ macro_rules! define {
         $(
             fn $build(to: &mut Vec<ModuleItem>) {
                 static STMTS: Lazy<Vec<ModuleItem>> = Lazy::new(|| {
+                    let cm = SourceMap::new(FilePathMapping::empty());
                     let code = include_str!(concat!("_", stringify!($name), ".js"));
                     let fm =
-                        CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
+                       cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
                     let lexer = Lexer::new(
                         Default::default(),
                         Default::default(),

@@ -51,6 +51,14 @@ jobs:
           npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
 
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-cargo-test
+
       # Ensure that all components all compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets

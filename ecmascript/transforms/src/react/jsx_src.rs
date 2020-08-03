@@ -1,5 +1,4 @@
-use std::sync::Arc;
-use swc_common::{FileName, SourceMap, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::Fold;
 
@@ -7,12 +6,12 @@ use swc_ecma_visit::Fold;
 mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
-pub fn jsx_src(dev: bool, cm: Arc<SourceMap>) -> impl Fold {
+pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Fold {
     JsxSrc { cm, dev }
 }
 
 struct JsxSrc {
-    cm: Arc<SourceMap>,
+    cm: Lrc<SourceMap>,
     dev: bool,
 }
 

@@ -18,6 +18,14 @@ jobs:
         with:
           node-version: '12'
 
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-cargo-integration
+
       - name: Prepare
         run: |
           npm config set prefix ~/npm
@@ -35,8 +43,7 @@ jobs:
           npm i -g qunit failonlyreporter
 
           # Download three.js
-          # Current hash: b993f5c99341b1b483c6bdf94fdc4fbac61aa0f1
-          git clone --depth 1 https://github.com/mrdoob/three.js.git integration-tests/three-js/repo
+          git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 integration-tests/three-js/repo
 
           swc --sync integration-tests/three-js/repo/ -d integration-tests/three-js/build/
           # swc integration-tests/three-js/repo/src/ -d integration-tests/three-js/repo/build/

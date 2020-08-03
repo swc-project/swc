@@ -3,7 +3,7 @@ pub use crate::syntax_pos::{
     SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, SyntaxContext, DUMMY_SP,
     GLOBALS, NO_EXPANSION,
 };
-use std::{borrow::Cow, sync::Arc};
+use std::{borrow::Cow, rc::Rc, sync::Arc};
 
 ///
 /// # Derive
@@ -47,6 +47,15 @@ where
             Some(ref s) => s.span(),
             None => DUMMY_SP,
         }
+    }
+}
+
+impl<S> Spanned for Rc<S>
+where
+    S: ?Sized + Spanned,
+{
+    fn span(&self) -> Span {
+        <S as Spanned>::span(&*self)
     }
 }
 

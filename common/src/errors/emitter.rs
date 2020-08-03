@@ -20,6 +20,8 @@ use super::{
     CodeSuggestion, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
 #[cfg(feature = "tty-emitter")]
+use crate::sync::Lrc;
+#[cfg(feature = "tty-emitter")]
 use crate::syntax_pos::SourceFile;
 #[cfg(feature = "tty-emitter")]
 use crate::syntax_pos::{MultiSpan, Span};
@@ -35,8 +37,6 @@ use std::io::{self, prelude::*};
 #[cfg(feature = "tty-emitter")]
 use std::ops::Range;
 #[cfg(feature = "tty-emitter")]
-use std::sync::Arc;
-#[cfg(feature = "tty-emitter")]
 use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 #[cfg(feature = "tty-emitter")]
 use unicode_width;
@@ -45,7 +45,7 @@ use unicode_width;
 const ANONYMIZED_LINE_NUM: &str = "LL";
 
 /// Emitter trait for emitting errors.
-pub trait Emitter {
+pub trait Emitter: crate::sync::Send {
     /// Emit a structured diagnostic.
     fn emit(&mut self, db: &DiagnosticBuilder<'_>);
 
@@ -147,7 +147,7 @@ impl ColorConfig {
 #[cfg(feature = "tty-emitter")]
 pub struct EmitterWriter {
     dst: Destination,
-    sm: Option<Arc<SourceMapperDyn>>,
+    sm: Option<Lrc<SourceMapperDyn>>,
     short_message: bool,
     teach: bool,
     ui_testing: bool,
@@ -155,7 +155,7 @@ pub struct EmitterWriter {
 
 #[cfg(feature = "tty-emitter")]
 struct FileWithAnnotatedLines {
-    file: Arc<SourceFile>,
+    file: Lrc<SourceFile>,
     lines: Vec<Line>,
     multiline_depth: usize,
 }
@@ -164,7 +164,7 @@ struct FileWithAnnotatedLines {
 impl EmitterWriter {
     pub fn stderr(
         color_config: ColorConfig,
-        source_map: Option<Arc<SourceMapperDyn>>,
+        source_map: Option<Lrc<SourceMapperDyn>>,
         short_message: bool,
         teach: bool,
     ) -> EmitterWriter {
@@ -180,7 +180,7 @@ impl EmitterWriter {
 
     pub fn new(
         dst: Box<dyn Write + Send>,
-        source_map: Option<Arc<SourceMapperDyn>>,
+        source_map: Option<Lrc<SourceMapperDyn>>,
         short_message: bool,
         teach: bool,
     ) -> EmitterWriter {
@@ -209,7 +209,7 @@ impl EmitterWriter {
     fn preprocess_annotations(&mut self, msp: &MultiSpan) -> Vec<FileWithAnnotatedLines> {
         fn add_annotation_to_file(
             file_vec: &mut Vec<FileWithAnnotatedLines>,
-            file: Arc<SourceFile>,
+            file: Lrc<SourceFile>,
             line_index: usize,
             ann: Annotation,
         ) {
@@ -338,7 +338,7 @@ impl EmitterWriter {
     fn render_source_line(
         &self,
         buffer: &mut StyledBuffer,
-        file: Arc<SourceFile>,
+        file: Lrc<SourceFile>,
         line: &Line,
         width_offset: usize,
         code_offset: usize,

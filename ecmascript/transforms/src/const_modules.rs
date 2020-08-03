@@ -1,15 +1,20 @@
-use crate::util::{drop_span, options::CM};
+#![cfg(feature = "const-modules")]
+
+use crate::util::drop_span;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, FileName};
+use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};
 
-pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Fold {
+pub fn const_modules(
+    cm: Lrc<SourceMap>,
+    globals: HashMap<JsWord, HashMap<JsWord, String>>,
+) -> impl Fold {
     ConstModules {
         globals: globals
             .into_iter()
@@ -17,7 +22,7 @@ pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl 
                 let map = map
                     .into_iter()
                     .map(|(key, value)| {
-                        let value = parse_option(&key, value);
+                        let value = parse_option(&cm, &key, value);
 
                         (key, value)
                     })
@@ -30,11 +35,11 @@ pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl 
     }
 }
 
-fn parse_option(name: &str, src: String) -> Arc<Expr> {
-    static CACHE: Lazy<DashMap<Arc<String>, Arc<Expr>>> = Lazy::new(|| DashMap::default());
+fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
+    static CACHE: Lazy<DashMap<String, Arc<Expr>>> = Lazy::new(|| DashMap::default());
 
-    let fm = CM.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
-    if let Some(expr) = CACHE.get(&fm.src) {
+    let fm = cm.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
+    if let Some(expr) = CACHE.get(&**fm.src) {
         return expr.clone();
     }
 
@@ -61,7 +66,7 @@ fn parse_option(name: &str, src: String) -> Arc<Expr> {
 
     let expr = Arc::new(*expr);
 
-    CACHE.insert(fm.src.clone(), expr.clone());
+    CACHE.insert((*fm.src).clone(), expr.clone());
 
     expr
 }

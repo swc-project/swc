@@ -6,15 +6,14 @@ use super::util::{
 };
 use crate::util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
-use std::sync::Arc;
 use swc_atoms::js_word;
-use swc_common::{Mark, SourceMap, DUMMY_SP};
+use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 mod config;
 
-pub fn umd(cm: Arc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
+pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
     Umd {
         config: config.build(cm.clone()),
         root_mark,
@@ -27,7 +26,7 @@ pub fn umd(cm: Arc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
 }
 
 struct Umd {
-    cm: Arc<SourceMap>,
+    cm: Lrc<SourceMap>,
     root_mark: Mark,
     in_top_level: bool,
     config: BuiltConfig,

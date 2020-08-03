@@ -19,20 +19,26 @@ env:
 
 jobs:
   check:
-    name: test
+    name: compilation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Checkout submodules
-        shell: bash
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+          key: ${{ runner.os }}-cargo-compliation
+
+      - name: Install cargo hack
         run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+          cargo install cargo-hack --version 0.3.11
 
       - name: Check swc_common
         run: |
-          (cd common && cargo build)
-          (cd common && cargo build --features tty-emitter)
-          (cd common && cargo build --features sourcemap)
+          (cd common && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc_ecma_transforms
+        run: |
+          (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)

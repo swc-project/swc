@@ -9,7 +9,9 @@ use self::{
 };
 use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
@@ -53,7 +55,7 @@ impl<'a, N: Node> Node for &'a N {
 
 pub struct Emitter<'a> {
     pub cfg: config::Config,
-    pub cm: Arc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub wr: Box<(dyn 'a + WriteJs)>,
     pub handlers: Box<(dyn 'a + Handlers)>,

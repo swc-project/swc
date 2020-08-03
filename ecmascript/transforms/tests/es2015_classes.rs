@@ -1,3 +1,4 @@
+#![cfg(feature = "react")]
 #![feature(test)]
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
@@ -2194,7 +2195,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |_| chain!(tr(), jsx(Default::default())),
+    |t| chain!(tr(), jsx(t.cm.clone(), Default::default())),
     regression_2775,
     r#"
 import React, {Component} from 'react';

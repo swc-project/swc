@@ -4,8 +4,9 @@
 #[macro_use]
 extern crate swc_ecma_utils;
 
+#[cfg(feature = "const-modules")]
+pub use self::const_modules::const_modules;
 pub use self::{
-    const_modules::const_modules,
     fixer::fixer,
     hygiene::hygiene,
     resolver::{resolver, resolver_with_mark},

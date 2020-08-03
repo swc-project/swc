@@ -9,7 +9,9 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{chain, comments::SingleThreadedComments, errors::Handler, FileName, SourceMap};
+use swc_common::{
+    chain, comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
@@ -49,7 +51,7 @@ struct MyHandlers;
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub struct Tester<'a> {
-    pub cm: Arc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
     pub comments: SingleThreadedComments,
 }

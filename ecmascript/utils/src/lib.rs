@@ -29,7 +29,6 @@ mod macros;
 pub mod constructor;
 mod factory;
 pub mod ident;
-pub mod options;
 mod value;
 pub mod var;
 

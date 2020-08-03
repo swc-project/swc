@@ -1,9 +1,6 @@
 use super::{Result, WriteJs};
-use std::{
-    io::{self, Write},
-    sync::Arc,
-};
-use swc_common::{BytePos, LineCol, SourceMap, Span};
+use std::io::{self, Write};
+use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
 ///
 /// -----
@@ -13,7 +10,7 @@ use swc_common::{BytePos, LineCol, SourceMap, Span};
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
     /// We may use this in future...
-    _cm: Arc<SourceMap>,
+    _cm: Lrc<SourceMap>,
     indent: usize,
     line_start: bool,
     line_count: usize,
@@ -26,7 +23,7 @@ pub struct JsWriter<'a, W: Write> {
 
 impl<'a, W: Write> JsWriter<'a, W> {
     pub fn new(
-        cm: Arc<SourceMap>,
+        cm: Lrc<SourceMap>,
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
