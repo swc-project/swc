@@ -18,6 +18,14 @@ jobs:
         with:
           node-version: '12'
 
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-cargo-test
+
       - name: Prepare
         run: |
           npm config set prefix ~/npm
