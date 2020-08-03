@@ -1,12 +1,12 @@
 use rayon::prelude::*;
 use std::{env, path::PathBuf, sync::Arc};
-use swc_common::{FilePathMapping, SourceFile, SourceMap};
+use swc_common::{sync::Lrc, FilePathMapping, SourceFile, SourceMap};
 
 #[test]
 fn no_overlap() {
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
-    let files: Vec<Arc<SourceFile>> = (0..100000)
+    let files: Vec<Lrc<SourceFile>> = (0..100000)
         .into_par_iter()
         .map(|_| {
             let fm = cm
