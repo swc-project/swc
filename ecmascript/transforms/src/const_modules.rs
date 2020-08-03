@@ -36,10 +36,10 @@ pub fn const_modules(
 }
 
 fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
-    static CACHE: Lazy<DashMap<Arc<String>, Arc<Expr>>> = Lazy::new(|| DashMap::default());
+    static CACHE: Lazy<DashMap<String, Arc<Expr>>> = Lazy::new(|| DashMap::default());
 
     let fm = cm.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
-    if let Some(expr) = CACHE.get(&fm.src) {
+    if let Some(expr) = CACHE.get(&**fm.src) {
         return expr.clone();
     }
 
@@ -66,7 +66,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
 
     let expr = Arc::new(*expr);
 
-    CACHE.insert(fm.src.clone(), expr.clone());
+    CACHE.insert((*fm.src).clone(), expr.clone());
 
     expr
 }

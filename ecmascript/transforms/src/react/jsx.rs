@@ -3,7 +3,7 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::{iter, mem, sync::Arc};
+use std::{iter, mem};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, sync::Lrc, FileName, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -56,10 +56,10 @@ fn default_throw_if_namespace() -> bool {
 }
 
 fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
-    static CACHE: Lazy<DashMap<Arc<String>, Box<Expr>>> = Lazy::new(|| DashMap::with_capacity(2));
+    static CACHE: Lazy<DashMap<String, Box<Expr>>> = Lazy::new(|| DashMap::with_capacity(2));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
-    if let Some(expr) = CACHE.get(&fm.src) {
+    if let Some(expr) = CACHE.get(&**fm.src) {
         return expr.clone();
     }
 
@@ -78,7 +78,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
             )
         });
 
-    CACHE.insert(fm.src.clone(), expr.clone());
+    CACHE.insert((*fm.src).clone(), expr.clone());
 
     expr
 }
