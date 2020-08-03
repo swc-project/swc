@@ -10,6 +10,7 @@ use std::{
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
+    sync::Mutex,
 };
 
 mod analyze_source_file;
@@ -44,13 +45,13 @@ pub const DUMMY_SP: Span = Span {
 
 #[derive(Default)]
 pub struct Globals {
-    hygiene_data: Lock<hygiene::HygieneData>,
+    hygiene_data: Mutex<hygiene::HygieneData>,
 }
 
 impl Globals {
     pub fn new() -> Globals {
         Globals {
-            hygiene_data: Lock::new(hygiene::HygieneData::new()),
+            hygiene_data: Mutex::new(hygiene::HygieneData::new()),
         }
     }
 }
