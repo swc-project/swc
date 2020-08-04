@@ -175,7 +175,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             })
         }
 
-        "external" => {
+        "external" | "host" => {
             let (input, name) = parse_line(i);
             i = input;
             JsDocTag::External(JsDocExternalTag {
