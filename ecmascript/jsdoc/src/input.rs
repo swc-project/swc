@@ -1,4 +1,7 @@
-use nom::{Compare, CompareResult, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
+use nom::{
+    Compare, CompareResult, InputIter, InputLength, InputTake, InputTakeAtPosition, Slice,
+    UnspecializedInput,
+};
 use std::{
     ops::{Deref, Range, RangeFrom, RangeTo},
     str::{CharIndices, Chars},
