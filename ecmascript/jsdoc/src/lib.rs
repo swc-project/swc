@@ -1,5 +1,3 @@
-#![deny(unused)]
-
 pub use self::input::Input;
 use crate::ast::*;
 use nom::{
@@ -787,18 +785,6 @@ fn parse_name_path(i: Input) -> IResult<Input, Str> {
     parse_line(i)
 }
 
-fn parse_line(i: Input) -> IResult<Input, Str> {
-    let res = i.iter_indices().find(|(_, &c)| c == '\n' || c == '\r');
-
-    if let Some((idx, _)) = res {
-        let ret = i.slice(..idx);
-
-        Ok((i, ret.into()))
-    } else {
-        Ok((i, Input::empty().into()))
-    }
-}
-
 fn parse_opt_str(i: Input) -> IResult<Input, Str> {
     parse_line(i)
 }
@@ -809,4 +795,52 @@ fn parse_str(i: Input) -> IResult<Input, Str> {
 
 fn parse_type(i: Input) -> IResult<Input, Str> {
     parse_line(i)
+}
+
+// ----- ----- Done ----- -----
+
+fn parse_word(i: Input) -> IResult<Input, Str> {
+    let res = i
+        .iter_indices()
+        .find(|(_, c)| !(('a' <= *c && *c <= 'z') || ('A' <= *c && *c <= 'Z')));
+
+    if let Some((idx, _)) = res {
+        let rest = i.slice(idx - 1..);
+        let ret = i.slice(..idx - 1);
+
+        Ok((rest, ret.into()))
+    } else {
+        // Everything was alphabet
+        Ok((Input::empty(), i.into()))
+    }
+}
+
+fn parse_line(i: Input) -> IResult<Input, Str> {
+    let res = i.iter_indices().find(|(_, c)| *c == '\n' || *c == '\r');
+
+    if let Some((idx, _)) = res {
+        let rest = i.slice(idx + 1..);
+        let ret = i.slice(..idx);
+
+        Ok((rest, ret.into()))
+    } else {
+        Ok((i, Input::empty().into()))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use swc_common::BytePos;
+
+    fn input(s: &str) -> Input {
+        Input::new(BytePos(0), BytePos(s.as_bytes().len() as _), s)
+    }
+
+    #[test]
+    fn test_parse_line() {
+        let (rest, ret) = parse_line(input("foo bar\nbaz")).unwrap();
+
+        assert_eq!(&*rest, "baz");
+    }
 }
