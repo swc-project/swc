@@ -167,7 +167,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         }
 
         "exports" => {
-            let (input, text) = parse_line(i);
+            let (input, text) = parse_line(i)?;
             i = input;
             JsDocTag::Exports(JsDocExportsTag {
                 span,
@@ -176,7 +176,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         }
 
         "external" | "host" => {
-            let (input, name) = parse_line(i);
+            let (input, name) = parse_line(i)?;
             i = input;
             JsDocTag::External(JsDocExternalTag {
                 span,
