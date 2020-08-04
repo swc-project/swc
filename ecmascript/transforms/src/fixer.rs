@@ -76,7 +76,7 @@ impl Fold for Fixer<'_> {
     fn fold_new_expr(&mut self, node: NewExpr) -> NewExpr {
         let NewExpr {
             span,
-            callee,
+            mut callee,
             args,
             type_args,
         } = node;
@@ -88,7 +88,11 @@ impl Fold for Fixer<'_> {
 
         let old = self.ctx;
         self.ctx = Context::Callee { is_new: true };
-        let callee = callee.fold_with(self);
+        callee = callee.fold_with(self);
+        match *callee {
+            Expr::Call(..) => callee = Box::new(self.wrap(*callee)),
+            _ => {}
+        }
         self.ctx = old;
 
         NewExpr {
