@@ -56,35 +56,6 @@ impl Default for Context {
     }
 }
 
-macro_rules! context_fn_args {
-    ($name:ident, $T:tt, $is_new:expr) => {
-        fn $name(&mut self, node: $T) -> $T {
-            let $T {
-                span,
-                callee,
-                args,
-                type_args,
-            } = node;
-
-            let old = self.ctx;
-            self.ctx = Context::ForcedExpr { is_var_decl: false };
-            let args = args.fold_with(self);
-            self.ctx = old;
-
-            let old = self.ctx;
-            self.ctx = Context::Callee { is_new: $is_new };
-            let callee = callee.fold_with(self);
-            self.ctx = old;
-
-            $T {
-                span,
-                callee,
-                args,
-                type_args,
-            }
-        }
-    };
-}
 macro_rules! array {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, e: $T) -> $T {
@@ -99,11 +70,64 @@ macro_rules! array {
 }
 
 impl Fold for Fixer<'_> {
-    context_fn_args!(fold_new_expr, NewExpr, true);
-    context_fn_args!(fold_call_expr, CallExpr, false);
-
     array!(fold_array_lit, ArrayLit);
     // array!(ArrayPat);
+
+    fn fold_new_expr(&mut self, node: NewExpr) -> NewExpr {
+        let NewExpr {
+            span,
+            mut callee,
+            args,
+            type_args,
+        } = node;
+
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        let args = args.fold_with(self);
+        self.ctx = old;
+
+        let old = self.ctx;
+        self.ctx = Context::Callee { is_new: true };
+        callee = callee.fold_with(self);
+        match *callee {
+            Expr::Call(..) => callee = Box::new(self.wrap(*callee)),
+            _ => {}
+        }
+        self.ctx = old;
+
+        NewExpr {
+            span,
+            callee,
+            args,
+            type_args,
+        }
+    }
+
+    fn fold_call_expr(&mut self, node: CallExpr) -> CallExpr {
+        let CallExpr {
+            span,
+            callee,
+            args,
+            type_args,
+        } = node;
+
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        let args = args.fold_with(self);
+        self.ctx = old;
+
+        let old = self.ctx;
+        self.ctx = Context::Callee { is_new: false };
+        let callee = callee.fold_with(self);
+        self.ctx = old;
+
+        CallExpr {
+            span,
+            callee,
+            args,
+            type_args,
+        }
+    }
 
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
         let old = self.ctx;
@@ -1029,4 +1053,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     test_fixer!(void_and_bin, "(void 0) * 2", "(void 0) * 2");
 
     test_fixer!(new_cond, "new (a ? B : C)()", "new (a ? B : C)()");
+
+    identical!(issue_931, "new (eval('Date'))();");
 }
