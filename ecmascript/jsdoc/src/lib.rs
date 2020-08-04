@@ -805,8 +805,8 @@ fn parse_word(i: Input) -> IResult<Input, Str> {
         .find(|(_, c)| !(('a' <= *c && *c <= 'z') || ('A' <= *c && *c <= 'Z')));
 
     if let Some((idx, _)) = res {
-        let rest = i.slice(idx - 1..);
-        let ret = i.slice(..idx - 1);
+        let rest = i.slice(idx + 1..);
+        let ret = i.slice(..idx);
 
         Ok((rest, ret.into()))
     } else {
@@ -841,6 +841,15 @@ mod tests {
     fn test_parse_line() {
         let (rest, ret) = parse_line(input("foo bar\nbaz")).unwrap();
 
+        assert_eq!(&*ret.value, "foo bar");
         assert_eq!(&*rest, "baz");
+    }
+
+    #[test]
+    fn test_parse_word() {
+        let (rest, ret) = parse_word(input("foo bar\nbaz")).unwrap();
+
+        assert_eq!(&*ret.value, "foo");
+        assert_eq!(&*rest, "bar\nbaz");
     }
 }
