@@ -156,112 +156,103 @@ impl<'a, I: Tokens> Parser<I> {
             });
         }
 
-        if is!("debugger") {
-            bump!();
-            expect!(';');
-            return Ok(Stmt::Debugger(DebuggerStmt { span: span!(start) }));
-        }
-
-        if is!("do") {
-            return self.parse_do_stmt();
-        }
-
-        if is!("for") {
-            return self.parse_for_stmt();
-        }
-
-        if is!("function") {
-            if !include_decl {
-                unexpected!()
+        match cur!(false)? {
+            tok!("debugger") => {
+                bump!();
+                expect!(';');
+                return Ok(Stmt::Debugger(DebuggerStmt { span: span!(start) }));
             }
 
-            return self.parse_fn_decl(decorators).map(Stmt::from);
-        }
+            tok!("do") => return self.parse_do_stmt(),
 
-        if is!("class") {
-            if !include_decl {
-                unexpected!()
+            tok!("for") => return self.parse_for_stmt(),
+
+            tok!("function") => {
+                if !include_decl {
+                    unexpected!()
+                }
+
+                return self.parse_fn_decl(decorators).map(Stmt::from);
             }
-            return self
-                .parse_class_decl(start, start, decorators)
-                .map(Stmt::from);
-        }
 
-        if is!("if") {
-            return self.parse_if_stmt();
-        }
+            tok!("class") => {
+                if !include_decl {
+                    unexpected!()
+                }
+                return self
+                    .parse_class_decl(start, start, decorators)
+                    .map(Stmt::from);
+            }
 
-        if is!("return") {
-            return self.parse_return_stmt();
-        }
+            tok!("if") => return self.parse_if_stmt(),
 
-        if is!("switch") {
-            return self.parse_switch_stmt();
-        }
+            tok!("return") => return self.parse_return_stmt(),
 
-        if is!("throw") {
-            return self.parse_throw_stmt();
-        }
+            tok!("switch") => return self.parse_switch_stmt(),
 
-        // Error
-        if is!("catch") {
-            let span = self.input.cur_span();
-            self.emit_err(span, SyntaxError::TS1005);
+            tok!("throw") => return self.parse_throw_stmt(),
 
-            let _ = self.parse_catch_clause();
-            let _ = self.parse_finally_block();
+            // Error recovery
+            tok!("catch") => {
+                let span = self.input.cur_span();
+                self.emit_err(span, SyntaxError::TS1005);
 
-            return Ok(Stmt::Expr(ExprStmt {
-                span,
-                expr: Box::new(Expr::Invalid(Invalid { span })),
-            }));
-        }
+                let _ = self.parse_catch_clause();
+                let _ = self.parse_finally_block();
 
-        if is!("finally") {
-            let span = self.input.cur_span();
-            self.emit_err(span, SyntaxError::TS1005);
+                return Ok(Stmt::Expr(ExprStmt {
+                    span,
+                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                }));
+            }
 
-            let _ = self.parse_finally_block();
+            tok!("finally") => {
+                let span = self.input.cur_span();
+                self.emit_err(span, SyntaxError::TS1005);
 
-            return Ok(Stmt::Expr(ExprStmt {
-                span,
-                expr: Box::new(Expr::Invalid(Invalid { span })),
-            }));
-        }
+                let _ = self.parse_finally_block();
 
-        if is!("try") {
-            return self.parse_try_stmt();
-        }
+                return Ok(Stmt::Expr(ExprStmt {
+                    span,
+                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                }));
+            }
 
-        if is!("with") {
-            return self.parse_with_stmt();
-        }
+            tok!("try") => return self.parse_try_stmt(),
 
-        if is!("while") {
-            return self.parse_while_stmt();
-        }
+            tok!("with") => return self.parse_with_stmt(),
 
-        if is!("var") || (include_decl && is!("const")) {
-            let v = self.parse_var_stmt(false)?;
-            return Ok(Stmt::Decl(Decl::Var(v)));
-        }
+            tok!("while") => return self.parse_while_stmt(),
 
-        // 'let' can start an identifier reference.
-        if include_decl && is!("let") {
-            let strict = self.ctx().strict;
-            let is_keyword = match peek!() {
-                Ok(t) => t.follows_keyword_let(strict),
-                _ => false,
-            };
-
-            if is_keyword {
+            tok!("var") => {
                 let v = self.parse_var_stmt(false)?;
                 return Ok(Stmt::Decl(Decl::Var(v)));
             }
-        }
 
-        if is!('{') {
-            return self.parse_block(false).map(Stmt::Block);
+            tok!("const") if include_decl => {
+                let v = self.parse_var_stmt(false)?;
+                return Ok(Stmt::Decl(Decl::Var(v)));
+            }
+
+            // 'let' can start an identifier reference.
+            tok!("let") if include_decl => {
+                let strict = self.ctx().strict;
+                let is_keyword = match peek!() {
+                    Ok(t) => t.follows_keyword_let(strict),
+                    _ => false,
+                };
+
+                if is_keyword {
+                    let v = self.parse_var_stmt(false)?;
+                    return Ok(Stmt::Decl(Decl::Var(v)));
+                }
+            }
+
+            tok!('{') => {
+                return self.parse_block(false).map(Stmt::Block);
+            }
+
+            _ => {}
         }
 
         if eat_exact!(';') {
