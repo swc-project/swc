@@ -166,9 +166,23 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             })
         }
 
-        "exports" => {}
+        "exports" => {
+            let (input, text) = parse_line(i);
+            i = input;
+            JsDocTag::Exports(JsDocExportsTag {
+                span,
+                module_name: text.into(),
+            })
+        }
 
-        "external" => {}
+        "external" => {
+            let (input, name) = parse_line(i);
+            i = input;
+            JsDocTag::External(JsDocExternalTag {
+                span,
+                name: name.into(),
+            })
+        }
 
         "file" => {}
 
