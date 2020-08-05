@@ -1,0 +1,220 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/yield.js:1:1
+  |
+1 | / function* foo() {
+2 | |     yield 1
+3 | |     yield* [1, 2, 3]
+4 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/yield.js:1:1
+  |
+1 | / function* foo() {
+2 | |     yield 1
+3 | |     yield* [1, 2, 3]
+4 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/yield.js:1:1
+  |
+1 | / function* foo() {
+2 | |     yield 1
+3 | |     yield* [1, 2, 3]
+4 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/expr/yield.js:1:1
+  |
+1 | / function* foo() {
+2 | |     yield 1
+3 | |     yield* [1, 2, 3]
+4 | | }
+  | |_^
+
+warning: FnDecl
+ --> $DIR/tests/span/js/expr/yield.js:1:1
+  |
+1 | / function* foo() {
+2 | |     yield 1
+3 | |     yield* [1, 2, 3]
+4 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/yield.js:1:11
+  |
+1 | function* foo() {
+  |           ^^^
+
+warning: Function
+ --> $DIR/tests/span/js/expr/yield.js:1:1
+  |
+1 | / function* foo() {
+2 | |     yield 1
+3 | |     yield* [1, 2, 3]
+4 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/expr/yield.js:1:17
+  |
+1 |   function* foo() {
+  |  _________________^
+2 | |     yield 1
+3 | |     yield* [1, 2, 3]
+4 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/yield.js:2:5
+  |
+2 |     yield 1
+  |     ^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/yield.js:2:5
+  |
+2 |     yield 1
+  |     ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/yield.js:2:5
+  |
+2 |     yield 1
+  |     ^^^^^^^
+
+warning: YieldExpr
+ --> $DIR/tests/span/js/expr/yield.js:2:5
+  |
+2 |     yield 1
+  |     ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/yield.js:2:11
+  |
+2 |     yield 1
+  |           ^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/yield.js:2:11
+  |
+2 |     yield 1
+  |           ^
+
+warning: Number
+ --> $DIR/tests/span/js/expr/yield.js:2:11
+  |
+2 |     yield 1
+  |           ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/yield.js:3:5
+  |
+3 |     yield* [1, 2, 3]
+  |     ^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/yield.js:3:5
+  |
+3 |     yield* [1, 2, 3]
+  |     ^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/yield.js:3:5
+  |
+3 |     yield* [1, 2, 3]
+  |     ^^^^^^^^^^^^^^^^
+
+warning: YieldExpr
+ --> $DIR/tests/span/js/expr/yield.js:3:5
+  |
+3 |     yield* [1, 2, 3]
+  |     ^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/yield.js:3:12
+  |
+3 |     yield* [1, 2, 3]
+  |            ^^^^^^^^^
+
+warning: ArrayLit
+ --> $DIR/tests/span/js/expr/yield.js:3:12
+  |
+3 |     yield* [1, 2, 3]
+  |            ^^^^^^^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/yield.js:3:13
+  |
+3 |     yield* [1, 2, 3]
+  |             ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/yield.js:3:13
+  |
+3 |     yield* [1, 2, 3]
+  |             ^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/yield.js:3:13
+  |
+3 |     yield* [1, 2, 3]
+  |             ^
+
+warning: Number
+ --> $DIR/tests/span/js/expr/yield.js:3:13
+  |
+3 |     yield* [1, 2, 3]
+  |             ^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/yield.js:3:16
+  |
+3 |     yield* [1, 2, 3]
+  |                ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/yield.js:3:16
+  |
+3 |     yield* [1, 2, 3]
+  |                ^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/yield.js:3:16
+  |
+3 |     yield* [1, 2, 3]
+  |                ^
+
+warning: Number
+ --> $DIR/tests/span/js/expr/yield.js:3:16
+  |
+3 |     yield* [1, 2, 3]
+  |                ^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/yield.js:3:19
+  |
+3 |     yield* [1, 2, 3]
+  |                   ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/yield.js:3:19
+  |
+3 |     yield* [1, 2, 3]
+  |                   ^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/yield.js:3:19
+  |
+3 |     yield* [1, 2, 3]
+  |                   ^
+
+warning: Number
+ --> $DIR/tests/span/js/expr/yield.js:3:19
+  |
+3 |     yield* [1, 2, 3]
+  |                   ^
+
