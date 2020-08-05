@@ -192,7 +192,11 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             JsDocTag::Unknown(JsDocUnknownTag { span, extras: ty })
         }
 
-        "function" | "func" | "method" => {}
+        "function" | "func" | "method" => {
+            let (input, name) = parse_opt_str(i)?;
+            i = input;
+            JsDocTag::Function(JsDocFunctionTag { span, name })
+        }
 
         "generator" => {}
 
