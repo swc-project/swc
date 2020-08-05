@@ -1,0 +1,150 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/cond.ts:1:1
+  |
+1 | type F<A> = A extends {} ? B : C;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/cond.ts:1:1
+  |
+1 | type F<A> = A extends {} ? B : C;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/cond.ts:1:1
+  |
+1 | type F<A> = A extends {} ? B : C;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/cond.ts:1:1
+  |
+1 | type F<A> = A extends {} ? B : C;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsTypeAliasDecl
+ --> $DIR/tests/span/ts/type/cond.ts:1:1
+  |
+1 | type F<A> = A extends {} ? B : C;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/cond.ts:1:6
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |      ^
+
+warning: TsTypeParamDecl
+ --> $DIR/tests/span/ts/type/cond.ts:1:7
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |       ^^^
+
+warning: TsTypeParam
+ --> $DIR/tests/span/ts/type/cond.ts:1:8
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |        ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/cond.ts:1:8
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |        ^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/cond.ts:1:13
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |             ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsConditionalType
+ --> $DIR/tests/span/ts/type/cond.ts:1:13
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |             ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/cond.ts:1:13
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |             ^
+
+warning: TsTypeRef
+ --> $DIR/tests/span/ts/type/cond.ts:1:13
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |             ^
+
+warning: TsEntityName
+ --> $DIR/tests/span/ts/type/cond.ts:1:13
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |             ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/cond.ts:1:13
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |             ^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/cond.ts:1:23
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                       ^^
+
+warning: TsTypeLit
+ --> $DIR/tests/span/ts/type/cond.ts:1:23
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                       ^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/cond.ts:1:28
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                            ^
+
+warning: TsTypeRef
+ --> $DIR/tests/span/ts/type/cond.ts:1:28
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                            ^
+
+warning: TsEntityName
+ --> $DIR/tests/span/ts/type/cond.ts:1:28
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                            ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/cond.ts:1:28
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                            ^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/cond.ts:1:32
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                                ^
+
+warning: TsTypeRef
+ --> $DIR/tests/span/ts/type/cond.ts:1:32
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                                ^
+
+warning: TsEntityName
+ --> $DIR/tests/span/ts/type/cond.ts:1:32
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                                ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/cond.ts:1:32
+  |
+1 | type F<A> = A extends {} ? B : C;
+  |                                ^
+
