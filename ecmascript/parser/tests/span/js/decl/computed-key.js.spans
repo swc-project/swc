@@ -1,0 +1,96 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/computed-key.js:1:1
+  |
+1 | / class A {
+2 | |     [foo] = '1'
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/computed-key.js:1:1
+  |
+1 | / class A {
+2 | |     [foo] = '1'
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/computed-key.js:1:1
+  |
+1 | / class A {
+2 | |     [foo] = '1'
+3 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/computed-key.js:1:1
+  |
+1 | / class A {
+2 | |     [foo] = '1'
+3 | | }
+  | |_^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/computed-key.js:1:1
+  |
+1 | / class A {
+2 | |     [foo] = '1'
+3 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/computed-key.js:1:7
+  |
+1 | class A {
+  |       ^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/computed-key.js:1:1
+  |
+1 | / class A {
+2 | |     [foo] = '1'
+3 | | }
+  | |_^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/computed-key.js:2:5
+  |
+2 |     [foo] = '1'
+  |     ^^^^^^^^^^^
+
+warning: ClassProp
+ --> $DIR/tests/span/js/decl/computed-key.js:2:5
+  |
+2 |     [foo] = '1'
+  |     ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/computed-key.js:2:6
+  |
+2 |     [foo] = '1'
+  |      ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/computed-key.js:2:6
+  |
+2 |     [foo] = '1'
+  |      ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/computed-key.js:2:13
+  |
+2 |     [foo] = '1'
+  |             ^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/decl/computed-key.js:2:13
+  |
+2 |     [foo] = '1'
+  |             ^^^
+
+warning: Str
+ --> $DIR/tests/span/js/decl/computed-key.js:2:13
+  |
+2 |     [foo] = '1'
+  |             ^^^
+
