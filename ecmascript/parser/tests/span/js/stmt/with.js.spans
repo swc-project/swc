@@ -1,0 +1,62 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/with.js:1:1
+  |
+1 | / with (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/with.js:1:1
+  |
+1 | / with (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/with.js:1:1
+  |
+1 | / with (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: WithStmt
+ --> $DIR/tests/span/js/stmt/with.js:1:1
+  |
+1 | / with (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/with.js:1:7
+  |
+1 | with (foo) {
+  |       ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/with.js:1:7
+  |
+1 | with (foo) {
+  |       ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/with.js:1:12
+  |
+1 |   with (foo) {
+  |  ____________^
+2 | |
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/with.js:1:12
+  |
+1 |   with (foo) {
+  |  ____________^
+2 | |
+3 | | }
+  | |_^
+
