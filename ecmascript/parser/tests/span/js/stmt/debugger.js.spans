@@ -1,0 +1,62 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/debugger.js:1:1
+  |
+1 | / debugger;
+2 | | ;
+3 | | ;
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/debugger.js:1:1
+  |
+1 | debugger;
+  | ^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/debugger.js:1:1
+  |
+1 | debugger;
+  | ^^^^^^^^^
+
+warning: DebuggerStmt
+ --> $DIR/tests/span/js/stmt/debugger.js:1:1
+  |
+1 | debugger;
+  | ^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/debugger.js:2:1
+  |
+2 | ;
+  | ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/debugger.js:2:1
+  |
+2 | ;
+  | ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/js/stmt/debugger.js:2:1
+  |
+2 | ;
+  | ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/debugger.js:3:1
+  |
+3 | ;
+  | ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/debugger.js:3:1
+  |
+3 | ;
+  | ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/js/stmt/debugger.js:3:1
+  |
+3 | ;
+  | ^
+
