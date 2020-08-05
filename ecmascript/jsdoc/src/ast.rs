@@ -180,6 +180,10 @@ pub struct AliasTag {
 #[ast_node]
 #[non_exhaustive]
 pub enum JsDocTag {
+    #[tag("JsDocConstructsTag")]
+    Constructs(JsDocConstructsTag),
+    #[tag("JsDocCopyrightTag")]
+    Copyright(JsDocCopyrightTag),
     #[tag("JsDocAbstractTag")]
     Abstract(JsDocAbstractTag),
     #[tag("JsDocAccessTag")]
