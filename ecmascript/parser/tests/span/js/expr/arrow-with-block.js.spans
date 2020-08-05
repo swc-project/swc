@@ -1,0 +1,147 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | / use((a) => {
+2 | |     return a;
+3 | | })
+  | |__^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | / use((a) => {
+2 | |     return a;
+3 | | })
+  | |__^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | / use((a) => {
+2 | |     return a;
+3 | | })
+  | |__^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | / use((a) => {
+2 | |     return a;
+3 | | })
+  | |__^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | / use((a) => {
+2 | |     return a;
+3 | | })
+  | |__^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | / use((a) => {
+2 | |     return a;
+3 | | })
+  | |__^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | use((a) => {
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | use((a) => {
+  | ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:1
+  |
+1 | use((a) => {
+  | ^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:5
+  |
+1 |   use((a) => {
+  |  _____^
+2 | |     return a;
+3 | | })
+  | |_^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:5
+  |
+1 |   use((a) => {
+  |  _____^
+2 | |     return a;
+3 | | })
+  | |_^
+
+warning: ArrowExpr
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:5
+  |
+1 |   use((a) => {
+  |  _____^
+2 | |     return a;
+3 | | })
+  | |_^
+
+warning: Pat
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:6
+  |
+1 | use((a) => {
+  |      ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:6
+  |
+1 | use((a) => {
+  |      ^
+
+warning: BlockStmtOrExpr
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:12
+  |
+1 |   use((a) => {
+  |  ____________^
+2 | |     return a;
+3 | | })
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:1:12
+  |
+1 |   use((a) => {
+  |  ____________^
+2 | |     return a;
+3 | | })
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:2:5
+  |
+2 |     return a;
+  |     ^^^^^^^^^
+
+warning: ReturnStmt
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:2:5
+  |
+2 |     return a;
+  |     ^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:2:12
+  |
+2 |     return a;
+  |            ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/arrow-with-block.js:2:12
+  |
+2 |     return a;
+  |            ^
+

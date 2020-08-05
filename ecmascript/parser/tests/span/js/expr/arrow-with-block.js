@@ -1,0 +1,3 @@
+use((a) => {
+    return a;
+})
