@@ -1,0 +1,93 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/return.js:1:1
+  |
+1 | / function foo() {
+2 | |     return 'foo';
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/return.js:1:1
+  |
+1 | / function foo() {
+2 | |     return 'foo';
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/return.js:1:1
+  |
+1 | / function foo() {
+2 | |     return 'foo';
+3 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/stmt/return.js:1:1
+  |
+1 | / function foo() {
+2 | |     return 'foo';
+3 | | }
+  | |_^
+
+warning: FnDecl
+ --> $DIR/tests/span/js/stmt/return.js:1:1
+  |
+1 | / function foo() {
+2 | |     return 'foo';
+3 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/return.js:1:10
+  |
+1 | function foo() {
+  |          ^^^
+
+warning: Function
+ --> $DIR/tests/span/js/stmt/return.js:1:1
+  |
+1 | / function foo() {
+2 | |     return 'foo';
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/return.js:1:16
+  |
+1 |   function foo() {
+  |  ________________^
+2 | |     return 'foo';
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/return.js:2:5
+  |
+2 |     return 'foo';
+  |     ^^^^^^^^^^^^^
+
+warning: ReturnStmt
+ --> $DIR/tests/span/js/stmt/return.js:2:5
+  |
+2 |     return 'foo';
+  |     ^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/return.js:2:12
+  |
+2 |     return 'foo';
+  |            ^^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/stmt/return.js:2:12
+  |
+2 |     return 'foo';
+  |            ^^^^^
+
+warning: Str
+ --> $DIR/tests/span/js/stmt/return.js:2:12
+  |
+2 |     return 'foo';
+  |            ^^^^^
+
