@@ -10,45 +10,45 @@ pub struct Validator {
 
 macro_rules! ne {
     ($v:expr, $T:ty, $l:expr, $r:expr) => {{
-        debug_assert_ne!(
-            $l,
-            $r,
-            "{}: {}: {} should not be same as {}",
-            $v.name,
-            stringify!($T),
-            stringify!($l),
-            stringify!($r),
-        );
+        // debug_assert_ne!(
+        //     $l,
+        //     $r,
+        //     "{}: {}: {} should not be same as {}",
+        //     $v.name,
+        //     stringify!($T),
+        //     stringify!($l),
+        //     stringify!($r),
+        // );
     }};
 }
 
 macro_rules! lte {
     ($v:expr, $T:ty, $l:expr, $r:expr) => {{
-        debug_assert!(
-            $l <= $r,
-            "{}: {}: {} should be <= {}; l={:?}; r={:?}",
-            $v.name,
-            stringify!($T),
-            stringify!($l),
-            stringify!($r),
-            $l,
-            $r
-        );
+        // debug_assert!(
+        //     $l <= $r,
+        //     "{}: {}: {} should be <= {}; l={:?}; r={:?}",
+        //     $v.name,
+        //     stringify!($T),
+        //     stringify!($l),
+        //     stringify!($r),
+        //     $l,
+        //     $r
+        // );
     }};
 }
 
 macro_rules! gte {
     ($v:expr, $T:ty, $l:expr, $r:expr) => {{
-        debug_assert!(
-            $l >= $r,
-            "{}: {}: {} should be >= {}; l={:?}; r={:?}",
-            $v.name,
-            stringify!($T),
-            stringify!($l),
-            stringify!($r),
-            $l,
-            $r
-        );
+        // debug_assert!(
+        //     $l >= $r,
+        //     "{}: {}: {} should be >= {}; l={:?}; r={:?}",
+        //     $v.name,
+        //     stringify!($T),
+        //     stringify!($l),
+        //     stringify!($r),
+        //     $l,
+        //     $r
+        // );
     }};
 }
 
