@@ -1,0 +1,92 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/for-of.js:1:1
+  |
+1 | / for await (const a of foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/for-of.js:1:1
+  |
+1 | / for await (const a of foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/for-of.js:1:1
+  |
+1 | / for await (const a of foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: ForOfStmt
+ --> $DIR/tests/span/js/stmt/for-of.js:1:1
+  |
+1 | / for await (const a of foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: VarDeclOrPat
+ --> $DIR/tests/span/js/stmt/for-of.js:1:12
+  |
+1 | for await (const a of foo) {
+  |            ^^^^^^^
+
+warning: VarDecl
+ --> $DIR/tests/span/js/stmt/for-of.js:1:12
+  |
+1 | for await (const a of foo) {
+  |            ^^^^^^^
+
+warning: VarDeclarator
+ --> $DIR/tests/span/js/stmt/for-of.js:1:18
+  |
+1 | for await (const a of foo) {
+  |                  ^
+
+warning: Pat
+ --> $DIR/tests/span/js/stmt/for-of.js:1:18
+  |
+1 | for await (const a of foo) {
+  |                  ^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/for-of.js:1:18
+  |
+1 | for await (const a of foo) {
+  |                  ^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/for-of.js:1:23
+  |
+1 | for await (const a of foo) {
+  |                       ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/for-of.js:1:23
+  |
+1 | for await (const a of foo) {
+  |                       ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/for-of.js:1:28
+  |
+1 |   for await (const a of foo) {
+  |  ____________________________^
+2 | |
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/for-of.js:1:28
+  |
+1 |   for await (const a of foo) {
+  |  ____________________________^
+2 | |
+3 | | }
+  | |_^
+
