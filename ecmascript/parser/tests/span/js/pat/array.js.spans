@@ -1,0 +1,138 @@
+warning: Module
+ --> $DIR/tests/span/js/pat/array.js:1:1
+  |
+1 | let [a, b, c, ...rest] = foo()
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/pat/array.js:1:1
+  |
+1 | let [a, b, c, ...rest] = foo()
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/pat/array.js:1:1
+  |
+1 | let [a, b, c, ...rest] = foo()
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/js/pat/array.js:1:1
+  |
+1 | let [a, b, c, ...rest] = foo()
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDecl
+ --> $DIR/tests/span/js/pat/array.js:1:1
+  |
+1 | let [a, b, c, ...rest] = foo()
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDeclarator
+ --> $DIR/tests/span/js/pat/array.js:1:5
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/pat/array.js:1:5
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |     ^^^^^^^^^^^^^^^^^^
+
+warning: ArrayPat
+ --> $DIR/tests/span/js/pat/array.js:1:5
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |     ^^^^^^^^^^^^^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/pat/array.js:1:6
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |      ^
+
+warning: Ident
+ --> $DIR/tests/span/js/pat/array.js:1:6
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |      ^
+
+warning: Pat
+ --> $DIR/tests/span/js/pat/array.js:1:9
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |         ^
+
+warning: Ident
+ --> $DIR/tests/span/js/pat/array.js:1:9
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |         ^
+
+warning: Pat
+ --> $DIR/tests/span/js/pat/array.js:1:12
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |            ^
+
+warning: Ident
+ --> $DIR/tests/span/js/pat/array.js:1:12
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |            ^
+
+warning: Pat
+ --> $DIR/tests/span/js/pat/array.js:1:15
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |               ^^^^^^^
+
+warning: RestPat
+ --> $DIR/tests/span/js/pat/array.js:1:15
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |               ^^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/pat/array.js:1:18
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |                  ^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/pat/array.js:1:18
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |                  ^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/pat/array.js:1:26
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |                          ^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/pat/array.js:1:26
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |                          ^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/pat/array.js:1:26
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |                          ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/pat/array.js:1:26
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |                          ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/pat/array.js:1:26
+  |
+1 | let [a, b, c, ...rest] = foo()
+  |                          ^^^
+
