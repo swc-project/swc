@@ -1,0 +1,174 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^
+
+warning: MemberExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/paren.js:1:1
+  |
+1 | console.log(((((((a)))))))
+  | ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:9
+  |
+1 | console.log(((((((a)))))))
+  |         ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/paren.js:1:9
+  |
+1 | console.log(((((((a)))))))
+  |         ^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/paren.js:1:13
+  |
+1 | console.log(((((((a)))))))
+  |             ^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:13
+  |
+1 | console.log(((((((a)))))))
+  |             ^^^^^^^^^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:13
+  |
+1 | console.log(((((((a)))))))
+  |             ^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:14
+  |
+1 | console.log(((((((a)))))))
+  |              ^^^^^^^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:14
+  |
+1 | console.log(((((((a)))))))
+  |              ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:15
+  |
+1 | console.log(((((((a)))))))
+  |               ^^^^^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:15
+  |
+1 | console.log(((((((a)))))))
+  |               ^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:16
+  |
+1 | console.log(((((((a)))))))
+  |                ^^^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:16
+  |
+1 | console.log(((((((a)))))))
+  |                ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:17
+  |
+1 | console.log(((((((a)))))))
+  |                 ^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:17
+  |
+1 | console.log(((((((a)))))))
+  |                 ^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:18
+  |
+1 | console.log(((((((a)))))))
+  |                  ^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/paren.js:1:18
+  |
+1 | console.log(((((((a)))))))
+  |                  ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/paren.js:1:19
+  |
+1 | console.log(((((((a)))))))
+  |                   ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/paren.js:1:19
+  |
+1 | console.log(((((((a)))))))
+  |                   ^
+
