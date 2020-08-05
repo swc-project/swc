@@ -711,6 +711,14 @@ fn parse_one_of<'i, 'l>(i: Input<'i>, list: &'l [&str]) -> IResult<Input<'i>, &'
     Err()
 fn parse_opt_str(i: Input) -> IResult<Input, Str> {
     parse_line(i)
+fn parse_opt_str(i: Input) -> IResult<Input, Option<Str>> {
+    let (i, res) = parse_line(i)?;
+
+    if res.value.is_empty() {
+        Ok((i, None))
+    } else {
+        Ok((i, Some(res)))
+    }
 }
 
 fn parse_str(i: Input) -> IResult<Input, Str> {
