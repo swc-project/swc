@@ -1,0 +1,48 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/default-export.js:1:1
+  |
+1 | export default class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/default-export.js:1:1
+  |
+1 | export default class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleDecl
+ --> $DIR/tests/span/js/decl/default-export.js:1:1
+  |
+1 | export default class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExportDefaultDecl
+ --> $DIR/tests/span/js/decl/default-export.js:1:1
+  |
+1 | export default class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: DefaultDecl
+ --> $DIR/tests/span/js/decl/default-export.js:1:16
+  |
+1 | export default class Foo { }
+  |                ^^^^^^^^^^^^^
+
+warning: ClassExpr
+ --> $DIR/tests/span/js/decl/default-export.js:1:16
+  |
+1 | export default class Foo { }
+  |                ^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/default-export.js:1:22
+  |
+1 | export default class Foo { }
+  |                      ^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/default-export.js:1:16
+  |
+1 | export default class Foo { }
+  |                ^^^^^^^^^^^^^
+
