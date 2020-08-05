@@ -1,0 +1,90 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/array.ts:1:1
+  |
+1 | let a: string[] = foo
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/array.ts:1:1
+  |
+1 | let a: string[] = foo
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/array.ts:1:1
+  |
+1 | let a: string[] = foo
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/array.ts:1:1
+  |
+1 | let a: string[] = foo
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDecl
+ --> $DIR/tests/span/ts/type/array.ts:1:1
+  |
+1 | let a: string[] = foo
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDeclarator
+ --> $DIR/tests/span/ts/type/array.ts:1:5
+  |
+1 | let a: string[] = foo
+  |     ^^^^^^^^^^^^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/ts/type/array.ts:1:5
+  |
+1 | let a: string[] = foo
+  |     ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/array.ts:1:5
+  |
+1 | let a: string[] = foo
+  |     ^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/array.ts:1:6
+  |
+1 | let a: string[] = foo
+  |      ^^^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/array.ts:1:8
+  |
+1 | let a: string[] = foo
+  |        ^^^^^^^^
+
+warning: TsArrayType
+ --> $DIR/tests/span/ts/type/array.ts:1:8
+  |
+1 | let a: string[] = foo
+  |        ^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/array.ts:1:8
+  |
+1 | let a: string[] = foo
+  |        ^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/array.ts:1:8
+  |
+1 | let a: string[] = foo
+  |        ^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/type/array.ts:1:19
+  |
+1 | let a: string[] = foo
+  |                   ^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/array.ts:1:19
+  |
+1 | let a: string[] = foo
+  |                   ^^^
+
