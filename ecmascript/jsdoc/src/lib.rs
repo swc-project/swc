@@ -185,9 +185,14 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             JsDocTag::File(JsDocFilelTag { span, text })
         }
 
-        "fires" => {}
+        "fires" | "emits" => {
+            // TODO: implement this
+            let (input, ty) = parse_line(i)?;
+            i = input;
+            JsDocTag::Unknown(JsDocUnknownTag { span, extras: ty })
+        }
 
-        "function" => {}
+        "function" | "func" | "method" => {}
 
         "generator" => {}
 
