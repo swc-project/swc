@@ -1,0 +1,162 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/intersection.ts:1:1
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/intersection.ts:1:1
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/intersection.ts:1:1
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/intersection.ts:1:1
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsTypeAliasDecl
+ --> $DIR/tests/span/ts/type/intersection.ts:1:1
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/intersection.ts:1:6
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |      ^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:10
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsUnionOrIntersectionType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:10
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsIntersectionType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:10
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:10
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |          ^^^^^^^^^^^^^^^
+
+warning: TsTypeLit
+ --> $DIR/tests/span/ts/type/intersection.ts:1:10
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |          ^^^^^^^^^^^^^^^
+
+warning: TsTypeElement
+ --> $DIR/tests/span/ts/type/intersection.ts:1:12
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |            ^^^^^^^^^^^
+
+warning: TsPropertySignature
+ --> $DIR/tests/span/ts/type/intersection.ts:1:12
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |            ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/type/intersection.ts:1:12
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |            ^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/intersection.ts:1:12
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |            ^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/intersection.ts:1:15
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |               ^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:17
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                 ^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:17
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                 ^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:28
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                            ^^^^^^^^^^^^^^^^
+
+warning: TsTypeLit
+ --> $DIR/tests/span/ts/type/intersection.ts:1:28
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                            ^^^^^^^^^^^^^^^^
+
+warning: TsTypeElement
+ --> $DIR/tests/span/ts/type/intersection.ts:1:30
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                              ^^^^^^^^^^^^
+
+warning: TsPropertySignature
+ --> $DIR/tests/span/ts/type/intersection.ts:1:30
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                              ^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/type/intersection.ts:1:30
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                              ^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/intersection.ts:1:30
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                              ^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/intersection.ts:1:33
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                                 ^^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:35
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                                   ^^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/intersection.ts:1:35
+  |
+1 | type A = { foo: string } & { bar: boolean }
+  |                                   ^^^^^^^
+
