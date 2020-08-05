@@ -180,6 +180,8 @@ pub struct AliasTag {
 #[ast_node]
 #[non_exhaustive]
 pub enum JsDocTag {
+    #[tag("JsDocFilelTag")]
+    File(JsDocFilelTag),
     #[tag("JsDocConstructsTag")]
     Constructs(JsDocConstructsTag),
     #[tag("JsDocCopyrightTag")]
@@ -878,6 +880,12 @@ pub struct JsDocDefaultTag {
 
 #[ast_node]
 pub struct JsDocDeprecatedTag {
+    pub span: Span,
+    pub text: Str,
+}
+
+#[ast_node]
+pub struct JsDocFilelTag {
     pub span: Span,
     pub text: Str,
 }
