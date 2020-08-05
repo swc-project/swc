@@ -40,12 +40,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "abstract" | "virtual" => JsDocTag::Abstract(JsDocAbstractTag { span }),
 
         "access" => {
-            let (input, access) = alt(
-                tag("private"),
-                tag("protected"),
-                tag("package"),
-                tag("public"),
-            )(i)?;
+            let (input, access) = parse_one_of(i, &["private", "protected", "package", "public"])?;
             i = input;
             JsDocTag::Access(JsDocAccessTag {
                 span,
@@ -726,6 +721,20 @@ fn parse_type(i: Input) -> IResult<Input, Str> {
     parse_line(i)
 }
 
+fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Str> {
+    for &item in list {
+        if i.starts_with(item) {
+            let res = tag(item)(i);
+            match res {
+                Ok(v) => return Ok((v.0, v.1.into())),
+                Err(..) => continue,
+            }
+        }
+    }
+
+    Err()
+}
+
 // ----- ----- Done ----- -----
 
 fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
@@ -839,8 +848,6 @@ fn parse_name_path(i: Input) -> IResult<Input, Str> {
             }
         };
     }
-
-    Ok((i, components))
 }
 
 fn parse_word(i: Input) -> IResult<Input, Str> {
