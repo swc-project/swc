@@ -1,0 +1,90 @@
+warning: Module
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsAsExpr
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^
+
+warning: TsAsExpr
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^
+
+warning: Lit
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^
+
+warning: Str
+ --> $DIR/tests/span/ts/expr/as.ts:1:1
+  |
+1 | 'WTF' as any as number
+  | ^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/expr/as.ts:1:10
+  |
+1 | 'WTF' as any as number
+  |          ^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/expr/as.ts:1:10
+  |
+1 | 'WTF' as any as number
+  |          ^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/expr/as.ts:1:17
+  |
+1 | 'WTF' as any as number
+  |                 ^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/expr/as.ts:1:17
+  |
+1 | 'WTF' as any as number
+  |                 ^^^^^^
+
