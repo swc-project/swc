@@ -238,6 +238,10 @@ pub enum JsDocTag {
     Exports(JsDocExportsTag),
     #[tag("JsDocExternalTag")]
     External(JsDocExternalTag),
+    #[tag("JsDocDefaultTag")]
+    Default(JsDocDefaultTag),
+    #[tag("JsDocDeprecatedTag")]
+    Deprecated(JsDocDeprecatedTag),
 }
 
 #[ast_node]
@@ -860,4 +864,16 @@ pub struct JsDocExternalTag {
 pub struct JsDocConstructsTag {
     pub span: Span,
     pub name: Str,
+}
+
+#[ast_node]
+pub struct JsDocDefaultTag {
+    pub span: Span,
+    pub value: Str,
+}
+
+#[ast_node]
+pub struct JsDocDeprecatedTag {
+    pub span: Span,
+    pub text: Str,
 }
