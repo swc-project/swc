@@ -1,0 +1,48 @@
+warning: Module
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:1
+  |
+1 | import A = B
+  | ^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:1
+  |
+1 | import A = B
+  | ^^^^^^^^^^^^
+
+warning: ModuleDecl
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:1
+  |
+1 | import A = B
+  | ^^^^^^^^^^^^
+
+warning: TsImportEqualsDecl
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:1
+  |
+1 | import A = B
+  | ^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:8
+  |
+1 | import A = B
+  |        ^
+
+warning: TsModuleRef
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:12
+  |
+1 | import A = B
+  |            ^
+
+warning: TsEntityName
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:12
+  |
+1 | import A = B
+  |            ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/decl/import-equals.ts:1:12
+  |
+1 | import A = B
+  |            ^
+
