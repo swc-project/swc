@@ -1,0 +1,105 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/enum.ts:1:1
+  |
+1 | / enum Enum {
+2 | |     A,
+3 | |     B = 1,
+4 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/enum.ts:1:1
+  |
+1 | / enum Enum {
+2 | |     A,
+3 | |     B = 1,
+4 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/enum.ts:1:1
+  |
+1 | / enum Enum {
+2 | |     A,
+3 | |     B = 1,
+4 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/enum.ts:1:1
+  |
+1 | / enum Enum {
+2 | |     A,
+3 | |     B = 1,
+4 | | }
+  | |_^
+
+warning: TsEnumDecl
+ --> $DIR/tests/span/ts/type/enum.ts:1:1
+  |
+1 | / enum Enum {
+2 | |     A,
+3 | |     B = 1,
+4 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/enum.ts:1:6
+  |
+1 | enum Enum {
+  |      ^^^^
+
+warning: TsEnumMember
+ --> $DIR/tests/span/ts/type/enum.ts:2:5
+  |
+2 |     A,
+  |     ^
+
+warning: TsEnumMemberId
+ --> $DIR/tests/span/ts/type/enum.ts:2:5
+  |
+2 |     A,
+  |     ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/enum.ts:2:5
+  |
+2 |     A,
+  |     ^
+
+warning: TsEnumMember
+ --> $DIR/tests/span/ts/type/enum.ts:3:5
+  |
+3 |     B = 1,
+  |     ^^^^^
+
+warning: TsEnumMemberId
+ --> $DIR/tests/span/ts/type/enum.ts:3:5
+  |
+3 |     B = 1,
+  |     ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/enum.ts:3:5
+  |
+3 |     B = 1,
+  |     ^
+
+warning: Expr
+ --> $DIR/tests/span/ts/type/enum.ts:3:9
+  |
+3 |     B = 1,
+  |         ^
+
+warning: Lit
+ --> $DIR/tests/span/ts/type/enum.ts:3:9
+  |
+3 |     B = 1,
+  |         ^
+
+warning: Number
+ --> $DIR/tests/span/ts/type/enum.ts:3:9
+  |
+3 |     B = 1,
+  |         ^
+
