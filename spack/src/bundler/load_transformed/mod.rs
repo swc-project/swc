@@ -21,7 +21,10 @@ use swc_ecma_ast::{
     Expr, ExprOrSuper, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module, ModuleDecl,
     Program, Str,
 };
-use swc_ecma_transforms::resolver::resolver_with_mark;
+use swc_ecma_transforms::{
+    optimization::{simplify::dead_branch_remover, InlineGlobals},
+    resolver::resolver_with_mark,
+};
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]
@@ -157,6 +160,11 @@ impl Bundler<'_> {
         self.swc.run(|| {
             log::trace!("transform_module({})", fm.name);
             module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
+            module = module.fold_with(&mut InlineGlobals {
+                envs: self.envs()?,
+                globals: Default::default(),
+            });
+            module = module.fold_with(&mut dead_branch_remover());
 
             let (id, mark) = self.scope.module_id_gen.gen(path);
 

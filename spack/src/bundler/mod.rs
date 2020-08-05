@@ -1,4 +1,4 @@
-use self::scope::Scope;
+use self::{config::Cache, scope::Scope};
 use crate::{
     bundler::load_transformed::TransformedModule,
     config::{Config, EntryConfig},
@@ -15,6 +15,7 @@ use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::Module;
 
 mod chunk;
+mod config;
 mod export;
 mod helpers;
 mod import;
@@ -26,6 +27,7 @@ mod tests;
 mod usage_analysis;
 
 pub struct Bundler<'a> {
+    cache: Cache,
     /// Javascript compiler.
     swc: Arc<swc::Compiler>,
     swc_options: swc::config::Options,
@@ -87,12 +89,13 @@ impl<'a> Bundler<'a> {
 
         Bundler {
             swc,
+            cache: Default::default(),
             swc_options,
-            loader,
-            resolver,
-            scope: Default::default(),
             used_mark,
             top_level_mark,
+            resolver,
+            loader,
+            scope: Default::default(),
         }
     }
 
