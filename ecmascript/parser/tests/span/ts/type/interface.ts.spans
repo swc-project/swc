@@ -1,0 +1,115 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     (foo: string): void;
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     (foo: string): void;
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     (foo: string): void;
+3 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     (foo: string): void;
+3 | | }
+  | |_^
+
+warning: TsInterfaceDecl
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     (foo: string): void;
+3 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/interface.ts:1:11
+  |
+1 | interface Foo {
+  |           ^^^
+
+warning: TsInterfaceBody
+ --> $DIR/tests/span/ts/type/interface.ts:1:15
+  |
+1 |   interface Foo {
+  |  _______________^
+2 | |     (foo: string): void;
+3 | | }
+  | |_^
+
+warning: TsTypeElement
+ --> $DIR/tests/span/ts/type/interface.ts:2:5
+  |
+2 |     (foo: string): void;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsCallSignatureDecl
+ --> $DIR/tests/span/ts/type/interface.ts:2:5
+  |
+2 |     (foo: string): void;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsFnParam
+ --> $DIR/tests/span/ts/type/interface.ts:2:6
+  |
+2 |     (foo: string): void;
+  |      ^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/interface.ts:2:6
+  |
+2 |     (foo: string): void;
+  |      ^^^^^^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/interface.ts:2:9
+  |
+2 |     (foo: string): void;
+  |         ^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/interface.ts:2:11
+  |
+2 |     (foo: string): void;
+  |           ^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/interface.ts:2:11
+  |
+2 |     (foo: string): void;
+  |           ^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/interface.ts:2:18
+  |
+2 |     (foo: string): void;
+  |                  ^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/interface.ts:2:20
+  |
+2 |     (foo: string): void;
+  |                    ^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/interface.ts:2:20
+  |
+2 |     (foo: string): void;
+  |                    ^^^^
+
