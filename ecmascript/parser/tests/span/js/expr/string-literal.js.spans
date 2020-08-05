@@ -1,0 +1,30 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/string-literal.js:1:1
+  |
+1 | export * from "test";
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/string-literal.js:1:1
+  |
+1 | export * from "test";
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleDecl
+ --> $DIR/tests/span/js/expr/string-literal.js:1:1
+  |
+1 | export * from "test";
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExportAll
+ --> $DIR/tests/span/js/expr/string-literal.js:1:1
+  |
+1 | export * from "test";
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: Str
+ --> $DIR/tests/span/js/expr/string-literal.js:1:15
+  |
+1 | export * from "test";
+  |               ^^^^^^
+
