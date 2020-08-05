@@ -1,0 +1,54 @@
+warning: Module
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^^^^^^^^^^
+
+warning: TsConstAssertion
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^
+
+warning: Lit
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^
+
+warning: Str
+ --> $DIR/tests/span/ts/expr/const-assertion.ts:1:1
+  |
+1 | 'FOO' as const
+  | ^^^^^
+
