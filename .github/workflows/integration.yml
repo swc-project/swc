@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: '12'
+          node-version: "12"
 
       - name: Cache
         uses: actions/cache@v2
@@ -33,7 +33,7 @@ jobs:
           export PATH="$PATH:$HOME/npm/bin"
           npx tsc
           npx neon build --release
-          npm i -g @swc/cli
+          npm i -g @swc/cli @swc/spack
           npm link
 
       - name: (swc) three.js
@@ -54,7 +54,6 @@ jobs:
         # terser: contains with statement in test
         # Rome.js: I forgot the cause, but it didn't work.
         # jQuery: browser only (window.document is required)
-
       - name: (swc) redux
         run: |
           export PATH="$PATH:$HOME/npm/bin"
@@ -70,4 +69,3 @@ jobs:
 
           (cd integration-tests/redux/repo && npm i)
           (cd integration-tests/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
-
