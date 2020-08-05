@@ -65,10 +65,9 @@ impl Bundler<'_> {
 
                 if specifiers.iter().any(|v| v.is_namespace()) {
                     unimplemented!(
-                        "accessing namespace dependency with computed key: {} -> {} ({})",
+                        "accessing namespace dependency with computed key: {} -> {}",
                         info.id,
-                        src.module_id,
-                        src.src.value
+                        src.module_id
                     )
                 }
                 if src.is_unconditional {
@@ -355,7 +354,12 @@ impl Bundler<'_> {
                         }
                     }
                 } else {
-                    unimplemented!("conditional dependency: {} -> {}", info.id, src.module_id)
+                    unimplemented!(
+                        "conditional dependency: {} -> {} ({})",
+                        info.id,
+                        src.module_id,
+                        src.src.value
+                    )
                 }
             }
 
