@@ -1,0 +1,98 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/empty.js:1:1
+  |
+1 | / ;;;
+2 | | ;
+3 | | ;
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/empty.js:1:1
+  |
+1 | ;;;
+  | ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/empty.js:1:1
+  |
+1 | ;;;
+  | ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/js/stmt/empty.js:1:1
+  |
+1 | ;;;
+  | ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/empty.js:1:2
+  |
+1 | ;;;
+  |  ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/empty.js:1:2
+  |
+1 | ;;;
+  |  ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/js/stmt/empty.js:1:2
+  |
+1 | ;;;
+  |  ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/empty.js:1:3
+  |
+1 | ;;;
+  |   ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/empty.js:1:3
+  |
+1 | ;;;
+  |   ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/js/stmt/empty.js:1:3
+  |
+1 | ;;;
+  |   ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/empty.js:2:1
+  |
+2 | ;
+  | ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/empty.js:2:1
+  |
+2 | ;
+  | ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/js/stmt/empty.js:2:1
+  |
+2 | ;
+  | ^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/empty.js:3:1
+  |
+3 | ;
+  | ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/empty.js:3:1
+  |
+3 | ;
+  | ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/js/stmt/empty.js:3:1
+  |
+3 | ;
+  | ^
+
