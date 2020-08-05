@@ -1,0 +1,48 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/export.js:1:1
+  |
+1 | export class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/export.js:1:1
+  |
+1 | export class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleDecl
+ --> $DIR/tests/span/js/decl/export.js:1:1
+  |
+1 | export class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: ExportDecl
+ --> $DIR/tests/span/js/decl/export.js:1:1
+  |
+1 | export class Foo { }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/export.js:1:8
+  |
+1 | export class Foo { }
+  |        ^^^^^^^^^^^^^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/export.js:1:8
+  |
+1 | export class Foo { }
+  |        ^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/export.js:1:14
+  |
+1 | export class Foo { }
+  |              ^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/export.js:1:8
+  |
+1 | export class Foo { }
+  |        ^^^^^^^^^^^^^
+
