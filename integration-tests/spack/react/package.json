@@ -1,0 +1,21 @@
+{
+  "name": "spack-react-test",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.26",
+    "@swc/core": "^1.2.11",
+    "@types/react": "^16.9.44"
+  }
+}

@@ -69,3 +69,7 @@ jobs:
 
           (cd integration-tests/redux/repo && npm i)
           (cd integration-tests/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
+      - name: (spack) example react app
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          (cd integration-tests/spack/react && npm i && npx spack)
