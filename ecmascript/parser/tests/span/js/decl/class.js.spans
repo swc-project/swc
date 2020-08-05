@@ -1,0 +1,246 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/class.js:1:1
+  |
+1 | / class Foo extends A {
+2 | |     foo = '1';
+3 | |     static bar = 2;
+4 | |
+5 | |     method() { }
+6 | |     async asyncMethod() { }
+7 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/class.js:1:1
+  |
+1 | / class Foo extends A {
+2 | |     foo = '1';
+3 | |     static bar = 2;
+4 | |
+5 | |     method() { }
+6 | |     async asyncMethod() { }
+7 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/class.js:1:1
+  |
+1 | / class Foo extends A {
+2 | |     foo = '1';
+3 | |     static bar = 2;
+4 | |
+5 | |     method() { }
+6 | |     async asyncMethod() { }
+7 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/class.js:1:1
+  |
+1 | / class Foo extends A {
+2 | |     foo = '1';
+3 | |     static bar = 2;
+4 | |
+5 | |     method() { }
+6 | |     async asyncMethod() { }
+7 | | }
+  | |_^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/class.js:1:1
+  |
+1 | / class Foo extends A {
+2 | |     foo = '1';
+3 | |     static bar = 2;
+4 | |
+5 | |     method() { }
+6 | |     async asyncMethod() { }
+7 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/class.js:1:7
+  |
+1 | class Foo extends A {
+  |       ^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/class.js:1:1
+  |
+1 | / class Foo extends A {
+2 | |     foo = '1';
+3 | |     static bar = 2;
+4 | |
+5 | |     method() { }
+6 | |     async asyncMethod() { }
+7 | | }
+  | |_^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/class.js:2:5
+  |
+2 |     foo = '1';
+  |     ^^^^^^^^^^
+
+warning: ClassProp
+ --> $DIR/tests/span/js/decl/class.js:2:5
+  |
+2 |     foo = '1';
+  |     ^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/class.js:2:5
+  |
+2 |     foo = '1';
+  |     ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/class.js:2:5
+  |
+2 |     foo = '1';
+  |     ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/class.js:2:11
+  |
+2 |     foo = '1';
+  |           ^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/decl/class.js:2:11
+  |
+2 |     foo = '1';
+  |           ^^^
+
+warning: Str
+ --> $DIR/tests/span/js/decl/class.js:2:11
+  |
+2 |     foo = '1';
+  |           ^^^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/class.js:3:5
+  |
+3 |     static bar = 2;
+  |     ^^^^^^^^^^^^^^^
+
+warning: ClassProp
+ --> $DIR/tests/span/js/decl/class.js:3:5
+  |
+3 |     static bar = 2;
+  |     ^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/class.js:3:12
+  |
+3 |     static bar = 2;
+  |            ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/class.js:3:12
+  |
+3 |     static bar = 2;
+  |            ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/class.js:3:18
+  |
+3 |     static bar = 2;
+  |                  ^
+
+warning: Lit
+ --> $DIR/tests/span/js/decl/class.js:3:18
+  |
+3 |     static bar = 2;
+  |                  ^
+
+warning: Number
+ --> $DIR/tests/span/js/decl/class.js:3:18
+  |
+3 |     static bar = 2;
+  |                  ^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/class.js:5:5
+  |
+5 |     method() { }
+  |     ^^^^^^^^^^^^
+
+warning: ClassMethod
+ --> $DIR/tests/span/js/decl/class.js:5:5
+  |
+5 |     method() { }
+  |     ^^^^^^^^^^^^
+
+warning: PropName
+ --> $DIR/tests/span/js/decl/class.js:5:5
+  |
+5 |     method() { }
+  |     ^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/class.js:5:5
+  |
+5 |     method() { }
+  |     ^^^^^^
+
+warning: Function
+ --> $DIR/tests/span/js/decl/class.js:5:5
+  |
+5 |     method() { }
+  |     ^^^^^^^^^^^^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/decl/class.js:5:14
+  |
+5 |     method() { }
+  |              ^^^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/class.js:6:5
+  |
+6 |     async asyncMethod() { }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ClassMethod
+ --> $DIR/tests/span/js/decl/class.js:6:5
+  |
+6 |     async asyncMethod() { }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: PropName
+ --> $DIR/tests/span/js/decl/class.js:6:11
+  |
+6 |     async asyncMethod() { }
+  |           ^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/class.js:6:11
+  |
+6 |     async asyncMethod() { }
+  |           ^^^^^^^^^^^
+
+warning: Function
+ --> $DIR/tests/span/js/decl/class.js:6:5
+  |
+6 |     async asyncMethod() { }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/decl/class.js:6:25
+  |
+6 |     async asyncMethod() { }
+  |                         ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/class.js:1:19
+  |
+1 | class Foo extends A {
+  |                   ^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/class.js:1:19
+  |
+1 | class Foo extends A {
+  |                   ^
+

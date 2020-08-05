@@ -1,0 +1,58 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/try-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } finally {
+4 | |
+5 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/try-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } finally {
+4 | |
+5 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/try-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } finally {
+4 | |
+5 | | }
+  | |_^
+
+warning: TryStmt
+ --> $DIR/tests/span/js/stmt/try-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } finally {
+4 | |
+5 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/try-finally.js:1:5
+  |
+1 |   try {
+  |  _____^
+2 | |
+3 | | } finally {
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/try-finally.js:3:11
+  |
+3 |   } finally {
+  |  ___________^
+4 | |
+5 | | }
+  | |_^
+

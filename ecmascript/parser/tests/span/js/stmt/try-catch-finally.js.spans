@@ -1,0 +1,96 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } catch (e) {
+4 | |
+5 | | } finally {
+6 | |
+7 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } catch (e) {
+4 | |
+5 | | } finally {
+6 | |
+7 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } catch (e) {
+4 | |
+5 | | } finally {
+6 | |
+7 | | }
+  | |_^
+
+warning: TryStmt
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:1:1
+  |
+1 | / try {
+2 | |
+3 | | } catch (e) {
+4 | |
+5 | | } finally {
+6 | |
+7 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:1:5
+  |
+1 |   try {
+  |  _____^
+2 | |
+3 | | } catch (e) {
+  | |_^
+
+warning: CatchClause
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:3:3
+  |
+3 |   } catch (e) {
+  |  ___^
+4 | |
+5 | | } finally {
+  | |_^
+
+warning: Pat
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:3:10
+  |
+3 | } catch (e) {
+  |          ^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:3:10
+  |
+3 | } catch (e) {
+  |          ^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:3:13
+  |
+3 |   } catch (e) {
+  |  _____________^
+4 | |
+5 | | } finally {
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/try-catch-finally.js:5:11
+  |
+5 |   } finally {
+  |  ___________^
+6 | |
+7 | | }
+  | |_^
+

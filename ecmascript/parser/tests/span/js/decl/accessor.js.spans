@@ -1,0 +1,348 @@
+warning: Module
+  --> $DIR/tests/span/js/decl/accessor.js:1:1
+   |
+1  | / class Foo {
+2  | |     get a() {
+3  | |
+4  | |     }
+...  |
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/accessor.js:1:1
+  |
+1 | / class Foo {
+2 | |     get a() {
+3 | |
+4 | |     }
+... |
+7 | |     }
+8 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/accessor.js:1:1
+  |
+1 | / class Foo {
+2 | |     get a() {
+3 | |
+4 | |     }
+... |
+7 | |     }
+8 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/accessor.js:1:1
+  |
+1 | / class Foo {
+2 | |     get a() {
+3 | |
+4 | |     }
+... |
+7 | |     }
+8 | | }
+  | |_^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/accessor.js:1:1
+  |
+1 | / class Foo {
+2 | |     get a() {
+3 | |
+4 | |     }
+... |
+7 | |     }
+8 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/accessor.js:1:7
+  |
+1 | class Foo {
+  |       ^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/accessor.js:1:1
+  |
+1 | / class Foo {
+2 | |     get a() {
+3 | |
+4 | |     }
+... |
+7 | |     }
+8 | | }
+  | |_^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/accessor.js:2:5
+  |
+2 | /     get a() {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: ClassMethod
+ --> $DIR/tests/span/js/decl/accessor.js:2:5
+  |
+2 | /     get a() {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: PropName
+ --> $DIR/tests/span/js/decl/accessor.js:2:9
+  |
+2 |     get a() {
+  |         ^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/accessor.js:2:9
+  |
+2 |     get a() {
+  |         ^
+
+warning: Function
+ --> $DIR/tests/span/js/decl/accessor.js:2:5
+  |
+2 | /     get a() {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/decl/accessor.js:2:13
+  |
+2 |       get a() {
+  |  _____________^
+3 | |
+4 | |     }
+  | |_____^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/accessor.js:5:5
+  |
+5 | /     set a(v) {
+6 | |
+7 | |     }
+  | |_____^
+
+warning: ClassMethod
+ --> $DIR/tests/span/js/decl/accessor.js:5:5
+  |
+5 | /     set a(v) {
+6 | |
+7 | |     }
+  | |_____^
+
+warning: PropName
+ --> $DIR/tests/span/js/decl/accessor.js:5:9
+  |
+5 |     set a(v) {
+  |         ^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/accessor.js:5:9
+  |
+5 |     set a(v) {
+  |         ^
+
+warning: Function
+ --> $DIR/tests/span/js/decl/accessor.js:5:5
+  |
+5 | /     set a(v) {
+6 | |
+7 | |     }
+  | |_____^
+
+warning: Param
+ --> $DIR/tests/span/js/decl/accessor.js:5:11
+  |
+5 |     set a(v) {
+  |           ^
+
+warning: Pat
+ --> $DIR/tests/span/js/decl/accessor.js:5:11
+  |
+5 |     set a(v) {
+  |           ^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/accessor.js:5:11
+  |
+5 |     set a(v) {
+  |           ^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/decl/accessor.js:5:14
+  |
+5 |       set a(v) {
+  |  ______________^
+6 | |
+7 | |     }
+  | |_____^
+
+warning: ModuleItem
+  --> $DIR/tests/span/js/decl/accessor.js:10:1
+   |
+10 | / let obj = {
+11 | |     get a() { },
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: Stmt
+  --> $DIR/tests/span/js/decl/accessor.js:10:1
+   |
+10 | / let obj = {
+11 | |     get a() { },
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: Decl
+  --> $DIR/tests/span/js/decl/accessor.js:10:1
+   |
+10 | / let obj = {
+11 | |     get a() { },
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: VarDecl
+  --> $DIR/tests/span/js/decl/accessor.js:10:1
+   |
+10 | / let obj = {
+11 | |     get a() { },
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: VarDeclarator
+  --> $DIR/tests/span/js/decl/accessor.js:10:5
+   |
+10 |   let obj = {
+   |  _____^
+11 | |     get a() { },
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: Pat
+  --> $DIR/tests/span/js/decl/accessor.js:10:5
+   |
+10 | let obj = {
+   |     ^^^
+
+warning: Ident
+  --> $DIR/tests/span/js/decl/accessor.js:10:5
+   |
+10 | let obj = {
+   |     ^^^
+
+warning: Expr
+  --> $DIR/tests/span/js/decl/accessor.js:10:11
+   |
+10 |   let obj = {
+   |  ___________^
+11 | |     get a() { },
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: ObjectLit
+  --> $DIR/tests/span/js/decl/accessor.js:10:11
+   |
+10 |   let obj = {
+   |  ___________^
+11 | |     get a() { },
+12 | |     set a(v) { },
+13 | | }
+   | |_^
+
+warning: PropOrSpread
+  --> $DIR/tests/span/js/decl/accessor.js:11:5
+   |
+11 |     get a() { },
+   |     ^^^^^^^^^^^
+
+warning: Prop
+  --> $DIR/tests/span/js/decl/accessor.js:11:5
+   |
+11 |     get a() { },
+   |     ^^^^^^^^^^^
+
+warning: GetterProp
+  --> $DIR/tests/span/js/decl/accessor.js:11:5
+   |
+11 |     get a() { },
+   |     ^^^^^^^^^^^
+
+warning: PropName
+  --> $DIR/tests/span/js/decl/accessor.js:11:9
+   |
+11 |     get a() { },
+   |         ^
+
+warning: Ident
+  --> $DIR/tests/span/js/decl/accessor.js:11:9
+   |
+11 |     get a() { },
+   |         ^
+
+warning: BlockStmt
+  --> $DIR/tests/span/js/decl/accessor.js:11:13
+   |
+11 |     get a() { },
+   |             ^^^
+
+warning: PropOrSpread
+  --> $DIR/tests/span/js/decl/accessor.js:12:5
+   |
+12 |     set a(v) { },
+   |     ^^^^^^^^^^^^
+
+warning: Prop
+  --> $DIR/tests/span/js/decl/accessor.js:12:5
+   |
+12 |     set a(v) { },
+   |     ^^^^^^^^^^^^
+
+warning: SetterProp
+  --> $DIR/tests/span/js/decl/accessor.js:12:5
+   |
+12 |     set a(v) { },
+   |     ^^^^^^^^^^^^
+
+warning: PropName
+  --> $DIR/tests/span/js/decl/accessor.js:12:9
+   |
+12 |     set a(v) { },
+   |         ^
+
+warning: Ident
+  --> $DIR/tests/span/js/decl/accessor.js:12:9
+   |
+12 |     set a(v) { },
+   |         ^
+
+warning: Pat
+  --> $DIR/tests/span/js/decl/accessor.js:12:11
+   |
+12 |     set a(v) { },
+   |           ^
+
+warning: Ident
+  --> $DIR/tests/span/js/decl/accessor.js:12:11
+   |
+12 |     set a(v) { },
+   |           ^
+
+warning: BlockStmt
+  --> $DIR/tests/span/js/decl/accessor.js:12:14
+   |
+12 |     set a(v) { },
+   |              ^^^
+

@@ -1,0 +1,36 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/export-defaul.js:1:1
+  |
+1 | export default foo
+  | ^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/export-defaul.js:1:1
+  |
+1 | export default foo
+  | ^^^^^^^^^^^^^^^^^^
+
+warning: ModuleDecl
+ --> $DIR/tests/span/js/expr/export-defaul.js:1:1
+  |
+1 | export default foo
+  | ^^^^^^^^^^^^^^^^^^
+
+warning: ExportDefaultExpr
+ --> $DIR/tests/span/js/expr/export-defaul.js:1:1
+  |
+1 | export default foo
+  | ^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/export-defaul.js:1:16
+  |
+1 | export default foo
+  |                ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/export-defaul.js:1:16
+  |
+1 | export default foo
+  |                ^^^
+

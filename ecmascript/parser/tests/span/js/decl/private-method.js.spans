@@ -1,0 +1,111 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/private-method.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo() {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/private-method.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo() {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/private-method.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo() {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/private-method.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo() {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/private-method.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo() {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/private-method.js:1:7
+  |
+1 | class Foo {
+  |       ^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/private-method.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo() {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/private-method.js:2:5
+  |
+2 | /     #foo() {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: PrivateMethod
+ --> $DIR/tests/span/js/decl/private-method.js:2:5
+  |
+2 | /     #foo() {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: PrivateName
+ --> $DIR/tests/span/js/decl/private-method.js:2:5
+  |
+2 |     #foo() {
+  |     ^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/private-method.js:2:6
+  |
+2 |     #foo() {
+  |      ^^^
+
+warning: Function
+ --> $DIR/tests/span/js/decl/private-method.js:2:5
+  |
+2 | /     #foo() {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/decl/private-method.js:2:12
+  |
+2 |       #foo() {
+  |  ____________^
+3 | |
+4 | |     }
+  | |_____^
+

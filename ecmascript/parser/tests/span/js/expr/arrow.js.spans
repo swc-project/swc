@@ -1,0 +1,102 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/arrow.js:1:1
+  |
+1 | use(a => a)
+  | ^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/arrow.js:1:5
+  |
+1 | use(a => a)
+  |     ^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow.js:1:5
+  |
+1 | use(a => a)
+  |     ^^^^^^
+
+warning: ArrowExpr
+ --> $DIR/tests/span/js/expr/arrow.js:1:5
+  |
+1 | use(a => a)
+  |     ^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/expr/arrow.js:1:5
+  |
+1 | use(a => a)
+  |     ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/arrow.js:1:5
+  |
+1 | use(a => a)
+  |     ^
+
+warning: BlockStmtOrExpr
+ --> $DIR/tests/span/js/expr/arrow.js:1:10
+  |
+1 | use(a => a)
+  |          ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/arrow.js:1:10
+  |
+1 | use(a => a)
+  |          ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/arrow.js:1:10
+  |
+1 | use(a => a)
+  |          ^
+

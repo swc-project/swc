@@ -1,0 +1,93 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/throw.js:1:1
+  |
+1 | / function foo() {
+2 | |     throw 'foo';
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/throw.js:1:1
+  |
+1 | / function foo() {
+2 | |     throw 'foo';
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/throw.js:1:1
+  |
+1 | / function foo() {
+2 | |     throw 'foo';
+3 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/stmt/throw.js:1:1
+  |
+1 | / function foo() {
+2 | |     throw 'foo';
+3 | | }
+  | |_^
+
+warning: FnDecl
+ --> $DIR/tests/span/js/stmt/throw.js:1:1
+  |
+1 | / function foo() {
+2 | |     throw 'foo';
+3 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/throw.js:1:10
+  |
+1 | function foo() {
+  |          ^^^
+
+warning: Function
+ --> $DIR/tests/span/js/stmt/throw.js:1:1
+  |
+1 | / function foo() {
+2 | |     throw 'foo';
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/throw.js:1:16
+  |
+1 |   function foo() {
+  |  ________________^
+2 | |     throw 'foo';
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/throw.js:2:5
+  |
+2 |     throw 'foo';
+  |     ^^^^^^^^^^^^
+
+warning: ThrowStmt
+ --> $DIR/tests/span/js/stmt/throw.js:2:5
+  |
+2 |     throw 'foo';
+  |     ^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/throw.js:2:11
+  |
+2 |     throw 'foo';
+  |           ^^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/stmt/throw.js:2:11
+  |
+2 |     throw 'foo';
+  |           ^^^^^
+
+warning: Str
+ --> $DIR/tests/span/js/stmt/throw.js:2:11
+  |
+2 |     throw 'foo';
+  |           ^^^^^
+

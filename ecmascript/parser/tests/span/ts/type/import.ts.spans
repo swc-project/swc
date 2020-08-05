@@ -1,0 +1,66 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/import.ts:1:1
+  |
+1 | type A = import('foo').Bar
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/import.ts:1:1
+  |
+1 | type A = import('foo').Bar
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/import.ts:1:1
+  |
+1 | type A = import('foo').Bar
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/import.ts:1:1
+  |
+1 | type A = import('foo').Bar
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsTypeAliasDecl
+ --> $DIR/tests/span/ts/type/import.ts:1:1
+  |
+1 | type A = import('foo').Bar
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/import.ts:1:6
+  |
+1 | type A = import('foo').Bar
+  |      ^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/import.ts:1:10
+  |
+1 | type A = import('foo').Bar
+  |          ^^^^^^^^^^^^^^^^^
+
+warning: TsImportType
+ --> $DIR/tests/span/ts/type/import.ts:1:10
+  |
+1 | type A = import('foo').Bar
+  |          ^^^^^^^^^^^^^^^^^
+
+warning: Str
+ --> $DIR/tests/span/ts/type/import.ts:1:17
+  |
+1 | type A = import('foo').Bar
+  |                 ^^^^^
+
+warning: TsEntityName
+ --> $DIR/tests/span/ts/type/import.ts:1:24
+  |
+1 | type A = import('foo').Bar
+  |                        ^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/import.ts:1:24
+  |
+1 | type A = import('foo').Bar
+  |                        ^^^
+

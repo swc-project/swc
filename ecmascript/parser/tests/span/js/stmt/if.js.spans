@@ -1,0 +1,110 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/if.js:1:1
+  |
+1 | / if (true) {
+2 | |     foo()
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/if.js:1:1
+  |
+1 | / if (true) {
+2 | |     foo()
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/if.js:1:1
+  |
+1 | / if (true) {
+2 | |     foo()
+3 | | }
+  | |_^
+
+warning: IfStmt
+ --> $DIR/tests/span/js/stmt/if.js:1:1
+  |
+1 | / if (true) {
+2 | |     foo()
+3 | | }
+  | |_^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/if.js:1:5
+  |
+1 | if (true) {
+  |     ^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/stmt/if.js:1:5
+  |
+1 | if (true) {
+  |     ^^^^
+
+warning: Bool
+ --> $DIR/tests/span/js/stmt/if.js:1:5
+  |
+1 | if (true) {
+  |     ^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/if.js:1:11
+  |
+1 |   if (true) {
+  |  ___________^
+2 | |     foo()
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/if.js:1:11
+  |
+1 |   if (true) {
+  |  ___________^
+2 | |     foo()
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/if.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/stmt/if.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/if.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/stmt/if.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/stmt/if.js:2:5
+  |
+2 |     foo()
+  |     ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/if.js:2:5
+  |
+2 |     foo()
+  |     ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/if.js:2:5
+  |
+2 |     foo()
+  |     ^^^
+

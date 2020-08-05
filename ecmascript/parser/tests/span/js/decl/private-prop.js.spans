@@ -1,0 +1,144 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/private-prop.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo = 1;
+3 | |     static #bar = 2;
+4 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/private-prop.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo = 1;
+3 | |     static #bar = 2;
+4 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/private-prop.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo = 1;
+3 | |     static #bar = 2;
+4 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/private-prop.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo = 1;
+3 | |     static #bar = 2;
+4 | | }
+  | |_^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/private-prop.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo = 1;
+3 | |     static #bar = 2;
+4 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/private-prop.js:1:7
+  |
+1 | class Foo {
+  |       ^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/private-prop.js:1:1
+  |
+1 | / class Foo {
+2 | |     #foo = 1;
+3 | |     static #bar = 2;
+4 | | }
+  | |_^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/private-prop.js:2:5
+  |
+2 |     #foo = 1;
+  |     ^^^^^^^^^
+
+warning: PrivateProp
+ --> $DIR/tests/span/js/decl/private-prop.js:2:5
+  |
+2 |     #foo = 1;
+  |     ^^^^^^^^^
+
+warning: PrivateName
+ --> $DIR/tests/span/js/decl/private-prop.js:2:5
+  |
+2 |     #foo = 1;
+  |     ^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/private-prop.js:2:6
+  |
+2 |     #foo = 1;
+  |      ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/private-prop.js:2:12
+  |
+2 |     #foo = 1;
+  |            ^
+
+warning: Lit
+ --> $DIR/tests/span/js/decl/private-prop.js:2:12
+  |
+2 |     #foo = 1;
+  |            ^
+
+warning: Number
+ --> $DIR/tests/span/js/decl/private-prop.js:2:12
+  |
+2 |     #foo = 1;
+  |            ^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/private-prop.js:3:5
+  |
+3 |     static #bar = 2;
+  |     ^^^^^^^^^^^^^^^^
+
+warning: PrivateProp
+ --> $DIR/tests/span/js/decl/private-prop.js:3:5
+  |
+3 |     static #bar = 2;
+  |     ^^^^^^^^^^^^^^^^
+
+warning: PrivateName
+ --> $DIR/tests/span/js/decl/private-prop.js:3:12
+  |
+3 |     static #bar = 2;
+  |            ^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/private-prop.js:3:13
+  |
+3 |     static #bar = 2;
+  |             ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/private-prop.js:3:19
+  |
+3 |     static #bar = 2;
+  |                   ^
+
+warning: Lit
+ --> $DIR/tests/span/js/decl/private-prop.js:3:19
+  |
+3 |     static #bar = 2;
+  |                   ^
+
+warning: Number
+ --> $DIR/tests/span/js/decl/private-prop.js:3:19
+  |
+3 |     static #bar = 2;
+  |                   ^
+

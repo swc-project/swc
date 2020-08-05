@@ -1,0 +1,5 @@
+class Cons {
+    constructor(foo) {
+
+    }
+}

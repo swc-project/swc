@@ -1,0 +1,110 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/label.js:1:1
+  |
+1 | / a: while (true) {
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/label.js:1:1
+  |
+1 | / a: while (true) {
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/label.js:1:1
+  |
+1 | / a: while (true) {
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: LabeledStmt
+ --> $DIR/tests/span/js/stmt/label.js:1:1
+  |
+1 | / a: while (true) {
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/label.js:1:1
+  |
+1 | a: while (true) {
+  | ^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/label.js:1:4
+  |
+1 |   a: while (true) {
+  |  ____^
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: WhileStmt
+ --> $DIR/tests/span/js/stmt/label.js:1:4
+  |
+1 |   a: while (true) {
+  |  ____^
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/label.js:1:11
+  |
+1 | a: while (true) {
+  |           ^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/stmt/label.js:1:11
+  |
+1 | a: while (true) {
+  |           ^^^^
+
+warning: Bool
+ --> $DIR/tests/span/js/stmt/label.js:1:11
+  |
+1 | a: while (true) {
+  |           ^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/label.js:1:17
+  |
+1 |   a: while (true) {
+  |  _________________^
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/label.js:1:17
+  |
+1 |   a: while (true) {
+  |  _________________^
+2 | |     break a
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/label.js:2:5
+  |
+2 |     break a
+  |     ^^^^^^^
+
+warning: BreakStmt
+ --> $DIR/tests/span/js/stmt/label.js:2:5
+  |
+2 |     break a
+  |     ^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/label.js:2:11
+  |
+2 |     break a
+  |           ^
+

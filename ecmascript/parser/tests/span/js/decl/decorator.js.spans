@@ -1,0 +1,162 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/decorator.js:1:1
+  |
+1 | / @foo
+2 | | @bar()
+3 | | @baz()
+4 | | class Foo {
+5 | |
+6 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/decorator.js:1:1
+  |
+1 | / @foo
+2 | | @bar()
+3 | | @baz()
+4 | | class Foo {
+5 | |
+6 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/decorator.js:1:1
+  |
+1 | / @foo
+2 | | @bar()
+3 | | @baz()
+4 | | class Foo {
+5 | |
+6 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/decorator.js:1:1
+  |
+1 | / @foo
+2 | | @bar()
+3 | | @baz()
+4 | | class Foo {
+5 | |
+6 | | }
+  | |_^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/decorator.js:1:1
+  |
+1 | / @foo
+2 | | @bar()
+3 | | @baz()
+4 | | class Foo {
+5 | |
+6 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/decorator.js:4:7
+  |
+4 | class Foo {
+  |       ^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/decorator.js:1:1
+  |
+1 | / @foo
+2 | | @bar()
+3 | | @baz()
+4 | | class Foo {
+5 | |
+6 | | }
+  | |_^
+
+warning: Decorator
+ --> $DIR/tests/span/js/decl/decorator.js:1:1
+  |
+1 | @foo
+  | ^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/decorator.js:1:2
+  |
+1 | @foo
+  |  ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/decorator.js:1:2
+  |
+1 | @foo
+  |  ^^^
+
+warning: Decorator
+ --> $DIR/tests/span/js/decl/decorator.js:2:1
+  |
+2 | @bar()
+  | ^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/decorator.js:2:2
+  |
+2 | @bar()
+  |  ^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/decl/decorator.js:2:2
+  |
+2 | @bar()
+  |  ^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/decl/decorator.js:2:2
+  |
+2 | @bar()
+  |  ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/decorator.js:2:2
+  |
+2 | @bar()
+  |  ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/decorator.js:2:2
+  |
+2 | @bar()
+  |  ^^^
+
+warning: Decorator
+ --> $DIR/tests/span/js/decl/decorator.js:3:1
+  |
+3 | @baz()
+  | ^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/decorator.js:3:2
+  |
+3 | @baz()
+  |  ^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/decl/decorator.js:3:2
+  |
+3 | @baz()
+  |  ^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/decl/decorator.js:3:2
+  |
+3 | @baz()
+  |  ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/decorator.js:3:2
+  |
+3 | @baz()
+  |  ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/decorator.js:3:2
+  |
+3 | @baz()
+  |  ^^^
+

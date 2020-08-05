@@ -1,0 +1,72 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:1
+  |
+1 | type A = new () => void;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:1
+  |
+1 | type A = new () => void;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:1
+  |
+1 | type A = new () => void;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:1
+  |
+1 | type A = new () => void;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsTypeAliasDecl
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:1
+  |
+1 | type A = new () => void;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:6
+  |
+1 | type A = new () => void;
+  |      ^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:10
+  |
+1 | type A = new () => void;
+  |          ^^^^^^^^^^^^^^
+
+warning: TsFnOrConstructorType
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:10
+  |
+1 | type A = new () => void;
+  |          ^^^^^^^^^^^^^^
+
+warning: TsConstructorType
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:10
+  |
+1 | type A = new () => void;
+  |          ^^^^^^^^^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:17
+  |
+1 | type A = new () => void;
+  |                 ^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:20
+  |
+1 | type A = new () => void;
+  |                    ^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/constructor-type.ts:1:20
+  |
+1 | type A = new () => void;
+  |                    ^^^^
+

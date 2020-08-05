@@ -1,0 +1,78 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^^^^^^^^^^^
+
+warning: CondExpr
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/cond.js:1:1
+  |
+1 | a ? b : 'c'
+  | ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/cond.js:1:5
+  |
+1 | a ? b : 'c'
+  |     ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/cond.js:1:5
+  |
+1 | a ? b : 'c'
+  |     ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/cond.js:1:9
+  |
+1 | a ? b : 'c'
+  |         ^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/cond.js:1:9
+  |
+1 | a ? b : 'c'
+  |         ^^^
+
+warning: Str
+ --> $DIR/tests/span/js/expr/cond.js:1:9
+  |
+1 | a ? b : 'c'
+  |         ^^^
+

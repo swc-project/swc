@@ -1,0 +1,120 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/array.js:1:1
+  |
+1 | ([a, b, c, ...foo])
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/array.js:1:1
+  |
+1 | ([a, b, c, ...foo])
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/array.js:1:1
+  |
+1 | ([a, b, c, ...foo])
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/array.js:1:1
+  |
+1 | ([a, b, c, ...foo])
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/array.js:1:1
+  |
+1 | ([a, b, c, ...foo])
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/array.js:1:1
+  |
+1 | ([a, b, c, ...foo])
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/array.js:1:2
+  |
+1 | ([a, b, c, ...foo])
+  |  ^^^^^^^^^^^^^^^^^
+
+warning: ArrayLit
+ --> $DIR/tests/span/js/expr/array.js:1:2
+  |
+1 | ([a, b, c, ...foo])
+  |  ^^^^^^^^^^^^^^^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/array.js:1:3
+  |
+1 | ([a, b, c, ...foo])
+  |   ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/array.js:1:3
+  |
+1 | ([a, b, c, ...foo])
+  |   ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/array.js:1:3
+  |
+1 | ([a, b, c, ...foo])
+  |   ^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/array.js:1:6
+  |
+1 | ([a, b, c, ...foo])
+  |      ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/array.js:1:6
+  |
+1 | ([a, b, c, ...foo])
+  |      ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/array.js:1:6
+  |
+1 | ([a, b, c, ...foo])
+  |      ^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/array.js:1:9
+  |
+1 | ([a, b, c, ...foo])
+  |         ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/array.js:1:9
+  |
+1 | ([a, b, c, ...foo])
+  |         ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/array.js:1:9
+  |
+1 | ([a, b, c, ...foo])
+  |         ^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/array.js:1:12
+  |
+1 | ([a, b, c, ...foo])
+  |            ^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/array.js:1:15
+  |
+1 | ([a, b, c, ...foo])
+  |               ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/array.js:1:15
+  |
+1 | ([a, b, c, ...foo])
+  |               ^^^
+

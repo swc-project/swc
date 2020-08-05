@@ -1,0 +1,151 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/new.js:1:1
+  |
+1 | / new Date();
+2 | | (new Date).toString()
+  | |_____________________^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/new.js:1:1
+  |
+1 | new Date();
+  | ^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/new.js:1:1
+  |
+1 | new Date();
+  | ^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/new.js:1:1
+  |
+1 | new Date();
+  | ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:1:1
+  |
+1 | new Date();
+  | ^^^^^^^^^^
+
+warning: NewExpr
+ --> $DIR/tests/span/js/expr/new.js:1:1
+  |
+1 | new Date();
+  | ^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:1:5
+  |
+1 | new Date();
+  |     ^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/new.js:1:5
+  |
+1 | new Date();
+  |     ^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: MemberExpr
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/new.js:2:1
+  |
+2 | (new Date).toString()
+  | ^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:2:2
+  |
+2 | (new Date).toString()
+  |  ^^^^^^^^
+
+warning: NewExpr
+ --> $DIR/tests/span/js/expr/new.js:2:2
+  |
+2 | (new Date).toString()
+  |  ^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:2:6
+  |
+2 | (new Date).toString()
+  |      ^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/new.js:2:6
+  |
+2 | (new Date).toString()
+  |      ^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/new.js:2:12
+  |
+2 | (new Date).toString()
+  |            ^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/new.js:2:12
+  |
+2 | (new Date).toString()
+  |            ^^^^^^^^
+

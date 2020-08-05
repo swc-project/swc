@@ -1,0 +1,84 @@
+warning: Module
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:1
+  |
+1 | foo<string, boolean>();
+  | ^^^
+
+warning: TsTypeParamInstantiation
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:4
+  |
+1 | foo<string, boolean>();
+  |    ^^^^^^^^^^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:5
+  |
+1 | foo<string, boolean>();
+  |     ^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:5
+  |
+1 | foo<string, boolean>();
+  |     ^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:13
+  |
+1 | foo<string, boolean>();
+  |             ^^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/expr/type-args.ts:1:13
+  |
+1 | foo<string, boolean>();
+  |             ^^^^^^^
+

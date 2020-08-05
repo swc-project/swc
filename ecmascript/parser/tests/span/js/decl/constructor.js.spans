@@ -1,0 +1,127 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/constructor.js:1:1
+  |
+1 | / class Cons {
+2 | |     constructor(foo) {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/constructor.js:1:1
+  |
+1 | / class Cons {
+2 | |     constructor(foo) {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/constructor.js:1:1
+  |
+1 | / class Cons {
+2 | |     constructor(foo) {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/constructor.js:1:1
+  |
+1 | / class Cons {
+2 | |     constructor(foo) {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: ClassDecl
+ --> $DIR/tests/span/js/decl/constructor.js:1:1
+  |
+1 | / class Cons {
+2 | |     constructor(foo) {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/constructor.js:1:7
+  |
+1 | class Cons {
+  |       ^^^^
+
+warning: Class
+ --> $DIR/tests/span/js/decl/constructor.js:1:1
+  |
+1 | / class Cons {
+2 | |     constructor(foo) {
+3 | |
+4 | |     }
+5 | | }
+  | |_^
+
+warning: ClassMember
+ --> $DIR/tests/span/js/decl/constructor.js:2:5
+  |
+2 | /     constructor(foo) {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: Constructor
+ --> $DIR/tests/span/js/decl/constructor.js:2:5
+  |
+2 | /     constructor(foo) {
+3 | |
+4 | |     }
+  | |_____^
+
+warning: PropName
+ --> $DIR/tests/span/js/decl/constructor.js:2:5
+  |
+2 |     constructor(foo) {
+  |     ^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/constructor.js:2:5
+  |
+2 |     constructor(foo) {
+  |     ^^^^^^^^^^^
+
+warning: ParamOrTsParamProp
+ --> $DIR/tests/span/js/decl/constructor.js:2:17
+  |
+2 |     constructor(foo) {
+  |                 ^^^
+
+warning: Param
+ --> $DIR/tests/span/js/decl/constructor.js:2:17
+  |
+2 |     constructor(foo) {
+  |                 ^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/decl/constructor.js:2:17
+  |
+2 |     constructor(foo) {
+  |                 ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/constructor.js:2:17
+  |
+2 |     constructor(foo) {
+  |                 ^^^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/decl/constructor.js:2:22
+  |
+2 |       constructor(foo) {
+  |  ______________________^
+3 | |
+4 | |     }
+  | |_____^
+

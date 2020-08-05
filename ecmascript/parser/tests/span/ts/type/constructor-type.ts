@@ -1,0 +1,1 @@
+type A = new () => void;

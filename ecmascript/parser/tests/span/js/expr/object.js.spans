@@ -1,0 +1,198 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/object.js:1:1
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/object.js:1:1
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/object.js:1:1
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/object.js:1:1
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/object.js:1:1
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ParenExpr
+ --> $DIR/tests/span/js/expr/object.js:1:1
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/object.js:1:2
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ObjectLit
+ --> $DIR/tests/span/js/expr/object.js:1:2
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: PropOrSpread
+ --> $DIR/tests/span/js/expr/object.js:1:4
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |    ^
+
+warning: Prop
+ --> $DIR/tests/span/js/expr/object.js:1:4
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |    ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/object.js:1:4
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |    ^
+
+warning: PropOrSpread
+ --> $DIR/tests/span/js/expr/object.js:1:7
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |       ^
+
+warning: Prop
+ --> $DIR/tests/span/js/expr/object.js:1:7
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |       ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/object.js:1:7
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |       ^
+
+warning: PropOrSpread
+ --> $DIR/tests/span/js/expr/object.js:1:10
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |          ^^^^
+
+warning: Prop
+ --> $DIR/tests/span/js/expr/object.js:1:10
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |          ^^^^
+
+warning: KeyValueProp
+ --> $DIR/tests/span/js/expr/object.js:1:10
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |          ^^^^
+
+warning: PropName
+ --> $DIR/tests/span/js/expr/object.js:1:10
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |          ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/object.js:1:10
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |          ^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/object.js:1:13
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |             ^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/object.js:1:13
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |             ^
+
+warning: PropOrSpread
+ --> $DIR/tests/span/js/expr/object.js:1:16
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                ^^^^^^^
+
+warning: SpreadElement
+ --> $DIR/tests/span/js/expr/object.js:1:16
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/object.js:1:19
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                   ^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/object.js:1:19
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                   ^^^^
+
+warning: PropOrSpread
+ --> $DIR/tests/span/js/expr/object.js:1:25
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                         ^^^^^^^^^^^^^^^
+
+warning: Prop
+ --> $DIR/tests/span/js/expr/object.js:1:25
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                         ^^^^^^^^^^^^^^^
+
+warning: KeyValueProp
+ --> $DIR/tests/span/js/expr/object.js:1:25
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                         ^^^^^^^^^^^^^^^
+
+warning: PropName
+ --> $DIR/tests/span/js/expr/object.js:1:25
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                         ^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/object.js:1:25
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                         ^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/object.js:1:36
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                                    ^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/object.js:1:36
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                                    ^^^^
+
+warning: Bool
+ --> $DIR/tests/span/js/expr/object.js:1:36
+  |
+1 | ({ a, b, c: d, ...rest, afterRest: true })
+  |                                    ^^^^
+

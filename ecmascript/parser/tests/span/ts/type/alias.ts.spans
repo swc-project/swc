@@ -1,0 +1,60 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/alias.ts:1:1
+  |
+1 | type Test = "test"    ;
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/alias.ts:1:1
+  |
+1 | type Test = "test"    ;
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/alias.ts:1:1
+  |
+1 | type Test = "test"    ;
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/alias.ts:1:1
+  |
+1 | type Test = "test"    ;
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsTypeAliasDecl
+ --> $DIR/tests/span/ts/type/alias.ts:1:1
+  |
+1 | type Test = "test"    ;
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/alias.ts:1:6
+  |
+1 | type Test = "test"    ;
+  |      ^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/alias.ts:1:13
+  |
+1 | type Test = "test"    ;
+  |             ^^^^^^
+
+warning: TsLitType
+ --> $DIR/tests/span/ts/type/alias.ts:1:13
+  |
+1 | type Test = "test"    ;
+  |             ^^^^^^
+
+warning: TsLit
+ --> $DIR/tests/span/ts/type/alias.ts:1:13
+  |
+1 | type Test = "test"    ;
+  |             ^^^^^^
+
+warning: Str
+ --> $DIR/tests/span/ts/type/alias.ts:1:13
+  |
+1 | type Test = "test"    ;
+  |             ^^^^^^
+

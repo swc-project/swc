@@ -1,0 +1,151 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | / use(/a/g)
+2 | | use(/[a-zA-Z0-9]+/g)
+  | |____________________^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/regex.js:1:1
+  |
+1 | use(/a/g)
+  | ^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/regex.js:1:5
+  |
+1 | use(/a/g)
+  |     ^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/regex.js:1:5
+  |
+1 | use(/a/g)
+  |     ^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/regex.js:1:5
+  |
+1 | use(/a/g)
+  |     ^^^^
+
+warning: Regex
+ --> $DIR/tests/span/js/expr/regex.js:1:5
+  |
+1 | use(/a/g)
+  |     ^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/expr/regex.js:2:1
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  | ^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/span/js/expr/regex.js:2:5
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  |     ^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/regex.js:2:5
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  |     ^^^^^^^^^^^^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/expr/regex.js:2:5
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  |     ^^^^^^^^^^^^^^^
+
+warning: Regex
+ --> $DIR/tests/span/js/expr/regex.js:2:5
+  |
+2 | use(/[a-zA-Z0-9]+/g)
+  |     ^^^^^^^^^^^^^^^
+

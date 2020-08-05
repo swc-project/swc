@@ -1,0 +1,104 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/do-while.js:1:1
+  |
+1 | / do {
+2 | |     foo()
+3 | | } while (bar)
+  | |_____________^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/do-while.js:1:1
+  |
+1 | / do {
+2 | |     foo()
+3 | | } while (bar)
+  | |_____________^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/do-while.js:1:1
+  |
+1 | / do {
+2 | |     foo()
+3 | | } while (bar)
+  | |_____________^
+
+warning: DoWhileStmt
+ --> $DIR/tests/span/js/stmt/do-while.js:1:1
+  |
+1 | / do {
+2 | |     foo()
+3 | | } while (bar)
+  | |_____________^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/do-while.js:3:10
+  |
+3 | } while (bar)
+  |          ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/do-while.js:3:10
+  |
+3 | } while (bar)
+  |          ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/do-while.js:1:4
+  |
+1 |   do {
+  |  ____^
+2 | |     foo()
+3 | | } while (bar)
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/do-while.js:1:4
+  |
+1 |   do {
+  |  ____^
+2 | |     foo()
+3 | | } while (bar)
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/do-while.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/stmt/do-while.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/do-while.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/span/js/stmt/do-while.js:2:5
+  |
+2 |     foo()
+  |     ^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/span/js/stmt/do-while.js:2:5
+  |
+2 |     foo()
+  |     ^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/do-while.js:2:5
+  |
+2 |     foo()
+  |     ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/do-while.js:2:5
+  |
+2 |     foo()
+  |     ^^^
+

@@ -1,0 +1,62 @@
+warning: Module
+ --> $DIR/tests/span/js/stmt/while.js:1:1
+  |
+1 | / while (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/stmt/while.js:1:1
+  |
+1 | / while (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/while.js:1:1
+  |
+1 | / while (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: WhileStmt
+ --> $DIR/tests/span/js/stmt/while.js:1:1
+  |
+1 | / while (foo) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Expr
+ --> $DIR/tests/span/js/stmt/while.js:1:8
+  |
+1 | while (foo) {
+  |        ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/stmt/while.js:1:8
+  |
+1 | while (foo) {
+  |        ^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/stmt/while.js:1:13
+  |
+1 |   while (foo) {
+  |  _____________^
+2 | |
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/stmt/while.js:1:13
+  |
+1 |   while (foo) {
+  |  _____________^
+2 | |
+3 | | }
+  | |_^
+

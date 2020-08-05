@@ -1,0 +1,199 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     new();
+3 | |     (foo: string): void;
+4 | |     [foo: string]: void;
+5 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     new();
+3 | |     (foo: string): void;
+4 | |     [foo: string]: void;
+5 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     new();
+3 | |     (foo: string): void;
+4 | |     [foo: string]: void;
+5 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     new();
+3 | |     (foo: string): void;
+4 | |     [foo: string]: void;
+5 | | }
+  | |_^
+
+warning: TsInterfaceDecl
+ --> $DIR/tests/span/ts/type/interface.ts:1:1
+  |
+1 | / interface Foo {
+2 | |     new();
+3 | |     (foo: string): void;
+4 | |     [foo: string]: void;
+5 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/interface.ts:1:11
+  |
+1 | interface Foo {
+  |           ^^^
+
+warning: TsInterfaceBody
+ --> $DIR/tests/span/ts/type/interface.ts:1:15
+  |
+1 |   interface Foo {
+  |  _______________^
+2 | |     new();
+3 | |     (foo: string): void;
+4 | |     [foo: string]: void;
+5 | | }
+  | |_^
+
+warning: TsTypeElement
+ --> $DIR/tests/span/ts/type/interface.ts:2:5
+  |
+2 |     new();
+  |     ^^^^^^
+
+warning: TsConstructSignatureDecl
+ --> $DIR/tests/span/ts/type/interface.ts:2:5
+  |
+2 |     new();
+  |     ^^^^^^
+
+warning: TsTypeElement
+ --> $DIR/tests/span/ts/type/interface.ts:3:5
+  |
+3 |     (foo: string): void;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsCallSignatureDecl
+ --> $DIR/tests/span/ts/type/interface.ts:3:5
+  |
+3 |     (foo: string): void;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsFnParam
+ --> $DIR/tests/span/ts/type/interface.ts:3:6
+  |
+3 |     (foo: string): void;
+  |      ^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/interface.ts:3:6
+  |
+3 |     (foo: string): void;
+  |      ^^^^^^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/interface.ts:3:9
+  |
+3 |     (foo: string): void;
+  |         ^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/interface.ts:3:11
+  |
+3 |     (foo: string): void;
+  |           ^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/interface.ts:3:11
+  |
+3 |     (foo: string): void;
+  |           ^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/interface.ts:3:18
+  |
+3 |     (foo: string): void;
+  |                  ^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/interface.ts:3:20
+  |
+3 |     (foo: string): void;
+  |                    ^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/interface.ts:3:20
+  |
+3 |     (foo: string): void;
+  |                    ^^^^
+
+warning: TsTypeElement
+ --> $DIR/tests/span/ts/type/interface.ts:4:5
+  |
+4 |     [foo: string]: void;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsIndexSignature
+ --> $DIR/tests/span/ts/type/interface.ts:4:5
+  |
+4 |     [foo: string]: void;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsFnParam
+ --> $DIR/tests/span/ts/type/interface.ts:4:6
+  |
+4 |     [foo: string]: void;
+  |      ^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/interface.ts:4:6
+  |
+4 |     [foo: string]: void;
+  |      ^^^^^^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/interface.ts:4:9
+  |
+4 |     [foo: string]: void;
+  |         ^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/interface.ts:4:11
+  |
+4 |     [foo: string]: void;
+  |           ^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/interface.ts:4:11
+  |
+4 |     [foo: string]: void;
+  |           ^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/interface.ts:4:18
+  |
+4 |     [foo: string]: void;
+  |                  ^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/interface.ts:4:20
+  |
+4 |     [foo: string]: void;
+  |                    ^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/interface.ts:4:20
+  |
+4 |     [foo: string]: void;
+  |                    ^^^^
+

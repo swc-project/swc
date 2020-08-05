@@ -1,0 +1,72 @@
+warning: Module
+ --> $DIR/tests/span/ts/type/fn.ts:1:1
+  |
+1 | type A = () => void;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/type/fn.ts:1:1
+  |
+1 | type A = () => void;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/type/fn.ts:1:1
+  |
+1 | type A = () => void;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/type/fn.ts:1:1
+  |
+1 | type A = () => void;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: TsTypeAliasDecl
+ --> $DIR/tests/span/ts/type/fn.ts:1:1
+  |
+1 | type A = () => void;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/type/fn.ts:1:6
+  |
+1 | type A = () => void;
+  |      ^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/fn.ts:1:10
+  |
+1 | type A = () => void;
+  |          ^^^^^^^^^^
+
+warning: TsFnOrConstructorType
+ --> $DIR/tests/span/ts/type/fn.ts:1:10
+  |
+1 | type A = () => void;
+  |          ^^^^^^^^^^
+
+warning: TsFnType
+ --> $DIR/tests/span/ts/type/fn.ts:1:10
+  |
+1 | type A = () => void;
+  |          ^^^^^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/type/fn.ts:1:13
+  |
+1 | type A = () => void;
+  |             ^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/type/fn.ts:1:16
+  |
+1 | type A = () => void;
+  |                ^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/type/fn.ts:1:16
+  |
+1 | type A = () => void;
+  |                ^^^^
+

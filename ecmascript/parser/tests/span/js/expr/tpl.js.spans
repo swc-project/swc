@@ -1,0 +1,48 @@
+warning: Module
+ --> $DIR/tests/span/js/expr/tpl.js:1:1
+  |
+1 | `foo`
+  | ^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/expr/tpl.js:1:1
+  |
+1 | `foo`
+  | ^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/expr/tpl.js:1:1
+  |
+1 | `foo`
+  | ^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/expr/tpl.js:1:1
+  |
+1 | `foo`
+  | ^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/expr/tpl.js:1:1
+  |
+1 | `foo`
+  | ^^^^^
+
+warning: Tpl
+ --> $DIR/tests/span/js/expr/tpl.js:1:1
+  |
+1 | `foo`
+  | ^^^^^
+
+warning: TplElement
+ --> $DIR/tests/span/js/expr/tpl.js:1:2
+  |
+1 | `foo`
+  |  ^^^
+
+warning: Str
+ --> $DIR/tests/span/js/expr/tpl.js:1:2
+  |
+1 | `foo`
+  |  ^^^
+
