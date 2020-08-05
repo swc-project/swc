@@ -9,7 +9,7 @@ use nom::{
     IResult, Slice,
     IResult, InputIter, Slice,
 };
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::Str;
 
 pub mod ast;
@@ -714,6 +714,16 @@ fn parse_one_of<'i, 'l>(i: Input<'i>, list: &'l [&str]) -> IResult<Input<'i>, &'
         nom::error::ErrorKind::Tag,
     )))
     Err()
+fn parse_opt_str(i: Input) -> IResult<Input, Str> {
+    parse_line(i)
+}
+
+fn parse_str(i: Input) -> IResult<Input, Str> {
+    parse_line(i)
+}
+
+fn parse_type(i: Input) -> IResult<Input, Str> {
+    parse_line(i)
 }
 
 // ----- ----- Done ----- -----
@@ -723,7 +733,7 @@ fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
     let mut components = vec![];
 fn parse_name_path(mut i: Input) -> IResult<Input, JsDocNamePath> {
     let lo = i.span().lo;
-    let mut path = vec![];
+    let mut components = vec![];
 
     loop {
         let (input, component) = parse_word(i)?;
@@ -819,27 +829,19 @@ fn parse_name_path(i: Input) -> IResult<Input, Str> {
                     return Err();
                 }
 
-                return OK(JsDocNamePath {});
+                return Ok((
+                    i,
+                    JsDocNamePath {
+                        span: Span::new(lo, i.span().hi, Default::default()),
+                        components,
+                    },
+                ));
             }
         };
     }
 
-    Ok((i, path))
+    Ok((i, components))
 }
-
-fn parse_opt_str(i: Input) -> IResult<Input, Str> {
-    parse_line(i)
-}
-
-fn parse_str(i: Input) -> IResult<Input, Str> {
-    parse_line(i)
-}
-
-fn parse_type(i: Input) -> IResult<Input, Str> {
-    parse_line(i)
-}
-
-// ----- ----- Done ----- -----
 
 fn parse_word(i: Input) -> IResult<Input, Str> {
     let res = i
