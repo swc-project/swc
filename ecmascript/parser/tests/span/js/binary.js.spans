@@ -1,0 +1,138 @@
+warning: Module
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^^^^^^^^^
+
+warning: ExprStmt
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^^^^^^^^^
+
+warning: BinExpr
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^
+
+warning: BinExpr
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^
+
+warning: BinExpr
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^
+
+warning: Ident
+ --> $DIR/tests/span/js/binary.js:1:1
+  |
+1 | a + b + c - d * 5
+  | ^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:5
+  |
+1 | a + b + c - d * 5
+  |     ^
+
+warning: Ident
+ --> $DIR/tests/span/js/binary.js:1:5
+  |
+1 | a + b + c - d * 5
+  |     ^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:9
+  |
+1 | a + b + c - d * 5
+  |         ^
+
+warning: Ident
+ --> $DIR/tests/span/js/binary.js:1:9
+  |
+1 | a + b + c - d * 5
+  |         ^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:13
+  |
+1 | a + b + c - d * 5
+  |             ^^^^^
+
+warning: BinExpr
+ --> $DIR/tests/span/js/binary.js:1:13
+  |
+1 | a + b + c - d * 5
+  |             ^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:13
+  |
+1 | a + b + c - d * 5
+  |             ^
+
+warning: Ident
+ --> $DIR/tests/span/js/binary.js:1:13
+  |
+1 | a + b + c - d * 5
+  |             ^
+
+warning: Expr
+ --> $DIR/tests/span/js/binary.js:1:17
+  |
+1 | a + b + c - d * 5
+  |                 ^
+
+warning: Lit
+ --> $DIR/tests/span/js/binary.js:1:17
+  |
+1 | a + b + c - d * 5
+  |                 ^
+
+warning: Number
+ --> $DIR/tests/span/js/binary.js:1:17
+  |
+1 | a + b + c - d * 5
+  |                 ^
+
