@@ -1,0 +1,96 @@
+warning: Module
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:1
+  |
+1 | let { a = 'default' } = foo
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:1
+  |
+1 | let { a = 'default' } = foo
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:1
+  |
+1 | let { a = 'default' } = foo
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:1
+  |
+1 | let { a = 'default' } = foo
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDecl
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:1
+  |
+1 | let { a = 'default' } = foo
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDeclarator
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:5
+  |
+1 | let { a = 'default' } = foo
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:5
+  |
+1 | let { a = 'default' } = foo
+  |     ^^^^^^^^^^^^^^^^^
+
+warning: ObjectPat
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:5
+  |
+1 | let { a = 'default' } = foo
+  |     ^^^^^^^^^^^^^^^^^
+
+warning: ObjectPatProp
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:7
+  |
+1 | let { a = 'default' } = foo
+  |       ^^^^^^^^^^^^^
+
+warning: AssignPatProp
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:7
+  |
+1 | let { a = 'default' } = foo
+  |       ^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:7
+  |
+1 | let { a = 'default' } = foo
+  |       ^
+
+warning: Expr
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:11
+  |
+1 | let { a = 'default' } = foo
+  |           ^^^^^^^^^
+
+warning: Lit
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:11
+  |
+1 | let { a = 'default' } = foo
+  |           ^^^^^^^^^
+
+warning: Str
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:11
+  |
+1 | let { a = 'default' } = foo
+  |           ^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:25
+  |
+1 | let { a = 'default' } = foo
+  |                         ^^^
+
+warning: Ident
+ --> $DIR/tests/span/js/pat/assign-pat-prop.js:1:25
+  |
+1 | let { a = 'default' } = foo
+  |                         ^^^
+
