@@ -855,3 +855,9 @@ pub struct JsDocExternalTag {
     pub span: Span,
     pub name: Str,
 }
+
+#[ast_node]
+pub struct JsDocConstructsTag {
+    pub span: Span,
+    pub name: Str,
+}

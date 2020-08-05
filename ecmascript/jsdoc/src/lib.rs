@@ -78,7 +78,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
 
         "borrows" => {
             let (input, from) = parse_name_path(i)?;
-            let (input, _) = tag("as")(input);
+            let (input, _) = tag("as")(input)?;
             let (input, to) = parse_name_path(input)?;
             i = input;
             JsDocTag::Borrows(JsDocBorrowsTag { span, from, to })
@@ -721,6 +721,9 @@ fn parse_one_of<'i, 'l>(i: Input<'i>, list: &'l [&str]) -> IResult<Input<'i>, &'
 fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
     let lo = i.span().lo;
     let mut components = vec![];
+fn parse_name_path(mut i: Input) -> IResult<Input, JsDocNamePath> {
+    let lo = i.span().lo;
+    let mut path = vec![];
 
     loop {
         let (input, component) = parse_word(i)?;
@@ -811,6 +814,17 @@ mod tests {
 
 fn parse_name_path(i: Input) -> IResult<Input, Str> {
     parse_line(i)
+            Err(_) => {
+                if path.is_empty() {
+                    return Err();
+                }
+
+                return OK(JsDocNamePath {});
+            }
+        };
+    }
+
+    Ok((i, path))
 }
 
 fn parse_opt_str(i: Input) -> IResult<Input, Str> {
