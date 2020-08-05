@@ -33,7 +33,7 @@ jobs:
           export PATH="$PATH:$HOME/npm/bin"
           npx tsc
           npx neon build --release
-          npm i -g @swc/cli @swc/spack
+          npm i -g @swc/cli
           npm link
 
       - name: (swc) three.js
