@@ -198,7 +198,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             JsDocTag::Function(JsDocFunctionTag { span, name })
         }
 
-        "generator" => {}
+        "generator" => JsDocTag::Generator(JsDocGeneratorTag { span }),
 
         "global" => {}
 
