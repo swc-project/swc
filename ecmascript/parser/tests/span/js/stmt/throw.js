@@ -1,0 +1,3 @@
+function foo() {
+    throw 'foo';
+}
