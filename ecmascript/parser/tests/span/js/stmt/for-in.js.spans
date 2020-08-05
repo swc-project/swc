@@ -1,5 +1,5 @@
 warning: Module
- --> $DIR/tests/span/js/stmt/for.js:1:1
+ --> $DIR/tests/span/js/stmt/for-in.js:1:1
   |
 1 | / for (const a in [1, 2, 3]) {
 2 | |
@@ -10,7 +10,7 @@ warning: Module
   | |_^
 
 warning: ModuleItem
- --> $DIR/tests/span/js/stmt/for.js:1:1
+ --> $DIR/tests/span/js/stmt/for-in.js:1:1
   |
 1 | / for (const a in [1, 2, 3]) {
 2 | |
@@ -21,7 +21,7 @@ warning: ModuleItem
   | |_^
 
 warning: Stmt
- --> $DIR/tests/span/js/stmt/for.js:1:1
+ --> $DIR/tests/span/js/stmt/for-in.js:1:1
   |
 1 | / for (const a in [1, 2, 3]) {
 2 | |
@@ -32,7 +32,7 @@ warning: Stmt
   | |_^
 
 warning: ForInStmt
- --> $DIR/tests/span/js/stmt/for.js:1:1
+ --> $DIR/tests/span/js/stmt/for-in.js:1:1
   |
 1 | / for (const a in [1, 2, 3]) {
 2 | |
@@ -43,121 +43,121 @@ warning: ForInStmt
   | |_^
 
 warning: VarDeclOrPat
- --> $DIR/tests/span/js/stmt/for.js:1:6
+ --> $DIR/tests/span/js/stmt/for-in.js:1:6
   |
 1 | for (const a in [1, 2, 3]) {
   |      ^^^^^^^
 
 warning: VarDecl
- --> $DIR/tests/span/js/stmt/for.js:1:6
+ --> $DIR/tests/span/js/stmt/for-in.js:1:6
   |
 1 | for (const a in [1, 2, 3]) {
   |      ^^^^^^^
 
 warning: VarDeclarator
- --> $DIR/tests/span/js/stmt/for.js:1:12
+ --> $DIR/tests/span/js/stmt/for-in.js:1:12
   |
 1 | for (const a in [1, 2, 3]) {
   |            ^
 
 warning: Pat
- --> $DIR/tests/span/js/stmt/for.js:1:12
+ --> $DIR/tests/span/js/stmt/for-in.js:1:12
   |
 1 | for (const a in [1, 2, 3]) {
   |            ^
 
 warning: Ident
- --> $DIR/tests/span/js/stmt/for.js:1:12
+ --> $DIR/tests/span/js/stmt/for-in.js:1:12
   |
 1 | for (const a in [1, 2, 3]) {
   |            ^
 
 warning: Expr
- --> $DIR/tests/span/js/stmt/for.js:1:17
+ --> $DIR/tests/span/js/stmt/for-in.js:1:17
   |
 1 | for (const a in [1, 2, 3]) {
   |                 ^^^^^^^^^
 
 warning: ArrayLit
- --> $DIR/tests/span/js/stmt/for.js:1:17
+ --> $DIR/tests/span/js/stmt/for-in.js:1:17
   |
 1 | for (const a in [1, 2, 3]) {
   |                 ^^^^^^^^^
 
 warning: ExprOrSpread
- --> $DIR/tests/span/js/stmt/for.js:1:18
+ --> $DIR/tests/span/js/stmt/for-in.js:1:18
   |
 1 | for (const a in [1, 2, 3]) {
   |                  ^
 
 warning: Expr
- --> $DIR/tests/span/js/stmt/for.js:1:18
+ --> $DIR/tests/span/js/stmt/for-in.js:1:18
   |
 1 | for (const a in [1, 2, 3]) {
   |                  ^
 
 warning: Lit
- --> $DIR/tests/span/js/stmt/for.js:1:18
+ --> $DIR/tests/span/js/stmt/for-in.js:1:18
   |
 1 | for (const a in [1, 2, 3]) {
   |                  ^
 
 warning: Number
- --> $DIR/tests/span/js/stmt/for.js:1:18
+ --> $DIR/tests/span/js/stmt/for-in.js:1:18
   |
 1 | for (const a in [1, 2, 3]) {
   |                  ^
 
 warning: ExprOrSpread
- --> $DIR/tests/span/js/stmt/for.js:1:21
+ --> $DIR/tests/span/js/stmt/for-in.js:1:21
   |
 1 | for (const a in [1, 2, 3]) {
   |                     ^
 
 warning: Expr
- --> $DIR/tests/span/js/stmt/for.js:1:21
+ --> $DIR/tests/span/js/stmt/for-in.js:1:21
   |
 1 | for (const a in [1, 2, 3]) {
   |                     ^
 
 warning: Lit
- --> $DIR/tests/span/js/stmt/for.js:1:21
+ --> $DIR/tests/span/js/stmt/for-in.js:1:21
   |
 1 | for (const a in [1, 2, 3]) {
   |                     ^
 
 warning: Number
- --> $DIR/tests/span/js/stmt/for.js:1:21
+ --> $DIR/tests/span/js/stmt/for-in.js:1:21
   |
 1 | for (const a in [1, 2, 3]) {
   |                     ^
 
 warning: ExprOrSpread
- --> $DIR/tests/span/js/stmt/for.js:1:24
+ --> $DIR/tests/span/js/stmt/for-in.js:1:24
   |
 1 | for (const a in [1, 2, 3]) {
   |                        ^
 
 warning: Expr
- --> $DIR/tests/span/js/stmt/for.js:1:24
+ --> $DIR/tests/span/js/stmt/for-in.js:1:24
   |
 1 | for (const a in [1, 2, 3]) {
   |                        ^
 
 warning: Lit
- --> $DIR/tests/span/js/stmt/for.js:1:24
+ --> $DIR/tests/span/js/stmt/for-in.js:1:24
   |
 1 | for (const a in [1, 2, 3]) {
   |                        ^
 
 warning: Number
- --> $DIR/tests/span/js/stmt/for.js:1:24
+ --> $DIR/tests/span/js/stmt/for-in.js:1:24
   |
 1 | for (const a in [1, 2, 3]) {
   |                        ^
 
 warning: Stmt
- --> $DIR/tests/span/js/stmt/for.js:1:28
+ --> $DIR/tests/span/js/stmt/for-in.js:1:28
   |
 1 |   for (const a in [1, 2, 3]) {
   |  ____________________________^
@@ -169,7 +169,7 @@ warning: Stmt
   | |_^
 
 warning: BlockStmt
- --> $DIR/tests/span/js/stmt/for.js:1:28
+ --> $DIR/tests/span/js/stmt/for-in.js:1:28
   |
 1 |   for (const a in [1, 2, 3]) {
   |  ____________________________^
@@ -181,7 +181,7 @@ warning: BlockStmt
   | |_^
 
 warning: Stmt
- --> $DIR/tests/span/js/stmt/for.js:3:5
+ --> $DIR/tests/span/js/stmt/for-in.js:3:5
   |
 3 | /     if (a === 2) {
 4 | |         continue
@@ -189,7 +189,7 @@ warning: Stmt
   | |_____^
 
 warning: IfStmt
- --> $DIR/tests/span/js/stmt/for.js:3:5
+ --> $DIR/tests/span/js/stmt/for-in.js:3:5
   |
 3 | /     if (a === 2) {
 4 | |         continue
@@ -197,49 +197,49 @@ warning: IfStmt
   | |_____^
 
 warning: Expr
- --> $DIR/tests/span/js/stmt/for.js:3:9
+ --> $DIR/tests/span/js/stmt/for-in.js:3:9
   |
 3 |     if (a === 2) {
   |         ^^^^^^^
 
 warning: BinExpr
- --> $DIR/tests/span/js/stmt/for.js:3:9
+ --> $DIR/tests/span/js/stmt/for-in.js:3:9
   |
 3 |     if (a === 2) {
   |         ^^^^^^^
 
 warning: Expr
- --> $DIR/tests/span/js/stmt/for.js:3:9
+ --> $DIR/tests/span/js/stmt/for-in.js:3:9
   |
 3 |     if (a === 2) {
   |         ^
 
 warning: Ident
- --> $DIR/tests/span/js/stmt/for.js:3:9
+ --> $DIR/tests/span/js/stmt/for-in.js:3:9
   |
 3 |     if (a === 2) {
   |         ^
 
 warning: Expr
- --> $DIR/tests/span/js/stmt/for.js:3:15
+ --> $DIR/tests/span/js/stmt/for-in.js:3:15
   |
 3 |     if (a === 2) {
   |               ^
 
 warning: Lit
- --> $DIR/tests/span/js/stmt/for.js:3:15
+ --> $DIR/tests/span/js/stmt/for-in.js:3:15
   |
 3 |     if (a === 2) {
   |               ^
 
 warning: Number
- --> $DIR/tests/span/js/stmt/for.js:3:15
+ --> $DIR/tests/span/js/stmt/for-in.js:3:15
   |
 3 |     if (a === 2) {
   |               ^
 
 warning: Stmt
- --> $DIR/tests/span/js/stmt/for.js:3:18
+ --> $DIR/tests/span/js/stmt/for-in.js:3:18
   |
 3 |       if (a === 2) {
   |  __________________^
@@ -248,7 +248,7 @@ warning: Stmt
   | |_____^
 
 warning: BlockStmt
- --> $DIR/tests/span/js/stmt/for.js:3:18
+ --> $DIR/tests/span/js/stmt/for-in.js:3:18
   |
 3 |       if (a === 2) {
   |  __________________^
@@ -257,13 +257,13 @@ warning: BlockStmt
   | |_____^
 
 warning: Stmt
- --> $DIR/tests/span/js/stmt/for.js:4:9
+ --> $DIR/tests/span/js/stmt/for-in.js:4:9
   |
 4 |         continue
   |         ^^^^^^^^
 
 warning: ContinueStmt
- --> $DIR/tests/span/js/stmt/for.js:4:9
+ --> $DIR/tests/span/js/stmt/for-in.js:4:9
   |
 4 |         continue
   |         ^^^^^^^^
