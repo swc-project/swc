@@ -1,0 +1,123 @@
+warning: Module
+ --> $DIR/tests/span/js/decl/fn.js:1:1
+  |
+1 | / function foo(a, b = c) {
+2 | |
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/js/decl/fn.js:1:1
+  |
+1 | / function foo(a, b = c) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/js/decl/fn.js:1:1
+  |
+1 | / function foo(a, b = c) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/js/decl/fn.js:1:1
+  |
+1 | / function foo(a, b = c) {
+2 | |
+3 | | }
+  | |_^
+
+warning: FnDecl
+ --> $DIR/tests/span/js/decl/fn.js:1:1
+  |
+1 | / function foo(a, b = c) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/fn.js:1:10
+  |
+1 | function foo(a, b = c) {
+  |          ^^^
+
+warning: Function
+ --> $DIR/tests/span/js/decl/fn.js:1:1
+  |
+1 | / function foo(a, b = c) {
+2 | |
+3 | | }
+  | |_^
+
+warning: Param
+ --> $DIR/tests/span/js/decl/fn.js:1:14
+  |
+1 | function foo(a, b = c) {
+  |              ^
+
+warning: Pat
+ --> $DIR/tests/span/js/decl/fn.js:1:14
+  |
+1 | function foo(a, b = c) {
+  |              ^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/fn.js:1:14
+  |
+1 | function foo(a, b = c) {
+  |              ^
+
+warning: Param
+ --> $DIR/tests/span/js/decl/fn.js:1:17
+  |
+1 | function foo(a, b = c) {
+  |                 ^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/decl/fn.js:1:17
+  |
+1 | function foo(a, b = c) {
+  |                 ^^^^^
+
+warning: AssignPat
+ --> $DIR/tests/span/js/decl/fn.js:1:17
+  |
+1 | function foo(a, b = c) {
+  |                 ^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/js/decl/fn.js:1:17
+  |
+1 | function foo(a, b = c) {
+  |                 ^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/fn.js:1:17
+  |
+1 | function foo(a, b = c) {
+  |                 ^
+
+warning: Expr
+ --> $DIR/tests/span/js/decl/fn.js:1:21
+  |
+1 | function foo(a, b = c) {
+  |                     ^
+
+warning: Ident
+ --> $DIR/tests/span/js/decl/fn.js:1:21
+  |
+1 | function foo(a, b = c) {
+  |                     ^
+
+warning: BlockStmt
+ --> $DIR/tests/span/js/decl/fn.js:1:24
+  |
+1 |   function foo(a, b = c) {
+  |  ________________________^
+2 | |
+3 | | }
+  | |_^
+
