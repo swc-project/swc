@@ -180,6 +180,8 @@ pub struct AliasTag {
 #[ast_node]
 #[non_exhaustive]
 pub enum JsDocTag {
+    #[tag("JsDocHideConstructorTag")]
+    HideConstructor(JsDocHideConstructorTag),
     #[tag("JsDocGeneratorTag")]
     Generator(JsDocGeneratorTag),
     #[tag("JsDocFunctionTag")]
@@ -902,5 +904,9 @@ pub struct JsDocFunctionTag {
 
 #[ast_node]
 pub struct JsDocGeneratorTag {
+    pub span: Span,
+}
+#[ast_node]
+pub struct JsDocHideConstructorTag {
     pub span: Span,
 }
