@@ -151,16 +151,13 @@ impl Fold for Metadata<'_> {
                         .params
                         .iter()
                         .map(|v| match v {
-                            ParamOrTsParamProp::TsParamProp(p) => Some(
-                                serialize_type(
-                                    self.class_name,
-                                    match p.param {
-                                        TsParamPropParam::Ident(i) => i.type_ann.as_ref(),
-                                        TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
-                                    },
-                                )
-                                .as_arg(),
-                            ),
+                            ParamOrTsParamProp::TsParamProp(p) => {
+                                let ann = match &p.param {
+                                    TsParamPropParam::Ident(i) => i.type_ann.as_ref(),
+                                    TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
+                                };
+                                Some(serialize_type(self.class_name, ann).as_arg())
+                            }
                             ParamOrTsParamProp::Param(p) => Some(
                                 serialize_type(self.class_name, get_type_ann_of_pat(&p.pat))
                                     .as_arg(),
@@ -222,6 +219,7 @@ impl Fold for Metadata<'_> {
             "design:type",
             serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
         );
+        p.decorators.push(dec);
 
         p
     }
@@ -276,7 +274,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 left: Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("typeof"),
-                    arg: Box::new(member_expr),
+                    arg: Box::new(member_expr.clone()),
                 })),
                 op: op!("==="),
                 right: undefined(DUMMY_SP),
@@ -296,7 +294,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 _ => ty,
             };
 
-            match ty {
+            match &**ty {
                 // Always elide `never` from the union/intersection if possible
                 TsType::TsKeywordType(TsKeywordType {
                     kind: TsKeywordTypeKind::TsNeverKeyword,
@@ -347,10 +345,10 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     match prev {
                         Expr::Ident(prev) => match &item {
                             Expr::Ident(item) if prev.sym == item.sym => {}
-                            _ => quote_ident!("Object").into(),
+                            _ => return quote_ident!("Object").into(),
                         },
 
-                        _ => quote_ident!("Object").into(),
+                        _ => return quote_ident!("Object").into(),
                     }
                 }
             }
@@ -428,7 +426,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             }
 
             TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsBigIntKeyword,
+                kind: TsKeywordTypeKind::TsSymbolKeyword,
                 ..
             }) => quote_ident!("Symbol").into(),
 
@@ -438,26 +436,26 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsTypeLit(_)
             | TsType::TsMappedType(_)
             | TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsBigIntKeyword,
+                kind: TsKeywordTypeKind::TsAnyKeyword,
                 ..
             })
             | TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsBigIntKeyword,
+                kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
             })
             | TsType::TsThisType(..) => quote_ident!("Object").into(),
 
             TsType::TsUnionOrIntersectionType(ty) => match ty {
                 TsUnionOrIntersectionType::TsUnionType(ty) => {
-                    serialize_type_list(class_name, ty.types)
+                    serialize_type_list(class_name, &ty.types)
                 }
                 TsUnionOrIntersectionType::TsIntersectionType(ty) => {
-                    serialize_type_list(class_name, ty.types)
+                    serialize_type_list(class_name, &ty.types)
                 }
             },
 
             TsType::TsConditionalType(ty) => {
-                serialize_type_list(class_name, vec![ty.true_type, ty.false_type])
+                serialize_type_list(class_name, &[ty.true_type.clone(), ty.false_type.clone()])
             }
 
             TsType::TsTypeRef(ty) => serialize_type_ref(class_name, ty),
