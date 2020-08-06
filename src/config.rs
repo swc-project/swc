@@ -226,16 +226,18 @@ impl Options {
         let pass = chain!(
             // handle jsx
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
+            // Decorators may use type information
+            Optional::new(
+                decorators(decorators::Config {
+                    legacy: transform.legacy_decorator,
+                    emit_metadata: transform.decorator_metadata,
+                }),
+                syntax.decorators()
+            ),
             Optional::new(typescript::strip(), syntax.typescript()),
             resolver_with_mark(root_mark),
             const_modules,
             optimization,
-            Optional::new(
-                decorators(decorators::Config {
-                    legacy: transform.legacy_decorator
-                }),
-                syntax.decorators()
-            ),
             Optional::new(
                 export(),
                 syntax.export_default_from() || syntax.export_namespace_from()
@@ -570,6 +572,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub legacy_decorator: bool,
+
+    #[serde(default)]
+    pub decorator_metadata: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
