@@ -255,11 +255,13 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         match &ty.type_name {
             // We should omit references to self (class) since it will throw a ReferenceError at
             // runtime due to babel transpile output.
-            TsEntityName::Ident(i) if *i.sym == class_name => return quote_ident!("Object").into(),
+            TsEntityName::Ident(i) if &*i.sym == class_name => {
+                return quote_ident!("Object").into()
+            }
             _ => {}
         }
 
-        let member_expr = {};
+        let member_expr = ts_entity_to_member_expr(&ty.type_name);
 
         // We don't know if type is just a type (interface, etc.) or a concrete value
         // (class, etc.)
@@ -280,7 +282,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 right: undefined(DUMMY_SP),
             })),
             cons: Box::new(quote_ident!("Object").into()),
-            alt: member_expr,
+            alt: Box::new(member_expr),
         })
     }
 
@@ -399,6 +401,22 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
     };
 
     serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), &**param)
+}
+
+fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
+    match type_name {
+        TsEntityName::TsQualifiedName(q) => {
+            let obj = ts_entity_to_member_expr(&q.left);
+
+            Expr::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: obj.as_obj(),
+                prop: Box::new(Expr::Ident(q.right.clone())),
+                computed: false,
+            })
+        }
+        TsEntityName::Ident(i) => Expr::Ident(i.clone()),
+    }
 }
 
 fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
