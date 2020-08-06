@@ -2096,8 +2096,8 @@ export default class {}
 var _class;
 function myDecorator(decoratee) {
 }
-let _class1 = myDecorator((_class = class{
-}) || _class);
+let _class1 = _class = myDecorator((_class = class {
+}) || _class) || _class;
 export { _class1 as default }
 
 
@@ -4996,77 +4996,78 @@ test!(
       ) {}
     }",
     r##"var _class, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8;
-    import { Service } from "./service";
-    import { Decorate } from "./Decorate";
-    const sym = Symbol();
-    var _dec9 = Reflect.metadata("design:paramtypes", [
-        typeof String === void 0 ? Object : String,
-        typeof Number === void 0 ? Object : Number,
-        Number,
-        String,
-        Boolean,
-        String,
-        Number,
-        typeof Object === void 0 ? Object : Object,
-        Function,
-        void 0,
-        Object,
-        typeof Function === void 0 ? Object : Function,
-        void 0,
-        void 0,
-        Object,
-        Function,
-        Boolean,
-        Boolean,
-        void 0
-    ]), _dec10 = Reflect.metadata("design:type", Function), _dec11 = Decorate();
-    let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sample {
-        constructor(private p0: String, p1: Number, p2: 10, p3: "ABC", p4: boolean, p5: string, p6: number, p7: Object, p8: () => any, p9: "abc" | "def", p10: String | Number, p11: Function, p12: null, p13: undefined, p14: any, p15: (abc: any) => void, p16: falsee, p17: true, p18: string = "abc"){
-        }
-        method(p0: Symbol, p1: typeof sym, p2: string | null, p3: never, p4: string | never, p5: (string | null), p6: Maybe<string>, p7: Object | string, p8: string & MyStringType, p9: string[], p10: [string, number], p11: void, p12: this is number, p13: null | undefined, p14: (string | (string | null)), p15: Object, p16: any, p17: bigint) {
-        }
-        method2(p0: Decorate.Name. = "abc", p1: Decorate.Name.) {
-        }
-        assignments(p0: string = "abc") {
-        }
-    }) || _class, _dec = function(target, target) {
-        return Arg()(target, key, 0);
-    }, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
-        typeof Symbol === void 0 ? Object : Symbol,
-        Object,
-        void 0,
-        void 0,
-        void 0,
-        void 0,
-        typeof Maybe === void 0 ? Object : Maybe,
-        Object,
-        Object,
-        Array,
-        Array,
-        void 0,
-        Boolean,
-        void 0,
-        Object,
-        typeof Object === void 0 ? Object : Object,
-        Object,
-        Number
-    ]), _applyDecoratedDescriptor(_class.prototype, "method", [
-        Decorate,
-        _dec,
-        _dec1,
-        _dec2
-    ], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _dec3 = Decorate(), _dec4 = Reflect.metadata("design:type", Function), _dec5 = Reflect.metadata("design:paramtypes", [
-        void 0,
-        typeof Decorate.Name === void 0 ? Object : Decorate.Name
-    ]), _applyDecoratedDescriptor(_class.prototype, "method2", [
-        _dec3,
-        _dec4,
-        _dec5
-    ], Object.getOwnPropertyDescriptor(_class.prototype, "method2"), _class.prototype), _dec6 = Decorate(), _dec7 = Reflect.metadata("design:type", Function), _dec8 = Reflect.metadata("design:paramtypes", [
-        void 0
-    ]), _applyDecoratedDescriptor(_class.prototype, "assignments", [
-        _dec6,
-        _dec7,
-        _dec8
-    ], Object.getOwnPropertyDescriptor(_class.prototype, "assignments"), _class.prototype), _class)) || _class) || _class) || _class;"##
+import { Service } from "./service";
+import { Decorate } from "./Decorate";
+const sym = Symbol();
+var _dec9 = Reflect.metadata("design:paramtypes", [
+    typeof String === void 0 ? Object : String,
+    typeof Number === void 0 ? Object : Number,
+    Number,
+    String,
+    Boolean,
+    String,
+    Number,
+    typeof Object === void 0 ? Object : Object,
+    Function,
+    void 0,
+    Object,
+    typeof Function === void 0 ? Object : Function,
+    void 0,
+    void 0,
+    Object,
+    Function,
+    Boolean,
+    Boolean,
+    void 0
+]), _dec10 = Reflect.metadata("design:type", Function), _dec11 = Decorate();
+let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sample {
+    constructor(private p0: String, p1: Number, p2: 10, p3: "ABC", p4: boolean, p5: string, p6: number, p7: Object, p8: () => any, p9: "abc" | "def", p10: String | Number, p11: Function, p12: null, p13: undefined, p14: any, p15: (abc: any) => void, p16: falsee, p17: true, p18: string = "abc"){
+    }
+    method(p0: Symbol, p1: typeof sym, p2: string | null, p3: never, p4: string | never, p5: (string | null), p6: Maybe<string>, p7: Object | string, p8: string & MyStringType, p9: string[], p10: [string, number], p11: void, p12: this is number, p13: null | undefined, p14: (string | (string | null)), p15: Object, p16: any, p17: bigint) {
+    }
+    method2(p0: Decorate.Name. = "abc", p1: Decorate.Name.) {
+    }
+    assignments(p0: string = "abc") {
+    }
+}) || _class, _dec = function(target, target) {
+    return Arg()(target, key, 0);
+}, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
+    typeof Symbol === void 0 ? Object : Symbol,
+    Object,
+    void 0,
+    void 0,
+    void 0,
+    void 0,
+    typeof Maybe === void 0 ? Object : Maybe,
+    Object,
+    Object,
+    Array,
+    Array,
+    void 0,
+    Boolean,
+    void 0,
+    Object,
+    typeof Object === void 0 ? Object : Object,
+    Object,
+    Number
+]), _applyDecoratedDescriptor(_class.prototype, "method", [
+    Decorate,
+    _dec,
+    _dec1,
+    _dec2
+], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _dec3 = Decorate(), _dec4 = Reflect.metadata("design:type", Function), _dec5 = Reflect.metadata("design:paramtypes", [
+    void 0,
+    typeof Decorate.Name === void 0 ? Object : Decorate.Name
+]), _applyDecoratedDescriptor(_class.prototype, "method2", [
+    _dec3,
+    _dec4,
+    _dec5
+], Object.getOwnPropertyDescriptor(_class.prototype, "method2"), _class.prototype), _dec6 = Decorate(), _dec7 = Reflect.metadata("design:type", Function), _dec8 = Reflect.metadata("design:paramtypes", [
+    void 0
+]), _applyDecoratedDescriptor(_class.prototype, "assignments", [
+    _dec6,
+    _dec7,
+    _dec8
+], Object.getOwnPropertyDescriptor(_class.prototype, "assignments"), _class.prototype), _class)) || _class) || _class) || _class;"##,
+    ok_if_code_eq
 );
