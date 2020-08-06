@@ -57,6 +57,9 @@ pub fn decorators(c: Config) -> impl Fold {
     if c.legacy {
         Either::Left(Legacy::default())
     } else {
+        if c.emit_metadata {
+            unimplemented!("emitting decorator metadata while using new proposal")
+        }
         Either::Right(Decorators {
             is_in_strict: false,
         })
@@ -66,6 +69,8 @@ pub fn decorators(c: Config) -> impl Fold {
 #[derive(Debug, Default, Deserialize)]
 pub struct Config {
     pub legacy: bool,
+    #[serde(default)]
+    pub emit_metadata: bool,
 }
 
 #[derive(Debug, Default)]

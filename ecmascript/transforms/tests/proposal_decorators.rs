@@ -2049,7 +2049,10 @@ let A = _decorate([], function(_initialize) {
 test_exec!(
     syntax(true),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_constructors_return_new_constructor_exec,
@@ -2076,7 +2079,10 @@ test!(
     syntax(true),
     |_| chain!(
         typescript::strip(),
-        decorators(decorators::Config { legacy: true })
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        })
     ),
     legacy_regression_10264,
     r#"
@@ -2481,7 +2487,10 @@ export { _class1 as default }
 // legacy_decl_to_expression_class_decorators
 test!(
     syntax(false),
-    |_| decorators(Config { legacy: true }),
+    |_| decorators(Config {
+        legacy: true,
+        ..Default::default()
+    }),
     legacy_decl_to_expression_class_decorators,
     r#"
 export default @dec class A {}
@@ -2500,7 +2509,10 @@ let B = dec((_class1 = class B{
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_prototype_methods_numeric_props_exec,
@@ -2523,7 +2535,10 @@ class Example {
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_static_properties_mutate_descriptor_exec,
@@ -2635,7 +2650,10 @@ expect(Example._).toBe("__8__");
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_static_methods_string_props_exec,
@@ -2658,7 +2676,10 @@ class Example {
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_prototype_properties_string_literal_properties_exec,
@@ -2700,7 +2721,10 @@ expect(descs["a-prop"].configurable).toBeTruthy();
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_prototype_methods_mutate_descriptor_exec,
@@ -2830,7 +2854,10 @@ test_exec!(
     ignore,
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_properties_numeric_props_exec,
@@ -2852,7 +2879,10 @@ const inst = {
 // legacy_decl_to_expression_method_decorators
 test!(
     syntax(false),
-    |_| decorators(Config { legacy: true }),
+    |_| decorators(Config {
+        legacy: true,
+        ..Default::default()
+    }),
     legacy_decl_to_expression_method_decorators,
     r#"
 export default class A {
@@ -2881,7 +2911,10 @@ export { A as default }
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_prototype_properties_return_descriptor_exec,
@@ -2995,7 +3028,10 @@ test_exec!(
     ignore,
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_properties_string_props_exec,
@@ -3020,7 +3056,10 @@ test_exec!(
     ignore,
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_properties_return_descriptor_exec,
@@ -3130,7 +3169,10 @@ expect(inst._).toBe("__8__");
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_prototype_methods_string_props_exec,
@@ -3153,7 +3195,10 @@ class Example {
 test!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_regression_8041,
@@ -3181,7 +3226,10 @@ export { _class1 as default }
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_prototype_methods_return_descriptor_exec,
@@ -3313,7 +3361,10 @@ test_exec!(
     ignore,
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_ordering_reverse_order_exec,
@@ -3354,7 +3405,10 @@ test_exec!(
     ignore,
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_methods_numeric_props_exec,
@@ -3378,7 +3432,10 @@ const inst = {
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_static_properties_return_descriptor_exec,
@@ -3495,7 +3552,10 @@ test_exec!(
     ignore,
     syntax(true),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_export_default_exec,
@@ -3522,7 +3582,10 @@ expect(calls).toEqual(["Foo"]);
 test_exec!(
     syntax(true),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_ordering_reverse_order_exec,
@@ -3566,7 +3629,10 @@ test_exec!(
     ignore,
     syntax(true),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_methods_mutate_descriptor_exec,
@@ -3692,7 +3758,10 @@ expect(inst._()).toBe("__8__");
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_static_methods_return_descriptor_exec,
@@ -3821,7 +3890,10 @@ test_exec!(
     ignore,
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_methods_return_descriptor_exec,
@@ -3949,7 +4021,10 @@ test_exec!(
     ignore,
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_object_methods_string_props_exec,
@@ -3974,7 +4049,10 @@ const inst = {
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_prototype_properties_child_classes_properties_exec,
@@ -4014,7 +4092,10 @@ expect(inst.prop2).toBe("__4__");
 test_exec!(
     syntax(false),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
     ),
     legacy_class_static_methods_mutate_descriptor_exec,
@@ -4139,7 +4220,10 @@ expect(Example._()).toBe("__8__");
 // legacy_regression_8512
 test_exec!(
     syntax(false),
-    |_| decorators(Config { legacy: true }),
+    |_| decorators(Config {
+        legacy: true,
+        ..Default::default()
+    }),
     legacy_regression_8512_exec,
     r#"
 function dec(Class, key, desc) {
@@ -4156,7 +4240,10 @@ class Foo {
 
 test!(
     syntax(false),
-    |_| decorators(Config { legacy: true }),
+    |_| decorators(Config {
+        legacy: true,
+        ..Default::default()
+    }),
     issue_591_1,
     "
 export class Example {
@@ -4190,7 +4277,10 @@ export let Example = ((_class = class Example{
 
 test!(
     syntax(false),
-    |_| decorators(Config { legacy: true }),
+    |_| decorators(Config {
+        legacy: true,
+        ..Default::default()
+    }),
     issue_591_2,
     "class Example {
   @foo() bar = '1';
@@ -4226,7 +4316,13 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(typescript::strip(), decorators(Config { legacy: true })),
+    |_| chain!(
+        typescript::strip(),
+        decorators(Config {
+            legacy: true,
+            ..Default::default()
+        })
+    ),
     issue_823_1,
     "import {Debounce} from 'lodash-decorators';
 class Person {
@@ -4262,7 +4358,10 @@ test!(
     }),
     |_| chain!(
         typescript::strip(),
-        decorators(Config { legacy: true }),
+        decorators(Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
         // Classes::default(),
     ),
@@ -4305,7 +4404,10 @@ test!(
     }),
     |_| chain!(
         typescript::strip(),
-        decorators(Config { legacy: true }),
+        decorators(Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
         Classes::default(),
     ),
