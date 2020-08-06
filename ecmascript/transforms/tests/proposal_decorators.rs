@@ -2497,11 +2497,10 @@ export default @dec class A {}
 @dec class B {}
 "#,
     r#"
-var _class, _class1;
-export default dec((_class = class A{
-}) || _class);
-let B = dec((_class1 = class B{
-}) || _class1);
+    export default _class = dec((_class = class A {
+    }) || _class) || _class;
+    let B = _class1 = dec((_class1 = class B {
+    }) || _class1) || _class1;
 "#
 );
 
@@ -4570,8 +4569,8 @@ export class Product extends TimestampedEntity {
 }
 ",
     "var _class, _descriptor;
-var _dec = _class = PrimaryGeneratedColumn('uuid'), _dec1 = Entity();
-export let Product = _dec1(((_class = function() {
+    var _dec = PrimaryGeneratedColumn(\"uuid\"), _dec1 = Entity();
+    export let Product = _class = _dec1(((_class = function() {
     class Product extends TimestampedEntity {
         constructor(...args){
             super(...args);
