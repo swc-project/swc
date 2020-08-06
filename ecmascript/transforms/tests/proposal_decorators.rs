@@ -4772,15 +4772,16 @@ class MyClass {
     generic2: Generic<A, B>
   ) {}
 }",
-    "var _class;
-var _dec = Reflect.metadata(\"design:paramtypes\", [
-    typeof Generic === void 0 ? Object : Generic,
-    typeof Generic === void 0 ? Object : Generic
-]), _dec1 = Reflect.metadata(\"design:type\", Function);
-let MyClass = Decorate(_dec1(_dec((_class = class MyClass {
-    constructor(private generic: Generic<A>, generic2: Generic<A, B>){
-    }
-}) || _class)));"
+    r#"var _class;
+    var _dec = Reflect.metadata("design:paramtypes", [
+        typeof Generic === void 0 ? Object : Generic,
+        typeof Generic === void 0 ? Object : Generic
+    ]), _dec1 = Reflect.metadata("design:type", Function);
+    let MyClass = _class = Decorate(_class = _dec1(_class = _dec((_class = class MyClass {
+        constructor(private generic: Generic<A>, generic2: Generic<A, B>){
+        }
+    }) || _class) || _class) || _class) || _class;
+    "#
 );
 
 test!(
@@ -4807,7 +4808,44 @@ test!(
         return this.appService.getHello();
       }
     }",
-    ""
+    r#"var _class, _descriptor, _descriptor1, _dec, _dec1, _dec2;
+    import { AppService } from "./app.service";
+    var _dec3 = Inject(), _dec4 = Reflect.metadata("design:type", typeof AppService === void 0 ? Object : AppService), _dec5 = Inject(), _dec6 = Reflect.metadata("design:type", typeof AppService === void 0 ? Object : AppService), _dec7 = Reflect.metadata("design:paramtypes", [
+        typeof AppService === void 0 ? Object : AppService
+    ]), _dec8 = Reflect.metadata("design:type", Function), _dec9 = Controller();
+    export let AppController = _class = _dec9(_class = _dec8(_class = _dec7(((_class = class AppController {
+        constructor(private appService: AppService){
+            _initializerDefineProperty(this, "appService", _descriptor, this);
+            _initializerDefineProperty(this, "appService2", _descriptor1, this);
+        }
+        getHello(): string {
+            return this.appService.getHello();
+        }
+    }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "appService", [
+        _dec3,
+        _dec4
+    ], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function() {
+            return;
+        }
+    }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "appService2", [
+        _dec5,
+        _dec6
+    ], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function() {
+            return;
+        }
+    }), _dec = Get(), _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
+        _dec,
+        _dec1,
+        _dec2
+    ], Object.getOwnPropertyDescriptor(_class.prototype, "getHello"), _class.prototype), _class)) || _class) || _class) || _class;"#
 );
 
 test!(
