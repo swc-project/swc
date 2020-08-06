@@ -1,6 +1,6 @@
-use swc_common::{util::move_map::MoveMap, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::{undefined, ExprFactory};
 use swc_ecma_visit::{Fold, FoldWith};
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
@@ -115,10 +115,12 @@ impl ParamMetadata {
 }
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
-pub(super) struct Metadata;
+pub(super) struct Metadata<'a> {
+    pub(super) class_name: Option<&'a Ident>,
+}
 
-impl Metadata {
-    fn handle_class(&mut self, mut c: Class, class_name: Option<&Ident>) -> Class {
+impl Fold for Metadata<'_> {
+    fn fold_class(&mut self, mut c: Class) -> Class {
         c = c.fold_children_with(self);
 
         if c.decorators.is_empty() {
@@ -158,20 +160,6 @@ impl Metadata {
             );
             c.decorators.push(dec);
         }
-        c
-    }
-}
-
-impl Fold for Metadata {
-    fn fold_class_decl(&mut self, mut c: ClassDecl) -> ClassDecl {
-        let class = self.handle_class(c.class, Some(&c.ident));
-        c.class = class;
-        c
-    }
-
-    fn fold_class_expr(&mut self, mut c: ClassExpr) -> ClassExpr {
-        let class = self.handle_class(c.class, c.ident.as_ref());
-        c.class = class;
         c
     }
 
@@ -215,14 +203,14 @@ impl Fold for Metadata {
 
         let dec = self.create_metadata_design_decorator(
             "design:type",
-            serialize_type(classPath, field).as_arg(),
+            serialize_type(&c, self.class_name, p).as_arg(),
         );
 
         p
     }
 }
 
-impl Metadata {
+impl Metadata<'_> {
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,
@@ -245,6 +233,122 @@ impl Metadata {
     }
 }
 
-fn serialize_type(decl: &Class, class_name: Option<&Ident>, param: Param) -> Expr {
-    //
+fn serialize_type(decl: &Class, class_name: Option<&Ident>, param: Option<TsTypeAnn>) -> Expr {
+    fn serialize_type_ref(class_name: &str, ty: TsTypeRef) -> Expr {}
+
+    fn serialize_type_list(class_name: &str, types: Vec<Box<TsType>>) -> Expr {}
+
+    fn serialize_type_node(class_name: &str, ty: TsType) -> Expr {
+        let span = ty.span();
+        match ty {
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsVoidKeyword,
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsUndefinedKeyword,
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsNullKeyword,
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsNeverKeyword,
+                ..
+            }) => return *undefined(span),
+
+            TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, *ty.type_ann),
+
+            TsType::TsFnOrConstructorType(_) => quote_ident!("Function").into(),
+
+            TsType::TsArrayType(_) | TsType::TsTupleType(_) => quote_ident!("Array").into(),
+
+            TsType::TsLitType(TsLitType {
+                lit: TsLit::Bool(..),
+                ..
+            })
+            | TsType::TsTypePredicate(_)
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsBooleanKeyword,
+                ..
+            }) => quote_ident!("Boolean").into(),
+
+            TsType::TsLitType(TsLitType {
+                lit: TsLit::Str(..),
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsStringKeyword,
+                ..
+            }) => quote_ident!("String").into(),
+
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsObjectKeyword,
+                ..
+            }) => quote_ident!("Object").into(),
+
+            TsType::TsLitType(TsLitType {
+                lit: TsLit::Number(..),
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsNumberKeyword,
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsBigIntKeyword,
+                ..
+            }) => quote_ident!("Number").into(),
+
+            TsType::TsLitType(ty) => {
+                // TODO: Proper error reporting
+                panic!("Bad type for decoration: {:?}", ty);
+            }
+
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsBigIntKeyword,
+                ..
+            }) => quote_ident!("Symbol").into(),
+
+            TsType::TsTypeQuery(_)
+            | TsType::TsTypeOperator(_)
+            | TsType::TsIndexedAccessType(_)
+            | TsType::TsTypeLit(_)
+            | TsType::TsMappedType(_)
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsBigIntKeyword,
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsBigIntKeyword,
+                ..
+            })
+            | TsType::TsThisType(..) => quote_ident!("Object").into(),
+
+            TsType::TsUnionOrIntersectionType(ty) => match ty {
+                TsUnionOrIntersectionType::TsUnionType(ty) => {
+                    serialize_type_list(class_name, ty.types)
+                }
+                TsUnionOrIntersectionType::TsIntersectionType(ty) => {
+                    serialize_type_list(class_name, ty.types)
+                }
+            },
+
+            TsType::TsConditionalType(ty) => {
+                serialize_type_list(class_name, vec![ty.true_type, ty.false_type])
+            }
+
+            TsType::TsTypeRef(ty) => serialize_type_ref(class_name, ty),
+
+            _ => panic!("Bad type for decorator: {:?}", ty),
+        }
+    }
+
+    let param = match param {
+        Some(v) => v.type_ann,
+        None => return *undefined(decl.span),
+    };
+
+    serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), *param)
 }

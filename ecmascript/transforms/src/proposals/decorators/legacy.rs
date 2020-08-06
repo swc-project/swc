@@ -211,7 +211,9 @@ impl Legacy {
 impl Legacy {
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
         if self.metadata {
-            c = c.fold_with(&mut ParamMetadata).fold_with(&mut Metadata);
+            c = c.fold_with(&mut ParamMetadata).fold_with(&mut Metadata {
+                class_name: c.ident.as_ref(),
+            });
         }
 
         let cls_ident = private_ident!("_class");
