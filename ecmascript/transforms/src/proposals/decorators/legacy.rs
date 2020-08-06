@@ -684,12 +684,13 @@ impl Legacy {
         }));
 
         let expr = self.apply(
+            cls_ident,
             if extra_exprs.is_empty() {
                 var_init
             } else {
                 extra_exprs.insert(0, var_init);
                 // Return value.
-                extra_exprs.push(Box::new(Expr::Ident(cls_ident)));
+                extra_exprs.push(Box::new(Expr::Ident(cls_ident.clone())));
 
                 Box::new(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -703,7 +704,12 @@ impl Legacy {
     }
 
     /// Apply class decorators.
-    fn apply(&mut self, mut expr: Box<Expr>, decorators: Vec<Decorator>) -> Box<Expr> {
+    fn apply(
+        &mut self,
+        class_ident: &Ident,
+        mut expr: Box<Expr>,
+        decorators: Vec<Decorator>,
+    ) -> Box<Expr> {
         for dec in decorators.into_iter().rev() {
             let (i, aliased) = alias_if_required(&dec.expr, "_dec");
             if aliased {
@@ -715,10 +721,18 @@ impl Legacy {
                 });
             }
 
+            // _class = dec(_class = funciton() {}) || _class
+            let cls_expr = Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: expr,
+                op: op!("||"),
+                right: Box::new(Expr::Ident(class_ident.clone())),
+            }));
+
             expr = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: i.as_callee(),
-                args: vec![expr.as_arg()],
+                args: vec![cls_expr.as_arg()],
                 type_args: None,
             }));
         }
