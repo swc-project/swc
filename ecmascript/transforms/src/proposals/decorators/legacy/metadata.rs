@@ -251,7 +251,38 @@ impl Metadata<'_> {
 }
 
 fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr {
-    fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {}
+    fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {
+        match &ty.type_name {
+            // We should omit references to self (class) since it will throw a ReferenceError at
+            // runtime due to babel transpile output.
+            TsEntityName::Ident(i) if *i.sym == class_name => return quote_ident!("Object").into(),
+            _ => {}
+        }
+
+        let member_expr = {};
+
+        // We don't know if type is just a type (interface, etc.) or a concrete value
+        // (class, etc.)
+        //
+        // `typeof` operator allows us to use the expression even if it is not defined,
+        // fallback is just `Object`.
+
+        Expr::Cond(CondExpr {
+            span: DUMMY_SP,
+            test: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("typeof"),
+                    arg: Box::new(member_expr),
+                })),
+                op: op!("==="),
+                right: undefined(DUMMY_SP),
+            })),
+            cons: Box::new(quote_ident!("Object").into()),
+            alt: member_expr,
+        })
+    }
 
     fn serialize_type_list(class_name: &str, types: Vec<Box<TsType>>) -> Expr {}
 
