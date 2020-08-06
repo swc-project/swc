@@ -154,7 +154,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),
@@ -275,7 +278,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),
@@ -333,7 +339,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
         common_js(Mark::fresh(Mark::root()), Default::default())
@@ -456,7 +465,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),
@@ -482,7 +494,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),
@@ -540,7 +555,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),
@@ -638,7 +656,10 @@ test!(
         resolver(),
         function_name(),
         Classes::default(),
-        decorators(decorators::Config { legacy: true })
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        })
     ),
     function_name_object,
     r#"
@@ -696,7 +717,10 @@ test!(
         resolver(),
         function_name(),
         Classes::default(),
-        decorators(decorators::Config { legacy: true })
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        })
     ),
     function_name_export,
     r#"
@@ -755,7 +779,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         function_name(),
         Classes::default(),
     ),
@@ -823,7 +850,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
         common_js(Mark::fresh(Mark::root()), Default::default()),
@@ -875,7 +905,10 @@ test!(
         resolver(),
         function_name(),
         Classes::default(),
-        decorators(decorators::Config { legacy: true })
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        })
     ),
     function_name_eval,
     r#"
@@ -903,7 +936,10 @@ test!(
         resolver(),
         function_name(),
         Classes::default(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     function_name_modules_3,
@@ -957,7 +993,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),
@@ -1116,7 +1155,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         function_name(),
         Classes::default()
     ),
@@ -1181,7 +1223,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),
@@ -1206,7 +1251,10 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         Classes::default(),
         function_name(),
     ),

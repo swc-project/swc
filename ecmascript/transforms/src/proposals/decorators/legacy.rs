@@ -1,3 +1,4 @@
+use self::metadata::{Metadata, ParamMetadata};
 use super::usage::DecoratorFinder;
 use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
@@ -9,11 +10,23 @@ use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
-#[derive(Debug, Default)]
+mod metadata;
+
+#[derive(Debug)]
 pub(super) struct Legacy {
+    metadata: bool,
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
+}
+
+pub(super) fn new(metadata: bool) -> Legacy {
+    Legacy {
+        metadata,
+        uninitialized_vars: Default::default(),
+        initialized_vars: Default::default(),
+        exports: Default::default(),
+    }
 }
 
 noop_fold_type!(Legacy);
@@ -197,6 +210,14 @@ impl Legacy {
 
 impl Legacy {
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
+        if self.metadata {
+            let i = c.ident.clone();
+
+            c = c.fold_with(&mut ParamMetadata).fold_with(&mut Metadata {
+                class_name: i.as_ref(),
+            });
+        }
+
         let cls_ident = private_ident!("_class");
         let cls_name = c.ident.clone();
 
@@ -663,12 +684,13 @@ impl Legacy {
         }));
 
         let expr = self.apply(
+            &cls_ident,
             if extra_exprs.is_empty() {
                 var_init
             } else {
                 extra_exprs.insert(0, var_init);
                 // Return value.
-                extra_exprs.push(Box::new(Expr::Ident(cls_ident)));
+                extra_exprs.push(Box::new(Expr::Ident(cls_ident.clone())));
 
                 Box::new(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -682,7 +704,12 @@ impl Legacy {
     }
 
     /// Apply class decorators.
-    fn apply(&mut self, mut expr: Box<Expr>, decorators: Vec<Decorator>) -> Box<Expr> {
+    fn apply(
+        &mut self,
+        class_ident: &Ident,
+        mut expr: Box<Expr>,
+        decorators: Vec<Decorator>,
+    ) -> Box<Expr> {
         for dec in decorators.into_iter().rev() {
             let (i, aliased) = alias_if_required(&dec.expr, "_dec");
             if aliased {
@@ -694,12 +721,27 @@ impl Legacy {
                 });
             }
 
-            expr = Box::new(Expr::Call(CallExpr {
+            let dec_call_expr = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: i.as_callee(),
                 args: vec![expr.as_arg()],
                 type_args: None,
             }));
+
+            // _class = dec(_class = funciton() {}) || _class
+            let class_expr = Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(class_ident.clone()))),
+                op: op!("="),
+                right: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: dec_call_expr,
+                    op: op!("||"),
+                    right: Box::new(Expr::Ident(class_ident.clone())),
+                })),
+            }));
+
+            expr = class_expr;
         }
 
         expr

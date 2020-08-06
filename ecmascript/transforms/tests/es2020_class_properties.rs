@@ -3548,7 +3548,10 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
         Classes::default(),
     ),
@@ -4433,7 +4436,10 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
-        decorators(decorators::Config { legacy: true }),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
         class_properties(),
         Classes::default()
     ),
