@@ -4734,7 +4734,29 @@ test!(
       @Arg() generic2: InterGen<A, B>
     ) {}
   }",
-    ""
+    r#"
+    var _class, _dec, _dec1, _dec2;
+    var _dec3 = Reflect.metadata("design:paramtypes", [
+        typeof Generic === void 0 ? Object : Generic,
+        typeof Generic === void 0 ? Object : Generic
+    ]), _dec4 = Reflect.metadata("design:type", Function);
+    let MyClass = Decorate(_dec4(_dec3(((_class = class MyClass {
+        constructor(private generic: Generic<A>, generic2: Generic<A, B>){
+        }
+        method(generic: Inter<A>, generic2: InterGen<A, B>) {
+        }
+    }) || _class, _dec = function(target, target) {
+        return Arg()(target, key, 1);
+    }, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
+        typeof Inter === void 0 ? Object : Inter,
+        typeof InterGen === void 0 ? Object : InterGen
+    ]), _applyDecoratedDescriptor(_class.prototype, "method", [
+        Run,
+        _dec,
+        _dec1,
+        _dec2
+    ], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _class))));
+"#
 );
 
 test!(
