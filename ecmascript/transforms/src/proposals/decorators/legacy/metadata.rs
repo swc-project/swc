@@ -117,8 +117,8 @@ impl ParamMetadata {
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
 pub(super) struct Metadata;
 
-impl Fold for Metadata {
-    fn fold_class(&mut self, mut c: Class) -> Class {
+impl Metadata {
+    fn handle_class(&mut self, mut c: Class, class_name: Option<&Ident>) -> Class {
         c = c.fold_children_with(self);
 
         if c.decorators.is_empty() {
@@ -158,6 +158,20 @@ impl Fold for Metadata {
             );
             c.decorators.push(dec);
         }
+        c
+    }
+}
+
+impl Fold for Metadata {
+    fn fold_class_decl(&mut self, mut c: ClassDecl) -> ClassDecl {
+        let class = self.handle_class(c.class, Some(&c.ident));
+        c.class = class;
+        c
+    }
+
+    fn fold_class_expr(&mut self, mut c: ClassExpr) -> ClassExpr {
+        let class = self.handle_class(c.class, c.ident.as_ref());
+        c.class = class;
         c
     }
 
@@ -231,4 +245,6 @@ impl Metadata {
     }
 }
 
-fn serialize_type() -> Expr {}
+fn serialize_type(decl: &Class, class_name: Option<&Ident>, param: Param) -> Expr {
+    //
+}
