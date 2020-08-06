@@ -4751,14 +4751,15 @@ class MyClass {
     generic2: Generic<A, B>
   ) {}
 }",
-    r##"var _dec, _dec2, _class;
-
-    let MyClass = (_dec = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [typeof Generic === "undefined" ? Object : Generic, typeof Generic === "undefined" ? Object : Generic]), Decorate(_class = _dec(_class = _dec2(_class = class MyClass {
-      constructor(generic, generic2) {
-        this.generic = generic;
-      }
-    
-    }) || _class) || _class) || _class);"##
+    "var _class;
+var _dec = Reflect.metadata(\"design:paramtypes\", [
+    typeof Generic === void 0 ? Object : Generic,
+    typeof Generic === void 0 ? Object : Generic
+]), _dec1 = Reflect.metadata(\"design:type\", Function);
+let MyClass = Decorate(_dec1(_dec((_class = class MyClass {
+    constructor(private generic: Generic<A>, generic2: Generic<A, B>){
+    }
+}) || _class)));"
 );
 
 test!(
