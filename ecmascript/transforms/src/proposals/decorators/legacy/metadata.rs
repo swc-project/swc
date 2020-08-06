@@ -43,8 +43,6 @@ impl Fold for ParamMetadata {
     }
 
     fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
-        m = m.fold_children_with(self);
-
         for (idx, param) in m.function.params.iter_mut().enumerate() {
             for decorator in param.decorators.drain(..) {
                 let new_dec = self.create_param_decorator(idx, decorator.expr, false);
@@ -119,4 +117,118 @@ impl ParamMetadata {
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
 pub(super) struct Metadata;
 
-impl Fold for Metadata {}
+impl Fold for Metadata {
+    fn fold_class(&mut self, mut c: Class) -> Class {
+        c = c.fold_children_with(self);
+
+        if c.decorators.is_empty() {
+            return c;
+        }
+
+        let constructor = c.body.iter().find_map(|m| match m {
+            ClassMember::Constructor(c) => Some(c),
+            _ => None,
+        });
+        if constructor.is_none() {
+            return c;
+        }
+
+        {
+            let dec = self
+                .create_metadata_design_decorator("design:type", quote_ident!("Function").as_arg());
+            c.decorators.push(dec);
+        }
+        {
+            let dec = self.create_metadata_design_decorator(
+                "design:paramtypes",
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: constructor
+                        .as_ref()
+                        .unwrap()
+                        .params
+                        .iter()
+                        .map(|v| match v {
+                            ParamOrTsParamProp::TsParamProp(p) => Some(serialize_type().as_arg()),
+                            ParamOrTsParamProp::Param(p) => Some(serialize_type().as_arg()),
+                        })
+                        .collect(),
+                }
+                .as_arg(),
+            );
+            c.decorators.push(dec);
+        }
+        c
+    }
+
+    fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
+        if m.function.decorators.is_empty() {
+            return m;
+        }
+
+        {
+            let dec = self
+                .create_metadata_design_decorator("design:type", quote_ident!("Function").as_arg());
+            m.function.decorators.push(dec);
+        }
+        {
+            let dec = self.create_metadata_design_decorator(
+                "design:paramtypes",
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: m
+                        .function
+                        .params
+                        .iter()
+                        .map(|v| Some(serialize_type().as_arg()))
+                        .collect(),
+                }
+                .as_arg(),
+            );
+            m.function.decorators.push(dec);
+        }
+        m
+    }
+
+    fn fold_class_prop(&mut self, mut p: ClassProp) -> ClassProp {
+        if p.decorators.is_empty() {
+            return p;
+        }
+
+        if p.type_ann.is_none() {
+            return p;
+        }
+
+        let dec = self.create_metadata_design_decorator(
+            "design:type",
+            serialize_type(classPath, field).as_arg(),
+        );
+
+        p
+    }
+}
+
+impl Metadata {
+    fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
+        Decorator {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: member_expr!(DUMMY_SP, Reflect.metadata).as_callee(),
+                args: vec![
+                    Str {
+                        span: DUMMY_SP,
+                        value: design.into(),
+                        has_escape: false,
+                    }
+                    .as_arg(),
+                    type_arg,
+                ],
+
+                type_args: Default::default(),
+            })),
+        }
+    }
+}
+
+fn serialize_type() -> Expr {}
