@@ -25,6 +25,8 @@ impl Bundler<'_> {
         entry: ModuleId,
         targets: &mut Vec<ModuleId>,
     ) -> Result<Module, Error> {
+        log::trace!("merge_modules({})", entry);
+
         self.swc.run(|| {
             let info = self.scope.get_module(entry).unwrap();
 

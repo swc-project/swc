@@ -101,6 +101,8 @@ impl Bundler<'_> {
         &self,
         path: Arc<PathBuf>,
     ) -> Result<(Arc<PathBuf>, TransformedModule), Error> {
+        log::trace!("load_transformed: ({})", path.display());
+
         self.swc.run(|| {
             if let Some(cached) = self.scope.get_module_by_path(&path) {
                 return Ok((path, cached.clone()));
