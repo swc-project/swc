@@ -4488,7 +4488,7 @@ var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Column(), _dec2 = Column({
 ), _dec5 = OneToMany(()=>Discount
 , (discount)=>discount.product
 ), _dec6 = Entity();
-export let Product = _dec6(((_class = function() {
+export let Product = _class = _dec6(((_class = function() {
     class Product extends TimestampedEntity {
         constructor(...args){
             super(...args);
@@ -4555,7 +4555,7 @@ export let Product = _dec6(((_class = function() {
     initializer: function() {
         return;
     }
-}), _class));
+}), _class)) || _class;
 "
 );
 
@@ -4570,7 +4570,7 @@ export class Product extends TimestampedEntity {
 }
 ",
     "var _class, _descriptor;
-var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Entity();
+var _dec = _class = PrimaryGeneratedColumn('uuid'), _dec1 = Entity();
 export let Product = _dec1(((_class = function() {
     class Product extends TimestampedEntity {
         constructor(...args){
@@ -4588,7 +4588,7 @@ export let Product = _dec1(((_class = function() {
     initializer: function() {
         return;
     }
-}), _class));
+}), _class)) || _class;
 "
 );
 
