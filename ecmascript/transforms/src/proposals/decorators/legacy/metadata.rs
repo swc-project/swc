@@ -9,9 +9,10 @@ pub(super) struct ParamMetadata;
 impl Fold for ParamMetadata {
     fn fold_class(&mut self, mut cls: Class) -> Class {
         cls = cls.fold_children_with(self);
+        let mut decorators = cls.decorators;
 
-        cls.body = cls.body.move_map(|mut m| match m {
-            ClassMember::Constructor(c) => {
+        cls.body = cls.body.move_map(|m| match m {
+            ClassMember::Constructor(mut c) => {
                 for (idx, param) in c.params.iter_mut().enumerate() {
                     //
                     match param {
@@ -19,14 +20,14 @@ impl Fold for ParamMetadata {
                             for decorator in p.decorators.drain(..) {
                                 let new_dec =
                                     self.create_param_decorator(idx, decorator.expr, true);
-                                cls.decorators.push(new_dec);
+                                decorators.push(new_dec);
                             }
                         }
                         ParamOrTsParamProp::Param(param) => {
                             for decorator in param.decorators.drain(..) {
                                 let new_dec =
                                     self.create_param_decorator(idx, decorator.expr, true);
-                                cls.decorators.push(new_dec);
+                                decorators.push(new_dec);
                             }
                         }
                     }
@@ -36,6 +37,7 @@ impl Fold for ParamMetadata {
             }
             _ => m,
         });
+        cls.decorators = decorators;
 
         cls
     }
