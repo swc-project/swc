@@ -151,8 +151,20 @@ impl Fold for Metadata<'_> {
                         .params
                         .iter()
                         .map(|v| match v {
-                            ParamOrTsParamProp::TsParamProp(p) => Some(serialize_type().as_arg()),
-                            ParamOrTsParamProp::Param(p) => Some(serialize_type().as_arg()),
+                            ParamOrTsParamProp::TsParamProp(p) => Some(
+                                serialize_type(
+                                    self.class_name,
+                                    match p.param {
+                                        TsParamPropParam::Ident(i) => i.type_ann.as_ref(),
+                                        TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
+                                    },
+                                )
+                                .as_arg(),
+                            ),
+                            ParamOrTsParamProp::Param(p) => Some(
+                                serialize_type(self.class_name, get_type_ann_of_pat(&p.pat))
+                                    .as_arg(),
+                            ),
                         })
                         .collect(),
                 }
@@ -182,7 +194,12 @@ impl Fold for Metadata<'_> {
                         .function
                         .params
                         .iter()
-                        .map(|v| Some(serialize_type().as_arg()))
+                        .map(|v| {
+                            Some(
+                                serialize_type(self.class_name, get_type_ann_of_pat(&v.pat))
+                                    .as_arg(),
+                            )
+                        })
                         .collect(),
                 }
                 .as_arg(),
@@ -203,7 +220,7 @@ impl Fold for Metadata<'_> {
 
         let dec = self.create_metadata_design_decorator(
             "design:type",
-            serialize_type(&c, self.class_name, p).as_arg(),
+            serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
         );
 
         p
@@ -233,12 +250,12 @@ impl Metadata<'_> {
     }
 }
 
-fn serialize_type(decl: &Class, class_name: Option<&Ident>, param: Option<TsTypeAnn>) -> Expr {
-    fn serialize_type_ref(class_name: &str, ty: TsTypeRef) -> Expr {}
+fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr {
+    fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {}
 
     fn serialize_type_list(class_name: &str, types: Vec<Box<TsType>>) -> Expr {}
 
-    fn serialize_type_node(class_name: &str, ty: TsType) -> Expr {
+    fn serialize_type_node(class_name: &str, ty: &TsType) -> Expr {
         let span = ty.span();
         match ty {
             TsType::TsKeywordType(TsKeywordType {
@@ -258,7 +275,7 @@ fn serialize_type(decl: &Class, class_name: Option<&Ident>, param: Option<TsType
                 ..
             }) => return *undefined(span),
 
-            TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, *ty.type_ann),
+            TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &*ty.type_ann),
 
             TsType::TsFnOrConstructorType(_) => quote_ident!("Function").into(),
 
@@ -346,9 +363,22 @@ fn serialize_type(decl: &Class, class_name: Option<&Ident>, param: Option<TsType
     }
 
     let param = match param {
-        Some(v) => v.type_ann,
-        None => return *undefined(decl.span),
+        Some(v) => &v.type_ann,
+        None => return *undefined(DUMMY_SP),
     };
 
-    serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), *param)
+    serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), &**param)
+}
+
+fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
+    match p {
+        Pat::Ident(p) => &p.type_ann,
+        Pat::Array(p) => &p.type_ann,
+        Pat::Rest(p) => &p.type_ann,
+        Pat::Object(p) => &p.type_ann,
+        Pat::Assign(p) => &p.type_ann,
+        Pat::Invalid(_) => return None,
+        Pat::Expr(_) => return None,
+    }
+    .as_ref()
 }
