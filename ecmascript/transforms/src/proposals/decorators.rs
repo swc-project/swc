@@ -1,4 +1,3 @@
-use self::legacy::Legacy;
 use crate::util::{
     alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
     ExprFactory, IdentExt,
@@ -55,7 +54,7 @@ mod usage;
 /// ```
 pub fn decorators(c: Config) -> impl Fold {
     if c.legacy {
-        Either::Left(Legacy::default())
+        Either::Left(self::legacy::new(c.emit_metadata))
     } else {
         if c.emit_metadata {
             unimplemented!("emitting decorator metadata while using new proposal")
@@ -67,6 +66,7 @@ pub fn decorators(c: Config) -> impl Fold {
 }
 
 #[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
     pub legacy: bool,
     #[serde(default)]

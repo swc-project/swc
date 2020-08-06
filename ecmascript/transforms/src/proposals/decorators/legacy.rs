@@ -9,11 +9,21 @@ use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub(super) struct Legacy {
+    metadata: bool,
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
+}
+
+pub(super) fn new(metadata: bool) -> Legacy {
+    Legacy {
+        metadata,
+        uninitialized_vars: Default::default(),
+        initialized_vars: Default::default(),
+        exports: Default::default(),
+    }
 }
 
 noop_fold_type!(Legacy);
