@@ -125,11 +125,8 @@ var load = __spack_require__.bind(void 0, function(module1, exports) {
             if (!this.stream.isTTY) return;
             var now = Date.now();
             var delta = now - this.lastRender;
-            if (!force && delta < this.renderThrottle) {
-                return;
-            } else {
-                this.lastRender = now;
-            }
+            if (!force && delta < this.renderThrottle) return;
+            else this.lastRender = now;
             var ratio = this.curr / this.total;
             ratio = Math.min(Math.max(ratio, 0), 1);
             var percent = Math.floor(ratio * 100);
@@ -141,9 +138,7 @@ var load = __spack_require__.bind(void 0, function(module1, exports) {
             var str = this.fmt.replace(':current', this.curr).replace(':total', this.total).replace(':elapsed', isNaN(elapsed) ? '0.0' : (elapsed / 1000).toFixed(1)).replace(':eta', isNaN(eta) || !isFinite(eta) ? '0.0' : (eta / 1000).toFixed(1)).replace(':percent', percent.toFixed(0) + '%').replace(':rate', Math.round(rate));
             /* compute the available space (non-zero) for the bar */
             var availableSpace = Math.max(0, this.stream.columns - str.replace(':bar', '').length);
-            if (availableSpace && process.platform === 'win32') {
-                availableSpace = availableSpace - 1;
-            }
+            if (availableSpace && process.platform === 'win32') availableSpace = availableSpace - 1;
             var width = Math.min(this.width, availableSpace);
             /* TODO: the following assumes the user has one ':bar' token */
             completeLength = Math.round(width * ratio);
@@ -208,9 +203,7 @@ var load = __spack_require__.bind(void 0, function(module1, exports) {
                     this.stream.clearLine();
                     this.stream.cursorTo(0);
                 }
-            } else {
-                this.stream.write('\n');
-            }
+            } else this.stream.write('\n');
         };
     });
     module.exports = load1();
