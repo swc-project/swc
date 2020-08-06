@@ -1,3 +1,4 @@
+use self::metadata::{Metadata, ParamMetadata};
 use super::usage::DecoratorFinder;
 use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
@@ -8,6 +9,8 @@ use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+
+mod metadata;
 
 #[derive(Debug)]
 pub(super) struct Legacy {
@@ -207,6 +210,8 @@ impl Legacy {
 
 impl Legacy {
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
+        c = c.fold_with(&mut ParamMetadata).fold_with(&mut Metadata);
+
         let cls_ident = private_ident!("_class");
         let cls_name = c.ident.clone();
 
