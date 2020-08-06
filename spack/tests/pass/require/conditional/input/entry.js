@@ -1,4 +1,4 @@
 
 if (foo()) {
-    require('typescript');
+    require('./common');
 }
