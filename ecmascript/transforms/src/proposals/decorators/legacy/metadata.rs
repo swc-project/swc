@@ -286,7 +286,78 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         })
     }
 
-    fn serialize_type_list(class_name: &str, types: Vec<Box<TsType>>) -> Expr {}
+    fn serialize_type_list(class_name: &str, types: &[Box<TsType>]) -> Expr {
+        let mut u = None;
+
+        for ty in types {
+            // Skip parens if need be
+            let ty = match &**ty {
+                TsType::TsParenthesizedType(ty) => &ty.type_ann,
+                _ => ty,
+            };
+
+            match ty {
+                // Always elide `never` from the union/intersection if possible
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNeverKeyword,
+                    ..
+                }) => {
+                    continue;
+                }
+
+                // Elide null and undefined from unions for metadata, just like what we did prior to
+                // the implementation of strict null checks
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNullKeyword,
+                    ..
+                })
+                | TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsUndefinedKeyword,
+                    ..
+                }) => {
+                    continue;
+                }
+
+                _ => {}
+            }
+
+            let item = serialize_type_node(class_name, &ty);
+
+            // One of the individual is global object, return immediately
+            match item {
+                Expr::Ident(Ident {
+                    sym: js_word!("Object"),
+                    ..
+                }) => return item,
+                _ => {}
+            }
+
+            // If there exists union that is not void 0 expression, check if the
+            // the common type is identifier. anything more complex
+            // and we will just default to Object
+
+            //
+            match &u {
+                None => {
+                    u = Some(item);
+                }
+
+                Some(prev) => {
+                    // Check for different types
+                    match prev {
+                        Expr::Ident(prev) => match &item {
+                            Expr::Ident(item) if prev.sym == item.sym => {}
+                            _ => quote_ident!("Object").into(),
+                        },
+
+                        _ => quote_ident!("Object").into(),
+                    }
+                }
+            }
+        }
+
+        u.unwrap()
+    }
 
     fn serialize_type_node(class_name: &str, ty: &TsType) -> Expr {
         let span = ty.span();
