@@ -354,7 +354,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             }
         }
 
-        u.unwrap()
+        *undefined(DUMMY_SP)
     }
 
     fn serialize_type_node(class_name: &str, ty: &TsType) -> Expr {
