@@ -684,7 +684,7 @@ impl Legacy {
         }));
 
         let expr = self.apply(
-            cls_ident,
+            &cls_ident,
             if extra_exprs.is_empty() {
                 var_init
             } else {
@@ -721,20 +721,27 @@ impl Legacy {
                 });
             }
 
-            // _class = dec(_class = funciton() {}) || _class
-            let cls_expr = Box::new(Expr::Bin(BinExpr {
-                span: DUMMY_SP,
-                left: expr,
-                op: op!("||"),
-                right: Box::new(Expr::Ident(class_ident.clone())),
-            }));
-
-            expr = Box::new(Expr::Call(CallExpr {
+            let dec_call_expr = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: i.as_callee(),
-                args: vec![cls_expr.as_arg()],
+                args: vec![expr.as_arg()],
                 type_args: None,
             }));
+
+            // _class = dec(_class = funciton() {}) || _class
+            let class_expr = Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(class_ident.clone()))),
+                op: op!("="),
+                right: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: dec_call_expr,
+                    op: op!("||"),
+                    right: Box::new(Expr::Ident(class_ident.clone())),
+                })),
+            }));
+
+            expr = class_expr;
         }
 
         expr
