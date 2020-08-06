@@ -4713,3 +4713,169 @@ let X = ((_class = function() {
 export { X as default };
 "
 );
+
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: true,
+    }),
+    legacy_metadata_generics,
+    "@Decorate
+  class MyClass {
+    constructor(
+      private generic: Generic<A>,
+      generic2: Generic<A, B>
+    ) {}
+  
+    @Run
+    method(
+      generic: Inter<A>,
+      @Arg() generic2: InterGen<A, B>
+    ) {}
+  }",
+    ""
+);
+
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: true,
+    }),
+    legacy_metadata_nest_injection,
+    "import { AppService } from './app.service';
+
+    @Controller()
+    export class AppController {
+      constructor(private appService: AppService) {}
+    
+      @Inject()
+      appService: AppService;
+    
+      @Inject()
+      private appService2: AppService;
+    
+      @Get()
+      getHello(): string {
+        return this.appService.getHello();
+      }
+    }",
+    ""
+);
+
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: true,
+    }),
+    legacy_metadata_parameter_decorated_types,
+    "class Injected {}
+
+    class MyClass {
+      constructor(@inject() parameter: Injected) {}  
+    }
+    
+    class MyOtherClass {
+      constructor(
+        @inject() private readonly parameter: Injected, 
+        @inject('KIND') otherParam: Injected
+      ) {}
+    
+      methodUndecorated(@demo() param: string, otherParam) {}
+    
+      @decorate('named')
+      method(@inject() param: Injected, @arg() schema: Schema) {}
+    }
+    
+    @Decorate
+    class DecoratedClass {
+      constructor(
+        @inject() private readonly module: Injected,
+        @inject() otherModule: Injected
+      ) {}
+      
+      @decorate('example')
+      method(@inject() param: string) {}
+    }",
+    ""
+);
+
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: true,
+    }),
+    legacy_metadata_type_serialization,
+    "import { Service } from './service';
+    import { Decorate } from './Decorate';
+    
+    const sym = Symbol();
+    
+    @Decorate()
+    class Sample {
+      constructor(
+        private p0: String,
+        p1: Number,
+        p2: 10,
+        p3: 'ABC',    
+        p4: boolean,
+        p5: string,
+        p6: number,
+        p7: Object,
+        p8: () => any,
+        p9: 'abc' | 'def',
+        p10: String | Number,
+        p11: Function,
+        p12: null,
+        p13: undefined,
+        p14: any,
+        p15: (abc: any) => void,
+        p16: false,
+        p17: true,
+        p18: string = 'abc'
+      ) {}
+    
+      @Decorate
+      method(
+        @Arg() p0: Symbol,
+        p1: typeof sym,
+        p2: string | null,
+        p3: never,
+        p4: string | never,
+        p5: (string | null),
+        p6: Maybe<string>,
+        p7: Object | string,
+        p8: string & MyStringType,
+        p9: string[],
+        p10: [string, number],
+        p11: void,
+        p12: this is number,
+        p13: null | undefined,
+        p14: (string | (string | null)),
+        p15: Object,
+        p16: any,
+        p17: bigint,
+      ) {}
+    
+      /**
+       * Member Expression
+       */
+      @Decorate()
+      method2(
+        p0: Decorate.Name = 'abc',
+        p1: Decorate.Name 
+      ) {}
+    
+      /**
+       * Assignments
+       */
+      @Decorate()
+      assignments(
+        p0: string = 'abc'
+      ) {}
+    }",
+    ""
+);
