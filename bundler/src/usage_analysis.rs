@@ -1,3 +1,4 @@
+use crate::{load::Load, resolve::Resolve, Bundler};
 use std::{borrow::Cow, sync::Arc};
 use swc_common::SourceFile;
 use swc_ecma_ast::*;
@@ -5,7 +6,11 @@ use swc_ecma_transforms::optimization::simplify::dce;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::FoldWith;
 
-impl Bundler<'_> {
+impl<L, R> Bundler<L, R>
+where
+    L: Load,
+    R: Resolve,
+{
     /// If used_exports is [None], all exports are treated as exported.
     ///
     /// Note: Context of used_exports is ignored, as the specifiers comes from
