@@ -1,8 +1,6 @@
-use crate::{bundler::load_transformed::TransformedModule, id::ModuleIdGenerator, ModuleId};
-use dashmap::DashMap;
-use fxhash::FxBuildHasher;
-use std::{path::PathBuf, sync::Arc};
+use crate::id::{ModuleId, ModuleIdGenerator};
 
+#[derive(Debug, Default)]
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
@@ -14,7 +12,7 @@ impl Scope {
     /// Stores module information. The information should contain only
     /// information gotten from module itself. In other words, it should not
     /// contains information from a dependency.
-    pub fn store_module(&self, _path: Arc<PathBuf>, info: TransformedModule) {
+    pub fn store_module(&self, info: TransformedModule) {
         self.modules.insert(info.id, info);
     }
 

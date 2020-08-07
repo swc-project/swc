@@ -31,11 +31,6 @@ pub struct Bundler<'a> {
     /// Javascript compiler.
     swc: Arc<swc::Compiler>,
     swc_options: swc::config::Options,
-    used_mark: Mark,
-    top_level_mark: Mark,
-
-    resolver: &'a dyn Resolve,
-    loader: &'a dyn Load,
 
     scope: Scope,
 }
