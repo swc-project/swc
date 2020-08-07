@@ -1,6 +1,7 @@
-use crate::{load::Load, resolve::Resolve, scope::Scope};
+use crate::{id::ModuleId, load::Load, resolve::Resolve, scope::Scope};
 use swc_atoms::JsWord;
 use swc_common::Mark;
+use swc_ecma_ast::Module;
 
 mod chunk;
 mod export;
@@ -15,6 +16,25 @@ mod scope;
 mod tests;
 mod usage_analysis;
 mod util;
+
+#[derive(Debug)]
+pub enum BundleKind {
+    /// User-provided entry
+    Named { name: String },
+    /// Auto-generated entry (created by import expression)
+    Dynamic,
+    /// A lazy-loaded shared library
+    Lib { name: String },
+}
+
+/// Built bundle
+#[derive(Debug)]
+pub struct Bundle {
+    pub kind: BundleKind,
+    pub id: ModuleId,
+    /// Merged module
+    pub module: Module,
+}
 
 #[derive(Debug)]
 pub struct Bundler<L, R>

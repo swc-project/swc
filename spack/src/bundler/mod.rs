@@ -35,25 +35,6 @@ pub struct Bundler<'a> {
     scope: Scope,
 }
 
-#[derive(Debug)]
-pub enum BundleKind {
-    /// User-provided entry
-    Named { name: String },
-    /// Auto-generated entry (created by import expression)
-    Dynamic,
-    /// A lazy-loaded shared library
-    Lib { name: String },
-}
-
-/// Built bundle
-#[derive(Debug)]
-pub struct Bundle {
-    pub kind: BundleKind,
-    pub id: ModuleId,
-    /// Merged module
-    pub module: Module,
-}
-
 impl<'a> Bundler<'a> {
     pub fn new(
         swc: Arc<swc::Compiler>,
