@@ -1,5 +1,7 @@
 use fxhash::FxBuildHasher;
 use std::hash::Hash;
+use swc_common::{Span, SyntaxContext};
+use swc_ecma_visit::Fold;
 
 #[derive(Debug)]
 pub(crate) struct Map<K, V>
@@ -37,5 +39,13 @@ where
 
     pub fn insert(&self, k: K, v: V) {
         self.inner.insert(k, v);
+    }
+}
+
+pub struct HygieneRemover;
+
+impl Fold for HygieneRemover {
+    fn fold_span(&mut self, s: Span) -> Span {
+        s.with_ctxt(SyntaxContext::empty())
     }
 }
