@@ -1,5 +1,5 @@
 use crate::{
-    bundler::{export::Exports, module::Specifier},
+    bundler::{export::Exports, load::Specifier},
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,

@@ -1,8 +1,8 @@
 use self::scope::Scope;
 use crate::{Load, ModuleId, Resolve};
-use anyhow::Error;
+use anyhow::{Context, Error};
 use fxhash::FxHashMap;
-use module::TransformedModule;
+use load::TransformedModule;
 use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, FileName, Mark};
@@ -13,7 +13,6 @@ mod export;
 mod helpers;
 mod import;
 mod load;
-mod module;
 mod scope;
 #[cfg(test)]
 mod tests;
@@ -67,7 +66,9 @@ where
         let results = entries
             .into_iter()
             .map(|(name, path)| -> Result<_, Error> {
-                let res = self.load(path).context("load_transformed failed")?;
+                let res = self
+                    .load_transformed(&path)
+                    .context("load_transformed failed")?;
                 Ok((name, res))
             })
             .collect::<Vec<_>>();

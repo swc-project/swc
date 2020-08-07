@@ -1,5 +1,5 @@
 use super::{
-    module::{Source, Specifier},
+    load::{Source, Specifier},
     Bundler,
 };
 use crate::{id::Id, load::Load, resolve::Resolve};

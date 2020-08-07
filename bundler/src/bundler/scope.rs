@@ -1,5 +1,5 @@
+use super::load::TransformedModule;
 use crate::{
-    bundler::module::TransformedModule,
     id::{ModuleId, ModuleIdGenerator},
     util::Map,
 };

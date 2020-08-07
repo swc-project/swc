@@ -1,4 +1,4 @@
-use super::{module::TransformedModule, Bundler};
+use super::{load::TransformedModule, Bundler};
 use crate::{id::ModuleId, load::Load, resolve::Resolve, Bundle, BundleKind};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
