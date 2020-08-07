@@ -42,7 +42,7 @@ where
     }
 }
 
-pub struct HygieneRemover;
+pub(crate) struct HygieneRemover;
 
 impl Fold for HygieneRemover {
     fn fold_span(&mut self, s: Span) -> Span {
@@ -51,10 +51,10 @@ impl Fold for HygieneRemover {
 }
 
 #[cfg(feature = "rayon")]
-pub use rayon::join;
+pub(crate) use rayon::join;
 
 #[cfg(not(feature = "rayon"))]
-pub fn join<A, B, RA, RB>(oper_a: A, oper_b: B) -> (RA, RB)
+pub(crate) fn join<A, B, RA, RB>(oper_a: A, oper_b: B) -> (RA, RB)
 where
     A: FnOnce() -> RA,
     B: FnOnce() -> RB,
