@@ -575,7 +575,9 @@ impl<'a, I: Tokens> Parser<I> {
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
         if eat!('(') {
-            let pat = self.parse_binding_pat_or_ident()?;
+            let mut pat = self.parse_binding_pat_or_ident()?;
+
+            let type_ann_start = cur_pos!();
 
             if self.syntax().typescript() && eat!(':') {
                 let ctx = Context {
@@ -584,7 +586,22 @@ impl<'a, I: Tokens> Parser<I> {
                 };
 
                 let ty = self.with_ctx(ctx).parse_with(|p| p.parse_ts_type())?;
-                self.emit_err(ty.span(), SyntaxError::TS1196);
+                // self.emit_err(ty.span(), SyntaxError::TS1196);
+
+                match &mut pat {
+                    Pat::Ident(Ident { type_ann, .. })
+                    | Pat::Array(ArrayPat { type_ann, .. })
+                    | Pat::Rest(RestPat { type_ann, .. })
+                    | Pat::Object(ObjectPat { type_ann, .. })
+                    | Pat::Assign(AssignPat { type_ann, .. }) => {
+                        *type_ann = Some(TsTypeAnn {
+                            span: span!(type_ann_span,),
+                            type_ann: ty,
+                        })
+                    }
+                    Pat::Invalid(_) => {}
+                    Pat::Expr(_) => {}
+                }
             }
             expect!(')');
             Ok(Some(pat))
