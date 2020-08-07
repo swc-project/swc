@@ -1,0 +1,86 @@
+warning: Module
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1
+  |
+1 | / try {
+2 | | } catch (e: unknown) {
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1
+  |
+1 | / try {
+2 | | } catch (e: unknown) {
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1
+  |
+1 | / try {
+2 | | } catch (e: unknown) {
+3 | | }
+  | |_^
+
+warning: TryStmt
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1
+  |
+1 | / try {
+2 | | } catch (e: unknown) {
+3 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:5
+  |
+1 |   try {
+  |  _____^
+2 | | } catch (e: unknown) {
+  | |_^
+
+warning: CatchClause
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:3
+  |
+2 |   } catch (e: unknown) {
+  |  ___^
+3 | | }
+  | |_^
+
+warning: Pat
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:10
+  |
+2 | } catch (e: unknown) {
+  |          ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:10
+  |
+2 | } catch (e: unknown) {
+  |          ^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:11
+  |
+2 | } catch (e: unknown) {
+  |           ^^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:13
+  |
+2 | } catch (e: unknown) {
+  |             ^^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:13
+  |
+2 | } catch (e: unknown) {
+  |             ^^^^^^^
+
+warning: BlockStmt
+ --> $DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:22
+  |
+2 |   } catch (e: unknown) {
+  |  ______________________^
+3 | | }
+  | |_^
+

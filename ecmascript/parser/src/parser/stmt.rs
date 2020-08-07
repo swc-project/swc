@@ -595,9 +595,9 @@ impl<'a, I: Tokens> Parser<I> {
                     | Pat::Object(ObjectPat { type_ann, .. })
                     | Pat::Assign(AssignPat { type_ann, .. }) => {
                         *type_ann = Some(TsTypeAnn {
-                            span: span!(type_ann_span,),
+                            span: span!(type_ann_start),
                             type_ann: ty,
-                        })
+                        });
                     }
                     Pat::Invalid(_) => {}
                     Pat::Expr(_) => {}
