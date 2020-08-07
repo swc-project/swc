@@ -1,6 +1,6 @@
 use crate::{id::ModuleId, load::Load, resolve::Resolve, scope::Scope};
 use swc_atoms::JsWord;
-use swc_common::Mark;
+use swc_common::{comments::Comments, Mark};
 use swc_ecma_ast::Module;
 
 mod chunk;
@@ -36,14 +36,15 @@ pub struct Bundle {
     pub module: Module,
 }
 
-#[derive(Debug)]
-pub struct Bundler<L, R>
+pub struct Bundler<'a, L, R>
 where
     L: Load,
     R: Resolve,
 {
     loader: L,
     resolver: R,
+
+    comments: Option<&'a dyn Comments>,
 
     external_modules: Vec<JsWord>,
 
@@ -55,7 +56,7 @@ where
     scope: Scope,
 }
 
-impl<L, R> Bundler<L, R>
+impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,

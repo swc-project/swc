@@ -12,7 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{Node, Visit, VisitWith};
 
-impl<L, R> Bundler<L, R>
+impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,

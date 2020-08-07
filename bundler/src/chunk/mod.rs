@@ -5,6 +5,7 @@ use crate::{
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
+use swc_ecma_transforms::{fixer, hygiene, optimization::simplify::dce};
 use swc_ecma_visit::FoldWith;
 
 mod merge;
@@ -31,7 +32,7 @@ struct State {
     common_libs: FxHashSet<ModuleId>,
 }
 
-impl<L, R> Bundler<L, R>
+impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,
@@ -57,9 +58,9 @@ where
                         .unwrap(); // TODO
 
                     let module = module
-                        .fold_with(&mut dce(Default::default()))
+                        .fold_with(&mut dce::dce(Default::default()))
                         .fold_with(&mut hygiene())
-                        .fold_with(&mut fixer(Some(&self.swc.comments() as _)));
+                        .fold_with(&mut fixer(self.comments));
 
                     Bundle { kind, id, module }
                 },

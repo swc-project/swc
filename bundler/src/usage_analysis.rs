@@ -6,7 +6,7 @@ use swc_ecma_transforms::optimization::simplify::dce;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::FoldWith;
 
-impl<L, R> Bundler<L, R>
+impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,

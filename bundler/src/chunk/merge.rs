@@ -20,7 +20,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
-impl<L, R> Bundler<L, R>
+impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,

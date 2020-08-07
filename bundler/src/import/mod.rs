@@ -12,7 +12,7 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[cfg(test)]
 mod tests;
 
-impl<L, R> Bundler<L, R>
+impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,
@@ -74,13 +74,13 @@ pub(super) struct RawImports {
     pub dynamic_imports: Vec<Str>,
 }
 
-struct ImportHandler<'a, L, R>
+struct ImportHandler<'a, 'b, L, R>
 where
     L: Load,
     R: Resolve,
 {
     path: &'a FileName,
-    bundler: &'a Bundler<L, R>,
+    bundler: &'a Bundler<'b, L, R>,
     top_level: bool,
     info: RawImports,
     /// Contains namespace imports accessed with computed key.
@@ -100,7 +100,7 @@ where
     deglob_phase: bool,
 }
 
-impl<L, R> ImportHandler<'_, L, R>
+impl<L, R> ImportHandler<'_, '_, L, R>
 where
     L: Load,
     R: Resolve,
@@ -116,7 +116,7 @@ where
     }
 }
 
-impl<L, R> Fold for ImportHandler<'_, L, R>
+impl<L, R> Fold for ImportHandler<'_, '_, L, R>
 where
     L: Load,
     R: Resolve,
