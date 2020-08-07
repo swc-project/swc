@@ -6,15 +6,11 @@ use crate::{
 };
 use anyhow::{Context, Error};
 use is_macro::Is;
-use std::{
-    path::{Path, PathBuf},
-    sync::Arc,
-};
+use std::{path::PathBuf, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceFile, DUMMY_SP};
 use swc_ecma_ast::{
-    Expr, ExprOrSuper, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module, ModuleDecl,
-    Program, Str,
+    Expr, ExprOrSuper, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module, ModuleDecl, Str,
 };
 use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
