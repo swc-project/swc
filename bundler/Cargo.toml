@@ -15,6 +15,7 @@ swc_atoms = { path = "../atoms" }
 swc_common = { path = "../common" }
 swc_ecma_ast = { path = "../ecmascript/ast" }
 swc_ecma_parser = { path = "../ecmascript/parser" }
+swc_ecma_transforms = { path = "../ecmascript/transforms" }
 swc_ecma_utils = { path = "../ecmascript/utils" }
 swc_ecma_visit = { path = "../ecmascript/visit" }
 anyhow = "1"
