@@ -40,7 +40,6 @@ pub(super) struct RawExports {
 
 #[derive(Debug, Default)]
 pub(super) struct Exports {
-    pub pure_constants: Vec<(Id, Lit)>,
     pub items: Vec<Specifier>,
     pub reexports: FxHashMap<Source, Vec<Specifier>>,
 }

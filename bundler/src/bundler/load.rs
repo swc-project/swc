@@ -104,14 +104,14 @@ where
 
     fn transform_module(
         &self,
-        path: &FileName,
+        file_name: &FileName,
         fm: Lrc<SourceFile>,
         mut module: Module,
     ) -> Result<TransformedModule, Error> {
         log::trace!("transform_module({})", fm.name);
         module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
 
-        let (id, mark) = self.scope.module_id_gen.gen(path);
+        let (id, mark) = self.scope.module_id_gen.gen(file_name);
 
         // {
         //     let code = self
@@ -128,7 +128,7 @@ where
         //     println!("Resolved:\n{}\n\n", code);
         // }
 
-        let imports = self.extract_import_info(path, &mut module, mark);
+        let imports = self.extract_import_info(file_name, &mut module, mark);
 
         // {
         //     let code = self
@@ -148,58 +148,15 @@ where
         let exports = self.extract_export_info(&module);
 
         // TODO: Exclude resolver (for performance)
-        let (module, (imports, exports)) = rayon::join(
-            || -> Result<_, Error> {
-                self.swc.run(|| {
-                    // Process module
-                    let config = self
-                        .swc
-                        .config_for_file(&self.swc_options, &fm.name)
-                        .context("failed to parse .swcrc")?;
-
-                    let program = self.swc.transform(
-                        Program::Module(module),
-                        config.external_helpers,
-                        config.pass,
-                    );
-
-                    // {
-                    //     let code = self
-                    //         .swc
-                    //         .print(
-                    //             &program.clone().fold_with(&mut HygieneVisualizer),
-                    //             SourceMapsConfig::Bool(false),
-                    //             None,
-                    //             false,
-                    //         )
-                    //         .unwrap()
-                    //         .code;
-                    //
-                    //     println!("loaded using swc:\n{}\n\n", code);
-                    // }
-
-                    match program {
-                        Program::Module(module) => Ok(module),
-                        _ => unreachable!(),
-                    }
-                })
-            },
-            || {
-                let p = match fm.name {
-                    FileName::Real(ref p) => p,
-                    _ => unreachable!("{} module in spack", fm.name),
-                };
-
-                util::join(
-                    || self.load_imports(&p, imports),
-                    || self.load_exports(&p, exports),
-                )
-            },
-        );
+        let (imports, exports) = {
+            util::join(
+                || self.load_imports(&file_name, imports),
+                || self.load_exports(&file_name, exports),
+            )
+        };
 
         let imports = imports?;
         let exports = exports?;
-        let mut module = module?;
         let is_es6 = {
             let mut v = Es6ModuleDetector {
                 forced_es6: false,
@@ -226,127 +183,121 @@ where
         })
     }
 
-    fn load_exports(&self, base: &Path, raw: RawExports) -> Result<Exports, Error> {
-        self.swc.run(|| {
-            log::trace!("load_exports({})", base.display());
+    fn load_exports(&self, base: &FileName, raw: RawExports) -> Result<Exports, Error> {
+        log::trace!("load_exports({})", base);
 
-            let mut exports = Exports::default();
-            exports.pure_constants = raw.pure_constants;
+        let mut exports = Exports::default();
 
-            let items = raw
-                .items
-                .into_par_iter()
-                .map(|(src, ss)| -> Result<_, Error> {
-                    let info = match src {
-                        Some(src) => {
-                            let path = self.resolve(base, &src.value)?;
-                            Some((self.load_transformed_inner(path)?, src))
-                        }
-                        None => None,
-                    };
+        let items = raw
+            .items
+            .into_par_iter()
+            .map(|(src, ss)| -> Result<_, Error> {
+                let info = match src {
+                    Some(src) => {
+                        let path = self.resolve(base, &src.value)?;
+                        Some((self.load_transformed_inner(path)?, src))
+                    }
+                    None => None,
+                };
 
-                    Ok((info, ss))
-                })
-                .collect::<Vec<_>>();
+                Ok((info, ss))
+            })
+            .collect::<Vec<_>>();
 
-            for res in items {
-                let (info, specifiers): (Option<((Arc<PathBuf>, TransformedModule), Str)>, _) =
-                    res?;
+        for res in items {
+            let (info, specifiers): (Option<((Arc<PathBuf>, TransformedModule), Str)>, _) = res?;
 
-                match info {
-                    None => exports.items.extend(specifiers),
-                    Some(info) => exports
-                        .reexports
-                        .entry(Source {
-                            is_loaded_synchronously: true,
-                            is_unconditional: false,
-                            module_id: (info.0).1.id,
-                            src: info.1,
-                        })
-                        .or_default()
-                        .extend(specifiers),
-                }
+            match info {
+                None => exports.items.extend(specifiers),
+                Some(info) => exports
+                    .reexports
+                    .entry(Source {
+                        is_loaded_synchronously: true,
+                        is_unconditional: false,
+                        module_id: (info.0).1.id,
+                        src: info.1,
+                    })
+                    .or_default()
+                    .extend(specifiers),
             }
+        }
 
-            Ok(exports)
-        })
+        Ok(exports)
     }
 
     /// Load dependencies
-    fn load_imports(&self, base: &Path, info: RawImports) -> Result<Imports, Error> {
-        self.swc.run(|| {
-            log::trace!("load_imports({})", base.display());
+    fn load_imports(&self, base: &FileName, info: RawImports) -> Result<Imports, Error> {
+        log::trace!("load_imports({})", base);
 
-            let mut merged = Imports::default();
-            let RawImports {
-                imports,
-                lazy_imports,
-                dynamic_imports,
-            } = info;
+        let mut merged = Imports::default();
+        let RawImports {
+            imports,
+            lazy_imports,
+            dynamic_imports,
+        } = info;
 
-            let loaded = imports
-                .into_par_iter()
-                .map(|v| (v, false, true))
-                .chain(lazy_imports.into_par_iter().map(|v| (v, false, false)))
-                .chain(dynamic_imports.into_par_iter().map(|src| {
-                    (
-                        ImportDecl {
-                            span: src.span,
-                            specifiers: vec![],
-                            src,
-                            type_only: false,
-                        },
-                        true,
-                        false,
-                    )
-                }))
-                .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
-                    //
-                    let path = self.resolve(base, &decl.src.value)?;
-                    let res = self.load_transformed_inner(path)?;
+        let loaded = imports
+            .into_par_iter()
+            .map(|v| (v, false, true))
+            .chain(lazy_imports.into_par_iter().map(|v| (v, false, false)))
+            .chain(dynamic_imports.into_par_iter().map(|src| {
+                (
+                    ImportDecl {
+                        span: src.span,
+                        specifiers: vec![],
+                        src,
+                        type_only: false,
+                    },
+                    true,
+                    false,
+                )
+            }))
+            .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
+                //
+                let path = self.resolve(base, &decl.src.value)?;
+                let res = self.load_transformed_inner(path)?;
 
-                    Ok((res, decl, dynamic, unconditional))
-                })
-                .collect::<Vec<_>>();
+                Ok((res, decl, dynamic, unconditional))
+            })
+            .collect::<Vec<_>>();
 
-            for res in loaded {
-                // TODO: Report error and proceed instead of returning an error
-                let ((path, _res), decl, is_dynamic, is_unconditional) = res?;
+        for res in loaded {
+            // TODO: Report error and proceed instead of returning an error
+            let ((path, _res), decl, is_dynamic, is_unconditional) = res?;
 
-                if let Some(src) = self.scope.get_module_by_path(&path) {
-                    let src = Source {
-                        is_loaded_synchronously: !is_dynamic,
-                        is_unconditional,
-                        module_id: src.id,
-                        src: decl.src,
-                    };
+            if let Some(src) = self.scope.get_module_by_path(&path) {
+                let src = Source {
+                    is_loaded_synchronously: !is_dynamic,
+                    is_unconditional,
+                    module_id: src.id,
+                    src: decl.src,
+                };
 
-                    // TODO: Handle rename
-                    let mut specifiers = vec![];
-                    for s in decl.specifiers {
-                        match s {
-                            ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
+                // TODO: Handle rename
+                let mut specifiers = vec![];
+                for s in decl.specifiers {
+                    match s {
+                        ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
+                            local: s.local.into(),
+                            alias: s.imported.map(From::from),
+                        }),
+                        ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
+                            local: s.local.into(),
+                            alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
+                        }),
+                        ImportSpecifier::Namespace(s) => {
+                            specifiers.push(Specifier::Namespace {
                                 local: s.local.into(),
-                                alias: s.imported.map(From::from),
-                            }),
-                            ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
-                                local: s.local.into(),
-                                alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
-                            }),
-                            ImportSpecifier::Namespace(s) => {
-                                specifiers.push(Specifier::Namespace {
-                                    local: s.local.into(),
-                                });
-                            }
+                            });
                         }
                     }
-
-                    merged.specifiers.push((src, specifiers));
                 }
-            }
 
-            Ok(merged)
-        })
+                merged.specifiers.push((src, specifiers));
+            }
+        }
+
+        Ok(merged)
     }
 }
 
