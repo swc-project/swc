@@ -1,13 +1,23 @@
-use super::{export::Exports, helpers::Helpers};
+use super::{export::Exports, helpers::Helpers, Bundler};
 use crate::{
+    bundler::{export::RawExports, import::RawImports},
     id::{Id, ModuleId},
-    Bundler, Load, Resolve,
+    Load, Resolve,
 };
 use anyhow::{Context, Error};
 use is_macro::Is;
-use std::path::PathBuf;
-use swc_common::{sync::Lrc, FileName, Mark, SourceFile};
-use swc_ecma_ast::{Module, Str};
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
+};
+use swc_atoms::js_word;
+use swc_common::{sync::Lrc, FileName, Mark, SourceFile, DUMMY_SP};
+use swc_ecma_ast::{
+    Expr, ExprOrSuper, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module, ModuleDecl,
+    Program, Str,
+};
+use swc_ecma_transforms::resolver_with_mark;
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
@@ -94,132 +104,125 @@ where
 
     fn transform_module(
         &self,
-        path: &Arc<PathBuf>,
-        fm: Arc<SourceFile>,
+        path: &FileName,
+        fm: Lrc<SourceFile>,
         mut module: Module,
     ) -> Result<TransformedModule, Error> {
-        self.swc.run(|| {
-            log::trace!("transform_module({})", fm.name);
-            module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
-            module = module.fold_with(&mut InlineGlobals {
-                envs: self.envs()?,
-                globals: Default::default(),
-            });
-            module = module.fold_with(&mut dead_branch_remover());
+        log::trace!("transform_module({})", fm.name);
+        module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
 
-            let (id, mark) = self.scope.module_id_gen.gen(path);
+        let (id, mark) = self.scope.module_id_gen.gen(path);
 
-            // {
-            //     let code = self
-            //         .swc
-            //         .print(
-            //             &module.clone().fold_with(&mut HygieneVisualizer),
-            //             SourceMapsConfig::Bool(false),
-            //             None,
-            //             false,
-            //         )
-            //         .unwrap()
-            //         .code;
-            //
-            //     println!("Resolved:\n{}\n\n", code);
-            // }
+        // {
+        //     let code = self
+        //         .swc
+        //         .print(
+        //             &module.clone().fold_with(&mut HygieneVisualizer),
+        //             SourceMapsConfig::Bool(false),
+        //             None,
+        //             false,
+        //         )
+        //         .unwrap()
+        //         .code;
+        //
+        //     println!("Resolved:\n{}\n\n", code);
+        // }
 
-            let imports = self.extract_import_info(path, &mut module, mark);
+        let imports = self.extract_import_info(path, &mut module, mark);
 
-            // {
-            //     let code = self
-            //         .swc
-            //         .print(
-            //             &module.clone().fold_with(&mut HygieneVisualizer),
-            //             SourceMapsConfig::Bool(false),
-            //             None,
-            //             false,
-            //         )
-            //         .unwrap()
-            //         .code;
-            //
-            //     println!("After imports:\n{}\n", code,);
-            // }
+        // {
+        //     let code = self
+        //         .swc
+        //         .print(
+        //             &module.clone().fold_with(&mut HygieneVisualizer),
+        //             SourceMapsConfig::Bool(false),
+        //             None,
+        //             false,
+        //         )
+        //         .unwrap()
+        //         .code;
+        //
+        //     println!("After imports:\n{}\n", code,);
+        // }
 
-            let exports = self.extract_export_info(&module);
+        let exports = self.extract_export_info(&module);
 
-            // TODO: Exclude resolver (for performance)
-            let (module, (imports, exports)) = rayon::join(
-                || -> Result<_, Error> {
-                    self.swc.run(|| {
-                        // Process module
-                        let config = self
-                            .swc
-                            .config_for_file(&self.swc_options, &fm.name)
-                            .context("failed to parse .swcrc")?;
+        // TODO: Exclude resolver (for performance)
+        let (module, (imports, exports)) = rayon::join(
+            || -> Result<_, Error> {
+                self.swc.run(|| {
+                    // Process module
+                    let config = self
+                        .swc
+                        .config_for_file(&self.swc_options, &fm.name)
+                        .context("failed to parse .swcrc")?;
 
-                        let program = self.swc.transform(
-                            Program::Module(module),
-                            config.external_helpers,
-                            config.pass,
-                        );
+                    let program = self.swc.transform(
+                        Program::Module(module),
+                        config.external_helpers,
+                        config.pass,
+                    );
 
-                        // {
-                        //     let code = self
-                        //         .swc
-                        //         .print(
-                        //             &program.clone().fold_with(&mut HygieneVisualizer),
-                        //             SourceMapsConfig::Bool(false),
-                        //             None,
-                        //             false,
-                        //         )
-                        //         .unwrap()
-                        //         .code;
-                        //
-                        //     println!("loaded using swc:\n{}\n\n", code);
-                        // }
+                    // {
+                    //     let code = self
+                    //         .swc
+                    //         .print(
+                    //             &program.clone().fold_with(&mut HygieneVisualizer),
+                    //             SourceMapsConfig::Bool(false),
+                    //             None,
+                    //             false,
+                    //         )
+                    //         .unwrap()
+                    //         .code;
+                    //
+                    //     println!("loaded using swc:\n{}\n\n", code);
+                    // }
 
-                        match program {
-                            Program::Module(module) => Ok(module),
-                            _ => unreachable!(),
-                        }
-                    })
-                },
-                || {
-                    let p = match fm.name {
-                        FileName::Real(ref p) => p,
-                        _ => unreachable!("{} module in spack", fm.name),
-                    };
-
-                    rayon::join(
-                        || self.swc.run(|| self.load_imports(&p, imports)),
-                        || self.swc.run(|| self.load_exports(&p, exports)),
-                    )
-                },
-            );
-
-            let imports = imports?;
-            let exports = exports?;
-            let mut module = module?;
-            let is_es6 = {
-                let mut v = Es6ModuleDetector {
-                    forced_es6: false,
-                    found_other: false,
+                    match program {
+                        Program::Module(module) => Ok(module),
+                        _ => unreachable!(),
+                    }
+                })
+            },
+            || {
+                let p = match fm.name {
+                    FileName::Real(ref p) => p,
+                    _ => unreachable!("{} module in spack", fm.name),
                 };
-                module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-                v.forced_es6 || !v.found_other
+
+                rayon::join(
+                    || self.swc.run(|| self.load_imports(&p, imports)),
+                    || self.swc.run(|| self.load_exports(&p, exports)),
+                )
+            },
+        );
+
+        let imports = imports?;
+        let exports = exports?;
+        let mut module = module?;
+        let is_es6 = {
+            let mut v = Es6ModuleDetector {
+                forced_es6: false,
+                found_other: false,
             };
-            if is_es6 {
-                module = self.drop_unused(fm.clone(), module, None);
-            }
+            module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+            v.forced_es6 || !v.found_other
+        };
+        if is_es6 {
+            module = self.drop_unused(fm.clone(), module, None);
+        }
 
-            let module = Arc::new(module);
+        let module = Arc::new(module);
 
-            Ok(TransformedModule {
-                id,
-                fm,
-                module,
-                imports: Arc::new(imports),
-                exports: Arc::new(exports),
-                is_es6,
-                helpers: Default::default(),
-                mark,
-            })
+        Ok(TransformedModule {
+            id,
+            fm,
+            module,
+            imports: Arc::new(imports),
+            exports: Arc::new(exports),
+            is_es6,
+            helpers: Default::default(),
+            mark,
         })
     }
 
@@ -377,4 +380,61 @@ pub(super) struct Source {
     pub module_id: ModuleId,
     // Clone is relatively cheap, thanks to string_cache.
     pub src: Str,
+}
+
+struct Es6ModuleDetector {
+    /// If import statement or export is detected, it's an es6 module regardless
+    /// of other codes.
+    forced_es6: bool,
+    /// True if other module system is detected.
+    found_other: bool,
+}
+
+impl Visit for Es6ModuleDetector {
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e as _, self);
+
+        if e.computed {
+            e.prop.visit_with(e as _, self);
+        }
+
+        match &e.obj {
+            ExprOrSuper::Expr(e) => {
+                match &**e {
+                    Expr::Ident(i) => {
+                        // TODO: Check syntax context (Check if marker is the global mark)
+                        if i.sym == *"module" {
+                            self.found_other = true;
+                        }
+
+                        if i.sym == *"exports" {
+                            self.found_other = true;
+                        }
+                    }
+
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+
+        //
+    }
+
+    fn visit_module_decl(&mut self, decl: &ModuleDecl, _: &dyn Node) {
+        match decl {
+            ModuleDecl::Import(_)
+            | ModuleDecl::ExportDecl(_)
+            | ModuleDecl::ExportNamed(_)
+            | ModuleDecl::ExportDefaultDecl(_)
+            | ModuleDecl::ExportDefaultExpr(_)
+            | ModuleDecl::ExportAll(_) => {
+                self.forced_es6 = true;
+            }
+
+            ModuleDecl::TsImportEquals(_) => {}
+            ModuleDecl::TsExportAssignment(_) => {}
+            ModuleDecl::TsNamespaceExport(_) => {}
+        }
+    }
 }
