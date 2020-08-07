@@ -202,11 +202,15 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
 
         "hideconstructor" => JsDocTag::HideConstructor(JsDocHideConstructorTag { span }),
 
-        "ignore" => {}
+        "ignore" => JsDocTag::Ignore(JsDocIgnoreTag { span }),
 
-        "implements" => {}
+        "implements" => {
+            let (input, class) = parse_type(i)?;
+            i = input;
+            JsDocTag::Implements(JsDocImplementsTag { span, class })
+        }
 
-        "inheritdoc" => {}
+        "inheritdoc" => JsDocTag::InheritDoc(JsDocInheritDocTag { span }),
 
         "inner" => {}
 
