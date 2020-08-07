@@ -49,3 +49,15 @@ impl Fold for HygieneRemover {
         s.with_ctxt(SyntaxContext::empty())
     }
 }
+
+#[cfg(feature = "rayon")]
+pub use rayon::join;
+
+#[cfg(not(feature = "rayon"))]
+pub fn join<A, B, RA, RB>(oper_a: A, oper_b: B) -> (RA, RB)
+where
+    A: FnOnce() -> RA,
+    B: FnOnce() -> RB,
+{
+    (oper_a(), oper_b())
+}

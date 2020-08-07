@@ -2,7 +2,7 @@ use super::{export::Exports, helpers::Helpers, Bundler};
 use crate::{
     bundler::{export::RawExports, import::RawImports},
     id::{Id, ModuleId},
-    Load, Resolve,
+    util, Load, Resolve,
 };
 use anyhow::{Context, Error};
 use is_macro::Is;
@@ -190,9 +190,9 @@ where
                     _ => unreachable!("{} module in spack", fm.name),
                 };
 
-                rayon::join(
-                    || self.swc.run(|| self.load_imports(&p, imports)),
-                    || self.swc.run(|| self.load_exports(&p, exports)),
+                util::join(
+                    || self.load_imports(&p, imports),
+                    || self.load_exports(&p, exports),
                 )
             },
         );
