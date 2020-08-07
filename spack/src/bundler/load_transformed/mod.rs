@@ -30,31 +30,7 @@ use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 #[cfg(test)]
 mod tests;
 
-/// Module after applying transformations.
-#[derive(Debug, Clone)]
-pub(super) struct TransformedModule {
-    pub id: ModuleId,
-    pub fm: Arc<SourceFile>,
-    pub module: Arc<Module>,
-    pub imports: Arc<Imports>,
-    pub exports: Arc<Exports>,
 
-    /// If false, the module will be wrapped with helper function just like
-    /// wwbpack.
-    pub is_es6: bool,
-
-    /// Used helpers
-    pub helpers: Arc<Helpers>,
-
-    mark: Mark,
-}
-
-impl TransformedModule {
-    /// Marks applied to bindings
-    pub fn mark(&self) -> Mark {
-        self.mark
-    }
-}
 
 #[derive(Debug, Default)]
 pub(super) struct Imports {

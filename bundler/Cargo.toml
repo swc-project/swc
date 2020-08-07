@@ -5,10 +5,17 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[defatures]
+default = []
+atomic = ["dashmap"]
+
 
 [dependencies]
 anyhow = "1"
 swc_atoms = { path = "../atoms" }
 swc_common = { path = "../common" }
 swc_ecma_ast = { path = "../ecmascript/ast" }
+swc_ecma_utils = { path = "../ecmascript/utils" }
 swc_ecma_parser = { path = "../ecmascript/parser" }
+dashmap = { version = "=3.5.1" }
+fxhash = "0.2.1"
