@@ -75,7 +75,7 @@ impl ParamMetadata {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Ident(quote_ident!("target")),
+                            pat: Pat::Ident(quote_ident!("key")),
                         },
                     ],
                     body: Some(BlockStmt {

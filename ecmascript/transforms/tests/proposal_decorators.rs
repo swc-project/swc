@@ -4745,7 +4745,7 @@ let MyClass = _class = Decorate(_class = _dec4(_class = _dec3(((_class = class M
     }
     method(generic: Inter<A>, generic2: InterGen<A, B>) {
     }
-}) || _class, _dec = function(target, target) {
+}) || _class, _dec = function(target, key) {
     return Arg()(target, key, 1);
 }, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
     typeof Inter === void 0 ? Object : Inter,
@@ -4889,7 +4889,7 @@ test!(
     }
     var _dec12 = Reflect.metadata("design:paramtypes", [
         typeof Injected === void 0 ? Object : Injected
-    ]), _dec13 = Reflect.metadata("design:type", Function), _dec14 = function(target, target) {
+    ]), _dec13 = Reflect.metadata("design:type", Function), _dec14 = function(target, key) {
         return inject()(target, undefined, 0);
     };
     let MyClass = _class = _dec14(_class = _dec13(_class = _dec12((_class = class MyClass {
@@ -4899,9 +4899,9 @@ test!(
     var _dec15 = Reflect.metadata("design:paramtypes", [
         typeof Injected === void 0 ? Object : Injected,
         typeof Injected === void 0 ? Object : Injected
-    ]), _dec16 = Reflect.metadata("design:type", Function), _dec17 = function(target, target) {
+    ]), _dec16 = Reflect.metadata("design:type", Function), _dec17 = function(target, key) {
         return inject("KIND")(target, undefined, 1);
-    }, _dec18 = function(target, target) {
+    }, _dec18 = function(target, key) {
         return inject()(target, undefined, 0);
     };
     let MyOtherClass = _class1 = _dec18(_class1 = _dec17(_class1 = _dec16(_class1 = _dec15(((_class1 = class MyOtherClass {
@@ -4911,7 +4911,7 @@ test!(
         }
         method(param: Injected, schema: Schema) {
         }
-    }) || _class1, _dec = function(target, target) {
+    }) || _class1, _dec = function(target, key) {
         return demo()(target, key, 0);
     }, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
         String,
@@ -4920,9 +4920,9 @@ test!(
         _dec,
         _dec1,
         _dec2
-    ], Object.getOwnPropertyDescriptor(_class1.prototype, "methodUndecorated"), _class1.prototype), _dec3 = decorate("named"), _dec4 = function(target, target) {
+    ], Object.getOwnPropertyDescriptor(_class1.prototype, "methodUndecorated"), _class1.prototype), _dec3 = decorate("named"), _dec4 = function(target, key) {
         return inject()(target, key, 0);
-    }, _dec5 = function(target, target) {
+    }, _dec5 = function(target, key) {
         return arg()(target, key, 1);
     }, _dec6 = Reflect.metadata("design:type", Function), _dec7 = Reflect.metadata("design:paramtypes", [
         typeof Injected === void 0 ? Object : Injected,
@@ -4937,9 +4937,9 @@ test!(
     var _dec35 = Reflect.metadata("design:paramtypes", [
         typeof Injected === void 0 ? Object : Injected,
         typeof Injected === void 0 ? Object : Injected
-    ]), _dec36 = Reflect.metadata("design:type", Function), _dec37 = function(target, target) {
+    ]), _dec36 = Reflect.metadata("design:type", Function), _dec37 = function(target, key) {
         return inject()(target, undefined, 1);
-    }, _dec38 = function(target, target) {
+    }, _dec38 = function(target, key) {
         return inject()(target, undefined, 0);
     };
     let DecoratedClass = _class2 = Decorate(_class2 = _dec38(_class2 = _dec37(_class2 = _dec36(_class2 = _dec35(((_class2 = class DecoratedClass {
@@ -4947,7 +4947,7 @@ test!(
         }
         method(param: string) {
         }
-    }) || _class2, _dec8 = decorate("example"), _dec9 = function(target, target) {
+    }) || _class2, _dec8 = decorate("example"), _dec9 = function(target, key) {
         return inject()(target, key, 0);
     }, _dec10 = Reflect.metadata("design:type", Function), _dec11 = Reflect.metadata("design:paramtypes", [
         String
@@ -5068,7 +5068,7 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
     }
     assignments(p0: string = "abc") {
     }
-}) || _class, _dec = function(target, target) {
+}) || _class, _dec = function(target, key) {
     return Arg()(target, key, 0);
 }, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
     typeof Symbol === void 0 ? Object : Symbol,
