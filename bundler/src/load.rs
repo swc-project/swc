@@ -13,3 +13,15 @@ use swc_ecma_ast::Module;
 pub trait Load {
     fn load(&self, file: &FileName) -> Result<Module, Error>;
 }
+
+impl<T: ?Sized + Load> Load for Box<T> {
+    fn load(&self, file: &FileName) -> Result<Module, Error> {
+        (**self).load(file)
+    }
+}
+
+impl<'a, T: ?Sized + Load> Load for &'a T {
+    fn load(&self, file: &FileName) -> Result<Module, Error> {
+        (**self).load(file)
+    }
+}
