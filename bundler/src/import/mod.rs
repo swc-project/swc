@@ -1,7 +1,6 @@
 use super::Bundler;
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
-use node_resolve::is_core_module;
 use std::{
     mem::replace,
     path::{Path, PathBuf},
@@ -10,7 +9,6 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -98,8 +96,6 @@ struct ImportHandler<'a, 'b> {
 
     deglob_phase: bool,
 }
-
-noop_fold_type!(ImportHandler<'_, '_>);
 
 impl ImportHandler<'_, '_> {
     fn mark_for(&self, src: &str) -> Option<Mark> {
