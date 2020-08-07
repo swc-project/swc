@@ -1,21 +1,19 @@
-use atomicity::Atomicity;
 use load::Load;
 use resolve::Resolve;
 use scope::Scope;
 use swc_common::Mark;
 
-pub mod atomicity;
-mod helper;
+mod helpers;
 mod id;
 pub mod load;
 mod module;
 pub mod resolve;
 mod scope;
+mod util;
 
 #[derive(Debug)]
-pub struct Bundler<A, L, R>
+pub struct Bundler<L, R>
 where
-    A: Atomicity,
     L: Load,
     R: Resolve,
 {
@@ -27,12 +25,11 @@ where
     /// [Mark] used while tree shaking
     top_level_mark: Mark,
 
-    scope: Scope<A>,
+    scope: Scope,
 }
 
-impl<A, L, R> Bundler<A, L, R>
+impl<L, R> Bundler<L, R>
 where
-    A: Atomicity,
     L: Load,
     R: Resolve,
 {

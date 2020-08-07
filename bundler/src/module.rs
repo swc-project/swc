@@ -1,5 +1,6 @@
-use crate::id::ModuleId;
-use swc_common::SourceFile;
+use crate::{helpers::Helpers, id::ModuleId};
+use swc_common::{sync::Lrc, Mark, SourceFile};
+use swc_ecma_ast::Module;
 
 /// Module after applying transformations.
 #[derive(Debug, Clone)]

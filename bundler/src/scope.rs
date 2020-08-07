@@ -1,24 +1,18 @@
 use crate::{
-    atomicity::Atomicity,
     id::{ModuleId, ModuleIdGenerator},
     module::TransformedModule,
+    util::Map,
 };
 
 #[derive(Debug, Default)]
-pub(super) struct Scope<A>
-where
-    A: Atomicity,
-{
+pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
     /// Loaded modules
-    loaded_modules: A::ModulesCache,
+    loaded_modules: Map<ModuleId, TransformedModule>,
 }
 
-impl<A> Scope<A>
-where
-    A: Atomicity,
-{
+impl Scope {
     /// Stores module information. The information should contain only
     /// information gotten from module itself. In other words, it should not
     /// contains information from a dependency.
@@ -32,6 +26,6 @@ where
     }
 
     pub fn get_module(&self, id: ModuleId) -> Option<TransformedModule> {
-        Some(self.loaded_modules.get(&id)?.value().clone())
+        Some(self.loaded_modules.get(&id)?.clone())
     }
 }

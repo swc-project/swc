@@ -1,4 +1,4 @@
-use dashmap::DashMap;
+use crate::util::Map;
 use std::{
     fmt,
     path::PathBuf,
@@ -24,13 +24,13 @@ impl fmt::Display for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU64,
-    cache: DashMap<Arc<PathBuf>, (ModuleId, Mark)>,
+    cache: Map<Arc<PathBuf>, (ModuleId, Mark)>,
 }
 
 impl ModuleIdGenerator {
     pub fn gen(&self, path: &Arc<PathBuf>) -> (ModuleId, Mark) {
         if let Some(v) = self.cache.get(path) {
-            return *v.value();
+            return *v;
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
