@@ -1,4 +1,4 @@
-use super::module::Specifier;
+use super::load::Specifier;
 use crate::{Bundler, Load, Resolve};
 use std::{borrow::Cow, sync::Arc};
 use swc_common::SourceFile;
