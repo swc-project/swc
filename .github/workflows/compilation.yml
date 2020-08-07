@@ -42,3 +42,7 @@ jobs:
       - name: Check swc_ecma_transforms
         run: |
           (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc_bundler
+        run: |
+          (cd bundler && cargo hack check --feature-powerset --no-dev-deps)
