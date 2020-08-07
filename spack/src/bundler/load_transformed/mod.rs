@@ -28,9 +28,6 @@ use swc_ecma_transforms::{
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 
 
-
-
-
 impl Bundler<'_> {
     /// Phase 1 (discovery)
     ///

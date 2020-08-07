@@ -1,5 +1,7 @@
 use super::Bundler;
-use crate::{id::ModuleId, load::Load, module::TransformedModule, resolve::Resolve};
+use crate::{
+    id::ModuleId, load::Load, module::TransformedModule, resolve::Resolve, Bundle, BundleKind,
+};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
