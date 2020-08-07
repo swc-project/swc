@@ -1,5 +1,5 @@
 use anyhow::Error;
-use swc_common::FileName;
+use swc_common::{sync::Lrc, FileName, SourceFile};
 use swc_ecma_ast::Module;
 
 /// Responsible for providing files to the bundler.
@@ -11,17 +11,17 @@ use swc_ecma_ast::Module;
 ///
 /// This trait is designed to allow passing pre-parsed module.
 pub trait Load {
-    fn load(&self, file: &FileName) -> Result<Module, Error>;
+    fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error>;
 }
 
 impl<T: ?Sized + Load> Load for Box<T> {
-    fn load(&self, file: &FileName) -> Result<Module, Error> {
+    fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
         (**self).load(file)
     }
 }
 
 impl<'a, T: ?Sized + Load> Load for &'a T {
-    fn load(&self, file: &FileName) -> Result<Module, Error> {
+    fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
         (**self).load(file)
     }
 }
