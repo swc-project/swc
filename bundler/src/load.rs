@@ -10,7 +10,7 @@ use swc_ecma_ast::Module;
 /// cache.
 ///
 /// This trait is designed to allow passing pre-parsed module.
-pub trait Load {
+pub trait Load: swc_common::sync::Send + swc_common::sync::Sync {
     fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error>;
 }
 

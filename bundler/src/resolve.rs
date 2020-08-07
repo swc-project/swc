@@ -1,7 +1,7 @@
 use anyhow::Error;
 use swc_common::FileName;
 
-pub trait Resolve {
+pub trait Resolve: swc_common::sync::Send + swc_common::sync::Sync {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error>;
 }
 

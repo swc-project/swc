@@ -3,7 +3,7 @@ use crate::{id::ModuleId, load::Load, resolve::Resolve, Bundle, BundleKind};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
-use swc_ecma_transforms::{fixer, hygiene, optimization::simplify::dce};
+use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
 use swc_ecma_visit::FoldWith;
 
 mod merge;
@@ -57,8 +57,7 @@ where
 
                     let module = module
                         .fold_with(&mut dce::dce(Default::default()))
-                        .fold_with(&mut hygiene())
-                        .fold_with(&mut fixer(self.comments));
+                        .fold_with(&mut hygiene());
 
                     Bundle { kind, id, module }
                 },

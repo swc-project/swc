@@ -33,7 +33,9 @@ pub enum BundleKind {
 pub struct Bundle {
     pub kind: BundleKind,
     pub id: ModuleId,
-    /// Merged module
+    /// Merged module.
+    ///
+    /// You **should** run fixer.
     pub module: Module,
 }
 
@@ -45,8 +47,6 @@ where
     globals: &'a Globals,
     loader: L,
     resolver: R,
-
-    comments: Option<&'a dyn Comments>,
 
     external_modules: Vec<JsWord>,
 
@@ -68,7 +68,6 @@ where
         loader: L,
         resolver: R,
         external_modules: Vec<JsWord>,
-        comments: Option<&'a dyn Comments>,
     ) -> Self {
         let used_mark = GLOBALS.set(globals, || Mark::fresh(Mark::root()));
         log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
@@ -85,7 +84,6 @@ where
             top_level_mark,
             scope: Default::default(),
             globals,
-            comments,
             external_modules,
         }
     }

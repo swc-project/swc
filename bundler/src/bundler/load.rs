@@ -191,7 +191,8 @@ where
                 let info = match src {
                     Some(src) => {
                         let path = self.resolve(base, &src.value)?;
-                        Some((self.load_transformed_inner(path)?, src))
+                        let module = self.load_transformed(&path)?;
+                        Some((module, src))
                     }
                     None => None,
                 };
@@ -250,8 +251,8 @@ where
             }))
             .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
                 //
-                let path = self.resolve(base, &decl.src.value)?;
-                let res = self.load_transformed_inner(path)?;
+                let file_name = self.resolve(base, &decl.src.value)?;
+                let res = self.load_transformed(&file_name)?;
 
                 Ok((res, decl, dynamic, unconditional))
             })
@@ -259,7 +260,7 @@ where
 
         for res in loaded {
             // TODO: Report error and proceed instead of returning an error
-            let ((path, _res), decl, is_dynamic, is_unconditional) = res?;
+            let (path, decl, is_dynamic, is_unconditional) = res?;
 
             if let Some(src) = self.scope.get_module_by_path(&path) {
                 let src = Source {
