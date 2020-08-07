@@ -1,4 +1,3 @@
-use crate::{bundler::load_transformed::Specifier, Bundler};
 use std::{borrow::Cow, sync::Arc};
 use swc_common::SourceFile;
 use swc_ecma_ast::*;
