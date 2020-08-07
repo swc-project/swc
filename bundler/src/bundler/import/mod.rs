@@ -43,11 +43,15 @@ where
         v.info
     }
 
-    pub(super) fn resolve(&self, base: &FileName, s: &str) -> Result<Lrc<FileName>, Error> {
+    pub(super) fn resolve(
+        &self,
+        base: &FileName,
+        module_specifier: &str,
+    ) -> Result<Lrc<FileName>, Error> {
         let path = self
             .resolver
-            .resolve(base, s)
-            .with_context(|| format!("failed to resolve {} from {}", s, base))?;
+            .resolve(base, module_specifier)
+            .with_context(|| format!("failed to resolve {} from {}", module_specifier, base))?;
 
         let path = Arc::new(path);
 

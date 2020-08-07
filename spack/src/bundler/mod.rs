@@ -75,54 +75,7 @@ impl<'a> Bundler<'a> {
         }
     }
 
-    pub fn bundle(&self, config: &Config) -> Result<Vec<Bundle>, Error> {
-        let entries = {
-            let mut map = FxHashMap::default();
-            match &config.entry {
-                EntryConfig::File(f) => {
-                    map.insert(f.clone(), PathBuf::from(f.clone()));
-                }
-                EntryConfig::Multiple(files) => {
-                    for f in files {
-                        map.insert(f.clone(), f.clone().into());
-                    }
-                }
-                EntryConfig::Files(files) => map = files.clone(),
-            }
 
-            map
-        };
-
-        let results = entries
-            .into_par_iter()
-            .map(|(name, path)| -> Result<_, Error> {
-                let path = self.resolve(&config.working_dir, &path.to_string_lossy())?;
-                let res = self
-                    .load_transformed(path)
-                    .context("load_transformed failed")?;
-                Ok((name, res))
-            })
-            .collect::<Vec<_>>();
-
-        // We collect at here to handle dynamic imports
-        // TODO: Handle dynamic imports
-
-        let local = self.swc.run(|| -> Result<_, Error> {
-            let mut output = FxHashMap::default();
-
-            for res in results {
-                let (name, m): (String, TransformedModule) = res?;
-
-                output.insert(name, m);
-            }
-
-            Ok(output)
-        })?;
-
-        let bundles = self.chunk(local)?;
-
-        Ok(self.finalize(bundles)?)
-    }
 
     pub fn swc(&self) -> &swc::Compiler {
         &self.swc
