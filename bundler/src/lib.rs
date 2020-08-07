@@ -5,6 +5,7 @@ use swc_common::Mark;
 
 mod helpers;
 mod id;
+mod import;
 pub mod load;
 mod module;
 pub mod resolve;
