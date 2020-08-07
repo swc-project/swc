@@ -1,10 +1,8 @@
-use super::Bundler;
-use crate::{
-    id::Id,
-    load::Load,
+use super::{
     module::{Source, Specifier},
-    resolve::Resolve,
+    Bundler,
 };
+use crate::{id::Id, load::Load, resolve::Resolve};
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};

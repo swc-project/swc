@@ -1,7 +1,7 @@
 //! Utilities for testing.
 use super::Bundler;
 use crate::util::HygieneRemover;
-use std::{path::PathBuf, sync::Arc};
+use std::path::PathBuf;
 use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};

@@ -1,8 +1,7 @@
 use crate::{
-    export::Exports,
+    bundler::{export::Exports, module::Specifier},
     id::{Id, ModuleId},
     load::Load,
-    module::Specifier,
     resolve::Resolve,
     Bundler,
 };

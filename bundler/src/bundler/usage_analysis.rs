@@ -1,4 +1,5 @@
-use crate::{load::Load, module::Specifier, resolve::Resolve, Bundler};
+use super::module::Specifier;
+use crate::{Bundler, Load, Resolve};
 use std::{borrow::Cow, sync::Arc};
 use swc_common::SourceFile;
 use swc_ecma_ast::*;

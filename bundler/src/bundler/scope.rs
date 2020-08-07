@@ -1,6 +1,6 @@
 use crate::{
+    bundler::module::TransformedModule,
     id::{ModuleId, ModuleIdGenerator},
-    module::TransformedModule,
     util::Map,
 };
 use swc_common::FileName;

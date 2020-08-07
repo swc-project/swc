@@ -1,8 +1,5 @@
-use crate::{
-    export::Exports,
-    helpers::Helpers,
-    id::{Id, ModuleId},
-};
+use super::{export::Exports, helpers::Helpers};
+use crate::id::{Id, ModuleId};
 use is_macro::Is;
 use swc_common::{sync::Lrc, Mark, SourceFile};
 use swc_ecma_ast::{Module, Str};

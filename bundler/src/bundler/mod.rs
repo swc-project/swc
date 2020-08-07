@@ -1,16 +1,23 @@
+use self::scope::Scope;
+use crate::{Load, ModuleId, Resolve};
+use anyhow::Error;
+use fxhash::FxHashMap;
+use module::TransformedModule;
+use std::collections::HashMap;
+use swc_atoms::JsWord;
+use swc_common::{comments::Comments, FileName, Mark};
+use swc_ecma_ast::Module;
+
 mod chunk;
 mod export;
 mod helpers;
-mod id;
 mod import;
-pub mod load;
+mod load;
 mod module;
-pub mod resolve;
 mod scope;
 #[cfg(test)]
 mod tests;
 mod usage_analysis;
-mod util;
 
 #[derive(Debug)]
 pub enum BundleKind {
