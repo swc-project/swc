@@ -5,7 +5,7 @@ use fxhash::FxHashMap;
 use load::TransformedModule;
 use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, FileName, Mark};
+use swc_common::{comments::Comments, FileName, Globals, Mark, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
 
 mod chunk;
@@ -42,6 +42,7 @@ where
     L: Load,
     R: Resolve,
 {
+    globals: &'a Globals,
     loader: L,
     resolver: R,
 
@@ -57,11 +58,38 @@ where
     scope: Scope,
 }
 
-impl<L, R> Bundler<'_, L, R>
+impl<'a, L, R> Bundler<'a, L, R>
 where
     L: Load,
     R: Resolve,
 {
+    pub fn new(
+        globals: &'a Globals,
+        loader: L,
+        resolver: R,
+        external_modules: Vec<JsWord>,
+        comments: Option<&'a dyn Comments>,
+    ) -> Self {
+        let used_mark = GLOBALS.set(globals, || Mark::fresh(Mark::root()));
+        log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
+        let top_level_mark = GLOBALS.set(globals, || Mark::fresh(Mark::root()));
+        log::info!(
+            "top-level mark: {:?}",
+            DUMMY_SP.apply_mark(top_level_mark).ctxt()
+        );
+
+        Bundler {
+            loader,
+            resolver,
+            used_mark,
+            top_level_mark,
+            scope: Default::default(),
+            globals,
+            comments,
+            external_modules,
+        }
+    }
+
     pub fn bundle(&self, entries: HashMap<String, FileName>) -> Result<Vec<Bundle>, Error> {
         let results = entries
             .into_iter()
@@ -90,6 +118,6 @@ where
 
         let bundles = self.chunk(local)?;
 
-        Ok(self.finalize(bundles)?)
+        Ok(bundles)
     }
 }
