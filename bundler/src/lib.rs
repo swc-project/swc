@@ -2,6 +2,7 @@ use crate::{load::Load, resolve::Resolve, scope::Scope};
 use swc_atoms::JsWord;
 use swc_common::Mark;
 
+mod chunk;
 mod export;
 mod helpers;
 mod id;

@@ -1,12 +1,8 @@
 use super::Bundler;
-use crate::{
-    bundler::{load_transformed::TransformedModule, Bundle, BundleKind},
-    ModuleId,
-};
+use crate::{id::ModuleId, module::TransformedModule};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
-use rayon::prelude::*;
 use swc_ecma_transforms::{fixer, hygiene, optimization::simplify::dce::dce};
 use swc_ecma_visit::FoldWith;
 
@@ -50,19 +46,17 @@ impl Bundler<'_> {
             .into_par_iter()
             .map(
                 |(kind, id, mut module_ids_to_merge): (BundleKind, ModuleId, _)| {
-                    self.swc().run(|| {
-                        let module = self
-                            .merge_modules(id, &mut module_ids_to_merge)
-                            .context("failed to merge module")
-                            .unwrap(); // TODO
+                    let module = self
+                        .merge_modules(id, &mut module_ids_to_merge)
+                        .context("failed to merge module")
+                        .unwrap(); // TODO
 
-                        let module = module
-                            .fold_with(&mut dce(Default::default()))
-                            .fold_with(&mut hygiene())
-                            .fold_with(&mut fixer(Some(&self.swc.comments() as _)));
+                    let module = module
+                        .fold_with(&mut dce(Default::default()))
+                        .fold_with(&mut hygiene())
+                        .fold_with(&mut fixer(Some(&self.swc.comments() as _)));
 
-                        Bundle { kind, id, module }
-                    })
+                    Bundle { kind, id, module }
                 },
             )
             .collect())

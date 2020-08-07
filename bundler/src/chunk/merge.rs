@@ -1,7 +1,10 @@
-use super::Bundler;
 use crate::{
-    bundler::{export::Exports, load_transformed::Specifier},
-    Id, ModuleId,
+    export::Exports,
+    id::{Id, ModuleId},
+    load::Load,
+    module::Specifier,
+    resolve::Resolve,
+    Bundler,
 };
 use anyhow::{Context, Error};
 use std::{
@@ -12,13 +15,16 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{
     find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
-impl Bundler<'_> {
+impl<L, R> Bundler<L, R>
+where
+    L: Load,
+    R: Resolve,
+{
     /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,
@@ -358,8 +364,6 @@ impl Bundler<'_> {
 /// `export var a = 1` => `var a = 1`
 struct Unexporter;
 
-noop_fold_type!(Unexporter);
-
 impl Fold for Unexporter {
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         match item {
@@ -391,8 +395,6 @@ struct ExportRenamer<'a> {
     imports: &'a [Specifier],
     extras: Vec<Stmt>,
 }
-
-noop_fold_type!(ExportRenamer<'_>);
 
 impl ExportRenamer<'_> {
     pub fn aliased_import(&self, sym: &JsWord) -> Option<Id> {
@@ -575,8 +577,6 @@ struct ActualMarker<'a> {
     imports: &'a [Specifier],
 }
 
-noop_fold_type!(ActualMarker<'_>);
-
 impl Fold for ActualMarker<'_> {
     fn fold_expr(&mut self, node: Expr) -> Expr {
         node
@@ -611,8 +611,6 @@ struct LocalMarker<'a> {
     specifiers: &'a [Specifier],
     excluded: Vec<Id>,
 }
-
-noop_fold_type!(LocalMarker<'_>);
 
 impl<'a> LocalMarker<'a> {
     /// Searches for i, and fold T.
@@ -776,8 +774,6 @@ struct GlobalMarker {
     used_mark: Mark,
     module_mark: Mark,
 }
-
-noop_fold_type!(GlobalMarker);
 
 impl GlobalMarker {
     fn is_marked_as_used(&self, span: Span) -> bool {
