@@ -13,6 +13,7 @@ pub mod resolve;
 mod scope;
 #[cfg(test)]
 mod tests;
+mod usage_analysis;
 mod util;
 
 #[derive(Debug)]

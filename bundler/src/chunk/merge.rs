@@ -775,6 +775,8 @@ struct GlobalMarker {
     module_mark: Mark,
 }
 
+noop_fold_type!(GlobalMarker);
+
 impl GlobalMarker {
     fn is_marked_as_used(&self, span: Span) -> bool {
         let mut ctxt = span.ctxt();

@@ -1,9 +1,8 @@
 use super::Bundler;
-use crate::{id::ModuleId, module::TransformedModule};
+use crate::{id::ModuleId, load::Load, module::TransformedModule, resolve::Resolve};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
-use swc_ecma_transforms::{fixer, hygiene, optimization::simplify::dce::dce};
 use swc_ecma_visit::FoldWith;
 
 mod merge;
@@ -30,7 +29,11 @@ struct State {
     common_libs: FxHashSet<ModuleId>,
 }
 
-impl Bundler<'_> {
+impl<L, R> Bundler<L, R>
+where
+    L: Load,
+    R: Resolve,
+{
     /// `entries` - Entry modules (provided by user) by it's basename.
     ///
     /// # How it works
