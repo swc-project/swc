@@ -11,7 +11,6 @@ pub use self::{
 mod bundler;
 pub mod config;
 mod debug;
-mod id;
 pub mod loaders;
 mod normalize;
 mod util;
