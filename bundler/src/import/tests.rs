@@ -1,4 +1,5 @@
-use crate::bundler::{import::ImportHandler, tests::test_bundler};
+use super::ImportHandler;
+use crate::tests::test_bundler;
 use std::path::Path;
 use swc_ecma_visit::FoldWith;
 

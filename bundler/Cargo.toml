@@ -21,3 +21,7 @@ anyhow = "1"
 once_cell = "1"
 dashmap = { version = "=3.5.1", optional = true }
 fxhash = "0.2.1"
+is-macro = "0.1"
+
+[dev-dependencies]
+testing = "0.9.0"

@@ -3,6 +3,7 @@ use crate::{
     module::TransformedModule,
     util::Map,
 };
+use swc_common::FileName;
 
 #[derive(Debug, Default)]
 pub(super) struct Scope {
@@ -20,7 +21,7 @@ impl Scope {
         self.loaded_modules.insert(info.id, info);
     }
 
-    pub fn get_module_by_path(&self, path: &Arc<PathBuf>) -> Option<TransformedModule> {
+    pub fn get_module_by_path(&self, path: &FileName) -> Option<TransformedModule> {
         let (id, _) = self.module_id_gen.gen(path);
         self.get_module(id)
     }

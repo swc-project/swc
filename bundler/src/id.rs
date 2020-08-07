@@ -1,14 +1,10 @@
 use crate::util::Map;
 use std::{
     fmt,
-    path::PathBuf,
-    sync::{
-        atomic::{AtomicU64, Ordering::SeqCst},
-        Arc,
-    },
+    sync::atomic::{AtomicU64, Ordering::SeqCst},
 };
 use swc_atoms::JsWord;
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Ident;
 use swc_ecma_utils::ident::IdentLike;
 
@@ -24,11 +20,11 @@ impl fmt::Display for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU64,
-    cache: Map<Arc<PathBuf>, (ModuleId, Mark)>,
+    cache: Map<FileName, (ModuleId, Mark)>,
 }
 
 impl ModuleIdGenerator {
-    pub fn gen(&self, path: &Arc<PathBuf>) -> (ModuleId, Mark) {
+    pub fn gen(&self, path: &FileName) -> (ModuleId, Mark) {
         if let Some(v) = self.cache.get(path) {
             return *v;
         }

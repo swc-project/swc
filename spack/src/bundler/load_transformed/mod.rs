@@ -27,42 +27,9 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 
-#[cfg(test)]
-mod tests;
 
 
 
-#[derive(Debug, Default)]
-pub(super) struct Imports {
-    /// If imported ids are empty, it is a side-effect import.
-    pub specifiers: Vec<(Source, Vec<Specifier>)>,
-}
-
-/// Clone is relatively cheap
-#[derive(Debug, Clone, Is)]
-pub(super) enum Specifier {
-    Specific { local: Id, alias: Option<Id> },
-    Namespace { local: Id },
-}
-
-impl Specifier {
-    pub fn local(&self) -> &Id {
-        match self {
-            Specifier::Specific { local, .. } => local,
-            Specifier::Namespace { local, .. } => local,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub(super) struct Source {
-    pub is_loaded_synchronously: bool,
-    pub is_unconditional: bool,
-
-    pub module_id: ModuleId,
-    // Clone is relatively cheap, thanks to string_cache.
-    pub src: Str,
-}
 
 impl Bundler<'_> {
     /// Phase 1 (discovery)

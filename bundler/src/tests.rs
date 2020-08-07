@@ -1,7 +1,6 @@
 //! Utilities for testing.
 use super::Bundler;
-use crate::{loaders::swc::SwcLoader, resolve::NodeResolver, util::HygieneRemover};
-use pretty_assertions::assert_eq;
+use crate::util::HygieneRemover;
 use std::{path::PathBuf, sync::Arc};
 use swc_common::FileName;
 use swc_ecma_ast::*;
@@ -56,7 +55,6 @@ where
     F: FnOnce(&mut Tester),
 {
     testing::run_test2(true, |cm, handler| {
-        let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
         let loader = SwcLoader::new(compiler.clone(), Default::default());
         let bundler = Bundler::new(
             compiler.clone(),

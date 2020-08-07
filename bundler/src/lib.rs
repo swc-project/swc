@@ -1,8 +1,8 @@
-use load::Load;
-use resolve::Resolve;
-use scope::Scope;
+use crate::{load::Load, resolve::Resolve, scope::Scope};
+use swc_atoms::JsWord;
 use swc_common::Mark;
 
+mod export;
 mod helpers;
 mod id;
 mod import;
@@ -10,6 +10,8 @@ pub mod load;
 mod module;
 pub mod resolve;
 mod scope;
+#[cfg(test)]
+mod tests;
 mod util;
 
 #[derive(Debug)]
@@ -20,6 +22,8 @@ where
 {
     loader: L,
     resolver: R,
+
+    external_modules: Vec<JsWord>,
 
     /// [Mark] used while tree shaking
     used_mark: Mark,

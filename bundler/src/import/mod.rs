@@ -1,13 +1,10 @@
 use super::Bundler;
+use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
-use std::{
-    mem::replace,
-    path::{Path, PathBuf},
-    sync::Arc,
-};
+use std::{mem::replace, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
+use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -15,11 +12,15 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[cfg(test)]
 mod tests;
 
-impl Bundler<'_> {
-    /// This de-globs imports if possible.
+impl<L, R> Bundler<L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    /// This method de-globs imports if possible.
     pub(super) fn extract_import_info(
         &self,
-        path: &Path,
+        path: &FileName,
         module: &mut Module,
         _mark: Mark,
     ) -> RawImports {
@@ -42,17 +43,15 @@ impl Bundler<'_> {
         v.info
     }
 
-    pub(super) fn resolve(&self, base: &Path, s: &str) -> Result<Arc<PathBuf>, Error> {
-        self.swc.run(|| {
-            let path = self
-                .resolver
-                .resolve(base, s)
-                .with_context(|| format!("failed to resolve {} from {}", s, base.display()))?;
+    pub(super) fn resolve(&self, base: &FileName, s: &str) -> Result<Lrc<FileName>, Error> {
+        let path = self
+            .resolver
+            .resolve(base, s)
+            .with_context(|| format!("failed to resolve {} from {}", s, base))?;
 
-            let path = Arc::new(path);
+        let path = Arc::new(path);
 
-            Ok(path)
-        })
+        Ok(path)
     }
 }
 
@@ -75,9 +74,13 @@ pub(super) struct RawImports {
     pub dynamic_imports: Vec<Str>,
 }
 
-struct ImportHandler<'a, 'b> {
-    path: &'a Path,
-    bundler: &'a Bundler<'b>,
+struct ImportHandler<'a, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    path: &'a FileName,
+    bundler: &'a Bundler<L, R>,
     top_level: bool,
     info: RawImports,
     /// Contains namespace imports accessed with computed key.
@@ -97,9 +100,14 @@ struct ImportHandler<'a, 'b> {
     deglob_phase: bool,
 }
 
-impl ImportHandler<'_, '_> {
+impl<L, R> ImportHandler<'_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
     fn mark_for(&self, src: &str) -> Option<Mark> {
-        if is_core_module(src) {
+        // Don't apply mark if it's a core module.
+        if self.bundler.external_modules.iter().any(|v| v == src) {
             return None;
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
@@ -108,10 +116,15 @@ impl ImportHandler<'_, '_> {
     }
 }
 
-impl Fold for ImportHandler<'_, '_> {
+impl<L, R> Fold for ImportHandler<'_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
-            if is_core_module(&import.src.value) {
+            // Ignore if it's a core module.
+            if self.bundler.external_modules.contains(&import.src.value) {
                 return import;
             }
 
@@ -411,7 +424,8 @@ impl Fold for ImportHandler<'_, '_> {
                         },
                         _ => return node,
                     };
-                    if is_core_module(&src.value) {
+                    // Ignore core modules.
+                    if self.bundler.external_modules.contains(&src.value) {
                         return node;
                     }
 
