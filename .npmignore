@@ -15,6 +15,7 @@ package-lock.json
 wasm/
 
 # Reduce package size
+**/tests.rs
 **/tests/
 **/benches/
 **/target/
