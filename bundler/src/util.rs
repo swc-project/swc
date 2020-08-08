@@ -87,7 +87,7 @@ pub(crate) use rayon::iter::IntoParallelIterator;
 /// Fake trait
 #[cfg(not(feature = "rayon"))]
 pub(crate) trait IntoParallelIterator: Sized + IntoIterator {
-    fn intp_par_iter(self) -> <Self as IntoIterator>::IntoIter {
+    fn into_par_iter(self) -> <Self as IntoIterator>::IntoIter {
         self.into_iter()
     }
 }
