@@ -58,11 +58,6 @@ impl Id {
         Ident::new(self.0, DUMMY_SP.with_ctxt(self.1))
     }
 
-    pub fn append_mark(mut self, mark: Mark) -> Self {
-        self.1 = self.1.apply_mark(mark);
-        self
-    }
-
     pub fn replace_mark(mut self, mark: Mark) -> Self {
         self.1 = SyntaxContext::empty().apply_mark(mark);
         self
@@ -106,5 +101,3 @@ impl PartialEq<JsWord> for Id {
         self.0 == *other
     }
 }
-
-pub type QualifiedId = (ModuleId, Id);

@@ -5,7 +5,7 @@ use anyhow::Error;
 use std::path::PathBuf;
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 
@@ -27,7 +27,7 @@ impl Load for Loader {
 pub struct Resolver;
 
 impl Resolve for Resolver {
-    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+    fn resolve(&self, _: &FileName, _: &str) -> Result<FileName, Error> {
         unreachable!("swc_bundler: tester.resolve")
     }
 }
@@ -62,7 +62,7 @@ pub fn test_bundler<F>(op: F)
 where
     F: FnOnce(&mut Tester),
 {
-    testing::run_test2(true, |cm, handler| {
+    testing::run_test2(true, |cm, _| {
         GLOBALS.with(|globals| {
             let bundler = Bundler::new(
                 globals,
