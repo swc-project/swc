@@ -1,21 +1,25 @@
+use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, Resolve};
 use anyhow::{Context, Error};
 use crc::{crc64, crc64::Digest, Hasher64};
 use fxhash::FxHashMap;
 use relative_path::RelativePath;
-use std::{
-    io,
-    path::{Path, PathBuf},
-};
-use swc::config::Options;
-use swc_bundler::{Bundle, BundleKind, Bundler, Resolve};
-use swc_common::{util::move_map::MoveMap, FileName, Span};
+use std::path::{Path, PathBuf};
+use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, SourceMap, Span};
 use swc_ecma_ast::{ImportDecl, Module, Str};
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_visit::{Fold, FoldWith};
 
-impl Bundler<'_> {
-    pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
+impl<L, R> Bundler<'_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    /// This is
+    pub fn rename_bundles(
+        &self,
+        cm: Lrc<SourceMap>,
+        bundles: Vec<Bundle>,
+    ) -> Result<Vec<Bundle>, Error> {
         let mut new = Vec::with_capacity(bundles.len());
         let mut renamed = FxHashMap::default();
 
@@ -29,13 +33,12 @@ impl Bundler<'_> {
                         .expect("module should exist at this point")
                         .helpers;
 
-                    self.swc
-                        .run_transform(true, || helpers.append_to(&mut bundle.module.body));
+                    helpers.append_to(&mut bundle.module.body);
 
                     new.push(Bundle { ..bundle });
                 }
                 BundleKind::Lib { name } => {
-                    let hash = self.calc_hash(&bundle.module)?;
+                    let hash = calc_hash(cm, &bundle.module)?;
                     let mut new_name = PathBuf::from(name);
                     let key = new_name.clone();
                     let file_name = new_name
@@ -88,26 +91,12 @@ impl Bundler<'_> {
             let module = {
                 // Change imports
                 let mut v = Renamer {
-                    bundler: self,
+                    resolver: &self.resolver,
                     path: &path,
                     renamed: &renamed,
                 };
                 bundle.module.fold_with(&mut v)
             };
-
-            let module = self.swc.run(|| {
-                let opts = Options {
-                    ..self.swc_options.clone()
-                };
-                let file_name = FileName::Real(path);
-                let config = self.swc.read_config(&opts, &file_name).unwrap_or_default();
-                let mut module_pass = swc::config::ModuleConfig::build(
-                    self.swc.cm.clone(),
-                    self.top_level_mark,
-                    config.module,
-                );
-                module.fold_with(&mut module_pass)
-            });
 
             Bundle { module, ..bundle }
         });

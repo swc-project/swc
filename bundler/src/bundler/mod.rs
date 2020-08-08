@@ -10,6 +10,7 @@ use swc_ecma_ast::Module;
 
 mod chunk;
 mod export;
+mod finalize;
 mod helpers;
 mod import;
 mod load;

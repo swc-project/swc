@@ -33,7 +33,6 @@ fxhash = "0.2.1"
 is-macro = "0.1.8"
 neon = { version = "0.4.0", features = ["event-handler-api"] }
 neon-sys = "0.4.0"
-relative-path = "1.2"
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"
