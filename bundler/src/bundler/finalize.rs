@@ -13,9 +13,10 @@ where
     L: Load,
     R: Resolve,
 {
-    /// This method should only be called iff all modules in `bundles` are local
-    /// file.
-    pub fn rename_bundles(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
+    ///
+    /// - inject helpers
+    /// - rename chunks
+    pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         self.run(|| {
             let mut new = Vec::with_capacity(bundles.len());
             let mut renamed = FxHashMap::default();

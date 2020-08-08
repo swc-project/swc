@@ -48,25 +48,27 @@ where
         &self,
         entries: FxHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
-        let entries = self.determine_entries(entries);
+        self.run(|| {
+            let entries = self.determine_entries(entries);
 
-        Ok(entries
-            .into_par_iter()
-            .map(
-                |(kind, id, mut module_ids_to_merge): (BundleKind, ModuleId, _)| {
-                    let module = self
-                        .merge_modules(id, &mut module_ids_to_merge)
-                        .context("failed to merge module")
-                        .unwrap(); // TODO
+            Ok(entries
+                .into_par_iter()
+                .map(
+                    |(kind, id, mut module_ids_to_merge): (BundleKind, ModuleId, _)| {
+                        let module = self
+                            .merge_modules(id, &mut module_ids_to_merge)
+                            .context("failed to merge module")
+                            .unwrap(); // TODO
 
-                    let module = module
-                        .fold_with(&mut dce::dce(Default::default()))
-                        .fold_with(&mut hygiene());
+                        let module = module
+                            .fold_with(&mut dce::dce(Default::default()))
+                            .fold_with(&mut hygiene());
 
-                    Bundle { kind, id, module }
-                },
-            )
-            .collect())
+                        Bundle { kind, id, module }
+                    },
+                )
+                .collect())
+        })
     }
 
     fn determine_entries(

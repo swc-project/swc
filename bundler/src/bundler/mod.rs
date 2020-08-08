@@ -119,6 +119,7 @@ where
 
         let bundles = self.chunk(local)?;
 
+        let bundles = self.finalize(bundles)?;
         Ok(bundles)
     }
 

@@ -30,328 +30,333 @@ where
         entry: ModuleId,
         targets: &mut Vec<ModuleId>,
     ) -> Result<Module, Error> {
-        log::trace!("merge_modules({})", entry);
+        self.run(|| {
+            log::trace!("merge_modules({})", entry);
 
-        let info = self.scope.get_module(entry).unwrap();
+            let info = self.scope.get_module(entry).unwrap();
 
-        let mut entry: Module = (*info.module).clone();
-        if targets.is_empty() {
-            return Ok((*info.module).clone());
-        }
-
-        log::info!("Merge: {} <= {:?}", info.fm.name, targets);
-
-        // {
-        //     let code = self
-        //         .swc
-        //         .print(
-        //             &entry.clone().fold_with(&mut HygieneVisualizer),
-        //             SourceMapsConfig::Bool(false),
-        //             None,
-        //             false,
-        //         )
-        //         .unwrap()
-        //         .code;
-        //
-        //     println!("Before merging:\n{}\n\n\n", code);
-        // }
-
-        for (src, specifiers) in &info.imports.specifiers {
-            if !targets.contains(&src.module_id) {
-                log::debug!(
-                    "Not merging: not in target: ({}):{} <= ({}):{}",
-                    info.id,
-                    info.fm.name,
-                    src.module_id,
-                    src.src.value,
-                );
-                continue;
+            let mut entry: Module = (*info.module).clone();
+            if targets.is_empty() {
+                return Ok((*info.module).clone());
             }
-            log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-            if specifiers.iter().any(|v| v.is_namespace()) {
-                unimplemented!(
-                    "accessing namespace dependency with computed key: {} -> {}",
-                    info.id,
-                    src.module_id
-                )
-            }
-            if let Some(imported) = self.scope.get_module(src.module_id) {
-                info.helpers.extend(&imported.helpers);
+            log::info!("Merge: {} <= {:?}", info.fm.name, targets);
 
-                // In the case of
-                //
-                //  a <- b
-                //  b <- c
-                //
-                // we change it to
-                //
-                // a <- b + chunk(c)
-                //
-                let mut dep = self
-                    .merge_modules(src.module_id, targets)
-                    .with_context(|| {
-                        format!(
-                            "failed to merge: ({}):{} <= ({}):{}",
-                            info.id, info.fm.name, src.module_id, src.src.value
-                        )
-                    })?;
+            // {
+            //     let code = self
+            //         .swc
+            //         .print(
+            //             &entry.clone().fold_with(&mut HygieneVisualizer),
+            //             SourceMapsConfig::Bool(false),
+            //             None,
+            //             false,
+            //         )
+            //         .unwrap()
+            //         .code;
+            //
+            //     println!("Before merging:\n{}\n\n\n", code);
+            // }
 
-                if let Some(pos) = targets.iter().position(|x| *x == info.id) {
-                    targets.remove(pos);
+            for (src, specifiers) in &info.imports.specifiers {
+                if !targets.contains(&src.module_id) {
+                    log::debug!(
+                        "Not merging: not in target: ({}):{} <= ({}):{}",
+                        info.id,
+                        info.fm.name,
+                        src.module_id,
+                        src.src.value,
+                    );
+                    continue;
                 }
+                log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                if imported.is_es6 {
-                    //{
-                    //    let code = self
-                    //        .swc
-                    //        .print(
-                    //            &dep.clone().fold_with(&mut HygieneVisualizer),
-                    //            info.fm.clone(),
-                    //            false,
-                    //            false,
-                    //        )
-                    //        .unwrap()
-                    //        .code;
-                    //
-                    //    println!("Dep before drop_unused:\n{}\n\n\n", code);
-                    //}
-
-                    // Tree-shaking
-                    dep = self.drop_unused(dep, Some(&specifiers));
-
-                    //{
-                    //    let code = self
-                    //        .swc
-                    //        .print(
-                    //            &dep.clone().fold_with(&mut HygieneVisualizer),
-                    //            info.fm.clone(),
-                    //            false,
-                    //            false,
-                    //        )
-                    //        .unwrap()
-                    //        .code;
-                    //
-                    //    println!("Dep after drop_unused:\n{}\n\n\n", code);
-                    //}
-
-                    if let Some(imports) = info
-                        .imports
-                        .specifiers
-                        .iter()
-                        .find(|(s, _)| s.module_id == imported.id)
-                        .map(|v| &v.1)
-                    {
-                        dep = dep.fold_with(&mut ExportRenamer {
-                            mark: imported.mark(),
-                            _exports: &imported.exports,
-                            imports: &imports,
-                            extras: vec![],
-                        });
-                    }
-
-                    dep = dep.fold_with(&mut Unexporter);
-
-                    if !specifiers.is_empty() {
-                        entry = entry.fold_with(&mut LocalMarker {
-                            mark: imported.mark(),
-                            specifiers: &specifiers,
-                            excluded: vec![],
-                        });
-
-                        // // Note: this does not handle `export default
-                        // foo`
-                        // dep = dep.fold_with(&mut LocalMarker {
-                        //     mark: imported.mark(),
-                        //     specifiers: &imported.exports.items,
-                        // });
-                    }
-
-                    dep = dep.fold_with(&mut GlobalMarker {
-                        used_mark: self.used_mark,
-                        module_mark: imported.mark(),
-                    });
-
-                    // {
-                    //     let code = self
-                    //         .swc
-                    //         .print(
-                    //             &dep.clone().fold_with(&mut HygieneVisualizer),
-                    //             SourceMapsConfig::Bool(false),
-                    //             None,
-                    //             false,
-                    //         )
-                    //         .unwrap()
-                    //         .code;
-                    //
-                    //     println!("Dep:\n{}\n\n\n", code);
-                    // }
-
-                    // {
-                    //     let code = self
-                    //         .swc
-                    //         .print(
-                    //             &entry.clone().fold_with(&mut HygieneVisualizer),
-                    //             SourceMapsConfig::Bool(false),
-                    //             None,
-                    //             false,
-                    //         )
-                    //         .unwrap()
-                    //         .code;
-                    //
-                    //     println!("@: Before merging:\n{}\n\n\n", code);
-                    // }
-
-                    // Replace import statement / require with module body
-                    let mut injector = Es6ModuleInjector {
-                        imported: dep.body.clone(),
-                        src: src.src.clone(),
-                    };
-                    entry.body.visit_mut_with(&mut injector);
-
-                    // {
-                    //     let code = self
-                    //         .swc
-                    //         .print(
-                    //             &entry.clone().fold_with(&mut
-                    // HygieneVisualizer),
-                    //             SourceMapsConfig::Bool(false),
-                    //             None,
-                    //             false,
-                    //         )
-                    //         .unwrap()
-                    //         .code;
-                    //
-                    //     println!("Merged:\n{}\n\n\n", code);
-                    // }
-
-                    if injector.imported.is_empty() {
-                        continue;
-                    }
+                if specifiers.iter().any(|v| v.is_namespace()) {
+                    unimplemented!(
+                        "accessing namespace dependency with computed key: {} -> {}",
+                        info.id,
+                        src.module_id
+                    )
                 }
+                if let Some(imported) = self.scope.get_module(src.module_id) {
+                    info.helpers.extend(&imported.helpers);
 
-                {
-                    // common js module is transpiled as
+                    // In the case of
                     //
-                    //  Src:
-                    //      const foo = require('foo');
+                    //  a <- b
+                    //  b <- c
                     //
-                    // Output:
+                    // we change it to
                     //
-                    //      const load = __spack__require.bind(void 0, function(module,
-                    // exports){
-                    //      // ... body of foo
-                    // });      const foo = load();
+                    // a <- b + chunk(c)
                     //
-                    // As usual, this behavior depends on hygiene.
+                    let mut dep =
+                        self.merge_modules(src.module_id, targets)
+                            .with_context(|| {
+                                format!(
+                                    "failed to merge: ({}):{} <= ({}):{}",
+                                    info.id, info.fm.name, src.module_id, src.src.value
+                                )
+                            })?;
 
-                    let load_var = private_ident!("load");
+                    if let Some(pos) = targets.iter().position(|x| *x == info.id) {
+                        targets.remove(pos);
+                    }
+
+                    if imported.is_es6 {
+                        //{
+                        //    let code = self
+                        //        .swc
+                        //        .print(
+                        //            &dep.clone().fold_with(&mut HygieneVisualizer),
+                        //            info.fm.clone(),
+                        //            false,
+                        //            false,
+                        //        )
+                        //        .unwrap()
+                        //        .code;
+                        //
+                        //    println!("Dep before drop_unused:\n{}\n\n\n", code);
+                        //}
+
+                        // Tree-shaking
+                        dep = self.drop_unused(dep, Some(&specifiers));
+
+                        //{
+                        //    let code = self
+                        //        .swc
+                        //        .print(
+                        //            &dep.clone().fold_with(&mut HygieneVisualizer),
+                        //            info.fm.clone(),
+                        //            false,
+                        //            false,
+                        //        )
+                        //        .unwrap()
+                        //        .code;
+                        //
+                        //    println!("Dep after drop_unused:\n{}\n\n\n", code);
+                        //}
+
+                        if let Some(imports) = info
+                            .imports
+                            .specifiers
+                            .iter()
+                            .find(|(s, _)| s.module_id == imported.id)
+                            .map(|v| &v.1)
+                        {
+                            dep = dep.fold_with(&mut ExportRenamer {
+                                mark: imported.mark(),
+                                _exports: &imported.exports,
+                                imports: &imports,
+                                extras: vec![],
+                            });
+                        }
+
+                        dep = dep.fold_with(&mut Unexporter);
+
+                        if !specifiers.is_empty() {
+                            entry = entry.fold_with(&mut LocalMarker {
+                                mark: imported.mark(),
+                                specifiers: &specifiers,
+                                excluded: vec![],
+                            });
+
+                            // // Note: this does not handle `export default
+                            // foo`
+                            // dep = dep.fold_with(&mut LocalMarker {
+                            //     mark: imported.mark(),
+                            //     specifiers: &imported.exports.items,
+                            // });
+                        }
+
+                        dep = dep.fold_with(&mut GlobalMarker {
+                            used_mark: self.used_mark,
+                            module_mark: imported.mark(),
+                        });
+
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &dep.clone().fold_with(&mut HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("Dep:\n{}\n\n\n", code);
+                        // }
+
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &entry.clone().fold_with(&mut HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("@: Before merging:\n{}\n\n\n", code);
+                        // }
+
+                        // Replace import statement / require with module body
+                        let mut injector = Es6ModuleInjector {
+                            imported: dep.body.clone(),
+                            src: src.src.clone(),
+                        };
+                        entry.body.visit_mut_with(&mut injector);
+
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &entry.clone().fold_with(&mut
+                        // HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("Merged:\n{}\n\n\n", code);
+                        // }
+
+                        if injector.imported.is_empty() {
+                            continue;
+                        }
+                    }
 
                     {
-                        // ... body of foo
-                        let module_fn = Expr::Fn(FnExpr {
-                            ident: None,
-                            function: Function {
-                                params: vec![
-                                    // module
-                                    Param {
-                                        span: DUMMY_SP.apply_mark(self.top_level_mark),
-                                        decorators: Default::default(),
-                                        pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP)),
-                                    },
-                                    // exports
-                                    Param {
-                                        span: DUMMY_SP.apply_mark(self.top_level_mark),
-                                        decorators: Default::default(),
-                                        pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP)),
-                                    },
-                                ],
-                                decorators: vec![],
-                                span: DUMMY_SP,
-                                body: Some(BlockStmt {
-                                    span: dep.span,
-                                    stmts: dep
-                                        .body
-                                        .into_iter()
-                                        .map(|v| match v {
-                                            ModuleItem::ModuleDecl(_) => unreachable!(
-                                                "module item found but is_es6 is false"
-                                            ),
-                                            ModuleItem::Stmt(s) => s,
-                                        })
-                                        .collect(),
-                                }),
-                                is_generator: false,
-                                is_async: false,
-                                type_params: None,
-                                return_type: None,
-                            },
-                        });
+                        // common js module is transpiled as
+                        //
+                        //  Src:
+                        //      const foo = require('foo');
+                        //
+                        // Output:
+                        //
+                        //      const load = __spack__require.bind(void 0, function(module,
+                        // exports){
+                        //      // ... body of foo
+                        // });      const foo = load();
+                        //
+                        // As usual, this behavior depends on hygiene.
 
-                        // var load = __spack_require__.bind(void 0, moduleDecl)
-                        let load_var = Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(load_var.clone()),
-                                init: Some(Box::new(Expr::Call(CallExpr {
+                        let load_var = private_ident!("load");
+
+                        {
+                            // ... body of foo
+                            let module_fn = Expr::Fn(FnExpr {
+                                ident: None,
+                                function: Function {
+                                    params: vec![
+                                        // module
+                                        Param {
+                                            span: DUMMY_SP.apply_mark(self.top_level_mark),
+                                            decorators: Default::default(),
+                                            pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP)),
+                                        },
+                                        // exports
+                                        Param {
+                                            span: DUMMY_SP.apply_mark(self.top_level_mark),
+                                            decorators: Default::default(),
+                                            pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP)),
+                                        },
+                                    ],
+                                    decorators: vec![],
                                     span: DUMMY_SP,
-                                    callee: {
-                                        info.helpers.require.store(true, Ordering::SeqCst);
-                                        Ident::new(
-                                            "__spack_require__".into(),
-                                            DUMMY_SP.apply_mark(self.top_level_mark),
-                                        )
-                                        .make_member(Ident::new("bind".into(), DUMMY_SP))
-                                        .as_callee()
-                                    },
-                                    args: vec![undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
-                                    type_args: None,
-                                }))),
-                                definite: false,
-                            }],
-                        }));
+                                    body: Some(BlockStmt {
+                                        span: dep.span,
+                                        stmts: dep
+                                            .body
+                                            .into_iter()
+                                            .map(|v| match v {
+                                                ModuleItem::ModuleDecl(_) => unreachable!(
+                                                    "module item found but is_es6 is false"
+                                                ),
+                                                ModuleItem::Stmt(s) => s,
+                                            })
+                                            .collect(),
+                                    }),
+                                    is_generator: false,
+                                    is_async: false,
+                                    type_params: None,
+                                    return_type: None,
+                                },
+                            });
 
-                        prepend(&mut entry.body, ModuleItem::Stmt(load_var));
+                            // var load = __spack_require__.bind(void 0, moduleDecl)
+                            let load_var = Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(load_var.clone()),
+                                    init: Some(Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: {
+                                            info.helpers.require.store(true, Ordering::SeqCst);
+                                            Ident::new(
+                                                "__spack_require__".into(),
+                                                DUMMY_SP.apply_mark(self.top_level_mark),
+                                            )
+                                            .make_member(Ident::new("bind".into(), DUMMY_SP))
+                                            .as_callee()
+                                        },
+                                        args: vec![
+                                            undefined(DUMMY_SP).as_arg(),
+                                            module_fn.as_arg(),
+                                        ],
+                                        type_args: None,
+                                    }))),
+                                    definite: false,
+                                }],
+                            }));
 
-                        log::warn!("Injecting load");
+                            prepend(&mut entry.body, ModuleItem::Stmt(load_var));
+
+                            log::warn!("Injecting load");
+                        }
+
+                        let load = CallExpr {
+                            span: DUMMY_SP,
+                            callee: load_var.as_callee(),
+                            args: vec![],
+                            type_args: None,
+                        };
+
+                        entry.body.visit_mut_with(&mut RequireReplacer {
+                            src: src.src.value.clone(),
+                            load,
+                        });
+
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &entry.clone().fold_with(&mut HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("@: After replace-require:\n{}\n\n\n", code);
+                        // }
+
+                        log::info!("Replaced requires with load");
                     }
-
-                    let load = CallExpr {
-                        span: DUMMY_SP,
-                        callee: load_var.as_callee(),
-                        args: vec![],
-                        type_args: None,
-                    };
-
-                    entry.body.visit_mut_with(&mut RequireReplacer {
-                        src: src.src.value.clone(),
-                        load,
-                    });
-
-                    // {
-                    //     let code = self
-                    //         .swc
-                    //         .print(
-                    //             &entry.clone().fold_with(&mut HygieneVisualizer),
-                    //             SourceMapsConfig::Bool(false),
-                    //             None,
-                    //             false,
-                    //         )
-                    //         .unwrap()
-                    //         .code;
-                    //
-                    //     println!("@: After replace-require:\n{}\n\n\n", code);
-                    // }
-
-                    log::info!("Replaced requires with load");
                 }
             }
-        }
 
-        Ok(entry)
+            Ok(entry)
+        })
     }
 }
 
