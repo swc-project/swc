@@ -121,4 +121,13 @@ where
 
         Ok(bundles)
     }
+
+    /// Sets `swc_common::GLOBALS`
+    #[inline]
+    fn run<F, Ret>(&self, op: F) -> Ret
+    where
+        F: FnOnce() -> Ret,
+    {
+        GLOBALS.set(self.globals, op)
+    }
 }

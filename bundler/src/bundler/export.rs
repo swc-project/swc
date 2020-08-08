@@ -23,11 +23,13 @@ where
     /// TODO: Support pattern like
     ///     export const [a, b] = [1, 2]
     pub(super) fn extract_export_info(&self, module: &Module) -> RawExports {
-        let mut v = ExportFinder::default();
+        self.run(|| {
+            let mut v = ExportFinder::default();
 
-        module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+            module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
-        v.info
+            v.info
+        })
     }
 }
 

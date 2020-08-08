@@ -24,23 +24,25 @@ where
         module: &mut Module,
         _mark: Mark,
     ) -> RawImports {
-        let body = replace(&mut module.body, vec![]);
+        self.run(|| {
+            let body = replace(&mut module.body, vec![]);
 
-        let mut v = ImportHandler {
-            path,
-            bundler: self,
-            top_level: false,
-            info: Default::default(),
-            forces_ns: Default::default(),
-            ns_usage: Default::default(),
-            deglob_phase: false,
-        };
-        let body = body.fold_with(&mut v);
-        v.deglob_phase = true;
-        let body = body.fold_with(&mut v);
-        module.body = body;
+            let mut v = ImportHandler {
+                path,
+                bundler: self,
+                top_level: false,
+                info: Default::default(),
+                forces_ns: Default::default(),
+                ns_usage: Default::default(),
+                deglob_phase: false,
+            };
+            let body = body.fold_with(&mut v);
+            v.deglob_phase = true;
+            let body = body.fold_with(&mut v);
+            module.body = body;
 
-        v.info
+            v.info
+        })
     }
 
     pub(super) fn resolve(
@@ -48,14 +50,16 @@ where
         base: &FileName,
         module_specifier: &str,
     ) -> Result<Lrc<FileName>, Error> {
-        let path = self
-            .resolver
-            .resolve(base, module_specifier)
-            .with_context(|| format!("failed to resolve {} from {}", module_specifier, base))?;
+        self.run(|| {
+            let path = self
+                .resolver
+                .resolve(base, module_specifier)
+                .with_context(|| format!("failed to resolve {} from {}", module_specifier, base))?;
 
-        let path = Lrc::new(path);
+            let path = Lrc::new(path);
 
-        Ok(path)
+            Ok(path)
+        })
     }
 }
 

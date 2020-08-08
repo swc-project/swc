@@ -16,88 +16,90 @@ where
     /// This method should only be called iff all modules in `bundles` are local
     /// file.
     pub fn rename_bundles(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
-        let mut new = Vec::with_capacity(bundles.len());
-        let mut renamed = FxHashMap::default();
+        self.run(|| {
+            let mut new = Vec::with_capacity(bundles.len());
+            let mut renamed = FxHashMap::default();
 
-        for mut bundle in bundles {
-            match bundle.kind {
-                BundleKind::Named { .. } => {
-                    // Inject helpers
-                    let helpers = self
-                        .scope
-                        .get_module(bundle.id)
-                        .expect("module should exist at this point")
-                        .helpers;
+            for mut bundle in bundles {
+                match bundle.kind {
+                    BundleKind::Named { .. } => {
+                        // Inject helpers
+                        let helpers = self
+                            .scope
+                            .get_module(bundle.id)
+                            .expect("module should exist at this point")
+                            .helpers;
 
-                    helpers.append_to(&mut bundle.module.body);
+                        helpers.append_to(&mut bundle.module.body);
 
-                    new.push(Bundle { ..bundle });
-                }
-                BundleKind::Lib { name } => {
-                    let hash = calc_hash(self.cm.clone(), &bundle.module)?;
-                    let mut new_name = PathBuf::from(name);
-                    let key = new_name.clone();
-                    let file_name = new_name
-                        .file_name()
-                        .map(|path| -> PathBuf {
-                            let path = Path::new(path);
-                            let ext = path.extension();
-                            if let Some(ext) = ext {
+                        new.push(Bundle { ..bundle });
+                    }
+                    BundleKind::Lib { name } => {
+                        let hash = calc_hash(self.cm.clone(), &bundle.module)?;
+                        let mut new_name = PathBuf::from(name);
+                        let key = new_name.clone();
+                        let file_name = new_name
+                            .file_name()
+                            .map(|path| -> PathBuf {
+                                let path = Path::new(path);
+                                let ext = path.extension();
+                                if let Some(ext) = ext {
+                                    return format!(
+                                        "{}-{}.{}",
+                                        path.file_stem().unwrap().to_string_lossy(),
+                                        hash,
+                                        ext.to_string_lossy()
+                                    )
+                                    .into();
+                                }
                                 return format!(
-                                    "{}-{}.{}",
+                                    "{}-{}",
                                     path.file_stem().unwrap().to_string_lossy(),
                                     hash,
-                                    ext.to_string_lossy()
                                 )
                                 .into();
-                            }
-                            return format!(
-                                "{}-{}",
-                                path.file_stem().unwrap().to_string_lossy(),
-                                hash,
-                            )
-                            .into();
+                            })
+                            .expect("javascript file should have name");
+                        new_name.pop();
+                        new_name = new_name.join(file_name.clone());
+
+                        renamed.insert(key, new_name.to_string_lossy().to_string());
+
+                        new.push(Bundle {
+                            kind: BundleKind::Named {
+                                name: file_name.display().to_string(),
+                            },
+                            ..bundle
                         })
-                        .expect("javascript file should have name");
-                    new_name.pop();
-                    new_name = new_name.join(file_name.clone());
-
-                    renamed.insert(key, new_name.to_string_lossy().to_string());
-
-                    new.push(Bundle {
-                        kind: BundleKind::Named {
-                            name: file_name.display().to_string(),
-                        },
-                        ..bundle
-                    })
+                    }
+                    _ => new.push(bundle),
                 }
-                _ => new.push(bundle),
             }
-        }
 
-        new = new.move_map(|bundle| {
-            let path = match self.scope.get_module(bundle.id).unwrap().fm.name {
-                FileName::Real(ref v) => v.clone(),
-                _ => {
-                    log::error!("Cannot rename: not a real file");
-                    return bundle;
-                }
-            };
-
-            let module = {
-                // Change imports
-                let mut v = Renamer {
-                    resolver: &self.resolver,
-                    base: &path,
-                    renamed: &renamed,
+            new = new.move_map(|bundle| {
+                let path = match self.scope.get_module(bundle.id).unwrap().fm.name {
+                    FileName::Real(ref v) => v.clone(),
+                    _ => {
+                        log::error!("Cannot rename: not a real file");
+                        return bundle;
+                    }
                 };
-                bundle.module.fold_with(&mut v)
-            };
 
-            Bundle { module, ..bundle }
-        });
+                let module = {
+                    // Change imports
+                    let mut v = Renamer {
+                        resolver: &self.resolver,
+                        base: &path,
+                        renamed: &renamed,
+                    };
+                    bundle.module.fold_with(&mut v)
+                };
 
-        Ok(new)
+                Bundle { module, ..bundle }
+            });
+
+            Ok(new)
+        })
     }
 }
 
