@@ -2,10 +2,14 @@ use super::{export::Exports, helpers::Helpers, Bundler};
 use crate::{
     bundler::{export::RawExports, import::RawImports},
     id::{Id, ModuleId},
-    util, Load, Resolve,
+    util,
+    util::IntoParallelIterator,
+    Load, Resolve,
 };
 use anyhow::{Context, Error};
 use is_macro::Is;
+#[cfg(feature = "rayon")]
+use rayon::iter::ParallelIterator;
 use std::{path::PathBuf, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceFile, DUMMY_SP};
@@ -14,7 +18,6 @@ use swc_ecma_ast::{
 };
 use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
-
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
 pub(super) struct TransformedModule {

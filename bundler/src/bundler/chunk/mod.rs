@@ -1,8 +1,12 @@
 use super::{load::TransformedModule, Bundler};
-use crate::{id::ModuleId, load::Load, resolve::Resolve, Bundle, BundleKind};
+use crate::{
+    id::ModuleId, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle, BundleKind,
+};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
+#[cfg(feature = "rayon")]
+use rayon::iter::ParallelIterator;
 use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
 use swc_ecma_visit::FoldWith;
 

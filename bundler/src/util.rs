@@ -61,3 +61,17 @@ where
 {
     (oper_a(), oper_b())
 }
+
+#[cfg(feature = "rayon")]
+pub(crate) use rayon::iter::IntoParallelIterator;
+
+/// Fake trait
+#[cfg(not(feature = "rayon"))]
+pub(crate) trait IntoParallelIterator: Sized + IntoIterator {
+    fn intp_par_iter(self) -> <Self as IntoIterator>::IntoIter {
+        self.into_iter()
+    }
+}
+
+#[cfg(not(feature = "rayon"))]
+impl<T> IntoParallelIterator for T where T: IntoIterator {}
