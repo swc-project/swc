@@ -5,7 +5,7 @@ use fxhash::FxHashMap;
 use load::TransformedModule;
 use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_common::{FileName, Globals, Mark, DUMMY_SP, GLOBALS};
+use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
 
 mod chunk;
@@ -46,6 +46,7 @@ where
     R: Resolve,
 {
     globals: &'a Globals,
+    cm: Lrc<SourceMap>,
     loader: L,
     resolver: R,
 
@@ -66,6 +67,7 @@ where
 {
     pub fn new(
         globals: &'a Globals,
+        cm: Lrc<SourceMap>,
         loader: L,
         resolver: R,
         external_modules: Vec<JsWord>,
@@ -79,6 +81,7 @@ where
         );
 
         Bundler {
+            cm,
             loader,
             resolver,
             used_mark,

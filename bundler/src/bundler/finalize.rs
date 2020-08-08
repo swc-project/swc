@@ -1,11 +1,10 @@
 use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, Resolve};
-use anyhow::{Context, Error};
-use crc::{crc64, crc64::Digest, Hasher64};
+use anyhow::Error;
 use fxhash::FxHashMap;
 use relative_path::RelativePath;
 use std::path::{Path, PathBuf};
-use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, SourceMap, Span};
-use swc_ecma_ast::{ImportDecl, Module, Str};
+use swc_common::{util::move_map::MoveMap, FileName};
+use swc_ecma_ast::{ImportDecl, Str};
 use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -14,12 +13,7 @@ where
     L: Load,
     R: Resolve,
 {
-    /// This is
-    pub fn rename_bundles(
-        &self,
-        cm: Lrc<SourceMap>,
-        bundles: Vec<Bundle>,
-    ) -> Result<Vec<Bundle>, Error> {
+    pub fn rename_bundles(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         let mut new = Vec::with_capacity(bundles.len());
         let mut renamed = FxHashMap::default();
 
@@ -38,7 +32,7 @@ where
                     new.push(Bundle { ..bundle });
                 }
                 BundleKind::Lib { name } => {
-                    let hash = calc_hash(cm, &bundle.module)?;
+                    let hash = calc_hash(self.cm.clone(), &bundle.module)?;
                     let mut new_name = PathBuf::from(name);
                     let key = new_name.clone();
                     let file_name = new_name
@@ -92,7 +86,7 @@ where
                 // Change imports
                 let mut v = Renamer {
                     resolver: &self.resolver,
-                    path: &path,
+                    base: &path,
                     renamed: &renamed,
                 };
                 bundle.module.fold_with(&mut v)
@@ -111,7 +105,7 @@ where
     R: Resolve,
 {
     resolver: R,
-    path: &'a Path,
+    base: &'a FileName,
     renamed: &'a FxHashMap<PathBuf, String>,
 }
 
@@ -122,21 +116,21 @@ where
     R: Resolve,
 {
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
-        let resolved = match self.resolver.resolve(self.path, &import.src.value) {
+        let resolved = match self.resolver.resolve(self.base, &import.src.value) {
             Ok(v) => v,
             Err(_) => return import,
         };
 
-        if let Some(v) = self.renamed.get(&*resolved) {
+        if let Some(v) = self.renamed.get(&resolved) {
             // We use parent because RelativePath uses ../common-[hash].js
             // if we use `entry-a.js` as a base.
             //
             // entry-a.js
             // common.js
             let base = self
-                .path
+                .base
                 .parent()
-                .unwrap_or(self.path)
+                .unwrap_or(self.base)
                 .as_os_str()
                 .to_string_lossy();
             let base = RelativePath::new(&*base);
