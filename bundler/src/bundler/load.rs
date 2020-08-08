@@ -263,38 +263,36 @@ where
 
         for res in loaded {
             // TODO: Report error and proceed instead of returning an error
-            let (file_name, decl, is_dynamic, is_unconditional) = res?;
+            let (src, decl, is_dynamic, is_unconditional) = res?;
 
-            if let Some(src) = self.scope.get_module_by_path(&file_name) {
-                let src = Source {
-                    is_loaded_synchronously: !is_dynamic,
-                    is_unconditional,
-                    module_id: src.id,
-                    src: decl.src,
-                };
+            let src = Source {
+                is_loaded_synchronously: !is_dynamic,
+                is_unconditional,
+                module_id: src.id,
+                src: decl.src,
+            };
 
-                // TODO: Handle rename
-                let mut specifiers = vec![];
-                for s in decl.specifiers {
-                    match s {
-                        ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
+            // TODO: Handle rename
+            let mut specifiers = vec![];
+            for s in decl.specifiers {
+                match s {
+                    ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
+                        local: s.local.into(),
+                        alias: s.imported.map(From::from),
+                    }),
+                    ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
+                        local: s.local.into(),
+                        alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
+                    }),
+                    ImportSpecifier::Namespace(s) => {
+                        specifiers.push(Specifier::Namespace {
                             local: s.local.into(),
-                            alias: s.imported.map(From::from),
-                        }),
-                        ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
-                            local: s.local.into(),
-                            alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
-                        }),
-                        ImportSpecifier::Namespace(s) => {
-                            specifiers.push(Specifier::Namespace {
-                                local: s.local.into(),
-                            });
-                        }
+                        });
                     }
                 }
-
-                merged.specifiers.push((src, specifiers));
             }
+
+            merged.specifiers.push((src, specifiers));
         }
 
         Ok(merged)
