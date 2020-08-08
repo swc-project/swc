@@ -5,7 +5,7 @@ use anyhow::Error;
 use std::path::PathBuf;
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 
@@ -35,28 +35,17 @@ impl Resolve for Resolver {
 impl<'a> Tester<'a> {
     pub fn parse(&self, s: &str) -> Module {
         let fm = self
-            .bundler
             .cm
             .new_source_file(FileName::Real(PathBuf::from("input.js")), s.into());
-        let p = self
-            .bundler
-            .swc
-            .parse_js(
-                fm,
-                Default::default(),
-                Syntax::Es(EsConfig {
-                    dynamic_import: true,
-                    ..Default::default()
-                }),
-                true,
-                true,
-            )
-            .expect("failed to parse");
 
-        match p {
-            Program::Module(m) => m,
-            Program::Script(_) => unreachable!(),
-        }
+        let lexer = Lexer::new(
+            Default::default(),
+            Default::default(),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+        parser.parse_module().unwrap()
     }
 
     pub fn assert_eq(&self, m: &Module, expected: &str) {

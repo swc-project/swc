@@ -2,7 +2,7 @@ use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
-use std::{mem::replace, sync::Arc};
+use std::mem::replace;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -53,7 +53,7 @@ where
             .resolve(base, module_specifier)
             .with_context(|| format!("failed to resolve {} from {}", module_specifier, base))?;
 
-        let path = Arc::new(path);
+        let path = Lrc::new(path);
 
         Ok(path)
     }
