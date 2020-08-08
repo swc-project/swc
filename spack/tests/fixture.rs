@@ -3,11 +3,7 @@
 extern crate test;
 
 use fxhash::FxHashMap;
-use spack::{
-    config::{Config, EntryConfig},
-    loaders::swc::SwcLoader,
-    resolvers::NodeResolver,
-};
+use spack::{loaders::swc::SwcLoader, resolvers::NodeResolver};
 use std::{
     env,
     fs::{create_dir_all, read_dir},
