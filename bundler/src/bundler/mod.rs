@@ -18,7 +18,7 @@ mod scope;
 mod tests;
 mod usage_analysis;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum BundleKind {
     /// User-provided entry
     Named { name: String },
