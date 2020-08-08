@@ -277,7 +277,11 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     arg: Box::new(member_expr.clone()),
                 })),
                 op: op!("==="),
-                right: undefined(DUMMY_SP),
+                right: Box::new(Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: "undefined".into(),
+                    has_escape: false,
+                }))),
             })),
             cons: Box::new(quote_ident!("Object").into()),
             alt: Box::new(member_expr),
