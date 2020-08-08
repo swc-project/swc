@@ -71,24 +71,26 @@ where
         resolver: R,
         external_modules: Vec<JsWord>,
     ) -> Self {
-        let used_mark = GLOBALS.set(globals, || Mark::fresh(Mark::root()));
-        log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
-        let top_level_mark = GLOBALS.set(globals, || Mark::fresh(Mark::root()));
-        log::info!(
-            "top-level mark: {:?}",
-            DUMMY_SP.apply_mark(top_level_mark).ctxt()
-        );
+        GLOBALS.set(&globals, || {
+            let used_mark = Mark::fresh(Mark::root());
+            log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
+            let top_level_mark = Mark::fresh(Mark::root());
+            log::info!(
+                "top-level mark: {:?}",
+                DUMMY_SP.apply_mark(top_level_mark).ctxt()
+            );
 
-        Bundler {
-            cm,
-            loader,
-            resolver,
-            used_mark,
-            top_level_mark,
-            scope: Default::default(),
-            globals,
-            external_modules,
-        }
+            Bundler {
+                cm,
+                loader,
+                resolver,
+                used_mark,
+                top_level_mark,
+                scope: Default::default(),
+                globals,
+                external_modules,
+            }
+        })
     }
 
     pub fn bundle(&self, entries: FxHashMap<String, FileName>) -> Result<Vec<Bundle>, Error> {
