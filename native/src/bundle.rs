@@ -3,16 +3,13 @@ use anyhow::{bail, Error};
 use fxhash::FxHashMap;
 use neon::prelude::*;
 use serde::Deserialize;
-use spack::{
-    load::Load,
-    resolve::{NodeResolver, Resolve},
-    BundleKind,
-};
+use spack::resolvers::NodeResolver;
 use std::{
     panic::{catch_unwind, AssertUnwindSafe},
     sync::Arc,
 };
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
+use swc_bundler::{BundleKind, Bundler, Load, Resolve};
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -41,8 +38,11 @@ impl Task for BundleTask {
 
     fn perform(&self) -> Result<Self::Output, Self::Error> {
         let res = catch_unwind(AssertUnwindSafe(|| {
-            let bundler = spack::Bundler::new(
-                self.swc.clone(),
+            let bundler = Bundler::new(
+                self.swc.globals(),
+                self.swc.cm.clone(),
+                self.config.loader,
+                self.config.resolver,
                 self.config
                     .static_items
                     .config
@@ -53,8 +53,6 @@ impl Task for BundleTask {
                         serde_json::from_value(serde_json::Value::Object(Default::default()))
                             .unwrap()
                     }),
-                &self.config.resolver,
-                &self.config.loader,
             );
 
             let result = bundler.bundle(&self.config.static_items.config)?;
@@ -158,7 +156,7 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
         swc: c.clone(),
         config: ConfigItem {
             loader,
-            resolver: Box::new(NodeResolver) as Box<_>,
+            resolver: Box::new(NodeResolver::new()) as Box<_>,
             static_items,
         },
     }
