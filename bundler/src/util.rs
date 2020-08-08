@@ -32,6 +32,7 @@ where
     K: Eq + Hash,
     V: Clone,
 {
+    #[cfg(feature = "concurrent")]
     pub fn get(&self, k: &K) -> Option<V> {
         if let Some(v) = self.inner.get(k) {
             Some(v.value().clone())
@@ -40,8 +41,23 @@ where
         }
     }
 
+    #[cfg(not(feature = "concurrent"))]
+    pub fn get(&self, k: &K) -> Option<V> {
+        if let Some(v) = self.inner.borrow().get(k) {
+            Some(v.clone())
+        } else {
+            None
+        }
+    }
+
+    #[cfg(feature = "concurrent")]
     pub fn insert(&self, k: K, v: V) {
         self.inner.insert(k, v);
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    pub fn insert(&self, k: K, v: V) {
+        self.inner.borrow_mut().insert(k, v);
     }
 }
 

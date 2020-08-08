@@ -1,6 +1,7 @@
 use super::ImportHandler;
 use crate::bundler::tests::test_bundler;
 use std::path::Path;
+use swc_common::FileName;
 use swc_ecma_visit::FoldWith;
 
 #[test]
@@ -42,7 +43,7 @@ ns.bar();
 ",
         );
         let mut v = ImportHandler {
-            path: &Path::new("index.js"),
+            path: &FileName::Real(Path::new("index.js").to_path_buf()),
             bundler: &t.bundler,
             top_level: false,
             info: Default::default(),

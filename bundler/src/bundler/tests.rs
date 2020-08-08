@@ -1,15 +1,36 @@
 //! Utilities for testing.
 use super::Bundler;
-use crate::util::HygieneRemover;
+use crate::{util::HygieneRemover, Load, Resolve};
 use std::path::PathBuf;
-use swc_common::FileName;
+use swc_common::{FileName, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 
 pub struct Tester<'a> {
-    pub bundler: Bundler<'a>,
+    pub bundler: Bundler<'a, Loader, Resolver>,
+}
+
+#[derive(Debug, Default)]
+struct Loader;
+
+impl Load for Loader {
+    fn load(
+        &self,
+        _: &FileName,
+    ) -> Result<(std::sync::Arc<swc_common::SourceFile>, Module), anyhow::Error> {
+        unreachable!("swc_bundler: tester.load")
+    }
+}
+
+#[derive(Debug, Default)]
+struct Resolver;
+
+impl Resolve for Resolver {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, anyhow::Error> {
+        unreachable!("swc_bundler: tester.resolve")
+    }
 }
 
 impl<'a> Tester<'a> {
@@ -55,22 +76,15 @@ where
     F: FnOnce(&mut Tester),
 {
     testing::run_test2(true, |cm, handler| {
-        let loader = SwcLoader::new(compiler.clone(), Default::default());
-        let bundler = Bundler::new(
-            compiler.clone(),
-            swc::config::Options {
-                swcrc: true,
-                ..Default::default()
-            },
-            &NodeResolver,
-            &loader,
-        );
+        GLOBALS.with(|globals| {
+            let bundler = Bundler::new(globals, Default::default(), Default::default(), vec![]);
 
-        let mut t = Tester { bundler };
+            let mut t = Tester { bundler };
 
-        op(&mut t);
+            op(&mut t);
 
-        Ok(())
+            Ok(())
+        })
     })
     .expect("WTF?");
 }
