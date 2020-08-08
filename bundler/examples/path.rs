@@ -1,10 +1,14 @@
 use anyhow::Error;
 use fxhash::FxHashMap;
+use std::io::stdout;
 use swc_bundler::{BundleKind, Bundler, Load, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap};
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
 fn main() {
+    testing::init();
+
     let globals = Globals::new();
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     // This example does not use core modules.
@@ -33,7 +37,23 @@ fn main() {
         },
         "We provided it"
     );
+
+    let wr = stdout();
+    let mut emitter = Emitter {
+        cfg: swc_ecma_codegen::Config { minify: false },
+        cm: cm.clone(),
+        comments: None,
+        wr: Box::new(JsWriter::new(cm.clone(), "\n", wr.lock(), None)),
+        handlers: Box::new(Handllers),
+    };
+
+    emitter.emit_module(&bundle.module).unwrap();
 }
+
+/// I should remove this...
+struct Handllers;
+
+impl swc_ecma_codegen::Handlers for Handllers {}
 
 struct PathLoader {
     cm: Lrc<SourceMap>,
