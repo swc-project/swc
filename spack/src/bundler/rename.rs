@@ -1,4 +1,3 @@
-use crate::{Bundle, BundleKind, Bundler};
 use anyhow::{Context, Error};
 use crc::{crc64, crc64::Digest, Hasher64};
 use fxhash::FxHashMap;
@@ -8,6 +7,7 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc::config::Options;
+use swc_bundler::{Bundle, BundleKind, Bundler, Resolve};
 use swc_common::{util::move_map::MoveMap, FileName, Span};
 use swc_ecma_ast::{ImportDecl, Module, Str};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -114,43 +114,26 @@ impl Bundler<'_> {
 
         Ok(new)
     }
-
-    fn calc_hash(&self, m: &Module) -> Result<String, Error> {
-        let digest = crc64::Digest::new(crc64::ECMA);
-        let mut buf = Hasher { digest };
-
-        {
-            let mut emitter = Emitter {
-                cfg: Default::default(),
-                cm: self.swc.cm.clone(),
-                comments: None,
-                wr: Box::new(&mut buf) as Box<dyn WriteJs>,
-                handlers: Box::new(Handlers),
-            };
-
-            emitter
-                .emit_module(&m)
-                .context("failed to emit module to calculate hash")?;
-        }
-        //
-
-        let result = buf.digest.sum64();
-        Ok(radix_fmt::radix(result, 36).to_string())
-    }
 }
 
 /// Import renamer. This pass changes import path.
-struct Renamer<'a, 'b> {
-    bundler: &'a Bundler<'b>,
+struct Renamer<'a, R>
+where
+    R: Resolve,
+{
+    resolver: R,
     path: &'a Path,
     renamed: &'a FxHashMap<PathBuf, String>,
 }
 
 noop_fold_type!(Renamer<'_, '_>);
 
-impl Fold for Renamer<'_, '_> {
+impl<R> Fold for Renamer<'_, R>
+where
+    R: Resolve,
+{
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
-        let resolved = match self.bundler.resolve(self.path, &import.src.value) {
+        let resolved = match self.resolver.resolve(self.path, &import.src.value) {
             Ok(v) => v,
             Err(_) => return import,
         };
@@ -184,93 +167,5 @@ impl Fold for Renamer<'_, '_> {
         }
 
         import
-    }
-}
-
-impl swc_ecma_codegen::Handlers for Handlers {}
-struct Handlers;
-
-struct Hasher {
-    digest: Digest,
-}
-
-impl Hasher {
-    fn w(&mut self, s: &str) {
-        self.digest.write(s.as_bytes());
-    }
-}
-
-impl WriteJs for &mut Hasher {
-    fn increase_indent(&mut self) -> io::Result<()> {
-        Ok(())
-    }
-
-    fn decrease_indent(&mut self) -> io::Result<()> {
-        Ok(())
-    }
-
-    fn write_semi(&mut self) -> io::Result<()> {
-        self.w(";");
-        Ok(())
-    }
-
-    fn write_space(&mut self) -> io::Result<()> {
-        self.w(" ");
-        Ok(())
-    }
-
-    fn write_keyword(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_operator(&mut self, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_param(&mut self, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_property(&mut self, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_line(&mut self) -> io::Result<()> {
-        self.w("\n");
-        Ok(())
-    }
-
-    fn write_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_comment(&mut self, _: Span, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_str_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_str(&mut self, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_symbol(&mut self, _: Span, s: &str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
-    }
-
-    fn write_punct(&mut self, s: &'static str) -> io::Result<()> {
-        self.w(s);
-        Ok(())
     }
 }
