@@ -368,7 +368,37 @@ impl Fold for Unexporter {
         match item {
             ModuleItem::ModuleDecl(decl) => match decl {
                 ModuleDecl::ExportDecl(decl) => ModuleItem::Stmt(Stmt::Decl(decl.decl)),
-                ModuleDecl::ExportDefaultExpr(..) => {
+
+                ModuleDecl::ExportDefaultDecl(export) => match export.decl {
+                    DefaultDecl::Class(ClassExpr { ident: None, .. })
+                    | DefaultDecl::Fn(FnExpr { ident: None, .. }) => {
+                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                    }
+                    DefaultDecl::TsInterfaceDecl(decl) => {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(decl)))
+                    }
+
+                    DefaultDecl::Class(ClassExpr {
+                        ident: Some(ident),
+                        class,
+                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                        declare: false,
+                        ident,
+                        class,
+                    }))),
+
+                    DefaultDecl::Fn(FnExpr {
+                        ident: Some(ident),
+                        function,
+                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                        declare: false,
+                        function,
+                        ident,
+                    }))),
+                },
+
+                // Empty statement
+                ModuleDecl::ExportAll(..) | ModuleDecl::ExportDefaultExpr(..) => {
                     ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                 }
                 ModuleDecl::ExportNamed(ref n) if n.src.is_none() => {
@@ -376,8 +406,7 @@ impl Fold for Unexporter {
                 }
                 ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
 
-                // TODO: Handle all
-                _ => unimplemented!("Unexporter: {:?}", decl),
+                _ => unimplemented!("Unexported: {:?}", decl),
             },
 
             _ => item,
