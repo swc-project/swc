@@ -64,7 +64,13 @@ where
 {
     testing::run_test2(true, |cm, handler| {
         GLOBALS.with(|globals| {
-            let bundler = Bundler::new(globals, Default::default(), Default::default(), vec![]);
+            let bundler = Bundler::new(
+                globals,
+                cm.clone(),
+                Default::default(),
+                Default::default(),
+                vec![],
+            );
 
             let mut t = Tester {
                 cm: cm.clone(),

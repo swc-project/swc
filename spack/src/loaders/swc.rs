@@ -25,20 +25,26 @@ impl SwcLoader {
 
             v.jsc.target = JscTarget::Es2020;
 
-            v.jsc.transform = {
-                let mut transform = v.jsc.transform.unwrap_or_default();
-                if transform.optimizer.is_none() {
-                    transform.optimizer = Some(Default::default());
-                }
+            if v.jsc.transform.is_none() {
+                v.jsc.transform = Some(Default::default());
+            }
 
-                let mut opt = transform.optimizer.as_mut().unwrap();
-                if opt.globals.is_none() {
-                    opt.globals = Some(Default::default());
-                }
+            let mut transform = v.jsc.transform.as_mut().unwrap();
+            if transform.optimizer.is_none() {
+                transform.optimizer = Some(Default::default());
+            }
 
-                // Always inline NODE_ENV
-                opt.globals.as_mut().unwrap().envs.insert("NODE_ENV");
-            };
+            let mut opt = transform.optimizer.as_mut().unwrap();
+            if opt.globals.is_none() {
+                opt.globals = Some(Default::default());
+            }
+
+            // Always inline NODE_ENV
+            opt.globals
+                .as_mut()
+                .unwrap()
+                .envs
+                .insert("NODE_ENV".to_string());
         }
 
         SwcLoader { compiler, options }

@@ -13,6 +13,8 @@ where
     L: Load,
     R: Resolve,
 {
+    /// This method should only be called iff all modules in `bundles` are local
+    /// file.
     pub fn rename_bundles(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         let mut new = Vec::with_capacity(bundles.len());
         let mut renamed = FxHashMap::default();
@@ -105,7 +107,7 @@ where
     R: Resolve,
 {
     resolver: R,
-    base: &'a FileName,
+    base: &'a PathBuf,
     renamed: &'a FxHashMap<PathBuf, String>,
 }
 
@@ -116,8 +118,14 @@ where
     R: Resolve,
 {
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
-        let resolved = match self.resolver.resolve(self.base, &import.src.value) {
-            Ok(v) => v,
+        let resolved = match self
+            .resolver
+            .resolve(&FileName::Real(self.base.clone()), &import.src.value)
+        {
+            Ok(v) => match v {
+                FileName::Real(v) => v,
+                _ => panic!("rename_bundles called with non-path module"),
+            },
             Err(_) => return import,
         };
 
