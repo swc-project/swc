@@ -72,8 +72,6 @@ impl Load for PathLoader {
         let fm = self.cm.load_file(file)?;
         let lexer = Lexer::new(
             Syntax::Es(EsConfig {
-                // assets/a.js uses this
-                export_default_from: true,
                 ..Default::default()
             }),
             Default::default(),

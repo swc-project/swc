@@ -1,7 +1,7 @@
 export const FOO = 1;
 
 
-export default class A {
+export class A {
     foo() {
     }
 }
