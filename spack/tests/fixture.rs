@@ -6,7 +6,6 @@ use fxhash::FxHashMap;
 use spack::{
     config::{Config, EntryConfig},
     loaders::swc::SwcLoader,
-    BundleKind, Bundler,
 };
 use std::{
     env,
@@ -16,6 +15,7 @@ use std::{
     sync::Arc,
 };
 use swc::config::SourceMapsConfig;
+use swc_bundler::Bundler;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
