@@ -13,6 +13,7 @@ where
     L: Load,
     R: Resolve,
 {
+    /// This method do
     ///
     /// - inject helpers
     /// - rename chunks
