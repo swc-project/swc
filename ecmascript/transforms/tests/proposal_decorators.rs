@@ -4888,7 +4888,7 @@ test!(
     class Injected {
     }
     var _dec12 = Reflect.metadata("design:paramtypes", [
-        typeof Injected === void 0 ? Object : Injected
+        typeof Injected === "undefined" ? Object : Injected
     ]), _dec13 = Reflect.metadata("design:type", Function), _dec14 = function(target, key) {
         return inject()(target, undefined, 0);
     };
@@ -4897,8 +4897,8 @@ test!(
         }
     }) || _class) || _class) || _class) || _class;
     var _dec15 = Reflect.metadata("design:paramtypes", [
-        typeof Injected === void 0 ? Object : Injected,
-        typeof Injected === void 0 ? Object : Injected
+        typeof Injected === "undefined" ? Object : Injected,
+        typeof Injected === "undefined" ? Object : Injected
     ]), _dec16 = Reflect.metadata("design:type", Function), _dec17 = function(target, key) {
         return inject("KIND")(target, undefined, 1);
     }, _dec18 = function(target, key) {
@@ -4935,8 +4935,8 @@ test!(
         _dec7
     ], Object.getOwnPropertyDescriptor(_class1.prototype, "method"), _class1.prototype), _class1)) || _class1) || _class1) || _class1) || _class1;
     var _dec35 = Reflect.metadata("design:paramtypes", [
-        typeof Injected === void 0 ? Object : Injected,
-        typeof Injected === void 0 ? Object : Injected
+        typeof Injected === "undefined" ? Object : Injected,
+        typeof Injected === "undefined" ? Object : Injected
     ]), _dec36 = Reflect.metadata("design:type", Function), _dec37 = function(target, key) {
         return inject()(target, undefined, 1);
     }, _dec38 = function(target, key) {
