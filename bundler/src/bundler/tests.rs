@@ -1,14 +1,16 @@
 //! Utilities for testing.
 use super::Bundler;
 use crate::{util::HygieneRemover, Load, Resolve};
+use anyhow::Error;
 use std::path::PathBuf;
-use swc_common::{FileName, GLOBALS};
+use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 
 pub struct Tester<'a> {
+    pub cm: Lrc<SourceMap>,
     pub bundler: Bundler<'a, Loader, Resolver>,
 }
 
@@ -16,10 +18,7 @@ pub struct Tester<'a> {
 struct Loader;
 
 impl Load for Loader {
-    fn load(
-        &self,
-        _: &FileName,
-    ) -> Result<(std::sync::Arc<swc_common::SourceFile>, Module), anyhow::Error> {
+    fn load(&self, _: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
         unreachable!("swc_bundler: tester.load")
     }
 }
@@ -28,7 +27,7 @@ impl Load for Loader {
 struct Resolver;
 
 impl Resolve for Resolver {
-    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, anyhow::Error> {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
         unreachable!("swc_bundler: tester.resolve")
     }
 }
@@ -37,7 +36,6 @@ impl<'a> Tester<'a> {
     pub fn parse(&self, s: &str) -> Module {
         let fm = self
             .bundler
-            .swc
             .cm
             .new_source_file(FileName::Real(PathBuf::from("input.js")), s.into());
         let p = self
@@ -79,7 +77,10 @@ where
         GLOBALS.with(|globals| {
             let bundler = Bundler::new(globals, Default::default(), Default::default(), vec![]);
 
-            let mut t = Tester { bundler };
+            let mut t = Tester {
+                cm: cm.clone(),
+                bundler,
+            };
 
             op(&mut t);
 

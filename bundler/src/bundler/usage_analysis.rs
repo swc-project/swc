@@ -1,7 +1,6 @@
 use super::load::Specifier;
 use crate::{Bundler, Load, Resolve};
-use std::{borrow::Cow, sync::Arc};
-use swc_common::SourceFile;
+use std::borrow::Cow;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dce;
 use swc_ecma_utils::ident::IdentLike;
@@ -16,12 +15,7 @@ where
     ///
     /// Note: Context of used_exports is ignored, as the specifiers comes from
     /// other module.
-    pub(super) fn drop_unused(
-        &self,
-        _fm: Arc<SourceFile>,
-        node: Module,
-        used_exports: Option<&[Specifier]>,
-    ) -> Module {
+    pub(super) fn drop_unused(&self, node: Module, used_exports: Option<&[Specifier]>) -> Module {
         let mut used = vec![];
 
         if let Some(used_exports) = used_exports {

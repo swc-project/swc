@@ -15,7 +15,7 @@ ns.foo();
 ",
         );
         let mut v = ImportHandler {
-            path: &Path::new("index.js"),
+            path: &FileName::Real(Path::new("index.js").to_path_buf()),
             bundler: &t.bundler,
             top_level: false,
             info: Default::default(),

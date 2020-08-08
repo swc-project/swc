@@ -164,7 +164,7 @@ where
             v.forced_es6 || !v.found_other
         };
         if is_es6 {
-            module = self.drop_unused(fm.clone(), module, None);
+            module = self.drop_unused(module, None);
         }
 
         let module = Lrc::new(module);

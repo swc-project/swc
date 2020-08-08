@@ -118,7 +118,7 @@ where
                     //}
 
                     // Tree-shaking
-                    dep = self.drop_unused(imported.fm.clone(), dep, Some(&specifiers));
+                    dep = self.drop_unused(dep, Some(&specifiers));
 
                     //{
                     //    let code = self
