@@ -3,7 +3,6 @@ use crate::{Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
 use load::TransformedModule;
-use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
@@ -92,7 +91,7 @@ where
         }
     }
 
-    pub fn bundle(&self, entries: HashMap<String, FileName>) -> Result<Vec<Bundle>, Error> {
+    pub fn bundle(&self, entries: FxHashMap<String, FileName>) -> Result<Vec<Bundle>, Error> {
         let results = entries
             .into_iter()
             .map(|(name, path)| -> Result<_, Error> {
