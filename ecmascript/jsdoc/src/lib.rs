@@ -212,31 +212,91 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
 
         "inheritdoc" => JsDocTag::InheritDoc(JsDocInheritDocTag { span }),
 
-        "inner" => {}
+        "inner" => JsDocTag::Inner(JsDocInnerTag { span }),
 
-        "instance" => {}
+        "instance" => JsDocTag::Instance(JsDocInstanceTag { span }),
 
-        "interface" => {}
+        "interface" => {
+            let (input, name) = parse_opt_str(i)?;
+            i = input;
+            JsDocTag::Interface(JsDocInterfaceTag { span, name })
+        }
 
-        "kind" => {}
+        "kind" => {
+            let (input, name) = parse_one_of(
+                i,
+                &[
+                    "class",
+                    "constant",
+                    "event",
+                    "external",
+                    "file",
+                    "function",
+                    "member",
+                    "mixin",
+                    "module",
+                    "namespace",
+                    "typedef",
+                ],
+            )?;
+            i = input;
+            JsDocTag::Kind(JsDocKindTag { span, name })
+        }
 
-        "lends" => {}
+        "lends" => {
+            let (input, name) = parse_name_path(i)?;
+            i = input;
+            JsDocTag::Lends(JsDocLendsTag { span, name })
+        }
 
-        "license" => {}
+        "license" => {
+            let (input, identifier) = parse_line(i)?;
+            i = input;
+            JsDocTag::License(JsDocLicenseTag { span, identifier })
+        }
 
-        "listens" => {}
+        "listens" => {
+            let (input, event_name) = parse_line(i)?;
+            i = input;
+            JsDocTag::Listens(JsDocListensTag { span, event_name })
+        }
 
-        "member" | "var" => {}
+        "member" | "var" => {
+            let (input, ty) = parse_word(i)?;
+            let (input, name) = parse_word(input)?;
+            i = input;
+            JsDocTag::Member(JsDocMemberTag { span, ty, name })
+        }
 
-        "memberof" => {}
+        "memberof" | "memberof!" => {
+            let (input, parent_name_path) = parse_name_path(i)?;
+            i = input;
+            JsDocTag::MemberOf(JsDocMemberOfTag {
+                span,
+                parent_name_path,
+            })
+        }
 
-        "mixes" => {}
+        "mixes" => {
+            let (input, name_path) = parse_name_path(i)?;
+            i = input;
+            JsDocTag::Mixes(JsDocMixesTag { span, name_path })
+        }
 
-        "mixin" => {}
+        "mixin" => {
+            let (input, name) = parse_line(i)?;
+            i = input;
+            JsDocTag::Mixin(JsDocMixinTag { span, name })
+        }
 
-        "module" => {}
+        "module" => {
+            let (input, ty) = parse_word(i)?;
+            let (input, module_name) = parse_line(i)?;
+            i = input;
+            JsDocTag::Module(JsDocMixinTag { span, name })
+        }
 
-        "name" => {}
+        "name" => JsDocTag::Name(JsDocNameTag {}),
 
         "namespace" => {}
 
