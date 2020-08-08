@@ -10,7 +10,6 @@ use anyhow::{Context, Error};
 use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use std::{path::PathBuf, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceFile, DUMMY_SP};
 use swc_ecma_ast::{
@@ -168,14 +167,14 @@ where
             module = self.drop_unused(fm.clone(), module, None);
         }
 
-        let module = Arc::new(module);
+        let module = Lrc::new(module);
 
         Ok(TransformedModule {
             id,
             fm,
             module,
-            imports: Arc::new(imports),
-            exports: Arc::new(exports),
+            imports: Lrc::new(imports),
+            exports: Lrc::new(exports),
             is_es6,
             helpers: Default::default(),
             mark,

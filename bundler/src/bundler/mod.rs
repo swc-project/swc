@@ -5,7 +5,7 @@ use fxhash::FxHashMap;
 use load::TransformedModule;
 use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, FileName, Globals, Mark, DUMMY_SP, GLOBALS};
+use swc_common::{FileName, Globals, Mark, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
 
 mod chunk;
