@@ -23,7 +23,22 @@ impl SwcLoader {
             v.module = None;
             v.minify = Some(false);
 
-            v.jsc.target = JscTarget::Es2019;
+            v.jsc.target = JscTarget::Es2020;
+
+            v.jsc.transform = {
+                let mut transform = v.jsc.transform.unwrap_or_default();
+                if transform.optimizer.is_none() {
+                    transform.optimizer = Some(Default::default());
+                }
+
+                let mut opt = transform.optimizer.as_mut().unwrap();
+                if opt.globals.is_none() {
+                    opt.globals = Some(Default::default());
+                }
+
+                // Always inline NODE_ENV
+                opt.globals.as_mut().unwrap().envs.insert("NODE_ENV");
+            };
         }
 
         SwcLoader { compiler, options }
@@ -39,7 +54,7 @@ impl Load for SwcLoader {
             .cm
             .load_file(match name {
                 FileName::Real(v) => &v,
-                _ => bail!("swc-loader only accepts path"),
+                _ => bail!("swc-loader only accepts path. Got `{}`", name),
             })
             .with_context(|| format!("failed to load file `{}`", name))?;
 
