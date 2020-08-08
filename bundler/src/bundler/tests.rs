@@ -15,7 +15,7 @@ pub struct Tester<'a> {
 }
 
 #[derive(Debug, Default)]
-struct Loader;
+pub struct Loader;
 
 impl Load for Loader {
     fn load(&self, _: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
@@ -24,7 +24,7 @@ impl Load for Loader {
 }
 
 #[derive(Debug, Default)]
-struct Resolver;
+pub struct Resolver;
 
 impl Resolve for Resolver {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
