@@ -205,7 +205,7 @@ where
             .collect::<Vec<_>>();
 
         for res in items {
-            let (info, specifiers): (Option<((Arc<PathBuf>, TransformedModule), Str)>, _) = res?;
+            let (info, specifiers): (Option<(TransformedModule, Str)>, _) = res?;
 
             match info {
                 None => exports.items.extend(specifiers),
@@ -214,7 +214,7 @@ where
                     .entry(Source {
                         is_loaded_synchronously: true,
                         is_unconditional: false,
-                        module_id: (info.0).1.id,
+                        module_id: (info.0).id,
                         src: info.1,
                     })
                     .or_default()
@@ -263,9 +263,9 @@ where
 
         for res in loaded {
             // TODO: Report error and proceed instead of returning an error
-            let (path, decl, is_dynamic, is_unconditional) = res?;
+            let (file_name, decl, is_dynamic, is_unconditional) = res?;
 
-            if let Some(src) = self.scope.get_module_by_path(&path) {
+            if let Some(src) = self.scope.get_module_by_path(&file_name) {
                 let src = Source {
                     is_loaded_synchronously: !is_dynamic,
                     is_unconditional,
