@@ -1,7 +1,7 @@
 use super::load::TransformedModule;
 use crate::{
     id::{ModuleId, ModuleIdGenerator},
-    util::Map,
+    util::CloneMap,
 };
 use swc_common::FileName;
 
@@ -10,7 +10,7 @@ pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
     /// Cached after applying basical transformations.
-    transformed_modules: Map<ModuleId, TransformedModule>,
+    transformed_modules: CloneMap<ModuleId, TransformedModule>,
 }
 
 impl Scope {

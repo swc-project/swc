@@ -1,4 +1,4 @@
-use crate::util::Map;
+use crate::util::CloneMap;
 use std::{
     fmt,
     sync::atomic::{AtomicU64, Ordering::SeqCst},
@@ -20,13 +20,13 @@ impl fmt::Display for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU64,
-    cache: Map<FileName, (ModuleId, Mark)>,
+    cache: CloneMap<FileName, (ModuleId, Mark)>,
 }
 
 impl ModuleIdGenerator {
     pub fn gen(&self, path: &FileName) -> (ModuleId, Mark) {
         if let Some(v) = self.cache.get(path) {
-            return *v;
+            return v;
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));

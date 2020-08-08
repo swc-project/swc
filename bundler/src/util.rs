@@ -4,9 +4,10 @@ use swc_common::{Span, SyntaxContext};
 use swc_ecma_visit::Fold;
 
 #[derive(Debug)]
-pub(crate) struct Map<K, V>
+pub(crate) struct CloneMap<K, V>
 where
     K: Eq + Hash,
+    V: Clone,
 {
     #[cfg(feature = "concurrent")]
     inner: dashmap::DashMap<K, V, FxBuildHasher>,
@@ -14,9 +15,10 @@ where
     inner: std::cell::RefCell<std::collections::HashMap<K, V, FxBuildHasher>>,
 }
 
-impl<K, V> Default for Map<K, V>
+impl<K, V> Default for CloneMap<K, V>
 where
     K: Eq + Hash,
+    V: Clone,
 {
     fn default() -> Self {
         Self {
@@ -25,13 +27,14 @@ where
     }
 }
 
-impl<K, V> Map<K, V>
+impl<K, V> CloneMap<K, V>
 where
     K: Eq + Hash,
+    V: Clone,
 {
-    pub fn get(&self, k: &K) -> Option<&V> {
+    pub fn get(&self, k: &K) -> Option<V> {
         if let Some(v) = self.inner.get(k) {
-            Some(v.value())
+            Some(v.value().clone())
         } else {
             None
         }
