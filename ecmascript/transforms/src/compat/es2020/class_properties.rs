@@ -281,6 +281,8 @@ impl ClassProperties {
 
         let has_super = class.super_class.is_some();
 
+        let mut typescript_constructor_properties = vec![];
+
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
         let mut used_names = vec![];
@@ -562,9 +564,51 @@ impl ClassProperties {
                     })));
                 }
 
-                ClassMember::Constructor(c) => constructor = Some(c),
+                ClassMember::Constructor(c) => {
+                    if self.typescript {
+                        let store = |i: &Ident| {
+                            Box::new(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
+                                        computed: false,
+                                        prop: Box::new(i.clone().into()),
+                                    }))),
+                                    op: op!("="),
+                                    right: Box::new(i.clone().into()),
+                                }
+                                .into(),
+                            )
+                        };
+                        for param in &c.params {
+                            match param {
+                                ParamOrTsParamProp::TsParamProp(p) => match &p.param {
+                                    TsParamPropParam::Ident(i) => {
+                                        typescript_constructor_properties.push(store(i))
+                                    }
+                                    TsParamPropParam::Assign(p) => match &*p.left {
+                                        Pat::Ident(i) => {
+                                            typescript_constructor_properties.push(store(i))
+                                        }
+                                        _ => {}
+                                    },
+                                },
+                                ParamOrTsParamProp::Param(_) => {}
+                            }
+                        }
+                    }
+
+                    constructor = Some(c);
+                }
             }
         }
+
+        let constructor_exprs = {
+            typescript_constructor_properties.extend(constructor_exprs);
+            typescript_constructor_properties
+        };
 
         let constructor =
             self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
@@ -668,19 +712,9 @@ impl ClassProperties {
                 }
             });
 
-        if let Some(mut c) = constructor {
-            if self.typescript {
-                // Append properties
-                c.body
-                    .as_mut()
-                    .unwrap()
-                    .stmts
-                    .extend(constructor_exprs.into_iter().map(|v| v.into_stmt()));
-                Some(c)
-            } else {
-                // Prepend properties
-                Some(inject_after_super(c, constructor_exprs))
-            }
+        if let Some(c) = constructor {
+            // Prepend properties
+            Some(inject_after_super(c, constructor_exprs))
         } else {
             None
         }
