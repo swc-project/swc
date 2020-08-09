@@ -17,6 +17,7 @@ name = "swc"
 [dependencies]
 swc_atoms = { path ="./atoms" }
 swc_common = { path ="./common", features = ["sourcemap", "concurrent"] }
+swc_css = { path ="./css" }
 swc_ecma_ast = { path ="./ecmascript/ast" }
 swc_ecma_codegen = { path ="./ecmascript/codegen" }
 swc_ecma_parser = { path ="./ecmascript/parser" }
