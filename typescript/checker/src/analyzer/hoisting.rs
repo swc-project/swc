@@ -223,28 +223,22 @@ impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
         n.visit_children(self);
         self.no_decl = old;
     }
-}
 
-impl Visit<ArrowExpr> for StmtDependencyFinder<'_> {
-    fn visit(&mut self, n: &ArrowExpr) {
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
         let old = self.no_decl;
         n.visit_children(self);
         self.no_decl = old;
     }
-}
 
-impl Visit<MemberExpr> for StmtDependencyFinder<'_> {
-    fn visit(&mut self, node: &MemberExpr) {
+    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
         node.obj.visit_with(self);
 
         if node.computed {
             node.prop.visit_with(self);
         }
     }
-}
 
-impl Visit<Expr> for StmtDependencyFinder<'_> {
-    fn visit(&mut self, node: &Expr) {
+    fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
         match node {
             Expr::Ident(ref i) => {
                 self.deps.insert(i.into());
@@ -304,8 +298,8 @@ struct TypeParamDepFinder<'a> {
     deps: &'a mut FxHashSet<Id>,
 }
 
-impl Visit<Ident> for TypeParamDepFinder<'_> {
-    fn visit(&mut self, node: &Ident) {
+impl swc_ecma_visit::Visit for TypeParamDepFinder<'_> {
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         if *self.id == node {
             return;
         }
