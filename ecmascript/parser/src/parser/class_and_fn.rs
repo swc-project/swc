@@ -750,6 +750,7 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             in_class_prop: true,
             in_method: false,
+            include_in_expr: true,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
