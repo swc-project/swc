@@ -2,7 +2,6 @@ use super::Analyzer;
 use crate::{
     analyzer::util::ResultExt,
     errors::Error,
-    id::Id,
     ty::{Enum, EnumMember, Type},
     validator::Validate,
     ValidationResult,
@@ -12,6 +11,7 @@ use macros::validator;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ts_types::Id;
 
 /// Value does not contain TsLit::Bool
 type EnumValues = FxHashMap<Id, TsLit>;

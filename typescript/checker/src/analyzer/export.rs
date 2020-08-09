@@ -2,7 +2,6 @@ use super::Analyzer;
 use crate::{
     analyzer::util::ResultExt,
     errors::Error,
-    id::Id,
     ty::Type,
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -13,6 +12,7 @@ use swc_atoms::js_word;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
+use swc_ts_types::Id;
 
 // ModuleDecl::ExportNamed(export) => {}
 //

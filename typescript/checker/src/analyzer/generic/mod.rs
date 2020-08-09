@@ -4,7 +4,6 @@ use crate::{
     analyzer::scope::Scope,
     builtin_types,
     debug::print_backtrace,
-    id::Id,
     ty::{
         self, Alias, Array, CallSignature, Conditional, FnParam, IndexSignature, IndexedAccessType,
         Interface, Mapped, Operator, PropertySignature, Ref, Tuple, Type, Type::Param, TypeElement,
@@ -17,10 +16,9 @@ use fxhash::{FxHashMap, FxHashSet};
 use itertools::{EitherOrBoth, Itertools};
 use std::{collections::hash_map::Entry, mem::take};
 use swc_atoms::js_word;
-use swc_common::{
-    Fold, FoldWith, Span, Spanned, Visit, VisitMut, VisitMutWith, VisitWith, DUMMY_SP,
-};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ts_types::Id;
 
 mod expander;
 mod remover;
@@ -868,8 +866,8 @@ impl Analyzer<'_, '_> {
             fixed: &'a FxHashMap<Id, Type>,
         }
 
-        impl VisitMut<Type> for Renamer<'_> {
-            fn visit_mut(&mut self, node: &mut Type) {
+        impl ty::VisitTypeMut for Renamer<'_> {
+            fn visit_mut_type(&mut self, node: &mut Type) {
                 match node {
                     Type::Param(p) if self.fixed.contains_key(&p.name) => {
                         *node = (*self.fixed.get(&p.name).unwrap()).clone();
@@ -969,8 +967,8 @@ struct TypeParamRenamer {
     inferred: FxHashMap<Id, Type>,
 }
 
-impl Fold<Type> for TypeParamRenamer {
-    fn fold(&mut self, mut ty: Type) -> Type {
+impl ty::FoldType for TypeParamRenamer {
+    fn fold_type(&mut self, mut ty: Type) -> Type {
         ty = ty.fold_children_with(self);
 
         match ty {

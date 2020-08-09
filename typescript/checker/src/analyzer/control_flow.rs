@@ -7,7 +7,6 @@ use super::{
 use crate::{
     analyzer::util::ResultExt,
     errors::Error,
-    id::Id,
     name::Name,
     ty::{Tuple, Type, TypeElement, TypeLit},
     type_facts::TypeFacts,
@@ -28,6 +27,7 @@ use std::{
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
+use swc_ts_types::Id;
 
 /// Conditional facts
 #[derive(Debug, Clone, Default)]

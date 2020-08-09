@@ -10,7 +10,6 @@ use crate::{
     builtin_types,
     debug::print_backtrace,
     errors::Error,
-    id::Id,
     ty,
     ty::{
         Array, CallSignature, ClassInstance, ConstructorSignature, FnParam, Method,
@@ -25,6 +24,7 @@ use macros::validator;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ts_types::Id;
 
 #[validator]
 impl Validate<ExprOrSpread> for Analyzer<'_, '_> {

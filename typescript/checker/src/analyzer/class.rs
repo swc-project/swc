@@ -7,6 +7,7 @@ use crate::{
         Ctx,
     },
     errors::{Error, Errors},
+    ty,
     util::{property_map::PropertyMap, EqIgnoreSpan, PatExt},
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -20,7 +21,7 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::VisitMutWith;
-use swc_ts_types::Type;
+use swc_ts_types::Id;
 
 #[validator]
 impl Validate<ClassProp> for Analyzer<'_, '_> {
@@ -44,7 +45,7 @@ impl Validate<ClassProp> for Analyzer<'_, '_> {
         if p.type_ann.is_none() {
             p.type_ann = value
                 .as_ref()
-                .map(|value: &Type| value.clone().generalize_lit().into_owned().into());
+                .map(|value: &ty::Type| value.clone().generalize_lit().into_owned().into());
         }
 
         Ok(ty::ClassProperty {
@@ -181,7 +182,7 @@ impl Validate<TsFnParam> for Analyzer<'_, '_> {
         macro_rules! ty {
             ($e:expr) => {{
                 let e: Option<_> = try_opt!($e.validate_with(self));
-                e.unwrap_or_else(|| Type::any(span))
+                e.unwrap_or_else(|| ty::Type::any(span))
             }};
         }
 
@@ -192,19 +193,19 @@ impl Validate<TsFnParam> for Analyzer<'_, '_> {
                 required: !i.optional,
                 ty: ty!(i.type_ann),
             },
-            TsFnParam::Array(p) => FnParam {
+            TsFnParam::Array(p) => ty::FnParam {
                 span,
                 pat: Pat::Array(p.clone()),
                 required: true,
                 ty: ty!(p.type_ann),
             },
-            TsFnParam::Rest(p) => FnParam {
+            TsFnParam::Rest(p) => ty::FnParam {
                 span,
                 pat: Pat::Rest(p.clone()),
                 required: false,
                 ty: ty!(p.type_ann),
             },
-            TsFnParam::Object(p) => FnParam {
+            TsFnParam::Object(p) => ty::FnParam {
                 span,
                 pat: Pat::Object(p.clone()),
                 required: true,
@@ -308,7 +309,7 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
 
         let ret_ty = declared_ret_ty.unwrap_or_else(|| {
             inferred_ret_ty.unwrap_or_else(|| {
-                Type::Keyword(TsKeywordType {
+                ty::Type::Keyword(TsKeywordType {
                     span: c_span,
                     kind: if c.function.body.is_some() {
                         TsKeywordTypeKind::TsVoidKeyword
@@ -341,10 +342,11 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
 impl Validate<ClassMember> for Analyzer<'_, '_> {
     type Output = ValidationResult<Option<ty::ClassMember>>;
 
-    fn validate(&mut self, m: &mut ClassMember) -> Self::Output {
+    fn validate(&mut self, m: &mut swc_ecma_ast::ClassMember) -> Self::Output {
         Ok(match m {
             swc_ecma_ast::ClassMember::PrivateMethod(_)
-            | swc_ecma_ast::ClassMember::PrivateProp(_) => None,
+            | swc_ecma_ast::ClassMember::PrivateProp(_)
+            | swc_ecma_ast::ClassMember::Empty(..) => None,
 
             swc_ecma_ast::ClassMember::Constructor(v) => {
                 Some(ty::ClassMember::Constructor(v.validate_with(self)?))
@@ -523,16 +525,16 @@ impl Analyzer<'_, '_> {
 
                 errors.push(err);
 
-                Type::any(span)
+                ty::Type::any(span)
             }
         };
 
         match *ty.normalize() {
-            Type::Lit(..) => {}
-            Type::Operator(Operator {
+            ty::Type::Lit(..) => {}
+            ty::Type::Operator(ty::Operator {
                 op: TsTypeOperatorOp::Unique,
                 ty:
-                    box Type::Keyword(TsKeywordType {
+                    box ty::Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsSymbolKeyword,
                         ..
                     }),
@@ -565,7 +567,7 @@ impl Analyzer<'_, '_> {
         let res: Result<_, Error> = try {
             if let Some(ref super_ty) = class.super_class {
                 match super_ty.normalize() {
-                    Type::Class(sc) => {
+                    ty::Type::Class(sc) => {
                         'outer: for sm in &sc.body {
                             match sm {
                                 ty::ClassMember::Method(sm) => {
@@ -654,7 +656,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
 
                             match super_ty.normalize() {
                                 // We should handle mixin
-                                Type::Intersection(i) => {
+                                ty::Type::Intersection(i) => {
                                     let mut has_class_in_super = false;
                                     let class_name =
                                         name.clone().unwrap_or(Id::word("class_noname".into()));
@@ -665,24 +667,25 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                     types_to_register
                                         .push((new_ty.clone().into(), super_ty.clone()));
 
-                                    let super_ty = Type::Intersection(Intersection {
+                                    let super_ty = ty::Type::Intersection(ty::Intersection {
                                         types: i
                                             .types
                                             .iter()
                                             .map(|ty| {
                                                 match ty.normalize() {
-                                                    Type::Class(c) => {
+                                                    ty::Type::Class(c) => {
                                                         has_class_in_super = true;
                                                         // class A -> typeof A
                                                         return c
                                                             .name
                                                             .as_ref()
                                                             .map(|id| {
-                                                                Type::Query(QueryType {
+                                                                ty::Type::Query(ty::QueryType {
                                                                     span: c.span,
-                                                                    expr: QueryExpr::TsEntityName(
-                                                                        id.clone().into(),
-                                                                    ),
+                                                                    expr:
+                                                                        ty::QueryExpr::TsEntityName(
+                                                                            id.clone().into(),
+                                                                        ),
                                                                 })
                                                             })
                                                             .expect("Super class should be named");
@@ -728,7 +731,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                     }
 
                                     c.super_class = Some(box Expr::Ident(new_ty.clone()));
-                                    Some(box Type::Ref(Ref {
+                                    Some(box ty::Type::Ref(ty::Ref {
                                         span: DUMMY_SP,
                                         type_name: TsEntityName::Ident(new_ty),
                                         // TODO: Handle type parameters
@@ -823,10 +826,10 @@ impl Validate<Class> for Analyzer<'_, '_> {
                             ClassMember::Method(m) => match &mut m.key {
                                 PropName::Computed(c) => match c.expr.validate_with(child) {
                                     Ok(ty) => {
-                                        let ty: Type = ty;
+                                        let ty: ty::Type = ty;
 
                                         match ty {
-                                            Type::EnumVariant(e) => return None,
+                                            ty::Type::EnumVariant(e) => return None,
                                             _ => {}
                                         }
 
@@ -840,6 +843,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                 },
                                 _ => true,
                             },
+                            ClassMember::Empty(_) => false,
                         } {
                             Some(v)
                         } else {
@@ -946,7 +950,7 @@ impl Validate<ClassExpr> for Analyzer<'_, '_> {
             Ok(ty) => ty.into(),
             Err(err) => {
                 self.info.errors.push(err);
-                Type::any(c.span())
+                ty::Type::any(c.span())
             }
         };
 
@@ -1010,7 +1014,7 @@ impl Analyzer<'_, '_> {
             Ok(ty) => ty.into(),
             Err(err) => {
                 self.info.errors.push(err);
-                Type::any(c.span())
+                ty::Type::any(c.span())
             }
         };
 

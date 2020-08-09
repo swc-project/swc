@@ -1,6 +1,5 @@
 use crate::{
     analyzer::Analyzer,
-    id::Id,
     ty::{
         self, Array, FoldType, IndexedAccessType, Mapped, Operator, PropertySignature, Ref, Type,
         TypeElement, TypeLit,
@@ -12,6 +11,7 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::{TsEntityName, TsTypeOperatorOp};
 use swc_ecma_visit::{Fold, FoldWith};
+use swc_ts_types::Id;
 
 /// Generic expander.
 impl Analyzer<'_, '_> {

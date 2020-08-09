@@ -7,14 +7,12 @@ use crate::{
     builtin_types,
     debug::print_backtrace,
     errors::Error,
-    id::Id,
     ty,
     ty::{
         Array, ClassInstance, EnumVariant, IndexSignature, IndexedAccessType, Interface,
-        Intersection, PropertySignature, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam,
-        TypeParamInstantiation, Union,
+        Intersection, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam, TypeParamInstantiation,
+        Union,
     },
-    type_facts::TypeFacts,
     util::{EqIgnoreSpan, RemoveTypes, TypeEq},
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -24,6 +22,7 @@ use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
+use swc_ts_types::Id;
 
 mod bin;
 mod call_new;
