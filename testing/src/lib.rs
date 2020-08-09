@@ -12,7 +12,6 @@ use std::{
     io::Write,
     path::Path,
     process::Command,
-    sync::Arc,
     thread,
 };
 use swc_common::{

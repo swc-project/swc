@@ -1,28 +1,16 @@
-#![deny(dead_code)]
+#![deny(unused)]
 #![feature(box_patterns)]
 #![recursion_limit = "4096"]
 
-extern crate inflector;
-extern crate swc_common;
 #[macro_use]
 extern crate pmutil;
-extern crate proc_macro;
-extern crate proc_macro2;
-extern crate quote;
-extern crate swc_ecma_parser;
-extern crate swc_macros_common;
-extern crate syn;
 
 use inflector::Inflector;
 use pmutil::Quote;
 use proc_macro2::Span;
 use std::{collections::HashMap, fs::read_dir, path::Path, sync::Arc};
-use swc_common::{
-    comments::Comments,
-    errors::{ColorConfig, Handler},
-    FilePathMapping, SourceMap,
-};
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_common::{comments::SingleThreadedComments, FilePathMapping, SourceMap};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_macros_common::{call_site, print};
 use syn::{punctuated::Punctuated, Token};
 
@@ -30,9 +18,7 @@ use syn::{punctuated::Punctuated, Token};
 pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-        let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 
-        let session = Session { handler: &handler };
         let mut deps = HashMap::<String, Vec<String>>::default();
         let mut contents = HashMap::<String, String>::default();
 
@@ -64,32 +50,34 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
             let name = syn::Ident::new(&name_for(&file_name), Span::call_site());
             names.push(name.clone());
 
-            let comments = Comments::default();
+            let comments = SingleThreadedComments::default();
 
             let fm = cm.load_file(&path).expect("failed to load file");
-
-            contents.insert(name.to_string(), (*fm.src).clone());
-
-            let mut parser = Parser::new(
-                session,
-                Syntax::Typescript(Default::default()),
-                SourceFileInput::from(&*fm),
+            let lexer = Lexer::new(
+                Syntax::Typescript(TsConfig {
+                    dts: true,
+                    ..Default::default()
+                }),
+                Default::default(),
+                StringInput::from(&*fm),
                 Some(&comments),
             );
 
+            contents.insert(name.to_string(), (*fm.src).clone());
+
+            let mut parser = Parser::new_from(lexer);
+
             // We cannot use parse_module because of `eval`
-            let _ = parser
-                .parse_script()
-                .map_err(|mut e| {
-                    e.emit();
-                    ()
-                })
-                .expect("failed to parse module");
+            let _ = parser.parse_script().expect("failed to parse module");
 
             let (leading, trailing) = comments.take_all();
 
             let mut ds = vec![];
-            for (_, comments) in leading.into_iter().chain(trailing) {
+            for (_, comments) in leading
+                .borrow_mut()
+                .drain()
+                .chain(trailing.borrow_mut().drain())
+            {
                 for cmt in comments {
                     if !cmt.text.starts_with("/ <reference lib=")
                         && !cmt.text.starts_with("/<reference lib=")
