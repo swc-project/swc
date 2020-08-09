@@ -138,7 +138,7 @@ pub(super) struct VarVisitor<'a> {
     pub names: &'a mut Vec<Id>,
 }
 
-impl swc_ecma_visit::Visit<Expr> for VarVisitor<'_> {
+impl swc_ecma_visit::Visit for VarVisitor<'_> {
     fn visit_expr(&mut self, _: &Expr) {}
 
     fn visit_ident(&mut self, i: &Ident) {

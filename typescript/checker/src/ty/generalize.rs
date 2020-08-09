@@ -1,8 +1,8 @@
 use crate::{
-    ty::{Array, Type},
+    ty::{self, Array, Type},
     util::TypeEq,
 };
-use swc_common::{Fold, FoldWith, Spanned};
+use swc_common::Spanned;
 
 impl Type {
     pub fn generalize_tuple(self) -> Self {
@@ -12,8 +12,8 @@ impl Type {
 
 struct TupleToArray;
 
-impl Fold<Type> for TupleToArray {
-    fn fold(&mut self, ty: Type) -> Type {
+impl ty::Fold for TupleToArray {
+    fn fold_type(&mut self, ty: Type) -> Type {
         let ty: Type = ty.fold_children_with(self);
         let span = ty.span();
 

@@ -1,5 +1,5 @@
 use fxhash::FxHashMap;
-use swc_common::{FoldWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::{ComputedPropName, Expr, PropName};
 
 /// **Note**: this struct ignores span of key.

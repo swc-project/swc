@@ -18,7 +18,6 @@ use crate::{
     analyzer::{Analyzer, Info},
     errors::Error,
     hygiene::colorizer,
-    id::Id,
     resolver::Resolver,
     ty::Type,
     validator::ValidateWith,
@@ -27,11 +26,10 @@ use dashmap::DashMap;
 use fxhash::FxHashMap;
 use std::{path::PathBuf, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{errors::Handler, FoldWith, Globals, SourceMap, Span, VisitMutWith};
+use swc_common::{errors::Handler, Globals, SourceMap, Span};
 use swc_ecma_ast::Module;
-use swc_ecma_parser::{
-    lexer::Lexer, JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig,
-};
+use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
+use swc_ts_types::Id;
 
 #[macro_use]
 mod debug;
@@ -166,20 +164,15 @@ impl Checker {
         self.current.insert(path.clone(), ());
 
         let mut module = self.run(|| {
-            let session = Session {
-                handler: &self.handler,
-            };
-
             let fm = self.cm.load_file(&path).expect("failed to read file");
 
             let lexer = Lexer::new(
-                session,
                 Syntax::Typescript(self.ts_config),
                 self.target,
-                SourceFileInput::from(&*fm),
+                StringInput::from(&*fm),
                 None,
             );
-            let mut parser = Parser::new_from(session, lexer);
+            let mut parser = Parser::new_from(lexer);
 
             let module = parser
                 .parse_typescript_module()

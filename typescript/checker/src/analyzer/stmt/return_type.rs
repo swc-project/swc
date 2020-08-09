@@ -126,7 +126,7 @@ where
     }
 }
 
-impl<A> VisitMut<Expr> for ReturnTypeCollector<'_, A>
+impl<A> VisitMut for ReturnTypeCollector<'_, A>
 where
     A: MyVisitor,
 {

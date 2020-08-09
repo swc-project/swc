@@ -1,5 +1,8 @@
-use crate::ty::{Class, FnParam, Intersection, Type, TypeElement, TypeParamInstantiation, Union};
-use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use crate::{
+    ty,
+    ty::{Class, FnParam, Intersection, Type, TypeElement, TypeParamInstantiation, Union},
+};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ModuleItemLike, StmtLike};
 
@@ -64,24 +67,24 @@ impl_by_clone!(TsEntityName);
 impl_by_clone!(TypeParamInstantiation);
 
 struct SpanRemover;
-impl Fold<Span> for SpanRemover {
-    fn fold(&mut self, _: Span) -> Span {
+impl ty::Fold for SpanRemover {
+    fn fold_span(&mut self, _: Span) -> Span {
         DUMMY_SP
     }
 }
 
 struct TypeEqHelper;
-impl Fold<Span> for TypeEqHelper {
-    fn fold(&mut self, _: Span) -> Span {
+impl ty::Fold for TypeEqHelper {
+    fn fold_span(&mut self, _: Span) -> Span {
         DUMMY_SP
     }
-}
-impl Fold<FnParam> for TypeEqHelper {
-    fn fold(&mut self, mut p: FnParam) -> FnParam {
+
+    fn fold_fn_param(&mut self, mut p: FnParam) -> FnParam {
         p.pat = Pat::Invalid(Invalid { span: DUMMY_SP });
         p
     }
 }
+
 impl<T> EqIgnoreSpan for Box<T>
 where
     T: EqIgnoreSpan,

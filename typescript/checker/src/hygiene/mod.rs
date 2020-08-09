@@ -53,7 +53,7 @@ impl<'a> Colorizer<'a> {
     }
 }
 
-impl VisitMut<VarDeclarator> for Colorizer<'_> {
+impl VisitMut for Colorizer<'_> {
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
         node.name.visit_mut_with(self);
         node.init.visit_mut_with(self);
