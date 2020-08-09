@@ -261,6 +261,50 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
         let member_expr = ts_entity_to_member_expr(&ty.type_name);
 
+        fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
+            match *expr {
+                Expr::Member(ref member_expr) => {
+                    let obj_expr = match member_expr.obj {
+                        ExprOrSuper::Expr(ref exp) => exp.clone(),
+                        ExprOrSuper::Super(_) => panic!("Unreachable code path"),
+                    };
+                    Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: check_object_existed(obj_expr),
+                        op: op!("||"),
+                        right: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: Box::new(Expr::Unary(UnaryExpr {
+                                span: DUMMY_SP,
+                                op: op!("typeof"),
+                                arg: expr.clone(),
+                            })),
+                            op: op!("==="),
+                            right: Box::new(Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: "undefined".into(),
+                                has_escape: false,
+                            }))),
+                        })),
+                    }))
+                }
+                _ => Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(Expr::Unary(UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("typeof"),
+                        arg: expr.clone(),
+                    })),
+                    op: op!("==="),
+                    right: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: "undefined".into(),
+                        has_escape: false,
+                    }))),
+                })),
+            }
+        }
+
         // We don't know if type is just a type (interface, etc.) or a concrete value
         // (class, etc.)
         //
@@ -269,20 +313,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
         Expr::Cond(CondExpr {
             span: DUMMY_SP,
-            test: Box::new(Expr::Bin(BinExpr {
-                span: DUMMY_SP,
-                left: Box::new(Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("typeof"),
-                    arg: Box::new(member_expr.clone()),
-                })),
-                op: op!("==="),
-                right: Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    value: "undefined".into(),
-                    has_escape: false,
-                }))),
-            })),
+            test: check_object_existed(Box::new(member_expr.clone())),
             cons: Box::new(quote_ident!("Object").into()),
             alt: Box::new(member_expr),
         })
