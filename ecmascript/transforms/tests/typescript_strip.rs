@@ -704,7 +704,7 @@ to!(
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| chain!(tr(), legacy_class_properties()),
-    issue_930,
+    issue_930_instance,
     "class A {
         b = this.a;
         constructor(a){
@@ -717,4 +717,21 @@ test!(
         this.b = this.a;
     }
 }"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| chain!(tr(), legacy_class_properties()),
+    issue_930_static,
+    "class A {
+        static b = 'foo';
+        constructor(a){
+        }
+    }",
+    "class A {
+        constructor(a) {
+        }
+    }
+    A.b = 'foo';
+    return A;"
 );
