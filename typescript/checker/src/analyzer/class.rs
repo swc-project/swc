@@ -7,9 +7,6 @@ use crate::{
         Ctx,
     },
     errors::{Error, Errors},
-    id::Id,
-    ty,
-    ty::{FnParam, Intersection, Operator, QueryExpr, QueryType, Ref, Type},
     util::{property_map::PropertyMap, EqIgnoreSpan, PatExt},
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -23,6 +20,7 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::VisitMutWith;
+use swc_ts_types::Type;
 
 #[validator]
 impl Validate<ClassProp> for Analyzer<'_, '_> {

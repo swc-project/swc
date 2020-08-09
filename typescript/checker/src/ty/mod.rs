@@ -1,8 +1,5 @@
-use crate::{
-    debug::print_backtrace, id::Id, ty, type_facts::TypeFacts, util::TypeEq, ModuleTypeInfo,
-};
+use crate::{debug::print_backtrace, ty, type_facts::TypeFacts, util::TypeEq};
 use bitflags::_core::iter::FusedIterator;
-use is_macro::Is;
 use std::{fmt::Debug, mem::transmute, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FromVariant, Span, Spanned, DUMMY_SP};
@@ -11,6 +8,7 @@ use swc_ecma_utils::{
     Value,
     Value::{Known, Unknown},
 };
+pub(crate) use swc_ts_types::*;
 
 mod convert;
 mod generalize;
