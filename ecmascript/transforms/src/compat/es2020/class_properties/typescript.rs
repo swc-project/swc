@@ -14,11 +14,11 @@
 //!
 //! is
 //!
-//!```
-//! class A#0 {
-//!     constructor(a#1){
-//!         this.a#0 = a#0;
-//!         this.b#0 = this.a#0;
+//!```ts
+//! class A0 {
+//!     constructor(a1){
+//!         this.a0 = a0;
+//!         this.b0 = this.a0;
 //!     }
 //! }
 //! ```
