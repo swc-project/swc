@@ -5,8 +5,8 @@
 pub use self::{
     id::Id,
     visit::{
-        Fold as FoldType, FoldWith as FoldTypeWith, Node as TypeNode, Visit as VisitType,
-        VisitMut as VisitTypeMut, VisitMutWith as VisitTypeMutWith, VisitWith as VisitTypeWith,
+        Fold, FoldWith as FoldTypeWith, Node as TypeNode, Visit, VisitMut,
+        VisitMutWith as VisitTypeMutWith, VisitWith as VisitTypeWith,
     },
 };
 use fxhash::FxHashMap;

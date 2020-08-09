@@ -1,13 +1,11 @@
 use self::remover::TypeParamRemover;
 use super::Analyzer;
 use crate::{
-    analyzer::scope::Scope,
-    builtin_types,
     debug::print_backtrace,
     ty::{
-        self, Alias, Array, CallSignature, Conditional, FnParam, IndexSignature, IndexedAccessType,
-        Interface, Mapped, Operator, PropertySignature, Ref, Tuple, Type, Type::Param, TypeElement,
-        TypeLit, TypeOrSpread, TypeParam, TypeParamDecl, TypeParamInstantiation, Union,
+        self, Array, FnParam, IndexSignature, IndexedAccessType, Mapped, Operator,
+        PropertySignature, Tuple, Type, TypeElement, TypeLit, TypeOrSpread, TypeParam,
+        TypeParamDecl, TypeParamInstantiation, Union,
     },
     util::{EqIgnoreSpan, TypeEq},
     ValidationResult,
