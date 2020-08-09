@@ -9,7 +9,7 @@ pub(super) struct Generalizer {
     pub force: bool,
 }
 
-impl ty::Fold<ty::Function> for Generalizer {
+impl ty::Fold for Generalizer {
     #[inline(always)]
     fn fold_function(&mut self, node: ty::Function) -> ty::Function {
         node

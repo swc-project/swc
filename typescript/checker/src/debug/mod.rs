@@ -1,8 +1,6 @@
 //! A module to validate while type checking
-
-use crate::ty::{Ref, Type};
+use crate::ty::{self, Ref, Type};
 use backtrace::Backtrace;
-use swc_common::{Visit, VisitWith};
 
 pub mod duplicate;
 
@@ -11,8 +9,8 @@ pub fn assert_no_ref(ty: &Type) {
     struct Visitor {
         found: bool,
     }
-    impl Visit<Ref> for Visitor {
-        fn visit(&mut self, _: &Ref) {
+    impl ty::Visit for Visitor {
+        fn visit_ref(&mut self, _: &Ref) {
             self.found = true;
         }
     }
