@@ -1,0 +1,1 @@
+delete obj?.myProp;
