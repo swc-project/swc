@@ -1,9 +1,10 @@
-use crate::{analyzer::Analyzer, id::Id, util::AsModuleDecl, ValidationResult};
+use crate::{analyzer::Analyzer, util::AsModuleDecl, ValidationResult};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{algo::toposort, graph::DiGraph, graphmap::DiGraphMap, visit::DfsPostOrder};
-use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, DestructuringFinder};
+use swc_ecma_visit::Node;
+use swc_ts_types::Id;
 
 impl Analyzer<'_, '_> {
     /// Returns the order of evaluation. This methods is used to handle hoisting
@@ -24,7 +25,7 @@ impl Analyzer<'_, '_> {
     /// ```
     pub(super) fn reorder_stmts<T>(&mut self, nodes: &[T]) -> Vec<usize>
     where
-        T: AsModuleDecl + for<'any> VisitWith<StmtDependencyFinder<'any>>,
+        T: AsModuleDecl + for<'any> swc_ecma_visit::VisitWith<StmtDependencyFinder<'any>>,
     {
         if nodes.len() <= 1 {
             return (0..nodes.len()).collect();
@@ -188,17 +189,15 @@ pub(super) struct StmtDependencyFinder<'a> {
     no_decl: bool,
 }
 
-impl Visit<FnDecl> for StmtDependencyFinder<'_> {
-    fn visit(&mut self, node: &FnDecl) {
+impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
+    fn visit_fn_decl(&mut self, node: &FnDecl, _: &dyn Node) {
         if !self.no_decl {
             self.ids.insert(node.ident.clone().into());
         }
         node.visit_children(self);
     }
-}
 
-impl Visit<VarDeclarator> for StmtDependencyFinder<'_> {
-    fn visit(&mut self, node: &VarDeclarator) {
+    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
         if !self.no_decl {
             {
                 let mut v = DestructuringFinder {
@@ -212,18 +211,14 @@ impl Visit<VarDeclarator> for StmtDependencyFinder<'_> {
 
         node.init.visit_with(self);
     }
-}
 
-impl Visit<ClassDecl> for StmtDependencyFinder<'_> {
-    fn visit(&mut self, node: &ClassDecl) {
+    fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
         let old = self.no_decl;
         node.class.visit_with(self);
         self.no_decl = old;
     }
-}
 
-impl Visit<Function> for StmtDependencyFinder<'_> {
-    fn visit(&mut self, n: &Function) {
+    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         let old = self.no_decl;
         n.visit_children(self);
         self.no_decl = old;
