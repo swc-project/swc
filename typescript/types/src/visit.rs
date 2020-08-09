@@ -245,7 +245,6 @@ define!({
         Index(IndexSignature),
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct CallSignature {
         pub span: Span,
         pub params: Vec<FnParam>,
@@ -253,7 +252,6 @@ define!({
         pub ret_ty: Option<Box<Type>>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct ConstructorSignature {
         pub span: Span,
         pub params: Vec<FnParam>,
@@ -261,7 +259,6 @@ define!({
         pub type_params: Option<TypeParamDecl>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct PropertySignature {
         pub span: Span,
         pub readonly: bool,
@@ -273,7 +270,6 @@ define!({
         pub type_params: Option<TypeParamDecl>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct MethodSignature {
         pub span: Span,
         pub readonly: bool,
@@ -285,7 +281,6 @@ define!({
         pub type_params: Option<TypeParamDecl>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct IndexSignature {
         pub params: Vec<FnParam>,
         pub type_ann: Option<Box<Type>>,
@@ -294,7 +289,6 @@ define!({
         pub span: Span,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct Array {
         pub span: Span,
         pub elem_type: Box<Type>,
@@ -307,7 +301,6 @@ define!({
         pub types: Vec<Type>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct FnParam {
         pub span: Span,
         pub required: bool,
@@ -316,14 +309,14 @@ define!({
     }
 
     /// a & b
-    #[derive(Debug, Clone, PartialEq, Spanned)]
+
     pub struct Intersection {
         pub span: Span,
         pub types: Vec<Type>,
     }
 
     /// A type parameter
-    #[derive(Debug, Clone, PartialEq, Spanned)]
+
     pub struct TypeParam {
         pub span: Span,
         pub name: Id,
@@ -332,14 +325,13 @@ define!({
     }
 
     /// FooEnum.A
-    #[derive(Debug, Clone, PartialEq, Spanned)]
+
     pub struct EnumVariant {
         pub span: Span,
         pub enum_name: Id,
         pub name: JsWord,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct Function {
         pub span: Span,
         pub type_params: Option<TypeParamDecl>,
@@ -347,7 +339,6 @@ define!({
         pub ret_ty: Box<Type>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct Constructor {
         pub span: Span,
         pub type_params: Option<TypeParamDecl>,
@@ -355,7 +346,6 @@ define!({
         pub type_ann: Box<Type>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct Predicate {
         pub span: Span,
         pub param_name: TsThisTypeOrIdent,
@@ -363,7 +353,6 @@ define!({
         pub ty: Option<Box<Type>>,
     }
 
-    #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct TypeOrSpread {
         pub span: Span,
         pub spread: Option<Span>,
