@@ -37,8 +37,8 @@ impl From<Type> for TsType {
             Type::Enum(t) => t.into(),
             Type::Mapped(t) => t.into(),
             Type::Alias(t) => t.into(),
-            Type::Namespace(t) => {
-                unimplemented!("TsNamespaceDecl should be handled before converting to TsType")
+            Type::Namespace(..) => {
+                unreachable!("TsNamespaceDecl should be handled before converting to TsType")
             }
             Type::Module(t) => t.into(),
             Type::Class(t) => t.into(),
@@ -391,7 +391,7 @@ impl From<super::Class> for TsType {
 }
 
 impl From<super::ClassInstance> for TsType {
-    fn from(t: super::ClassInstance) -> Self {
+    fn from(_: super::ClassInstance) -> Self {
         unimplemented!("From<super::ClassInstance> for TsType")
     }
 }
