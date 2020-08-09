@@ -15,6 +15,7 @@ use swc_ecma_utils::{
 mod convert;
 mod generalize;
 mod type_facts;
+mod visit;
 
 #[derive(Debug, Clone, PartialEq, Spanned, FromVariant, Is)]
 pub enum Type {

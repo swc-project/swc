@@ -13,6 +13,7 @@ swc_ecma_parser = { path = "../../ecmascript/parser" }
 swc_ecma_utils = { path = "../../ecmascript/utils" }
 swc_ecma_visit = { path = "../../ecmascript/visit" }
 swc_ts_builtin_types = { path = "./builtin" }
+swc_visit = { path = "../../visit" }
 macros = { package = "swc_ts_checker_macros", path ="./macros" }
 ordered-float = "1.0.2"
 
