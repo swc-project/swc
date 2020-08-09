@@ -18,6 +18,7 @@ use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    compat::es2020::typescript_class_properties,
     const_modules, modules,
     optimization::{simplifier, InlineGlobals, JsonParse},
     pass::{noop, Optional},
@@ -234,6 +235,7 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
+            Optional::new(typescript_class_properties(), syntax.typescript()),
             Optional::new(typescript::strip(), syntax.typescript()),
             resolver_with_mark(root_mark),
             const_modules,
