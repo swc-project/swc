@@ -3,7 +3,7 @@ use crate::{
     analyzer::{pat::PatMode, util::ResultExt, Ctx, ScopeKind},
     errors::Error,
     ty,
-    ty::{ClassInstance, FnParam, FoldType, Tuple, Type, TypeParam},
+    ty::{ClassInstance, FnParam, Tuple, Type, TypeParam},
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
@@ -280,7 +280,7 @@ struct TypeParamHandler<'a> {
     params: Option<&'a [TypeParam]>,
 }
 
-impl FoldType for TypeParamHandler<'_> {
+impl ty::Fold for TypeParamHandler<'_> {
     fn fold_type(&mut self, ty: Type) -> Type {
         if let Some(params) = self.params {
             let ty: Type = ty.fold_children_with(self);

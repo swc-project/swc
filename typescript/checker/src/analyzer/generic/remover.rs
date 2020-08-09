@@ -1,8 +1,6 @@
 use crate::ty::{Function, TypeParam, TypeParamDecl};
 use fxhash::FxHashSet;
-
-use crate::id::Id;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith};
+use swc_common::util::move_map::MoveMap;
 
 /// Removes conflicting type parameters from children.
 ///

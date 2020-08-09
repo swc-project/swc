@@ -1,7 +1,7 @@
 use crate::{
     analyzer::Analyzer,
     ty::{
-        self, Array, FoldType, IndexedAccessType, Mapped, Operator, PropertySignature, Ref, Type,
+        self, Array, IndexedAccessType, Mapped, Operator, PropertySignature, Ref, Type,
         TypeElement, TypeLit,
     },
     ValidationResult,
@@ -83,7 +83,7 @@ struct GenericExpander<'a> {
     dejavu: FxHashSet<Id>,
 }
 
-impl FoldType for GenericExpander<'_> {
+impl ty::Fold for GenericExpander<'_> {
     fn fold_type(&mut self, mut ty: Type) -> Type {
         let old_fully = self.fully;
         self.fully |= match ty {

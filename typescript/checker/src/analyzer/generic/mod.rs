@@ -864,7 +864,7 @@ impl Analyzer<'_, '_> {
             fixed: &'a FxHashMap<Id, Type>,
         }
 
-        impl ty::VisitTypeMut for Renamer<'_> {
+        impl ty::VisitMut for Renamer<'_> {
             fn visit_mut_type(&mut self, node: &mut Type) {
                 match node {
                     Type::Param(p) if self.fixed.contains_key(&p.name) => {
@@ -965,7 +965,7 @@ struct TypeParamRenamer {
     inferred: FxHashMap<Id, Type>,
 }
 
-impl ty::FoldType for TypeParamRenamer {
+impl ty::Fold for TypeParamRenamer {
     fn fold_type(&mut self, mut ty: Type) -> Type {
         ty = ty.fold_children_with(self);
 
@@ -987,13 +987,11 @@ struct TypeParamUsageFinder {
     params: Vec<TypeParam>,
 }
 
-impl Visit<TypeParamDecl> for TypeParamUsageFinder {
+impl ty::Visit for TypeParamUsageFinder {
     #[inline]
-    fn visit(&mut self, _: &TypeParamDecl) {}
-}
+    fn visit_type_param_decl(&mut self, _: &TypeParamDecl, _: &dyn ty::TypeNode) {}
 
-impl Visit<TypeParam> for TypeParamUsageFinder {
-    fn visit(&mut self, node: &TypeParam) {
+    fn visit_type_param(&mut self, node: &TypeParam, _: &dyn ty::TypeNode) {
         for p in &self.params {
             if node.name == p.name {
                 return;

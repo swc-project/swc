@@ -1,9 +1,5 @@
 use super::Analyzer;
-use crate::{
-    analyzer::util::ResultExt,
-    ty,
-    ty::{FoldType, Type},
-};
+use crate::{analyzer::util::ResultExt, ty, ty::Type};
 use swc_common::Spanned;
 use swc_ecma_visit::FoldWith;
 
@@ -18,7 +14,7 @@ struct ExpandAll<'a, 'b, 'm> {
     analyzer: &'m mut Analyzer<'a, 'b>,
 }
 
-impl FoldType for ExpandAll<'_, '_, '_> {
+impl ty::Fold for ExpandAll<'_, '_, '_> {
     fn fold_type(&mut self, ty: Type) -> Type {
         let ty: Type = ty.fold_children_with(self);
 
