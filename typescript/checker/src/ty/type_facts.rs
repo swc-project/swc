@@ -1,6 +1,6 @@
 use super::Type;
-use crate::{ty::Union, type_facts::TypeFacts};
-use swc_common::{Fold, FoldWith, Spanned};
+use crate::{ty, type_facts::TypeFacts};
+use swc_common::Spanned;
 use swc_ecma_ast::{TsKeywordType, TsKeywordTypeKind};
 
 impl Type {
@@ -14,8 +14,8 @@ struct Handler {
     facts: TypeFacts,
 }
 
-impl Fold<TsKeywordType> for Handler {
-    fn fold(&mut self, ty: TsKeywordType) -> TsKeywordType {
+impl ty::Fold for Handler {
+    fn fold_ts_keyword_type(&mut self, ty: TsKeywordType) -> TsKeywordType {
         let keyword_types = &[
             (
                 TypeFacts::TypeofNEString,
@@ -50,20 +50,16 @@ impl Fold<TsKeywordType> for Handler {
 
         ty
     }
-}
 
-impl Fold<Union> for Handler {
-    fn fold(&mut self, u: Union) -> Union {
-        let mut u: Union = u.fold_children_with(self);
+    fn fold_union(&mut self, mut u: ty::Union) -> ty::Union {
+        u = u.fold_children_with(self);
 
         u.types.retain(|v| !v.is_never());
 
         u
     }
-}
 
-impl Fold<Type> for Handler {
-    fn fold(&mut self, ty: Type) -> Type {
+    fn fold_type(&mut self, ty: ty::Type) -> ty::Type {
         let ty = ty.fold_children_with(self);
         let span = ty.span();
 

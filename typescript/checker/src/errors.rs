@@ -1,6 +1,5 @@
 use crate::{
     debug::print_backtrace,
-    id::Id,
     name::Name,
     ty::{Type, TypeElement, TypeParamInstantiation},
 };
@@ -8,6 +7,7 @@ use std::{ops::RangeInclusive, path::PathBuf};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{Expr, UnaryOp, UpdateOp};
+use swc_ts_types::Id;
 
 impl Errors {
     /// This is used for debugging (by calling [pacic]).
