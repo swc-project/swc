@@ -1,5 +1,5 @@
 [package]
-name = "swc_css"
+name = "visit"
 version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
@@ -7,6 +7,3 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_css_ast = { path = "./css" }
-swc_css_parser = { path = "./parser" }
-swc_css_visit = { path = "./visit" }
