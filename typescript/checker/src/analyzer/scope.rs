@@ -1265,16 +1265,12 @@ struct UnionFinder {
     found: bool,
 }
 
-impl Visit<ty::PropertySignature> for UnionFinder {
-    fn visit(&mut self, _: &PropertySignature) {}
-}
+impl ty::Visit for UnionFinder {
+    fn visit_property_signature(&mut self, _: &PropertySignature, _: &dyn ty::TypeNode) {}
 
-impl Visit<ty::MethodSignature> for UnionFinder {
-    fn visit(&mut self, _: &ty::MethodSignature) {}
-}
+    fn visit_method_signature(&mut self, _: &ty::MethodSignature, _: &dyn ty::TypeNode) {}
 
-impl Visit<Union> for UnionFinder {
-    fn visit(&mut self, u: &Union) {
+    fn visit_union(&mut self, u: &Union, _: &dyn ty::TypeNode) {
         log::debug!("Found union: {:?}", u);
         self.found = true;
     }

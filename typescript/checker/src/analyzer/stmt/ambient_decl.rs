@@ -1,5 +1,4 @@
 use crate::errors::{Error, Errors};
-use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 
 /// Handles
