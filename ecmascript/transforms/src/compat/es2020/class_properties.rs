@@ -2,6 +2,7 @@ use self::{
     class_name_tdz::ClassNameTdzFolder,
     private_field::FieldAccessFolder,
     this_in_static::ThisInStaticFolder,
+    typescript::HygieneFixer,
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
 use crate::{
@@ -13,7 +14,7 @@ use crate::{
 };
 use std::collections::HashSet;
 use swc_atoms::JsWord;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{chain, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
@@ -39,10 +40,13 @@ pub fn class_properties() -> impl Fold {
 
 /// Class properties pass for the typescript.
 pub fn typescript_class_properties() -> impl Fold {
-    ClassProperties {
-        typescript: true,
-        mark: Mark::root(),
-    }
+    chain!(
+        HygieneFixer::default(),
+        ClassProperties {
+            typescript: true,
+            mark: Mark::root(),
+        }
+    )
 }
 
 #[derive(Clone)]

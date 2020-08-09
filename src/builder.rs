@@ -144,10 +144,17 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     compat::es2020::optional_chaining(),
                     self.target < JscTarget::Es2020
                 ),
-                Optional::new(
-                    compat::es2020::class_properties(),
-                    self.target < JscTarget::Es2020
-                ),
+                if syntax.typescript() {
+                    Either::Left(Optional::new(
+                        compat::es2020::typescript_class_properties(),
+                        self.target < JscTarget::Es2020,
+                    ))
+                } else {
+                    Either::Right(Optional::new(
+                        compat::es2020::class_properties(),
+                        self.target < JscTarget::Es2020,
+                    ))
+                },
                 Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
                 Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
                 Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
