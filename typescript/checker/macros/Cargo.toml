@@ -24,6 +24,3 @@ features = ["full"]
 
 [dependencies.quote]
 version = "1"
-
-[dev-dependencies]
-swc_common = { path = "../../../common", features = ["fold"] }
