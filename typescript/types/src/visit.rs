@@ -128,14 +128,14 @@ define!({
         pub super_class: Option<Box<Type>>,
         pub body: Vec<ClassMember>,
         pub type_params: Option<TypeParamDecl>,
-        // pub implements: Vec<Type>,
+        // pub implements: Vec<Box<Type>>,
     }
 
     pub struct ClassInstance {
         pub span: Span,
         pub cls: Class,
         pub type_args: Option<TypeParamInstantiation>,
-        // pub implements: Vec<Type>,
+        // pub implements: Vec<Box<Type>>,
     }
 
     pub enum ClassMember {
@@ -199,7 +199,7 @@ define!({
 
     pub struct Tuple {
         pub span: Span,
-        pub types: Vec<Type>,
+        pub types: Vec<Box<Type>>,
     }
 
     pub struct Alias {
@@ -234,7 +234,7 @@ define!({
 
     pub struct TypeParamInstantiation {
         pub span: Span,
-        pub params: Vec<Type>,
+        pub params: Vec<Box<Type>>,
     }
 
     pub enum TypeElement {
@@ -298,7 +298,7 @@ define!({
     #[derive(Debug, Clone, Spanned)]
     pub struct Union {
         pub span: Span,
-        pub types: Vec<Type>,
+        pub types: Vec<Box<Type>>,
     }
 
     pub struct FnParam {
@@ -312,7 +312,7 @@ define!({
 
     pub struct Intersection {
         pub span: Span,
-        pub types: Vec<Type>,
+        pub types: Vec<Box<Type>>,
     }
 
     /// A type parameter

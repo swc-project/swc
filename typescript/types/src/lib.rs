@@ -29,8 +29,8 @@ mod visit;
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct ModuleTypeInfo {
-    pub vars: FxHashMap<Id, Type>,
-    pub types: FxHashMap<Id, Vec<Type>>,
+    pub vars: FxHashMap<Id, Box<Type>>,
+    pub types: FxHashMap<Id, Vec<Box<Type>>>,
 }
 
 impl ModuleTypeInfo {
@@ -40,6 +40,7 @@ impl ModuleTypeInfo {
     }
 }
 
+/// This type is expected to stored in a [Box], like `Vec<Box<Type>>`.
 #[derive(Debug, Clone, PartialEq, Spanned, FromVariant, Is)]
 pub enum Type {
     This(TsThisType),
@@ -182,7 +183,7 @@ pub struct Class {
     pub super_class: Option<Box<Type>>,
     pub body: Vec<ClassMember>,
     pub type_params: Option<TypeParamDecl>,
-    // pub implements: Vec<Type>,
+    // pub implements: Vec<Box<Type>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
@@ -190,7 +191,7 @@ pub struct ClassInstance {
     pub span: Span,
     pub cls: Class,
     pub type_args: Option<TypeParamInstantiation>,
-    // pub implements: Vec<Type>,
+    // pub implements: Vec<Box<Type>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned, FromVariant)]
@@ -205,7 +206,7 @@ pub enum ClassMember {
 pub struct ClassProperty {
     pub span: Span,
     pub key: Box<Expr>,
-    pub value: Option<Type>,
+    pub value: Option<Box<Type>>,
     pub is_static: bool,
     pub computed: bool,
     pub accessibility: Option<Accessibility>,
@@ -262,7 +263,7 @@ pub struct Operator {
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct Tuple {
     pub span: Span,
-    pub types: Vec<Type>,
+    pub types: Vec<Box<Type>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
@@ -304,7 +305,7 @@ pub struct TsExpr {
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct TypeParamInstantiation {
     pub span: Span,
-    pub params: Vec<Type>,
+    pub params: Vec<Box<Type>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned, FromVariant)]
@@ -335,14 +336,14 @@ pub struct CallSignature {
     pub span: Span,
     pub params: Vec<FnParam>,
     pub type_params: Option<TypeParamDecl>,
-    pub ret_ty: Option<Type>,
+    pub ret_ty: Option<Box<Type>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct ConstructorSignature {
     pub span: Span,
     pub params: Vec<FnParam>,
-    pub ret_ty: Option<Type>,
+    pub ret_ty: Option<Box<Type>>,
     pub type_params: Option<TypeParamDecl>,
 }
 
@@ -354,7 +355,7 @@ pub struct PropertySignature {
     pub computed: bool,
     pub optional: bool,
     pub params: Vec<FnParam>,
-    pub type_ann: Option<Type>,
+    pub type_ann: Option<Box<Type>>,
     pub type_params: Option<TypeParamDecl>,
 }
 
@@ -366,14 +367,14 @@ pub struct MethodSignature {
     pub computed: bool,
     pub optional: bool,
     pub params: Vec<FnParam>,
-    pub ret_ty: Option<Type>,
+    pub ret_ty: Option<Box<Type>>,
     pub type_params: Option<TypeParamDecl>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct IndexSignature {
     pub params: Vec<FnParam>,
-    pub type_ann: Option<Type>,
+    pub type_ann: Option<Box<Type>>,
 
     pub readonly: bool,
     pub span: Span,
@@ -389,7 +390,7 @@ pub struct Array {
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct Union {
     pub span: Span,
-    pub types: Vec<Type>,
+    pub types: Vec<Box<Type>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
@@ -404,7 +405,7 @@ pub struct FnParam {
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct Intersection {
     pub span: Span,
-    pub types: Vec<Type>,
+    pub types: Vec<Box<Type>>,
 }
 
 /// A type parameter
@@ -456,7 +457,12 @@ pub struct TypeOrSpread {
 }
 
 impl Type {
-    pub fn union<I: IntoIterator<Item = Self>>(iter: I) -> Self {
+    /// Creates a new type from `iter`.
+    ///
+    /// Note:
+    ///
+    ///  - never types are excluded.
+    pub fn union<I: IntoIterator<Item = Self>>(iter: I) -> Box<Self> {
         let mut span = DUMMY_SP;
 
         let mut tys = vec![];
@@ -477,7 +483,7 @@ impl Type {
                     tys.extend(types);
                 }
 
-                _ => tys.push(ty),
+                _ => tys.push(Box::new(ty)),
             }
         }
 
@@ -488,9 +494,9 @@ impl Type {
         tys.retain(|ty| !ty.is_never());
 
         match tys.len() {
-            0 => Type::never(span),
+            0 => Box::new(Type::never(span)),
             1 => tys.into_iter().next().unwrap(),
-            _ => Type::Union(Union { span, types: tys }),
+            _ => Box::new(Type::Union(Union { span, types: tys })),
         }
     }
 
@@ -795,7 +801,7 @@ impl<'a> Iterator for Iter<'a> {
             Type::Union(ref u) => {
                 let ty = u.types.get(self.idx);
                 self.idx += 1;
-                return ty;
+                return Some(&**ty?);
             }
 
             _ if self.idx == 0 => {
