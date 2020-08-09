@@ -1,6 +1,8 @@
 #![feature(test)]
 use swc_common::chain;
-use swc_ecma_transforms::{compat::es2020::legacy_class_properties, resolver, typescript::strip};
+use swc_ecma_transforms::{
+    compat::es2020::typescript_class_properties, resolver, typescript::strip,
+};
 use swc_ecma_visit::Fold;
 
 #[macro_use]
@@ -703,7 +705,7 @@ to!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), legacy_class_properties()),
+    |_| chain!(tr(), typescript_class_properties()),
     issue_930_instance,
     "class A {
         b = this.a;
@@ -721,7 +723,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), legacy_class_properties()),
+    |_| chain!(tr(), typescript_class_properties()),
     issue_930_static,
     "class A {
         static b = 'foo';

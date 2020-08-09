@@ -20,6 +20,7 @@ use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 mod class_name_tdz;
 mod private_field;
 mod this_in_static;
+mod typescript;
 mod used_name;
 
 ///
@@ -31,22 +32,22 @@ mod used_name;
 /// We use custom helper to handle export defaul class
 pub fn class_properties() -> impl Fold {
     ClassProperties {
-        legacy: false,
+        typescript: false,
         mark: Mark::root(),
     }
 }
 
 /// Class properties pass for the typescript.
-pub fn legacy_class_properties() -> impl Fold {
+pub fn typescript_class_properties() -> impl Fold {
     ClassProperties {
-        legacy: true,
+        typescript: true,
         mark: Mark::root(),
     }
 }
 
 #[derive(Clone)]
 struct ClassProperties {
-    legacy: bool,
+    typescript: bool,
     mark: Mark,
 }
 
@@ -341,7 +342,7 @@ impl ClassProperties {
                         );
                     }
 
-                    let key = if self.legacy {
+                    let key = if self.typescript {
                         // `b` in
                         //
                         // class A {
@@ -406,7 +407,7 @@ impl ClassProperties {
                         value
                     };
 
-                    if self.legacy {
+                    if self.typescript {
                         if prop.is_static {
                             extra_stmts.push(
                                 AssignExpr {
@@ -636,7 +637,7 @@ impl ClassProperties {
             });
 
         if let Some(mut c) = constructor {
-            if self.legacy {
+            if self.typescript {
                 // Append properties
                 c.body
                     .as_mut()
