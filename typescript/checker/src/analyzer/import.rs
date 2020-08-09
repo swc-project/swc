@@ -1,16 +1,17 @@
 use crate::{ImportInfo, Specifier};
 use swc_atoms::js_word;
-use swc_common::{Spanned, Visit};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
+use swc_ecma_visit::Node;
 
 #[derive(Debug)]
 pub struct ImportFinder<'a> {
     pub(crate) to: &'a mut Vec<ImportInfo>,
 }
 
-/// Extracts require('foo')
-impl Visit<CallExpr> for ImportFinder<'_> {
-    fn visit(&mut self, expr: &CallExpr) {
+impl swc_ecma_visit::Visit for ImportFinder<'_> {
+    /// Extracts require('foo')
+    fn visit_call_expr(&mut self, expr: &CallExpr, _: &dyn Node) {
         let span = expr.span();
 
         match expr.callee {
@@ -34,10 +35,8 @@ impl Visit<CallExpr> for ImportFinder<'_> {
             _ => return,
         }
     }
-}
 
-impl Visit<ImportDecl> for ImportFinder<'_> {
-    fn visit(&mut self, import: &ImportDecl) {
+    fn visit_import_decl(&mut self, import: &ImportDecl, _: &dyn Node) {
         let span = import.span();
         let mut items = vec![];
         let mut all = false;
