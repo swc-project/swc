@@ -732,6 +732,5 @@ test!(
         constructor(a) {
         }
     }
-    A.b = 'foo';
-    return A;"
+    A.b = 'foo';"
 );
