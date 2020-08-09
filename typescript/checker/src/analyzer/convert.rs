@@ -14,9 +14,10 @@ use crate::{
 };
 use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{Spanned, VisitMutWith, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
+use swc_ecma_visit::VisitMutWith;
 
 /// We analyze dependencies between type parameters, and fold parameter in
 /// topological order.

@@ -10,8 +10,9 @@ use crate::{
 use macros::{validator, validator_method};
 use std::mem::replace;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, VisitMutWith, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 
 // ModuleDecl::ExportNamed(export) => {}
 //

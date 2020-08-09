@@ -25,8 +25,9 @@ use std::{
     mem::replace,
     ops::{AddAssign, BitOr, Not},
 };
-use swc_common::{Span, Spanned, VisitMutWith};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 
 /// Conditional facts
 #[derive(Debug, Clone, Default)]

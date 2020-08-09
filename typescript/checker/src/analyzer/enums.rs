@@ -9,8 +9,9 @@ use crate::{
 };
 use fxhash::FxHashMap;
 use macros::validator;
-use swc_common::{Span, Spanned, Visit, VisitWith};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = FxHashMap<Id, TsLit>;
@@ -335,8 +336,8 @@ struct LitValidator<'a> {
     error: bool,
 }
 
-impl Visit<Expr> for LitValidator<'_> {
-    fn visit(&mut self, e: &Expr) {
+impl Visit for LitValidator<'_> {
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children(self);
 
         match e {

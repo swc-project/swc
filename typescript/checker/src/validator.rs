@@ -1,22 +1,10 @@
-use swc_common::VisitMutWith;
+use swc_ecma_visit::VisitMutWith;
 
 /// Visit with output
 pub trait Validate<T: ?Sized> {
     type Output: Output;
 
     fn validate(&mut self, node: &mut T) -> Self::Output;
-}
-
-impl<T, V> Validate<T> for V
-where
-    T: VisitMutWith<Self>,
-{
-    default type Output = ();
-
-    default fn validate(&mut self, node: &mut T) -> Self::Output {
-        node.validate_children(self);
-        Self::Output::unit()
-    }
 }
 
 impl<T, V> Validate<Box<T>> for V

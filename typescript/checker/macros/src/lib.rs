@@ -8,10 +8,7 @@ extern crate proc_macro;
 
 use pmutil::{Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
-use syn::{
-    ExprTryBlock, GenericArgument, Ident, ImplItemMethod, Item, ItemImpl, PathArguments,
-    PathSegment, ReturnType,
-};
+use syn::{ExprTryBlock, ImplItemMethod, Item, ItemImpl, ReturnType};
 
 /// Macros which should be attached to `Validate<T>` impls.
 ///
@@ -26,58 +23,58 @@ pub fn validator(
         let mut items = vec![];
 
         // Validated type
-        let ty = {
-            let (_, path, _) = item
-                .trait_
-                .clone()
-                .expect("#[validator] should be applied to Validate<T>");
+        // let ty = {
+        //     let (_, path, _) = item
+        //         .trait_
+        //         .clone()
+        //         .expect("#[validator] should be applied to Validate<T>");
 
-            let mut segments = path.segments;
+        //     let mut segments = path.segments;
 
-            segments[0] = PathSegment {
-                ident: Ident::new("VisitMut", call_site()),
-                arguments: segments[0].arguments.clone(),
-            };
+        //     segments[0] = PathSegment {
+        //         ident: Ident::new("VisitMut", call_site()),
+        //         arguments: segments[0].arguments.clone(),
+        //     };
 
-            let arg = match segments[0].arguments {
-                PathArguments::AngleBracketed(ref args) => args.args[0].clone(),
-                _ => unimplemented!("error reporting for invalid implementation of Validator<T>"),
-            };
-            let ty = match arg {
-                GenericArgument::Type(ty) => ty,
-                _ => unimplemented!("error reporting for invalid implementation of Validator<T>"),
-            };
+        //     let arg = match segments[0].arguments {
+        //         PathArguments::AngleBracketed(ref args) => args.args[0].clone(),
+        //         _ => unimplemented!("error reporting for invalid implementation of
+        // Validator<T>"),     };
+        //     let ty = match arg {
+        //         GenericArgument::Type(ty) => ty,
+        //         _ => unimplemented!("error reporting for invalid implementation of
+        // Validator<T>"),     };
 
-            ty
-        };
+        //     ty
+        // };
 
-        items.push(Item::Impl(
-            Quote::new_call_site()
-                .quote_with(smart_quote!(
-                    Vars {
-                        T: &ty,
-                        Folder: &item.self_ty
-                    },
-                    {
-                        #[automatically_derived]
-                        /// Delegates to `Validate<T>`.
-                        impl ::swc_common::VisitMut<T> for Folder {
-                            #[inline]
-                            fn visit_mut(&mut self, node: &mut T) {
-                                let res: ::std::result::Result<_, crate::Error> =
-                                    self.validate(node);
-
-                                match res {
-                                    Ok(..) => {}
-                                    Err(err) => self.info.errors.push(err),
-                                }
-                            }
-                        }
-                    }
-                ))
-                .parse::<ItemImpl>()
-                .with_generics(item.generics.clone()),
-        ));
+        // items.push(Item::Impl(
+        //     Quote::new_call_site()
+        //         .quote_with(smart_quote!(
+        //             Vars {
+        //                 T: &ty,
+        //                 Folder: &item.self_ty
+        //             },
+        //             {
+        //                 #[automatically_derived]
+        //                 /// Delegates to `Validate<T>`.
+        //                 impl ::swc_ecma_visit::VisitMut<T> for Folder {
+        //                     #[inline]
+        //                     fn visit_mut(&mut self, node: &mut T) {
+        //                         let res: ::std::result::Result<_, crate::Error> =
+        //                             self.validate(node);
+        //
+        //                         match res {
+        //                             Ok(..) => {}
+        //                             Err(err) => self.info.errors.push(err),
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         ))
+        //         .parse::<ItemImpl>()
+        //         .with_generics(item.generics.clone()),
+        // ));
 
         items.push(item.clone().into());
         items

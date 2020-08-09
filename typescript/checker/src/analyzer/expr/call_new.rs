@@ -23,7 +23,7 @@ use crate::{
 };
 use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{FoldWith, Span, Spanned};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 #[validator]

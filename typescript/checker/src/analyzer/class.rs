@@ -1,9 +1,4 @@
-use super::{
-    expr::TypeOfMode,
-    scope::ScopeKind,
-    util::{self, VarVisitor},
-    Analyzer,
-};
+use super::{expr::TypeOfMode, scope::ScopeKind, util::VarVisitor, Analyzer};
 use crate::{
     analyzer::{
         pat::PatMode,
@@ -11,10 +6,8 @@ use crate::{
         util::{is_prop_name_eq, ResultExt},
         Ctx,
     },
-    debug::print_backtrace,
     errors::{Error, Errors},
     id::Id,
-    swc_common::VisitMutWith,
     ty,
     ty::{FnParam, Intersection, Operator, QueryExpr, QueryType, Ref, Type},
     util::{property_map::PropertyMap, EqIgnoreSpan, PatExt},
@@ -26,9 +19,10 @@ use fxhash::FxHashSet;
 use macros::{validator, validator_method};
 use std::mem::replace;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Span, Spanned, VisitWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
+use swc_ecma_visit::VisitMutWith;
 
 #[validator]
 impl Validate<ClassProp> for Analyzer<'_, '_> {
@@ -377,8 +371,8 @@ impl Analyzer<'_, '_> {
                 PropName::Computed(l) => match r {
                     PropName::Computed(r) => {
                         if l.eq_ignore_span(&r) {
-                            /// TODO: Return true only if l and r are both
-                            /// symbol type
+                            // TODO: Return true only if l and r are both
+                            // symbol type
                             return true;
                         }
                     }

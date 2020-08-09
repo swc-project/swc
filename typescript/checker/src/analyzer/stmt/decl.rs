@@ -4,7 +4,6 @@ use crate::{
     debug::assert_no_ref,
     errors::Error,
     id::Id,
-    swc_common::FoldWith,
     ty::{Tuple, Type, TypeParam, TypeParamDecl},
     util::PatExt,
     validator::{Validate, ValidateWith},
@@ -12,8 +11,9 @@ use crate::{
 };
 use macros::validator;
 use std::mem::take;
-use swc_common::{Spanned, Visit, VisitMutWith, VisitWith, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
 
 #[validator]
 impl Validate<VarDecl> for Analyzer<'_, '_> {
