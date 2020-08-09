@@ -635,8 +635,19 @@ impl ClassProperties {
                 }
             });
 
-        if let Some(c) = constructor {
-            Some(inject_after_super(c, constructor_exprs))
+        if let Some(mut c) = constructor {
+            if self.legacy {
+                // Append properties
+                c.body
+                    .as_mut()
+                    .unwrap()
+                    .stmts
+                    .extend(constructor_exprs.into_iter().map(|v| v.into_stmt()));
+                Some(c)
+            } else {
+                // Prepend properties
+                Some(inject_after_super(c, constructor_exprs))
+            }
         } else {
             None
         }
