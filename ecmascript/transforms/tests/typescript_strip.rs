@@ -1,15 +1,20 @@
 #![feature(test)]
 use swc_common::chain;
-use swc_ecma_transforms::{resolver, typescript::strip};
+use swc_ecma_transforms::{compat::es2020::legacy_class_properties, resolver, typescript::strip};
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
+
+fn tr() -> impl Fold {
+    strip()
+}
 
 macro_rules! to {
     ($name:ident, $from:expr, $to:expr) => {
         test!(
             ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-            |_| strip(),
+            |_| tr(),
             $name,
             $from,
             $to,
@@ -692,6 +697,24 @@ to!(
         super();
         this.a = a;
         this.b = b;
+    }
+}"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| chain!(tr(), legacy_class_properties()),
+    issue_930,
+    "class A {
+        b = this.a;
+        constructor(a){
+            this.a = a;
+        }
+    }",
+    "class A {
+    constructor(a) {
+        this.a = a;
+        this.b = this.a;
     }
 }"
 );
