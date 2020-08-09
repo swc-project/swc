@@ -705,7 +705,7 @@ to!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), typescript_class_properties()),
+    |_| chain!(typescript_class_properties(), tr()),
     issue_930_instance,
     "class A {
         b = this.a;
@@ -723,7 +723,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), typescript_class_properties()),
+    |_| chain!(typescript_class_properties(), tr()),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -739,7 +739,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), typescript_class_properties()),
+    |_| chain!(typescript_class_properties(), tr()),
     typescript_001,
     "class A {
         foo = new Subject()
@@ -758,7 +758,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), typescript_class_properties()),
+    |_| chain!(typescript_class_properties(), tr()),
     typescript_002,
     "class A extends B {
             foo = 'foo'

@@ -11,9 +11,9 @@ use crate::{
         undefined, ExprFactory, ModuleItemLike, StmtLike,
     },
 };
-use std::collections::HashSet;
+use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
@@ -564,7 +564,7 @@ impl ClassProperties {
                     })));
                 }
 
-                ClassMember::Constructor(c) => {
+                ClassMember::Constructor(mut c) => {
                     if self.typescript {
                         let store = |i: &Ident| {
                             Box::new(
@@ -582,22 +582,31 @@ impl ClassProperties {
                                 .into(),
                             )
                         };
-                        for param in &c.params {
-                            match param {
-                                ParamOrTsParamProp::TsParamProp(p) => match &p.param {
-                                    TsParamPropParam::Ident(i) => {
-                                        typescript_constructor_properties.push(store(i))
+
+                        c.params = c.params.move_map(|mut param| match &mut param {
+                            ParamOrTsParamProp::TsParamProp(p) => match &p.param {
+                                TsParamPropParam::Ident(i) => {
+                                    typescript_constructor_properties.push(store(i));
+                                    ParamOrTsParamProp::Param(Param {
+                                        span: p.span,
+                                        decorators: take(&mut p.decorators),
+                                        pat: Pat::Ident(i.clone()),
+                                    })
+                                }
+                                TsParamPropParam::Assign(pat) => match &*pat.left {
+                                    Pat::Ident(i) => {
+                                        typescript_constructor_properties.push(store(i));
+                                        ParamOrTsParamProp::Param(Param {
+                                            span: p.span,
+                                            decorators: take(&mut p.decorators),
+                                            pat: Pat::Ident(i.clone()),
+                                        })
                                     }
-                                    TsParamPropParam::Assign(p) => match &*p.left {
-                                        Pat::Ident(i) => {
-                                            typescript_constructor_properties.push(store(i))
-                                        }
-                                        _ => {}
-                                    },
+                                    _ => param,
                                 },
-                                ParamOrTsParamProp::Param(_) => {}
-                            }
-                        }
+                            },
+                            ParamOrTsParamProp::Param(_) => param,
+                        });
                     }
 
                     constructor = Some(c);
