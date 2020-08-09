@@ -130,7 +130,7 @@ impl<A> VisitMut<Expr> for ReturnTypeCollector<'_, A>
 where
     A: MyVisitor,
 {
-    fn visit_mut(&mut self, e: &mut Expr) {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ty: Result<_, Error> = try {
             let ty = e.validate_with(self.analyzer)?;
             match ty.normalize() {
@@ -152,26 +152,16 @@ where
             Err(err) => self.types.push(Err(err)),
         }
     }
-}
 
-impl<A> VisitMut<ReturnStmt> for ReturnTypeCollector<'_, A>
-where
-    A: MyVisitor,
-{
-    fn visit_mut(&mut self, s: &mut ReturnStmt) {
+    fn visit_mut_return_stmt(&mut self, s: &mut ReturnStmt) {
         if let Some(ty) = s.arg.validate_with(self.analyzer) {
             self.types.push(ty)
         } else {
             // TODO: Add void
         }
     }
-}
 
-impl<A> VisitMut<Stmt> for ReturnTypeCollector<'_, A>
-where
-    A: MyVisitor,
-{
-    fn visit_mut(&mut self, s: &mut Stmt) {
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old_in_conditional = self.in_conditional;
         self.in_conditional |= match s {
             Stmt::If(_) => true,
@@ -268,20 +258,16 @@ struct LoopBreakerFinder {
     found: bool,
 }
 
-impl Visit<BreakStmt> for LoopBreakerFinder {
-    fn visit(&mut self, _: &BreakStmt) {
+impl Visit for LoopBreakerFinder {
+    fn visit_break_stmt(&mut self, _: &BreakStmt) {
         self.found = true;
     }
-}
 
-impl Visit<ThrowStmt> for LoopBreakerFinder {
-    fn visit(&mut self, _: &ThrowStmt) {
+    fn visit_throw_stmt(&mut self, _: &ThrowStmt) {
         self.found = true;
     }
-}
 
-impl Visit<ReturnStmt> for LoopBreakerFinder {
-    fn visit(&mut self, _: &ReturnStmt) {
+    fn visit_return_stmt(&mut self, _: &ReturnStmt) {
         self.found = true;
     }
 }

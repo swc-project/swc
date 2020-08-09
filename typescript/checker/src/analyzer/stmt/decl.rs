@@ -1,10 +1,8 @@
 use super::super::{pat::PatMode, Analyzer, Ctx};
 use crate::{
     analyzer::util::{Generalizer, ResultExt},
-    debug::assert_no_ref,
     errors::Error,
-    id::Id,
-    ty::{Tuple, Type, TypeParam, TypeParamDecl},
+    ty::{self, Tuple, Type, TypeParam, TypeParamDecl},
     util::PatExt,
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -14,6 +12,7 @@ use std::mem::take;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_ts_types::Id;
 
 #[validator]
 impl Validate<VarDecl> for Analyzer<'_, '_> {
@@ -378,8 +377,8 @@ struct TypeParamFinder {
     found: bool,
 }
 
-impl Visit<TypeParam> for TypeParamFinder {
-    fn visit(&mut self, _: &TypeParam) {
+impl ty::Visit for TypeParamFinder {
+    fn visit_type_param(&mut self, _: &TypeParam, _: &dyn ty::TypeNode) {
         self.found = true;
     }
 }

@@ -14,8 +14,8 @@ pub struct AmbientFunctionHandler<'a> {
     pub errors: &'a mut Errors,
 }
 
-impl Visit<Stmt> for AmbientFunctionHandler<'_> {
-    fn visit(&mut self, node: &Stmt) {
+impl swc_ecma_visit::Visit for AmbientFunctionHandler<'_> {
+    fn visit_stmt(&mut self, node: &Stmt) {
         node.visit_children(self);
 
         match node {
@@ -28,10 +28,8 @@ impl Visit<Stmt> for AmbientFunctionHandler<'_> {
             }
         }
     }
-}
 
-impl Visit<FnDecl> for AmbientFunctionHandler<'_> {
-    fn visit(&mut self, node: &FnDecl) {
+    fn visit_fn_decl(&mut self, node: &FnDecl) {
         if node.declare {
             return;
         }
@@ -56,8 +54,6 @@ impl Visit<FnDecl> for AmbientFunctionHandler<'_> {
             }
         }
     }
-}
 
-impl Visit<TsModuleDecl> for AmbientFunctionHandler<'_> {
-    fn visit(&mut self, node: &TsModuleDecl) {}
+    fn visit_ts_module_decl(&mut self, _: &TsModuleDecl) {}
 }

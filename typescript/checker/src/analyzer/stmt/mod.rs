@@ -2,13 +2,10 @@ pub(super) use self::ambient_decl::AmbientFunctionHandler;
 use super::Analyzer;
 use crate::{
     analyzer::{scope::ScopeKind, util::ResultExt},
-    errors::Error,
-    ty::Type,
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
 use macros::validator;
-use swc_common::{VisitMut, VisitMutWith};
 use swc_ecma_ast::*;
 
 mod ambient_decl;

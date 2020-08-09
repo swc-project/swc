@@ -7,7 +7,7 @@ use crate::{
     ValidationResult,
 };
 use macros::{validator, validator_method};
-use swc_common::{Span, Spanned, VisitMutWith};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
