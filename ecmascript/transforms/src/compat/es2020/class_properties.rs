@@ -341,77 +341,135 @@ impl ClassProperties {
                         );
                     }
 
-                    let key = match *prop.key {
-                        Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym.clone(),
-                            has_escape: false,
-                        })
-                        .as_arg(),
-                        Expr::Lit(ref lit) if !prop.computed => lit.clone().as_arg(),
+                    let key = if self.legacy {
+                        // `b` in
+                        //
+                        // class A {
+                        //     b = 'foo';
+                        // }
+                        prop.key
+                    } else {
+                        match *prop.key {
+                            Expr::Ident(ref i) if !prop.computed => {
+                                Box::new(Expr::from(Lit::Str(Str {
+                                    span: i.span,
+                                    value: i.sym.clone(),
+                                    has_escape: false,
+                                })))
+                            }
+                            Expr::Lit(ref lit) if !prop.computed => {
+                                Box::new(Expr::from(lit.clone()))
+                            }
 
-                        _ => {
-                            let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
-                                if used_key_names.contains(&i.sym) {
-                                    (alias_ident_for(&prop.key, "_ref"), true)
+                            _ => {
+                                let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
+                                    if used_key_names.contains(&i.sym) {
+                                        (alias_ident_for(&prop.key, "_ref"), true)
+                                    } else {
+                                        alias_if_required(&prop.key, "_ref")
+                                    }
                                 } else {
                                     alias_if_required(&prop.key, "_ref")
+                                };
+                                // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
+                                if aliased {
+                                    // Handle computed property
+                                    vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(ident.clone()),
+                                        init: Some(prop.key),
+                                        definite: false,
+                                    });
                                 }
-                            } else {
-                                alias_if_required(&prop.key, "_ref")
-                            };
-                            // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
-                            if aliased {
-                                // Handle computed property
-                                vars.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone()),
-                                    init: Some(prop.key),
-                                    definite: false,
-                                });
+                                Box::new(Expr::from(ident))
                             }
-                            ident.as_arg()
                         }
                     };
 
-                    let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
+                    let value = prop.value.unwrap_or_else(|| undefined(prop_span));
+                    let value = if prop.is_static {
+                        value
+                            .fold_with(&mut SuperFieldAccessFolder {
+                                class_name: &ident,
+                                vars: &mut vars,
+                                constructor_this_mark: None,
+                                is_static: true,
+                                folding_constructor: false,
+                                in_injected_define_property_call: false,
+                                in_nested_scope: false,
+                                this_alias_mark: None,
+                            })
+                            .fold_with(&mut ThisInStaticFolder {
+                                ident: ident.clone(),
+                            })
+                    } else {
+                        value
+                    };
 
-                    let callee = helper!(define_property, "defineProperty");
+                    if self.legacy {
+                        if prop.is_static {
+                            extra_stmts.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(Box::new(
+                                        MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: ident.clone().as_obj(),
+                                            computed: false,
+                                            prop: key,
+                                        }
+                                        .into(),
+                                    )),
+                                    op: op!("="),
+                                    right: value,
+                                }
+                                .into_stmt(),
+                            );
+                        } else {
+                            constructor_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: (PatOrExpr::Expr(Box::new(
+                                    MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
+                                        computed: false,
+                                        prop: key,
+                                    }
+                                    .into(),
+                                ))),
+                                op: op!("="),
+                                right: value,
+                            })));
+                        }
+                    } else {
+                        let callee = helper!(define_property, "defineProperty");
 
-                    if prop.is_static {
-                        extra_stmts.push(
-                            CallExpr {
+                        if prop.is_static {
+                            extra_stmts.push(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee,
+                                    args: vec![
+                                        ident.clone().as_arg(),
+                                        key.as_arg(),
+                                        value.as_arg(),
+                                    ],
+                                    type_args: Default::default(),
+                                }
+                                .into_stmt(),
+                            )
+                        } else {
+                            constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee,
                                 args: vec![
-                                    ident.clone().as_arg(),
-                                    key,
-                                    value
-                                        .fold_with(&mut SuperFieldAccessFolder {
-                                            class_name: &ident,
-                                            vars: &mut vars,
-                                            constructor_this_mark: None,
-                                            is_static: true,
-                                            folding_constructor: false,
-                                            in_injected_define_property_call: false,
-                                            in_nested_scope: false,
-                                            this_alias_mark: None,
-                                        })
-                                        .fold_with(&mut ThisInStaticFolder {
-                                            ident: ident.clone(),
-                                        }),
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    key.as_arg(),
+                                    value.as_arg(),
                                 ],
                                 type_args: Default::default(),
-                            }
-                            .into_stmt(),
-                        )
-                    } else {
-                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee,
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), key, value],
-                            type_args: Default::default(),
-                        })));
+                            })));
+                        }
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
