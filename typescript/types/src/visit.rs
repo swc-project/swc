@@ -199,7 +199,13 @@ define!({
 
     pub struct Tuple {
         pub span: Span,
-        pub types: Vec<Box<Type>>,
+        pub types: Vec<TupleElement>,
+    }
+
+    pub struct TupleElement {
+        pub span: Span,
+        pub label: Option<Id>,
+        pub ty: Box<Type>,
     }
 
     pub struct Alias {

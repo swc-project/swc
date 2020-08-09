@@ -12,8 +12,8 @@ use crate::{
     errors::Error,
     ty,
     ty::{
-        Array, CallSignature, ClassInstance, ConstructorSignature, FnParam, Method,
-        MethodSignature, QueryExpr, QueryType, Static, Type, TypeElement, TypeOrSpread, TypeParam,
+        CallSignature, ClassInstance, ConstructorSignature, FnParam, Method, MethodSignature,
+        QueryExpr, QueryType, Static, Type, TypeElement, TypeOrSpread, TypeParam,
         TypeParamInstantiation,
     },
     util::EqIgnoreSpan,

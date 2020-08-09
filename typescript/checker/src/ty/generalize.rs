@@ -4,13 +4,7 @@ use crate::{
 };
 use swc_common::Spanned;
 
-impl Type {
-    pub fn generalize_tuple(self) -> Self {
-        self.into_owned().fold_with(&mut TupleToArray)
-    }
-}
-
-struct TupleToArray;
+pub(super) struct TupleToArray;
 
 impl ty::Fold for TupleToArray {
     fn fold_type(&mut self, ty: Type) -> Type {

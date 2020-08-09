@@ -1,12 +1,13 @@
+use self::generalize::TupleToArray;
+use swc_ecma_ast::{Bool, Number, Str, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType};
 pub(crate) use swc_ts_types::*;
 
-mod convert;
 mod generalize;
 mod type_facts;
 
 struct LitGeneralizer;
 
-impl FoldType for LitGeneralizer {
+impl Fold for LitGeneralizer {
     fn fold_ref(&mut self, mut r: Ref) -> Ref {
         r.type_name = r.type_name.fold_with(self);
 
@@ -40,5 +41,14 @@ impl FoldType for LitGeneralizer {
 pub trait TypeExt: Into<Type> {
     fn generalize_lit(self) -> Self {
         self.into().fold_with(&mut LitGeneralizer);
+    }
+
+    fn generalize_tuple(self) -> Self {
+        self.into().fold_with(&mut TupleToArray)
+    }
+
+    fn apply_type_facts(self, facts: TypeFacts) -> Type {
+        log::info!("Applying type facts");
+        self.into().fold_with(&mut TypeFactsHandler { facts })
     }
 }

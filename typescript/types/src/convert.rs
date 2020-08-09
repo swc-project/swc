@@ -1,12 +1,13 @@
 use super::Type;
-use crate::{
-    ty,
-    ty::{FnParam, ImportType, QueryExpr, TypeElement, TypeParamDecl, TypeParamInstantiation},
-    util::PatExt,
-};
 use swc_common::{util::map::Map, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
+
+impl From<Box<Type>> for TsType {
+    fn from(ty: Box<Type>) -> Self {
+        (*ty).into()
+    }
+}
 
 impl From<Type> for TsType {
     fn from(t: Type) -> Self {
@@ -48,8 +49,8 @@ impl From<Type> for TsType {
     }
 }
 
-impl From<ty::QueryType> for TsType {
-    fn from(t: ty::QueryType) -> Self {
+impl From<super::QueryType> for TsType {
+    fn from(t: super::QueryType) -> Self {
         TsType::TsTypeQuery(TsTypeQuery {
             span: t.span,
             expr_name: t.expr.into(),
@@ -57,17 +58,17 @@ impl From<ty::QueryType> for TsType {
     }
 }
 
-impl From<ty::QueryExpr> for TsTypeQueryExpr {
-    fn from(t: ty::QueryExpr) -> Self {
+impl From<super::QueryExpr> for TsTypeQueryExpr {
+    fn from(t: super::QueryExpr) -> Self {
         match t {
-            QueryExpr::TsEntityName(t) => TsTypeQueryExpr::TsEntityName(t),
-            QueryExpr::Import(t) => TsTypeQueryExpr::Import(t.into()),
+            super::QueryExpr::TsEntityName(t) => TsTypeQueryExpr::TsEntityName(t),
+            super::QueryExpr::Import(t) => TsTypeQueryExpr::Import(t.into()),
         }
     }
 }
 
-impl From<ty::ImportType> for TsImportType {
-    fn from(t: ImportType) -> Self {
+impl From<super::ImportType> for TsImportType {
+    fn from(t: super::ImportType) -> Self {
         TsImportType {
             span: t.span,
             arg: t.arg,
@@ -77,8 +78,8 @@ impl From<ty::ImportType> for TsImportType {
     }
 }
 
-impl From<ty::InferType> for TsType {
-    fn from(t: ty::InferType) -> Self {
+impl From<super::InferType> for TsType {
+    fn from(t: super::InferType) -> Self {
         TsType::TsInferType(TsInferType {
             span: t.span,
             type_param: t.type_param.into(),
@@ -86,8 +87,8 @@ impl From<ty::InferType> for TsType {
     }
 }
 
-impl From<ty::ImportType> for TsType {
-    fn from(t: ty::ImportType) -> Self {
+impl From<super::ImportType> for TsType {
+    fn from(t: super::ImportType) -> Self {
         TsType::TsImportType(TsImportType {
             span: t.span,
             arg: t.arg,
@@ -97,8 +98,8 @@ impl From<ty::ImportType> for TsType {
     }
 }
 
-impl From<ty::Predicate> for TsType {
-    fn from(t: ty::Predicate) -> Self {
+impl From<super::Predicate> for TsType {
+    fn from(t: super::Predicate) -> Self {
         TsType::TsTypePredicate(TsTypePredicate {
             span: t.span,
             asserts: t.asserts,
@@ -108,8 +109,8 @@ impl From<ty::Predicate> for TsType {
     }
 }
 
-impl From<ty::IndexedAccessType> for TsType {
-    fn from(t: ty::IndexedAccessType) -> Self {
+impl From<super::IndexedAccessType> for TsType {
+    fn from(t: super::IndexedAccessType) -> Self {
         TsType::TsIndexedAccessType(TsIndexedAccessType {
             span: t.span,
             readonly: t.readonly,
@@ -119,8 +120,8 @@ impl From<ty::IndexedAccessType> for TsType {
     }
 }
 
-impl From<ty::Ref> for TsType {
-    fn from(t: ty::Ref) -> Self {
+impl From<super::Ref> for TsType {
+    fn from(t: super::Ref) -> Self {
         TsType::TsTypeRef(TsTypeRef {
             span: t.span,
             type_name: t.type_name,
@@ -129,8 +130,8 @@ impl From<ty::Ref> for TsType {
     }
 }
 
-impl From<ty::TypeLit> for TsType {
-    fn from(t: ty::TypeLit) -> Self {
+impl From<super::TypeLit> for TsType {
+    fn from(t: super::TypeLit) -> Self {
         TsType::TsTypeLit(TsTypeLit {
             span: t.span,
             members: t.members.into_iter().map(From::from).collect(),
@@ -138,8 +139,8 @@ impl From<ty::TypeLit> for TsType {
     }
 }
 
-impl From<ty::Conditional> for TsType {
-    fn from(t: ty::Conditional) -> Self {
+impl From<super::Conditional> for TsType {
+    fn from(t: super::Conditional) -> Self {
         TsType::TsConditionalType(TsConditionalType {
             span: t.span,
             check_type: box (*t.check_type).into(),
@@ -150,17 +151,27 @@ impl From<ty::Conditional> for TsType {
     }
 }
 
-impl From<ty::Tuple> for TsType {
-    fn from(t: ty::Tuple) -> Self {
+impl From<super::Tuple> for TsType {
+    fn from(t: super::Tuple) -> Self {
         TsType::TsTupleType(TsTupleType {
             span: t.span,
-            elem_types: t.types.into_iter().map(|v| box v.into()).collect(),
+            elem_types: t.types.into_iter().map(From::from).collect(),
         })
     }
 }
 
-impl From<ty::Array> for TsType {
-    fn from(t: ty::Array) -> Self {
+impl From<super::TupleElement> for TsTupleElement {
+    fn from(e: super::TupleElement) -> Self {
+        TsTupleElement {
+            span: e.span,
+            label: e.label.map(|v| v.into()),
+            ty: e.ty.into(),
+        }
+    }
+}
+
+impl From<super::Array> for TsType {
+    fn from(t: super::Array) -> Self {
         TsType::TsArrayType(TsArrayType {
             span: t.span,
             elem_type: box (*t.elem_type).into(),
@@ -168,8 +179,8 @@ impl From<ty::Array> for TsType {
     }
 }
 
-impl From<ty::Union> for TsType {
-    fn from(t: ty::Union) -> Self {
+impl From<super::Union> for TsType {
+    fn from(t: super::Union) -> Self {
         TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(TsUnionType {
             span: t.span,
             types: t.types.into_iter().map(From::from).collect(),
@@ -177,8 +188,8 @@ impl From<ty::Union> for TsType {
     }
 }
 
-impl From<ty::Intersection> for TsType {
-    fn from(t: ty::Intersection) -> Self {
+impl From<super::Intersection> for TsType {
+    fn from(t: super::Intersection) -> Self {
         TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
             TsIntersectionType {
                 span: t.span,
@@ -188,8 +199,8 @@ impl From<ty::Intersection> for TsType {
     }
 }
 
-impl From<ty::Function> for TsType {
-    fn from(t: ty::Function) -> Self {
+impl From<super::Function> for TsType {
+    fn from(t: super::Function) -> Self {
         TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
             span: t.span,
             params: t.params.into_iter().map(From::from).collect(),
@@ -199,8 +210,8 @@ impl From<ty::Function> for TsType {
     }
 }
 
-impl From<ty::Constructor> for TsType {
-    fn from(t: ty::Constructor) -> Self {
+impl From<super::Constructor> for TsType {
+    fn from(t: super::Constructor) -> Self {
         TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(
             TsConstructorType {
                 span: t.span,
@@ -212,8 +223,8 @@ impl From<ty::Constructor> for TsType {
     }
 }
 
-impl From<ty::Method> for TsType {
-    fn from(t: ty::Method) -> Self {
+impl From<super::Method> for TsType {
+    fn from(t: super::Method) -> Self {
         TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
             span: t.span,
             params: t.params.into_iter().map(From::from).collect(),
@@ -223,8 +234,8 @@ impl From<ty::Method> for TsType {
     }
 }
 
-impl From<ty::TypeParamDecl> for TsTypeParamDecl {
-    fn from(t: TypeParamDecl) -> Self {
+impl From<super::TypeParamDecl> for TsTypeParamDecl {
+    fn from(t: super::TypeParamDecl) -> Self {
         TsTypeParamDecl {
             span: t.span,
             params: t.params.into_iter().map(From::from).collect(),
@@ -232,8 +243,8 @@ impl From<ty::TypeParamDecl> for TsTypeParamDecl {
     }
 }
 
-impl From<ty::Type> for TsTypeAnn {
-    fn from(t: ty::Type) -> Self {
+impl From<super::Type> for TsTypeAnn {
+    fn from(t: super::Type) -> Self {
         TsTypeAnn {
             span: t.span(),
             type_ann: box t.into(),
@@ -241,20 +252,20 @@ impl From<ty::Type> for TsTypeAnn {
     }
 }
 
-impl From<Box<ty::Type>> for TsTypeAnn {
-    fn from(t: Box<ty::Type>) -> Self {
+impl From<Box<super::Type>> for TsTypeAnn {
+    fn from(t: Box<super::Type>) -> Self {
         (*t).into()
     }
 }
 
-impl From<Box<ty::Type>> for Box<TsType> {
-    fn from(t: Box<ty::Type>) -> Self {
+impl From<Box<super::Type>> for Box<TsType> {
+    fn from(t: Box<super::Type>) -> Self {
         box (*t).into()
     }
 }
 
-impl From<ty::TypeParam> for TsTypeParam {
-    fn from(t: ty::TypeParam) -> Self {
+impl From<super::TypeParam> for TsTypeParam {
+    fn from(t: super::TypeParam) -> Self {
         TsTypeParam {
             span: t.span,
             // TODO
@@ -265,8 +276,8 @@ impl From<ty::TypeParam> for TsTypeParam {
     }
 }
 
-impl From<ty::Operator> for TsType {
-    fn from(t: ty::Operator) -> Self {
+impl From<super::Operator> for TsType {
+    fn from(t: super::Operator) -> Self {
         TsTypeOperator {
             span: t.span,
             op: t.op,
@@ -276,8 +287,8 @@ impl From<ty::Operator> for TsType {
     }
 }
 
-impl From<ty::TypeParam> for TsType {
-    fn from(t: ty::TypeParam) -> Self {
+impl From<super::TypeParam> for TsType {
+    fn from(t: super::TypeParam) -> Self {
         TsType::TsTypeRef(TsTypeRef {
             span: t.span,
             // TODO
@@ -287,8 +298,8 @@ impl From<ty::TypeParam> for TsType {
     }
 }
 
-impl From<ty::EnumVariant> for TsType {
-    fn from(t: ty::EnumVariant) -> Self {
+impl From<super::EnumVariant> for TsType {
+    fn from(t: super::EnumVariant) -> Self {
         TsType::TsTypeRef(TsTypeRef {
             span: t.span,
             type_name: TsEntityName::TsQualifiedName(box TsQualifiedName {
@@ -300,8 +311,8 @@ impl From<ty::EnumVariant> for TsType {
     }
 }
 
-impl From<ty::Enum> for TsType {
-    fn from(t: ty::Enum) -> Self {
+impl From<super::Enum> for TsType {
+    fn from(t: super::Enum) -> Self {
         TsType::TsTypeRef(TsTypeRef {
             span: t.span,
             // TODO
@@ -311,8 +322,8 @@ impl From<ty::Enum> for TsType {
     }
 }
 
-impl From<ty::Interface> for TsType {
-    fn from(t: ty::Interface) -> Self {
+impl From<super::Interface> for TsType {
+    fn from(t: super::Interface) -> Self {
         TsTypeRef {
             span: t.span,
             // TODO
@@ -323,8 +334,8 @@ impl From<ty::Interface> for TsType {
     }
 }
 
-impl From<ty::Mapped> for TsType {
-    fn from(t: ty::Mapped) -> Self {
+impl From<super::Mapped> for TsType {
+    fn from(t: super::Mapped) -> Self {
         TsMappedType {
             span: t.span,
 
@@ -337,20 +348,20 @@ impl From<ty::Mapped> for TsType {
     }
 }
 
-impl From<ty::Alias> for TsType {
-    fn from(t: ty::Alias) -> Self {
+impl From<super::Alias> for TsType {
+    fn from(t: super::Alias) -> Self {
         (*t.ty).into()
     }
 }
 
-impl From<ty::Module> for TsType {
-    fn from(_: ty::Module) -> Self {
-        unreachable!("ty::Module should be handled before converting to TsType")
+impl From<super::Module> for TsType {
+    fn from(_: super::Module) -> Self {
+        unreachable!("super::Module should be handled before converting to TsType")
     }
 }
 
-impl From<TypeParamInstantiation> for TsTypeParamInstantiation {
-    fn from(t: TypeParamInstantiation) -> Self {
+impl From<super::TypeParamInstantiation> for TsTypeParamInstantiation {
+    fn from(t: super::TypeParamInstantiation) -> Self {
         TsTypeParamInstantiation {
             span: t.span,
             params: t.params.into_iter().map(|v| box v.into()).collect(),
@@ -358,8 +369,8 @@ impl From<TypeParamInstantiation> for TsTypeParamInstantiation {
     }
 }
 
-impl From<ty::Operator> for TsTypeOperator {
-    fn from(t: ty::Operator) -> Self {
+impl From<super::Operator> for TsTypeOperator {
+    fn from(t: super::Operator) -> Self {
         TsTypeOperator {
             span: t.span,
             op: t.op,
@@ -368,8 +379,8 @@ impl From<ty::Operator> for TsTypeOperator {
     }
 }
 
-impl From<ty::Class> for TsType {
-    fn from(t: ty::Class) -> Self {
+impl From<super::Class> for TsType {
+    fn from(t: super::Class) -> Self {
         // TODO: Handle generics
         TsTypeLit {
             span: t.span,
@@ -379,16 +390,16 @@ impl From<ty::Class> for TsType {
     }
 }
 
-impl From<ty::ClassInstance> for TsType {
-    fn from(t: ty::ClassInstance) -> Self {
-        unimplemented!("From<ty::ClassInstance> for TsType")
+impl From<super::ClassInstance> for TsType {
+    fn from(t: super::ClassInstance) -> Self {
+        unimplemented!("From<super::ClassInstance> for TsType")
     }
 }
 
-impl From<ty::ClassMember> for TsTypeElement {
-    fn from(m: ty::ClassMember) -> Self {
+impl From<super::ClassMember> for TsTypeElement {
+    fn from(m: super::ClassMember) -> Self {
         match m {
-            ty::ClassMember::Constructor(c) => {
+            super::ClassMember::Constructor(c) => {
                 TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
                     span: c.span,
                     params: c.params.into_iter().map(From::from).collect(),
@@ -396,7 +407,7 @@ impl From<ty::ClassMember> for TsTypeElement {
                     type_params: c.type_params.map(From::from),
                 })
             }
-            ty::ClassMember::Method(m) => TsTypeElement::TsMethodSignature(TsMethodSignature {
+            super::ClassMember::Method(m) => TsTypeElement::TsMethodSignature(TsMethodSignature {
                 span: m.span,
                 readonly: false,
                 computed: match m.key {
@@ -412,7 +423,7 @@ impl From<ty::ClassMember> for TsTypeElement {
                 }),
                 type_params: m.type_params.map(From::from),
             }),
-            ty::ClassMember::Property(p) => {
+            super::ClassMember::Property(p) => {
                 TsTypeElement::TsPropertySignature(TsPropertySignature {
                     span: p.span,
                     readonly: p.readonly,
@@ -428,7 +439,7 @@ impl From<ty::ClassMember> for TsTypeElement {
                     type_params: None,
                 })
             }
-            ty::ClassMember::IndexSignature(s) => {
+            super::ClassMember::IndexSignature(s) => {
                 TsTypeElement::TsIndexSignature(TsIndexSignature {
                     span: s.span,
                     params: s.params.into_iter().map(From::from).collect(),
@@ -443,16 +454,18 @@ impl From<ty::ClassMember> for TsTypeElement {
     }
 }
 
-impl From<ty::TypeElement> for TsTypeElement {
-    fn from(e: ty::TypeElement) -> Self {
+impl From<super::TypeElement> for TsTypeElement {
+    fn from(e: super::TypeElement) -> Self {
         match e {
-            TypeElement::Call(e) => TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
-                span: e.span,
-                params: e.params.into_iter().map(|v| v.into()).collect(),
-                type_ann: e.ret_ty.map(From::from),
-                type_params: e.type_params.map(From::from),
-            }),
-            TypeElement::Constructor(e) => {
+            super::TypeElement::Call(e) => {
+                TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
+                    span: e.span,
+                    params: e.params.into_iter().map(|v| v.into()).collect(),
+                    type_ann: e.ret_ty.map(From::from),
+                    type_params: e.type_params.map(From::from),
+                })
+            }
+            super::TypeElement::Constructor(e) => {
                 TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
                     span: e.span,
                     params: e.params.into_iter().map(|v| v.into()).collect(),
@@ -460,18 +473,20 @@ impl From<ty::TypeElement> for TsTypeElement {
                     type_params: e.type_params.map(From::from),
                 })
             }
-            TypeElement::Property(e) => TsTypeElement::TsPropertySignature(TsPropertySignature {
-                span: e.span,
-                readonly: e.readonly,
-                key: e.key,
-                computed: e.computed,
-                optional: e.optional,
-                init: None,
-                params: e.params.into_iter().map(From::from).collect(),
-                type_ann: e.type_ann.map(From::from),
-                type_params: e.type_params.map(From::from),
-            }),
-            TypeElement::Method(e) => TsTypeElement::TsMethodSignature(TsMethodSignature {
+            super::TypeElement::Property(e) => {
+                TsTypeElement::TsPropertySignature(TsPropertySignature {
+                    span: e.span,
+                    readonly: e.readonly,
+                    key: e.key,
+                    computed: e.computed,
+                    optional: e.optional,
+                    init: None,
+                    params: e.params.into_iter().map(From::from).collect(),
+                    type_ann: e.type_ann.map(From::from),
+                    type_params: e.type_params.map(From::from),
+                })
+            }
+            super::TypeElement::Method(e) => TsTypeElement::TsMethodSignature(TsMethodSignature {
                 span: e.span,
                 readonly: e.readonly,
                 key: e.key,
@@ -481,7 +496,7 @@ impl From<ty::TypeElement> for TsTypeElement {
                 type_ann: e.ret_ty.map(From::from),
                 type_params: e.type_params.map(From::from),
             }),
-            TypeElement::Index(e) => TsTypeElement::TsIndexSignature(TsIndexSignature {
+            super::TypeElement::Index(e) => TsTypeElement::TsIndexSignature(TsIndexSignature {
                 params: e.params.into_iter().map(From::from).collect(),
                 type_ann: e.type_ann.map(From::from),
                 readonly: e.readonly,
@@ -491,8 +506,8 @@ impl From<ty::TypeElement> for TsTypeElement {
     }
 }
 
-impl From<ty::FnParam> for TsFnParam {
-    fn from(t: FnParam) -> Self {
+impl From<super::FnParam> for TsFnParam {
+    fn from(t: super::FnParam) -> Self {
         let ty = t.ty;
         let type_ann = Some(TsTypeAnn {
             span: DUMMY_SP,
@@ -524,12 +539,12 @@ impl From<ty::FnParam> for TsFnParam {
                 props: o.props,
                 optional: o.optional,
             }),
-            _ => unimplemented!("From<ty::FnParam> for TsFnParam"),
+            _ => unimplemented!("From<super::FnParam> for TsFnParam"),
         }
     }
 }
 
-impl From<ty::Type> for Box<TsType> {
+impl From<super::Type> for Box<TsType> {
     fn from(t: Type) -> Self {
         box t.into()
     }

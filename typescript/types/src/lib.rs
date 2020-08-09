@@ -2,6 +2,8 @@
 //!
 //! The visitor is too slow to compile everytime I make change.
 
+#![feature(box_syntax)]
+
 pub use self::{
     id::Id,
     visit::{
@@ -24,6 +26,7 @@ use swc_ecma_utils::{
     Value::{Known, Unknown},
 };
 
+mod convert;
 mod id;
 mod visit;
 
@@ -263,7 +266,14 @@ pub struct Operator {
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct Tuple {
     pub span: Span,
-    pub types: Vec<Box<Type>>,
+    pub types: Vec<TupleElement>,
+}
+
+#[derive(Debug, Clone, PartialEq, Spanned)]
+pub struct TupleElement {
+    pub span: Span,
+    pub label: Option<Id>,
+    pub ty: Box<Type>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]

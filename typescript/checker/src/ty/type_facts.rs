@@ -3,18 +3,11 @@ use crate::{ty, type_facts::TypeFacts};
 use swc_common::Spanned;
 use swc_ecma_ast::{TsKeywordType, TsKeywordTypeKind};
 
-impl Type {
-    pub(crate) fn apply_type_facts(self, facts: TypeFacts) -> Type {
-        log::info!("Applying type facts");
-        self.fold_with(&mut Handler { facts })
-    }
-}
-
-struct Handler {
+struct TypeFactsHandler {
     facts: TypeFacts,
 }
 
-impl ty::Fold for Handler {
+impl ty::Fold for TypeFactsHandler {
     fn fold_ts_keyword_type(&mut self, ty: TsKeywordType) -> TsKeywordType {
         let keyword_types = &[
             (
