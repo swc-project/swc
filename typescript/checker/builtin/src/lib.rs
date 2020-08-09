@@ -1,18 +1,13 @@
-#![feature(box_syntax)]
-#![feature(specialization)]
+#![deny(unused)]
 
 use fxhash::FxHashMap;
 use once_cell::sync::Lazy;
 use std::sync::{Arc, RwLock};
 use swc_atoms::js_word;
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    fold::FoldWith,
-    input::SourceFileInput,
-    FileName, FilePathMapping, Fold, SourceMap, Span, DUMMY_SP,
-};
+use swc_common::{FileName, FilePathMapping, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{Parser, Session, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_visit::{span_remover, FoldWith};
 use swc_ts_builtin_macro::builtin;
 
 builtin!();
@@ -37,7 +32,7 @@ impl Lib {
             }
         }
 
-        let v = Box::leak(box parse(self.content()));
+        let v = Box::leak(Box::new(parse(self.content())));
         assert_eq!(write.insert(self, v), None);
 
         v
@@ -51,49 +46,36 @@ pub fn load(libs: &[Lib]) -> Vec<&'static TsNamespaceDecl> {
 
 fn parse(content: &str) -> TsNamespaceDecl {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-    let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 
     let fm = cm.new_source_file(FileName::Anon, content.to_string());
-
-    let session = Session { handler: &handler };
-
-    let mut parser = Parser::new(
-        session,
-        Syntax::Typescript(Default::default()),
-        SourceFileInput::from(&*fm),
+    let lexer = Lexer::new(
+        Syntax::Typescript(TsConfig {
+            dts: true,
+            ..Default::default()
+        }),
+        Default::default(),
+        StringInput::from(&*fm),
         None,
     );
 
+    let mut parser = Parser::new_from(lexer);
+
     // We cannot use parse_module because of `eval`
-    let script = parser
-        .parse_script()
-        .map_err(|mut e| {
-            e.emit();
-            ()
-        })
-        .expect("failed to parse module");
+    let script = parser.parse_script().expect("failed to parse module");
 
     TsNamespaceDecl {
         span: DUMMY_SP,
         declare: true,
         global: true,
         id: Ident::new(js_word!(""), DUMMY_SP),
-        body: box TsNamespaceBody::TsModuleBlock(TsModuleBlock {
+        body: Box::new(TsNamespaceBody::TsModuleBlock(TsModuleBlock {
             span: DUMMY_SP,
             body: script
                 .body
-                .fold_with(&mut DropSpan)
+                .fold_with(&mut span_remover())
                 .into_iter()
                 .map(ModuleItem::Stmt)
                 .collect(),
-        }),
-    }
-}
-
-#[derive(Clone, Copy)]
-struct DropSpan;
-impl Fold<Span> for DropSpan {
-    fn fold(&mut self, _: Span) -> Span {
-        DUMMY_SP
+        })),
     }
 }

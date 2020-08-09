@@ -9,6 +9,7 @@ swc_atoms = { path = "../../../atoms" }
 swc_common = { path = "../../../common" }
 swc_ecma_ast = { path = "../../../ecmascript/ast" }
 swc_ecma_parser = { path = "../../../ecmascript/parser" }
+swc_ecma_visit = { path = "../../../ecmascript/visit" }
 swc_ts_builtin_macro = { path = "./macros" }
 once_cell = "1"
 fxhash = "0.2.1"
