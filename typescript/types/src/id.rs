@@ -3,15 +3,13 @@ use std::{
     fmt::{self, Debug, Display, Formatter},
 };
 use swc_atoms::JsWord;
-use swc_common::{Fold, SyntaxContext, DUMMY_SP};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{Ident, TsEntityName};
 use swc_ecma_utils::ident::IdentLike;
 
-#[derive(Clone, PartialEq, Eq, Hash, Fold)]
+#[derive(Clone, PartialEq, Eq, Hash)]
 pub struct Id {
-    #[fold(ignore)]
     sym: JsWord,
-    #[fold(ignore)]
     ctxt: SyntaxContext,
 }
 

@@ -3,14 +3,14 @@ use crate::{
     analyzer::{pat::PatMode, util::ResultExt, Ctx, ScopeKind},
     errors::Error,
     ty,
-    ty::{ClassInstance, FnParam, Tuple, Type, TypeParam},
+    ty::{ClassInstance, FnParam, FoldType, Tuple, Type, TypeParam},
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
 use macros::validator;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::FoldWith;
 
 #[validator]
 impl Validate<Function> for Analyzer<'_, '_> {
@@ -280,8 +280,8 @@ struct TypeParamHandler<'a> {
     params: Option<&'a [TypeParam]>,
 }
 
-impl Fold<Type> for TypeParamHandler<'_> {
-    fn fold(&mut self, ty: Type) -> Type {
+impl FoldType for TypeParamHandler<'_> {
+    fn fold_type(&mut self, ty: Type) -> Type {
         if let Some(params) = self.params {
             let ty: Type = ty.fold_children_with(self);
 

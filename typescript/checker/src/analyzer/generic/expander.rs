@@ -2,7 +2,7 @@ use crate::{
     analyzer::Analyzer,
     id::Id,
     ty::{
-        self, Array, IndexedAccessType, Mapped, Operator, PropertySignature, Ref, Type,
+        self, Array, FoldType, IndexedAccessType, Mapped, Operator, PropertySignature, Ref, Type,
         TypeElement, TypeLit,
     },
     ValidationResult,
@@ -83,8 +83,8 @@ struct GenericExpander<'a> {
     dejavu: FxHashSet<Id>,
 }
 
-impl Fold<Type> for GenericExpander<'_> {
-    fn fold(&mut self, mut ty: Type) -> Type {
+impl FoldType for GenericExpander<'_> {
+    fn fold_type(&mut self, mut ty: Type) -> Type {
         let old_fully = self.fully;
         self.fully |= match ty {
             Type::Mapped(..) => true,

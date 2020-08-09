@@ -1,4 +1,4 @@
-use crate::ty::*;
+use super::*;
 use swc_visit::define;
 
 pub trait Node {}

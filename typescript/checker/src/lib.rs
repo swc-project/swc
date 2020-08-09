@@ -39,7 +39,6 @@ pub mod analyzer;
 mod builtin_types;
 pub mod errors;
 pub mod hygiene;
-pub mod id;
 pub mod loader;
 pub mod name;
 pub mod resolver;
@@ -75,19 +74,6 @@ pub struct Config {
 
     pub rule: Rule,
     pub libs: Vec<Lib>,
-}
-
-#[derive(Debug, Clone, Default, PartialEq)]
-pub struct ModuleTypeInfo {
-    pub vars: FxHashMap<Id, Type>,
-    pub types: FxHashMap<Id, Vec<Type>>,
-}
-
-impl ModuleTypeInfo {
-    pub fn extend(&mut self, other: Self) {
-        self.types.extend(other.types);
-        self.vars.extend(other.vars);
-    }
 }
 
 #[derive(Debug, Clone, Copy, Default)]
