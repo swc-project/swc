@@ -3,6 +3,8 @@ use swc_visit::define;
 
 pub trait Node {}
 
+impl<T> Node for T {}
+
 define!({
     pub enum Type {
         This(TsThisType),
@@ -146,7 +148,7 @@ define!({
     pub struct ClassProperty {
         pub span: Span,
         pub key: Box<Expr>,
-        pub value: Option<Type>,
+        pub value: Option<Box<Type>>,
         pub is_static: bool,
         pub computed: bool,
         pub accessibility: Option<Accessibility>,
@@ -184,11 +186,10 @@ define!({
         pub false_type: Box<Type>,
     }
 
-    pub struct Static {
-        pub span: Span,
-        #[fold(ignore)]
-        pub ty: &'static Type,
-    }
+    // pub struct Static {
+    //     pub span: Span,
+    //     pub ty: &'static Type,
+    // }
 
     pub struct Operator {
         pub span: Span,
@@ -249,14 +250,14 @@ define!({
         pub span: Span,
         pub params: Vec<FnParam>,
         pub type_params: Option<TypeParamDecl>,
-        pub ret_ty: Option<Type>,
+        pub ret_ty: Option<Box<Type>>,
     }
 
     #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct ConstructorSignature {
         pub span: Span,
         pub params: Vec<FnParam>,
-        pub ret_ty: Option<Type>,
+        pub ret_ty: Option<Box<Type>>,
         pub type_params: Option<TypeParamDecl>,
     }
 
@@ -268,7 +269,7 @@ define!({
         pub computed: bool,
         pub optional: bool,
         pub params: Vec<FnParam>,
-        pub type_ann: Option<Type>,
+        pub type_ann: Option<Box<Type>>,
         pub type_params: Option<TypeParamDecl>,
     }
 
@@ -280,14 +281,14 @@ define!({
         pub computed: bool,
         pub optional: bool,
         pub params: Vec<FnParam>,
-        pub ret_ty: Option<Type>,
+        pub ret_ty: Option<Box<Type>>,
         pub type_params: Option<TypeParamDecl>,
     }
 
     #[derive(Debug, Clone, PartialEq, Spanned)]
     pub struct IndexSignature {
         pub params: Vec<FnParam>,
-        pub type_ann: Option<Type>,
+        pub type_ann: Option<Box<Type>>,
 
         pub readonly: bool,
         pub span: Span,

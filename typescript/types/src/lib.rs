@@ -386,7 +386,7 @@ pub struct Array {
 }
 
 /// a | b
-#[derive(Debug, Clone, Spanned)]
+#[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct Union {
     pub span: Span,
     pub types: Vec<Type>,
@@ -398,32 +398,6 @@ pub struct FnParam {
     pub required: bool,
     pub pat: Pat,
     pub ty: Type,
-}
-
-/// This impl is wrong.
-///
-/// This will be moved to TypeEq in future. (I'll do this after
-/// implementing a derive macro for TypeEq)
-impl PartialEq for Union {
-    fn eq(&self, other: &Self) -> bool {
-        if self.span != other.span || self.types.len() != other.types.len() {
-            return false;
-        }
-
-        // A | B is equal to B | A
-        //
-        //
-        // TODO: Make derive(TypeEq) and move this to `impl
-        // TypeEq for Union`
-        for ty in &self.types {
-            if other.types.iter().any(|oty| oty.type_eq(ty)) {
-                continue;
-            }
-            return false;
-        }
-
-        true
-    }
 }
 
 /// a & b
