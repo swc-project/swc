@@ -1,5 +1,5 @@
 use super::Type;
-use swc_common::{util::map::Map, Spanned, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
 

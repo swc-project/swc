@@ -1,7 +1,7 @@
 //! This crate exists to reduce compile time.
 //!
 //! The visitor is too slow to compile everytime I make change.
-
+#![deny(unused)]
 #![feature(box_syntax)]
 
 pub use self::{
