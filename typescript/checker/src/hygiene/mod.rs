@@ -1,12 +1,12 @@
-use crate::{id::Id, swc_common::FoldWith};
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{Fold, Mark, SyntaxContext, VisitMut, VisitMutWith, VisitWith};
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 /// This *colors* type parameters. After this pass, two type parameter declared
 /// in different function will be treated as not same.
-pub fn colorizer() -> impl 'static + Fold<Module> {
+pub fn colorizer() -> impl 'static + swc_ecma_visit::Fold {
     Colorizer {
         scope: Scope {
             parent: None,
@@ -54,14 +54,12 @@ impl<'a> Colorizer<'a> {
 }
 
 impl VisitMut<VarDeclarator> for Colorizer<'_> {
-    fn visit_mut(&mut self, node: &mut VarDeclarator) {
+    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
         node.name.visit_mut_with(self);
         node.init.visit_mut_with(self);
     }
-}
 
-impl VisitMut<Function> for Colorizer<'_> {
-    fn visit_mut(&mut self, f: &mut Function) {
+    fn visit_mut_function(&mut self, f: &mut Function) {
         let params = extract_type_params(f.type_params.as_ref());
 
         let child_mark = Mark::fresh(self.scope.mark);
@@ -72,10 +70,8 @@ impl VisitMut<Function> for Colorizer<'_> {
         f.body.visit_mut_with(&mut child);
         f.return_type.visit_mut_with(&mut child);
     }
-}
 
-impl VisitMut<ArrowExpr> for Colorizer<'_> {
-    fn visit_mut(&mut self, f: &mut ArrowExpr) {
+    fn visit_mut_arrow_expr(&mut self, f: &mut ArrowExpr) {
         let params = extract_type_params(f.type_params.as_ref());
 
         let child_mark = Mark::fresh(self.scope.mark);
@@ -86,10 +82,8 @@ impl VisitMut<ArrowExpr> for Colorizer<'_> {
         f.body.visit_mut_with(&mut child);
         f.return_type.visit_mut_with(&mut child);
     }
-}
 
-impl VisitMut<TsFnType> for Colorizer<'_> {
-    fn visit_mut(&mut self, ty: &mut TsFnType) {
+    fn visit_mut_ts_fn_type(&mut self, ty: &mut TsFnType) {
         let child_params = {
             let params = extract_type_params(ty.type_params.as_ref());
 
@@ -105,10 +99,8 @@ impl VisitMut<TsFnType> for Colorizer<'_> {
 
         self.scope.params.extend(child_params);
     }
-}
 
-impl VisitMut<TsTypeRef> for Colorizer<'_> {
-    fn visit_mut(&mut self, mut r: &mut TsTypeRef) {
+    fn visit_mut_ts_type_ref(&mut self, mut r: &mut TsTypeRef) {
         if r.type_params.is_some() {
             r.visit_mut_children(self);
             return;
@@ -138,10 +130,8 @@ impl VisitMut<TsTypeRef> for Colorizer<'_> {
             }
         }
     }
-}
 
-impl VisitMut<TsTypeParam> for Colorizer<'_> {
-    fn visit_mut(&mut self, param: &mut TsTypeParam) {
+    fn visit_mut_ts_type_param(&mut self, param: &mut TsTypeParam) {
         if param.name.span.ctxt() == SyntaxContext::empty() {
             if let Some(mark) = self.scope.mark_for(&param.name.sym) {
                 param.name.span = param.name.span.apply_mark(mark);
@@ -151,10 +141,8 @@ impl VisitMut<TsTypeParam> for Colorizer<'_> {
         param.default.visit_mut_with(self);
         param.constraint.visit_mut_with(self);
     }
-}
 
-impl VisitMut<TsTypeAliasDecl> for Colorizer<'_> {
-    fn visit_mut(&mut self, d: &mut TsTypeAliasDecl) {
+    fn visit_mut_ts_type_alias_decl(&mut self, d: &mut TsTypeAliasDecl) {
         let child_params = {
             let params = extract_type_params(d.type_params.as_ref());
 

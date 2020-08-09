@@ -1,22 +1,21 @@
 use super::Analyzer;
-use crate::{analyzer::generic::is_literals, id::Id, ty, ty::Type};
+use crate::{analyzer::generic::is_literals, ty, ty::Type};
 use std::iter::once;
 use swc_ecma_ast::*;
+use swc_ts_types::Id;
 
 #[derive(Debug, Default)]
 pub(super) struct Generalizer {
     pub force: bool,
 }
 
-impl Fold<ty::Function> for Generalizer {
+impl ty::Fold<ty::Function> for Generalizer {
     #[inline(always)]
-    fn fold(&mut self, node: ty::Function) -> ty::Function {
+    fn fold_function(&mut self, node: ty::Function) -> ty::Function {
         node
     }
-}
 
-impl Fold<Type> for Generalizer {
-    fn fold(&mut self, mut node: Type) -> Type {
+    fn fold_type(&mut self, mut node: Type) -> Type {
         if !self.force {
             if is_literals(&node) {
                 return node;
@@ -139,12 +138,10 @@ pub(super) struct VarVisitor<'a> {
     pub names: &'a mut Vec<Id>,
 }
 
-impl Visit<Expr> for VarVisitor<'_> {
-    fn visit(&mut self, _: &Expr) {}
-}
+impl swc_ecma_visit::Visit<Expr> for VarVisitor<'_> {
+    fn visit_expr(&mut self, _: &Expr) {}
 
-impl Visit<Ident> for VarVisitor<'_> {
-    fn visit(&mut self, i: &Ident) {
+    fn visit_ident(&mut self, i: &Ident) {
         self.names.push(i.into())
     }
 }

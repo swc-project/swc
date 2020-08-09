@@ -1,20 +1,20 @@
 use crate::{
     analyzer::{Analyzer, ScopeKind},
     errors::{Error, Errors},
-    id::Id,
     loader::Load,
     ty::{self, Class, Module, Static, Type},
     validator::{Validate, ValidateWith},
-    ImportInfo, ModuleTypeInfo,
+    ImportInfo,
 };
 use dashmap::DashMap;
 use fxhash::FxHashMap;
 use once_cell::sync::{Lazy, OnceCell};
 use std::{collections::hash_map::Entry, path::PathBuf, sync::Arc};
-use swc_common::{Span, VisitMutWith, DUMMY_SP};
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ts_builtin_types::load;
 pub use swc_ts_builtin_types::Lib;
+use swc_ts_types::Id;
 
 #[derive(Debug, Default)]
 struct Merged {
@@ -250,7 +250,7 @@ pub fn get_type(libs: &[Lib], span: Span, name: &Id) -> Result<Type, Error> {
 struct Noop;
 
 impl Load for Noop {
-    fn load(&self, _: Arc<PathBuf>, _: &ImportInfo) -> Result<ModuleTypeInfo, Error> {
+    fn load(&self, _: Arc<PathBuf>, _: &ImportInfo) -> Result<ty::ModuleTypeInfo, Error> {
         unimplemented!()
     }
 }
