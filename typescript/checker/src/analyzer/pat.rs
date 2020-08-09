@@ -12,7 +12,7 @@ use crate::{
     ValidationResult,
 };
 use macros::validator;
-use swc_common::{Spanned, VisitMutWith, VisitWith, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Clone, Copy)]

@@ -11,12 +11,11 @@ use self::{
 use crate::{
     debug::duplicate::DuplicateTracker,
     errors::{Error, Errors},
-    id::Id,
     loader::Load,
     ty,
     ty::Type,
     validator::Validate,
-    ImportInfo, ModuleTypeInfo, Rule, Specifier, ValidationResult,
+    ImportInfo, Rule, Specifier, ValidationResult,
 };
 use bitflags::_core::mem::{replace, take};
 use fxhash::{FxHashMap, FxHashSet};
@@ -28,9 +27,10 @@ use std::{
     path::PathBuf,
     sync::Arc,
 };
-use swc_common::{Span, Spanned, VisitMutWith, VisitWith, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ts_builtin_types::Lib;
+use swc_ts_types::{Id, ModuleTypeInfo};
 
 macro_rules! try_opt {
     ($e:expr) => {{
@@ -163,7 +163,7 @@ impl Analyzer<'_, '_> {
 #[derive(Debug, Clone, Default)]
 pub struct Info {
     pub errors: Errors,
-    pub exports: ModuleTypeInfo,
+    pub exports: ty::ModuleTypeInfo,
 }
 
 // TODO:

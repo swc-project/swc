@@ -8,8 +8,9 @@ use crate::{
 };
 use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{Spanned, Visit, VisitMutWith, VisitWith, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Node;
 
 #[derive(Debug, Clone, Copy)]
 pub(super) enum ComputedPropMode {
@@ -380,8 +381,8 @@ struct ValidKeyChecker {
     valid: bool,
 }
 
-impl Visit<Ident> for ValidKeyChecker {
-    fn visit(&mut self, _: &Ident) {
+impl swc_ecma_visit::Visit for ValidKeyChecker {
+    fn visit_ident(&mut self, _: &Ident, _: &dyn Node) {
         self.valid = false;
     }
 }

@@ -2,9 +2,7 @@ use super::{control_flow::CondFacts, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
-    id::Id,
     name::Name,
-    swc_common::VisitWith,
     ty::{
         self, Alias, EnumVariant, IndexSignature, Interface, PropertySignature, QueryExpr,
         QueryType, Ref, Tuple, Type, TypeElement, TypeLit, Union,
@@ -23,8 +21,9 @@ use std::{
     iter::{once, repeat},
 };
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, Span, Spanned, SyntaxContext, Visit, DUMMY_SP};
+use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ts_types::Id;
 
 #[derive(Debug, Clone, Copy)]
 pub(super) struct Config {
@@ -1027,8 +1026,8 @@ struct Expander<'a, 'b, 'c> {
     expand_union: bool,
 }
 
-impl Fold<Type> for Expander<'_, '_, '_> {
-    fn fold(&mut self, ty: Type) -> Type {
+impl ty::Fold for Expander<'_, '_, '_> {
+    fn fold_type(&mut self, ty: Type) -> Type {
         if self.analyzer.is_builtin {
             return ty;
         }
