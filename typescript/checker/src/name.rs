@@ -1,18 +1,18 @@
-use crate::id::Id;
 use smallvec::{smallvec, SmallVec};
 use std::{
     convert::TryFrom,
     fmt::{self, Debug, Formatter},
 };
 use swc_atoms::js_word;
-use swc_common::{iter::IdentifyLast, Fold, DUMMY_SP};
+use swc_common::{iter::IdentifyLast, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ts_types::Id;
 
 type Inner = SmallVec<[Id; 4]>;
 
 /// Efficient alternative for [TsEntityName].
-#[derive(Clone, Fold, PartialEq, Eq, Hash)]
-pub struct Name(#[fold(ignore)] Inner);
+#[derive(Clone, PartialEq, Eq, Hash)]
+pub struct Name(Inner);
 
 impl Debug for Name {
     #[cold]
