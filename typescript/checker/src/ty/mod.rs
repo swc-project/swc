@@ -1,4 +1,5 @@
-use self::generalize::TupleToArray;
+use self::{generalize::TupleToArray, type_facts::TypeFactsHandler};
+use crate::type_facts::TypeFacts;
 use swc_ecma_ast::{Bool, Number, Str, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType};
 pub(crate) use swc_ts_types::*;
 

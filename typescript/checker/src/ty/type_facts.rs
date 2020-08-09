@@ -3,8 +3,8 @@ use crate::{ty, type_facts::TypeFacts};
 use swc_common::Spanned;
 use swc_ecma_ast::{TsKeywordType, TsKeywordTypeKind};
 
-struct TypeFactsHandler {
-    facts: TypeFacts,
+pub(super) struct TypeFactsHandler {
+    pub facts: TypeFacts,
 }
 
 impl ty::Fold for TypeFactsHandler {

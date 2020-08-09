@@ -1,5 +1,5 @@
 use crate::{analyzer::Analyzer, ty::Type};
-use swc_common::{Mark, Span, Spanned};
+use swc_common::{Mark, Spanned};
 
 #[derive(Debug, Clone, Copy)]
 pub(super) struct Config {
