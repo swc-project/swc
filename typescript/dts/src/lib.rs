@@ -374,6 +374,7 @@ impl Fold<ClassMember> for TypeResolver {
             }) => {
                 return ClassMember::ClassProp(ClassProp {
                     span,
+                    declare: false,
                     computed: match key {
                         PropName::Computed(..) => true,
                         _ => false,
@@ -463,6 +464,7 @@ impl Fold<Vec<ClassMember>> for TypeResolver {
                                 if p.accessibility.is_some() || p.readonly {
                                     props.push(ClassMember::ClassProp(ClassProp {
                                         span: Default::default(),
+                                        declare: false,
                                         key: box match &p.param {
                                             TsParamPropParam::Ident(p) => Expr::Ident(p.clone()),
                                             TsParamPropParam::Assign(p) => match &p.left {
