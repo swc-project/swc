@@ -1,5 +1,6 @@
 pub use self::{
-    class_properties::class_properties, nullish_coalescing::nullish_coalescing,
+    class_properties::{class_properties, legacy_class_properties},
+    nullish_coalescing::nullish_coalescing,
     opt_chaining::optional_chaining,
 };
 

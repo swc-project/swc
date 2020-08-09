@@ -30,11 +30,23 @@ mod used_name;
 ///
 /// We use custom helper to handle export defaul class
 pub fn class_properties() -> impl Fold {
-    ClassProperties { mark: Mark::root() }
+    ClassProperties {
+        legacy: false,
+        mark: Mark::root(),
+    }
+}
+
+/// Class properties pass for the typescript.
+pub fn legacy_class_properties() -> impl Fold {
+    ClassProperties {
+        legacy: true,
+        mark: Mark::root(),
+    }
 }
 
 #[derive(Clone)]
 struct ClassProperties {
+    legacy: bool,
     mark: Mark,
 }
 
