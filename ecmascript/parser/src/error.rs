@@ -364,6 +364,7 @@ impl Error {
 
             Eof => "Unexpected eof".into(),
 
+            TS2703 => "The operand of a delete operator must be a property reference.".into(),
             // TODO:
             _ => format!("{:?}", kind).into(),
         };
