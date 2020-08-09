@@ -1,9 +1,6 @@
 use super::Analyzer;
-use crate::{analyzer::generic::is_literals, swc_common::FoldWith, ty, ty::Type};
+use crate::{analyzer::generic::is_literals, id::Id, ty, ty::Type};
 use std::iter::once;
-
-use crate::id::Id;
-use swc_common::{Fold, Visit};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Default)]

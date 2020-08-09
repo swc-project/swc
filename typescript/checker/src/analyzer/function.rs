@@ -2,15 +2,15 @@ use super::Analyzer;
 use crate::{
     analyzer::{pat::PatMode, util::ResultExt, Ctx, ScopeKind},
     errors::Error,
-    swc_common::VisitWith,
     ty,
-    ty::{ClassInstance, FnParam, QueryType, Tuple, Type, TypeParam, TypeParamDecl},
+    ty::{ClassInstance, FnParam, Tuple, Type, TypeParam},
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
 use macros::validator;
-use swc_common::{Fold, FoldWith, Spanned};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[validator]
 impl Validate<Function> for Analyzer<'_, '_> {

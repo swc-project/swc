@@ -5,9 +5,10 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use swc_common::{Spanned, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 impl Analyzer<'_, '_> {
     pub(in crate::analyzer) fn visit_stmts_for_return(

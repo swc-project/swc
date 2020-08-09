@@ -21,8 +21,9 @@ use crate::{
 };
 use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, VisitMutWith};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 
 mod bin;
 mod call_new;

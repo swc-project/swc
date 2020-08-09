@@ -9,8 +9,9 @@ use crate::{
 };
 use fxhash::{FxHashMap, FxHashSet};
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Spanned};
+use swc_common::Spanned;
 use swc_ecma_ast::{TsEntityName, TsTypeOperatorOp};
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Generic expander.
 impl Analyzer<'_, '_> {
