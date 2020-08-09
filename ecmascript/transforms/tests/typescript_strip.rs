@@ -709,8 +709,7 @@ test!(
     issue_930_instance,
     "class A {
         b = this.a;
-        constructor(a){
-            this.a = a;
+        constructor(readonly a){
         }
     }",
     "class A {
