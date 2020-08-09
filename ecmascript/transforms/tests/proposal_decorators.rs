@@ -4794,6 +4794,9 @@ test!(
     legacy_metadata_nest_injection,
     "import { AppService } from './app.service';
 
+    import { Session, Res } from '@nestjs/common';
+    import * as express from 'express';
+
     @Controller()
     export class AppController {
       constructor(private appService: AppService) {}
@@ -4808,13 +4811,25 @@ test!(
       getHello(): string {
         return this.appService.getHello();
       }
+
+      @Get('/callback')
+      callback(@Res() res: express.Response, @Session() session: express.Express.Session) {
+        const token = await this.getToken(code)
+        const user = await this.getUserInfo(token.access_token)
+
+        session.oauth2Token = token
+        session.user = user
+        return res.redirect(state.returnUrl ?? '/')
+      }
     }",
-    r#"var _class, _descriptor, _descriptor1, _dec, _dec1, _dec2;
+    r#"var _class, _descriptor, _descriptor1, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7;
     import { AppService } from "./app.service";
-    var _dec3 = Inject(), _dec4 = Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec5 = Inject(), _dec6 = Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec7 = Reflect.metadata("design:paramtypes", [
+    import { Session, Res } from "@nestjs/common";
+    import * as express from "express";
+    var _dec8 = Inject(), _dec9 = Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec10 = Inject(), _dec11 = Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec12 = Reflect.metadata("design:paramtypes", [
         typeof AppService === "undefined" ? Object : AppService
-    ]), _dec8 = Reflect.metadata("design:type", Function), _dec9 = Controller();
-    export let AppController = _class = _dec9(_class = _dec8(_class = _dec7(((_class = class AppController {
+    ]), _dec13 = Reflect.metadata("design:type", Function), _dec14 = Controller();
+    export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_class = class AppController {
         constructor(private appService: AppService){
             _initializerDefineProperty(this, "appService", _descriptor, this);
             _initializerDefineProperty(this, "appService2", _descriptor1, this);
@@ -4822,9 +4837,16 @@ test!(
         getHello(): string {
             return this.appService.getHello();
         }
+        callback(res: express.Response, session: express.Express.Session) {
+            const token = await this.getToken(code);
+            const user = await this.getUserInfo(token.access_token);
+            session.oauth2Token = token;
+            session.user = user;
+            return res.redirect(state.returnUrl ?? "/");
+        }
     }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "appService", [
-        _dec3,
-        _dec4
+        _dec8,
+        _dec9
     ], {
         configurable: true,
         enumerable: true,
@@ -4833,8 +4855,8 @@ test!(
             return;
         }
     }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "appService2", [
-        _dec5,
-        _dec6
+        _dec10,
+        _dec11
     ], {
         configurable: true,
         enumerable: true,
@@ -4846,7 +4868,20 @@ test!(
         _dec,
         _dec1,
         _dec2
-    ], Object.getOwnPropertyDescriptor(_class.prototype, "getHello"), _class.prototype), _class)) || _class) || _class) || _class;"#
+    ], Object.getOwnPropertyDescriptor(_class.prototype, "getHello"), _class.prototype), _dec3 = Get("/callback"), _dec4 = function(target, key) {
+        return Res()(target, key, 0);
+    }, _dec5 = function(target, key) {
+        return Session()(target, key, 1);
+    }, _dec6 = Reflect.metadata("design:type", Function), _dec7 = Reflect.metadata("design:paramtypes", [
+        typeof express === "undefined" || typeof express.Response === "undefined" ? Object : express.Response,
+        typeof express === "undefined" || typeof express.Express === "undefined" || typeof express.Express.Session === "undefined" ? Object : express.Express.Session
+    ]), _applyDecoratedDescriptor(_class.prototype, "callback", [
+        _dec3,
+        _dec4,
+        _dec5,
+        _dec6,
+        _dec7
+    ], Object.getOwnPropertyDescriptor(_class.prototype, "callback"), _class.prototype), _class)) || _class) || _class) || _class;"#
 );
 
 test!(
@@ -5096,7 +5131,7 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
     _dec2
 ], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _dec3 = Decorate(), _dec4 = Reflect.metadata("design:type", Function), _dec5 = Reflect.metadata("design:paramtypes", [
     void 0,
-    typeof Decorate.Name === "undefined" ? Object : Decorate.Name
+    typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name
 ]), _applyDecoratedDescriptor(_class.prototype, "method2", [
     _dec3,
     _dec4,
