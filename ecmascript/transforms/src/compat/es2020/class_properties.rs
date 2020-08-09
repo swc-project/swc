@@ -2,7 +2,6 @@ use self::{
     class_name_tdz::ClassNameTdzFolder,
     private_field::FieldAccessFolder,
     this_in_static::ThisInStaticFolder,
-    typescript::HygieneFixer,
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
 use crate::{
@@ -14,14 +13,13 @@ use crate::{
 };
 use std::collections::HashSet;
 use swc_atoms::JsWord;
-use swc_common::{chain, Mark, Spanned, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 mod class_name_tdz;
 mod private_field;
 mod this_in_static;
-mod typescript;
 mod used_name;
 
 ///
@@ -40,13 +38,10 @@ pub fn class_properties() -> impl Fold {
 
 /// Class properties pass for the typescript.
 pub fn typescript_class_properties() -> impl Fold {
-    chain!(
-        HygieneFixer::default(),
-        ClassProperties {
-            typescript: true,
-            mark: Mark::root(),
-        }
-    )
+    ClassProperties {
+        typescript: true,
+        mark: Mark::root(),
+    }
 }
 
 #[derive(Clone)]
@@ -599,6 +594,35 @@ impl ClassProperties {
         )
     }
 
+    /// # Legacy support.
+    ///
+    /// ## Why is this required?
+    ///
+    /// Hygiene data of
+    ///
+    ///```ts
+    /// class A {
+    ///     b = this.a;
+    ///     constructor(a){
+    ///         this.a = a;
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// is
+    ///
+    ///```ts
+    /// class A0 {
+    ///     constructor(a1){
+    ///         this.a0 = a0;
+    ///         this.b0 = this.a0;
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// which is valid only for es2020 properties.
+    ///
+    /// Legacy proposal which is used by typescript requires different hygiene.
     #[allow(clippy::vec_box)]
     fn process_constructor(
         &mut self,
@@ -609,28 +633,32 @@ impl ClassProperties {
     ) -> Option<Constructor> {
         let constructor = constructor
             .map(|c| {
-                let mut folder = UsedNameRenamer {
-                    mark: Mark::fresh(Mark::root()),
-                    used_names,
-                };
+                if self.typescript {
+                    c
+                } else {
+                    let mut folder = UsedNameRenamer {
+                        mark: Mark::fresh(Mark::root()),
+                        used_names,
+                    };
 
-                // Handle collisions like
-                //
-                // var foo = "bar";
-                //
-                // class Foo {
-                //     bar = foo;
-                //     static bar = baz;
-                //
-                //     constructor() {
-                //     var foo = "foo";
-                //     var baz = "baz";
-                //     }
-                // }
-                let body = c.body.fold_with(&mut folder);
+                    // Handle collisions like
+                    //
+                    // var foo = "bar";
+                    //
+                    // class Foo {
+                    //     bar = foo;
+                    //     static bar = baz;
+                    //
+                    //     constructor() {
+                    //     var foo = "foo";
+                    //     var baz = "baz";
+                    //     }
+                    // }
+                    let body = c.body.fold_with(&mut folder);
 
-                let params = c.params.fold_with(&mut folder);
-                Constructor { body, params, ..c }
+                    let params = c.params.fold_with(&mut folder);
+                    Constructor { body, params, ..c }
+                }
             })
             .or_else(|| {
                 if constructor_exprs.is_empty() {
