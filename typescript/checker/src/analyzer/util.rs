@@ -30,7 +30,7 @@ impl Fold<Type> for Generalizer {
 
         let old = self.force;
         self.force = force;
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
         self.force = old;
 
         node.generalize_lit().into_owned()

@@ -122,10 +122,10 @@ impl Fold<Type> for GenericExpander<'_> {
                     return ty.clone();
                 }
 
-                return ty.fold_children(self);
+                return ty.fold_children_with(self);
             }
 
-            Type::Ref(..) => return ty.fold_children(self),
+            Type::Ref(..) => return ty.fold_children_with(self),
 
             Type::Param(mut param) => {
                 param = param.fold_with(self);
@@ -328,7 +328,7 @@ impl Fold<Type> for GenericExpander<'_> {
             }
 
             Type::This(..) | Type::Keyword(..) | Type::TypeLit(..) | Type::Lit(..) => {
-                return ty.fold_children(self)
+                return ty.fold_children_with(self)
             }
 
             Type::Query(..)
@@ -350,7 +350,7 @@ impl Fold<Type> for GenericExpander<'_> {
             | Type::Namespace(..)
             | Type::Module(..)
             | Type::ClassInstance(..)
-            | Type::Mapped(..) => return ty.fold_children(self),
+            | Type::Mapped(..) => return ty.fold_children_with(self),
 
             Type::Static(s) => return s.ty.clone().fold_with(self),
             Type::Arc(a) => return (*a).clone().fold_with(self),

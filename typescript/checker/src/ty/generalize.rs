@@ -14,7 +14,7 @@ struct TupleToArray;
 
 impl Fold<Type> for TupleToArray {
     fn fold(&mut self, ty: Type) -> Type {
-        let ty: Type = ty.fold_children(self);
+        let ty: Type = ty.fold_children_with(self);
         let span = ty.span();
 
         match ty {

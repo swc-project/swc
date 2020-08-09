@@ -971,7 +971,7 @@ struct TypeParamRenamer {
 
 impl Fold<Type> for TypeParamRenamer {
     fn fold(&mut self, mut ty: Type) -> Type {
-        ty = ty.fold_children(self);
+        ty = ty.fold_children_with(self);
 
         match ty {
             Type::Param(ref param) => {

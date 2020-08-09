@@ -1046,8 +1046,8 @@ impl Fold<Type> for Expander<'_, '_, '_> {
         }
 
         match ty {
-            Type::Param(..) => return ty.fold_children(self),
-            Type::Ref(..) if !self.full => return ty.fold_children(self),
+            Type::Param(..) => return ty.fold_children_with(self),
+            Type::Ref(..) if !self.full => return ty.fold_children_with(self),
             Type::Interface(..) | Type::Class(..) if !self.full => return ty,
             _ => {}
         }
@@ -1062,7 +1062,7 @@ impl Fold<Type> for Expander<'_, '_, '_> {
 
         let span = self.span;
 
-        let ty = ty.fold_children(self);
+        let ty = ty.fold_children_with(self);
 
         let res: ValidationResult = try {
             macro_rules! verify {

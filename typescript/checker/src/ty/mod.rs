@@ -1,3 +1,7 @@
+pub(crate) use self::visit::{
+    Fold as FoldType, FoldWith as FoldTypeWith, Visit as VisitType, VisitMut as VisitTypeMut,
+    VisitMutWith as VisitTypeMutWith, VisitWith as VisitTypeWith,
+};
 use crate::{
     debug::print_backtrace, id::Id, ty, type_facts::TypeFacts, util::TypeEq, ModuleTypeInfo,
 };
@@ -472,7 +476,7 @@ impl Fold<Ref> for LitGeneralizer {
 
 impl Fold<Type> for LitGeneralizer {
     fn fold(&mut self, mut ty: Type) -> Type {
-        ty = ty.fold_children(self);
+        ty = ty.fold_children_with(self);
 
         match ty {
             Type::Lit(TsLitType { span, ref lit, .. }) => {

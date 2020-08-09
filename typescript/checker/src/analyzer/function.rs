@@ -247,7 +247,7 @@ impl Analyzer<'_, '_> {
 impl Validate<FnDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
-    /// NOTE: This method **should not call f.fold_children(self)**
+    /// NOTE: This method **should not call f.fold_children_with(self)**
     fn validate(&mut self, f: &mut FnDecl) -> Self::Output {
         let fn_ty = self.visit_fn(Some(&f.ident), &mut f.function).freeze();
 
@@ -268,7 +268,7 @@ impl Validate<FnDecl> for Analyzer<'_, '_> {
 impl Validate<FnExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
-    /// NOTE: This method **should not call f.fold_children(self)**
+    /// NOTE: This method **should not call f.fold_children_with(self)**
     fn validate(&mut self, f: &mut FnExpr) -> Self::Output {
         self.visit_fn(f.ident.as_ref(), &mut f.function);
 
@@ -283,7 +283,7 @@ struct TypeParamHandler<'a> {
 impl Fold<Type> for TypeParamHandler<'_> {
     fn fold(&mut self, ty: Type) -> Type {
         if let Some(params) = self.params {
-            let ty: Type = ty.fold_children(self);
+            let ty: Type = ty.fold_children_with(self);
 
             match ty {
                 Type::Ref(ref r) if r.type_args.is_none() => match r.type_name {

@@ -44,7 +44,7 @@ impl Fold<Option<TypeParamDecl>> for TypeParamRemover<'_> {
             Some(param)
         });
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         if node.params.is_empty() {
             return None;
@@ -71,7 +71,7 @@ impl Fold<Function> for TypeParamRemover<'_> {
             },
         };
 
-        node.fold_children(&mut v)
+        node.fold_children_with(&mut v)
     }
 }
 

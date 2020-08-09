@@ -54,7 +54,7 @@ impl Fold<TsKeywordType> for Handler {
 
 impl Fold<Union> for Handler {
     fn fold(&mut self, u: Union) -> Union {
-        let mut u: Union = u.fold_children(self);
+        let mut u: Union = u.fold_children_with(self);
 
         u.types.retain(|v| !v.is_never());
 
@@ -64,7 +64,7 @@ impl Fold<Union> for Handler {
 
 impl Fold<Type> for Handler {
     fn fold(&mut self, ty: Type) -> Type {
-        let ty = ty.fold_children(self);
+        let ty = ty.fold_children_with(self);
         let span = ty.span();
 
         {
