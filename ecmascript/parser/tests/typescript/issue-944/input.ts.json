@@ -1,0 +1,109 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 47,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "CTest",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 47,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 18,
+            "end": 45,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 18,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "myFunc",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 27,
+              "end": 44,
+              "ctxt": 0
+            },
+            "params": [],
+            "body": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 33,
+                "end": 44,
+                "ctxt": 0
+              },
+              "operator": "in",
+              "left": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 33,
+                  "end": 38,
+                  "ctxt": 0
+                },
+                "value": "key",
+                "hasEscape": false
+              },
+              "right": {
+                "type": "ObjectExpression",
+                "span": {
+                  "start": 42,
+                  "end": 44,
+                  "ctxt": 0
+                },
+                "properties": []
+              }
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}
