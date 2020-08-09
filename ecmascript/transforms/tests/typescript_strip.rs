@@ -705,12 +705,11 @@ to!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), typescript_class_properties()),
+    |_| chain!(typescript_class_properties(), tr()),
     issue_930_instance,
     "class A {
         b = this.a;
-        constructor(a){
-            this.a = a;
+        constructor(readonly a){
         }
     }",
     "class A {
@@ -723,7 +722,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), typescript_class_properties()),
+    |_| chain!(typescript_class_properties(), tr()),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -735,4 +734,47 @@ test!(
         }
     }
     A.b = 'foo';"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| chain!(typescript_class_properties(), tr()),
+    typescript_001,
+    "class A {
+        foo = new Subject()
+      
+        constructor() {
+          this.foo.subscribe()
+        }
+      }",
+    "class A {
+        constructor() {
+            this.foo = new Subject()
+            this.foo.subscribe()
+        }
+      }"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| chain!(typescript_class_properties(), tr()),
+    typescript_002,
+    "class A extends B {
+            foo = 'foo'
+            b = this.a;
+          
+            constructor(readonly a) {
+                super()
+                this.foo.subscribe()
+            }
+          }",
+    "class A extends B {
+        constructor(a) {
+            super();
+            this.a = a;
+            this.foo = 'foo';
+            this.b = this.a;
+            this.foo.subscribe();
+        }
+    }"
 );

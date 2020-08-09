@@ -1,5 +1,6 @@
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
+#![deny(unused)]
 
 #[macro_use]
 extern crate swc_ecma_utils;

@@ -11,9 +11,9 @@ use crate::{
         undefined, ExprFactory, ModuleItemLike, StmtLike,
     },
 };
-use std::collections::HashSet;
+use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
@@ -280,6 +280,8 @@ impl ClassProperties {
         self.mark = Mark::fresh(Mark::root());
 
         let has_super = class.super_class.is_some();
+
+        let mut typescript_constructor_properties = vec![];
 
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
@@ -562,9 +564,60 @@ impl ClassProperties {
                     })));
                 }
 
-                ClassMember::Constructor(c) => constructor = Some(c),
+                ClassMember::Constructor(mut c) => {
+                    if self.typescript {
+                        let store = |i: &Ident| {
+                            Box::new(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
+                                        computed: false,
+                                        prop: Box::new(i.clone().into()),
+                                    }))),
+                                    op: op!("="),
+                                    right: Box::new(i.clone().into()),
+                                }
+                                .into(),
+                            )
+                        };
+
+                        c.params = c.params.move_map(|mut param| match &mut param {
+                            ParamOrTsParamProp::TsParamProp(p) => match &p.param {
+                                TsParamPropParam::Ident(i) => {
+                                    typescript_constructor_properties.push(store(i));
+                                    ParamOrTsParamProp::Param(Param {
+                                        span: p.span,
+                                        decorators: take(&mut p.decorators),
+                                        pat: Pat::Ident(i.clone()),
+                                    })
+                                }
+                                TsParamPropParam::Assign(pat) => match &*pat.left {
+                                    Pat::Ident(i) => {
+                                        typescript_constructor_properties.push(store(i));
+                                        ParamOrTsParamProp::Param(Param {
+                                            span: p.span,
+                                            decorators: take(&mut p.decorators),
+                                            pat: Pat::Ident(i.clone()),
+                                        })
+                                    }
+                                    _ => param,
+                                },
+                            },
+                            ParamOrTsParamProp::Param(_) => param,
+                        });
+                    }
+
+                    constructor = Some(c);
+                }
             }
         }
+
+        let constructor_exprs = {
+            typescript_constructor_properties.extend(constructor_exprs);
+            typescript_constructor_properties
+        };
 
         let constructor =
             self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
@@ -668,19 +721,9 @@ impl ClassProperties {
                 }
             });
 
-        if let Some(mut c) = constructor {
-            if self.typescript {
-                // Append properties
-                c.body
-                    .as_mut()
-                    .unwrap()
-                    .stmts
-                    .extend(constructor_exprs.into_iter().map(|v| v.into_stmt()));
-                Some(c)
-            } else {
-                // Prepend properties
-                Some(inject_after_super(c, constructor_exprs))
-            }
+        if let Some(c) = constructor {
+            // Prepend properties
+            Some(inject_after_super(c, constructor_exprs))
         } else {
             None
         }
