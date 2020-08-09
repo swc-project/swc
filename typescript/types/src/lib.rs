@@ -15,8 +15,9 @@ use std::{fmt::Debug, iter::FusedIterator, mem::transmute, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FromVariant, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    Accessibility, Expr, Ident, MethodKind, PropName, Str, TruePlusMinus, TsEntityName,
-    TsEnumMemberId, TsKeywordType, TsLitType, TsNamespaceDecl, TsThisType, TsTypeOperatorOp,
+    Accessibility, Expr, Ident, MethodKind, Pat, PropName, Str, TruePlusMinus, TsEntityName,
+    TsEnumMemberId, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceDecl,
+    TsThisType, TsThisTypeOrIdent, TsTypeOperatorOp,
 };
 use swc_ecma_utils::{
     Value,
