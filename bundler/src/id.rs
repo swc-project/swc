@@ -24,14 +24,18 @@ pub(crate) struct ModuleIdGenerator {
 }
 
 impl ModuleIdGenerator {
-    pub fn gen(&self, path: &FileName) -> (ModuleId, Mark) {
-        if let Some(v) = self.cache.get(path) {
+    pub fn has(&self, file_name: &FileName) -> bool {
+        self.cache.get(file_name).is_some()
+    }
+
+    pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark) {
+        if let Some(v) = self.cache.get(file_name) {
             return v;
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
         let mark = Mark::fresh(Mark::root());
-        self.cache.insert(path.clone(), (id, mark));
+        self.cache.insert(file_name.clone(), (id, mark));
         (id, mark)
     }
 }

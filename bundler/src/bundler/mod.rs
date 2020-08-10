@@ -2,7 +2,6 @@ use self::scope::Scope;
 use crate::{Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
-use load::TransformedModule;
 use swc_atoms::JsWord;
 use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
@@ -117,7 +116,8 @@ where
             let mut output = FxHashMap::default();
 
             for res in results {
-                let (name, m): (String, TransformedModule) = res?;
+                let (name, m) = res?;
+                let m = m.unwrap();
 
                 output.insert(name, m);
             }

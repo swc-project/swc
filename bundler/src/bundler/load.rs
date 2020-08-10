@@ -54,13 +54,18 @@ where
     pub(super) fn load_transformed(
         &self,
         file_name: &FileName,
-    ) -> Result<TransformedModule, Error> {
+    ) -> Result<Option<TransformedModule>, Error> {
         self.run(|| {
             log::trace!("load_transformed: ({})", file_name);
 
-            if let Some(cached) = self.scope.get_module_by_path(&file_name) {
-                return Ok(cached);
+            let dejavu = self.scope.module_id_gen.has(file_name);
+            if dejavu {
+                return Ok(None);
             }
+
+            // if let Some(cached) = self.scope.get_module_by_path(&file_name) {
+            //     return Ok(Some(cached));
+            // }
 
             let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
             let v = self
@@ -87,7 +92,7 @@ where
             //    );
             //}
 
-            Ok(v)
+            Ok(Some(v))
         })
     }
 
@@ -211,20 +216,21 @@ where
                 .collect::<Vec<_>>();
 
             for res in items {
-                let (info, specifiers): (Option<(TransformedModule, Str)>, _) = res?;
+                let (info, specifiers): (Option<(Option<TransformedModule>, Str)>, _) = res?;
 
                 match info {
                     None => exports.items.extend(specifiers),
-                    Some(info) => exports
+                    Some((Some(info), src)) => exports
                         .reexports
                         .entry(Source {
                             is_loaded_synchronously: true,
                             is_unconditional: false,
-                            module_id: (info.0).id,
-                            src: info.1,
+                            module_id: info.id,
+                            src,
                         })
                         .or_default()
                         .extend(specifiers),
+                    _ => {}
                 }
             }
 
@@ -273,34 +279,36 @@ where
                 // TODO: Report error and proceed instead of returning an error
                 let (src, decl, is_dynamic, is_unconditional) = res?;
 
-                let src = Source {
-                    is_loaded_synchronously: !is_dynamic,
-                    is_unconditional,
-                    module_id: src.id,
-                    src: decl.src,
-                };
+                if let Some(src) = src {
+                    let src = Source {
+                        is_loaded_synchronously: !is_dynamic,
+                        is_unconditional,
+                        module_id: src.id,
+                        src: decl.src,
+                    };
 
-                // TODO: Handle rename
-                let mut specifiers = vec![];
-                for s in decl.specifiers {
-                    match s {
-                        ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
-                            local: s.local.into(),
-                            alias: s.imported.map(From::from),
-                        }),
-                        ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
-                            local: s.local.into(),
-                            alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
-                        }),
-                        ImportSpecifier::Namespace(s) => {
-                            specifiers.push(Specifier::Namespace {
+                    // TODO: Handle rename
+                    let mut specifiers = vec![];
+                    for s in decl.specifiers {
+                        match s {
+                            ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
                                 local: s.local.into(),
-                            });
+                                alias: s.imported.map(From::from),
+                            }),
+                            ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
+                                local: s.local.into(),
+                                alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
+                            }),
+                            ImportSpecifier::Namespace(s) => {
+                                specifiers.push(Specifier::Namespace {
+                                    local: s.local.into(),
+                                });
+                            }
                         }
                     }
-                }
 
-                merged.specifiers.push((src, specifiers));
+                    merged.specifiers.push((src, specifiers));
+                }
             }
 
             Ok(merged)
