@@ -59,7 +59,7 @@ where
             log::trace!("load_transformed: ({})", file_name);
 
             if let Some(cached) = self.scope.get_module_by_path(&file_name) {
-                return Ok(cached.clone());
+                return Ok(cached);
             }
 
             let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
