@@ -2,6 +2,10 @@
 name = "swc_bundler"
 version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+license = "Apache-2.0/MIT"
+repository = "https://github.com/swc-project/swc.git"
+documentation = "https://swc-project.github.io/rustdoc/swc_bundler/"
+description = "Very fast ecmascript bundler"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
