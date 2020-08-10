@@ -10,6 +10,7 @@ use rayon::iter::ParallelIterator;
 use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
 use swc_ecma_visit::FoldWith;
 
+mod circular;
 mod merge;
 
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
@@ -78,10 +79,12 @@ where
         let mut graph = ModuleGraph::default();
         let mut kinds = vec![];
 
+        dbg!("before add_to_graph");
         for (name, module) in entries.drain() {
             kinds.push((BundleKind::Named { name }, module.id));
             self.add_to_graph(&mut graph, module.id);
         }
+        dbg!("after add_to_graph");
 
         let mut metadata = FxHashMap::<ModuleId, Metadata>::default();
 
@@ -149,8 +152,15 @@ where
             .get_module(module_id)
             .expect("failed to get module");
 
+        for (src, _) in &m.imports.specifiers {
+            if graph.contains_node(src.module_id) {
+                return;
+            }
+        }
+
         for (src, _) in &*m.imports.specifiers {
             //
+
             self.add_to_graph(graph, src.module_id);
             graph.add_edge(
                 module_id,
