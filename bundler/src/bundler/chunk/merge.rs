@@ -91,12 +91,12 @@ where
                     }
 
                     if imported.is_es6 {
-                        print_hygiene("before:tree-shaking", &self.cm, &entry);
+                        print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                         // Tree-shaking
                         dep = self.drop_unused(dep, Some(&specifiers));
 
-                        print_hygiene("after:tree-shaking", &self.cm, &entry);
+                        print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
                         if let Some(imports) = info
                             .imports
@@ -150,21 +150,6 @@ where
                         //     println!("Dep:\n{}\n\n\n", code);
                         // }
 
-                        // {
-                        //     let code = self
-                        //         .swc
-                        //         .print(
-                        //             &entry.clone().fold_with(&mut HygieneVisualizer),
-                        //             SourceMapsConfig::Bool(false),
-                        //             None,
-                        //             false,
-                        //         )
-                        //         .unwrap()
-                        //         .code;
-                        //
-                        //     println!("@: Before merging:\n{}\n\n\n", code);
-                        // }
-
                         // Replace import statement / require with module body
                         let mut injector = Es6ModuleInjector {
                             imported: dep.body.clone(),
@@ -172,21 +157,7 @@ where
                         };
                         entry.body.visit_mut_with(&mut injector);
 
-                        // {
-                        //     let code = self
-                        //         .swc
-                        //         .print(
-                        //             &entry.clone().fold_with(&mut
-                        // HygieneVisualizer),
-                        //             SourceMapsConfig::Bool(false),
-                        //             None,
-                        //             false,
-                        //         )
-                        //         .unwrap()
-                        //         .code;
-                        //
-                        //     println!("Merged:\n{}\n\n\n", code);
-                        // }
+                        print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         if injector.imported.is_empty() {
                             continue;
