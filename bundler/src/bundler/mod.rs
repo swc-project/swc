@@ -98,6 +98,12 @@ where
         })
     }
 
+    ///
+    ///
+    ///
+    /// Note: This method will panic if entries references each other in
+    /// circular manner. However, it applies only to the provided `entries`, and
+    /// dependencies with circular reference is ok.
     pub fn bundle(&self, entries: FxHashMap<String, FileName>) -> Result<Vec<Bundle>, Error> {
         let results = entries
             .into_iter()
