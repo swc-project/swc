@@ -79,12 +79,10 @@ where
         let mut graph = ModuleGraph::default();
         let mut kinds = vec![];
 
-        dbg!("before add_to_graph");
         for (name, module) in entries.drain() {
             kinds.push((BundleKind::Named { name }, module.id));
             self.add_to_graph(&mut graph, module.id);
         }
-        dbg!("after add_to_graph");
 
         let mut metadata = FxHashMap::<ModuleId, Metadata>::default();
 
