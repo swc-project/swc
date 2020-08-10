@@ -19,6 +19,10 @@ where
     /// - rename chunks
     pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         self.run(|| {
+            if bundles.len() == 1 {
+                return Ok(bundles);
+            }
+
             let mut new = Vec::with_capacity(bundles.len());
             let mut renamed = FxHashMap::default();
 
