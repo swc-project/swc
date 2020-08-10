@@ -330,10 +330,12 @@ where
                             type_args: None,
                         };
 
-                        entry.body.visit_mut_with(&mut RequireReplacer {
-                            src: src.src.value.clone(),
-                            load,
-                        });
+                        if self.config.require {
+                            entry.body.visit_mut_with(&mut RequireReplacer {
+                                src: src.src.value.clone(),
+                                load,
+                            });
+                        }
 
                         // {
                         //     let code = self

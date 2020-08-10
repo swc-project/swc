@@ -1,5 +1,5 @@
 //! Utilities for testing.
-use super::Bundler;
+use super::{Bundler, Config};
 use crate::{util::HygieneRemover, Load, Resolve};
 use anyhow::Error;
 use std::path::PathBuf;
@@ -69,7 +69,10 @@ where
                 cm.clone(),
                 Default::default(),
                 Default::default(),
-                vec![],
+                Config {
+                    require: true,
+                    external_modules: vec![],
+                },
             );
 
             let mut t = Tester {

@@ -1,7 +1,7 @@
 use anyhow::Error;
 use fxhash::FxHashMap;
 use std::io::stdout;
-use swc_bundler::{BundleKind, Bundler, Load, Resolve};
+use swc_bundler::{BundleKind, Bundler, Config, Load, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
@@ -18,7 +18,10 @@ fn main() {
         cm.clone(),
         PathLoader { cm: cm.clone() },
         PathResolver,
-        external_modules,
+        Config {
+            require: true,
+            external_modules,
+        },
     );
     let mut entries = FxHashMap::default();
     entries.insert("main".to_string(), FileName::Real("assets/main.js".into()));

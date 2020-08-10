@@ -12,7 +12,7 @@ use std::{
     sync::Arc,
 };
 use swc::config::SourceMapsConfig;
-use swc_bundler::{BundleKind, Bundler};
+use swc_bundler::{BundleKind, Bundler, Config};
 use swc_common::{FileName, GLOBALS};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -131,44 +131,47 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         cm.clone(),
                         &loader,
                         NodeResolver::new(),
-                        vec![
-                            "assert",
-                            "buffer",
-                            "child_process",
-                            "console",
-                            "cluster",
-                            "crypto",
-                            "dgram",
-                            "dns",
-                            "events",
-                            "fs",
-                            "http",
-                            "http2",
-                            "https",
-                            "net",
-                            "os",
-                            "path",
-                            "perf_hooks",
-                            "process",
-                            "querystring",
-                            "readline",
-                            "repl",
-                            "stream",
-                            "string_decoder",
-                            "timers",
-                            "tls",
-                            "tty",
-                            "url",
-                            "util",
-                            "v8",
-                            "vm",
-                            "wasi",
-                            "worker",
-                            "zlib",
-                        ]
-                        .into_iter()
-                        .map(From::from)
-                        .collect(),
+                        Config {
+                            require: true,
+                            external_modules: vec![
+                                "assert",
+                                "buffer",
+                                "child_process",
+                                "console",
+                                "cluster",
+                                "crypto",
+                                "dgram",
+                                "dns",
+                                "events",
+                                "fs",
+                                "http",
+                                "http2",
+                                "https",
+                                "net",
+                                "os",
+                                "path",
+                                "perf_hooks",
+                                "process",
+                                "querystring",
+                                "readline",
+                                "repl",
+                                "stream",
+                                "string_decoder",
+                                "timers",
+                                "tls",
+                                "tty",
+                                "url",
+                                "util",
+                                "v8",
+                                "vm",
+                                "wasi",
+                                "worker",
+                                "zlib",
+                            ]
+                            .into_iter()
+                            .map(From::from)
+                            .collect(),
+                        },
                     );
 
                     let modules = bundler.bundle(entries).expect("failed to bundle module");

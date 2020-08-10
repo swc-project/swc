@@ -18,6 +18,12 @@ mod scope;
 mod tests;
 mod usage_analysis;
 
+#[derive(Debug)]
+pub struct Config {
+    pub require: bool,
+    pub external_modules: Vec<JsWord>,
+}
+
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum BundleKind {
     /// User-provided entry
@@ -44,12 +50,12 @@ where
     L: Load,
     R: Resolve,
 {
+    config: Config,
+
     globals: &'a Globals,
     cm: Lrc<SourceMap>,
     loader: L,
     resolver: R,
-
-    external_modules: Vec<JsWord>,
 
     /// [Mark] used while tree shaking
     used_mark: Mark,
@@ -69,7 +75,7 @@ where
         cm: Lrc<SourceMap>,
         loader: L,
         resolver: R,
-        external_modules: Vec<JsWord>,
+        config: Config,
     ) -> Self {
         GLOBALS.set(&globals, || {
             let used_mark = Mark::fresh(Mark::root());
@@ -88,7 +94,7 @@ where
                 top_level_mark,
                 scope: Default::default(),
                 globals,
-                external_modules,
+                config,
             }
         })
     }

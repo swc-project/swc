@@ -115,7 +115,13 @@ where
 {
     fn mark_for(&self, src: &str) -> Option<Mark> {
         // Don't apply mark if it's a core module.
-        if self.bundler.external_modules.iter().any(|v| v == src) {
+        if self
+            .bundler
+            .config
+            .external_modules
+            .iter()
+            .any(|v| v == src)
+        {
             return None;
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
@@ -132,7 +138,12 @@ where
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
             // Ignore if it's a core module.
-            if self.bundler.external_modules.contains(&import.src.value) {
+            if self
+                .bundler
+                .config
+                .external_modules
+                .contains(&import.src.value)
+            {
                 return import;
             }
 
@@ -351,13 +362,14 @@ where
 
                 match &e.callee {
                     ExprOrSuper::Expr(callee)
-                        if match &**callee {
-                            Expr::Ident(Ident {
-                                sym: js_word!("require"),
-                                ..
-                            }) => true,
-                            _ => false,
-                        } =>
+                        if self.bundler.config.require
+                            && match &**callee {
+                                Expr::Ident(Ident {
+                                    sym: js_word!("require"),
+                                    ..
+                                }) => true,
+                                _ => false,
+                            } =>
                     {
                         let span = callee.span();
 
@@ -416,13 +428,15 @@ where
                     callee: ExprOrSuper::Expr(ref callee),
                     ref args,
                     ..
-                }) if match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("require"),
-                        ..
-                    }) => true,
-                    _ => false,
-                } && args.len() == 1 =>
+                }) if self.bundler.config.require
+                    && match &**callee {
+                        Expr::Ident(Ident {
+                            sym: js_word!("require"),
+                            ..
+                        }) => true,
+                        _ => false,
+                    }
+                    && args.len() == 1 =>
                 {
                     let span = *span;
                     let src = match args.first().unwrap() {
@@ -433,7 +447,7 @@ where
                         _ => return node,
                     };
                     // Ignore core modules.
-                    if self.bundler.external_modules.contains(&src.value) {
+                    if self.bundler.config.external_modules.contains(&src.value) {
                         return node;
                     }
 

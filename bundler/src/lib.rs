@@ -1,5 +1,5 @@
 pub use self::{
-    bundler::{Bundle, BundleKind, Bundler},
+    bundler::{Bundle, BundleKind, Bundler, Config},
     id::ModuleId,
     load::Load,
     resolve::Resolve,
