@@ -9,7 +9,7 @@ use swc_ecma_visit::{Fold, FoldWith};
 pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
     let module = t.clone().fold_with(&mut HygieneVisualizer);
 
-    println!("@{}", event);
+    println!("==================== @ {} ====================", event);
     Emitter {
         cfg: swc_ecma_codegen::Config { minify: false },
         cm: cm.clone(),
