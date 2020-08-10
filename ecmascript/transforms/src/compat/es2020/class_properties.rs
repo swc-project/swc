@@ -586,7 +586,10 @@ impl ClassProperties {
                         c.params = c.params.move_map(|mut param| match &mut param {
                             ParamOrTsParamProp::TsParamProp(p) => match &p.param {
                                 TsParamPropParam::Ident(i) => {
-                                    typescript_constructor_properties.push(store(i));
+                                    typescript_constructor_properties.push(store(&Ident {
+                                        type_ann: None,
+                                        ..i.clone()
+                                    }));
                                     ParamOrTsParamProp::Param(Param {
                                         span: p.span,
                                         decorators: take(&mut p.decorators),
@@ -595,11 +598,19 @@ impl ClassProperties {
                                 }
                                 TsParamPropParam::Assign(pat) => match &*pat.left {
                                     Pat::Ident(i) => {
-                                        typescript_constructor_properties.push(store(i));
+                                        typescript_constructor_properties.push(store(&Ident {
+                                            type_ann: None,
+                                            ..i.clone()
+                                        }));
                                         ParamOrTsParamProp::Param(Param {
                                             span: p.span,
                                             decorators: take(&mut p.decorators),
-                                            pat: Pat::Ident(i.clone()),
+                                            pat: Pat::Assign(AssignPat {
+                                                span: DUMMY_SP,
+                                                left: pat.left.clone(),
+                                                right: pat.right.clone(),
+                                                type_ann: None,
+                                            }),
                                         })
                                     }
                                     _ => param,
