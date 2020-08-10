@@ -174,7 +174,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         },
                     );
 
-                    let modules = bundler.bundle(entries).expect("failed to bundle module");
+                    let modules = bundler.bundle(entries).map_err(|_| ())?;
                     log::info!("Bundled as {} modules", modules.len());
 
                     let mut error = false;
