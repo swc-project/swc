@@ -763,15 +763,17 @@ test!(
             foo = 'foo'
             b = this.a;
           
-            constructor(readonly a) {
+            constructor(private readonly a: string, readonly c, private d: number = 1) {
                 super()
                 this.foo.subscribe()
             }
           }",
     "class A extends B {
-        constructor(a) {
+        constructor(a, c, d = 1) {
             super();
             this.a = a;
+            this.c = c;
+            this.d = d;
             this.foo = 'foo';
             this.b = this.a;
             this.foo.subscribe();
