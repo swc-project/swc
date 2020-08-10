@@ -14,14 +14,6 @@ pub(super) struct Scope {
 }
 
 impl Scope {
-    pub fn has(&self, file_name: &FileName) -> bool {
-        if let Some(id) = self.module_id_gen.get(file_name) {
-            return self.transformed_modules.get(&id).is_some();
-        }
-
-        false
-    }
-
     /// Stores module information. The information should contain only
     /// information gotten from module itself. In other words, it should not
     /// contains information from a dependency.
