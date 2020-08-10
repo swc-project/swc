@@ -388,6 +388,8 @@ impl ClassProperties {
                         }
                     };
 
+                    let assigned_value = prop.value.is_some();
+
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
                     let value = if prop.is_static {
                         value
@@ -427,7 +429,7 @@ impl ClassProperties {
                                 }
                                 .into_stmt(),
                             );
-                        } else {
+                        } else if assigned_value {
                             constructor_exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 left: (PatOrExpr::Expr(Box::new(
