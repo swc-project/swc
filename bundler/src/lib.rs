@@ -6,6 +6,7 @@ pub use self::{
 };
 
 mod bundler;
+mod debug;
 mod hash;
 mod id;
 mod load;

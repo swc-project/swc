@@ -1,5 +1,6 @@
 use crate::{
     bundler::{export::Exports, load::Specifier},
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -42,20 +43,7 @@ where
 
             log::info!("Merge: {} <= {:?}", info.fm.name, targets);
 
-            // {
-            //     let code = self
-            //         .swc
-            //         .print(
-            //             &entry.clone().fold_with(&mut HygieneVisualizer),
-            //             SourceMapsConfig::Bool(false),
-            //             None,
-            //             false,
-            //         )
-            //         .unwrap()
-            //         .code;
-            //
-            //     println!("Before merging:\n{}\n\n\n", code);
-            // }
+            print_hygiene("before:merge", &self.cm, &entry);
 
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
@@ -103,38 +91,12 @@ where
                     }
 
                     if imported.is_es6 {
-                        //{
-                        //    let code = self
-                        //        .swc
-                        //        .print(
-                        //            &dep.clone().fold_with(&mut HygieneVisualizer),
-                        //            info.fm.clone(),
-                        //            false,
-                        //            false,
-                        //        )
-                        //        .unwrap()
-                        //        .code;
-                        //
-                        //    println!("Dep before drop_unused:\n{}\n\n\n", code);
-                        //}
+                        print_hygiene("before:tree-shaking", &self.cm, &entry);
 
                         // Tree-shaking
                         dep = self.drop_unused(dep, Some(&specifiers));
 
-                        //{
-                        //    let code = self
-                        //        .swc
-                        //        .print(
-                        //            &dep.clone().fold_with(&mut HygieneVisualizer),
-                        //            info.fm.clone(),
-                        //            false,
-                        //            false,
-                        //        )
-                        //        .unwrap()
-                        //        .code;
-                        //
-                        //    println!("Dep after drop_unused:\n{}\n\n\n", code);
-                        //}
+                        print_hygiene("after:tree-shaking", &self.cm, &entry);
 
                         if let Some(imports) = info
                             .imports
