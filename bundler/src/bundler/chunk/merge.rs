@@ -231,7 +231,7 @@ where
                         }
                     }
 
-                    {
+                    if self.config.require {
                         // common js module is transpiled as
                         //
                         //  Src:
@@ -330,12 +330,10 @@ where
                             type_args: None,
                         };
 
-                        if self.config.require {
-                            entry.body.visit_mut_with(&mut RequireReplacer {
-                                src: src.src.value.clone(),
-                                load,
-                            });
-                        }
+                        entry.body.visit_mut_with(&mut RequireReplacer {
+                            src: src.src.value.clone(),
+                            load,
+                        });
 
                         // {
                         //     let code = self
