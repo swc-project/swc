@@ -9,11 +9,23 @@ use swc_common::FileName;
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
+    loaded_modules: CloneMap<ModuleId, ()>,
+
     /// Cached after applying basical transformations.
     transformed_modules: CloneMap<ModuleId, TransformedModule>,
 }
 
 impl Scope {
+    pub fn is_loaded(&self, file_name: &FileName) -> bool {
+        let id = self.module_id_gen.gen(file_name);
+
+        self.loaded_modules.get(&id.0).is_some()
+    }
+
+    pub fn mark_as_loaded(&self, id: ModuleId) {
+        self.loaded_modules.insert(id, ());
+    }
+
     /// Stores module information. The information should contain only
     /// information gotten from module itself. In other words, it should not
     /// contains information from a dependency.
