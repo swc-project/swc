@@ -58,14 +58,14 @@ where
         self.run(|| {
             log::trace!("load_transformed: ({})", file_name);
 
-            // // Handle circular dependency
-            // if self.scope.module_id_gen.has(file_name) {
-            //     return Ok(None);
-            // }
-
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(&file_name) {
                 return Ok(Some(cached));
+            }
+
+            // Handle circular dependency
+            if self.scope.has(file_name) {
+                return Ok(None);
             }
 
             let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;

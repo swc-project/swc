@@ -24,8 +24,8 @@ pub(crate) struct ModuleIdGenerator {
 }
 
 impl ModuleIdGenerator {
-    pub fn has(&self, file_name: &FileName) -> bool {
-        self.cache.get(file_name).is_some()
+    pub fn get(&self, file_name: &FileName) -> Option<ModuleId> {
+        self.cache.get(file_name).map(|v| v.0)
     }
 
     pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark) {
