@@ -54,10 +54,10 @@ where
             print_hygiene("before:merge", &self.cm, &entry);
 
             for (src, specifiers) in &info.imports.specifiers {
-                // Already combined by recursive call to merge_modules.
                 if !targets.contains(&src.module_id) {
+                    // Already merged by recursive call to merge_modules.
                     log::debug!(
-                        "Not merging: not in target: ({}):{} <= ({}):{}",
+                        "Not merging: already merged: ({}):{} <= ({}):{}",
                         info.id,
                         info.fm.name,
                         src.module_id,
@@ -66,6 +66,7 @@ where
 
                     // TODO: Respan using imported module's syntax context.
 
+                    // Drop imports, as they are already merged.
                     entry.body.retain(|item| {
                         match item {
                             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
