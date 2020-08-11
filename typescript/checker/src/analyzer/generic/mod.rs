@@ -10,10 +10,9 @@ use crate::{
     util::{EqIgnoreSpan, TypeEq},
     ValidationResult,
 };
-use fxhash::{FxHashMap, FxHashSet};
+use fxhash::FxHashMap;
 use itertools::{EitherOrBoth, Itertools};
 use std::{collections::hash_map::Entry, mem::take};
-use swc_atoms::js_word;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ts_types::Id;

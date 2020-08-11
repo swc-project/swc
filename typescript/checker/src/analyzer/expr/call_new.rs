@@ -25,6 +25,7 @@ use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ts_types::Id;
+use ty::TypeExt;
 
 #[validator]
 impl Validate<ExprOrSpread> for Analyzer<'_, '_> {

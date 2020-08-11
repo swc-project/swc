@@ -583,29 +583,29 @@ impl Type {
         self.is_kwd(TsKeywordTypeKind::TsNeverKeyword)
     }
 
-    pub const fn never<'any>(span: Span) -> Type {
+    pub fn never<'any>(span: Span) -> Box<Type> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsNeverKeyword,
         })
     }
 
-    pub const fn undefined<'any>(span: Span) -> Type {
+    pub fn undefined<'any>(span: Span) -> Box<Type> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsUndefinedKeyword,
         })
     }
 
-    pub const fn any<'any>(span: Span) -> Type {
-        Type::Keyword(TsKeywordType {
+    pub fn any<'any>(span: Span) -> Box<Type> {
+        box Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsAnyKeyword,
         })
     }
 
-    pub const fn unknown<'any>(span: Span) -> Type {
-        Type::Keyword(TsKeywordType {
+    pub fn unknown<'any>(span: Span) -> Box<Type> {
+        box Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsUnknownKeyword,
         })

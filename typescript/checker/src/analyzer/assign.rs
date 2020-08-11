@@ -674,10 +674,10 @@ impl Analyzer<'_, '_> {
                 _ => fail!(),
             },
 
-            Type::Function(Function { ref ret_ty, .. }) => {
+            Type::Function(ty::Function { ref ret_ty, .. }) => {
                 // var fnr2: () => any = fnReturn2();
                 match *rhs.normalize() {
-                    Type::Function(Function {
+                    Type::Function(ty::Function {
                         ret_ty: ref r_ret_ty,
                         ..
                     }) => {
@@ -704,7 +704,7 @@ impl Analyzer<'_, '_> {
                         }
 
                         for (l, r) in types.into_iter().zip(r_types) {
-                            match self.assign_inner(l, r, span) {
+                            match self.assign_inner(&l.ty, &r.ty, span) {
                                 // Great
                                 Ok(()) => {}
                                 Err(err) => {
@@ -713,7 +713,7 @@ impl Analyzer<'_, '_> {
                                     //      var [a, b]: [number, any] = [undefined, undefined];
                                     //
                                     // is valid typescript.
-                                    match *r.normalize() {
+                                    match *r.ty.normalize() {
                                         Type::Keyword(TsKeywordType {
                                             kind: TsKeywordTypeKind::TsUndefinedKeyword,
                                             ..
@@ -758,7 +758,7 @@ impl Analyzer<'_, '_> {
 
             Type::Constructor(ref lc) => match *rhs.normalize() {
                 Type::Lit(..)
-                | Type::Class(Class {
+                | Type::Class(ty::Class {
                     is_abstract: true, ..
                 }) => fail!(),
                 _ => {}
@@ -826,7 +826,7 @@ impl Analyzer<'_, '_> {
         let mut errors = Errors::default();
         let mut missing_fields = vec![];
 
-        let numeric_keyed_ty: Option<Option<&Type>> = lhs
+        let numeric_keyed_ty = lhs
             .iter()
             .filter_map(|e| match e {
                 TypeElement::Index(ref i)
@@ -841,7 +841,7 @@ impl Analyzer<'_, '_> {
             .next();
 
         if let Some(numeric_keyed_ty) = numeric_keyed_ty {
-            let any = Type::any(span);
+            let any = box Type::any(span);
             let numeric_keyed_ty = numeric_keyed_ty.unwrap_or(&any);
 
             match *rhs.normalize() {
@@ -851,8 +851,8 @@ impl Analyzer<'_, '_> {
 
                 Type::Tuple(Tuple { ref types, .. }) => {
                     let mut errors = Errors::default();
-                    for ty in types {
-                        self.assign_inner(numeric_keyed_ty, ty, ty.span())
+                    for el in types {
+                        self.assign_inner(numeric_keyed_ty, &el.ty, el.span())
                             .store(&mut errors);
                     }
                     return if errors.is_empty() {
@@ -961,7 +961,7 @@ impl Analyzer<'_, '_> {
 
             match *rhs.normalize() {
                 // Check class itself
-                Type::Class(Class { ref body, .. }) => {
+                Type::Class(ty::Class { ref body, .. }) => {
                     match m {
                         TypeElement::Call(_) => {
                             unimplemented!("assign: interface {{ () => ret; }} = class Foo {{}}")
@@ -970,7 +970,7 @@ impl Analyzer<'_, '_> {
                             // TODO: Check # of parameters
                             for rm in body {
                                 match rm {
-                                    ClassMember::Constructor(..) => continue 'l,
+                                    ty::ClassMember::Constructor(..) => continue 'l,
                                     _ => {}
                                 }
                             }
@@ -986,7 +986,7 @@ impl Analyzer<'_, '_> {
 
                             for rm in body {
                                 match rm {
-                                    ClassMember::Constructor(..) => continue 'l,
+                                    ty::ClassMember::Constructor(..) => continue 'l,
                                     _ => {}
                                 }
                             }
@@ -1004,7 +1004,7 @@ impl Analyzer<'_, '_> {
 
                 // Check class members
                 Type::ClassInstance(ClassInstance {
-                    cls: Class { ref body, .. },
+                    cls: ty::Class { ref body, .. },
                     ..
                 }) => {
                     match m {
