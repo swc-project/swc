@@ -6,10 +6,7 @@
 
 pub use self::{
     id::Id,
-    visit::{
-        Fold, FoldWith as FoldTypeWith, Node as TypeNode, Visit, VisitMut,
-        VisitMutWith as VisitTypeMutWith, VisitWith as VisitTypeWith,
-    },
+    visit::{Fold, FoldWith, Node as TypeNode, Visit, VisitMut, VisitMutWith, VisitWith},
 };
 use fxhash::FxHashMap;
 use is_macro::Is;
