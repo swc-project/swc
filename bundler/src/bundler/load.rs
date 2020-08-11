@@ -202,16 +202,18 @@ where
                 .items
                 .into_par_iter()
                 .map(|(src, ss)| -> Result<_, Error> {
-                    let info = match src {
-                        Some(src) => {
-                            let path = self.resolve(base, &src.value)?;
-                            let (id, _) = self.scope.module_id_gen.gen(&path);
-                            Some((id, src))
-                        }
-                        None => None,
-                    };
+                    self.run(|| {
+                        let info = match src {
+                            Some(src) => {
+                                let path = self.resolve(base, &src.value)?;
+                                let (id, _) = self.scope.module_id_gen.gen(&path);
+                                Some((id, src))
+                            }
+                            None => None,
+                        };
 
-                    Ok((info, ss))
+                        Ok((info, ss))
+                    })
                 })
                 .collect::<Vec<_>>();
 
@@ -276,11 +278,13 @@ where
                     )
                 }))
                 .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
-                    //
-                    let file_name = self.resolve(base, &decl.src.value)?;
-                    let (id, _) = self.scope.module_id_gen.gen(&file_name);
+                    self.run(|| {
+                        //
+                        let file_name = self.resolve(base, &decl.src.value)?;
+                        let (id, _) = self.scope.module_id_gen.gen(&file_name);
 
-                    Ok((id, decl, dynamic, unconditional))
+                        Ok((id, decl, dynamic, unconditional))
+                    })
                 })
                 .collect::<Vec<_>>();
 
