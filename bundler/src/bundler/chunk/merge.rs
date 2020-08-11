@@ -49,7 +49,7 @@ where
             if is_circular {
                 log::info!("Circular dependency detected");
                 // TODO: provide only circular imports.
-                return Ok(self.merge_circular_modules(entry, &*targets));
+                return Ok(self.merge_circular_modules(entry, targets));
             }
 
             let mut entry: Module = (*info.module).clone();
@@ -97,6 +97,7 @@ where
                     });
                     continue;
                 }
+
                 log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
                 if specifiers.iter().any(|v| v.is_namespace()) {

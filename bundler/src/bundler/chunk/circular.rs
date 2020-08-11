@@ -18,7 +18,7 @@ where
     pub(super) fn merge_circular_modules(
         &self,
         entry: ModuleId,
-        circular_modules: &[ModuleId],
+        circular_modules: &mut Vec<ModuleId>,
     ) -> Module {
         assert!(
             circular_modules.len() >= 1,
@@ -40,11 +40,14 @@ where
 
         let mut entry = self.process_circular_module(&modules, entry_module);
 
-        for &dep in circular_modules {
+        for &dep in &*circular_modules {
             let new_module = self.merge_two_circular_modules(&modules, entry, dep);
 
             entry = new_module;
         }
+
+        // All circular modules are inlined
+        circular_modules.clear();
 
         entry
     }
