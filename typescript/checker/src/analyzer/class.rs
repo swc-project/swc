@@ -105,7 +105,7 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
 
                 let mut visitor = VarVisitor { names: &mut names };
 
-                param.visit_with(&mut visitor);
+                param.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
 
                 child.scope.declaring.extend(names.clone());
 
@@ -310,7 +310,7 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
 
         let ret_ty = declared_ret_ty.unwrap_or_else(|| {
             inferred_ret_ty.unwrap_or_else(|| {
-                ty::Type::Keyword(TsKeywordType {
+                box ty::Type::Keyword(TsKeywordType {
                     span: c_span,
                     kind: if c.function.body.is_some() {
                         TsKeywordTypeKind::TsVoidKeyword
@@ -333,7 +333,7 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
             is_optional: c.is_optional,
             type_params,
             params,
-            ret_ty: box ret_ty,
+            ret_ty,
             kind: c.kind,
         })
     }
@@ -668,7 +668,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                     types_to_register
                                         .push((new_ty.clone().into(), super_ty.clone()));
 
-                                    let super_ty = ty::Type::Intersection(ty::Intersection {
+                                    let super_ty = box ty::Type::Intersection(ty::Intersection {
                                         types: i
                                             .types
                                             .iter()
@@ -681,7 +681,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                                             .name
                                                             .as_ref()
                                                             .map(|id| {
-                                                                ty::Type::Query(ty::QueryType {
+                                                                box ty::Type::Query(ty::QueryType {
                                                                     span: c.span,
                                                                     expr:
                                                                         ty::QueryExpr::TsEntityName(
@@ -739,7 +739,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                         type_args: None,
                                     }))
                                 }
-                                _ => Some(box super_ty),
+                                _ => Some(super_ty),
                             }
                         }
 
@@ -827,9 +827,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                             ClassMember::Method(m) => match &mut m.key {
                                 PropName::Computed(c) => match c.expr.validate_with(child) {
                                     Ok(ty) => {
-                                        let ty: ty::Type = ty;
-
-                                        match ty {
+                                        match *ty {
                                             ty::Type::EnumVariant(e) => return None,
                                             _ => {}
                                         }
@@ -895,7 +893,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                         if param.ty.is_any() {
                                             if let Some(ty) = prop_types.get_prop_name(&m.key) {
                                                 let new_ty =
-                                                    ty.clone().generalize_lit().into_owned();
+                                                    box ty.clone().generalize_lit().into_owned();
                                                 param.ty = new_ty.clone();
                                                 match orig {
                                                     ClassMember::Method(ref mut method) => {
