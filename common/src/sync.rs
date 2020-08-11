@@ -103,27 +103,17 @@ impl<T> Lock<T> {
     //     self.0.get_mut()
     // }
 
-    // #[cfg(parallel_compiler)]
+    // #[cfg(feature = "concurrent")]
     // #[inline(always)]
     // pub fn try_lock(&self) -> Option<LockGuard<'_, T>> {
     //     self.0.try_lock()
     // }
     //
-    // #[cfg(not(parallel_compiler))]
+    // #[cfg(not(feature = "concurrent"))]
     // #[inline(always)]
     // pub fn try_lock(&self) -> Option<LockGuard<'_, T>> {
     //     self.0.try_borrow_mut().ok()
     // }
-
-    #[cfg(parallel_compiler)]
-    #[inline(always)]
-    pub fn lock(&self) -> LockGuard<'_, T> {
-        if ERROR_CHECKING {
-            self.0.try_lock().expect("lock was already held")
-        } else {
-            self.0.lock()
-        }
-    }
 
     #[cfg(feature = "concurrent")]
     #[inline(always)]
@@ -277,6 +267,56 @@ impl<T> RwLock<T> {
     #[inline(always)]
     pub fn borrow(&self) -> ReadGuard<'_, T> {
         self.read()
+    }
+
+    #[inline(always)]
+    pub fn get_mut(&mut self) -> &mut T {
+        self.0.get_mut()
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    #[inline(always)]
+    pub fn read(&self) -> ReadGuard<'_, T> {
+        self.0.borrow()
+    }
+
+    #[inline(always)]
+    pub fn with_read_lock<F: FnOnce(&T) -> R, R>(&self, f: F) -> R {
+        f(&*self.read())
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    #[inline(always)]
+    pub fn try_write(&self) -> Result<WriteGuard<'_, T>, ()> {
+        self.0.try_borrow_mut().map_err(|_| ())
+    }
+
+    #[cfg(feature = "concurrent")]
+    #[inline(always)]
+    pub fn try_write(&self) -> Result<WriteGuard<'_, T>, ()> {
+        self.0.try_write().ok_or(())
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    #[inline(always)]
+    pub fn write(&self) -> WriteGuard<'_, T> {
+        self.0.borrow_mut()
+    }
+
+    #[cfg(feature = "concurrent")]
+    #[inline(always)]
+    pub fn write(&self) -> WriteGuard<'_, T> {
+        self.0.write()
+    }
+
+    #[inline(always)]
+    pub fn with_write_lock<F: FnOnce(&mut T) -> R, R>(&self, f: F) -> R {
+        f(&mut *self.write())
+    }
+
+    #[inline(always)]
+    pub fn borrow_mut(&self) -> WriteGuard<'_, T> {
+        self.write()
     }
 }
 
