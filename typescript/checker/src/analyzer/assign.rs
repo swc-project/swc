@@ -3,6 +3,7 @@ use crate::{
     analyzer::util::ResultExt,
     debug::print_backtrace,
     errors::{Error, Errors},
+    ty::{self, TypeExt},
     util::{EqIgnoreSpan, TypeEq},
     ValidationResult,
 };
@@ -423,8 +424,8 @@ impl Analyzer<'_, '_> {
                 }
 
                 Type::Tuple(Tuple { ref types, .. }) => {
-                    for ty in types {
-                        self.assign_inner(elem_type, ty, span)?;
+                    for el in types {
+                        self.assign_inner(elem_type, &el.ty, span)?;
                     }
                     return Ok(());
                 }
@@ -776,7 +777,7 @@ impl Analyzer<'_, '_> {
         Ok(())
     }
 
-    fn assign_class(&self, span: Span, l: &Class, r: &Class) -> ValidationResult<()> {
+    fn assign_class(&self, span: Span, l: &ty::Class, r: &ty::Class) -> ValidationResult<()> {
         debug_assert!(!span.is_dummy());
 
         if l.eq_ignore_span(r) {

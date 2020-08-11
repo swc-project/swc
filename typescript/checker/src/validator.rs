@@ -1,8 +1,6 @@
-use swc_ecma_visit::VisitMutWith;
-
 /// Visit with output
 pub trait Validate<T: ?Sized> {
-    type Output: Output;
+    type Output;
 
     fn validate(&mut self, node: &mut T) -> Self::Output;
 }
@@ -46,15 +44,11 @@ where
 pub trait ValidateWith<V> {
     type Output;
     fn validate_with(&mut self, v: &mut V) -> Self::Output;
-
-    fn validate_children(&mut self, v: &mut V);
 }
 
 impl<V, T> ValidateWith<V> for T
 where
     V: Validate<T>,
-    T: VisitMutWith<V>,
-    V: swc_ecma_visit::VisitMut,
 {
     type Output = V::Output;
 
@@ -62,23 +56,4 @@ where
     fn validate_with(&mut self, v: &mut V) -> Self::Output {
         v.validate(self)
     }
-
-    #[inline]
-    fn validate_children(&mut self, v: &mut V) {
-        self.visit_mut_children(v);
-    }
-}
-
-pub trait Output: Sized {
-    fn unit() -> Self;
-}
-
-impl<T> Output for T {
-    default fn unit() -> Self {
-        unreachable!()
-    }
-}
-
-impl Output for () {
-    fn unit() -> Self {}
 }

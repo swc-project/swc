@@ -14,6 +14,7 @@ use crate::{
 };
 use either::Either;
 use fxhash::{FxHashMap, FxHashSet};
+use once_cell::sync::Lazy;
 use smallvec::SmallVec;
 use std::{
     borrow::Cow,
@@ -55,7 +56,7 @@ pub(crate) struct Scope<'a> {
     pub declaring: SmallVec<[Id; 8]>,
 
     pub(super) vars: FxHashMap<Id, VarInfo>,
-    pub(super) types: FxHashMap<Id, Vec<Type>>,
+    pub(super) types: FxHashMap<Id, Vec<Box<Type>>>,
     pub(super) facts: CondFacts,
 
     pub(super) declaring_fn: Option<Id>,
@@ -471,18 +472,18 @@ impl Analyzer<'_, '_> {
 
     #[inline(never)]
     pub(super) fn find_var(&self, name: &Id) -> Option<&VarInfo> {
-        static ERR_VAR: VarInfo = VarInfo {
-            ty: Some(Type::any(DUMMY_SP)),
+        static ERR_VAR: Lazy<VarInfo> = Lazy::new(|| VarInfo {
+            ty: Some(box Type::any(DUMMY_SP)),
             kind: VarDeclKind::Const,
             initialized: true,
             copied: false,
-        };
-        static ANY_VAR: VarInfo = VarInfo {
-            ty: Some(Type::any(DUMMY_SP)),
+        });
+        static ANY_VAR: Lazy<VarInfo> = Lazy::new(|| VarInfo {
+            ty: Some(box Type::any(DUMMY_SP)),
             kind: VarDeclKind::Const,
             initialized: true,
             copied: false,
-        };
+        });
 
         if self.errored_imports.get(name).is_some() {
             return Some(&ERR_VAR);
@@ -924,7 +925,7 @@ impl Analyzer<'_, '_> {
 pub(crate) struct VarInfo {
     pub kind: VarDeclKind,
     pub initialized: bool,
-    pub ty: Option<Type>,
+    pub ty: Option<Box<Type>>,
     /// Copied from parent scope. If this is true, it's not a variable
     /// declaration.
     pub copied: bool,

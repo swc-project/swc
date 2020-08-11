@@ -53,3 +53,5 @@ pub trait TypeExt: Into<Type> {
         self.into().fold_with(&mut TypeFactsHandler { facts })
     }
 }
+
+impl<T> TypeExt for T where T: Into<Type> {}
