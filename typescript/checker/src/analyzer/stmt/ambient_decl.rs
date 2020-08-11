@@ -1,5 +1,6 @@
 use crate::errors::{Error, Errors};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Node;
 
 /// Handles
 ///
@@ -15,7 +16,7 @@ pub struct AmbientFunctionHandler<'a> {
 }
 
 impl swc_ecma_visit::Visit for AmbientFunctionHandler<'_> {
-    fn visit_stmt(&mut self, node: &Stmt) {
+    fn visit_stmt(&mut self, node: &Stmt, _: &dyn Node) {
         node.visit_children(self);
 
         match node {
@@ -29,7 +30,7 @@ impl swc_ecma_visit::Visit for AmbientFunctionHandler<'_> {
         }
     }
 
-    fn visit_fn_decl(&mut self, node: &FnDecl) {
+    fn visit_fn_decl(&mut self, node: &FnDecl, _: &dyn Node) {
         if node.declare {
             return;
         }
@@ -55,5 +56,5 @@ impl swc_ecma_visit::Visit for AmbientFunctionHandler<'_> {
         }
     }
 
-    fn visit_ts_module_decl(&mut self, _: &TsModuleDecl) {}
+    fn visit_ts_module_decl(&mut self, _: &TsModuleDecl, _: &dyn Node) {}
 }
