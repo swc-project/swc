@@ -1,0 +1,83 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 29,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 29,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 7,
+          "end": 29,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 13,
+              "end": 29,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 20,
+                "ctxt": 0
+              },
+              "value": "Divider",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "JSXElement",
+              "span": {
+                "start": 23,
+                "end": 29,
+                "ctxt": 0
+              },
+              "opening": {
+                "type": "JSXOpeningElement",
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 24,
+                    "end": 27,
+                    "ctxt": 0
+                  },
+                  "value": "div",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "span": {
+                  "start": 23,
+                  "end": 29,
+                  "ctxt": 0
+                },
+                "attributes": [],
+                "selfClosing": true,
+                "typeArguments": null
+              },
+              "children": [],
+              "closing": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}
