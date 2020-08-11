@@ -4,9 +4,8 @@ use crate::{
 };
 use hygiene::top_level_ident_folder;
 use std::iter::once;
-use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::FoldWith;
 
 mod hygiene;
 
