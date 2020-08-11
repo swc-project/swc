@@ -385,7 +385,7 @@ impl ty::Visit for TypeParamFinder {
 
 fn contains_type_param<T>(node: &T) -> bool
 where
-    T: VisitWith<TypeParamFinder>,
+    T: ty::VisitWith<TypeParamFinder>,
 {
     let mut v = TypeParamFinder { found: false };
 

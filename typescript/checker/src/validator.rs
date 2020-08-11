@@ -9,7 +9,6 @@ pub trait Validate<T: ?Sized> {
 
 impl<T, V> Validate<Box<T>> for V
 where
-    T: VisitMutWith<Self>,
     Self: Validate<T>,
 {
     type Output = <Self as Validate<T>>::Output;
@@ -21,7 +20,6 @@ where
 
 impl<T, V> Validate<Option<T>> for V
 where
-    T: VisitMutWith<Self>,
     Self: Validate<T>,
 {
     type Output = Option<<Self as Validate<T>>::Output>;
@@ -36,7 +34,6 @@ where
 
 impl<T, V, O, E> Validate<Vec<T>> for V
 where
-    T: VisitMutWith<Self>,
     Self: Validate<T, Output = Result<O, E>>,
 {
     type Output = Result<Vec<O>, E>;
@@ -57,6 +54,7 @@ impl<V, T> ValidateWith<V> for T
 where
     V: Validate<T>,
     T: VisitMutWith<V>,
+    V: swc_ecma_visit::VisitMut,
 {
     type Output = V::Output;
 
