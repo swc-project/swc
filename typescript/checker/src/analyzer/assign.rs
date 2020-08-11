@@ -895,9 +895,14 @@ impl Analyzer<'_, '_> {
                             }
                         };
                         if success && $rhs.len() > i {
-                            unhandled_rhs
-                                .remove_item(&$rhs[i].span())
-                                .expect("it should be removable");
+                            if let Some(pos) = unhandled_rhs
+                                .iter()
+                                .position(|span| *span == $rhs[i].span())
+                            {
+                                unhandled_rhs.remove(pos);
+                            } else {
+                                panic!("it should be removable")
+                            }
                         }
                     }
                 }};
