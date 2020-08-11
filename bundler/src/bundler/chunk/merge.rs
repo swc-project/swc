@@ -32,9 +32,14 @@ where
         targets: &mut Vec<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
-            log::trace!("merge_modules({})", entry);
-
             let is_circular = self.scope.is_circular(entry);
+
+            log::trace!(
+                "merge_modules({}) <- {:?}; circular = {}",
+                entry,
+                targets,
+                is_circular
+            );
 
             let info = self.scope.get_module(entry).unwrap();
             if targets.is_empty() {
@@ -44,7 +49,7 @@ where
             if is_circular {
                 log::info!("Circular dependency detected");
                 // TODO: provide only circular imports.
-                return Ok(self.merge_circular_modules(&*targets));
+                return Ok(self.merge_circular_modules(entry, &*targets));
             }
 
             let mut entry: Module = (*info.module).clone();
@@ -606,11 +611,11 @@ impl Fold for ActualMarker<'_> {
 }
 
 /// Applied to the importer module, and marks (connects) imported idents.
-struct LocalMarker<'a> {
+pub(super) struct LocalMarker<'a> {
     /// Mark applied to imported idents.
-    mark: Mark,
-    specifiers: &'a [Specifier],
-    excluded: Vec<Id>,
+    pub mark: Mark,
+    pub specifiers: &'a [Specifier],
+    pub excluded: Vec<Id>,
 }
 
 impl<'a> LocalMarker<'a> {
