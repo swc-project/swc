@@ -74,7 +74,7 @@ where
             }
 
             let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
-            let v = self
+            let (v, files) = self
                 .transform_module(&file_name, fm.clone(), module)
                 .context("failed to transform module")?;
 
@@ -116,12 +116,13 @@ where
         })
     }
 
+    /// This methods returns [Source]s which should be loaded.
     fn transform_module(
         &self,
         file_name: &FileName,
         fm: Lrc<SourceFile>,
         mut module: Module,
-    ) -> Result<TransformedModule, Error> {
+    ) -> Result<(TransformedModule, Vec<Source>), Error> {
         self.run(|| {
             log::trace!("transform_module({})", fm.name);
             module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
@@ -162,16 +163,6 @@ where
 
             let exports = self.extract_export_info(&module);
 
-            // TODO: Exclude resolver (for performance)
-            let (imports, exports) = {
-                util::join(
-                    || self.load_imports(&file_name, imports),
-                    || self.load_exports(&file_name, exports),
-                )
-            };
-
-            let imports = imports?;
-            let exports = exports?;
             let is_es6 = {
                 let mut v = Es6ModuleDetector {
                     forced_es6: false,
@@ -184,24 +175,41 @@ where
                 module = self.drop_unused(module, None);
             }
 
+            let (imports, exports) = util::join(
+                || self.resolve_imports(file_name, imports),
+                || self.resolve_exports(file_name, exports),
+            );
+            let (imports, mut import_files) = imports?;
+            let (exports, reexport_files) = exports?;
+            import_files.extend(reexport_files);
+
             let module = Lrc::new(module);
 
-            Ok(TransformedModule {
-                id,
-                fm,
-                module,
-                imports: Lrc::new(imports),
-                exports: Lrc::new(exports),
-                is_es6,
-                helpers: Default::default(),
-                mark,
-            })
+            Ok((
+                TransformedModule {
+                    id,
+                    fm,
+                    module,
+                    imports: Lrc::new(imports),
+                    exports: Lrc::new(exports),
+                    is_es6,
+                    helpers: Default::default(),
+                    mark,
+                },
+                import_files,
+            ))
         })
     }
 
-    fn load_exports(&self, base: &FileName, raw: RawExports) -> Result<Exports, Error> {
+    /// Resolve re-exports.
+    fn resolve_exports(
+        &self,
+        base: &FileName,
+        raw: RawExports,
+    ) -> Result<(Exports, Vec<Source>), Error> {
         self.run(|| {
-            log::trace!("load_exports({})", base);
+            log::trace!("resolve_exports({})", base);
+            let mut files = vec![];
 
             let mut exports = Exports::default();
 
@@ -213,8 +221,7 @@ where
                         Some(src) => {
                             let path = self.resolve(base, &src.value)?;
                             let (id, _) = self.scope.module_id_gen.gen(&path);
-                            let module = self.load_transformed(&path)?;
-                            Some((id, module, src))
+                            Some((id, src))
                         }
                         None => None,
                     };
@@ -228,7 +235,7 @@ where
 
                 match info {
                     None => exports.items.extend(specifiers),
-                    Some((id, info, src)) => {
+                    Some((id, src)) => {
                         //
                         let src = Source {
                             is_loaded_synchronously: true,
@@ -236,24 +243,29 @@ where
                             module_id: id,
                             src,
                         };
-                        match info {
-                            Some(..) => {
-                                exports.reexports.entry(src).or_default().extend(specifiers)
-                            }
-                            None => {}
-                        }
+                        exports
+                            .reexports
+                            .entry(src.clone())
+                            .or_default()
+                            .extend(specifiers);
+                        files.push(src);
                     }
                 }
             }
 
-            Ok(exports)
+            Ok((exports, files))
         })
     }
 
-    /// Load dependencies
-    fn load_imports(&self, base: &FileName, info: RawImports) -> Result<Imports, Error> {
+    /// Resolve dependencies
+    fn resolve_imports(
+        &self,
+        base: &FileName,
+        info: RawImports,
+    ) -> Result<(Imports, Vec<Source>), Error> {
         self.run(|| {
-            log::trace!("load_imports({})", base);
+            log::trace!("resolve_imports({})", base);
+            let mut files = vec![];
 
             let mut merged = Imports::default();
             let RawImports {
@@ -282,15 +294,14 @@ where
                     //
                     let file_name = self.resolve(base, &decl.src.value)?;
                     let (id, _) = self.scope.module_id_gen.gen(&file_name);
-                    let res = self.load_transformed(&file_name)?;
 
-                    Ok((id, res, decl, dynamic, unconditional))
+                    Ok((id, decl, dynamic, unconditional))
                 })
                 .collect::<Vec<_>>();
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let (id, _, decl, is_dynamic, is_unconditional) = res?;
+                let (id, decl, is_dynamic, is_unconditional) = res?;
 
                 let src = Source {
                     is_loaded_synchronously: !is_dynamic,
@@ -298,6 +309,7 @@ where
                     module_id: id,
                     src: decl.src,
                 };
+                files.push(src.clone());
 
                 // TODO: Handle rename
                 let mut specifiers = vec![];
@@ -322,7 +334,7 @@ where
                 merged.specifiers.push((src, specifiers));
             }
 
-            Ok(merged)
+            Ok((merged, files))
         })
     }
 }

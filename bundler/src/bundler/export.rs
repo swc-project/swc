@@ -35,7 +35,6 @@ where
 
 #[derive(Debug, Default)]
 pub(super) struct RawExports {
-    pub pure_constants: Vec<(Id, Lit)>,
     /// Key is None if it's exported from the module itself.
     pub items: FxHashMap<Option<Str>, Vec<Specifier>>,
 }
