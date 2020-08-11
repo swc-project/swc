@@ -583,7 +583,10 @@ impl<'a> Fold for Hygiene<'a> {
 
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn fold_ident(&mut self, i: Ident) -> Ident {
-        if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
+        if i.sym == js_word!("arguments")
+            || i.sym == js_word!("undefined")
+            || i.sym == js_word!("exports")
+        {
             return i;
         }
 

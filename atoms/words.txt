@@ -604,6 +604,7 @@ enum
 env
 eval
 export
+exports
 extends
 false
 finally
