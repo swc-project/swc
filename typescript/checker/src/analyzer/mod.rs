@@ -81,7 +81,7 @@ pub struct Analyzer<'a, 'b> {
     export_equals_span: Span,
     in_declare: bool,
 
-    resolved_import_types: FxHashMap<Id, Vec<Type>>,
+    resolved_import_types: FxHashMap<Id, Vec<Box<Type>>>,
     resolved_import_vars: FxHashMap<Id, Type>,
     errored_imports: FxHashSet<Id>,
     pending_exports: Vec<((Id, Span), Expr)>,

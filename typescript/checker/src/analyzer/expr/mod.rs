@@ -278,7 +278,7 @@ impl Analyzer<'_, '_> {
             Expr::Ident(ref i) => self.type_of_var(i, mode, type_args),
 
             Expr::Array(ArrayLit { ref mut elems, .. }) => {
-                let mut types: Vec<Type> = Vec::with_capacity(elems.len());
+                let mut types: Vec<Box<Type>> = Vec::with_capacity(elems.len());
 
                 for elem in elems.iter_mut() {
                     let span = elem.span();

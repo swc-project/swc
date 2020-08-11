@@ -34,7 +34,7 @@ use swc_ts_types::Id;
 pub(crate) struct CondFacts {
     pub facts: FxHashMap<Name, TypeFacts>,
     pub vars: FxHashMap<Name, Type>,
-    pub excludes: FxHashMap<Name, Vec<Type>>,
+    pub excludes: FxHashMap<Name, Vec<Box<Type>>>,
     pub types: FxHashMap<Id, Type>,
 }
 

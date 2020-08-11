@@ -13,7 +13,7 @@ impl ty::Fold for TupleToArray {
 
         match ty {
             Type::Tuple(tuple) => {
-                let mut types: Vec<Type> = vec![];
+                let mut types: Vec<Box<Type>> = vec![];
 
                 for ty in tuple.types {
                     if types.iter().any(|item| item.type_eq(&ty)) {
