@@ -8,7 +8,7 @@ use crate::{
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
-use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 impl Analyzer<'_, '_> {
     pub(in crate::analyzer) fn visit_stmts_for_return(
@@ -245,15 +245,15 @@ struct LoopBreakerFinder {
 }
 
 impl Visit for LoopBreakerFinder {
-    fn visit_break_stmt(&mut self, _: &BreakStmt) {
+    fn visit_break_stmt(&mut self, _: &BreakStmt, _: &dyn Node) {
         self.found = true;
     }
 
-    fn visit_throw_stmt(&mut self, _: &ThrowStmt) {
+    fn visit_throw_stmt(&mut self, _: &ThrowStmt, _: &dyn Node) {
         self.found = true;
     }
 
-    fn visit_return_stmt(&mut self, _: &ReturnStmt) {
+    fn visit_return_stmt(&mut self, _: &ReturnStmt, _: &dyn Node) {
         self.found = true;
     }
 }
