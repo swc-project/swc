@@ -44,6 +44,7 @@ impl<'a> Scope<'a> {
     }
 }
 
+/// TODO: This is incomplete
 impl<'a> MergeFolder<'a> {
     fn fold_bindine_ident(&mut self, i: Ident) -> Ident {
         log::trace!("BindingIdent: {}{:?}", i.sym, i.span.ctxt);
