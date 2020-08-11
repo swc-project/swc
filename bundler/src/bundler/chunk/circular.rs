@@ -1,8 +1,9 @@
-use super::merge::LocalMarker;
+use super::merge::{GlobalMarker, LocalMarker};
 use crate::{
     bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
 };
 use std::iter::once;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::{Module, ModuleDecl, ModuleItem};
 use swc_ecma_visit::FoldWith;
 
@@ -53,21 +54,32 @@ where
         dep: ModuleId,
     ) -> Module {
         self.run(|| {
-            let b = self.scope.get_module(dep).unwrap();
-            let dep = self.process_circular_module(circular_modules, b);
+            print_hygiene("START: merge_two_circular_modules", &self.cm, &entry);
 
-            print_hygiene("before:merge-circular", &self.cm, &entry);
+            let dep_info = self.scope.get_module(dep).unwrap();
+            let dep_mark = dep_info.mark();
+            let mut dep = self.process_circular_module(circular_modules, dep_info);
+
+            print_hygiene("circular:process", &self.cm, &entry);
+
+            dep = dep.fold_with(&mut GlobalMarker {
+                // When circular import exist, we treat all top level items as used.
+                used_mark: self.top_level_mark,
+                module_mark: dep_mark,
+            });
+
+            print_hygiene("dep:circular:global-marker", &self.cm, &dep);
 
             // TODO: Reorder items
             // Merge code
             entry.body.extend(dep.body);
 
-            print_hygiene("after:merge-circular", &self.cm, &entry);
+            print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
             entry
         })
     }
 
-    /// 
+    ///
     ///  - Remove cicular imnports
     fn process_circular_module(
         &self,
@@ -75,6 +87,7 @@ where
         entry: TransformedModule,
     ) -> Module {
         let mut module = (*entry.module).clone();
+        // print_hygiene("START: process_circular_module", &self.cm, &module);
 
         module.body.retain(|item| {
             match item {
@@ -109,6 +122,8 @@ where
                 }
             }
         }
+
+        // print_hygiene("END: process_circular_module", &self.cm, &module);
 
         module
     }
