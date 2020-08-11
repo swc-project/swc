@@ -91,12 +91,12 @@ where
                     }
 
                     if imported.is_es6 {
-                        print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                        // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                         // Tree-shaking
                         dep = self.drop_unused(dep, Some(&specifiers));
 
-                        print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+                        // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
                         if let Some(imports) = info
                             .imports
