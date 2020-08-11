@@ -64,7 +64,14 @@ where
                         src.src.value,
                     );
 
-                    // TODO: Respan using imported module's syntax context.
+                    if let Some(imported) = self.scope.get_module(src.module_id) {
+                        // Respan using imported module's syntax context.
+                        entry = entry.fold_with(&mut LocalMarker {
+                            mark: imported.mark(),
+                            specifiers: &specifiers,
+                            excluded: vec![],
+                        });
+                    }
 
                     // Drop imports, as they are already merged.
                     entry.body.retain(|item| {
