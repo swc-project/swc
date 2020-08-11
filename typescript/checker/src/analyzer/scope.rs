@@ -200,7 +200,7 @@ impl Analyzer<'_, '_> {
     /// Expands
     ///
     ///   - Type alias
-    pub(super) fn expand(&mut self, span: Span, ty: Type) -> ValidationResult<Type> {
+    pub(super) fn expand(&mut self, span: Span, ty: Type) -> ValidationResult {
         if self.is_builtin {
             return Ok(ty);
         }
@@ -228,7 +228,7 @@ impl Analyzer<'_, '_> {
         span: Span,
         ty: Type,
         expand_union: bool,
-    ) -> ValidationResult<Type> {
+    ) -> ValidationResult {
         if self.is_builtin {
             return Ok(ty);
         }
@@ -297,7 +297,7 @@ impl Analyzer<'_, '_> {
         &mut self,
         kind: VarDeclKind,
         pat: &mut Pat,
-        ty: Option<Type>,
+        ty: Option<Box<Type>>,
     ) -> Result<(), Error> {
         self.declare_vars_inner_with_ty(kind, pat, false, ty)
     }
@@ -320,7 +320,7 @@ impl Analyzer<'_, '_> {
         kind: VarDeclKind,
         pat: &mut Pat,
         export: bool,
-        ty: Option<Type>,
+        ty: Option<Box<Type>>,
     ) -> Result<(), Error> {
         let span = ty
             .as_ref()
@@ -594,7 +594,7 @@ impl Analyzer<'_, '_> {
         span: Span,
         kind: VarDeclKind,
         name: Id,
-        ty: Option<Type>,
+        ty: Option<Box<Type>>,
         initialized: bool,
         allow_multiple: bool,
     ) -> Result<(), Error> {
@@ -779,7 +779,7 @@ impl Analyzer<'_, '_> {
             }
 
             Pat::Object(ObjectPat { ref props, .. }) => {
-                fn find<'a>(members: &[TypeElement], key: &PropName) -> Option<Type> {
+                fn find<'a>(members: &[TypeElement], key: &PropName) -> Option<Box<Type>> {
                     let mut index_el = None;
                     // First, we search for Property
                     for m in members {

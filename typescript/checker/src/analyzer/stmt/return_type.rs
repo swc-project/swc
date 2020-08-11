@@ -14,7 +14,7 @@ impl Analyzer<'_, '_> {
     pub(in crate::analyzer) fn visit_stmts_for_return(
         &mut self,
         stmts: &mut [Stmt],
-    ) -> Result<Option<Type>, Error> {
+    ) -> Result<Option<Box<Type>>, Error> {
         log::debug!("visit_stmts_for_return()");
 
         // let mut old_ret_tys = self.scope.return_types.take();

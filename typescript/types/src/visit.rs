@@ -311,7 +311,7 @@ define!({
         pub span: Span,
         pub required: bool,
         pub pat: Pat,
-        pub ty: Type,
+        pub ty: Box<Type>,
     }
 
     /// a & b

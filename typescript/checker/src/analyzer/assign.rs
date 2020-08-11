@@ -1017,7 +1017,7 @@ impl Analyzer<'_, '_> {
                         TypeElement::Property(ref lp) => {
                             for rm in body {
                                 match rm {
-                                    ClassMember::Property(ref rp) => {
+                                    ty::ClassMember::Property(ref rp) => {
                                         match rp.accessibility {
                                             Some(Accessibility::Private)
                                             | Some(Accessibility::Protected) => {

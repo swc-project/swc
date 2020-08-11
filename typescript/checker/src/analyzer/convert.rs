@@ -460,7 +460,7 @@ impl Validate<TsParenthesizedType> for Analyzer<'_, '_> {
 
 #[validator]
 impl Validate<TsTypeRef> for Analyzer<'_, '_> {
-    type Output = ValidationResult<Type>;
+    type Output = ValidationResult;
 
     fn validate(&mut self, t: &mut TsTypeRef) -> Self::Output {
         self.record(t);

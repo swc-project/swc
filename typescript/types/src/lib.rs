@@ -405,7 +405,7 @@ pub struct FnParam {
     pub span: Span,
     pub required: bool,
     pub pat: Pat,
-    pub ty: Type,
+    pub ty: Box<Type>,
 }
 
 /// a & b
@@ -501,7 +501,7 @@ impl Type {
         tys.retain(|ty| !ty.is_never());
 
         match tys.len() {
-            0 => Box::new(Type::never(span)),
+            0 => Type::never(span),
             1 => tys.into_iter().next().unwrap(),
             _ => Box::new(Type::Union(Union { span, types: tys })),
         }
@@ -584,14 +584,14 @@ impl Type {
     }
 
     pub fn never<'any>(span: Span) -> Box<Type> {
-        Type::Keyword(TsKeywordType {
+        box Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsNeverKeyword,
         })
     }
 
     pub fn undefined<'any>(span: Span) -> Box<Type> {
-        Type::Keyword(TsKeywordType {
+        box Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsUndefinedKeyword,
         })

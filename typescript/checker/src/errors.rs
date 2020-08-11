@@ -158,7 +158,7 @@ pub enum Error {
     NoSuchProperty {
         span: Span,
         prop: Option<Expr>,
-        prop_ty: Option<Type>,
+        prop_ty: Option<Box<Type>>,
     },
 
     TooManyTupleElements {

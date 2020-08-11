@@ -40,7 +40,7 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
             }
         }
 
-        let arg: Option<Type> =
+        let arg: Option<Box<Type>> =
             arg.validate_with(self)
                 .store(&mut self.info.errors)
                 .map(|mut ty| {

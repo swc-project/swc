@@ -244,7 +244,7 @@ impl Analyzer<'_, '_> {
         e: &mut Expr,
         mode: TypeOfMode,
         type_args: Option<TypeParamInstantiation>,
-    ) -> ValidationResult<Type> {
+    ) -> ValidationResult {
         self.record(e);
 
         let span = e.span();
@@ -491,7 +491,7 @@ impl Analyzer<'_, '_> {
             computed: bool,
             type_mode: TypeOfMode,
             members: &[TypeElement],
-        ) -> ValidationResult<Option<Type>> {
+        ) -> ValidationResult<Option<Box<Type>>> {
             let prop_ty = if computed {
                 prop.validate_with(a)?.generalize_lit().into_owned()
             } else {

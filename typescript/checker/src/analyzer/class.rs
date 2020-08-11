@@ -20,8 +20,9 @@ use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{VisitMutWith, VisitWith};
 use swc_ts_types::Id;
+use ty::TypeExt;
 
 #[validator]
 impl Validate<ClassProp> for Analyzer<'_, '_> {
@@ -45,7 +46,7 @@ impl Validate<ClassProp> for Analyzer<'_, '_> {
         if p.type_ann.is_none() {
             p.type_ann = value
                 .as_ref()
-                .map(|value: &ty::Type| value.clone().generalize_lit().into_owned().into());
+                .map(|value| value.clone().generalize_lit().into_owned().into());
         }
 
         Ok(ty::ClassProperty {

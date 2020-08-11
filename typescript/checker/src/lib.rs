@@ -17,7 +17,6 @@ pub use self::builtin_types::Lib;
 use crate::{
     analyzer::{Analyzer, Info},
     errors::Error,
-    hygiene::colorizer,
     resolver::Resolver,
     ty::Type,
     validator::ValidateWith,
@@ -47,7 +46,7 @@ pub mod validator;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-pub type ValidationResult<T = Type> = Result<T>;
+pub type ValidationResult<T = Box<Type>> = Result<T>;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct ImportInfo {
