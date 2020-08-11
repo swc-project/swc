@@ -3,4 +3,5 @@ class A {
         return new B();
     }
 }
+console.log('c');
 console.log(A, B);
