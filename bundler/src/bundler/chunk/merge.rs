@@ -34,6 +34,9 @@ where
         self.run(|| {
             log::trace!("merge_modules({})", entry);
 
+            // TODO: Handle circular imports
+            // TODO: It can be done by trackking context changes using clone map
+
             let info = self.scope.get_module(entry).unwrap();
 
             let mut entry: Module = (*info.module).clone();
