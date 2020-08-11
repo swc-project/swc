@@ -9,6 +9,7 @@ use swc_common::FileName;
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
+    circular_modules: CloneMap<ModuleId, ()>,
     loaded_modules: CloneMap<ModuleId, ()>,
 
     /// Cached after applying basical transformations.
@@ -16,6 +17,16 @@ pub(super) struct Scope {
 }
 
 impl Scope {
+    pub fn is_circular(&self, id: ModuleId) -> bool {
+        self.circular_modules.get(&id).is_some()
+    }
+
+    pub fn mark_as_circular(&self, file_name: &FileName) {
+        let (id, ..) = self.module_id_gen.gen(file_name);
+
+        self.circular_modules.insert(id, ());
+    }
+
     pub fn is_loaded(&self, file_name: &FileName) -> bool {
         let id = self.module_id_gen.gen(file_name);
 

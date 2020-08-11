@@ -34,7 +34,7 @@ where
         self.run(|| {
             log::trace!("merge_modules({})", entry);
 
-            let is_circular = targets.contains(&entry);
+            let is_circular = self.scope.is_circular(entry);
 
             let info = self.scope.get_module(entry).unwrap();
             if targets.is_empty() {

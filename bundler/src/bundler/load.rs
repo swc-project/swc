@@ -68,6 +68,7 @@ where
 
             // Handle circular dependency
             if loaded {
+                self.scope.mark_as_circular(file_name);
                 log::warn!("Skipping: {}: circular dependency?", file_name);
                 return Ok(None);
             }
