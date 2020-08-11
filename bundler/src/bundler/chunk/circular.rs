@@ -2,10 +2,13 @@ use super::merge::{LocalMarker, Unexporter};
 use crate::{
     bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
 };
+use hygiene::top_level_ident_folder;
 use std::iter::once;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
+
+mod hygiene;
 
 /// Circular imports are hard to handle.
 ///
@@ -121,48 +124,13 @@ where
             }
         }
 
-        module = module.fold_with(&mut MergeFolder {
-            top_level_mark: self.top_level_mark,
-            module_mark: entry.mark(),
-        });
+        module = module.fold_with(&mut top_level_ident_folder(
+            self.top_level_mark,
+            entry.mark(),
+        ));
 
         print_hygiene("END: process_circular_module", &self.cm, &module);
 
         module
-    }
-}
-
-/// Modifies mark of top-level identifiers so they can be merged cleanly.
-struct MergeFolder {
-    /// Global marker for the top-level identifiers
-    top_level_mark: Mark,
-    /// THe marker for the module's top-level identifiers.
-    module_mark: Mark,
-}
-
-impl Fold for MergeFolder {
-    fn fold_ident(&mut self, mut i: Ident) -> Ident {
-        let mut ctxt = i.span.clone();
-        if self.top_level_mark == ctxt.remove_mark() {
-            i.span = i
-                .span
-                .with_ctxt(SyntaxContext::empty().apply_mark(self.module_mark));
-        }
-        i
-    }
-
-    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        if e.computed {
-            MemberExpr {
-                obj: e.obj.fold_with(self),
-                ..e
-            }
-        } else {
-            MemberExpr {
-                obj: e.obj.fold_with(self),
-                prop: e.prop.fold_with(self),
-                ..e
-            }
-        }
     }
 }
