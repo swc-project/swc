@@ -58,14 +58,18 @@ where
         self.run(|| {
             log::trace!("load_transformed: ({})", file_name);
 
-            // Handle circular dependency
-            if self.scope.is_loaded(file_name) {
-                return Ok(None);
-            }
+            let loaded = self.scope.is_loaded(file_name);
 
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(&file_name) {
+                log::info!("Cached: {}", file_name);
                 return Ok(Some(cached));
+            }
+
+            // Handle circular dependency
+            if loaded {
+                log::warn!("Skipping: {}: circular dependency?", file_name);
+                return Ok(None);
             }
 
             let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
