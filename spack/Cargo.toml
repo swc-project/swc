@@ -12,7 +12,7 @@ edition = "2018"
 
 [dependencies]
 swc_atoms = { path = "../atoms" }
-swc_bundler = { path = "../bundler" }
+swc_bundler = { path = "../bundler", features = ["concurrent"] }
 swc_common = { path = "../common" }
 swc_ecma_ast = { path = "../ecmascript/ast" }
 swc_ecma_codegen = { path = "../ecmascript/codegen" }
