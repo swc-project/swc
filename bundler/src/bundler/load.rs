@@ -81,23 +81,12 @@ where
             log::info!("Storing module: {}", file_name);
             self.scope.store_module(v.clone());
 
-            //{
-            //    let code = self
-            //        .swc
-            //        .print(
-            //            &(*v.module).clone().fold_with(&mut HygieneVisualizer),
-            //            fm,
-            //            false,
-            //            false,
-            //        )
-            //        .unwrap()
-            //        .code;
-            //
-            //    println!(
-            //        "Fully loaded:\n{}\nImports: {:?}\nExports: {:?}\n",
-            //        code, v.imports, v.exports
-            //    );
-            //}
+            // Load dependencies and store them in `Scope`
+            let _ = files
+                .into_par_iter()
+                .map(|source| self.resolve(file_name, &source.src.value))
+                .map(|path| self.load_transformed(&*path?))
+                .collect::<Vec<_>>();
 
             Ok(Some(v))
         })
