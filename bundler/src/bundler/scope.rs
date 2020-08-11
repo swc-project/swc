@@ -1,18 +1,14 @@
-use super::load::{Source, Specifier, TransformedModule};
+use super::load::TransformedModule;
 use crate::{
     id::{ModuleId, ModuleIdGenerator},
     util::CloneMap,
 };
-use fxhash::FxHashMap;
-use swc_common::{sync::RwLock, FileName};
+use swc_common::FileName;
 
 #[derive(Debug, Default)]
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
-    /// To make code clear and performant, circular dependencies are stored
-    /// here.
-    pub incomplete: RwLock<FxHashMap<ModuleId, Vec<(Source, Vec<Specifier>)>>>,
     circular_modules: CloneMap<ModuleId, ()>,
     loaded_modules: CloneMap<ModuleId, ()>,
 

@@ -240,14 +240,7 @@ where
                             Some(..) => {
                                 exports.reexports.entry(src).or_default().extend(specifiers)
                             }
-                            None => {
-                                self.scope
-                                    .incomplete
-                                    .write()
-                                    .entry(id)
-                                    .or_default()
-                                    .push((src, specifiers));
-                            }
+                            None => {}
                         }
                     }
                 }
@@ -297,7 +290,7 @@ where
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let (id, module, decl, is_dynamic, is_unconditional) = res?;
+                let (id, _, decl, is_dynamic, is_unconditional) = res?;
 
                 let src = Source {
                     is_loaded_synchronously: !is_dynamic,
@@ -326,16 +319,7 @@ where
                     }
                 }
 
-                if module.is_some() {
-                    merged.specifiers.push((src, specifiers));
-                } else {
-                    self.scope
-                        .incomplete
-                        .write()
-                        .entry(id)
-                        .or_default()
-                        .push((src, specifiers));
-                }
+                merged.specifiers.push((src, specifiers));
             }
 
             Ok(merged)
