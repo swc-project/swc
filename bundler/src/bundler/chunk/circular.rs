@@ -76,6 +76,7 @@ where
         circular_modules: &[TransformedModule],
         entry: TransformedModule,
     ) -> Module {
+        let incomplete = self.scope.incomplete.write().remove(&entry.id);
         let mut module = (*entry.module).clone();
         print_hygiene("START: process_circular_module", &self.cm, &module);
 
@@ -84,8 +85,6 @@ where
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     // Drop if it's one of circular import
                     for circular_module in circular_modules {
-                        let incomplete = self.scope.incomplete.write().remove(&entry.id);
-
                         if entry
                             .imports
                             .specifiers
@@ -104,19 +103,27 @@ where
             true
         });
 
+        let mut done = false;
         for circular_module in circular_modules {
-            for (src, specifiers) in &entry.imports.specifiers {
+            for (src, specifiers) in entry
+                .imports
+                .specifiers
+                .iter()
+                .chain(incomplete.iter().flatten())
+            {
                 if circular_module.id == src.module_id {
+                    done = true;
                     module = module.fold_with(&mut LocalMarker {
                         mark: circular_module.mark(),
                         specifiers: &specifiers,
                         excluded: vec![],
                     });
+                    break;
                 }
             }
         }
 
-        // print_hygiene("END: process_circular_module", &self.cm, &module);
+        print_hygiene("END: process_circular_module", &self.cm, &module);
 
         module
     }
