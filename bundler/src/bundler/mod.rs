@@ -19,7 +19,9 @@ mod usage_analysis;
 
 #[derive(Debug)]
 pub struct Config {
+    /// If it's true, [Bundler] searches for require calls.
     pub require: bool,
+    /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
 }
 
