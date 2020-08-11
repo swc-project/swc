@@ -253,7 +253,7 @@ impl<T: Ord + Copy> Ord for LockCell<T> {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct RwLock<T>(InnerRwLock<T>);
 
 impl<T> RwLock<T> {
