@@ -60,16 +60,6 @@ where
             let dep_mark = dep_info.mark();
             let mut dep = self.process_circular_module(circular_modules, dep_info);
 
-            print_hygiene("circular:process", &self.cm, &entry);
-
-            dep = dep.fold_with(&mut GlobalMarker {
-                // When circular import exist, we treat all top level items as used.
-                used_mark: self.top_level_mark,
-                module_mark: dep_mark,
-            });
-
-            print_hygiene("dep:circular:global-marker", &self.cm, &dep);
-
             // TODO: Reorder items
             // Merge code
             entry.body.extend(dep.body);
@@ -87,13 +77,14 @@ where
         entry: TransformedModule,
     ) -> Module {
         let mut module = (*entry.module).clone();
-        // print_hygiene("START: process_circular_module", &self.cm, &module);
+        print_hygiene("START: process_circular_module", &self.cm, &module);
 
         module.body.retain(|item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     // Drop if it's one of circular import
                     for circular_module in circular_modules {
+                        dbg!(entry.imports.specifiers.len());
                         if entry
                             .imports
                             .specifiers

@@ -1,14 +1,18 @@
-use super::load::TransformedModule;
+use super::load::{Specifier, TransformedModule};
 use crate::{
     id::{ModuleId, ModuleIdGenerator},
     util::CloneMap,
 };
 use swc_common::FileName;
+use swc_ecma_ast::Str;
 
 #[derive(Debug, Default)]
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
+    /// To make code clear and performant, circular dependencies are stored
+    /// here.
+    incomplete: CloneMap<ModuleId, (Str, Vec<Specifier>)>,
     circular_modules: CloneMap<ModuleId, ()>,
     loaded_modules: CloneMap<ModuleId, ()>,
 
@@ -25,6 +29,10 @@ impl Scope {
         let (id, ..) = self.module_id_gen.gen(file_name);
 
         self.circular_modules.insert(id, ());
+    }
+
+    pub fn mark_as_incomplete(&self, id: ModuleId, src: Str, specifiers: Vec<Specifier>) {
+        self.incomplete.insert(id, (src, specifiers));
     }
 
     pub fn is_loaded(&self, file_name: &FileName) -> bool {

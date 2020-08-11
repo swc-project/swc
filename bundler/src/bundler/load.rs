@@ -78,6 +78,7 @@ where
                 .transform_module(&file_name, fm.clone(), module)
                 .context("failed to transform module")?;
 
+            log::info!("Storing module: {}", file_name);
             self.scope.store_module(v.clone());
 
             //{
@@ -211,8 +212,9 @@ where
                     let info = match src {
                         Some(src) => {
                             let path = self.resolve(base, &src.value)?;
+                            let (id, _) = self.scope.module_id_gen.gen(&path);
                             let module = self.load_transformed(&path)?;
-                            Some((module, src))
+                            Some((id, module, src))
                         }
                         None => None,
                     };
@@ -222,21 +224,26 @@ where
                 .collect::<Vec<_>>();
 
             for res in items {
-                let (info, specifiers): (Option<(Option<TransformedModule>, Str)>, _) = res?;
+                let (info, specifiers) = res?;
 
                 match info {
                     None => exports.items.extend(specifiers),
-                    Some((Some(info), src)) => exports
-                        .reexports
-                        .entry(Source {
-                            is_loaded_synchronously: true,
-                            is_unconditional: false,
-                            module_id: info.id,
-                            src,
-                        })
-                        .or_default()
-                        .extend(specifiers),
-                    _ => {}
+                    Some((id, info, src)) => {
+                        //
+                        match info {
+                            Some(info) => exports
+                                .reexports
+                                .entry(Source {
+                                    is_loaded_synchronously: true,
+                                    is_unconditional: false,
+                                    module_id: info.id,
+                                    src,
+                                })
+                                .or_default()
+                                .extend(specifiers),
+                            None => self.scope.mark_as_incomplete(id, src, specifiers),
+                        }
+                    }
                 }
             }
 
