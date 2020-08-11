@@ -82,11 +82,15 @@ where
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in `Scope`
-            let _ = files
+            let results = files
                 .into_par_iter()
                 .map(|source| self.resolve(file_name, &source.src.value))
                 .map(|path| self.load_transformed(&*path?))
                 .collect::<Vec<_>>();
+
+            for result in results {
+                result?;
+            }
 
             Ok(Some(v))
         })
