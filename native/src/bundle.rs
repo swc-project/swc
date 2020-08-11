@@ -41,21 +41,52 @@ impl Task for BundleTask {
             let bundler = Bundler::new(
                 self.swc.globals(),
                 self.swc.cm.clone(),
-                self.config.loader,
-                self.config.resolver,
-                self.config
-                    .static_items
-                    .config
-                    .options
-                    .as_ref()
-                    .map(|options| options.clone())
-                    .unwrap_or_else(|| {
-                        serde_json::from_value(serde_json::Value::Object(Default::default()))
-                            .unwrap()
-                    }),
+                &self.config.loader,
+                &self.config.resolver,
+                swc_bundler::Config {
+                    require: true,
+                    external_modules: vec![
+                        "assert",
+                        "buffer",
+                        "child_process",
+                        "console",
+                        "cluster",
+                        "crypto",
+                        "dgram",
+                        "dns",
+                        "events",
+                        "fs",
+                        "http",
+                        "http2",
+                        "https",
+                        "net",
+                        "os",
+                        "path",
+                        "perf_hooks",
+                        "process",
+                        "querystring",
+                        "readline",
+                        "repl",
+                        "stream",
+                        "string_decoder",
+                        "timers",
+                        "tls",
+                        "tty",
+                        "url",
+                        "util",
+                        "v8",
+                        "vm",
+                        "wasi",
+                        "worker",
+                        "zlib",
+                    ]
+                    .into_iter()
+                    .map(From::from)
+                    .collect(),
+                },
             );
 
-            let result = bundler.bundle(&self.config.static_items.config)?;
+            let result = bundler.bundle(self.config.static_items.config.entry.clone().into())?;
 
             let result = result
                 .into_iter()
@@ -132,7 +163,7 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
 
     let opt = cx.argument::<JsObject>(0)?;
     let callback = cx.argument::<JsFunction>(1)?;
-    let static_items = neon_serde::from_value(&mut cx, opt.upcast())?;
+    let static_items: StaticConfigItem = neon_serde::from_value(&mut cx, opt.upcast())?;
 
     let loader = opt
         .get(&mut cx, "loader")?
@@ -148,7 +179,15 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
         .unwrap_or_else(|_| {
             Box::new(spack::loaders::swc::SwcLoader::new(
                 c.clone(),
-                Default::default(),
+                static_items
+                    .config
+                    .options
+                    .as_ref()
+                    .cloned()
+                    .unwrap_or_else(|| {
+                        serde_json::from_value(serde_json::Value::Object(Default::default()))
+                            .unwrap()
+                    }),
             ))
         });
 

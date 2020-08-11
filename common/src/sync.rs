@@ -274,12 +274,6 @@ impl<T> RwLock<T> {
         self.0.get_mut()
     }
 
-    #[cfg(not(feature = "concurrent"))]
-    #[inline(always)]
-    pub fn read(&self) -> ReadGuard<'_, T> {
-        self.0.borrow()
-    }
-
     #[inline(always)]
     pub fn with_read_lock<F: FnOnce(&T) -> R, R>(&self, f: F) -> R {
         f(&*self.read())
