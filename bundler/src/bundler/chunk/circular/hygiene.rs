@@ -46,11 +46,14 @@ impl<'a> Scope<'a> {
 
 impl<'a> MergeFolder<'a> {
     fn fold_bindine_ident(&mut self, i: Ident) -> Ident {
+        log::debug!("BindingIdent: {}{:?}", i.sym, i.span.ctxt);
+
         self.scope.binding_idents.insert((&i).into());
         i
     }
 
     fn fold_ref_ident(&mut self, mut i: Ident) -> Ident {
+        log::debug!("IdentRef: {}{:?}", i.sym, i.span.ctxt);
         if self.scope.contains(&i) {
             return i;
         }
@@ -78,12 +81,12 @@ impl Fold for MergeFolder<'_> {
         if e.computed {
             MemberExpr {
                 obj: e.obj.fold_with(self),
+                prop: e.prop.fold_with(self),
                 ..e
             }
         } else {
             MemberExpr {
                 obj: e.obj.fold_with(self),
-                prop: e.prop.fold_with(self),
                 ..e
             }
         }
