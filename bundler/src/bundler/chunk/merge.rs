@@ -63,6 +63,25 @@ where
                         src.module_id,
                         src.src.value,
                     );
+
+                    // TODO: Respan using imported module's syntax context.
+
+                    entry.body.retain(|item| {
+                        match item {
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                                // Drop if it's one of circular import
+                                if info.imports.specifiers.iter().any(|v| {
+                                    v.0.module_id == src.module_id && v.0.src == import.src
+                                }) {
+                                    log::debug!("Dropping import");
+                                    return false;
+                                }
+                            }
+                            _ => {}
+                        }
+
+                        true
+                    });
                     continue;
                 }
                 log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
