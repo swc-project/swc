@@ -1,4 +1,4 @@
-use crate::{Bundler, Load, ModuleId, Resolve};
+use crate::{debug::print_hygiene, Bundler, Load, ModuleId, Resolve};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Module;
 
@@ -33,14 +33,19 @@ where
         dep: ModuleId,
     ) -> Module {
         self.run(|| {
+            dbg!(circular_modules, dep);
+
             let b = self.scope.get_module(dep).unwrap();
 
             // Remove cicular dependency between modules.
             for &id in circular_modules {}
 
+            print_hygiene("@before:merge-circular", &self.cm, &entry);
+
             // Merge code
             entry.body.extend(b.module.body.iter().cloned());
 
+            print_hygiene("@after:merge-circular", &self.cm, &entry);
             entry
         })
     }
