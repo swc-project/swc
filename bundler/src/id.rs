@@ -24,10 +24,6 @@ pub(crate) struct ModuleIdGenerator {
 }
 
 impl ModuleIdGenerator {
-    pub fn has(&self, file_name: &FileName) -> bool {
-        self.cache.get(file_name).is_some()
-    }
-
     pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark) {
         if let Some(v) = self.cache.get(file_name) {
             return v;

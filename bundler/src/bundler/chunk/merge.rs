@@ -34,17 +34,22 @@ where
         self.run(|| {
             log::trace!("merge_modules({})", entry);
 
-            // TODO: Handle circular imports
-            // TODO: It can be done by trackking context changes using clone map
+            let is_circular = targets.contains(&entry);
 
             let info = self.scope.get_module(entry).unwrap();
-
-            let mut entry: Module = (*info.module).clone();
             if targets.is_empty() {
                 return Ok((*info.module).clone());
             }
 
-            log::info!("Merge: {} <= {:?}", info.fm.name, targets);
+            if is_circular {
+                log::info!("Circular dependency detected");
+                // TODO: provide only circular imports.
+                return Ok(self.merge_circular_modules(&*targets));
+            }
+
+            let mut entry: Module = (*info.module).clone();
+
+            log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
             print_hygiene("before:merge", &self.cm, &entry);
 
