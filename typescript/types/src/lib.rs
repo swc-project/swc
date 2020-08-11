@@ -1122,8 +1122,8 @@ impl Type {
 
 impl Type {
     /// Freeze the type.
-    pub fn freeze(self) -> Type {
-        match self {
+    pub fn freeze(self) -> Box<Type> {
+        box match self {
             Self::Static(..) | Self::Arc(..) => self,
             _ => Type::Arc(Arc::new(self)),
         }

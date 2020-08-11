@@ -131,7 +131,7 @@ impl Merge for VarInfo {
     fn or(&mut self, other: Self) {
         self.copied |= other.copied;
         self.initialized |= other.initialized;
-        Merge::or(&mut self.ty, other.ty);
+        Merge::or(&mut self.ty.as_deref_mut(), other.ty);
     }
 }
 
@@ -139,9 +139,9 @@ impl Merge for Type {
     fn or(&mut self, r: Self) {
         let l_span = self.span();
 
-        let l = replace(self, Type::never(l_span));
+        let l = replace(self, *Type::never(l_span));
 
-        *self = Type::union(once(l).chain(once(r)));
+        *self = *Type::union(once(l).chain(once(r)));
     }
 }
 

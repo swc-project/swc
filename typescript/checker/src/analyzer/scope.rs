@@ -226,7 +226,7 @@ impl Analyzer<'_, '_> {
     pub(super) fn expand_fully(
         &mut self,
         span: Span,
-        ty: Type,
+        ty: Box<Type>,
         expand_union: bool,
     ) -> ValidationResult {
         if self.is_builtin {
@@ -244,7 +244,7 @@ impl Analyzer<'_, '_> {
         Ok(ty.into_owned().fold_with(&mut v))
     }
 
-    pub(super) fn register_type(&mut self, name: Id, ty: Type) -> Result<(), Error> {
+    pub(super) fn register_type(&mut self, name: Id, ty: Box<Type>) -> Result<(), Error> {
         if self.is_builtin
             && match ty.normalize() {
                 Type::EnumVariant(_)

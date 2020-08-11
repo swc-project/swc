@@ -65,10 +65,10 @@ impl Validate<TsTypeParam> for Analyzer<'_, '_> {
         let param = TypeParam {
             span: p.span,
             name: p.name.clone().into(),
-            constraint: try_opt!(self.validate(&mut p.constraint)).map(Box::new),
-            default: try_opt!(self.validate(&mut p.default)).map(Box::new),
+            constraint: try_opt!(self.validate(&mut p.constraint)),
+            default: try_opt!(self.validate(&mut p.default)),
         };
-        self.register_type(param.name.clone().into(), param.clone().into())?;
+        self.register_type(param.name.clone().into(), box param.clone().into())?;
 
         Ok(param)
     }
@@ -100,17 +100,17 @@ impl Validate<TsTypeAliasDecl> for Analyzer<'_, '_> {
                 |child| -> ValidationResult<_> {
                     let type_params = try_opt!(d.type_params.validate_with(child));
 
-                    let ty: Type = d.type_ann.validate_with(child)?;
+                    let ty = d.type_ann.validate_with(child)?;
                     let alias = Alias {
                         span: d.span(),
-                        ty: box ty,
+                        ty,
                         type_params,
                     };
                     Ok(alias)
                 },
             )?
         };
-        self.register_type(d.id.clone().into(), Type::Alias(alias.clone()))?;
+        self.register_type(d.id.clone().into(), box Type::Alias(alias.clone()))?;
 
         Ok(alias)
     }
@@ -129,7 +129,7 @@ impl Validate<TsInterfaceDecl> for Analyzer<'_, '_> {
             body: self.validate(&mut d.body)?,
         };
 
-        self.register_type(d.id.clone().into(), ty.clone().into())
+        self.register_type(d.id.clone().into(), box ty.clone().into())
             .store(&mut self.info.errors);
 
         self.resolve_parent_interfaces(&mut d.extends);
@@ -333,10 +333,10 @@ impl Validate<TsConditionalType> for Analyzer<'_, '_> {
     fn validate(&mut self, t: &mut TsConditionalType) -> Self::Output {
         Ok(Conditional {
             span: t.span,
-            check_type: box t.check_type.validate_with(self)?,
-            extends_type: box t.extends_type.validate_with(self)?,
-            true_type: box t.true_type.validate_with(self)?,
-            false_type: box t.false_type.validate_with(self)?,
+            check_type: t.check_type.validate_with(self)?,
+            extends_type: t.extends_type.validate_with(self)?,
+            true_type: t.true_type.validate_with(self)?,
+            false_type: t.false_type.validate_with(self)?,
         })
     }
 }
@@ -351,7 +351,7 @@ impl Validate<TsMappedType> for Analyzer<'_, '_> {
             readonly: ty.readonly,
             optional: ty.optional,
             type_param: ty.type_param.validate_with(self)?,
-            ty: try_opt!(ty.type_ann.validate_with(self)).map(Box::new),
+            ty: try_opt!(ty.type_ann.validate_with(self)),
         })
     }
 }
@@ -571,7 +571,7 @@ impl Validate<TsTypePredicate> for Analyzer<'_, '_> {
             span: t.span,
             param_name: t.param_name.clone(),
             asserts: t.asserts,
-            ty: try_opt!(t.type_ann.validate_with(self).map(|res| res.map(Box::new))),
+            ty: try_opt!(t.type_ann.validate_with(self)),
         })
     }
 }
@@ -600,7 +600,7 @@ impl Validate<TsType> for Analyzer<'_, '_> {
         self.record(ty);
 
         Ok(match ty {
-            TsType::TsThisType(this) => Type::This(this.clone()),
+            TsType::TsThisType(this) => box Type::This(this.clone()),
             TsType::TsLitType(ty) => {
                 let mut ty = Type::Lit(ty.clone());
                 self.prevent_generalize(&mut ty);
