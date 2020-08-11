@@ -36,7 +36,7 @@ pub(super) struct TransformedModule {
 }
 
 impl TransformedModule {
-    /// Marks applied to bindings
+    /// THe marker for the module's top-level identifiers.
     pub fn mark(&self) -> Mark {
         self.mark
     }

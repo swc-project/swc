@@ -339,7 +339,7 @@ where
 }
 
 /// `export var a = 1` => `var a = 1`
-struct Unexporter;
+pub(super) struct Unexporter;
 
 impl Fold for Unexporter {
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {

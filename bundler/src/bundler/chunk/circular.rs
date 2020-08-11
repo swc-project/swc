@@ -1,10 +1,11 @@
-use super::merge::LocalMarker;
+use super::merge::{LocalMarker, Unexporter};
 use crate::{
     bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
 };
 use std::iter::once;
-use swc_ecma_ast::{Module, ModuleDecl, ModuleItem};
-use swc_ecma_visit::FoldWith;
+use swc_common::{Mark, SyntaxContext};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Circular imports are hard to handle.
 ///
@@ -24,7 +25,6 @@ where
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
             circular_modules
         );
-        dbg!(&circular_modules);
 
         let entry_module = self.scope.get_module(entry).unwrap();
 
@@ -56,7 +56,9 @@ where
             print_hygiene("START: merge_two_circular_modules", &self.cm, &entry);
 
             let dep_info = self.scope.get_module(dep).unwrap();
-            let dep = self.process_circular_module(circular_modules, dep_info);
+            let mut dep = self.process_circular_module(circular_modules, dep_info);
+
+            dep = dep.fold_with(&mut Unexporter);
 
             // TODO: Reorder items
             // Merge code
@@ -112,8 +114,48 @@ where
             }
         }
 
+        module = module.fold_with(&mut MergeFolder {
+            top_level_mark: self.top_level_mark,
+            module_mark: entry.mark(),
+        });
+
         print_hygiene("END: process_circular_module", &self.cm, &module);
 
         module
+    }
+}
+
+/// Modifies mark of top-level identifiers so they can be merged cleanly.
+struct MergeFolder {
+    /// Global marker for the top-level identifiers
+    top_level_mark: Mark,
+    /// THe marker for the module's top-level identifiers.
+    module_mark: Mark,
+}
+
+impl Fold for MergeFolder {
+    fn fold_ident(&mut self, mut i: Ident) -> Ident {
+        let mut ctxt = i.span.clone();
+        if self.top_level_mark == ctxt.remove_mark() {
+            i.span = i
+                .span
+                .with_ctxt(SyntaxContext::empty().apply_mark(self.module_mark));
+        }
+        i
+    }
+
+    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
+        if e.computed {
+            MemberExpr {
+                obj: e.obj.fold_with(self),
+                ..e
+            }
+        } else {
+            MemberExpr {
+                obj: e.obj.fold_with(self),
+                prop: e.prop.fold_with(self),
+                ..e
+            }
+        }
     }
 }
