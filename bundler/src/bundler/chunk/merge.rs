@@ -130,10 +130,14 @@ where
                             // });
                         }
 
+                        print_hygiene("dep:before:global-mark", &self.cm, &dep);
+
                         dep = dep.fold_with(&mut GlobalMarker {
                             used_mark: self.used_mark,
                             module_mark: imported.mark(),
                         });
+
+                        print_hygiene("dep:after:global-mark", &self.cm, &dep);
 
                         // {
                         //     let code = self
