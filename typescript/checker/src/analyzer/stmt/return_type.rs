@@ -126,10 +126,36 @@ where
     }
 }
 
+macro_rules! simple {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: &mut $T) {
+            // TODO: Prevent recursion of analyzer
+            node.visit_mut_with(self.analyzer);
+            node.visit_mut_children(self);
+        }
+    };
+}
+
 impl<A> VisitMut for ReturnTypeCollector<'_, A>
 where
     A: MyVisitor,
 {
+    simple!(visit_mut_block_stmt, BlockStmt);
+    simple!(visit_mut_labeled_stmt, LabeledStmt);
+    simple!(visit_mut_break_stmt, BreakStmt);
+    simple!(visit_mut_continue_stmt, ContinueStmt);
+    simple!(visit_mut_if_stmt, IfStmt);
+    simple!(visit_mut_switch_stmt, SwitchStmt);
+    simple!(visit_mut_throw_stmt, ThrowStmt);
+    simple!(visit_mut_try_stmt, TryStmt);
+    simple!(visit_mut_while_stmt, WhileStmt);
+    simple!(visit_mut_do_while_stmt, DoWhileStmt);
+    simple!(visit_mut_for_stmt, ForStmt);
+    simple!(visit_mut_for_in_stmt, ForInStmt);
+    simple!(visit_mut_for_of_stmt, ForOfStmt);
+    simple!(visit_mut_decl, Decl);
+    simple!(visit_mut_expr_stmt, ExprStmt);
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ty: Result<_, Error> = try {
             let ty = e.validate_with(self.analyzer)?;
@@ -206,53 +232,13 @@ where
 
         self.in_conditional = old_in_conditional;
     }
+
+    /// no-op
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    /// no-op
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
-
-macro_rules! noop {
-    ($T:ty) => {
-        impl<A> VisitMut<$T> for ReturnTypeCollector<'_, A>
-        where
-            A: MyVisitor,
-        {
-            #[inline]
-            fn visit_mut(&mut self, _: &mut $T) {}
-        }
-    };
-}
-
-noop!(Function);
-noop!(ArrowExpr);
-
-macro_rules! simple {
-    ($T:ty) => {
-        impl<A> VisitMut<$T> for ReturnTypeCollector<'_, A>
-        where
-            A: MyVisitor,
-        {
-            fn visit_mut(&mut self, node: &mut $T) {
-                // TODO: Prevent recursion of analyzer
-                node.visit_mut_with(self.analyzer);
-                node.visit_mut_children(self);
-            }
-        }
-    };
-}
-
-simple!(BlockStmt);
-simple!(LabeledStmt);
-simple!(BreakStmt);
-simple!(ContinueStmt);
-simple!(IfStmt);
-simple!(SwitchStmt);
-simple!(ThrowStmt);
-simple!(TryStmt);
-simple!(WhileStmt);
-simple!(DoWhileStmt);
-simple!(ForStmt);
-simple!(ForInStmt);
-simple!(ForOfStmt);
-simple!(Decl);
-simple!(ExprStmt);
 
 struct LoopBreakerFinder {
     found: bool,

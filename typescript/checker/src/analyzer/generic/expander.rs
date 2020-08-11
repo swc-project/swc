@@ -10,7 +10,7 @@ use fxhash::{FxHashMap, FxHashSet};
 use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::{TsEntityName, TsTypeOperatorOp};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::FoldWith;
 use swc_ts_types::Id;
 
 /// Generic expander.
