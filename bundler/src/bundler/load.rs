@@ -230,18 +230,24 @@ where
                     None => exports.items.extend(specifiers),
                     Some((id, info, src)) => {
                         //
+                        let src = Source {
+                            is_loaded_synchronously: true,
+                            is_unconditional: false,
+                            module_id: id,
+                            src,
+                        };
                         match info {
-                            Some(info) => exports
-                                .reexports
-                                .entry(Source {
-                                    is_loaded_synchronously: true,
-                                    is_unconditional: false,
-                                    module_id: info.id,
-                                    src,
-                                })
-                                .or_default()
-                                .extend(specifiers),
-                            None => self.scope.mark_as_incomplete(id, src, specifiers),
+                            Some(..) => {
+                                exports.reexports.entry(src).or_default().extend(specifiers)
+                            }
+                            None => {
+                                self.scope
+                                    .incomplete
+                                    .write()
+                                    .entry(id)
+                                    .or_default()
+                                    .push((src, specifiers));
+                            }
                         }
                     }
                 }
@@ -282,45 +288,53 @@ where
                 .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
                     //
                     let file_name = self.resolve(base, &decl.src.value)?;
+                    let (id, _) = self.scope.module_id_gen.gen(&file_name);
                     let res = self.load_transformed(&file_name)?;
 
-                    Ok((res, decl, dynamic, unconditional))
+                    Ok((id, res, decl, dynamic, unconditional))
                 })
                 .collect::<Vec<_>>();
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let (src, decl, is_dynamic, is_unconditional) = res?;
+                let (id, module, decl, is_dynamic, is_unconditional) = res?;
 
-                if let Some(src) = src {
-                    let src = Source {
-                        is_loaded_synchronously: !is_dynamic,
-                        is_unconditional,
-                        module_id: src.id,
-                        src: decl.src,
-                    };
+                let src = Source {
+                    is_loaded_synchronously: !is_dynamic,
+                    is_unconditional,
+                    module_id: id,
+                    src: decl.src,
+                };
 
-                    // TODO: Handle rename
-                    let mut specifiers = vec![];
-                    for s in decl.specifiers {
-                        match s {
-                            ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
+                // TODO: Handle rename
+                let mut specifiers = vec![];
+                for s in decl.specifiers {
+                    match s {
+                        ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
+                            local: s.local.into(),
+                            alias: s.imported.map(From::from),
+                        }),
+                        ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
+                            local: s.local.into(),
+                            alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
+                        }),
+                        ImportSpecifier::Namespace(s) => {
+                            specifiers.push(Specifier::Namespace {
                                 local: s.local.into(),
-                                alias: s.imported.map(From::from),
-                            }),
-                            ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
-                                local: s.local.into(),
-                                alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
-                            }),
-                            ImportSpecifier::Namespace(s) => {
-                                specifiers.push(Specifier::Namespace {
-                                    local: s.local.into(),
-                                });
-                            }
+                            });
                         }
                     }
+                }
 
+                if module.is_some() {
                     merged.specifiers.push((src, specifiers));
+                } else {
+                    self.scope
+                        .incomplete
+                        .write()
+                        .entry(id)
+                        .or_default()
+                        .push((src, specifiers));
                 }
             }
 

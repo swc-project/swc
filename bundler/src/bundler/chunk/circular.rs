@@ -84,11 +84,13 @@ where
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     // Drop if it's one of circular import
                     for circular_module in circular_modules {
-                        dbg!(entry.imports.specifiers.len());
+                        let incomplete = self.scope.incomplete.write().remove(&entry.id);
+
                         if entry
                             .imports
                             .specifiers
                             .iter()
+                            .chain(incomplete.iter().flat_map(|v| v))
                             .any(|v| v.0.module_id == circular_module.id && v.0.src == import.src)
                         {
                             log::debug!("Dropping circular import");
