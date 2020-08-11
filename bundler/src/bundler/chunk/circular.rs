@@ -1,9 +1,7 @@
 use crate::{
     bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
 };
-use swc_common::util::move_map::MoveMap;
 use swc_ecma_ast::{Module, ModuleDecl, ModuleItem};
-use swc_ecma_visit::Fold;
 
 /// Circular imports are hard to handle.
 ///
@@ -18,7 +16,7 @@ where
         assert_ne!(circular_modules.len(), 1);
         dbg!(&circular_modules);
 
-        let mut entry_module = self.scope.get_module(circular_modules[0]).unwrap();
+        let entry_module = self.scope.get_module(circular_modules[0]).unwrap();
 
         let modules = circular_modules
             .iter()
