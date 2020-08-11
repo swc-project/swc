@@ -54,6 +54,7 @@ where
             print_hygiene("before:merge", &self.cm, &entry);
 
             for (src, specifiers) in &info.imports.specifiers {
+                // Already combined by recursive call to merge_modules.
                 if !targets.contains(&src.module_id) {
                     log::debug!(
                         "Not merging: not in target: ({}):{} <= ({}):{}",
@@ -76,6 +77,10 @@ where
                 if let Some(imported) = self.scope.get_module(src.module_id) {
                     info.helpers.extend(&imported.helpers);
 
+                    if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
+                        targets.remove(pos);
+                    }
+
                     // In the case of
                     //
                     //  a <- b
@@ -93,10 +98,6 @@ where
                                     info.id, info.fm.name, src.module_id, src.src.value
                                 )
                             })?;
-
-                    if let Some(pos) = targets.iter().position(|x| *x == info.id) {
-                        targets.remove(pos);
-                    }
 
                     if imported.is_es6 {
                         // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
