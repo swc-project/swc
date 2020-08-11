@@ -143,6 +143,8 @@ where
     }
 
     fn add_to_graph(&self, graph: &mut ModuleGraph, module_id: ModuleId) {
+        let contains = graph.contains_node(module_id);
+
         graph.add_node(module_id);
 
         let m = self
@@ -150,9 +152,12 @@ where
             .get_module(module_id)
             .expect("failed to get module");
 
-        for (src, _) in &m.imports.specifiers {
-            if graph.contains_node(src.module_id) {
-                return;
+        // Prevent dejavu
+        if contains {
+            for (src, _) in &m.imports.specifiers {
+                if graph.contains_node(src.module_id) {
+                    return;
+                }
             }
         }
 
