@@ -156,6 +156,8 @@ where
         if contains {
             for (src, _) in &m.imports.specifiers {
                 if graph.contains_node(src.module_id) {
+                    self.scope.mark_as_circular(module_id);
+                    self.scope.mark_as_circular(src.module_id);
                     return;
                 }
             }

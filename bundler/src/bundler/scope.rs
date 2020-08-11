@@ -21,16 +21,8 @@ impl Scope {
         self.circular_modules.get(&id).is_some()
     }
 
-    pub fn mark_as_circular(&self, file_name: &FileName) {
-        let (id, ..) = self.module_id_gen.gen(file_name);
-
+    pub fn mark_as_circular(&self, id: ModuleId) {
         self.circular_modules.insert(id, ());
-    }
-
-    pub fn is_loaded(&self, file_name: &FileName) -> bool {
-        let id = self.module_id_gen.gen(file_name);
-
-        self.loaded_modules.get(&id.0).is_some()
     }
 
     pub fn mark_as_loaded(&self, id: ModuleId) {
