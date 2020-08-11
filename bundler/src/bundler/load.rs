@@ -58,36 +58,28 @@ where
         self.run(|| {
             log::trace!("load_transformed: ({})", file_name);
 
-            let loaded = self.scope.is_loaded(file_name);
-
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(&file_name) {
                 log::info!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
 
-            // Handle circular dependency
-            if loaded {
-                self.scope.mark_as_circular(file_name);
-                log::warn!("Skipping: {}: circular dependency?", file_name);
-                return Ok(None);
-            }
-
             let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
             let (v, files) = self
-                .transform_module(&file_name, fm.clone(), module)
-                .context("failed to transform module")?;
+                .analyze(&file_name, fm.clone(), module)
+                .context("failed to analyze module")?;
 
             log::info!("Storing module: {}", file_name);
             self.scope.store_module(v.clone());
 
-            // Load dependencies and store them in `Scope`
+            // Load dependencies and store them in the `Scope`
             let results = files
                 .into_par_iter()
                 .map(|source| self.resolve(file_name, &source.src.value))
                 .map(|path| self.load_transformed(&*path?))
                 .collect::<Vec<_>>();
 
+            // Do tasks in parallel, and then wait for result
             for result in results {
                 result?;
             }
@@ -110,7 +102,7 @@ where
     }
 
     /// This methods returns [Source]s which should be loaded.
-    fn transform_module(
+    fn analyze(
         &self,
         file_name: &FileName,
         fm: Lrc<SourceFile>,
