@@ -19,7 +19,7 @@ where
 {
     pub(super) fn merge_circular_modules(
         &self,
-        entry: ModuleId,
+        entry_id: ModuleId,
         circular_modules: &mut Vec<ModuleId>,
     ) -> Module {
         assert!(
@@ -28,15 +28,15 @@ where
             circular_modules
         );
         debug_assert!(
-            self.scope.is_circular(entry),
+            self.scope.is_circular(entry_id),
             "merge_circular_modules should only be called for circular entries"
         );
 
-        let entry_module = self.scope.get_module(entry).unwrap();
+        let entry_module = self.scope.get_module(entry_id).unwrap();
 
         let modules = circular_modules
             .iter()
-            .chain(once(&entry))
+            .chain(once(&entry_id))
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
 
@@ -50,6 +50,7 @@ where
 
         // All circular modules are inlined
         circular_modules.clear();
+        circular_modules.push(entry_id);
 
         entry
     }
