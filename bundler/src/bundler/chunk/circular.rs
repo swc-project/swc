@@ -87,7 +87,7 @@ where
         entry: TransformedModule,
     ) -> Module {
         let mut module = (*entry.module).clone();
-        print_hygiene("START: process_circular_module", &self.cm, &module);
+        // print_hygiene("START: process_circular_module", &self.cm, &module);
 
         module.body.retain(|item| {
             match item {
@@ -129,24 +129,62 @@ where
             entry.mark(),
         ));
 
-        print_hygiene("END: process_circular_module", &self.cm, &module);
+        // print_hygiene("END: process_circular_module", &self.cm, &module);
 
         module
     }
 }
 
-fn merge_respecting_order(entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) -> Vec<ModuleItem> {
+/// Originally, this method should create a dependency graph, but
+fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) -> Vec<ModuleItem> {
     let mut new = Vec::with_capacity(entry.len() + dep.len());
 
-    // WHile looping over items from entry, we check for dependency.
-    // If the code of entry depends on dependency, we insert dependency source code
-    // at the position.
-    for entry_item in entry {
-        if let Some(pos) = dependency_index(&entry_item, &dep) {
-            new.extend(dep.drain(..=pos));
+    // While looping over items from entry, we check for dependency.
+    loop {
+        if entry.is_empty() {
+            log::error!("entry is empty");
+            break;
+        }
+        let item = entry.drain(..=0).next().unwrap();
+
+        // Everything from  dep is injected
+        if dep.is_empty() {
+            log::error!("dep is empty");
+            new.push(item);
+            new.extend(entry);
+            break;
         }
 
-        new.push(entry_item);
+        // If the code of entry depends on dependency, we insert dependency source code
+        // at the position.
+        if let Some(pos) = dependency_index(&item, &dep) {
+            log::error!("Found depndency: {}", pos);
+
+            new.extend(dep.drain(..=pos));
+            new.push(item);
+            continue;
+        }
+
+        // We checked the length of `dep`
+        if let Some(pos) = dependency_index(&dep[0], &[item.clone()]) {
+            log::error!("Found reverse depndency (index[0]): {}", pos);
+
+            new.extend(entry.drain(..=pos));
+            new.extend(dep.drain(..=0));
+            continue;
+        }
+
+        if let Some(pos) = dependency_index(&dep[0], &entry) {
+            log::error!("Found reverse depndency: {}", pos);
+
+            new.extend(entry.drain(..=pos));
+            new.extend(dep.drain(..=0));
+            continue;
+        }
+
+        log::error!("No dependency");
+
+        new.push(item);
     }
 
     // Append remaining statements.
@@ -168,7 +206,6 @@ struct DepFinder<'a> {
 
 impl Visit for DepFinder<'_> {
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        dbg!(i);
         if self.idx.is_some() {
             return;
         }
@@ -193,4 +230,9 @@ impl Visit for DepFinder<'_> {
             e.prop.visit_with(e as _, self)
         }
     }
+
+    fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
+    fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 }
