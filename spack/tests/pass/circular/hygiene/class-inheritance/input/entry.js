@@ -1,4 +1,4 @@
-import './a';
+import { A } from './a';
 import './b';
 import './c';
-console.log('Loaded!');
+console.log(A, 'Loaded!');
