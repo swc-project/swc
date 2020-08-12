@@ -16,8 +16,8 @@ it('should respect .swcrc', async () => {
     const result = await swc.bundle(path.join(__dirname, '../../tests/spack/config-swcrc/spack.config.js'));
 
     expect(result.a).toBeTruthy();
-    expect(result.a.code).toContain(`require("./common-`);
+    expect(result.a.code).toContain(`require("./common`);
 
     expect(result.b).toBeTruthy();
-    expect(result.b.code).toContain(`require("./common-`);
+    expect(result.b.code).toContain(`require("./common`);
 });
