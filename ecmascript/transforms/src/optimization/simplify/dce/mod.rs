@@ -153,11 +153,12 @@ impl Fold for Dce<'_> {
             return node;
         }
 
-        let stmts = node.stmts.fold_with(self);
+        let mut stmts = node.stmts.fold_with(self);
 
         let mut span = node.span;
-        if stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
+        if self.marking_phase || stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
             span = span.apply_mark(self.config.used_mark);
+            stmts = self.fold_in_marking_phase(stmts);
         }
 
         BlockStmt { span, stmts }
@@ -308,7 +309,9 @@ impl Fold for Dce<'_> {
 
         if self.marking_phase || self.included.contains(&f.ident.to_id()) {
             f.function.span = f.function.span.apply_mark(self.config.used_mark);
+            f.function.params = self.fold_in_marking_phase(f.function.params);
             f.function.body = self.fold_in_marking_phase(f.function.body);
+            return f;
         }
 
         f.fold_children_with(self)
@@ -446,6 +449,7 @@ impl Fold for Dce<'_> {
         }
 
         // Drop unused imports.
+        log::debug!("Removing unused import specifiers");
         import.specifiers.retain(|s| self.should_include(s));
 
         if !import.specifiers.is_empty() {
@@ -509,13 +513,9 @@ impl Fold for Dce<'_> {
         if self.is_marked(node.span) {
             return node;
         }
+
         node.span = node.span.apply_mark(self.config.used_mark);
-
-        let mut node = node.fold_children_with(self);
-
-        if self.is_marked(node.arg.span()) {
-            node.arg = self.fold_in_marking_phase(node.arg)
-        }
+        node.arg = self.fold_in_marking_phase(node.arg);
 
         node
     }
@@ -612,7 +612,6 @@ impl Fold for Dce<'_> {
             return var;
         }
 
-        log::trace!("VarDecl");
         var = var.fold_children_with(self);
 
         var.decls = var.decls.move_flat_map(|decl| {
@@ -677,6 +676,10 @@ impl Dce<'_> {
         T: StmtLike + FoldWith<Self> + Spanned + std::fmt::Debug,
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
     {
+        if self.marking_phase {
+            return items.move_map(|item| self.fold_in_marking_phase(item));
+        }
+
         let old = self.changed;
 
         let mut preserved = FxHashSet::default();
