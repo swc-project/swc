@@ -447,3 +447,11 @@ function a() {
 console.log(a, a());
 "
 );
+
+noop!(
+    spack_issue_010,
+    "
+class A {}
+console.log(new A());
+"
+);
