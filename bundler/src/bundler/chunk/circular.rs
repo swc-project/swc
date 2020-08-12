@@ -239,7 +239,6 @@ impl Visit for DepFinder<'_> {
     }
 
     fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
-    fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 }
