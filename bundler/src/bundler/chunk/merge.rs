@@ -1,6 +1,5 @@
 use crate::{
     bundler::{export::Exports, load::Specifier},
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -56,7 +55,7 @@ where
 
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
-            print_hygiene("before:merge", &self.cm, &entry);
+            // print_hygiene("before:merge", &self.cm, &entry);
 
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
@@ -203,7 +202,7 @@ where
                         };
                         entry.body.visit_mut_with(&mut injector);
 
-                        print_hygiene("entry:after:injection", &self.cm, &entry);
+                        // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         if injector.imported.is_empty() {
                             continue;

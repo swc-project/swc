@@ -1,7 +1,5 @@
 use super::merge::{LocalMarker, Unexporter};
-use crate::{
-    bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
-};
+use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
 use std::iter::once;
 use swc_common::DUMMY_SP;
@@ -64,7 +62,7 @@ where
         dep: ModuleId,
     ) -> Module {
         self.run(|| {
-            print_hygiene("START: merge_two_circular_modules", &self.cm, &entry);
+            // print_hygiene("START: merge_two_circular_modules", &self.cm, &entry);
 
             let dep_info = self.scope.get_module(dep).unwrap();
             let mut dep = self.process_circular_module(circular_modules, dep_info);
@@ -74,7 +72,7 @@ where
             // Merge code
             entry.body = merge_respecting_order(entry.body, dep.body);
 
-            print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
+            // print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
             entry
         })
     }
