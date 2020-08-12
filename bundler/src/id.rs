@@ -1,10 +1,10 @@
-use crate::util::CloneMap;
+use fxhash::FxHashMap;
 use std::{
     fmt,
     sync::atomic::{AtomicU64, Ordering::SeqCst},
 };
 use swc_atoms::JsWord;
-use swc_common::{FileName, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Lock, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Ident;
 use swc_ecma_utils::ident::IdentLike;
 
@@ -20,18 +20,19 @@ impl fmt::Display for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU64,
-    cache: CloneMap<FileName, (ModuleId, Mark)>,
+    cache: Lock<FxHashMap<FileName, (ModuleId, Mark)>>,
 }
 
 impl ModuleIdGenerator {
     pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark) {
-        if let Some(v) = self.cache.get(file_name) {
-            return v;
+        let mut w = self.cache.lock();
+        if let Some(v) = w.get(file_name) {
+            return v.clone();
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
         let mark = Mark::fresh(Mark::root());
-        self.cache.insert(file_name.clone(), (id, mark));
+        w.insert(file_name.clone(), (id, mark));
         (id, mark)
     }
 }
