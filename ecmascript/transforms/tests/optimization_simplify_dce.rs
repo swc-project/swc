@@ -434,3 +434,16 @@ noop!(
     console.log('foo');
     new A();"
 );
+
+noop!(
+    spack_issue_009,
+    "
+class A {
+    
+}
+function a() {
+    return new A();
+}
+console.log(a, a());
+"
+);
