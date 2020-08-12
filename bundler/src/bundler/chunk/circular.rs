@@ -213,6 +213,13 @@ impl Visit for DepFinder<'_> {
         for (idx, dep) in self.deps.iter().enumerate() {
             match dep {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
+                    log::error!(
+                        "Decl (from dep) = {}{:?}, Ident = {}{:?}",
+                        decl.ident.sym,
+                        decl.ident.span.ctxt,
+                        i.sym,
+                        i.span.ctxt
+                    );
                     if decl.ident.sym == i.sym && decl.ident.span.ctxt == i.span.ctxt {
                         self.idx = Some(idx);
                         break;
