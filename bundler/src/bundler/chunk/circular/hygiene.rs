@@ -46,8 +46,15 @@ impl<'a> Scope<'a> {
 
 /// TODO: This is incomplete
 impl<'a> MergeFolder<'a> {
-    fn fold_bindine_ident(&mut self, i: Ident) -> Ident {
+    fn fold_bindine_ident(&mut self, mut i: Ident) -> Ident {
         log::trace!("BindingIdent: {}{:?}", i.sym, i.span.ctxt);
+
+        let mut ctxt = i.span.clone();
+        if self.top_level_mark == ctxt.remove_mark() {
+            i.span = i
+                .span
+                .with_ctxt(SyntaxContext::empty().apply_mark(self.module_mark));
+        }
 
         self.scope.binding_idents.insert((&i).into());
         i
@@ -56,6 +63,7 @@ impl<'a> MergeFolder<'a> {
     fn fold_ref_ident(&mut self, mut i: Ident) -> Ident {
         // Skip reference to globals.
         if !self.scope.contains(&i) {
+            // eprintln!("Preserving {}{:?}", i.sym, i.span.ctxt);
             return i;
         }
         log::trace!("Changing context of ident ref: {}{:?}", i.sym, i.span.ctxt);
