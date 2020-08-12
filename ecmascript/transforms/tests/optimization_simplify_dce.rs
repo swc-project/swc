@@ -424,3 +424,34 @@ var load = function(){}
 var { progress } = load();
 console.log(progress);"
 );
+
+noop!(
+    spack_issue_008,
+    "class B {
+    }
+    class A extends B {
+    }
+    console.log('foo');
+    new A();"
+);
+
+noop!(
+    spack_issue_009,
+    "
+class A {
+    
+}
+function a() {
+    return new A();
+}
+console.log(a, a());
+"
+);
+
+noop!(
+    spack_issue_010,
+    "
+class A {}
+console.log(new A());
+"
+);

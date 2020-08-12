@@ -20,7 +20,7 @@ swc_ecma_ast = { version = "0.28.0", path ="../ast" }
 swc_ecma_utils = { version = "0.17.0", path ="../utils" }
 swc_ecma_parser = { version = "0.33.0", path ="../parser" }
 swc_ecma_visit = { version = "0.13.0", path ="../visit" }
-dashmap = { version = "=3.5.1", optional = true }
+dashmap = { version = "3", optional = true }
 either = "1.5"
 fxhash = "0.2"
 indexmap = "1"

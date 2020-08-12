@@ -1,11 +1,7 @@
-use crate::load::Load;
 use anyhow::{Context as _, Error};
 use neon::prelude::*;
-
-use std::{
-    path::Path,
-    sync::{mpsc::channel, Arc},
-};
+use std::sync::{mpsc::channel, Arc};
+use swc_bundler::Load;
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::{Module, Program};
 
@@ -16,8 +12,8 @@ pub struct NeonLoader {
 }
 
 impl Load for NeonLoader {
-    fn load(&self, p: &Path) -> Result<(Arc<SourceFile>, Module), Error> {
-        let path = p.to_string_lossy().to_string();
+    fn load(&self, name: &FileName) -> Result<(Arc<SourceFile>, Module), Error> {
+        let path = name.to_string();
         let (tx, rx) = channel();
 
         self.handler.schedule_with(move |cx, _value, f| {
@@ -58,10 +54,7 @@ impl Load for NeonLoader {
             .context("failed to receive output from js loader")?;
         let code = code?;
 
-        let fm = self
-            .swc
-            .cm
-            .new_source_file(FileName::Real(p.to_path_buf()), code);
+        let fm = self.swc.cm.new_source_file(name.clone(), code);
 
         let config = self.swc.config_for_file(
             &swc::config::Options {

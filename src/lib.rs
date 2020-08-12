@@ -54,6 +54,10 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
+    pub fn globals(&self) -> &Globals {
+        &self.globals
+    }
+
     pub fn comments(&self) -> &SwcComments {
         &self.comments
     }

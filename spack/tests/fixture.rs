@@ -3,11 +3,7 @@
 extern crate test;
 
 use fxhash::FxHashMap;
-use spack::{
-    config::{Config, EntryConfig},
-    loaders::swc::SwcLoader,
-    BundleKind, Bundler,
-};
+use spack::{loaders::swc::SwcLoader, resolvers::NodeResolver};
 use std::{
     env,
     fs::{create_dir_all, read_dir},
@@ -16,6 +12,8 @@ use std::{
     sync::Arc,
 };
 use swc::config::SourceMapsConfig;
+use swc_bundler::{BundleKind, Bundler, Config};
+use swc_common::{FileName, GLOBALS};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -93,7 +91,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             })
             .map(|e| -> Result<_, io::Error> {
                 let e = e?;
-                Ok((e.file_name().to_string_lossy().to_string(), e.path()))
+                Ok((
+                    e.file_name().to_string_lossy().to_string(),
+                    FileName::Real(e.path()),
+                ))
             })
             .collect::<Result<FxHashMap<_, _>, _>>()?;
 
@@ -116,73 +117,103 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
 
             testing::run_test2(false, |cm, handler| {
-                let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
-                let loader = SwcLoader::new(
-                    compiler.clone(),
-                    swc::config::Options {
-                        swcrc: true,
-                        ..Default::default()
-                    },
-                );
-                let config = Config {
-                    working_dir: Default::default(),
-                    mode: Default::default(),
-                    entry: EntryConfig::Files(entries),
-                    output: None,
-                    module: Default::default(),
-                    optimization: None,
-                    resolve: None,
-                    options: None,
-                };
-                let bundler = Bundler::new(
-                    compiler.clone(),
-                    swc::config::Options {
-                        swcrc: true,
-                        ..Default::default()
-                    },
-                    &spack::resolve::NodeResolver,
-                    &loader,
-                );
+                GLOBALS.with(|globals| {
+                    let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+                    let loader = SwcLoader::new(
+                        compiler.clone(),
+                        swc::config::Options {
+                            swcrc: true,
+                            ..Default::default()
+                        },
+                    );
+                    let bundler = Bundler::new(
+                        globals,
+                        cm.clone(),
+                        &loader,
+                        NodeResolver::new(),
+                        Config {
+                            require: true,
+                            external_modules: vec![
+                                "assert",
+                                "buffer",
+                                "child_process",
+                                "console",
+                                "cluster",
+                                "crypto",
+                                "dgram",
+                                "dns",
+                                "events",
+                                "fs",
+                                "http",
+                                "http2",
+                                "https",
+                                "net",
+                                "os",
+                                "path",
+                                "perf_hooks",
+                                "process",
+                                "querystring",
+                                "readline",
+                                "repl",
+                                "stream",
+                                "string_decoder",
+                                "timers",
+                                "tls",
+                                "tty",
+                                "url",
+                                "util",
+                                "v8",
+                                "vm",
+                                "wasi",
+                                "worker",
+                                "zlib",
+                            ]
+                            .into_iter()
+                            .map(From::from)
+                            .collect(),
+                        },
+                    );
 
-                let modules = bundler.bundle(&config).expect("failed to bundle module");
-                log::info!("Bundled as {} modules", modules.len());
+                    let modules = bundler.bundle(entries).map_err(|_| ())?;
+                    log::info!("Bundled as {} modules", modules.len());
 
-                let mut error = false;
+                    let mut error = false;
 
-                for bundled in modules {
-                    let code = bundler
-                        .swc()
-                        .print(&bundled.module, SourceMapsConfig::Bool(false), None, false)
-                        .expect("failed to emit bundle")
-                        .code;
+                    for bundled in modules {
+                        let code = compiler
+                            .print(&bundled.module, SourceMapsConfig::Bool(false), None, false)
+                            .expect("failed to print?")
+                            .code;
 
-                    let name = match bundled.kind {
-                        BundleKind::Named { name } | BundleKind::Lib { name } => {
-                            PathBuf::from(name)
-                        }
-                        BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
-                    };
+                        let name = match bundled.kind {
+                            BundleKind::Named { name } | BundleKind::Lib { name } => {
+                                PathBuf::from(name)
+                            }
+                            BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
+                        };
 
-                    let output_path = entry.path().join("output").join(name.file_name().unwrap());
+                        let output_path =
+                            entry.path().join("output").join(name.file_name().unwrap());
 
-                    log::info!("Printing {}", output_path.display());
+                        log::info!("Printing {}", output_path.display());
 
-                    let s = NormalizedOutput::from(code);
+                        let s = NormalizedOutput::from(code);
 
-                    match s.compare_to_file(&output_path) {
-                        Ok(_) => {}
-                        Err(err) => {
-                            println!("{:?}", err);
-                            error = true;
+                        match s.compare_to_file(&output_path) {
+                            Ok(_) => {}
+                            Err(err) => {
+                                println!("{:?}", err);
+                                error = true;
+                            }
                         }
                     }
-                }
 
-                if error {
-                    return Err(());
-                }
+                    if error {
+                        return Err(());
+                    }
 
-                Ok(())
+                    Ok(())
+                })
             })
             .expect("failed to process a module");
         });
