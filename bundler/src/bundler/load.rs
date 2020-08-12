@@ -65,9 +65,10 @@ where
             }
 
             let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
-            let (v, files) = self
+            let (v, mut files) = self
                 .analyze(&file_name, fm.clone(), module)
                 .context("failed to analyze module")?;
+            files.dedup_by_key(|v| v.1.clone());
 
             log::info!("Storing module: {}", file_name);
             self.scope.store_module(v.clone());
@@ -75,13 +76,16 @@ where
             // Load dependencies and store them in the `Scope`
             let results = files
                 .into_par_iter()
-                .map(|source| self.resolve(file_name, &source.src.value))
-                .map(|path| self.load_transformed(&*path?))
+                .map(|(_src, path)| {
+                    log::debug!("loading dependency: {}", path);
+                    self.load_transformed(&path)
+                })
                 .collect::<Vec<_>>();
 
             // Do tasks in parallel, and then wait for result
             for result in results {
-                result?;
+                let res = result?;
+                dbg!(res.is_none());
             }
 
             Ok(Some(v))
@@ -107,7 +111,7 @@ where
         file_name: &FileName,
         fm: Lrc<SourceFile>,
         mut module: Module,
-    ) -> Result<(TransformedModule, Vec<Source>), Error> {
+    ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             log::trace!("transform_module({})", fm.name);
             module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
@@ -191,7 +195,7 @@ where
         &self,
         base: &FileName,
         raw: RawExports,
-    ) -> Result<(Exports, Vec<Source>), Error> {
+    ) -> Result<(Exports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             log::trace!("resolve_exports({})", base);
             let mut files = vec![];
@@ -205,9 +209,9 @@ where
                     self.run(|| {
                         let info = match src {
                             Some(src) => {
-                                let path = self.resolve(base, &src.value)?;
-                                let (id, _) = self.scope.module_id_gen.gen(&path);
-                                Some((id, src))
+                                let name = self.resolve(base, &src.value)?;
+                                let (id, _) = self.scope.module_id_gen.gen(&name);
+                                Some((id, name, src))
                             }
                             None => None,
                         };
@@ -222,7 +226,7 @@ where
 
                 match info {
                     None => exports.items.extend(specifiers),
-                    Some((id, src)) => {
+                    Some((id, name, src)) => {
                         //
                         let src = Source {
                             is_loaded_synchronously: true,
@@ -235,7 +239,7 @@ where
                             .entry(src.clone())
                             .or_default()
                             .extend(specifiers);
-                        files.push(src);
+                        files.push((src, name));
                     }
                 }
             }
@@ -249,7 +253,7 @@ where
         &self,
         base: &FileName,
         info: RawImports,
-    ) -> Result<(Imports, Vec<Source>), Error> {
+    ) -> Result<(Imports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             log::trace!("resolve_imports({})", base);
             let mut files = vec![];
@@ -283,14 +287,14 @@ where
                         let file_name = self.resolve(base, &decl.src.value)?;
                         let (id, _) = self.scope.module_id_gen.gen(&file_name);
 
-                        Ok((id, decl, dynamic, unconditional))
+                        Ok((id, file_name, decl, dynamic, unconditional))
                     })
                 })
                 .collect::<Vec<_>>();
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let (id, decl, is_dynamic, is_unconditional) = res?;
+                let (id, file_name, decl, is_dynamic, is_unconditional) = res?;
 
                 let src = Source {
                     is_loaded_synchronously: !is_dynamic,
@@ -298,7 +302,7 @@ where
                     module_id: id,
                     src: decl.src,
                 };
-                files.push(src.clone());
+                files.push((src.clone(), file_name));
 
                 // TODO: Handle rename
                 let mut specifiers = vec![];
