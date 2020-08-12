@@ -4,7 +4,7 @@ use std::{
     sync::atomic::{AtomicU64, Ordering::SeqCst},
 };
 use swc_atoms::JsWord;
-use swc_common::{FileName, Lock, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Ident;
 use swc_ecma_utils::ident::IdentLike;
 
