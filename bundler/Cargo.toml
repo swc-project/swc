@@ -15,14 +15,14 @@ concurrent = ["swc_common/concurrent", "dashmap", "rayon"]
 
 
 [dependencies]
-swc_atoms = { path = "../atoms" }
-swc_common = { path = "../common" }
-swc_ecma_ast = { path = "../ecmascript/ast" }
-swc_ecma_codegen = { path = "../ecmascript/codegen" }
-swc_ecma_parser = { path = "../ecmascript/parser" }
-swc_ecma_transforms = { path = "../ecmascript/transforms" }
-swc_ecma_utils = { path = "../ecmascript/utils" }
-swc_ecma_visit = { path = "../ecmascript/visit" }
+swc_atoms = {  version = "0.2", path = "../atoms" }
+swc_common = { version = "0.9", path = "../common" }
+swc_ecma_ast = { version = "0.28", path = "../ecmascript/ast" }
+swc_ecma_codegen = { version = "0.31", path = "../ecmascript/codegen" }
+swc_ecma_parser = { version = "0.33", path = "../ecmascript/parser" }
+swc_ecma_transforms = { version = "0.19", path = "../ecmascript/transforms" }
+swc_ecma_utils = { version = "0.17", path = "../ecmascript/utils" }
+swc_ecma_visit = { version = "0.13", path = "../ecmascript/visit" }
 anyhow = "1"
 crc = "1.8"
 radix_fmt = "1"
