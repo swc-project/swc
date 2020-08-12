@@ -36,4 +36,4 @@ fxhash = "0.2.1"
 is-macro = "0.1"
 
 [dev-dependencies]
-testing = { path = "../testing" }
+testing = { version = "0.9.0", path = "../testing" }
