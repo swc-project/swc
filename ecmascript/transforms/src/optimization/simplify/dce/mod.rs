@@ -170,6 +170,7 @@ impl Fold for Dce<'_> {
 
         if self.marking_phase || self.included.contains(&node.ident.to_id()) {
             node.class.span = node.class.span.apply_mark(self.config.used_mark);
+            node.class.super_class = self.fold_in_marking_phase(node.class.super_class);
         }
 
         node.fold_children_with(self)
