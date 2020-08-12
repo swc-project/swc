@@ -79,6 +79,22 @@ impl<'a> MergeFolder<'a> {
 }
 
 impl Fold for MergeFolder<'_> {
+    fn fold_class_decl(&mut self, c: ClassDecl) -> ClassDecl {
+        ClassDecl {
+            ident: self.fold_bindine_ident(c.ident),
+            class: c.class.fold_with(self),
+            ..c
+        }
+    }
+
+    fn fold_class_expr(&mut self, c: ClassExpr) -> ClassExpr {
+        ClassExpr {
+            ident: c.ident.map(|i| self.fold_bindine_ident(i)),
+            class: c.class.fold_with(self),
+            ..c
+        }
+    }
+
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
         if e.computed {
             MemberExpr {
