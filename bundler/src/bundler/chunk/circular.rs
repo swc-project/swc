@@ -4,8 +4,9 @@ use crate::{
 };
 use hygiene::top_level_ident_folder;
 use std::iter::once;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 
 mod hygiene;
 
@@ -70,9 +71,8 @@ where
 
             dep = dep.fold_with(&mut Unexporter);
 
-            // TODO: Reorder items
             // Merge code
-            entry.body.extend(dep.body);
+            entry.body = merge_respecting_order(entry.body, dep.body);
 
             print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
             entry
@@ -132,5 +132,65 @@ where
         print_hygiene("END: process_circular_module", &self.cm, &module);
 
         module
+    }
+}
+
+fn merge_respecting_order(entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    let mut new = Vec::with_capacity(entry.len() + dep.len());
+
+    // WHile looping over items from entry, we check for dependency.
+    // If the code of entry depends on dependency, we insert dependency source code
+    // at the position.
+    for entry_item in entry {
+        if let Some(pos) = dependency_index(&entry_item, &dep) {
+            new.extend(dep.drain(..=pos));
+        }
+
+        new.push(entry_item);
+    }
+
+    // Append remaining statements.
+    new.extend(dep);
+
+    new
+}
+
+fn dependency_index(item: &ModuleItem, deps: &[ModuleItem]) -> Option<usize> {
+    let mut v = DepFinder { deps, idx: None };
+    item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.idx
+}
+
+struct DepFinder<'a> {
+    deps: &'a [ModuleItem],
+    idx: Option<usize>,
+}
+
+impl Visit for DepFinder<'_> {
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        dbg!(i);
+        if self.idx.is_some() {
+            return;
+        }
+
+        for (idx, dep) in self.deps.iter().enumerate() {
+            match dep {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
+                    if decl.ident.sym == i.sym && decl.ident.span.ctxt == i.span.ctxt {
+                        self.idx = Some(idx);
+                        break;
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e as _, self);
+
+        if e.computed {
+            e.prop.visit_with(e as _, self)
+        }
     }
 }
