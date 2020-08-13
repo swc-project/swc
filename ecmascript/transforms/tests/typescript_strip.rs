@@ -900,5 +900,6 @@ test_exec!(
     
     c.callApi()
     expect(c.callApi()).not.toBe(undefined)
+    expect(c.action).toBe(1);
     "
 );
