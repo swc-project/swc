@@ -3,7 +3,7 @@ use std::{
     ops::{Deref, Range, RangeFrom, RangeTo},
     str::{CharIndices, Chars},
 };
-use swc_common::{BytePos, Span};
+use swc_common::{comments::Comment, BytePos, Span};
 use swc_ecma_ast::Str;
 
 #[derive(Debug, Clone, Copy)]
@@ -11,6 +11,12 @@ pub struct Input<'i> {
     start: BytePos,
     end: BytePos,
     src: &'i str,
+}
+
+impl<'a, 'b> From<&'a Comment> for Input<'a> {
+    fn from(c: &'a Comment) -> Self {
+        Self::new(c.span.lo, c.span.hi, &c.text)
+    }
 }
 
 impl<'i> Input<'i> {

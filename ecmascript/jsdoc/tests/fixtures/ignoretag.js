@@ -1,0 +1,6 @@
+/**
+    @ignore
+*/
+function foo(x) {
+
+}
