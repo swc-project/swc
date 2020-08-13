@@ -44,13 +44,12 @@ fn fixture() {
                 if handler.has_errors() {
                     return Err(());
                 }
-                dbg!();
 
                 for (_, comments) in comments.leading.into_iter() {
                     dbg!();
                     for cmt in &comments {
+                        println!("{}", cmt.text);
                         let (i, parsed) = jsdoc::parse(cmt.into()).unwrap();
-                        println!("{}", &*i);
                         println!("{:?}", parsed);
                     }
                 }
