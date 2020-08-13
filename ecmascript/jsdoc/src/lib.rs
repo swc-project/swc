@@ -939,12 +939,14 @@ fn parse_type(i: Input) -> IResult<Input, Str> {
     parse_line(i)
 }
 
+// ----- ----- Done ----- -----
+
 fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Str> {
     for &item in list {
         if i.starts_with(item) {
             let res = tag::<&str, Input<'_>, (_, ErrorKind)>(item)(i);
             match res {
-                Ok(v) => return Ok((v.0, v.1.into())),
+                Ok(v) => return Ok((v.1, v.0.into())),
                 Err(..) => continue,
             }
         }
@@ -952,8 +954,6 @@ fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Str> {
 
     Err(nom::Err::Error((i, ErrorKind::Tag)))
 }
-
-// ----- ----- Done ----- -----
 
 fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
     let lo = i.span().lo;
@@ -1035,7 +1035,15 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_line() {
+    fn one_of_1() {
+        let (rest, ret) = parse_one_of(input("foo bar\nbaz"), &["fo", "bar"]).unwrap();
+
+        assert_eq!(&*ret.value, "fo");
+        assert_eq!(&*rest, "o bar\nbaz");
+    }
+
+    #[test]
+    fn line_1() {
         let (rest, ret) = parse_line(input("foo bar\nbaz")).unwrap();
 
         assert_eq!(&*ret.value, "foo bar");
@@ -1043,7 +1051,7 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_word() {
+    fn word_1() {
         let (rest, ret) = parse_word(input("foo bar\nbaz")).unwrap();
 
         assert_eq!(&*ret.value, "foo");
