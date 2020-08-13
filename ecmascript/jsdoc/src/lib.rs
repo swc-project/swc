@@ -296,13 +296,26 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             JsDocTag::Module(JsDocMixinTag { span, name })
         }
 
-        "name" => JsDocTag::Name(JsDocNameTag {}),
+        "name" => {
+            let (input, name_path) = parse_name_path(i)?;
+            i = input;
+            JsDocTag::Name(JsDocNameTag { span, name_path })
+        }
 
-        "namespace" => {}
+        "namespace" => {
+            let (input, ty) = parse_opt_type(i)?;
+            let (input, name) = parse_opt_str(input)?;
+            i = input;
+            JsDocTag::Name(JsDocNameTag { span, ty, name })
+        }
 
-        "override" => {}
+        "override" => JsDocTag::Override(JsDocOverrideTag { span }),
 
-        "package" => {}
+        "package" => {
+            let (input, ty) = parse_opt_type(i)?;
+            i = input;
+            JsDocTag::Package(JsDocPackageTag { span, ty })
+        }
 
         "param" | "arg" | "argument" => {}
 
@@ -798,6 +811,10 @@ fn parse_opt_str(i: Input) -> IResult<Input, Option<Str>> {
 
 fn parse_str(i: Input) -> IResult<Input, Str> {
     parse_line(i)
+}
+
+fn parse_opt_type(i: Input) -> IResult<Input, Option<Str>> {
+    parse_opt_str(i)
 }
 
 fn parse_type(i: Input) -> IResult<Input, Str> {
