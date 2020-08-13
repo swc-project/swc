@@ -406,13 +406,11 @@ pub struct JsDocPropertyTag {
 pub struct JsDocParameterTag {
     pub span: Span,
 
-    pub name: JsDocNamePath,
+    pub name: Option<Str>,
     #[serde(rename = "typeExpression")]
-    pub type_expr: Option<JsDocTypeExpr>,
-    /// Whether the property name came before the type -- non-standard for
-    /// JSDoc, but Typescript-like
-    pub is_name_first: bool,
-    pub is_bracketed: bool,
+    pub ty: Option<Str>,
+
+    pub desc: Str,
 }
 
 #[ast_node]

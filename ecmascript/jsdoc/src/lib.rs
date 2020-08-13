@@ -317,7 +317,18 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             JsDocTag::Package(JsDocPackageTag { span, ty })
         }
 
-        "param" | "arg" | "argument" => {}
+        "param" | "arg" | "argument" => {
+            let (input, ty) = parse_opt_type(i)?;
+            let (input, name) = parse_opt_word(input)?;
+            let (input, desc) = parse_line(input)?;
+            i = input;
+            JsDocTag::Parameter(JsDocParameterTag {
+                span,
+                ty,
+                name,
+                desc,
+            })
+        }
 
         "private" => {}
 
@@ -814,7 +825,7 @@ fn parse_str(i: Input) -> IResult<Input, Str> {
 }
 
 fn parse_opt_type(i: Input) -> IResult<Input, Option<Str>> {
-    parse_opt_str(i)
+    parse_opt_word(i)
 }
 
 fn parse_type(i: Input) -> IResult<Input, Str> {
@@ -948,6 +959,15 @@ fn parse_name_path(i: Input) -> IResult<Input, Str> {
             }
         };
     }
+}
+
+fn parse_opt_word(i: Input) -> IResult<Input, Option<Str>> {
+    let (i, v) = parse_word(i)?;
+    if v.value.is_empty() {
+        return Ok((i, None));
+    }
+
+    Ok((i, v))
 }
 
 fn parse_word(i: Input) -> IResult<Input, Str> {
