@@ -4507,54 +4507,42 @@ export let Product = _class = _dec6(((_class = function() {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: function() {
-        return;
-    }
+    initializer: void 0,
 }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'price', [
     _dec1
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: function() {
-        return;
-    }
+    initializer: void 0,
 }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'type', [
     _dec2
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: function() {
-        return;
-    }
+    initializer: void 0
 }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'productEntityId', [
     _dec3
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: function() {
-        return;
-    }
+    initializer: void 0
 }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'orders', [
     _dec4
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: function() {
-        return;
-    }
+    initializer: void 0,
 }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'discounts', [
     _dec5
 ], {
-    configurable: true,
+    configurable: true,ㅅ
     enumerable: true,
     writable: true,
-    initializer: function() {
-        return;
-    }
+    initializer: void 0
 }), _class)) || _class;
 "
 );
@@ -4585,9 +4573,7 @@ export class Product extends TimestampedEntity {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: function() {
-        return;
-    }
+    initializer: void 0
 }), _class)) || _class;
 "
 );
@@ -4851,9 +4837,7 @@ test!(
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: function() {
-            return;
-        }
+        initializer: void 0,
     }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "appService2", [
         _dec10,
         _dec11
@@ -4861,9 +4845,7 @@ test!(
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: function() {
-            return;
-        }
+        initializer: void 0,
     }), _dec = Get(), _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
         _dec,
         _dec1,
