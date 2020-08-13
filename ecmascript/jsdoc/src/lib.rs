@@ -293,7 +293,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
             let (input, ty) = parse_word(i)?;
             let (input, module_name) = parse_line(i)?;
             i = input;
-            Tag::Module(MixinTag { span, name })
+            Tag::Module(ModuleTag { span, name })
         }
 
         "name" => {
@@ -306,7 +306,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
             let (input, ty) = parse_opt_type(i)?;
             let (input, name) = parse_opt_str(input)?;
             i = input;
-            Tag::Name(NameTag { span, ty, name })
+            Tag::Namespace(NamespaceTag { span, ty, name })
         }
 
         "override" => Tag::Override(OverrideTag { span }),
