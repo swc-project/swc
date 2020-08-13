@@ -1,4 +1,3 @@
-use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 use swc_ecma_ast::{Ident, Str, TsTypeParamDecl};
 
@@ -7,12 +6,12 @@ pub struct JsDoc {
     pub span: Span,
 
     pub description: Str,
-    pub tags: Vec<JsDocTagItem>,
+    pub tags: Vec<TagItem>,
 }
 
-/// JsDoc tag with comments.
+///  tag with comments.
 #[ast_node]
-pub struct JsDocTagItem {
+pub struct TagItem {
     pub span: Span,
     #[serde(rename = "tagName")]
     pub tag_name: Str,
@@ -175,116 +174,117 @@ pub struct AccessTag {
 pub struct AliasTag {
     pub span: Span,
     pub name_path: NamePath,
+    pub tag: Tag,
 }
 
 #[ast_node]
 #[non_exhaustive]
-pub enum JsDocTag {
-    #[tag("JsDocIgnoreTag")]
-    Ignore(JsDocIgnoreTag),
-    #[tag("JsDocHideConstructorTag")]
-    HideConstructor(JsDocHideConstructorTag),
-    #[tag("JsDocGeneratorTag")]
-    Generator(JsDocGeneratorTag),
-    #[tag("JsDocFunctionTag")]
-    Function(JsDocFunctionTag),
-    #[tag("JsDocFilelTag")]
-    File(JsDocFilelTag),
-    #[tag("JsDocConstructsTag")]
-    Constructs(JsDocConstructsTag),
-    #[tag("JsDocCopyrightTag")]
-    Copyright(JsDocCopyrightTag),
-    #[tag("JsDocAbstractTag")]
-    Abstract(JsDocAbstractTag),
-    #[tag("JsDocAccessTag")]
-    Access(JsDocAccessTag),
-    #[tag("JsDocAliasTag")]
-    Alias(JsDocAliasTag),
-    #[tag("JsDocAsyncTag")]
-    Async(JsDocAsyncTag),
-    #[tag("JsDocUnknownTag")]
-    Unknown(JsDocUnknownTag),
-    #[tag("JsDocAugmentsTag")]
-    Augments(JsDocAugmentsTag),
-    #[tag("JsDocImplementsTag")]
-    Implements(JsDocImplementsTag),
-    #[tag("JsDocAuthorTag")]
-    Author(JsDocAuthorTag),
-    #[tag("JsDocBorrowsTag")]
-    Borrows(JsDocBorrowsTag),
-    #[tag("JsDocClassTag")]
-    Class(JsDocClassTag),
+pub enum Tag {
+    #[tag("IgnoreTag")]
+    Ignore(IgnoreTag),
+    #[tag("HideConstructorTag")]
+    HideConstructor(HideConstructorTag),
+    #[tag("GeneratorTag")]
+    Generator(GeneratorTag),
+    #[tag("FunctionTag")]
+    Function(FunctionTag),
+    #[tag("FilelTag")]
+    File(FilelTag),
+    #[tag("ConstructsTag")]
+    Constructs(ConstructsTag),
+    #[tag("CopyrightTag")]
+    Copyright(CopyrightTag),
+    #[tag("AbstractTag")]
+    Abstract(AbstractTag),
+    #[tag("AccessTag")]
+    Access(AccessTag),
+    #[tag("AliasTag")]
+    Alias(AliasTag),
+    #[tag("AsyncTag")]
+    Async(AsyncTag),
+    #[tag("UnknownTag")]
+    Unknown(UnknownTag),
+    #[tag("AugmentsTag")]
+    Augments(AugmentsTag),
+    #[tag("ImplementsTag")]
+    Implements(ImplementsTag),
+    #[tag("AuthorTag")]
+    Author(AuthorTag),
+    #[tag("BorrowsTag")]
+    Borrows(BorrowsTag),
+    #[tag("ClassTag")]
+    Class(ClassTag),
     #[tag("JSDocClassDescTag")]
     ClassDesc(JSDocClassDescTag),
-    #[tag("JsDocConstTag")]
-    Const(JsDocConstTag),
-    #[tag("JsDocPublicTag")]
-    Public(JsDocPublicTag),
-    #[tag("JsDocPrivateTag")]
-    Private(JsDocPrivateTag),
-    #[tag("JsDocProtectedTag")]
-    Protected(JsDocProtectedTag),
-    #[tag("JsDocReadonlyTag")]
-    Readonly(JsDocReadonlyTag),
-    #[tag("JsDocCallbackTag")]
-    Callback(JsDocCallbackTag),
-    #[tag("JsDocEnumTag")]
-    Enum(JsDocEnumTag),
-    #[tag("JsDocParameterTag")]
-    Parameter(JsDocParameterTag),
-    #[tag("JsDocReturnTag")]
-    Return(JsDocReturnTag),
-    #[tag("JsDocThisTag")]
-    This(JsDocThisTag),
-    #[tag("JsDocTypeTag")]
-    Type(JsDocTypeTag),
-    #[tag("JsDocTemplateTag")]
-    Template(JsDocTemplateTag),
-    #[tag("JsDocTypedefTag")]
-    Typedef(JsDocTypedefTag),
-    #[tag("JsDocPropertyTag")]
-    Property(JsDocPropertyTag),
-    #[tag("JsDocDescriptionTag")]
-    Description(JsDocDescriptionTag),
-    #[tag("JsDocExampleTag")]
-    Example(JsDocExampleTag),
-    #[tag("JsDocExportsTag")]
-    Exports(JsDocExportsTag),
-    #[tag("JsDocExternalTag")]
-    External(JsDocExternalTag),
-    #[tag("JsDocDefaultTag")]
-    Default(JsDocDefaultTag),
-    #[tag("JsDocDeprecatedTag")]
-    Deprecated(JsDocDeprecatedTag),
+    #[tag("ConstTag")]
+    Const(ConstTag),
+    #[tag("PublicTag")]
+    Public(PublicTag),
+    #[tag("PrivateTag")]
+    Private(PrivateTag),
+    #[tag("ProtectedTag")]
+    Protected(ProtectedTag),
+    #[tag("ReadonlyTag")]
+    Readonly(ReadonlyTag),
+    #[tag("CallbackTag")]
+    Callback(CallbackTag),
+    #[tag("EnumTag")]
+    Enum(EnumTag),
+    #[tag("ParameterTag")]
+    Parameter(ParameterTag),
+    #[tag("ReturnTag")]
+    Return(ReturnTag),
+    #[tag("ThisTag")]
+    This(ThisTag),
+    #[tag("TypeTag")]
+    Type(TypeTag),
+    #[tag("TemplateTag")]
+    Template(TemplateTag),
+    #[tag("TypedefTag")]
+    Typedef(TypedefTag),
+    #[tag("PropertyTag")]
+    Property(PropertyTag),
+    #[tag("DescriptionTag")]
+    Description(DescriptionTag),
+    #[tag("ExampleTag")]
+    Example(ExampleTag),
+    #[tag("ExportsTag")]
+    Exports(ExportsTag),
+    #[tag("ExternalTag")]
+    External(ExternalTag),
+    #[tag("DefaultTag")]
+    Default(DefaultTag),
+    #[tag("DeprecatedTag")]
+    Deprecated(DeprecatedTag),
 }
 
 #[ast_node]
-pub struct JsDocAbstractTag {
+pub struct AbstractTag {
     pub span: Span,
 }
 
 #[ast_node]
-pub struct JsDocAccessTag {
+pub struct AccessTag {
     pub span: Span,
     pub access: Str,
 }
 
 #[ast_node]
-pub struct JsDocAliasTag {
+pub struct AliasTag {
     pub span: Span,
-    pub name_path: JsDocNamePath,
+    pub name_path: NamePath,
 }
 
 #[ast_node]
-pub struct JsDocAsyncTag {
+pub struct AsyncTag {
     pub span: Span,
 }
 
 #[ast_node]
-pub struct JsDocBorrowsTag {
+pub struct BorrowsTag {
     pub span: Span,
-    pub from: JsDocNamePath,
-    pub to: JsDocNamePath,
+    pub from: NamePath,
+    pub to: NamePath,
 }
 
 #[ast_node]
@@ -294,49 +294,49 @@ pub struct JSDocClassDescTag {
 }
 
 #[ast_node]
-pub struct JsDocConstTag {
+pub struct ConstTag {
     pub span: Span,
     pub ty: Option<Str>,
     pub name: Option<Str>,
 }
 
 #[ast_node]
-pub struct JsDocUnknownTag {
+pub struct UnknownTag {
     pub span: Span,
     pub extras: Str,
 }
 
 /// `@extends`, `@augments`
 #[ast_node]
-pub struct JsDocAugmentsTag {
+pub struct AugmentsTag {
     pub span: Span,
-    pub class: JsDocNamePath,
+    pub class: NamePath,
 }
 
 #[ast_node]
-pub struct JsDocImplementsTag {
+pub struct ImplementsTag {
     pub span: Span,
     pub class: Str,
 }
 
 #[ast_node]
-pub struct JsDocExprWithTypeArgs {
+pub struct ExprWithTypeArgs {
     pub span: Span,
 
     // TODO parent: HeritageClause | JSDocAugmentsTag | JSDocImplementsTag;
-    pub expr: Box<JsDocExpr>,
+    pub expr: Box<Expr>,
 }
 
 #[ast_node]
-pub enum JsDocExpr {
+pub enum Expr {
     #[tag("Identifier")]
     Ident(Ident),
-    #[tag("JsDocNamePath")]
-    Property(JsDocNamePath),
+    #[tag("NamePath")]
+    Property(NamePath),
 }
 
 #[ast_node]
-pub struct JsDocAuthorTag {
+pub struct AuthorTag {
     pub span: Span,
     /// `<name> [<emailAddress>]`
     pub author: Str,
@@ -344,7 +344,7 @@ pub struct JsDocAuthorTag {
 
 #[ast_node]
 #[derive(Eq)]
-pub struct JsDocClassTag {
+pub struct ClassTag {
     pub span: Span,
     pub ty: Option<Str>,
     pub name: Option<Str>,
@@ -385,22 +385,22 @@ pub struct ReadonlyTag {
 }
 
 #[ast_node]
-pub struct JsDocCallbackTag {
+pub struct CallbackTag {
     pub span: Span,
-    pub name_path: JsDocNamePath,
+    pub name_path: NamePath,
 }
 
 #[ast_node]
-pub struct JsDocPropertyTag {
+pub struct PropertyTag {
     pub span: Span,
 
-    pub name_path: JsDocNamePath,
+    pub name_path: NamePath,
     pub ty: Option<Str>,
     pub desc: Str,
 }
 
 #[ast_node]
-pub struct JsDocParameterTag {
+pub struct ParameterTag {
     pub span: Span,
 
     pub name: Option<Str>,
@@ -412,18 +412,19 @@ pub struct JsDocParameterTag {
 
 #[ast_node]
 #[derive(Eq)]
-pub struct JsDocEnumTag {
+pub struct EnumTag {
     pub span: Span,
     pub ty: Str,
 }
 
 #[ast_node]
-pub struct JsDocReturnTag {
+pub struct ReturnTag {
     pub span: Span,
     #[serde(rename = "typeExpression")]
     type_expr: Option<JsDocTypeExpr>,
     pub ty: Option<Str>,
     pub description: Str,
+    type_expr: Option<TypeExpr>,
 }
 
 #[ast_node]
@@ -431,72 +432,74 @@ pub struct JsDocReturnTag {
 pub struct JsDocThisTag {
 pub struct ThisTag {
     pub span: Span,
+    pub name_path: NamePath,
 }
 
 #[ast_node]
-pub struct JsDocTypeTag {
+pub struct TypeTag {
     pub span: Span,
     #[serde(rename = "typeExpression")]
     pub type_expr: JsDocTypeExpr,
     pub name: Str,
+    pub type_expr: TypeExpr,
 }
 
 #[ast_node]
-pub struct JsDocTemplateTag {
+pub struct TemplateTag {
     pub span: Span,
-    pub constraint: Option<JsDocTypeExpr>,
+    pub constraint: Option<TypeExpr>,
     #[serde(rename = "typeParameters")]
     pub type_params: Vec<TsTypeParamDecl>,
 }
 
 #[ast_node]
-pub struct JsDocTypedefTag {
+pub struct TypedefTag {
     pub span: Span,
     #[serde(rename = "full_name")]
-    pub full_name: Option<JsDocNamespaceBody>,
+    pub full_name: Option<NamespaceBody>,
 
     pub name: Option<Ident>,
     #[serde(rename = "typeExpression")]
-    pub type_expr: Option<JsDocTypeExprOrTypeLit>,
+    pub type_expr: Option<TypeExprOrTypeLit>,
 }
 
 #[ast_node]
-pub enum JsDocType {
+pub enum Type {
     /// `*`
-    #[tag("JsDocAllType")]
-    All(JsDocAllType),
+    #[tag("AllType")]
+    All(AllType),
     /// `?`
-    #[tag("JsDocUnknownType")]
-    Unknown(JsDocUnknownType),
-    #[tag("JsDocNullableType")]
-    Nullable(JsDocNullableType),
-    #[tag("JsDocNonNullableType")]
-    NonNullable(JsDocNonNullableType),
-    #[tag("JsDocOptionalType")]
-    Optional(JsDocOptionalType),
-    #[tag("JsDocFunctionType")]
-    Function(JsDocFunctionType),
-    #[tag("JsDocVariadicType")]
-    Variadic(JsDocVariadicType),
+    #[tag("UnknownType")]
+    Unknown(UnknownType),
+    #[tag("NullableType")]
+    Nullable(NullableType),
+    #[tag("NonNullableType")]
+    NonNullable(NonNullableType),
+    #[tag("OptionalType")]
+    Optional(OptionalType),
+    #[tag("FunctionType")]
+    Function(FunctionType),
+    #[tag("VariadicType")]
+    Variadic(VariadicType),
     // https://jsdoc.app/about-namepaths.html
-    #[tag("JsDocNamePathType")]
-    NamePath(JsDocNamePathType),
-    #[tag("JsDocUnionType")]
-    Union(JsDocUnionType),
-    #[tag("JsDocParenType")]
-    Paren(JsDocParenType),
+    #[tag("NamePathType")]
+    NamePath(NamePathType),
+    #[tag("UnionType")]
+    Union(UnionType),
+    #[tag("ParenType")]
+    Paren(ParenType),
 }
 
 #[ast_node]
-pub struct JsDocUnionType {
+pub struct UnionType {
     pub span: Span,
-    pub types: Vec<JsDocType>,
+    pub types: Vec<Type>,
 }
 
 #[ast_node]
-pub struct JsDocParenType {
+pub struct ParenType {
     pub span: Span,
-    pub ty: Box<JsDocType>,
+    pub ty: Box<Type>,
 }
 
 #[ast_node]
@@ -516,90 +519,90 @@ pub struct UnknownType {
 }
 
 #[ast_node]
-pub struct JsDocNullableType {
+pub struct NullableType {
     pub span: Span,
-    pub ty: Box<JsDocType>,
+    pub ty: Box<Type>,
 }
 
 #[ast_node]
-pub struct JsDocNonNullableType {
+pub struct NonNullableType {
     pub span: Span,
-    pub ty: Box<JsDocType>,
+    pub ty: Box<Type>,
 }
 
 #[ast_node]
-pub struct JsDocOptionalType {
+pub struct OptionalType {
     pub span: Span,
-    pub ty: Box<JsDocType>,
+    pub ty: Box<Type>,
 }
 
 /// TODO: Add fields
 #[ast_node]
-pub struct JsDocFunctionType {
+pub struct FunctionType {
     pub span: Span,
-    pub ty: Box<JsDocType>,
+    pub ty: Box<Type>,
 }
 
 #[ast_node]
-pub struct JsDocVariadicType {
+pub struct VariadicType {
     pub span: Span,
-    pub ty: Box<JsDocType>,
+    pub ty: Box<Type>,
 }
 
 #[ast_node]
-pub struct JsDocNamePathType {
+pub struct NamePathType {
     pub span: Span,
-    pub ty: Box<JsDocType>,
+    pub ty: Box<Type>,
 }
 
 /// represents a top level: { type } expression in a JSDoc comment.
 #[ast_node]
-pub struct JsDocTypeExpr {
+pub struct TypeExpr {
     pub span: Span,
-    pub ty: JsDocType,
+    pub ty: Type,
 }
 
 #[ast_node]
-pub struct JsDocNamespaceDecl {
+pub struct NamespaceDecl {
     pub span: Span,
     pub name: Ident,
-    pub body: Vec<JsDocNamespaceBody>,
+    pub body: Vec<NamespaceBody>,
 }
 
 #[ast_node]
-pub enum JsDocNamespaceBody {
+pub enum NamespaceBody {
     #[tag("Identifier")]
     Ident(Box<Ident>),
-    #[tag("JsDocNamespaceDecl")]
-    Decl(Box<JsDocNamespaceDecl>),
+    #[tag("NamespaceDecl")]
+    Decl(Box<NamespaceDecl>),
 }
 
 #[ast_node]
-pub enum JsDocTypeExprOrTypeLit {
-    #[tag("JsDocTypeExpr")]
-    Expr(Box<JsDocTypeExpr>),
-    #[tag("JsDocTypeLit")]
-    TypeLit(Box<JsDocTypeLit>),
+pub enum TypeExprOrTypeLit {
+    #[tag("TypeExpr")]
+    Expr(Box<TypeExpr>),
+    #[tag("TypeLit")]
+    TypeLit(Box<TypeLit>),
 }
 
 #[ast_node]
-pub struct JsDocTypeLit {
+pub struct TypeLit {
     pub span: Span,
-    pub tags: Vec<JsDocPropOrParam>,
+    pub tags: Vec<PropOrParam>,
     /// If true, then this type literal represents an *array* of its type.
     pub is_array_type: bool,
 }
 
 #[ast_node]
-pub enum JsDocPropOrParam {
-    #[tag("JsDocPropertyTag")]
-    Prop(JsDocPropertyTag),
-    #[tag("JsDocParameterTag")]
-    Param(JsDocParameterTag),
+pub enum PropOrParam {
+    #[tag("PropertyTag")]
+    Prop(PropertyTag),
+    #[tag("ParameterTag")]
+    Param(ParameterTag),
 }
 
 #[ast_node]
-pub struct JsDocNamePath {
+pub struct NamePath {
     pub span: Span,
     pub components: Vec<Ident>,
 }
@@ -858,57 +861,57 @@ pub struct JsDocExampleTag {
 }
 
 #[ast_node]
-pub struct JsDocExportsTag {
+pub struct ExportsTag {
     pub span: Span,
     pub module_name: Str,
 }
 
 #[ast_node]
-pub struct JsDocExternalTag {
+pub struct ExternalTag {
     pub span: Span,
     pub name: Str,
 }
 
 #[ast_node]
-pub struct JsDocConstructsTag {
+pub struct ConstructsTag {
     pub span: Span,
     pub name: Str,
 }
 
 #[ast_node]
-pub struct JsDocDefaultTag {
+pub struct DefaultTag {
     pub span: Span,
     pub value: Str,
 }
 
 #[ast_node]
-pub struct JsDocDeprecatedTag {
+pub struct DeprecatedTag {
     pub span: Span,
     pub text: Str,
 }
 
 #[ast_node]
-pub struct JsDocFilelTag {
+pub struct FilelTag {
     pub span: Span,
     pub text: Str,
 }
 
 #[ast_node]
-pub struct JsDocFunctionTag {
+pub struct FunctionTag {
     pub span: Span,
     pub name: Option<Str>,
 }
 
 #[ast_node]
-pub struct JsDocGeneratorTag {
+pub struct GeneratorTag {
     pub span: Span,
 }
 #[ast_node]
-pub struct JsDocHideConstructorTag {
+pub struct HideConstructorTag {
     pub span: Span,
 }
 
 #[ast_node]
-pub struct JsDocIgnoreTag {
+pub struct IgnoreTag {
     pub span: Span,
 }

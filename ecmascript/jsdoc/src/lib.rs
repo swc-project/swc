@@ -27,9 +27,9 @@ pub struct Input<'i> {
 }
 mod input;
 
-pub fn parse(i: Input) -> IResult<Input, JsDoc> {}
+pub fn parse(i: Input) -> IResult<Input> {}
 
-pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
+pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
     let (i, _) = tag("@")(i)?;
 
     let (mut i, tag_name) = parse_word(i)?;
@@ -37,12 +37,12 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
     let span = tag_name.span();
 
     let tag = match &*tag_name.value {
-        "abstract" | "virtual" => JsDocTag::Abstract(JsDocAbstractTag { span }),
+        "abstract" | "virtual" => Tag::Abstract(AbstractTag { span }),
 
         "access" => {
             let (input, access) = parse_one_of(i, &["private", "protected", "package", "public"])?;
             i = input;
-            JsDocTag::Access(JsDocAccessTag {
+            Tag::Access(AccessTag {
                 span,
                 access: access.into(),
             })
@@ -51,15 +51,15 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "alias" => {
             let (input, name_path) = parse_name_path(i)?;
             i = input;
-            JsDocTag::Alias(JsDocAliasTag { span, name_path })
+            Tag::Alias(AliasTag { span, name_path })
         }
 
-        "async" => JsDocTag::Async(JsDocAsyncTag { span }),
+        "async" => Tag::Async(AsyncTag { span }),
 
         "augments" | "extends" => {
             let (input, name_path) = parse_name_path(i)?;
             i = input;
-            JsDocTag::Augments(JsDocAugmentsTag {
+            Tag::Augments(AugmentsTag {
                 span,
                 class: name_path,
             })
@@ -68,7 +68,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "author" => {
             let (input, author) = parse_line(i)?;
             i = input;
-            JsDocTag::Author(JsDocAuthorTag { span, author })
+            Tag::Author(AuthorTag { span, author })
         }
 
         "borrows" => {
@@ -76,13 +76,13 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             let (input, _) = tag("as")(input)?;
             let (input, to) = parse_name_path(input)?;
             i = input;
-            JsDocTag::Borrows(JsDocBorrowsTag { span, from, to })
+            Tag::Borrows(BorrowsTag { span, from, to })
         }
 
         "callback" => {
             let (input, name_path) = parse_name_path(i)?;
             i = input;
-            JsDocTag::Callback(JsDocCallbackTag { span, name_path })
+            Tag::Callback(CallbackTag { span, name_path })
         }
 
         "class" | "constructor" => {
@@ -91,14 +91,14 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             let (input, name) = parse_opt_str(input)?;
             i = input;
 
-            JsDocTag::Class(JsDocClassTag { span, ty, name })
+            Tag::Class(ClassTag { span, ty, name })
         }
 
         "classdesc" => {
             let (input, desc) = parse_line(i)?;
             i = input;
 
-            JsDocTag::ClassDesc(JSDocClassDescTag { span, desc })
+            Tag::ClassDesc(JSDocClassDescTag { span, desc })
         }
 
         "constant" | "const" => {
@@ -106,56 +106,56 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             let (input, ty) = parse_opt_str(i)?;
             let (input, name) = parse_opt_str(input)?;
             i = input;
-            JsDocTag::Const(JsDocConstTag { span, ty, name })
+            Tag::Const(ConstTag { span, ty, name })
         }
 
         "constructs" => {
             let (input, name) = parse_line(i)?;
             i = input;
-            JsDocTag::Constructs(JsDocConstructsTag { span, name })
+            Tag::Constructs(ConstructsTag { span, name })
         }
 
         "copyright" => {
             let (input, text) = parse_line(i)?;
             i = input;
-            JsDocTag::Copyright(JsDocCopyrightTag { span, text })
+            Tag::Copyright(CopyrightTag { span, text })
         }
 
         "default" | "defaultvalue" => {
             let (input, value) = parse_line(i)?;
             i = input;
-            JsDocTag::Default(JsDocDefaultTag { span, value })
+            Tag::Default(DefaultTag { span, value })
         }
 
         "deprecated" => {
             let (input, text) = parse_line(i)?;
             i = input;
-            JsDocTag::Deprecated(JsDocDeprecatedTag { span, text })
+            Tag::Deprecated(DeprecatedTag { span, text })
         }
 
         "description" | "desc" => {
             let (input, text) = parse_line(i)?;
             i = input;
-            JsDocTag::Description(JsDocDescriptionTag { span, text })
+            Tag::Description(DescriptionTag { span, text })
         }
 
         "enum" => {
             let (input, ty) = parse_type(i)?;
             i = input;
-            JsDocTag::Enum(JsDocEnumTag { span, ty })
+            Tag::Enum(EnumTag { span, ty })
         }
 
         "event" => {
             // TODO: implement this
             let (input, ty) = parse_line(i)?;
             i = input;
-            JsDocTag::Unknown(JsDocUnknownTag { span, extras: ty })
+            Tag::Unknown(UnknownTag { span, extras: ty })
         }
 
         "example" => {
             let (input, text) = take_while(|c| c != '@')(i)?;
             i = input;
-            JsDocTag::Example(JsDocExampleTag {
+            Tag::Example(ExampleTag {
                 span,
                 text: text.into(),
             })
@@ -164,7 +164,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "exports" => {
             let (input, text) = parse_line(i)?;
             i = input;
-            JsDocTag::Exports(JsDocExportsTag {
+            Tag::Exports(ExportsTag {
                 span,
                 module_name: text.into(),
             })
@@ -173,7 +173,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "external" | "host" => {
             let (input, name) = parse_line(i)?;
             i = input;
-            JsDocTag::External(JsDocExternalTag {
+            Tag::External(ExternalTag {
                 span,
                 name: name.into(),
             })
@@ -182,44 +182,44 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "file" | "fileoverview" | "overview" => {
             let (input, text) = parse_line(i)?;
             i = input;
-            JsDocTag::File(JsDocFilelTag { span, text })
+            Tag::File(FilelTag { span, text })
         }
 
         "fires" | "emits" => {
             // TODO: implement this
             let (input, ty) = parse_line(i)?;
             i = input;
-            JsDocTag::Unknown(JsDocUnknownTag { span, extras: ty })
+            Tag::Unknown(UnknownTag { span, extras: ty })
         }
 
         "function" | "func" | "method" => {
             let (input, name) = parse_opt_str(i)?;
             i = input;
-            JsDocTag::Function(JsDocFunctionTag { span, name })
+            Tag::Function(FunctionTag { span, name })
         }
 
-        "generator" => JsDocTag::Generator(JsDocGeneratorTag { span }),
+        "generator" => Tag::Generator(GeneratorTag { span }),
 
-        "hideconstructor" => JsDocTag::HideConstructor(JsDocHideConstructorTag { span }),
+        "hideconstructor" => Tag::HideConstructor(HideConstructorTag { span }),
 
-        "ignore" => JsDocTag::Ignore(JsDocIgnoreTag { span }),
+        "ignore" => Tag::Ignore(IgnoreTag { span }),
 
         "implements" => {
             let (input, class) = parse_type(i)?;
             i = input;
-            JsDocTag::Implements(JsDocImplementsTag { span, class })
+            Tag::Implements(ImplementsTag { span, class })
         }
 
-        "inheritdoc" => JsDocTag::InheritDoc(JsDocInheritDocTag { span }),
+        "inheritdoc" => Tag::InheritDoc(InheritDocTag { span }),
 
-        "inner" => JsDocTag::Inner(JsDocInnerTag { span }),
+        "inner" => Tag::Inner(InnerTag { span }),
 
-        "instance" => JsDocTag::Instance(JsDocInstanceTag { span }),
+        "instance" => Tag::Instance(InstanceTag { span }),
 
         "interface" => {
             let (input, name) = parse_opt_str(i)?;
             i = input;
-            JsDocTag::Interface(JsDocInterfaceTag { span, name })
+            Tag::Interface(InterfaceTag { span, name })
         }
 
         "kind" => {
@@ -240,38 +240,38 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
                 ],
             )?;
             i = input;
-            JsDocTag::Kind(JsDocKindTag { span, name })
+            Tag::Kind(KindTag { span, name })
         }
 
         "lends" => {
             let (input, name) = parse_name_path(i)?;
             i = input;
-            JsDocTag::Lends(JsDocLendsTag { span, name })
+            Tag::Lends(LendsTag { span, name })
         }
 
         "license" => {
             let (input, identifier) = parse_line(i)?;
             i = input;
-            JsDocTag::License(JsDocLicenseTag { span, identifier })
+            Tag::License(LicenseTag { span, identifier })
         }
 
         "listens" => {
             let (input, event_name) = parse_line(i)?;
             i = input;
-            JsDocTag::Listens(JsDocListensTag { span, event_name })
+            Tag::Listens(ListensTag { span, event_name })
         }
 
         "member" | "var" => {
             let (input, ty) = parse_word(i)?;
             let (input, name) = parse_word(input)?;
             i = input;
-            JsDocTag::Member(JsDocMemberTag { span, ty, name })
+            Tag::Member(MemberTag { span, ty, name })
         }
 
         "memberof" | "memberof!" => {
             let (input, parent_name_path) = parse_name_path(i)?;
             i = input;
-            JsDocTag::MemberOf(JsDocMemberOfTag {
+            Tag::MemberOf(MemberOfTag {
                 span,
                 parent_name_path,
             })
@@ -280,41 +280,41 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "mixes" => {
             let (input, name_path) = parse_name_path(i)?;
             i = input;
-            JsDocTag::Mixes(JsDocMixesTag { span, name_path })
+            Tag::Mixes(MixesTag { span, name_path })
         }
 
         "mixin" => {
             let (input, name) = parse_line(i)?;
             i = input;
-            JsDocTag::Mixin(JsDocMixinTag { span, name })
+            Tag::Mixin(MixinTag { span, name })
         }
 
         "module" => {
             let (input, ty) = parse_word(i)?;
             let (input, module_name) = parse_line(i)?;
             i = input;
-            JsDocTag::Module(JsDocMixinTag { span, name })
+            Tag::Module(MixinTag { span, name })
         }
 
         "name" => {
             let (input, name_path) = parse_name_path(i)?;
             i = input;
-            JsDocTag::Name(JsDocNameTag { span, name_path })
+            Tag::Name(NameTag { span, name_path })
         }
 
         "namespace" => {
             let (input, ty) = parse_opt_type(i)?;
             let (input, name) = parse_opt_str(input)?;
             i = input;
-            JsDocTag::Name(JsDocNameTag { span, ty, name })
+            Tag::Name(NameTag { span, ty, name })
         }
 
-        "override" => JsDocTag::Override(JsDocOverrideTag { span }),
+        "override" => Tag::Override(OverrideTag { span }),
 
         "package" => {
             let (input, ty) = parse_opt_type(i)?;
             i = input;
-            JsDocTag::Package(JsDocPackageTag { span, ty })
+            Tag::Package(PackageTag { span, ty })
         }
 
         "param" | "arg" | "argument" => {
@@ -322,7 +322,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             let (input, name) = parse_opt_word(input)?;
             let (input, desc) = parse_line(input)?;
             i = input;
-            JsDocTag::Parameter(JsDocParameterTag {
+            Tag::Parameter(ParameterTag {
                 span,
                 ty,
                 name,
@@ -333,7 +333,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "private" => {
             let (input, ty) = parse_opt_type(i)?;
             i = input;
-            JsDocTag::Private(JsDocPrivateTag { span, ty })
+            Tag::Private(PrivateTag { span, ty })
         }
 
         "property" | "prop" => {
@@ -341,7 +341,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             let (input, name_path) = parse_name_path(input)?;
             let (input, desc) = parse_line(input)?;
             i = input;
-            JsDocTag::Property(JsDocPropertyTag {
+            Tag::Property(PropertyTag {
                 span,
                 ty,
                 name_path,
@@ -352,24 +352,24 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "protected" => {
             let (input, ty) = parse_opt_type(i)?;
             i = input;
-            JsDocTag::Protected(JsDocProtectedTag { span, ty })
+            Tag::Protected(ProtectedTag { span, ty })
         }
 
-        "public" => JsDocTag::Public(JsDocPublicTag { span }),
+        "public" => Tag::Public(PublicTag { span }),
 
-        "readonly" => JsDocTag::Readonly(JsDocReadonlyTag { span }),
+        "readonly" => Tag::Readonly(ReadonlyTag { span }),
 
         "requires" => {
             let (input, name_path) = parse_name_path(i)?;
             i = input;
-            JsDocTag::Requires(JsDocRequiresTag { span, name_path })
+            Tag::Requires(RequiresTag { span, name_path })
         }
 
         "returns" | "return" => {
             let (input, ty) = parse_opt_type(i)?;
             let description = parse_line(input)?;
             i = input;
-            JsDocTag::Return(JsDocReturnTag {
+            Tag::Return(ReturnTag {
                 span,
                 ty,
                 description,
@@ -379,18 +379,46 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         "see" => {
             let (input, text) = parse_line(i)?;
             i = input;
-            JsDocTag::See(JsDocSeeTag { span, text })
+            Tag::See(SeeTag { span, text })
         }
 
-        "since" => {}
+        "since" => {
+            let (input, version) = parse_line(i)?;
+            i = input;
+            Tag::Since(SinceTag { span, version })
+        }
 
-        "static" => {}
+        "static" => Tag::Static(StaticTag { span }),
 
-        "summary" => {}
+        "summary" => {
+            let (input, text) = parse_line(i)?;
+            i = input;
+            Tag::Summary(SummaryTag { span, text })
+        }
 
-        "this" => {}
+        "this" => {
+            let (input, name_path) = parse_name_path(i)?;
+            i = input;
+            Tag::This(ThisTag { span, name_path })
+        }
 
-        "tutorial" => {}
+        "throws" => {
+            let (input, text) = parse_line(i)?;
+            i = input;
+            Tag::Throw(ThrowTag { span, text })
+        }
+
+        "todo" => {
+            let (input, text) = parse_line(i)?;
+            i = input;
+            Tag::Todo(TodoTag { span, text })
+        }
+
+        "tutorial" => {
+            let (input, text) = parse_line(i)?;
+            i = input;
+            Tag::Tutorial(TutorialTag { span, text })
+        }
 
         "type" => {}
 
@@ -818,13 +846,13 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
         _ => {
             let (input, extras) = parse_str(i)?;
             i = input;
-            JsDocTag::Unknown(JsDocUnknownTag { span, extras })
+            Tag::Unknown(UnknownTag { span, extras })
         }
     };
 
     Ok((
         i,
-        JsDocTagItem {
+        TagItem {
             span,
             tag_name: tag_name.into(),
             tag,
