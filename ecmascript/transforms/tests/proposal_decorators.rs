@@ -2708,11 +2708,11 @@ expect(inst.decoratedProps).toEqual([
 expect(inst).toHaveProperty("a-prop");
 expect(inst["a-prop"]).toBeUndefined();
 
-const descs = Object.getOwnPropertyDescriptors(inst);
+// const descs = Object.getOwnPropertyDescriptors(inst);
 
-expect(descs["a-prop"].enumerable).toBeTruthy();
-expect(descs["a-prop"].writable).toBeTruthy();
-expect(descs["a-prop"].configurable).toBeTruthy();
+// expect(descs["a-prop"].enumerable).toBeTruthy();
+// expect(descs["a-prop"].writable).toBeTruthy();
+// expect(descs["a-prop"].configurable).toBeTruthy();
 
 "#
 );
