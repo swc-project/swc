@@ -9,7 +9,7 @@ use swc_common::{
     comments::{Comment, Comments},
     BytePos,
 };
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use test::{test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType};
 use walkdir::WalkDir;
 
@@ -57,7 +57,7 @@ fn add_fixture(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
                 format!("jsdoc::fixture::{}", entry.path().display()),
                 false,
                 move || {
-                    testing::run_test2(true, |cm, handler| {
+                    testing::run_test2(false, |cm, handler| {
                         let comments = SwcComments::default();
 
                         let fm = cm
@@ -65,13 +65,22 @@ fn add_fixture(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
                             .expect("failed to load fixtue file");
 
                         let lexer = Lexer::new(
-                            Default::default(),
+                            Syntax::Es(EsConfig {
+                                jsx: true,
+                                ..Default::default()
+                            }),
                             Default::default(),
                             StringInput::from(&*fm),
                             Some(&comments),
                         );
                         let mut p = Parser::new_from(lexer);
-                        p.parse_module().expect("should parse");
+
+                        match p.parse_module() {
+                            Err(err) => {
+                                err.into_diagnostic(&handler).emit();
+                            }
+                            _ => {}
+                        }
                         for err in p.take_errors() {
                             err.into_diagnostic(&handler).emit();
                         }
@@ -86,7 +95,7 @@ fn add_fixture(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
                                     entry.path().display(),
                                     cmt.text
                                 );
-                                let (i, parsed) = jsdoc::parse(cmt.into()).unwrap();
+                                let (_, parsed) = jsdoc::parse(cmt.into()).unwrap();
                                 println!("{:?}", parsed);
                             }
                         }

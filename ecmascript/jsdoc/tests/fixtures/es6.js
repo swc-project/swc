@@ -25,24 +25,7 @@ var WebSocket = class extends Socket {
 export * from 'lib/network';
 
 // ExportSpecifier
-export {Socket};
+export { Socket };
 
 // ImportDeclaration, ImportSpecifier
-import {Packet} from 'lib/data';
-
-// ModuleDeclaration
-module util from 'lib/util';
-
-// SpreadElement
-function logItems(...items) {
-    items.forEach(function(item) {
-        console.log(item);
-    });
-}
-logItems(...['hello', 'world!']);
-
-// TaggedTemplateExpression
-console.log`hello world!`;
-
-// TemplateElement, TemplateLiteral
-var piMessage = `pi equals ${Math.PI}`;
+import { Packet } from 'lib/data';
