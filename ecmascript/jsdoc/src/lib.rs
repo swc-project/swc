@@ -349,16 +349,38 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             })
         }
 
-        "protected" => {}
+        "protected" => {
+            let (input, ty) = parse_opt_type(i)?;
+            i = input;
+            JsDocTag::Protected(JsDocProtectedTag { span, ty })
+        }
 
-        "public" => {}
+        "public" => JsDocTag::Public(JsDocPublicTag { span }),
 
-        "readonly" => {}
+        "readonly" => JsDocTag::Readonly(JsDocReadonlyTag { span }),
 
-        "requires" => {}
-        "returns" | "return" => {}
+        "requires" => {
+            let (input, name_path) = parse_name_path(i)?;
+            i = input;
+            JsDocTag::Requires(JsDocRequiresTag { span, name_path })
+        }
 
-        "see" => {}
+        "returns" | "return" => {
+            let (input, ty) = parse_opt_type(i)?;
+            let description = parse_line(input)?;
+            i = input;
+            JsDocTag::Return(JsDocReturnTag {
+                span,
+                ty,
+                description,
+            })
+        }
+
+        "see" => {
+            let (input, text) = parse_line(i)?;
+            i = input;
+            JsDocTag::See(JsDocSeeTag { span, text })
+        }
 
         "since" => {}
 
