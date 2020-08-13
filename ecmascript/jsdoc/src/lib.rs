@@ -420,13 +420,34 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
             Tag::Tutorial(TutorialTag { span, text })
         }
 
-        "type" => {}
+        "type" => {
+            let (input, name) = parse_line(i)?;
+            i = input;
+            Tag::Type(TypeTag { span, name })
+        }
 
-        "typedef" => {}
+        "typedef" => {
+            let (input, ty) = parse_opt_type(i)?;
+            let (input, name_path) = parse_name_path(input)?;
+            i = input;
+            Tag::TypeDef(TypeDefTag {
+                span,
+                ty,
+                name_path,
+            })
+        }
 
-        "variation" => {}
+        "variation" => {
+            let (input, number) = parse_line(i)?;
+            i = input;
+            Tag::Variation(VariationTag { span, number })
+        }
 
-        "version" => {}
+        "version" => {
+            let (input, value) = parse_line(i)?;
+            i = input;
+            Tag::Version(VersionTag { span, value })
+        }
 
         "yields" | "yield" => {}
             Tag::Alias(AliasTag { span, name_path })
