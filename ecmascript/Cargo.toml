@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecmascript"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -20,7 +20,7 @@ swc_ecma_ast = { version = "0.28.0", path ="./ast" }
 swc_ecma_codegen = { version = "0.31.0", path ="./codegen", optional = true }
 swc_ecma_parser = { version = "0.33.3", path ="./parser", optional = true }
 swc_ecma_utils = { version = "0.17.0", path ="./utils", optional = true }
-swc_ecma_transforms = { version = "0.19.3", path ="./transforms", optional = true }
+swc_ecma_transforms = { version = "0.19.5", path ="./transforms", optional = true }
 swc_ecma_visit = { version = "0.13.0", path ="./visit", optional = true }
 
 [dev-dependencies]
