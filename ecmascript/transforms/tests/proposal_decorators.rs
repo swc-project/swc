@@ -4521,14 +4521,14 @@ export let Product = _class = _dec6(((_class = function() {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: void 0,
 }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'productEntityId', [
     _dec3
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
-    initializer: void 0
+    initializer: void 0,
 }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'orders', [
     _dec4
 ], {
@@ -4539,7 +4539,7 @@ export let Product = _class = _dec6(((_class = function() {
 }), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'discounts', [
     _dec5
 ], {
-    configurable: true,ㅅ
+    configurable: true,
     enumerable: true,
     writable: true,
     initializer: void 0
