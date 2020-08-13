@@ -51,6 +51,25 @@ struct ClassProperties {
 }
 
 impl Fold for ClassProperties {
+    fn fold_ident(&mut self, i: Ident) -> Ident {
+        Ident {
+            optional: false,
+            ..i
+        }
+    }
+    fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
+        ArrayPat {
+            optional: false,
+            ..p.fold_children_with(self)
+        }
+    }
+    fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
+        ObjectPat {
+            optional: false,
+            ..p.fold_children_with(self)
+        }
+    }
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

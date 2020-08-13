@@ -783,3 +783,17 @@ test!(
         }
     }"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| chain!(typescript_class_properties(), tr()),
+    issue_958,
+    "export class Test {
+        constructor(readonly test?: string) {}
+    }",
+    "export class Test {
+        constructor(test){
+            this.test = test;
+        }
+    }"
+);
