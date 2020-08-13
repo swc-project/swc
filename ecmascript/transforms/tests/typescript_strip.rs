@@ -796,4 +796,22 @@ test!(
             this.test = test;
         }
     }"
+to!(
+    issue_960,
+    "
+class Base {
+    constructor() {
+      this.action = new Subject()
+    }
+  }
+  
+  class Child extends Base {
+    @DefineAction() action: Observable<void>
+   
+    callApi() {
+      console.log(this.action) // undefined
+    }
+  }
+",
+    ""
 );
