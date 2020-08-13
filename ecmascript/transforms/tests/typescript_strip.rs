@@ -1,7 +1,8 @@
 #![feature(test)]
 use swc_common::chain;
+use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{
-    compat::es2020::typescript_class_properties, resolver, typescript::strip,
+    compat::es2020::typescript_class_properties, proposals::decorators, resolver, typescript::strip,
 };
 use swc_ecma_visit::Fold;
 
@@ -15,7 +16,10 @@ fn tr() -> impl Fold {
 macro_rules! to {
     ($name:ident, $from:expr, $to:expr) => {
         test!(
-            ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+            Syntax::Typescript(TsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
             |_| tr(),
             $name,
             $from,
@@ -796,4 +800,107 @@ test!(
             this.test = test;
         }
     }"
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        strip()
+    ),
+    issue_960_1,
+    "
+    function DefineAction() {
+        return (target, property) => {
+            console.log(target, property);
+        }
+    }
+    class Base {
+        constructor() {
+          this.action = new Subject()
+        }
+      }
+      
+      class Child extends Base {
+        @DefineAction() action: Observable<void>
+       
+        callApi() {
+          console.log(this.action) // undefined
+        }
+      }
+    ",
+    r#"var _class, _descriptor;
+    function DefineAction() {
+        return (target, property)=>{
+            console.log(target, property);
+        };
+    }
+    class Base {
+        constructor(){
+            this.action = new Subject();
+        }
+    }
+    var _dec = DefineAction();
+    let Child = ((_class = class Child extends Base {
+        callApi() {
+            console.log(this.action);
+        }
+        constructor(...args){
+            super(...args);
+            _initializerDefineProperty(this, "action", _descriptor, this);
+        }
+    }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "action", [
+        _dec
+    ], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: void 0
+    }), _class);
+    "#,
+    ok_if_code_eq
+);
+
+test_exec!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        strip()
+    ),
+    issue_960_2,
+    "function DefineAction() { return function(_a, _b, c) { return c } }
+
+    class Base {
+      constructor() {
+        this.action = 1
+      }
+    }
+    
+    class Child extends Base {
+      @DefineAction() action: number
+     
+      callApi() {
+        console.log(this.action) // undefined
+        return this.action
+      }
+    }
+    
+    const c = new Child()
+    
+    c.callApi()
+    expect(c.callApi()).not.toBe(undefined)
+    expect(c.action).toBe(1);
+    "
 );
