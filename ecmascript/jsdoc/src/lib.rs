@@ -330,9 +330,24 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, JsDocTagItem> {
             })
         }
 
-        "private" => {}
+        "private" => {
+            let (input, ty) = parse_opt_type(i)?;
+            i = input;
+            JsDocTag::Private(JsDocPrivateTag { span, ty })
+        }
 
-        "property" | "prop" => {}
+        "property" | "prop" => {
+            let (input, ty) = parse_opt_type(i)?;
+            let (input, name_path) = parse_name_path(input)?;
+            let (input, desc) = parse_line(input)?;
+            i = input;
+            JsDocTag::Property(JsDocPropertyTag {
+                span,
+                ty,
+                name_path,
+                desc,
+            })
+        }
 
         "protected" => {}
 

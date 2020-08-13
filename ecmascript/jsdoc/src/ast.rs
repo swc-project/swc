@@ -364,6 +364,7 @@ pub struct JsDocPrivateTag {
 #[derive(Eq)]
 pub struct PrivateTag {
     pub span: Span,
+    pub ty: Option<Str>,
 }
 
 #[ast_node]
@@ -393,13 +394,9 @@ pub struct JsDocCallbackTag {
 pub struct JsDocPropertyTag {
     pub span: Span,
 
-    pub name: JsDocNamePath,
-    #[serde(rename = "typeExpression")]
-    pub type_expr: Option<JsDocTypeExpr>,
-    /// Whether the property name came before the type -- non-standard for
-    /// JSDoc, but Typescript-like
-    pub is_name_first: bool,
-    pub is_bracketed: bool,
+    pub name_path: JsDocNamePath,
+    pub ty: Option<Str>,
+    pub desc: Str,
 }
 
 #[ast_node]
