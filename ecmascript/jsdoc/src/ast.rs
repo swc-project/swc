@@ -604,7 +604,7 @@ pub enum PropOrParam {
 #[ast_node]
 pub struct NamePath {
     pub span: Span,
-    pub components: Vec<Ident>,
+    pub components: Vec<Str>,
 }
 
 #[ast_node]

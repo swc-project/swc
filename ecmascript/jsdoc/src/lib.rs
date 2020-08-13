@@ -7,9 +7,10 @@ use nom::{
     IResult,
     IResult, InputIter, Slice,
     IResult, Slice,
+    error::ErrorKind,
     IResult, InputIter, Slice,
 };
-use swc_common::{Span, Spanned};
+use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::Str;
 
 pub mod ast;
@@ -17,7 +18,26 @@ pub mod ast;
 pub fn parse(start: BytePos, end: BytePos, i: &str) -> IResult<&str, JsDoc> {}
 pub fn parse(i: Input) -> IResult<Input, JsDoc> {}
 pub fn parse(i: Input) -> IResult<Input, JsDoc> {
-    unimplemented!()
+    let mut tags = vec![];
+    let lo = i.span().lo;
+    let (mut i, description) = take_while(|c| c != '@')(i)?;
+    let description = description.into();
+
+    while i.starts_with('@') {
+        let (input, tag) = parse_tag_item(i)?;
+        i = input;
+        tags.push(tag);
+    }
+
+    let hi = i.span().hi;
+    Ok((
+        i,
+        JsDoc {
+            span: Span::new(lo, hi, SyntaxContext::empty()),
+            tags,
+            description,
+        },
+    ))
 }
 #[derive(Debug, Clone, Copy)]
 pub struct Input<'i> {
@@ -691,6 +711,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         "module" => {
             let (input, ty) = parse_word(i)?;
             let (input, name) = parse_line(i)?;
+            let (input, name) = parse_line(input)?;
             i = input;
             Tag::Module(ModuleTag { span, ty, name })
         }
@@ -921,7 +942,7 @@ fn parse_type(i: Input) -> IResult<Input, Str> {
 fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Str> {
     for &item in list {
         if i.starts_with(item) {
-            let res = tag(item)(i);
+            let res = tag::<&str, Input<'_>, (_, ErrorKind)>(item)(i);
             match res {
                 Ok(v) => return Ok((v.0, v.1.into())),
                 Err(..) => continue,
@@ -929,7 +950,7 @@ fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Str> {
         }
     }
 
-    Err()
+    Err(nom::Err::Error((i, ErrorKind::Tag)))
 }
 
 // ----- ----- Done ----- -----
@@ -943,6 +964,7 @@ fn parse_name_path(mut i: Input) -> IResult<Input, JsDocNamePath> {
 
     loop {
         let (input, component) = parse_word(i)?;
+        components.push(component);
         i = input;
 
         let (input, _) = match tag(".")(i) {
@@ -961,6 +983,7 @@ fn parse_name_path(mut i: Input) -> IResult<Input, JsDocNamePath> {
                 ));
             }
         };
+        i = input;
     }
 }
 
