@@ -800,8 +800,9 @@ test!(
             this.test = test;
         }
     }"
-to!(
-    issue_960,
+);
+
+test!(
     Syntax::Typescript(TsConfig {
         decorators: true,
         ..Default::default()
