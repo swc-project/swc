@@ -1,3 +1,5 @@
-const progress = require('progress')
+const aa = require('./a-a')
+const bb = require('./a-b')
+require('./b')
 
-console.log(progress);
+module.exports = { aa, bb }
