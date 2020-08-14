@@ -14,9 +14,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
-};
+use swc_ecma_utils::{find_ids, prepend, undefined, DestructuringFinder, ExprFactory, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -94,6 +92,22 @@ where
 
                         true
                     });
+
+                    if self.config.require {
+                        // Change require() call to load()
+                        let load_var = Ident::new(
+                            "load".into(),
+                            DUMMY_SP
+                                .apply_mark(self.top_level_mark)
+                                .apply_mark(info.mark()),
+                        );
+
+                        entry.body.visit_mut_with(&mut RequireReplacer {
+                            src: src.src.value.clone(),
+                            load_var,
+                        })
+                    }
+
                     continue;
                 }
 
@@ -225,7 +239,12 @@ where
                         //
                         // As usual, this behavior depends on hygiene.
 
-                        let load_var = private_ident!("load");
+                        let load_var = Ident::new(
+                            "load".into(),
+                            DUMMY_SP
+                                .apply_mark(self.top_level_mark)
+                                .apply_mark(info.mark()),
+                        );
 
                         {
                             // ... body of foo
@@ -269,7 +288,7 @@ where
                             });
 
                             // var load = __spack_require__.bind(void 0, moduleDecl)
-                            let load_var = Stmt::Decl(Decl::Var(VarDecl {
+                            let load_var_init = Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
                                 declare: false,
@@ -297,21 +316,14 @@ where
                                 }],
                             }));
 
-                            prepend(&mut entry.body, ModuleItem::Stmt(load_var));
+                            prepend(&mut entry.body, ModuleItem::Stmt(load_var_init));
 
                             log::warn!("Injecting load");
                         }
 
-                        let load = CallExpr {
-                            span: DUMMY_SP,
-                            callee: load_var.as_callee(),
-                            args: vec![],
-                            type_args: None,
-                        };
-
                         entry.body.visit_mut_with(&mut RequireReplacer {
                             src: src.src.value.clone(),
-                            load,
+                            load_var,
                         });
 
                         // {
@@ -809,7 +821,7 @@ impl Fold for GlobalMarker {
 
 struct RequireReplacer {
     src: JsWord,
-    load: CallExpr,
+    load_var: Ident,
 }
 
 impl VisitMut for RequireReplacer {
@@ -825,7 +837,7 @@ impl VisitMut for RequireReplacer {
                         *node = ModuleItem::Stmt(
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: self.load.clone().as_callee(),
+                                callee: self.load_var.clone().as_callee(),
                                 args: vec![],
                                 type_args: None,
                             }
@@ -868,7 +880,7 @@ impl VisitMut for RequireReplacer {
                                         init: Some(Box::new(
                                             CallExpr {
                                                 span: DUMMY_SP,
-                                                callee: self.load.clone().as_callee(),
+                                                callee: self.load_var.clone().as_callee(),
                                                 args: vec![],
                                                 type_args: None,
                                             }
@@ -894,7 +906,7 @@ impl VisitMut for RequireReplacer {
                                 optional: false,
                                 type_ann: None,
                             }),
-                            init: Some(Box::new(self.load.clone().into())),
+                            init: Some(Box::new(self.load_var.clone().into())),
                             definite: false,
                         }],
                     })));
@@ -917,7 +929,13 @@ impl VisitMut for RequireReplacer {
                             match &*node.args[0].expr {
                                 Expr::Lit(Lit::Str(s)) => {
                                     if self.src == s.value {
-                                        *node = self.load.clone();
+                                        let load = CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: self.load_var.clone().as_callee(),
+                                            args: vec![],
+                                            type_args: None,
+                                        };
+                                        *node = load.clone();
 
                                         log::debug!("Found, and replacing require");
                                     }
