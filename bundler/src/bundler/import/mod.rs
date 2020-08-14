@@ -217,6 +217,7 @@ where
                     if var.decls.is_empty() {
                         None
                     } else {
+                        let var = var.fold_with(self);
                         Some(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))))
                     }
                 }
