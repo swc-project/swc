@@ -1,0 +1,80 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    37,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * A function that does nothing.
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        13,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            13,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('nosideeffects' type=dynamic),
+                    has_escape: false,
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                13,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

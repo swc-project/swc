@@ -1,0 +1,174 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    1,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        9,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            9,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('namespace' type=static),
+                    has_escape: false,
+                },
+                tag: Namespace(
+                    NamespaceTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                9,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        21,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('borrows trstr as trim' type=dynamic),
+                                has_escape: false,
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                80,
+            ),
+            hi: BytePos(
+                80,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    80,
+                ),
+                hi: BytePos(
+                    125,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                Remove whitespace from around a string.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        80,
+                    ),
+                    hi: BytePos(
+                        85,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            80,
+                        ),
+                        hi: BytePos(
+                            85,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                    has_escape: false,
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                80,
+                            ),
+                            hi: BytePos(
+                                85,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        80,
+                                    ),
+                                    hi: BytePos(
+                                        88,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                                has_escape: false,
+                            },
+                        ),
+                        desc: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    80,
+                                ),
+                                hi: BytePos(
+                                    83,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('str' type=inline),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

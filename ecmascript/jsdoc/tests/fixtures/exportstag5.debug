@@ -1,0 +1,192 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                71,
+            ),
+            hi: BytePos(
+                75,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    71,
+                ),
+                hi: BytePos(
+                    72,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        71,
+                    ),
+                    hi: BytePos(
+                        78,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            71,
+                        ),
+                        hi: BytePos(
+                            78,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exports' type=inline),
+                    has_escape: false,
+                },
+                tag: Exports(
+                    ExportsTag {
+                        span: Span {
+                            lo: BytePos(
+                                71,
+                            ),
+                            hi: BytePos(
+                                78,
+                            ),
+                            ctxt: #0,
+                        },
+                        module_name: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                128,
+            ),
+            hi: BytePos(
+                142,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    128,
+                ),
+                hi: BytePos(
+                    129,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        128,
+                    ),
+                    hi: BytePos(
+                        133,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            128,
+                        ),
+                        hi: BytePos(
+                            133,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('lends' type=inline),
+                    has_escape: false,
+                },
+                tag: Lends(
+                    LendsTag {
+                        span: Span {
+                            lo: BytePos(
+                                128,
+                            ),
+                            hi: BytePos(
+                                133,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    128,
+                                ),
+                                hi: BytePos(
+                                    142,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Str {
+                                    span: Span {
+                                        lo: BytePos(
+                                            128,
+                                        ),
+                                        hi: BytePos(
+                                            134,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('module' type=static),
+                                    has_escape: false,
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                185,
+            ),
+            hi: BytePos(
+                185,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    185,
+                ),
+                hi: BytePos(
+                    224,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* This should be in the Foo module doc.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+]

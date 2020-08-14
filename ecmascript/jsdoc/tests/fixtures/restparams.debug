@@ -1,0 +1,287 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    63,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * Set the list of users who are admins.
+             *
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        15,
+                    ),
+                    hi: BytePos(
+                        20,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            15,
+                        ),
+                        hi: BytePos(
+                            20,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                    has_escape: false,
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                15,
+                            ),
+                            hi: BytePos(
+                                20,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        15,
+                                    ),
+                                    hi: BytePos(
+                                        21,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{User}' type=inline),
+                                has_escape: false,
+                            },
+                        ),
+                        desc: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    15,
+                                ),
+                                hi: BytePos(
+                                    63,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('users - The users who will receive admin rights.' type=dynamic),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                166,
+            ),
+            hi: BytePos(
+                247,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    166,
+                ),
+                hi: BytePos(
+                    223,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * Set the list of users who can access a widget.
+             *
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        166,
+                    ),
+                    hi: BytePos(
+                        171,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            166,
+                        ),
+                        hi: BytePos(
+                            171,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                    has_escape: false,
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                166,
+                            ),
+                            hi: BytePos(
+                                171,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        166,
+                                    ),
+                                    hi: BytePos(
+                                        174,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{Widget}' type=dynamic),
+                                has_escape: false,
+                            },
+                        ),
+                        desc: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    166,
+                                ),
+                                hi: BytePos(
+                                    186,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('widget - The widget.' type=dynamic),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                395,
+            ),
+            hi: BytePos(
+                395,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    395,
+                ),
+                hi: BytePos(
+                    445,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * Set the list of users who are managers.
+             *
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        395,
+                    ),
+                    hi: BytePos(
+                        400,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            395,
+                        ),
+                        hi: BytePos(
+                            400,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                    has_escape: false,
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                395,
+                            ),
+                            hi: BytePos(
+                                400,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        395,
+                                    ),
+                                    hi: BytePos(
+                                        401,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{User}' type=inline),
+                                has_escape: false,
+                            },
+                        ),
+                        desc: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    395,
+                                ),
+                                hi: BytePos(
+                                    430,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('users - The users who are managers.' type=dynamic),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

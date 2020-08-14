@@ -1,0 +1,169 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    1,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('module' type=static),
+                    has_escape: false,
+                },
+                tag: Module(
+                    ModuleTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                            has_escape: false,
+                        },
+                        ty: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    7,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('appname' type=inline),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                24,
+            ),
+            hi: BytePos(
+                24,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    24,
+                ),
+                hi: BytePos(
+                    60,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * The name of the application.
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        24,
+                    ),
+                    hi: BytePos(
+                        28,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            24,
+                        ),
+                        hi: BytePos(
+                            28,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('type' type=static),
+                    has_escape: false,
+                },
+                tag: Type(
+                    TypeTag {
+                        span: Span {
+                            lo: BytePos(
+                                24,
+                            ),
+                            hi: BytePos(
+                                28,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    24,
+                                ),
+                                hi: BytePos(
+                                    32,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{string}' type=dynamic),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

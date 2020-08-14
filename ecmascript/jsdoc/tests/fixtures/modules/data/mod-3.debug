@@ -1,0 +1,218 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    21,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                My test module.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('module' type=static),
+                    has_escape: false,
+                },
+                tag: Module(
+                    ModuleTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    6,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('module' type=static),
+                            has_escape: false,
+                        },
+                        ty: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    2,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('my' type=inline),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                75,
+            ),
+            hi: BytePos(
+                75,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    75,
+                ),
+                hi: BytePos(
+                    76,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        75,
+                    ),
+                    hi: BytePos(
+                        87,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            75,
+                        ),
+                        hi: BytePos(
+                            87,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('undocumented' type=dynamic),
+                    has_escape: false,
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                75,
+                            ),
+                            hi: BytePos(
+                                87,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    75,
+                                ),
+                                hi: BytePos(
+                                    98,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('@alias module:my/module' type=dynamic),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                166,
+            ),
+            hi: BytePos(
+                166,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    166,
+                ),
+                hi: BytePos(
+                    188,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Document a property.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                230,
+            ),
+            hi: BytePos(
+                230,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    230,
+                ),
+                hi: BytePos(
+                    250,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Document a method.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+]

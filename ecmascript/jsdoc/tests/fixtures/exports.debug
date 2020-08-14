@@ -1,0 +1,281 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                69,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    54,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * An example of a server-side JavaScript module.
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('module' type=static),
+                    has_escape: false,
+                },
+                tag: Module(
+                    ModuleTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    5,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('world' type=inline),
+                            has_escape: false,
+                        },
+                        ty: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    5,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('hello' type=inline),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                151,
+            ),
+            hi: BytePos(
+                172,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    151,
+                ),
+                hi: BytePos(
+                    179,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * Generate a greeting.
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        151,
+                    ),
+                    hi: BytePos(
+                        156,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            151,
+                        ),
+                        hi: BytePos(
+                            156,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                    has_escape: false,
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                151,
+                            ),
+                            hi: BytePos(
+                                156,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        151,
+                                    ),
+                                    hi: BytePos(
+                                        159,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                                has_escape: false,
+                            },
+                        ),
+                        desc: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    151,
+                                ),
+                                hi: BytePos(
+                                    190,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('[subject="world"] To whom we say hello.' type=dynamic),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                350,
+            ),
+            hi: BytePos(
+                371,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    350,
+                ),
+                hi: BytePos(
+                    385,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * Generate a morose farewell.
+             *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        350,
+                    ),
+                    hi: BytePos(
+                        355,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            350,
+                        ),
+                        hi: BytePos(
+                            355,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                    has_escape: false,
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                350,
+                            ),
+                            hi: BytePos(
+                                355,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        350,
+                                    ),
+                                    hi: BytePos(
+                                        358,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                                has_escape: false,
+                            },
+                        ),
+                        desc: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    350,
+                                ),
+                                hi: BytePos(
+                                    391,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('[subject="world"] To whom we say goodbye.' type=dynamic),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

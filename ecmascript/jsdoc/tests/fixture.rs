@@ -6,11 +6,12 @@ use anyhow::Error;
 use dashmap::DashMap;
 use std::{env, path::PathBuf};
 use swc_common::{
-    comments::{Comment, Comments},
+    comments::{Comment, CommentKind, Comments},
     BytePos,
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use test::{test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType};
+use testing::NormalizedOutput;
 use walkdir::WalkDir;
 
 fn add_test<F: FnOnce() + Send + 'static>(
@@ -87,19 +88,33 @@ fn add_fixture(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
                         if handler.has_errors() {
                             return Err(());
                         }
+                        let mut res = vec![];
+                        let mut comments: Vec<_> = comments.leading.into_iter().collect();
+                        comments.sort_by_key(|v| v.0);
 
-                        for (_, comments) in comments.leading.into_iter() {
+                        for (_, comments) in comments {
                             for cmt in &comments {
+                                if cmt.kind == CommentKind::Line {
+                                    continue;
+                                }
+
+                                if !cmt.text.starts_with("*") {
+                                    continue;
+                                }
+
                                 println!(
                                     "==================== {} ====================\n{}",
                                     entry.path().display(),
                                     cmt.text
                                 );
                                 let (_, parsed) = jsdoc::parse(cmt.into()).unwrap();
-                                println!("{:?}", parsed);
+                                res.push(parsed);
                             }
                         }
 
+                        let s = NormalizedOutput::from(format!("{:#?}", res));
+                        s.compare_to_file(entry.path().with_extension("debug"))
+                            .unwrap();
                         Ok(())
                     })
                     .unwrap();

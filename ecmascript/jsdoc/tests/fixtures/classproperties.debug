@@ -1,0 +1,102 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    15,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Sample class.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                35,
+            ),
+            hi: BytePos(
+                35,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    35,
+                ),
+                hi: BytePos(
+                    53,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Public property.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                75,
+            ),
+            hi: BytePos(
+                75,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    75,
+                ),
+                hi: BytePos(
+                    94,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Private property.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                117,
+            ),
+            hi: BytePos(
+                117,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    117,
+                ),
+                hi: BytePos(
+                    157,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Property with no value assigned to it.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+]

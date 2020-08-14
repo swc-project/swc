@@ -1,0 +1,217 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                29,
+            ),
+            hi: BytePos(
+                29,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    29,
+                ),
+                hi: BytePos(
+                    30,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        29,
+                    ),
+                    hi: BytePos(
+                        34,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            29,
+                        ),
+                        hi: BytePos(
+                            34,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('lends' type=inline),
+                    has_escape: false,
+                },
+                tag: Lends(
+                    LendsTag {
+                        span: Span {
+                            lo: BytePos(
+                                29,
+                            ),
+                            hi: BytePos(
+                                34,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    29,
+                                ),
+                                hi: BytePos(
+                                    30,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Str {
+                                    span: Span {
+                                        lo: BytePos(
+                                            29,
+                                        ),
+                                        hi: BytePos(
+                                            35,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Person' type=inline),
+                                    has_escape: false,
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                65,
+            ),
+            hi: BytePos(
+                65,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    65,
+                ),
+                hi: BytePos(
+                    86,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Construct a Person.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        65,
+                    ),
+                    hi: BytePos(
+                        75,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            65,
+                        ),
+                        hi: BytePos(
+                            75,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructs' type=dynamic),
+                    has_escape: false,
+                },
+                tag: Constructs(
+                    ConstructsTag {
+                        span: Span {
+                            lo: BytePos(
+                                65,
+                            ),
+                            hi: BytePos(
+                                75,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    65,
+                                ),
+                                hi: BytePos(
+                                    71,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Person' type=inline),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                181,
+            ),
+            hi: BytePos(
+                181,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    181,
+                ),
+                hi: BytePos(
+                    206,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* The name of the person.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                262,
+            ),
+            hi: BytePos(
+                262,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    262,
+                ),
+                hi: BytePos(
+                    280,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* Speak a message.' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+]

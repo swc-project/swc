@@ -1,0 +1,77 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    13,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* document me' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                54,
+            ),
+            hi: BytePos(
+                54,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    54,
+                ),
+                hi: BytePos(
+                    67,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* document me' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                114,
+            ),
+            hi: BytePos(
+                114,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    114,
+                ),
+                hi: BytePos(
+                    127,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* document me' type=dynamic),
+            has_escape: false,
+        },
+        tags: [],
+    },
+]

@@ -1,0 +1,354 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                27,
+            ),
+            hi: BytePos(
+                37,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    27,
+                ),
+                hi: BytePos(
+                    28,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        27,
+                    ),
+                    hi: BytePos(
+                        32,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            27,
+                        ),
+                        hi: BytePos(
+                            32,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('lends' type=inline),
+                    has_escape: false,
+                },
+                tag: Lends(
+                    LendsTag {
+                        span: Span {
+                            lo: BytePos(
+                                27,
+                            ),
+                            hi: BytePos(
+                                32,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    27,
+                                ),
+                                hi: BytePos(
+                                    37,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Str {
+                                    span: Span {
+                                        lo: BytePos(
+                                            27,
+                                        ),
+                                        hi: BytePos(
+                                            33,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Person' type=inline),
+                                    has_escape: false,
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                64,
+            ),
+            hi: BytePos(
+                71,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    64,
+                ),
+                hi: BytePos(
+                    65,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        64,
+                    ),
+                    hi: BytePos(
+                        74,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            64,
+                        ),
+                        hi: BytePos(
+                            74,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructs' type=dynamic),
+                    has_escape: false,
+                },
+                tag: Constructs(
+                    ConstructsTag {
+                        span: Span {
+                            lo: BytePos(
+                                64,
+                            ),
+                            hi: BytePos(
+                                74,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                161,
+            ),
+            hi: BytePos(
+                292,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    161,
+                ),
+                hi: BytePos(
+                    203,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                 * Callback for `say`.
+                 *
+                 *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        161,
+                    ),
+                    hi: BytePos(
+                        169,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            161,
+                        ),
+                        hi: BytePos(
+                            169,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('callback' type=dynamic),
+                    has_escape: false,
+                },
+                tag: Callback(
+                    CallbackTag {
+                        span: Span {
+                            lo: BytePos(
+                                161,
+                            ),
+                            hi: BytePos(
+                                169,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    161,
+                                ),
+                                hi: BytePos(
+                                    292,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Str {
+                                    span: Span {
+                                        lo: BytePos(
+                                            161,
+                                        ),
+                                        hi: BytePos(
+                                            167,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Person' type=inline),
+                                    has_escape: false,
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                361,
+            ),
+            hi: BytePos(
+                361,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    361,
+                ),
+                hi: BytePos(
+                    415,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                 * Speak a message asynchronously.
+                 *
+                 *' type=dynamic),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        361,
+                    ),
+                    hi: BytePos(
+                        366,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            361,
+                        ),
+                        hi: BytePos(
+                            366,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                    has_escape: false,
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                361,
+                            ),
+                            hi: BytePos(
+                                366,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        361,
+                                    ),
+                                    hi: BytePos(
+                                        381,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{Person~sayCallback}' type=dynamic),
+                                has_escape: false,
+                            },
+                        ),
+                        desc: Str {
+                            span: Span {
+                                lo: BytePos(
+                                    361,
+                                ),
+                                hi: BytePos(
+                                    363,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('cb' type=inline),
+                            has_escape: false,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

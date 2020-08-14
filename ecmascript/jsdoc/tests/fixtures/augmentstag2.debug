@@ -1,0 +1,82 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                68,
+            ),
+            hi: BytePos(
+                68,
+            ),
+            ctxt: #0,
+        },
+        description: Str {
+            span: Span {
+                lo: BytePos(
+                    68,
+                ),
+                hi: BytePos(
+                    72,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             *' type=inline),
+            has_escape: false,
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        68,
+                    ),
+                    hi: BytePos(
+                        79,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Str {
+                    span: Span {
+                        lo: BytePos(
+                            68,
+                        ),
+                        hi: BytePos(
+                            79,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                    has_escape: false,
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                68,
+                            ),
+                            hi: BytePos(
+                                79,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        68,
+                                    ),
+                                    hi: BytePos(
+                                        96,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @extends UndocumentedThing' type=dynamic),
+                                has_escape: false,
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+]
