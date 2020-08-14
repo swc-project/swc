@@ -50,6 +50,8 @@ mod input;
 pub fn parse(i: Input) -> IResult<Input> {}
 
 pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
+    let (i, _) = skip(i)?;
+
     let (i, _) = tag("@")(i)?;
 
     let (mut i, tag_name) = parse_word(i)?;
@@ -1025,6 +1027,37 @@ fn parse_line(i: Input) -> IResult<Input, Str> {
     }
 }
 
+/// Skips whitespace and * at line start
+fn skip(i: Input) -> IResult<Input, ()> {
+    //
+
+    let mut at_line_start = false;
+    let mut index = 0;
+
+    for (idx, c) in i.char_indices() {
+        if at_line_start && c == '*' {
+            at_line_start = false;
+            index = idx + 1;
+            continue;
+        }
+
+        if c == '\r' || c == '\n' {
+            at_line_start = true;
+            index = idx + 1;
+            continue;
+        }
+
+        if c == ' ' {
+            index = idx + 1;
+            continue;
+        }
+
+        break;
+    }
+
+    Ok((i.slice(index..), ()))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1032,6 +1065,40 @@ mod tests {
 
     fn input(s: &str) -> Input {
         Input::new(BytePos(0), BytePos(s.as_bytes().len() as _), s)
+    }
+
+    #[test]
+    fn yield_tag() {
+        let (i, ret) = parse_tag_item(input(
+            "
+        *
+        * @yields {number} The next number in the Fibonacci sequence.
+       ",
+        ))
+        .unwrap();
+
+        match ret.tag {
+            Tag::Yield(tag) => {
+                print!("{:?}", tag.description);
+                assert_eq!(
+                    &*tag.description.value,
+                    "The next number in the Fibonacci sequence."
+                );
+            }
+            _ => panic!("Invalid tag: {:?}", ret.tag),
+        }
+    }
+
+    #[test]
+    fn skip_1() {
+        let (i, _) = skip(input(
+            "   
+        *
+        * @yields ",
+        ))
+        .unwrap();
+
+        assert_eq!(&*i, "@yields ");
     }
 
     #[test]
