@@ -99,7 +99,7 @@ where
                             "load".into(),
                             DUMMY_SP
                                 .apply_mark(self.top_level_mark)
-                                .apply_mark(info.mark()),
+                                .apply_mark(self.scope.get_module(src.module_id).unwrap().mark()),
                         );
 
                         entry.body.visit_mut_with(&mut RequireReplacer {
@@ -239,12 +239,8 @@ where
                         //
                         // As usual, this behavior depends on hygiene.
 
-                        let load_var = Ident::new(
-                            "load".into(),
-                            DUMMY_SP
-                                .apply_mark(self.top_level_mark)
-                                .apply_mark(info.mark()),
-                        );
+                        let load_var =
+                            Ident::new("load".into(), DUMMY_SP.apply_mark(imported.mark()));
 
                         {
                             // ... body of foo
