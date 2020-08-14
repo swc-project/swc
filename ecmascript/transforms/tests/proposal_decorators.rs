@@ -4919,7 +4919,8 @@ test!(
       @decorate('example')
       method(@inject() param: string) {}
     }",
-    r##"var _class, _class1, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class2, _dec8, _dec9, _dec10, _dec11;
+    r##"
+    var _class, _class1, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class2, _dec8, _dec9, _dec10, _dec11;
     class Injected {
     }
     var _dec12 = Reflect.metadata("design:paramtypes", [
@@ -4969,15 +4970,15 @@ test!(
         _dec6,
         _dec7
     ], Object.getOwnPropertyDescriptor(_class1.prototype, "method"), _class1.prototype), _class1)) || _class1) || _class1) || _class1) || _class1;
-    var _dec35 = Reflect.metadata("design:paramtypes", [
+    var _dec19 = Reflect.metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
-    ]), _dec36 = Reflect.metadata("design:type", Function), _dec37 = function(target, key) {
+    ]), _dec20 = Reflect.metadata("design:type", Function), _dec21 = function(target, key) {
         return inject()(target, undefined, 1);
-    }, _dec38 = function(target, key) {
+    }, _dec22 = function(target, key) {
         return inject()(target, undefined, 0);
     };
-    let DecoratedClass = _class2 = Decorate(_class2 = _dec38(_class2 = _dec37(_class2 = _dec36(_class2 = _dec35(((_class2 = class DecoratedClass {
+    let DecoratedClass = _class2 = Decorate(_class2 = _dec22(_class2 = _dec21(_class2 = _dec20(_class2 = _dec19(((_class2 = class DecoratedClass {
         constructor(private readonly module: Injected, otherModule: Injected){
         }
         method(param: string) {
@@ -4991,7 +4992,8 @@ test!(
         _dec9,
         _dec10,
         _dec11
-    ], Object.getOwnPropertyDescriptor(_class2.prototype, "method"), _class2.prototype), _class2)) || _class2) || _class2) || _class2) || _class2) || _class2;"##
+    ], Object.getOwnPropertyDescriptor(_class2.prototype, "method"), _class2.prototype), _class2)) || _class2) || _class2) || _class2) || _class2) || _class2;
+    "##
 );
 
 test!(
