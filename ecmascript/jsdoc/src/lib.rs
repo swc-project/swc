@@ -50,14 +50,12 @@ mod input;
 pub fn parse(i: Input) -> IResult<Input> {}
 
 pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
-    let (i, _) = skip(i)?;
-
-    let (i, _) = tag("@")(i)?;
+    let i = skip(i);
+    let (_, i) = tag("@")(i)?;
 
     let (mut i, tag_name) = parse_word(i)?;
 
     let span = tag_name.span();
-
     let tag = match &*tag_name.value {
         "abstract" | "virtual" => Tag::Abstract(AbstractTag { span }),
 
@@ -1028,7 +1026,7 @@ fn parse_line(i: Input) -> IResult<Input, Str> {
 }
 
 /// Skips whitespace and * at line start
-fn skip(i: Input) -> IResult<Input, ()> {
+fn skip(i: Input) -> Input {
     //
 
     let mut at_line_start = false;
@@ -1055,7 +1053,7 @@ fn skip(i: Input) -> IResult<Input, ()> {
         break;
     }
 
-    Ok((i.slice(index..), ()))
+    i.slice(index..)
 }
 
 #[cfg(test)]
@@ -1087,16 +1085,17 @@ mod tests {
             }
             _ => panic!("Invalid tag: {:?}", ret.tag),
         }
+
+        assert_eq!(&*skip(i), "");
     }
 
     #[test]
     fn skip_1() {
-        let (i, _) = skip(input(
+        let i = skip(input(
             "   
         *
         * @yields ",
-        ))
-        .unwrap();
+        ));
 
         assert_eq!(&*i, "@yields ");
     }
