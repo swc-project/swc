@@ -1,10 +1,11 @@
 use anyhow::{bail, Context, Error};
-use std::sync::Arc;
+use helpers::Helpers;
+use std::{env, sync::Arc};
 use swc_bundler::Load;
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::{Module, Program};
 use swc_ecma_parser::JscTarget;
-use swc_ecma_transforms::optimization::simplify::{dead_branch_remover, expr_simplifier};
+use swc_ecma_transforms::helpers;
 use swc_ecma_visit::FoldWith;
 
 /// JavaScript loader
@@ -41,6 +42,10 @@ impl SwcLoader {
                 opt.globals = Some(Default::default());
             }
 
+            if env::var("NODE_ENV").is_err() {
+                env::set_var("NODE_ENV", "development");
+            }
+
             // Always inline NODE_ENV
             opt.globals
                 .as_mut()
@@ -68,7 +73,7 @@ impl Load for SwcLoader {
 
         log::trace!("JsLoader.load: loaded");
 
-        let config = self.compiler.config_for_file(&self.options, &fm.name)?;
+        let mut config = self.compiler.config_for_file(&self.options, &fm.name)?;
 
         log::trace!("JsLoader.load: loaded config");
 
@@ -81,11 +86,14 @@ impl Load for SwcLoader {
 
         log::trace!("JsLoader.load: parsed");
 
-        let program = self.compiler.transform(program, true, config.pass);
-
-        let program = program
-            .fold_with(&mut expr_simplifier())
-            .fold_with(&mut dead_branch_remover());
+        // Fold module
+        let program = self.compiler.run(|| {
+            helpers::HELPERS.set(&Helpers::new(true), || {
+                swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
+                    program.fold_with(&mut config.pass)
+                })
+            })
+        });
 
         log::trace!("JsLoader.load: applied transforms");
 
