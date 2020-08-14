@@ -15,13 +15,13 @@ pub fn resolver() -> Resolver<'static> {
 }
 
 /// `mark` should not be root.
-pub fn resolver_with_mark(mark: Mark) -> Resolver<'static> {
+pub fn resolver_with_mark(top_level_mark: Mark) -> Resolver<'static> {
     assert_ne!(
-        mark,
+        top_level_mark,
         Mark::root(),
         "Marker provided to resolver should not be root mark"
     );
-    Resolver::new(mark, Scope::new(ScopeKind::Fn, None), None)
+    Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None)
 }
 
 #[derive(Debug, Clone)]
