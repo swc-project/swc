@@ -365,7 +365,8 @@ where
 
                 match &e.callee {
                     ExprOrSuper::Expr(callee)
-                        if self.bundler.config.require
+                        if !self.deglob_phase
+                            && self.bundler.config.require
                             && match &**callee {
                                 Expr::Ident(Ident {
                                     sym: js_word!("require"),
