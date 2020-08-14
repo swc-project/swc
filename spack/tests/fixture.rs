@@ -176,8 +176,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         },
                     );
 
-                    let modules = bundler.bundle(entries).map_err(|_| ())?;
-                    log::info!("Bundled as {} modules", modules.len());
+                    let modules = bundler
+                        .bundle(entries)
+                        .map_err(|err| println!("{:?}", err))?;
+                    println!("Bundled as {} modules", modules.len());
 
                     let mut error = false;
 
@@ -202,14 +204,14 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         let output_path =
                             entry.path().join("output").join(name.file_name().unwrap());
 
-                        log::info!("Printing {}", output_path.display());
+                        println!("Printing {}", output_path.display());
 
                         let s = NormalizedOutput::from(code);
 
                         match s.compare_to_file(&output_path) {
                             Ok(_) => {}
                             Err(err) => {
-                                println!("{:?}", err);
+                                println!("Diff: {:?}", err);
                                 error = true;
                             }
                         }
