@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     17,
@@ -22,7 +22,6 @@
             value: Atom('*
              * A module representing a shirt.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -35,7 +34,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             17,
@@ -46,7 +45,6 @@
                         ctxt: #0,
                     },
                     value: Atom('exports' type=inline),
-                    has_escape: false,
                 },
                 tag: Exports(
                     ExportsTag {
@@ -59,7 +57,7 @@
                             ),
                             ctxt: #0,
                         },
-                        module_name: Str {
+                        module_name: Text {
                             span: Span {
                                 lo: BytePos(
                                     17,
@@ -70,7 +68,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('my/shirt' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -87,7 +84,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     115,
@@ -98,7 +95,6 @@
                 ctxt: #0,
             },
             value: Atom('* A property of the module.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -112,7 +108,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     186,
@@ -123,7 +119,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -136,7 +131,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             186,
@@ -147,7 +142,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructor' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -177,7 +171,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     260,
@@ -188,7 +182,6 @@
                 ctxt: #0,
             },
             value: Atom('* A property of the class.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

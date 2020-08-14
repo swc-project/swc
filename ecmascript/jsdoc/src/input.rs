@@ -1,10 +1,10 @@
+use crate::ast::Text;
 use nom::{Compare, CompareResult, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
 use std::{
     ops::{Deref, Range, RangeFrom, RangeTo},
     str::{CharIndices, Chars},
 };
 use swc_common::{comments::Comment, BytePos, Span};
-use swc_ecma_ast::Str;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Input<'i> {
@@ -50,12 +50,11 @@ impl_slice!(Range);
 impl_slice!(RangeFrom);
 impl_slice!(RangeTo);
 
-impl<'i> From<Input<'i>> for Str {
+impl<'i> From<Input<'i>> for Text {
     fn from(i: Input) -> Self {
         Self {
             span: Span::new(i.start, i.end, Default::default()),
             value: i.src.into(),
-            has_escape: false,
         }
     }
 }

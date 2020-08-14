@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('namespace' type=static),
-                    has_escape: false,
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -58,7 +56,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         0,
@@ -69,7 +67,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('ns' type=inline),
-                                has_escape: false,
                             },
                         ),
                         name: None,
@@ -88,7 +85,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     35,
@@ -100,7 +97,6 @@
             },
             value: Atom('*
             *  Similar to [the bar function]{' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -113,7 +109,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             35,
@@ -124,7 +120,6 @@
                         ctxt: #0,
                     },
                     value: Atom('link' type=inline),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -137,7 +132,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     35,
@@ -148,7 +143,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('bar}.' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -165,7 +159,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     133,
@@ -177,7 +171,6 @@
             },
             value: Atom('*
             *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -190,7 +183,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             133,
@@ -201,7 +194,6 @@
                         ctxt: #0,
                     },
                     value: Atom('see' type=inline),
-                    has_escape: false,
                 },
                 tag: See(
                     SeeTag {
@@ -214,7 +206,7 @@
                             ),
                             ctxt: #0,
                         },
-                        text: Str {
+                        text: Text {
                             span: Span {
                                 lo: BytePos(
                                     133,
@@ -225,7 +217,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('{@link ns.foo}' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

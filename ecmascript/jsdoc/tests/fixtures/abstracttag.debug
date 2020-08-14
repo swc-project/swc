@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructor' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -74,7 +72,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     45,
@@ -85,7 +83,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -98,7 +95,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             45,
@@ -109,7 +106,6 @@
                         ctxt: #0,
                     },
                     value: Atom('abstract' type=static),
-                    has_escape: false,
                 },
                 tag: Abstract(
                     AbstractTag {
@@ -137,7 +133,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     99,
@@ -148,7 +144,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -161,7 +156,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             99,
@@ -172,7 +167,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructor' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -202,7 +196,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     149,
@@ -213,7 +207,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -226,7 +219,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             149,
@@ -237,7 +230,6 @@
                         ctxt: #0,
                     },
                     value: Atom('virtual' type=inline),
-                    has_escape: false,
                 },
                 tag: Abstract(
                     AbstractTag {

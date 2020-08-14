@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     15,
@@ -22,7 +22,6 @@
             value: Atom('*
              * Asdf.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -35,7 +34,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             15,
@@ -46,7 +45,6 @@
                         ctxt: #0,
                     },
                     value: Atom('class' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -60,7 +58,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         15,
@@ -71,7 +69,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('* @classdesc A description of the class.' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                         name: None,
@@ -90,7 +87,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     103,
@@ -102,7 +99,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -115,7 +111,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             103,
@@ -126,7 +122,6 @@
                         ctxt: #0,
                     },
                     value: Atom('classdesc' type=dynamic),
-                    has_escape: false,
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
@@ -139,7 +134,7 @@
                             ),
                             ctxt: #0,
                         },
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     103,
@@ -150,7 +145,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('A description of the class.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -167,7 +161,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     184,
@@ -180,7 +174,6 @@
             value: Atom('*
              * The Baz class.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -193,7 +186,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             184,
@@ -204,7 +197,6 @@
                         ctxt: #0,
                     },
                     value: Atom('class' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -218,7 +210,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         184,
@@ -229,7 +221,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('* Description of the Baz class.' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                         name: None,

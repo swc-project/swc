@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -23,7 +23,6 @@
              * Increment a number by 1.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -36,7 +35,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -47,7 +46,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -62,7 +60,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         0,
@@ -73,10 +71,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{number}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -87,7 +84,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('n - The number to increment.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -104,7 +100,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     116,
@@ -116,7 +112,6 @@
             },
             value: Atom('*
              * Print a value to the console.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -130,7 +125,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     170,
@@ -141,7 +136,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -154,7 +148,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             170,
@@ -165,7 +159,6 @@
                         ctxt: #0,
                     },
                     value: Atom('type' type=static),
-                    has_escape: false,
                 },
                 tag: Type(
                     TypeTag {
@@ -178,7 +171,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -189,7 +182,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -206,7 +198,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     214,
@@ -218,7 +210,6 @@
             },
             value: Atom('*
              * Create a class with a `name` property.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

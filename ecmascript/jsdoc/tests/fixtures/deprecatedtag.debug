@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('deprecated' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Deprecated(
                     DeprecatedTag {
@@ -57,7 +55,7 @@
                             ),
                             ctxt: #0,
                         },
-                        text: Str {
+                        text: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -68,7 +66,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -85,7 +82,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     40,
@@ -96,7 +93,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -109,7 +105,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             40,
@@ -120,7 +116,6 @@
                         ctxt: #0,
                     },
                     value: Atom('deprecated' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Deprecated(
                     DeprecatedTag {
@@ -133,7 +128,7 @@
                             ),
                             ctxt: #0,
                         },
-                        text: Str {
+                        text: Text {
                             span: Span {
                                 lo: BytePos(
                                     40,
@@ -144,7 +139,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('since version 2.0' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

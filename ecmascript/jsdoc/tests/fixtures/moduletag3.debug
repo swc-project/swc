@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('module' type=static),
-                    has_escape: false,
                 },
                 tag: Module(
                     ModuleTag {
@@ -57,7 +55,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -68,9 +66,8 @@
                                 ctxt: #0,
                             },
                             value: Atom('Photo/manager' type=dynamic),
-                            has_escape: false,
                         },
-                        ty: Str {
+                        ty: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -81,7 +78,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('foo' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -96,7 +92,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -107,7 +103,6 @@
                         ctxt: #0,
                     },
                     value: Atom('desc' type=inline),
-                    has_escape: false,
                 },
                 tag: Description(
                     DescriptionTag {
@@ -120,7 +115,7 @@
                             ),
                             ctxt: #0,
                         },
-                        text: Str {
+                        text: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -131,7 +126,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('Manage a collection of photos.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -148,7 +142,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     71,
@@ -160,7 +154,6 @@
             },
             value: Atom('*
             Construct a new Photo manager' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -173,7 +166,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             71,
@@ -184,7 +177,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructor' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -198,7 +190,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         71,
@@ -209,11 +201,10 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('module:foo/Photo/manager' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                         name: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         71,
@@ -224,7 +215,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('@param {String} collectionId The identifier of the managed collection.' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                     },
@@ -242,7 +232,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     264,
@@ -253,7 +243,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -266,7 +255,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             264,
@@ -277,7 +266,6 @@
                         ctxt: #0,
                     },
                     value: Atom('function' type=static),
-                    has_escape: false,
                 },
                 tag: Function(
                     FunctionTag {
@@ -291,7 +279,7 @@
                             ctxt: #0,
                         },
                         name: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         264,
@@ -302,7 +290,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('module:foo/Photo/manager#getPhoto' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                     },
@@ -318,7 +305,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             264,
@@ -329,7 +316,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -344,7 +330,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         264,
@@ -355,10 +341,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{String}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     264,
@@ -369,7 +354,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('photoName' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -21,7 +21,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -34,7 +33,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -45,7 +44,6 @@
                         ctxt: #0,
                     },
                     value: Atom('requires' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Requires(
                     RequiresTag {
@@ -69,7 +67,7 @@
                                 ctxt: #0,
                             },
                             components: [
-                                Str {
+                                Text {
                                     span: Span {
                                         lo: BytePos(
                                             0,
@@ -80,7 +78,6 @@
                                         ctxt: #0,
                                     },
                                     value: Atom('module' type=static),
-                                    has_escape: false,
                                 },
                             ],
                         },
@@ -99,7 +96,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     59,
@@ -111,7 +108,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -124,7 +120,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             59,
@@ -135,7 +131,6 @@
                         ctxt: #0,
                     },
                     value: Atom('requires' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Requires(
                     RequiresTag {
@@ -159,7 +154,7 @@
                                 ctxt: #0,
                             },
                             components: [
-                                Str {
+                                Text {
                                     span: Span {
                                         lo: BytePos(
                                             59,
@@ -170,7 +165,6 @@
                                         ctxt: #0,
                                     },
                                     value: Atom('foo' type=inline),
-                                    has_escape: false,
                                 },
                             ],
                         },
@@ -189,7 +183,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     147,
@@ -201,7 +195,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -214,7 +207,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             147,
@@ -225,7 +218,6 @@
                         ctxt: #0,
                     },
                     value: Atom('requires' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Requires(
                     RequiresTag {
@@ -249,7 +241,7 @@
                                 ctxt: #0,
                             },
                             components: [
-                                Str {
+                                Text {
                                     span: Span {
                                         lo: BytePos(
                                             147,
@@ -260,7 +252,6 @@
                                         ctxt: #0,
                                     },
                                     value: Atom('' type=static),
-                                    has_escape: false,
                                 },
                             ],
                         },
@@ -277,7 +268,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             147,
@@ -288,7 +279,6 @@
                         ctxt: #0,
                     },
                     value: Atom('link' type=inline),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -301,7 +291,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     147,
@@ -312,7 +302,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('module:zest}' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

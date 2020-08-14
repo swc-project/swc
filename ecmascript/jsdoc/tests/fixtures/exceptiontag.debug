@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('throws' type=inline),
-                    has_escape: false,
                 },
                 tag: Throw(
                     ThrowTag {
@@ -57,7 +55,7 @@
                             ),
                             ctxt: #0,
                         },
-                        text: Str {
+                        text: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -68,7 +66,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('{InvalidArgumentException}' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -85,7 +82,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     68,
@@ -96,7 +93,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -109,7 +105,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             68,
@@ -120,7 +116,6 @@
                         ctxt: #0,
                     },
                     value: Atom('exception' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -133,7 +128,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     68,
@@ -144,7 +139,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('Will throw an error if argument is null.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -161,7 +155,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     153,
@@ -172,7 +166,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -185,7 +178,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             153,
@@ -196,7 +189,6 @@
                         ctxt: #0,
                     },
                     value: Atom('exception' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -209,7 +201,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     153,
@@ -220,7 +212,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('{DivideByZero} Argument x must be non-zero.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -237,7 +228,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     241,
@@ -251,7 +242,6 @@
              * A description of the function.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -264,7 +254,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             241,
@@ -275,7 +265,6 @@
                         ctxt: #0,
                     },
                     value: Atom('exception' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -288,7 +277,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     241,
@@ -299,7 +288,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('{Object} A description of the exception.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

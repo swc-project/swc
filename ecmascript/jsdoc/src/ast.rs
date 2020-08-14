@@ -1,11 +1,19 @@
+use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
-use swc_ecma_ast::{Ident, Str, TsTypeParamDecl};
+
+/// Spanned text
+#[ast_node]
+#[derive(Eq)]
+pub struct Text {
+    pub span: Span,
+    pub value: JsWord,
+}
 
 #[ast_node]
 pub struct JsDoc {
     pub span: Span,
 
-    pub description: Str,
+    pub description: Text,
     pub tags: Vec<TagItem>,
 }
 
@@ -14,7 +22,7 @@ pub struct JsDoc {
 pub struct TagItem {
     pub span: Span,
     #[serde(rename = "tagName")]
-    pub tag_name: Str,
+    pub tag_name: Text,
     #[serde(flatten)]
     pub tag: JsDocTag,
     pub tag: Tag,
@@ -167,7 +175,7 @@ pub struct AbstractTag {
 #[ast_node]
 pub struct AccessTag {
     pub span: Span,
-    pub access: Str,
+    pub access: Text,
 }
 
 #[ast_node]
@@ -290,20 +298,20 @@ pub struct BorrowsTag {
 #[ast_node]
 pub struct JSDocClassDescTag {
     pub span: Span,
-    pub desc: Str,
+    pub desc: Text,
 }
 
 #[ast_node]
 pub struct ConstTag {
     pub span: Span,
-    pub ty: Option<Str>,
-    pub name: Option<Str>,
+    pub ty: Option<Text>,
+    pub name: Option<Text>,
 }
 
 #[ast_node]
 pub struct UnknownTag {
     pub span: Span,
-    pub extras: Str,
+    pub extras: Text,
 }
 
 /// `@extends`, `@augments`
@@ -316,7 +324,7 @@ pub struct AugmentsTag {
 #[ast_node]
 pub struct ImplementsTag {
     pub span: Span,
-    pub class: Str,
+    pub class: Text,
 }
 
 #[ast_node]
@@ -330,7 +338,7 @@ pub struct ExprWithTypeArgs {
 #[ast_node]
 pub enum Expr {
     #[tag("Identifier")]
-    Ident(Ident),
+    Text(Text),
     #[tag("NamePath")]
     Property(NamePath),
 }
@@ -339,15 +347,15 @@ pub enum Expr {
 pub struct AuthorTag {
     pub span: Span,
     /// `<name> [<emailAddress>]`
-    pub author: Str,
+    pub author: Text,
 }
 
 #[ast_node]
 #[derive(Eq)]
 pub struct ClassTag {
     pub span: Span,
-    pub ty: Option<Str>,
-    pub name: Option<Str>,
+    pub ty: Option<Text>,
+    pub name: Option<Text>,
 }
 
 #[ast_node]
@@ -364,7 +372,7 @@ pub struct JsDocPrivateTag {
 #[derive(Eq)]
 pub struct PrivateTag {
     pub span: Span,
-    pub ty: Option<Str>,
+    pub ty: Option<Text>,
 }
 
 #[ast_node]
@@ -373,7 +381,7 @@ pub struct JsDocProtectedTag {
 #[derive(Eq)]
 pub struct ProtectedTag {
     pub span: Span,
-    pub ty: Option<Str>,
+    pub ty: Option<Text>,
 }
 
 #[ast_node]
@@ -395,26 +403,26 @@ pub struct PropertyTag {
     pub span: Span,
 
     pub name_path: NamePath,
-    pub ty: Option<Str>,
-    pub desc: Str,
+    pub ty: Option<Text>,
+    pub desc: Text,
 }
 
 #[ast_node]
 pub struct ParameterTag {
     pub span: Span,
 
-    pub name: Option<Str>,
+    pub name: Option<Text>,
     #[serde(rename = "typeExpression")]
-    pub ty: Option<Str>,
+    pub ty: Option<Text>,
 
-    pub desc: Str,
+    pub desc: Text,
 }
 
 #[ast_node]
 #[derive(Eq)]
 pub struct EnumTag {
     pub span: Span,
-    pub ty: Str,
+    pub ty: Text,
 }
 
 #[ast_node]
@@ -425,6 +433,8 @@ pub struct ReturnTag {
     pub ty: Option<Str>,
     pub description: Str,
     type_expr: Option<TypeExpr>,
+    pub ty: Option<Text>,
+    pub description: Text,
 }
 
 #[ast_node]
@@ -442,14 +452,13 @@ pub struct TypeTag {
     pub type_expr: JsDocTypeExpr,
     pub name: Str,
     pub type_expr: TypeExpr,
+    pub name: Text,
 }
 
 #[ast_node]
 pub struct TemplateTag {
     pub span: Span,
     pub constraint: Option<TypeExpr>,
-    #[serde(rename = "typeParameters")]
-    pub type_params: Vec<TsTypeParamDecl>,
 }
 
 #[ast_node]
@@ -458,7 +467,7 @@ pub struct TypedefTag {
     #[serde(rename = "full_name")]
     pub full_name: Option<NamespaceBody>,
 
-    pub name: Option<Ident>,
+    pub name: Option<Text>,
     #[serde(rename = "typeExpression")]
     pub type_expr: Option<TypeExprOrTypeLit>,
 }
@@ -565,14 +574,14 @@ pub struct TypeExpr {
 #[ast_node]
 pub struct NamespaceDecl {
     pub span: Span,
-    pub name: Ident,
+    pub name: Text,
     pub body: Vec<NamespaceBody>,
 }
 
 #[ast_node]
 pub enum NamespaceBody {
     #[tag("Identifier")]
-    Ident(Box<Ident>),
+    Text(Box<Text>),
     #[tag("NamespaceDecl")]
     Decl(Box<NamespaceDecl>),
 }
@@ -604,69 +613,69 @@ pub enum PropOrParam {
 #[ast_node]
 pub struct NamePath {
     pub span: Span,
-    pub components: Vec<Str>,
+    pub components: Vec<Text>,
 }
 
 #[ast_node]
 pub struct CopyrightTag {
 pub struct JsDocCopyrightTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct DescriptionTag {
 pub struct JsDocDescriptionTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct ExampleTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct ExportsTag {
     pub span: Span,
-    pub module_name: Str,
+    pub module_name: Text,
 }
 
 #[ast_node]
 pub struct ExternalTag {
     pub span: Span,
-    pub name: Str,
+    pub name: Text,
 }
 
 #[ast_node]
 pub struct ConstructsTag {
     pub span: Span,
-    pub name: Str,
+    pub name: Text,
 }
 
 #[ast_node]
 pub struct DefaultTag {
     pub span: Span,
-    pub value: Str,
+    pub value: Text,
 }
 
 #[ast_node]
 pub struct DeprecatedTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct FilelTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct FunctionTag {
     pub span: Span,
-    pub name: Option<Str>,
+    pub name: Option<Text>,
 }
 
 #[ast_node]
@@ -701,12 +710,12 @@ pub struct InstanceTag {
 #[ast_node]
 pub struct InterfaceTag {
     pub span: Span,
-    pub name: Option<Str>,
+    pub name: Option<Text>,
 }
 #[ast_node]
 pub struct KindTag {
     pub span: Span,
-    pub name: Str,
+    pub name: Text,
 }
 
 #[ast_node]
@@ -718,20 +727,20 @@ pub struct LendsTag {
 #[ast_node]
 pub struct LicenseTag {
     pub span: Span,
-    pub identifier: Str,
+    pub identifier: Text,
 }
 
 #[ast_node]
 pub struct ListensTag {
     pub span: Span,
-    pub event_name: Str,
+    pub event_name: Text,
 }
 
 #[ast_node]
 pub struct MemberTag {
     pub span: Span,
-    pub ty: Str,
-    pub name: Str,
+    pub ty: Text,
+    pub name: Text,
 }
 
 #[ast_node]
@@ -743,7 +752,7 @@ pub struct MemberOfTag {
 #[ast_node]
 pub struct TypeDefTag {
     pub span: Span,
-    pub ty: Option<Str>,
+    pub ty: Option<Text>,
     pub name_path: NamePath,
 }
 
@@ -756,14 +765,14 @@ pub struct MixesTag {
 #[ast_node]
 pub struct MixinTag {
     pub span: Span,
-    pub name: Str,
+    pub name: Text,
 }
 
 #[ast_node]
 pub struct ModuleTag {
     pub span: Span,
-    pub name: Str,
-    pub ty: Str,
+    pub name: Text,
+    pub ty: Text,
 }
 
 #[ast_node]
@@ -775,8 +784,8 @@ pub struct NameTag {
 #[ast_node]
 pub struct NamespaceTag {
     pub span: Span,
-    pub ty: Option<Str>,
-    pub name: Option<Str>,
+    pub ty: Option<Text>,
+    pub name: Option<Text>,
 }
 
 #[ast_node]
@@ -787,7 +796,7 @@ pub struct OverrideTag {
 #[ast_node]
 pub struct PackageTag {
     pub span: Span,
-    pub ty: Option<Str>,
+    pub ty: Option<Text>,
 }
 
 #[ast_node]
@@ -799,19 +808,19 @@ pub struct RequiresTag {
 #[ast_node]
 pub struct SeeTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct SinceTag {
     pub span: Span,
-    pub version: Str,
+    pub version: Text,
 }
 
 #[ast_node]
 pub struct SummaryTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
@@ -822,38 +831,38 @@ pub struct StaticTag {
 #[ast_node]
 pub struct ThrowTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct TodoTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct TutorialTag {
     pub span: Span,
-    pub text: Str,
+    pub text: Text,
 }
 
 #[ast_node]
 pub struct VariationTag {
     pub span: Span,
-    pub number: Str,
+    pub number: Text,
 }
 
 #[ast_node]
 pub struct VersionTag {
     pub span: Span,
-    pub value: Str,
+    pub value: Text,
 }
 
 #[ast_node]
 pub struct YieldTag {
     pub span: Span,
-    pub value: Option<Str>,
-    pub description: Str,
+    pub value: Option<Text>,
+    pub description: Text,
 }
 pub struct JsDocExampleTag {
     pub span: Span,

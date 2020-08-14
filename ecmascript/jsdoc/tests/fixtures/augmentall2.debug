@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -22,7 +22,6 @@
             value: Atom('*
              * Parent interface.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -35,7 +34,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -46,7 +45,6 @@
                         ctxt: #0,
                     },
                     value: Atom('interface' type=static),
-                    has_escape: false,
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -75,7 +73,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     69,
@@ -87,7 +85,6 @@
             },
             value: Atom('*
              * Open the connection.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -101,7 +98,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     145,
@@ -114,7 +111,6 @@
             value: Atom('*
              * Child interface.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -127,7 +123,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             145,
@@ -138,7 +134,6 @@
                         ctxt: #0,
                     },
                     value: Atom('interface' type=static),
-                    has_escape: false,
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -152,7 +147,7 @@
                             ctxt: #0,
                         },
                         name: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         145,
@@ -163,7 +158,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('* @extends {Connection}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                     },
@@ -181,7 +175,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     234,
@@ -194,7 +188,6 @@
             value: Atom('*
              * Implementation of child interface.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -207,7 +200,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             234,
@@ -218,7 +211,6 @@
                         ctxt: #0,
                     },
                     value: Atom('class' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -232,7 +224,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         234,
@@ -243,7 +235,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('* @implements {Socket}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                         name: None,
@@ -262,7 +253,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     345,
@@ -273,7 +264,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -286,7 +276,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             345,
@@ -297,7 +287,6 @@
                         ctxt: #0,
                     },
                     value: Atom('inheritdoc' type=dynamic),
-                    has_escape: false,
                 },
                 tag: InheritDoc(
                     InheritDocTag {

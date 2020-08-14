@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     26,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             26,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('lends' type=inline),
-                    has_escape: false,
                 },
                 tag: Lends(
                     LendsTag {
@@ -68,7 +66,7 @@
                                 ctxt: #0,
                             },
                             components: [
-                                Str {
+                                Text {
                                     span: Span {
                                         lo: BytePos(
                                             26,
@@ -79,7 +77,6 @@
                                         ctxt: #0,
                                     },
                                     value: Atom('Person' type=inline),
-                                    has_escape: false,
                                 },
                             ],
                         },
@@ -98,7 +95,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     54,
@@ -110,7 +107,6 @@
             },
             value: Atom('*
                     Describe the constructor.' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -123,7 +119,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             54,
@@ -134,7 +130,6 @@
                         ctxt: #0,
                     },
                     value: Atom('classdesc' type=dynamic),
-                    has_escape: false,
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
@@ -147,7 +142,7 @@
                             ),
                             ctxt: #0,
                         },
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     54,
@@ -158,7 +153,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('A class that represents a person.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -173,7 +167,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             54,
@@ -184,7 +178,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructs' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Constructs(
                     ConstructsTag {
@@ -197,7 +190,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     54,
@@ -208,7 +201,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('@param {string} name' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -225,7 +217,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     244,
@@ -236,7 +228,6 @@
                 ctxt: #0,
             },
             value: Atom('* The name of the person.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -250,7 +241,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     313,
@@ -261,7 +252,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -274,7 +264,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             313,
@@ -285,7 +275,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -300,7 +289,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         313,
@@ -311,10 +300,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     313,
@@ -325,7 +313,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('message' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -342,7 +329,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     395,
@@ -353,7 +340,6 @@
                 ctxt: #0,
             },
             value: Atom('* The person's message.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

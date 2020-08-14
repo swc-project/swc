@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     98,
@@ -22,7 +22,6 @@
             value: Atom('*
                  * Create an instance of MyClass.
                  *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -35,7 +34,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             98,
@@ -46,7 +45,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructs' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Constructs(
                     ConstructsTag {
@@ -59,7 +57,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -70,7 +68,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),

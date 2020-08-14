@@ -11,7 +11,6 @@ use nom::{
     IResult, InputIter, Slice,
 };
 use swc_common::{Span, Spanned, SyntaxContext};
-use swc_ecma_ast::Str;
 
 pub mod ast;
 
@@ -924,6 +923,7 @@ fn parse_one_of<'i, 'l>(i: Input<'i>, list: &'l [&str]) -> IResult<Input<'i>, &'
 fn parse_opt_str(i: Input) -> IResult<Input, Str> {
     parse_line(i)
 fn parse_opt_str(i: Input) -> IResult<Input, Option<Str>> {
+fn parse_opt_str(i: Input) -> IResult<Input, Option<Text>> {
     let (i, res) = parse_line(i)?;
 
     if res.value.is_empty() {
@@ -933,11 +933,11 @@ fn parse_opt_str(i: Input) -> IResult<Input, Option<Str>> {
     }
 }
 
-fn parse_str(i: Input) -> IResult<Input, Str> {
+fn parse_str(i: Input) -> IResult<Input, Text> {
     parse_line(i)
 }
 
-fn parse_type(i: Input) -> IResult<Input, Str> {
+fn parse_type(i: Input) -> IResult<Input, Text> {
     parse_line(i)
 }
 
@@ -954,7 +954,7 @@ fn trim(i: Input) -> Input {
     i.slice(start..end)
 }
 
-fn parse_opt_type(i: Input) -> IResult<Input, Option<Str>> {
+fn parse_opt_type(i: Input) -> IResult<Input, Option<Text>> {
     let i = skip_ws(i);
     if i.starts_with('{') {
         if let Some(pos) = i.find('}') {
@@ -967,7 +967,7 @@ fn parse_opt_type(i: Input) -> IResult<Input, Option<Str>> {
     parse_opt_word(i)
 }
 
-fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Str> {
+fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Text> {
     for &item in list {
         if i.starts_with(item) {
             let res = tag::<&str, Input<'_>, (_, ErrorKind)>(item)(i);
@@ -1013,7 +1013,7 @@ fn parse_name_path(mut i: Input) -> IResult<Input, JsDocNamePath> {
     }
 }
 
-fn parse_opt_word(i: Input) -> IResult<Input, Option<Str>> {
+fn parse_opt_word(i: Input) -> IResult<Input, Option<Text>> {
     let (i, v) = parse_word(i)?;
     if v.value.is_empty() {
         return Ok((i, None));
@@ -1022,7 +1022,7 @@ fn parse_opt_word(i: Input) -> IResult<Input, Option<Str>> {
     Ok((i, Some(v)))
 }
 
-fn parse_word(i: Input) -> IResult<Input, Str> {
+fn parse_word(i: Input) -> IResult<Input, Text> {
     let res = i
         .iter_indices()
         .find(|(_, c)| !(('a' <= *c && *c <= 'z') || ('A' <= *c && *c <= 'Z')));
@@ -1038,7 +1038,7 @@ fn parse_word(i: Input) -> IResult<Input, Str> {
     }
 }
 
-fn parse_line(i: Input) -> IResult<Input, Str> {
+fn parse_line(i: Input) -> IResult<Input, Text> {
     let i = skip_ws(i);
     let res = i.iter_indices().find(|(_, c)| *c == '\n' || *c == '\r');
 

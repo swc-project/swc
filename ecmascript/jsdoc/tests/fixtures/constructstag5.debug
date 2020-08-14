@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     36,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             36,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('lends' type=inline),
-                    has_escape: false,
                 },
                 tag: Lends(
                     LendsTag {
@@ -68,7 +66,7 @@
                                 ctxt: #0,
                             },
                             components: [
-                                Str {
+                                Text {
                                     span: Span {
                                         lo: BytePos(
                                             36,
@@ -79,7 +77,6 @@
                                         ctxt: #0,
                                     },
                                     value: Atom('Duck' type=inline),
-                                    has_escape: false,
                                 },
                             ],
                         },
@@ -98,7 +95,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     70,
@@ -110,7 +107,6 @@
             },
             value: Atom('*
                            Constructs a duck.' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -123,7 +119,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             70,
@@ -134,7 +130,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructs' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Constructs(
                     ConstructsTag {
@@ -147,7 +142,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     70,
@@ -158,7 +153,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('@param tog' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -175,7 +169,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     244,
@@ -186,7 +180,6 @@
                 ctxt: #0,
             },
             value: Atom('* Say hello.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -22,7 +22,6 @@
             value: Atom('*
              * Test module.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -35,7 +34,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -46,7 +45,6 @@
                         ctxt: #0,
                     },
                     value: Atom('module' type=static),
-                    has_escape: false,
                 },
                 tag: Module(
                     ModuleTag {
@@ -59,7 +57,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -70,9 +68,8 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
-                        ty: Str {
+                        ty: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -83,7 +80,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('foo' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -100,7 +96,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     40,
@@ -111,7 +107,6 @@
                 ctxt: #0,
             },
             value: Atom('* Test class.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -125,7 +120,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     82,
@@ -136,7 +131,6 @@
                 ctxt: #0,
             },
             value: Atom('* Test class constructor.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -150,7 +144,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     139,
@@ -161,7 +155,6 @@
                 ctxt: #0,
             },
             value: Atom('* Test method.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

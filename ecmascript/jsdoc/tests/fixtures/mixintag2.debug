@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('module' type=static),
-                    has_escape: false,
                 },
                 tag: Module(
                     ModuleTag {
@@ -57,7 +55,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -68,9 +66,8 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
-                        ty: Str {
+                        ty: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -81,7 +78,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('mixy' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -98,7 +94,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     35,
@@ -111,7 +107,6 @@
             value: Atom('*
              * Object A.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -124,7 +119,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             35,
@@ -135,7 +130,6 @@
                         ctxt: #0,
                     },
                     value: Atom('mixin' type=inline),
-                    has_escape: false,
                 },
                 tag: Mixin(
                     MixinTag {
@@ -148,7 +142,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -159,7 +153,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -176,7 +169,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     90,
@@ -187,7 +180,6 @@
                 ctxt: #0,
             },
             value: Atom('* Some method.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -201,7 +193,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     140,
@@ -214,7 +206,6 @@
             value: Atom('*
              * Object B. Mixes Object A.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -227,7 +218,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             140,
@@ -238,7 +229,6 @@
                         ctxt: #0,
                     },
                     value: Atom('mixin' type=inline),
-                    has_escape: false,
                 },
                 tag: Mixin(
                     MixinTag {
@@ -251,7 +241,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     140,
@@ -262,7 +252,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('* @mixes module:mixy.ObjectA' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -279,7 +268,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     240,
@@ -292,7 +281,6 @@
             value: Atom('*
              * Object C. Mixes Object B and adds its own method.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -305,7 +293,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             240,
@@ -316,7 +304,6 @@
                         ctxt: #0,
                     },
                     value: Atom('mixin' type=inline),
-                    has_escape: false,
                 },
                 tag: Mixin(
                     MixinTag {
@@ -329,7 +316,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     240,
@@ -340,7 +327,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('* @mixes module:mixy.ObjectB' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -357,7 +343,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     365,
@@ -370,7 +356,6 @@
             value: Atom('*
                  * Super-sweet method that's named in the comment, making this a virtual comment.
                  *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -383,7 +368,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             365,
@@ -394,7 +379,6 @@
                         ctxt: #0,
                     },
                     value: Atom('function' type=static),
-                    has_escape: false,
                 },
                 tag: Function(
                     FunctionTag {
@@ -408,7 +392,7 @@
                             ctxt: #0,
                         },
                         name: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         365,
@@ -419,7 +403,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('module:mixy.ObjectC.superSweet' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                     },
@@ -437,7 +420,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     545,
@@ -449,7 +432,6 @@
             },
             value: Atom('*
              * Class that mixes Object A, so it gets {' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -462,7 +444,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             545,
@@ -473,7 +455,6 @@
                         ctxt: #0,
                     },
                     value: Atom('link' type=inline),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -486,7 +467,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     545,
@@ -497,7 +478,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('module:mixy.ClassA#method}.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -514,7 +494,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     702,
@@ -525,7 +505,6 @@
                 ctxt: #0,
             },
             value: Atom('* Do a thing.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -539,7 +518,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     776,
@@ -551,7 +530,6 @@
             },
             value: Atom('*
              * Class that mixes Object C, so it gets {' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -564,7 +542,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             776,
@@ -575,7 +553,6 @@
                         ctxt: #0,
                     },
                     value: Atom('link' type=inline),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -588,7 +565,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     776,
@@ -599,7 +576,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('module:mixy.ClassB#method} and' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

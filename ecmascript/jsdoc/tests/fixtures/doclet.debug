@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -25,7 +25,6 @@
             
                 * List item 1.
                 * List item 2.' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -38,7 +37,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -49,7 +48,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -64,7 +62,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         0,
@@ -75,10 +73,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -89,7 +86,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('thingy - The thingy.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -106,7 +102,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     215,
@@ -123,7 +119,6 @@
              * * List item 1.
              * * List item 2.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -136,7 +131,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             215,
@@ -147,7 +142,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -162,7 +156,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         215,
@@ -173,10 +167,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     215,
@@ -187,7 +180,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('thingy - The thingy.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

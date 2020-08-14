@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -21,7 +21,6 @@
             },
             value: Atom('*
              * ES 2015 class assigned to a const' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

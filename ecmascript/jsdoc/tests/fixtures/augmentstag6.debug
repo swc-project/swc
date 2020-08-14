@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     15,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             15,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('interface' type=static),
-                    has_escape: false,
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -73,7 +71,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     60,
@@ -84,7 +82,6 @@
                 ctxt: #0,
             },
             value: Atom('* Open the connection.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -98,7 +95,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     133,
@@ -110,7 +107,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -123,7 +119,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             133,
@@ -134,7 +130,6 @@
                         ctxt: #0,
                     },
                     value: Atom('interface' type=static),
-                    has_escape: false,
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -148,7 +143,7 @@
                             ctxt: #0,
                         },
                         name: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         133,
@@ -159,7 +154,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('* @extends {IConnection}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                     },
@@ -177,7 +171,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     216,
@@ -188,7 +182,6 @@
                 ctxt: #0,
             },
             value: Atom('* Close the connection.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

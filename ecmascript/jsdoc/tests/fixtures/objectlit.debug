@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('* document me' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -34,7 +33,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     37,
@@ -45,7 +44,6 @@
                 ctxt: #0,
             },
             value: Atom('* document me' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -59,7 +57,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     82,
@@ -70,7 +68,6 @@
                 ctxt: #0,
             },
             value: Atom('* document me' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

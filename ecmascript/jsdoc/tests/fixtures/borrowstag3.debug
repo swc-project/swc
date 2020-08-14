@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     15,
@@ -22,7 +22,6 @@
             value: Atom('*
              * Remove whitespace from around a string.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -35,7 +34,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             15,
@@ -46,7 +45,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -61,7 +59,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         15,
@@ -72,10 +70,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     15,
@@ -86,7 +83,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('str' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -103,7 +99,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     131,
@@ -114,7 +110,6 @@
                 ctxt: #0,
             },
             value: Atom('* Hidden utility function.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -128,7 +123,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     200,
@@ -140,7 +135,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -153,7 +147,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             200,
@@ -164,7 +158,6 @@
                         ctxt: #0,
                     },
                     value: Atom('namespace' type=static),
-                    has_escape: false,
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -179,7 +172,7 @@
                         },
                         ty: None,
                         name: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         200,
@@ -190,7 +183,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('@borrows trstr as trim string' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                     },

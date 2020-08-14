@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -21,7 +21,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -34,7 +33,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -45,7 +44,6 @@
                         ctxt: #0,
                     },
                     value: Atom('classdesc' type=dynamic),
-                    has_escape: false,
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
@@ -58,7 +56,7 @@
                             ),
                             ctxt: #0,
                         },
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -69,7 +67,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('Toaster singleton.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -86,7 +83,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     156,
@@ -100,7 +97,6 @@
                  * Toast an item.
                  *
                  *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -113,7 +109,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             156,
@@ -124,7 +120,6 @@
                         ctxt: #0,
                     },
                     value: Atom('alias' type=inline),
-                    has_escape: false,
                 },
                 tag: Alias(
                     AliasTag {
@@ -148,7 +143,7 @@
                                 ctxt: #0,
                             },
                             components: [
-                                Str {
+                                Text {
                                     span: Span {
                                         lo: BytePos(
                                             156,
@@ -159,7 +154,6 @@
                                         ctxt: #0,
                                     },
                                     value: Atom('toast' type=inline),
-                                    has_escape: false,
                                 },
                             ],
                         },
@@ -178,7 +172,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     431,
@@ -192,7 +186,6 @@
                      * Get the Toaster instance.
                      *
                      *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -205,7 +198,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             431,
@@ -216,7 +209,6 @@
                         ctxt: #0,
                     },
                     value: Atom('alias' type=inline),
-                    has_escape: false,
                 },
                 tag: Alias(
                     AliasTag {
@@ -240,7 +232,7 @@
                                 ctxt: #0,
                             },
                             components: [
-                                Str {
+                                Text {
                                     span: Span {
                                         lo: BytePos(
                                             431,
@@ -251,7 +243,6 @@
                                         ctxt: #0,
                                     },
                                     value: Atom('Toaster' type=inline),
-                                    has_escape: false,
                                 },
                             ],
                         },
@@ -270,7 +261,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     811,
@@ -282,7 +273,6 @@
             },
             value: Atom('*
              * Waffle iron singleton.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -296,7 +286,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     891,
@@ -310,7 +300,6 @@
                  * Create the waffle iron.
                  *
                  *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -323,7 +312,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             891,
@@ -334,7 +323,6 @@
                         ctxt: #0,
                     },
                     value: Atom('hideconstructor' type=dynamic),
-                    has_escape: false,
                 },
                 tag: HideConstructor(
                     HideConstructorTag {
@@ -362,7 +350,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     1069,
@@ -376,7 +364,6 @@
                      * Cook a waffle.
                      *
                      *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -389,7 +376,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             1069,
@@ -400,7 +387,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -415,7 +401,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         1069,
@@ -426,10 +412,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{Batter}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     1069,
@@ -440,7 +425,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('batter - The waffle batter.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -457,7 +441,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     1308,
@@ -471,7 +455,6 @@
                  * Get the WaffleIron instance.
                  *
                  *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -484,7 +467,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             1308,
@@ -495,7 +478,6 @@
                         ctxt: #0,
                     },
                     value: Atom('return' type=static),
-                    has_escape: false,
                 },
                 tag: Return(
                     ReturnTag {
@@ -509,7 +491,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         1308,
@@ -520,10 +502,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{WaffleIron}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        description: Str {
+                        description: Text {
                             span: Span {
                                 lo: BytePos(
                                     1308,
@@ -534,7 +515,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('The WaffleIron instance.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),

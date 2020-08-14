@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructor' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -74,7 +72,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     45,
@@ -85,7 +83,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -98,7 +95,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             45,
@@ -109,7 +106,6 @@
                         ctxt: #0,
                     },
                     value: Atom('access' type=inline),
-                    has_escape: false,
                 },
                 tag: Access(
                     AccessTag {
@@ -122,7 +118,7 @@
                             ),
                             ctxt: #0,
                         },
-                        access: Str {
+                        access: Text {
                             span: Span {
                                 lo: BytePos(
                                     45,
@@ -133,7 +129,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('private' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -150,7 +145,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     90,
@@ -161,7 +156,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -174,7 +168,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             90,
@@ -185,7 +179,6 @@
                         ctxt: #0,
                     },
                     value: Atom('access' type=inline),
-                    has_escape: false,
                 },
                 tag: Access(
                     AccessTag {
@@ -198,7 +191,7 @@
                             ),
                             ctxt: #0,
                         },
-                        access: Str {
+                        access: Text {
                             span: Span {
                                 lo: BytePos(
                                     90,
@@ -209,7 +202,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('protected' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -226,7 +218,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     139,
@@ -237,7 +229,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -250,7 +241,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             139,
@@ -261,7 +252,6 @@
                         ctxt: #0,
                     },
                     value: Atom('access' type=inline),
-                    has_escape: false,
                 },
                 tag: Access(
                     AccessTag {
@@ -274,7 +264,7 @@
                             ),
                             ctxt: #0,
                         },
-                        access: Str {
+                        access: Text {
                             span: Span {
                                 lo: BytePos(
                                     139,
@@ -285,7 +275,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('public' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -302,7 +291,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     185,
@@ -313,7 +302,6 @@
                 ctxt: #0,
             },
             value: Atom('* nothing' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -327,7 +315,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     237,
@@ -338,7 +326,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -351,7 +338,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             237,
@@ -362,7 +349,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructor' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -392,7 +378,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     287,
@@ -403,7 +389,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -416,7 +401,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             287,
@@ -427,7 +412,6 @@
                         ctxt: #0,
                     },
                     value: Atom('private' type=static),
-                    has_escape: false,
                 },
                 tag: Private(
                     PrivateTag {
@@ -456,7 +440,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     325,
@@ -467,7 +451,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -480,7 +463,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             325,
@@ -491,7 +474,6 @@
                         ctxt: #0,
                     },
                     value: Atom('protected' type=static),
-                    has_escape: false,
                 },
                 tag: Protected(
                     ProtectedTag {
@@ -520,7 +502,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     367,
@@ -531,7 +513,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -544,7 +525,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             367,
@@ -555,7 +536,6 @@
                         ctxt: #0,
                     },
                     value: Atom('public' type=static),
-                    has_escape: false,
                 },
                 tag: Public(
                     PublicTag {
@@ -583,7 +563,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     406,
@@ -594,7 +574,6 @@
                 ctxt: #0,
             },
             value: Atom('* nothing' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

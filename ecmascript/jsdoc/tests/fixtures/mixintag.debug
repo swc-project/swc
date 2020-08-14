@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -24,7 +24,6 @@
              * be used directly, except as a provider of related methods.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -37,7 +36,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -48,7 +47,6 @@
                         ctxt: #0,
                     },
                     value: Atom('mixin' type=inline),
-                    has_escape: false,
                 },
                 tag: Mixin(
                     MixinTag {
@@ -61,7 +59,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -72,7 +70,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -89,7 +86,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     172,
@@ -100,7 +97,6 @@
                 ctxt: #0,
             },
             value: Atom('* fires something.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -114,7 +110,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     227,
@@ -125,7 +121,6 @@
                 ctxt: #0,
             },
             value: Atom('* handles a signal.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -139,7 +134,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     279,
@@ -151,7 +146,6 @@
             },
             value: Atom('*
              *' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -164,7 +158,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             279,
@@ -175,7 +169,6 @@
                         ctxt: #0,
                     },
                     value: Atom('constructor' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -189,7 +182,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         279,
@@ -200,7 +193,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('* @mixes Eventful' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                         name: None,

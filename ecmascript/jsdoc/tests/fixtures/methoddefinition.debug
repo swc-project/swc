@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     17,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('* Document me.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -34,7 +33,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     60,
@@ -45,7 +44,6 @@
                 ctxt: #0,
             },
             value: Atom('* Static document me.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

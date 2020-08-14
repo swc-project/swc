@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -21,7 +21,6 @@
             },
             value: Atom('*
              * Inline type info only.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -35,7 +34,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     52,
@@ -46,7 +45,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -59,7 +57,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             52,
@@ -70,7 +68,6 @@
                         ctxt: #0,
                     },
                     value: Atom('type' type=static),
-                    has_escape: false,
                 },
                 tag: Type(
                     TypeTag {
@@ -83,7 +80,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -94,7 +91,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -111,7 +107,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     85,
@@ -123,7 +119,6 @@
             },
             value: Atom('*
              * Inline type info that conflicts with `' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -136,7 +131,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             85,
@@ -147,7 +142,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -162,7 +156,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         85,
@@ -173,10 +167,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('tag' type=inline),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     85,
@@ -187,7 +180,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('*' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -204,7 +196,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     232,
@@ -215,7 +207,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -228,7 +219,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             232,
@@ -239,7 +230,6 @@
                         ctxt: #0,
                     },
                     value: Atom('type' type=static),
-                    has_escape: false,
                 },
                 tag: Type(
                     TypeTag {
@@ -252,7 +242,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -263,7 +253,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -280,7 +269,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     267,
@@ -294,7 +283,6 @@
              * Inline type info for leading param only.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -307,7 +295,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             267,
@@ -318,7 +306,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -333,7 +320,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         267,
@@ -344,10 +331,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     267,
@@ -358,7 +344,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('item' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -375,7 +360,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     363,
@@ -386,7 +371,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -399,7 +383,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             363,
@@ -410,7 +394,6 @@
                         ctxt: #0,
                     },
                     value: Atom('type' type=static),
-                    has_escape: false,
                 },
                 tag: Type(
                     TypeTag {
@@ -423,7 +406,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -434,7 +417,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -451,7 +433,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     409,
@@ -465,7 +447,6 @@
              * Inline type info for trailing param only.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -478,7 +459,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             409,
@@ -489,7 +470,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -504,7 +484,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         409,
@@ -515,10 +495,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{Dispenser}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     409,
@@ -529,7 +508,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('dispenser' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -546,7 +524,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     523,
@@ -557,7 +535,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -570,7 +547,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             523,
@@ -581,7 +558,6 @@
                         ctxt: #0,
                     },
                     value: Atom('type' type=static),
-                    has_escape: false,
                 },
                 tag: Type(
                     TypeTag {
@@ -594,7 +570,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -605,7 +581,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -622,7 +597,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     558,
@@ -636,7 +611,6 @@
              * Inline type info for inner param only.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -649,7 +623,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             558,
@@ -660,7 +634,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -675,7 +648,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         558,
@@ -686,10 +659,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{Dispenser}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     558,
@@ -700,7 +672,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('dispenser' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -717,7 +688,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     719,
@@ -728,7 +699,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -741,7 +711,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             719,
@@ -752,7 +722,6 @@
                         ctxt: #0,
                     },
                     value: Atom('type' type=static),
-                    has_escape: false,
                 },
                 tag: Type(
                     TypeTag {
@@ -765,7 +734,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -776,7 +745,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),

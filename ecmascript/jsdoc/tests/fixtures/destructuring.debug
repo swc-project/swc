@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -21,7 +21,6 @@
             },
             value: Atom('*
                 A builder function for the Stick application;' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -34,7 +33,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -45,7 +44,6 @@
                         ctxt: #0,
                     },
                     value: Atom('var' type=static),
-                    has_escape: false,
                 },
                 tag: Member(
                     MemberTag {
@@ -58,7 +56,7 @@
                             ),
                             ctxt: #0,
                         },
-                        ty: Str {
+                        ty: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -69,9 +67,8 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -82,7 +79,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('function' type=static),
-                            has_escape: false,
                         },
                     },
                 ),

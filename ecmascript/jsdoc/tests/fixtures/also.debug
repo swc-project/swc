@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -20,7 +20,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -33,7 +32,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -44,7 +43,6 @@
                         ctxt: #0,
                     },
                     value: Atom('class' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -74,7 +72,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     115,
@@ -88,7 +86,6 @@
              *
              * Set the value of the name property.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -101,7 +98,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             115,
@@ -112,7 +109,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -127,7 +123,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         115,
@@ -138,10 +134,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     115,
@@ -152,7 +147,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('newName' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -169,7 +163,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     194,
@@ -183,7 +177,6 @@
              *
              * Get the value of the name property.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -196,7 +189,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             194,
@@ -207,7 +200,6 @@
                         ctxt: #0,
                     },
                     value: Atom('returns' type=inline),
-                    has_escape: false,
                 },
                 tag: Return(
                     ReturnTag {
@@ -221,7 +213,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         194,
@@ -232,10 +224,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        description: Str {
+                        description: Text {
                             span: Span {
                                 lo: BytePos(
                                     194,
@@ -246,7 +237,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -263,7 +253,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     390,
@@ -276,7 +266,6 @@
             value: Atom('*
              * Set the value of the shape property.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -289,7 +278,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             390,
@@ -300,7 +289,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -315,7 +303,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         390,
@@ -326,10 +314,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     390,
@@ -340,7 +327,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('newShape' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -357,7 +343,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     465,
@@ -370,7 +356,6 @@
             value: Atom('*
              * Set the value of the shape property, plus some other property.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -383,7 +368,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             465,
@@ -394,7 +379,6 @@
                         ctxt: #0,
                     },
                     value: Atom('param' type=inline),
-                    has_escape: false,
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -409,7 +393,7 @@
                         },
                         name: None,
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         465,
@@ -420,10 +404,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        desc: Str {
+                        desc: Text {
                             span: Span {
                                 lo: BytePos(
                                     465,
@@ -434,7 +417,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('newShape' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -451,7 +433,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     601,
@@ -464,7 +446,6 @@
             value: Atom('*
              * Get the value of the shape property.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -477,7 +458,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             601,
@@ -488,7 +469,6 @@
                         ctxt: #0,
                     },
                     value: Atom('returns' type=inline),
-                    has_escape: false,
                 },
                 tag: Return(
                     ReturnTag {
@@ -502,7 +482,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         601,
@@ -513,10 +493,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{string}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        description: Str {
+                        description: Text {
                             span: Span {
                                 lo: BytePos(
                                     601,
@@ -527,7 +506,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),

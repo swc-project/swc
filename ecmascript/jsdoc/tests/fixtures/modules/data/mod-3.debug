@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     0,
@@ -21,7 +21,6 @@
             },
             value: Atom('*
                 My test module.' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -34,7 +33,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             0,
@@ -45,7 +44,6 @@
                         ctxt: #0,
                     },
                     value: Atom('module' type=static),
-                    has_escape: false,
                 },
                 tag: Module(
                     ModuleTag {
@@ -58,7 +56,7 @@
                             ),
                             ctxt: #0,
                         },
-                        name: Str {
+                        name: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -69,9 +67,8 @@
                                 ctxt: #0,
                             },
                             value: Atom('module' type=static),
-                            has_escape: false,
                         },
-                        ty: Str {
+                        ty: Text {
                             span: Span {
                                 lo: BytePos(
                                     0,
@@ -82,7 +79,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('my' type=inline),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -99,7 +95,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     75,
@@ -110,7 +106,6 @@
                 ctxt: #0,
             },
             value: Atom('*' type=inline),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -123,7 +118,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             75,
@@ -134,7 +129,6 @@
                         ctxt: #0,
                     },
                     value: Atom('undocumented' type=dynamic),
-                    has_escape: false,
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -147,7 +141,7 @@
                             ),
                             ctxt: #0,
                         },
-                        extras: Str {
+                        extras: Text {
                             span: Span {
                                 lo: BytePos(
                                     75,
@@ -158,7 +152,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('@alias module:my/module' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -175,7 +168,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     166,
@@ -186,7 +179,6 @@
                 ctxt: #0,
             },
             value: Atom('* Document a property.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -200,7 +192,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     230,
@@ -211,7 +203,6 @@
                 ctxt: #0,
             },
             value: Atom('* Document a method.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },

@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     15,
@@ -23,7 +23,6 @@
              * Generate the Fibonacci sequence of numbers.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -36,7 +35,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             15,
@@ -47,7 +46,6 @@
                         ctxt: #0,
                     },
                     value: Atom('yields' type=inline),
-                    has_escape: false,
                 },
                 tag: Yield(
                     YieldTag {
@@ -61,7 +59,7 @@
                             ctxt: #0,
                         },
                         value: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         15,
@@ -72,10 +70,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{number}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        description: Str {
+                        description: Text {
                             span: Span {
                                 lo: BytePos(
                                     15,
@@ -86,7 +83,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('The next number in the Fibonacci sequence.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -103,7 +99,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     162,
@@ -117,7 +113,6 @@
              * Generate the Fibonacci sequence of numbers.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -130,7 +125,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             162,
@@ -141,7 +136,6 @@
                         ctxt: #0,
                     },
                     value: Atom('yields' type=inline),
-                    has_escape: false,
                 },
                 tag: Yield(
                     YieldTag {
@@ -155,7 +149,7 @@
                             ctxt: #0,
                         },
                         value: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         162,
@@ -166,10 +160,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('The' type=inline),
-                                has_escape: false,
                             },
                         ),
-                        description: Str {
+                        description: Text {
                             span: Span {
                                 lo: BytePos(
                                     162,
@@ -180,7 +173,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('next number in the Fibonacci sequence.' type=dynamic),
-                            has_escape: false,
                         },
                     },
                 ),
@@ -197,7 +189,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     301,
@@ -211,7 +203,6 @@
              * Generate the Fibonacci sequence of numbers.
              *
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -224,7 +215,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             301,
@@ -235,7 +226,6 @@
                         ctxt: #0,
                     },
                     value: Atom('yields' type=inline),
-                    has_escape: false,
                 },
                 tag: Yield(
                     YieldTag {
@@ -249,7 +239,7 @@
                             ctxt: #0,
                         },
                         value: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         301,
@@ -260,10 +250,9 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('{number}' type=dynamic),
-                                has_escape: false,
                             },
                         ),
-                        description: Str {
+                        description: Text {
                             span: Span {
                                 lo: BytePos(
                                     301,
@@ -274,7 +263,6 @@
                                 ctxt: #0,
                             },
                             value: Atom('' type=static),
-                            has_escape: false,
                         },
                     },
                 ),

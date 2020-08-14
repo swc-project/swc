@@ -9,7 +9,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     15,
@@ -22,7 +22,6 @@
             value: Atom('*
              * Socket class.
              *' type=dynamic),
-            has_escape: false,
         },
         tags: [
             TagItem {
@@ -35,7 +34,7 @@
                     ),
                     ctxt: #0,
                 },
-                tag_name: Str {
+                tag_name: Text {
                     span: Span {
                         lo: BytePos(
                             15,
@@ -46,7 +45,6 @@
                         ctxt: #0,
                     },
                     value: Atom('class' type=static),
-                    has_escape: false,
                 },
                 tag: Class(
                     ClassTag {
@@ -60,7 +58,7 @@
                             ctxt: #0,
                         },
                         ty: Some(
-                            Str {
+                            Text {
                                 span: Span {
                                     lo: BytePos(
                                         15,
@@ -71,7 +69,6 @@
                                     ctxt: #0,
                                 },
                                 value: Atom('* @memberof module:network' type=dynamic),
-                                has_escape: false,
                             },
                         ),
                         name: None,
@@ -90,7 +87,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     100,
@@ -102,7 +99,6 @@
             },
             value: Atom('*
              * Open the socket.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
@@ -116,7 +112,7 @@
             ),
             ctxt: #0,
         },
-        description: Str {
+        description: Text {
             span: Span {
                 lo: BytePos(
                     168,
@@ -128,7 +124,6 @@
             },
             value: Atom('*
              * Unique identifier for `Socket` class.' type=dynamic),
-            has_escape: false,
         },
         tags: [],
     },
