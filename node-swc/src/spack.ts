@@ -1,10 +1,10 @@
-import { Options } from "../types";
+import { Options } from "./types";
 import * as path from 'path';
 
 export type BundleInput = BundleOptions | BundleOptions[];
 
-export async function compileBundleOptions(c: BundleInput | string | undefined): Promise<BundleInput> {
-    const f = c === undefined ? '.' : c;
+export async function compileBundleOptions(config: BundleInput | string | undefined): Promise<BundleInput> {
+    const f = config === undefined ? '.' : config;
 
     try {
         const file = typeof f === 'string' ? f : path.resolve('spack.config.js');
@@ -21,10 +21,10 @@ export async function compileBundleOptions(c: BundleInput | string | undefined):
             }
             return configFromFile;
         }
-        return Object.assign({}, configFromFile, c);
+        return Object.assign({}, configFromFile, config);
     } catch (e) {
         if (typeof f === 'string') {
-            throw new Error(`Config file does not exist at ${c}`)
+            throw new Error(`Error occurred while loading config file at ${config}: ${e}`);
         }
         return f;
     }
