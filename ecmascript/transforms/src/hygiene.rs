@@ -14,7 +14,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 struct Hygiene<'a> {
     current: Scope<'a>,
@@ -55,6 +55,10 @@ impl<'a> Hygiene<'a> {
     }
 
     fn add_used_ref(&mut self, ident: &Ident) {
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("Ident ref: {}{:?}", ident.sym, ident.span.ctxt);
+        }
+
         let ctxt = ident.span.ctxt();
 
         self.current
