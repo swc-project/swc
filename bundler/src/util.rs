@@ -1,4 +1,3 @@
-use fxhash::FxBuildHasher;
 use std::hash::Hash;
 use swc_common::{Span, SyntaxContext};
 use swc_ecma_visit::Fold;
@@ -10,9 +9,9 @@ where
     V: Clone,
 {
     #[cfg(feature = "concurrent")]
-    inner: dashmap::DashMap<K, V, FxBuildHasher>,
+    inner: dashmap::DashMap<K, V>,
     #[cfg(not(feature = "concurrent"))]
-    inner: std::cell::RefCell<std::collections::HashMap<K, V, FxBuildHasher>>,
+    inner: std::cell::RefCell<std::collections::HashMap<K, V>>,
 }
 
 impl<K, V> Default for CloneMap<K, V>

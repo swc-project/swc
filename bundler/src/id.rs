@@ -1,5 +1,5 @@
-use fxhash::FxHashMap;
 use std::{
+    collections::HashMap,
     fmt,
     sync::atomic::{AtomicU64, Ordering::SeqCst},
 };
@@ -20,7 +20,7 @@ impl fmt::Display for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU64,
-    cache: Lock<FxHashMap<FileName, (ModuleId, Mark)>>,
+    cache: Lock<HashMap<FileName, (ModuleId, Mark)>>,
 }
 
 impl ModuleIdGenerator {

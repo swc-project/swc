@@ -29,7 +29,6 @@ anyhow = "1"
 dashmap = "3"
 log = "0.4.8"
 node-resolve = "2.2.0"
-fxhash = "0.2.1"
 is-macro = "0.1.8"
 neon = { version = "0.4.0", features = ["event-handler-api"] }
 neon-sys = "0.4.0"

@@ -32,7 +32,6 @@ petgraph = "0.5"
 once_cell = "1"
 dashmap = { version = "3", optional = true }
 rayon = { version = "1", optional = true }
-fxhash = "0.2.1"
 is-macro = "0.1"
 
 [dev-dependencies]

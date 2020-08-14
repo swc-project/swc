@@ -1,6 +1,5 @@
 use anyhow::Error;
-use fxhash::FxHashMap;
-use std::io::stdout;
+use std::{collections::HashMap, io::stdout};
 use swc_bundler::{BundleKind, Bundler, Config, Load, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -23,7 +22,7 @@ fn main() {
             external_modules,
         },
     );
-    let mut entries = FxHashMap::default();
+    let mut entries = HashMap::default();
     entries.insert("main".to_string(), FileName::Real("assets/main.js".into()));
 
     let mut bundles = bundler.bundle(entries).expect("failed to bundle");

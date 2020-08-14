@@ -4,9 +4,8 @@ pub use self::{
     output::OutputConfig,
     resolve::{AliasConfig, ResolveConfig},
 };
-use fxhash::FxHashMap;
 use serde::Deserialize;
-use std::{fmt, marker::PhantomData, path::PathBuf};
+use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
 use swc_common::FileName;
 
@@ -62,12 +61,12 @@ impl Default for Mode {
 pub enum EntryConfig {
     File(String),
     Multiple(Vec<String>),
-    Files(FxHashMap<String, PathBuf>),
+    Files(HashMap<String, PathBuf>),
 }
 
-impl From<EntryConfig> for FxHashMap<String, FileName> {
+impl From<EntryConfig> for HashMap<String, FileName> {
     fn from(c: EntryConfig) -> Self {
-        let mut m = FxHashMap::default();
+        let mut m = HashMap::default();
 
         match c {
             EntryConfig::File(f) => {

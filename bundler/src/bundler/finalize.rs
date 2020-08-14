@@ -1,8 +1,10 @@
 use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, Resolve};
 use anyhow::Error;
-use fxhash::FxHashMap;
 use relative_path::RelativePath;
-use std::path::{Path, PathBuf};
+use std::{
+    collections::HashMap,
+    path::{Path, PathBuf},
+};
 use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::{ImportDecl, Str};
 use swc_ecma_transforms::noop_fold_type;
@@ -20,7 +22,7 @@ where
     pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         self.run(|| {
             let mut new = Vec::with_capacity(bundles.len());
-            let mut renamed = FxHashMap::default();
+            let mut renamed = HashMap::default();
 
             for mut bundle in bundles {
                 match bundle.kind {
@@ -116,7 +118,7 @@ where
 {
     resolver: R,
     base: &'a PathBuf,
-    renamed: &'a FxHashMap<PathBuf, String>,
+    renamed: &'a HashMap<PathBuf, String>,
 }
 
 noop_fold_type!(Renamer<'_, '_>);
