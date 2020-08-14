@@ -10,7 +10,7 @@ use nom::{
     error::ErrorKind,
     IResult, InputIter, Slice,
 };
-use swc_common::{Span, Spanned, SyntaxContext};
+use swc_common::{BytePos, Span, Spanned, SyntaxContext};
 use swc_ecma_ast::Str;
 
 pub mod ast;
@@ -18,15 +18,20 @@ pub mod ast;
 pub fn parse(start: BytePos, end: BytePos, i: &str) -> IResult<&str, JsDoc> {}
 pub fn parse(i: Input) -> IResult<Input, JsDoc> {}
 pub fn parse(i: Input) -> IResult<Input, JsDoc> {
+    let i = skip(i);
+
     let mut tags = vec![];
     let lo = i.span().lo;
-    let (mut i, description) = take_while(|c| c != '@')(i)?;
-    let description = description.into();
+    let (description, mut i) = take_while(|c| c != '@')(i)?;
+    let description = trim(description).into();
+
+    i = skip(i);
 
     while i.starts_with('@') {
         let (input, tag) = parse_tag_item(i)?;
         i = input;
         tags.push(tag);
+        i = skip(i);
     }
 
     let hi = i.span().hi;
@@ -938,6 +943,17 @@ fn parse_type(i: Input) -> IResult<Input, Str> {
 
 // ----- ----- Done ----- -----
 
+fn trim(i: Input) -> Input {
+    let prev_len = i.len();
+    let new_str = i.trim_start();
+
+    let start = prev_len - new_str.len();
+
+    let end = i.trim_end().len();
+
+    i.slice(start..end)
+}
+
 fn parse_opt_type(i: Input) -> IResult<Input, Option<Str>> {
     let i = skip_ws(i);
     if i.starts_with('{') {
@@ -1095,6 +1111,21 @@ mod tests {
     }
 
     #[test]
+    fn access_tag() {
+        let (i, ret) = parse(input(
+            " Give x another name.
+        @alias myObject
+        @namespace
+     ",
+        ))
+        .unwrap();
+
+        assert_eq!(&*ret.description.value, "Give x another name.");
+        assert_eq!(ret.tags.len(), 2);
+        assert_eq!(&*skip(i), "");
+    }
+
+    #[test]
     fn abstract_tag() {
         let (i, ret) = parse_tag_item(input(
             "
@@ -1132,6 +1163,13 @@ mod tests {
         }
 
         assert_eq!(&*skip(i), "");
+    }
+
+    #[test]
+    fn trim_1() {
+        assert_eq!(&*trim(input(" foo ")), "foo");
+        assert_eq!(&*trim(input("foo ")), "foo");
+        assert_eq!(&*trim(input(" foo")), "foo");
     }
 
     #[test]
