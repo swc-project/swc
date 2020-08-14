@@ -14,7 +14,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 struct Hygiene<'a> {
     current: Scope<'a>,
@@ -61,12 +61,14 @@ impl<'a> Hygiene<'a> {
 
         let ctxt = ident.span.ctxt();
 
-        self.current
-            .declared_symbols
-            .borrow_mut()
-            .entry(ident.sym.clone())
-            .or_insert_with(Vec::new)
-            .push(ctxt);
+        // Commented out because of https://github.com/swc-project/swc/issues/962
+
+        // self.current
+        //     .declared_symbols
+        //     .borrow_mut()
+        //     .entry(ident.sym.clone())
+        //     .or_insert_with(Vec::new)
+        //     .push(ctxt);
 
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
