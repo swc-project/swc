@@ -10,7 +10,7 @@ use nom::{
     error::ErrorKind,
     IResult, InputIter, Slice,
 };
-use swc_common::{BytePos, Span, Spanned, SyntaxContext};
+use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::Str;
 
 pub mod ast;
