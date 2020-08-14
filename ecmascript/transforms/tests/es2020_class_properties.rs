@@ -3488,7 +3488,7 @@ var _myAsyncMethod1 = new WeakMap();
 
 class MyClass3{
     constructor(){
-        _myAsyncMethod.set(this, {
+        _myAsyncMethod2.set(this, {
             writable: true,
             value: (function() {
                 var _ref = _asyncToGenerator((function*() {
@@ -3501,7 +3501,7 @@ class MyClass3{
         });
     }
 }
-var _myAsyncMethod = new WeakMap();
+var _myAsyncMethod2 = new WeakMap();
 export { MyClass3 as default }
 
 "#

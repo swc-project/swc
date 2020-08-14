@@ -54,15 +54,21 @@ impl<'a> Hygiene<'a> {
         self.rename(sym, ctxt);
     }
 
-    fn add_used_ref(&mut self, ident: Ident) {
+    fn add_used_ref(&mut self, ident: &Ident) {
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("Ident ref: {}{:?}", ident.sym, ident.span.ctxt);
+        }
+
         let ctxt = ident.span.ctxt();
 
-        self.current
-            .declared_symbols
-            .borrow_mut()
-            .entry(ident.sym.clone())
-            .or_insert_with(Vec::new)
-            .push(ctxt);
+        // Commented out because of https://github.com/swc-project/swc/issues/962
+
+        // self.current
+        //     .declared_symbols
+        //     .borrow_mut()
+        //     .entry(ident.sym.clone())
+        //     .or_insert_with(Vec::new)
+        //     .push(ctxt);
 
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
@@ -595,7 +601,7 @@ impl<'a> Fold for Hygiene<'a> {
                     return i;
                 }
 
-                self.add_used_ref(i.clone());
+                self.add_used_ref(&i);
             }
             IdentType::Label => {
                 // We currently does not touch labels

@@ -1184,92 +1184,92 @@ fn exported_class_1() {
     );
 }
 
-#[test]
-fn issue_598() {
-    test_module(
-        |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+// #[test]
+// fn issue_598() {
+//     test_module(
+//         |tester| {
+//             let mark1 = Mark::fresh(Mark::root());
+//             let mark2 = Mark::fresh(Mark::root());
 
-            Ok(tester
-                .parse_module(
-                    "actual1.js",
-                    "export function foo() {
-    console.log(i18n(_templateObject()));
-    console.log(i18n(_templateObject()));
-}",
-                )?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "_templateObject",
-                    &[mark1, mark2],
-                )])))
-        },
-        "export function foo() {
-    console.log(i18n(_templateObject1()));
-    console.log(i18n(_templateObject()));
-}",
-    );
-}
+//             Ok(tester
+//                 .parse_module(
+//                     "actual1.js",
+//                     "export function foo() {
+//     console.log(i18n(_templateObject()));
+//     console.log(i18n(_templateObject()));
+// }",
+//                 )?
+//                 .fold_with(&mut OnceMarker::new(&[(
+//                     "_templateObject",
+//                     &[mark1, mark2],
+//                 )])))
+//         },
+//         "export function foo() {
+//     console.log(i18n(_templateObject1()));
+//     console.log(i18n(_templateObject()));
+// }",
+//     );
+// }
 
-#[test]
-fn issue_598_2() {
-    test_module(
-        |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
-            let mark3 = Mark::fresh(Mark::root());
+// #[test]
+// fn issue_598_2() {
+//     test_module(
+//         |tester| {
+//             let mark1 = Mark::fresh(Mark::root());
+//             let mark2 = Mark::fresh(Mark::root());
+//             let mark3 = Mark::fresh(Mark::root());
 
-            Ok(tester
-                .parse_module(
-                    "actual1.js",
-                    "export function foo() {
-    console.log(i18n(_templateObject()));
-    console.log(i18n(_templateObject()));
-    console.log(i18n(_templateObject()));
-}",
-                )?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "_templateObject",
-                    &[mark1, mark2, mark3],
-                )])))
-        },
-        "export function foo() {
-    console.log(i18n(_templateObject1()));
-    console.log(i18n(_templateObject2()));
-    console.log(i18n(_templateObject()));
-}",
-    );
-}
+//             Ok(tester
+//                 .parse_module(
+//                     "actual1.js",
+//                     "export function foo() {
+//     console.log(i18n(_templateObject()));
+//     console.log(i18n(_templateObject()));
+//     console.log(i18n(_templateObject()));
+// }",
+//                 )?
+//                 .fold_with(&mut OnceMarker::new(&[(
+//                     "_templateObject",
+//                     &[mark1, mark2, mark3],
+//                 )])))
+//         },
+//         "export function foo() {
+//     console.log(i18n(_templateObject1()));
+//     console.log(i18n(_templateObject2()));
+//     console.log(i18n(_templateObject()));
+// }",
+//     );
+// }
 
-#[test]
-fn issue_598_3() {
-    test_module(
-        |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
-            let mark3 = Mark::fresh(Mark::root());
-            let mark4 = Mark::fresh(Mark::root());
+// #[test]
+// fn issue_598_3() {
+//     test_module(
+//         |tester| {
+//             let mark1 = Mark::fresh(Mark::root());
+//             let mark2 = Mark::fresh(Mark::root());
+//             let mark3 = Mark::fresh(Mark::root());
+//             let mark4 = Mark::fresh(Mark::root());
 
-            Ok(tester
-                .parse_module(
-                    "actual1.js",
-                    "export function foo() {
-    console.log(i18n(_templateObject()));
-    console.log(i18n(_templateObject()));
-    console.log(i18n(_templateObject()));
-    console.log(i18n(_templateObject()));
-}",
-                )?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "_templateObject",
-                    &[mark1, mark2, mark3, mark4],
-                )])))
-        },
-        "export function foo() {
-    console.log(i18n(_templateObject1()));
-    console.log(i18n(_templateObject2()));
-    console.log(i18n(_templateObject3()));
-    console.log(i18n(_templateObject()));
-}",
-    );
-}
+//             Ok(tester
+//                 .parse_module(
+//                     "actual1.js",
+//                     "export function foo() {
+//     console.log(i18n(_templateObject()));
+//     console.log(i18n(_templateObject()));
+//     console.log(i18n(_templateObject()));
+//     console.log(i18n(_templateObject()));
+// }",
+//                 )?
+//                 .fold_with(&mut OnceMarker::new(&[(
+//                     "_templateObject",
+//                     &[mark1, mark2, mark3, mark4],
+//                 )])))
+//         },
+//         "export function foo() {
+//     console.log(i18n(_templateObject1()));
+//     console.log(i18n(_templateObject2()));
+//     console.log(i18n(_templateObject3()));
+//     console.log(i18n(_templateObject()));
+// }",
+//     );
+// }
