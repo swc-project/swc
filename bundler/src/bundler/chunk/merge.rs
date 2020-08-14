@@ -14,7 +14,9 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, undefined, DestructuringFinder, ExprFactory, StmtLike};
+use swc_ecma_utils::{
+    find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
+};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -94,18 +96,20 @@ where
                     });
 
                     if self.config.require {
-                        // Change require() call to load()
-                        let load_var = Ident::new(
-                            "load".into(),
-                            DUMMY_SP
-                                .apply_mark(self.top_level_mark)
-                                .apply_mark(self.scope.get_module(src.module_id).unwrap().mark()),
-                        );
+                        // TODO: Change require() call to load()
+                        //
+                        // let load_var = Ident::new(
+                        //     "load".into(),
+                        //     DUMMY_SP
+                        //         .apply_mark(self.top_level_mark)
+                        //         .apply_mark(self.scope.get_module(src.
+                        // module_id).unwrap().mark()),
+                        // );
 
-                        entry.body.visit_mut_with(&mut RequireReplacer {
-                            src: src.src.value.clone(),
-                            load_var,
-                        })
+                        // entry.body.visit_mut_with(&mut RequireReplacer {
+                        //     src: src.src.value.clone(),
+                        //     load_var,
+                        // })
                     }
 
                     continue;
@@ -239,8 +243,7 @@ where
                         //
                         // As usual, this behavior depends on hygiene.
 
-                        let load_var =
-                            Ident::new("load".into(), DUMMY_SP.apply_mark(imported.mark()));
+                        let load_var = private_ident!("load");
 
                         {
                             // ... body of foo
