@@ -1,5 +1,5 @@
 use crate::id::Id;
-use fxhash::FxHashSet;
+use std::collections::HashSet;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
@@ -15,7 +15,7 @@ pub fn top_level_ident_folder(top_level_mark: Mark, module_mark: Mark) -> impl '
 #[derive(Default)]
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
-    binding_idents: FxHashSet<Id>,
+    binding_idents: HashSet<Id>,
 }
 
 /// Modifies mark of top-level identifiers so they can be merged cleanly.

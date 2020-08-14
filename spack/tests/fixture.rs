@@ -2,9 +2,9 @@
 
 extern crate test;
 
-use fxhash::FxHashMap;
 use spack::{loaders::swc::SwcLoader, resolvers::NodeResolver};
 use std::{
+    collections::HashMap,
     env,
     fs::{create_dir_all, read_dir},
     io::{self},
@@ -98,7 +98,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     FileName::Real(e.path()),
                 ))
             })
-            .collect::<Result<FxHashMap<_, _>, _>>()?;
+            .collect::<Result<HashMap<_, _>, _>>()?;
 
         let name = format!(
             "fixture::{}::{}",

@@ -3,7 +3,7 @@ use super::{
     Bundler,
 };
 use crate::{id::Id, load::Load, resolve::Resolve};
-use fxhash::FxHashMap;
+use std::collections::HashMap;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -36,13 +36,13 @@ where
 #[derive(Debug, Default)]
 pub(super) struct RawExports {
     /// Key is None if it's exported from the module itself.
-    pub items: FxHashMap<Option<Str>, Vec<Specifier>>,
+    pub items: HashMap<Option<Str>, Vec<Specifier>>,
 }
 
 #[derive(Debug, Default)]
 pub(super) struct Exports {
     pub items: Vec<Specifier>,
-    pub reexports: FxHashMap<Source, Vec<Specifier>>,
+    pub reexports: HashMap<Source, Vec<Specifier>>,
 }
 
 #[derive(Debug, Default)]

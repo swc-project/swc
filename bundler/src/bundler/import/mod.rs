@@ -1,8 +1,10 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
-use fxhash::{FxHashMap, FxHashSet};
-use std::mem::replace;
+use std::{
+    collections::{HashMap, HashSet},
+    mem::replace,
+};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -101,9 +103,9 @@ where
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    forces_ns: FxHashSet<JsWord>,
+    forces_ns: HashSet<JsWord>,
 
-    ns_usage: FxHashMap<JsWord, Vec<Id>>,
+    ns_usage: HashMap<JsWord, Vec<Id>>,
 
     deglob_phase: bool,
 }

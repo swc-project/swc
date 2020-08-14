@@ -3,10 +3,10 @@ use crate::{
     id::ModuleId, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle, BundleKind,
 };
 use anyhow::{Context, Error};
-use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use std::collections::{HashMap, HashSet};
 use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
 use swc_ecma_visit::FoldWith;
 
@@ -30,9 +30,9 @@ struct Metadata {
 
 #[derive(Debug, Default)]
 struct State {
-    synchronously_included: FxHashSet<ModuleId>,
-    dynamic_entries: FxHashSet<ModuleId>,
-    common_libs: FxHashSet<ModuleId>,
+    synchronously_included: HashSet<ModuleId>,
+    dynamic_entries: HashSet<ModuleId>,
+    common_libs: HashSet<ModuleId>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -47,7 +47,7 @@ where
     /// For first, we load all dependencies and determine all entries.
     pub(super) fn chunk(
         &self,
-        entries: FxHashMap<String, TransformedModule>,
+        entries: HashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         let entries = self.determine_entries(entries);
 
@@ -74,7 +74,7 @@ where
 
     fn determine_entries(
         &self,
-        mut entries: FxHashMap<String, TransformedModule>,
+        mut entries: HashMap<String, TransformedModule>,
     ) -> Vec<(BundleKind, ModuleId, Vec<ModuleId>)> {
         let mut graph = ModuleGraph::default();
         let mut kinds = vec![];
@@ -84,7 +84,7 @@ where
             self.add_to_graph(&mut graph, module.id);
         }
 
-        let mut metadata = FxHashMap::<ModuleId, Metadata>::default();
+        let mut metadata = HashMap::<ModuleId, Metadata>::default();
 
         // Draw dependency graph
         for (_, id) in &kinds {
@@ -114,7 +114,7 @@ where
             }
         }
 
-        let mut chunks: FxHashMap<_, Vec<_>> = FxHashMap::default();
+        let mut chunks: HashMap<_, Vec<_>> = HashMap::default();
 
         for (_, id) in &kinds {
             let mut bfs = Bfs::new(&graph, *id);
