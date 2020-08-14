@@ -14,6 +14,8 @@ use std::{
 use swc::config::SourceMapsConfig;
 use swc_bundler::{BundleKind, Bundler, Config};
 use swc_common::{FileName, GLOBALS};
+use swc_ecma_transforms::fixer;
+use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -181,7 +183,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
                     for bundled in modules {
                         let code = compiler
-                            .print(&bundled.module, SourceMapsConfig::Bool(false), None, false)
+                            .print(
+                                &bundled.module.fold_with(&mut fixer(None)),
+                                SourceMapsConfig::Bool(false),
+                                None,
+                                false,
+                            )
                             .expect("failed to print?")
                             .code;
 
