@@ -54,6 +54,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
     let (_, i) = tag("@")(i)?;
 
     let (mut i, tag_name) = parse_word(i)?;
+    i = skip_ws(i);
 
     let span = tag_name.span();
     let tag = match &*tag_name.value {
@@ -1094,7 +1095,23 @@ mod tests {
     }
 
     #[test]
-    fn yield_tag() {
+    fn abstract_tag() {
+        let (i, ret) = parse_tag_item(input(
+            "
+        * @abstract ",
+        ))
+        .unwrap();
+
+        match ret.tag {
+            Tag::Abstract(..) => {}
+            _ => panic!("Invalid tag: {:?}", ret.tag),
+        }
+
+        assert_eq!(&*skip(i), "");
+    }
+
+    #[test]
+    fn yield_tag_1() {
         let (i, ret) = parse_tag_item(input(
             "
         *
