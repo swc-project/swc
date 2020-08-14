@@ -85,7 +85,7 @@ where
                                 if info.imports.specifiers.iter().any(|v| {
                                     v.0.module_id == src.module_id && v.0.src == import.src
                                 }) {
-                                    log::debug!("Dropping import");
+                                    log::debug!("Dropping es6 import as it's already merged");
                                     return false;
                                 }
                             }
@@ -122,6 +122,7 @@ where
                     //
                     // a <- b + chunk(c)
                     //
+                    log::trace!("merging dep: {:?} <- {:?}", src, targets);
                     let mut dep =
                         self.merge_modules(src.module_id, targets)
                             .with_context(|| {
