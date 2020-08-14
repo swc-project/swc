@@ -931,24 +931,24 @@ fn parse_str(i: Input) -> IResult<Input, Str> {
     parse_line(i)
 }
 
+fn parse_type(i: Input) -> IResult<Input, Str> {
+    parse_line(i)
+}
+
+// ----- ----- Done ----- -----
+
 fn parse_opt_type(i: Input) -> IResult<Input, Option<Str>> {
     let i = skip_ws(i);
     if i.starts_with('{') {
         if let Some(pos) = i.find('}') {
-            let i = i.slice(pos..);
-            let ret = i.slice(..pos);
+            let ret = i.slice(..pos + 1);
+            let i = i.slice(pos + 1..);
             return Ok((i, Some(ret.into())));
         }
     }
 
     parse_opt_word(i)
 }
-
-fn parse_type(i: Input) -> IResult<Input, Str> {
-    parse_line(i)
-}
-
-// ----- ----- Done ----- -----
 
 fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Str> {
     for &item in list {
@@ -1022,6 +1022,7 @@ fn parse_word(i: Input) -> IResult<Input, Str> {
 }
 
 fn parse_line(i: Input) -> IResult<Input, Str> {
+    let i = skip_ws(i);
     let res = i.iter_indices().find(|(_, c)| *c == '\n' || *c == '\r');
 
     if let Some((idx, _)) = res {
@@ -1104,7 +1105,6 @@ mod tests {
 
         match ret.tag {
             Tag::Yield(tag) => {
-                print!("{:?}", tag.description);
                 assert_eq!(tag.value.as_ref().map(|v| &*v.value), Some("{number}"));
                 assert_eq!(
                     &*tag.description.value,
