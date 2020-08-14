@@ -72,4 +72,4 @@ jobs:
       - name: (spack) example react app
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          (cd spack/integration-tests/react && npm i && npm link @swc/core && npx spack)
+          (cd spack/integration-tests/react && npm i && npm link && npx spack)
