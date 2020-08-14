@@ -1,0 +1,112 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                19,
+            ),
+            hi: BytePos(
+                28,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    19,
+                ),
+                hi: BytePos(
+                    20,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*' type=inline),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        19,
+                    ),
+                    hi: BytePos(
+                        24,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            19,
+                        ),
+                        hi: BytePos(
+                            24,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('alias' type=inline),
+                },
+                tag: Alias(
+                    AliasTag {
+                        span: Span {
+                            lo: BytePos(
+                                19,
+                            ),
+                            hi: BytePos(
+                                24,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    19,
+                                ),
+                                hi: BytePos(
+                                    28,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            19,
+                                        ),
+                                        hi: BytePos(
+                                            21,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('ns' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                67,
+            ),
+            hi: BytePos(
+                67,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    67,
+                ),
+                hi: BytePos(
+                    80,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('* document me' type=dynamic),
+        },
+        tags: [],
+    },
+]

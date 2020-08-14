@@ -1,0 +1,228 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    46,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                Describe your constructor function here.' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        25,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('Describe your class here.' type=dynamic),
+                            },
+                        ),
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        12,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('@constructor' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        8,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    3,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('url' type=inline),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('throws' type=inline),
+                },
+                tag: Throw(
+                    ThrowTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    12,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('MalformedURL' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                180,
+            ),
+            hi: BytePos(
+                180,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    180,
+                ),
+                hi: BytePos(
+                    212,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                Document your method here.' type=dynamic),
+        },
+        tags: [],
+    },
+]

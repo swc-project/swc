@@ -1,0 +1,76 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                35,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    4,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             *' type=inline),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        8,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            8,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('overview' type=dynamic),
+                },
+                tag: File(
+                    FilelTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                8,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    22,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('This is a file doclet.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

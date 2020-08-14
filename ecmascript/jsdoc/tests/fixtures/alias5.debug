@@ -1,0 +1,335 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    29,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+             * Toaster singleton.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                128,
+            ),
+            hi: BytePos(
+                193,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    128,
+                ),
+                hi: BytePos(
+                    165,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                 * Toast an item.
+                 *
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        128,
+                    ),
+                    hi: BytePos(
+                        133,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            128,
+                        ),
+                        hi: BytePos(
+                            133,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('alias' type=inline),
+                },
+                tag: Alias(
+                    AliasTag {
+                        span: Span {
+                            lo: BytePos(
+                                128,
+                            ),
+                            hi: BytePos(
+                                133,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    128,
+                                ),
+                                hi: BytePos(
+                                    193,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            128,
+                                        ),
+                                        hi: BytePos(
+                                            135,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Toaster' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                305,
+            ),
+            hi: BytePos(
+                347,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    305,
+                ),
+                hi: BytePos(
+                    346,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                 * Clean the toaster.
+                 *
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        305,
+                    ),
+                    hi: BytePos(
+                        310,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            305,
+                        ),
+                        hi: BytePos(
+                            310,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('alias' type=inline),
+                },
+                tag: Alias(
+                    AliasTag {
+                        span: Span {
+                            lo: BytePos(
+                                305,
+                            ),
+                            hi: BytePos(
+                                310,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    305,
+                                ),
+                                hi: BytePos(
+                                    352,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            305,
+                                        ),
+                                        hi: BytePos(
+                                            310,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('clean' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                479,
+            ),
+            hi: BytePos(
+                552,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    479,
+                ),
+                hi: BytePos(
+                    539,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('*
+                     * Get the Toaster instance.
+                     *
+                     *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        479,
+                    ),
+                    hi: BytePos(
+                        484,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            479,
+                        ),
+                        hi: BytePos(
+                            484,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('alias' type=inline),
+                },
+                tag: Alias(
+                    AliasTag {
+                        span: Span {
+                            lo: BytePos(
+                                479,
+                            ),
+                            hi: BytePos(
+                                484,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    479,
+                                ),
+                                hi: BytePos(
+                                    552,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            479,
+                                        ),
+                                        hi: BytePos(
+                                            486,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Toaster' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]
