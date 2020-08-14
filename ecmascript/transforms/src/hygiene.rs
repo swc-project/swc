@@ -54,7 +54,7 @@ impl<'a> Hygiene<'a> {
         self.rename(sym, ctxt);
     }
 
-    fn add_used_ref(&mut self, ident: Ident) {
+    fn add_used_ref(&mut self, ident: &Ident) {
         let ctxt = ident.span.ctxt();
 
         self.current
@@ -595,7 +595,7 @@ impl<'a> Fold for Hygiene<'a> {
                     return i;
                 }
 
-                self.add_used_ref(i.clone());
+                self.add_used_ref(&i);
             }
             IdentType::Label => {
                 // We currently does not touch labels
