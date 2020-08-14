@@ -77,7 +77,7 @@ impl Load for SwcLoader {
                         None
                     }
                 },
-                disable_hygiene: true,
+                disable_hygiene: false,
                 disable_fixer: true,
                 global_mark: self.options.global_mark,
                 cwd: self.options.cwd.clone(),
@@ -113,20 +113,18 @@ impl Load for SwcLoader {
         log::trace!("JsLoader.load: parsed");
 
         // Fold module
-        let program = self.compiler.run(|| {
-            helpers::HELPERS.set(&Helpers::new(true), || {
-                swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
-                    let program = program.fold_with(&mut InlineGlobals {
-                        envs: env_map(),
-                        globals: Default::default(),
-                    });
-                    let program = program.fold_with(&mut expr_simplifier());
-                    let program = program.fold_with(&mut dead_branch_remover());
+        let program = helpers::HELPERS.set(&Helpers::new(true), || {
+            swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
+                let program = program.fold_with(&mut InlineGlobals {
+                    envs: env_map(),
+                    globals: Default::default(),
+                });
+                let program = program.fold_with(&mut expr_simplifier());
+                let program = program.fold_with(&mut dead_branch_remover());
 
-                    let program = program.fold_with(&mut config.pass);
+                let program = program.fold_with(&mut config.pass);
 
-                    program
-                })
+                program
             })
         });
 
