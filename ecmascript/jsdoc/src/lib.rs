@@ -932,6 +932,15 @@ fn parse_str(i: Input) -> IResult<Input, Str> {
 }
 
 fn parse_opt_type(i: Input) -> IResult<Input, Option<Str>> {
+    let i = skip_ws(i);
+    if i.starts_with('{') {
+        if let Some(pos) = i.find('}') {
+            let i = i.slice(pos..);
+            let ret = i.slice(..pos);
+            return Ok((i, Some(ret.into())));
+        }
+    }
+
     parse_opt_word(i)
 }
 
@@ -1025,6 +1034,24 @@ fn parse_line(i: Input) -> IResult<Input, Str> {
     }
 }
 
+/// Skips whitespace
+///
+/// This function does not handle newline nor *.
+fn skip_ws(i: Input) -> Input {
+    let mut index = 0;
+
+    for (idx, c) in i.char_indices() {
+        if c == ' ' {
+            index = idx + 1;
+            continue;
+        }
+
+        break;
+    }
+
+    i.slice(index..)
+}
+
 /// Skips whitespace and * at line start
 fn skip(i: Input) -> Input {
     //
@@ -1078,6 +1105,7 @@ mod tests {
         match ret.tag {
             Tag::Yield(tag) => {
                 print!("{:?}", tag.description);
+                assert_eq!(tag.value.as_ref().map(|v| &*v.value), Some("{number}"));
                 assert_eq!(
                     &*tag.description.value,
                     "The next number in the Fibonacci sequence."
