@@ -84,8 +84,7 @@ where
 
             // Do tasks in parallel, and then wait for result
             for result in results {
-                let res = result?;
-                dbg!(res.is_none());
+                result?;
             }
 
             Ok(Some(v))
