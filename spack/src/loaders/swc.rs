@@ -4,6 +4,8 @@ use swc_bundler::Load;
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::{Module, Program};
 use swc_ecma_parser::JscTarget;
+use swc_ecma_transforms::optimization::simplify::{dead_branch_remover, expr_simplifier};
+use swc_ecma_visit::FoldWith;
 
 /// JavaScript loader
 pub struct SwcLoader {
@@ -80,6 +82,10 @@ impl Load for SwcLoader {
         log::trace!("JsLoader.load: parsed");
 
         let program = self.compiler.transform(program, true, config.pass);
+
+        let program = program
+            .fold_with(&mut expr_simplifier())
+            .fold_with(&mut dead_branch_remover());
 
         log::trace!("JsLoader.load: applied transforms");
 
