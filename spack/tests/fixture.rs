@@ -119,8 +119,9 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
 
             testing::run_test2(false, |cm, handler| {
-                GLOBALS.with(|globals| {
-                    let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+                let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+
+                GLOBALS.set(compiler.globals(), || {
                     let loader = SwcLoader::new(
                         compiler.clone(),
                         swc::config::Options {
@@ -129,7 +130,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         },
                     );
                     let bundler = Bundler::new(
-                        globals,
+                        compiler.globals(),
                         cm.clone(),
                         &loader,
                         NodeResolver::new(),
