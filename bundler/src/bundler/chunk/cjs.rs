@@ -35,16 +35,13 @@ where
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
             ctxt: SyntaxContext::empty().apply_mark(dep_mark),
-            load_var: Ident::new("load".into(), DUMMY_SP),
+            load_var: Ident::new("load".into(), DUMMY_SP.apply_mark(dep_mark)),
             replaced: false,
         };
         entry.body.visit_mut_with(&mut v);
 
         if v.replaced {
-            let mut load_var = v.load_var;
-            if load_var.span.ctxt == SyntaxContext::empty() {
-                load_var.span = load_var.span.apply_mark(Mark::fresh(Mark::root()));
-            }
+            let load_var = v.load_var;
 
             {
                 info.helpers.require.store(true, Ordering::SeqCst);
@@ -231,7 +228,12 @@ impl VisitMut for RequireReplacer {
                                 optional: false,
                                 type_ann: None,
                             }),
-                            init: Some(Box::new(self.load_var.clone().into())),
+                            init: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: self.load_var.clone().as_callee(),
+                                type_args: None,
+                                args: vec![],
+                            }))),
                             definite: false,
                         }],
                     })));
@@ -256,17 +258,7 @@ impl VisitMut for RequireReplacer {
                                     if self.ctxt == i.span.ctxt {
                                         let load = CallExpr {
                                             span: node.span,
-                                            callee: {
-                                                if self.load_var.span.ctxt == SyntaxContext::empty()
-                                                {
-                                                    let mut ident = self.load_var.clone();
-                                                    ident.span = ident.span.with_ctxt(i.span.ctxt);
-                                                    self.load_var = ident.clone();
-                                                    ident.as_callee()
-                                                } else {
-                                                    self.load_var.clone().as_callee()
-                                                }
-                                            },
+                                            callee: self.load_var.clone().as_callee(),
                                             args: vec![],
                                             type_args: None,
                                         };
