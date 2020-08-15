@@ -47,7 +47,7 @@ name = "usage"
 codegen-units = 1
 lto = true
 # debug = true
-opt-level = 'z'
+# opt-level = 'z'
 
 [profile.bench]
 codegen-units = 1
