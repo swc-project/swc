@@ -13,7 +13,8 @@ use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceFile, DUMMY_SP};
 use swc_ecma_ast::{
-    Expr, ExprOrSuper, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module, ModuleDecl, Str,
+    CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
+    ModuleDecl, Str,
 };
 use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
@@ -151,7 +152,9 @@ where
 
             let exports = self.extract_export_info(&module);
 
-            let is_es6 = {
+            let is_es6 = if !self.config.require {
+                true
+            } else {
                 let mut v = Es6ModuleDetector {
                     forced_es6: false,
                     found_other: false,
@@ -372,6 +375,23 @@ struct Es6ModuleDetector {
 }
 
 impl Visit for Es6ModuleDetector {
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match &e.callee {
+            ExprOrSuper::Expr(e) => match &**e {
+                Expr::Ident(Ident {
+                    sym: js_word!("require"),
+                    ..
+                }) => {
+                    self.found_other = true;
+                }
+                _ => {}
+            },
+            ExprOrSuper::Super(_) => {}
+        }
+    }
+
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
         e.obj.visit_with(e as _, self);
 
