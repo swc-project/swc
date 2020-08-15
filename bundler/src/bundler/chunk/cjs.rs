@@ -153,7 +153,7 @@ impl VisitMut for RequireReplacer {
         match node {
             ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
                 // Replace import progress from 'progress';
-                if i.src.span.ctxt == self.ctxt {
+                if i.span.ctxt == self.ctxt {
                     // Side effech import
                     if i.specifiers.is_empty() {
                         self.replaced = true;
