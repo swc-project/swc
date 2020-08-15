@@ -185,6 +185,39 @@ mod tests {
     use swc_common::FileName;
 
     #[test]
+    fn es6_determine_entries() {
+        suite()
+            .file(
+                "main.js",
+                "
+                    import './a';
+                    import './b';
+                    ",
+            )
+            .file("a.js", "import './common';")
+            .file("b.js", "import './common';")
+            .file("common.js", r#"console.log('foo')"#)
+            .run(|t| {
+                let module = t
+                    .bundler
+                    .load_transformed(&FileName::Real("main.js".into()))?
+                    .unwrap();
+                let mut entries = FxHashMap::default();
+                entries.insert("main.js".to_string(), module);
+
+                let determined = t.bundler.determine_entries(entries);
+
+                assert_eq!(
+                    determined.len(),
+                    2,
+                    "common file should be promoted as an entry"
+                );
+
+                Ok(())
+            });
+    }
+
+    #[test]
     fn cjs_determine_entries() {
         suite()
             .file(
@@ -202,6 +235,16 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
+                let mut entries = FxHashMap::default();
+                entries.insert("main.js".to_string(), module);
+
+                let determined = t.bundler.determine_entries(entries);
+
+                assert_eq!(
+                    determined.len(),
+                    2,
+                    "common file should be promoted as an entry"
+                );
 
                 Ok(())
             });

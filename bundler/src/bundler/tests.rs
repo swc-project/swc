@@ -1,11 +1,8 @@
 //! Utilities for testing.
 use super::{Bundler, Config};
 use crate::{util::HygieneRemover, Load, Resolve};
-use anyhow::{bail, Context, Error};
-use std::{
-    collections::HashMap,
-    path::{Path, PathBuf},
-};
+use anyhow::Error;
+use std::{collections::HashMap, path::PathBuf};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
@@ -93,7 +90,6 @@ pub fn suite() -> TestBuilder {
 #[derive(Default)]
 pub struct TestBuilder {
     files: HashMap<String, String>,
-    cm: Lrc<SourceMap>,
 }
 
 impl TestBuilder {
@@ -127,7 +123,7 @@ impl TestBuilder {
                     bundler,
                 };
 
-                op(&mut t);
+                op(&mut t).unwrap();
 
                 Ok(())
             })
