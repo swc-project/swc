@@ -1,5 +1,6 @@
 use crate::{
     bundler::{export::Exports, load::Specifier},
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -96,7 +97,7 @@ where
                     });
 
                     if self.config.require {
-                        // TODO: Change require() call to load()
+                        // Change require() call to load()
                         //
                         let load_var = Ident::new("load".into(), DUMMY_SP);
 
@@ -237,7 +238,15 @@ where
                         //
                         // As usual, this behavior depends on hygiene.
 
-                        let load_var = private_ident!("load");
+                        let mut v = RequireReplacer {
+                            src: src.src.value.clone(),
+                            load_var: Ident::new("load".into(), DUMMY_SP),
+                        };
+                        entry.body.visit_mut_with(&mut v);
+                        let mut load_var = v.load_var;
+                        if load_var.span.ctxt == SyntaxContext::empty() {
+                            load_var.span = load_var.span.apply_mark(Mark::fresh(Mark::root()));
+                        }
 
                         {
                             // ... body of foo
@@ -314,11 +323,6 @@ where
                             log::warn!("Injecting load");
                         }
 
-                        entry.body.visit_mut_with(&mut RequireReplacer {
-                            src: src.src.value.clone(),
-                            load_var,
-                        });
-
                         // {
                         //     let code = self
                         //         .swc
@@ -336,6 +340,12 @@ where
 
                         log::info!("Replaced requires with load");
                     }
+
+                    print_hygiene(
+                        &format!("inject load: {}", imported.fm.name),
+                        &self.cm,
+                        &entry,
+                    );
                 }
             }
 
@@ -929,6 +939,7 @@ impl VisitMut for RequireReplacer {
                                                 {
                                                     let mut ident = self.load_var.clone();
                                                     ident.span = ident.span.with_ctxt(i.span.ctxt);
+                                                    self.load_var = ident.clone();
                                                     ident.as_callee()
                                                 } else {
                                                     self.load_var.clone().as_callee()

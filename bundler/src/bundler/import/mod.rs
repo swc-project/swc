@@ -6,7 +6,9 @@ use std::{
     mem::replace,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, Mark, Spanned, DUMMY_SP};
+use swc_common::{
+    sync::Lrc, util::move_map::MoveMap, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -117,7 +119,7 @@ where
     L: Load,
     R: Resolve,
 {
-    fn mark_for(&self, src: &str) -> Option<Mark> {
+    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -130,7 +132,9 @@ where
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
         let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
-        Some(mark)
+        let mut ctxt = SyntaxContext::empty();
+
+        Some(ctxt.apply_mark(mark))
     }
 }
 
@@ -289,8 +293,8 @@ where
 
                                     false
                                 }) {
-                                    let mark = self.mark_for(&import.src.value);
-                                    let mark = match mark {
+                                    let mark = self.ctxt_for(&import.src.value);
+                                    let ctxt = match mark {
                                         None => return e.into(),
                                         Some(mark) => mark,
                                     };
@@ -304,7 +308,7 @@ where
                                         let i = match &*e.prop {
                                             Expr::Ident(i) => {
                                                 let mut i = i.clone();
-                                                i.span = i.span.apply_mark(mark);
+                                                i.span = i.span.with_ctxt(ctxt);
                                                 i
                                             }
                                             _ => unreachable!(
@@ -321,7 +325,7 @@ where
                                             let i = match &*e.prop {
                                                 Expr::Ident(i) => {
                                                     let mut i = i.clone();
-                                                    i.span = i.span.apply_mark(mark);
+                                                    i.span = i.span.with_ctxt(ctxt);
                                                     i
                                                 }
                                                 _ => unreachable!(
@@ -379,8 +383,8 @@ where
                     {
                         match &mut **callee {
                             Expr::Ident(i) => {
-                                if let Some(mark) = self.mark_for(&src.value) {
-                                    i.span = i.span.apply_mark(mark);
+                                if let Some(ctxt) = self.ctxt_for(&src.value) {
+                                    i.span = i.span.with_ctxt(ctxt);
                                 }
                             }
                             _ => {}
@@ -435,12 +439,12 @@ where
     ///  ```js
     /// import { readFile } from 'fs';
     /// ```
-    fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
-        match &node.init {
-            Some(init) => match &**init {
+    fn fold_var_declarator(&mut self, mut node: VarDeclarator) -> VarDeclarator {
+        match &mut node.init {
+            Some(init) => match &mut **init {
                 Expr::Call(CallExpr {
                     span,
-                    callee: ExprOrSuper::Expr(ref callee),
+                    callee: ExprOrSuper::Expr(ref mut callee),
                     ref args,
                     ..
                 }) if self.bundler.config.require
@@ -464,6 +468,15 @@ where
                     // Ignore core modules.
                     if self.bundler.config.external_modules.contains(&src.value) {
                         return node;
+                    }
+
+                    match &mut **callee {
+                        Expr::Ident(i) => {
+                            if let Some(mark) = self.ctxt_for(&src.value) {
+                                i.span = i.span.with_ctxt(mark);
+                            }
+                        }
+                        _ => {}
                     }
 
                     let ids: Vec<Ident> = find_ids(&node.name);
