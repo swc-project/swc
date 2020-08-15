@@ -11,6 +11,7 @@ use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
 use swc_ecma_visit::FoldWith;
 
 mod circular;
+mod cjs;
 mod merge;
 
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
@@ -57,9 +58,11 @@ where
                 |(kind, id, mut module_ids_to_merge): (BundleKind, ModuleId, _)| {
                     self.run(|| {
                         let module = self
-                            .merge_modules(id, &mut module_ids_to_merge)
+                            .merge_modules(id, true, &mut module_ids_to_merge)
                             .context("failed to merge module")
                             .unwrap(); // TODO
+
+                        assert_eq!(module_ids_to_merge, vec![], "Everything should be merged");
 
                         let module = module
                             .fold_with(&mut dce::dce(Default::default()))
@@ -173,5 +176,105 @@ where
                 if src.is_unconditional { 2 } else { 1 },
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::bundler::tests::suite;
+    use swc_common::FileName;
+
+    #[test]
+    fn es6_determine_entries() {
+        suite()
+            .file(
+                "main.js",
+                "
+                    import './a';
+                    import './b';
+                    ",
+            )
+            .file("a.js", "import './common';")
+            .file("b.js", "import './common';")
+            .file("common.js", r#"console.log('foo')"#)
+            .run(|t| {
+                let module = t
+                    .bundler
+                    .load_transformed(&FileName::Real("main.js".into()))?
+                    .unwrap();
+                let mut entries = HashMap::default();
+                entries.insert("main.js".to_string(), module);
+
+                let determined = t.bundler.determine_entries(entries);
+
+                assert_eq!(determined.len(), 1);
+
+                Ok(())
+            });
+    }
+
+    #[test]
+    fn cjs_determine_entries() {
+        suite()
+            .file(
+                "main.js",
+                "
+                    require('./a');
+                    require('./b');
+                    ",
+            )
+            .file("a.js", "require('./common')")
+            .file("b.js", "require('./common')")
+            .file("common.js", r#"console.log('foo')"#)
+            .run(|t| {
+                let module = t
+                    .bundler
+                    .load_transformed(&FileName::Real("main.js".into()))?
+                    .unwrap();
+                let mut entries = HashMap::default();
+                entries.insert("main.js".to_string(), module);
+
+                let determined = t.bundler.determine_entries(entries);
+
+                assert_eq!(determined.len(), 1);
+                assert_eq!(
+                    determined[0].0,
+                    BundleKind::Named {
+                        name: "main.js".to_string()
+                    }
+                );
+                assert_eq!(determined[0].2.len(), 3);
+
+                Ok(())
+            });
+    }
+
+    #[test]
+    fn cjs_chunk() {
+        suite()
+            .file(
+                "main.js",
+                "
+                require('./a');
+                require('./b');
+                ",
+            )
+            .file("a.js", "require('./common')")
+            .file("b.js", "require('./common')")
+            .file("common.js", r#"console.log('foo')"#)
+            .run(|t| {
+                let module = t
+                    .bundler
+                    .load_transformed(&FileName::Real("main.js".into()))?
+                    .unwrap();
+                let mut entries = HashMap::default();
+                entries.insert("main.js".to_string(), module);
+
+                let chunked = t.bundler.chunk(entries)?;
+                assert_eq!(chunked.len(), 1);
+
+                Ok(())
+            });
     }
 }

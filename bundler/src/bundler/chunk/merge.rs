@@ -7,16 +7,14 @@ use crate::{
 };
 use anyhow::{Context, Error};
 use std::{
+    borrow::Cow,
     mem::take,
     ops::{Deref, DerefMut},
-    sync::atomic::Ordering,
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
-};
+use swc_ecma_utils::{find_ids, DestructuringFinder, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -28,6 +26,7 @@ where
     pub(super) fn merge_modules(
         &self,
         entry: ModuleId,
+        is_entry: bool,
         targets: &mut Vec<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
@@ -46,7 +45,7 @@ where
             }
 
             if is_circular {
-                log::info!("Circular dependency detected");
+                log::info!("Circular dependency detected: ({})", info.fm.name);
                 // TODO: provide only circular imports.
                 return Ok(self.merge_circular_modules(entry, targets));
             }
@@ -85,7 +84,7 @@ where
                                 if info.imports.specifiers.iter().any(|v| {
                                     v.0.module_id == src.module_id && v.0.src == import.src
                                 }) {
-                                    log::debug!("Dropping import");
+                                    log::debug!("Dropping es6 import as it's already merged");
                                     return false;
                                 }
                             }
@@ -94,6 +93,14 @@ where
 
                         true
                     });
+
+                    if self.config.require {
+                        // Change require() call to load()
+                        let dep = self.scope.get_module(src.module_id).unwrap();
+
+                        self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
+                    }
+
                     continue;
                 }
 
@@ -110,6 +117,7 @@ where
                     info.helpers.extend(&imported.helpers);
 
                     if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
+                        log::debug!("targets.remove({})", imported.fm.name);
                         targets.remove(pos);
                     }
 
@@ -122,14 +130,23 @@ where
                     //
                     // a <- b + chunk(c)
                     //
-                    let mut dep =
-                        self.merge_modules(src.module_id, targets)
+                    log::trace!(
+                        "merging deps: {:?} <- {:?}; es6 = {}",
+                        src,
+                        targets,
+                        info.is_es6
+                    );
+                    let mut dep = if imported.is_es6 {
+                        self.merge_modules(src.module_id, false, targets)
                             .with_context(|| {
                                 format!(
                                     "failed to merge: ({}):{} <= ({}):{}",
                                     info.id, info.fm.name, src.module_id, src.src.value
                                 )
-                            })?;
+                            })?
+                    } else {
+                        (*self.scope.get_module(src.module_id).unwrap().module).clone()
+                    };
 
                     if imported.is_es6 {
                         // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
@@ -210,126 +227,29 @@ where
                     }
 
                     if self.config.require {
-                        // common js module is transpiled as
-                        //
-                        //  Src:
-                        //      const foo = require('foo');
-                        //
-                        // Output:
-                        //
-                        //      const load = __spack__require.bind(void 0, function(module,
-                        // exports){
-                        //      // ... body of foo
-                        // });      const foo = load();
-                        //
-                        // As usual, this behavior depends on hygiene.
-
-                        let load_var = private_ident!("load");
-
-                        {
-                            // ... body of foo
-                            let module_fn = Expr::Fn(FnExpr {
-                                ident: None,
-                                function: Function {
-                                    params: vec![
-                                        // module
-                                        Param {
-                                            span: DUMMY_SP.apply_mark(self.top_level_mark),
-                                            decorators: Default::default(),
-                                            pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP)),
-                                        },
-                                        // exports
-                                        Param {
-                                            span: DUMMY_SP.apply_mark(self.top_level_mark),
-                                            decorators: Default::default(),
-                                            pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP)),
-                                        },
-                                    ],
-                                    decorators: vec![],
-                                    span: DUMMY_SP,
-                                    body: Some(BlockStmt {
-                                        span: dep.span,
-                                        stmts: dep
-                                            .body
-                                            .into_iter()
-                                            .map(|v| match v {
-                                                ModuleItem::ModuleDecl(_) => unreachable!(
-                                                    "module item found but is_es6 is false"
-                                                ),
-                                                ModuleItem::Stmt(s) => s,
-                                            })
-                                            .collect(),
-                                    }),
-                                    is_generator: false,
-                                    is_async: false,
-                                    type_params: None,
-                                    return_type: None,
-                                },
-                            });
-
-                            // var load = __spack_require__.bind(void 0, moduleDecl)
-                            let load_var = Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                declare: false,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(load_var.clone()),
-                                    init: Some(Box::new(Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: {
-                                            info.helpers.require.store(true, Ordering::SeqCst);
-                                            Ident::new(
-                                                "__spack_require__".into(),
-                                                DUMMY_SP.apply_mark(self.top_level_mark),
-                                            )
-                                            .make_member(Ident::new("bind".into(), DUMMY_SP))
-                                            .as_callee()
-                                        },
-                                        args: vec![
-                                            undefined(DUMMY_SP).as_arg(),
-                                            module_fn.as_arg(),
-                                        ],
-                                        type_args: None,
-                                    }))),
-                                    definite: false,
-                                }],
-                            }));
-
-                            prepend(&mut entry.body, ModuleItem::Stmt(load_var));
-
-                            log::warn!("Injecting load");
-                        }
-
-                        let load = CallExpr {
-                            span: DUMMY_SP,
-                            callee: load_var.as_callee(),
-                            args: vec![],
-                            type_args: None,
-                        };
-
-                        entry.body.visit_mut_with(&mut RequireReplacer {
-                            src: src.src.value.clone(),
-                            load,
-                        });
-
-                        // {
-                        //     let code = self
-                        //         .swc
-                        //         .print(
-                        //             &entry.clone().fold_with(&mut HygieneVisualizer),
-                        //             SourceMapsConfig::Bool(false),
-                        //             None,
-                        //             false,
-                        //         )
-                        //         .unwrap()
-                        //         .code;
-                        //
-                        //     println!("@: After replace-require:\n{}\n\n\n", code);
-                        // }
-
-                        log::info!("Replaced requires with load");
+                        self.merge_cjs(&mut entry, &info, Cow::Owned(dep), imported.mark())?;
                     }
+
+                    // print_hygiene(
+                    //     &format!("inject load: {}", imported.fm.name),
+                    //     &self.cm,
+                    //     &entry,
+                    // );
+                }
+            }
+
+            if is_entry && self.config.require && !targets.is_empty() {
+                log::info!("Injectng remaining: {:?}", targets);
+
+                // Handle transitive dependencies
+                for target in targets.drain(..) {
+                    log::trace!(
+                        "Remaining: {}",
+                        self.scope.get_module(target).unwrap().fm.name
+                    );
+
+                    let dep = self.scope.get_module(target).unwrap();
+                    self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
                 }
             }
 
@@ -803,132 +723,5 @@ impl Fold for GlobalMarker {
         }
 
         span
-    }
-}
-
-struct RequireReplacer {
-    src: JsWord,
-    load: CallExpr,
-}
-
-impl VisitMut for RequireReplacer {
-    fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
-        node.visit_mut_children_with(self);
-
-        match node {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                // Replace import progress from 'progress';
-                if i.src.value == self.src {
-                    // Side effech import
-                    if i.specifiers.is_empty() {
-                        *node = ModuleItem::Stmt(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: self.load.clone().as_callee(),
-                                args: vec![],
-                                type_args: None,
-                            }
-                            .into_stmt(),
-                        );
-                        return;
-                    }
-
-                    let mut props = vec![];
-                    for spec in i.specifiers.clone() {
-                        match spec {
-                            ImportSpecifier::Named(s) => {
-                                if let Some(imported) = s.imported {
-                                    props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
-                                        key: imported.into(),
-                                        value: Box::new(s.local.into()),
-                                    }));
-                                } else {
-                                    props.push(ObjectPatProp::Assign(AssignPatProp {
-                                        span: s.span,
-                                        key: s.local,
-                                        value: None,
-                                    }));
-                                }
-                            }
-                            ImportSpecifier::Default(s) => {
-                                props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
-                                    key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
-                                    value: Box::new(s.local.into()),
-                                }));
-                            }
-                            ImportSpecifier::Namespace(ns) => {
-                                *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: i.span,
-                                    kind: VarDeclKind::Var,
-                                    declare: false,
-                                    decls: vec![VarDeclarator {
-                                        span: ns.span,
-                                        name: ns.local.into(),
-                                        init: Some(Box::new(
-                                            CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: self.load.clone().as_callee(),
-                                                args: vec![],
-                                                type_args: None,
-                                            }
-                                            .into(),
-                                        )),
-                                        definite: false,
-                                    }],
-                                })));
-                                return;
-                            }
-                        }
-                    }
-
-                    *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: i.span,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: vec![VarDeclarator {
-                            span: i.span,
-                            name: Pat::Object(ObjectPat {
-                                span: DUMMY_SP,
-                                props,
-                                optional: false,
-                                type_ann: None,
-                            }),
-                            init: Some(Box::new(self.load.clone().into())),
-                            definite: false,
-                        }],
-                    })));
-                    return;
-                }
-            }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        node.visit_mut_children_with(self);
-
-        match &node.callee {
-            ExprOrSuper::Expr(e) => {
-                match &**e {
-                    Expr::Ident(i) => {
-                        // TODO: Check for global mark
-                        if i.sym == *"require" && node.args.len() == 1 {
-                            match &*node.args[0].expr {
-                                Expr::Lit(Lit::Str(s)) => {
-                                    if self.src == s.value {
-                                        *node = self.load.clone();
-
-                                        log::debug!("Found, and replacing require");
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
-                    }
-                    _ => {}
-                }
-            }
-            _ => {}
-        }
     }
 }

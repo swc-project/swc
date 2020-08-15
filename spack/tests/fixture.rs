@@ -119,8 +119,9 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
 
             testing::run_test2(false, |cm, handler| {
-                GLOBALS.with(|globals| {
-                    let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+                let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+
+                GLOBALS.set(compiler.globals(), || {
                     let loader = SwcLoader::new(
                         compiler.clone(),
                         swc::config::Options {
@@ -129,7 +130,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         },
                     );
                     let bundler = Bundler::new(
-                        globals,
+                        compiler.globals(),
                         cm.clone(),
                         &loader,
                         NodeResolver::new(),
@@ -176,8 +177,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         },
                     );
 
-                    let modules = bundler.bundle(entries).map_err(|_| ())?;
-                    log::info!("Bundled as {} modules", modules.len());
+                    let modules = bundler
+                        .bundle(entries)
+                        .map_err(|err| println!("{:?}", err))?;
+                    println!("Bundled as {} modules", modules.len());
 
                     let mut error = false;
 
@@ -202,14 +205,14 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         let output_path =
                             entry.path().join("output").join(name.file_name().unwrap());
 
-                        log::info!("Printing {}", output_path.display());
+                        println!("Printing {}", output_path.display());
 
                         let s = NormalizedOutput::from(code);
 
                         match s.compare_to_file(&output_path) {
                             Ok(_) => {}
                             Err(err) => {
-                                println!("{:?}", err);
+                                println!("Diff: {:?}", err);
                                 error = true;
                             }
                         }

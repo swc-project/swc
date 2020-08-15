@@ -2,24 +2,42 @@
 use super::{Bundler, Config};
 use crate::{util::HygieneRemover, Load, Resolve};
 use anyhow::Error;
-use std::path::PathBuf;
+use std::{collections::HashMap, path::PathBuf};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 
-pub struct Tester<'a> {
+pub(super) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub bundler: Bundler<'a, Loader, Resolver>,
 }
 
-#[derive(Debug, Default)]
-pub struct Loader;
+pub struct Loader {
+    cm: Lrc<SourceMap>,
+    files: HashMap<String, String>,
+}
 
 impl Load for Loader {
-    fn load(&self, _: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
-        unreachable!("swc_bundler: tester.load")
+    fn load(&self, f: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
+        eprintln!("load: {}", f);
+        let v = self.files.get(&f.to_string());
+        let v = v.unwrap();
+
+        let fm = self.cm.new_source_file(f.clone(), v.to_string());
+
+        let lexer = Lexer::new(
+            Default::default(),
+            JscTarget::Es2020,
+            StringInput::from(&*fm),
+            None,
+        );
+
+        let mut parser = Parser::new_from(lexer);
+        let module = parser.parse_module().unwrap();
+
+        Ok((fm, module))
     }
 }
 
@@ -27,12 +45,27 @@ impl Load for Loader {
 pub struct Resolver;
 
 impl Resolve for Resolver {
-    fn resolve(&self, _: &FileName, _: &str) -> Result<FileName, Error> {
-        unreachable!("swc_bundler: tester.resolve")
+    fn resolve(&self, _: &FileName, s: &str) -> Result<FileName, Error> {
+        assert!(s.starts_with("./"));
+
+        let path = PathBuf::from(s.to_string())
+            .with_extension("js")
+            .strip_prefix("./")
+            .unwrap()
+            .into();
+
+        Ok(FileName::Real(path))
     }
 }
 
 impl<'a> Tester<'a> {
+    // pub fn module(&self, name: &str) -> TransformedModule {
+    //     self.bundler
+    //         .scope
+    //         .get_module_by_path(&FileName::Real(name.to_string().into()))
+    //         .unwrap_or_else(|| panic!("failed to find module named {}", name))
+    // }
+
     pub fn parse(&self, s: &str) -> Module {
         let fm = self
             .cm
@@ -57,33 +90,51 @@ impl<'a> Tester<'a> {
         assert_eq!(m, expected)
     }
 }
+pub(super) fn suite() -> TestBuilder {
+    TestBuilder::default()
+}
 
-pub fn test_bundler<F>(op: F)
-where
-    F: FnOnce(&mut Tester),
-{
-    testing::run_test2(true, |cm, _| {
-        GLOBALS.with(|globals| {
-            let bundler = Bundler::new(
-                globals,
-                cm.clone(),
-                Default::default(),
-                Default::default(),
-                Config {
-                    require: true,
-                    external_modules: vec![],
-                },
-            );
+#[derive(Default)]
+pub(super) struct TestBuilder {
+    files: HashMap<String, String>,
+}
 
-            let mut t = Tester {
-                cm: cm.clone(),
-                bundler,
-            };
+impl TestBuilder {
+    pub fn file(mut self, name: &str, src: &str) -> Self {
+        self.files.insert(name.to_string(), src.to_string());
+        self
+    }
 
-            op(&mut t);
+    pub fn run<F>(self, op: F)
+    where
+        F: FnOnce(&mut Tester) -> Result<(), Error>,
+    {
+        testing::run_test2(true, |cm, _| {
+            GLOBALS.with(|globals| {
+                let bundler = Bundler::new(
+                    globals,
+                    cm.clone(),
+                    Loader {
+                        cm: cm.clone(),
+                        files: self.files,
+                    },
+                    Default::default(),
+                    Config {
+                        require: true,
+                        external_modules: vec![],
+                    },
+                );
 
-            Ok(())
+                let mut t = Tester {
+                    cm: cm.clone(),
+                    bundler,
+                };
+
+                op(&mut t).unwrap();
+
+                Ok(())
+            })
         })
-    })
-    .expect("WTF?");
+        .expect("WTF?");
+    }
 }
