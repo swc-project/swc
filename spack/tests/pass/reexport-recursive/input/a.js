@@ -1,3 +1,3 @@
-export b from './b'
+import b from './b';
 
 console.log(b);
