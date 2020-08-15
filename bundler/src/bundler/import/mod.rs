@@ -132,7 +132,7 @@ where
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
         let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
-        let mut ctxt = SyntaxContext::empty();
+        let ctxt = SyntaxContext::empty();
 
         Some(ctxt.apply_mark(mark))
     }

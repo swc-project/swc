@@ -104,7 +104,13 @@ where
                         entry.body.visit_mut_with(&mut RequireReplacer {
                             src: src.src.value.clone(),
                             load_var,
-                        })
+                        });
+
+                        print_hygiene(
+                            &format!("replaced require with l: {}", src.src.value),
+                            &self.cm,
+                            &entry,
+                        );
                     }
 
                     continue;
