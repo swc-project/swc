@@ -270,7 +270,8 @@ mod tests {
                 let mut entries = FxHashMap::default();
                 entries.insert("main.js".to_string(), module);
 
-                t.bundler.chunk(entries)?;
+                let chunked = t.bundler.chunk(entries)?;
+                assert_eq!(chunked.len(), 1);
 
                 Ok(())
             });

@@ -1,5 +1,8 @@
 use crate::{
-    bundler::{export::Exports, load::Specifier},
+    bundler::{
+        export::Exports,
+        load::{Specifier, TransformedModule},
+    },
     debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
@@ -140,15 +143,23 @@ where
                     //
                     // a <- b + chunk(c)
                     //
-                    log::trace!("merging deps: {:?} <- {:?}", src, targets);
-                    let mut dep =
+                    log::trace!(
+                        "merging deps: {:?} <- {:?}; es6 = {}",
+                        src,
+                        targets,
+                        info.is_es6
+                    );
+                    let mut dep = if imported.is_es6 {
                         self.merge_modules(src.module_id, targets)
                             .with_context(|| {
                                 format!(
                                     "failed to merge: ({}):{} <= ({}):{}",
                                     info.id, info.fm.name, src.module_id, src.src.value
                                 )
-                            })?;
+                            })?
+                    } else {
+                        (*self.scope.get_module(src.module_id).unwrap().module).clone()
+                    };
 
                     if imported.is_es6 {
                         // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
@@ -254,76 +265,12 @@ where
                         }
 
                         {
-                            // ... body of foo
-                            let module_fn = Expr::Fn(FnExpr {
-                                ident: None,
-                                function: Function {
-                                    params: vec![
-                                        // module
-                                        Param {
-                                            span: DUMMY_SP.apply_mark(self.top_level_mark),
-                                            decorators: Default::default(),
-                                            pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP)),
-                                        },
-                                        // exports
-                                        Param {
-                                            span: DUMMY_SP.apply_mark(self.top_level_mark),
-                                            decorators: Default::default(),
-                                            pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP)),
-                                        },
-                                    ],
-                                    decorators: vec![],
-                                    span: DUMMY_SP,
-                                    body: Some(BlockStmt {
-                                        span: dep.span,
-                                        stmts: dep
-                                            .body
-                                            .into_iter()
-                                            .map(|v| match v {
-                                                ModuleItem::ModuleDecl(_) => unreachable!(
-                                                    "module item found but is_es6 is false"
-                                                ),
-                                                ModuleItem::Stmt(s) => s,
-                                            })
-                                            .collect(),
-                                    }),
-                                    is_generator: false,
-                                    is_async: false,
-                                    type_params: None,
-                                    return_type: None,
-                                },
-                            });
+                            info.helpers.require.store(true, Ordering::SeqCst);
 
-                            // var load = __spack_require__.bind(void 0, moduleDecl)
-                            let load_var_init = Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                declare: false,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(load_var.clone()),
-                                    init: Some(Box::new(Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: {
-                                            info.helpers.require.store(true, Ordering::SeqCst);
-                                            Ident::new(
-                                                "__spack_require__".into(),
-                                                DUMMY_SP.apply_mark(self.top_level_mark),
-                                            )
-                                            .make_member(Ident::new("bind".into(), DUMMY_SP))
-                                            .as_callee()
-                                        },
-                                        args: vec![
-                                            undefined(DUMMY_SP).as_arg(),
-                                            module_fn.as_arg(),
-                                        ],
-                                        type_args: None,
-                                    }))),
-                                    definite: false,
-                                }],
-                            }));
-
-                            prepend(&mut entry.body, ModuleItem::Stmt(load_var_init));
+                            prepend(
+                                &mut entry.body,
+                                ModuleItem::Stmt(wrap_module(self.top_level_mark, load_var, dep)),
+                            );
 
                             log::warn!("Injecting load");
                         }
@@ -342,6 +289,8 @@ where
                         //
                         //     println!("@: After replace-require:\n{}\n\n\n", code);
                         // }
+
+                        for target in targets.drain(..) {}
 
                         log::info!("Replaced requires with load");
                     }
@@ -968,4 +917,77 @@ impl VisitMut for RequireReplacer {
             _ => {}
         }
     }
+}
+
+fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
+    // ... body of foo
+    let module_fn = Expr::Fn(FnExpr {
+        ident: None,
+        function: Function {
+            params: vec![
+                // module
+                Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(Ident::new(
+                        "module".into(),
+                        DUMMY_SP.apply_mark(top_level_mark),
+                    )),
+                },
+                // exports
+                Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(Ident::new(
+                        "exports".into(),
+                        DUMMY_SP.apply_mark(top_level_mark),
+                    )),
+                },
+            ],
+            decorators: vec![],
+            span: DUMMY_SP,
+            body: Some(BlockStmt {
+                span: dep.span,
+                stmts: dep
+                    .body
+                    .into_iter()
+                    .map(|v| match v {
+                        ModuleItem::ModuleDecl(_) => {
+                            unreachable!("module item found but is_es6 is false")
+                        }
+                        ModuleItem::Stmt(s) => s,
+                    })
+                    .collect(),
+            }),
+            is_generator: false,
+            is_async: false,
+            type_params: None,
+            return_type: None,
+        },
+    });
+
+    // var load = __spack_require__.bind(void 0, moduleDecl)
+    let load_var_init = Stmt::Decl(Decl::Var(VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Var,
+        declare: false,
+        decls: vec![VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(load_var.clone()),
+            init: Some(Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: Ident::new(
+                    "__spack_require__".into(),
+                    DUMMY_SP.apply_mark(top_level_mark),
+                )
+                .make_member(Ident::new("bind".into(), DUMMY_SP))
+                .as_callee(),
+                args: vec![undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
+                type_args: None,
+            }))),
+            definite: false,
+        }],
+    }));
+
+    load_var_init
 }
