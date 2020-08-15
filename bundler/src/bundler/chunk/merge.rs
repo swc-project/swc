@@ -243,6 +243,8 @@ where
             }
 
             if is_entry && self.config.require && !info.is_es6 {
+                log::info!("Injectng remaining: {:?}", targets);
+
                 // Handle transitive dependencies
                 for target in targets.drain(..) {
                     let dep = self.scope.get_module(target).unwrap();
