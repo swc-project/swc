@@ -54,7 +54,9 @@ where
 
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
-            // print_hygiene("before:merge", &self.cm, &entry);
+            for (src, specifiers) in &info.exports.reexports {
+                // Reexport is es6-only.
+            }
 
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
