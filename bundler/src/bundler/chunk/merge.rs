@@ -1,6 +1,5 @@
 use crate::{
     bundler::{export::Exports, load::Specifier},
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -231,11 +230,11 @@ where
                         self.merge_cjs(&mut entry, &info, Cow::Owned(dep), imported.mark())?;
                     }
 
-                    print_hygiene(
-                        &format!("inject load: {}", imported.fm.name),
-                        &self.cm,
-                        &entry,
-                    );
+                    // print_hygiene(
+                    //     &format!("inject load: {}", imported.fm.name),
+                    //     &self.cm,
+                    //     &entry,
+                    // );
                 }
             }
 
