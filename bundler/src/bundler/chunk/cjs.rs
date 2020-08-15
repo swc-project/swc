@@ -1,10 +1,6 @@
-use crate::{
-    bundler::load::{Source, TransformedModule},
-    Bundler, Load, Resolve,
-};
+use crate::{bundler::load::TransformedModule, Bundler, Load, Resolve};
 use anyhow::Error;
 use std::sync::atomic::Ordering;
-use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{prepend, undefined, ExprFactory};
@@ -32,12 +28,12 @@ where
         &self,
         entry: &mut Module,
         info: &TransformedModule,
-        src: Option<&Source>,
         dep: Module,
+        dep_mark: Mark,
     ) -> Result<(), Error> {
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
-            src: src.map(|src| src.src.value.clone()),
+            ctxt: SyntaxContext::empty().apply_mark(dep_mark),
             load_var: Ident::new("load".into(), DUMMY_SP),
         };
         entry.body.visit_mut_with(&mut v);
@@ -137,7 +133,8 @@ fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
 }
 
 struct RequireReplacer {
-    src: JsWord,
+    /// SyntaxContext of the dependency module.
+    ctxt: SyntaxContext,
     load_var: Ident,
 }
 
@@ -148,7 +145,7 @@ impl VisitMut for RequireReplacer {
         match node {
             ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
                 // Replace import progress from 'progress';
-                if i.src.value == self.src {
+                if i.src.span.ctxt == self.ctxt {
                     // Side effech import
                     if i.specifiers.is_empty() {
                         *node = ModuleItem::Stmt(
@@ -245,7 +242,7 @@ impl VisitMut for RequireReplacer {
                         if i.sym == *"require" && node.args.len() == 1 {
                             match &*node.args[0].expr {
                                 Expr::Lit(Lit::Str(s)) => {
-                                    if self.src == s.value {
+                                    if self.ctxt == i.span.ctxt {
                                         let load = CallExpr {
                                             span: node.span,
                                             callee: {

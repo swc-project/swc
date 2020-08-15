@@ -100,19 +100,9 @@ where
 
                     if self.config.require {
                         // Change require() call to load()
-                        //
-                        let load_var = Ident::new("load".into(), DUMMY_SP);
+                        let dep = self.scope.get_module(src.module_id).unwrap();
 
-                        entry.body.visit_mut_with(&mut RequireReplacer {
-                            src: src.src.value.clone(),
-                            load_var,
-                        });
-
-                        print_hygiene(
-                            &format!("replaced require with l: {}", src.src.value),
-                            &self.cm,
-                            &entry,
-                        );
+                        self.merge_cjs(&mut entry, &info, (*dep.module).clone(), dep.mark())?;
                     }
 
                     continue;
@@ -241,7 +231,7 @@ where
                     }
 
                     if self.config.require {
-                        self.merge_cjs(&mut entry, &info, Some(src), dep)?;
+                        self.merge_cjs(&mut entry, &info, dep, imported.mark())?;
                     }
 
                     print_hygiene(
@@ -256,7 +246,7 @@ where
                 // Handle transitive dependencies
                 for target in targets.drain(..) {
                     let dep = self.scope.get_module(target).unwrap();
-                    self.merge_cjs(&mut entry, &info, None, (*dep.module).clone())?;
+                    self.merge_cjs(&mut entry, &info, (*dep.module).clone(), dep.mark())?;
                 }
             }
 

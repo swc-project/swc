@@ -143,7 +143,7 @@ where
     L: Load,
     R: Resolve,
 {
-    fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
+    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
             // Ignore if it's a core module.
             if self
@@ -157,6 +157,10 @@ where
 
             self.info.imports.push(import.clone());
             return import;
+        }
+
+        if let Some(ctxt) = self.ctxt_for(&import.src.value) {
+            import.span = import.span.with_ctxt(ctxt);
         }
 
         // deglob namespace imports
