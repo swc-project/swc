@@ -1,5 +1,5 @@
 //! Utilities for testing.
-use super::{Bundler, Config};
+use super::{load::TransformedModule, Bundler, Config};
 use crate::{util::HygieneRemover, Load, Resolve};
 use anyhow::Error;
 use std::{collections::HashMap, path::PathBuf};
@@ -9,7 +9,7 @@ use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 
-pub struct Tester<'a> {
+pub(super) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub bundler: Bundler<'a, Loader, Resolver>,
 }
@@ -59,6 +59,13 @@ impl Resolve for Resolver {
 }
 
 impl<'a> Tester<'a> {
+    pub fn module(&self, name: &str) -> TransformedModule {
+        self.bundler
+            .scope
+            .get_module_by_path(&FileName::Real(name.to_string().into()))
+            .unwrap_or_else(|| panic!("failed to find module named {}", name))
+    }
+
     pub fn parse(&self, s: &str) -> Module {
         let fm = self
             .cm
@@ -83,12 +90,12 @@ impl<'a> Tester<'a> {
         assert_eq!(m, expected)
     }
 }
-pub fn suite() -> TestBuilder {
+pub(super) fn suite() -> TestBuilder {
     TestBuilder::default()
 }
 
 #[derive(Default)]
-pub struct TestBuilder {
+pub(super) struct TestBuilder {
     files: HashMap<String, String>,
 }
 

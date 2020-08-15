@@ -207,11 +207,7 @@ mod tests {
 
                 let determined = t.bundler.determine_entries(entries);
 
-                assert_eq!(
-                    determined.len(),
-                    2,
-                    "common file should be promoted as an entry"
-                );
+                assert_eq!(determined.len(), 1);
 
                 Ok(())
             });
@@ -240,11 +236,41 @@ mod tests {
 
                 let determined = t.bundler.determine_entries(entries);
 
+                assert_eq!(determined.len(), 1);
                 assert_eq!(
-                    determined.len(),
-                    2,
-                    "common file should be promoted as an entry"
+                    determined[0].0,
+                    BundleKind::Named {
+                        name: "main.js".to_string()
+                    }
                 );
+                assert_eq!(determined[0].2, vec![]);
+
+                Ok(())
+            });
+    }
+
+    #[test]
+    fn cjs_chunk() {
+        suite()
+            .file(
+                "main.js",
+                "
+                require('./a');
+                require('./b');
+                ",
+            )
+            .file("a.js", "require('./common')")
+            .file("b.js", "require('./common')")
+            .file("common.js", r#"console.log('foo')"#)
+            .run(|t| {
+                let module = t
+                    .bundler
+                    .load_transformed(&FileName::Real("main.js".into()))?
+                    .unwrap();
+                let mut entries = FxHashMap::default();
+                entries.insert("main.js".to_string(), module);
+
+                t.bundler.chunk(entries)?;
 
                 Ok(())
             });
