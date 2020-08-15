@@ -1,10 +1,11 @@
+use super::merge::Unexporter;
 use crate::{bundler::load::TransformedModule, Bundler, Load, Resolve};
 use anyhow::Error;
 use std::sync::atomic::Ordering;
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{prepend, undefined, ExprFactory};
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -28,32 +29,37 @@ where
         &self,
         entry: &mut Module,
         info: &TransformedModule,
-        dep: Module,
+        mut dep: Module,
         dep_mark: Mark,
     ) -> Result<(), Error> {
+        dep = dep.fold_with(&mut Unexporter);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
             ctxt: SyntaxContext::empty().apply_mark(dep_mark),
             load_var: Ident::new("load".into(), DUMMY_SP),
+            replaced: false,
         };
         entry.body.visit_mut_with(&mut v);
-        let mut load_var = v.load_var;
-        if load_var.span.ctxt == SyntaxContext::empty() {
-            load_var.span = load_var.span.apply_mark(Mark::fresh(Mark::root()));
+
+        if v.replaced {
+            let mut load_var = v.load_var;
+            if load_var.span.ctxt == SyntaxContext::empty() {
+                load_var.span = load_var.span.apply_mark(Mark::fresh(Mark::root()));
+            }
+
+            {
+                info.helpers.require.store(true, Ordering::SeqCst);
+
+                prepend(
+                    &mut entry.body,
+                    ModuleItem::Stmt(wrap_module(self.top_level_mark, load_var, dep)),
+                );
+
+                log::warn!("Injecting load");
+            }
+
+            log::info!("Replaced requires with load");
         }
-
-        {
-            info.helpers.require.store(true, Ordering::SeqCst);
-
-            prepend(
-                &mut entry.body,
-                ModuleItem::Stmt(wrap_module(self.top_level_mark, load_var, dep)),
-            );
-
-            log::warn!("Injecting load");
-        }
-
-        log::info!("Replaced requires with load");
 
         Ok(())
     }
@@ -92,8 +98,8 @@ fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
                     .body
                     .into_iter()
                     .map(|v| match v {
-                        ModuleItem::ModuleDecl(_) => {
-                            unreachable!("module item found but is_es6 is false")
+                        ModuleItem::ModuleDecl(i) => {
+                            unreachable!("module item found but is_es6 is false: {:?}", i)
                         }
                         ModuleItem::Stmt(s) => s,
                     })
@@ -136,6 +142,7 @@ struct RequireReplacer {
     /// SyntaxContext of the dependency module.
     ctxt: SyntaxContext,
     load_var: Ident,
+    replaced: bool,
 }
 
 impl VisitMut for RequireReplacer {
@@ -148,6 +155,7 @@ impl VisitMut for RequireReplacer {
                 if i.src.span.ctxt == self.ctxt {
                     // Side effech import
                     if i.specifiers.is_empty() {
+                        self.replaced = true;
                         *node = ModuleItem::Stmt(
                             CallExpr {
                                 span: DUMMY_SP,
@@ -184,6 +192,7 @@ impl VisitMut for RequireReplacer {
                                 }));
                             }
                             ImportSpecifier::Namespace(ns) => {
+                                self.replaced = true;
                                 *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                                     span: i.span,
                                     kind: VarDeclKind::Var,
@@ -208,6 +217,7 @@ impl VisitMut for RequireReplacer {
                         }
                     }
 
+                    self.replaced = true;
                     *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: i.span,
                         kind: VarDeclKind::Var,
@@ -259,6 +269,7 @@ impl VisitMut for RequireReplacer {
                                             args: vec![],
                                             type_args: None,
                                         };
+                                        self.replaced = true;
                                         *node = load.clone();
 
                                         log::debug!("Found, and replacing require");
