@@ -7,15 +7,6 @@ use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use std::collections::{HashMap, HashSet};
-use std::{
-    mem::take,
-    ops::{Deref, DerefMut},
-    sync::atomic::Ordering,
-};
-use swc_atoms::{js_word, JsWord};
-use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
-use swc_common::{Mark, DUMMY_SP};
-use swc_ecma_ast::*;
 use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
 use swc_ecma_visit::FoldWith;
 
@@ -212,7 +203,7 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
-                let mut entries = FxHashMap::default();
+                let mut entries = HashMap::default();
                 entries.insert("main.js".to_string(), module);
 
                 let determined = t.bundler.determine_entries(entries);
@@ -241,7 +232,7 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
-                let mut entries = FxHashMap::default();
+                let mut entries = HashMap::default();
                 entries.insert("main.js".to_string(), module);
 
                 let determined = t.bundler.determine_entries(entries);
@@ -277,7 +268,7 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
-                let mut entries = FxHashMap::default();
+                let mut entries = HashMap::default();
                 entries.insert("main.js".to_string(), module);
 
                 let chunked = t.bundler.chunk(entries)?;
