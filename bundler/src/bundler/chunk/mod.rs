@@ -61,6 +61,8 @@ where
                             .context("failed to merge module")
                             .unwrap(); // TODO
 
+                        assert_eq!(module_ids_to_merge, vec![], "Everything should be merged");
+
                         let module = module
                             .fold_with(&mut dce::dce(Default::default()))
                             .fold_with(&mut hygiene());
