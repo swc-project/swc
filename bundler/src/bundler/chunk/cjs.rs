@@ -241,7 +241,7 @@ impl VisitMut for RequireReplacer {
                         // TODO: Check for global mark
                         if i.sym == *"require" && node.args.len() == 1 {
                             match &*node.args[0].expr {
-                                Expr::Lit(Lit::Str(s)) => {
+                                Expr::Lit(Lit::Str(..)) => {
                                     if self.ctxt == i.span.ctxt {
                                         let load = CallExpr {
                                             span: node.span,

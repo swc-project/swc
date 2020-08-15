@@ -17,7 +17,6 @@ use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
-use swc_ecma_utils::{undefined, ExprFactory};
 use swc_ecma_visit::FoldWith;
 
 mod circular;
@@ -287,77 +286,4 @@ mod tests {
                 Ok(())
             });
     }
-}
-
-fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
-    // ... body of foo
-    let module_fn = Expr::Fn(FnExpr {
-        ident: None,
-        function: Function {
-            params: vec![
-                // module
-                Param {
-                    span: DUMMY_SP,
-                    decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new(
-                        "module".into(),
-                        DUMMY_SP.apply_mark(top_level_mark),
-                    )),
-                },
-                // exports
-                Param {
-                    span: DUMMY_SP,
-                    decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new(
-                        "exports".into(),
-                        DUMMY_SP.apply_mark(top_level_mark),
-                    )),
-                },
-            ],
-            decorators: vec![],
-            span: DUMMY_SP,
-            body: Some(BlockStmt {
-                span: dep.span,
-                stmts: dep
-                    .body
-                    .into_iter()
-                    .map(|v| match v {
-                        ModuleItem::ModuleDecl(_) => {
-                            unreachable!("module item found but is_es6 is false")
-                        }
-                        ModuleItem::Stmt(s) => s,
-                    })
-                    .collect(),
-            }),
-            is_generator: false,
-            is_async: false,
-            type_params: None,
-            return_type: None,
-        },
-    });
-
-    // var load = __spack_require__.bind(void 0, moduleDecl)
-    let load_var_init = Stmt::Decl(Decl::Var(VarDecl {
-        span: DUMMY_SP,
-        kind: VarDeclKind::Var,
-        declare: false,
-        decls: vec![VarDeclarator {
-            span: DUMMY_SP,
-            name: Pat::Ident(load_var.clone()),
-            init: Some(Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: Ident::new(
-                    "__spack_require__".into(),
-                    DUMMY_SP.apply_mark(top_level_mark),
-                )
-                .make_member(Ident::new("bind".into(), DUMMY_SP))
-                .as_callee(),
-                args: vec![undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
-                type_args: None,
-            }))),
-            definite: false,
-        }],
-    }));
-
-    load_var_init
 }
