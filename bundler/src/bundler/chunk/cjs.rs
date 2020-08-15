@@ -1,7 +1,7 @@
 use super::merge::Unexporter;
 use crate::{bundler::load::TransformedModule, Bundler, Load, Resolve};
 use anyhow::Error;
-use std::sync::atomic::Ordering;
+use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{prepend, undefined, ExprFactory};
@@ -29,10 +29,9 @@ where
         &self,
         entry: &mut Module,
         info: &TransformedModule,
-        mut dep: Module,
+        dep: Cow<Module>,
         dep_mark: Mark,
     ) -> Result<(), Error> {
-        dep = dep.fold_with(&mut Unexporter);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
             ctxt: SyntaxContext::empty().apply_mark(dep_mark),
@@ -49,6 +48,8 @@ where
 
             {
                 info.helpers.require.store(true, Ordering::SeqCst);
+
+                let dep = dep.into_owned().fold_with(&mut Unexporter);
 
                 prepend(
                     &mut entry.body,

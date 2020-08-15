@@ -8,6 +8,7 @@ use crate::{
 };
 use anyhow::{Context, Error};
 use std::{
+    borrow::Cow,
     mem::take,
     ops::{Deref, DerefMut},
 };
@@ -98,7 +99,7 @@ where
                         // Change require() call to load()
                         let dep = self.scope.get_module(src.module_id).unwrap();
 
-                        self.merge_cjs(&mut entry, &info, (*dep.module).clone(), dep.mark())?;
+                        self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
                     }
 
                     continue;
@@ -227,7 +228,7 @@ where
                     }
 
                     if self.config.require {
-                        self.merge_cjs(&mut entry, &info, dep, imported.mark())?;
+                        self.merge_cjs(&mut entry, &info, Cow::Owned(dep), imported.mark())?;
                     }
 
                     print_hygiene(
@@ -243,8 +244,13 @@ where
 
                 // Handle transitive dependencies
                 for target in targets.drain(..) {
+                    log::trace!(
+                        "Remaining: {}",
+                        self.scope.get_module(target).unwrap().fm.name
+                    );
+
                     let dep = self.scope.get_module(target).unwrap();
-                    self.merge_cjs(&mut entry, &info, (*dep.module).clone(), dep.mark())?;
+                    self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
                 }
             }
 
