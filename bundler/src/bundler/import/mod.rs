@@ -20,6 +20,8 @@ where
     R: Resolve,
 {
     /// This method de-globs imports if possible.
+    ///
+    /// Also this method colorizes require calls.
     pub(super) fn extract_import_info(
         &self,
         path: &FileName,
@@ -354,7 +356,7 @@ where
         let e: Expr = e.fold_children_with(self);
 
         match e {
-            Expr::Call(e) if e.args.len() == 1 => {
+            Expr::Call(mut e) if e.args.len() == 1 => {
                 let src = match e.args.first().unwrap() {
                     ExprOrSpread { spread: None, expr } => match &**expr {
                         Expr::Lit(Lit::Str(s)) => s,
@@ -363,7 +365,7 @@ where
                     _ => return Expr::Call(e),
                 };
 
-                match &e.callee {
+                match &mut e.callee {
                     ExprOrSuper::Expr(callee)
                         if !self.deglob_phase
                             && self.bundler.config.require
@@ -375,6 +377,15 @@ where
                                 _ => false,
                             } =>
                     {
+                        match &mut **callee {
+                            Expr::Ident(i) => {
+                                if let Some(mark) = self.mark_for(&src.value) {
+                                    i.span = i.span.apply_mark(mark);
+                                }
+                            }
+                            _ => {}
+                        }
+
                         let span = callee.span();
 
                         let decl = ImportDecl {

@@ -98,18 +98,12 @@ where
                     if self.config.require {
                         // TODO: Change require() call to load()
                         //
-                        // let load_var = Ident::new(
-                        //     "load".into(),
-                        //     DUMMY_SP
-                        //         .apply_mark(self.top_level_mark)
-                        //         .apply_mark(self.scope.get_module(src.
-                        // module_id).unwrap().mark()),
-                        // );
+                        let load_var = Ident::new("load".into(), DUMMY_SP);
 
-                        // entry.body.visit_mut_with(&mut RequireReplacer {
-                        //     src: src.src.value.clone(),
-                        //     load_var,
-                        // })
+                        entry.body.visit_mut_with(&mut RequireReplacer {
+                            src: src.src.value.clone(),
+                            load_var,
+                        })
                     }
 
                     continue;
@@ -929,8 +923,17 @@ impl VisitMut for RequireReplacer {
                                 Expr::Lit(Lit::Str(s)) => {
                                     if self.src == s.value {
                                         let load = CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: self.load_var.clone().as_callee(),
+                                            span: node.span,
+                                            callee: {
+                                                if self.load_var.span.ctxt == SyntaxContext::empty()
+                                                {
+                                                    let mut ident = self.load_var.clone();
+                                                    ident.span = ident.span.with_ctxt(i.span.ctxt);
+                                                    ident.as_callee()
+                                                } else {
+                                                    self.load_var.clone().as_callee()
+                                                }
+                                            },
                                             args: vec![],
                                             type_args: None,
                                         };
