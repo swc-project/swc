@@ -238,7 +238,7 @@ where
                 }
             }
 
-            if is_entry && self.config.require && !info.is_es6 && !targets.is_empty() {
+            if is_entry && self.config.require && !targets.is_empty() {
                 log::info!("Injectng remaining: {:?}", targets);
 
                 // Handle transitive dependencies
