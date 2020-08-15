@@ -15,15 +15,18 @@ where
     /// common js module is transpiled as
     ///
     ///  Src:
+    ///
+    /// ```ts
     ///      const foo = require('foo');
+    /// ```
     ///
     /// Output:
-    ///
-    ///      const load = __spack__require.bind(void 0, function(module,
-    /// exports){
-    ///      // ... body of foo
-    /// });      const foo = load();
-    ///
+    /// ```ts
+    ///     const load = __spack__require.bind(void 0, function(module, exports){
+    ///         // ... body of foo
+    ///     });
+    ///     const foo = load();
+    /// ```
     /// As usual, this behavior depends on hygiene.
     pub(super) fn merge_cjs(
         &self,
