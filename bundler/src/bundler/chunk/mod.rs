@@ -177,3 +177,33 @@ where
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::bundler::tests::suite;
+    use swc_common::FileName;
+
+    #[test]
+    fn cjs_determine_entries() {
+        suite()
+            .file(
+                "main.js",
+                "
+                    require('./a');
+                    require('./b');
+                    ",
+            )
+            .file("a.js", "require('./common')")
+            .file("b.js", "require('./common')")
+            .file("common.js", r#"console.log('foo')"#)
+            .run(|t| {
+                let module = t
+                    .bundler
+                    .load_transformed(&FileName::Real("main.js".into()))?
+                    .unwrap();
+
+                Ok(())
+            });
+    }
+}

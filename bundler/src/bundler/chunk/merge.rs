@@ -15,9 +15,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
-};
+use swc_ecma_utils::{find_ids, prepend, undefined, DestructuringFinder, ExprFactory, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>

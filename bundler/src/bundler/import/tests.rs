@@ -1,5 +1,5 @@
 use super::ImportHandler;
-use crate::bundler::tests::test_bundler;
+use crate::bundler::tests::suite;
 use std::path::Path;
 use swc_common::FileName;
 use swc_ecma_visit::FoldWith;
@@ -7,7 +7,7 @@ use swc_ecma_visit::FoldWith;
 #[test]
 #[ignore]
 fn ns_import_deglob_simple() {
-    test_bundler(|t| {
+    suite().run(|t| {
         let m = t.parse(
             "
 import * as ns from 'foo';
@@ -28,13 +28,15 @@ ns.foo();
         assert_eq!(v.info.imports.len(), 1);
 
         t.assert_eq(&m, "foo();");
+
+        Ok(())
     })
 }
 
 #[test]
 #[ignore]
 fn ns_import_deglob_multi() {
-    test_bundler(|t| {
+    suite().run(|t| {
         let m = t.parse(
             "
 import * as ns from 'foo';
@@ -62,5 +64,7 @@ ns.bar();
             "foo();
 bar();",
         );
+
+        Ok(())
     })
 }
