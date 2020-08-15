@@ -47,7 +47,7 @@ where
             }
 
             if is_circular {
-                log::info!("Circular dependency detected");
+                log::info!("Circular dependency detected: ({})", info.fm.name);
                 // TODO: provide only circular imports.
                 return Ok(self.merge_circular_modules(entry, targets));
             }
@@ -129,6 +129,7 @@ where
                     info.helpers.extend(&imported.helpers);
 
                     if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
+                        log::debug!("targets.remove({})", imported.fm.name);
                         targets.remove(pos);
                     }
 
@@ -141,7 +142,7 @@ where
                     //
                     // a <- b + chunk(c)
                     //
-                    log::trace!("merging dep: {:?} <- {:?}", src, targets);
+                    log::trace!("merging deps: {:?} <- {:?}", src, targets);
                     let mut dep =
                         self.merge_modules(src.module_id, targets)
                             .with_context(|| {
