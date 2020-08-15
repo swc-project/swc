@@ -243,7 +243,7 @@ mod tests {
                         name: "main.js".to_string()
                     }
                 );
-                assert_eq!(determined[0].2, vec![]);
+                assert_eq!(determined[0].2.len(), 3);
 
                 Ok(())
             });
