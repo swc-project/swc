@@ -150,10 +150,17 @@ impl Visit for ExportFinder {
                             });
                         }
                         ExportSpecifier::Named(n) => {
-                            v.push(Specifier::Specific {
-                                local: n.orig.clone().into(),
-                                alias: n.exported.clone().map(From::from),
-                            });
+                            if let Some(exported) = &n.exported {
+                                v.push(Specifier::Specific {
+                                    local: exported.clone().into(),
+                                    alias: Some(n.orig.clone().into()),
+                                });
+                            } else {
+                                v.push(Specifier::Specific {
+                                    local: n.orig.clone().into(),
+                                    alias: None,
+                                });
+                            }
                         }
                     }
                 }
