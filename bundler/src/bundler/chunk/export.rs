@@ -59,6 +59,10 @@ where
             dep.visit_mut_with(&mut UnexportAsVar {
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
             });
+            dep.visit_mut_with(&mut AliasExports {
+                target_ctxt: SyntaxContext::empty().apply_mark(imported.mark()),
+                decls: Default::default(),
+            });
             dep = dep.fold_with(&mut Unexporter);
 
             print_hygiene("entry:before-injection", &self.cm, &entry);
@@ -265,6 +269,50 @@ impl VisitMut for NamedExportOrigMarker {
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
         if s.orig.span.ctxt == self.top_level_ctxt {
             s.orig.span = s.orig.span.with_ctxt(self.target_ctxt);
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
+}
+
+struct AliasExports {
+    target_ctxt: SyntaxContext,
+    decls: Vec<VarDeclarator>,
+}
+
+impl VisitMut for AliasExports {
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        for item in items.iter_mut() {
+            item.visit_mut_with(self);
+        }
+
+        if !self.decls.is_empty() {
+            items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Const,
+                decls: take(&mut self.decls),
+                declare: false,
+            }))))
+        }
+    }
+
+    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
+        match decl {
+            ModuleDecl::ExportDecl(ref export) => match &export.decl {
+                Decl::Class(_) => {}
+                Decl::Fn(f) => self.decls.push(VarDeclarator {
+                    span: f.function.span,
+                    name: Pat::Ident(Ident::new(
+                        f.ident.sym.clone(),
+                        f.ident.span.with_ctxt(self.target_ctxt),
+                    )),
+                    init: Some(Box::new(Expr::Ident(f.ident.clone()))),
+                    definite: false,
+                }),
+                Decl::Var(var) => {}
+                _ => {}
+            },
+            _ => {}
         }
     }
 
