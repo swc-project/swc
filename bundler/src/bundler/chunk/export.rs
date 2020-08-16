@@ -47,13 +47,16 @@ where
                 from: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 to: SyntaxContext::empty().apply_mark(imported.mark()),
             });
+
+            print_hygiene(&format!("dep:export-renamer"), &self.cm, &dep);
+
             entry.visit_mut_with(&mut ExportMarkApplier);
+
+            print_hygiene("entry:ExportMarkApplier", &self.cm, &entry);
 
             dep = dep.fold_with(&mut Unexporter);
 
             print_hygiene("dep:before-injection", &self.cm, &dep);
-
-            print_hygiene("entry:before-injection", &self.cm, &entry);
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
