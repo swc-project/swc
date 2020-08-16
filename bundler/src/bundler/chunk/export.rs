@@ -56,8 +56,11 @@ where
                 specifiers: &imported.exports.items,
                 excluded: vec![],
             });
-            // }
 
+            dep.visit_mut_with(&mut ExportRenamer {
+                from: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                to: SyntaxContext::empty().apply_mark(imported.mark()),
+            });
             entry.visit_mut_with(&mut ExportRenamer {
                 from: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 to: SyntaxContext::empty().apply_mark(imported.mark()),
@@ -97,6 +100,8 @@ impl VisitMut for ExportInjector {
         for item in items {
             //
             match item {
+                ModuleItem::Stmt(Stmt::Empty(..)) => continue,
+
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
                     if export.src.value == self.src.value =>
                 {
