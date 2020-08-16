@@ -41,7 +41,7 @@ where
 
             dep = self.drop_unused(dep, Some(&specifiers));
 
-            print_hygiene("dep:tree-shaking", &self.cm, &dep);
+            print_hygiene("dep:init", &self.cm, &dep);
 
             dep = dep.fold_with(&mut LocalMarker {
                 mark: info.mark(),
@@ -49,7 +49,7 @@ where
                 excluded: vec![],
             });
 
-            print_hygiene(&format!("dep:export-renamer"), &self.cm, &dep);
+            print_hygiene(&format!("dep:local-marker"), &self.cm, &dep);
 
             entry.visit_mut_with(&mut ExportMarkApplier);
 
