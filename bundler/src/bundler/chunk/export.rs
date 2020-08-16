@@ -256,9 +256,9 @@ impl VisitMut for UnexportAsVar {
     fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
 }
 
-struct NamedExportOrigMarker {
-    top_level_ctxt: SyntaxContext,
-    target_ctxt: SyntaxContext,
+pub(super) struct NamedExportOrigMarker {
+    pub top_level_ctxt: SyntaxContext,
+    pub target_ctxt: SyntaxContext,
 }
 
 impl VisitMut for NamedExportOrigMarker {
