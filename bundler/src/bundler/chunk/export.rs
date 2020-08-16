@@ -63,6 +63,8 @@ where
                 to: SyntaxContext::empty().apply_mark(imported.mark()),
             });
 
+            dep = dep.fold_with(&mut Unexporter);
+
             print_hygiene("dep:before-injection", &self.cm, &dep);
 
             print_hygiene("entry:before-injection", &self.cm, &entry);
