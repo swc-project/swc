@@ -55,7 +55,24 @@ where
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
             for (src, specifiers) in &info.exports.reexports {
-                // Reexport is es6-only.
+                let imported = self.scope.get_module(src.module_id).unwrap();
+                assert!(imported.is_es6, "Reexports are es6 only");
+
+                info.helpers.extend(&imported.helpers);
+
+                if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
+                    log::debug!("Reexport: targets.remove({})", imported.fm.name);
+                    targets.remove(pos);
+                }
+
+                let dep = self
+                    .merge_modules(src.module_id, false, targets)
+                    .with_context(|| {
+                        format!(
+                            "failed to merge for reexport: ({}):{} <= ({}):{}",
+                            info.id, info.fm.name, src.module_id, src.src.value
+                        )
+                    })?;
             }
 
             for (src, specifiers) in &info.imports.specifiers {
