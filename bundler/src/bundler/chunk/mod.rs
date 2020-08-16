@@ -12,6 +12,7 @@ use swc_ecma_visit::FoldWith;
 
 mod circular;
 mod cjs;
+mod export;
 mod merge;
 
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
