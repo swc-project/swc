@@ -299,7 +299,15 @@ impl VisitMut for AliasExports {
     fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
         match decl {
             ModuleDecl::ExportDecl(ref export) => match &export.decl {
-                Decl::Class(_) => {}
+                Decl::Class(c) => self.decls.push(VarDeclarator {
+                    span: c.class.span,
+                    name: Pat::Ident(Ident::new(
+                        c.ident.sym.clone(),
+                        c.ident.span.with_ctxt(self.target_ctxt),
+                    )),
+                    init: Some(Box::new(Expr::Ident(c.ident.clone()))),
+                    definite: false,
+                }),
                 Decl::Fn(f) => self.decls.push(VarDeclarator {
                     span: f.function.span,
                     name: Pat::Ident(Ident::new(
