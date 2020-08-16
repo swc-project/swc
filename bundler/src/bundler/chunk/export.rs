@@ -41,6 +41,7 @@ where
 
             dep = self.drop_unused(dep, Some(&specifiers));
 
+            print_hygiene("entry:init", &self.cm, &entry);
             print_hygiene("dep:init", &self.cm, &dep);
 
             entry = entry.fold_with(&mut LocalMarker {
@@ -55,6 +56,7 @@ where
             dep.visit_mut_with(&mut UnexportAsVar);
             dep = dep.fold_with(&mut Unexporter);
 
+            print_hygiene("entry:before-injection", &self.cm, &entry);
             print_hygiene("dep:before-injection", &self.cm, &dep);
 
             // Replace import statement / require with module body
