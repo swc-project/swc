@@ -102,12 +102,16 @@ impl VisitMut for ExportInjector {
                     buf.push(item);
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    src: Some(ref src),
-                    ..
-                })) if src.value == self.src.value => {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    export @ NamedExport { src: Some(..), .. },
+                )) if export.src.as_ref().unwrap().value == self.src.value => {
                     buf.extend(take(&mut self.imported));
-                    buf.push(item);
+                    buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport {
+                            src: None,
+                            ..export
+                        },
+                    )));
                 }
 
                 _ => buf.push(item),
