@@ -64,10 +64,10 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            // entry.visit_mut_with(&mut ExportRenamer {
-            //     from: SyntaxContext::empty().apply_mark(imported.mark()),
-            //     to: SyntaxContext::empty().apply_mark(info.mark()),
-            // });
+            entry.visit_mut_with(&mut ExportRenamer {
+                from: SyntaxContext::empty().apply_mark(imported.mark()),
+                to: SyntaxContext::empty().apply_mark(info.mark()),
+            });
 
             print_hygiene(
                 &format!(
@@ -144,9 +144,13 @@ impl VisitMut for ExportRenamer {
     }
 
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        if s.orig.span.ctxt == self.from {
-            //
-            s.orig.span = s.orig.span.with_ctxt(self.to);
+        match &mut s.exported {
+            Some(v) => {
+                if v.span.ctxt == self.from {
+                    v.span = v.span.with_ctxt(self.to);
+                }
+            }
+            None => {}
         }
     }
 
