@@ -43,9 +43,10 @@ where
 
             print_hygiene("dep:tree-shaking", &self.cm, &dep);
 
-            dep.visit_mut_with(&mut ExportRenamer {
-                from: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                to: SyntaxContext::empty().apply_mark(imported.mark()),
+            dep = dep.fold_with(&mut LocalMarker {
+                mark: info.mark(),
+                specifiers,
+                excluded: vec![],
             });
 
             print_hygiene(&format!("dep:export-renamer"), &self.cm, &dep);
