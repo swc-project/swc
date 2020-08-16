@@ -52,9 +52,9 @@ where
 
             print_hygiene(&format!("dep:local-marker"), &self.cm, &dep);
 
-            entry.visit_mut_with(&mut ExportMarkApplier);
+            // entry.visit_mut_with(&mut ExportMarkApplier);
 
-            print_hygiene("entry:ExportMarkApplier", &self.cm, &entry);
+            // print_hygiene("entry:ExportMarkApplier", &self.cm, &entry);
 
             dep.visit_mut_with(&mut UnexportAsVar);
             dep = dep.fold_with(&mut Unexporter);
