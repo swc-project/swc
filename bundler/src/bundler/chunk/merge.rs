@@ -297,10 +297,9 @@ impl Fold for Unexporter {
                 },
 
                 // Empty statement
-                ModuleDecl::ExportAll(..) | ModuleDecl::ExportDefaultExpr(..) => {
-                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-                }
-                ModuleDecl::ExportNamed(ref n) if n.src.is_none() => {
+                ModuleDecl::ExportAll(..)
+                | ModuleDecl::ExportDefaultExpr(..)
+                | ModuleDecl::ExportNamed(..) => {
                     ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                 }
                 ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
