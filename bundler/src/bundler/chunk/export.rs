@@ -53,7 +53,9 @@ where
 
             print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
 
-            dep.visit_mut_with(&mut UnexportAsVar);
+            dep.visit_mut_with(&mut UnexportAsVar {
+                target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+            });
             dep = dep.fold_with(&mut Unexporter);
 
             print_hygiene("entry:before-injection", &self.cm, &entry);
@@ -198,7 +200,9 @@ impl VisitMut for ExportMarkApplier {
 /// ```js
 /// const e3 = l1;
 /// ```
-struct UnexportAsVar;
+struct UnexportAsVar {
+    target_ctxt: SyntaxContext,
+}
 
 impl VisitMut for UnexportAsVar {
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
@@ -218,7 +222,15 @@ impl VisitMut for UnexportAsVar {
                                 init: Some(Box::new(Expr::Ident(n.orig.clone()))),
                                 definite: true,
                             }),
-                            None => continue,
+                            None => decls.push(VarDeclarator {
+                                span: n.span,
+                                name: Pat::Ident(Ident::new(
+                                    n.orig.sym.clone(),
+                                    n.orig.span.with_ctxt(self.target_ctxt),
+                                )),
+                                init: Some(Box::new(Expr::Ident(n.orig.clone()))),
+                                definite: false,
+                            }),
                         },
                     }
                 }
