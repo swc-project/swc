@@ -50,8 +50,11 @@ where
                 excluded: vec![],
                 is_export: false,
             });
-
             print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
+            entry.visit_mut_with(&mut NamedExportOrigMarker {
+                top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+            });
 
             dep.visit_mut_with(&mut UnexportAsVar {
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
@@ -247,6 +250,21 @@ impl VisitMut for UnexportAsVar {
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
+}
+
+struct NamedExportOrigMarker {
+    top_level_ctxt: SyntaxContext,
+    target_ctxt: SyntaxContext,
+}
+
+impl VisitMut for NamedExportOrigMarker {
+    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
+        if s.orig.span.ctxt == self.top_level_ctxt {
+            s.orig.span = s.orig.span.with_ctxt(self.target_ctxt);
         }
     }
 
