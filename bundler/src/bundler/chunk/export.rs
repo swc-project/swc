@@ -4,7 +4,7 @@ use crate::{
 };
 use anyhow::{Context, Error};
 use std::mem::take;
-use swc_common::SyntaxContext;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
 
@@ -43,7 +43,6 @@ where
 
             print_hygiene("dep:init", &self.cm, &dep);
 
-            dbg!(&specifiers);
             dep = dep.fold_with(&mut LocalMarker {
                 mark: info.mark(),
                 specifiers,
@@ -57,6 +56,7 @@ where
 
             print_hygiene("entry:ExportMarkApplier", &self.cm, &entry);
 
+            dep.visit_mut_with(&mut UnexportAsVar);
             dep = dep.fold_with(&mut Unexporter);
 
             print_hygiene("dep:before-injection", &self.cm, &dep);
@@ -183,4 +183,58 @@ impl VisitMut for ExportMarkApplier {
             }
         }
     }
+}
+
+/// Converts
+///
+/// ```js
+/// export { l1 as e2 };
+/// ```
+///
+/// to
+///
+/// ```js
+/// const e3 = l1;
+/// ```
+struct UnexportAsVar;
+
+impl VisitMut for UnexportAsVar {
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(ref export)) => {
+                let mut decls = vec![];
+                for s in &export.specifiers {
+                    match s {
+                        ExportSpecifier::Namespace(_) => {}
+                        ExportSpecifier::Default(_) => {}
+                        ExportSpecifier::Named(n) => match &n.exported {
+                            Some(exported) => decls.push(VarDeclarator {
+                                span: n.span,
+                                name: Pat::Ident(exported.clone()),
+                                init: Some(Box::new(Expr::Ident(n.orig.clone()))),
+                                definite: true,
+                            }),
+                            None => continue,
+                        },
+                    }
+                }
+
+                if decls.is_empty() {
+                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                } else {
+                    *n = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: export.span,
+                        decls,
+                        declare: false,
+                        kind: VarDeclKind::Const,
+                    })))
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
 }
