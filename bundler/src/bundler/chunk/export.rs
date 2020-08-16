@@ -172,12 +172,6 @@ impl VisitMut for ExportMarkApplier {
                 ExportSpecifier::Named(n) => {
                     //
                     n.orig.span = n.orig.span.with_ctxt(ctxt);
-                    match &mut n.exported {
-                        Some(exported) => {
-                            exported.span = exported.span.with_ctxt(ctxt);
-                        }
-                        None => {}
-                    }
                 }
             }
         }
