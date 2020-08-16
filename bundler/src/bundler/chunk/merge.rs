@@ -194,28 +194,6 @@ where
 
                         // print_hygiene("dep:before:global-mark", &self.cm, &dep);
 
-                        dep = dep.fold_with(&mut GlobalMarker {
-                            used_mark: self.used_mark,
-                            module_mark: imported.mark(),
-                        });
-
-                        // print_hygiene("dep:after:global-mark", &self.cm, &dep);
-
-                        // {
-                        //     let code = self
-                        //         .swc
-                        //         .print(
-                        //             &dep.clone().fold_with(&mut HygieneVisualizer),
-                        //             SourceMapsConfig::Bool(false),
-                        //             None,
-                        //             false,
-                        //         )
-                        //         .unwrap()
-                        //         .code;
-                        //
-                        //     println!("Dep:\n{}\n\n\n", code);
-                        // }
-
                         // Replace import statement / require with module body
                         let mut injector = Es6ModuleInjector {
                             imported: dep.body.clone(),
@@ -711,35 +689,5 @@ impl VisitMut for Es6ModuleInjector {
         }
 
         *orig = buf;
-    }
-}
-
-pub(super) struct GlobalMarker {
-    pub used_mark: Mark,
-    pub module_mark: Mark,
-}
-
-impl GlobalMarker {
-    fn is_marked_as_used(&self, span: Span) -> bool {
-        let mut ctxt = span.ctxt();
-        loop {
-            let m = ctxt.remove_mark();
-            if m == Mark::root() {
-                return false;
-            }
-            if m == self.used_mark {
-                return true;
-            }
-        }
-    }
-}
-
-impl Fold for GlobalMarker {
-    fn fold_span(&mut self, span: Span) -> Span {
-        if self.is_marked_as_used(span) {
-            return span.apply_mark(self.module_mark);
-        }
-
-        span
     }
 }
