@@ -59,8 +59,8 @@ where
             // }
 
             entry.visit_mut_with(&mut ExportRenamer {
-                top_level: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                module_ctxt: SyntaxContext::empty().apply_mark(imported.mark()),
+                from: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                to: SyntaxContext::empty().apply_mark(imported.mark()),
             });
 
             print_hygiene("dep:before-injection", &self.cm, &dep);
@@ -120,9 +120,9 @@ impl VisitMut for ExportInjector {
 
 struct ExportRenamer {
     /// Syntax context for the top level.
-    top_level: SyntaxContext,
+    from: SyntaxContext,
     /// Syntax context for the top level nodes of dependency module.
-    module_ctxt: SyntaxContext,
+    to: SyntaxContext,
 }
 
 impl VisitMut for ExportRenamer {
@@ -135,9 +135,9 @@ impl VisitMut for ExportRenamer {
     }
 
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        if s.orig.span.ctxt == self.top_level {
+        if s.orig.span.ctxt == self.from {
             //
-            s.orig.span = s.orig.span.with_ctxt(self.module_ctxt);
+            s.orig.span = s.orig.span.with_ctxt(self.to);
         }
     }
 }
