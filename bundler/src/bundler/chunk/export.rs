@@ -6,6 +6,7 @@ use anyhow::{Context, Error};
 use std::mem::take;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -317,7 +318,20 @@ impl VisitMut for AliasExports {
                     init: Some(Box::new(Expr::Ident(f.ident.clone()))),
                     definite: false,
                 }),
-                Decl::Var(var) => {}
+                Decl::Var(var) => {
+                    let ids = find_ids::<_, Ident>(&var.decls);
+                    for ident in ids {
+                        self.decls.push(VarDeclarator {
+                            span: ident.span,
+                            name: Pat::Ident(Ident::new(
+                                ident.sym.clone(),
+                                ident.span.with_ctxt(self.target_ctxt),
+                            )),
+                            init: Some(Box::new(Expr::Ident(ident))),
+                            definite: false,
+                        })
+                    }
+                }
                 _ => {}
             },
             _ => {}
