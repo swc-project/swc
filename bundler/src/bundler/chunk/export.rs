@@ -61,10 +61,7 @@ where
                 from: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 to: SyntaxContext::empty().apply_mark(imported.mark()),
             });
-            entry.visit_mut_with(&mut ExportRenamer {
-                from: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                to: SyntaxContext::empty().apply_mark(imported.mark()),
-            });
+            entry.visit_mut_with(&mut ExportMarkApplier);
 
             dep = dep.fold_with(&mut Unexporter);
 
@@ -149,6 +146,40 @@ impl VisitMut for ExportRenamer {
         if s.orig.span.ctxt == self.from {
             //
             s.orig.span = s.orig.span.with_ctxt(self.to);
+        }
+    }
+}
+
+/// This visitor mondifies hygiene info of identifiers, based on to mark
+/// configured while analyzing reexports.
+struct ExportMarkApplier;
+
+impl VisitMut for ExportMarkApplier {
+    fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
+        // Useless
+        if node.span.ctxt == SyntaxContext::empty() || node.src.is_none() {
+            return;
+        }
+        let ctxt = node.span.ctxt;
+
+        // Remove mark
+        node.span = node.span.with_ctxt(SyntaxContext::empty());
+
+        for specifier in &mut node.specifiers {
+            match specifier {
+                ExportSpecifier::Namespace(_) => {}
+                ExportSpecifier::Default(_) => {}
+                ExportSpecifier::Named(n) => {
+                    //
+                    n.orig.span = n.orig.span.with_ctxt(ctxt);
+                    match &mut n.exported {
+                        Some(exported) => {
+                            exported.span = exported.span.with_ctxt(ctxt);
+                        }
+                        None => {}
+                    }
+                }
+            }
         }
     }
 }

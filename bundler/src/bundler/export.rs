@@ -185,6 +185,7 @@ where
                         match ctxt {
                             Some(ctxt) => {
                                 named.span = named.span.with_ctxt(ctxt);
+                                dbg!(named.span);
                             }
                             None => {}
                         }
