@@ -39,8 +39,6 @@ where
                     )
                 })?;
 
-            print_hygiene("dep:init", &self.cm, &dep);
-
             dep = self.drop_unused(dep, Some(&specifiers));
 
             print_hygiene("dep:tree-shaking", &self.cm, &dep);
@@ -101,7 +99,7 @@ impl VisitMut for ExportInjector {
                     if export.src.value == self.src.value =>
                 {
                     buf.extend(take(&mut self.imported));
-                    // buf.push(item);
+                    buf.push(item);
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -109,7 +107,7 @@ impl VisitMut for ExportInjector {
                     ..
                 })) if src.value == self.src.value => {
                     buf.extend(take(&mut self.imported));
-                    // buf.push(item);
+                    buf.push(item);
                 }
 
                 _ => buf.push(item),
