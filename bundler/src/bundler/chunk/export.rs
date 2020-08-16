@@ -43,14 +43,14 @@ where
 
             print_hygiene("dep:init", &self.cm, &dep);
 
-            dep = dep.fold_with(&mut LocalMarker {
+            entry = entry.fold_with(&mut LocalMarker {
                 mark: info.mark(),
                 specifiers,
                 excluded: vec![],
-                is_export: true,
+                is_export: false,
             });
 
-            print_hygiene(&format!("dep:local-marker"), &self.cm, &dep);
+            print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
 
             // entry.visit_mut_with(&mut ExportMarkApplier);
 
