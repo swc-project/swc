@@ -1,3 +1,3 @@
-import b from './b';
+export { default as b } from './b';
 
 console.log(b);
