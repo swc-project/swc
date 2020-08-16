@@ -44,7 +44,7 @@ where
             print_hygiene("dep:init", &self.cm, &dep);
 
             entry = entry.fold_with(&mut LocalMarker {
-                mark: info.mark(),
+                mark: imported.mark(),
                 specifiers,
                 excluded: vec![],
                 is_export: false,
