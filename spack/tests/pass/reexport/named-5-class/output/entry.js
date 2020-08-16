@@ -1,4 +1,5 @@
-const b = 1;
+class b {
+}
 console.log('b', b);
 const b1 = b;
 const b2 = b1;

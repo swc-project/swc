@@ -1,4 +1,6 @@
-const b = 1;
+function b() {
+    console.log(b);
+}
 console.log('b', b);
 const b1 = b;
 const b2 = b1;
