@@ -15,10 +15,10 @@ where
 {
     pub(super) fn merge_reexports(
         &self,
-        entry: &mut Module,
+        mut entry: Module,
         info: &TransformedModule,
         targets: &mut Vec<ModuleId>,
-    ) -> Result<(), Error> {
+    ) -> Result<Module, Error> {
         for (src, specifiers) in &info.exports.reexports {
             let imported = self.scope.get_module(src.module_id).unwrap();
             assert!(imported.is_es6, "Reexports are es6 only");
@@ -85,7 +85,7 @@ where
             assert_eq!(injector.imported, vec![]);
         }
 
-        Ok(())
+        Ok(entry)
     }
 }
 

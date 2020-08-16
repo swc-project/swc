@@ -54,7 +54,8 @@ where
 
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
-            self.merge_reexports(&mut entry, &info, targets)
+            entry = self
+                .merge_reexports(entry, &info, targets)
                 .context("failed to merge reepxorts")?;
 
             for (src, specifiers) in &info.imports.specifiers {
