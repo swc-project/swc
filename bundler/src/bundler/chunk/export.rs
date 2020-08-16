@@ -43,10 +43,12 @@ where
 
             print_hygiene("dep:init", &self.cm, &dep);
 
+            dbg!(&specifiers);
             dep = dep.fold_with(&mut LocalMarker {
                 mark: info.mark(),
                 specifiers,
                 excluded: vec![],
+                is_export: true,
             });
 
             print_hygiene(&format!("dep:local-marker"), &self.cm, &dep);
@@ -65,6 +67,11 @@ where
                 src: src.src.clone(),
             };
             entry.body.visit_mut_with(&mut injector);
+
+            entry.visit_mut_with(&mut ExportRenamer {
+                from: SyntaxContext::empty().apply_mark(imported.mark()),
+                to: SyntaxContext::empty().apply_mark(info.mark()),
+            });
 
             print_hygiene(
                 &format!(
@@ -133,9 +140,9 @@ struct ExportRenamer {
 
 impl VisitMut for ExportRenamer {
     fn visit_mut_named_export(&mut self, export: &mut NamedExport) {
-        if export.src.is_none() {
-            return;
-        }
+        // if export.src.is_none() {
+        //     return;
+        // }
 
         export.specifiers.visit_mut_children_with(self);
     }
@@ -146,6 +153,8 @@ impl VisitMut for ExportRenamer {
             s.orig.span = s.orig.span.with_ctxt(self.to);
         }
     }
+
+    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
 }
 
 /// This visitor mondifies hygiene info of identifiers, based on to mark
