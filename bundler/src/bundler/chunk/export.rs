@@ -43,20 +43,6 @@ where
 
             print_hygiene("dep:tree-shaking", &self.cm, &dep);
 
-            //     entry = entry.fold_with(&mut LocalMarker {
-            //         mark: imported.mark(),
-            //         specifiers: &specifiers,
-            //         excluded: vec![],
-            //     });
-
-            // // Note: this does not handle `export default
-            // foo`
-            dep = dep.fold_with(&mut LocalMarker {
-                mark: imported.mark(),
-                specifiers: &imported.exports.items,
-                excluded: vec![],
-            });
-
             dep.visit_mut_with(&mut ExportRenamer {
                 from: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 to: SyntaxContext::empty().apply_mark(imported.mark()),
@@ -76,7 +62,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            print_hygiene("entry:injection", &self.cm, &entry);
+            print_hygiene(
+                &format!(
+                    "entry:injection {:?} <- {:?}",
+                    SyntaxContext::empty().apply_mark(info.mark()),
+                    SyntaxContext::empty().apply_mark(imported.mark()),
+                ),
+                &self.cm,
+                &entry,
+            );
             assert_eq!(injector.imported, vec![]);
         }
 
