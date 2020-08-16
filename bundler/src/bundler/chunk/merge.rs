@@ -12,7 +12,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, DestructuringFinder, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
