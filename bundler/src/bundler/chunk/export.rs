@@ -68,10 +68,10 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            entry.visit_mut_with(&mut ExportRenamer {
-                from: SyntaxContext::empty().apply_mark(imported.mark()),
-                to: SyntaxContext::empty().apply_mark(info.mark()),
-            });
+            // entry.visit_mut_with(&mut ExportRenamer {
+            //     from: SyntaxContext::empty().apply_mark(imported.mark()),
+            //     to: SyntaxContext::empty().apply_mark(info.mark()),
+            // });
 
             print_hygiene(
                 &format!(
