@@ -37,49 +37,53 @@ where
 
             let (_, dep) = util::join(
                 || {
-                    entry.visit_mut_with(&mut LocalMarker {
-                        mark: imported.mark(),
-                        specifiers,
-                        excluded: vec![],
-                        is_export: false,
-                    });
-                    // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
-                    entry.visit_mut_with(&mut NamedExportOrigMarker {
-                        top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                        target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                    });
+                    self.run(|| {
+                        entry.visit_mut_with(&mut LocalMarker {
+                            mark: imported.mark(),
+                            specifiers,
+                            excluded: vec![],
+                            is_export: false,
+                        });
+                        // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
+                        entry.visit_mut_with(&mut NamedExportOrigMarker {
+                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                            target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                        });
 
-                    entry.visit_mut_with(&mut ExportRenamer {
-                        from: SyntaxContext::empty().apply_mark(imported.mark()),
-                        to: SyntaxContext::empty().apply_mark(info.mark()),
-                    });
+                        entry.visit_mut_with(&mut ExportRenamer {
+                            from: SyntaxContext::empty().apply_mark(imported.mark()),
+                            to: SyntaxContext::empty().apply_mark(info.mark()),
+                        });
+                    })
                 },
                 || -> Result<_, Error> {
-                    let mut dep = self
-                        .merge_modules(src.module_id, false, targets)
-                        .with_context(|| {
-                            format!(
-                                "failed to merge for reexport: ({}):{} <= ({}):{}",
-                                info.id, info.fm.name, src.module_id, src.src.value
-                            )
-                        })?;
+                    self.run(|| {
+                        let mut dep = self
+                            .merge_modules(src.module_id, false, targets)
+                            .with_context(|| {
+                                format!(
+                                    "failed to merge for reexport: ({}):{} <= ({}):{}",
+                                    info.id, info.fm.name, src.module_id, src.src.value
+                                )
+                            })?;
 
-                    dep = self.drop_unused(dep, Some(&specifiers));
+                        dep = self.drop_unused(dep, Some(&specifiers));
 
-                    dep.visit_mut_with(&mut UnexportAsVar {
-                        target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                    });
-                    // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+                        dep.visit_mut_with(&mut UnexportAsVar {
+                            target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                        });
+                        // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
 
-                    dep.visit_mut_with(&mut AliasExports {
-                        importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                        decls: Default::default(),
-                    });
-                    // print_hygiene("dep:alias-exports", &self.cm, &dep);
+                        dep.visit_mut_with(&mut AliasExports {
+                            importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                            decls: Default::default(),
+                        });
+                        // print_hygiene("dep:alias-exports", &self.cm, &dep);
 
-                    dep = dep.fold_with(&mut Unexporter);
+                        dep = dep.fold_with(&mut Unexporter);
 
-                    Ok(dep)
+                        Ok(dep)
+                    })
                 },
             );
             let dep = dep?;
