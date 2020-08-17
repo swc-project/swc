@@ -178,34 +178,6 @@ impl VisitMut for ExportRenamer {
     fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
 }
 
-/// This visitor mondifies hygiene info of identifiers, based on to mark
-/// configured while analyzing reexports.
-struct ExportMarkApplier;
-
-impl VisitMut for ExportMarkApplier {
-    fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
-        // Useless
-        if node.span.ctxt == SyntaxContext::empty() || node.src.is_none() {
-            return;
-        }
-        let ctxt = node.span.ctxt;
-
-        // Remove mark
-        node.span = node.span.with_ctxt(SyntaxContext::empty());
-
-        for specifier in &mut node.specifiers {
-            match specifier {
-                ExportSpecifier::Namespace(_) => {}
-                ExportSpecifier::Default(_) => {}
-                ExportSpecifier::Named(n) => {
-                    //
-                    n.orig.span = n.orig.span.with_ctxt(ctxt);
-                }
-            }
-        }
-    }
-}
-
 /// Converts
 ///
 /// ```js
