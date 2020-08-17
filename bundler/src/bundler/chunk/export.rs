@@ -1,7 +1,5 @@
 use super::merge::{LocalMarker, Unexporter};
-use crate::{
-    bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
-};
+use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
@@ -45,8 +43,8 @@ where
 
             dep = self.drop_unused(dep, Some(&specifiers));
 
-            print_hygiene("entry:init", &self.cm, &entry);
-            print_hygiene("dep:init", &self.cm, &dep);
+            // print_hygiene("entry:init", &self.cm, &entry);
+            // print_hygiene("dep:init", &self.cm, &dep);
 
             entry = entry.fold_with(&mut LocalMarker {
                 mark: imported.mark(),
@@ -54,24 +52,24 @@ where
                 excluded: vec![],
                 is_export: false,
             });
-            print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
+            // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
             entry.visit_mut_with(&mut NamedExportOrigMarker {
                 top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
             });
 
-            print_hygiene(&format!("entry:named-export-orig"), &self.cm, &entry);
+            // print_hygiene(&format!("entry:named-export-orig"), &self.cm, &entry);
 
             dep.visit_mut_with(&mut UnexportAsVar {
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
             });
-            print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+            // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
 
             dep.visit_mut_with(&mut AliasExports {
                 importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                 decls: Default::default(),
             });
-            print_hygiene("dep:alias-exports", &self.cm, &dep);
+            // print_hygiene("dep:alias-exports", &self.cm, &dep);
 
             dep = dep.fold_with(&mut Unexporter);
 
@@ -80,8 +78,8 @@ where
                 to: SyntaxContext::empty().apply_mark(info.mark()),
             });
 
-            print_hygiene("entry:before-injection", &self.cm, &entry);
-            print_hygiene("dep:before-injection", &self.cm, &dep);
+            // print_hygiene("entry:before-injection", &self.cm, &entry);
+            // print_hygiene("dep:before-injection", &self.cm, &dep);
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
@@ -90,15 +88,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            print_hygiene(
-                &format!(
-                    "entry:injection {:?} <- {:?}",
-                    SyntaxContext::empty().apply_mark(info.mark()),
-                    SyntaxContext::empty().apply_mark(imported.mark()),
-                ),
-                &self.cm,
-                &entry,
-            );
+            // print_hygiene(
+            //     &format!(
+            //         "entry:injection {:?} <- {:?}",
+            //         SyntaxContext::empty().apply_mark(info.mark()),
+            //         SyntaxContext::empty().apply_mark(imported.mark()),
+            //     ),
+            //     &self.cm,
+            //     &entry,
+            // );
             assert_eq!(injector.imported, vec![]);
         }
 
