@@ -1,3 +1,3 @@
-export { a } from './a'
+export { b } from './a'
 
 console.log('entry');
