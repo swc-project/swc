@@ -1,7 +1,7 @@
 use super::merge::{LocalMarker, Unexporter};
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
-use std::iter::once;
+use std::{borrow::Borrow, iter::once};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
@@ -165,7 +165,7 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
         }
 
         // We checked the length of `dep`
-        if let Some(pos) = dependency_index(&dep[0], &[item.clone()]) {
+        if let Some(pos) = dependency_index(&dep[0], &[&item]) {
             log::trace!("Found reverse depndency (index[0]): {}", pos);
 
             new.extend(entry.drain(..=pos));
@@ -192,18 +192,27 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
     new
 }
 
-fn dependency_index(item: &ModuleItem, deps: &[ModuleItem]) -> Option<usize> {
+fn dependency_index<T>(item: &ModuleItem, deps: &[T]) -> Option<usize>
+where
+    T: Borrow<ModuleItem>,
+{
     let mut v = DepFinder { deps, idx: None };
     item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.idx
 }
 
-struct DepFinder<'a> {
-    deps: &'a [ModuleItem],
+struct DepFinder<'a, T>
+where
+    T: Borrow<ModuleItem>,
+{
+    deps: &'a [T],
     idx: Option<usize>,
 }
 
-impl Visit for DepFinder<'_> {
+impl<T> Visit for DepFinder<'_, T>
+where
+    T: Borrow<ModuleItem>,
+{
     noop_visit_type!();
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
@@ -212,7 +221,7 @@ impl Visit for DepFinder<'_> {
         }
 
         for (idx, dep) in self.deps.iter().enumerate() {
-            match dep {
+            match dep.borrow() {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
                     log::trace!(
                         "Decl (from dep) = {}{:?}, Ident = {}{:?}",
