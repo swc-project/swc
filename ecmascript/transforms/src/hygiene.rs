@@ -8,7 +8,7 @@ use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::JsWord;
 use swc_common::{chain, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut};
 
 mod ops;
 #[cfg(test)]
@@ -141,21 +141,21 @@ impl<'a> Hygiene<'a> {
 }
 
 pub fn hygiene() -> impl Fold + 'static {
-    #[derive(Clone, Copy)]
-    struct MarkClearer;
-    impl Fold for MarkClearer {
-        fn fold_span(&mut self, span: Span) -> Span {
-            span.with_ctxt(SyntaxContext::empty())
-        }
-    }
-
     chain!(
         Hygiene {
             current: Default::default(),
             ident_type: IdentType::Ref,
         },
-        MarkClearer
+        as_folder(MarkClearer)
     )
+}
+
+#[derive(Clone, Copy)]
+struct MarkClearer;
+impl VisitMut for MarkClearer {
+    fn visit_mut_span(&mut self, span: &mut Span) {
+        *span = span.with_ctxt(SyntaxContext::empty());
+    }
 }
 
 impl<'a> Hygiene<'a> {
