@@ -42,7 +42,6 @@ where
                             mark: imported.mark(),
                             specifiers,
                             excluded: vec![],
-                            is_export: false,
                         });
                         // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
                         entry.visit_mut_with(&mut NamedExportOrigMarker {

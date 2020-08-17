@@ -116,7 +116,6 @@ where
                         mark: circular_module.mark(),
                         specifiers: &specifiers,
                         excluded: vec![],
-                        is_export: false,
                     });
                     break;
                 }

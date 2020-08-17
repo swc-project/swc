@@ -76,7 +76,6 @@ where
                             mark: imported.mark(),
                             specifiers: &specifiers,
                             excluded: vec![],
-                            is_export: false,
                         });
                     }
 
@@ -182,7 +181,6 @@ where
                                 mark: imported.mark(),
                                 specifiers: &specifiers,
                                 excluded: vec![],
-                                is_export: false,
                             });
 
                             // // Note: this does not handle `export default
@@ -523,7 +521,6 @@ pub(super) struct LocalMarker<'a> {
     /// Mark applied to imported idents.
     pub mark: Mark,
     pub specifiers: &'a [Specifier],
-    pub is_export: bool,
     pub excluded: Vec<Id>,
 }
 
@@ -601,24 +598,10 @@ impl VisitMut for LocalMarker<'_> {
         }
 
         // TODO: sym() => correct span
-        if self.is_export {
-            if self.specifiers.iter().any(|id| match id {
-                Specifier::Specific { local, alias } => match alias {
-                    Some(v) => *v == *node,
-                    None => *local == *node,
-                },
-                Specifier::Namespace { local } => *local == *node,
-            }) {
-                node.span = node
-                    .span
-                    .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
-            }
-        } else {
-            if self.specifiers.iter().any(|id| *id.local() == *node) {
-                node.span = node
-                    .span
-                    .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
-            }
+        if self.specifiers.iter().any(|id| *id.local() == *node) {
+            node.span = node
+                .span
+                .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
         }
     }
 
