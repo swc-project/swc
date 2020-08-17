@@ -8,7 +8,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, sync::Lrc, FileName, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;

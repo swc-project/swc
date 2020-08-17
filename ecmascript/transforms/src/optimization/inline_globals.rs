@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[derive(Clone)]
 pub struct InlineGlobals {

@@ -17,7 +17,7 @@ use swc_ecma_ast::{
     ModuleDecl, Str,
 };
 use swc_ecma_transforms::resolver_with_mark;
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith, noop_visit_type};
+use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
 pub(super) struct TransformedModule {

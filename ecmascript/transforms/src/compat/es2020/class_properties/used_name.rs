@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith, noop_fold_type};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// Used to rename **binding** identifiers in constructor.
 pub(super) struct UsedNameRenamer<'a> {
