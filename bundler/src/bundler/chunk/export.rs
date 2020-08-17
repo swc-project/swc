@@ -60,13 +60,24 @@ where
             print_hygiene(&format!("entry:named-export-orig"), &self.cm, &entry);
 
             dep.visit_mut_with(&mut UnexportAsVar {
+                from_ctxt: SyntaxContext::empty().apply_mark(imported.mark()),
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
             });
+            print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+
             dep.visit_mut_with(&mut AliasExports {
+                var_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                 target_ctxt: SyntaxContext::empty().apply_mark(imported.mark()),
                 decls: Default::default(),
             });
+            print_hygiene("dep:alias-exports", &self.cm, &dep);
+
             dep = dep.fold_with(&mut Unexporter);
+
+            entry.visit_mut_with(&mut ExportRenamer {
+                from: SyntaxContext::empty().apply_mark(imported.mark()),
+                to: SyntaxContext::empty().apply_mark(info.mark()),
+            });
 
             print_hygiene("entry:before-injection", &self.cm, &entry);
             print_hygiene("dep:before-injection", &self.cm, &dep);
@@ -77,11 +88,6 @@ where
                 src: src.src.clone(),
             };
             entry.body.visit_mut_with(&mut injector);
-
-            entry.visit_mut_with(&mut ExportRenamer {
-                from: SyntaxContext::empty().apply_mark(imported.mark()),
-                to: SyntaxContext::empty().apply_mark(info.mark()),
-            });
 
             print_hygiene(
                 &format!(
@@ -166,6 +172,9 @@ impl VisitMut for ExportRenamer {
             }
             None => {}
         }
+        if s.orig.span.ctxt == self.from {
+            s.orig.span = s.orig.span.with_ctxt(self.to);
+        }
     }
 
     fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
@@ -211,6 +220,8 @@ impl VisitMut for ExportMarkApplier {
 /// const e3 = l1;
 /// ```
 struct UnexportAsVar {
+    from_ctxt: SyntaxContext,
+    /// Syntax context for the generated variables.
     target_ctxt: SyntaxContext,
 }
 
@@ -226,12 +237,18 @@ impl VisitMut for UnexportAsVar {
                         ExportSpecifier::Namespace(_) => {}
                         ExportSpecifier::Default(_) => {}
                         ExportSpecifier::Named(n) => match &n.exported {
-                            Some(exported) => decls.push(VarDeclarator {
-                                span: n.span,
-                                name: Pat::Ident(exported.clone()),
-                                init: Some(Box::new(Expr::Ident(n.orig.clone()))),
-                                definite: true,
-                            }),
+                            Some(exported) => {
+                                // TODO: (maybe) Check previous context
+                                let mut exported = exported.clone();
+                                exported.span = exported.span.with_ctxt(self.target_ctxt);
+
+                                decls.push(VarDeclarator {
+                                    span: n.span,
+                                    name: Pat::Ident(exported),
+                                    init: Some(Box::new(Expr::Ident(n.orig.clone()))),
+                                    definite: true,
+                                })
+                            }
                             None => decls.push(VarDeclarator {
                                 span: n.span,
                                 name: Pat::Ident(Ident::new(
@@ -279,6 +296,7 @@ impl VisitMut for NamedExportOrigMarker {
 }
 
 struct AliasExports {
+    var_ctxt: SyntaxContext,
     target_ctxt: SyntaxContext,
     decls: Vec<VarDeclarator>,
 }
@@ -327,7 +345,7 @@ impl VisitMut for AliasExports {
                             span: ident.span,
                             name: Pat::Ident(Ident::new(
                                 ident.sym.clone(),
-                                ident.span.with_ctxt(self.target_ctxt),
+                                ident.span.with_ctxt(self.var_ctxt),
                             )),
                             init: Some(Box::new(Expr::Ident(ident))),
                             definite: false,
