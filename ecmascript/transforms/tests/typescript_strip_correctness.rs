@@ -161,7 +161,6 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                     let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
-                    let handlers = Box::new(MyHandlers);
                     {
                         let mut emitter = Emitter {
                             cfg: swc_ecma_codegen::Config { minify: false },
@@ -173,7 +172,6 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 None,
                             )),
                             comments: None,
-                            handlers,
                         };
 
                         // Parse source

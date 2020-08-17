@@ -46,16 +46,10 @@ fn main() {
         cm: cm.clone(),
         comments: None,
         wr: Box::new(JsWriter::new(cm.clone(), "\n", wr.lock(), None)),
-        handlers: Box::new(Handllers),
     };
 
     emitter.emit_module(&bundle.module).unwrap();
 }
-
-/// I should remove this...
-struct Handllers;
-
-impl swc_ecma_codegen::Handlers for Handllers {}
 
 struct PathLoader {
     cm: Lrc<SourceMap>,
