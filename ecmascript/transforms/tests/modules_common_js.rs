@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
     proposals::{decorators, export},
     resolver_with_mark, typescript,
 };
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{as_folder, Fold};
 
 #[macro_use]
 mod common;
@@ -93,7 +93,7 @@ test!(
             resolver_with_mark(mark),
             // Optional::new(typescript::strip(), syntax.typescript()),
             import_analyzer(),
-            InjectHelpers,
+            as_folder(InjectHelpers),
             common_js(mark, Default::default()),
             hygiene(),
             fixer(None)
@@ -130,7 +130,7 @@ test!(
         compat::es2015(Mark::fresh(Mark::root()), Default::default()),
         compat::es3(true),
         import_analyzer(),
-        InjectHelpers,
+        as_folder(InjectHelpers),
         common_js(Mark::fresh(Mark::root()), Default::default()),
     ),
     issue_389_3,

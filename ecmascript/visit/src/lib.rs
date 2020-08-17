@@ -108,6 +108,46 @@ macro_rules! assert_eq_ignore_span {
     }};
 }
 
+pub fn as_folder<V>(v: V) -> Folder<V>
+where
+    V: VisitMut,
+{
+    Folder(v)
+}
+
+/// Wrap a [VisitMut] as a [Fold]
+#[derive(Debug, Clone, Copy)]
+pub struct Folder<V: VisitMut>(V);
+
+macro_rules! method {
+    ($name:ident, $T:ty) => {
+        #[inline(always)]
+        fn $name(&mut self, mut n: $T) -> $T {
+            n.visit_mut_with(&mut self.0);
+            n
+        }
+    };
+}
+
+impl<V> Fold for Folder<V>
+where
+    V: VisitMut,
+{
+    method!(fold_ident, Ident);
+    method!(fold_span, Span);
+
+    method!(fold_expr, Expr);
+    method!(fold_decl, Decl);
+    method!(fold_stmt, Stmt);
+    method!(fold_pat, Pat);
+
+    method!(fold_ts_type, TsType);
+
+    method!(fold_module, Module);
+    method!(fold_script, Script);
+    method!(fold_program, Program);
+}
+
 define!({
     pub struct Class {
         pub span: Span,

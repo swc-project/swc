@@ -17,7 +17,7 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMutWith};
 use tempfile::tempdir_in;
 
 pub fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Fold> {
@@ -129,9 +129,9 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut DropSpan {
+            .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
-            })
+            }))
             .fold_with(&mut Normalizer);
 
         Ok(module)
@@ -188,9 +188,9 @@ where
 {
     Tester::run(|tester| {
         let expected = tester.apply_transform(
-            DropSpan {
+            as_folder(DropSpan {
                 preserve_ctxt: true,
-            },
+            }),
             "output.js",
             syntax,
             expected,
@@ -313,7 +313,7 @@ where
             _ => {}
         }
 
-        let module = module
+        let mut module = module
             .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut swc_ecma_transforms::hygiene())
             .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
@@ -321,7 +321,7 @@ where
             .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
-        let module = module.fold_with(&mut InjectHelpers {});
+        module.visit_mut_with(&mut InjectHelpers {});
 
         let src = tester.print(&module);
         let root = Path::new(env!("CARGO_MANIFEST_DIR"))

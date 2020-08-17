@@ -7,6 +7,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional, typescript,
 };
+use swc_ecma_visit::as_folder;
 
 /// Builder is used to create a high performance `Compiler`.
 pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
@@ -182,7 +183,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 modules::import_analysis::import_analyzer(),
                 need_interop_analysis
             ),
-            helpers::InjectHelpers,
+            as_folder(helpers::InjectHelpers),
             ModuleConfig::build(self.cm.clone(), root_mark, module),
             Optional::new(hygiene(), self.hygiene),
             Optional::new(fixer(comments), self.fixer),

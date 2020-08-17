@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
-use swc_ecma_transforms::util::DropSpan;
+use swc_ecma_transforms::util::drop_span;
 use swc_ecma_visit::FoldWith;
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
@@ -304,11 +304,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let actual_src = print(&actual);
             let expected_src = print(&expected);
 
-            if actual.fold_with(&mut DropSpan {
-                preserve_ctxt: false,
-            }) == expected.fold_with(&mut DropSpan {
-                preserve_ctxt: false,
-            }) {
+            if drop_span(actual) == drop_span(expected) {
                 return Ok(());
             }
 

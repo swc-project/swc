@@ -1,11 +1,11 @@
 use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
-use swc_common::{FileName, FilePathMapping, Mark, SourceMap, Span, DUMMY_SP};
+use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -31,10 +31,11 @@ macro_rules! add_to {
             );
             let stmts = Parser::new_from(lexer)
                 .parse_script()
-                .map(|script| {
-                    script.body.fold_with(&mut DropSpan {
+                .map(|mut script| {
+                    script.body.visit_mut_with(&mut DropSpan {
                         preserve_ctxt: false,
-                    })
+                    });
+                    script.body
                 })
                 .map_err(|e| {
                     unreachable!("Error occurred while parsing error: {:?}", e);
@@ -49,7 +50,10 @@ macro_rules! add_to {
                 STMTS
                     .iter()
                     .cloned()
-                    .map(|stmt| stmt.fold_with(&mut Marker($mark)))
+                    .map(|mut stmt| {
+                        stmt.visit_mut_with(&mut Marker($mark));
+                        stmt
+                    })
                     .map(ModuleItem::Stmt),
             )
         }
@@ -251,13 +255,11 @@ impl InjectHelpers {
     }
 }
 
-impl Fold for InjectHelpers {
-    fn fold_module(&mut self, module: Module) -> Module {
-        let mut module = validate!(module);
+impl VisitMut for InjectHelpers {
+    fn visit_mut_module(&mut self, module: &mut Module) {
         let helpers = self.mk_helpers();
 
         prepend_stmts(&mut module.body, helpers.into_iter());
-        module
     }
 }
 
@@ -265,9 +267,9 @@ struct Marker(Mark);
 
 noop_fold_type!(Marker);
 
-impl Fold for Marker {
-    fn fold_span(&mut self, sp: Span) -> Span {
-        sp.apply_mark(self.0)
+impl VisitMut for Marker {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.span = i.span.apply_mark(self.0);
     }
 }
 
@@ -275,6 +277,7 @@ impl Fold for Marker {
 mod tests {
     use super::*;
     use crate::pass::noop;
+    use swc_ecma_visit::{as_folder, FoldWith};
 
     #[test]
     fn external_helper() {
@@ -283,9 +286,9 @@ swcHelpers._throw()";
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    DropSpan {
+                    as_folder(DropSpan {
                         preserve_ctxt: false,
-                    },
+                    }),
                     "output.js",
                     Default::default(),
                     "import * as swcHelpers1 from '@swc/helpers';
@@ -296,7 +299,7 @@ swcHelpers._throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = InjectHelpers;
+                let tr = as_folder(InjectHelpers);
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
                     .fold_with(&mut crate::hygiene::hygiene())
@@ -329,7 +332,7 @@ swcHelpers._throw();",
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                InjectHelpers
+                as_folder(InjectHelpers)
             },
             "'use strict'",
             "'use strict'
@@ -347,7 +350,7 @@ function _throw(e) {
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                InjectHelpers
+                as_folder(InjectHelpers)
             },
             "let _throw = null",
             "function _throw(e) {

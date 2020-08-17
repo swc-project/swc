@@ -21,7 +21,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{errors::Handler, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{Node, Visit, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
 
 #[macro_use]
@@ -1565,25 +1565,26 @@ pub fn is_valid_ident(s: &JsWord) -> bool {
     UnicodeXID::is_xid_start(first) && s.chars().skip(1).all(UnicodeXID::is_xid_continue)
 }
 
-pub fn drop_span<T>(t: T) -> T
+pub fn drop_span<T>(mut t: T) -> T
 where
-    T: FoldWith<DropSpan>,
+    T: VisitMutWith<DropSpan>,
 {
-    t.fold_with(&mut DropSpan {
+    t.visit_mut_with(&mut DropSpan {
         preserve_ctxt: false,
-    })
+    });
+    t
 }
 
 pub struct DropSpan {
     pub preserve_ctxt: bool,
 }
-impl Fold for DropSpan {
-    fn fold_span(&mut self, span: Span) -> Span {
-        if self.preserve_ctxt {
+impl VisitMut for DropSpan {
+    fn visit_mut_span(&mut self, span: &mut Span) {
+        *span = if self.preserve_ctxt {
             DUMMY_SP.with_ctxt(span.ctxt())
         } else {
             DUMMY_SP
-        }
+        };
     }
 }
 

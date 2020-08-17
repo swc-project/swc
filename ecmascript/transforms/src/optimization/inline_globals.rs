@@ -83,6 +83,7 @@ impl Fold for InlineGlobals {
 mod tests {
     use super::*;
     use swc_ecma_utils::DropSpan;
+    use swc_ecma_visit::as_folder;
 
     fn mk_map(
         tester: &mut crate::tests::Tester<'_>,
@@ -100,9 +101,9 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    DropSpan {
+                    as_folder(DropSpan {
                         preserve_ctxt: false,
-                    },
+                    }),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,

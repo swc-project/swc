@@ -14,7 +14,7 @@ use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMutWith};
 use tempfile::tempdir_in;
 
 pub(crate) struct Tester<'a> {
@@ -115,9 +115,9 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut DropSpan {
+            .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
-            })
+            }))
             .fold_with(&mut Normalizer);
 
         Ok(module)
@@ -179,9 +179,9 @@ pub(crate) fn test_transform<F, P>(
 {
     crate::tests::Tester::run(|tester| {
         let expected = tester.apply_transform(
-            ::swc_ecma_utils::DropSpan {
+            as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
-            },
+            }),
             "output.js",
             syntax,
             expected,
@@ -304,7 +304,7 @@ where
             _ => {}
         }
 
-        let module = module
+        let mut module = module
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
@@ -312,7 +312,7 @@ where
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
-        let module = module.fold_with(&mut InjectHelpers {});
+        module.visit_mut_with(&mut InjectHelpers {});
 
         let src = tester.print(&module);
         let root = Path::new(env!("CARGO_MANIFEST_DIR"))

@@ -3,8 +3,7 @@ use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
 use swc_common::{FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
-use swc_ecma_utils::{prepend_stmts, DropSpan};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_utils::{drop_span, prepend_stmts};
 
 #[derive(Debug, Default)]
 pub(super) struct Helpers {
@@ -35,9 +34,7 @@ macro_rules! define {
                     );
                     let stmts = Parser::new_from(lexer)
                         .parse_module()
-                        .map(|script| script.body.fold_with(&mut DropSpan {
-                            preserve_ctxt:false,
-                        }))
+                        .map(|script| drop_span(script.body))
                         .map_err(|_| {
                             ()
                         })
