@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::noop_visit_mut_type;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
@@ -92,6 +93,8 @@ where
     L: Load,
     R: Resolve,
 {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {
             // TODO: Optimize pure constants

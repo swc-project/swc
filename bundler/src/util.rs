@@ -1,5 +1,6 @@
 use std::hash::Hash;
 use swc_common::{Span, SyntaxContext};
+use swc_ecma_transforms::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 
 #[derive(Debug)]
@@ -63,6 +64,8 @@ where
 pub(crate) struct HygieneRemover;
 
 impl VisitMut for HygieneRemover {
+    noop_visit_mut_type!();
+
     fn visit_mut_span(&mut self, s: &mut Span) {
         *s = s.with_ctxt(SyntaxContext::empty())
     }

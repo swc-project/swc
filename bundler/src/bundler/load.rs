@@ -16,7 +16,7 @@ use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
     ModuleDecl, Str,
 };
-use swc_ecma_transforms::resolver_with_mark;
+use swc_ecma_transforms::{noop_visit_type, resolver_with_mark};
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
@@ -375,6 +375,8 @@ struct Es6ModuleDetector {
 }
 
 impl Visit for Es6ModuleDetector {
+    noop_visit_type!();
+
     fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
         e.visit_children_with(self);
 

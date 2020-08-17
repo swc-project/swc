@@ -4,6 +4,7 @@ use hygiene::top_level_ident_folder;
 use std::iter::once;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms::noop_visit_type;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 
 mod hygiene;
@@ -204,6 +205,8 @@ struct DepFinder<'a> {
 }
 
 impl Visit for DepFinder<'_> {
+    noop_visit_type!();
+
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if self.idx.is_some() {
             return;

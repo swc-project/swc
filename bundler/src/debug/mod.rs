@@ -4,6 +4,7 @@ use std::io::{stdout, Write};
 use swc_common::{sync::Lrc, SourceMap};
 use swc_ecma_ast::{Ident, Module};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_visit::{Fold, FoldWith};
 
 pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
@@ -27,6 +28,8 @@ pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
 struct HygieneVisualizer;
 
 impl Fold for HygieneVisualizer {
+    noop_fold_type!();
+
     fn fold_ident(&mut self, node: Ident) -> Ident {
         Ident {
             sym: format!("{}{:?}", node.sym, node.span.ctxt()).into(),

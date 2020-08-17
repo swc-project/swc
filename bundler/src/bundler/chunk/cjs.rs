@@ -4,6 +4,7 @@ use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
+use swc_ecma_transforms::noop_visit_mut_type;
 use swc_ecma_utils::{prepend, undefined, ExprFactory};
 use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
 
@@ -148,6 +149,8 @@ struct RequireReplacer {
 }
 
 impl VisitMut for RequireReplacer {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
         node.visit_mut_children_with(self);
 
@@ -287,6 +290,8 @@ impl VisitMut for RequireReplacer {
 struct ImportDropper;
 
 impl VisitMut for ImportDropper {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
         match i {
             ModuleItem::ModuleDecl(..) => {

@@ -7,6 +7,7 @@ use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_transforms::noop_visit_mut_type;
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -110,6 +111,8 @@ struct ExportInjector {
 }
 
 impl VisitMut for ExportInjector {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
         let items = take(orig);
         let mut buf = Vec::with_capacity(self.imported.len() + items.len());
@@ -154,6 +157,8 @@ struct ExportRenamer {
 }
 
 impl VisitMut for ExportRenamer {
+    noop_visit_mut_type!();
+
     fn visit_mut_named_export(&mut self, export: &mut NamedExport) {
         // if export.src.is_none() {
         //     return;
@@ -196,6 +201,8 @@ struct UnexportAsVar {
 }
 
 impl VisitMut for UnexportAsVar {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
         n.visit_mut_children_with(self);
 
@@ -277,6 +284,8 @@ pub(super) struct NamedExportOrigMarker {
 }
 
 impl VisitMut for NamedExportOrigMarker {
+    noop_visit_mut_type!();
+
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
         if s.orig.span.ctxt == self.top_level_ctxt {
             s.orig.span = s.orig.span.with_ctxt(self.target_ctxt);
@@ -293,6 +302,8 @@ struct AliasExports {
 }
 
 impl VisitMut for AliasExports {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         for item in items.iter_mut() {
             item.visit_mut_with(self);
@@ -355,6 +366,8 @@ impl VisitMut for AliasExports {
 struct DefaultRenamer;
 
 impl VisitMut for DefaultRenamer {
+    noop_visit_mut_type!();
+
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.orig.sym == js_word!("default") {
             n.orig.sym = "__default".into()

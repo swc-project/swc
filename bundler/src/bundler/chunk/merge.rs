@@ -14,6 +14,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::{noop_visit_mut_type, noop_fold_type};
 use swc_ecma_utils::{find_ids, DestructuringFinder, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
@@ -244,6 +245,8 @@ where
 pub(super) struct Unexporter;
 
 impl Fold for Unexporter {
+    noop_fold_type!();
+
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         match item {
             ModuleItem::ModuleDecl(decl) => match decl {
@@ -342,6 +345,8 @@ impl ExportRenamer<'_> {
 }
 
 impl Fold for ExportRenamer<'_> {
+    noop_fold_type!();
+
     fn fold_class(&mut self, node: Class) -> Class {
         node
     }
@@ -485,6 +490,8 @@ struct ActualMarker<'a> {
 }
 
 impl Fold for ActualMarker<'_> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, node: Expr) -> Expr {
         node
     }
@@ -568,6 +575,8 @@ impl<'a, 'b> DerefMut for Excluder<'a, 'b> {
 }
 
 impl Fold for LocalMarker<'_> {
+    noop_fold_type!();
+
     fn fold_catch_clause(&mut self, mut node: CatchClause) -> CatchClause {
         let mut f = self.exclude(&node.param);
         node.body = node.body.fold_with(&mut *f);
@@ -671,6 +680,8 @@ struct Es6ModuleInjector {
 }
 
 impl VisitMut for Es6ModuleInjector {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
         let items = take(orig);
         let mut buf = Vec::with_capacity(self.imported.len() + items.len());
