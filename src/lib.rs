@@ -200,7 +200,6 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
-                    let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
@@ -215,7 +214,6 @@ impl Compiler {
                                 None
                             },
                         )),
-                        handlers,
                     };
 
                     node.emit_with(&mut emitter)
@@ -452,10 +450,6 @@ impl Compiler {
         })
     }
 }
-
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {

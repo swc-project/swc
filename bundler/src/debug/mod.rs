@@ -18,16 +18,11 @@ pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
         cm: cm.clone(),
         comments: None,
         wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut w, None)),
-        handlers: Box::new(Handlers),
     }
     .emit_module(&module)
     .unwrap();
     writeln!(w, "==================== @ ====================").unwrap();
 }
-
-impl swc_ecma_codegen::Handlers for Handlers {}
-
-struct Handlers;
 
 struct HygieneVisualizer;
 

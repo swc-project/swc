@@ -46,10 +46,6 @@ macro_rules! validate {
     }};
 }
 
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
-
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
@@ -142,8 +138,6 @@ impl<'a> Tester<'a> {
     }
 
     pub fn print(&mut self, module: &Module) -> String {
-        let handlers = Box::new(MyHandlers);
-
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
@@ -156,7 +150,6 @@ impl<'a> Tester<'a> {
                     None,
                 )),
                 comments: None,
-                handlers,
             };
 
             // println!("Emitting: {:?}", module);

@@ -203,7 +203,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let print = |m: &Module| {
                 let mut buf = vec![];
                 {
-                    let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify: false },
                         comments: None,
@@ -214,7 +213,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                             &mut buf,
                             None,
                         )),
-                        handlers,
                     };
 
                     emitter.emit_module(m).expect("failed to emit module");
@@ -344,7 +342,3 @@ fn fixtures() {
     let args: Vec<_> = env::args().collect();
     test_main(&args, tests, Some(test::Options::new()));
 }
-
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}

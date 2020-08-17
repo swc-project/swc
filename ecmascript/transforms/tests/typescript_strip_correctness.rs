@@ -36,10 +36,6 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
-
 fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
@@ -161,7 +157,6 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                     let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
-                    let handlers = Box::new(MyHandlers);
                     {
                         let mut emitter = Emitter {
                             cfg: swc_ecma_codegen::Config { minify: false },
@@ -173,7 +168,6 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 None,
                             )),
                             comments: None,
-                            handlers,
                         };
 
                         // Parse source

@@ -15,7 +15,6 @@ pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error>
             cm,
             comments: None,
             wr: Box::new(&mut buf) as Box<dyn WriteJs>,
-            handlers: Box::new(Handlers),
         };
 
         emitter
@@ -27,9 +26,6 @@ pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error>
     let result = buf.digest.sum64();
     Ok(radix_fmt::radix(result, 36).to_string())
 }
-
-impl swc_ecma_codegen::Handlers for Handlers {}
-struct Handlers;
 
 struct Hasher {
     digest: Digest,
