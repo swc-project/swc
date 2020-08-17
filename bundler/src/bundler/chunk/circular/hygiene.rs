@@ -2,8 +2,7 @@ use crate::id::Id;
 use std::collections::HashSet;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::noop_fold_type;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn top_level_ident_folder(top_level_mark: Mark, module_mark: Mark) -> impl 'static + Fold {
     MergeFolder {

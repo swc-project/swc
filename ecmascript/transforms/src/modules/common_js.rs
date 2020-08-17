@@ -8,7 +8,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitWith, noop_fold_type};
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
     CommonJs {

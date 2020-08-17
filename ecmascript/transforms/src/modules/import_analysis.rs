@@ -2,7 +2,7 @@ use super::util::Scope;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, Node, Visit};
+use swc_ecma_visit::{noop_fold_type, Fold, Node, Visit};
 
 pub fn import_analyzer() -> impl Fold {
     ImportAnalyzer {

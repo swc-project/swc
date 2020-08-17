@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
 
 #[cfg(test)]
 mod tests;

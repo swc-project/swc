@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use swc_atoms::JsWord;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn duplicate_keys() -> impl Fold {
     DuplicateKeys

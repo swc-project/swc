@@ -4,9 +4,8 @@ use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
-use swc_ecma_transforms::noop_visit_mut_type;
 use swc_ecma_utils::{prepend, undefined, ExprFactory};
-use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where

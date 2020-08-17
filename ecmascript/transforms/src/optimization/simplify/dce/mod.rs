@@ -11,7 +11,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitWith, noop_fold_type};
 
 macro_rules! preserve {
     ($name:ident, $T:ty) => {

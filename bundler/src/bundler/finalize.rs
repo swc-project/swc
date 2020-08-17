@@ -7,8 +7,7 @@ use std::{
 };
 use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::{ImportDecl, Str};
-use swc_ecma_transforms::noop_fold_type;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 impl<L, R> Bundler<'_, L, R>
 where

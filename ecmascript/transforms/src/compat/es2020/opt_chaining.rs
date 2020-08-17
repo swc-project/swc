@@ -2,7 +2,7 @@ use crate::util::{prepend, undefined, ExprFactory, StmtLike};
 use std::{fmt::Debug, iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn optional_chaining() -> impl Fold {
     OptChaining::default()

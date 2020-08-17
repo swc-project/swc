@@ -1,6 +1,6 @@
 use super::*;
 use swc_common::{Span, Spanned, DUMMY_SP};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{Node, Visit, VisitWith, noop_visit_type};
 
 impl<'a, I: Tokens> Parser<I> {
     pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {

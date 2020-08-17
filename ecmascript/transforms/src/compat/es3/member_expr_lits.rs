@@ -1,6 +1,6 @@
 use crate::util::is_valid_ident;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `transform-member-expression-literals`
 ///

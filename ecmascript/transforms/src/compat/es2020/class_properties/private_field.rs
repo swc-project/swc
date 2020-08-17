@@ -6,7 +6,7 @@ use std::{collections::HashSet, iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,

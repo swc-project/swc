@@ -3,7 +3,7 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith, noop_fold_type};
 
 /// `@babel/plugin-transform-for-of`
 ///

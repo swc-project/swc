@@ -10,9 +10,8 @@ use swc_common::{
     sync::Lrc, util::move_map::MoveMap, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
 
 #[cfg(test)]
 mod tests;

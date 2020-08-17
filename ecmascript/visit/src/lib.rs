@@ -148,6 +148,7 @@ where
     method!(fold_program, Program);
 }
 
+/// Note: Ignoring more types is not considered as a breaking change.
 #[macro_export]
 macro_rules! noop_fold_type {
     ($name:ident, $N:tt) => {
@@ -226,6 +227,7 @@ macro_rules! noop_fold_type {
     };
 }
 
+/// Note: Ignoring more types is not considered as a breaking change.
 #[macro_export]
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
@@ -302,6 +304,7 @@ macro_rules! noop_visit_type {
     };
 }
 
+/// Note: Ignoring more types is not considered as a breaking change.
 #[macro_export]
 macro_rules! noop_visit_mut_type {
     ($name:ident, $N:ident) => {

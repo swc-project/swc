@@ -1,6 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{noop_fold_type, Fold};
 
 #[cfg(test)]
 mod tests;

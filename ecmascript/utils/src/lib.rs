@@ -21,7 +21,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{errors::Handler, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Node, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
 
 #[macro_use]
@@ -1304,10 +1304,6 @@ impl Visit for LiteralVisitor {
     }
 
     fn visit_ts_non_null_expr(&mut self, _: &TsNonNullExpr, _parent: &dyn Node) {
-        self.is_lit = false
-    }
-
-    fn visit_ts_type_assertion(&mut self, _: &TsTypeAssertion, _parent: &dyn Node) {
         self.is_lit = false
     }
 

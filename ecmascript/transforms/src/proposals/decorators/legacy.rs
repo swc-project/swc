@@ -8,7 +8,7 @@ use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod metadata;
 

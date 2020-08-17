@@ -8,7 +8,7 @@ use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::JsWord;
 use swc_common::{chain, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut};
+use swc_ecma_visit::{as_folder, noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut};
 
 mod ops;
 #[cfg(test)]

@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 pub struct VarCollector<'a> {
     pub to: &'a mut Vec<(JsWord, SyntaxContext)>,
@@ -21,12 +21,6 @@ impl Visit for VarCollector<'_> {
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         self.to.push((i.sym.clone(), i.span.ctxt()))
     }
-
-    fn visit_ts_type(&mut self, _: &TsType, _parent: &dyn Node) {}
-
-    fn visit_ts_type_ann(&mut self, _: &TsTypeAnn, _parent: &dyn Node) {}
-
-    fn visit_ts_type_param(&mut self, _: &TsTypeParam, _parent: &dyn Node) {}
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
         node.name.visit_with(node, self);

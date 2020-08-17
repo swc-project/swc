@@ -8,7 +8,7 @@ use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 mod builtin;
 mod data;
