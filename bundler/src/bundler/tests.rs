@@ -7,7 +7,7 @@ use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::VisitMutWith;
 
 pub(super) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -84,7 +84,10 @@ impl<'a> Tester<'a> {
     pub fn assert_eq(&self, m: &Module, expected: &str) {
         let expected = self.parse(expected);
 
-        let m = drop_span(m.clone().fold_with(&mut HygieneRemover));
+        let mut m = m.clone();
+        m.visit_mut_with(&mut HygieneRemover);
+
+        let m = drop_span(m);
         let expected = drop_span(expected);
 
         assert_eq!(m, expected)

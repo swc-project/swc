@@ -5,7 +5,7 @@ use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{prepend, undefined, ExprFactory};
-use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -49,10 +49,8 @@ where
             {
                 info.helpers.require.store(true, Ordering::SeqCst);
 
-                let dep = dep
-                    .into_owned()
-                    .fold_with(&mut Unexporter)
-                    .fold_with(&mut ImportDropper);
+                let mut dep = dep.into_owned().fold_with(&mut Unexporter);
+                dep.visit_mut_with(&mut ImportDropper);
 
                 prepend(
                     &mut entry.body,
@@ -288,15 +286,13 @@ impl VisitMut for RequireReplacer {
 
 struct ImportDropper;
 
-impl Fold for ImportDropper {
-    fn fold_module_item(&mut self, mut i: ModuleItem) -> ModuleItem {
-        i = i.fold_children_with(self);
-
+impl VisitMut for ImportDropper {
+    fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
         match i {
             ModuleItem::ModuleDecl(..) => {
-                ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
             }
-            ModuleItem::Stmt(_) => i,
+            ModuleItem::Stmt(_) => {}
         }
     }
 }
