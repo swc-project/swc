@@ -53,8 +53,6 @@ struct ForOf {
     c: Config,
 }
 
-noop_fold_type!(ForOf);
-
 /// Real folder.
 struct Actual {
     c: Config,
@@ -395,6 +393,8 @@ impl Actual {
 }
 
 impl Fold for Actual {
+    noop_fold_type!();
+
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         match stmt {
             Stmt::Labeled(LabeledStmt { span, label, body }) => {
@@ -498,6 +498,8 @@ fn make_finally_block(
 }
 
 impl Fold for ForOf {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

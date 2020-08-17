@@ -5,9 +5,9 @@ pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
 }
 
-noop_fold_type!(ThisInStaticFolder);
-
 impl Fold for ThisInStaticFolder {
+    noop_fold_type!();
+
     fn fold_class(&mut self, n: Class) -> Class {
         n
     }

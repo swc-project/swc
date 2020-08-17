@@ -62,8 +62,6 @@ pub struct Classes {
     in_strict: bool,
 }
 
-noop_fold_type!(Classes);
-
 struct Data {
     key_prop: Box<Prop>,
     method: Option<Box<Expr>>,
@@ -167,6 +165,8 @@ impl Classes {
 }
 
 impl Fold for Classes {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(items)
     }

@@ -67,8 +67,6 @@ pub struct Resolver<'a> {
     ident_type: IdentType,
 }
 
-noop_fold_type!(Resolver<'_>);
-
 impl<'a> Resolver<'a> {
     fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
         Resolver {
@@ -200,6 +198,8 @@ impl<'a> Resolver<'a> {
 }
 
 impl<'a> Fold for Resolver<'a> {
+    noop_fold_type!();
+
     track_ident!();
 
     fn fold_arrow_expr(&mut self, e: ArrowExpr) -> ArrowExpr {

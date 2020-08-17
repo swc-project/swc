@@ -38,9 +38,9 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[derive(Default, Clone, Copy)]
 pub struct Shorthand;
 
-noop_fold_type!(Shorthand);
-
 impl Fold for Shorthand {
+    noop_fold_type!();
+
     fn fold_prop(&mut self, prop: Prop) -> Prop {
         let prop = prop.fold_children_with(self);
 

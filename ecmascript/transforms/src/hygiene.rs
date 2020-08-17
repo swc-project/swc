@@ -21,8 +21,6 @@ struct Hygiene<'a> {
     ident_type: IdentType,
 }
 
-noop_fold_type!(Hygiene<'_>);
-
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
@@ -485,6 +483,8 @@ macro_rules! track_ident {
 }
 
 impl<'a> Fold for Hygiene<'a> {
+    noop_fold_type!();
+
     track_ident!();
 
     fn fold_arrow_expr(&mut self, mut node: ArrowExpr) -> ArrowExpr {

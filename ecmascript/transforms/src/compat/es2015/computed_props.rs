@@ -40,8 +40,6 @@ pub fn computed_properties() -> impl Fold {
 
 struct ComputedProps;
 
-noop_fold_type!(ComputedProps);
-
 #[derive(Default)]
 struct ObjectLitFolder {
     vars: Vec<VarDeclarator>,
@@ -49,6 +47,8 @@ struct ObjectLitFolder {
 }
 
 impl Fold for ObjectLitFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         let expr = expr.fold_children_with(self);

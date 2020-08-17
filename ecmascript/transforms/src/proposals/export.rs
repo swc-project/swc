@@ -12,9 +12,9 @@ pub fn export() -> impl Fold {
 #[derive(Clone)]
 struct ExportDefaultFrom;
 
-noop_fold_type!(ExportDefaultFrom);
-
 impl Fold for ExportDefaultFrom {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         // Imports
         let mut stmts = Vec::with_capacity(items.len() + 4);

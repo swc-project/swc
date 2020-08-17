@@ -30,8 +30,6 @@ struct Regenerator {
     top_level_vars: Vec<VarDeclarator>,
 }
 
-noop_fold_type!(Regenerator);
-
 fn rt(global_mark: Mark, rt: Ident) -> Stmt {
     Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
@@ -86,6 +84,8 @@ impl Regenerator {
 }
 
 impl Fold for Regenerator {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         if !Finder::find(&e) {
             return e;

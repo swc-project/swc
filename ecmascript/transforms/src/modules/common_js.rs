@@ -26,9 +26,9 @@ struct CommonJs {
     in_top_level: bool,
 }
 
-noop_fold_type!(CommonJs);
-
 impl Fold for CommonJs {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 4);

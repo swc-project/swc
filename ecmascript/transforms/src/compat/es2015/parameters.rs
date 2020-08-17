@@ -12,8 +12,6 @@ pub fn parameters() -> Params {
 pub struct Params;
 // prevent_recurse!(Params, Pat);
 
-noop_fold_type!(Params);
-
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
         let body = validate!(body);
@@ -249,5 +247,7 @@ impl Params {
 }
 
 impl Fold for Params {
+    noop_fold_type!();
+
     impl_fold_fn!();
 }

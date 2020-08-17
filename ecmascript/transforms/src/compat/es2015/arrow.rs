@@ -58,9 +58,9 @@ pub fn arrow() -> impl Fold {
 
 struct Arrow;
 
-noop_fold_type!(Arrow);
-
 impl Fold for Arrow {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         // fast path
         if !contains_arrow_expr(&e) {

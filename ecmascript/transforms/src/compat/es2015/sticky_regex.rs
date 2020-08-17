@@ -21,9 +21,9 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[derive(Clone, Copy)]
 pub struct StickyRegex;
 
-noop_fold_type!(StickyRegex);
-
 impl Fold for StickyRegex {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

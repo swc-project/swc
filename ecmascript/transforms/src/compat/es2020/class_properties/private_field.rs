@@ -16,8 +16,6 @@ pub(super) struct FieldAccessFolder<'a> {
     pub in_assign_pat: bool,
 }
 
-noop_fold_type!(FieldAccessFolder<'_>);
-
 macro_rules! take_vars {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, f: $T) -> $T {
@@ -47,6 +45,8 @@ macro_rules! take_vars {
 }
 
 impl<'a> Fold for FieldAccessFolder<'a> {
+    noop_fold_type!();
+
     take_vars!(fold_function, Function);
     take_vars!(fold_constructor, Constructor);
 

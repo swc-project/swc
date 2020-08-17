@@ -50,8 +50,6 @@ struct BlockScoping {
     var_decl_kind: VarDeclKind,
 }
 
-noop_fold_type!(BlockScoping);
-
 impl BlockScoping {
     /// This methods remove [ScopeKind::Loop] and [ScopeKind::Fn], but not
     /// [ScopeKind::ForLetLoop]
@@ -341,6 +339,8 @@ impl BlockScoping {
 }
 
 impl Fold for BlockScoping {
+    noop_fold_type!();
+
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         ArrowExpr {
             params: f.params.fold_with(self),
@@ -592,9 +592,9 @@ struct InfectionFinder<'a> {
     found: bool,
 }
 
-noop_visit_type!(InfectionFinder<'_>);
-
 impl Visit for InfectionFinder<'_> {
+    noop_visit_type!();
+
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         let old = self.found;
         self.found = false;
@@ -656,10 +656,10 @@ struct FlowHelper {
     has_return: bool,
 }
 
-noop_fold_type!(FlowHelper);
-
 /// noop
 impl Fold for FlowHelper {
+    noop_fold_type!();
+
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         f
     }
@@ -728,9 +728,9 @@ struct FunctionFinder {
     found: bool,
 }
 
-noop_visit_type!(FunctionFinder);
-
 impl Visit for FunctionFinder {
+    noop_visit_type!();
+
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {
         self.found = true
     }

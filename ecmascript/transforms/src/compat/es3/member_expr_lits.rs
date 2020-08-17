@@ -22,9 +22,9 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[derive(Default, Clone, Copy)]
 pub struct MemberExprLit;
 
-noop_fold_type!(MemberExprLit);
-
 impl Fold for MemberExprLit {
+    noop_fold_type!();
+
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
         let mut e = validate!(e.fold_children_with(self));
 

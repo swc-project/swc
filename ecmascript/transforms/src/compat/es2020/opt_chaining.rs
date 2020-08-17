@@ -13,9 +13,9 @@ struct OptChaining {
     vars: Vec<VarDeclarator>,
 }
 
-noop_fold_type!(OptChaining);
-
 impl Fold for OptChaining {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),

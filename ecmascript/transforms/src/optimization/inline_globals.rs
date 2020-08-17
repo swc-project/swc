@@ -9,9 +9,9 @@ pub struct InlineGlobals {
     pub globals: HashMap<JsWord, Expr>,
 }
 
-noop_fold_type!(InlineGlobals);
-
 impl Fold for InlineGlobals {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::Member(expr) => {

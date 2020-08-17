@@ -6,9 +6,9 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[derive(Clone, Copy)]
 pub struct BlockScopedFns;
 
-noop_fold_type!(BlockScopedFns);
-
 impl Fold for BlockScopedFns {
+    noop_fold_type!();
+
     fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         let mut stmts = Vec::with_capacity(items.len());
         let mut extra_stmts = Vec::with_capacity(items.len());

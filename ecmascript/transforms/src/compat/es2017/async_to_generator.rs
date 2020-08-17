@@ -34,15 +34,13 @@ pub fn async_to_generator() -> impl Fold {
 #[derive(Default, Clone)]
 struct AsyncToGenerator;
 
-noop_fold_type!(AsyncToGenerator);
-
 struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
-noop_fold_type!(Actual);
-
 impl Fold for AsyncToGenerator {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -86,6 +84,8 @@ impl AsyncToGenerator {
 }
 
 impl Fold for Actual {
+    noop_fold_type!();
+
     fn fold_class_method(&mut self, m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;

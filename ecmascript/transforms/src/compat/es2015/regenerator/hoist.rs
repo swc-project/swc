@@ -26,8 +26,6 @@ pub(super) struct Hoister {
     pub arguments: Option<Ident>,
 }
 
-noop_fold_type!(Hoister);
-
 impl Hoister {
     fn var_decl_to_expr(&mut self, var: VarDecl) -> Expr {
         let var = var.fold_children_with(self);
@@ -59,6 +57,8 @@ impl Hoister {
 }
 
 impl Fold for Hoister {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

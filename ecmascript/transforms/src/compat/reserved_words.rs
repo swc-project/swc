@@ -8,9 +8,9 @@ pub fn reserved_words() -> impl 'static + Fold {
 
 struct EsReservedWord {}
 
-noop_fold_type!(EsReservedWord);
-
 impl Fold for EsReservedWord {
+    noop_fold_type!();
+
     fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
         n
     }

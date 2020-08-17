@@ -17,9 +17,9 @@ pub fn display_name() -> impl Fold {
 
 struct DisplayName;
 
-noop_fold_type!(DisplayName);
-
 impl Fold for DisplayName {
+    noop_fold_type!();
+
     fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
         let expr = expr.fold_children_with(self);
 

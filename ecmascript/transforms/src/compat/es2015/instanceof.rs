@@ -31,9 +31,9 @@ use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 #[derive(Clone)]
 pub struct InstanceOf;
 
-noop_fold_type!(InstanceOf);
-
 impl Fold for InstanceOf {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         fn should_work(node: &Expr) -> bool {
             struct Visitor {

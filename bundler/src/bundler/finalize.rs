@@ -121,12 +121,12 @@ where
     renamed: &'a HashMap<PathBuf, String>,
 }
 
-noop_fold_type!(Renamer<'_, '_>);
-
 impl<R> Fold for Renamer<'_, R>
 where
     R: Resolve,
 {
+    noop_fold_type!();
+
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
         let resolved = match self
             .resolver

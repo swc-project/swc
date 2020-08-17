@@ -76,14 +76,14 @@ struct ConstModules {
     scope: Scope,
 }
 
-noop_fold_type!(ConstModules);
-
 #[derive(Default)]
 struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
 impl Fold for ConstModules {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         items.move_flat_map(|item| match item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {

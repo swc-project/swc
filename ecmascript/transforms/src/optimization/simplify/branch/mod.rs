@@ -44,9 +44,9 @@ struct Remover {
     normal_block: bool,
 }
 
-noop_fold_type!(Remover);
-
 impl Fold for Remover {
+    noop_fold_type!();
+
     fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
         let mut p: ArrayPat = p.fold_children_with(self);
 

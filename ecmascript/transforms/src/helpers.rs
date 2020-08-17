@@ -230,8 +230,6 @@ define_helpers!(Helpers {
 #[derive(Clone)]
 pub struct InjectHelpers;
 
-noop_fold_type!(InjectHelpers);
-
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
         let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
@@ -256,6 +254,8 @@ impl InjectHelpers {
 }
 
 impl VisitMut for InjectHelpers {
+    noop_visit_mut_type!();
+
     fn visit_mut_module(&mut self, module: &mut Module) {
         let helpers = self.mk_helpers();
 
@@ -265,9 +265,9 @@ impl VisitMut for InjectHelpers {
 
 struct Marker(Mark);
 
-noop_fold_type!(Marker);
-
 impl VisitMut for Marker {
+    noop_visit_mut_type!();
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         i.span = i.span.apply_mark(self.0);
     }

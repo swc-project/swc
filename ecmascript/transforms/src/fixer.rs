@@ -29,8 +29,6 @@ struct Fixer<'a> {
     span_map: FxHashMap<Span, Span>,
 }
 
-noop_fold_type!(Fixer);
-
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Context {
@@ -70,6 +68,8 @@ macro_rules! array {
 }
 
 impl Fold for Fixer<'_> {
+    noop_fold_type!();
+
     array!(fold_array_lit, ArrayLit);
     // array!(ArrayPat);
 

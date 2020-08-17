@@ -15,9 +15,9 @@ struct JsxSrc {
     dev: bool,
 }
 
-noop_fold_type!(JsxSrc);
-
 impl Fold for JsxSrc {
+    noop_fold_type!();
+
     fn fold_jsx_opening_element(&mut self, mut e: JSXOpeningElement) -> JSXOpeningElement {
         if !self.dev || e.span == DUMMY_SP {
             return e;

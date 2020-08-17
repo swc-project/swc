@@ -34,9 +34,9 @@ struct Umd {
     exports: Exports,
 }
 
-noop_fold_type!(Umd);
-
 impl Fold for Umd {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let exports = self.exports.0.clone();
         let top_level = self.in_top_level;

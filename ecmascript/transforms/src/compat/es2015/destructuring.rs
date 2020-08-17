@@ -37,8 +37,6 @@ struct Destructuring {
     c: Config,
 }
 
-noop_fold_type!(Destructuring);
-
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct Config {
     #[serde(default)]
@@ -448,6 +446,8 @@ impl AssignFolder {
 }
 
 impl Fold for Destructuring {
+    noop_fold_type!();
+
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
     impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
 

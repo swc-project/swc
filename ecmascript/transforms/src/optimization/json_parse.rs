@@ -32,8 +32,6 @@ pub struct JsonParse {
     pub min_cost: usize,
 }
 
-noop_fold_type!(JsonParse);
-
 impl Default for JsonParse {
     fn default() -> Self {
         JsonParse { min_cost: 1024 }
@@ -41,6 +39,8 @@ impl Default for JsonParse {
 }
 
 impl Fold for JsonParse {
+    noop_fold_type!();
+
     /// Handles parent expressions before child expressions.
     fn fold_expr(&mut self, e: Expr) -> Expr {
         if self.min_cost == usize::MAX {

@@ -32,9 +32,9 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[derive(Default, Clone, Copy)]
 pub struct PropertyLiteral;
 
-noop_fold_type!(PropertyLiteral);
-
 impl Fold for PropertyLiteral {
+    noop_fold_type!();
+
     fn fold_prop_name(&mut self, n: PropName) -> PropName {
         let n = validate!(n.fold_children_with(self));
 

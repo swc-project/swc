@@ -3,13 +3,13 @@ use swc_ecma_visit::{Fold, FoldWith};
 
 struct OptionalCatchBinding;
 
-noop_fold_type!(OptionalCatchBinding);
-
 pub fn optional_catch_binding() -> impl Fold {
     OptionalCatchBinding
 }
 
 impl Fold for OptionalCatchBinding {
+    noop_fold_type!();
+
     fn fold_catch_clause(&mut self, mut cc: CatchClause) -> CatchClause {
         cc = cc.fold_children_with(self);
 

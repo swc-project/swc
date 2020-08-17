@@ -15,10 +15,9 @@ struct ImportAnalyzer {
     scope: Scope,
 }
 
-noop_fold_type!(ImportAnalyzer);
-noop_visit_type!(ImportAnalyzer);
-
 impl Fold for ImportAnalyzer {
+    noop_fold_type!();
+
     fn fold_module(&mut self, module: Module) -> Module {
         self.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
 
@@ -35,6 +34,8 @@ impl Fold for ImportAnalyzer {
 }
 
 impl Visit for ImportAnalyzer {
+    noop_visit_type!();
+
     fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {
         *self
             .scope

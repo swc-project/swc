@@ -33,8 +33,6 @@ struct SimplifyExpr {
     changed: bool,
 }
 
-noop_fold_type!(SimplifyExpr);
-
 impl CompilerPass for SimplifyExpr {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("simplify-expr")
@@ -996,6 +994,8 @@ impl SimplifyExpr {
 }
 
 impl Fold for SimplifyExpr {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fold children before doing something more.
         let expr = expr.fold_children_with(self);

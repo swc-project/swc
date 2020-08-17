@@ -10,9 +10,9 @@ pub struct TemplateLiteral {
     added: Vec<Stmt>,
 }
 
-noop_fold_type!(TemplateLiteral);
-
 impl Fold for TemplateLiteral {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = validate!(e);
 

@@ -13,8 +13,6 @@ pub(super) struct SuperCallFinder {
     in_complex: bool,
 }
 
-noop_visit_type!(SuperCallFinder);
-
 impl SuperCallFinder {
     ///
     /// - `None`: if no `super()` is found or super() is last call
@@ -68,6 +66,8 @@ macro_rules! mark_as_complex {
 }
 
 impl Visit for SuperCallFinder {
+    noop_visit_type!();
+
     mark_as_complex!(visit_arrow_expr, ArrowExpr);
     mark_as_complex!(visit_if_stmt, IfStmt);
     mark_as_complex!(visit_prop_name, PropName);

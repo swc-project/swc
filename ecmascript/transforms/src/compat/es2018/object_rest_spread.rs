@@ -13,8 +13,6 @@ pub fn object_rest_spread() -> impl Fold {
 
 struct ObjectRest;
 
-noop_fold_type!(ObjectRest);
-
 #[allow(clippy::vec_box)]
 struct RestFolder {
     /// Injected before the original statement.
@@ -24,8 +22,6 @@ struct RestFolder {
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
 }
-
-noop_fold_type!(RestFolder);
 
 macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
@@ -143,6 +139,8 @@ macro_rules! impl_for_for_stmt {
 }
 
 impl Fold for RestFolder {
+    noop_fold_type!();
+
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
     impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
     impl_fold_fn!();
@@ -399,6 +397,7 @@ where
 }
 
 impl Fold for ObjectRest {
+    noop_fold_type!();
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -1016,6 +1015,8 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
 fn simplify_pat(pat: Pat) -> Pat {
     struct PatSimplifier;
     impl Fold for PatSimplifier {
+        noop_fold_type!();
+
         fn fold_pat(&mut self, pat: Pat) -> Pat {
             let pat = pat.fold_children_with(self);
 
@@ -1055,9 +1056,9 @@ fn simplify_pat(pat: Pat) -> Pat {
 
 struct ObjectSpread;
 
-noop_fold_type!(ObjectSpread);
-
 impl Fold for ObjectSpread {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fast-path
         if !contains_spread(&expr) {

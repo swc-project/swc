@@ -24,9 +24,9 @@ use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 #[derive(Clone)]
 pub struct TypeOfSymbol;
 
-noop_fold_type!(TypeOfSymbol);
-
 impl Fold for TypeOfSymbol {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fast path
         if !should_work(&expr) {

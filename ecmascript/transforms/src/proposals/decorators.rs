@@ -78,9 +78,9 @@ struct Decorators {
     is_in_strict: bool,
 }
 
-noop_fold_type!(Decorators);
-
 impl Fold for Decorators {
+    noop_fold_type!();
+
     fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl = decl.fold_children_with(self);
 

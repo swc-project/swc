@@ -7,9 +7,9 @@ pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,
 }
 
-noop_fold_type!(ClassNameTdzFolder<'_>);
-
 impl<'a> Fold for ClassNameTdzFolder<'a> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match expr {
             Expr::Ident(i) => {

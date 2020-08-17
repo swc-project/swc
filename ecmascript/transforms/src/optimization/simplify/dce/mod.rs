@@ -70,8 +70,6 @@ struct UsedMarkRemover {
     used_mark: Mark,
 }
 
-noop_fold_type!(UsedMarkRemover);
-
 impl CompilerPass for UsedMarkRemover {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("dce-cleanup")
@@ -87,6 +85,8 @@ impl Repeated for UsedMarkRemover {
 }
 
 impl Fold for UsedMarkRemover {
+    noop_fold_type!();
+
     fn fold_span(&mut self, s: Span) -> Span {
         let mut ctxt = s.ctxt().clone();
         if ctxt.remove_mark() == self.used_mark {

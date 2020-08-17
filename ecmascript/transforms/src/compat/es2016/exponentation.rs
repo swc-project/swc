@@ -31,16 +31,14 @@ pub fn exponentation() -> impl Fold {
 #[derive(Clone, Copy)]
 struct Exponentation;
 
-noop_fold_type!(Exponentation);
-
 #[derive(Default)]
 struct AssignFolder {
     vars: Vec<VarDeclarator>,
 }
 
-noop_fold_type!(AssignFolder);
-
 impl Fold for AssignFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -95,6 +93,8 @@ impl Fold for AssignFolder {
 }
 
 impl Fold for Exponentation {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

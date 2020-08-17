@@ -40,8 +40,6 @@ pub(crate) struct SuperFieldAccessFolder<'a> {
     pub this_alias_mark: Option<Mark>,
 }
 
-noop_fold_type!(SuperFieldAccessFolder<'_>);
-
 struct SuperCalleeFolder<'a> {
     vars: &'a mut Vec<VarDeclarator>,
     class_name: &'a Ident,
@@ -58,8 +56,6 @@ struct SuperCalleeFolder<'a> {
     /// `Some(mark)` if `var this2 = this`is required.
     this_alias_mark: Option<Mark>,
 }
-
-noop_fold_type!(SuperCalleeFolder<'_>);
 
 macro_rules! mark_nested {
     ($name:ident, $T:tt) => {
@@ -79,6 +75,8 @@ macro_rules! mark_nested {
 }
 
 impl<'a> Fold for SuperCalleeFolder<'a> {
+    noop_fold_type!();
+
     fold_only_key!();
 
     fn fold_expr(&mut self, n: Expr) -> Expr {
@@ -410,6 +408,8 @@ impl<'a> SuperCalleeFolder<'a> {
 }
 
 impl<'a> Fold for SuperFieldAccessFolder<'a> {
+    noop_fold_type!();
+
     mark_nested!(fold_function, Function);
     mark_nested!(fold_class, Class);
 

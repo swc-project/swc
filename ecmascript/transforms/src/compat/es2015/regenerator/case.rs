@@ -1486,9 +1486,9 @@ struct CatchParamHandler<'a> {
     param: Option<&'a Pat>,
 }
 
-noop_fold_type!(CatchParamHandler<'_>);
-
 impl Fold for CatchParamHandler<'_> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, node: Expr) -> Expr {
         match self.param {
             None => return node,

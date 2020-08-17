@@ -72,8 +72,6 @@ struct Inlining<'a> {
     pat_mode: PatFoldingMode,
 }
 
-noop_fold_type!(Inlining<'_>);
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum PatFoldingMode {
     Assign,
@@ -92,6 +90,8 @@ impl Inlining<'_> {
 }
 
 impl Fold for Inlining<'_> {
+    noop_fold_type!();
+
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
         self.fold_with_child(ScopeKind::Fn { named: false }, node)
     }

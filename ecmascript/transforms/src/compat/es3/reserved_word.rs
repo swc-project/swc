@@ -23,9 +23,9 @@ pub struct ReservedWord {
     pub preserve_import: bool,
 }
 
-noop_fold_type!(ReservedWord);
-
 impl Fold for ReservedWord {
+    noop_fold_type!();
+
     fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
         n
     }

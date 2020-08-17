@@ -27,8 +27,6 @@ struct Amd {
     exports: Exports,
 }
 
-noop_fold_type!(Amd);
-
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
@@ -40,6 +38,8 @@ pub struct Config {
 }
 
 impl Fold for Amd {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let top_level = self.in_top_level;
 
