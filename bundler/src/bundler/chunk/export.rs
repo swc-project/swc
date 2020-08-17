@@ -60,14 +60,12 @@ where
             print_hygiene(&format!("entry:named-export-orig"), &self.cm, &entry);
 
             dep.visit_mut_with(&mut UnexportAsVar {
-                from_ctxt: SyntaxContext::empty().apply_mark(imported.mark()),
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
             });
             print_hygiene("dep:unexport-as-var", &self.cm, &dep);
 
             dep.visit_mut_with(&mut AliasExports {
-                var_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                target_ctxt: SyntaxContext::empty().apply_mark(imported.mark()),
+                importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                 decls: Default::default(),
             });
             print_hygiene("dep:alias-exports", &self.cm, &dep);
@@ -220,7 +218,6 @@ impl VisitMut for ExportMarkApplier {
 /// const e3 = l1;
 /// ```
 struct UnexportAsVar {
-    from_ctxt: SyntaxContext,
     /// Syntax context for the generated variables.
     target_ctxt: SyntaxContext,
 }
@@ -296,8 +293,8 @@ impl VisitMut for NamedExportOrigMarker {
 }
 
 struct AliasExports {
-    var_ctxt: SyntaxContext,
-    target_ctxt: SyntaxContext,
+    /// Syntax context of the importer.
+    importer_ctxt: SyntaxContext,
     decls: Vec<VarDeclarator>,
 }
 
@@ -324,7 +321,7 @@ impl VisitMut for AliasExports {
                     span: c.class.span,
                     name: Pat::Ident(Ident::new(
                         c.ident.sym.clone(),
-                        c.ident.span.with_ctxt(self.target_ctxt),
+                        c.ident.span.with_ctxt(self.importer_ctxt),
                     )),
                     init: Some(Box::new(Expr::Ident(c.ident.clone()))),
                     definite: false,
@@ -333,7 +330,7 @@ impl VisitMut for AliasExports {
                     span: f.function.span,
                     name: Pat::Ident(Ident::new(
                         f.ident.sym.clone(),
-                        f.ident.span.with_ctxt(self.target_ctxt),
+                        f.ident.span.with_ctxt(self.importer_ctxt),
                     )),
                     init: Some(Box::new(Expr::Ident(f.ident.clone()))),
                     definite: false,
@@ -345,7 +342,7 @@ impl VisitMut for AliasExports {
                             span: ident.span,
                             name: Pat::Ident(Ident::new(
                                 ident.sym.clone(),
-                                ident.span.with_ctxt(self.var_ctxt),
+                                ident.span.with_ctxt(self.importer_ctxt),
                             )),
                             init: Some(Box::new(Expr::Ident(ident))),
                             definite: false,
