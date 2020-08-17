@@ -1,6 +1,6 @@
 [package]
 name = "swc_bundler"
-version = "0.2.4"
+version = "0.3.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -20,8 +20,8 @@ swc_common = { version = "0.9", path = "../common" }
 swc_ecma_ast = { version = "0.28", path = "../ecmascript/ast" }
 swc_ecma_codegen = { version = "0.31", path = "../ecmascript/codegen" }
 swc_ecma_parser = { version = "0.33", path = "../ecmascript/parser" }
-swc_ecma_transforms = { version = "0.19", path = "../ecmascript/transforms" }
-swc_ecma_utils = { version = "0.17", path = "../ecmascript/utils" }
+swc_ecma_transforms = { version = "0.20.0", path = "../ecmascript/transforms" }
+swc_ecma_utils = { version = "0.18.0", path = "../ecmascript/utils" }
 swc_ecma_visit = { version = "0.13", path = "../ecmascript/visit" }
 anyhow = "1"
 crc = "1.8"
