@@ -1,6 +1,7 @@
 use std::{iter, ptr};
 
 pub trait MoveMap<T>: Sized {
+    /// Map in place.
     fn move_map<F>(self, mut f: F) -> Self
     where
         F: FnMut(T) -> T,
@@ -8,6 +9,10 @@ pub trait MoveMap<T>: Sized {
         self.move_flat_map(|e| iter::once(f(e)))
     }
 
+    /// This will be very slow if you try to extend vector using this method.
+    ///
+    /// This method exists to drop useless nodes. You can return Option to do
+    /// such shortening.
     fn move_flat_map<F, I>(self, f: F) -> Self
     where
         F: FnMut(T) -> I,
