@@ -13,4 +13,6 @@ pub(super) struct RegeneratorVisitor {
 }
 
 /// TODO
-impl Visit for RegeneratorVisitor {}
+impl Visit for RegeneratorVisitor {
+    noop_visit_type!();
+}

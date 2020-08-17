@@ -633,6 +633,8 @@ struct DecoratorFinder {
     found: bool,
 }
 impl Visit for DecoratorFinder {
+    noop_visit_type!();
+
     fn visit_decorator(&mut self, _: &Decorator, _: &dyn Node) {
         self.found = true
     }

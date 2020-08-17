@@ -167,6 +167,8 @@ struct ShouldFold {
     found: bool,
 }
 impl Visit for ShouldFold {
+    noop_visit_type!();
+
     fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
         if e.op == op!("**") {
             self.found = true;

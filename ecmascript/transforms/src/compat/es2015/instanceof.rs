@@ -40,6 +40,8 @@ impl Fold for InstanceOf {
                 found: bool,
             }
             impl Visit for Visitor {
+                noop_visit_type!();
+
                 fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
                     if e.op == op!("instanceof") {
                         self.found = true

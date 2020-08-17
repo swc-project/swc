@@ -87,6 +87,8 @@ fn should_work(node: &Expr) -> bool {
         found: bool,
     }
     impl Visit for Visitor {
+        noop_visit_type!();
+
         fn visit_unary_expr(&mut self, e: &UnaryExpr, _: &dyn Node) {
             if e.op == op!("typeof") {
                 self.found = true

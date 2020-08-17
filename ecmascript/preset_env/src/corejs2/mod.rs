@@ -123,6 +123,8 @@ impl UsageVisitor {
 
 /// Detects usage of types
 impl Visit for UsageVisitor {
+    noop_visit_type!();
+
     fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         node.visit_children_with(self);
 

@@ -819,6 +819,8 @@ struct AsyncVisitor {
 }
 
 impl Visit for AsyncVisitor {
+    noop_visit_type!();
+
     fn visit_function(&mut self, f: &Function, _: &dyn Node) {
         if f.is_async {
             self.found = true;

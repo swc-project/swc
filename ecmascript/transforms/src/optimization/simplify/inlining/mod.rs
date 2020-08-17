@@ -814,6 +814,8 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
+    noop_visit_type!();
+
     fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         self.scope.add_write(&node.to_id(), true);
     }

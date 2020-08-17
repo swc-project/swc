@@ -37,6 +37,8 @@ pub struct ThisVisitor {
 }
 
 impl Visit for ThisVisitor {
+    noop_visit_type!();
+
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
 
@@ -81,6 +83,8 @@ pub struct IdentFinder<'a> {
 }
 
 impl Visit for IdentFinder<'_> {
+    noop_visit_type!();
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
@@ -271,6 +275,8 @@ pub struct Hoister {
 }
 
 impl Visit for Hoister {
+    noop_visit_type!();
+
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         node.right.visit_children_with(self);
     }
@@ -1091,6 +1097,8 @@ pub struct RestPatVisitor {
 }
 
 impl Visit for RestPatVisitor {
+    noop_visit_type!();
+
     fn visit_rest_pat(&mut self, _: &RestPat, _: &dyn Node) {
         self.found = true;
     }
@@ -1126,6 +1134,8 @@ pub struct LiteralVisitor {
 }
 
 impl Visit for LiteralVisitor {
+    noop_visit_type!();
+
     fn visit_array_lit(&mut self, e: &ArrayLit, _: &dyn Node) {
         if !self.is_lit {
             return;
@@ -1546,6 +1556,8 @@ where
 }
 
 impl<'a, I: IdentLike> Visit for DestructuringFinder<'a, I> {
+    noop_visit_type!();
+
     /// No-op (we don't care about expressions)
     fn visit_expr(&mut self, _: &Expr, _: &dyn Node) {}
 
@@ -1595,6 +1607,8 @@ pub struct UsageFinder<'a> {
 }
 
 impl<'a> Visit for UsageFinder<'a> {
+    noop_visit_type!();
+
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
             self.found = true;

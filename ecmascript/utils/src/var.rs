@@ -8,6 +8,8 @@ pub struct VarCollector<'a> {
 }
 
 impl Visit for VarCollector<'_> {
+    noop_visit_type!();
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _parent: &dyn Node) {}
 
     fn visit_constructor(&mut self, _: &Constructor, _parent: &dyn Node) {}

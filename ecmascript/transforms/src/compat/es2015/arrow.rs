@@ -141,6 +141,8 @@ struct ArrowVisitor {
     found: bool,
 }
 impl Visit for ArrowVisitor {
+    noop_visit_type!();
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
         self.found = true;
     }

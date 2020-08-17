@@ -379,6 +379,8 @@ struct RestVisitor {
 }
 
 impl Visit for RestVisitor {
+    noop_visit_type!();
+
     fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
@@ -1133,6 +1135,8 @@ fn contains_spread(expr: &Expr) -> bool {
     }
 
     impl Visit for Visitor {
+        noop_visit_type!();
+
         fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
             self.found = true;
         }

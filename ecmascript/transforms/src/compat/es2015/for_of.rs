@@ -567,6 +567,8 @@ struct ForOfFinder {
 }
 
 impl Visit for ForOfFinder {
+    noop_visit_type!();
+
     fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {
         self.found = true;
     }

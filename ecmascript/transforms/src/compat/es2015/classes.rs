@@ -181,6 +181,8 @@ impl Fold for Classes {
                 found: bool,
             };
             impl Visit for Visitor {
+                noop_visit_type!();
+
                 fn visit_class(&mut self, _: &Class, _: &dyn Node) {
                     self.found = true
                 }
@@ -875,6 +877,8 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     impl Visit for SuperFinder {
+        noop_visit_type!();
+
         fn visit_expr_or_super(&mut self, node: &ExprOrSuper, _: &dyn Node) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,

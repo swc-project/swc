@@ -21,6 +21,8 @@ pub(super) struct Verifier {
 }
 
 impl Visit for Verifier {
+    noop_visit_type!();
+
     fn visit_assign_prop(&mut self, p: &AssignProp, _: &dyn Node) {
         self.errors.push((p.span(), SyntaxError::AssignProperty));
     }

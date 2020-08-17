@@ -145,6 +145,8 @@ impl UsageVisitor {
 }
 
 impl Visit for UsageVisitor {
+    noop_visit_type!();
+
     /// `[a, b] = c`
     fn visit_array_pat(&mut self, p: &ArrayPat, _: &dyn Node) {
         p.visit_children_with(self);
