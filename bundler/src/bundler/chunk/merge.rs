@@ -73,7 +73,7 @@ where
 
                     if let Some(imported) = self.scope.get_module(src.module_id) {
                         // Respan using imported module's syntax context.
-                        entry = entry.fold_with(&mut LocalMarker {
+                        entry.visit_mut_with(&mut LocalMarker {
                             mark: imported.mark(),
                             specifiers: &specifiers,
                             excluded: vec![],
@@ -179,7 +179,7 @@ where
                         dep = dep.fold_with(&mut Unexporter);
 
                         if !specifiers.is_empty() {
-                            entry = entry.fold_with(&mut LocalMarker {
+                            entry.visit_mut_with(&mut LocalMarker {
                                 mark: imported.mark(),
                                 specifiers: &specifiers,
                                 excluded: vec![],
@@ -575,103 +575,86 @@ impl<'a, 'b> DerefMut for Excluder<'a, 'b> {
     }
 }
 
-impl Fold for LocalMarker<'_> {
-    noop_fold_type!();
+impl VisitMut for LocalMarker<'_> {
+    noop_visit_mut_type!();
 
-    fn fold_catch_clause(&mut self, mut node: CatchClause) -> CatchClause {
+    fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
         let mut f = self.exclude(&node.param);
-        node.body = node.body.fold_with(&mut *f);
-        node
+        node.body.visit_mut_with(&mut *f);
     }
 
-    fn fold_class_decl(&mut self, mut node: ClassDecl) -> ClassDecl {
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
         self.excluded.push((&node.ident).into());
-        node.class = node.class.fold_with(self);
-        node
+        node.class.visit_mut_with(self);
     }
 
-    fn fold_class_expr(&mut self, mut node: ClassExpr) -> ClassExpr {
+    fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
         let mut f = self.exclude(&node.ident);
-        node.class = node.class.fold_with(&mut *f);
-        node
+        node.class.visit_mut_with(&mut *f);
     }
 
-    fn fold_constructor(&mut self, mut node: Constructor) -> Constructor {
+    fn visit_mut_constructor(&mut self, node: &mut Constructor) {
         let mut f = self.exclude(&node.params);
-        node.body = node.body.fold_with(&mut *f);
-        node
+        node.body.visit_mut_with(&mut *f);
     }
 
-    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
+    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
         self.excluded.push((&node.ident).into());
-        node.function = node.function.fold_with(self);
-        node
+        node.function.visit_mut_with(self);
     }
 
-    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
+    fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
         let mut f = self.exclude(&node.ident);
-
-        node.function = node.function.fold_with(&mut *f);
-
-        node
+        node.function.visit_mut_with(&mut *f);
     }
 
-    fn fold_function(&mut self, mut node: Function) -> Function {
+    fn visit_mut_function(&mut self, node: &mut Function) {
         let mut f = self.exclude(&node.params);
-        node.body = node.body.fold_with(&mut *f);
-        node
+        node.body.visit_mut_with(&mut *f);
     }
 
-    fn fold_ident(&mut self, mut node: Ident) -> Ident {
-        if self.excluded.iter().any(|i| *i == node) {
-            return node;
+    fn visit_mut_ident(&mut self, mut node: &mut Ident) {
+        if self.excluded.iter().any(|i| *i == *node) {
+            return;
         }
 
         // TODO: sym() => correct span
         if self.is_export {
             if self.specifiers.iter().any(|id| match id {
                 Specifier::Specific { local, alias } => match alias {
-                    Some(v) => *v == node,
-                    None => *local == node,
+                    Some(v) => *v == *node,
+                    None => *local == *node,
                 },
-                Specifier::Namespace { local } => *local == node,
+                Specifier::Namespace { local } => *local == *node,
             }) {
                 node.span = node
                     .span
                     .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
             }
         } else {
-            if self.specifiers.iter().any(|id| *id.local() == node) {
+            if self.specifiers.iter().any(|id| *id.local() == *node) {
                 node.span = node
                     .span
                     .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
             }
         }
-
-        node
     }
 
-    fn fold_labeled_stmt(&mut self, node: LabeledStmt) -> LabeledStmt {
-        LabeledStmt {
-            body: node.body.fold_with(self),
-            ..node
-        }
+    fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
+        node.body.visit_mut_with(self);
     }
 
-    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
-        e.obj = e.obj.fold_with(self);
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
 
         if e.computed {
-            e.prop = e.prop.fold_with(self);
+            e.prop.visit_mut_with(self);
         }
-
-        e
     }
 
-    fn fold_setter_prop(&mut self, mut node: SetterProp) -> SetterProp {
+    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
         let mut f = self.exclude(&node.param);
-        node.body = node.body.fold_with(&mut *f);
-        node
+        node.body.visit_mut_with(&mut *f);
     }
 }
 

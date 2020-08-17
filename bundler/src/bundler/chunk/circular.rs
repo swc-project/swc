@@ -4,7 +4,7 @@ use hygiene::top_level_ident_folder;
 use std::iter::once;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
 mod hygiene;
 
@@ -112,7 +112,7 @@ where
         for circular_module in circular_modules {
             for (src, specifiers) in entry.imports.specifiers.iter() {
                 if circular_module.id == src.module_id {
-                    module = module.fold_with(&mut LocalMarker {
+                    module.visit_mut_with(&mut LocalMarker {
                         mark: circular_module.mark(),
                         specifiers: &specifiers,
                         excluded: vec![],

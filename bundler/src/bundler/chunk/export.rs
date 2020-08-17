@@ -46,7 +46,7 @@ where
             // print_hygiene("entry:init", &self.cm, &entry);
             // print_hygiene("dep:init", &self.cm, &dep);
 
-            entry = entry.fold_with(&mut LocalMarker {
+            entry.visit_mut_with(&mut LocalMarker {
                 mark: imported.mark(),
                 specifiers,
                 excluded: vec![],
