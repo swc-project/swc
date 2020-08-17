@@ -12,7 +12,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, DestructuringFinder, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
@@ -54,7 +54,9 @@ where
 
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
-            // print_hygiene("before:merge", &self.cm, &entry);
+            entry = self
+                .merge_reexports(entry, &info, targets)
+                .context("failed to merge reepxorts")?;
 
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
@@ -73,6 +75,7 @@ where
                             mark: imported.mark(),
                             specifiers: &specifiers,
                             excluded: vec![],
+                            is_export: false,
                         });
                     }
 
@@ -178,6 +181,7 @@ where
                                 mark: imported.mark(),
                                 specifiers: &specifiers,
                                 excluded: vec![],
+                                is_export: false,
                             });
 
                             // // Note: this does not handle `export default
@@ -189,28 +193,6 @@ where
                         }
 
                         // print_hygiene("dep:before:global-mark", &self.cm, &dep);
-
-                        dep = dep.fold_with(&mut GlobalMarker {
-                            used_mark: self.used_mark,
-                            module_mark: imported.mark(),
-                        });
-
-                        // print_hygiene("dep:after:global-mark", &self.cm, &dep);
-
-                        // {
-                        //     let code = self
-                        //         .swc
-                        //         .print(
-                        //             &dep.clone().fold_with(&mut HygieneVisualizer),
-                        //             SourceMapsConfig::Bool(false),
-                        //             None,
-                        //             false,
-                        //         )
-                        //         .unwrap()
-                        //         .code;
-                        //
-                        //     println!("Dep:\n{}\n\n\n", code);
-                        // }
 
                         // Replace import statement / require with module body
                         let mut injector = Es6ModuleInjector {
@@ -296,10 +278,9 @@ impl Fold for Unexporter {
                 },
 
                 // Empty statement
-                ModuleDecl::ExportAll(..) | ModuleDecl::ExportDefaultExpr(..) => {
-                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-                }
-                ModuleDecl::ExportNamed(ref n) if n.src.is_none() => {
+                ModuleDecl::ExportAll(..)
+                | ModuleDecl::ExportDefaultExpr(..)
+                | ModuleDecl::ExportNamed(..) => {
                     ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                 }
                 ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
@@ -535,6 +516,7 @@ pub(super) struct LocalMarker<'a> {
     /// Mark applied to imported idents.
     pub mark: Mark,
     pub specifiers: &'a [Specifier],
+    pub is_export: bool,
     pub excluded: Vec<Id>,
 }
 
@@ -636,10 +618,24 @@ impl Fold for LocalMarker<'_> {
         }
 
         // TODO: sym() => correct span
-        if self.specifiers.iter().any(|id| *id.local() == node) {
-            node.span = node
-                .span
-                .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
+        if self.is_export {
+            if self.specifiers.iter().any(|id| match id {
+                Specifier::Specific { local, alias } => match alias {
+                    Some(v) => *v == node,
+                    None => *local == node,
+                },
+                Specifier::Namespace { local } => *local == node,
+            }) {
+                node.span = node
+                    .span
+                    .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
+            }
+        } else {
+            if self.specifiers.iter().any(|id| *id.local() == node) {
+                node.span = node
+                    .span
+                    .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
+            }
         }
 
         node
@@ -693,35 +689,5 @@ impl VisitMut for Es6ModuleInjector {
         }
 
         *orig = buf;
-    }
-}
-
-pub(super) struct GlobalMarker {
-    pub used_mark: Mark,
-    pub module_mark: Mark,
-}
-
-impl GlobalMarker {
-    fn is_marked_as_used(&self, span: Span) -> bool {
-        let mut ctxt = span.ctxt();
-        loop {
-            let m = ctxt.remove_mark();
-            if m == Mark::root() {
-                return false;
-            }
-            if m == self.used_mark {
-                return true;
-            }
-        }
-    }
-}
-
-impl Fold for GlobalMarker {
-    fn fold_span(&mut self, span: Span) -> Span {
-        if self.is_marked_as_used(span) {
-            return span.apply_mark(self.module_mark);
-        }
-
-        span
     }
 }

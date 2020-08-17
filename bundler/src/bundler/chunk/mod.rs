@@ -12,6 +12,7 @@ use swc_ecma_visit::FoldWith;
 
 mod circular;
 mod cjs;
+mod export;
 mod merge;
 
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
@@ -169,6 +170,15 @@ where
         for (src, _) in &*m.imports.specifiers {
             //
 
+            self.add_to_graph(graph, src.module_id);
+            graph.add_edge(
+                module_id,
+                src.module_id,
+                if src.is_unconditional { 2 } else { 1 },
+            );
+        }
+
+        for (src, _) in &m.exports.reexports {
             self.add_to_graph(graph, src.module_id);
             graph.add_edge(
                 module_id,

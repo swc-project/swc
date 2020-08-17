@@ -194,12 +194,12 @@ impl Fold for Dce<'_> {
         node
     }
 
-    fn fold_export_all(&mut self, node: ExportAll) -> ExportAll {
+    fn fold_export_all(&mut self, mut node: ExportAll) -> ExportAll {
         if self.is_marked(node.span) {
             return node;
         }
-
-        unimplemented!("dce: `export * from 'foo'`")
+        node.span = node.span.apply_mark(self.config.used_mark);
+        node
     }
 
     fn fold_export_decl(&mut self, mut node: ExportDecl) -> ExportDecl {

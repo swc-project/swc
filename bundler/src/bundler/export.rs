@@ -5,10 +5,10 @@ use super::{
 use crate::{id::Id, load::Load, resolve::Resolve};
 use std::collections::HashMap;
 use swc_atoms::js_word;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -22,11 +22,19 @@ where
     ///
     /// TODO: Support pattern like
     ///     export const [a, b] = [1, 2]
-    pub(super) fn extract_export_info(&self, module: &Module) -> RawExports {
+    pub(super) fn extract_export_info(
+        &self,
+        file_name: &FileName,
+        module: &mut Module,
+    ) -> RawExports {
         self.run(|| {
-            let mut v = ExportFinder::default();
+            let mut v = ExportFinder {
+                info: Default::default(),
+                file_name,
+                bundler: self,
+            };
 
-            module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+            module.visit_mut_with(&mut v);
 
             v.info
         })
@@ -45,13 +53,46 @@ pub(super) struct Exports {
     pub reexports: HashMap<Source, Vec<Specifier>>,
 }
 
-#[derive(Debug, Default)]
-struct ExportFinder {
+struct ExportFinder<'a, 'b, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
     info: RawExports,
+    file_name: &'a FileName,
+    bundler: &'a Bundler<'b, L, R>,
 }
 
-impl Visit for ExportFinder {
-    fn visit_module_item(&mut self, item: &ModuleItem, _: &dyn Node) {
+impl<L, R> ExportFinder<'_, '_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
+        // Don't apply mark if it's a core module.
+        if self
+            .bundler
+            .config
+            .external_modules
+            .iter()
+            .any(|v| v == src)
+        {
+            return None;
+        }
+        let path = self.bundler.resolve(self.file_name, src).ok()?;
+        let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
+        let ctxt = SyntaxContext::empty();
+
+        Some(ctxt.apply_mark(mark))
+    }
+}
+
+impl<L, R> VisitMut for ExportFinder<'_, '_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {
             // TODO: Optimize pure constants
             //            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -137,6 +178,18 @@ impl Visit for ExportFinder {
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
+                match &named.src {
+                    Some(v) => {
+                        let ctxt = self.ctxt_for(&v.value);
+                        match ctxt {
+                            Some(ctxt) => {
+                                named.span = named.span.with_ctxt(ctxt);
+                            }
+                            None => {}
+                        }
+                    }
+                    None => {}
+                };
                 let v = self.info.items.entry(named.src.clone()).or_default();
                 for s in &named.specifiers {
                     match s {
@@ -150,17 +203,31 @@ impl Visit for ExportFinder {
                             });
                         }
                         ExportSpecifier::Named(n) => {
-                            v.push(Specifier::Specific {
-                                local: n.orig.clone().into(),
-                                alias: n.exported.clone().map(From::from),
-                            });
+                            if let Some(exported) = &n.exported {
+                                v.push(Specifier::Specific {
+                                    local: exported.clone().into(),
+                                    alias: Some(n.orig.clone().into()),
+                                });
+                            } else {
+                                v.push(Specifier::Specific {
+                                    local: n.orig.clone().into(),
+                                    alias: None,
+                                });
+                            }
                         }
                     }
                 }
                 return;
             }
-            // TODO
-            //  ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {}
+
+            ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
+                match self.ctxt_for(&all.src.value) {
+                    Some(ctxt) => {
+                        all.span = all.span.with_ctxt(ctxt);
+                    }
+                    None => {}
+                }
+            }
             _ => {}
         }
     }
