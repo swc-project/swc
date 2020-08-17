@@ -3,8 +3,9 @@ use crate::{
     bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
-use std::mem::take;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use std::mem::{replace, take};
+use swc_atoms::js_word;
+use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
@@ -20,6 +21,8 @@ where
         info: &TransformedModule,
         targets: &mut Vec<ModuleId>,
     ) -> Result<Module, Error> {
+        entry.visit_mut_with(&mut DefaultRenamer);
+
         for (src, specifiers) in &info.exports.reexports {
             let imported = self.scope.get_module(src.module_id).unwrap();
             assert!(imported.is_es6, "Reexports are es6 only");
@@ -199,6 +202,27 @@ impl VisitMut for UnexportAsVar {
         n.visit_mut_children_with(self);
 
         match n {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                let expr = replace(
+                    &mut export.expr,
+                    Box::new(Expr::Invalid(Invalid { span: DUMMY_SP })),
+                );
+
+                *n = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: export.span,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(Ident::new(
+                            "__default".into(),
+                            expr.span().with_ctxt(self.target_ctxt),
+                        )),
+                        init: Some(expr),
+                        definite: false,
+                    }],
+                })));
+            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(ref export)) => {
                 let mut decls = vec![];
                 for s in &export.specifiers {
@@ -324,6 +348,18 @@ impl VisitMut for AliasExports {
                 _ => {}
             },
             _ => {}
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
+}
+
+struct DefaultRenamer;
+
+impl VisitMut for DefaultRenamer {
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if n.orig.sym == js_word!("default") {
+            n.orig.sym = "__default".into()
         }
     }
 
