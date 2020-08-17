@@ -56,8 +56,7 @@ where
 
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
-            entry = self
-                .merge_reexports(entry, &info, targets)
+            self.merge_reexports(&mut entry, &info, targets)
                 .context("failed to merge reepxorts")?;
 
             for (src, specifiers) in &info.imports.specifiers {
@@ -529,23 +528,6 @@ pub(super) struct LocalMarker<'a> {
 }
 
 impl<'a> LocalMarker<'a> {
-    /// Searches for i, and fold T.
-    #[allow(dead_code)]
-    fn recurse<I, F, Ret>(&mut self, excluded_idents: I, op: F) -> Ret
-    where
-        F: FnOnce(I, &mut Self) -> Ret,
-        I: for<'any> VisitWith<DestructuringFinder<'any, Id>>,
-    {
-        let len = self.excluded.len();
-        let ids = find_ids(&excluded_idents);
-
-        self.excluded.extend(ids);
-        let ret = op(excluded_idents, self);
-        self.excluded.drain(len..);
-
-        ret
-    }
-
     fn exclude<I>(&mut self, excluded_idents: &I) -> Excluder<'a, '_>
     where
         I: for<'any> VisitWith<DestructuringFinder<'any, Id>>,

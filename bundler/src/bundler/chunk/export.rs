@@ -15,10 +15,10 @@ where
 {
     pub(super) fn merge_reexports(
         &self,
-        mut entry: Module,
+        entry: &mut Module,
         info: &TransformedModule,
         targets: &mut Vec<ModuleId>,
-    ) -> Result<Module, Error> {
+    ) -> Result<(), Error> {
         entry.visit_mut_with(&mut DefaultRenamer);
 
         for (src, specifiers) in &info.exports.reexports {
@@ -100,7 +100,7 @@ where
             assert_eq!(injector.imported, vec![]);
         }
 
-        Ok(entry)
+        Ok(())
     }
 }
 
