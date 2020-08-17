@@ -57,6 +57,8 @@ where
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
             });
 
+            print_hygiene(&format!("entry:named-export-orig"), &self.cm, &entry);
+
             dep.visit_mut_with(&mut UnexportAsVar {
                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
             });
