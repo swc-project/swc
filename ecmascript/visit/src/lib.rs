@@ -119,6 +119,18 @@ where
 #[derive(Debug, Clone, Copy)]
 pub struct Folder<V: VisitMut>(V);
 
+impl<V: Repeated> Repeated for Folder<V> {
+    #[inline(always)]
+    fn changed(&self) -> bool {
+        self.0.changed()
+    }
+
+    #[inline(always)]
+    fn reset(&mut self) {
+        self.0.reset();
+    }
+}
+
 macro_rules! method {
     ($name:ident, $T:ty) => {
         #[inline(always)]
