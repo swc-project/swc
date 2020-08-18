@@ -133,15 +133,13 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
     //    NamedCapturingGroupsRegex,
 
     // ES 3
-    let pass = add!(pass, PropertyLiterals, es3::PropertyLiteral);
-    let pass = add!(pass, MemberExpressionLiterals, es3::MemberExprLit);
+    let pass = add!(pass, PropertyLiterals, es3::property_literals());
     let pass = add!(
         pass,
-        ReservedWords,
-        es3::ReservedWord {
-            preserve_import: c.dynamic_import
-        }
+        MemberExpressionLiterals,
+        es3::member_expression_literals()
     );
+    let pass = add!(pass, ReservedWords, es3::reserved_words(c.dynamic_import));
 
     if c.debug {
         println!("Targets: {:?}", targets);

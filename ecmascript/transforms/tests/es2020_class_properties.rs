@@ -7,7 +7,7 @@ use swc_ecma_transforms::{
         es2016::exponentation,
         es2017::async_to_generator,
         es2020::class_properties,
-        es3::ReservedWord,
+        es3::reserved_words,
     },
     proposals::decorators,
     resolver, typescript,
@@ -38,9 +38,7 @@ fn tr() -> impl Fold {
         class_properties(),
         classes(),
         block_scoping(),
-        ReservedWord {
-            preserve_import: false
-        },
+        reserved_words(false),
     )
 }
 
