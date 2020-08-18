@@ -74,6 +74,7 @@ where
                         // Respan using imported module's syntax context.
                         entry.visit_mut_with(&mut LocalMarker {
                             mark: imported.mark(),
+                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                             specifiers: &specifiers,
                             excluded: vec![],
                         });
@@ -179,6 +180,8 @@ where
                         if !specifiers.is_empty() {
                             entry.visit_mut_with(&mut LocalMarker {
                                 mark: imported.mark(),
+                                top_level_ctxt: SyntaxContext::empty()
+                                    .apply_mark(self.top_level_mark),
                                 specifiers: &specifiers,
                                 excluded: vec![],
                             });
@@ -520,6 +523,8 @@ impl Fold for ActualMarker<'_> {
 pub(super) struct LocalMarker<'a> {
     /// Mark applied to imported idents.
     pub mark: Mark,
+    /// Syntax context of the top level items.
+    pub top_level_ctxt: SyntaxContext,
     pub specifiers: &'a [Specifier],
     pub excluded: Vec<Id>,
 }
@@ -593,6 +598,10 @@ impl VisitMut for LocalMarker<'_> {
     }
 
     fn visit_mut_ident(&mut self, mut node: &mut Ident) {
+        if node.span.ctxt != self.top_level_ctxt {
+            return;
+        }
+
         if self.excluded.iter().any(|i| *i == *node) {
             return;
         }
@@ -602,6 +611,7 @@ impl VisitMut for LocalMarker<'_> {
             node.span = node
                 .span
                 .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
+            // dbg!(&node);
         }
     }
 

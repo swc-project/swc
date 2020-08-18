@@ -41,6 +41,7 @@ where
                         entry.visit_mut_with(&mut LocalMarker {
                             mark: imported.mark(),
                             specifiers,
+                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                             excluded: vec![],
                         });
                         // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);

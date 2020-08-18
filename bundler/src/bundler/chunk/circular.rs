@@ -2,7 +2,7 @@ use super::merge::{LocalMarker, Unexporter};
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
 use std::{borrow::Borrow, iter::once};
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
@@ -114,6 +114,7 @@ where
                 if circular_module.id == src.module_id {
                     module.visit_mut_with(&mut LocalMarker {
                         mark: circular_module.mark(),
+                        top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                         specifiers: &specifiers,
                         excluded: vec![],
                     });
