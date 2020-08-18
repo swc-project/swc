@@ -29,7 +29,20 @@ where
 }
 
 #[bench]
+fn base_clone(b: &mut Bencher) {
+    run(b, |m| m);
+}
+
+#[bench]
 fn visit_mut_span(b: &mut Bencher) {
+    struct RespanVisitMut;
+
+    impl VisitMut for RespanVisitMut {
+        fn visit_mut_span(&mut self, span: &mut Span) {
+            *span = DUMMY_SP;
+        }
+    }
+
     run(b, |mut m| {
         m.visit_mut_with(&mut RespanVisitMut);
 
@@ -37,23 +50,52 @@ fn visit_mut_span(b: &mut Bencher) {
     });
 }
 
-struct RespanVisitMut;
+#[bench]
+fn visit_mut_span_panic(b: &mut Bencher) {
+    struct RespanVisitMut;
 
-impl VisitMut for RespanVisitMut {
-    fn visit_mut_span(&mut self, span: &mut Span) {
-        *span = DUMMY_SP;
+    impl VisitMut for RespanVisitMut {
+        fn visit_mut_span(&mut self, span: &mut Span) {
+            if span.ctxt != SyntaxContext::empty() {
+                panic!()
+            }
+
+            *span = DUMMY_SP;
+        }
     }
+
+    run(b, |mut m| {
+        m.visit_mut_with(&mut RespanVisitMut);
+
+        m
+    });
 }
 
 #[bench]
 fn fold_span(b: &mut Bencher) {
+    struct RespanFold;
+
+    impl Fold for RespanFold {
+        fn fold_span(&mut self, _: Span) -> Span {
+            DUMMY_SP
+        }
+    }
+
     run(b, |m| m.fold_with(&mut RespanFold));
 }
 
-struct RespanFold;
+#[bench]
+fn fold_span_pnic(b: &mut Bencher) {
+    struct RespanFold;
 
-impl Fold for RespanFold {
-    fn fold_span(&mut self, _: Span) -> Span {
-        DUMMY_SP
+    impl Fold for RespanFold {
+        fn fold_span(&mut self, s: Span) -> Span {
+            if s.ctxt != SyntaxContext::empty() {
+                panic!()
+            }
+            DUMMY_SP
+        }
     }
+
+    run(b, |m| m.fold_with(&mut RespanFold));
 }
