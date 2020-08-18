@@ -1,5 +1,5 @@
 use num_bigint::BigInt as BigIntValue;
-use std::{any::Any, fmt::Debug};
+use std::{any::Any, borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -134,7 +134,7 @@ where
     }
 }
 
-impl CompilerPass for Folder<V>
+impl<V> CompilerPass for Folder<V>
 where
     V: VisitMut + CompilerPass,
 {
