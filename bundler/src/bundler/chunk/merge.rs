@@ -8,6 +8,7 @@ use crate::{
 use anyhow::{Context, Error};
 use std::{
     borrow::Cow,
+    collections::HashSet,
     mem::take,
     ops::{Deref, DerefMut},
 };
@@ -76,7 +77,7 @@ where
                             mark: imported.mark(),
                             top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                             specifiers: &specifiers,
-                            excluded: vec![],
+                            excluded: Default::default(),
                         });
                     }
 
@@ -183,7 +184,7 @@ where
                                 top_level_ctxt: SyntaxContext::empty()
                                     .apply_mark(self.top_level_mark),
                                 specifiers: &specifiers,
-                                excluded: vec![],
+                                excluded: Default::default(),
                             });
 
                             // // Note: this does not handle `export default
@@ -527,7 +528,7 @@ pub(super) struct LocalMarker<'a> {
     /// Syntax context of the top level items.
     pub top_level_ctxt: SyntaxContext,
     pub specifiers: &'a [Specifier],
-    pub excluded: Vec<Id>,
+    pub excluded: HashSet<Id>,
 }
 
 impl<'a> LocalMarker<'a> {
@@ -569,7 +570,7 @@ impl VisitMut for LocalMarker<'_> {
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        self.excluded.push((&node.ident).into());
+        self.excluded.insert((&node.ident).into());
         node.class.visit_mut_with(self);
     }
 
@@ -584,7 +585,7 @@ impl VisitMut for LocalMarker<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.excluded.push((&node.ident).into());
+        self.excluded.insert((&node.ident).into());
         node.function.visit_mut_with(self);
     }
 
@@ -603,7 +604,7 @@ impl VisitMut for LocalMarker<'_> {
             return;
         }
 
-        if self.excluded.iter().any(|i| *i == *node) {
+        if self.excluded.contains(&(&*node).into()) {
             return;
         }
 

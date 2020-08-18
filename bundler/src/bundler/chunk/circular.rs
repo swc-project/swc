@@ -116,7 +116,7 @@ where
                         mark: circular_module.mark(),
                         top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                         specifiers: &specifiers,
-                        excluded: vec![],
+                        excluded: Default::default(),
                     });
                     break;
                 }

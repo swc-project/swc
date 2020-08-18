@@ -42,7 +42,7 @@ where
                             mark: imported.mark(),
                             specifiers,
                             top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                            excluded: vec![],
+                            excluded: Default::default(),
                         });
                         // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
                         entry.visit_mut_with(&mut NamedExportOrigMarker {
