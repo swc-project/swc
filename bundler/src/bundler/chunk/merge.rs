@@ -198,7 +198,7 @@ where
 
                         // Replace import statement / require with module body
                         let mut injector = Es6ModuleInjector {
-                            imported: dep.body.clone(),
+                            imported: take(&mut dep.body),
                             src: src.src.clone(),
                         };
                         entry.body.visit_mut_with(&mut injector);
@@ -208,6 +208,7 @@ where
                         if injector.imported.is_empty() {
                             continue;
                         }
+                        dep.body = take(&mut injector.imported);
                     }
 
                     if self.config.require {
