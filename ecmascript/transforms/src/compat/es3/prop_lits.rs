@@ -29,8 +29,11 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 ///   foo: 1
 /// };
 /// ```
-#[derive(Default, Clone, Copy)]
-pub struct PropertyLiteral;
+pub fn property_literals() -> impl Fold {
+    PropertyLiteral
+}
+
+struct PropertyLiteral;
 
 impl Fold for PropertyLiteral {
     noop_fold_type!();

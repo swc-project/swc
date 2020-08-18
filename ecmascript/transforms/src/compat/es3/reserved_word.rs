@@ -18,8 +18,10 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 /// var _abstract = 1;
 /// var x = _abstract + 1;
 /// ```
-#[derive(Default, Clone, Copy)]
-pub struct ReservedWord {
+pub fn reserved_words(preserve_import: bool) -> impl Fold {
+    ReservedWord { preserve_import }
+}
+struct ReservedWord {
     pub preserve_import: bool,
 }
 

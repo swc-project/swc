@@ -19,8 +19,11 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 /// obj["const"] = "isKeyword";
 /// obj["var"] = "isKeyword";
 /// ```
+pub fn member_expression_literals() -> impl Fold {
+    MemberExprLit
+}
 #[derive(Default, Clone, Copy)]
-pub struct MemberExprLit;
+struct MemberExprLit;
 
 impl Fold for MemberExprLit {
     noop_fold_type!();
