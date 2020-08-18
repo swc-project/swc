@@ -27,8 +27,11 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 ///   - Object literal is deeply nested (threshold: )
 ///
 /// See https://github.com/swc-project/swc/issues/409
-#[derive(Debug)]
-pub struct JsonParse {
+pub fn json_parse(min_cost: usize) -> impl Fold {
+    JsonParse { min_cost }
+}
+
+struct JsonParse {
     pub min_cost: usize,
 }
 

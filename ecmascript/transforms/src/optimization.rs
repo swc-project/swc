@@ -1,4 +1,4 @@
-pub use self::{inline_globals::InlineGlobals, json_parse::JsonParse, simplify::simplifier};
+pub use self::{inline_globals::InlineGlobals, json_parse::json_parse, simplify::simplifier};
 
 mod inline_globals;
 mod json_parse;
