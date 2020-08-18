@@ -1,6 +1,8 @@
 pub use either::Either;
 pub use swc_visit_macros::define;
 
+pub mod util;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Optional<V> {
     pub enabled: bool,

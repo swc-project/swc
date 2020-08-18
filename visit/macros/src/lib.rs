@@ -1344,9 +1344,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 return q!(
                                                     Vars { ident },
                                                     ({
-                                                        n.into_iter()
-                                                            .map(|v| Box::new(_visitor.ident(*v)))
-                                                            .collect()
+                                                        swc_visit::util::move_map::MoveMap::move_map(
+                                                            n,
+                                                            |v| Box::new(_visitor.ident(*v)),
+                                                        )
                                                     })
                                                 )
                                                 .parse();
@@ -1361,9 +1362,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             Mode::Fold => q!(
                                                 Vars { ident },
                                                 ({
-                                                    n.into_iter()
-                                                        .map(|v| _visitor.ident(v))
-                                                        .collect()
+                                                    swc_visit::util::move_map::MoveMap::move_map(
+                                                        n,
+                                                        |v| _visitor.ident(v),
+                                                    )
                                                 })
                                             )
                                             .parse(),
@@ -1390,9 +1392,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             Mode::Fold => q!(
                                                 Vars { ident },
                                                 ({
-                                                    n.into_iter()
-                                                        .map(|v| _visitor.ident(v))
-                                                        .collect()
+                                                    swc_visit::util::move_map::MoveMap::move_map(
+                                                        n,
+                                                        |v| _visitor.ident(v),
+                                                    )
                                                 })
                                             )
                                             .parse(),
