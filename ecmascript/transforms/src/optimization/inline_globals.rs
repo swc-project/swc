@@ -3,7 +3,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
-pub fn inline_globals(envs: HashMap<JsWord, Expr>, gkibaks: HashMap<JsWord, Expr>) -> impl Fold {
+pub fn inline_globals(envs: HashMap<JsWord, Expr>, globals: HashMap<JsWord, Expr>) -> impl Fold {
     InlineGlobals { envs, globals }
 }
 
