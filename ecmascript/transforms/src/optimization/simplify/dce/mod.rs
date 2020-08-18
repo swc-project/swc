@@ -94,8 +94,6 @@ impl VisitMut for UsedMarkRemover {
         if ctxt.remove_mark() == self.used_mark {
             s.ctxt = ctxt;
         }
-
-        s
     }
 }
 
@@ -674,7 +672,7 @@ impl Dce<'_> {
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
     {
         if self.marking_phase {
-            return items.move_map(|item| self.fold_in_marking_phase(item));
+            return items.move_map(|item| item.fold_with(self));
         }
 
         let old = self.changed;
