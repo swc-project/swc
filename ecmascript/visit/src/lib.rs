@@ -1,7 +1,7 @@
 use num_bigint::BigInt as BigIntValue;
 use std::{any::Any, fmt::Debug};
 use swc_atoms::JsWord;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
 
@@ -131,6 +131,15 @@ where
     #[inline(always)]
     fn reset(&mut self) {
         self.0.reset();
+    }
+}
+
+impl CompilerPass for Folder<V>
+where
+    V: VisitMut + CompilerPass,
+{
+    fn name() -> Cow<'static, str> {
+        V::name()
     }
 }
 
