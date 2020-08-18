@@ -1,7 +1,7 @@
 use super::*;
 use crate::{
     compat::{
-        es2015::{arrow, Classes},
+        es2015::{arrow, classes},
         es3::PropertyLiteral,
     },
     modules::common_js::common_js,
@@ -14,7 +14,7 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(
         jsx(t.cm.clone(), options),
         display_name(),
-        Classes::default(),
+        classes(),
         arrow(),
     )
 }

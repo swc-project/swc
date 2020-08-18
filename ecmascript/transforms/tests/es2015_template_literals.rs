@@ -1,6 +1,6 @@
 #![feature(test)]
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::compat::es2015::TemplateLiteral;
+use swc_ecma_transforms::compat::es2015::template_literal;
 use swc_ecma_visit::Fold;
 
 #[macro_use]
@@ -11,7 +11,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr(_: ()) -> impl Fold {
-    TemplateLiteral::default()
+    template_literal()
 }
 
 test_exec!(

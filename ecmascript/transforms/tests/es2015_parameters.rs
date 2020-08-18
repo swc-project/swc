@@ -3,7 +3,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::{
-        es2015::{arrow, block_scoping, destructuring, parameters, Classes},
+        es2015::{arrow, block_scoping, classes, destructuring, parameters},
         es2017::async_to_generator,
     },
     modules::common_js::common_js,
@@ -182,7 +182,7 @@ foo(1, 2, 3);"#
 
 test!(
     syntax(),
-    |_| chain!(Classes::default(), tr()),
+    |_| chain!(classes(), tr()),
     default_iife_4253,
     r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -218,7 +218,7 @@ expect(new Ref().id).toBe(2);"#
 
 test!(
     syntax(),
-    |_| chain!(Classes::default(), tr()),
+    |_| chain!(classes(), tr()),
     default_iife_self,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -1215,7 +1215,7 @@ test!(
     syntax(),
     |_| chain!(
         tr(),
-        Classes::default(),
+        classes(),
         swc_ecma_transforms::compat::es2015::spread(Default::default())
     ),
     rest_nested_iife,
@@ -1516,7 +1516,7 @@ function foo() {
 test!(
     syntax(),
     |_| chain!(
-        Classes::default(),
+        classes(),
         parameters(),
         destructuring(Default::default()),
         block_scoping(),

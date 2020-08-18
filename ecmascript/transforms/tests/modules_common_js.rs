@@ -3900,7 +3900,7 @@ test!(
 
         chain!(
             resolver_with_mark(mark),
-            compat::es2015::BlockScopedFns,
+            compat::es2015::block_scoped_functions(),
             compat::es2015::block_scoping(),
             common_js(mark, Default::default()),
         )
