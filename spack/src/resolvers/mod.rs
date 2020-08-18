@@ -31,6 +31,12 @@ impl NodeResolver {
         Self
     }
 
+    fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
+        Ok(FileName::Real(
+            path.canonicalize().context("failaed to canonicalize")?,
+        ))
+    }
+
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<PathBuf, Error> {
@@ -40,7 +46,7 @@ impl NodeResolver {
         }
 
         for ext in EXTENSIONS {
-            let ext_path = path.with_extension(ext);
+            let ext_path = PathBuf::from(format!("{}{}", path.display(), ext));
             if ext_path.is_file() {
                 return Ok(ext_path);
             }
@@ -137,21 +143,21 @@ impl Resolve for NodeResolver {
             return self
                 .resolve_as_file(&path)
                 .or_else(|_| self.resolve_as_directory(&path))
-                .map(FileName::Real);
+                .and_then(|p| self.wrap(p));
         }
 
         let cwd = &Path::new(".");
         let base_dir = base.parent().unwrap_or(&cwd);
 
-        if target.starts_with("./") {
+        if target.starts_with("./") || target.starts_with("../") {
             let path = base_dir.join(target);
             return self
                 .resolve_as_file(&path)
                 .or_else(|_| self.resolve_as_directory(&path))
-                .map(FileName::Real);
+                .and_then(|p| self.wrap(p));
         }
 
         self.resolve_node_modules(base_dir, target)
-            .map(FileName::Real)
+            .and_then(|p| self.wrap(p))
     }
 }
