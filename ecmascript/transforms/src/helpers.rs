@@ -227,8 +227,11 @@ define_helpers!(Helpers {
     class_private_field_destructure: (),
 });
 
-#[derive(Clone)]
-pub struct InjectHelpers;
+pub fn inject_helpers() -> impl Fold {
+    as_folder(InjectHelpers)
+}
+
+struct InjectHelpers;
 
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
