@@ -15,9 +15,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
+use swc_ecma_transforms::helpers::{inject_helpers, HELPERS};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMutWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
 
 pub fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Fold> {
@@ -321,7 +321,7 @@ where
             .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
-        module.visit_mut_with(&mut InjectHelpers {});
+        module = module.fold_with(&mut inject_helpers());
 
         let src = tester.print(&module);
         let root = Path::new(env!("CARGO_MANIFEST_DIR"))
