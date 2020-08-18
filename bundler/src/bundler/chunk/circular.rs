@@ -262,7 +262,5 @@ where
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 
     /// We only search for top-level binding
-    fn visit_stmts(&mut self, _: &[Stmt], _: &dyn Node) {}
-    /// We only search for top-level binding
     fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
 }
