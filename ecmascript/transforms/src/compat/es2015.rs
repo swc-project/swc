@@ -1,10 +1,10 @@
 pub use self::{
-    arrow::arrow, block_scoped_fn::BlockScopedFns, block_scoping::block_scoping, classes::Classes,
-    computed_props::computed_properties, destructuring::destructuring,
+    arrow::arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
+    classes::classes, computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
-    instanceof::InstanceOf, parameters::parameters, regenerator::regenerator,
-    shorthand_property::Shorthand, spread::spread, sticky_regex::StickyRegex,
-    template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
+    instanceof::instance_of, parameters::parameters, regenerator::regenerator,
+    shorthand_property::shorthand, spread::spread, sticky_regex::sticky_regex,
+    template_literal::template_literal, typeof_symbol::typeof_symbol,
 };
 use serde::Deserialize;
 use swc_common::{chain, Mark};

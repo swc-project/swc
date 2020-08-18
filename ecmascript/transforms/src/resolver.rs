@@ -10,12 +10,12 @@ mod tests;
 
 const LOG: bool = false;
 
-pub fn resolver() -> Resolver<'static> {
+pub fn resolver() -> impl 'static + Fold {
     resolver_with_mark(Mark::fresh(Mark::root()))
 }
 
 /// `mark` should not be root.
-pub fn resolver_with_mark(top_level_mark: Mark) -> Resolver<'static> {
+pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
     assert_ne!(
         top_level_mark,
         Mark::root(),
@@ -59,7 +59,7 @@ impl<'a> Scope<'a> {
 /// ## Hoisting phase
 ///
 /// ## Resolving phase
-pub struct Resolver<'a> {
+struct Resolver<'a> {
     hoist: bool,
     mark: Mark,
     current: Scope<'a>,
@@ -592,6 +592,8 @@ struct Hoister<'a, 'b> {
 }
 
 impl Fold for Hoister<'_, '_> {
+    noop_fold_type!();
+
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
         let ident = self.resolver.fold_binding_ident(node.ident);
 

@@ -519,6 +519,8 @@ struct AssignFolder {
 }
 
 impl Fold for AssignFolder {
+    noop_fold_type!();
+
     fn fold_export_decl(&mut self, decl: ExportDecl) -> ExportDecl {
         let old = self.exporting;
         self.exporting = true;

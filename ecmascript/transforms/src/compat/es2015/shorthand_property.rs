@@ -35,8 +35,12 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 ///   }
 /// };
 /// ```
-#[derive(Default, Clone, Copy)]
-pub struct Shorthand;
+pub fn shorthand() -> impl 'static + Fold {
+    Shorthand
+}
+
+#[derive(Clone, Copy)]
+struct Shorthand;
 
 impl Fold for Shorthand {
     noop_fold_type!();

@@ -24,6 +24,10 @@ pub(crate) mod native;
 mod prop_name;
 mod super_field;
 
+pub fn classes() -> impl Fold {
+    Classes::default()
+}
+
 type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 
 /// `@babel/plugin-transform-classes`
@@ -58,7 +62,7 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 /// }();
 /// ```
 #[derive(Default, Clone, Copy)]
-pub struct Classes {
+struct Classes {
     in_strict: bool,
 }
 

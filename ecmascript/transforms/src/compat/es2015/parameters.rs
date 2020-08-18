@@ -8,8 +8,12 @@ pub fn parameters() -> Params {
     Params
 }
 
+pub fn params() -> impl 'static + Fold {
+    Params
+}
+
 #[derive(Clone, Copy)]
-pub struct Params;
+struct Params;
 // prevent_recurse!(Params, Pat);
 
 impl Params {

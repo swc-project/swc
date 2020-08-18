@@ -5,7 +5,7 @@ use swc_atoms::JsWord;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
@@ -176,6 +176,7 @@ pub(super) enum SuperFoldingMode {
 }
 
 impl Fold for ConstructorFolder<'_> {
+    noop_fold_type!();
     fold_only_key!();
 
     ignore_return!(fold_function, Function);
@@ -400,6 +401,8 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
     }
 
     impl Fold for Replacer {
+        noop_fold_type!();
+
         fn fold_class(&mut self, n: Class) -> Class {
             n
         }
@@ -485,6 +488,8 @@ pub(super) struct VarRenamer<'a> {
 }
 
 impl<'a> Fold for VarRenamer<'a> {
+    noop_fold_type!();
+
     fn fold_pat(&mut self, pat: Pat) -> Pat {
         match pat {
             Pat::Ident(ident) => {

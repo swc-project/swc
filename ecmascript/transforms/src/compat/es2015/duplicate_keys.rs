@@ -87,6 +87,8 @@ struct PropNameFolder<'a> {
     props: &'a mut HashSet<JsWord>,
 }
 impl<'a> Fold for PropNameFolder<'a> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, node: Expr) -> Expr {
         node
     }

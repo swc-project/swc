@@ -123,6 +123,8 @@ struct Folder {
 }
 
 impl Fold for Folder {
+    noop_fold_type!();
+
     /// Don't recurse into array.
     fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
         node

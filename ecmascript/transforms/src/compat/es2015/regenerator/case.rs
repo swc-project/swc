@@ -1440,6 +1440,8 @@ struct UnmarkedInvalidHandler {
 }
 
 impl Fold for UnmarkedInvalidHandler {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -1459,6 +1461,8 @@ struct InvalidToLit<'a> {
     map: &'a [Loc],
 }
 impl Fold for InvalidToLit<'_> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

@@ -401,6 +401,8 @@ impl MethodFolder {
 }
 
 impl Fold for MethodFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         // TODO(kdy): Cache (Reuse declaration for same property)
@@ -758,6 +760,8 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     }
 
     impl Fold for AwaitToYield {
+        noop_fold_type!();
+
         noop!(fold_fn_decl, FnDecl);
         noop!(fold_fn_expr, FnExpr);
         noop!(fold_constructor, Constructor);

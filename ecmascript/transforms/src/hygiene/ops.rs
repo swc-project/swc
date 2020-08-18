@@ -287,6 +287,8 @@ struct VarFolder<'a, 'b> {
 }
 
 impl Fold for VarFolder<'_, '_> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, n: Expr) -> Expr {
         n
     }

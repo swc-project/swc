@@ -18,8 +18,12 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 /// ```js
 /// new RegExp("o+", "y")
 /// ```
+pub fn sticky_regex() -> impl 'static + Fold {
+    StickyRegex
+}
+
 #[derive(Clone, Copy)]
-pub struct StickyRegex;
+struct StickyRegex;
 
 impl Fold for StickyRegex {
     noop_fold_type!();

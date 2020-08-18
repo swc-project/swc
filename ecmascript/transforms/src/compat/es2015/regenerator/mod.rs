@@ -485,6 +485,8 @@ struct FnSentVisitor {
 }
 
 impl Fold for FnSentVisitor {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 

@@ -28,6 +28,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 pub fn exponentation() -> impl Fold {
     Exponentation
 }
+
 #[derive(Clone, Copy)]
 struct Exponentation;
 

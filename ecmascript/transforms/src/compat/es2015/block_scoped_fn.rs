@@ -3,8 +3,12 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
+pub fn block_scoped_functions() -> impl Fold {
+    BlockScopedFns
+}
+
 #[derive(Clone, Copy)]
-pub struct BlockScopedFns;
+struct BlockScopedFns;
 
 impl Fold for BlockScopedFns {
     noop_fold_type!();

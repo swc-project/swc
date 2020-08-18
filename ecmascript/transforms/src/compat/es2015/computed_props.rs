@@ -287,6 +287,8 @@ impl Visit for ComplexVisitor {
 }
 
 impl Fold for ComputedProps {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

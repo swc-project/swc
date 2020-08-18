@@ -4,25 +4,12 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
-/// `@babel/plugin-transform-typeof-symbol`
-///
-/// # Example
-/// ## In
-///
-/// ```js
-/// typeof Symbol() === "symbol";
-/// ```
-///
-/// ## Out
-/// ```js
-/// var _typeof = function (obj) {
-///  return obj && obj.constructor === Symbol ? "symbol" : typeof obj;
-/// };
-///
-/// _typeof(Symbol()) === "symbol";
-/// ```
+pub fn typeof_symbol() -> impl Fold {
+    TypeOfSymbol
+}
+
 #[derive(Clone)]
-pub struct TypeOfSymbol;
+struct TypeOfSymbol;
 
 impl Fold for TypeOfSymbol {
     noop_fold_type!();

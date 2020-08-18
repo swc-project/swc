@@ -5,8 +5,12 @@ use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
-#[derive(Default, Clone)]
-pub struct TemplateLiteral {
+pub fn template_literal() -> impl Fold {
+    TemplateLiteral::default()
+}
+
+#[derive(Default)]
+struct TemplateLiteral {
     added: Vec<Stmt>,
 }
 

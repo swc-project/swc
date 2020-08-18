@@ -28,8 +28,10 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 ///
 /// _instanceof(foo, Bar);
 /// ```
-#[derive(Clone)]
-pub struct InstanceOf;
+pub fn instance_of() -> impl Fold {
+    InstanceOf
+}
+struct InstanceOf;
 
 impl Fold for InstanceOf {
     noop_fold_type!();
