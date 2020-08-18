@@ -249,18 +249,14 @@ where
         }
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
-        match e {
-            // Identifier reference is not a top-level declaration
-            Expr::Ident(..) => return,
-            _ => e.visit_children_with(self),
-        }
-    }
-
     fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 
     /// We only search for top-level binding
+    #[inline]
+    fn visit_stmts(&mut self, _: &[Stmt], _: &dyn Node) {}
+    /// We only search for top-level binding
+    #[inline]
     fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
 }
