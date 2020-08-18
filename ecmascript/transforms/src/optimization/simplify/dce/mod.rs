@@ -11,7 +11,9 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitWith,
+};
 
 macro_rules! preserve {
     ($name:ident, $T:ty) => {
@@ -62,7 +64,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
             marking_phase: false,
             decl_dropping_phase: false,
         },
-        UsedMarkRemover { used_mark }
+        as_folder(UsedMarkRemover { used_mark })
     )
 }
 
@@ -84,13 +86,13 @@ impl Repeated for UsedMarkRemover {
     fn reset(&mut self) {}
 }
 
-impl Fold for UsedMarkRemover {
-    noop_fold_type!();
+impl VisitMut for UsedMarkRemover {
+    noop_visit_mut_type!();
 
-    fn fold_span(&mut self, s: Span) -> Span {
-        let mut ctxt = s.ctxt().clone();
+    fn visit_mut_span(&mut self, s: &mut Span) {
+        let mut ctxt = s.ctxt.clone(); // explicit clone
         if ctxt.remove_mark() == self.used_mark {
-            return s.with_ctxt(ctxt);
+            s.ctxt = ctxt;
         }
 
         s
@@ -134,19 +136,14 @@ impl Repeated for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    preserve!(fold_ts_interface_decl, TsInterfaceDecl);
-    preserve!(fold_ts_type_alias_decl, TsTypeAliasDecl);
-    preserve!(fold_ts_enum_decl, TsEnumDecl);
-    preserve!(fold_ts_module_decl, TsModuleDecl);
+    noop_fold_type!();
 
     preserve!(fold_debugger_stmt, DebuggerStmt);
     preserve!(fold_with_stmt, WithStmt);
     preserve!(fold_break_stmt, BreakStmt);
     preserve!(fold_continue_stmt, ContinueStmt);
 
-    preserve!(fold_ts_import_equals_decl, TsImportEqualsDecl);
     preserve!(fold_ts_export_assignment, TsExportAssignment);
-    preserve!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
 
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         if self.is_marked(node.span) {
