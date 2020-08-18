@@ -2,7 +2,7 @@ use crate::util::{alias_if_required, undefined, StmtLike};
 use std::mem::replace;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
