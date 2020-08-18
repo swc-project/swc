@@ -119,7 +119,10 @@ where
 #[derive(Debug, Clone, Copy)]
 pub struct Folder<V: VisitMut>(V);
 
-impl<V: Repeated> Repeated for Folder<V> {
+impl<V> Repeated for Folder<V>
+where
+    V: Repeated + VisitMut,
+{
     #[inline(always)]
     fn changed(&self) -> bool {
         self.0.changed()
