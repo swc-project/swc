@@ -93,7 +93,7 @@ where
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
-                imported: dep.body.clone(),
+                imported: dep.body,
                 src: src.src.clone(),
             };
             entry.body.visit_mut_with(&mut injector);

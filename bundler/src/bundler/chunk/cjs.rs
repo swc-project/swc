@@ -173,6 +173,7 @@ impl VisitMut for RequireReplacer {
                     }
 
                     let mut props = vec![];
+                    // TODO
                     for spec in i.specifiers.clone() {
                         match spec {
                             ImportSpecifier::Named(s) => {
