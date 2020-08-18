@@ -2,7 +2,7 @@ use crate::util::{alias_if_required, undefined, StmtLike};
 use std::mem::replace;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -43,6 +43,8 @@ impl NullishCoalescing {
 }
 
 impl Fold for NullishCoalescing {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

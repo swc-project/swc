@@ -1,17 +1,20 @@
 use std::collections::HashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
-#[derive(Clone)]
-pub struct InlineGlobals {
-    pub envs: HashMap<JsWord, Expr>,
-    pub globals: HashMap<JsWord, Expr>,
+pub fn inline_globals(envs: HashMap<JsWord, Expr>, globals: HashMap<JsWord, Expr>) -> impl Fold {
+    InlineGlobals { envs, globals }
 }
 
-noop_fold_type!(InlineGlobals);
+struct InlineGlobals {
+    envs: HashMap<JsWord, Expr>,
+    globals: HashMap<JsWord, Expr>,
+}
 
 impl Fold for InlineGlobals {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::Member(expr) => {
@@ -83,6 +86,7 @@ impl Fold for InlineGlobals {
 mod tests {
     use super::*;
     use swc_ecma_utils::DropSpan;
+    use swc_ecma_visit::as_folder;
 
     fn mk_map(
         tester: &mut crate::tests::Tester<'_>,
@@ -100,9 +104,9 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    DropSpan {
+                    as_folder(DropSpan {
                         preserve_ctxt: false,
-                    },
+                    }),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,

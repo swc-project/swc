@@ -1,6 +1,6 @@
 use crate::{ext::PatOrExprExt, util::UsageFinder};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// `@babel/plugin-transform-function-name`
 ///
@@ -26,13 +26,9 @@ pub fn function_name() -> impl Fold {
 #[derive(Clone, Copy)]
 struct FnName;
 
-noop_fold_type!(FnName);
-
 struct Renamer {
     name: Option<Ident>,
 }
-
-noop_fold_type!(Renamer);
 
 /// This function makes a new private identifier if required.
 fn prepare(i: Ident, force: bool) -> Ident {
@@ -48,6 +44,8 @@ fn prepare(i: Ident, force: bool) -> Ident {
 }
 
 impl Fold for FnName {
+    noop_fold_type!();
+
     fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
         let mut expr = expr.fold_children_with(self);
 
@@ -152,6 +150,8 @@ macro_rules! noop {
 }
 
 impl Fold for Renamer {
+    noop_fold_type!();
+
     impl_for!(fold_fn_expr, FnExpr);
     impl_for!(fold_class_expr, ClassExpr);
 

@@ -3,16 +3,20 @@ use std::{iter, mem};
 use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
-#[derive(Default, Clone)]
-pub struct TemplateLiteral {
+pub fn template_literal() -> impl Fold {
+    TemplateLiteral::default()
+}
+
+#[derive(Default)]
+struct TemplateLiteral {
     added: Vec<Stmt>,
 }
 
-noop_fold_type!(TemplateLiteral);
-
 impl Fold for TemplateLiteral {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = validate!(e);
 

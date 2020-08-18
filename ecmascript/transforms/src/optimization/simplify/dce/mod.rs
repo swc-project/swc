@@ -11,7 +11,9 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitWith,
+};
 
 macro_rules! preserve {
     ($name:ident, $T:ty) => {
@@ -62,15 +64,13 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
             marking_phase: false,
             decl_dropping_phase: false,
         },
-        UsedMarkRemover { used_mark }
+        as_folder(UsedMarkRemover { used_mark })
     )
 }
 
 struct UsedMarkRemover {
     used_mark: Mark,
 }
-
-noop_fold_type!(UsedMarkRemover);
 
 impl CompilerPass for UsedMarkRemover {
     fn name() -> Cow<'static, str> {
@@ -86,14 +86,14 @@ impl Repeated for UsedMarkRemover {
     fn reset(&mut self) {}
 }
 
-impl Fold for UsedMarkRemover {
-    fn fold_span(&mut self, s: Span) -> Span {
-        let mut ctxt = s.ctxt().clone();
-        if ctxt.remove_mark() == self.used_mark {
-            return s.with_ctxt(ctxt);
-        }
+impl VisitMut for UsedMarkRemover {
+    noop_visit_mut_type!();
 
-        s
+    fn visit_mut_span(&mut self, s: &mut Span) {
+        let mut ctxt = s.ctxt.clone(); // explicit clone
+        if ctxt.remove_mark() == self.used_mark {
+            s.ctxt = ctxt;
+        }
     }
 }
 
@@ -134,19 +134,14 @@ impl Repeated for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    preserve!(fold_ts_interface_decl, TsInterfaceDecl);
-    preserve!(fold_ts_type_alias_decl, TsTypeAliasDecl);
-    preserve!(fold_ts_enum_decl, TsEnumDecl);
-    preserve!(fold_ts_module_decl, TsModuleDecl);
+    noop_fold_type!();
 
     preserve!(fold_debugger_stmt, DebuggerStmt);
     preserve!(fold_with_stmt, WithStmt);
     preserve!(fold_break_stmt, BreakStmt);
     preserve!(fold_continue_stmt, ContinueStmt);
 
-    preserve!(fold_ts_import_equals_decl, TsImportEqualsDecl);
     preserve!(fold_ts_export_assignment, TsExportAssignment);
-    preserve!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
 
     fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         if self.is_marked(node.span) {
@@ -677,7 +672,7 @@ impl Dce<'_> {
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
     {
         if self.marking_phase {
-            return items.move_map(|item| self.fold_in_marking_phase(item));
+            return items.move_map(|item| item.fold_with(self));
         }
 
         let old = self.changed;

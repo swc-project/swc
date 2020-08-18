@@ -609,7 +609,18 @@ impl Fold for Strip {
             }) => Expr::Member(MemberExpr {
                 span,
                 obj: obj.fold_with(self),
-                prop: if computed { prop.fold_with(self) } else { prop },
+                prop: if computed {
+                    prop.fold_with(self)
+                } else {
+                    match *prop {
+                        Expr::Ident(i) => Box::new(Expr::Ident(Ident {
+                            optional: false,
+                            type_ann: None,
+                            ..i
+                        })),
+                        _ => prop,
+                    }
+                },
                 computed,
             }),
             _ => expr.fold_children_with(self),

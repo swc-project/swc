@@ -1,6 +1,6 @@
 use super::*;
 use swc_common::{Span, Spanned, DUMMY_SP};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 impl<'a, I: Tokens> Parser<I> {
     pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
@@ -21,6 +21,8 @@ pub(super) struct Verifier {
 }
 
 impl Visit for Verifier {
+    noop_visit_type!();
+
     fn visit_assign_prop(&mut self, p: &AssignProp, _: &dyn Node) {
         self.errors.push((p.span(), SyntaxError::AssignProperty));
     }

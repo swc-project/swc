@@ -10,8 +10,8 @@ use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::{
     helpers,
     optimization::{
+        inline_globals,
         simplify::{dead_branch_remover, expr_simplifier},
-        InlineGlobals,
     },
 };
 use swc_ecma_visit::FoldWith;
@@ -57,10 +57,8 @@ impl Load for SwcLoader {
             )?;
             let program = helpers::HELPERS.set(&Helpers::new(true), || {
                 swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
-                    let program = program.fold_with(&mut InlineGlobals {
-                        envs: env_map(),
-                        globals: Default::default(),
-                    });
+                    let program =
+                        program.fold_with(&mut inline_globals(env_map(), Default::default()));
                     let program = program.fold_with(&mut expr_simplifier());
                     let program = program.fold_with(&mut dead_branch_remover());
 
@@ -138,10 +136,8 @@ impl Load for SwcLoader {
             // Fold module
             let program = helpers::HELPERS.set(&Helpers::new(true), || {
                 swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
-                    let program = program.fold_with(&mut InlineGlobals {
-                        envs: env_map(),
-                        globals: Default::default(),
-                    });
+                    let program =
+                        program.fold_with(&mut inline_globals(env_map(), Default::default()));
                     let program = program.fold_with(&mut expr_simplifier());
                     let program = program.fold_with(&mut dead_branch_remover());
 

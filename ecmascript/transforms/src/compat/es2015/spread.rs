@@ -7,7 +7,7 @@ use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn spread(c: Config) -> impl Fold {
     Spread { c }
@@ -25,17 +25,15 @@ struct Spread {
     c: Config,
 }
 
-noop_fold_type!(Spread);
-
 #[derive(Default)]
 struct ActualFolder {
     c: Config,
     vars: Vec<VarDeclarator>,
 }
 
-noop_fold_type!(ActualFolder);
-
 impl Fold for Spread {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -72,6 +70,8 @@ impl Spread {
 }
 
 impl Fold for ActualFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = validate!(e.fold_children_with(self));
 

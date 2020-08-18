@@ -5,7 +5,7 @@ use swc_ecma_transforms::{
     compat,
     compat::es2020::class_properties,
     fixer,
-    helpers::InjectHelpers,
+    helpers::inject_helpers,
     hygiene,
     modules::{
         common_js::{common_js, Config},
@@ -93,7 +93,7 @@ test!(
             resolver_with_mark(mark),
             // Optional::new(typescript::strip(), syntax.typescript()),
             import_analyzer(),
-            InjectHelpers,
+            inject_helpers(),
             common_js(mark, Default::default()),
             hygiene(),
             fixer(None)
@@ -130,7 +130,7 @@ test!(
         compat::es2015(Mark::fresh(Mark::root()), Default::default()),
         compat::es3(true),
         import_analyzer(),
-        InjectHelpers,
+        inject_helpers(),
         common_js(Mark::fresh(Mark::root()), Default::default()),
     ),
     issue_389_3,
@@ -3900,7 +3900,7 @@ test!(
 
         chain!(
             resolver_with_mark(mark),
-            compat::es2015::BlockScopedFns,
+            compat::es2015::block_scoped_functions(),
             compat::es2015::block_scoping(),
             common_js(mark, Default::default()),
         )

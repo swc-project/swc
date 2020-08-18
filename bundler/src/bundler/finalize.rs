@@ -7,8 +7,7 @@ use std::{
 };
 use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::{ImportDecl, Str};
-use swc_ecma_transforms::noop_fold_type;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -121,12 +120,12 @@ where
     renamed: &'a HashMap<PathBuf, String>,
 }
 
-noop_fold_type!(Renamer<'_, '_>);
-
 impl<R> Fold for Renamer<'_, R>
 where
     R: Resolve,
 {
+    noop_fold_type!();
+
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
         let resolved = match self
             .resolver

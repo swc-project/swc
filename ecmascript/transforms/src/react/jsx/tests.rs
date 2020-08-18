@@ -1,8 +1,8 @@
 use super::*;
 use crate::{
     compat::{
-        es2015::{arrow, Classes},
-        es3::PropertyLiteral,
+        es2015::{arrow, classes},
+        es3::property_literals,
     },
     modules::common_js::common_js,
     react::display_name,
@@ -14,7 +14,7 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(
         jsx(t.cm.clone(), options),
         display_name(),
-        Classes::default(),
+        classes(),
         arrow(),
     )
 }
@@ -462,7 +462,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(tr(t, Default::default()), PropertyLiteral),
+    |t| chain!(tr(t, Default::default()), property_literals()),
     react_should_add_quotes_es3,
     r#"var es3 = <F aaa new const var default foo-bar/>;"#,
     r#"

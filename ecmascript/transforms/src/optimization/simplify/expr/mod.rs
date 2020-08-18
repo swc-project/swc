@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -32,8 +32,6 @@ pub fn expr_simplifier() -> impl RepeatedJsPass + 'static {
 struct SimplifyExpr {
     changed: bool,
 }
-
-noop_fold_type!(SimplifyExpr);
 
 impl CompilerPass for SimplifyExpr {
     fn name() -> Cow<'static, str> {
@@ -996,6 +994,8 @@ impl SimplifyExpr {
 }
 
 impl Fold for SimplifyExpr {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fold children before doing something more.
         let expr = expr.fold_children_with(self);

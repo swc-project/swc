@@ -1,6 +1,6 @@
 use crate::util::is_valid_ident;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `transform-member-expression-literals`
 ///
@@ -19,12 +19,15 @@ use swc_ecma_visit::{Fold, FoldWith};
 /// obj["const"] = "isKeyword";
 /// obj["var"] = "isKeyword";
 /// ```
+pub fn member_expression_literals() -> impl Fold {
+    MemberExprLit
+}
 #[derive(Default, Clone, Copy)]
-pub struct MemberExprLit;
-
-noop_fold_type!(MemberExprLit);
+struct MemberExprLit;
 
 impl Fold for MemberExprLit {
+    noop_fold_type!();
+
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
         let mut e = validate!(e.fold_children_with(self));
 

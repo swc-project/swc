@@ -182,7 +182,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 modules::import_analysis::import_analyzer(),
                 need_interop_analysis
             ),
-            helpers::InjectHelpers,
+            helpers::inject_helpers(),
             ModuleConfig::build(self.cm.clone(), root_mark, module),
             Optional::new(hygiene(), self.hygiene),
             Optional::new(fixer(comments), self.fixer),

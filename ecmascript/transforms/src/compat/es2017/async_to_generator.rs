@@ -5,7 +5,7 @@ use crate::{
 use std::iter;
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-async-to-generator`
 ///
@@ -34,15 +34,13 @@ pub fn async_to_generator() -> impl Fold {
 #[derive(Default, Clone)]
 struct AsyncToGenerator;
 
-noop_fold_type!(AsyncToGenerator);
-
 struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
-noop_fold_type!(Actual);
-
 impl Fold for AsyncToGenerator {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -86,6 +84,8 @@ impl AsyncToGenerator {
 }
 
 impl Fold for Actual {
+    noop_fold_type!();
+
     fn fold_class_method(&mut self, m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;
@@ -401,6 +401,8 @@ impl MethodFolder {
 }
 
 impl Fold for MethodFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         // TODO(kdy): Cache (Reuse declaration for same property)
@@ -758,6 +760,8 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     }
 
     impl Fold for AwaitToYield {
+        noop_fold_type!();
+
         noop!(fold_fn_decl, FnDecl);
         noop!(fold_fn_expr, FnExpr);
         noop!(fold_constructor, Constructor);
@@ -819,6 +823,8 @@ struct AsyncVisitor {
 }
 
 impl Visit for AsyncVisitor {
+    noop_visit_type!();
+
     fn visit_function(&mut self, f: &Function, _: &dyn Node) {
         if f.is_async {
             self.found = true;

@@ -1,6 +1,6 @@
 use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{noop_fold_type, Fold};
 
 #[cfg(test)]
 mod tests;
@@ -15,9 +15,9 @@ struct JsxSrc {
     dev: bool,
 }
 
-noop_fold_type!(JsxSrc);
-
 impl Fold for JsxSrc {
+    noop_fold_type!();
+
     fn fold_jsx_opening_element(&mut self, mut e: JSXOpeningElement) -> JSXOpeningElement {
         if !self.dev || e.span == DUMMY_SP {
             return e;

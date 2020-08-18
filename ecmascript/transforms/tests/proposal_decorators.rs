@@ -2,7 +2,7 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
-    compat::{es2015::classes::Classes, es2020::class_properties},
+    compat::{es2015::classes::classes, es2020::class_properties},
     optimization::simplify::inlining,
     proposals::{decorators, decorators::Config},
     resolver, typescript,
@@ -4363,7 +4363,7 @@ test!(
             ..Default::default()
         }),
         class_properties(),
-        // Classes::default(),
+        // classes(),
     ),
     issue_823_2,
     "import {Debounce} from 'lodash-decorators';
@@ -4409,7 +4409,7 @@ test!(
             ..Default::default()
         }),
         class_properties(),
-        Classes::default(),
+        classes(),
     ),
     issue_823_3,
     "import {Debounce} from 'lodash-decorators';

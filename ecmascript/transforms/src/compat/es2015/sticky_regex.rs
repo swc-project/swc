@@ -2,7 +2,7 @@ use crate::util::ExprFactory;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
 ///
@@ -18,12 +18,16 @@ use swc_ecma_visit::{Fold, FoldWith};
 /// ```js
 /// new RegExp("o+", "y")
 /// ```
-#[derive(Clone, Copy)]
-pub struct StickyRegex;
+pub fn sticky_regex() -> impl 'static + Fold {
+    StickyRegex
+}
 
-noop_fold_type!(StickyRegex);
+#[derive(Clone, Copy)]
+struct StickyRegex;
 
 impl Fold for StickyRegex {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

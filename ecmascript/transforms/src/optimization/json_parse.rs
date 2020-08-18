@@ -3,7 +3,7 @@ use serde_json::Value;
 use std::usize;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// Trnasform to optimize performance of literals.
 ///
@@ -27,12 +27,13 @@ use swc_ecma_visit::{Fold, FoldWith};
 ///   - Object literal is deeply nested (threshold: )
 ///
 /// See https://github.com/swc-project/swc/issues/409
-#[derive(Debug)]
-pub struct JsonParse {
-    pub min_cost: usize,
+pub fn json_parse(min_cost: usize) -> impl Fold {
+    JsonParse { min_cost }
 }
 
-noop_fold_type!(JsonParse);
+struct JsonParse {
+    pub min_cost: usize,
+}
 
 impl Default for JsonParse {
     fn default() -> Self {
@@ -41,6 +42,8 @@ impl Default for JsonParse {
 }
 
 impl Fold for JsonParse {
+    noop_fold_type!();
+
     /// Handles parent expressions before child expressions.
     fn fold_expr(&mut self, e: Expr) -> Expr {
         if self.min_cost == usize::MAX {

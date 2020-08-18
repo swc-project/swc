@@ -1,10 +1,10 @@
 pub use self::{
-    arrow::arrow, block_scoped_fn::BlockScopedFns, block_scoping::block_scoping, classes::Classes,
-    computed_props::computed_properties, destructuring::destructuring,
+    arrow::arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
+    classes::classes, computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
-    instanceof::InstanceOf, parameters::parameters, regenerator::regenerator,
-    shorthand_property::Shorthand, spread::spread, sticky_regex::StickyRegex,
-    template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
+    instanceof::instance_of, parameters::parameters, regenerator::regenerator,
+    shorthand_property::shorthand, spread::spread, sticky_regex::sticky_regex,
+    template_literal::template_literal, typeof_symbol::typeof_symbol,
 };
 use serde::Deserialize;
 use swc_common::{chain, Mark};
@@ -32,19 +32,19 @@ fn exprs() -> impl Fold {
     chain!(
         arrow(),
         duplicate_keys(),
-        StickyRegex,
-        InstanceOf,
-        TypeOfSymbol,
-        Shorthand,
+        sticky_regex(),
+        instance_of(),
+        typeof_symbol(),
+        shorthand(),
     )
 }
 
 /// Compiles es2015 to es5.
 pub fn es2015(global_mark: Mark, c: Config) -> impl Fold {
     chain!(
-        BlockScopedFns,
-        TemplateLiteral::default(),
-        Classes::default(),
+        block_scoped_functions(),
+        template_literal(),
+        classes(),
         spread(c.spread),
         function_name(),
         exprs(),
@@ -145,7 +145,7 @@ export default function fn1() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(BlockScopedFns, resolver(),),
+        |_| chain!(block_scoped_functions(), resolver(),),
         issue_271,
         "
 function foo(scope) {

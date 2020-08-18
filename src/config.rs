@@ -1,6 +1,7 @@
 use crate::builder::PassBuilder;
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
+use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -20,11 +21,12 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     compat::es2020::typescript_class_properties,
     const_modules, modules,
-    optimization::{simplifier, InlineGlobals, JsonParse},
+    optimization::{inline_globals, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export},
     react, resolver_with_mark, typescript,
 };
+use swc_ecma_visit::Fold;
 
 #[cfg(test)]
 mod tests;
@@ -199,13 +201,9 @@ impl Options {
 
         let json_parse_pass = {
             if let Some(ref cfg) = optimizer.as_ref().and_then(|v| v.jsonify) {
-                JsonParse {
-                    min_cost: cfg.min_cost,
-                }
+                Either::Left(json_parse(cfg.min_cost))
             } else {
-                JsonParse {
-                    min_cost: usize::MAX,
-                }
+                Either::Right(noop())
             }
         };
 
@@ -624,7 +622,7 @@ fn default_envs() -> HashSet<String> {
 }
 
 impl GlobalPassOption {
-    pub fn build(self, cm: &SourceMap, handler: &Handler) -> InlineGlobals {
+    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
@@ -676,10 +674,8 @@ impl GlobalPassOption {
         }
 
         let envs = self.envs;
-        InlineGlobals {
-            globals: mk_map(cm, handler, self.vars.into_iter(), false),
-
-            envs: if cfg!(target_arch = "wasm32") {
+        inline_globals(
+            if cfg!(target_arch = "wasm32") {
                 mk_map(cm, handler, vec![].into_iter(), true)
             } else {
                 mk_map(
@@ -689,7 +685,8 @@ impl GlobalPassOption {
                     true,
                 )
             },
-        }
+            mk_map(cm, handler, self.vars.into_iter(), false),
+        )
     }
 }
 

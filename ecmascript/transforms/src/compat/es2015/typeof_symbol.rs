@@ -2,31 +2,18 @@ use crate::util::ExprFactory;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
-/// `@babel/plugin-transform-typeof-symbol`
-///
-/// # Example
-/// ## In
-///
-/// ```js
-/// typeof Symbol() === "symbol";
-/// ```
-///
-/// ## Out
-/// ```js
-/// var _typeof = function (obj) {
-///  return obj && obj.constructor === Symbol ? "symbol" : typeof obj;
-/// };
-///
-/// _typeof(Symbol()) === "symbol";
-/// ```
+pub fn typeof_symbol() -> impl Fold {
+    TypeOfSymbol
+}
+
 #[derive(Clone)]
-pub struct TypeOfSymbol;
-
-noop_fold_type!(TypeOfSymbol);
+struct TypeOfSymbol;
 
 impl Fold for TypeOfSymbol {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fast path
         if !should_work(&expr) {
@@ -87,6 +74,8 @@ fn should_work(node: &Expr) -> bool {
         found: bool,
     }
     impl Visit for Visitor {
+        noop_visit_type!();
+
         fn visit_unary_expr(&mut self, e: &UnaryExpr, _: &dyn Node) {
             if e.op == op!("typeof") {
                 self.found = true

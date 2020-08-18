@@ -1,5 +1,6 @@
 pub use self::{
-    member_expr_lits::MemberExprLit, prop_lits::PropertyLiteral, reserved_word::ReservedWord,
+    member_expr_lits::member_expression_literals, prop_lits::property_literals,
+    reserved_word::reserved_words,
 };
 use swc_common::chain;
 use swc_ecma_visit::Fold;
@@ -11,8 +12,8 @@ mod reserved_word;
 /// Make output es3-compatible.
 pub fn es3(preserve_import: bool) -> impl Fold {
     chain!(
-        PropertyLiteral,
-        MemberExprLit,
-        ReservedWord { preserve_import }
+        property_literals(),
+        member_expression_literals(),
+        reserved_words(preserve_import)
     )
 }

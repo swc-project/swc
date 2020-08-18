@@ -1,10 +1,10 @@
 use super::merge::{LocalMarker, Unexporter};
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
-use std::iter::once;
-use swc_common::DUMMY_SP;
+use std::{borrow::Borrow, iter::once};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
 mod hygiene;
 
@@ -112,11 +112,11 @@ where
         for circular_module in circular_modules {
             for (src, specifiers) in entry.imports.specifiers.iter() {
                 if circular_module.id == src.module_id {
-                    module = module.fold_with(&mut LocalMarker {
+                    module.visit_mut_with(&mut LocalMarker {
                         mark: circular_module.mark(),
+                        top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                         specifiers: &specifiers,
-                        excluded: vec![],
-                        is_export: false,
+                        excluded: Default::default(),
                     });
                     break;
                 }
@@ -165,7 +165,7 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
         }
 
         // We checked the length of `dep`
-        if let Some(pos) = dependency_index(&dep[0], &[item.clone()]) {
+        if let Some(pos) = dependency_index(&dep[0], &[&item]) {
             log::trace!("Found reverse depndency (index[0]): {}", pos);
 
             new.extend(entry.drain(..=pos));
@@ -192,25 +192,37 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
     new
 }
 
-fn dependency_index(item: &ModuleItem, deps: &[ModuleItem]) -> Option<usize> {
+/// Searches for top level declaration which provides requirements for `deps`.
+fn dependency_index<T>(item: &ModuleItem, deps: &[T]) -> Option<usize>
+where
+    T: Borrow<ModuleItem>,
+{
     let mut v = DepFinder { deps, idx: None };
     item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.idx
 }
 
-struct DepFinder<'a> {
-    deps: &'a [ModuleItem],
+struct DepFinder<'a, T>
+where
+    T: Borrow<ModuleItem>,
+{
+    deps: &'a [T],
     idx: Option<usize>,
 }
 
-impl Visit for DepFinder<'_> {
+impl<T> Visit for DepFinder<'_, T>
+where
+    T: Borrow<ModuleItem>,
+{
+    noop_visit_type!();
+
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if self.idx.is_some() {
             return;
         }
 
         for (idx, dep) in self.deps.iter().enumerate() {
-            match dep {
+            match dep.borrow() {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
                     log::trace!(
                         "Decl (from dep) = {}{:?}, Ident = {}{:?}",
@@ -240,4 +252,11 @@ impl Visit for DepFinder<'_> {
     fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+
+    /// We only search for top-level binding
+    #[inline]
+    fn visit_stmts(&mut self, _: &[Stmt], _: &dyn Node) {}
+    /// We only search for top-level binding
+    #[inline]
+    fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
 }

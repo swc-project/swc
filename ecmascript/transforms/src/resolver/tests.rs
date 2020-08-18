@@ -1,7 +1,7 @@
 use super::*;
 use crate::{
     compat::{
-        es2015::{block_scoping, destructuring, Classes},
+        es2015::{block_scoping, classes, destructuring},
         es2020::class_properties,
     },
     modules::common_js::common_js,
@@ -985,7 +985,7 @@ test!(
     syntax(),
     |_| chain!(
         tr(),
-        Classes::default(),
+        classes(),
         destructuring(Default::default()),
         common_js(Mark::fresh(Mark::root()), Default::default())
     ),

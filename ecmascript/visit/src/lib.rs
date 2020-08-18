@@ -1,7 +1,7 @@
 use num_bigint::BigInt as BigIntValue;
-use std::{any::Any, fmt::Debug};
+use std::{any::Any, borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
 
@@ -106,6 +106,309 @@ macro_rules! assert_eq_ignore_span {
 
         assert_eq!(l, r, $($tts)*);
     }};
+}
+
+pub fn as_folder<V>(v: V) -> Folder<V>
+where
+    V: VisitMut,
+{
+    Folder(v)
+}
+
+/// Wrap a [VisitMut] as a [Fold]
+#[derive(Debug, Clone, Copy)]
+pub struct Folder<V: VisitMut>(V);
+
+impl<V> Repeated for Folder<V>
+where
+    V: Repeated + VisitMut,
+{
+    #[inline(always)]
+    fn changed(&self) -> bool {
+        self.0.changed()
+    }
+
+    #[inline(always)]
+    fn reset(&mut self) {
+        self.0.reset();
+    }
+}
+
+impl<V> CompilerPass for Folder<V>
+where
+    V: VisitMut + CompilerPass,
+{
+    fn name() -> Cow<'static, str> {
+        V::name()
+    }
+}
+
+macro_rules! method {
+    ($name:ident, $T:ty) => {
+        #[inline(always)]
+        fn $name(&mut self, mut n: $T) -> $T {
+            n.visit_mut_with(&mut self.0);
+            n
+        }
+    };
+}
+
+impl<V> Fold for Folder<V>
+where
+    V: VisitMut,
+{
+    method!(fold_ident, Ident);
+    method!(fold_span, Span);
+
+    method!(fold_expr, Expr);
+    method!(fold_decl, Decl);
+    method!(fold_stmt, Stmt);
+    method!(fold_pat, Pat);
+
+    method!(fold_ts_type, TsType);
+
+    method!(fold_module, Module);
+    method!(fold_script, Script);
+    method!(fold_program, Program);
+}
+
+/// Note: Ignoring more types is not considered as a breaking change.
+#[macro_export]
+macro_rules! noop_fold_type {
+    ($name:ident, $N:tt) => {
+        #[inline(always)]
+        fn $name(&mut self, node: swc_ecma_ast::$N) -> swc_ecma_ast::$N {
+            node
+        }
+    };
+    () => {
+        noop_fold_type!(fold_accessibility, Accessibility);
+        noop_fold_type!(fold_true_plus_minus, TruePlusMinus);
+        noop_fold_type!(fold_ts_array_type, TsArrayType);
+        noop_fold_type!(fold_ts_call_signature_decl, TsCallSignatureDecl);
+        noop_fold_type!(fold_ts_conditional_type, TsConditionalType);
+        noop_fold_type!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
+        noop_fold_type!(fold_ts_constructor_type, TsConstructorType);
+        noop_fold_type!(fold_ts_entity_name, TsEntityName);
+        noop_fold_type!(fold_ts_enum_decl, TsEnumDecl);
+        noop_fold_type!(fold_ts_enum_member, TsEnumMember);
+        noop_fold_type!(fold_ts_enum_member_id, TsEnumMemberId);
+        noop_fold_type!(fold_ts_external_module_ref, TsExternalModuleRef);
+        noop_fold_type!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
+        noop_fold_type!(fold_ts_fn_param, TsFnParam);
+        noop_fold_type!(fold_ts_fn_type, TsFnType);
+        noop_fold_type!(fold_ts_import_equals_decl, TsImportEqualsDecl);
+        noop_fold_type!(fold_ts_import_type, TsImportType);
+        noop_fold_type!(fold_ts_index_signature, TsIndexSignature);
+        noop_fold_type!(fold_ts_indexed_access_type, TsIndexedAccessType);
+        noop_fold_type!(fold_ts_infer_type, TsInferType);
+        noop_fold_type!(fold_ts_interface_body, TsInterfaceBody);
+        noop_fold_type!(fold_ts_interface_decl, TsInterfaceDecl);
+        noop_fold_type!(fold_ts_intersection_type, TsIntersectionType);
+        noop_fold_type!(fold_ts_keyword_type, TsKeywordType);
+        noop_fold_type!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
+        noop_fold_type!(fold_ts_mapped_type, TsMappedType);
+        noop_fold_type!(fold_ts_method_signature, TsMethodSignature);
+        noop_fold_type!(fold_ts_module_block, TsModuleBlock);
+        noop_fold_type!(fold_ts_module_decl, TsModuleDecl);
+        noop_fold_type!(fold_ts_module_name, TsModuleName);
+        noop_fold_type!(fold_ts_module_ref, TsModuleRef);
+        noop_fold_type!(fold_ts_namespace_body, TsNamespaceBody);
+        noop_fold_type!(fold_ts_namespace_decl, TsNamespaceDecl);
+        noop_fold_type!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
+        noop_fold_type!(fold_ts_optional_type, TsOptionalType);
+        noop_fold_type!(fold_ts_param_prop, TsParamProp);
+        noop_fold_type!(fold_ts_param_prop_param, TsParamPropParam);
+        noop_fold_type!(fold_ts_parenthesized_type, TsParenthesizedType);
+        noop_fold_type!(fold_ts_property_signature, TsPropertySignature);
+        noop_fold_type!(fold_ts_qualified_name, TsQualifiedName);
+        noop_fold_type!(fold_ts_rest_type, TsRestType);
+        noop_fold_type!(fold_ts_signature_decl, TsSignatureDecl);
+        noop_fold_type!(fold_ts_this_type, TsThisType);
+        noop_fold_type!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
+        noop_fold_type!(fold_ts_tuple_type, TsTupleType);
+        noop_fold_type!(fold_ts_type, TsType);
+        noop_fold_type!(fold_ts_type_alias_decl, TsTypeAliasDecl);
+        noop_fold_type!(fold_ts_type_ann, TsTypeAnn);
+        noop_fold_type!(fold_ts_type_assertion, TsTypeAssertion);
+        noop_fold_type!(fold_ts_type_cast_expr, TsTypeCastExpr);
+        noop_fold_type!(fold_ts_type_element, TsTypeElement);
+        noop_fold_type!(fold_ts_type_lit, TsTypeLit);
+        noop_fold_type!(fold_ts_type_operator, TsTypeOperator);
+        noop_fold_type!(fold_ts_type_operator_op, TsTypeOperatorOp);
+        noop_fold_type!(fold_ts_type_param, TsTypeParam);
+        noop_fold_type!(fold_ts_type_param_decl, TsTypeParamDecl);
+        noop_fold_type!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+        noop_fold_type!(fold_ts_type_predicate, TsTypePredicate);
+        noop_fold_type!(fold_ts_type_query, TsTypeQuery);
+        noop_fold_type!(fold_ts_type_query_expr, TsTypeQueryExpr);
+        noop_fold_type!(fold_ts_type_ref, TsTypeRef);
+        noop_fold_type!(
+            fold_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType
+        );
+        noop_fold_type!(fold_ts_union_type, TsUnionType);
+    };
+}
+
+/// Note: Ignoring more types is not considered as a breaking change.
+#[macro_export]
+macro_rules! noop_visit_type {
+    ($name:ident, $N:tt) => {
+        #[inline(always)]
+        fn $name(&mut self, _: &swc_ecma_ast::$N, _: &dyn swc_ecma_visit::Node) {}
+    };
+    () => {
+        noop_visit_type!(visit_accessibility, Accessibility);
+        noop_visit_type!(visit_true_plus_minus, TruePlusMinus);
+        noop_visit_type!(visit_ts_array_type, TsArrayType);
+        noop_visit_type!(visit_ts_call_signature_decl, TsCallSignatureDecl);
+        noop_visit_type!(visit_ts_conditional_type, TsConditionalType);
+        noop_visit_type!(visit_ts_construct_signature_decl, TsConstructSignatureDecl);
+        noop_visit_type!(visit_ts_constructor_type, TsConstructorType);
+        noop_visit_type!(visit_ts_entity_name, TsEntityName);
+        noop_visit_type!(visit_ts_enum_decl, TsEnumDecl);
+        noop_visit_type!(visit_ts_enum_member, TsEnumMember);
+        noop_visit_type!(visit_ts_enum_member_id, TsEnumMemberId);
+        noop_visit_type!(visit_ts_external_module_ref, TsExternalModuleRef);
+        noop_visit_type!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
+        noop_visit_type!(visit_ts_fn_param, TsFnParam);
+        noop_visit_type!(visit_ts_fn_type, TsFnType);
+        noop_visit_type!(visit_ts_import_equals_decl, TsImportEqualsDecl);
+        noop_visit_type!(visit_ts_import_type, TsImportType);
+        noop_visit_type!(visit_ts_index_signature, TsIndexSignature);
+        noop_visit_type!(visit_ts_indexed_access_type, TsIndexedAccessType);
+        noop_visit_type!(visit_ts_infer_type, TsInferType);
+        noop_visit_type!(visit_ts_interface_body, TsInterfaceBody);
+        noop_visit_type!(visit_ts_interface_decl, TsInterfaceDecl);
+        noop_visit_type!(visit_ts_intersection_type, TsIntersectionType);
+        noop_visit_type!(visit_ts_keyword_type, TsKeywordType);
+        noop_visit_type!(visit_ts_keyword_type_kind, TsKeywordTypeKind);
+        noop_visit_type!(visit_ts_mapped_type, TsMappedType);
+        noop_visit_type!(visit_ts_method_signature, TsMethodSignature);
+        noop_visit_type!(visit_ts_module_block, TsModuleBlock);
+        noop_visit_type!(visit_ts_module_decl, TsModuleDecl);
+        noop_visit_type!(visit_ts_module_name, TsModuleName);
+        noop_visit_type!(visit_ts_module_ref, TsModuleRef);
+        noop_visit_type!(visit_ts_namespace_body, TsNamespaceBody);
+        noop_visit_type!(visit_ts_namespace_decl, TsNamespaceDecl);
+        noop_visit_type!(visit_ts_namespace_export_decl, TsNamespaceExportDecl);
+        noop_visit_type!(visit_ts_optional_type, TsOptionalType);
+        noop_visit_type!(visit_ts_param_prop, TsParamProp);
+        noop_visit_type!(visit_ts_param_prop_param, TsParamPropParam);
+        noop_visit_type!(visit_ts_parenthesized_type, TsParenthesizedType);
+        noop_visit_type!(visit_ts_property_signature, TsPropertySignature);
+        noop_visit_type!(visit_ts_qualified_name, TsQualifiedName);
+        noop_visit_type!(visit_ts_rest_type, TsRestType);
+        noop_visit_type!(visit_ts_signature_decl, TsSignatureDecl);
+        noop_visit_type!(visit_ts_this_type, TsThisType);
+        noop_visit_type!(visit_ts_this_type_or_ident, TsThisTypeOrIdent);
+        noop_visit_type!(visit_ts_tuple_type, TsTupleType);
+        noop_visit_type!(visit_ts_type, TsType);
+        noop_visit_type!(visit_ts_type_alias_decl, TsTypeAliasDecl);
+        noop_visit_type!(visit_ts_type_ann, TsTypeAnn);
+        noop_visit_type!(visit_ts_type_assertion, TsTypeAssertion);
+        noop_visit_type!(visit_ts_type_cast_expr, TsTypeCastExpr);
+        noop_visit_type!(visit_ts_type_element, TsTypeElement);
+        noop_visit_type!(visit_ts_type_lit, TsTypeLit);
+        noop_visit_type!(visit_ts_type_operator, TsTypeOperator);
+        noop_visit_type!(visit_ts_type_operator_op, TsTypeOperatorOp);
+        noop_visit_type!(visit_ts_type_param, TsTypeParam);
+        noop_visit_type!(visit_ts_type_param_decl, TsTypeParamDecl);
+        noop_visit_type!(visit_ts_type_param_instantiation, TsTypeParamInstantiation);
+        noop_visit_type!(visit_ts_type_predicate, TsTypePredicate);
+        noop_visit_type!(visit_ts_type_query, TsTypeQuery);
+        noop_visit_type!(visit_ts_type_query_expr, TsTypeQueryExpr);
+        noop_visit_type!(visit_ts_type_ref, TsTypeRef);
+        noop_visit_type!(
+            visit_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType
+        );
+        noop_visit_type!(visit_ts_union_type, TsUnionType);
+    };
+}
+
+/// Note: Ignoring more types is not considered as a breaking change.
+#[macro_export]
+macro_rules! noop_visit_mut_type {
+    ($name:ident, $N:ident) => {
+        #[inline(always)]
+        fn $name(&mut self, _: &mut swc_ecma_ast::$N) {}
+    };
+    () => {
+        noop_visit_mut_type!(visit_mut_accessibility, Accessibility);
+        noop_visit_mut_type!(visit_mut_true_plus_minus, TruePlusMinus);
+        noop_visit_mut_type!(visit_mut_ts_array_type, TsArrayType);
+        noop_visit_mut_type!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl);
+        noop_visit_mut_type!(visit_mut_ts_conditional_type, TsConditionalType);
+        noop_visit_mut_type!(
+            visit_mut_ts_construct_signature_decl,
+            TsConstructSignatureDecl
+        );
+        noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType);
+        noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName);
+        noop_visit_mut_type!(visit_mut_ts_enum_decl, TsEnumDecl);
+        noop_visit_mut_type!(visit_mut_ts_enum_member, TsEnumMember);
+        noop_visit_mut_type!(visit_mut_ts_enum_member_id, TsEnumMemberId);
+        noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
+        noop_visit_mut_type!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
+        noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam);
+        noop_visit_mut_type!(visit_mut_ts_fn_type, TsFnType);
+        noop_visit_mut_type!(visit_mut_ts_import_equals_decl, TsImportEqualsDecl);
+        noop_visit_mut_type!(visit_mut_ts_import_type, TsImportType);
+        noop_visit_mut_type!(visit_mut_ts_index_signature, TsIndexSignature);
+        noop_visit_mut_type!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
+        noop_visit_mut_type!(visit_mut_ts_infer_type, TsInferType);
+        noop_visit_mut_type!(visit_mut_ts_interface_body, TsInterfaceBody);
+        noop_visit_mut_type!(visit_mut_ts_interface_decl, TsInterfaceDecl);
+        noop_visit_mut_type!(visit_mut_ts_intersection_type, TsIntersectionType);
+        noop_visit_mut_type!(visit_mut_ts_keyword_type, TsKeywordType);
+        noop_visit_mut_type!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
+        noop_visit_mut_type!(visit_mut_ts_mapped_type, TsMappedType);
+        noop_visit_mut_type!(visit_mut_ts_method_signature, TsMethodSignature);
+        noop_visit_mut_type!(visit_mut_ts_module_block, TsModuleBlock);
+        noop_visit_mut_type!(visit_mut_ts_module_decl, TsModuleDecl);
+        noop_visit_mut_type!(visit_mut_ts_module_name, TsModuleName);
+        noop_visit_mut_type!(visit_mut_ts_module_ref, TsModuleRef);
+        noop_visit_mut_type!(visit_mut_ts_namespace_body, TsNamespaceBody);
+        noop_visit_mut_type!(visit_mut_ts_namespace_decl, TsNamespaceDecl);
+        noop_visit_mut_type!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+        noop_visit_mut_type!(visit_mut_ts_optional_type, TsOptionalType);
+        noop_visit_mut_type!(visit_mut_ts_param_prop, TsParamProp);
+        noop_visit_mut_type!(visit_mut_ts_param_prop_param, TsParamPropParam);
+        noop_visit_mut_type!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
+        noop_visit_mut_type!(visit_mut_ts_property_signature, TsPropertySignature);
+        noop_visit_mut_type!(visit_mut_ts_qualified_name, TsQualifiedName);
+        noop_visit_mut_type!(visit_mut_ts_rest_type, TsRestType);
+        noop_visit_mut_type!(visit_mut_ts_signature_decl, TsSignatureDecl);
+        noop_visit_mut_type!(visit_mut_ts_this_type, TsThisType);
+        noop_visit_mut_type!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
+        noop_visit_mut_type!(visit_mut_ts_tuple_type, TsTupleType);
+        noop_visit_mut_type!(visit_mut_ts_type, TsType);
+        noop_visit_mut_type!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
+        noop_visit_mut_type!(visit_mut_ts_type_ann, TsTypeAnn);
+        noop_visit_mut_type!(visit_mut_ts_type_assertion, TsTypeAssertion);
+        noop_visit_mut_type!(visit_mut_ts_type_cast_expr, TsTypeCastExpr);
+        noop_visit_mut_type!(visit_mut_ts_type_element, TsTypeElement);
+        noop_visit_mut_type!(visit_mut_ts_type_lit, TsTypeLit);
+        noop_visit_mut_type!(visit_mut_ts_type_operator, TsTypeOperator);
+        noop_visit_mut_type!(visit_mut_ts_type_operator_op, TsTypeOperatorOp);
+        noop_visit_mut_type!(visit_mut_ts_type_param, TsTypeParam);
+        noop_visit_mut_type!(visit_mut_ts_type_param_decl, TsTypeParamDecl);
+        noop_visit_mut_type!(
+            visit_mut_ts_type_param_instantiation,
+            TsTypeParamInstantiation
+        );
+        noop_visit_mut_type!(visit_mut_ts_type_predicate, TsTypePredicate);
+        noop_visit_mut_type!(visit_mut_ts_type_query, TsTypeQuery);
+        noop_visit_mut_type!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
+        noop_visit_mut_type!(visit_mut_ts_type_ref, TsTypeRef);
+        noop_visit_mut_type!(
+            visit_mut_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType
+        );
+        noop_visit_mut_type!(visit_mut_ts_union_type, TsUnionType);
+    };
 }
 
 define!({

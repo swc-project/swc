@@ -1,7 +1,7 @@
 use crate::util::{ExprFactory, StmtLike};
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-computed-properties`
 ///
@@ -40,8 +40,6 @@ pub fn computed_properties() -> impl Fold {
 
 struct ComputedProps;
 
-noop_fold_type!(ComputedProps);
-
 #[derive(Default)]
 struct ObjectLitFolder {
     vars: Vec<VarDeclarator>,
@@ -49,6 +47,8 @@ struct ObjectLitFolder {
 }
 
 impl Fold for ObjectLitFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         let expr = expr.fold_children_with(self);
@@ -276,6 +276,8 @@ struct ComplexVisitor {
 }
 
 impl Visit for ComplexVisitor {
+    noop_visit_type!();
+
     fn visit_prop_name(&mut self, pn: &PropName, _: &dyn Node) {
         match *pn {
             PropName::Computed(..) => self.found = true,
@@ -285,6 +287,8 @@ impl Visit for ComplexVisitor {
 }
 
 impl Fold for ComputedProps {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -362,6 +366,8 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
+    noop_visit_type!();
+
     fn visit_prop_name(&mut self, node: &PropName, _: &dyn Node) {
         match *node {
             PropName::Computed(_) => self.found = true,

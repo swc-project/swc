@@ -8,7 +8,7 @@ use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod metadata;
 
@@ -29,9 +29,9 @@ pub(super) fn new(metadata: bool) -> Legacy {
     }
 }
 
-noop_fold_type!(Legacy);
-
 impl Fold for Legacy {
+    noop_fold_type!();
+
     fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl: Decl = decl.fold_children_with(self);
 
@@ -760,9 +760,9 @@ struct ClassFieldAccessConverter {
     alias: Ident,
 }
 
-noop_fold_type!(ClassFieldAccessConverter);
-
 impl Fold for ClassFieldAccessConverter {
+    noop_fold_type!();
+
     fn fold_ident(&mut self, node: Ident) -> Ident {
         if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
             return self.alias.clone();

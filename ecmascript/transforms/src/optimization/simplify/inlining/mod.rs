@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod scope;
 
@@ -72,8 +72,6 @@ struct Inlining<'a> {
     pat_mode: PatFoldingMode,
 }
 
-noop_fold_type!(Inlining<'_>);
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum PatFoldingMode {
     Assign,
@@ -92,6 +90,8 @@ impl Inlining<'_> {
 }
 
 impl Fold for Inlining<'_> {
+    noop_fold_type!();
+
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
         self.fold_with_child(ScopeKind::Fn { named: false }, node)
     }
@@ -814,6 +814,8 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
+    noop_visit_type!();
+
     fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         self.scope.add_write(&node.to_id(), true);
     }

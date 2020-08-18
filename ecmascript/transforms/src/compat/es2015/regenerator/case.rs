@@ -11,7 +11,7 @@ use swc_common::{
     BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
@@ -1416,6 +1416,8 @@ macro_rules! leap {
 }
 
 impl Visit for LeapFinder {
+    noop_visit_type!();
+
     leap!(visit_yield_expr, YieldExpr);
     leap!(visit_break_stmt, BreakStmt);
     leap!(visit_continue_stmt, ContinueStmt);
@@ -1438,6 +1440,8 @@ struct UnmarkedInvalidHandler {
 }
 
 impl Fold for UnmarkedInvalidHandler {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -1457,6 +1461,8 @@ struct InvalidToLit<'a> {
     map: &'a [Loc],
 }
 impl Fold for InvalidToLit<'_> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -1486,9 +1492,9 @@ struct CatchParamHandler<'a> {
     param: Option<&'a Pat>,
 }
 
-noop_fold_type!(CatchParamHandler<'_>);
-
 impl Fold for CatchParamHandler<'_> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, node: Expr) -> Expr {
         match self.param {
             None => return node,

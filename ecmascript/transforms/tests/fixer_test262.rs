@@ -13,7 +13,7 @@ use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::fixer;
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -333,9 +333,11 @@ impl Fold for Normalizer {
 
 fn normalize<T>(node: T) -> T
 where
-    T: FoldWith<Normalizer> + FoldWith<DropSpan>,
+    T: FoldWith<Normalizer> + VisitMutWith<DropSpan>,
 {
-    node.fold_with(&mut Normalizer).fold_with(&mut DropSpan {
+    let mut node = node.fold_with(&mut Normalizer);
+    node.visit_mut_with(&mut DropSpan {
         preserve_ctxt: false,
-    })
+    });
+    node
 }

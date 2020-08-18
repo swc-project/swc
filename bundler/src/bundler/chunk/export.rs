@@ -1,12 +1,12 @@
 use super::merge::{LocalMarker, Unexporter};
-use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
+use crate::{bundler::load::TransformedModule, util, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -15,10 +15,10 @@ where
 {
     pub(super) fn merge_reexports(
         &self,
-        mut entry: Module,
+        entry: &mut Module,
         info: &TransformedModule,
         targets: &mut Vec<ModuleId>,
-    ) -> Result<Module, Error> {
+    ) -> Result<(), Error> {
         entry.visit_mut_with(&mut DefaultRenamer);
 
         for (src, specifiers) in &info.exports.reexports {
@@ -32,58 +32,68 @@ where
                 targets.remove(pos);
             }
 
-            let mut dep = self
-                .merge_modules(src.module_id, false, targets)
-                .with_context(|| {
-                    format!(
-                        "failed to merge for reexport: ({}):{} <= ({}):{}",
-                        info.id, info.fm.name, src.module_id, src.src.value
-                    )
-                })?;
-
-            dep = self.drop_unused(dep, Some(&specifiers));
-
             // print_hygiene("entry:init", &self.cm, &entry);
             // print_hygiene("dep:init", &self.cm, &dep);
 
-            entry = entry.fold_with(&mut LocalMarker {
-                mark: imported.mark(),
-                specifiers,
-                excluded: vec![],
-                is_export: false,
-            });
-            // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
-            entry.visit_mut_with(&mut NamedExportOrigMarker {
-                top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-            });
+            let (_, dep) = util::join(
+                || {
+                    self.run(|| {
+                        entry.visit_mut_with(&mut LocalMarker {
+                            mark: imported.mark(),
+                            specifiers,
+                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                            excluded: Default::default(),
+                        });
+                        // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
+                        entry.visit_mut_with(&mut NamedExportOrigMarker {
+                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                            target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                        });
 
-            // print_hygiene(&format!("entry:named-export-orig"), &self.cm, &entry);
+                        entry.visit_mut_with(&mut ExportRenamer {
+                            from: SyntaxContext::empty().apply_mark(imported.mark()),
+                            to: SyntaxContext::empty().apply_mark(info.mark()),
+                        });
+                    })
+                },
+                || -> Result<_, Error> {
+                    self.run(|| {
+                        let mut dep = self
+                            .merge_modules(src.module_id, false, targets)
+                            .with_context(|| {
+                                format!(
+                                    "failed to merge for reexport: ({}):{} <= ({}):{}",
+                                    info.id, info.fm.name, src.module_id, src.src.value
+                                )
+                            })?;
 
-            dep.visit_mut_with(&mut UnexportAsVar {
-                target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-            });
-            // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+                        dep = self.drop_unused(dep, Some(&specifiers));
 
-            dep.visit_mut_with(&mut AliasExports {
-                importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                decls: Default::default(),
-            });
-            // print_hygiene("dep:alias-exports", &self.cm, &dep);
+                        dep.visit_mut_with(&mut UnexportAsVar {
+                            target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                        });
+                        // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
 
-            dep = dep.fold_with(&mut Unexporter);
+                        dep.visit_mut_with(&mut AliasExports {
+                            importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                            decls: Default::default(),
+                        });
+                        // print_hygiene("dep:alias-exports", &self.cm, &dep);
 
-            entry.visit_mut_with(&mut ExportRenamer {
-                from: SyntaxContext::empty().apply_mark(imported.mark()),
-                to: SyntaxContext::empty().apply_mark(info.mark()),
-            });
+                        dep = dep.fold_with(&mut Unexporter);
+
+                        Ok(dep)
+                    })
+                },
+            );
+            let dep = dep?;
 
             // print_hygiene("entry:before-injection", &self.cm, &entry);
             // print_hygiene("dep:before-injection", &self.cm, &dep);
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
-                imported: dep.body.clone(),
+                imported: dep.body,
                 src: src.src.clone(),
             };
             entry.body.visit_mut_with(&mut injector);
@@ -100,7 +110,7 @@ where
             assert_eq!(injector.imported, vec![]);
         }
 
-        Ok(entry)
+        Ok(())
     }
 }
 
@@ -110,6 +120,8 @@ struct ExportInjector {
 }
 
 impl VisitMut for ExportInjector {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
         let items = take(orig);
         let mut buf = Vec::with_capacity(self.imported.len() + items.len());
@@ -154,6 +166,8 @@ struct ExportRenamer {
 }
 
 impl VisitMut for ExportRenamer {
+    noop_visit_mut_type!();
+
     fn visit_mut_named_export(&mut self, export: &mut NamedExport) {
         // if export.src.is_none() {
         //     return;
@@ -196,6 +210,8 @@ struct UnexportAsVar {
 }
 
 impl VisitMut for UnexportAsVar {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
         n.visit_mut_children_with(self);
 
@@ -277,6 +293,8 @@ pub(super) struct NamedExportOrigMarker {
 }
 
 impl VisitMut for NamedExportOrigMarker {
+    noop_visit_mut_type!();
+
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
         if s.orig.span.ctxt == self.top_level_ctxt {
             s.orig.span = s.orig.span.with_ctxt(self.target_ctxt);
@@ -293,6 +311,8 @@ struct AliasExports {
 }
 
 impl VisitMut for AliasExports {
+    noop_visit_mut_type!();
+
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         for item in items.iter_mut() {
             item.visit_mut_with(self);
@@ -355,6 +375,8 @@ impl VisitMut for AliasExports {
 struct DefaultRenamer;
 
 impl VisitMut for DefaultRenamer {
+    noop_visit_mut_type!();
+
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.orig.sym == js_word!("default") {
             n.orig.sym = "__default".into()

@@ -1,6 +1,6 @@
 [package]
 name = "swc_visit_macros"
-version = "0.1.0"
+version = "0.1.1"
 license = "Apache-2.0/MIT"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 repository = "https://github.com/swc-project/swc.git"

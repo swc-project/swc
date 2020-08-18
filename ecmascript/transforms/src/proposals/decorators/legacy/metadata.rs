@@ -1,12 +1,14 @@
 use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprFactory};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;
 
 impl Fold for ParamMetadata {
+    noop_fold_type!();
+
     fn fold_class(&mut self, mut cls: Class) -> Class {
         cls = cls.fold_children_with(self);
         let mut decorators = cls.decorators;
@@ -120,6 +122,8 @@ pub(super) struct Metadata<'a> {
 }
 
 impl Fold for Metadata<'_> {
+    noop_fold_type!();
+
     fn fold_class(&mut self, mut c: Class) -> Class {
         c = c.fold_children_with(self);
 

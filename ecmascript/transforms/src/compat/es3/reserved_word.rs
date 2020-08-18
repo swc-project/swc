@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -18,14 +18,16 @@ use swc_ecma_visit::{Fold, FoldWith};
 /// var _abstract = 1;
 /// var x = _abstract + 1;
 /// ```
-#[derive(Default, Clone, Copy)]
-pub struct ReservedWord {
+pub fn reserved_words(preserve_import: bool) -> impl Fold {
+    ReservedWord { preserve_import }
+}
+struct ReservedWord {
     pub preserve_import: bool,
 }
 
-noop_fold_type!(ReservedWord);
-
 impl Fold for ReservedWord {
+    noop_fold_type!();
+
     fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
         n
     }

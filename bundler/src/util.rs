@@ -1,6 +1,6 @@
 use std::hash::Hash;
 use swc_common::{Span, SyntaxContext};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 #[derive(Debug)]
 pub(crate) struct CloneMap<K, V>
@@ -62,9 +62,11 @@ where
 
 pub(crate) struct HygieneRemover;
 
-impl Fold for HygieneRemover {
-    fn fold_span(&mut self, s: Span) -> Span {
-        s.with_ctxt(SyntaxContext::empty())
+impl VisitMut for HygieneRemover {
+    noop_visit_mut_type!();
+
+    fn visit_mut_span(&mut self, s: &mut Span) {
+        *s = s.with_ctxt(SyntaxContext::empty())
     }
 }
 

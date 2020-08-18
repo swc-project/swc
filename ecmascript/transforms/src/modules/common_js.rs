@@ -8,7 +8,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
     CommonJs {
@@ -26,9 +26,9 @@ struct CommonJs {
     in_top_level: bool,
 }
 
-noop_fold_type!(CommonJs);
-
 impl Fold for CommonJs {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 4);

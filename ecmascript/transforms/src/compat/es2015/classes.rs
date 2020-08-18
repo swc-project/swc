@@ -15,7 +15,7 @@ use fxhash::FxBuildHasher;
 use std::iter;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[macro_use]
 mod macros;
@@ -23,6 +23,10 @@ mod constructor;
 pub(crate) mod native;
 mod prop_name;
 mod super_field;
+
+pub fn classes() -> impl Fold {
+    Classes::default()
+}
 
 type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 
@@ -58,11 +62,9 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 /// }();
 /// ```
 #[derive(Default, Clone, Copy)]
-pub struct Classes {
+struct Classes {
     in_strict: bool,
 }
-
-noop_fold_type!(Classes);
 
 struct Data {
     key_prop: Box<Prop>,
@@ -167,6 +169,8 @@ impl Classes {
 }
 
 impl Fold for Classes {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(items)
     }
@@ -181,6 +185,8 @@ impl Fold for Classes {
                 found: bool,
             };
             impl Visit for Visitor {
+                noop_visit_type!();
+
                 fn visit_class(&mut self, _: &Class, _: &dyn Node) {
                     self.found = true
                 }
@@ -875,6 +881,8 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     impl Visit for SuperFinder {
+        noop_visit_type!();
+
         fn visit_expr_or_super(&mut self, node: &ExprOrSuper, _: &dyn Node) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,

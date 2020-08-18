@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[derive(Debug)]
 pub(super) enum ScopeOp {
@@ -13,9 +13,9 @@ pub(super) enum ScopeOp {
 
 pub(super) struct Operator<'a>(pub &'a [ScopeOp]);
 
-noop_fold_type!(Operator<'_>);
-
 impl<'a> Fold for Operator<'a> {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut stmts = Vec::with_capacity(items.len());
 
@@ -287,6 +287,8 @@ struct VarFolder<'a, 'b> {
 }
 
 impl Fold for VarFolder<'_, '_> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, n: Expr) -> Expr {
         n
     }

@@ -3,19 +3,19 @@ use std::{cell::RefCell, collections::HashSet};
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
 
 const LOG: bool = false;
 
-pub fn resolver() -> Resolver<'static> {
+pub fn resolver() -> impl 'static + Fold {
     resolver_with_mark(Mark::fresh(Mark::root()))
 }
 
 /// `mark` should not be root.
-pub fn resolver_with_mark(top_level_mark: Mark) -> Resolver<'static> {
+pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
     assert_ne!(
         top_level_mark,
         Mark::root(),
@@ -59,15 +59,13 @@ impl<'a> Scope<'a> {
 /// ## Hoisting phase
 ///
 /// ## Resolving phase
-pub struct Resolver<'a> {
+struct Resolver<'a> {
     hoist: bool,
     mark: Mark,
     current: Scope<'a>,
     cur_defining: Option<(JsWord, Mark)>,
     ident_type: IdentType,
 }
-
-noop_fold_type!(Resolver<'_>);
 
 impl<'a> Resolver<'a> {
     fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
@@ -200,6 +198,8 @@ impl<'a> Resolver<'a> {
 }
 
 impl<'a> Fold for Resolver<'a> {
+    noop_fold_type!();
+
     track_ident!();
 
     fn fold_arrow_expr(&mut self, e: ArrowExpr) -> ArrowExpr {
@@ -592,6 +592,8 @@ struct Hoister<'a, 'b> {
 }
 
 impl Fold for Hoister<'_, '_> {
+    noop_fold_type!();
+
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
         let ident = self.resolver.fold_binding_ident(node.ident);
 

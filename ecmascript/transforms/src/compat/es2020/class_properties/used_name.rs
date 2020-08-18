@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// Used to rename **binding** identifiers in constructor.
 pub(super) struct UsedNameRenamer<'a> {
@@ -9,9 +9,9 @@ pub(super) struct UsedNameRenamer<'a> {
     pub used_names: &'a [JsWord],
 }
 
-noop_fold_type!(UsedNameRenamer<'_>);
-
 impl<'a> Fold for UsedNameRenamer<'a> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Ident(..) => e,
@@ -49,8 +49,6 @@ pub(super) struct UsedNameCollector<'a> {
     pub used_names: &'a mut Vec<JsWord>,
 }
 
-noop_visit_type!(UsedNameCollector<'_>);
-
 macro_rules! noop {
     ($name:ident, $T:path) => {
         /// no-op
@@ -59,6 +57,8 @@ macro_rules! noop {
 }
 
 impl<'a> Visit for UsedNameCollector<'a> {
+    noop_visit_type!();
+
     noop!(visit_arrow_expr, ArrowExpr);
     noop!(visit_function, Function);
     noop!(visit_setter_prop, SetterProp);

@@ -4,7 +4,7 @@ use crate::{
 };
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -28,19 +28,18 @@ use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 pub fn exponentation() -> impl Fold {
     Exponentation
 }
+
 #[derive(Clone, Copy)]
 struct Exponentation;
-
-noop_fold_type!(Exponentation);
 
 #[derive(Default)]
 struct AssignFolder {
     vars: Vec<VarDeclarator>,
 }
 
-noop_fold_type!(AssignFolder);
-
 impl Fold for AssignFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -95,6 +94,8 @@ impl Fold for AssignFolder {
 }
 
 impl Fold for Exponentation {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -167,6 +168,8 @@ struct ShouldFold {
     found: bool,
 }
 impl Visit for ShouldFold {
+    noop_visit_type!();
+
     fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
         if e.op == op!("**") {
             self.found = true;

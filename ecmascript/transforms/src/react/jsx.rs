@@ -8,7 +8,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, sync::Lrc, FileName, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -104,8 +104,6 @@ struct Jsx {
     use_builtins: bool,
     throw_if_namespace: bool,
 }
-
-noop_fold_type!(Jsx);
 
 impl Jsx {
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
@@ -255,6 +253,8 @@ impl Jsx {
 }
 
 impl Fold for Jsx {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let mut expr = expr.fold_children_with(self);
 

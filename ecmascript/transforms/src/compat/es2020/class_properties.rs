@@ -15,7 +15,7 @@ use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod class_name_tdz;
 mod private_field;
@@ -51,6 +51,8 @@ struct ClassProperties {
 }
 
 impl Fold for ClassProperties {
+    noop_fold_type!();
+
     fn fold_ident(&mut self, i: Ident) -> Ident {
         Ident {
             optional: false,

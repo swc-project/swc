@@ -9,7 +9,7 @@ use swc_common::{
     Span, Spanned,
 };
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold {
     Fixer {
@@ -28,8 +28,6 @@ struct Fixer<'a> {
     /// expression.
     span_map: FxHashMap<Span, Span>,
 }
-
-noop_fold_type!(Fixer);
 
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -70,6 +68,8 @@ macro_rules! array {
 }
 
 impl Fold for Fixer<'_> {
+    noop_fold_type!();
+
     array!(fold_array_lit, ArrayLit);
     // array!(ArrayPat);
 

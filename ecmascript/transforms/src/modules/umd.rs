@@ -9,7 +9,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod config;
 
@@ -34,9 +34,9 @@ struct Umd {
     exports: Exports,
 }
 
-noop_fold_type!(Umd);
-
 impl Fold for Umd {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let exports = self.exports.0.clone();
         let top_level = self.in_top_level;

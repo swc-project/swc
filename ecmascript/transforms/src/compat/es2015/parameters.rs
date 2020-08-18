@@ -2,17 +2,15 @@ use crate::util::{prepend_stmts, ExprFactory};
 use arrayvec::ArrayVec;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
-pub fn parameters() -> Params {
+pub fn parameters() -> impl 'static + Fold {
     Params
 }
 
 #[derive(Clone, Copy)]
-pub struct Params;
+struct Params;
 // prevent_recurse!(Params, Pat);
-
-noop_fold_type!(Params);
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
@@ -249,5 +247,7 @@ impl Params {
 }
 
 impl Fold for Params {
+    noop_fold_type!();
+
     impl_fold_fn!();
 }
