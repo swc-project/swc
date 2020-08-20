@@ -325,6 +325,31 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_construct_signature_decl(
+        &mut self,
+        decl: TsConstructSignatureDecl,
+    ) -> TsConstructSignatureDecl {
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsConstructSignatureDecl {
+            // order is important
+            type_params: decl.type_params.fold_with(&mut child),
+            params: decl.params.fold_with(&mut child),
+            type_ann: decl.type_ann.fold_with(&mut child),
+            ..decl
+        }
+    }
+
     // WIP
 
     // typed!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
