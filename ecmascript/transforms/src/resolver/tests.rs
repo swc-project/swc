@@ -10,7 +10,8 @@ use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 
 fn tr() -> impl Fold {
-    chain!(resolver(), block_scoping())
+    let mark = Mark::fresh(Mark::root());
+    chain!(ts_resolver(mark), block_scoping())
 }
 
 fn syntax() -> Syntax {
@@ -27,9 +28,21 @@ fn ts() -> Syntax {
     })
 }
 
+macro_rules! to_ts {
+    ($name:ident, $src:literal, $to:literal) => {
+        test!(ts(), |_| tr(), $name, $src, $to, ok_if_code_eq);
+    };
+}
+
 macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
         test!(syntax(), |_| tr(), $name, $src, $to);
+    };
+}
+
+macro_rules! identical_ts {
+    ($name:ident, $src:literal) => {
+        to_ts!($name, $src, $src);
     };
 }
 
@@ -1170,9 +1183,9 @@ export class HygieneTest {
 }"
 );
 
-identical!(ts_resolver_001, "type A = B;");
+identical_ts!(ts_resolver_001, "type A = B;");
 
-identical!(
+identical_ts!(
     ts_resolver_002,
     "
     class A {}
@@ -1180,7 +1193,7 @@ identical!(
     "
 );
 
-identical!(
+identical_ts!(
     ts_resolver_003,
     "
     class Foo<T> {}
@@ -1191,7 +1204,7 @@ identical!(
     "
 );
 
-to!(
+to_ts!(
     ts_resolver_class_constructor,
     "
 class G<T> {}
@@ -1209,7 +1222,7 @@ new G<Foo>();
     ""
 );
 
-to!(
+to_ts!(
     ts_resolver_class_getter,
     "
 class G<T> {}
@@ -1226,7 +1239,7 @@ class Foo {
     ""
 );
 
-to!(
+to_ts!(
     ts_resolver_class_setter,
     "
 class Foo {
@@ -1240,7 +1253,7 @@ class Foo {
     ""
 );
 
-to!(
+to_ts!(
     ts_resolver_neseted_interface,
     "
 class Foo {
