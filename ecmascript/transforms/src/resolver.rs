@@ -94,6 +94,7 @@ struct Resolver<'a> {
     cur_defining: Option<(JsWord, Mark)>,
     ident_type: IdentType,
     handle_types: bool,
+    in_type: bool,
 }
 
 impl<'a> Resolver<'a> {
@@ -110,6 +111,7 @@ impl<'a> Resolver<'a> {
             cur_defining,
             ident_type: IdentType::Ref,
             handle_types,
+            in_type: false,
         }
     }
 
@@ -236,6 +238,7 @@ macro_rules! typed {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: $T) -> $T {
             if self.handle_types {
+                self.in_type = true;
                 node.fold_children_with(self)
             } else {
                 node
@@ -249,6 +252,7 @@ macro_rules! typed_ref {
         fn $name(&mut self, node: $T) -> $T {
             if self.handle_types {
                 self.ident_type = IdentType::Ref;
+                self.in_type = true;
                 node.fold_children_with(self)
             } else {
                 node
@@ -273,6 +277,7 @@ impl<'a> Fold for Resolver<'a> {
     noop!(fold_ts_keyword_type, TsKeywordType);
     noop!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
     noop!(fold_ts_type_operator_op, TsTypeOperatorOp);
+    noop!(fold_ts_enum_member_id, TsEnumMemberId);
 
     typed_ref!(fold_ts_array_type, TsArrayType);
     typed_ref!(fold_ts_conditional_type, TsConditionalType);
@@ -297,6 +302,7 @@ impl<'a> Fold for Resolver<'a> {
     typed_ref!(fold_ts_tuple_type, TsTupleType);
     typed_ref!(fold_ts_intersection_type, TsIntersectionType);
     typed_ref!(fold_ts_type_ref, TsTypeRef);
+    typed!(fold_ts_type_param_decl, TsTypeParamDecl);
 
     fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
         if !self.handle_types {
@@ -309,14 +315,22 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_type_param(&mut self, param: TsTypeParam) -> TsTypeParam {
+        self.in_type = true;
+        TsTypeParam {
+            name: self.fold_binding_ident(param.name),
+            default: param.default.fold_with(self),
+            constraint: param.constraint.fold_with(self),
+            ..param
+        }
+    }
+
     // WIP
 
-    // typed!(fold_ts_type_param_decl, TsTypeParamDecl);
     // typed!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
     // typed!(fold_ts_constructor_type, TsConstructorType);
     // typed!(fold_ts_enum_decl, TsEnumDecl);
     // typed!(fold_ts_enum_member, TsEnumMember);
-    // typed!(fold_ts_enum_member_id, TsEnumMemberId);
     typed!(fold_ts_external_module_ref, TsExternalModuleRef);
     typed!(fold_ts_fn_param, TsFnParam);
     typed!(fold_ts_fn_type, TsFnType);
@@ -347,7 +361,7 @@ impl<'a> Fold for Resolver<'a> {
     // typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
     typed!(fold_ts_type_element, TsTypeElement);
     // typed!(fold_ts_type_lit, TsTypeLit);
-    typed!(fold_ts_type_param, TsTypeParam);
+
     typed!(fold_ts_type_predicate, TsTypePredicate);
 
     track_ident!();
