@@ -10,11 +10,15 @@ use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_visit::{as_folder, VisitMut};
 
-struct TsHygiene;
+struct TsHygiene {
+    top_level_mark: Mark,
+}
 
 impl VisitMut for TsHygiene {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if i.span.ctxt == SyntaxContext::empty() {
+        if i.span.ctxt == SyntaxContext::empty()
+            || SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt
+        {
             return;
         }
 
@@ -31,8 +35,11 @@ fn tr() -> impl Fold {
 
 /// Typescript transforms
 fn ts_tr() -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
-    chain!(ts_resolver(mark), as_folder(TsHygiene))
+    let top_level_mark = Mark::fresh(Mark::root());
+    chain!(
+        ts_resolver(top_level_mark),
+        as_folder(TsHygiene { top_level_mark })
+    )
 }
 
 fn syntax() -> Syntax {
@@ -1241,17 +1248,17 @@ class Foo {
 new G<Foo>();
 ",
     "
-class G__1<T> {
+class G<T> {
 }
-class Foo__1 {
+class Foo {
     constructor(){
         class Foo__2 {
         }
-        new G__1<Foo__2>();
+        new G<Foo__2>();
     }
 }
-new G__1<Foo__1>();
-    "
+new G<Foo>();
+        "
 );
 
 to_ts!(
@@ -1268,33 +1275,67 @@ class Foo {
     }
 }
 ",
-    ""
-);
-
-to_ts!(
-    ts_resolver_class_setter,
     "
+class G<T> {
+}
 class Foo {
-    set foo(v) {
-        class Foo {
-            
+    get foo() {
+        class Foo__2 {
         }
+        new G<Foo__2>();
     }
 }
-",
-    ""
+    "
 );
 
 to_ts!(
     ts_resolver_neseted_interface,
     "
-class Foo {
-    set foo(v) {
-        class Foo {
-            
-        }
-    }
+interface Foo {
+    name: string
 }
+
+function foo() {
+    interface Foo {
+        name: string
+    }
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+
+",
+    ""
+);
+
+to_ts!(
+    ts_resolver_neseted_enum,
+    "
+enum Foo {
+    name: string
+}
+
+function foo() {
+    enum Foo {
+        name: string
+    }
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+
+",
+    ""
+);
+
+to_ts!(
+    ts_resolver_neseted_type_alias,
+    "
+type Foo = {};
+
+function foo() {
+    type Foo = string | number;
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
 ",
     ""
 );
