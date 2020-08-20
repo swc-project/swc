@@ -228,8 +228,93 @@ impl<'a> Resolver<'a> {
     }
 }
 
+macro_rules! typed {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: $T) -> $T {
+            if self.handle_types {
+                node.fold_children_with(self)
+            } else {
+                node
+            }
+        }
+    };
+}
+
 impl<'a> Fold for Resolver<'a> {
-    noop_fold_type!();
+    typed!(fold_accessibility, Accessibility);
+    typed!(fold_true_plus_minus, TruePlusMinus);
+    typed!(fold_ts_array_type, TsArrayType);
+    typed!(fold_ts_call_signature_decl, TsCallSignatureDecl);
+    typed!(fold_ts_conditional_type, TsConditionalType);
+    typed!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
+    typed!(fold_ts_constructor_type, TsConstructorType);
+    typed!(fold_ts_entity_name, TsEntityName);
+    typed!(fold_ts_enum_decl, TsEnumDecl);
+    typed!(fold_ts_enum_member, TsEnumMember);
+    typed!(fold_ts_enum_member_id, TsEnumMemberId);
+    typed!(fold_ts_external_module_ref, TsExternalModuleRef);
+    typed!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
+    typed!(fold_ts_fn_param, TsFnParam);
+    typed!(fold_ts_fn_type, TsFnType);
+    typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
+    typed!(fold_ts_import_type, TsImportType);
+    typed!(fold_ts_index_signature, TsIndexSignature);
+    typed!(fold_ts_indexed_access_type, TsIndexedAccessType);
+    typed!(fold_ts_infer_type, TsInferType);
+    typed!(fold_ts_interface_body, TsInterfaceBody);
+    typed!(fold_ts_interface_decl, TsInterfaceDecl);
+    typed!(fold_ts_intersection_type, TsIntersectionType);
+    typed!(fold_ts_keyword_type, TsKeywordType);
+    typed!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
+    typed!(fold_ts_mapped_type, TsMappedType);
+    typed!(fold_ts_method_signature, TsMethodSignature);
+    typed!(fold_ts_module_block, TsModuleBlock);
+    typed!(fold_ts_module_decl, TsModuleDecl);
+    typed!(fold_ts_module_name, TsModuleName);
+    typed!(fold_ts_module_ref, TsModuleRef);
+    typed!(fold_ts_namespace_body, TsNamespaceBody);
+    typed!(fold_ts_namespace_decl, TsNamespaceDecl);
+    typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
+    typed!(fold_ts_optional_type, TsOptionalType);
+    typed!(fold_ts_param_prop, TsParamProp);
+    typed!(fold_ts_param_prop_param, TsParamPropParam);
+    typed!(fold_ts_parenthesized_type, TsParenthesizedType);
+    typed!(fold_ts_property_signature, TsPropertySignature);
+    typed!(fold_ts_qualified_name, TsQualifiedName);
+    typed!(fold_ts_rest_type, TsRestType);
+    typed!(fold_ts_signature_decl, TsSignatureDecl);
+    typed!(fold_ts_this_type, TsThisType);
+    typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
+    typed!(fold_ts_tuple_type, TsTupleType);
+    typed!(fold_ts_type, TsType);
+    typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
+    typed!(fold_ts_type_ann, TsTypeAnn);
+    typed!(fold_ts_type_assertion, TsTypeAssertion);
+    typed!(fold_ts_type_cast_expr, TsTypeCastExpr);
+    typed!(fold_ts_type_element, TsTypeElement);
+    typed!(fold_ts_type_lit, TsTypeLit);
+    typed!(fold_ts_type_operator, TsTypeOperator);
+    typed!(fold_ts_type_operator_op, TsTypeOperatorOp);
+    typed!(fold_ts_type_param, TsTypeParam);
+    typed!(fold_ts_type_param_decl, TsTypeParamDecl);
+    typed!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+    typed!(fold_ts_type_predicate, TsTypePredicate);
+    typed!(fold_ts_type_query, TsTypeQuery);
+    typed!(fold_ts_type_query_expr, TsTypeQueryExpr);
+    typed!(
+        fold_ts_union_or_intersection_type,
+        TsUnionOrIntersectionType
+    );
+    typed!(fold_ts_union_type, TsUnionType);
+
+    fn fold_ts_type_ref(&mut self, r: TsTypeRef) -> TsTypeRef {
+        if self.handle_types {
+            self.ident_type = IdentType::Ref;
+            r.fold_children_with(self)
+        } else {
+            r
+        }
+    }
 
     track_ident!();
 

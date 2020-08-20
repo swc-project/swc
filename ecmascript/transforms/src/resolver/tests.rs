@@ -8,10 +8,31 @@ use crate::{
 };
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_visit::{as_folder, VisitMut};
+
+struct TsHygiene;
+
+impl VisitMut for TsHygiene {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if i.span.ctxt == SyntaxContext::empty() {
+            return;
+        }
+
+        let ctxt = format!("{:?}", i.span.ctxt).replace("#", "");
+        i.sym = format!("{}__{}", i.sym, ctxt).into();
+        i.span = i.span.with_ctxt(SyntaxContext::empty());
+    }
+}
 
 fn tr() -> impl Fold {
     let mark = Mark::fresh(Mark::root());
-    chain!(ts_resolver(mark), block_scoping())
+    chain!(resolver_with_mark(mark), block_scoping())
+}
+
+/// Typescript transforms
+fn ts_tr() -> impl Fold {
+    let mark = Mark::fresh(Mark::root());
+    chain!(ts_resolver(mark), as_folder(TsHygiene))
 }
 
 fn syntax() -> Syntax {
@@ -30,7 +51,7 @@ fn ts() -> Syntax {
 
 macro_rules! to_ts {
     ($name:ident, $src:literal, $to:literal) => {
-        test!(ts(), |_| tr(), $name, $src, $to, ok_if_code_eq);
+        test!(ts(), |_| ts_tr(), $name, $src, $to, ok_if_code_eq);
     };
 }
 
@@ -1219,7 +1240,18 @@ class Foo {
 }
 new G<Foo>();
 ",
-    ""
+    "
+class G__1<T> {
+}
+class Foo__1 {
+    constructor(){
+        class Foo__2 {
+        }
+        new G__1<Foo__2>();
+    }
+}
+new G__1<Foo__1>();
+    "
 );
 
 to_ts!(
