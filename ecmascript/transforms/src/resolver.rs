@@ -316,6 +316,9 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_ts_type_param(&mut self, param: TsTypeParam) -> TsTypeParam {
+        if !self.handle_types {
+            return param;
+        }
         self.in_type = true;
         TsTypeParam {
             name: self.fold_binding_ident(param.name),
@@ -329,6 +332,9 @@ impl<'a> Fold for Resolver<'a> {
         &mut self,
         decl: TsConstructSignatureDecl,
     ) -> TsConstructSignatureDecl {
+        if !self.handle_types {
+            return decl;
+        }
         self.in_type = true;
         let child_mark = Mark::fresh(self.mark);
 
@@ -351,6 +357,10 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_ts_constructor_type(&mut self, ty: TsConstructorType) -> TsConstructorType {
+        if !self.handle_types {
+            return ty;
+        }
+
         self.in_type = true;
         let child_mark = Mark::fresh(self.mark);
 
@@ -368,6 +378,22 @@ impl<'a> Fold for Resolver<'a> {
             params: ty.params.fold_with(&mut child),
             type_ann: ty.type_ann.fold_with(&mut child),
             ..ty
+        }
+    }
+
+    fn fold_ts_enum_decl(&mut self, decl: TsEnumDecl) -> TsEnumDecl {
+        if !self.handle_types {
+            return decl;
+        }
+
+        self.in_type = false;
+        let id = self.fold_binding_ident(decl.id);
+        let members = decl.members.fold_with(self);
+
+        TsEnumDecl {
+            id,
+            members,
+            ..decl
         }
     }
 
