@@ -27,15 +27,15 @@ fn ts() -> Syntax {
     })
 }
 
-macro_rules! identical {
-    ($name:ident, $src:literal) => {
-        test!(syntax(), |_| tr(), $name, $src, $src);
-    };
-}
-
 macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
         test!(syntax(), |_| tr(), $name, $src, $to);
+    };
+}
+
+macro_rules! identical {
+    ($name:ident, $src:literal) => {
+        to!($name, $src, $src);
     };
 }
 
@@ -53,11 +53,12 @@ fn test_mark_for() {
         let mark3 = Mark::fresh(mark2);
         let mark4 = Mark::fresh(mark3);
 
-        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None);
+        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None, true);
         let mut folder2 = Resolver::new(
             mark2,
             Scope::new(ScopeKind::Block, Some(&folder1.current)),
             None,
+            true,
         );
         folder2.current.declared_symbols.insert("foo".into());
 
@@ -65,6 +66,7 @@ fn test_mark_for() {
             mark3,
             Scope::new(ScopeKind::Block, Some(&folder2.current)),
             None,
+            true,
         );
         folder3.current.declared_symbols.insert("bar".into());
         assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
@@ -73,6 +75,7 @@ fn test_mark_for() {
             mark4,
             Scope::new(ScopeKind::Block, Some(&folder3.current)),
             None,
+            true,
         );
         folder4.current.declared_symbols.insert("foo".into());
 
@@ -1165,4 +1168,88 @@ export class HygieneTest {
         this.duration = duration ?? DURATION;
     }
 }"
+);
+
+identical!(ts_resolver_001, "type A = B;");
+
+identical!(
+    ts_resolver_002,
+    "
+    class A {}
+    new A();
+    "
+);
+
+identical!(
+    ts_resolver_003,
+    "
+    class Foo<T> {}
+    class A {}
+    class B {}
+    new Foo<A>();
+    new Foo<B>();
+    "
+);
+
+to!(
+    ts_resolver_class_constructor,
+    "
+class G<T> {}
+class Foo {
+    constructor() {
+        class Foo {
+            
+        }
+
+        new G<Foo>();
+    }
+}
+new G<Foo>();
+",
+    ""
+);
+
+to!(
+    ts_resolver_class_getter,
+    "
+class G<T> {}
+class Foo {
+    get foo() {
+        class Foo {
+            
+        }
+
+        new G<Foo>();
+    }
+}
+",
+    ""
+);
+
+to!(
+    ts_resolver_class_setter,
+    "
+class Foo {
+    set foo(v) {
+        class Foo {
+            
+        }
+    }
+}
+",
+    ""
+);
+
+to!(
+    ts_resolver_neseted_interface,
+    "
+class Foo {
+    set foo(v) {
+        class Foo {
+            
+        }
+    }
+}
+",
+    ""
 );

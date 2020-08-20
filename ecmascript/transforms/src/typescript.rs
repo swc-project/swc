@@ -1,4 +1,3 @@
-pub use self::{resolver::resolver, strip::strip};
+pub use self::strip::strip;
 
-mod resolver;
 mod strip;
