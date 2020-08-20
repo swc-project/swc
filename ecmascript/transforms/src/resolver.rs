@@ -313,6 +313,7 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_module_ref, TsModuleRef);
     typed!(fold_ts_parenthesized_type, TsParenthesizedType);
     typed!(fold_ts_type_lit, TsTypeLit);
+    typed!(fold_ts_type_element, TsTypeElement);
 
     fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
         if !self.handle_types {
@@ -478,7 +479,6 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_this_type, TsThisType);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
     typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
-    typed!(fold_ts_type_element, TsTypeElement);
 
     typed!(fold_ts_type_predicate, TsTypePredicate);
 
