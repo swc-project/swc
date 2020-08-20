@@ -352,7 +352,6 @@ impl<'a> Fold for Resolver<'a> {
 
     // WIP
 
-    // typed!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
     // typed!(fold_ts_constructor_type, TsConstructorType);
     // typed!(fold_ts_enum_decl, TsEnumDecl);
     // typed!(fold_ts_enum_member, TsEnumMember);
