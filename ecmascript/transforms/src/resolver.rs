@@ -35,7 +35,17 @@ pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
         Mark::root(),
         "Marker provided to resolver should not be the root mark"
     );
-    Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None)
+    Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None, false)
+}
+
+/// [resolver_with_mar] with typescript support enabled.
+pub fn ts_resolver(top_level_mark: Mark) -> impl 'static + Fold {
+    assert_ne!(
+        top_level_mark,
+        Mark::root(),
+        "Marker provided to resolver should not be the root mark"
+    );
+    Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None, true)
 }
 
 #[derive(Debug, Clone)]
@@ -79,16 +89,23 @@ struct Resolver<'a> {
     current: Scope<'a>,
     cur_defining: Option<(JsWord, Mark)>,
     ident_type: IdentType,
+    handle_types: bool,
 }
 
 impl<'a> Resolver<'a> {
-    fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
+    fn new(
+        mark: Mark,
+        current: Scope<'a>,
+        cur_defining: Option<(JsWord, Mark)>,
+        handle_types: bool,
+    ) -> Self {
         Resolver {
             hoist: false,
             mark,
             current,
             cur_defining,
             ident_type: IdentType::Ref,
+            handle_types,
         }
     }
 
@@ -224,6 +241,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         let old_hoist = self.hoist;
@@ -248,6 +266,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Block, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         let block = block.fold_children_with(&mut child_folder);
@@ -271,6 +290,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         folder.ident_type = IdentType::Binding;
@@ -295,6 +315,7 @@ impl<'a> Fold for Resolver<'a> {
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
+                self.handle_types,
             );
 
             m.function.fold_with(&mut child)
@@ -381,6 +402,7 @@ impl<'a> Fold for Resolver<'a> {
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
+                self.handle_types,
             );
 
             folder.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
@@ -409,6 +431,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
         let function = e.function.fold_with(&mut folder);
 
@@ -508,6 +531,7 @@ impl<'a> Fold for Resolver<'a> {
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
+                self.handle_types,
             );
 
             m.function.fold_with(&mut child)
@@ -523,6 +547,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Block, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         let o = o.fold_children_with(&mut child_folder);

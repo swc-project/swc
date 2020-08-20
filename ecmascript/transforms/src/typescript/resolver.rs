@@ -5,7 +5,13 @@ use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 #[cfg(test)]
 mod tests;
 
-/// `top_level_mark`  should match it provided to resolver.
+/// A resolver for the typescript. It is recommended to run this right after
+/// resolver, if you are going to analyze typescript codes.
+///
+///
+/// # Notes
+///
+///  - `top_level_mark` should match it provided to resolver.
 pub fn resolver(top_level_mark: Mark) -> impl Fold {
     as_folder(Resolver {
         _top_level_mark: top_level_mark,
