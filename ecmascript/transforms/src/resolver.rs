@@ -10,11 +10,25 @@ mod tests;
 
 const LOG: bool = false;
 
+/// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
     resolver_with_mark(Mark::fresh(Mark::root()))
 }
 
-/// `mark` should not be root.
+/// # When to run
+///
+/// The resolver expects 'clean' ast. You can get clean ast by parsing, or by
+/// removing all syntax context in ast nodes.
+///
+/// # What does it do
+///
+/// It makes binding identifiers unique **with respect to symbol and syntax
+/// context**.
+///
+///
+/// # Panics
+///
+/// `top_level_mark` should not be root.
 pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
     assert_ne!(
         top_level_mark,
