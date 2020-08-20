@@ -232,7 +232,17 @@ impl<'a> Emitter<'a> {
     fn emit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_import_equals_decl")
+        if n.is_export {
+            keyword!("export");
+            space!();
+        }
+
+        keyword!("import");
+        formatting_space!();
+        punct!("=");
+        formatting_space!();
+
+        emit!(n.module_ref);
     }
 
     #[emitter]
