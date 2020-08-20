@@ -279,6 +279,7 @@ impl<'a> Fold for Resolver<'a> {
     noop!(fold_ts_type_operator_op, TsTypeOperatorOp);
     noop!(fold_ts_enum_member_id, TsEnumMemberId);
     noop!(fold_ts_external_module_ref, TsExternalModuleRef);
+    noop!(fold_ts_module_name, TsModuleName);
 
     typed_ref!(fold_ts_array_type, TsArrayType);
     typed_ref!(fold_ts_conditional_type, TsConditionalType);
@@ -435,7 +436,6 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_method_signature, TsMethodSignature);
     typed!(fold_ts_module_block, TsModuleBlock);
     typed!(fold_ts_module_decl, TsModuleDecl);
-    typed!(fold_ts_module_name, TsModuleName);
     typed!(fold_ts_module_ref, TsModuleRef);
     typed!(fold_ts_namespace_body, TsNamespaceBody);
 
