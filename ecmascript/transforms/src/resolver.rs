@@ -263,6 +263,22 @@ impl<'a> Fold for Resolver<'a> {
 
     typed!(fold_ts_array_type, TsArrayType);
     typed!(fold_ts_conditional_type, TsConditionalType);
+    typed!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+    typed!(fold_ts_type_query, TsTypeQuery);
+    typed!(fold_ts_type_query_expr, TsTypeQueryExpr);
+    typed!(fold_ts_type_param_decl, TsTypeParamDecl);
+    typed!(fold_ts_type_operator, TsTypeOperator);
+    typed!(fold_ts_type_cast_expr, TsTypeCastExpr);
+    typed!(fold_ts_type_ann, TsTypeAnn);
+    typed!(fold_ts_type_assertion, TsTypeAssertion);
+    typed!(
+        fold_ts_union_or_intersection_type,
+        TsUnionOrIntersectionType
+    );
+    typed!(fold_ts_union_type, TsUnionType);
+
+    // WIP
+
     typed!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
     typed!(fold_ts_constructor_type, TsConstructorType);
     typed!(fold_ts_entity_name, TsEntityName);
@@ -303,23 +319,10 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_tuple_type, TsTupleType);
     typed!(fold_ts_type, TsType);
     // typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
-    typed!(fold_ts_type_ann, TsTypeAnn);
-    typed!(fold_ts_type_assertion, TsTypeAssertion);
-    typed!(fold_ts_type_cast_expr, TsTypeCastExpr);
     typed!(fold_ts_type_element, TsTypeElement);
     // typed!(fold_ts_type_lit, TsTypeLit);
-    typed!(fold_ts_type_operator, TsTypeOperator);
     typed!(fold_ts_type_param, TsTypeParam);
-    typed!(fold_ts_type_param_decl, TsTypeParamDecl);
-    typed!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
     typed!(fold_ts_type_predicate, TsTypePredicate);
-    typed!(fold_ts_type_query, TsTypeQuery);
-    typed!(fold_ts_type_query_expr, TsTypeQueryExpr);
-    typed!(
-        fold_ts_union_or_intersection_type,
-        TsUnionOrIntersectionType
-    );
-    typed!(fold_ts_union_type, TsUnionType);
 
     fn fold_ts_type_ref(&mut self, r: TsTypeRef) -> TsTypeRef {
         if self.handle_types {
