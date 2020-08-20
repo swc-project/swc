@@ -431,11 +431,36 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_method_signature(&mut self, n: TsMethodSignature) -> TsMethodSignature {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsMethodSignature {
+            type_params: n.type_params.fold_with(&mut child),
+            key: n.key.fold_with(&mut child),
+            params: n.params.fold_with(&mut child),
+            type_ann: n.type_ann.fold_with(&mut child),
+            ..n
+        }
+    }
+
     // WIP
 
     // typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
     // typed!(fold_ts_interface_decl, TsInterfaceDecl);
-    typed!(fold_ts_method_signature, TsMethodSignature);
     typed!(fold_ts_module_block, TsModuleBlock);
     typed!(fold_ts_module_decl, TsModuleDecl);
     typed!(fold_ts_namespace_body, TsNamespaceBody);
