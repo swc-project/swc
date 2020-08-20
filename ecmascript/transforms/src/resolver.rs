@@ -280,6 +280,7 @@ impl<'a> Fold for Resolver<'a> {
     noop!(fold_ts_enum_member_id, TsEnumMemberId);
     noop!(fold_ts_external_module_ref, TsExternalModuleRef);
     noop!(fold_ts_module_name, TsModuleName);
+    noop!(fold_ts_this_type, TsThisType);
 
     typed_ref!(fold_ts_array_type, TsArrayType);
     typed_ref!(fold_ts_conditional_type, TsConditionalType);
@@ -476,7 +477,6 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_qualified_name, TsQualifiedName);
     typed!(fold_ts_rest_type, TsRestType);
     typed!(fold_ts_signature_decl, TsSignatureDecl);
-    typed!(fold_ts_this_type, TsThisType);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
     typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
 
