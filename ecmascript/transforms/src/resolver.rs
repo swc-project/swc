@@ -278,6 +278,7 @@ impl<'a> Fold for Resolver<'a> {
     noop!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
     noop!(fold_ts_type_operator_op, TsTypeOperatorOp);
     noop!(fold_ts_enum_member_id, TsEnumMemberId);
+    noop!(fold_ts_external_module_ref, TsExternalModuleRef);
 
     typed_ref!(fold_ts_array_type, TsArrayType);
     typed_ref!(fold_ts_conditional_type, TsConditionalType);
@@ -303,6 +304,8 @@ impl<'a> Fold for Resolver<'a> {
     typed_ref!(fold_ts_intersection_type, TsIntersectionType);
     typed_ref!(fold_ts_type_ref, TsTypeRef);
     typed!(fold_ts_type_param_decl, TsTypeParamDecl);
+    typed!(fold_ts_enum_member, TsEnumMember);
+    typed!(fold_ts_fn_param, TsFnParam);
 
     fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
         if !self.handle_types {
@@ -397,12 +400,29 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_fn_type(&mut self, ty: TsFnType) -> TsFnType {
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsFnType {
+            type_params: ty.type_params.fold_with(&mut child),
+            params: ty.params.fold_with(&mut child),
+            type_ann: ty.type_ann.fold_with(&mut child),
+            ..ty
+        }
+    }
+
     // WIP
 
-    // typed!(fold_ts_enum_member, TsEnumMember);
-    typed!(fold_ts_external_module_ref, TsExternalModuleRef);
-    typed!(fold_ts_fn_param, TsFnParam);
-    typed!(fold_ts_fn_type, TsFnType);
     // typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
     // typed!(fold_ts_index_signature, TsIndexSignature);
     typed!(fold_ts_indexed_access_type, TsIndexedAccessType);
