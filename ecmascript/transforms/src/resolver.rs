@@ -295,11 +295,14 @@ impl<'a> Fold for Resolver<'a> {
     typed_ref!(fold_ts_mapped_type, TsMappedType);
     typed_ref!(fold_ts_import_type, TsImportType);
     typed_ref!(fold_ts_tuple_type, TsTupleType);
+    typed_ref!(fold_ts_intersection_type, TsIntersectionType);
+    typed_ref!(fold_ts_type_ref, TsTypeRef);
 
     fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
         if !self.handle_types {
             return e;
         }
+        self.ident_type = IdentType::Ref;
         TsTupleElement {
             ty: e.ty.fold_with(self),
             ..e
@@ -322,7 +325,6 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_indexed_access_type, TsIndexedAccessType);
     // typed!(fold_ts_interface_body, TsInterfaceBody);
     // typed!(fold_ts_interface_decl, TsInterfaceDecl);
-    typed!(fold_ts_intersection_type, TsIntersectionType);
     typed!(fold_ts_method_signature, TsMethodSignature);
     typed!(fold_ts_module_block, TsModuleBlock);
     typed!(fold_ts_module_decl, TsModuleDecl);
@@ -347,15 +349,6 @@ impl<'a> Fold for Resolver<'a> {
     // typed!(fold_ts_type_lit, TsTypeLit);
     typed!(fold_ts_type_param, TsTypeParam);
     typed!(fold_ts_type_predicate, TsTypePredicate);
-
-    fn fold_ts_type_ref(&mut self, r: TsTypeRef) -> TsTypeRef {
-        if self.handle_types {
-            self.ident_type = IdentType::Ref;
-            r.fold_children_with(self)
-        } else {
-            r
-        }
-    }
 
     track_ident!();
 
