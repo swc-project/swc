@@ -350,6 +350,27 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_constructor_type(&mut self, ty: TsConstructorType) -> TsConstructorType {
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsConstructorType {
+            type_params: ty.type_params.fold_with(&mut child),
+            params: ty.params.fold_with(&mut child),
+            type_ann: ty.type_ann.fold_with(&mut child),
+            ..ty
+        }
+    }
+
     // WIP
 
     // typed!(fold_ts_constructor_type, TsConstructorType);
