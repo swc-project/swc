@@ -306,6 +306,9 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_type_param_decl, TsTypeParamDecl);
     typed!(fold_ts_enum_member, TsEnumMember);
     typed!(fold_ts_fn_param, TsFnParam);
+    typed!(fold_ts_indexed_access_type, TsIndexedAccessType);
+    typed!(fold_ts_index_signature, TsIndexSignature);
+    typed!(fold_ts_interface_body, TsInterfaceBody);
 
     fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
         if !self.handle_types {
@@ -401,6 +404,10 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_ts_fn_type(&mut self, ty: TsFnType) -> TsFnType {
+        if !self.handle_types {
+            return ty;
+        }
+
         self.in_type = true;
         let child_mark = Mark::fresh(self.mark);
 
@@ -424,9 +431,6 @@ impl<'a> Fold for Resolver<'a> {
     // WIP
 
     // typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
-    // typed!(fold_ts_index_signature, TsIndexSignature);
-    typed!(fold_ts_indexed_access_type, TsIndexedAccessType);
-    // typed!(fold_ts_interface_body, TsInterfaceBody);
     // typed!(fold_ts_interface_decl, TsInterfaceDecl);
     typed!(fold_ts_method_signature, TsMethodSignature);
     typed!(fold_ts_module_block, TsModuleBlock);
