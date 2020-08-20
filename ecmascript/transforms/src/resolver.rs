@@ -399,7 +399,6 @@ impl<'a> Fold for Resolver<'a> {
 
     // WIP
 
-    // typed!(fold_ts_enum_decl, TsEnumDecl);
     // typed!(fold_ts_enum_member, TsEnumMember);
     typed!(fold_ts_external_module_ref, TsExternalModuleRef);
     typed!(fold_ts_fn_param, TsFnParam);
