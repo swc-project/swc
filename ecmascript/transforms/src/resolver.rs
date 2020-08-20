@@ -33,7 +33,7 @@ pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
     assert_ne!(
         top_level_mark,
         Mark::root(),
-        "Marker provided to resolver should not be root mark"
+        "Marker provided to resolver should not be the root mark"
     );
     Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None)
 }
