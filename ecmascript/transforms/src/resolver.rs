@@ -244,6 +244,19 @@ macro_rules! typed {
     };
 }
 
+macro_rules! typed_ref {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: $T) -> $T {
+            if self.handle_types {
+                self.ident_type = IdentType::Ref;
+                node.fold_children_with(self)
+            } else {
+                node
+            }
+        }
+    };
+}
+
 macro_rules! noop {
     ($name:ident, $T:ty) => {
         #[inline]
@@ -261,43 +274,44 @@ impl<'a> Fold for Resolver<'a> {
     noop!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
     noop!(fold_ts_type_operator_op, TsTypeOperatorOp);
 
-    typed!(fold_ts_array_type, TsArrayType);
-    typed!(fold_ts_conditional_type, TsConditionalType);
-    typed!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
-    typed!(fold_ts_type_query, TsTypeQuery);
-    typed!(fold_ts_type_query_expr, TsTypeQueryExpr);
-    typed!(fold_ts_type_param_decl, TsTypeParamDecl);
-    typed!(fold_ts_type_operator, TsTypeOperator);
-    typed!(fold_ts_type_cast_expr, TsTypeCastExpr);
-    typed!(fold_ts_type_ann, TsTypeAnn);
-    typed!(fold_ts_type_assertion, TsTypeAssertion);
+    typed_ref!(fold_ts_array_type, TsArrayType);
+    typed_ref!(fold_ts_conditional_type, TsConditionalType);
+    typed_ref!(fold_ts_entity_name, TsEntityName);
+    typed_ref!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+    typed_ref!(fold_ts_type_query, TsTypeQuery);
+    typed_ref!(fold_ts_type_query_expr, TsTypeQueryExpr);
+    typed_ref!(fold_ts_type_operator, TsTypeOperator);
+    typed_ref!(fold_ts_type_cast_expr, TsTypeCastExpr);
+    typed_ref!(fold_ts_type, TsType);
+    typed_ref!(fold_ts_type_ann, TsTypeAnn);
+    typed_ref!(fold_ts_type_assertion, TsTypeAssertion);
     typed!(
         fold_ts_union_or_intersection_type,
         TsUnionOrIntersectionType
     );
-    typed!(fold_ts_union_type, TsUnionType);
+    typed!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
+    typed_ref!(fold_ts_union_type, TsUnionType);
+    typed_ref!(fold_ts_infer_type, TsInferType);
+    typed_ref!(fold_ts_mapped_type, TsMappedType);
+    typed_ref!(fold_ts_import_type, TsImportType);
 
     // WIP
 
-    typed!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
-    typed!(fold_ts_constructor_type, TsConstructorType);
-    typed!(fold_ts_entity_name, TsEntityName);
-    typed!(fold_ts_enum_decl, TsEnumDecl);
-    typed!(fold_ts_enum_member, TsEnumMember);
-    typed!(fold_ts_enum_member_id, TsEnumMemberId);
+    // typed!(fold_ts_type_param_decl, TsTypeParamDecl);
+    // typed!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
+    // typed!(fold_ts_constructor_type, TsConstructorType);
+    // typed!(fold_ts_enum_decl, TsEnumDecl);
+    // typed!(fold_ts_enum_member, TsEnumMember);
+    // typed!(fold_ts_enum_member_id, TsEnumMemberId);
     typed!(fold_ts_external_module_ref, TsExternalModuleRef);
-    typed!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
     typed!(fold_ts_fn_param, TsFnParam);
     typed!(fold_ts_fn_type, TsFnType);
     // typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
-    typed!(fold_ts_import_type, TsImportType);
     // typed!(fold_ts_index_signature, TsIndexSignature);
     typed!(fold_ts_indexed_access_type, TsIndexedAccessType);
-    typed!(fold_ts_infer_type, TsInferType);
     // typed!(fold_ts_interface_body, TsInterfaceBody);
     // typed!(fold_ts_interface_decl, TsInterfaceDecl);
     typed!(fold_ts_intersection_type, TsIntersectionType);
-    typed!(fold_ts_mapped_type, TsMappedType);
     typed!(fold_ts_method_signature, TsMethodSignature);
     typed!(fold_ts_module_block, TsModuleBlock);
     typed!(fold_ts_module_decl, TsModuleDecl);
@@ -317,7 +331,6 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_this_type, TsThisType);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
     typed!(fold_ts_tuple_type, TsTupleType);
-    typed!(fold_ts_type, TsType);
     // typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
     typed!(fold_ts_type_element, TsTypeElement);
     // typed!(fold_ts_type_lit, TsTypeLit);
