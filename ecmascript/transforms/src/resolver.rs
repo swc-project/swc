@@ -294,6 +294,17 @@ impl<'a> Fold for Resolver<'a> {
     typed_ref!(fold_ts_infer_type, TsInferType);
     typed_ref!(fold_ts_mapped_type, TsMappedType);
     typed_ref!(fold_ts_import_type, TsImportType);
+    typed_ref!(fold_ts_tuple_type, TsTupleType);
+
+    fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
+        if !self.handle_types {
+            return e;
+        }
+        TsTupleElement {
+            ty: e.ty.fold_with(self),
+            ..e
+        }
+    }
 
     // WIP
 
@@ -318,6 +329,7 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_module_name, TsModuleName);
     typed!(fold_ts_module_ref, TsModuleRef);
     typed!(fold_ts_namespace_body, TsNamespaceBody);
+
     typed!(fold_ts_namespace_decl, TsNamespaceDecl);
     typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
     typed!(fold_ts_optional_type, TsOptionalType);
@@ -330,7 +342,6 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_signature_decl, TsSignatureDecl);
     typed!(fold_ts_this_type, TsThisType);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
-    typed!(fold_ts_tuple_type, TsTupleType);
     // typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
     typed!(fold_ts_type_element, TsTypeElement);
     // typed!(fold_ts_type_lit, TsTypeLit);
