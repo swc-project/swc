@@ -26,7 +26,13 @@ impl<'a> Emitter<'a> {
     fn emit_ts_as_expr(&mut self, n: &TsAsExpr) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_as_expr")
+        emit!(n.expr);
+
+        space!();
+        keyword!("as");
+        space!();
+
+        emit!(n.type_ann);
     }
 
     #[emitter]
