@@ -312,6 +312,7 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_interface_body, TsInterfaceBody);
     typed!(fold_ts_module_ref, TsModuleRef);
     typed!(fold_ts_parenthesized_type, TsParenthesizedType);
+    typed!(fold_ts_type_lit, TsTypeLit);
 
     fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
         if !self.handle_types {
@@ -459,8 +460,8 @@ impl<'a> Fold for Resolver<'a> {
 
     // WIP
 
-    // typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
-    // typed!(fold_ts_interface_decl, TsInterfaceDecl);
+    typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
+    typed!(fold_ts_interface_decl, TsInterfaceDecl);
     typed!(fold_ts_module_block, TsModuleBlock);
     typed!(fold_ts_module_decl, TsModuleDecl);
     typed!(fold_ts_namespace_body, TsNamespaceBody);
@@ -476,9 +477,8 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_signature_decl, TsSignatureDecl);
     typed!(fold_ts_this_type, TsThisType);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
-    // typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
+    typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
     typed!(fold_ts_type_element, TsTypeElement);
-    // typed!(fold_ts_type_lit, TsTypeLit);
 
     typed!(fold_ts_type_predicate, TsTypePredicate);
 
