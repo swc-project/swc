@@ -31,6 +31,7 @@ impl Error {
 #[non_exhaustive]
 pub enum SyntaxError {
     Eof,
+    DeclNotAllowed,
 
     InvalidSuperCall,
     InvalidSuper,

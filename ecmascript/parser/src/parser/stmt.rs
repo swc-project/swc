@@ -172,7 +172,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is!("function") {
             if !include_decl {
-                unexpected!()
+                self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
             }
 
             return self.parse_fn_decl(decorators).map(Stmt::from);
@@ -180,7 +180,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is!("class") {
             if !include_decl {
-                unexpected!()
+                self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
             }
             return self
                 .parse_class_decl(start, start, decorators)
