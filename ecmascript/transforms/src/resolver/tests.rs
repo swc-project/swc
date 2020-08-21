@@ -8,9 +8,38 @@ use crate::{
 };
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_visit::{as_folder, VisitMut};
+
+struct TsHygiene {
+    top_level_mark: Mark,
+}
+
+impl VisitMut for TsHygiene {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if i.span.ctxt == SyntaxContext::empty()
+            || SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt
+        {
+            return;
+        }
+
+        let ctxt = format!("{:?}", i.span.ctxt).replace("#", "");
+        i.sym = format!("{}__{}", i.sym, ctxt).into();
+        i.span = i.span.with_ctxt(SyntaxContext::empty());
+    }
+}
 
 fn tr() -> impl Fold {
-    chain!(resolver(), block_scoping())
+    let mark = Mark::fresh(Mark::root());
+    chain!(resolver_with_mark(mark), block_scoping())
+}
+
+/// Typescript transforms
+fn ts_tr() -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+    chain!(
+        ts_resolver(top_level_mark),
+        as_folder(TsHygiene { top_level_mark })
+    )
 }
 
 fn syntax() -> Syntax {
@@ -27,15 +56,27 @@ fn ts() -> Syntax {
     })
 }
 
-macro_rules! identical {
-    ($name:ident, $src:literal) => {
-        test!(syntax(), |_| tr(), $name, $src, $src);
+macro_rules! to_ts {
+    ($name:ident, $src:literal, $to:literal) => {
+        test!(ts(), |_| ts_tr(), $name, $src, $to, ok_if_code_eq);
     };
 }
 
 macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
         test!(syntax(), |_| tr(), $name, $src, $to);
+    };
+}
+
+macro_rules! identical_ts {
+    ($name:ident, $src:literal) => {
+        to_ts!($name, $src, $src);
+    };
+}
+
+macro_rules! identical {
+    ($name:ident, $src:literal) => {
+        to!($name, $src, $src);
     };
 }
 
@@ -53,11 +94,12 @@ fn test_mark_for() {
         let mark3 = Mark::fresh(mark2);
         let mark4 = Mark::fresh(mark3);
 
-        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None);
+        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None, true);
         let mut folder2 = Resolver::new(
             mark2,
             Scope::new(ScopeKind::Block, Some(&folder1.current)),
             None,
+            true,
         );
         folder2.current.declared_symbols.insert("foo".into());
 
@@ -65,6 +107,7 @@ fn test_mark_for() {
             mark3,
             Scope::new(ScopeKind::Block, Some(&folder2.current)),
             None,
+            true,
         );
         folder3.current.declared_symbols.insert("bar".into());
         assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
@@ -73,6 +116,7 @@ fn test_mark_for() {
             mark4,
             Scope::new(ScopeKind::Block, Some(&folder3.current)),
             None,
+            true,
         );
         folder4.current.declared_symbols.insert("foo".into());
 
@@ -1165,4 +1209,171 @@ export class HygieneTest {
         this.duration = duration ?? DURATION;
     }
 }"
+);
+
+identical_ts!(ts_resolver_001, "type A = B;");
+
+identical_ts!(
+    ts_resolver_002,
+    "
+    class A {}
+    new A();
+    "
+);
+
+identical_ts!(
+    ts_resolver_003,
+    "
+    class Foo<T> {}
+    class A {}
+    class B {}
+    new Foo<A>();
+    new Foo<B>();
+    "
+);
+
+to_ts!(
+    ts_resolver_class_constructor,
+    "
+class G<T> {}
+class Foo {
+    constructor() {
+        class Foo {
+            
+        }
+
+        new G<Foo__2>();
+    }
+}
+new G<Foo>();
+",
+    "
+class G<T> {
+}
+class Foo {
+    constructor(){
+        class Foo__2 {
+        }
+        new G<Foo__2>();
+    }
+}
+new G<Foo>();
+        "
+);
+
+to_ts!(
+    ts_resolver_class_getter,
+    "
+class G<T> {}
+class Foo {
+    get foo() {
+        class Foo {
+            
+        }
+
+        new G<Foo__2>();
+    }
+}
+",
+    "
+class G<T> {
+}
+class Foo {
+    get foo() {
+        class Foo__2 {
+        }
+        new G<Foo__2>();
+    }
+}
+    "
+);
+
+to_ts!(
+    ts_resolver_neseted_interface,
+    "
+interface Foo {
+    name: string
+}
+
+function foo() {
+    interface Foo {
+        name: string
+    }
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+
+    ",
+    "
+interface Foo {
+    name: string;
+}
+function foo() {
+    interface Foo__2 {
+        name: string;
+    }
+    const foo__2 = {
+    } as Foo__2;
+}
+const bar = {
+} as Foo;
+    "
+);
+
+to_ts!(
+    ts_resolver_neseted_enum,
+    "
+enum Foo {
+    name: string
+}
+
+function foo() {
+    enum Foo {
+        name: string
+    }
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+
+",
+    "
+    enum Foo {
+        name,
+        string
+    }
+    function foo() {
+        enum Foo__2 {
+            name,
+            string
+        }
+        const foo__2 = {
+        } as Foo;
+    }
+    const bar = {
+    } as Foo;
+    "
+);
+
+to_ts!(
+    ts_resolver_neseted_type_alias,
+    "
+type Foo = {};
+
+function foo() {
+    type Foo = string | number;
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+    ",
+    "
+type Foo = {
+};
+function foo() {
+    type Foo__2 = string | number;
+    const foo__2 = {
+    } as Foo__2;
+}
+const bar = {
+} as Foo;    
+    "
 );

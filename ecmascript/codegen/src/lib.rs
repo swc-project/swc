@@ -570,6 +570,10 @@ impl<'a> Emitter<'a> {
         space!();
         emit!(node.callee);
 
+        if let Some(type_args) = &node.type_args {
+            emit!(type_args);
+        }
+
         if let Some(ref args) = node.args {
             punct!("(");
             self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;

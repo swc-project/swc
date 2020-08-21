@@ -10,31 +10,58 @@ mod tests;
 
 const LOG: bool = false;
 
+/// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
     resolver_with_mark(Mark::fresh(Mark::root()))
 }
 
-/// `mark` should not be root.
+/// # When to run
+///
+/// The resolver expects 'clean' ast. You can get clean ast by parsing, or by
+/// removing all syntax context in ast nodes.
+///
+/// # What does it do
+///
+/// It makes binding identifiers unique **with respect to symbol and syntax
+/// context**.
+///
+///
+/// # Panics
+///
+/// `top_level_mark` should not be root.
 pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
     assert_ne!(
         top_level_mark,
         Mark::root(),
-        "Marker provided to resolver should not be root mark"
+        "Marker provided to resolver should not be the root mark"
     );
-    Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None)
+    Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None, false)
+}
+
+/// [resolver_with_mar] with typescript support enabled.
+pub fn ts_resolver(top_level_mark: Mark) -> impl 'static + Fold {
+    assert_ne!(
+        top_level_mark,
+        Mark::root(),
+        "Marker provided to resolver should not be the root mark"
+    );
+    Resolver::new(top_level_mark, Scope::new(ScopeKind::Fn, None), None, true)
 }
 
 #[derive(Debug, Clone)]
 struct Scope<'a> {
-    /// Parent scope of this scope
+    /// Parent scope of the scope
     parent: Option<&'a Scope<'a>>,
 
     /// Kind of the scope.
     kind: ScopeKind,
 
-    /// All references declared in this scope
+    /// All declarations in the scope
     declared_symbols: HashSet<JsWord>,
     hoisted_symbols: RefCell<HashSet<JsWord>>,
+
+    /// All types declared in the scope
+    declared_types: HashSet<JsWord>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -50,6 +77,7 @@ impl<'a> Scope<'a> {
             kind,
             declared_symbols: Default::default(),
             hoisted_symbols: Default::default(),
+            declared_types: Default::default(),
         }
     }
 }
@@ -65,42 +93,72 @@ struct Resolver<'a> {
     current: Scope<'a>,
     cur_defining: Option<(JsWord, Mark)>,
     ident_type: IdentType,
+    handle_types: bool,
+    in_type: bool,
 }
 
 impl<'a> Resolver<'a> {
-    fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
+    fn new(
+        mark: Mark,
+        current: Scope<'a>,
+        cur_defining: Option<(JsWord, Mark)>,
+        handle_types: bool,
+    ) -> Self {
         Resolver {
             hoist: false,
             mark,
             current,
             cur_defining,
             ident_type: IdentType::Ref,
+            handle_types,
+            in_type: false,
         }
     }
 
     /// Returns a [Mark] for an identifier reference.
     fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
-        let mut mark = self.mark;
-        let mut scope = Some(&self.current);
+        if self.in_type {
+            let mut mark = self.mark;
+            let mut scope = Some(&self.current);
 
-        while let Some(cur) = scope {
-            if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym) {
-                if mark == Mark::root() {
-                    return None;
+            while let Some(cur) = scope {
+                // if cur.declared_types.contains(sym) ||
+                // cur.hoisted_symbols.borrow().contains(sym) {
+                if cur.declared_types.contains(sym) {
+                    if mark == Mark::root() {
+                        return None;
+                    }
+                    return Some(mark);
                 }
-                return Some(mark);
+                mark = mark.parent();
+                scope = cur.parent;
             }
-            mark = mark.parent();
-            scope = cur.parent;
-        }
 
-        if let Some((ref c, mark)) = self.cur_defining {
-            if *c == *sym {
-                return Some(mark);
+            None
+        } else {
+            let mut mark = self.mark;
+            let mut scope = Some(&self.current);
+
+            while let Some(cur) = scope {
+                if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym)
+                {
+                    if mark == Mark::root() {
+                        return None;
+                    }
+                    return Some(mark);
+                }
+                mark = mark.parent();
+                scope = cur.parent;
             }
-        }
 
-        None
+            if let Some((ref c, mark)) = self.cur_defining {
+                if *c == *sym {
+                    return Some(mark);
+                }
+            }
+
+            None
+        }
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
@@ -110,6 +168,25 @@ impl<'a> Resolver<'a> {
 
         if ident.span.ctxt() != SyntaxContext::empty() {
             return ident;
+        }
+
+        if self.in_type {
+            self.current.declared_types.insert(ident.sym.clone());
+            let mark = self.mark;
+
+            return Ident {
+                span: if mark == Mark::root() {
+                    ident.span
+                } else {
+                    let span = ident.span.apply_mark(mark);
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t-> {:?}", span.ctxt());
+                    }
+                    span
+                },
+                sym: ident.sym,
+                ..ident
+            };
         }
 
         if self.hoist {
@@ -197,8 +274,372 @@ impl<'a> Resolver<'a> {
     }
 }
 
+macro_rules! typed {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: $T) -> $T {
+            if self.handle_types {
+                self.in_type = true;
+                node.fold_children_with(self)
+            } else {
+                node
+            }
+        }
+    };
+}
+
+macro_rules! typed_ref {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: $T) -> $T {
+            if self.handle_types {
+                self.ident_type = IdentType::Ref;
+                self.in_type = true;
+                node.fold_children_with(self)
+            } else {
+                node
+            }
+        }
+    };
+}
+
+macro_rules! noop {
+    ($name:ident, $T:ty) => {
+        #[inline]
+        fn $name(&mut self, node: $T) -> $T {
+            node
+        }
+    };
+}
+
 impl<'a> Fold for Resolver<'a> {
-    noop_fold_type!();
+    noop!(fold_accessibility, Accessibility);
+    noop!(fold_true_plus_minus, TruePlusMinus);
+    noop!(fold_ts_call_signature_decl, TsCallSignatureDecl);
+    noop!(fold_ts_keyword_type, TsKeywordType);
+    noop!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
+    noop!(fold_ts_type_operator_op, TsTypeOperatorOp);
+    noop!(fold_ts_enum_member_id, TsEnumMemberId);
+    noop!(fold_ts_external_module_ref, TsExternalModuleRef);
+    noop!(fold_ts_module_name, TsModuleName);
+    noop!(fold_ts_this_type, TsThisType);
+
+    typed_ref!(fold_ts_array_type, TsArrayType);
+    typed_ref!(fold_ts_conditional_type, TsConditionalType);
+    typed_ref!(fold_ts_entity_name, TsEntityName);
+    typed_ref!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+    typed_ref!(fold_ts_type_query, TsTypeQuery);
+    typed_ref!(fold_ts_type_query_expr, TsTypeQueryExpr);
+    typed_ref!(fold_ts_type_operator, TsTypeOperator);
+    typed_ref!(fold_ts_type_cast_expr, TsTypeCastExpr);
+    typed_ref!(fold_ts_type, TsType);
+    typed_ref!(fold_ts_type_ann, TsTypeAnn);
+    typed_ref!(fold_ts_type_assertion, TsTypeAssertion);
+    typed!(
+        fold_ts_union_or_intersection_type,
+        TsUnionOrIntersectionType
+    );
+    typed!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
+    typed_ref!(fold_ts_union_type, TsUnionType);
+    typed_ref!(fold_ts_infer_type, TsInferType);
+    typed_ref!(fold_ts_mapped_type, TsMappedType);
+    typed_ref!(fold_ts_import_type, TsImportType);
+    typed_ref!(fold_ts_tuple_type, TsTupleType);
+    typed_ref!(fold_ts_intersection_type, TsIntersectionType);
+    typed_ref!(fold_ts_type_ref, TsTypeRef);
+    typed!(fold_ts_type_param_decl, TsTypeParamDecl);
+    typed!(fold_ts_enum_member, TsEnumMember);
+    typed!(fold_ts_fn_param, TsFnParam);
+    typed!(fold_ts_indexed_access_type, TsIndexedAccessType);
+    typed!(fold_ts_index_signature, TsIndexSignature);
+    typed!(fold_ts_interface_body, TsInterfaceBody);
+    typed!(fold_ts_module_ref, TsModuleRef);
+    typed!(fold_ts_parenthesized_type, TsParenthesizedType);
+    typed!(fold_ts_type_lit, TsTypeLit);
+    typed!(fold_ts_type_element, TsTypeElement);
+    typed!(fold_ts_module_decl, TsModuleDecl);
+    typed!(fold_ts_signature_decl, TsSignatureDecl);
+    typed!(fold_ts_module_block, TsModuleBlock);
+    typed!(fold_ts_namespace_body, TsNamespaceBody);
+    typed!(fold_ts_optional_type, TsOptionalType);
+    typed!(fold_ts_param_prop, TsParamProp);
+    typed!(fold_ts_rest_type, TsRestType);
+    typed!(fold_ts_type_predicate, TsTypePredicate);
+    typed_ref!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
+
+    fn fold_ts_tuple_element(&mut self, e: TsTupleElement) -> TsTupleElement {
+        if !self.handle_types {
+            return e;
+        }
+        self.ident_type = IdentType::Ref;
+        TsTupleElement {
+            ty: e.ty.fold_with(self),
+            ..e
+        }
+    }
+
+    fn fold_ts_type_param(&mut self, param: TsTypeParam) -> TsTypeParam {
+        if !self.handle_types {
+            return param;
+        }
+        self.in_type = true;
+        TsTypeParam {
+            name: self.fold_binding_ident(param.name),
+            default: param.default.fold_with(self),
+            constraint: param.constraint.fold_with(self),
+            ..param
+        }
+    }
+
+    fn fold_ts_construct_signature_decl(
+        &mut self,
+        decl: TsConstructSignatureDecl,
+    ) -> TsConstructSignatureDecl {
+        if !self.handle_types {
+            return decl;
+        }
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsConstructSignatureDecl {
+            // order is important
+            type_params: decl.type_params.fold_with(&mut child),
+            params: decl.params.fold_with(&mut child),
+            type_ann: decl.type_ann.fold_with(&mut child),
+            ..decl
+        }
+    }
+
+    fn fold_ts_constructor_type(&mut self, ty: TsConstructorType) -> TsConstructorType {
+        if !self.handle_types {
+            return ty;
+        }
+
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsConstructorType {
+            type_params: ty.type_params.fold_with(&mut child),
+            params: ty.params.fold_with(&mut child),
+            type_ann: ty.type_ann.fold_with(&mut child),
+            ..ty
+        }
+    }
+
+    fn fold_ts_enum_decl(&mut self, decl: TsEnumDecl) -> TsEnumDecl {
+        if !self.handle_types {
+            return decl;
+        }
+
+        self.in_type = false;
+        let id = self.fold_binding_ident(decl.id);
+        let members = decl.members.fold_with(self);
+
+        TsEnumDecl {
+            id,
+            members,
+            ..decl
+        }
+    }
+
+    fn fold_ts_fn_type(&mut self, ty: TsFnType) -> TsFnType {
+        if !self.handle_types {
+            return ty;
+        }
+
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsFnType {
+            type_params: ty.type_params.fold_with(&mut child),
+            params: ty.params.fold_with(&mut child),
+            type_ann: ty.type_ann.fold_with(&mut child),
+            ..ty
+        }
+    }
+
+    fn fold_ts_method_signature(&mut self, n: TsMethodSignature) -> TsMethodSignature {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsMethodSignature {
+            type_params: n.type_params.fold_with(&mut child),
+            key: n.key.fold_with(&mut child),
+            params: n.params.fold_with(&mut child),
+            type_ann: n.type_ann.fold_with(&mut child),
+            ..n
+        }
+    }
+
+    fn fold_ts_property_signature(&mut self, n: TsPropertySignature) -> TsPropertySignature {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let key = n.key.fold_with(self);
+        let child_mark = Mark::fresh(self.mark);
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsPropertySignature {
+            key,
+            type_params: n.type_params.fold_with(&mut child),
+            init: n.init.fold_with(&mut child),
+            params: n.params.fold_with(&mut child),
+            type_ann: n.type_ann.fold_with(&mut child),
+            ..n
+        }
+    }
+
+    fn fold_ts_interface_decl(&mut self, n: TsInterfaceDecl) -> TsInterfaceDecl {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let id = self.fold_binding_ident(n.id);
+        let child_mark = Mark::fresh(self.mark);
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsInterfaceDecl {
+            id,
+            type_params: n.type_params.fold_with(&mut child),
+            extends: n.extends.fold_with(&mut child),
+            body: n.body.fold_with(&mut child),
+            ..n
+        }
+    }
+
+    fn fold_ts_type_alias_decl(&mut self, n: TsTypeAliasDecl) -> TsTypeAliasDecl {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let id = self.fold_binding_ident(n.id);
+        let child_mark = Mark::fresh(self.mark);
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsTypeAliasDecl {
+            id,
+            type_params: n.type_params.fold_with(&mut child),
+            type_ann: n.type_ann.fold_with(&mut child),
+            ..n
+        }
+    }
+
+    fn fold_ts_import_equals_decl(&mut self, n: TsImportEqualsDecl) -> TsImportEqualsDecl {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let id = self.fold_binding_ident(n.id);
+
+        TsImportEqualsDecl {
+            id,
+            module_ref: n.module_ref.fold_with(self),
+            ..n
+        }
+    }
+
+    fn fold_ts_namespace_decl(&mut self, n: TsNamespaceDecl) -> TsNamespaceDecl {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let id = self.fold_binding_ident(n.id);
+
+        TsNamespaceDecl {
+            id,
+            body: n.body.fold_with(self),
+            ..n
+        }
+    }
+
+    fn fold_ts_param_prop_param(&mut self, n: TsParamPropParam) -> TsParamPropParam {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.ident_type = IdentType::Binding;
+        n.fold_children_with(self)
+    }
+
+    fn fold_ts_qualified_name(&mut self, n: TsQualifiedName) -> TsQualifiedName {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.ident_type = IdentType::Ref;
+        TsQualifiedName {
+            left: n.left.fold_with(self),
+            right: n.right,
+        }
+    }
+
+    // TODO: How should I handle this?
+    typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
 
     track_ident!();
 
@@ -210,6 +651,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         let old_hoist = self.hoist;
@@ -234,6 +676,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Block, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         let block = block.fold_children_with(&mut child_folder);
@@ -257,6 +700,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         folder.ident_type = IdentType::Binding;
@@ -281,6 +725,7 @@ impl<'a> Fold for Resolver<'a> {
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
+                self.handle_types,
             );
 
             m.function.fold_with(&mut child)
@@ -367,6 +812,7 @@ impl<'a> Fold for Resolver<'a> {
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
+                self.handle_types,
             );
 
             folder.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
@@ -395,6 +841,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
         let function = e.function.fold_with(&mut folder);
 
@@ -494,6 +941,7 @@ impl<'a> Fold for Resolver<'a> {
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
+                self.handle_types,
             );
 
             m.function.fold_with(&mut child)
@@ -509,6 +957,7 @@ impl<'a> Fold for Resolver<'a> {
             child_mark,
             Scope::new(ScopeKind::Block, Some(&self.current)),
             self.cur_defining.take(),
+            self.handle_types,
         );
 
         let o = o.fold_children_with(&mut child_folder);
