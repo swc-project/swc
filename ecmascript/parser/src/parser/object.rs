@@ -424,7 +424,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
         }
         let key = match key {
             PropName::Ident(ident) => ident,
-            _ => unexpected!(),
+            _ => unexpected!("an identifier"),
         };
 
         let value = if eat!('=') {
