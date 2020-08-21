@@ -557,11 +557,22 @@ impl<'a> Fold for Resolver<'a> {
         n.fold_children_with(self)
     }
 
+    fn fold_ts_qualified_name(&mut self, n: TsQualifiedName) -> TsQualifiedName {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.ident_type = IdentType::Ref;
+        TsQualifiedName {
+            left: n.left.fold_with(self),
+            right: n.right,
+        }
+    }
+
     // WIP
 
     typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
     typed!(fold_ts_property_signature, TsPropertySignature);
-    typed!(fold_ts_qualified_name, TsQualifiedName);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
     typed!(fold_ts_type_predicate, TsTypePredicate);
 
