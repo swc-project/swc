@@ -1,4 +1,4 @@
-error: Expected RBrace, got None
+error: Expected }, got None
  --> $DIR/tests/test262-parser/fail/41895c8145489971.js:1:18
   |
 1 | `hello ${10 `test`

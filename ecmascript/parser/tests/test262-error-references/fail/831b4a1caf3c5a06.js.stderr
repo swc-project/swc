@@ -1,4 +1,4 @@
-error: Expected RParen, got Some(AssignOp("="))
+error: Expected ), got Some(=)
  --> $DIR/tests/test262-parser/fail/831b4a1caf3c5a06.js:1:20
   |
 1 | try { } catch ([a] = []) { }

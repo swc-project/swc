@@ -1,10 +1,10 @@
-error: Unexpected token None
+error: Unexpected token `<eof>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
  --> $DIR/tests/test262-parser/fail/983987033f0e1170.js:1:1
   |
 1 | **
   | ^^
 
-error: TS1109
+error: Expression expected
  --> $DIR/tests/test262-parser/fail/983987033f0e1170.js:1:1
   |
 1 | **

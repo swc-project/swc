@@ -1,4 +1,4 @@
-error: Expected RBracket, got None
+error: Expected ], got None
  --> $DIR/tests/test262-parser/fail/245843abef9e72e7.js:1:1
   |
 1 | [

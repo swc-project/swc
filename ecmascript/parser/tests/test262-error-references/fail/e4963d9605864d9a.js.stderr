@@ -1,4 +1,4 @@
-error: Expected RParen, got None
+error: Expected ), got None
  --> $DIR/tests/test262-parser/fail/e4963d9605864d9a.js:1:15
   |
 1 | ([(a = b)] = []

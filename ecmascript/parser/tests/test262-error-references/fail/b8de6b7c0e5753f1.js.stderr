@@ -1,4 +1,4 @@
-error: Unexpected token Some(RBrace)
+error: Unexpected token `}`. Expected identifier
  --> $DIR/tests/test262-parser/fail/b8de6b7c0e5753f1.js:1:6
   |
 1 | ({[x]})

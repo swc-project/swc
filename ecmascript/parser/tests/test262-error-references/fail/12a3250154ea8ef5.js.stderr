@@ -1,4 +1,4 @@
-error: TS2406
+error: Invalid left-hand side in 'for...in' statement
  --> $DIR/tests/test262-parser/fail/12a3250154ea8ef5.js:1:5
   |
 1 | for(let ? b : c in 0);

@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(Word(v))
+error: Expected {, got Some(v)
  --> $DIR/tests/test262-parser/fail/fc75a023944da475.js:1:23
   |
 1 | x = { set method(val) v = val }

@@ -51,7 +51,7 @@ impl<'a, I: Tokens> Parser<I> {
             //     expect!(')');
             //     Ok(pat)
             // }
-            _ => unexpected!(),
+            _ => unexpected!("yield, an identifier, [ or {"),
         }
     }
 

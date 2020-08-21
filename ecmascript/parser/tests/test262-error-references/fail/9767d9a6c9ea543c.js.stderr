@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(Comma)
+error: Expected {, got Some(,)
  --> $DIR/tests/test262-parser/fail/9767d9a6c9ea543c.js:1:17
   |
 1 | (class extends a,b {})

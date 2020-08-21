@@ -1,4 +1,4 @@
-error: Expected RBracket, got Some(Comma)
+error: Expected ], got Some(,)
  --> $DIR/tests/test262-parser/fail/b1f1e599a3dcf9c5.js:1:10
   |
 1 | let [...a,] = 0

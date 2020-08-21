@@ -1,4 +1,4 @@
-error: TS1014
+error: A rest parameter must be last in a parameter list
  --> $DIR/tests/test262-parser/fail/338848861369f3b7.js:1:11
   |
 1 | (function(...a, b){})

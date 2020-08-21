@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }) => {
                         *type_params = Some(type_parameters);
                     }
-                    _ => unexpected!(),
+                    _ => unexpected!("("),
                 }
                 Ok(Some(arrow))
             });
@@ -374,7 +374,11 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        unexpected!()
+        unexpected!(
+            "this, import, async, function, [ for array literal, { for object literal, @ for \
+             decorator, function, class, null, true, false, number, bigint, string, regexp, ` for \
+             template literal, (, or an identifier"
+        )
     }
 
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
@@ -422,7 +426,7 @@ impl<'a, I: Tokens> Parser<I> {
         let prop = if is!("meta") {
             self.parse_ident_name()?
         } else {
-            unexpected!();
+            unexpected!("meta");
         };
 
         Ok(MetaPropExpr { meta, prop })
@@ -446,7 +450,7 @@ impl<'a, I: Tokens> Parser<I> {
                     return self.parse_subscripts(ExprOrSuper::Expr(expr), true);
                 }
 
-                unexpected!()
+                unexpected!("target")
             }
 
             // 'NewExpression' allows new call without paren.
@@ -457,7 +461,8 @@ impl<'a, I: Tokens> Parser<I> {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
                     if !is!('(') {
-                        unexpected!()
+                        // This will fail
+                        expect!('(');
                     }
                     Ok(Some(args))
                 })
@@ -626,7 +631,7 @@ impl<'a, I: Tokens> Parser<I> {
                 syntax_error!(span!(expr_start), SyntaxError::LineBreakBeforeArrow);
             }
             if !can_be_arrow {
-                unexpected!()
+                syntax_error!(span!(expr_start), SyntaxError::ArrowNotAllowed);
             }
             expect!("=>");
 
@@ -834,7 +839,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ),
                 _ => unreachable!(),
             },
-            _ => unexpected!(),
+            _ => unexpected!("template token"),
         };
         let tail = is!('`');
         Ok(TplElement {
@@ -934,7 +939,11 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
                     } else {
-                        unexpected!()
+                        if no_call {
+                            unexpected!("`")
+                        } else {
+                            unexpected!("( or `")
+                        }
                     }
                 });
                 if let Some(result) = result {
@@ -1037,9 +1046,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
             ExprOrSuper::Super(..) => {
                 if no_call {
-                    unexpected!()
+                    syntax_error!(self.input.cur_span(), SyntaxError::InvalidSuperCall);
                 }
-                unexpected!()
+                syntax_error!(self.input.cur_span(), SyntaxError::InvalidSuper);
             }
         }
     }

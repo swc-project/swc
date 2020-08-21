@@ -1,4 +1,4 @@
-error: Unexpected token Some(Comma)
+error: Unexpected token `,`. Expected an identifier
  --> $DIR/tests/test262-parser/fail/0557c70da3f698b5.module.js:1:11
   |
 1 | import {b,,c} from 'a';

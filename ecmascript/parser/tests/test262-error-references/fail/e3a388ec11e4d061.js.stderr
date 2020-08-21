@@ -1,10 +1,10 @@
-error: Unexpected token Some(RBrace)
+error: Unexpected token `}`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
  --> $DIR/tests/test262-parser/fail/e3a388ec11e4d061.js:1:21
   |
 1 | var obj = { *test** }
   |                     ^
 
-error: TS1109
+error: Expression expected
  --> $DIR/tests/test262-parser/fail/e3a388ec11e4d061.js:1:18
   |
 1 | var obj = { *test** }

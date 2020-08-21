@@ -1,4 +1,4 @@
-error: Expected RParen, got None
+error: Expected ), got None
  --> $DIR/tests/test262-parser/fail/d4e259842c4520e1.js:1:5
   |
 1 | 1 + (

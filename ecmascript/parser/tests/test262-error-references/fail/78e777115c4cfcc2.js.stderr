@@ -1,4 +1,4 @@
-error: Expected Word(while), got Some(BinOp(Mul))
+error: Expected while, got Some(*)
  --> $DIR/tests/test262-parser/fail/78e777115c4cfcc2.js:1:10
   |
 1 | do { x } *

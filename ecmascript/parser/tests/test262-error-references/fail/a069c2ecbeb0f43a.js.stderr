@@ -1,4 +1,4 @@
-error: Expected RBrace, got None
+error: Expected }, got None
  --> $DIR/tests/test262-parser/fail/a069c2ecbeb0f43a.js:1:36
   |
 1 | switch (cond) { case 10: let a = 20; 

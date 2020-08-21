@@ -1,7 +1,17 @@
 macro_rules! unexpected {
-    ($p:expr) => {{
-        let got = format!("{:?}", cur!($p, false).ok());
-        syntax_error!($p, $p.input.cur_span(), SyntaxError::Unexpected { got })
+    ($p:expr, $expected:literal) => {{
+        let got = match cur!($p, false).ok() {
+            Some(v) => format!("{:?}", v),
+            None => format!("<eof>"),
+        };
+        syntax_error!(
+            $p,
+            $p.input.cur_span(),
+            SyntaxError::Unexpected {
+                got,
+                expected: $expected
+            }
+        )
     }};
 }
 

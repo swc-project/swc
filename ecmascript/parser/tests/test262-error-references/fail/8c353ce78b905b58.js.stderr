@@ -1,4 +1,4 @@
-error: Expected RBrace, got None
+error: Expected }, got None
  --> $DIR/tests/test262-parser/fail/8c353ce78b905b58.js:1:4
   |
 1 | `${a

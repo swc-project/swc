@@ -1,4 +1,4 @@
-error: Unexpected token Some(RBrace)
+error: Unexpected token `}`. Expected identifier
  --> $DIR/tests/test262-parser/fail/dc0415f1b65b4924.js:1:13
   |
 1 | ({ "chance" }) = obj

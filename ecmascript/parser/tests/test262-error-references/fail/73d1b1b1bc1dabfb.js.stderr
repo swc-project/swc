@@ -1,4 +1,4 @@
-error: Unexpected token None
+error: Invalid access to super
  --> $DIR/tests/test262-parser/fail/73d1b1b1bc1dabfb.js:1:1
   |
 1 | super

@@ -97,7 +97,9 @@ impl<'a, I: Tokens> Parser<I> {
                         expr,
                     })
                 }
-                _ => unexpected!(),
+                _ => unexpected!(
+                    "identifier, string literal, numeric literal or [ for the computed key"
+                ),
             };
 
             Ok(v)
@@ -198,7 +200,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         let ident = match key {
             PropName::Ident(ident) => ident,
-            _ => unexpected!(),
+            // TODO
+            _ => unexpected!("identifier"),
         };
 
         if eat!('?') {
@@ -347,7 +350,16 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                     _ => unreachable!(),
                 }
             }
-            _ => unexpected!(),
+            _ => {
+                if self.input.syntax().typescript() {
+                    unexpected!(
+                        "... , *,  (, [, :, , ?, =, an identifier, public, protected, private, \
+                         readonly, <."
+                    )
+                } else {
+                    unexpected!("... , *,  (, [, :, , ?, = or an identifier")
+                }
+            }
         }
     }
 }
@@ -412,7 +424,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
         }
         let key = match key {
             PropName::Ident(ident) => ident,
-            _ => unexpected!(),
+            _ => unexpected!("an identifier"),
         };
 
         let value = if eat!('=') {
