@@ -547,10 +547,18 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_param_prop_param(&mut self, n: TsParamPropParam) -> TsParamPropParam {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.ident_type = IdentType::Binding;
+        n.fold_children_with(self)
+    }
+
     // WIP
 
     typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
-    typed!(fold_ts_param_prop_param, TsParamPropParam);
     typed!(fold_ts_property_signature, TsPropertySignature);
     typed!(fold_ts_qualified_name, TsQualifiedName);
     typed!(fold_ts_rest_type, TsRestType);
