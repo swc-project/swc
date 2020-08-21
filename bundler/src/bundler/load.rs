@@ -11,7 +11,7 @@ use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, FileName, Mark, SourceFile, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, Mark, SourceFile, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
     ModuleDecl, Str,
@@ -40,6 +40,11 @@ impl TransformedModule {
     /// THe marker for the module's top-level identifiers.
     pub fn mark(&self) -> Mark {
         self.mark
+    }
+
+    /// THe context for the module's top-level identifiers.
+    pub fn ctxt(&self) -> SyntaxContext {
+        SyntaxContext::empty().apply_mark(self.mark)
     }
 }
 

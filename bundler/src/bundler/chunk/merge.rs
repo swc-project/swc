@@ -74,10 +74,9 @@ where
                     if let Some(imported) = self.scope.get_module(src.module_id) {
                         // Respan using imported module's syntax context.
                         entry.visit_mut_with(&mut LocalMarker {
-                            mark: imported.mark(),
+                            ctxt: imported.ctxt(),
                             top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                             specifiers: &specifiers,
-                            excluded: Default::default(),
                         });
                     }
 
@@ -180,11 +179,10 @@ where
 
                         if !specifiers.is_empty() {
                             entry.visit_mut_with(&mut LocalMarker {
-                                mark: imported.mark(),
+                                ctxt: imported.ctxt(),
                                 top_level_ctxt: SyntaxContext::empty()
                                     .apply_mark(self.top_level_mark),
                                 specifiers: &specifiers,
-                                excluded: Default::default(),
                             });
 
                             // // Note: this does not handle `export default
@@ -523,97 +521,24 @@ impl Fold for ActualMarker<'_> {
 
 /// Applied to the importer module, and marks (connects) imported idents.
 pub(super) struct LocalMarker<'a> {
-    /// Mark applied to imported idents.
-    pub mark: Mark,
+    /// Context applied to imported idents.
+    pub ctxt: SyntaxContext,
     /// Syntax context of the top level items.
     pub top_level_ctxt: SyntaxContext,
     pub specifiers: &'a [Specifier],
-    pub excluded: HashSet<Id>,
-}
-
-impl<'a> LocalMarker<'a> {
-    fn exclude<I>(&mut self, excluded_idents: &I) -> Excluder<'a, '_>
-    where
-        I: for<'any> VisitWith<DestructuringFinder<'any, Id>>,
-    {
-        let ids = find_ids(excluded_idents);
-
-        self.excluded.extend(ids);
-        Excluder { inner: self }
-    }
-}
-
-struct Excluder<'a, 'b> {
-    inner: &'b mut LocalMarker<'a>,
-}
-
-impl<'a, 'b> Deref for Excluder<'a, 'b> {
-    type Target = LocalMarker<'a>;
-
-    fn deref(&self) -> &Self::Target {
-        &*self.inner
-    }
-}
-
-impl<'a, 'b> DerefMut for Excluder<'a, 'b> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        self.inner
-    }
 }
 
 impl VisitMut for LocalMarker<'_> {
     noop_visit_mut_type!();
-
-    fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
-        let mut f = self.exclude(&node.param);
-        node.body.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        self.excluded.insert((&node.ident).into());
-        node.class.visit_mut_with(self);
-    }
-
-    fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
-        let mut f = self.exclude(&node.ident);
-        node.class.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_constructor(&mut self, node: &mut Constructor) {
-        let mut f = self.exclude(&node.params);
-        node.body.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.excluded.insert((&node.ident).into());
-        node.function.visit_mut_with(self);
-    }
-
-    fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        let mut f = self.exclude(&node.ident);
-        node.function.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_function(&mut self, node: &mut Function) {
-        let mut f = self.exclude(&node.params);
-        node.body.visit_mut_with(&mut *f);
-    }
 
     fn visit_mut_ident(&mut self, mut node: &mut Ident) {
         if node.span.ctxt != self.top_level_ctxt {
             return;
         }
 
-        if self.excluded.contains(&(&*node).into()) {
-            return;
-        }
-
         // TODO: sym() => correct span
         if self.specifiers.iter().any(|id| *id.local() == *node) {
-            node.span = node
-                .span
-                .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
-            // dbg!(&node);
+            node.span = node.span.with_ctxt(self.ctxt);
         }
     }
 
@@ -627,11 +552,6 @@ impl VisitMut for LocalMarker<'_> {
         if e.computed {
             e.prop.visit_mut_with(self);
         }
-    }
-
-    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        let mut f = self.exclude(&node.param);
-        node.body.visit_mut_with(&mut *f);
     }
 }
 

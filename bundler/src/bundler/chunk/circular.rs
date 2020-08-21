@@ -113,10 +113,9 @@ where
             for (src, specifiers) in entry.imports.specifiers.iter() {
                 if circular_module.id == src.module_id {
                     module.visit_mut_with(&mut LocalMarker {
-                        mark: circular_module.mark(),
+                        ctxt: circular_module.ctxt(),
                         top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                         specifiers: &specifiers,
-                        excluded: Default::default(),
                     });
                     break;
                 }
