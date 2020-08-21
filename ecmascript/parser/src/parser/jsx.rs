@@ -314,7 +314,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 );
                             }
                         }
-                        _ => unexpected!(),
+                        _ => unexpected!("< (jsx tag start), jsx text or {"),
                     }
                 }
             }
