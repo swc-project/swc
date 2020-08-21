@@ -1,12 +1,12 @@
 macro_rules! unexpected {
-    ($p:expr, $($expected:tt),+) => {{
+    ($p:expr, $expected:literal) => {{
         let got = format!("{:?}", cur!($p, false).ok());
         syntax_error!(
             $p,
             $p.input.cur_span(),
             SyntaxError::Unexpected {
                 got,
-                expected: concat!($($expected),*)
+                expected: $expected
             }
         )
     }};
