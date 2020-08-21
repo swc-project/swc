@@ -839,7 +839,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ),
                 _ => unreachable!(),
             },
-            _ => unexpected!(),
+            _ => unexpected!("template token"),
         };
         let tail = is!('`');
         Ok(TplElement {
