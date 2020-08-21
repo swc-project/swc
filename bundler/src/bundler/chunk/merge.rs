@@ -3,6 +3,7 @@ use crate::{
         export::Exports,
         load::{Source, Specifier},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -56,6 +57,8 @@ where
                 top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 specifiers: &info.imports.specifiers,
             });
+
+            print_hygiene("test", &self.cm, &entry);
 
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
@@ -499,8 +502,8 @@ impl Fold for ActualMarker<'_> {
 /// Applied to the importer module, and marks (connects) imported idents.
 pub(super) struct LocalMarker<'a> {
     /// Syntax context of the top level items.
-    top_level_ctxt: SyntaxContext,
-    specifiers: &'a [(Source, Vec<Specifier>)],
+    pub top_level_ctxt: SyntaxContext,
+    pub specifiers: &'a [(Source, Vec<Specifier>)],
 }
 
 impl VisitMut for LocalMarker<'_> {

@@ -1,12 +1,12 @@
-use super::merge::Unexporter;
+use super::merge::{LocalMarker, Unexporter};
 use crate::{
     bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
 };
 use hygiene::top_level_ident_folder;
 use std::{borrow::Borrow, iter::once};
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
 mod hygiene;
 
@@ -41,12 +41,16 @@ where
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
 
-        let mut entry = self.process_circular_module(&modules, entry_module);
+        let mut entry = self.process_circular_module(&modules, &entry_module);
+
+        print_hygiene("entry:process_circular_module", &self.cm, &entry);
 
         for &dep in &*circular_modules {
             let new_module = self.merge_two_circular_modules(&modules, entry, dep);
 
             entry = new_module;
+
+            print_hygiene("entry:merge_two_circular_modules", &self.cm, &entry);
         }
 
         // All circular modules are inlined
@@ -65,10 +69,9 @@ where
     ) -> Module {
         self.run(|| {
             let dep_info = self.scope.get_module(dep).unwrap();
-            let mut dep = self.process_circular_module(circular_modules, dep_info);
+            let mut dep = self.process_circular_module(circular_modules, &dep_info);
 
-            print_hygiene("entry:merge_two_circular_modules", &self.cm, &entry);
-            print_hygiene("dep:merge_two_circular_modules", &self.cm, &dep);
+            print_hygiene("dep:process_circular_module", &self.cm, &dep);
 
             dep = dep.fold_with(&mut Unexporter);
 
@@ -85,7 +88,7 @@ where
     fn process_circular_module(
         &self,
         circular_modules: &[TransformedModule],
-        entry: TransformedModule,
+        entry: &TransformedModule,
     ) -> Module {
         let mut module = (*entry.module).clone();
         // print_hygiene("START: process_circular_module", &self.cm, &module);
@@ -112,10 +115,10 @@ where
             true
         });
 
-        module = module.fold_with(&mut top_level_ident_folder(
-            self.top_level_mark,
-            entry.mark(),
-        ));
+        module.visit_mut_with(&mut LocalMarker {
+            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+            specifiers: &entry.imports.specifiers,
+        });
 
         // print_hygiene("END: process_circular_module", &self.cm, &module);
 
