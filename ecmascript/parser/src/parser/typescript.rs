@@ -1478,8 +1478,12 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!();
 
         let label = if is!(IdentName) && peeked_is!(':') {
-            let ident = self.parse_ident_name()?;
-            assert_and_bump!(':');
+            let mut ident = self.parse_ident_name()?;
+            if eat!('?') {
+                ident.optional = true;
+            }
+
+            expect!(':');
             Some(ident)
         } else {
             None
