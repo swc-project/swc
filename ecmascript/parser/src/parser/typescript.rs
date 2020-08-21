@@ -1470,6 +1470,36 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn try_parse_ts_tuple_element_name(&mut self) -> Option<Pat> {
+        self.try_parse_ts(|p| {
+            let start = cur_pos!();
+
+            let rest = if eat!("...") {
+                Some(p.input.prev_span())
+            } else {
+                None
+            };
+
+            let mut ident = p.parse_ident_name()?;
+            if eat!('?') {
+                ident.optional = true;
+                ident.span = ident.span.with_hi(p.input.prev_span().hi);
+            }
+            expect!(':');
+
+            Ok(Some(if let Some(dot3_token) = rest {
+                Pat::Rest(RestPat {
+                    span: span!(start),
+                    dot3_token,
+                    arg: Box::new(Pat::Ident(ident)),
+                    type_ann: None,
+                })
+            } else {
+                Pat::Ident(ident)
+            }))
+        })
+    }
+
     /// `tsParseTupleElementType`
     fn parse_ts_tuple_element_type(&mut self) -> PResult<TsTupleElement> {
         debug_assert!(self.input.syntax().typescript());
@@ -1477,13 +1507,7 @@ impl<I: Tokens> Parser<I> {
         // parses `...TsType[]`
         let start = cur_pos!();
 
-        let label = if is!(IdentName) && peeked_is!(':') {
-            let ident = self.parse_ident_name()?;
-            assert_and_bump!(':');
-            Some(ident)
-        } else {
-            None
-        };
+        let label = self.try_parse_ts_tuple_element_name();
 
         if eat!("...") {
             let type_ann = self.parse_ts_type()?;

@@ -1,4 +1,4 @@
-error: Expected ], got Some(,)
+error: Expected ], got ,
  --> $DIR/tests/test262-parser/fail/b1f1e599a3dcf9c5.js:1:10
   |
 1 | let [...a,] = 0

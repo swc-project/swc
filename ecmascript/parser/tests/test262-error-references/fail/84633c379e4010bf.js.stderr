@@ -1,4 +1,4 @@
-error: Expected ;, got Some(.)
+error: Expected ;, got .
  --> $DIR/tests/test262-parser/fail/84633c379e4010bf.js:1:29
   |
 1 | function *g() { return yield.x; }

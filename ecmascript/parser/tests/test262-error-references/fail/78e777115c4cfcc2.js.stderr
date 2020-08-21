@@ -1,4 +1,4 @@
-error: Expected while, got Some(*)
+error: Expected while, got *
  --> $DIR/tests/test262-parser/fail/78e777115c4cfcc2.js:1:10
   |
 1 | do { x } *

@@ -1,4 +1,4 @@
-error: Expected ,, got Some(=>)
+error: Expected ,, got =>
  --> $DIR/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:1:23
   |
 1 | console.log(typeof () => {});

@@ -166,7 +166,10 @@ macro_rules! expect {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
-            let cur = format!("{:?}", cur!($p, false).ok());
+            let cur = match cur!($p, false).ok() {
+                Some(v) => format!("{:?}", v),
+                None => format!("<eof>"),
+            };
             syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
         }
     }};
@@ -176,7 +179,10 @@ macro_rules! expect_exact {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat_exact!($p, $t) {
-            let cur = format!("{:?}", cur!($p, false).ok());
+            let cur = match cur!($p, false).ok() {
+                Some(v) => format!("{:?}", v),
+                None => format!("<eof>"),
+            };
             syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
         }
     }};

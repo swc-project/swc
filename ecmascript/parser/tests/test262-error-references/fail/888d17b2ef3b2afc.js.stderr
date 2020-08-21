@@ -1,4 +1,4 @@
-error: Expected ,, got None
+error: Expected ,, got <eof>
  --> $DIR/tests/test262-parser/fail/888d17b2ef3b2afc.js:1:9
   |
 1 | 1 + { t:t 
