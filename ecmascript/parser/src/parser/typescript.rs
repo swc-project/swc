@@ -1470,6 +1470,19 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn try_parse_ts_named_tuple_element(&mut self) -> Option<Ident> {
+        self.try_parse_ts(|p| {
+            let mut ident = p.parse_ident_name()?;
+            if eat!('?') {
+                ident.optional = true;
+                ident.span=ident.span.with_hi(self.input.prev_span().hi);
+            }
+            expect!(':');
+
+            Ok(Some(ident))
+        })
+    }
+
     /// `tsParseTupleElementType`
     fn parse_ts_tuple_element_type(&mut self) -> PResult<TsTupleElement> {
         debug_assert!(self.input.syntax().typescript());
@@ -1477,17 +1490,7 @@ impl<I: Tokens> Parser<I> {
         // parses `...TsType[]`
         let start = cur_pos!();
 
-        let label = if is!(IdentName) && peeked_is!(':') {
-            let mut ident = self.parse_ident_name()?;
-            if eat!('?') {
-                ident.optional = true;
-            }
-
-            expect!(':');
-            Some(ident)
-        } else {
-            None
-        };
+        let label = self.try_parse_ts_named_tuple_element();;
 
         if eat!("...") {
             let type_ann = self.parse_ts_type()?;
