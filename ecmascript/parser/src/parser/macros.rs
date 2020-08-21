@@ -1,5 +1,5 @@
-macro_rules! unexpected {
-    ($p:expr) => {{
+macro_rules! should_be_one_of {
+    ($p:expr, $(expected:tt),+) => {{
         let got = format!("{:?}", cur!($p, false).ok());
         syntax_error!($p, $p.input.cur_span(), SyntaxError::Unexpected { got })
     }};

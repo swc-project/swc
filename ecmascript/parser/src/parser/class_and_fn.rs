@@ -454,11 +454,12 @@ impl<'a, I: Tokens> Parser<I> {
             // generator method
             let key = self.parse_class_prop_name()?;
             if readonly {
-                syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
+                self.emit_err(span!(start), SyntaxError::ReadOnlyMethod);
             }
             if is_constructor(&key) {
-                unexpected!();
+                self.emit_err(span!(start), SyntaxError::GeneratorConstructor);
             }
+
             return self.make_method(
                 |p| p.parse_unique_formal_params(),
                 MakeMethodArgs {

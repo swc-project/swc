@@ -141,6 +141,7 @@ pub enum SyntaxError {
     DeclarePrivateIdentifier,
     ClassProperty,
     ReadOnlyMethod,
+    GeneratorConstructor,
     TsBindingPatCannotBeOptional,
 
     TrailingCommaInsideImport,
@@ -205,6 +206,7 @@ pub enum SyntaxError {
 
 impl Error {
     #[cold]
+    #[inline(never)]
     pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
         let span = self.span();
 
