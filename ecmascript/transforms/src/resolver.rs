@@ -117,27 +117,48 @@ impl<'a> Resolver<'a> {
 
     /// Returns a [Mark] for an identifier reference.
     fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
-        let mut mark = self.mark;
-        let mut scope = Some(&self.current);
+        if self.in_type {
+            let mut mark = self.mark;
+            let mut scope = Some(&self.current);
 
-        while let Some(cur) = scope {
-            if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym) {
-                if mark == Mark::root() {
-                    return None;
+            while let Some(cur) = scope {
+                // if cur.declared_types.contains(sym) ||
+                // cur.hoisted_symbols.borrow().contains(sym) {
+                if cur.declared_types.contains(sym) {
+                    if mark == Mark::root() {
+                        return None;
+                    }
+                    return Some(mark);
                 }
-                return Some(mark);
+                mark = mark.parent();
+                scope = cur.parent;
             }
-            mark = mark.parent();
-            scope = cur.parent;
-        }
 
-        if let Some((ref c, mark)) = self.cur_defining {
-            if *c == *sym {
-                return Some(mark);
+            None
+        } else {
+            let mut mark = self.mark;
+            let mut scope = Some(&self.current);
+
+            while let Some(cur) = scope {
+                if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym)
+                {
+                    if mark == Mark::root() {
+                        return None;
+                    }
+                    return Some(mark);
+                }
+                mark = mark.parent();
+                scope = cur.parent;
             }
-        }
 
-        None
+            if let Some((ref c, mark)) = self.cur_defining {
+                if *c == *sym {
+                    return Some(mark);
+                }
+            }
+
+            None
+        }
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
@@ -147,6 +168,25 @@ impl<'a> Resolver<'a> {
 
         if ident.span.ctxt() != SyntaxContext::empty() {
             return ident;
+        }
+
+        if self.in_type {
+            self.current.declared_types.insert(ident.sym.clone());
+            let mark = self.mark;
+
+            return Ident {
+                span: if mark == Mark::root() {
+                    ident.span
+                } else {
+                    let span = ident.span.apply_mark(mark);
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t-> {:?}", span.ctxt());
+                    }
+                    span
+                },
+                sym: ident.sym,
+                ..ident
+            };
         }
 
         if self.hoist {
