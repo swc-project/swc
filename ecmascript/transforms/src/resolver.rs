@@ -491,6 +491,10 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_ts_type_alias_decl(&mut self, n: TsTypeAliasDecl) -> TsTypeAliasDecl {
+        if !self.handle_types {
+            return n;
+        }
+
         self.in_type = true;
         let id = self.fold_binding_ident(n.id);
         let child_mark = Mark::fresh(self.mark);
@@ -511,9 +515,23 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_import_equals_decl(&mut self, n: TsImportEqualsDecl) -> TsImportEqualsDecl {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let id = self.fold_binding_ident(n.id);
+
+        TsImportEqualsDecl {
+            id,
+            module_ref: n.module_ref.fold_with(self),
+            ..n
+        }
+    }
+
     // WIP
 
-    typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
     typed!(fold_ts_namespace_decl, TsNamespaceDecl);
     typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
     typed!(fold_ts_optional_type, TsOptionalType);
