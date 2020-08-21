@@ -422,7 +422,7 @@ impl<'a, I: Tokens> Parser<I> {
         let prop = if is!("meta") {
             self.parse_ident_name()?
         } else {
-            unexpected!();
+            unexpected!("meta");
         };
 
         Ok(MetaPropExpr { meta, prop })
@@ -446,7 +446,7 @@ impl<'a, I: Tokens> Parser<I> {
                     return self.parse_subscripts(ExprOrSuper::Expr(expr), true);
                 }
 
-                unexpected!()
+                unexpected!("target")
             }
 
             // 'NewExpression' allows new call without paren.

@@ -31,9 +31,11 @@ impl Error {
 #[non_exhaustive]
 pub enum SyntaxError {
     Eof,
-    TopLevelAwait,
 
+    ExportNotAllowed,
     GetterCannotBeReadonly,
+
+    TopLevelAwait,
 
     LegacyDecimal,
     LegacyOctal,
@@ -81,6 +83,7 @@ pub enum SyntaxError {
     /// Unexpected token
     Unexpected {
         got: String,
+        expected: &'static str,
     },
     ReservedWordInImport,
     AssignProperty,
@@ -259,7 +262,10 @@ impl Error {
             Hash => "Unexpected token '#'".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
-            Unexpected { ref got } => format!("Unexpected token {}", got).into(),
+            Unexpected {
+                ref got,
+                ref expected,
+            } => format!("Unexpected token {}. Expected one of {}", got, expected).into(),
 
             ReservedWordInImport => "cannot import as reserved word".into(),
             AssignProperty => "assignment property is invalid syntax".into(),

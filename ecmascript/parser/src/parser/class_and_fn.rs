@@ -198,7 +198,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is!("export") {
             if !allow_export {
-                unexpected!();
+                syntax_error!(self.input.cur_span(), SyntaxError::ExportNotAllowed);
             }
 
             if !self.syntax().decorators_before_export() {
