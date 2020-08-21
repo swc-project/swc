@@ -6,7 +6,7 @@ use crate::{
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
-    pat::{ArrayPat, AssignPat, ObjectPat, RestPat},
+    pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
 };
 use is_macro::Is;
 use serde::{
@@ -492,7 +492,8 @@ pub struct TsTupleType {
 #[derive(Eq, Hash)]
 pub struct TsTupleElement {
     pub span: Span,
-    pub label: Option<Ident>,
+    /// `Ident` or `RestPat { arg: Ident }`
+    pub label: Option<Pat>,
     pub ty: TsType,
 }
 

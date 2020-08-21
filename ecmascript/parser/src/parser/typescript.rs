@@ -1470,8 +1470,16 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn try_parse_ts_tuple_element_name(&mut self) -> Option<Ident> {
+    fn try_parse_ts_tuple_element_name(&mut self) -> Option<Pat> {
         self.try_parse_ts(|p| {
+            let start = cur_pos!();
+
+            let rest = if eat!("...") {
+                Some(p.input.prev_span())
+            } else {
+                None
+            };
+
             let mut ident = p.parse_ident_name()?;
             if eat!('?') {
                 ident.optional = true;
@@ -1479,7 +1487,16 @@ impl<I: Tokens> Parser<I> {
             }
             expect!(':');
 
-            Ok(Some(ident))
+            Ok(Some(if let Some(dot3_token) = rest {
+                Pat::Rest(RestPat {
+                    span: span!(start),
+                    dot3_token,
+                    arg: Box::new(Pat::Ident(ident)),
+                    type_ann: None,
+                })
+            } else {
+                Pat::Ident(ident)
+            }))
         })
     }
 

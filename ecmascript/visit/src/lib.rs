@@ -1454,7 +1454,7 @@ define!({
 
     pub struct TsTupleElement {
         pub span: Span,
-        pub label: Option<Ident>,
+        pub label: Option<Pat>,
         pub ty: TsType,
     }
 
