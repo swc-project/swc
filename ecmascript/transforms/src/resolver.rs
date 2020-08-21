@@ -530,9 +530,23 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_namespace_decl(&mut self, n: TsNamespaceDecl) -> TsNamespaceDecl {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let id = self.fold_binding_ident(n.id);
+
+        TsNamespaceDecl {
+            id,
+            body: n.body.fold_with(self),
+            ..n
+        }
+    }
+
     // WIP
 
-    typed!(fold_ts_namespace_decl, TsNamespaceDecl);
     typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
     typed!(fold_ts_optional_type, TsOptionalType);
     typed!(fold_ts_param_prop, TsParamProp);
