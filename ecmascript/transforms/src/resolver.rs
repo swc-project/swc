@@ -467,6 +467,33 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_property_signature(&mut self, n: TsPropertySignature) -> TsPropertySignature {
+        if !self.handle_types {
+            return n;
+        }
+
+        self.in_type = true;
+        let key = n.key.fold_with(self);
+        let child_mark = Mark::fresh(self.mark);
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsPropertySignature {
+            key,
+            type_params: n.type_params.fold_with(&mut child),
+            init: n.init.fold_with(&mut child),
+            params: n.params.fold_with(&mut child),
+            type_ann: n.type_ann.fold_with(&mut child),
+            ..n
+        }
+    }
+
     fn fold_ts_interface_decl(&mut self, n: TsInterfaceDecl) -> TsInterfaceDecl {
         if !self.handle_types {
             return n;
@@ -572,7 +599,6 @@ impl<'a> Fold for Resolver<'a> {
     // WIP
 
     typed!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
-    typed!(fold_ts_property_signature, TsPropertySignature);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
     typed!(fold_ts_type_predicate, TsTypePredicate);
 
