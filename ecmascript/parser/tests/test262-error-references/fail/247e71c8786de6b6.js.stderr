@@ -1,4 +1,4 @@
-error: Unexpected token Some(Word(yield)). Expected one of this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, ( or an identifier
+error: Unexpected token `yield`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
  --> $DIR/tests/test262-parser/fail/247e71c8786de6b6.js:1:31
   |
 1 | (function() { "use strict"; f(yield v) })

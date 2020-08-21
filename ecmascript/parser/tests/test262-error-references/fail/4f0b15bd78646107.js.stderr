@@ -1,4 +1,4 @@
-error: TS2406
+error: Invalid left-hand side in 'for...in' statement
  --> $DIR/tests/test262-parser/fail/4f0b15bd78646107.js:1:1
   |
 1 | 1--

@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(LBracket)
+error: Expected {, got Some([)
  --> $DIR/tests/test262-parser/fail/65a73ccacb2dc502.js:1:8
   |
 1 | (class [a] {})

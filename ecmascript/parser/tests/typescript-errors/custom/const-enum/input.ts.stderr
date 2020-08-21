@@ -1,4 +1,4 @@
-error: Expected Comma, got Some(Word(g))
+error: Expected ,, got Some(g)
  --> $DIR/tests/typescript-errors/custom/const-enum/input.ts:4:5
   |
 4 |     g = CONST

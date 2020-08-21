@@ -1,4 +1,4 @@
-error: Expected Semi, got Some(RParen)
+error: Expected ;, got Some())
  --> $DIR/tests/test262-parser/fail/c75e9f5ea55611f3.js:1:23
   |
 1 | for(let x=1 in [1,2,3]) 0

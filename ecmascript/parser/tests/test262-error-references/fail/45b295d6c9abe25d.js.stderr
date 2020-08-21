@@ -1,4 +1,4 @@
-error: Unexpected token Some(RBrace). Expected one of identifier, string literal, numeric literal or [ for the computed key
+error: Unexpected token `}`. Expected identifier, string literal, numeric literal or [ for the computed key
  --> $DIR/tests/test262-parser/fail/45b295d6c9abe25d.js:1:6
   |
 1 | ({ * })

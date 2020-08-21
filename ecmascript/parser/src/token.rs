@@ -575,7 +575,7 @@ impl Debug for Token {
     #[inline(never)]
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Token::Word(_) => {}
+            Token::Word(w) => write!(f, "{:?}", w)?,
             Arrow => write!(f, "=>")?,
             Hash => write!(f, "#")?,
             At => write!(f, "@")?,

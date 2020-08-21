@@ -1,4 +1,4 @@
-error: Unexpected token Some(Word(for)). Expected one of this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, ( or an identifier
+error: Unexpected token `for`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
  --> $DIR/tests/test262-parser/fail/fdf261094edffb09.js:1:5
   |
 1 | ({a:for} = 0)

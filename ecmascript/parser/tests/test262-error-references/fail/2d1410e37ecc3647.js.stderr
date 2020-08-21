@@ -1,10 +1,10 @@
-error: Expected LBrace, got None
+error: Expected {, got None
  --> $DIR/tests/test262-parser/fail/2d1410e37ecc3647.js:1:23
   |
 1 | function f(a, ...b = 0)
   |                       ^
 
-error: TS1048
+error: A rest parameter cannot have an initializer
  --> $DIR/tests/test262-parser/fail/2d1410e37ecc3647.js:1:18
   |
 1 | function f(a, ...b = 0)

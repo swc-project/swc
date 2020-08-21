@@ -1,4 +1,4 @@
-error: TS1109
+error: Expression expected
  --> $DIR/tests/test262-parser/fail/cbc28b1205acaac8.js:1:11
   |
 1 | (b, ...a) + 1

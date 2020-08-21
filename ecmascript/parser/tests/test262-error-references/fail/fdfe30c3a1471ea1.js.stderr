@@ -1,4 +1,4 @@
-error: InvalidSuper
+error: Invalid access to super
  --> $DIR/tests/test262-parser/fail/fdfe30c3a1471ea1.js:1:43
   |
 1 | class A extends B { constructor() { (super)(); } }

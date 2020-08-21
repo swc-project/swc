@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(Semi)
+error: Expected {, got Some(;)
  --> $DIR/tests/test262-parser/fail/6775a7f39c6b90fa.js:1:8
   |
 1 | class A;

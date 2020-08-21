@@ -1,4 +1,4 @@
-error: Unexpected token Some(Num(0.0)). Expected one of yield, an identifier, [ or {
+error: Unexpected token `numeric literal`. Expected yield, an identifier, [ or {
  --> $DIR/tests/test262-parser/fail/91150a288bbb31b3.js:1:15
   |
 1 | try {} catch (0) {} 

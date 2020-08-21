@@ -1,4 +1,4 @@
-error: Unexpected token Some(Dot). Expected one of yield, an identifier, [ or {
+error: Unexpected token `.`. Expected yield, an identifier, [ or {
  --> $DIR/tests/test262-parser/fail/d5512eff7d8174e4.js:1:8
   |
 1 | ({*a([a.b]){}})

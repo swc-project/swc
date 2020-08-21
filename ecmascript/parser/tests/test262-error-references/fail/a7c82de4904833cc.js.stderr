@@ -1,4 +1,4 @@
-error: Unexpected token Some(Colon). Expected one of * for generator, private key, identifier or async
+error: Unexpected token `:`. Expected * for generator, private key, identifier or async
  --> $DIR/tests/test262-parser/fail/a7c82de4904833cc.js:1:10
   |
 1 | (class {3:0})

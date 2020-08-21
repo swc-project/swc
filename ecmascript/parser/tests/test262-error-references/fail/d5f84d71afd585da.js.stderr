@@ -1,4 +1,4 @@
-error: Expected Comma, got Some(LBrace)
+error: Expected ,, got Some({)
  --> $DIR/tests/test262-parser/fail/d5f84d71afd585da.js:1:17
   |
 1 | ({ set: s(a, b) { } })
