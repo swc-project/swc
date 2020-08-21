@@ -939,7 +939,11 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
                     } else {
-                        unexpected!()
+                        if no_call {
+                            unexpected!("`")
+                        } else {
+                            unexpected!("( or `")
+                        }
                     }
                 });
                 if let Some(result) = result {
