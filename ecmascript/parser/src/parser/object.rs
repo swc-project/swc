@@ -97,7 +97,9 @@ impl<'a, I: Tokens> Parser<I> {
                         expr,
                     })
                 }
-                _ => unexpected!(),
+                _ => unexpected!(
+                    "identifier, string literal, numeric literal or [ for the computed key"
+                ),
             };
 
             Ok(v)
@@ -198,6 +200,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         let ident = match key {
             PropName::Ident(ident) => ident,
+            // TODO
             _ => unexpected!("identifier"),
         };
 
