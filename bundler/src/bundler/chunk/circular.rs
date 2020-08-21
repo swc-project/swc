@@ -1,7 +1,5 @@
 use super::merge::{LocalMarker, Unexporter};
-use crate::{
-    bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
-};
+use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
 use std::{borrow::Borrow, iter::once};
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -43,14 +41,15 @@ where
 
         let mut entry = self.process_circular_module(&modules, &entry_module);
 
-        print_hygiene("entry:process_circular_module", &self.cm, &entry);
+        // print_hygiene("entry:process_circular_module", &self.cm, &entry);
 
         for &dep in &*circular_modules {
             let new_module = self.merge_two_circular_modules(&modules, entry, dep);
 
             entry = new_module;
 
-            print_hygiene("entry:merge_two_circular_modules", &self.cm, &entry);
+            // print_hygiene("entry:merge_two_circular_modules", &self.cm,
+            // &entry);
         }
 
         // All circular modules are inlined
@@ -76,14 +75,14 @@ where
                 dep_info.mark(),
             ));
 
-            print_hygiene("dep:process_circular_module", &self.cm, &dep);
+            // print_hygiene("dep:process_circular_module", &self.cm, &dep);
 
             dep = dep.fold_with(&mut Unexporter);
 
             // Merge code
             entry.body = merge_respecting_order(entry.body, dep.body);
 
-            print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
+            // print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
             entry
         })
     }

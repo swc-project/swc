@@ -3,7 +3,6 @@ use crate::{
         export::Exports,
         load::{Source, Specifier},
     },
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -57,8 +56,6 @@ where
                 top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 specifiers: &info.imports.specifiers,
             });
-
-            print_hygiene("test", &self.cm, &entry);
 
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
