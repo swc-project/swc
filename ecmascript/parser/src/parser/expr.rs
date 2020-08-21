@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }) => {
                         *type_params = Some(type_parameters);
                     }
-                    _ => unexpected!(),
+                    _ => unexpected!('('),
                 }
                 Ok(Some(arrow))
             });
