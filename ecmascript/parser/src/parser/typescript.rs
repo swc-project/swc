@@ -376,7 +376,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!();
 
         if !is!('<') && !is!(JSXTagStart) {
-            unexpected!()
+            unexpected!("< (jsx tag start)")
         }
         bump!(); // '<'
 
@@ -534,12 +534,23 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsExpectThenParseType`
-    fn expect_then_parse_ts_type(&mut self, token: &'static Token) -> PResult<Box<TsType>> {
+    fn expect_then_parse_ts_type(
+        &mut self,
+        token: &'static Token,
+        token_str: &'static str,
+    ) -> PResult<Box<TsType>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
             if !p.input.eat(token) {
-                unexpected!()
+                let got = format!("{:?}", cur!(false).ok());
+                syntax_error!(
+                    self.input.cur_span(),
+                    SyntaxError::Unexpected {
+                        got,
+                        expected: token_str
+                    }
+                );
             }
 
             p.parse_ts_type()
@@ -1362,7 +1373,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!();
         let name = self.parse_ident_name()?;
-        let constraint = Some(self.expect_then_parse_ts_type(&tok!("in"))?);
+        let constraint = Some(self.expect_then_parse_ts_type(&tok!("in"), "in")?);
 
         Ok(TsTypeParam {
             span: span!(start),
