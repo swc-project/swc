@@ -1475,7 +1475,7 @@ impl<I: Tokens> Parser<I> {
             let mut ident = p.parse_ident_name()?;
             if eat!('?') {
                 ident.optional = true;
-                ident.span=ident.span.with_hi(self.input.prev_span().hi);
+                ident.span = ident.span.with_hi(self.input.prev_span().hi);
             }
             expect!(':');
 
@@ -1490,7 +1490,7 @@ impl<I: Tokens> Parser<I> {
         // parses `...TsType[]`
         let start = cur_pos!();
 
-        let label = self.try_parse_ts_named_tuple_element();;
+        let label = self.try_parse_ts_named_tuple_element();
 
         if eat!("...") {
             let type_ann = self.parse_ts_type()?;
