@@ -16,7 +16,7 @@ nom = "5.1.2"
 serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]
-swc_ecma_ast = { version = "0.28.0", path = "../ast" }
+swc_ecma_ast = { version = "0.29.0", path = "../ast" }
 swc_ecma_parser = { version = "0.35.0", path = "../parser" }
 testing = { version = "0.9.0", path = "../../testing" }
 anyhow = "1"
