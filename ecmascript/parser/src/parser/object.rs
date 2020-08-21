@@ -198,7 +198,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         let ident = match key {
             PropName::Ident(ident) => ident,
-            _ => unexpected!(),
+            _ => unexpected!("identifier"),
         };
 
         if eat!('?') {
