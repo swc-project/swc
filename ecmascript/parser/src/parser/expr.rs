@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }) => {
                         *type_params = Some(type_parameters);
                     }
-                    _ => unexpected!('('),
+                    _ => unexpected!("("),
                 }
                 Ok(Some(arrow))
             });
@@ -374,7 +374,11 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        unexpected!()
+        unexpected!(
+            "this, import, async, function, [ for array literal, { for object literal, @ for \
+             decorator, function, class, null, true, false, number, bigint, string, regexp, ` for \
+             template literal, ( or an identifier"
+        )
     }
 
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
