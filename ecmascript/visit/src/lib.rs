@@ -1,3 +1,7 @@
+// This is not a public api.
+#[doc(hidden)]
+pub extern crate swc_ecma_ast;
+
 use num_bigint::BigInt as BigIntValue;
 use std::{any::Any, borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
@@ -259,6 +263,7 @@ macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
         #[inline(always)]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn $crate::Node) {}
+        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn swc_ecma_visit::Node) {}
     };
     () => {
         noop_visit_type!(visit_accessibility, Accessibility);
