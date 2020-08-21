@@ -722,7 +722,7 @@ impl<I: Tokens> Parser<I> {
             })?;
             (false, id)
         } else {
-            unexpected!();
+            unexpected!("global or a string literal");
         };
 
         let body = if is!('{') {
@@ -930,7 +930,7 @@ impl<I: Tokens> Parser<I> {
 
         let id = self.parse_ident_name()?;
         let type_params = self.try_parse_ts_type_params()?;
-        let type_ann = self.expect_then_parse_ts_type(&tok!('='))?;
+        let type_ann = self.expect_then_parse_ts_type(&tok!('='), "=")?;
         expect!(';');
         Ok(TsTypeAliasDecl {
             declare: false,
@@ -992,7 +992,7 @@ impl<I: Tokens> Parser<I> {
         expect!('(');
         match *cur!(true)? {
             Token::Str { .. } => {}
-            _ => unexpected!(),
+            _ => unexpected!("a string literal"),
         }
         let expr = match self.parse_lit()? {
             Lit::Str(s) => s,
@@ -1612,7 +1612,10 @@ impl<I: Tokens> Parser<I> {
                 Pat::Array(pat) => TsFnParam::Array(pat),
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
-                _ => unexpected!(),
+                _ => unexpected!(
+                    "an identifier, [ for an array pattern, { for an object patter or ... for a \
+                     rest pattern"
+                ),
             };
             list.push(item);
         }
@@ -1734,7 +1737,7 @@ impl<I: Tokens> Parser<I> {
                     Token::Num(..) => false,
                     _ => true,
                 } {
-                    unexpected!()
+                    unexpected!("a numeric literal")
                 }
                 let lit = self.parse_lit()?;
                 let lit = match lit {
