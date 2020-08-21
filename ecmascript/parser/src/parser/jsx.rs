@@ -216,7 +216,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
         let self_closing = eat!('/');
         if !eat!(JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!('>')) {
-            unexpected!()
+            unexpected!("> (jsx closing tag)");
         }
         Ok(JSXOpeningElement {
             span: span!(start),
