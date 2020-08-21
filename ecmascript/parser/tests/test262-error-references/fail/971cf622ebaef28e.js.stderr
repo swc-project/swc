@@ -1,4 +1,4 @@
-error: Unexpected token Some(Word(class))
+error: DeclNotAllowed
  --> $DIR/tests/test262-parser/fail/971cf622ebaef28e.js:1:12
   |
 1 | with(true) class a {}

@@ -1,4 +1,4 @@
-error: Unexpected token Some(RParen)
+error: Unexpected token Some(RParen). Expected one of identifier, string literal, numeric literal or [ for the computed key
  --> $DIR/tests/test262-parser/fail/f747102fa7882fec.js:1:9
   |
 1 | (class {)

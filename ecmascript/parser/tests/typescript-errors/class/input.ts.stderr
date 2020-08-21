@@ -1,4 +1,4 @@
-error: Unexpected token Some(Bang)
+error: Unexpected token Some(Bang). Expected one of identifier, string literal, numeric literal or [ for the computed key
  --> $DIR/tests/typescript-errors/class/input.ts:2:5
   |
 2 |   x?!: number;

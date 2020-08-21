@@ -1,4 +1,4 @@
-error: Unexpected token Some(Dot)
+error: Unexpected token Some(Dot). Expected one of yield, an identifier, [ or {
  --> $DIR/tests/test262-parser/fail/b508d676bbb2b2af.js:1:14
   |
 1 | (function ([a.b]) {})

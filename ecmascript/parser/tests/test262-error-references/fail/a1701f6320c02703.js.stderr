@@ -1,4 +1,4 @@
-error: Unexpected token Some(LParen)
+error: Unexpected token Some(LParen). Expected one of yield, an identifier, [ or {
  --> $DIR/tests/test262-parser/fail/a1701f6320c02703.js:1:8
   |
 1 | var {a:(b)} = 0

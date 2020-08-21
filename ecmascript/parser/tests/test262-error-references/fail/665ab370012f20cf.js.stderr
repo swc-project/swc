@@ -1,4 +1,4 @@
-error: Unexpected token Some(Word(function))
+error: DeclNotAllowed
  --> $DIR/tests/test262-parser/fail/665ab370012f20cf.js:1:12
   |
 1 | with(true) function a(){}

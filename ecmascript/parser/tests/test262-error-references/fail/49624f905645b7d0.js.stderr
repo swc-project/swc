@@ -1,4 +1,4 @@
-error: Unexpected token Some(Semi)
+error: Unexpected token Some(Semi). Expected one of this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, ( or an identifier
  --> $DIR/tests/test262-parser/fail/49624f905645b7d0.js:1:24
   |
 1 | for (let x, y, z, let;;;) {}

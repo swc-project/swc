@@ -1,4 +1,4 @@
-error: Unexpected token Some(Word(anythingElse))
+error: Unexpected token Some(Word(anythingElse)). Expected one of target
  --> $DIR/tests/test262-parser/fail/cbb2fa2e2d167a54.js:1:20
   |
 1 | function f() { new.anythingElse; }

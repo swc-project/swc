@@ -1,4 +1,4 @@
-error: Unexpected token Some(RBrace)
+error: Unexpected token Some(RBrace). Expected one of identifier
  --> $DIR/tests/test262-parser/fail/f3bcafbbae99ba29.js:1:7
   |
 1 | ({ 42 }) = obj

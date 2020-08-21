@@ -1,4 +1,4 @@
-error: Unexpected token Some(RParen)
+error: InvalidSuper
  --> $DIR/tests/test262-parser/fail/3558f8c0f0ba825b.js:1:43
   |
 1 | class A extends B { constructor() { (super).a(); } }

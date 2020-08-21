@@ -1,4 +1,4 @@
-error: Unexpected token Some(Word(a))
+error: Unexpected token Some(Word(a)). Expected one of a string literal
  --> $DIR/tests/test262-parser/fail/2d86a01ca9731879.module.js:1:19
   |
 1 | export {a,b} from a

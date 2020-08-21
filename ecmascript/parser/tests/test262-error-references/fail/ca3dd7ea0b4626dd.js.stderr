@@ -4,9 +4,9 @@ error: Expected Comma, got Some(Arrow)
 1 | console.log(typeof () => {});
   |                       ^^
 
-error: Unexpected token Some(Arrow)
- --> $DIR/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:1:23
+error: ArrowNotAllowed
+ --> $DIR/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:1:20
   |
 1 | console.log(typeof () => {});
-  |                       ^^
+  |                    ^^
 

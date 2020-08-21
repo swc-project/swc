@@ -1,4 +1,4 @@
-error: Unexpected token Some(Dot)
+error: Unexpected token Some(Dot). Expected one of ... , *,  (, [, :, , ?, = or an identifier
  --> $DIR/tests/test262-parser/fail/8a91dde242686a52.js:1:4
   |
 1 | ({a.b} = 0)

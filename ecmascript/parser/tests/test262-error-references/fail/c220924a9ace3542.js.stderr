@@ -1,4 +1,4 @@
-error: Unexpected token Some(RBrace)
+error: Unexpected token Some(RBrace). Expected one of identifier, string literal, numeric literal or [ for the computed key
  --> $DIR/tests/test262-parser/fail/c220924a9ace3542.js:1:15
   |
 1 | class Foo { * }

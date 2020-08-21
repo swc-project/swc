@@ -1,4 +1,4 @@
-error: Unexpected token Some(RParen)
+error: InvalidSuper
  --> $DIR/tests/test262-parser/fail/733a157cb1896d10.js:3:15
   |
 3 |         (super)();

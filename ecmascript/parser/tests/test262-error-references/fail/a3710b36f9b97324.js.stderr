@@ -1,4 +1,4 @@
-error: Unexpected token Some(Dot)
+error: Unexpected token Some(Dot). Expected one of this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, ( or an identifier
  --> $DIR/tests/test262-parser/fail/a3710b36f9b97324.js:1:6
   |
 1 | f(....g);

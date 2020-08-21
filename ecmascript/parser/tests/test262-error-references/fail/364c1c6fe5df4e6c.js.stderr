@@ -1,4 +1,4 @@
-error: Unexpected token Some(Num(42.0))
+error: Unexpected token Some(Num(42.0)). Expected one of yield, an identifier, [ or {
  --> $DIR/tests/test262-parser/fail/364c1c6fe5df4e6c.js:1:15
   |
 1 | try {} catch (42) {} 

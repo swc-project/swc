@@ -1,4 +1,4 @@
-error: Unexpected token Some(RBrace)
+error: Unexpected token Some(RBrace). Expected one of this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, ( or an identifier
  --> $DIR/tests/test262-parser/fail/fe233d87f280ed04.js:1:10
   |
 1 | p = { q/ }
