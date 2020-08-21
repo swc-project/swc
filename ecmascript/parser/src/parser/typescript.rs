@@ -545,7 +545,7 @@ impl<I: Tokens> Parser<I> {
             if !p.input.eat(token) {
                 let got = format!("{:?}", cur!(false).ok());
                 syntax_error!(
-                    self.input.cur_span(),
+                    p.input.cur_span(),
                     SyntaxError::Unexpected {
                         got,
                         expected: token_str
