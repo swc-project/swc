@@ -21,7 +21,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => unreachable!(),
             },
             _ if ctx.in_forced_jsx_context => self.parse_ident_ref(),
-            _ => unexpected!(),
+            _ => unexpected!("jsx identifier"),
         }
     }
 

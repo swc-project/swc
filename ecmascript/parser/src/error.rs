@@ -32,6 +32,9 @@ impl Error {
 pub enum SyntaxError {
     Eof,
 
+    InvalidSuperCall,
+    InvalidSuper,
+
     ArrowNotAllowed,
     ExportNotAllowed,
     GetterCannotBeReadonly,
