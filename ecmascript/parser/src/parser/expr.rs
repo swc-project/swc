@@ -1042,9 +1042,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
             ExprOrSuper::Super(..) => {
                 if no_call {
-                    unexpected!()
+                    syntax_error!(self.input.cur_span(), SyntaxError::InvalidSuperCall);
                 }
-                unexpected!()
+                syntax_error!(self.input.cur_span(), SyntaxError::InvalidSuper);
             }
         }
     }
