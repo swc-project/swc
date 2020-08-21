@@ -461,7 +461,8 @@ impl<'a, I: Tokens> Parser<I> {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
                     if !is!('(') {
-                        unexpected!()
+                        // This will fail
+                        expect!('(');
                     }
                     Ok(Some(args))
                 })
@@ -630,7 +631,7 @@ impl<'a, I: Tokens> Parser<I> {
                 syntax_error!(span!(expr_start), SyntaxError::LineBreakBeforeArrow);
             }
             if !can_be_arrow {
-                unexpected!()
+                syntax_error!(span!(expr_start), SyntaxError::ArrowNotAllowed);
             }
             expect!("=>");
 

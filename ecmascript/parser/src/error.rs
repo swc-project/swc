@@ -32,6 +32,7 @@ impl Error {
 pub enum SyntaxError {
     Eof,
 
+    ArrowNotAllowed,
     ExportNotAllowed,
     GetterCannotBeReadonly,
 
