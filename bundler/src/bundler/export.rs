@@ -50,7 +50,7 @@ pub(super) struct RawExports {
 #[derive(Debug, Default)]
 pub(super) struct Exports {
     pub items: Vec<Specifier>,
-    pub reexports: HashMap<Source, Vec<Specifier>>,
+    pub reexports: Vec<(Source, Vec<Specifier>)>,
 }
 
 struct ExportFinder<'a, 'b, L, R>

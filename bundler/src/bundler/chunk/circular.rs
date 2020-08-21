@@ -1,4 +1,4 @@
-use super::merge::{LocalMarker, Unexporter};
+use super::merge::Unexporter;
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
 use std::{borrow::Borrow, iter::once};
@@ -108,19 +108,6 @@ where
 
             true
         });
-
-        for circular_module in circular_modules {
-            for (src, specifiers) in entry.imports.specifiers.iter() {
-                if circular_module.id == src.module_id {
-                    module.visit_mut_with(&mut LocalMarker {
-                        ctxt: circular_module.ctxt(),
-                        top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                        specifiers: &specifiers,
-                    });
-                    break;
-                }
-            }
-        }
 
         module = module.fold_with(&mut top_level_ident_folder(
             self.top_level_mark,

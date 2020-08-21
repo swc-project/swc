@@ -1,4 +1,4 @@
-use super::merge::{LocalMarker, Unexporter};
+use super::merge::{ Unexporter};
 use crate::{bundler::load::TransformedModule, util, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
@@ -38,12 +38,6 @@ where
             let (_, dep) = util::join(
                 || {
                     self.run(|| {
-                        entry.visit_mut_with(&mut LocalMarker {
-                            ctxt: imported.ctxt(),
-                            specifiers,
-                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                        });
-                        // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
                         entry.visit_mut_with(&mut NamedExportOrigMarker {
                             top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                             target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),

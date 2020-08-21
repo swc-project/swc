@@ -1,5 +1,8 @@
 use crate::{
-    bundler::{export::Exports, load::Specifier},
+    bundler::{
+        export::Exports,
+        load::{Source, Specifier},
+    },
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -55,6 +58,12 @@ where
 
             let mut entry: Module = (*info.module).clone();
 
+            // Respan using imported module's syntax context.
+            entry.visit_mut_with(&mut LocalMarker {
+                top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                specifiers: &info.imports.specifiers,
+            });
+
             log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
 
             self.merge_reexports(&mut entry, &info, targets)
@@ -70,15 +79,6 @@ where
                         src.module_id,
                         src.src.value,
                     );
-
-                    if let Some(imported) = self.scope.get_module(src.module_id) {
-                        // Respan using imported module's syntax context.
-                        entry.visit_mut_with(&mut LocalMarker {
-                            ctxt: imported.ctxt(),
-                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                            specifiers: &specifiers,
-                        });
-                    }
 
                     // Drop imports, as they are already merged.
                     entry.body.retain(|item| {
@@ -176,22 +176,6 @@ where
                         }
 
                         dep = dep.fold_with(&mut Unexporter);
-
-                        if !specifiers.is_empty() {
-                            entry.visit_mut_with(&mut LocalMarker {
-                                ctxt: imported.ctxt(),
-                                top_level_ctxt: SyntaxContext::empty()
-                                    .apply_mark(self.top_level_mark),
-                                specifiers: &specifiers,
-                            });
-
-                            // // Note: this does not handle `export default
-                            // foo`
-                            // dep = dep.fold_with(&mut LocalMarker {
-                            //     mark: imported.mark(),
-                            //     specifiers: &imported.exports.items,
-                            // });
-                        }
 
                         // print_hygiene("dep:before:global-mark", &self.cm, &dep);
 
@@ -521,11 +505,9 @@ impl Fold for ActualMarker<'_> {
 
 /// Applied to the importer module, and marks (connects) imported idents.
 pub(super) struct LocalMarker<'a> {
-    /// Context applied to imported idents.
-    pub ctxt: SyntaxContext,
     /// Syntax context of the top level items.
-    pub top_level_ctxt: SyntaxContext,
-    pub specifiers: &'a [Specifier],
+    top_level_ctxt: SyntaxContext,
+    specifiers: &'a [(Source, Vec<Specifier>)],
 }
 
 impl VisitMut for LocalMarker<'_> {
@@ -536,9 +518,10 @@ impl VisitMut for LocalMarker<'_> {
             return;
         }
 
-        // TODO: sym() => correct span
-        if self.specifiers.iter().any(|id| *id.local() == *node) {
-            node.span = node.span.with_ctxt(self.ctxt);
+        for (s, specifiers) in self.specifiers {
+            if specifiers.iter().any(|id| *id.local() == *node) {
+                node.span = node.span.with_ctxt(s.ctxt);
+            }
         }
     }
 
