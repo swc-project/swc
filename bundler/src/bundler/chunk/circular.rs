@@ -71,6 +71,11 @@ where
             let dep_info = self.scope.get_module(dep).unwrap();
             let mut dep = self.process_circular_module(circular_modules, &dep_info);
 
+            dep = dep.fold_with(&mut top_level_ident_folder(
+                self.top_level_mark,
+                dep_info.mark(),
+            ));
+
             print_hygiene("dep:process_circular_module", &self.cm, &dep);
 
             dep = dep.fold_with(&mut Unexporter);
