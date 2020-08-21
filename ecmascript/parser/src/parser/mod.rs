@@ -153,6 +153,8 @@ impl<I: Tokens> Parser<I> {
         self.input.get_ctx()
     }
 
+    #[cold]
+    #[inline(never)]
     fn emit_err(&self, span: Span, error: SyntaxError) {
         if !self.emit_err || !self.syntax().early_errors() {
             return;
@@ -163,6 +165,8 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    #[cold]
+    #[inline(never)]
     fn emit_error(&self, error: Error) {
         if !self.emit_err || !self.syntax().early_errors() {
             return;
