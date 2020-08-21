@@ -41,11 +41,6 @@ impl TransformedModule {
     pub fn mark(&self) -> Mark {
         self.mark
     }
-
-    /// THe context for the module's top-level identifiers.
-    pub fn ctxt(&self) -> SyntaxContext {
-        SyntaxContext::empty().apply_mark(self.mark)
-    }
 }
 
 impl<L, R> Bundler<'_, L, R>

@@ -2,9 +2,9 @@ use super::merge::Unexporter;
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
 use std::{borrow::Borrow, iter::once};
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
 
 mod hygiene;
 
