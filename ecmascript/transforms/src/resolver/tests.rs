@@ -1242,7 +1242,7 @@ class Foo {
             
         }
 
-        new G<Foo>();
+        new G<Foo__2>();
     }
 }
 new G<Foo>();
@@ -1271,7 +1271,7 @@ class Foo {
             
         }
 
-        new G<Foo>();
+        new G<Foo__2>();
     }
 }
 ",
@@ -1303,8 +1303,21 @@ function foo() {
 }
 const bar = {} as Foo;
 
-",
-    ""
+    ",
+    "
+interface Foo {
+    name: string;
+}
+function foo() {
+    interface Foo__2 {
+        name: string;
+    }
+    const foo__2 = {
+    } as Foo__2;
+}
+const bar = {
+} as Foo;
+    "
 );
 
 to_ts!(
@@ -1323,7 +1336,22 @@ function foo() {
 const bar = {} as Foo;
 
 ",
-    ""
+    "
+    enum Foo {
+        name,
+        string
+    }
+    function foo() {
+        enum Foo__2 {
+            name,
+            string
+        }
+        const foo__2 = {
+        } as Foo;
+    }
+    const bar = {
+    } as Foo;
+    "
 );
 
 to_ts!(
