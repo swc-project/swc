@@ -150,7 +150,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 });
         }
 
-        let has_modifiers = self.eat_anpy_ts_modifier()?;
+        let has_modifiers = self.eat_any_ts_modifier()?;
         let modifiers_span = self.input.prev_span();
 
         let key = self.parse_prop_name()?;
