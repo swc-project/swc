@@ -1,4 +1,4 @@
-error: Expected (, got Some(})
+error: Expected (, got }
  --> $DIR/tests/test262-parser/fail/7b70beed5a327548.js:1:7
   |
 1 | ({ *a })

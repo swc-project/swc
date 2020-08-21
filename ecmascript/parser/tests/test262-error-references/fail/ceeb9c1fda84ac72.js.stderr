@@ -1,4 +1,4 @@
-error: Expected (, got Some(})
+error: Expected (, got }
  --> $DIR/tests/test262-parser/fail/ceeb9c1fda84ac72.js:1:13
   |
 1 | ({a:function} = 0)

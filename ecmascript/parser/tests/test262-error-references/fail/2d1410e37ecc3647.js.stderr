@@ -1,4 +1,4 @@
-error: Expected {, got None
+error: Expected {, got <eof>
  --> $DIR/tests/test262-parser/fail/2d1410e37ecc3647.js:1:23
   |
 1 | function f(a, ...b = 0)
