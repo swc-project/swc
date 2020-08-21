@@ -489,6 +489,27 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_ts_type_alias_decl(&mut self, n: TsTypeAliasDecl) -> TsTypeAliasDecl {
+        self.in_type = true;
+        let id = self.fold_binding_ident(n.id);
+        let child_mark = Mark::fresh(self.mark);
+        // Child folder
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+        child.in_type = true;
+
+        TsTypeAliasDecl {
+            id,
+            type_params: n.type_params.fold_with(&mut child),
+            type_ann: n.type_ann.fold_with(&mut child),
+            ..n
+        }
+    }
+
     // WIP
 
     typed!(fold_ts_import_equals_decl, TsImportEqualsDecl);
@@ -502,7 +523,6 @@ impl<'a> Fold for Resolver<'a> {
     typed!(fold_ts_qualified_name, TsQualifiedName);
     typed!(fold_ts_rest_type, TsRestType);
     typed!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
-    typed!(fold_ts_type_alias_decl, TsTypeAliasDecl);
     typed!(fold_ts_type_predicate, TsTypePredicate);
 
     track_ident!();
