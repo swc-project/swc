@@ -33,6 +33,8 @@ pub enum SyntaxError {
     Eof,
     TopLevelAwait,
 
+    GetterCannotBeReadonly,
+
     LegacyDecimal,
     LegacyOctal,
     InvalidIdentChar,

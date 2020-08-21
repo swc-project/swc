@@ -657,7 +657,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let key = self.parse_class_prop_name()?;
 
                 if readonly {
-                    unexpected!()
+                    self.emit_err(key_span, SyntaxError::GetterCannotBeReadonly);
                 }
 
                 return match i.sym {
