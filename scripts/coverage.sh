@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-export RUST_MIN_STACK=$((1024*1024*16))
+export RUST_MIN_STACK=16777216
 export CARGO_INCREMENTAL=0
 export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests"
 export RUSTDOCFLAGS="-Cpanic=abort"
