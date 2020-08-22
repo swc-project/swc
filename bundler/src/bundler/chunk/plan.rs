@@ -144,6 +144,10 @@ where
 
         let mut plans = Plan::default();
 
+        for (id, _) in builder.kinds.iter() {
+            plans.entries.push(*id);
+        }
+
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.graph, *id);
