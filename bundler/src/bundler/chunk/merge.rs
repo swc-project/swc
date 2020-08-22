@@ -165,10 +165,12 @@ where
                 // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                 if injector.imported.is_empty() {
+                    log::debug!("Marged {} as an es6 module", info.fm.name);
                     continue;
                 }
                 dep.body = take(&mut injector.imported);
                 if self.config.require {
+                    log::debug!("Merging {} as a common js module", info.fm.name);
                     self.merge_cjs(&mut entry, &info, Cow::Owned(dep), src.ctxt)?;
                 }
             }
