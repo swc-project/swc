@@ -144,8 +144,9 @@ where
 
         let mut plans = Plan::default();
 
-        for (id, _) in builder.kinds.iter() {
+        for (id, kind) in builder.kinds.iter() {
             plans.entries.push(*id);
+            plans.bundle_kinds.insert(*id, kind.clone());
         }
 
         // Calculate actual chunking plans
