@@ -217,12 +217,8 @@ where
 
         dbg!(&plans);
 
-        if cfg!(debug_assertions) {
-            for &entry in &plans.entries {
-                debug_assert!(
-                    plans.normal.get(&entry).is_some() || plans.circular.get(&entry).is_some()
-                );
-            }
+        for &entry in &plans.entries {
+            plans.normal.entry(entry).or_default();
         }
 
         Ok(plans)
