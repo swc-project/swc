@@ -119,11 +119,6 @@ where
             }
         }
 
-        self.calc_plan(builder)
-    }
-
-    fn calc_plan(&self, builder: PlanBuilder) -> Plans {
-        let mut chunks: HashMap<_, Vec<_>> = HashMap::default();
         let mut plans = Plans::default();
 
         // Calculate actual chunking plans
@@ -140,7 +135,10 @@ where
                     // Entry is `dep`.
                     match plans.circular.entry(dep) {
                         // Already added
-                        Entry::Occupied(_) => {}
+                        Entry::Occupied(_) => {
+                            // TODO: assert!
+                        }
+
                         // We need to mark modules as circular.
                         Entry::Vacant(e) => {
                             let mut plan = e.insert(CicularPlan::default());
@@ -157,20 +155,12 @@ where
                 }
 
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
-                    chunks.entry(*id).or_default().push(dep);
-                    log::info!("Module dep: {} => {}", id, dep)
+                    plans.normal.entry(*id).or_default().chunks.push(dep);
+                    log::info!("Module dep: {} => {}", id, dep);
+                    continue;
                 }
             }
         }
-
-        kinds
-            .into_iter()
-            .map(|(kind, id)| {
-                let deps = chunks.remove(&id).unwrap_or_else(|| vec![]);
-
-                (kind, id, deps)
-            })
-            .collect();
 
         plans
     }
