@@ -170,7 +170,6 @@ where
                 }
                 dep.body = take(&mut injector.imported);
                 if self.config.require {
-                    log::debug!("Merging {} as a common js module", info.fm.name);
                     self.merge_cjs(&mut entry, &info, Cow::Owned(dep), src.ctxt)?;
                 }
             }
