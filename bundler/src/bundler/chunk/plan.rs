@@ -185,7 +185,7 @@ where
             }
         }
 
-        for (id, deps) in builder.direct_deps.clone() {
+        for (id, deps) in builder.direct_deps {
             let e = plans.normal.entry(id).or_default();
 
             for &dep in &deps {
