@@ -61,6 +61,11 @@ impl PlanBuilder {
 
     fn try_add_direct_dep(&mut self, root_id: ModuleId, dep: ModuleId, dep_of_dep: ModuleId) {
         if let None = self.tracking_graph.add_edge(root_id, dep_of_dep, 0) {
+            if self.circular.contains_key(&dep_of_dep) {
+                self.direct_deps.entry(root_id).or_default().push(dep);
+                return;
+            }
+
             // Track direct dependencies, but exclude if it will be recursively merged.
             self.direct_deps.entry(dep).or_default().push(dep_of_dep);
         }
@@ -207,8 +212,6 @@ where
                     e.chunks.push(dep);
                     continue;
                 }
-
-                dbg!(dep);
             }
         }
 
@@ -240,7 +243,6 @@ where
         if contains {
             for (src, _) in &m.imports.specifiers {
                 if builder.entry_graph.contains_node(src.module_id) {
-                    dbg!(root_id, module_id, src.module_id);
                     builder.try_add_direct_dep(root_id, module_id, src.module_id);
                     builder.mark_as_circular(module_id, src.module_id);
                     return;
