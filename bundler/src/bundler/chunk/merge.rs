@@ -42,9 +42,13 @@ where
                 return Ok(self.merge_circular_modules(circular, entry));
             }
 
+            let normal_plan;
             let module_plan = match plan.normal.get(&entry) {
                 Some(v) => v,
-                None => return Ok((*info.module).clone()),
+                None => {
+                    normal_plan = Default::default();
+                    &normal_plan
+                }
             };
 
             let mut entry: Module = (*info.module).clone();
