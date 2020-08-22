@@ -4,6 +4,7 @@ use crate::{
         export::Exports,
         load::{Source, Specifier},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -41,13 +42,14 @@ where
                 return Ok(self.merge_circular_modules(circular, entry));
             }
 
+            let module_plan = match plan.normal.get(&entry) {
+                Some(v) => v,
+                None => return Ok((*info.module).clone()),
+            };
+
             let mut entry: Module = (*info.module).clone();
 
             log::trace!("merge_modules({}) <- {:?}", info.fm.name, plan.normal);
-
-            if plan.normal.is_empty() {
-                return Ok((*info.module).clone());
-            }
 
             // Respan using imported module's syntax context.
             entry.visit_mut_with(&mut LocalMarker {
@@ -67,6 +69,10 @@ where
 
             let deps = (&*info.imports.specifiers)
                 .into_par_iter()
+                .filter(|(src, _)| {
+                    // Skip if a dependency is going to be merged by other dependency
+                    module_plan.chunks.contains(&src.module_id)
+                })
                 .map(|(src, specifiers)| -> Result<_, Error> {
                     log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
@@ -102,12 +108,12 @@ where
                     };
 
                     if imported.is_es6 {
-                        // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                        print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                         // Tree-shaking
                         dep = self.drop_unused(dep, Some(&specifiers));
 
-                        // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+                        print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
                         if let Some(imports) = info
                             .imports
@@ -126,8 +132,7 @@ where
 
                         dep = dep.fold_with(&mut Unexporter);
 
-                        // print_hygiene("dep:before:global-mark", &self.cm,
-                        // &dep);
+                        print_hygiene("dep:before-injection", &self.cm, &dep);
                     }
 
                     Ok((src, dep))
@@ -143,7 +148,7 @@ where
                 };
                 entry.body.visit_mut_with(&mut injector);
 
-                // print_hygiene("entry:after:injection", &self.cm, &entry);
+                print_hygiene("entry:after:injection", &self.cm, &entry);
 
                 if injector.imported.is_empty() {
                     continue;
