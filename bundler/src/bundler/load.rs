@@ -41,6 +41,10 @@ impl TransformedModule {
     pub fn mark(&self) -> Mark {
         self.mark
     }
+
+    pub fn ctxt(&self) -> SyntaxContext {
+        SyntaxContext::empty().apply_mark(self.mark)
+    }
 }
 
 impl<L, R> Bundler<'_, L, R>

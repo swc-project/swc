@@ -139,8 +139,14 @@ where
                 })
                 .collect::<Vec<_>>();
 
+            let mut targets = module_plan.chunks.clone();
+
             for dep in deps {
                 let (src, mut dep) = dep?;
+                if let Some(idx) = targets.iter().position(|v| *v == src.module_id) {
+                    targets.remove(idx);
+                }
+
                 // Replace import statement / require with module body
                 let mut injector = Es6ModuleInjector {
                     imported: take(&mut dep.body),
@@ -159,20 +165,20 @@ where
                 }
             }
 
-            // if is_entry && self.config.require && !targets.is_empty() {
-            //     log::info!("Injectng remaining: {:?}", targets);
+            if is_entry && self.config.require && !targets.is_empty() {
+                log::info!("Injectng remaining: {:?}", targets);
 
-            //     // Handle transitive dependencies
-            //     for target in targets.drain(..) {
-            //         log::trace!(
-            //             "Remaining: {}",
-            //             self.scope.get_module(target).unwrap().fm.name
-            //         );
+                // Handle transitive dependencies
+                for target in targets.drain(..) {
+                    log::trace!(
+                        "Remaining: {}",
+                        self.scope.get_module(target).unwrap().fm.name
+                    );
 
-            //         let dep = self.scope.get_module(target).unwrap();
-            //         self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module),
-            // dep.mark())?;     }
-            // }
+                    let dep = self.scope.get_module(target).unwrap();
+                    self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.ctxt())?;
+                }
+            }
 
             Ok(entry)
         })
