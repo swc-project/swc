@@ -96,6 +96,7 @@ where
                     let imported = self.scope.get_module(src.module_id).unwrap();
                     info.helpers.extend(&imported.helpers);
 
+                    let dep_info = self.scope.get_module(src.module_id).unwrap();
                     // In the case of
                     //
                     //  a <- b
@@ -143,32 +144,35 @@ where
                         // &dep);
                     }
 
-                    Ok((src, dep))
+                    Ok((src, dep, dep_info))
                 })
                 .collect::<Vec<_>>();
 
             let mut targets = module_plan.chunks.clone();
 
             for dep in deps {
-                let (src, mut dep) = dep?;
+                let (src, mut dep, dep_info) = dep?;
                 if let Some(idx) = targets.iter().position(|v| *v == src.module_id) {
                     targets.remove(idx);
                 }
 
-                // Replace import statement / require with module body
-                let mut injector = Es6ModuleInjector {
-                    imported: take(&mut dep.body),
-                    src: src.src.clone(),
-                };
-                entry.body.visit_mut_with(&mut injector);
+                if dep_info.is_es6 {
+                    // Replace import statement / require with module body
+                    let mut injector = Es6ModuleInjector {
+                        imported: take(&mut dep.body),
+                        src: src.src.clone(),
+                    };
+                    entry.body.visit_mut_with(&mut injector);
 
-                // print_hygiene("entry:after:injection", &self.cm, &entry);
+                    // print_hygiene("entry:after:injection", &self.cm, &entry);
 
-                if injector.imported.is_empty() {
-                    log::debug!("Marged {} as an es6 module", info.fm.name);
-                    continue;
+                    if injector.imported.is_empty() {
+                        log::debug!("Marged {} as an es6 module", info.fm.name);
+                        continue;
+                    }
+                    dep.body = take(&mut injector.imported);
                 }
-                dep.body = take(&mut injector.imported);
+
                 if self.config.require {
                     self.merge_cjs(&mut entry, &info, Cow::Owned(dep), src.ctxt)?;
                 }
