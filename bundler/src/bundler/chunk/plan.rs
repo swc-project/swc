@@ -196,16 +196,31 @@ where
             }
         }
 
-        for (id, deps) in builder.direct_deps {
+        for (id, deps) in builder.direct_deps.drain() {
             let e = plans.normal.entry(id).or_default();
 
             for &dep in &deps {
+                if builder.circular.get(&id).is_some() {
+                    e.chunks.push(dep);
+                    continue;
+                }
+
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
 
                     e.chunks.push(dep);
                     continue;
                 }
+
+                dbg!(dep);
+            }
+        }
+
+        if cfg!(debug_assertions) {
+            for &entry in &plans.entries {
+                debug_assert!(
+                    plans.normal.get(&entry).is_some() || plans.circular.get(&entry).is_some()
+                );
             }
         }
 
@@ -244,7 +259,6 @@ where
                 src.module_id,
                 if src.is_unconditional { 2 } else { 1 },
             );
-            dbg!(root_id, src.module_id);
             builder.try_add_direct_dep(root_id, module_id, src.module_id);
         }
     }
