@@ -70,7 +70,7 @@ where
             let deps = (&*info.imports.specifiers)
                 .into_par_iter()
                 .filter(|(src, _)| {
-                    log::info!("Checking: {} <= {}", info.fm.name, src.src.value);
+                    log::trace!("Checking: {} <= {}", info.fm.name, src.src.value);
 
                     // Skip if a dependency is going to be merged by other dependency
                     module_plan.chunks.contains(&src.module_id)
