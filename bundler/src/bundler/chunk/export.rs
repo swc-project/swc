@@ -1,4 +1,4 @@
-use super::merge::{ Unexporter};
+use super::merge::Unexporter;
 use crate::{bundler::load::TransformedModule, util, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
