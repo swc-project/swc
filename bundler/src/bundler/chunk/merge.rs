@@ -70,6 +70,8 @@ where
             let deps = (&*info.imports.specifiers)
                 .into_par_iter()
                 .filter(|(src, _)| {
+                    log::info!("Checking: {} <= {}", info.fm.name, src.src.value);
+
                     // Skip if a dependency is going to be merged by other dependency
                     module_plan.chunks.contains(&src.module_id)
                 })
@@ -95,17 +97,14 @@ where
                     //
                     // a <- b + chunk(c)
                     //
-                    let mut dep = if imported.is_es6 {
-                        self.merge_modules(plan, src.module_id, false)
-                            .with_context(|| {
-                                format!(
-                                    "failed to merge: ({}):{} <= ({}):{}",
-                                    info.id, info.fm.name, src.module_id, src.src.value
-                                )
-                            })?
-                    } else {
-                        (*self.scope.get_module(src.module_id).unwrap().module).clone()
-                    };
+                    let mut dep = self
+                        .merge_modules(plan, src.module_id, false)
+                        .with_context(|| {
+                            format!(
+                                "failed to merge: ({}):{} <= ({}):{}",
+                                info.id, info.fm.name, src.module_id, src.src.value
+                            )
+                        })?;
 
                     if imported.is_es6 {
                         // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
