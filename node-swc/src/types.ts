@@ -203,6 +203,14 @@ export type Swcrc = Config | Config[];
  * .swcrc
  */
 export interface Config {
+  /**
+   * Note: The type is string beacuse it follow rust's regex syntax.
+   */
+  test?: string | string[];
+  /**
+   * Note: The type is string beacuse it follow rust's regex syntax.
+   */
+  exclude?: string | string[];
   env?: EnvConfig;
   jsc?: JscConfig;
   module?: ModuleConfig;
@@ -295,9 +303,9 @@ export interface EsParserConfig {
   /**
    * Defaults to false.
    */
-  jsc?: boolean;
+  jsx?: boolean;
   /**
-   * Defaults to `false`. This is not implemented yet.
+   * Defaults to `false`.
    */
   numericSeparator?: boolean;
   /**

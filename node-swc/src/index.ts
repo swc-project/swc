@@ -206,8 +206,8 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
     }
 
 
-    const plugin = options.plugin;
-    delete options.plugin;
+    const plugin = options?.plugin;
+    delete options?.plugin;
 
     if (plugin) {
       const m = this.parseFileSync(path, options?.jsc?.parser);
