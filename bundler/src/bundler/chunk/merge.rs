@@ -4,7 +4,6 @@ use crate::{
         export::Exports,
         load::{Source, Specifier},
     },
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -108,12 +107,12 @@ where
                     };
 
                     if imported.is_es6 {
-                        print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                        // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                         // Tree-shaking
                         dep = self.drop_unused(dep, Some(&specifiers));
 
-                        print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+                        // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
                         if let Some(imports) = info
                             .imports
@@ -132,7 +131,8 @@ where
 
                         dep = dep.fold_with(&mut Unexporter);
 
-                        print_hygiene("dep:before-injection", &self.cm, &dep);
+                        // print_hygiene("dep:before-injection", &self.cm,
+                        // &dep);
                     }
 
                     Ok((src, dep))
@@ -154,7 +154,7 @@ where
                 };
                 entry.body.visit_mut_with(&mut injector);
 
-                print_hygiene("entry:after:injection", &self.cm, &entry);
+                // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                 if injector.imported.is_empty() {
                     continue;

@@ -234,6 +234,10 @@ where
             );
 
             if let None = builder.tracking_graph.add_edge(root_id, src.module_id, 0) {
+                // if builder.circular.contains_key(&src.module_id) {
+                //     continue;
+                // }
+
                 // Track direct dependencies, but exclude if it will be recursively merged.
                 builder
                     .direct_deps
