@@ -183,8 +183,12 @@ where
             }
         }
 
+        for (id, _) in &builder.circular {
+            builder.direct_deps.remove(id);
+        }
+
         for (id, deps) in builder.direct_deps {
-            let mut e = plans.normal.entry(id).or_default();
+            let e = plans.normal.entry(id).or_default();
 
             for dep in deps {
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
