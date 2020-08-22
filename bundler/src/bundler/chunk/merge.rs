@@ -68,6 +68,10 @@ where
                 plan.normal.get(&info.id)
             );
 
+            if module_plan.chunks.is_empty() {
+                return Ok(entry);
+            }
+
             self.merge_reexports(plan, &mut entry, &info)
                 .context("failed to merge reepxorts")?;
 
