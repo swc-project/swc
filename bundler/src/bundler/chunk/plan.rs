@@ -6,7 +6,10 @@ use std::collections::{hash_map::Entry, HashMap, HashSet};
 #[derive(Debug, Default)]
 struct PlanBuilder {
     graph: ModuleGraph,
+
     circular: HashMap<ModuleId, Vec<ModuleId>>,
+    direct_deps: HashMap<ModuleId, Vec<ModuleId>>,
+
     kinds: HashMap<ModuleId, BundleKind>,
 }
 
@@ -177,10 +180,16 @@ where
                     }
                     continue;
                 }
+            }
+        }
 
+        for (id, deps) in builder.direct_deps {
+            let mut e = plans.normal.entry(id).or_default();
+
+            for dep in deps {
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
-                    plans.normal.entry(*id).or_default().chunks.push(dep);
                     log::info!("Module dep: {} => {}", id, dep);
+                    e.chunks.push(dep);
                     continue;
                 }
             }
@@ -210,7 +219,12 @@ where
         }
 
         for (src, _) in &*m.imports.specifiers {
-            //
+            // Track direct dependencies
+            builder
+                .direct_deps
+                .entry(module_id)
+                .or_default()
+                .push(src.module_id);
 
             self.add_to_graph(builder, src.module_id);
             builder.graph.add_edge(
