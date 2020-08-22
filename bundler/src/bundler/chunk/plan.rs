@@ -39,23 +39,25 @@ impl PlanBuilder {
 }
 
 #[derive(Default)]
-pub(super) struct Plans {
+pub(super) struct Plan {
+    pub entries: Vec<ModuleId>,
+
     /// key is entry
     pub normal: HashMap<ModuleId, NormalPlan>,
     /// key is entry
-    pub circular: HashMap<ModuleId, CicularPlan>,
+    pub circular: HashMap<ModuleId, CircularPlan>,
 
     pub bundle_kinds: HashMap<ModuleId, BundleKind>,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(super) struct NormalPlan {
     // Direct dependencies
     pub chunks: Vec<ModuleId>,
 }
 
-#[derive(Default)]
-pub(super) struct CicularPlan {
+#[derive(Debug, Default)]
+pub(super) struct CircularPlan {
     /// Members of the circular dependncies.
     pub chunks: Vec<ModuleId>,
 }
@@ -75,7 +77,7 @@ where
     pub(super) fn determine_entries(
         &self,
         mut entries: HashMap<String, TransformedModule>,
-    ) -> Plans {
+    ) -> Plan {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {
@@ -119,7 +121,7 @@ where
             }
         }
 
-        let mut plans = Plans::default();
+        let mut plans = Plan::default();
 
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
@@ -141,7 +143,7 @@ where
 
                         // We need to mark modules as circular.
                         Entry::Vacant(e) => {
-                            let mut plan = e.insert(CicularPlan::default());
+                            let mut plan = e.insert(CircularPlan::default());
                             plan.chunks
                                 .extend(builder.circular.remove(&dep).unwrap_or_else(|| {
                                     panic!(
