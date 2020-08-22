@@ -3,7 +3,10 @@ use crate::{
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{bail, Error};
-use petgraph::{graphmap::DiGraphMap, visit::Bfs};
+use petgraph::{
+    graphmap::DiGraphMap,
+    visit::{Bfs, Dfs},
+};
 use std::collections::{hash_map::Entry, HashMap, HashSet};
 
 #[derive(Debug, Default)]
@@ -121,7 +124,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, module.id);
+            self.add_to_graph(&mut builder, module.id, module.id, None);
         }
 
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
@@ -224,7 +227,20 @@ where
         Ok(plans)
     }
 
-    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
+    fn add_to_graph(
+        &self,
+        builder: &mut PlanBuilder,
+        module_id: ModuleId,
+        root_id: ModuleId,
+        target_id: Option<ModuleId>,
+    ) {
+        if let Some(target_id) = target_id {
+            if target_id == module_id {
+                return;
+            }
+        }
+        log::warn!("Target = {:?}", target_id);
+
         let contains = builder.entry_graph.contains_node(module_id);
 
         builder.entry_graph.add_node(module_id);
@@ -235,10 +251,28 @@ where
             .get_module(module_id)
             .expect("failed to get module");
 
+        for (src, _) in &m.imports.specifiers {
+            log::debug!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
+        }
+
         // Prevent dejavu
         if contains {
             for (src, _) in &m.imports.specifiers {
                 if builder.entry_graph.contains_node(src.module_id) {
+                    log::info!(
+                        "({:?}) Circular dep: {:?} => {:?}",
+                        root_id,
+                        module_id,
+                        src.module_id
+                    );
+
+                    self.add_to_graph(
+                        builder,
+                        src.module_id,
+                        root_id,
+                        Some(target_id.unwrap_or(module_id)),
+                    );
+
                     builder.try_add_direct_dep(root_id, module_id, src.module_id);
                     builder.mark_as_circular(module_id, src.module_id);
                     return;
@@ -247,7 +281,7 @@ where
         }
 
         for (src, _) in m.imports.specifiers.iter().chain(&m.exports.reexports) {
-            self.add_to_graph(builder, src.module_id, root_id);
+            self.add_to_graph(builder, src.module_id, root_id, None);
 
             builder.entry_graph.add_edge(
                 module_id,
