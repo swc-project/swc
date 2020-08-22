@@ -1,4 +1,7 @@
-use super::merge::{LocalMarker, Unexporter};
+use super::{
+    merge::{LocalMarker, Unexporter},
+    plan::CircularPlan,
+};
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use hygiene::top_level_ident_folder;
 use std::{borrow::Borrow, iter::once};
@@ -16,20 +19,17 @@ where
     L: Load,
     R: Resolve,
 {
-    pub(super) fn merge_circular_modules(
-        &self,
-        entry_id: ModuleId,
-        circular_modules: &mut Vec<ModuleId>,
-    ) -> Module {
+    pub(super) fn merge_circular_modules(&self, plan: &CircularPlan, entry_id: ModuleId) -> Module {
         assert!(
-            circular_modules.len() >= 1,
+            plan.chunks.len() >= 1,
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
-            circular_modules
+            plan
         );
 
         let entry_module = self.scope.get_module(entry_id).unwrap();
 
-        let modules = circular_modules
+        let modules = plan
+            .chunks
             .iter()
             .chain(once(&entry_id))
             .map(|&id| self.scope.get_module(id).unwrap())
@@ -39,7 +39,7 @@ where
 
         // print_hygiene("entry:process_circular_module", &self.cm, &entry);
 
-        for &dep in &*circular_modules {
+        for &dep in &*plan.chunks {
             let new_module = self.merge_two_circular_modules(&modules, entry, dep);
 
             entry = new_module;
@@ -47,10 +47,6 @@ where
             // print_hygiene("entry:merge_two_circular_modules", &self.cm,
             // &entry);
         }
-
-        // All circular modules are inlined
-        circular_modules.clear();
-        circular_modules.push(entry_id);
 
         entry
     }

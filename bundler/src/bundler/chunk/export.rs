@@ -1,4 +1,4 @@
-use super::merge::Unexporter;
+use super::{merge::Unexporter, plan::Plan};
 use crate::{bundler::load::TransformedModule, util, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
@@ -15,9 +15,9 @@ where
 {
     pub(super) fn merge_reexports(
         &self,
+        plan: &Plan,
         entry: &mut Module,
         info: &TransformedModule,
-        targets: &mut Vec<ModuleId>,
     ) -> Result<(), Error> {
         entry.visit_mut_with(&mut DefaultRenamer);
 
@@ -26,11 +26,6 @@ where
             assert!(imported.is_es6, "Reexports are es6 only");
 
             info.helpers.extend(&imported.helpers);
-
-            if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
-                log::debug!("Reexport: targets.remove({})", imported.fm.name);
-                targets.remove(pos);
-            }
 
             // print_hygiene("entry:init", &self.cm, &entry);
             // print_hygiene("dep:init", &self.cm, &dep);
@@ -52,7 +47,7 @@ where
                 || -> Result<_, Error> {
                     self.run(|| {
                         let mut dep = self
-                            .merge_modules(src.module_id, false, targets)
+                            .merge_modules(plan, src.module_id, false)
                             .with_context(|| {
                                 format!(
                                     "failed to merge for reexport: ({}):{} <= ({}):{}",

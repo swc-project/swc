@@ -44,28 +44,33 @@ where
         &self,
         entries: HashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
-        let entries = self.determine_entries(entries);
+        let plan = self.determine_entries(entries);
 
-        Ok(entries
+        Ok(plan
+            .entries
             .into_par_iter()
-            .map(
-                |(kind, id, mut module_ids_to_merge): (BundleKind, ModuleId, _)| {
-                    self.run(|| {
-                        let module = self
-                            .merge_modules(id, true, &mut module_ids_to_merge)
-                            .context("failed to merge module")
-                            .unwrap(); // TODO
+            .map(|entry| {
+                self.run(|| {
+                    let kind = plan.bundle_kinds.remove(&entry).unwrap_or_else(|| {
+                        unreachable!("Plan does not contain bundle kind for {:?}", entry)
+                    });
 
-                        assert_eq!(module_ids_to_merge, vec![], "Everything should be merged");
+                    let module = self
+                        .merge_modules(&plan, entry, true)
+                        .context("failed to merge module")
+                        .unwrap(); // TODO
 
-                        let module = module
-                            .fold_with(&mut dce::dce(Default::default()))
-                            .fold_with(&mut hygiene());
+                    let module = module
+                        .fold_with(&mut dce::dce(Default::default()))
+                        .fold_with(&mut hygiene());
 
-                        Bundle { kind, id, module }
-                    })
-                },
-            )
+                    Bundle {
+                        kind,
+                        id: entry,
+                        module,
+                    }
+                })
+            })
             .collect())
     }
 }
@@ -99,7 +104,8 @@ mod tests {
 
                 let determined = t.bundler.determine_entries(entries);
 
-                assert_eq!(determined.len(), 1);
+                assert_eq!(determined.normal.len(), 1);
+                assert_eq!(determined.circular.len(), 0);
 
                 Ok(())
             });
@@ -128,14 +134,14 @@ mod tests {
 
                 let determined = t.bundler.determine_entries(entries);
 
-                assert_eq!(determined.len(), 1);
+                assert_eq!(determined.normal.len(), 1);
+                assert_eq!(determined.circular.len(), 0);
                 assert_eq!(
-                    determined[0].0,
+                    *determined.bundle_kinds.get(&module.id).unwrap(),
                     BundleKind::Named {
                         name: "main.js".to_string()
                     }
                 );
-                assert_eq!(determined[0].2.len(), 3);
 
                 Ok(())
             });

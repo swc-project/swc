@@ -1,3 +1,4 @@
+use super::plan::Plan;
 use crate::{
     bundler::{
         export::Exports,
@@ -24,32 +25,26 @@ where
     /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,
+        plan: &Plan,
         entry: ModuleId,
         is_entry: bool,
-        targets: &mut Vec<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
-            let is_circular = self.scope.is_circular(entry);
-
-            log::trace!(
-                "merge_modules({}) <- {:?}; circular = {}",
-                entry,
-                targets,
-                is_circular
-            );
-
             let info = self.scope.get_module(entry).unwrap();
-            if targets.is_empty() {
-                return Ok((*info.module).clone());
-            }
 
-            if is_circular {
+            // Handle circular imports
+            if let Some(circular) = plan.entry_as_circular(info.id) {
                 log::info!("Circular dependency detected: ({})", info.fm.name);
-                // TODO: provide only circular imports.
-                return Ok(self.merge_circular_modules(entry, targets));
+                return Ok(self.merge_circular_modules(circular, entry));
             }
 
             let mut entry: Module = (*info.module).clone();
+
+            log::trace!("merge_modules({}) <- {:?}", info.fm.name, plan.normal);
+
+            if plan.normal.is_empty() {
+                return Ok((*info.module).clone());
+            }
 
             // Respan using imported module's syntax context.
             entry.visit_mut_with(&mut LocalMarker {
@@ -57,9 +52,14 @@ where
                 specifiers: &info.imports.specifiers,
             });
 
-            log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
+            log::info!(
+                "Merge: ({}){} <= {:?}",
+                info.id,
+                info.fm.name,
+                plan.normal.get(&info.id)
+            );
 
-            self.merge_reexports(&mut entry, &info, targets)
+            self.merge_reexports(plan, &mut entry, &info)
                 .context("failed to merge reepxorts")?;
 
             for (src, specifiers) in &info.imports.specifiers {

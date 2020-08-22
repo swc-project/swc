@@ -50,6 +50,12 @@ pub(super) struct Plan {
     pub bundle_kinds: HashMap<ModuleId, BundleKind>,
 }
 
+impl Plan {
+    pub fn entry_as_circular(&self, entry: ModuleId) -> Option<&CircularPlan> {
+        self.circular.get(&entry)
+    }
+}
+
 #[derive(Debug, Default)]
 pub(super) struct NormalPlan {
     // Direct dependencies
