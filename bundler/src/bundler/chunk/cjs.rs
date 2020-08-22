@@ -35,6 +35,7 @@ where
         dep: Cow<Module>,
         dep_ctxt: SyntaxContext,
     ) -> Result<(), Error> {
+        log::info!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
             ctxt: dep_ctxt,
