@@ -295,9 +295,9 @@ export interface EsParserConfig {
   /**
    * Defaults to false.
    */
-  jsc?: boolean;
+  jsx?: boolean;
   /**
-   * Defaults to `false`. This is not implemented yet.
+   * Defaults to `false`.
    */
   numericSeparator?: boolean;
   /**
