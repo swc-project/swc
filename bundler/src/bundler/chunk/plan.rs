@@ -128,15 +128,17 @@ where
             if md.bundle_cnt > 1 {
                 // TODO: Dynamic import
                 let module = self.scope.get_module(*id).unwrap();
-                builder
-                    .kinds
-                    .insert(
-                        *id,
-                        BundleKind::Lib {
-                            name: module.fm.name.to_string(),
-                        },
-                    )
-                    .expect("An entry cannot be dynamically imported");
+                match builder.kinds.insert(
+                    *id,
+                    BundleKind::Lib {
+                        name: module.fm.name.to_string(),
+                    },
+                ) {
+                    Some(v) => {
+                        bail!("An entry cannot be imported: {:?}", v);
+                    }
+                    None => {}
+                }
             }
         }
 
