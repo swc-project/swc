@@ -8,7 +8,11 @@ use std::collections::{hash_map::Entry, HashMap, HashSet};
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
-    graph: ModuleGraph,
+    entry_graph: ModuleGraph,
+
+    /// Graph to compute direct dependencies (direct means it will be merged
+    /// directly)
+    tracking_graph: ModuleGraph,
 
     circular: HashMap<ModuleId, Vec<ModuleId>>,
     direct_deps: HashMap<ModuleId, Vec<ModuleId>>,
@@ -105,16 +109,16 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id);
+            self.add_to_graph(&mut builder, module.id, module.id);
         }
 
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
-            let mut bfs = Bfs::new(&builder.graph, *id);
+            let mut bfs = Bfs::new(&builder.entry_graph, *id);
 
-            while let Some(dep) = bfs.next(&builder.graph) {
+            while let Some(dep) = bfs.next(&builder.entry_graph) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -152,9 +156,9 @@ where
 
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
-            let mut bfs = Bfs::new(&builder.graph, *id);
+            let mut bfs = Bfs::new(&builder.entry_graph, *id);
 
-            while let Some(dep) = bfs.next(&builder.graph) {
+            while let Some(dep) = bfs.next(&builder.entry_graph) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -199,10 +203,11 @@ where
         Ok(plans)
     }
 
-    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId) {
-        let contains = builder.graph.contains_node(module_id);
+    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
+        let contains = builder.entry_graph.contains_node(module_id);
 
-        builder.graph.add_node(module_id);
+        builder.entry_graph.add_node(module_id);
+        builder.tracking_graph.add_node(module_id);
 
         let m = self
             .scope
@@ -212,7 +217,7 @@ where
         // Prevent dejavu
         if contains {
             for (src, _) in &m.imports.specifiers {
-                if builder.graph.contains_node(src.module_id) {
+                if builder.entry_graph.contains_node(src.module_id) {
                     builder.mark_as_circular(module_id, src.module_id);
                     return;
                 }
@@ -220,22 +225,23 @@ where
         }
 
         for (src, _) in m.imports.specifiers.iter().chain(&m.exports.reexports) {
-            self.add_to_graph(builder, src.module_id);
+            self.add_to_graph(builder, src.module_id, root_id);
 
-            if !builder.graph.contains_edge(module_id, src.module_id) {
+            builder.entry_graph.add_edge(
+                module_id,
+                src.module_id,
+                if src.is_unconditional { 2 } else { 1 },
+            );
+
+            if let None = builder.tracking_graph.add_edge(root_id, src.module_id, 0) {
                 // Track direct dependencies, but exclude if it will be recursively merged.
                 builder
                     .direct_deps
                     .entry(module_id)
                     .or_default()
                     .push(src.module_id);
+                builder.tracking_graph.add_edge(root_id, src.module_id, 0);
             }
-
-            builder.graph.add_edge(
-                module_id,
-                src.module_id,
-                if src.is_unconditional { 2 } else { 1 },
-            );
         }
     }
 }
