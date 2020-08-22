@@ -7,9 +7,12 @@ use crate::{
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
+    util::IntoParallelIterator,
     Bundler,
 };
 use anyhow::{Context, Error};
+#[cfg(feature = "concurrent")]
+use rayon::iter::ParallelIterator;
 use std::{borrow::Cow, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -62,56 +65,19 @@ where
             self.merge_reexports(plan, &mut entry, &info)
                 .context("failed to merge reepxorts")?;
 
-            for (src, specifiers) in &info.imports.specifiers {
-                // Commented out because only direct dependencies are in chunking plan
-                //
-                // if !targets.contains(&src.module_id) {
-                //     // Already merged by recursive call to merge_modules.
-                //     log::debug!(
-                //         "Not merging: already merged: ({}):{} <= ({}):{}",
-                //         info.id,
-                //         info.fm.name,
-                //         src.module_id,
-                //         src.src.value,
-                //     );
-                //     // Drop imports, as they are already merged.
-                //     entry.body.retain(|item| {
-                //         match item {
-                //             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                //                 // Drop if it's one of circular import
-                //                 if info.imports.specifiers.iter().any(|v| {
-                //                     v.0.module_id == src.module_id && v.0.src == import.src
-                //                 }) {
-                //                     log::debug!("Dropping es6 import as it's already
-                // merged");                     return false;
-                //                 }
-                //             }
-                //             _ => {}
-                //         }
+            let deps = (&*info.imports.specifiers)
+                .into_par_iter()
+                .map(|(src, specifiers)| -> Result<_, Error> {
+                    log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                //         true
-                //     });
-
-                //     if self.config.require {
-                //         // Change require() call to load()
-                //         let dep = self.scope.get_module(src.module_id).unwrap();
-
-                //         self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module),
-                // dep.mark())?;     }
-
-                //     continue;
-                // }
-
-                log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
-
-                if specifiers.iter().any(|v| v.is_namespace()) {
-                    unimplemented!(
-                        "accessing namespace dependency with computed key: {} -> {}",
-                        info.id,
-                        src.module_id
-                    )
-                }
-                if let Some(imported) = self.scope.get_module(src.module_id) {
+                    if specifiers.iter().any(|v| v.is_namespace()) {
+                        unimplemented!(
+                            "accessing namespace dependency with computed key: {} -> {}",
+                            info.id,
+                            src.module_id
+                        )
+                    }
+                    let imported = self.scope.get_module(src.module_id).unwrap();
                     info.helpers.extend(&imported.helpers);
 
                     // In the case of
@@ -160,32 +126,31 @@ where
 
                         dep = dep.fold_with(&mut Unexporter);
 
-                        // print_hygiene("dep:before:global-mark", &self.cm, &dep);
-
-                        // Replace import statement / require with module body
-                        let mut injector = Es6ModuleInjector {
-                            imported: take(&mut dep.body),
-                            src: src.src.clone(),
-                        };
-                        entry.body.visit_mut_with(&mut injector);
-
-                        // print_hygiene("entry:after:injection", &self.cm, &entry);
-
-                        if injector.imported.is_empty() {
-                            continue;
-                        }
-                        dep.body = take(&mut injector.imported);
+                        // print_hygiene("dep:before:global-mark", &self.cm,
+                        // &dep);
                     }
 
-                    if self.config.require {
-                        self.merge_cjs(&mut entry, &info, Cow::Owned(dep), imported.mark())?;
-                    }
+                    Ok((src, dep))
+                })
+                .collect::<Vec<_>>();
 
-                    // print_hygiene(
-                    //     &format!("inject load: {}", imported.fm.name),
-                    //     &self.cm,
-                    //     &entry,
-                    // );
+            for dep in deps {
+                let (src, mut dep) = dep?;
+                // Replace import statement / require with module body
+                let mut injector = Es6ModuleInjector {
+                    imported: take(&mut dep.body),
+                    src: src.src.clone(),
+                };
+                entry.body.visit_mut_with(&mut injector);
+
+                // print_hygiene("entry:after:injection", &self.cm, &entry);
+
+                if injector.imported.is_empty() {
+                    continue;
+                }
+                dep.body = take(&mut injector.imported);
+                if self.config.require {
+                    self.merge_cjs(&mut entry, &info, Cow::Owned(dep), src.ctxt)?;
                 }
             }
 

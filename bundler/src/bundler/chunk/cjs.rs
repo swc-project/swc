@@ -33,12 +33,12 @@ where
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
-        dep_mark: Mark,
+        dep_ctxt: SyntaxContext,
     ) -> Result<(), Error> {
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
-            ctxt: SyntaxContext::empty().apply_mark(dep_mark),
-            load_var: Ident::new("load".into(), DUMMY_SP.apply_mark(dep_mark)),
+            ctxt: dep_ctxt,
+            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_ctxt)),
             replaced: false,
         };
         entry.body.visit_mut_with(&mut v);
