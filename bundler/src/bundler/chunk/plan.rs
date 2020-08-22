@@ -35,11 +35,13 @@ impl PlanBuilder {
             return;
         }
 
-        if let Some(v) =
-            self.circular
-                .iter_mut()
-                .find_map(|(_, v)| if v.contains(&imported) { Some(v) } else { None })
-        {
+        if let Some(v) = self.circular.iter_mut().find_map(|(_, v)| {
+            if v.contains(&src) || v.contains(&imported) {
+                Some(v)
+            } else {
+                None
+            }
+        }) {
             if !v.contains(&src) {
                 v.push(src);
             }
@@ -266,15 +268,17 @@ where
                         src.module_id
                     );
 
+                    if target_id.is_none() {
+                        builder.try_add_direct_dep(root_id, module_id, src.module_id);
+                    }
+                    builder.mark_as_circular(module_id, src.module_id);
+
                     self.add_to_graph(
                         builder,
                         src.module_id,
                         root_id,
                         Some(target_id.unwrap_or(module_id)),
                     );
-
-                    builder.try_add_direct_dep(root_id, module_id, src.module_id);
-                    builder.mark_as_circular(module_id, src.module_id);
                     return;
                 }
             }
