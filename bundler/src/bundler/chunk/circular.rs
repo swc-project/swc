@@ -26,10 +26,6 @@ where
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
             circular_modules
         );
-        debug_assert!(
-            self.scope.is_circular(entry_id),
-            "merge_circular_modules should only be called for circular entries"
-        );
 
         let entry_module = self.scope.get_module(entry_id).unwrap();
 
