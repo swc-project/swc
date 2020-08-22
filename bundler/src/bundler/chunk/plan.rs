@@ -219,31 +219,18 @@ where
             }
         }
 
-        for (src, _) in &*m.imports.specifiers {
-            // Track direct dependencies
-            builder
-                .direct_deps
-                .entry(module_id)
-                .or_default()
-                .push(src.module_id);
-
+        for (src, _) in m.imports.specifiers.iter().chain(&m.exports.reexports) {
             self.add_to_graph(builder, src.module_id);
-            builder.graph.add_edge(
-                module_id,
-                src.module_id,
-                if src.is_unconditional { 2 } else { 1 },
-            );
-        }
 
-        for (src, _) in &m.exports.reexports {
-            // Track direct dependencies
-            builder
-                .direct_deps
-                .entry(module_id)
-                .or_default()
-                .push(src.module_id);
+            if !builder.graph.contains_edge(module_id, src.module_id) {
+                // Track direct dependencies, but exclude if it will be recursively merged.
+                builder
+                    .direct_deps
+                    .entry(module_id)
+                    .or_default()
+                    .push(src.module_id);
+            }
 
-            self.add_to_graph(builder, src.module_id);
             builder.graph.add_edge(
                 module_id,
                 src.module_id,
