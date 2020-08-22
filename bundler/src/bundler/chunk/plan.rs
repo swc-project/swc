@@ -236,6 +236,13 @@ where
         }
 
         for (src, _) in &m.exports.reexports {
+            // Track direct dependencies
+            builder
+                .direct_deps
+                .entry(module_id)
+                .or_default()
+                .push(src.module_id);
+
             self.add_to_graph(builder, src.module_id);
             builder.graph.add_edge(
                 module_id,
