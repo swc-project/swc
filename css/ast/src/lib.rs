@@ -10,18 +10,29 @@ pub struct Text {
 #[ast_node]
 pub struct Stylesheet {
     pub span: Span,
-    pub rules: Vec<Rule>,
+    pub rules: Vec<StyleRule>,
 }
 
 #[ast_node]
-pub struct Rule {
+pub struct StyleRule {
     pub span: Span,
     pub selectors: Vec<Selector>,
     pub properties: Vec<Property>,
 }
 
 #[ast_node]
-pub enum Selector {}
+pub struct Selector {
+    pub span: Span,
+    pub base: BaseSelector,
+    pub pseudo_class: Option<Text>,
+    pub pseudo_element: Option<Text>,
+}
+
+#[ast_node]
+pub enum BaseSelector {
+    #[tag("Id")]
+    Id(Text),
+}
 
 #[ast_node]
 pub struct Property {
