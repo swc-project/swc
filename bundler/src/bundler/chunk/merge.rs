@@ -35,7 +35,6 @@ where
         self.run(|| {
             let info = self.scope.get_module(entry).unwrap();
 
-            dbg!(entry, &plan.circular);
             // Handle circular imports
             if let Some(circular) = plan.entry_as_circular(info.id) {
                 log::info!("Circular dependency detected: ({})", info.fm.name);
