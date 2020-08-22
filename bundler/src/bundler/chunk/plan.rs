@@ -3,7 +3,7 @@ use anyhow::{bail, Error};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 use std::collections::{hash_map::Entry, HashMap, HashSet};
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 struct PlanBuilder {
     graph: ModuleGraph,
     circular: HashMap<ModuleId, Vec<ModuleId>>,
@@ -142,6 +142,9 @@ where
             }
         }
 
+        dbg!(&builder.kinds);
+        dbg!(&builder.circular);
+
         let mut plans = Plan::default();
 
         // Calculate actual chunking plans
@@ -164,14 +167,10 @@ where
 
                         // We need to mark modules as circular.
                         Entry::Vacant(e) => {
-                            let mut plan = e.insert(CircularPlan::default());
-                            plan.chunks
-                                .extend(builder.circular.remove(&dep).unwrap_or_else(|| {
-                                    panic!(
-                                        "PlanBuilder did not contain infomartion about {:?}",
-                                        dep
-                                    )
-                                }));
+                            let plan = e.insert(CircularPlan::default());
+                            if let Some(v) = builder.circular.remove(&dep) {
+                                plan.chunks.extend(v);
+                            }
                         }
                     }
                     continue;
