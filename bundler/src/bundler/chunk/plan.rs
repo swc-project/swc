@@ -11,20 +11,31 @@ struct PlanBuilder {
 
 impl PlanBuilder {
     fn mark_as_circular(&mut self, src: ModuleId, imported: ModuleId) {
-        if let Some(v) = self.circular.get_mut(&src).or_else(|| {
-            self.circular
-                .iter_mut()
-                .find_map(|(_, v)| if v.contains(&imported) { Some(v) } else { None })
-        }) {
+        if let Some(v) = self.circular.get_mut(&src) {
             if !v.contains(&src) {
                 v.push(src);
             }
             if !v.contains(&imported) {
                 v.push(imported);
             }
-        } else {
-            self.circular.insert(src, vec![imported]);
+            return;
         }
+
+        if let Some(v) =
+            self.circular
+                .iter_mut()
+                .find_map(|(_, v)| if v.contains(&imported) { Some(v) } else { None })
+        {
+            if !v.contains(&src) {
+                v.push(src);
+            }
+            if !v.contains(&imported) {
+                v.push(imported);
+            }
+            return;
+        }
+
+        self.circular.insert(src, vec![imported]);
     }
 
     fn is_circular(&self, id: ModuleId) -> bool {

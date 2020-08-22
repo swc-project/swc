@@ -46,14 +46,17 @@ where
     ) -> Result<Vec<Bundle>, Error> {
         let plan = self.determine_entries(entries);
 
-        Ok(plan
-            .entries
+        Ok((&*plan.entries)
             .into_par_iter()
-            .map(|entry| {
+            .map(|&entry| {
                 self.run(|| {
-                    let kind = plan.bundle_kinds.remove(&entry).unwrap_or_else(|| {
-                        unreachable!("Plan does not contain bundle kind for {:?}", entry)
-                    });
+                    let kind = plan
+                        .bundle_kinds
+                        .get(&entry)
+                        .unwrap_or_else(|| {
+                            unreachable!("Plan does not contain bundle kind for {:?}", entry)
+                        })
+                        .clone();
 
                     let module = self
                         .merge_modules(&plan, entry, true)
@@ -130,7 +133,7 @@ mod tests {
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
                 let mut entries = HashMap::default();
-                entries.insert("main.js".to_string(), module);
+                entries.insert("main.js".to_string(), module.clone());
 
                 let determined = t.bundler.determine_entries(entries);
 

@@ -25,7 +25,7 @@ pub struct Config {
     pub external_modules: Vec<JsWord>,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum BundleKind {
     /// User-provided entry
     Named { name: String },

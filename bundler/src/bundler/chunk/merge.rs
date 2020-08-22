@@ -63,43 +63,44 @@ where
                 .context("failed to merge reepxorts")?;
 
             for (src, specifiers) in &info.imports.specifiers {
-                if !targets.contains(&src.module_id) {
-                    // Already merged by recursive call to merge_modules.
-                    log::debug!(
-                        "Not merging: already merged: ({}):{} <= ({}):{}",
-                        info.id,
-                        info.fm.name,
-                        src.module_id,
-                        src.src.value,
-                    );
+                // Commented out because only direct dependencies are in chunking plan
+                //
+                // if !targets.contains(&src.module_id) {
+                //     // Already merged by recursive call to merge_modules.
+                //     log::debug!(
+                //         "Not merging: already merged: ({}):{} <= ({}):{}",
+                //         info.id,
+                //         info.fm.name,
+                //         src.module_id,
+                //         src.src.value,
+                //     );
+                //     // Drop imports, as they are already merged.
+                //     entry.body.retain(|item| {
+                //         match item {
+                //             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                //                 // Drop if it's one of circular import
+                //                 if info.imports.specifiers.iter().any(|v| {
+                //                     v.0.module_id == src.module_id && v.0.src == import.src
+                //                 }) {
+                //                     log::debug!("Dropping es6 import as it's already
+                // merged");                     return false;
+                //                 }
+                //             }
+                //             _ => {}
+                //         }
 
-                    // Drop imports, as they are already merged.
-                    entry.body.retain(|item| {
-                        match item {
-                            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                                // Drop if it's one of circular import
-                                if info.imports.specifiers.iter().any(|v| {
-                                    v.0.module_id == src.module_id && v.0.src == import.src
-                                }) {
-                                    log::debug!("Dropping es6 import as it's already merged");
-                                    return false;
-                                }
-                            }
-                            _ => {}
-                        }
+                //         true
+                //     });
 
-                        true
-                    });
+                //     if self.config.require {
+                //         // Change require() call to load()
+                //         let dep = self.scope.get_module(src.module_id).unwrap();
 
-                    if self.config.require {
-                        // Change require() call to load()
-                        let dep = self.scope.get_module(src.module_id).unwrap();
+                //         self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module),
+                // dep.mark())?;     }
 
-                        self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
-                    }
-
-                    continue;
-                }
+                //     continue;
+                // }
 
                 log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
@@ -113,11 +114,6 @@ where
                 if let Some(imported) = self.scope.get_module(src.module_id) {
                     info.helpers.extend(&imported.helpers);
 
-                    if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
-                        log::debug!("targets.remove({})", imported.fm.name);
-                        targets.remove(pos);
-                    }
-
                     // In the case of
                     //
                     //  a <- b
@@ -127,14 +123,8 @@ where
                     //
                     // a <- b + chunk(c)
                     //
-                    log::trace!(
-                        "merging deps: {:?} <- {:?}; es6 = {}",
-                        src,
-                        targets,
-                        info.is_es6
-                    );
                     let mut dep = if imported.is_es6 {
-                        self.merge_modules(src.module_id, false, targets)
+                        self.merge_modules(plan, src.module_id, false)
                             .with_context(|| {
                                 format!(
                                     "failed to merge: ({}):{} <= ({}):{}",
@@ -199,20 +189,20 @@ where
                 }
             }
 
-            if is_entry && self.config.require && !targets.is_empty() {
-                log::info!("Injectng remaining: {:?}", targets);
+            // if is_entry && self.config.require && !targets.is_empty() {
+            //     log::info!("Injectng remaining: {:?}", targets);
 
-                // Handle transitive dependencies
-                for target in targets.drain(..) {
-                    log::trace!(
-                        "Remaining: {}",
-                        self.scope.get_module(target).unwrap().fm.name
-                    );
+            //     // Handle transitive dependencies
+            //     for target in targets.drain(..) {
+            //         log::trace!(
+            //             "Remaining: {}",
+            //             self.scope.get_module(target).unwrap().fm.name
+            //         );
 
-                    let dep = self.scope.get_module(target).unwrap();
-                    self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
-                }
-            }
+            //         let dep = self.scope.get_module(target).unwrap();
+            //         self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module),
+            // dep.mark())?;     }
+            // }
 
             Ok(entry)
         })
