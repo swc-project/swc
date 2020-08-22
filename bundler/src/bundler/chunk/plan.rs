@@ -2,6 +2,11 @@ use crate::{bundler::load::TransformedModule, BundleKind, Bundler, Load, ModuleI
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 use std::collections::HashMap;
 
+#[derive(Default)]
+struct PlanBuilder {
+    graph: ModuleGraph,
+}
+
 pub(super) struct Plan {
     /// key: entry
     chunk_plans: HashMap<ModuleId, ChunkPlan>,
@@ -35,21 +40,21 @@ where
         &self,
         mut entries: HashMap<String, TransformedModule>,
     ) -> Vec<(BundleKind, ModuleId, Vec<ModuleId>)> {
-        let mut graph = ModuleGraph::default();
+        let mut builder = PlanBuilder::default();
         let mut kinds = vec![];
 
         for (name, module) in entries.drain() {
             kinds.push((BundleKind::Named { name }, module.id));
-            self.add_to_graph(&mut graph, module.id);
+            self.add_to_graph(&mut builder, module.id);
         }
 
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
 
         // Draw dependency graph
         for (_, id) in &kinds {
-            let mut bfs = Bfs::new(&graph, *id);
+            let mut bfs = Bfs::new(&builder.graph, *id);
 
-            while let Some(dep) = bfs.next(&graph) {
+            while let Some(dep) = bfs.next(&builder.graph) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -76,9 +81,9 @@ where
         let mut chunks: HashMap<_, Vec<_>> = HashMap::default();
 
         for (_, id) in &kinds {
-            let mut bfs = Bfs::new(&graph, *id);
+            let mut bfs = Bfs::new(&builder.graph, *id);
 
-            while let Some(dep) = bfs.next(&graph) {
+            while let Some(dep) = bfs.next(&builder.graph) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -101,10 +106,10 @@ where
             .collect()
     }
 
-    fn add_to_graph(&self, graph: &mut ModuleGraph, module_id: ModuleId) {
-        let contains = graph.contains_node(module_id);
+    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId) {
+        let contains = builder.graph.contains_node(module_id);
 
-        graph.add_node(module_id);
+        builder.graph.add_node(module_id);
 
         let m = self
             .scope
@@ -114,7 +119,7 @@ where
         // Prevent dejavu
         if contains {
             for (src, _) in &m.imports.specifiers {
-                if graph.contains_node(src.module_id) {
+                if builder.graph.contains_node(src.module_id) {
                     self.scope.mark_as_circular(module_id);
                     self.scope.mark_as_circular(src.module_id);
                     return;
@@ -125,8 +130,8 @@ where
         for (src, _) in &*m.imports.specifiers {
             //
 
-            self.add_to_graph(graph, src.module_id);
-            graph.add_edge(
+            self.add_to_graph(builder, src.module_id);
+            builder.graph.add_edge(
                 module_id,
                 src.module_id,
                 if src.is_unconditional { 2 } else { 1 },
@@ -134,8 +139,8 @@ where
         }
 
         for (src, _) in &m.exports.reexports {
-            self.add_to_graph(graph, src.module_id);
-            graph.add_edge(
+            self.add_to_graph(builder, src.module_id);
+            builder.graph.add_edge(
                 module_id,
                 src.module_id,
                 if src.is_unconditional { 2 } else { 1 },
