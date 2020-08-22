@@ -2,7 +2,7 @@ use super::plan::Plan;
 use crate::{
     bundler::{
         export::Exports,
-        load::{Source, Specifier},
+        load::{Imports, Source, Specifier},
     },
     id::{Id, ModuleId},
     load::Load,
@@ -180,8 +180,37 @@ where
                 }
             }
 
+            if is_entry {
+                entry.visit_mut_with(&mut ImportDropper {
+                    imports: &info.imports,
+                })
+            }
+
             Ok(entry)
         })
+    }
+}
+
+struct ImportDropper<'a> {
+    imports: &'a Imports,
+}
+
+impl VisitMut for ImportDropper<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
+        match i {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
+                if self
+                    .imports
+                    .specifiers
+                    .iter()
+                    .any(|(s, _)| s.src.value == *src.value) =>
+            {
+                *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+            }
+            _ => {}
+        }
     }
 }
 
