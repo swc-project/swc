@@ -216,6 +216,8 @@ where
             }
         }
 
+        dbg!(&plans);
+
         if cfg!(debug_assertions) {
             for &entry in &plans.entries {
                 debug_assert!(
@@ -223,8 +225,6 @@ where
                 );
             }
         }
-
-        dbg!(&plans);
 
         Ok(plans)
     }
