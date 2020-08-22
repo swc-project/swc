@@ -7,26 +7,26 @@ struct PlanBuilder {
     graph: ModuleGraph,
 }
 
-pub(super) struct Plan {
-    /// key: entry
-    chunk_plans: HashMap<ModuleId, ChunkPlan>,
+pub(super) struct Plans {
+    pub normal: Vec<NormalPlan>,
+    pub circular: Vec<CicularPlan>,
+}
+
+pub(super) struct NormalPlan {
+    pub bundle_kind: BundleKind,
+    pub entry: ModuleId,
+    pub chunks: Vec<ModuleId>,
+}
+
+pub(super) struct CicularPlan {
+    pub bundle_kind: BundleKind,
+    pub entry: ModuleId,
+    pub chunks: Vec<ModuleId>,
 }
 
 #[derive(Debug, Default)]
 struct Metadata {
     access_cnt: u32,
-}
-
-#[derive(Debug)]
-enum ChunkPlan {
-    Normal {
-        /// Depends on plan, not module
-        depends_on: Vec<ModuleId>,
-        chunks: Vec<ModuleId>,
-    },
-    Circular {
-        chunks: Vec<ModuleId>,
-    },
 }
 
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
