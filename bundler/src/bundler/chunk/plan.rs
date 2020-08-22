@@ -1,26 +1,49 @@
 use crate::{bundler::load::TransformedModule, BundleKind, Bundler, Load, ModuleId, Resolve};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 #[derive(Default)]
 struct PlanBuilder {
     graph: ModuleGraph,
+    circular: Vec<Vec<ModuleId>>,
 }
 
+impl PlanBuilder {
+    fn mark_as_circular(&mut self, src: ModuleId, imported: ModuleId) {
+        if let Some(v) = self
+            .circular
+            .iter()
+            .find(|v| v.contains(&src) || v.contains(&imported))
+        {
+            if !v.contains(&src) {
+                v.push(src);
+            }
+            if !v.contains(&imported) {
+                v.push(imported);
+            }
+        } else {
+            self.circular.push(vec![src, imported]);
+        }
+    }
+}
+
+#[derive(Default)]
 pub(super) struct Plans {
-    pub normal: Vec<NormalPlan>,
-    pub circular: Vec<CicularPlan>,
+    /// key is entry
+    pub normal: HashMap<ModuleId, NormalPlan>,
+    /// key is entry
+    pub circular: HashMap<ModuleId, CicularPlan>,
 }
 
 pub(super) struct NormalPlan {
     pub bundle_kind: BundleKind,
-    pub entry: ModuleId,
+    // Direct dependencies
     pub chunks: Vec<ModuleId>,
 }
 
 pub(super) struct CicularPlan {
     pub bundle_kind: BundleKind,
-    pub entry: ModuleId,
+    /// Members of the circular dependncies.
     pub chunks: Vec<ModuleId>,
 }
 
@@ -39,7 +62,8 @@ where
     pub(super) fn determine_entries(
         &self,
         mut entries: HashMap<String, TransformedModule>,
-    ) -> Vec<(BundleKind, ModuleId, Vec<ModuleId>)> {
+    ) -> Plans {
+        let mut plans = Plans::default();
         let mut builder = PlanBuilder::default();
         let mut kinds = vec![];
 
@@ -120,8 +144,7 @@ where
         if contains {
             for (src, _) in &m.imports.specifiers {
                 if builder.graph.contains_node(src.module_id) {
-                    self.scope.mark_as_circular(module_id);
-                    self.scope.mark_as_circular(src.module_id);
+                    builder.mark_as_circular(module_id, src.module_id);
                     return;
                 }
             }
