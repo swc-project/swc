@@ -142,9 +142,6 @@ where
             }
         }
 
-        dbg!(&builder.kinds);
-        dbg!(&builder.circular);
-
         let mut plans = Plan::default();
 
         // Calculate actual chunking plans
