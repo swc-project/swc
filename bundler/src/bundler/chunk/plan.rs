@@ -1,4 +1,5 @@
 use crate::{bundler::load::TransformedModule, BundleKind, Bundler, Load, ModuleId, Resolve};
+use anyhow::{bail, Error};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 use std::collections::{hash_map::Entry, HashMap, HashSet};
 
@@ -94,14 +95,15 @@ where
     pub(super) fn determine_entries(
         &self,
         mut entries: HashMap<String, TransformedModule>,
-    ) -> Plan {
+    ) -> Result<Plan, Error> {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {
-            builder
-                .kinds
-                .insert(module.id, BundleKind::Named { name })
-                .expect("Multiple entries with same input path detected");
+            match builder.kinds.insert(module.id, BundleKind::Named { name }) {
+                Some(v) => bail!("Multiple entries with same input path detected: {:?}", v),
+                None => {}
+            }
+
             self.add_to_graph(&mut builder, module.id);
         }
 
@@ -181,7 +183,7 @@ where
             }
         }
 
-        plans
+        Ok(plans)
     }
 
     fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId) {

@@ -44,7 +44,7 @@ where
         &self,
         entries: HashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
-        let plan = self.determine_entries(entries);
+        let plan = self.determine_entries(entries).context("failed to plan")?;
 
         Ok((&*plan.entries)
             .into_par_iter()
@@ -105,7 +105,7 @@ mod tests {
                 let mut entries = HashMap::default();
                 entries.insert("main.js".to_string(), module);
 
-                let determined = t.bundler.determine_entries(entries);
+                let determined = t.bundler.determine_entries(entries)?;
 
                 assert_eq!(determined.normal.len(), 1);
                 assert_eq!(determined.circular.len(), 0);
@@ -135,7 +135,7 @@ mod tests {
                 let mut entries = HashMap::default();
                 entries.insert("main.js".to_string(), module.clone());
 
-                let determined = t.bundler.determine_entries(entries);
+                let determined = t.bundler.determine_entries(entries)?;
 
                 assert_eq!(determined.normal.len(), 1);
                 assert_eq!(determined.circular.len(), 0);
