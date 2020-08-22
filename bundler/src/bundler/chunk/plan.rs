@@ -1,4 +1,7 @@
-use crate::{bundler::load::TransformedModule, BundleKind, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::{load::TransformedModule, scope::Metadata},
+    BundleKind, Bundler, Load, ModuleId, Resolve,
+};
 use anyhow::{bail, Error};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 use std::collections::{hash_map::Entry, HashMap, HashSet};
@@ -53,7 +56,7 @@ impl PlanBuilder {
     }
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(super) struct Plan {
     pub entries: Vec<ModuleId>,
 
@@ -81,11 +84,6 @@ pub(super) struct NormalPlan {
 pub(super) struct CircularPlan {
     /// Members of the circular dependncies.
     pub chunks: Vec<ModuleId>,
-}
-
-#[derive(Debug, Default)]
-struct Metadata {
-    bundle_cnt: u32,
 }
 
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
@@ -183,21 +181,23 @@ where
             }
         }
 
-        for (id, _) in &builder.circular {
-            builder.direct_deps.remove(id);
-        }
-
-        for (id, deps) in builder.direct_deps {
+        for (id, deps) in builder.direct_deps.clone() {
             let e = plans.normal.entry(id).or_default();
 
-            for dep in deps {
+            for &dep in &deps {
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
+                    if let Some(deps_of_dep) = builder.direct_deps.get(&dep) {
+                        dbg!(&deps_of_dep);
+                    }
+
                     e.chunks.push(dep);
                     continue;
                 }
             }
         }
+
+        dbg!(&plans);
 
         Ok(plans)
     }

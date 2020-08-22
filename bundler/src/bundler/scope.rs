@@ -6,6 +6,11 @@ use crate::{
 use swc_common::FileName;
 
 #[derive(Debug, Default)]
+pub(super) struct Metadata {
+    pub bundle_cnt: u32,
+}
+
+#[derive(Debug, Default)]
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
