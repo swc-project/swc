@@ -187,9 +187,6 @@ where
             for &dep in &deps {
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
-                    if let Some(deps_of_dep) = builder.direct_deps.get(&dep) {
-                        dbg!(&deps_of_dep);
-                    }
 
                     e.chunks.push(dep);
                     continue;
