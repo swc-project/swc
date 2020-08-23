@@ -1,5 +1,8 @@
-use super::{merge::Unexporter, plan::Plan};
-use crate::{bundler::load::TransformedModule, Bundler, Load, Resolve};
+use super::{
+    merge::Unexporter,
+    plan::{NormalPlan, Plan},
+};
+use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
@@ -35,6 +38,7 @@ where
         info: &TransformedModule,
         dep: Cow<Module>,
         dep_info: &TransformedModule,
+        targets: &mut Vec<ModuleId>,
     ) -> Result<(), Error> {
         log::info!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
@@ -73,6 +77,7 @@ where
                         info,
                         Cow::Borrowed(&dep_info.module),
                         &dep_info,
+                        targets,
                     )?;
                 }
             }

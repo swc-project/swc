@@ -184,30 +184,38 @@ where
                 }
 
                 if self.config.require {
-                    self.merge_cjs(plan, &mut entry, &info, Cow::Owned(dep), &dep_info)?;
-                }
-            }
-
-            if is_entry && self.config.require && !targets.is_empty() {
-                log::info!("Injectng remaining: {:?}", targets);
-
-                // Handle transitive dependencies
-                for target in targets.drain(..) {
-                    log::trace!(
-                        "Remaining: {}",
-                        self.scope.get_module(target).unwrap().fm.name
-                    );
-
-                    let dep_info = self.scope.get_module(target).unwrap();
                     self.merge_cjs(
                         plan,
                         &mut entry,
                         &info,
-                        Cow::Borrowed(&dep_info.module),
+                        Cow::Owned(dep),
                         &dep_info,
+                        &mut targets,
                     )?;
                 }
             }
+
+            // if is_entry && self.config.require && !targets.is_empty() {
+            //     log::info!("Injectng remaining: {:?}", targets);
+
+            //     // Handle transitive dependencies
+            //     for target in targets.drain(..) {
+            //         log::trace!(
+            //             "Remaining: {}",
+            //             self.scope.get_module(target).unwrap().fm.name
+            //         );
+
+            //         let dep_info = self.scope.get_module(target).unwrap();
+            //         self.merge_cjs(
+            //             plan,
+            //             &mut entry,
+            //             &info,
+            //             Cow::Borrowed(&dep_info.module),
+            //             &dep_info,
+            //             &mut targets,
+            //         )?;
+            //     }
+            // }
 
             if is_entry {
                 entry.visit_mut_with(&mut ImportDropper {
