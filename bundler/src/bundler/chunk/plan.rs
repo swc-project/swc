@@ -3,7 +3,7 @@ use crate::{
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{bail, Error};
-use petgraph::{graphmap::DiGraphMap, visit::Bfs};
+use petgraph::{algo::all_simple_paths, graphmap::DiGraphMap, visit::Bfs};
 use std::collections::{hash_map::Entry, HashMap};
 
 #[derive(Debug, Default)]
@@ -280,6 +280,18 @@ where
                     );
 
                     builder.mark_as_circular(module_id, src.module_id);
+                    log::error!("{:?}", module_id);
+
+                    for path in all_simple_paths::<Vec<ModuleId>, _>(
+                        &builder.entry_graph,
+                        src.module_id,
+                        module_id,
+                        2,
+                        None,
+                    ) {
+                        log::error!("{:?}", path);
+                        builder.circular.entry(module_id).or_default().extend(path);
+                    }
 
                     return;
                 } else {
