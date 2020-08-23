@@ -1,5 +1,5 @@
 use crate::{prepend_stmts, ExprFactory};
-use std::iter;
+use std::{iter, mem::replace};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
@@ -134,6 +134,7 @@ impl VisitMut for ExprInjector<'_> {
                         .unwrap_or_else(|| private_ident!("_temp")),
                 );
                 self.injected = true;
+                let e = replace(expr, Expr::Invalid(Invalid { span: DUMMY_SP }));
 
                 *expr = Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -143,7 +144,7 @@ impl VisitMut for ExprInjector<'_> {
                             self.injected_tmp.as_ref().cloned().unwrap(),
                         ))),
                         op: op!("="),
-                        right: Box::new(expr),
+                        right: Box::new(e),
                     })))
                     .chain(self.exprs.iter().cloned())
                     .chain(iter::once(Box::new(Expr::Ident(
