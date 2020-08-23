@@ -21,15 +21,19 @@ where
     L: Load,
     R: Resolve,
 {
-    pub(super) fn merge_circular_modules(&self, plan: &CircularPlan, entry_id: ModuleId) -> Module {
+    pub(super) fn merge_circular_modules(
+        &self,
+        circular_plan: &CircularPlan,
+        entry_id: ModuleId,
+    ) -> Module {
         assert!(
-            plan.chunks.len() >= 1,
+            circular_plan.chunks.len() >= 1,
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
-            plan
+            circular_plan
         );
         let entry_module = self.scope.get_module(entry_id).unwrap();
 
-        let modules = plan
+        let modules = circular_plan
             .chunks
             .iter()
             .map(|&id| self.scope.get_module(id).unwrap())
@@ -39,7 +43,7 @@ where
 
         print_hygiene("entry:process_circular_module", &self.cm, &entry);
 
-        for &dep in &*plan.chunks {
+        for &dep in &*circular_plan.chunks {
             if dep == entry_id {
                 continue;
             }
