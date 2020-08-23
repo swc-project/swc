@@ -86,67 +86,69 @@ where
                     module_plan.chunks.contains(&src.module_id)
                 })
                 .map(|(src, specifiers)| -> Result<_, Error> {
-                    log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
+                    self.run(|| {
+                        log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                    if specifiers.iter().any(|v| v.is_namespace()) {
-                        unimplemented!(
-                            "accessing namespace dependency with computed key: {} -> {}",
-                            info.id,
-                            src.module_id
-                        )
-                    }
-                    let imported = self.scope.get_module(src.module_id).unwrap();
-                    info.helpers.extend(&imported.helpers);
-
-                    let dep_info = self.scope.get_module(src.module_id).unwrap();
-                    // In the case of
-                    //
-                    //  a <- b
-                    //  b <- c
-                    //
-                    // we change it to
-                    //
-                    // a <- b + chunk(c)
-                    //
-                    let mut dep = self
-                        .merge_modules(plan, src.module_id, false, false)
-                        .with_context(|| {
-                            format!(
-                                "failed to merge: ({}):{} <= ({}):{}",
-                                info.id, info.fm.name, src.module_id, src.src.value
+                        if specifiers.iter().any(|v| v.is_namespace()) {
+                            unimplemented!(
+                                "accessing namespace dependency with computed key: {} -> {}",
+                                info.id,
+                                src.module_id
                             )
-                        })?;
+                        }
+                        let imported = self.scope.get_module(src.module_id).unwrap();
+                        info.helpers.extend(&imported.helpers);
 
-                    if imported.is_es6 {
-                        // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                        let dep_info = self.scope.get_module(src.module_id).unwrap();
+                        // In the case of
+                        //
+                        //  a <- b
+                        //  b <- c
+                        //
+                        // we change it to
+                        //
+                        // a <- b + chunk(c)
+                        //
+                        let mut dep = self
+                            .merge_modules(plan, src.module_id, false, false)
+                            .with_context(|| {
+                                format!(
+                                    "failed to merge: ({}):{} <= ({}):{}",
+                                    info.id, info.fm.name, src.module_id, src.src.value
+                                )
+                            })?;
 
-                        // Tree-shaking
-                        dep = self.drop_unused(dep, Some(&specifiers));
+                        if imported.is_es6 {
+                            // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
-                        // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+                            // Tree-shaking
+                            dep = self.drop_unused(dep, Some(&specifiers));
 
-                        if let Some(imports) = info
-                            .imports
-                            .specifiers
-                            .iter()
-                            .find(|(s, _)| s.module_id == imported.id)
-                            .map(|v| &v.1)
-                        {
-                            dep = dep.fold_with(&mut ExportRenamer {
-                                mark: imported.mark(),
-                                _exports: &imported.exports,
-                                imports: &imports,
-                                extras: vec![],
-                            });
+                            // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+
+                            if let Some(imports) = info
+                                .imports
+                                .specifiers
+                                .iter()
+                                .find(|(s, _)| s.module_id == imported.id)
+                                .map(|v| &v.1)
+                            {
+                                dep = dep.fold_with(&mut ExportRenamer {
+                                    mark: imported.mark(),
+                                    _exports: &imported.exports,
+                                    imports: &imports,
+                                    extras: vec![],
+                                });
+                            }
+
+                            dep = dep.fold_with(&mut Unexporter);
+
+                            // print_hygiene("dep:before-injection", &self.cm,
+                            // &dep);
                         }
 
-                        dep = dep.fold_with(&mut Unexporter);
-
-                        // print_hygiene("dep:before-injection", &self.cm,
-                        // &dep);
-                    }
-
-                    Ok((src, dep, dep_info))
+                        Ok((src, dep, dep_info))
+                    })
                 })
                 .collect::<Vec<_>>();
 
