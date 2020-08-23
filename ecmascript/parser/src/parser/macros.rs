@@ -1,6 +1,6 @@
 macro_rules! unexpected {
     ($p:expr, $expected:literal) => {{
-        let got = match cur!($p, false).ok() {
+        let got = match $p.input.cur() {
             Some(v) => format!("{:?}", v),
             None => format!("<eof>"),
         };
@@ -47,10 +47,15 @@ macro_rules! is {
             || eof!($p)
             || is!($p, '}')
             || $p.input.had_line_break_before_cur()
+        // match $p.input.cur() {
+        //     Some(&Token::Semi) | None | Some(&tok!('}')) => true,
+        //     _ => $p.input.had_line_break_before_cur(),
+        // }
     }};
 
     ($p:expr, $t:tt) => {
         $p.input.is(&tok!($t))
+        // is_exact!($p, $t)
     };
 }
 
@@ -84,6 +89,10 @@ macro_rules! peeked_is {
 
     ($p:expr, $t:tt) => {
         $p.input.peeked_is(&tok!($t))
+        // match peek!($p).ok() {
+        //     Some(&token_including_semi!($t)) => true,
+        //     _ => false,
+        // }
     };
 }
 
@@ -107,7 +116,7 @@ macro_rules! is_one_of {
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &tok!($t);
-        if cfg!(debug_assertions) && !$p.input.is(TOKEN) {
+        if cfg!(debug_assertions) && !is!($p, $t) {
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
                 TOKEN,
@@ -130,6 +139,11 @@ macro_rules! eat {
             || eof!($p)
             || is!($p, '}')
             || $p.input.had_line_break_before_cur()
+        // match $p.input.cur() {
+        //     Some(&Token::Semi) => true,
+        //     None | Some(&tok!('}')) => true,
+        //     _ => $p.input.had_line_break_before_cur(),
+        // }
     }};
 
     ($p:expr, $t:tt) => {{
@@ -144,8 +158,7 @@ macro_rules! eat {
 
 macro_rules! eat_exact {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &token_including_semi!($t);
-        if $p.input.is(TOKEN) {
+        if is_exact!($p, $t) {
             bump!($p);
             true
         } else {
@@ -156,8 +169,10 @@ macro_rules! eat_exact {
 
 macro_rules! is_exact {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &token_including_semi!($t);
-        $p.input.is(TOKEN)
+        match $p.input.cur() {
+            Some(&token_including_semi!($t)) => true,
+            _ => false,
+        }
     }};
 }
 
@@ -166,7 +181,7 @@ macro_rules! expect {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
-            let cur = match cur!($p, false).ok() {
+            let cur = match $p.input.cur() {
                 Some(v) => format!("{:?}", v),
                 None => format!("<eof>"),
             };
@@ -179,7 +194,7 @@ macro_rules! expect_exact {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat_exact!($p, $t) {
-            let cur = match cur!($p, false).ok() {
+            let cur = match $p.input.cur() {
                 Some(v) => format!("{:?}", v),
                 None => format!("<eof>"),
             };
