@@ -1,4 +1,4 @@
-use super::merge::Unexporter;
+use super::{merge::Unexporter, plan::Plan};
 use crate::{bundler::load::TransformedModule, Bundler, Load, Resolve};
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
@@ -30,6 +30,7 @@ where
     /// As usual, this behavior depends on hygiene.
     pub(super) fn merge_cjs(
         &self,
+        plan: &Plan,
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
@@ -62,6 +63,19 @@ where
             }
 
             log::info!("Replaced requires with load");
+
+            if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
+                for &dep_id in &normal_plan.chunks {
+                    let dep_info = self.scope.get_module(dep_id).unwrap();
+                    self.merge_cjs(
+                        plan,
+                        entry,
+                        info,
+                        Cow::Borrowed(&dep_info.module),
+                        &dep_info,
+                    )?;
+                }
+            }
         }
 
         Ok(())

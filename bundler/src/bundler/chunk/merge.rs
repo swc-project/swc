@@ -184,7 +184,7 @@ where
                 }
 
                 if self.config.require {
-                    self.merge_cjs(&mut entry, &info, Cow::Owned(dep), &dep_info)?;
+                    self.merge_cjs(plan, &mut entry, &info, Cow::Owned(dep), &dep_info)?;
                 }
             }
 
@@ -200,6 +200,7 @@ where
 
                     let dep_info = self.scope.get_module(target).unwrap();
                     self.merge_cjs(
+                        plan,
                         &mut entry,
                         &info,
                         Cow::Borrowed(&dep_info.module),
