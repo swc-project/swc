@@ -235,8 +235,6 @@ where
             }
         }
 
-        dbg!(&plans);
-
         for &entry in &plans.entries {
             plans.normal.entry(entry).or_default();
         }
@@ -256,7 +254,6 @@ where
                 return;
             }
         }
-        log::warn!("Target = {:?}", target_id);
 
         let contains = builder.entry_graph.contains_node(module_id);
 
@@ -269,7 +266,7 @@ where
             .expect("failed to get module");
 
         for (src, _) in &m.imports.specifiers {
-            log::debug!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
+            log::trace!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
         }
 
         // Prevent dejavu
