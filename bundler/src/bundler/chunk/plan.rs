@@ -175,6 +175,8 @@ where
         for (id, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.entry_graph, *id);
 
+            let mut prev = *id;
+
             while let Some(dep) = bfs.next(&builder.entry_graph) {
                 if dep == *id {
                     // Useless
@@ -197,8 +199,13 @@ where
                             }
                         }
                     }
-                    continue;
+
+                    if !builder.is_circular(prev) {
+                        plans.normal.entry(prev).or_default().chunks.push(dep);
+                    }
                 }
+
+                prev = dep;
             }
         }
 
@@ -268,9 +275,6 @@ where
                         src.module_id
                     );
 
-                    if target_id.is_none() {
-                        builder.try_add_direct_dep(root_id, module_id, src.module_id);
-                    }
                     builder.mark_as_circular(module_id, src.module_id);
 
                     return;
