@@ -41,7 +41,12 @@ where
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
 
-        let mut entry = self.process_circular_module(plan, &modules, &entry_module)?;
+        let mut entry = self.process_circular_module(
+            plan,
+            &modules,
+            &entry_module,
+            (*entry_module.module).clone(),
+        )?;
 
         print_hygiene("entry:process_circular_module", &self.cm, &entry);
 
@@ -70,10 +75,10 @@ where
     ) -> Result<Module, Error> {
         self.run(|| {
             let dep_info = self.scope.get_module(dep).unwrap();
-            //     let mut module = self
-            //     .merge_modules(plan, entry.id, false)
-            //     .context("failed to merge dependency of a cyclic module")?;
-            let mut dep = self.process_circular_module(plan, circular_modules, &dep_info)?;
+            let mut dep = self
+                .merge_modules(plan, dep, false)
+                .context("failed to merge dependency of a cyclic module")?;
+            dep = self.process_circular_module(plan, circular_modules, &dep_info, dep)?;
 
             dep = dep.fold_with(&mut top_level_ident_folder(
                 self.top_level_mark,
@@ -99,8 +104,8 @@ where
         plan: &Plan,
         circular_modules: &[TransformedModule],
         entry: &TransformedModule,
+        mut module: Module,
     ) -> Result<Module, Error> {
-        let mut module = (*entry.module).clone();
         print_hygiene("START: process_circular_module", &self.cm, &module);
 
         module.body.retain(|item| {
