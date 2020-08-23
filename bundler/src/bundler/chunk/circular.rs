@@ -27,13 +27,11 @@ where
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
             plan
         );
-
         let entry_module = self.scope.get_module(entry_id).unwrap();
 
         let modules = plan
             .chunks
             .iter()
-            .chain(once(&entry_id))
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
 
