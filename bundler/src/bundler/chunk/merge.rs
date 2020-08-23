@@ -172,7 +172,7 @@ where
                     // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                     if injector.imported.is_empty() {
-                        log::debug!("Marged {} as an es6 module", info.fm.name);
+                        log::debug!("Merged {} as an es6 module", info.fm.name);
                         continue;
                     }
                     dep.body = take(&mut injector.imported);
