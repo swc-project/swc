@@ -2,7 +2,7 @@ use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
-use std::{any::type_name, borrow::Cow};
+use std::{any::type_name, borrow::Cow, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -145,9 +145,8 @@ impl VisitMut for Dce<'_> {
         }
         node.stmts.visit_mut_with(self);
 
-        let mut span = node.span;
         if self.marking_phase || node.stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
-            span = span.apply_mark(self.config.used_mark);
+            node.span = node.span.apply_mark(self.config.used_mark);
             self.mark(&mut node.stmts);
         }
     }
@@ -571,13 +570,10 @@ impl VisitMut for Dce<'_> {
         });
 
         if var.decls.is_empty() || !self.decl_dropping_phase {
-            return var;
+            return;
         }
 
-        return VarDecl {
-            span: var.span.apply_mark(self.config.used_mark),
-            ..var
-        };
+        var.span = var.span.apply_mark(self.config.used_mark);
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
@@ -626,20 +622,16 @@ impl Dce<'_> {
 
             self.changed = false;
             let mut idx = 0u32;
-            items = items.move_map(|mut item| {
-                let item = if preserved.contains(&idx) {
-                    item
-                } else {
-                    if self.should_include(&item) {
+            items.iter_mut().for_each(|mut item| {
+                if !preserved.contains(&idx) {
+                    if self.should_include(&*item) {
                         preserved.insert(idx);
                         self.changed = true;
-                        item = item.fold_with(self);
+                        item.visit_mut_with(self);
                     }
-                    item
-                };
+                }
 
                 idx += 1;
-                item
             });
 
             if !self.changed {
@@ -653,8 +645,9 @@ impl Dce<'_> {
 
         {
             let mut idx = 0;
-            items = items.move_flat_map(|item| {
-                let item = self.drop_unused_decls(item);
+            let taken = take(items);
+            *items = taken.move_flat_map(|mut item| {
+                self.drop_unused_decls(&mut item);
                 let item = match item.try_into_stmt() {
                     Ok(stmt) => match stmt {
                         Stmt::Empty(..) => {
@@ -684,8 +677,6 @@ impl Dce<'_> {
         }
 
         self.changed = old;
-
-        items
     }
 }
 
