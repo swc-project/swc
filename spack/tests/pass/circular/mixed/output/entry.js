@@ -3,7 +3,7 @@ class A {
         return new B();
     }
 }
+console.log('c');
 class B extends A {
 }
-console.log('c');
 console.log(A, B);

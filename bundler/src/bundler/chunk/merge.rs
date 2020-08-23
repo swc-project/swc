@@ -214,8 +214,8 @@ where
     }
 }
 
-struct ImportDropper<'a> {
-    imports: &'a Imports,
+pub(super) struct ImportDropper<'a> {
+    pub imports: &'a Imports,
 }
 
 impl VisitMut for ImportDropper<'_> {

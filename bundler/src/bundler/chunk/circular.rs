@@ -1,5 +1,5 @@
 use super::{
-    merge::{LocalMarker, Unexporter},
+    merge::{ImportDropper, LocalMarker, Unexporter},
     plan::{CircularPlan, Plan},
 };
 use crate::{
@@ -44,9 +44,15 @@ where
         let mut entry = self
             .merge_modules(plan, entry_id, false, true)
             .context("failed to merge dependency of a cyclic module")?;
-        entry = self.process_circular_module(plan, &modules, &entry_module, entry.clone())?;
+        // print_hygiene("entry:init", &self.cm, &entry);
 
-        print_hygiene("entry:process_circular_module", &self.cm, &entry);
+        entry = self.process_circular_module(plan, &modules, &entry_module, entry.clone())?;
+        // print_hygiene("entry:process_circular_module", &self.cm, &entry);
+
+        entry.visit_mut_with(&mut ImportDropper {
+            imports: &entry_module.imports,
+        });
+        // print_hygiene("entry:drop_imports", &self.cm, &entry);
 
         for &dep in &*circular_plan.chunks {
             if dep == entry_id {
@@ -76,6 +82,9 @@ where
             let mut dep = self
                 .merge_modules(plan, dep, false, false)
                 .context("failed to merge dependency of a cyclic module")?;
+
+            // print_hygiene("dep:init", &self.cm, &dep);
+
             dep = self.process_circular_module(plan, circular_modules, &dep_info, dep)?;
 
             dep = dep.fold_with(&mut top_level_ident_folder(
@@ -104,7 +113,7 @@ where
         entry: &TransformedModule,
         mut module: Module,
     ) -> Result<Module, Error> {
-        print_hygiene("START: process_circular_module", &self.cm, &module);
+        // print_hygiene("START: process_circular_module", &self.cm, &module);
 
         module.body.retain(|item| {
             match item {
@@ -133,7 +142,7 @@ where
             specifiers: &entry.imports.specifiers,
         });
 
-        print_hygiene("END: process_circular_module", &self.cm, &module);
+        // print_hygiene("END: process_circular_module", &self.cm, &module);
 
         Ok(module)
     }
