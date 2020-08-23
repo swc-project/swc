@@ -11,7 +11,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 macro_rules! preserve {
     ($name:ident, $T:ty) => {
@@ -610,6 +610,7 @@ impl Dce<'_> {
     where
         T: StmtLike + VisitMutWith<Self> + Spanned + std::fmt::Debug,
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
+        Vec<T>: VisitMutWith<Self>,
     {
         if self.marking_phase {
             items.visit_mut_children_with(self);
@@ -643,7 +644,7 @@ impl Dce<'_> {
             });
 
             if !self.changed {
-                items = items.move_map(|item| item.fold_with(self));
+                items.visit_mut_children_with(self);
             }
 
             if !self.changed {
