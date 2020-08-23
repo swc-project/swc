@@ -1,6 +1,7 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
+use retain_mut::RetainMut;
 use std::{any::type_name, borrow::Cow};
 use swc_atoms::JsWord;
 use swc_common::{
@@ -551,24 +552,22 @@ impl VisitMut for Dce<'_> {
 
         var.visit_mut_children_with(self);
 
-        var.decls = var.decls.move_flat_map(|decl| {
+        var.decls.retain_mut(|decl| {
             if self.is_marked(decl.span()) {
-                return Some(decl);
+                return true;
             }
 
             if !self.should_include(&decl.name) {
                 if self.decl_dropping_phase {
-                    return None;
+                    return false;
                 }
-                return Some(decl);
+                return true;
             }
 
-            Some(VarDeclarator {
-                span: decl.span.apply_mark(self.config.used_mark),
-                init: self.mark(decl.init),
-                name: self.mark(decl.name),
-                ..decl
-            })
+            decl.span = decl.span.apply_mark(self.config.used_mark);
+            self.mark(&mut decl.init);
+            self.mark(&mut decl.name);
+            true
         });
 
         if var.decls.is_empty() || !self.decl_dropping_phase {
