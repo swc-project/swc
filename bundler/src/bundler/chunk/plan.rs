@@ -113,7 +113,7 @@ where
 {
     pub(super) fn determine_entries(
         &self,
-        mut entries: HashMap<String, TransformedModule>,
+        entries: HashMap<String, TransformedModule>,
     ) -> Result<Plan, Error> {
         let mut builder = PlanBuilder::default();
 

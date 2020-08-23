@@ -7,7 +7,7 @@ use crate::{
 };
 use anyhow::{Context, Error};
 use hygiene::top_level_ident_folder;
-use std::{borrow::Borrow, iter::once};
+use std::borrow::Borrow;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
@@ -108,7 +108,7 @@ where
     ///  - Remove cicular imnports
     fn process_circular_module(
         &self,
-        plan: &Plan,
+        _plan: &Plan,
         circular_modules: &[TransformedModule],
         entry: &TransformedModule,
         mut module: Module,

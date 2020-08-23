@@ -1,7 +1,4 @@
-use super::{
-    merge::Unexporter,
-    plan::{NormalPlan, Plan},
-};
+use super::{merge::Unexporter, plan::Plan};
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};

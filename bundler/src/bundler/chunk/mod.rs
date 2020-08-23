@@ -1,7 +1,5 @@
 use super::{load::TransformedModule, Bundler};
-use crate::{
-    id::ModuleId, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle, BundleKind,
-};
+use crate::{id::ModuleId, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle};
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
@@ -81,7 +79,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::bundler::tests::suite;
+    use crate::{bundler::tests::suite, BundleKind};
     use swc_common::FileName;
 
     #[test]

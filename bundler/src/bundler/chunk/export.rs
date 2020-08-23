@@ -1,5 +1,5 @@
 use super::{merge::Unexporter, plan::Plan};
-use crate::{bundler::load::TransformedModule, util, Bundler, Load, ModuleId, Resolve};
+use crate::{bundler::load::TransformedModule, util, Bundler, Load, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
