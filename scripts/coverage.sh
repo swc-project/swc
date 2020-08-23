@@ -10,7 +10,8 @@ export CARGO_TARGET_DIR=".COVERAGE_DIR"
 git clone https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc || true
 (cd ecmascript/parser/tests/typescript/tsc && git pull)
 
-cargo test --all --all-features --exclude node-swc --exclude wasm
+cargo test --all --all-features --exclude node-swc --exclude wasm --exclude spack
+(cd spack && cargo test)
 
 zip -0 ccov.zip `find $CARGO_TARGET_DIR \( -name "swc*.gc*" -o -name 'spack*.gc*' -o -name 'ast_node*.gc*' -o -name 'enum_kind*.gc*' -o -name 'string-enum*.gc*' -o -name 'from_variant*.gc*' \) -print`;
 
