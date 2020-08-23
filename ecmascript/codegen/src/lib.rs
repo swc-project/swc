@@ -1646,12 +1646,6 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_pat(&mut self, node: &Pat) -> Result {
-        #[cold]
-        #[inline(never)]
-        fn invalid() -> ! {
-            unimplemented!("emit Pat::Invalid")
-        }
-
         match *node {
             Pat::Array(ref n) => emit!(n),
             Pat::Assign(ref n) => emit!(n),
@@ -1659,7 +1653,7 @@ impl<'a> Emitter<'a> {
             Pat::Ident(ref n) => emit!(n),
             Pat::Object(ref n) => emit!(n),
             Pat::Rest(ref n) => emit!(n),
-            Pat::Invalid(..) => invalid(),
+            Pat::Invalid(..) => invalid_pat(),
         }
     }
 
@@ -2421,4 +2415,10 @@ fn escape(s: &str) -> Cow<str> {
             .replace("\09", "\\x009")
             .replace("\0", "\\0"),
     )
+}
+
+#[cold]
+#[inline(never)]
+fn invalid_pat() -> ! {
+    unimplemented!("emit Pat::Invalid")
 }
