@@ -604,9 +604,11 @@ pub trait ExprExt {
                 _ => Unknown,
             },
             Expr::Tpl(_) => {
+                Value::Unknown
                 // TODO:
-                // Only convert a template literal if all its expressions can be converted.
-                unimplemented!("TplLit.as_string()")
+                // Only convert a template literal if all its expressions can be
+                // converted. unimplemented!("TplLit.
+                // as_string()")
             }
             Expr::Ident(Ident { ref sym, .. }) => match *sym {
                 js_word!("undefined") | js_word!("Infinity") | js_word!("NaN") => {
