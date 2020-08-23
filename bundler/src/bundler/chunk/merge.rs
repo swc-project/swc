@@ -1,24 +1,24 @@
+use super::plan::Plan;
 use crate::{
-    bundler::{export::Exports, load::Specifier},
+    bundler::{
+        export::Exports,
+        load::{Imports, Source, Specifier},
+    },
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
+    util::IntoParallelIterator,
     Bundler,
 };
 use anyhow::{Context, Error};
-use std::{
-    borrow::Cow,
-    collections::HashSet,
-    mem::take,
-    ops::{Deref, DerefMut},
-};
+#[cfg(feature = "concurrent")]
+use rayon::iter::ParallelIterator;
+use std::{borrow::Cow, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, DestructuringFinder, StmtLike};
-use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_utils::StmtLike;
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -28,219 +28,227 @@ where
     /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,
+        plan: &Plan,
         entry: ModuleId,
         is_entry: bool,
-        targets: &mut Vec<ModuleId>,
+        force_not_cyclic: bool,
     ) -> Result<Module, Error> {
         self.run(|| {
-            let is_circular = self.scope.is_circular(entry);
-
-            log::trace!(
-                "merge_modules({}) <- {:?}; circular = {}",
-                entry,
-                targets,
-                is_circular
-            );
-
             let info = self.scope.get_module(entry).unwrap();
-            if targets.is_empty() {
-                return Ok((*info.module).clone());
+
+            if !force_not_cyclic {
+                // Handle circular imports
+                if let Some(circular_plan) = plan.entry_as_circular(info.id) {
+                    log::info!("Circular dependency detected: ({})", info.fm.name);
+                    return Ok(self.merge_circular_modules(plan, circular_plan, entry)?);
+                }
             }
 
-            if is_circular {
-                log::info!("Circular dependency detected: ({})", info.fm.name);
-                // TODO: provide only circular imports.
-                return Ok(self.merge_circular_modules(entry, targets));
-            }
+            let normal_plan;
+            let module_plan = match plan.normal.get(&entry) {
+                Some(v) => v,
+                None => {
+                    normal_plan = Default::default();
+                    &normal_plan
+                }
+            };
 
             let mut entry: Module = (*info.module).clone();
 
-            log::info!("Merge: ({}){} <= {:?}", info.id, info.fm.name, targets);
+            log::trace!("merge_modules({}) <- {:?}", info.fm.name, plan.normal);
 
-            self.merge_reexports(&mut entry, &info, targets)
+            // Respan using imported module's syntax context.
+            entry.visit_mut_with(&mut LocalMarker {
+                top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                specifiers: &info.imports.specifiers,
+            });
+
+            log::info!(
+                "Merge: ({}){} <= {:?}",
+                info.id,
+                info.fm.name,
+                plan.normal.get(&info.id)
+            );
+
+            if module_plan.chunks.is_empty() {
+                return Ok(entry);
+            }
+
+            self.merge_reexports(plan, &mut entry, &info)
                 .context("failed to merge reepxorts")?;
 
-            for (src, specifiers) in &info.imports.specifiers {
-                if !targets.contains(&src.module_id) {
-                    // Already merged by recursive call to merge_modules.
-                    log::debug!(
-                        "Not merging: already merged: ({}):{} <= ({}):{}",
-                        info.id,
-                        info.fm.name,
-                        src.module_id,
-                        src.src.value,
-                    );
+            let deps = (&*info.imports.specifiers)
+                .into_par_iter()
+                .filter(|(src, _)| {
+                    log::trace!("Checking: {} <= {}", info.fm.name, src.src.value);
 
-                    if let Some(imported) = self.scope.get_module(src.module_id) {
-                        // Respan using imported module's syntax context.
-                        entry.visit_mut_with(&mut LocalMarker {
-                            mark: imported.mark(),
-                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                            specifiers: &specifiers,
-                            excluded: Default::default(),
-                        });
-                    }
+                    // Skip if a dependency is going to be merged by other dependency
+                    module_plan.chunks.contains(&src.module_id)
+                })
+                .map(|(src, specifiers)| -> Result<_, Error> {
+                    self.run(|| {
+                        log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                    // Drop imports, as they are already merged.
-                    entry.body.retain(|item| {
-                        match item {
-                            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                                // Drop if it's one of circular import
-                                if info.imports.specifiers.iter().any(|v| {
-                                    v.0.module_id == src.module_id && v.0.src == import.src
-                                }) {
-                                    log::debug!("Dropping es6 import as it's already merged");
-                                    return false;
-                                }
-                            }
-                            _ => {}
+                        if specifiers.iter().any(|v| v.is_namespace()) {
+                            unimplemented!(
+                                "accessing namespace dependency with computed key: {} -> {}",
+                                info.id,
+                                src.module_id
+                            )
                         }
+                        let imported = self.scope.get_module(src.module_id).unwrap();
+                        info.helpers.extend(&imported.helpers);
 
-                        true
-                    });
-
-                    if self.config.require {
-                        // Change require() call to load()
-                        let dep = self.scope.get_module(src.module_id).unwrap();
-
-                        self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
-                    }
-
-                    continue;
-                }
-
-                log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
-
-                if specifiers.iter().any(|v| v.is_namespace()) {
-                    unimplemented!(
-                        "accessing namespace dependency with computed key: {} -> {}",
-                        info.id,
-                        src.module_id
-                    )
-                }
-                if let Some(imported) = self.scope.get_module(src.module_id) {
-                    info.helpers.extend(&imported.helpers);
-
-                    if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
-                        log::debug!("targets.remove({})", imported.fm.name);
-                        targets.remove(pos);
-                    }
-
-                    // In the case of
-                    //
-                    //  a <- b
-                    //  b <- c
-                    //
-                    // we change it to
-                    //
-                    // a <- b + chunk(c)
-                    //
-                    log::trace!(
-                        "merging deps: {:?} <- {:?}; es6 = {}",
-                        src,
-                        targets,
-                        info.is_es6
-                    );
-                    let mut dep = if imported.is_es6 {
-                        self.merge_modules(src.module_id, false, targets)
+                        let dep_info = self.scope.get_module(src.module_id).unwrap();
+                        // In the case of
+                        //
+                        //  a <- b
+                        //  b <- c
+                        //
+                        // we change it to
+                        //
+                        // a <- b + chunk(c)
+                        //
+                        let mut dep = self
+                            .merge_modules(plan, src.module_id, false, false)
                             .with_context(|| {
                                 format!(
                                     "failed to merge: ({}):{} <= ({}):{}",
                                     info.id, info.fm.name, src.module_id, src.src.value
                                 )
-                            })?
-                    } else {
-                        (*self.scope.get_module(src.module_id).unwrap().module).clone()
+                            })?;
+
+                        if imported.is_es6 {
+                            // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+
+                            // Tree-shaking
+                            dep = self.drop_unused(dep, Some(&specifiers));
+
+                            // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+
+                            if let Some(imports) = info
+                                .imports
+                                .specifiers
+                                .iter()
+                                .find(|(s, _)| s.module_id == imported.id)
+                                .map(|v| &v.1)
+                            {
+                                dep = dep.fold_with(&mut ExportRenamer {
+                                    mark: imported.mark(),
+                                    _exports: &imported.exports,
+                                    imports: &imports,
+                                    extras: vec![],
+                                });
+                            }
+
+                            dep = dep.fold_with(&mut Unexporter);
+
+                            // print_hygiene("dep:before-injection", &self.cm,
+                            // &dep);
+                        }
+
+                        Ok((src, dep, dep_info))
+                    })
+                })
+                .collect::<Vec<_>>();
+
+            let mut targets = module_plan.chunks.clone();
+
+            for dep in deps {
+                let (src, mut dep, dep_info) = dep?;
+                if let Some(idx) = targets.iter().position(|v| *v == src.module_id) {
+                    targets.remove(idx);
+                    if let Some(v) = plan.normal.get(&src.module_id) {
+                        targets.retain(|&id| !v.chunks.contains(&id));
+                    }
+                    if let Some(v) = plan.circular.get(&src.module_id) {
+                        targets.retain(|&id| !v.chunks.contains(&id));
+                    }
+                }
+
+                if dep_info.is_es6 {
+                    // Replace import statement / require with module body
+                    let mut injector = Es6ModuleInjector {
+                        imported: take(&mut dep.body),
+                        src: src.src.clone(),
                     };
+                    entry.body.visit_mut_with(&mut injector);
 
-                    if imported.is_es6 {
-                        // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                    // print_hygiene("entry:after:injection", &self.cm, &entry);
 
-                        // Tree-shaking
-                        dep = self.drop_unused(dep, Some(&specifiers));
-
-                        // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
-
-                        if let Some(imports) = info
-                            .imports
-                            .specifiers
-                            .iter()
-                            .find(|(s, _)| s.module_id == imported.id)
-                            .map(|v| &v.1)
-                        {
-                            dep = dep.fold_with(&mut ExportRenamer {
-                                mark: imported.mark(),
-                                _exports: &imported.exports,
-                                imports: &imports,
-                                extras: vec![],
-                            });
-                        }
-
-                        dep = dep.fold_with(&mut Unexporter);
-
-                        if !specifiers.is_empty() {
-                            entry.visit_mut_with(&mut LocalMarker {
-                                mark: imported.mark(),
-                                top_level_ctxt: SyntaxContext::empty()
-                                    .apply_mark(self.top_level_mark),
-                                specifiers: &specifiers,
-                                excluded: Default::default(),
-                            });
-
-                            // // Note: this does not handle `export default
-                            // foo`
-                            // dep = dep.fold_with(&mut LocalMarker {
-                            //     mark: imported.mark(),
-                            //     specifiers: &imported.exports.items,
-                            // });
-                        }
-
-                        // print_hygiene("dep:before:global-mark", &self.cm, &dep);
-
-                        // Replace import statement / require with module body
-                        let mut injector = Es6ModuleInjector {
-                            imported: take(&mut dep.body),
-                            src: src.src.clone(),
-                        };
-                        entry.body.visit_mut_with(&mut injector);
-
-                        // print_hygiene("entry:after:injection", &self.cm, &entry);
-
-                        if injector.imported.is_empty() {
-                            continue;
-                        }
-                        dep.body = take(&mut injector.imported);
+                    if injector.imported.is_empty() {
+                        log::debug!("Merged {} as an es6 module", info.fm.name);
+                        // print_hygiene("ES6", &self.cm, &entry);
+                        continue;
                     }
+                    dep.body = take(&mut injector.imported);
+                }
 
-                    if self.config.require {
-                        self.merge_cjs(&mut entry, &info, Cow::Owned(dep), imported.mark())?;
-                    }
-
-                    // print_hygiene(
-                    //     &format!("inject load: {}", imported.fm.name),
-                    //     &self.cm,
-                    //     &entry,
-                    // );
+                if self.config.require {
+                    self.merge_cjs(
+                        plan,
+                        &mut entry,
+                        &info,
+                        Cow::Owned(dep),
+                        &dep_info,
+                        &mut targets,
+                    )?;
                 }
             }
 
-            if is_entry && self.config.require && !targets.is_empty() {
-                log::info!("Injectng remaining: {:?}", targets);
+            // if is_entry && self.config.require && !targets.is_empty() {
+            //     log::info!("Injectng remaining: {:?}", targets);
 
-                // Handle transitive dependencies
-                for target in targets.drain(..) {
-                    log::trace!(
-                        "Remaining: {}",
-                        self.scope.get_module(target).unwrap().fm.name
-                    );
+            //     // Handle transitive dependencies
+            //     for target in targets.drain(..) {
+            //         log::trace!(
+            //             "Remaining: {}",
+            //             self.scope.get_module(target).unwrap().fm.name
+            //         );
 
-                    let dep = self.scope.get_module(target).unwrap();
-                    self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.mark())?;
-                }
+            //         let dep_info = self.scope.get_module(target).unwrap();
+            //         self.merge_cjs(
+            //             plan,
+            //             &mut entry,
+            //             &info,
+            //             Cow::Borrowed(&dep_info.module),
+            //             &dep_info,
+            //             &mut targets,
+            //         )?;
+            //     }
+            // }
+
+            if is_entry {
+                entry.visit_mut_with(&mut ImportDropper {
+                    imports: &info.imports,
+                })
             }
 
             Ok(entry)
         })
+    }
+}
+
+pub(super) struct ImportDropper<'a> {
+    pub imports: &'a Imports,
+}
+
+impl VisitMut for ImportDropper<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
+        match i {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
+                if self
+                    .imports
+                    .specifiers
+                    .iter()
+                    .any(|(s, _)| s.src.value == *src.value) =>
+            {
+                *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+            }
+            _ => {}
+        }
     }
 }
 
@@ -523,97 +531,23 @@ impl Fold for ActualMarker<'_> {
 
 /// Applied to the importer module, and marks (connects) imported idents.
 pub(super) struct LocalMarker<'a> {
-    /// Mark applied to imported idents.
-    pub mark: Mark,
     /// Syntax context of the top level items.
     pub top_level_ctxt: SyntaxContext,
-    pub specifiers: &'a [Specifier],
-    pub excluded: HashSet<Id>,
-}
-
-impl<'a> LocalMarker<'a> {
-    fn exclude<I>(&mut self, excluded_idents: &I) -> Excluder<'a, '_>
-    where
-        I: for<'any> VisitWith<DestructuringFinder<'any, Id>>,
-    {
-        let ids = find_ids(excluded_idents);
-
-        self.excluded.extend(ids);
-        Excluder { inner: self }
-    }
-}
-
-struct Excluder<'a, 'b> {
-    inner: &'b mut LocalMarker<'a>,
-}
-
-impl<'a, 'b> Deref for Excluder<'a, 'b> {
-    type Target = LocalMarker<'a>;
-
-    fn deref(&self) -> &Self::Target {
-        &*self.inner
-    }
-}
-
-impl<'a, 'b> DerefMut for Excluder<'a, 'b> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        self.inner
-    }
+    pub specifiers: &'a [(Source, Vec<Specifier>)],
 }
 
 impl VisitMut for LocalMarker<'_> {
     noop_visit_mut_type!();
-
-    fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
-        let mut f = self.exclude(&node.param);
-        node.body.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        self.excluded.insert((&node.ident).into());
-        node.class.visit_mut_with(self);
-    }
-
-    fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
-        let mut f = self.exclude(&node.ident);
-        node.class.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_constructor(&mut self, node: &mut Constructor) {
-        let mut f = self.exclude(&node.params);
-        node.body.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.excluded.insert((&node.ident).into());
-        node.function.visit_mut_with(self);
-    }
-
-    fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        let mut f = self.exclude(&node.ident);
-        node.function.visit_mut_with(&mut *f);
-    }
-
-    fn visit_mut_function(&mut self, node: &mut Function) {
-        let mut f = self.exclude(&node.params);
-        node.body.visit_mut_with(&mut *f);
-    }
 
     fn visit_mut_ident(&mut self, mut node: &mut Ident) {
         if node.span.ctxt != self.top_level_ctxt {
             return;
         }
 
-        if self.excluded.contains(&(&*node).into()) {
-            return;
-        }
-
-        // TODO: sym() => correct span
-        if self.specifiers.iter().any(|id| *id.local() == *node) {
-            node.span = node
-                .span
-                .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
-            // dbg!(&node);
+        for (s, specifiers) in self.specifiers {
+            if specifiers.iter().any(|id| *id.local() == *node) {
+                node.span = node.span.with_ctxt(s.ctxt);
+            }
         }
     }
 
@@ -627,11 +561,6 @@ impl VisitMut for LocalMarker<'_> {
         if e.computed {
             e.prop.visit_mut_with(self);
         }
-    }
-
-    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        let mut f = self.exclude(&node.param);
-        node.body.visit_mut_with(&mut *f);
     }
 }
 

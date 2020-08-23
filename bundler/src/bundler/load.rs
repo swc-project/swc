@@ -11,7 +11,7 @@ use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, FileName, Mark, SourceFile, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, Mark, SourceFile, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
     ModuleDecl, Str,
@@ -40,6 +40,10 @@ impl TransformedModule {
     /// THe marker for the module's top-level identifiers.
     pub fn mark(&self) -> Mark {
         self.mark
+    }
+
+    pub fn ctxt(&self) -> SyntaxContext {
+        SyntaxContext::empty().apply_mark(self.mark)
     }
 }
 
@@ -212,8 +216,8 @@ where
                         let info = match src {
                             Some(src) => {
                                 let name = self.resolve(base, &src.value)?;
-                                let (id, _) = self.scope.module_id_gen.gen(&name);
-                                Some((id, name, src))
+                                let (id, mark) = self.scope.module_id_gen.gen(&name);
+                                Some((id, mark, name, src))
                             }
                             None => None,
                         };
@@ -228,19 +232,16 @@ where
 
                 match info {
                     None => exports.items.extend(specifiers),
-                    Some((id, name, src)) => {
+                    Some((id, mark, name, src)) => {
                         //
                         let src = Source {
                             is_loaded_synchronously: true,
                             is_unconditional: false,
                             module_id: id,
+                            ctxt: SyntaxContext::empty().apply_mark(mark),
                             src,
                         };
-                        exports
-                            .reexports
-                            .entry(src.clone())
-                            .or_default()
-                            .extend(specifiers);
+                        exports.reexports.push((src.clone(), specifiers));
                         files.push((src, name));
                     }
                 }
@@ -287,21 +288,22 @@ where
                     self.run(|| {
                         //
                         let file_name = self.resolve(base, &decl.src.value)?;
-                        let (id, _) = self.scope.module_id_gen.gen(&file_name);
+                        let (id, mark) = self.scope.module_id_gen.gen(&file_name);
 
-                        Ok((id, file_name, decl, dynamic, unconditional))
+                        Ok((id, mark, file_name, decl, dynamic, unconditional))
                     })
                 })
                 .collect::<Vec<_>>();
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let (id, file_name, decl, is_dynamic, is_unconditional) = res?;
+                let (id, mark, file_name, decl, is_dynamic, is_unconditional) = res?;
 
                 let src = Source {
                     is_loaded_synchronously: !is_dynamic,
                     is_unconditional,
                     module_id: id,
+                    ctxt: SyntaxContext::empty().apply_mark(mark),
                     src: decl.src,
                 };
                 files.push((src.clone(), file_name));
@@ -362,6 +364,8 @@ pub(super) struct Source {
     pub is_unconditional: bool,
 
     pub module_id: ModuleId,
+    pub ctxt: SyntaxContext,
+
     // Clone is relatively cheap, thanks to string_cache.
     pub src: Str,
 }

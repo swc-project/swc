@@ -1,7 +1,7 @@
 use std::{
     collections::HashMap,
     fmt,
-    sync::atomic::{AtomicU64, Ordering::SeqCst},
+    sync::atomic::{AtomicU32, Ordering::SeqCst},
 };
 use swc_atoms::JsWord;
 use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
@@ -9,7 +9,7 @@ use swc_ecma_ast::Ident;
 use swc_ecma_utils::ident::IdentLike;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct ModuleId(u64);
+pub struct ModuleId(u32);
 
 impl fmt::Display for ModuleId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -19,7 +19,7 @@ impl fmt::Display for ModuleId {
 
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
-    v: AtomicU64,
+    v: AtomicU32,
     cache: Lock<HashMap<FileName, (ModuleId, Mark)>>,
 }
 

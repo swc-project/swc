@@ -1,11 +1,13 @@
+// This is not a public api.
+#[doc(hidden)]
+pub extern crate swc_ecma_ast;
+
 use num_bigint::BigInt as BigIntValue;
 use std::{any::Any, borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
-#[doc(hidden)]
-pub extern crate swc_ecma_ast;
 
 /// Visitable nodes.
 pub trait Node: Any {}

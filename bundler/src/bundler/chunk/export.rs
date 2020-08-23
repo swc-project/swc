@@ -1,5 +1,5 @@
-use super::merge::{LocalMarker, Unexporter};
-use crate::{bundler::load::TransformedModule, util, Bundler, Load, ModuleId, Resolve};
+use super::{merge::Unexporter, plan::Plan};
+use crate::{bundler::load::TransformedModule, util, Bundler, Load, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
@@ -15,9 +15,9 @@ where
 {
     pub(super) fn merge_reexports(
         &self,
+        plan: &Plan,
         entry: &mut Module,
         info: &TransformedModule,
-        targets: &mut Vec<ModuleId>,
     ) -> Result<(), Error> {
         entry.visit_mut_with(&mut DefaultRenamer);
 
@@ -27,24 +27,12 @@ where
 
             info.helpers.extend(&imported.helpers);
 
-            if let Some(pos) = targets.iter().position(|x| *x == src.module_id) {
-                log::debug!("Reexport: targets.remove({})", imported.fm.name);
-                targets.remove(pos);
-            }
-
             // print_hygiene("entry:init", &self.cm, &entry);
             // print_hygiene("dep:init", &self.cm, &dep);
 
             let (_, dep) = util::join(
                 || {
                     self.run(|| {
-                        entry.visit_mut_with(&mut LocalMarker {
-                            mark: imported.mark(),
-                            specifiers,
-                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                            excluded: Default::default(),
-                        });
-                        // print_hygiene(&format!("entry:local-marker"), &self.cm, &entry);
                         entry.visit_mut_with(&mut NamedExportOrigMarker {
                             top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                             target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
@@ -59,7 +47,7 @@ where
                 || -> Result<_, Error> {
                     self.run(|| {
                         let mut dep = self
-                            .merge_modules(src.module_id, false, targets)
+                            .merge_modules(plan, src.module_id, false, false)
                             .with_context(|| {
                                 format!(
                                     "failed to merge for reexport: ({}):{} <= ({}):{}",
@@ -107,7 +95,7 @@ where
             //     &self.cm,
             //     &entry,
             // );
-            assert_eq!(injector.imported, vec![]);
+            // assert_eq!(injector.imported, vec![]);
         }
 
         Ok(())

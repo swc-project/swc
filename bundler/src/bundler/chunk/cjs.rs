@@ -1,5 +1,5 @@
-use super::merge::Unexporter;
-use crate::{bundler::load::TransformedModule, Bundler, Load, Resolve};
+use super::{merge::Unexporter, plan::Plan};
+use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
@@ -30,20 +30,27 @@ where
     /// As usual, this behavior depends on hygiene.
     pub(super) fn merge_cjs(
         &self,
+        plan: &Plan,
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
-        dep_mark: Mark,
+        dep_info: &TransformedModule,
+        targets: &mut Vec<ModuleId>,
     ) -> Result<(), Error> {
+        log::info!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
-            ctxt: SyntaxContext::empty().apply_mark(dep_mark),
-            load_var: Ident::new("load".into(), DUMMY_SP.apply_mark(dep_mark)),
+            ctxt: dep_info.ctxt(),
+            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.ctxt())),
             replaced: false,
         };
         entry.body.visit_mut_with(&mut v);
 
         if v.replaced {
+            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
+                targets.remove(idx);
+            }
+
             let load_var = v.load_var;
 
             {
@@ -61,6 +68,24 @@ where
             }
 
             log::info!("Replaced requires with load");
+
+            if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
+                for &dep_id in &normal_plan.chunks {
+                    if !targets.contains(&dep_id) {
+                        continue;
+                    }
+
+                    let dep_info = self.scope.get_module(dep_id).unwrap();
+                    self.merge_cjs(
+                        plan,
+                        entry,
+                        info,
+                        Cow::Borrowed(&dep_info.module),
+                        &dep_info,
+                        targets,
+                    )?;
+                }
+            }
         }
 
         Ok(())

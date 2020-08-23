@@ -6,10 +6,14 @@ use crate::{
 use swc_common::FileName;
 
 #[derive(Debug, Default)]
+pub(super) struct Metadata {
+    pub bundle_cnt: u32,
+}
+
+#[derive(Debug, Default)]
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
-    circular_modules: CloneMap<ModuleId, ()>,
     loaded_modules: CloneMap<ModuleId, ()>,
 
     /// Cached after applying basical transformations.
@@ -17,14 +21,6 @@ pub(super) struct Scope {
 }
 
 impl Scope {
-    pub fn is_circular(&self, id: ModuleId) -> bool {
-        self.circular_modules.get(&id).is_some()
-    }
-
-    pub fn mark_as_circular(&self, id: ModuleId) {
-        self.circular_modules.insert(id, ());
-    }
-
     pub fn mark_as_loaded(&self, id: ModuleId) {
         self.loaded_modules.insert(id, ());
     }

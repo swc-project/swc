@@ -1,7 +1,11 @@
-use super::merge::{LocalMarker, Unexporter};
+use super::{
+    merge::{ImportDropper, LocalMarker, Unexporter},
+    plan::{CircularPlan, Plan},
+};
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
+use anyhow::{Context, Error};
 use hygiene::top_level_ident_folder;
-use std::{borrow::Borrow, iter::once};
+use std::borrow::Borrow;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
@@ -18,54 +22,76 @@ where
 {
     pub(super) fn merge_circular_modules(
         &self,
+        plan: &Plan,
+        circular_plan: &CircularPlan,
         entry_id: ModuleId,
-        circular_modules: &mut Vec<ModuleId>,
-    ) -> Module {
+    ) -> Result<Module, Error> {
         assert!(
-            circular_modules.len() >= 1,
+            circular_plan.chunks.len() >= 1,
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
-            circular_modules
+            circular_plan
         );
-        debug_assert!(
-            self.scope.is_circular(entry_id),
-            "merge_circular_modules should only be called for circular entries"
-        );
-
         let entry_module = self.scope.get_module(entry_id).unwrap();
 
-        let modules = circular_modules
+        let modules = circular_plan
+            .chunks
             .iter()
-            .chain(once(&entry_id))
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
 
-        let mut entry = self.process_circular_module(&modules, entry_module);
+        let mut entry = self
+            .merge_modules(plan, entry_id, false, true)
+            .context("failed to merge dependency of a cyclic module")?;
+        // print_hygiene("entry:init", &self.cm, &entry);
 
-        for &dep in &*circular_modules {
-            let new_module = self.merge_two_circular_modules(&modules, entry, dep);
+        entry = self.process_circular_module(plan, &modules, &entry_module, entry.clone())?;
+        // print_hygiene("entry:process_circular_module", &self.cm, &entry);
+
+        entry.visit_mut_with(&mut ImportDropper {
+            imports: &entry_module.imports,
+        });
+        // print_hygiene("entry:drop_imports", &self.cm, &entry);
+
+        for &dep in &*circular_plan.chunks {
+            if dep == entry_id {
+                continue;
+            }
+
+            let new_module = self.merge_two_circular_modules(plan, &modules, entry, dep)?;
 
             entry = new_module;
+
+            // print_hygiene("entry:merge_two_circular_modules", &self.cm,
+            // &entry);
         }
 
-        // All circular modules are inlined
-        circular_modules.clear();
-        circular_modules.push(entry_id);
-
-        entry
+        Ok(entry)
     }
 
     /// Merges `a` and `b` into one module.
     fn merge_two_circular_modules(
         &self,
+        plan: &Plan,
         circular_modules: &[TransformedModule],
         mut entry: Module,
         dep: ModuleId,
-    ) -> Module {
+    ) -> Result<Module, Error> {
         self.run(|| {
-            // print_hygiene("START: merge_two_circular_modules", &self.cm, &entry);
-
             let dep_info = self.scope.get_module(dep).unwrap();
-            let mut dep = self.process_circular_module(circular_modules, dep_info);
+            let mut dep = self
+                .merge_modules(plan, dep, false, false)
+                .context("failed to merge dependency of a cyclic module")?;
+
+            // print_hygiene("dep:init", &self.cm, &dep);
+
+            dep = self.process_circular_module(plan, circular_modules, &dep_info, dep)?;
+
+            dep = dep.fold_with(&mut top_level_ident_folder(
+                self.top_level_mark,
+                dep_info.mark(),
+            ));
+
+            // print_hygiene("dep:process_circular_module", &self.cm, &dep);
 
             dep = dep.fold_with(&mut Unexporter);
 
@@ -73,7 +99,7 @@ where
             entry.body = merge_respecting_order(entry.body, dep.body);
 
             // print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
-            entry
+            Ok(entry)
         })
     }
 
@@ -81,10 +107,11 @@ where
     ///  - Remove cicular imnports
     fn process_circular_module(
         &self,
+        _plan: &Plan,
         circular_modules: &[TransformedModule],
-        entry: TransformedModule,
-    ) -> Module {
-        let mut module = (*entry.module).clone();
+        entry: &TransformedModule,
+        mut module: Module,
+    ) -> Result<Module, Error> {
         // print_hygiene("START: process_circular_module", &self.cm, &module);
 
         module.body.retain(|item| {
@@ -109,28 +136,14 @@ where
             true
         });
 
-        for circular_module in circular_modules {
-            for (src, specifiers) in entry.imports.specifiers.iter() {
-                if circular_module.id == src.module_id {
-                    module.visit_mut_with(&mut LocalMarker {
-                        mark: circular_module.mark(),
-                        top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                        specifiers: &specifiers,
-                        excluded: Default::default(),
-                    });
-                    break;
-                }
-            }
-        }
-
-        module = module.fold_with(&mut top_level_ident_folder(
-            self.top_level_mark,
-            entry.mark(),
-        ));
+        module.visit_mut_with(&mut LocalMarker {
+            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+            specifiers: &entry.imports.specifiers,
+        });
 
         // print_hygiene("END: process_circular_module", &self.cm, &module);
 
-        module
+        Ok(module)
     }
 }
 
