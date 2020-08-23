@@ -43,19 +43,14 @@ macro_rules! is {
     }};
 
     ($p:expr,';') => {{
-        $p.input.is(&Token::Semi)
-            || eof!($p)
-            || is!($p, '}')
-            || $p.input.had_line_break_before_cur()
-        // match $p.input.cur() {
-        //     Some(&Token::Semi) | None | Some(&tok!('}')) => true,
-        //     _ => $p.input.had_line_break_before_cur(),
-        // }
+        match $p.input.cur() {
+            Some(&Token::Semi) | None | Some(&tok!('}')) => true,
+            _ => $p.input.had_line_break_before_cur(),
+        }
     }};
 
     ($p:expr, $t:tt) => {
-        $p.input.is(&tok!($t))
-        // is_exact!($p, $t)
+        is_exact!($p, $t)
     };
 }
 
@@ -88,11 +83,10 @@ macro_rules! peeked_is {
     }};
 
     ($p:expr, $t:tt) => {
-        $p.input.peeked_is(&tok!($t))
-        // match peek!($p).ok() {
-        //     Some(&token_including_semi!($t)) => true,
-        //     _ => false,
-        // }
+        match peek!($p).ok() {
+            Some(&token_including_semi!($t)) => true,
+            _ => false,
+        }
     };
 }
 
@@ -135,15 +129,14 @@ macro_rules! assert_and_bump {
 macro_rules! eat {
     ($p:expr, ';') => {{
         log::trace!("eat(';'): cur={:?}", cur!($p, false));
-        $p.input.eat(&Token::Semi)
-            || eof!($p)
-            || is!($p, '}')
-            || $p.input.had_line_break_before_cur()
-        // match $p.input.cur() {
-        //     Some(&Token::Semi) => true,
-        //     None | Some(&tok!('}')) => true,
-        //     _ => $p.input.had_line_break_before_cur(),
-        // }
+        match $p.input.cur() {
+            Some(&Token::Semi) => {
+                $p.input.bump();
+                true
+            }
+            None | Some(&tok!('}')) => true,
+            _ => $p.input.had_line_break_before_cur(),
+        }
     }};
 
     ($p:expr, $t:tt) => {{
