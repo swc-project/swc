@@ -4,6 +4,7 @@ use crate::{
         export::Exports,
         load::{Imports, Source, Specifier},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -31,14 +32,17 @@ where
         plan: &Plan,
         entry: ModuleId,
         is_entry: bool,
+        force_not_cyclic: bool,
     ) -> Result<Module, Error> {
         self.run(|| {
             let info = self.scope.get_module(entry).unwrap();
 
-            // Handle circular imports
-            if let Some(circular_plan) = plan.entry_as_circular(info.id) {
-                log::info!("Circular dependency detected: ({})", info.fm.name);
-                return Ok(self.merge_circular_modules(plan, circular_plan, entry)?);
+            if !force_not_cyclic {
+                // Handle circular imports
+                if let Some(circular_plan) = plan.entry_as_circular(info.id) {
+                    log::info!("Circular dependency detected: ({})", info.fm.name);
+                    return Ok(self.merge_circular_modules(plan, circular_plan, entry)?);
+                }
             }
 
             let normal_plan;
@@ -106,7 +110,7 @@ where
                     // a <- b + chunk(c)
                     //
                     let mut dep = self
-                        .merge_modules(plan, src.module_id, false)
+                        .merge_modules(plan, src.module_id, false, false)
                         .with_context(|| {
                             format!(
                                 "failed to merge: ({}):{} <= ({}):{}",
@@ -173,6 +177,7 @@ where
 
                     if injector.imported.is_empty() {
                         log::debug!("Merged {} as an es6 module", info.fm.name);
+                        print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
                     dep.body = take(&mut injector.imported);

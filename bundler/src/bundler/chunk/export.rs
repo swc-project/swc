@@ -47,7 +47,7 @@ where
                 || -> Result<_, Error> {
                     self.run(|| {
                         let mut dep = self
-                            .merge_modules(plan, src.module_id, false)
+                            .merge_modules(plan, src.module_id, false, false)
                             .with_context(|| {
                                 format!(
                                     "failed to merge for reexport: ({}):{} <= ({}):{}",
