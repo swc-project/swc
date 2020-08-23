@@ -50,6 +50,10 @@ where
         entry.body.visit_mut_with(&mut v);
 
         if v.replaced {
+            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
+                targets.remove(idx);
+            }
+
             let load_var = v.load_var;
 
             {
@@ -70,6 +74,10 @@ where
 
             if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
                 for &dep_id in &normal_plan.chunks {
+                    if !targets.contains(&dep_id) {
+                        continue;
+                    }
+
                     let dep_info = self.scope.get_module(dep_id).unwrap();
                     self.merge_cjs(
                         plan,
