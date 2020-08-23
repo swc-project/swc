@@ -273,13 +273,13 @@ where
             for (src, _) in &m.imports.specifiers {
                 if builder.entry_graph.contains_edge(module_id, src.module_id) {
                     log::debug!(
-                        "({:?}) Circular dep: {:?} => {:?}",
+                        "({:?}) Maybe circular dep: {:?} => {:?}",
                         root_id,
                         module_id,
                         src.module_id
                     );
 
-                    builder.mark_as_circular(module_id, src.module_id);
+                    // builder.mark_as_circular(module_id, src.module_id);
 
                     let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
                         &builder.entry_graph,
