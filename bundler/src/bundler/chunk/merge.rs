@@ -36,9 +36,9 @@ where
             let info = self.scope.get_module(entry).unwrap();
 
             // Handle circular imports
-            if let Some(circular) = plan.entry_as_circular(info.id) {
+            if let Some(circular_plan) = plan.entry_as_circular(info.id) {
                 log::info!("Circular dependency detected: ({})", info.fm.name);
-                return Ok(self.merge_circular_modules(circular, entry));
+                return Ok(self.merge_circular_modules(plan, circular_plan, entry)?);
             }
 
             let normal_plan;

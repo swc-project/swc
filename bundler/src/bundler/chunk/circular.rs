@@ -1,10 +1,11 @@
 use super::{
     merge::{LocalMarker, Unexporter},
-    plan::CircularPlan,
+    plan::{CircularPlan, Plan},
 };
 use crate::{
     bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
 };
+use anyhow::{Context, Error};
 use hygiene::top_level_ident_folder;
 use std::{borrow::Borrow, iter::once};
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -23,9 +24,10 @@ where
 {
     pub(super) fn merge_circular_modules(
         &self,
+        plan: &Plan,
         circular_plan: &CircularPlan,
         entry_id: ModuleId,
-    ) -> Module {
+    ) -> Result<Module, Error> {
         assert!(
             circular_plan.chunks.len() >= 1,
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
@@ -39,7 +41,7 @@ where
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
 
-        let mut entry = self.process_circular_module(&modules, &entry_module);
+        let mut entry = self.process_circular_module(plan, &modules, &entry_module)?;
 
         print_hygiene("entry:process_circular_module", &self.cm, &entry);
 
@@ -48,26 +50,30 @@ where
                 continue;
             }
 
-            let new_module = self.merge_two_circular_modules(&modules, entry, dep);
+            let new_module = self.merge_two_circular_modules(plan, &modules, entry, dep)?;
 
             entry = new_module;
 
             print_hygiene("entry:merge_two_circular_modules", &self.cm, &entry);
         }
 
-        entry
+        Ok(entry)
     }
 
     /// Merges `a` and `b` into one module.
     fn merge_two_circular_modules(
         &self,
+        plan: &Plan,
         circular_modules: &[TransformedModule],
         mut entry: Module,
         dep: ModuleId,
-    ) -> Module {
+    ) -> Result<Module, Error> {
         self.run(|| {
             let dep_info = self.scope.get_module(dep).unwrap();
-            let mut dep = self.process_circular_module(circular_modules, &dep_info);
+            //     let mut module = self
+            //     .merge_modules(plan, entry.id, false)
+            //     .context("failed to merge dependency of a cyclic module")?;
+            let mut dep = self.process_circular_module(plan, circular_modules, &dep_info)?;
 
             dep = dep.fold_with(&mut top_level_ident_folder(
                 self.top_level_mark,
@@ -82,7 +88,7 @@ where
             entry.body = merge_respecting_order(entry.body, dep.body);
 
             print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
-            entry
+            Ok(entry)
         })
     }
 
@@ -90,9 +96,10 @@ where
     ///  - Remove cicular imnports
     fn process_circular_module(
         &self,
+        plan: &Plan,
         circular_modules: &[TransformedModule],
         entry: &TransformedModule,
-    ) -> Module {
+    ) -> Result<Module, Error> {
         let mut module = (*entry.module).clone();
         print_hygiene("START: process_circular_module", &self.cm, &module);
 
@@ -125,7 +132,7 @@ where
 
         print_hygiene("END: process_circular_module", &self.cm, &module);
 
-        module
+        Ok(module)
     }
 }
 
