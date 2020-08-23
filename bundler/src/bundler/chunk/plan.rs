@@ -171,6 +171,14 @@ where
             plans.bundle_kinds.insert(*id, kind.clone());
         }
 
+        for (k, members) in &builder.circular {
+            for (_entry, deps) in builder.direct_deps.iter_mut() {
+                deps.retain(|v| !members.contains(v));
+            }
+
+            builder.direct_deps.remove(k);
+        }
+
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.entry_graph, *id);
