@@ -427,7 +427,7 @@ impl VisitMut for Dce<'_> {
         }
     }
 
-    fn visit_mut_member_expr(&mut self, mut e: &mut MemberExpr) {
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         if self.is_marked(e.span()) {
             return;
         }
@@ -601,7 +601,7 @@ impl VisitMut for Dce<'_> {
 }
 
 impl Dce<'_> {
-    fn visit_mut_stmt_like<T>(&mut self, mut items: &mut Vec<T>)
+    fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
         T: StmtLike + VisitMutWith<Self> + Spanned + std::fmt::Debug,
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
@@ -622,7 +622,7 @@ impl Dce<'_> {
 
             self.changed = false;
             let mut idx = 0u32;
-            items.iter_mut().for_each(|mut item| {
+            items.iter_mut().for_each(|item| {
                 if !preserved.contains(&idx) {
                     if self.should_include(&*item) {
                         preserved.insert(idx);
