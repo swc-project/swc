@@ -280,7 +280,6 @@ where
                     );
 
                     builder.mark_as_circular(module_id, src.module_id);
-                    log::error!("{:?}", module_id);
 
                     let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
                         &builder.entry_graph,
@@ -292,7 +291,6 @@ where
                     .collect::<Vec<_>>();
 
                     for path in circular_paths {
-                        log::error!("{:?}", path);
                         for dep in path {
                             builder.mark_as_circular(module_id, dep)
                         }
