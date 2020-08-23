@@ -184,7 +184,7 @@ where
                 }
 
                 if self.config.require {
-                    self.merge_cjs(&mut entry, &info, Cow::Owned(dep), src.ctxt)?;
+                    self.merge_cjs(&mut entry, &info, Cow::Owned(dep), &dep_info)?;
                 }
             }
 
@@ -198,8 +198,13 @@ where
                         self.scope.get_module(target).unwrap().fm.name
                     );
 
-                    let dep = self.scope.get_module(target).unwrap();
-                    self.merge_cjs(&mut entry, &info, Cow::Borrowed(&dep.module), dep.ctxt())?;
+                    let dep_info = self.scope.get_module(target).unwrap();
+                    self.merge_cjs(
+                        &mut entry,
+                        &info,
+                        Cow::Borrowed(&dep_info.module),
+                        &dep_info,
+                    )?;
                 }
             }
 

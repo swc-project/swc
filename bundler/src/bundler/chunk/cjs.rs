@@ -33,13 +33,13 @@ where
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
-        dep_ctxt: SyntaxContext,
+        dep_info: &TransformedModule,
     ) -> Result<(), Error> {
         log::info!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
-            ctxt: dep_ctxt,
-            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_ctxt)),
+            ctxt: dep_info.ctxt(),
+            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.ctxt())),
             replaced: false,
         };
         entry.body.visit_mut_with(&mut v);
