@@ -153,6 +153,12 @@ where
                 let (src, mut dep, dep_info) = dep?;
                 if let Some(idx) = targets.iter().position(|v| *v == src.module_id) {
                     targets.remove(idx);
+                    if let Some(v) = plan.normal.get(&src.module_id) {
+                        targets.retain(|&id| !v.chunks.contains(&id));
+                    }
+                    if let Some(v) = plan.circular.get(&src.module_id) {
+                        targets.retain(|&id| !v.chunks.contains(&id));
+                    }
                 }
 
                 if dep_info.is_es6 {
