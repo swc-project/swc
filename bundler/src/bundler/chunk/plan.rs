@@ -236,6 +236,8 @@ where
             plans.normal.entry(entry).or_default();
         }
 
+        dbg!(&plans);
+
         Ok(plans)
     }
 
