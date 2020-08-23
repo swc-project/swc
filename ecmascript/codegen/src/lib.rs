@@ -1646,6 +1646,12 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_pat(&mut self, node: &Pat) -> Result {
+        #[cold]
+        #[inline(never)]
+        fn invalid() -> ! {
+            unimplemented!("emit Pat::Invalid")
+        }
+
         match *node {
             Pat::Array(ref n) => emit!(n),
             Pat::Assign(ref n) => emit!(n),
@@ -1653,7 +1659,7 @@ impl<'a> Emitter<'a> {
             Pat::Ident(ref n) => emit!(n),
             Pat::Object(ref n) => emit!(n),
             Pat::Rest(ref n) => emit!(n),
-            Pat::Invalid(..) => unimplemented!("emit Pat::Invalid"),
+            Pat::Invalid(..) => invalid(),
         }
     }
 
