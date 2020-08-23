@@ -3,11 +3,8 @@ use crate::{
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{bail, Error};
-use petgraph::{
-    graphmap::DiGraphMap,
-    visit::{Bfs, Dfs},
-};
-use std::collections::{hash_map::Entry, HashMap, HashSet};
+use petgraph::{graphmap::DiGraphMap, visit::Bfs};
+use std::collections::{hash_map::Entry, HashMap};
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
