@@ -8,8 +8,6 @@ use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
-#[doc(hidden)]
-pub extern crate swc_ecma_ast;
 
 /// Visitable nodes.
 pub trait Node: Any {}
@@ -263,7 +261,6 @@ macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
         #[inline(always)]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn $crate::Node) {}
-        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn swc_ecma_visit::Node) {}
     };
     () => {
         noop_visit_type!(visit_accessibility, Accessibility);
