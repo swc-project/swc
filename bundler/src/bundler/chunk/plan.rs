@@ -260,8 +260,8 @@ where
         // Prevent dejavu
         if contains {
             for (src, _) in &m.imports.specifiers {
-                if builder.entry_graph.contains_node(src.module_id) {
-                    log::info!(
+                if builder.entry_graph.contains_edge(module_id, src.module_id) {
+                    log::debug!(
                         "({:?}) Circular dep: {:?} => {:?}",
                         root_id,
                         module_id,
@@ -273,13 +273,13 @@ where
                     }
                     builder.mark_as_circular(module_id, src.module_id);
 
-                    self.add_to_graph(
-                        builder,
-                        src.module_id,
-                        root_id,
-                        Some(target_id.unwrap_or(module_id)),
-                    );
                     return;
+                } else {
+                    builder.entry_graph.add_edge(
+                        module_id,
+                        src.module_id,
+                        if src.is_unconditional { 2 } else { 1 },
+                    );
                 }
             }
         }
