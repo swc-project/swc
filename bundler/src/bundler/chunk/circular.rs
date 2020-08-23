@@ -2,9 +2,7 @@ use super::{
     merge::{ImportDropper, LocalMarker, Unexporter},
     plan::{CircularPlan, Plan},
 };
-use crate::{
-    bundler::load::TransformedModule, debug::print_hygiene, Bundler, Load, ModuleId, Resolve,
-};
+use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use hygiene::top_level_ident_folder;
 use std::borrow::Borrow;
@@ -63,7 +61,8 @@ where
 
             entry = new_module;
 
-            print_hygiene("entry:merge_two_circular_modules", &self.cm, &entry);
+            // print_hygiene("entry:merge_two_circular_modules", &self.cm,
+            // &entry);
         }
 
         Ok(entry)
@@ -92,14 +91,14 @@ where
                 dep_info.mark(),
             ));
 
-            print_hygiene("dep:process_circular_module", &self.cm, &dep);
+            // print_hygiene("dep:process_circular_module", &self.cm, &dep);
 
             dep = dep.fold_with(&mut Unexporter);
 
             // Merge code
             entry.body = merge_respecting_order(entry.body, dep.body);
 
-            print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
+            // print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
             Ok(entry)
         })
     }

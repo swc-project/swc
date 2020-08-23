@@ -4,7 +4,6 @@ use crate::{
         export::Exports,
         load::{Imports, Source, Specifier},
     },
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -177,7 +176,7 @@ where
 
                     if injector.imported.is_empty() {
                         log::debug!("Merged {} as an es6 module", info.fm.name);
-                        print_hygiene("ES6", &self.cm, &entry);
+                        // print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
                     dep.body = take(&mut injector.imported);
