@@ -644,6 +644,7 @@ impl Dce<'_> {
         {
             let mut idx = 0;
             let taken = take(items);
+            // We use take because of try_into_stmt
             *items = taken.move_flat_map(|mut item| {
                 self.drop_unused_decls(&mut item);
                 let item = match item.try_into_stmt() {
