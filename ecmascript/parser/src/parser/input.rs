@@ -260,13 +260,18 @@ impl<I: Tokens> Buffer<I> {
 
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
+        #[cold]
+        #[inline(never)]
+        fn invalid_state() -> ! {
+            unreachable!(
+                "Current token is `None`. Parser should not call bump() without knowing current \
+                 token"
+            )
+        }
+
         let prev = match self.cur.take() {
             Some(t) => t,
-
-            None => unreachable!(
-                "Current token is `None`. Parser should not call bump()without knowing current \
-                 token"
-            ),
+            None => invalid_state(),
         };
         self.prev_span = prev.span;
 
