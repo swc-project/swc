@@ -191,7 +191,7 @@ impl VisitMut for Dce<'_> {
             return;
         }
 
-        let i = match node.decl {
+        let i = match &mut node.decl {
             Decl::Class(ClassDecl { ref ident, .. }) | Decl::Fn(FnDecl { ref ident, .. }) => ident,
 
             // Preserve types
@@ -201,10 +201,10 @@ impl VisitMut for Dce<'_> {
             }
 
             // Preserve only exported variables
-            Decl::Var(mut v) => {
-                v.decls = v.decls.move_flat_map(|mut d| {
+            Decl::Var(v) => {
+                v.decls.retain_mut(|d| {
                     if self.is_marked(d.span()) {
-                        return Some(d);
+                        return true;
                     }
 
                     let names: Vec<Id> = find_ids(&d.name);
@@ -214,21 +214,19 @@ impl VisitMut for Dce<'_> {
                         {
                             d.span = d.span.apply_mark(self.config.used_mark);
                             self.mark(&mut d.init);
-                            return Some(d);
+                            return true;
                         }
                     }
 
                     if self.decl_dropping_phase {
-                        return None;
+                        return false;
                     }
-                    Some(d)
+                    true
                 });
 
                 if self.decl_dropping_phase && !v.decls.is_empty() {
                     node.span = node.span.apply_mark(self.config.used_mark);
                 }
-
-                node.decl = Decl::Var(v);
 
                 return;
             }
