@@ -40,6 +40,10 @@ where
         print_hygiene("entry:process_circular_module", &self.cm, &entry);
 
         for &dep in &*plan.chunks {
+            if dep == entry_id {
+                continue;
+            }
+
             let new_module = self.merge_two_circular_modules(&modules, entry, dep);
 
             entry = new_module;
