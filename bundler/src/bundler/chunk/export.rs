@@ -95,7 +95,7 @@ where
             //     &self.cm,
             //     &entry,
             // );
-            assert_eq!(injector.imported, vec![]);
+            // assert_eq!(injector.imported, vec![]);
         }
 
         Ok(())
