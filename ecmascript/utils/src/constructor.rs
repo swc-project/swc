@@ -2,7 +2,7 @@ use crate::{prepend_stmts, ExprFactory};
 use std::iter;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 pub fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
     // Allow using super multiple time
@@ -28,6 +28,8 @@ struct Injector<'a> {
 }
 
 impl<'a> Fold for Injector<'a> {
+    noop_fold_type!();
+
     fn fold_class(&mut self, c: Class) -> Class {
         c
     }
@@ -67,7 +69,7 @@ impl<'a> Fold for Injector<'a> {
                 injected: false,
                 exprs: self.exprs,
             };
-            let stmt = stmt.fold_children_with(&mut folder);
+            let mut stmt = stmt.fold_children_with(&mut folder);
             self.injected |= folder.injected;
             if folder.injected {
                 buf.push(stmt);
@@ -77,7 +79,7 @@ impl<'a> Fold for Injector<'a> {
                     exprs: self.exprs,
                     injected_tmp: None,
                 };
-                let stmt = stmt.fold_with(&mut folder);
+                stmt.visit_mut_with(&mut folder);
 
                 self.injected |= folder.injected;
 
@@ -109,19 +111,17 @@ struct ExprInjector<'a> {
     injected_tmp: Option<Ident>,
 }
 
-impl Fold for ExprInjector<'_> {
-    fn fold_class(&mut self, c: Class) -> Class {
-        let super_class = c.super_class.fold_with(self);
+impl VisitMut for ExprInjector<'_> {
+    noop_visit_mut_type!();
 
-        Class { super_class, ..c }
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        c.super_class.visit_mut_with(self);
     }
 
-    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
-        n
-    }
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Call(CallExpr {
@@ -135,7 +135,7 @@ impl Fold for ExprInjector<'_> {
                 );
                 self.injected = true;
 
-                Expr::Seq(SeqExpr {
+                *expr = Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
@@ -152,11 +152,9 @@ impl Fold for ExprInjector<'_> {
                     .collect(),
                 })
             }
-            _ => expr,
+            _ => {}
         }
     }
 
-    fn fold_function(&mut self, n: Function) -> Function {
-        n
-    }
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
