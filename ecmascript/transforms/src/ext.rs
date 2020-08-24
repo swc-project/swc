@@ -1,6 +1,50 @@
-use std::ops::DerefMut;
+use std::{mem::replace, ops::DerefMut};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
+
+/// Helper for migration from [Fold] to [VisitMut]
+pub(crate) trait MapWithMut: Sized {
+    fn dummy() -> Self;
+
+    fn map_with_mut<F>(&mut self, op: F)
+    where
+        F: FnOnce(Self) -> Self,
+    {
+        let invalid = Self::dummy();
+        let v = replace(self, invalid);
+        let v = op(v);
+        replace(self, v);
+    }
+}
+
+impl MapWithMut for ModuleItem {
+    #[inline(always)]
+    fn dummy() -> Self {
+        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+    }
+}
+
+impl MapWithMut for Stmt {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+    }
+}
+
+impl MapWithMut for Expr {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Expr::Invalid(Invalid { span: DUMMY_SP })
+    }
+}
+
+impl MapWithMut for Pat {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Pat::Invalid(Invalid { span: DUMMY_SP })
+    }
+}
 
 pub(crate) trait PatOrExprExt: AsOptExpr {
     fn as_ref(&self) -> &PatOrExpr;
