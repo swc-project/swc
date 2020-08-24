@@ -1340,10 +1340,10 @@ enum Foo {
 }
 
 function foo() {
-    enum Foo__2 {
+    enum Foo {
         name: string
     }
-    const foo = {} as Foo__2;
+    const foo = {} as Foo;
 }
 const bar = {} as Foo;
 
@@ -1359,7 +1359,7 @@ const bar = {} as Foo;
             string
         }
         const foo__2 = {
-        } as Foo;
+        } as Foo__2;
     }
     const bar = {
     } as Foo;
