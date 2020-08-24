@@ -1389,3 +1389,19 @@ const a: Nullable<string> = 'hello';
 console.log(a);
     "
 );
+
+to_ts!(
+    ts_resolver_import_and_type_param,
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'other';
+const a: Nullable<SomeOther> = 'hello';
+console.log(a);
+    ",
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'other';
+const a: Nullable<SomeOther> = 'hello';
+console.log(a);
+    "
+);
