@@ -32,7 +32,7 @@ impl VisitMut for TsHygiene {
         }
     }
 
-    fn visit_mut_ts_enum_member(&mut self, _: &mut TsEnumMember) {}
+    fn visit_mut_ts_enum_member_id(&mut self, _: &mut TsEnumMemberId) {}
 }
 
 fn tr() -> impl Fold {
