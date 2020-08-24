@@ -114,6 +114,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse with given closure
+    #[inline(always)]
     pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> PResult<Ret>
     where
         F: FnOnce(&mut Self) -> PResult<Ret>,

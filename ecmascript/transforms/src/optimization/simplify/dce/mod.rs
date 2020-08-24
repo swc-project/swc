@@ -1,7 +1,8 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
-use std::{any::type_name, borrow::Cow};
+use retain_mut::RetainMut;
+use std::{any::type_name, borrow::Cow, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -11,15 +12,12 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{
-    as_folder, noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 macro_rules! preserve {
     ($name:ident, $T:ty) => {
-        fn $name(&mut self, mut node: $T) -> $T {
+        fn $name(&mut self, node: &mut $T) {
             node.span = node.span.apply_mark(self.config.used_mark);
-            node
         }
     };
 }
@@ -56,14 +54,14 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
     let used_mark = config.used_mark;
 
     chain!(
-        Dce {
+        as_folder(Dce {
             config,
             dropped: false,
             included: Default::default(),
             changed: false,
             marking_phase: false,
             decl_dropping_phase: false,
-        },
+        }),
         as_folder(UsedMarkRemover { used_mark })
     )
 }
@@ -133,89 +131,80 @@ impl Repeated for Dce<'_> {
     }
 }
 
-impl Fold for Dce<'_> {
-    noop_fold_type!();
+impl VisitMut for Dce<'_> {
+    noop_visit_mut_type!();
 
-    preserve!(fold_debugger_stmt, DebuggerStmt);
-    preserve!(fold_with_stmt, WithStmt);
-    preserve!(fold_break_stmt, BreakStmt);
-    preserve!(fold_continue_stmt, ContinueStmt);
+    preserve!(visit_mut_debugger_stmt, DebuggerStmt);
+    preserve!(visit_mut_with_stmt, WithStmt);
+    preserve!(visit_mut_break_stmt, BreakStmt);
+    preserve!(visit_mut_continue_stmt, ContinueStmt);
 
-    preserve!(fold_ts_export_assignment, TsExportAssignment);
-
-    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
+    fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
+        node.stmts.visit_mut_with(self);
 
-        let mut stmts = node.stmts.fold_with(self);
-
-        let mut span = node.span;
-        if self.marking_phase || stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
-            span = span.apply_mark(self.config.used_mark);
-            stmts = self.fold_in_marking_phase(stmts);
+        if self.marking_phase || node.stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            self.mark(&mut node.stmts);
         }
-
-        BlockStmt { span, stmts }
     }
 
-    fn fold_class_decl(&mut self, mut node: ClassDecl) -> ClassDecl {
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
         if self.is_marked(node.span()) {
-            return node;
+            return;
         }
 
         if self.marking_phase || self.included.contains(&node.ident.to_id()) {
             node.class.span = node.class.span.apply_mark(self.config.used_mark);
-            node.class.super_class = self.fold_in_marking_phase(node.class.super_class);
+            self.mark(&mut node.class.super_class);
         }
 
-        node.fold_children_with(self)
+        node.visit_mut_children_with(self)
     }
 
-    fn fold_do_while_stmt(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
+    fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.test = self.fold_in_marking_phase(node.test);
-            node.body = self.fold_in_marking_phase(node.body);
+            self.mark(&mut node.test);
+            self.mark(&mut node.body);
         }
-
-        node
     }
 
-    fn fold_export_all(&mut self, mut node: ExportAll) -> ExportAll {
+    fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
         node.span = node.span.apply_mark(self.config.used_mark);
-        node
     }
 
-    fn fold_export_decl(&mut self, mut node: ExportDecl) -> ExportDecl {
+    fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        let i = match node.decl {
+        let i = match &mut node.decl {
             Decl::Class(ClassDecl { ref ident, .. }) | Decl::Fn(FnDecl { ref ident, .. }) => ident,
 
             // Preserve types
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
                 node.span = node.span.apply_mark(self.config.used_mark);
-                return node;
+                return;
             }
 
             // Preserve only exported variables
-            Decl::Var(mut v) => {
-                v.decls = v.decls.move_flat_map(|mut d| {
+            Decl::Var(v) => {
+                v.decls.retain_mut(|d| {
                     if self.is_marked(d.span()) {
-                        return Some(d);
+                        return true;
                     }
 
                     let names: Vec<Id> = find_ids(&d.name);
@@ -224,105 +213,91 @@ impl Fold for Dce<'_> {
                             || self.should_preserve_export(&name.0)
                         {
                             d.span = d.span.apply_mark(self.config.used_mark);
-                            d.init = self.fold_in_marking_phase(d.init);
-                            return Some(d);
+                            self.mark(&mut d.init);
+                            return true;
                         }
                     }
 
                     if self.decl_dropping_phase {
-                        return None;
+                        return false;
                     }
-                    Some(d)
+                    true
                 });
 
                 if self.decl_dropping_phase && !v.decls.is_empty() {
                     node.span = node.span.apply_mark(self.config.used_mark);
                 }
 
-                node.decl = Decl::Var(v);
-
-                return node;
+                return;
             }
         };
 
         if self.should_preserve_export(&i.sym) {
             node.span = node.span.apply_mark(self.config.used_mark);
-            node.decl = self.fold_in_marking_phase(node.decl);
+            self.mark(&mut node.decl);
         }
-
-        node
     }
 
-    fn fold_export_default_decl(&mut self, mut node: ExportDefaultDecl) -> ExportDefaultDecl {
+    fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
         // TODO: Export only when it's required. (i.e. check self.used_exports)
 
         node.span = node.span.apply_mark(self.config.used_mark);
-        node.decl = self.fold_in_marking_phase(node.decl);
-
-        node
+        self.mark(&mut node.decl);
     }
 
-    fn fold_export_default_expr(&mut self, mut node: ExportDefaultExpr) -> ExportDefaultExpr {
+    fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
         if self.should_preserve_export(&js_word!("default")) {
             node.span = node.span.apply_mark(self.config.used_mark);
-            node.expr = self.fold_in_marking_phase(node.expr);
+            self.mark(&mut node.expr);
         }
-
-        node
     }
 
-    fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
+    fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
         log::debug!("ExprStmt ->");
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
         if self.should_include(&node.expr) {
             log::debug!("\tIncluded");
-            let stmt = ExprStmt {
-                span: node.span.apply_mark(self.config.used_mark),
-                expr: self.fold_in_marking_phase(node.expr),
-            };
-            return stmt;
+            node.span = node.span.apply_mark(self.config.used_mark);
+            self.mark(&mut node.expr);
+            return;
         }
 
-        node.fold_children_with(self)
+        node.visit_mut_children_with(self)
     }
 
-    fn fold_fn_decl(&mut self, mut f: FnDecl) -> FnDecl {
+    fn visit_mut_fn_decl(&mut self, mut f: &mut FnDecl) {
         if self.is_marked(f.span()) {
-            return f;
+            return;
         }
 
         if self.marking_phase || self.included.contains(&f.ident.to_id()) {
             f.function.span = f.function.span.apply_mark(self.config.used_mark);
-            f.function.params = self.fold_in_marking_phase(f.function.params);
-            f.function.body = self.fold_in_marking_phase(f.function.body);
-            return f;
+            self.mark(&mut f.function.params);
+            self.mark(&mut f.function.body);
+            return;
         }
 
-        f.fold_children_with(self)
+        f.visit_mut_children_with(self)
     }
 
-    fn fold_for_in_stmt(&mut self, mut node: ForInStmt) -> ForInStmt {
+    fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = ForInStmt {
-            span: node.span,
-            left: node.left,
-            right: node.right.fold_with(self),
-            body: node.body.fold_with(self),
-        };
+        node.right.visit_mut_with(self);
+        node.body.visit_mut_with(self);
 
         if self.should_include(&node.left)
             || self.is_marked(node.left.span())
@@ -331,26 +306,19 @@ impl Fold for Dce<'_> {
         {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.left = self.fold_in_marking_phase(node.left);
-            node.right = self.fold_in_marking_phase(node.right);
-            node.body = self.fold_in_marking_phase(node.body);
+            self.mark(&mut node.left);
+            self.mark(&mut node.right);
+            self.mark(&mut node.body);
         }
-
-        node
     }
 
-    fn fold_for_of_stmt(&mut self, mut node: ForOfStmt) -> ForOfStmt {
+    fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = ForOfStmt {
-            span: node.span,
-            await_token: node.await_token,
-            left: node.left,
-            right: node.right.fold_with(self),
-            body: node.body.fold_with(self),
-        };
+        node.right.visit_mut_with(self);
+        node.body.visit_mut_with(self);
 
         if self.should_include(&node.left)
             || self.is_marked(node.left.span())
@@ -359,20 +327,18 @@ impl Fold for Dce<'_> {
         {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.left = self.fold_in_marking_phase(node.left);
-            node.right = self.fold_in_marking_phase(node.right);
-            node.body = self.fold_in_marking_phase(node.body);
+            self.mark(&mut node.left);
+            self.mark(&mut node.right);
+            self.mark(&mut node.body);
         }
-
-        node
     }
 
-    fn fold_for_stmt(&mut self, mut node: ForStmt) -> ForStmt {
+    fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         if node.test.is_none()
             || self.is_marked(node.init.span())
@@ -382,18 +348,16 @@ impl Fold for Dce<'_> {
         {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.test = self.fold_in_marking_phase(node.test);
-            node.init = self.fold_in_marking_phase(node.init);
-            node.update = self.fold_in_marking_phase(node.update);
-            node.body = self.fold_in_marking_phase(node.body);
+            self.mark(&mut node.test);
+            self.mark(&mut node.init);
+            self.mark(&mut node.update);
+            self.mark(&mut node.body);
         }
-
-        node
     }
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
         if self.is_marked(i.span) {
-            return i;
+            return;
         }
 
         if self.marking_phase {
@@ -402,16 +366,14 @@ impl Fold for Dce<'_> {
                 self.changed = true;
             }
         }
-
-        i
     }
 
-    fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
+    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        let mut node: IfStmt = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         if self.is_marked(node.test.span())
             || self.is_marked(node.cons.span())
@@ -419,28 +381,26 @@ impl Fold for Dce<'_> {
         {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.test = self.fold_in_marking_phase(node.test);
-            node.cons = self.fold_in_marking_phase(node.cons);
-            node.alt = self.fold_in_marking_phase(node.alt);
+            self.mark(&mut node.test);
+            self.mark(&mut node.cons);
+            self.mark(&mut node.alt);
         }
-
-        node
     }
 
-    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
+    fn visit_mut_import_decl(&mut self, mut import: &mut ImportDecl) {
         // Do not mark import as used while ignoring imports
         if !self.decl_dropping_phase {
-            return import;
+            return;
         }
 
         if self.is_marked(import.span) {
-            return import;
+            return;
         }
 
         // Side effect import
         if import.specifiers.is_empty() {
             import.span = import.span.apply_mark(self.config.used_mark);
-            return import;
+            return;
         }
 
         // Drop unused imports.
@@ -450,41 +410,35 @@ impl Fold for Dce<'_> {
         if !import.specifiers.is_empty() {
             import.span = import.span.apply_mark(self.config.used_mark);
         }
-
-        import
     }
 
-    fn fold_labeled_stmt(&mut self, mut node: LabeledStmt) -> LabeledStmt {
+    fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node.body = node.body.fold_with(self);
+        node.body.visit_mut_with(self);
 
         if self.is_marked(node.body.span()) {
             node.span = node.span.apply_mark(self.config.used_mark);
-            node.body = self.fold_in_marking_phase(node.body);
+            self.mark(&mut node.body);
         }
-
-        node
     }
 
-    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         if self.is_marked(e.span()) {
-            return e;
+            return;
         }
 
-        e.obj = e.obj.fold_with(self);
+        e.obj.visit_mut_with(self);
         if e.computed {
-            e.prop = e.prop.fold_with(self);
+            e.prop.visit_mut_with(self);
         }
-
-        e
     }
 
-    fn fold_named_export(&mut self, mut node: NamedExport) -> NamedExport {
+    fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
         // Export only when it's required.
@@ -498,46 +452,40 @@ impl Fold for Dce<'_> {
 
         if !node.specifiers.is_empty() {
             node.span = node.span.apply_mark(self.config.used_mark);
-            node.specifiers = self.fold_in_marking_phase(node.specifiers);
+            self.mark(&mut node.specifiers);
         }
-
-        node
     }
 
-    fn fold_return_stmt(&mut self, mut node: ReturnStmt) -> ReturnStmt {
+    fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
         node.span = node.span.apply_mark(self.config.used_mark);
-        node.arg = self.fold_in_marking_phase(node.arg);
-
-        node
+        self.mark(&mut node.arg);
     }
 
-    fn fold_switch_case(&mut self, mut node: SwitchCase) -> SwitchCase {
+    fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         if self.is_marked(node.test.span()) || node.cons.iter().any(|v| self.is_marked(v.span())) {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.test = self.fold_in_marking_phase(node.test);
-            node.cons = self.fold_in_marking_phase(node.cons);
+            self.mark(&mut node.test);
+            self.mark(&mut node.cons);
         }
-
-        node
     }
 
-    fn fold_switch_stmt(&mut self, mut node: SwitchStmt) -> SwitchStmt {
+    fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         // TODO: Handle fallthrough
         //  Drop useless switch case.
@@ -549,33 +497,29 @@ impl Fold for Dce<'_> {
             || node.cases.iter().any(|case| self.is_marked(case.span))
         {
             node.span = node.span.apply_mark(self.config.used_mark);
-            node.cases = self.fold_in_marking_phase(node.cases);
+            self.mark(&mut node.cases);
         }
-
-        node
     }
 
-    fn fold_throw_stmt(&mut self, mut node: ThrowStmt) -> ThrowStmt {
+    fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
         node.span = node.span.apply_mark(self.config.used_mark);
 
-        let mut node = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         if self.is_marked(node.arg.span()) {
-            node.arg = self.fold_in_marking_phase(node.arg)
+            self.mark(&mut node.arg)
         }
-
-        node
     }
 
-    fn fold_try_stmt(&mut self, mut node: TryStmt) -> TryStmt {
+    fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         if self.is_marked(node.block.span())
             || self.is_marked(node.handler.span())
@@ -583,96 +527,87 @@ impl Fold for Dce<'_> {
         {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.block = self.fold_in_marking_phase(node.block);
-            node.handler = self.fold_in_marking_phase(node.handler);
-            node.finalizer = self.fold_in_marking_phase(node.finalizer);
+            self.mark(&mut node.block);
+            self.mark(&mut node.handler);
+            self.mark(&mut node.finalizer);
         }
-
-        node
     }
 
-    fn fold_update_expr(&mut self, mut node: UpdateExpr) -> UpdateExpr {
+    fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
         node.span = node.span.apply_mark(self.config.used_mark);
-        node.arg = self.fold_in_marking_phase(node.arg);
-
-        node
+        self.mark(&mut node.arg);
     }
 
-    fn fold_var_decl(&mut self, mut var: VarDecl) -> VarDecl {
+    fn visit_mut_var_decl(&mut self, mut var: &mut VarDecl) {
         if self.is_marked(var.span) {
-            return var;
+            return;
         }
 
-        var = var.fold_children_with(self);
+        var.visit_mut_children_with(self);
 
-        var.decls = var.decls.move_flat_map(|decl| {
+        var.decls.retain_mut(|decl| {
             if self.is_marked(decl.span()) {
-                return Some(decl);
+                return true;
             }
 
             if !self.should_include(&decl.name) {
                 if self.decl_dropping_phase {
-                    return None;
+                    return false;
                 }
-                return Some(decl);
+                return true;
             }
 
-            Some(VarDeclarator {
-                span: decl.span.apply_mark(self.config.used_mark),
-                init: self.fold_in_marking_phase(decl.init),
-                name: self.fold_in_marking_phase(decl.name),
-                ..decl
-            })
+            decl.span = decl.span.apply_mark(self.config.used_mark);
+            self.mark(&mut decl.init);
+            self.mark(&mut decl.name);
+            true
         });
 
         if var.decls.is_empty() || !self.decl_dropping_phase {
-            return var;
+            return;
         }
 
-        return VarDecl {
-            span: var.span.apply_mark(self.config.used_mark),
-            ..var
-        };
+        var.span = var.span.apply_mark(self.config.used_mark);
     }
 
-    fn fold_while_stmt(&mut self, mut node: WhileStmt) -> WhileStmt {
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
         if self.is_marked(node.span) {
-            return node;
+            return;
         }
 
-        node = node.fold_children_with(self);
+        node.visit_mut_children_with(self);
 
         if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
             node.span = node.span.apply_mark(self.config.used_mark);
 
-            node.test = self.fold_in_marking_phase(node.test);
-            node.body = self.fold_in_marking_phase(node.body);
+            self.mark(&mut node.test);
+            self.mark(&mut node.body);
         }
-
-        node
     }
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n)
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n)
     }
 }
 
 impl Dce<'_> {
-    fn fold_stmt_like<T>(&mut self, mut items: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
-        T: StmtLike + FoldWith<Self> + Spanned + std::fmt::Debug,
+        T: StmtLike + VisitMutWith<Self> + Spanned + std::fmt::Debug,
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
+        Vec<T>: VisitMutWith<Self>,
     {
         if self.marking_phase {
-            return items.move_map(|item| item.fold_with(self));
+            items.visit_mut_children_with(self);
+            return;
         }
 
         let old = self.changed;
@@ -685,24 +620,20 @@ impl Dce<'_> {
 
             self.changed = false;
             let mut idx = 0u32;
-            items = items.move_map(|mut item| {
-                let item = if preserved.contains(&idx) {
-                    item
-                } else {
-                    if self.should_include(&item) {
+            items.iter_mut().for_each(|item| {
+                if !preserved.contains(&idx) {
+                    if self.should_include(&*item) {
                         preserved.insert(idx);
                         self.changed = true;
-                        item = item.fold_with(self);
+                        item.visit_mut_with(self);
                     }
-                    item
-                };
+                }
 
                 idx += 1;
-                item
             });
 
             if !self.changed {
-                items = items.move_map(|item| item.fold_with(self));
+                items.visit_mut_children_with(self);
             }
 
             if !self.changed {
@@ -712,8 +643,10 @@ impl Dce<'_> {
 
         {
             let mut idx = 0;
-            items = items.move_flat_map(|item| {
-                let item = self.drop_unused_decls(item);
+            let taken = take(items);
+            // We use take because of try_into_stmt
+            *items = taken.move_flat_map(|mut item| {
+                self.drop_unused_decls(&mut item);
                 let item = match item.try_into_stmt() {
                     Ok(stmt) => match stmt {
                         Stmt::Empty(..) => {
@@ -743,8 +676,6 @@ impl Dce<'_> {
         }
 
         self.changed = old;
-
-        items
     }
 }
 
@@ -800,28 +731,24 @@ impl Dce<'_> {
     //        ret
     //    }
 
-    pub fn fold_in_marking_phase<T>(&mut self, node: T) -> T
+    pub fn mark<T>(&mut self, node: &mut T)
     where
-        T: FoldWith<Self>,
+        T: VisitMutWith<Self>,
     {
         let old = self.marking_phase;
         self.marking_phase = true;
         log::info!("Marking: {}", type_name::<T>());
-        let node = node.fold_with(self);
+        node.visit_mut_with(self);
         self.marking_phase = old;
-
-        node
     }
 
-    pub fn drop_unused_decls<T>(&mut self, node: T) -> T
+    pub fn drop_unused_decls<T>(&mut self, node: &mut T)
     where
-        T: FoldWith<Self>,
+        T: VisitMutWith<Self>,
     {
         let old = self.decl_dropping_phase;
         self.decl_dropping_phase = true;
-        let node = node.fold_with(self);
+        node.visit_mut_with(self);
         self.decl_dropping_phase = old;
-
-        node
     }
 }
