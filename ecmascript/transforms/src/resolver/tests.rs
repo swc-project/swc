@@ -8,7 +8,7 @@ use crate::{
 };
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_visit::{as_folder, VisitMut};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 
 struct TsHygiene {
     top_level_mark: Mark,
@@ -16,9 +16,7 @@ struct TsHygiene {
 
 impl VisitMut for TsHygiene {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if i.span.ctxt == SyntaxContext::empty()
-            || SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt
-        {
+        if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
             return;
         }
 
@@ -26,6 +24,20 @@ impl VisitMut for TsHygiene {
         i.sym = format!("{}__{}", i.sym, ctxt).into();
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        if n.computed {
+            n.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_ts_enum_member_id(&mut self, _: &mut TsEnumMemberId) {}
+
+    /// TODO: Handle tyep parameter correctly
+    fn visit_mut_ts_type_param(&mut self, _: &mut TsTypeParam) {}
+
+    fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
 }
 
 fn tr() -> impl Fold {
@@ -1271,7 +1283,7 @@ class Foo {
             
         }
 
-        new G<Foo__2>();
+        new G<Foo>();
     }
 }
 ",
@@ -1321,7 +1333,7 @@ const bar = {
 );
 
 to_ts!(
-    ts_resolver_neseted_enum,
+    ts_resolver_nested_enum,
     "
 enum Foo {
     name: string
@@ -1347,7 +1359,7 @@ const bar = {} as Foo;
             string
         }
         const foo__2 = {
-        } as Foo;
+        } as Foo__2;
     }
     const bar = {
     } as Foo;
@@ -1375,5 +1387,76 @@ function foo() {
 }
 const bar = {
 } as Foo;    
+    "
+);
+
+to_ts!(
+    ts_resolver_import_and_type_ann,
+    "
+import { Nullable } from 'nullable';
+const a: Nullable<string> = 'hello';
+console.log(a);
+    ",
+    "
+import { Nullable } from 'nullable';
+const a: Nullable<string> = 'hello';
+console.log(a);
+    "
+);
+
+identical_ts!(
+    ts_resolver_import_and_type_param,
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'other';
+const a: Nullable<SomeOther> = 'hello';
+console.log(a);
+    "
+);
+
+identical_ts!(
+    ts_resolver_import_and_implements,
+    "
+import { Nullable } from 'nullable';
+import { Component } from 'react';
+class Foo implements Component<Nullable> {}
+new Foo();
+    "
+);
+
+identical_ts!(
+    ts_resolver_import_and_extends,
+    "
+    import { Nullable } from 'nullable';
+    import { Component } from 'react';
+    class Foo extends Component<Nullable, {}> {}
+    new Foo();
+    "
+);
+
+identical_ts!(
+    ts_resolver_method_type_param,
+    "
+import { Nullable } from 'nullable';
+import { Another } from 'some';
+class A {
+    do(): Nullable<Another> {
+    return null;
+    }
+}
+new A();
+    "
+);
+
+identical_ts!(
+    ts_resolver_nested_type_ref,
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'some';
+import { Another } from 'some';
+class A extends Nullable {
+    other: Nullable<Another>;
+}
+new A();
     "
 );

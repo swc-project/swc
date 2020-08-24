@@ -455,8 +455,16 @@ macro_rules! track_ident {
             let old = self.ident_type;
             self.ident_type = IdentType::Ref;
             let decorators = c.decorators.fold_with(self);
+
             self.ident_type = IdentType::Ref;
             let super_class = c.super_class.fold_with(self);
+
+            self.ident_type = IdentType::Binding;
+            let type_params = c.type_params.fold_with(self);
+
+            self.ident_type = IdentType::Ref;
+            let super_type_params = c.super_type_params.fold_with(self);
+
             self.ident_type = IdentType::Ref;
             let implements = c.implements.fold_with(self);
             self.ident_type = old;
@@ -470,8 +478,8 @@ macro_rules! track_ident {
                 implements,
                 body,
                 super_class,
-                type_params: c.type_params,
-                super_type_params: c.super_type_params,
+                type_params,
+                super_type_params,
             }
         }
 

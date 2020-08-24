@@ -117,7 +117,7 @@ impl<'a> Resolver<'a> {
 
     /// Returns a [Mark] for an identifier reference.
     fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
-        if self.in_type {
+        if self.handle_types && self.in_type {
             let mut mark = self.mark;
             let mut scope = Some(&self.current);
 
@@ -126,39 +126,36 @@ impl<'a> Resolver<'a> {
                 // cur.hoisted_symbols.borrow().contains(sym) {
                 if cur.declared_types.contains(sym) {
                     if mark == Mark::root() {
-                        return None;
+                        break;
                     }
                     return Some(mark);
                 }
                 mark = mark.parent();
                 scope = cur.parent;
             }
-
-            None
-        } else {
-            let mut mark = self.mark;
-            let mut scope = Some(&self.current);
-
-            while let Some(cur) = scope {
-                if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym)
-                {
-                    if mark == Mark::root() {
-                        return None;
-                    }
-                    return Some(mark);
-                }
-                mark = mark.parent();
-                scope = cur.parent;
-            }
-
-            if let Some((ref c, mark)) = self.cur_defining {
-                if *c == *sym {
-                    return Some(mark);
-                }
-            }
-
-            None
         }
+
+        let mut mark = self.mark;
+        let mut scope = Some(&self.current);
+
+        while let Some(cur) = scope {
+            if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym) {
+                if mark == Mark::root() {
+                    return None;
+                }
+                return Some(mark);
+            }
+            mark = mark.parent();
+            scope = cur.parent;
+        }
+
+        if let Some((ref c, mark)) = self.cur_defining {
+            if *c == *sym {
+                return Some(mark);
+            }
+        }
+
+        None
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
@@ -622,6 +619,7 @@ impl<'a> Fold for Resolver<'a> {
             return n;
         }
 
+        self.in_type = true;
         self.ident_type = IdentType::Binding;
         n.fold_children_with(self)
     }
@@ -631,6 +629,7 @@ impl<'a> Fold for Resolver<'a> {
             return n;
         }
 
+        self.in_type = true;
         self.ident_type = IdentType::Ref;
         TsQualifiedName {
             left: n.left.fold_with(self),
@@ -747,10 +746,13 @@ impl<'a> Fold for Resolver<'a> {
         let value = p.value.fold_with(self);
         self.ident_type = old;
 
+        let type_ann = p.type_ann.fold_with(self);
+
         ClassProp {
             decorators,
             key,
             value,
+            type_ann,
             ..p
         }
     }
@@ -773,6 +775,7 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
+        self.in_type = false;
         let expr = validate!(expr);
 
         let old = self.ident_type;
@@ -827,6 +830,11 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
+        self.in_type = false;
+        decl.fold_children_with(self)
+    }
+
     fn fold_fn_expr(&mut self, e: FnExpr) -> FnExpr {
         let ident = if let Some(ident) = e.ident {
             Some(self.fold_binding_ident(ident))
@@ -851,6 +859,9 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_function(&mut self, mut f: Function) -> Function {
+        f.type_params = f.type_params.fold_with(self);
+
+        self.in_type = false;
         self.ident_type = IdentType::Ref;
         f.decorators = f.decorators.fold_with(self);
 
@@ -860,17 +871,26 @@ impl<'a> Fold for Resolver<'a> {
         self.ident_type = IdentType::Ref;
         f.body = f.body.map(|stmt| stmt.fold_children_with(self));
 
+        f.return_type = f.return_type.fold_with(self);
+
         f
     }
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
+    fn fold_ident(&mut self, mut i: Ident) -> Ident {
+        i = i.fold_children_with(self);
+
         match self.ident_type {
             IdentType::Binding => self.fold_binding_ident(i),
             IdentType::Ref => {
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("resolver: IdentRef {}{:?}", sym, i.span.ctxt());
+                    eprintln!(
+                        "resolver: IdentRef (type = {}) {}{:?}",
+                        self.in_type,
+                        sym,
+                        i.span.ctxt()
+                    );
                 }
 
                 if span.ctxt() != SyntaxContext::empty() {
@@ -922,8 +942,9 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
+        self.in_type = false;
         let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
+        self.ident_type = IdentType::Binding;
         let local = s.local.fold_with(self);
         self.ident_type = old;
 
@@ -966,6 +987,7 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_pat(&mut self, p: Pat) -> Pat {
+        self.in_type = false;
         let old = self.cur_defining.take();
         let p = p.fold_children_with(self);
 
@@ -974,6 +996,8 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_var_decl(&mut self, decl: VarDecl) -> VarDecl {
+        self.in_type = false;
+
         let old_hoist = self.hoist;
 
         self.hoist = VarDeclKind::Var == decl.kind;
