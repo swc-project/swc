@@ -275,7 +275,6 @@ macro_rules! typed {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: $T) -> $T {
             if self.handle_types {
-                eprintln!("typed!: {}", stringify!($name));
                 self.in_type = true;
                 node.fold_children_with(self)
             } else {
@@ -289,7 +288,6 @@ macro_rules! typed_ref {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: $T) -> $T {
             if self.handle_types {
-                eprintln!("typed_ref!: {}", stringify!($name));
                 self.ident_type = IdentType::Ref;
                 self.in_type = true;
                 node.fold_children_with(self)
