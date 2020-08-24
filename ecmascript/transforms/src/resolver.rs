@@ -774,6 +774,7 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
+        self.in_type = false;
         let expr = validate!(expr);
 
         let old = self.ident_type;
@@ -854,6 +855,7 @@ impl<'a> Fold for Resolver<'a> {
     fn fold_function(&mut self, mut f: Function) -> Function {
         f.type_params = f.type_params.fold_with(self);
 
+        self.in_type = false;
         self.ident_type = IdentType::Ref;
         f.decorators = f.decorators.fold_with(self);
 
@@ -974,6 +976,7 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_pat(&mut self, p: Pat) -> Pat {
+        self.in_type = false;
         let old = self.cur_defining.take();
         let p = p.fold_children_with(self);
 
@@ -982,6 +985,8 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_var_decl(&mut self, decl: VarDecl) -> VarDecl {
+        self.in_type = false;
+
         let old_hoist = self.hoist;
 
         self.hoist = VarDeclKind::Var == decl.kind;
