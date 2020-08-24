@@ -1377,3 +1377,17 @@ const bar = {
 } as Foo;    
     "
 );
+
+to_ts!(
+    ts_resolver_import_and_type_ann,
+    "
+import { Nullable } from 'nullable';
+const a: Nullable<string> = 'hello';
+console.log(a);
+    ",
+    "
+import { Nullable } from 'nullable';
+const a: Nullable<string> = 'hello';
+console.log(a);
+    "
+);
