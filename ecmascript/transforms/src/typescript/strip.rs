@@ -1,4 +1,7 @@
-use crate::util::{prepend_stmts, var::VarCollector, ExprFactory};
+use crate::{
+    ext::MapWithMut,
+    util::{prepend_stmts, var::VarCollector, ExprFactory},
+};
 use fxhash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -569,51 +572,53 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        let expr = match expr {
-            Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                validate!(*expr)
-            }
-            Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
-            Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
-                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                validate!(*expr)
-            }
-            Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
-            Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                *expr
-            }
-            _ => expr,
-        };
+        expr.map_with_mut(|expr| {
+            let expr = match expr {
+                Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
+                    type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
+                    validate!(*expr)
+                }
+                Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
+                Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
+                    type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
+                    validate!(*expr)
+                }
+                Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
+                Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
+                    type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
+                    *expr
+                }
+                _ => expr,
+            };
 
-        let expr = match expr {
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop,
-                computed,
-            }) => Expr::Member(MemberExpr {
-                span,
-                obj: obj.visit_mut_with(self),
-                prop: if computed {
-                    prop.visit_mut_with(self)
-                } else {
-                    match *prop {
-                        Expr::Ident(i) => Box::new(Expr::Ident(Ident {
-                            optional: false,
-                            type_ann: None,
-                            ..i
-                        })),
-                        _ => prop,
-                    }
-                },
-                computed,
-            }),
-            _ => expr.visit_mut_children_with(self),
-        };
+            let expr = match expr {
+                Expr::Member(MemberExpr {
+                    span,
+                    obj,
+                    prop,
+                    computed,
+                }) => Expr::Member(MemberExpr {
+                    span,
+                    obj: obj.visit_mut_with(self),
+                    prop: if computed {
+                        prop.visit_mut_with(self)
+                    } else {
+                        match *prop {
+                            Expr::Ident(i) => Box::new(Expr::Ident(Ident {
+                                optional: false,
+                                type_ann: None,
+                                ..i
+                            })),
+                            _ => prop,
+                        }
+                    },
+                    computed,
+                }),
+                _ => expr.visit_mut_children_with(self),
+            };
 
-        expr
+            expr
+        });
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
