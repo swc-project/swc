@@ -8,7 +8,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
