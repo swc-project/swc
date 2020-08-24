@@ -4,14 +4,14 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = FxHashMap<Id, TsLit>;
 
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
-    Strip::default()
+    as_folder(Strip::default())
 }
 
 #[derive(Default)]
@@ -114,7 +114,7 @@ impl Strip {
 }
 
 impl Strip {
-    fn add_types<T>(&mut self, node: T) -> T
+    fn add_types<T>(&mut self, node: &T)
     where
         T: VisitWith<Self>,
     {
@@ -124,8 +124,6 @@ impl Strip {
             }
             Phase::DropImports => {}
         }
-
-        node
     }
 
     fn handle_enum<T>(&mut self, e: TsEnumDecl, stmts: &mut Vec<T>)
@@ -475,44 +473,35 @@ macro_rules! type_to_none {
     };
 }
 
-impl Fold for Strip {
-    fn fold_array_pat(&mut self, mut pat: ArrayPat) -> ArrayPat {
-        pat = pat.fold_children_with(self);
-
-        pat.optional = false;
-
-        pat
+impl VisitMut for Strip {
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        n.visit_mut_children_with(self);
+        n.optional = false;
     }
 
-    fn fold_class(&mut self, node: Class) -> Class {
-        Class {
-            span: node.span,
-            is_abstract: false,
-            type_params: {
-                self.add_types(node.type_params);
-                None
-            },
-            super_type_params: {
-                self.add_types(node.super_type_params);
-                None
-            },
-            implements: {
-                self.add_types(node.implements);
-                vec![]
-            },
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        n.is_abstract = false;
 
-            decorators: node.decorators.fold_with(self),
-            body: node.body.fold_with(self),
-            super_class: node.super_class.fold_with(self),
-        }
+        self.add_types(&n.type_params);
+        n.type_params = None;
+
+        self.add_types(&n.super_type_params);
+        n.super_type_params = None;
+
+        self.add_types(&n.implements);
+        n.implements = Default::default();
+
+        n.decorators.visit_mut_with(self);
+        n.body.visit_mut_with(self);
+        n.super_class.visit_mut_with(self);
     }
 
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
-        let c = c.fold_children_with(self);
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        n.visit_mut_children_with(self);
 
         let mut stmts = vec![];
 
-        let params = c.params.move_map(|param| match param {
+        n.params = n.params.move_map(|param| match param {
             ParamOrTsParamProp::Param(..) => param,
             ParamOrTsParamProp::TsParamProp(param) => {
                 let (ident, param) = match param.param {
@@ -561,28 +550,25 @@ impl Fold for Strip {
             }
         });
 
-        let body = match c.body {
+        n.body = match n.body.take() {
             Some(mut body) => {
                 prepend_stmts(&mut body.stmts, stmts.into_iter());
                 Some(body)
             }
             None => None,
         };
-
-        Constructor { params, body, ..c }
     }
 
-    fn fold_decl(&mut self, decl: Decl) -> Decl {
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
         self.handle_decl(&decl);
 
         let old = self.non_top_level;
         self.non_top_level = true;
-        let decl = decl.fold_children_with(self);
+        decl.visit_mut_children_with(self);
         self.non_top_level = old;
-        decl
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
                 type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
@@ -609,9 +595,9 @@ impl Fold for Strip {
                 computed,
             }) => Expr::Member(MemberExpr {
                 span,
-                obj: obj.fold_with(self),
+                obj: obj.visit_mut_with(self),
                 prop: if computed {
-                    prop.fold_with(self)
+                    prop.visit_mut_with(self)
                 } else {
                     match *prop {
                         Expr::Ident(i) => Box::new(Expr::Ident(Ident {
@@ -624,26 +610,24 @@ impl Fold for Strip {
                 },
                 computed,
             }),
-            _ => expr.fold_children_with(self),
+            _ => expr.visit_mut_children_with(self),
         };
 
         expr
     }
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
         self.scope
             .imported_idents
             .entry((i.sym.clone(), i.span.ctxt()))
             .and_modify(|v| v.has_concrete = true);
 
-        Ident {
-            optional: false,
-            ..i.fold_children_with(self)
-        }
+        i.optional = false;
+        i.visit_mut_children_with(self);
     }
 
-    fn fold_if_stmt(&mut self, mut s: IfStmt) -> IfStmt {
-        s = s.fold_children_with(self);
+    fn visit_mut_if_stmt(&mut self, mut s: IfStmt) -> IfStmt {
+        s = s.visit_mut_children_with(self);
         let span = s.span;
 
         s.cons = match *s.cons {
@@ -667,7 +651,7 @@ impl Fold for Strip {
         s
     }
 
-    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
+    fn visit_mut_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
         match self.phase {
             Phase::Analysis => {
                 macro_rules! store {
@@ -713,28 +697,28 @@ impl Fold for Strip {
         }
     }
 
-    fn fold_object_pat(&mut self, mut pat: ObjectPat) -> ObjectPat {
-        pat = pat.fold_children_with(self);
+    fn visit_mut_object_pat(&mut self, mut pat: ObjectPat) -> ObjectPat {
+        pat = pat.visit_mut_children_with(self);
 
         pat.optional = false;
 
         pat
     }
 
-    fn fold_private_prop(&mut self, mut prop: PrivateProp) -> PrivateProp {
-        prop = prop.fold_children_with(self);
+    fn visit_mut_private_prop(&mut self, mut prop: PrivateProp) -> PrivateProp {
+        prop = prop.visit_mut_children_with(self);
         prop.readonly = false;
         prop
     }
 
-    fn fold_class_prop(&mut self, mut prop: ClassProp) -> ClassProp {
-        prop = prop.fold_children_with(self);
+    fn visit_mut_class_prop(&mut self, mut prop: ClassProp) -> ClassProp {
+        prop = prop.visit_mut_children_with(self);
         prop.readonly = false;
         prop
     }
 
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children_with(self);
+    fn visit_mut_stmt(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.visit_mut_children_with(self);
 
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -755,12 +739,12 @@ impl Fold for Strip {
         }
     }
 
-    fn fold_stmts(&mut self, mut orig: Vec<Stmt>) -> Vec<Stmt> {
+    fn visit_mut_stmts(&mut self, mut orig: Vec<Stmt>) -> Vec<Stmt> {
         let old = self.phase;
 
         // First pass
         self.phase = Phase::Analysis;
-        orig = orig.fold_children_with(self);
+        orig = orig.visit_mut_children_with(self);
         self.phase = Phase::DropImports;
 
         // Second pass
@@ -799,7 +783,7 @@ impl Fold for Strip {
                 | Stmt::Decl(Decl::TsModule(..))
                 | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
 
-                _ => stmts.push(item.fold_with(self)),
+                _ => stmts.push(item.visit_mut_with(self)),
             };
         }
         self.phase = old;
@@ -807,7 +791,7 @@ impl Fold for Strip {
         stmts
     }
 
-    fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
+    fn visit_mut_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
         TsInterfaceDecl {
             span: node.span,
             id: node.id,
@@ -818,20 +802,20 @@ impl Fold for Strip {
         }
     }
 
-    fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
+    fn visit_mut_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
         self.add_types(node)
     }
 
-    type_to_none!(fold_opt_ts_type, Box<TsType>);
-    type_to_none!(fold_opt_ts_type_ann, TsTypeAnn);
-    type_to_none!(fold_opt_ts_type_param_decl, TsTypeParamDecl);
+    type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
+    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
+    type_to_none!(visit_mut_opt_ts_type_param_decl, TsTypeParamDecl);
     type_to_none!(
-        fold_opt_ts_type_param_instantiation,
+        visit_mut_opt_ts_type_param_instantiation,
         TsTypeParamInstantiation
     );
 
-    fn fold_class_members(&mut self, mut members: Vec<ClassMember>) -> Vec<ClassMember> {
-        members = members.fold_children_with(self);
+    fn visit_mut_class_members(&mut self, mut members: Vec<ClassMember>) -> Vec<ClassMember> {
+        members = members.visit_mut_children_with(self);
 
         members.retain(|member| match *member {
             ClassMember::TsIndexSignature(..) => false,
@@ -855,13 +839,13 @@ impl Fold for Strip {
         members
     }
 
-    fn fold_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
+    fn visit_mut_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
         None
     }
 
     /// Remove `this` from parameter list
-    fn fold_params(&mut self, params: Vec<Param>) -> Vec<Param> {
-        let mut params = params.fold_children_with(self);
+    fn visit_mut_params(&mut self, params: Vec<Param>) -> Vec<Param> {
+        let mut params = params.visit_mut_children_with(self);
 
         params.retain(|param| match param.pat {
             Pat::Ident(Ident {
@@ -874,12 +858,12 @@ impl Fold for Strip {
         params
     }
 
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn visit_mut_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let old = self.phase;
 
         // First pass
         self.phase = Phase::Analysis;
-        let items = items.fold_children_with(self);
+        let items = items.visit_mut_children_with(self);
 
         self.phase = Phase::DropImports;
 
@@ -956,7 +940,7 @@ impl Fold for Strip {
                 })) => continue,
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                    let i = i.fold_with(self);
+                    let i = i.visit_mut_with(self);
 
                     if self.was_side_effect_import || !i.specifiers.is_empty() {
                         stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
@@ -1052,7 +1036,7 @@ impl Fold for Strip {
                             span: export.span(),
                             expr: export.expr,
                         })
-                        .fold_with(self),
+                        .visit_mut_with(self),
                     ))
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
@@ -1079,7 +1063,7 @@ impl Fold for Strip {
                     )))
                 }
 
-                _ => stmts.push(item.fold_with(self)),
+                _ => stmts.push(item.visit_mut_with(self)),
             };
         }
         self.phase = old;
@@ -1087,8 +1071,8 @@ impl Fold for Strip {
         stmts
     }
 
-    fn fold_var_declarator(&mut self, mut d: VarDeclarator) -> VarDeclarator {
-        d = d.fold_children_with(self);
+    fn visit_mut_var_declarator(&mut self, mut d: VarDeclarator) -> VarDeclarator {
+        d = d.visit_mut_children_with(self);
         d.definite = false;
         d
     }
