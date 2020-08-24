@@ -258,6 +258,15 @@ impl<I: Tokens> Buffer<I> {
         self.cur.as_ref().map(|it| &it.token)
     }
 
+    #[cold]
+    #[inline(never)]
+    pub fn dump_cur(&mut self) -> String {
+        match self.cur() {
+            Some(v) => format!("{:?}", v),
+            None => format!("<eof>"),
+        }
+    }
+
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
         #[cold]
