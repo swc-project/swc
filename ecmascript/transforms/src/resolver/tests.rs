@@ -33,6 +33,11 @@ impl VisitMut for TsHygiene {
     }
 
     fn visit_mut_ts_enum_member_id(&mut self, _: &mut TsEnumMemberId) {}
+
+    /// TODO: Handle tyep parameter correctly
+    fn visit_mut_ts_type_param(&mut self, _: &mut TsTypeParam) {}
+
+    fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
 }
 
 fn tr() -> impl Fold {
@@ -1278,7 +1283,7 @@ class Foo {
             
         }
 
-        new G<Foo__2>();
+        new G<Foo>();
     }
 }
 ",
@@ -1328,17 +1333,17 @@ const bar = {
 );
 
 to_ts!(
-    ts_resolver_neseted_enum,
+    ts_resolver_nested_enum,
     "
 enum Foo {
     name: string
 }
 
 function foo() {
-    enum Foo {
+    enum Foo__2 {
         name: string
     }
-    const foo = {} as Foo;
+    const foo = {} as Foo__2;
 }
 const bar = {} as Foo;
 
@@ -1424,6 +1429,9 @@ class Foo implements Component<Nullable> {}
 new Foo();
     ",
     "
-
+import { Nullable } from 'nullable';
+import { Component } from 'react';
+class Foo implements Component<Nullable> {}
+new Foo();
     "
 );
