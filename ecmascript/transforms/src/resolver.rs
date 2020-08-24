@@ -852,6 +852,8 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_function(&mut self, mut f: Function) -> Function {
+        f.type_params = f.type_params.fold_with(self);
+
         self.ident_type = IdentType::Ref;
         f.decorators = f.decorators.fold_with(self);
 
@@ -860,6 +862,8 @@ impl<'a> Fold for Resolver<'a> {
 
         self.ident_type = IdentType::Ref;
         f.body = f.body.map(|stmt| stmt.fold_children_with(self));
+
+        f.return_type = f.return_type.fold_with(self);
 
         f
     }
