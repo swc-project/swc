@@ -115,7 +115,7 @@ impl<'a, I: Tokens> Parser<I> {
             assert_and_bump!("const");
             assert_and_bump!("enum");
             return self
-                .parse_ts_enum_decl(start, /* is_const */ true)
+                .parse_ts_enum_decl(start, true)
                 .map(Decl::from)
                 .map(Stmt::from);
         }
