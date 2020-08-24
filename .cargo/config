@@ -3,7 +3,7 @@
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
     "-Z", "thinlto=no",
-    "-C", "target-feature=+sse2,+avx",
+    "-C", "target-feature=+sse2",
 ]
  
 rustdocflags = [
