@@ -568,7 +568,7 @@ impl VisitMut for Strip {
         self.non_top_level = old;
     }
 
-    fn visit_mut_expr(&mut self, expr: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
         let expr = match expr {
             Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
                 type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
@@ -626,8 +626,8 @@ impl VisitMut for Strip {
         i.visit_mut_children_with(self);
     }
 
-    fn visit_mut_if_stmt(&mut self, mut s: IfStmt) -> IfStmt {
-        s = s.visit_mut_children_with(self);
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.visit_mut_children_with(self);
         let span = s.span;
 
         s.cons = match *s.cons {
@@ -651,7 +651,7 @@ impl VisitMut for Strip {
         s
     }
 
-    fn visit_mut_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
+    fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
         match self.phase {
             Phase::Analysis => {
                 macro_rules! store {
@@ -697,31 +697,26 @@ impl VisitMut for Strip {
         }
     }
 
-    fn visit_mut_object_pat(&mut self, mut pat: ObjectPat) -> ObjectPat {
-        pat = pat.visit_mut_children_with(self);
-
+    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
+        pat.visit_mut_children_with(self);
         pat.optional = false;
-
-        pat
     }
 
-    fn visit_mut_private_prop(&mut self, mut prop: PrivateProp) -> PrivateProp {
-        prop = prop.visit_mut_children_with(self);
+    fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
+        prop.visit_mut_children_with(self);
         prop.readonly = false;
-        prop
     }
 
-    fn visit_mut_class_prop(&mut self, mut prop: ClassProp) -> ClassProp {
-        prop = prop.visit_mut_children_with(self);
+    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
+        prop.visit_mut_children_with(self);
         prop.readonly = false;
-        prop
     }
 
-    fn visit_mut_stmt(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.visit_mut_children_with(self);
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        stmt.visit_mut_children_with(self);
 
         match stmt {
-            Stmt::Decl(decl) => match decl {
+            Stmt::Decl(ref decl) => match decl {
                 Decl::TsInterface(..)
                 | Decl::TsModule(..)
                 | Decl::TsTypeAlias(..)
@@ -729,17 +724,17 @@ impl VisitMut for Strip {
                 | Decl::Class(ClassDecl { declare: true, .. })
                 | Decl::Fn(FnDecl { declare: true, .. }) => {
                     let span = decl.span();
-                    Stmt::Empty(EmptyStmt { span })
+                    *stmt = Stmt::Empty(EmptyStmt { span })
                 }
 
-                _ => Stmt::Decl(decl),
+                _ => {}
             },
 
-            _ => stmt,
+            _ => {}
         }
     }
 
-    fn visit_mut_stmts(&mut self, mut orig: Vec<Stmt>) -> Vec<Stmt> {
+    fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
         let old = self.phase;
 
         // First pass
@@ -791,18 +786,13 @@ impl VisitMut for Strip {
         stmts
     }
 
-    fn visit_mut_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
-        TsInterfaceDecl {
-            span: node.span,
-            id: node.id,
-            type_params: None,
-            extends: self.add_types(node.extends),
-            body: self.add_types(node.body),
-            declare: false,
-        }
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        n.type_params = None;
+        self.add_types(&n.extends);
+        self.add_types(&n.body);
     }
 
-    fn visit_mut_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
+    fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
         self.add_types(node)
     }
 
@@ -814,8 +804,8 @@ impl VisitMut for Strip {
         TsTypeParamInstantiation
     );
 
-    fn visit_mut_class_members(&mut self, mut members: Vec<ClassMember>) -> Vec<ClassMember> {
-        members = members.visit_mut_children_with(self);
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        members.visit_mut_children_with(self);
 
         members.retain(|member| match *member {
             ClassMember::TsIndexSignature(..) => false,
@@ -839,13 +829,13 @@ impl VisitMut for Strip {
         members
     }
 
-    fn visit_mut_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
-        None
+    fn visit_mut_opt_accessibility(&mut self, n: &mut Option<Accessibility>) {
+        *n = None;
     }
 
     /// Remove `this` from parameter list
-    fn visit_mut_params(&mut self, params: Vec<Param>) -> Vec<Param> {
-        let mut params = params.visit_mut_children_with(self);
+    fn visit_mut_params(&mut self, params: &mut Vec<Param>) {
+        params.visit_mut_children_with(self);
 
         params.retain(|param| match param.pat {
             Pat::Ident(Ident {
@@ -854,8 +844,6 @@ impl VisitMut for Strip {
             }) => false,
             _ => true,
         });
-
-        params
     }
 
     fn visit_mut_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
