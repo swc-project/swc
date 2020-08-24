@@ -1447,3 +1447,16 @@ class A {
 new A();
     "
 );
+
+identical_ts!(
+    ts_resolver_nested_type_ref,
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'some';
+import { Another } from 'some';
+class A extends Nullable {
+    other: Nullable<Another>;
+}
+new A();
+    "
+);

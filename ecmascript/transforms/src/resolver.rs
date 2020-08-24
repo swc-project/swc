@@ -746,10 +746,13 @@ impl<'a> Fold for Resolver<'a> {
         let value = p.value.fold_with(self);
         self.ident_type = old;
 
+        let type_ann = p.type_ann.fold_with(self);
+
         ClassProp {
             decorators,
             key,
             value,
+            type_ann,
             ..p
         }
     }
