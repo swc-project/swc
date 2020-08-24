@@ -1,7 +1,7 @@
 use crate::util::{prepend_stmts, var::VarCollector, ExprFactory};
 use fxhash::FxHashMap;
-use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
@@ -54,26 +54,25 @@ struct DeclInfo {
 }
 
 impl Strip {
+    fn store(&mut self, sym: JsWord, ctxt: SyntaxContext, concrete: bool) {
+        let entry = self.scope.decls.entry((sym, ctxt)).or_default();
+
+        if concrete {
+            entry.has_concrete = true
+        } else {
+            entry.has_type = true;
+        }
+    }
+
     fn handle_decl(&mut self, decl: &Decl) {
         // We don't care about stuffs which cannot be exported
         if self.non_top_level {
             return;
         }
 
-        macro_rules! store {
-            ($sym:expr, $ctxt:expr, $concrete:expr) => {{
-                let entry = self.scope.decls.entry(($sym.clone(), $ctxt)).or_default();
-
-                if $concrete {
-                    entry.has_concrete = true
-                } else {
-                    entry.has_type = true;
-                }
-            }};
-        }
         match *decl {
             Decl::Class(ClassDecl { ref ident, .. }) | Decl::Fn(FnDecl { ref ident, .. }) => {
-                store!(ident.sym, ident.span.ctxt(), true);
+                self.store(ident.sym.clone(), ident.span.ctxt, true);
             }
 
             Decl::Var(ref var) => {
@@ -84,14 +83,14 @@ impl Strip {
                 );
 
                 for name in names {
-                    store!(name.0, name.1, true);
+                    self.store(name.0.clone(), name.1, true);
                 }
             }
 
             Decl::TsEnum(TsEnumDecl { ref id, .. }) => {
                 // Currently swc cannot remove constant enums
-                store!(id.sym, id.span.ctxt(), true);
-                store!(id.sym, id.span.ctxt(), false);
+                self.store(id.sym.clone(), id.span.ctxt, true);
+                self.store(id.sym.clone(), id.span.ctxt, false);
             }
 
             Decl::TsInterface(TsInterfaceDecl { ref id, .. })
@@ -100,7 +99,7 @@ impl Strip {
                 ..
             })
             | Decl::TsTypeAlias(TsTypeAliasDecl { ref id, .. }) => {
-                store!(id.sym, id.span.ctxt(), false)
+                self.store(id.sym.clone(), id.span.ctxt, false)
             }
 
             Decl::TsModule(TsModuleDecl {
@@ -109,7 +108,7 @@ impl Strip {
                         ref value, span, ..
                     }),
                 ..
-            }) => store!(value, span.ctxt(), false),
+            }) => self.store(value.clone(), span.ctxt, false),
         }
     }
 }
