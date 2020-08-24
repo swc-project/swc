@@ -622,6 +622,7 @@ impl<'a> Fold for Resolver<'a> {
             return n;
         }
 
+        self.in_type = true;
         self.ident_type = IdentType::Binding;
         n.fold_children_with(self)
     }
@@ -631,6 +632,7 @@ impl<'a> Fold for Resolver<'a> {
             return n;
         }
 
+        self.in_type = true;
         self.ident_type = IdentType::Ref;
         TsQualifiedName {
             left: n.left.fold_with(self),
