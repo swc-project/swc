@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecmascript"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
