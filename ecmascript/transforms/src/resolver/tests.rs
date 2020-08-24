@@ -8,7 +8,7 @@ use crate::{
 };
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_visit::{as_folder, VisitMut};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 
 struct TsHygiene {
     top_level_mark: Mark,
@@ -24,6 +24,15 @@ impl VisitMut for TsHygiene {
         i.sym = format!("{}__{}", i.sym, ctxt).into();
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        if n.computed {
+            n.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_ts_enum_member(&mut self, _: &mut TsEnumMember) {}
 }
 
 fn tr() -> impl Fold {
@@ -1403,5 +1412,18 @@ import { Nullable } from 'nullable';
 import { SomeOther } from 'other';
 const a: Nullable<SomeOther> = 'hello';
 console.log(a);
+    "
+);
+
+to_ts!(
+    ts_resolver_import_and_implements,
+    "
+import { Nullable } from 'nullable';
+import { Component } from 'react';
+class Foo implements Component<Nullable> {}
+new Foo();
+    ",
+    "
+
     "
 );
