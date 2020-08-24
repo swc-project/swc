@@ -117,7 +117,7 @@ impl<'a> Resolver<'a> {
 
     /// Returns a [Mark] for an identifier reference.
     fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
-        if self.in_type {
+        if self.handle_types && self.in_type {
             let mut mark = self.mark;
             let mut scope = Some(&self.current);
 
@@ -126,39 +126,36 @@ impl<'a> Resolver<'a> {
                 // cur.hoisted_symbols.borrow().contains(sym) {
                 if cur.declared_types.contains(sym) {
                     if mark == Mark::root() {
-                        return None;
+                        break;
                     }
                     return Some(mark);
                 }
                 mark = mark.parent();
                 scope = cur.parent;
             }
-
-            None
-        } else {
-            let mut mark = self.mark;
-            let mut scope = Some(&self.current);
-
-            while let Some(cur) = scope {
-                if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym)
-                {
-                    if mark == Mark::root() {
-                        return None;
-                    }
-                    return Some(mark);
-                }
-                mark = mark.parent();
-                scope = cur.parent;
-            }
-
-            if let Some((ref c, mark)) = self.cur_defining {
-                if *c == *sym {
-                    return Some(mark);
-                }
-            }
-
-            None
         }
+
+        let mut mark = self.mark;
+        let mut scope = Some(&self.current);
+
+        while let Some(cur) = scope {
+            if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym) {
+                if mark == Mark::root() {
+                    return None;
+                }
+                return Some(mark);
+            }
+            mark = mark.parent();
+            scope = cur.parent;
+        }
+
+        if let Some((ref c, mark)) = self.cur_defining {
+            if *c == *sym {
+                return Some(mark);
+            }
+        }
+
+        None
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
