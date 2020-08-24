@@ -461,6 +461,8 @@ impl Visit for Strip {
             TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
         }
     }
+
+    fn visit_pat(&mut self, _: &Pat, _: &dyn Node) {}
 }
 
 macro_rules! type_to_none {
@@ -828,27 +830,29 @@ impl Fold for Strip {
         TsTypeParamInstantiation
     );
 
-    fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
-        let members = members.fold_children_with(self);
+    fn fold_class_members(&mut self, mut members: Vec<ClassMember>) -> Vec<ClassMember> {
+        members = members.fold_children_with(self);
 
-        members.move_flat_map(|member| match member {
-            ClassMember::TsIndexSignature(..) => None,
-            ClassMember::Constructor(Constructor { body: None, .. }) => None,
+        members.retain(|member| match *member {
+            ClassMember::TsIndexSignature(..) => false,
+            ClassMember::Constructor(Constructor { body: None, .. }) => false,
             ClassMember::Method(ClassMethod {
                 is_abstract: true, ..
             })
             | ClassMember::Method(ClassMethod {
                 function: Function { body: None, .. },
                 ..
-            }) => None,
+            }) => false,
             ClassMember::ClassProp(ClassProp {
                 value: None,
                 ref decorators,
                 ..
-            }) if decorators.is_empty() => None,
+            }) if decorators.is_empty() => false,
 
-            _ => Some(member),
-        })
+            _ => true,
+        });
+
+        members
     }
 
     fn fold_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
