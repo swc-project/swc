@@ -16,9 +16,7 @@ struct TsHygiene {
 
 impl VisitMut for TsHygiene {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if i.span.ctxt == SyntaxContext::empty()
-            || SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt
-        {
+        if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
             return;
         }
 
