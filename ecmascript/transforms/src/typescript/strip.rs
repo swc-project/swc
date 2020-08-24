@@ -459,7 +459,7 @@ impl Visit for Strip {
                     .entry((i.sym.clone(), i.span.ctxt()))
                     .and_modify(|v| v.has_type = true);
             }
-            TsEntityName::TsQualifiedName(..) => name.visit_children_with(self),
+            TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
         }
     }
 }
