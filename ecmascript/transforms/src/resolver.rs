@@ -827,6 +827,11 @@ impl<'a> Fold for Resolver<'a> {
         }
     }
 
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
+        self.in_type = false;
+        decl.fold_children_with(self)
+    }
+
     fn fold_fn_expr(&mut self, e: FnExpr) -> FnExpr {
         let ident = if let Some(ident) = e.ident {
             Some(self.fold_binding_ident(ident))
@@ -877,7 +882,12 @@ impl<'a> Fold for Resolver<'a> {
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("resolver: IdentRef {}{:?}", sym, i.span.ctxt());
+                    eprintln!(
+                        "resolver: IdentRef (type = {}) {}{:?}",
+                        self.in_type,
+                        sym,
+                        i.span.ctxt()
+                    );
                 }
 
                 if span.ctxt() != SyntaxContext::empty() {
