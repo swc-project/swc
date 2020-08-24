@@ -1423,3 +1423,13 @@ class Foo implements Component<Nullable> {}
 new Foo();
     "
 );
+
+identical_ts!(
+    ts_resolver_import_and_extends,
+    "
+    import { Nullable } from 'nullable';
+    import { Component } from 'react';
+    class Foo extends Component<Nullable, {}> {}
+    new Foo();
+    "
+);
