@@ -8,7 +8,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
@@ -288,6 +288,7 @@ macro_rules! typed_ref {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: $T) -> $T {
             if self.handle_types {
+                eprintln!(stringify!($name));
                 self.ident_type = IdentType::Ref;
                 self.in_type = true;
                 node.fold_children_with(self)
@@ -862,7 +863,9 @@ impl<'a> Fold for Resolver<'a> {
         f
     }
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
+    fn fold_ident(&mut self, mut i: Ident) -> Ident {
+        i = i.fold_children_with(self);
+
         match self.ident_type {
             IdentType::Binding => self.fold_binding_ident(i),
             IdentType::Ref => {
@@ -921,8 +924,9 @@ impl<'a> Fold for Resolver<'a> {
     }
 
     fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
+        self.in_type = false;
         let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
+        self.ident_type = IdentType::Binding;
         let local = s.local.fold_with(self);
         self.ident_type = old;
 
