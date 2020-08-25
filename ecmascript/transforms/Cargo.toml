@@ -20,6 +20,7 @@ swc_common = { version = "0.10.0", path ="../../common" }
 swc_ecma_ast = { version = "0.30.0", path ="../ast" }
 swc_ecma_utils = { version = "0.20.0", path ="../utils" }
 swc_ecma_parser = { version = "0.36.0", path ="../parser" }
+swc_ecma_transforms_macros = { version = "0.1.0", path ="./macros" }
 swc_ecma_visit = { version = "0.16.0", path ="../visit" }
 dashmap = { version = "3", optional = true }
 either = "1.5"
