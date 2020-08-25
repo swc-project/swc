@@ -29,7 +29,7 @@ impl NullishCoalescing {
         let mut buf = Vec::with_capacity(stmts.len() + 2);
 
         for stmt in stmts {
-            if !ShouldWork::should_work(&stmts) {
+            if !ShouldWork::should_work(&stmt) {
                 buf.push(stmt);
                 continue;
             }
