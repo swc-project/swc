@@ -195,7 +195,6 @@ impl Options {
             let config = transform.const_modules.unwrap_or_default();
 
             let globals = config.globals;
-            dbg!(enabled);
             Optional::new(const_modules(cm.clone(), globals), enabled)
         };
 
@@ -203,7 +202,6 @@ impl Options {
             if let Some(ref cfg) = optimizer.as_ref().and_then(|v| v.jsonify) {
                 Either::Left(json_parse(cfg.min_cost))
             } else {
-                dbg!();
                 Either::Right(noop())
             }
         };
