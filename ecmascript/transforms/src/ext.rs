@@ -15,7 +15,7 @@ pub(crate) trait MapWithMut: Sized {
         let invalid = Self::dummy();
         let v = replace(self, invalid);
         let v = op(v);
-        replace(self, v);
+        let _dummy = replace(self, v);
     }
 }
 
