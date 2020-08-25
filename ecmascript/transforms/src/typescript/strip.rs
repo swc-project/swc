@@ -754,7 +754,7 @@ impl VisitMut for Strip {
 
         // Second pass
         let mut stmts = Vec::with_capacity(orig.len());
-        for item in take(orig) {
+        for mut item in take(orig) {
             self.was_side_effect_import = false;
             match item {
                 Stmt::Empty(..) => continue,
@@ -867,7 +867,7 @@ impl VisitMut for Strip {
         // Second pass
         self.phase = Phase::DropImports;
         let mut stmts = Vec::with_capacity(items.len());
-        for item in take(items) {
+        for mut item in take(items) {
             self.was_side_effect_import = false;
             match item {
                 // Strip out ts-only extensions
@@ -937,7 +937,7 @@ impl VisitMut for Strip {
                     ..
                 })) => continue,
 
-                ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
                     i.visit_mut_with(self);
 
                     if self.was_side_effect_import || !i.specifiers.is_empty() {

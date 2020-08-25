@@ -46,6 +46,13 @@ impl MapWithMut for Pat {
     }
 }
 
+impl<T> MapWithMut for Option<T> {
+    #[inline(always)]
+    fn dummy() -> Self {
+        None
+    }
+}
+
 pub(crate) trait PatOrExprExt: AsOptExpr {
     fn as_ref(&self) -> &PatOrExpr;
     fn as_mut(&mut self) -> &mut PatOrExpr;
