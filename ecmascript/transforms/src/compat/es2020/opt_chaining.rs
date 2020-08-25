@@ -2,7 +2,7 @@ use crate::util::{prepend, undefined, ExprFactory, StmtLike};
 use std::{fmt::Debug, iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub fn optional_chaining() -> impl Fold {
     OptChaining::default()
@@ -17,6 +17,10 @@ impl Fold for OptChaining {
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        if !ShouldWork::should_work(&e) {
+            return e;
+        }
+
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
             Expr::Unary(e) => validate!(self.handle_unary(e)),
@@ -40,9 +44,13 @@ impl Fold for OptChaining {
 impl OptChaining {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + FoldWith<Self>,
-        Vec<T>: FoldWith<Self>,
+        T: StmtLike + FoldWith<Self> + VisitWith<ShouldWork>,
+        Vec<T>: FoldWith<Self> + VisitWith<ShouldWork>,
     {
+        if !ShouldWork::should_work(&stmts) {
+            return stmts;
+        }
+
         // This is to support nested block statements
         let old = mem::replace(&mut self.vars, vec![]);
 
@@ -402,5 +410,29 @@ impl OptChaining {
             }
             _ => unreachable!("TsOptChain.expr = {:?}", e.expr),
         }
+    }
+}
+
+struct ShouldWork {
+    /// Found optional chaining?
+    found: bool,
+}
+
+impl ShouldWork {
+    pub fn should_work<T>(n: &T) -> bool
+    where
+        T: VisitWith<Self>,
+    {
+        let mut v = Self { found: false };
+        n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+        v.found
+    }
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _: &dyn Node) {
+        self.found = true;
     }
 }
