@@ -565,15 +565,13 @@ where
         expr = if is_opt_vec(ty) {
             match mode {
                 Mode::Fold => expr,
-
-                Mode::VisitMut => q!(Vars { expr }, { expr }).parse(),
-
+                Mode::VisitMut => expr,
                 Mode::Visit => q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse(),
             }
         } else {
             match mode {
                 Mode::Fold => expr,
-                Mode::VisitMut => q!(Vars { expr }, { expr }).parse(),
+                Mode::VisitMut => expr,
                 Mode::Visit => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         };
