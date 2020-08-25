@@ -595,8 +595,8 @@ impl VisitMut for Strip {
             let expr = match expr {
                 Expr::Member(MemberExpr {
                     span,
-                    obj,
-                    prop,
+                    mut obj,
+                    mut prop,
                     computed,
                 }) => {
                     obj.visit_mut_with(self);
