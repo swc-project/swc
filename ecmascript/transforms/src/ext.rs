@@ -7,6 +7,7 @@ use swc_ecma_utils::ExprExt;
 pub(crate) trait MapWithMut: Sized {
     fn dummy() -> Self;
 
+    #[inline]
     fn map_with_mut<F>(&mut self, op: F)
     where
         F: FnOnce(Self) -> Self,
@@ -50,6 +51,13 @@ impl<T> MapWithMut for Option<T> {
     #[inline(always)]
     fn dummy() -> Self {
         None
+    }
+}
+
+impl<T> MapWithMut for Vec<T> {
+    #[inline(always)]
+    fn dummy() -> Self {
+        Vec::new()
     }
 }
 

@@ -505,53 +505,55 @@ impl VisitMut for Strip {
 
         let mut stmts = vec![];
 
-        n.params = n.params.move_map(|param| match param {
-            ParamOrTsParamProp::Param(..) => param,
-            ParamOrTsParamProp::TsParamProp(param) => {
-                let (ident, param) = match param.param {
-                    TsParamPropParam::Ident(i) => (
-                        i.clone(),
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: Pat::Ident(i),
-                        },
-                    ),
-                    TsParamPropParam::Assign(AssignPat {
-                        span, left, right, ..
-                    }) if left.is_ident() => {
-                        let i = left.ident().unwrap();
-
-                        (
+        n.params.map_with_mut(|params| {
+            params.move_map(|param| match param {
+                ParamOrTsParamProp::Param(..) => param,
+                ParamOrTsParamProp::TsParamProp(param) => {
+                    let (ident, param) = match param.param {
+                        TsParamPropParam::Ident(i) => (
                             i.clone(),
                             Param {
                                 span: DUMMY_SP,
                                 decorators: Default::default(),
-                                pat: Pat::Assign(AssignPat {
-                                    span,
-                                    left: Box::new(Pat::Ident(i)),
-                                    right,
-                                    type_ann: None,
-                                }),
+                                pat: Pat::Ident(i),
                             },
-                        )
-                    }
-                    _ => unreachable!("destructuring pattern inside TsParameterProperty"),
-                };
-                stmts.push(
-                    AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Expr(Box::new(
-                            ThisExpr { span: DUMMY_SP }.make_member(ident.clone()),
-                        )),
-                        op: op!("="),
-                        right: Box::new(Expr::Ident(ident)),
-                    }
-                    .into_stmt(),
-                );
+                        ),
+                        TsParamPropParam::Assign(AssignPat {
+                            span, left, right, ..
+                        }) if left.is_ident() => {
+                            let i = left.ident().unwrap();
 
-                ParamOrTsParamProp::Param(param)
-            }
+                            (
+                                i.clone(),
+                                Param {
+                                    span: DUMMY_SP,
+                                    decorators: Default::default(),
+                                    pat: Pat::Assign(AssignPat {
+                                        span,
+                                        left: Box::new(Pat::Ident(i)),
+                                        right,
+                                        type_ann: None,
+                                    }),
+                                },
+                            )
+                        }
+                        _ => unreachable!("destructuring pattern inside TsParameterProperty"),
+                    };
+                    stmts.push(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Expr(Box::new(
+                                ThisExpr { span: DUMMY_SP }.make_member(ident.clone()),
+                            )),
+                            op: op!("="),
+                            right: Box::new(Expr::Ident(ident)),
+                        }
+                        .into_stmt(),
+                    );
+
+                    ParamOrTsParamProp::Param(param)
+                }
+            })
         });
 
         n.body = match n.body.take() {
@@ -574,7 +576,7 @@ impl VisitMut for Strip {
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.map_with_mut(|expr| {
-            let expr = match expr {
+            let mut expr = match expr {
                 Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
                     type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
                     validate!(*expr)
@@ -646,23 +648,25 @@ impl VisitMut for Strip {
         s.visit_mut_children_with(self);
         let span = s.span;
 
-        s.cons = match *s.cons {
+        s.cons.map_with_mut(|cons| match cons {
             Stmt::Decl(Decl::TsEnum(e)) => {
                 let mut stmts = vec![];
                 self.handle_enum(e, &mut stmts);
                 Box::new(Stmt::Block(BlockStmt { span, stmts }))
             }
-            _ => s.cons,
-        };
-
-        s.alt = s.alt.map(|s| match *s {
-            Stmt::Decl(Decl::TsEnum(e)) => {
-                let mut stmts = vec![];
-                self.handle_enum(e, &mut stmts);
-                Box::new(Stmt::Block(BlockStmt { span, stmts }))
-            }
-            _ => s,
+            _ => cons,
         });
+
+        s.alt.map_with_mut(|alt| {
+            alt.map(|s| match *s {
+                Stmt::Decl(Decl::TsEnum(e)) => {
+                    let mut stmts = vec![];
+                    self.handle_enum(e, &mut stmts);
+                    Box::new(Stmt::Block(BlockStmt { span, stmts }))
+                }
+                _ => s,
+            })
+        })
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
