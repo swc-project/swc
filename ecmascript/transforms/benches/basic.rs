@@ -12,7 +12,7 @@ use swc_ecma_transforms::helpers;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
-static SOURCE: &str = include_str!("../../parser/benches/files/angular-1.2.5.js");
+static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 /// Benchmark a folder
 macro_rules! tr {
