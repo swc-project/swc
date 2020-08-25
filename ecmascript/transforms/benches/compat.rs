@@ -7,8 +7,9 @@ static GLOBAL: System = System;
 
 use std::alloc::System;
 use swc_common::{FileName, Mark};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
-use swc_ecma_transforms::{compat, helpers};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_transforms::{compat, helpers, typescript};
+use swc_ecma_visit::Fold;
 use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
@@ -22,24 +23,35 @@ macro_rules! tr {
         let _ = ::testing::run_test(false, |cm, _| {
             let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
             let lexer = Lexer::new(
-                Default::default(),
+                Syntax::Typescript(Default::default()),
                 Default::default(),
                 StringInput::from(&*fm),
                 None,
             );
             let mut parser = Parser::new_from(lexer);
             let module = parser.parse_module().map_err(|_| ()).unwrap();
-            helpers::HELPERS.set(&Default::default(), || {
-                let mut tr = $tr();
+            let module = module.fold_with(&mut typescript::strip());
 
-                $b.iter(|| {
-                    let module = module.clone();
-                    test::black_box(module.fold_with(&mut tr))
+            $b.iter(|| {
+                let module = module.clone();
+
+                let _ = helpers::HELPERS.set(&Default::default(), || {
+                    let mut tr = $tr();
+
+                    test::black_box(module.fold_with(&mut tr));
                 });
-                Ok(())
-            })
+            });
+
+            Ok(())
         });
     };
+}
+
+#[bench]
+fn base(b: &mut Bencher) {
+    struct Noop;
+    impl Fold for Noop {}
+    tr!(b, || Noop);
 }
 
 #[bench]

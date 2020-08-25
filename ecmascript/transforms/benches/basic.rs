@@ -22,7 +22,11 @@ macro_rules! tr {
         let _ = ::testing::run_test(false, |cm, _| {
             let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-            let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
+            let mut parser = Parser::new(
+                Syntax::Typescript(Default::default()),
+                StringInput::from(&*fm),
+                None,
+            );
             let module = parser.parse_module().map_err(|_| ()).unwrap();
             helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = $tr();

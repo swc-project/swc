@@ -17,7 +17,7 @@ fn module_clone(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
         let lexer = Lexer::new(
-            Syntax::default(),
+            Syntax::Typescript(Default::default()),
             Default::default(),
             StringInput::from(&*fm),
             None,
@@ -46,7 +46,7 @@ fn fold_empty(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
         let lexer = Lexer::new(
-            Syntax::default(),
+            Syntax::Typescript(Default::default()),
             Default::default(),
             StringInput::from(&*fm),
             None,
@@ -79,7 +79,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
         let lexer = Lexer::new(
-            Syntax::default(),
+            Syntax::Typescript(Default::default()),
             Default::default(),
             StringInput::from(&*fm),
             None,
@@ -109,7 +109,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
         let lexer = Lexer::new(
-            Syntax::default(),
+            Syntax::Typescript(Default::default()),
             Default::default(),
             StringInput::from(&*fm),
             None,
@@ -191,7 +191,7 @@ fn visit_empty(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, _| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
         let lexer = Lexer::new(
-            Syntax::default(),
+            Syntax::Typescript(Default::default()),
             Default::default(),
             StringInput::from(&*fm),
             None,
@@ -233,7 +233,7 @@ fn visit_contains_this(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, _| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
         let lexer = Lexer::new(
-            Syntax::default(),
+            Syntax::Typescript(Default::default()),
             Default::default(),
             StringInput::from(&*fm),
             None,
