@@ -14,7 +14,7 @@ use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
-fn bench_swc(b: &mut Bencher, opts: &Options) {
+fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let handler = Arc::new(Handler::with_tty_emitter(
         ColorConfig::Always,
@@ -25,8 +25,34 @@ fn bench_swc(b: &mut Bencher, opts: &Options) {
 
     let c = swc::Compiler::new(cm.clone(), handler);
 
+    c
+}
+
+#[bench]
+fn base_parsing(b: &mut Bencher) {
+    let c = mk();
+
     b.iter(|| {
-        let fm = cm.new_source_file(
+        let fm = c.cm.new_source_file(
+            FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+            SOURCE.to_string(),
+        );
+        c.parse_js(
+            fm,
+            JscTarget::Es5,
+            Syntax::Typescript(Default::default()),
+            true,
+            true,
+        )
+        .unwrap();
+    });
+}
+
+fn bench_swc(b: &mut Bencher, opts: &Options) {
+    let c = mk();
+
+    b.iter(|| {
+        let fm = c.cm.new_source_file(
             FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
             SOURCE.to_string(),
         );
