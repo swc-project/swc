@@ -2,7 +2,7 @@ use crate::util::{alias_if_required, undefined, StmtLike};
 use std::mem::replace;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -19,11 +19,20 @@ struct NullishCoalescing {
 impl NullishCoalescing {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: FoldWith<Self> + StmtLike,
+        T: FoldWith<Self> + StmtLike + VisitWith<ShouldWork>,
+        Vec<T>: VisitWith<ShouldWork>,
     {
+        if !ShouldWork::should_work(&stmts) {
+            return stmts;
+        }
+
         let mut buf = Vec::with_capacity(stmts.len() + 2);
 
         for stmt in stmts {
+            if !ShouldWork::should_work(&stmts) {
+                buf.push(stmt);
+                continue;
+            }
             let stmt = stmt.fold_with(self);
 
             if !self.vars.is_empty() {
@@ -54,6 +63,9 @@ impl Fold for NullishCoalescing {
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        if !ShouldWork::should_work(&e) {
+            return e;
+        }
         let e = e.fold_children_with(self);
 
         match e {
