@@ -10,7 +10,7 @@ use swc_common::{
 };
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
-use swc_ecma_transforms::{compat, typescript};
+use swc_ecma_transforms::{compat, fixer, hygiene, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -100,6 +100,29 @@ fn base_tr_es2018(b: &mut Bencher) {
     b.iter(|| black_box(module.clone().fold_with(&mut compat::es2018())));
 }
 
+#[bench]
+fn base_tr_fixer(b: &mut Bencher) {
+    let c = mk();
+    let module = as_es(&c);
+
+    b.iter(|| black_box(module.clone().fold_with(&mut fixer(Some(c.comments())))));
+}
+
+#[bench]
+fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
+    let c = mk();
+    let module = as_es(&c);
+
+    b.iter(|| {
+        black_box(
+            module
+                .clone()
+                .fold_with(&mut resolver())
+                .fold_with(&mut hygiene()),
+        )
+    });
+}
+
 /// This benchmark exists to know exact execution time of each pass.
 #[bench]
 fn config_for_file(b: &mut Bencher) {
@@ -125,6 +148,41 @@ fn config_for_file(b: &mut Bencher) {
             },
             &FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
         ))
+    });
+}
+
+/// This benchmark exists to know exact execution time of each pass.
+#[bench]
+fn config_transforms(b: &mut Bencher) {
+    let c = mk();
+    let module = parse(&c);
+
+    b.iter(|| {
+        let program = module.clone();
+
+        let mut config = c
+            .config_for_file(
+                &Options {
+                    config: Some(Config {
+                        jsc: JscConfig {
+                            target: JscTarget::Es2016,
+                            syntax: Some(Syntax::Typescript(TsConfig {
+                                ..Default::default()
+                            })),
+                            ..Default::default()
+                        },
+                        module: None,
+                        ..Default::default()
+                    }),
+                    swcrc: false,
+                    is_module: true,
+                    ..Default::default()
+                },
+                &FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+            )
+            .unwrap();
+        let program = c.run_transform(true, || program.fold_with(&mut config.pass));
+        black_box(program)
     });
 }
 
