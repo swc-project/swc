@@ -2,14 +2,16 @@
 
 extern crate test;
 
-use std::sync::Arc;
+use std::{hint::black_box, sync::Arc};
 use swc::config::{Config, JscConfig, ModuleConfig, Options};
 use swc_common::{
     errors::{ColorConfig, Handler},
     FileName, FilePathMapping, SourceMap,
 };
+use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
-use swc_ecma_transforms::modules::common_js;
+use swc_ecma_transforms::{compat, modules::common_js, typescript};
+use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
@@ -28,24 +30,82 @@ fn mk() -> swc::Compiler {
     c
 }
 
+fn parse(c: &swc::Compiler) -> Program {
+    let fm = c.cm.new_source_file(
+        FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+        SOURCE.to_string(),
+    );
+    c.parse_js(
+        fm,
+        JscTarget::Es5,
+        Syntax::Typescript(Default::default()),
+        true,
+        true,
+    )
+    .unwrap()
+}
+
+fn as_es(c: &swc::Compiler) -> Program {
+    let program = parse(c);
+
+    program.fold_with(&mut typescript::strip())
+}
+
+/// This benchmark exists to know exact execution time of each pass.
 #[bench]
 fn base_parser(b: &mut Bencher) {
     let c = mk();
 
-    b.iter(|| {
-        let fm = c.cm.new_source_file(
-            FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
-            SOURCE.to_string(),
-        );
-        c.parse_js(
-            fm,
-            JscTarget::Es5,
-            Syntax::Typescript(Default::default()),
-            true,
-            true,
-        )
-        .unwrap();
-    });
+    b.iter(|| black_box(parse(&c)));
+}
+
+/// This benchmark exists to know exact execution time of each pass.
+#[bench]
+fn base_tr_clone(b: &mut Bencher) {
+    let c = mk();
+    let module = parse(&c);
+
+    b.iter(|| black_box(module.clone()));
+}
+
+#[bench]
+fn base_tr_typescript_strip(b: &mut Bencher) {
+    let c = mk();
+    let module = parse(&c);
+
+    b.iter(|| black_box(module.clone().fold_with(&mut typescript::strip())));
+}
+
+#[bench]
+fn base_tr_es2016(b: &mut Bencher) {
+    let c = mk();
+    let module = as_es(&c);
+
+    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2016())));
+}
+
+#[bench]
+fn base_tr_es2017(b: &mut Bencher) {
+    let c = mk();
+    let module = as_es(&c);
+
+    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2017())));
+}
+
+#[bench]
+fn base_tr_es2018(b: &mut Bencher) {
+    let c = mk();
+    let module = as_es(&c);
+
+    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2018())));
+}
+
+#[bench]
+fn base_tr_es2019(b: &mut Bencher) {
+    let c = mk();
+    let module = as_es(&c);
+
+    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2019())));
 }
 
 fn bench_swc(b: &mut Bencher, opts: &Options) {
