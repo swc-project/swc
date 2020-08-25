@@ -1070,6 +1070,8 @@ impl VisitMut for Strip {
                 }
             };
         }
+
+        *items = stmts;
         self.phase = old;
     }
 
