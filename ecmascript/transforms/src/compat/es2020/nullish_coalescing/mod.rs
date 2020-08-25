@@ -115,3 +115,31 @@ impl Fold for NullishCoalescing {
         e
     }
 }
+
+struct ShouldWork {
+    /// Found optional chaining?
+    found: bool,
+}
+
+impl ShouldWork {
+    pub fn should_work<T>(n: &T) -> bool
+    where
+        T: VisitWith<Self>,
+    {
+        let mut v = Self { found: false };
+        n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+        v.found
+    }
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+        if e.op == op!("??") {
+            self.found = true;
+        } else {
+            e.visit_children_with(self)
+        }
+    }
+}
