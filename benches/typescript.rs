@@ -5,6 +5,7 @@ extern crate test;
 use std::{hint::black_box, sync::Arc};
 use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
 use swc_common::{
+    chain,
     errors::{ColorConfig, Handler},
     FileName, FilePathMapping, SourceMap,
 };
@@ -101,11 +102,31 @@ fn base_tr_es2018(b: &mut Bencher) {
 }
 
 #[bench]
+fn base_tr_es2020(b: &mut Bencher) {
+    let c = mk();
+    let module = as_es(&c);
+
+    b.iter(|| {
+        black_box(c.run_transform(false, || {
+            module.clone().fold_with(&mut chain!(
+                compat::es2020::nullish_coalescing(),
+                compat::es2020::optional_chaining(),
+                compat::es2020::class_properties(),
+            ))
+        }))
+    });
+}
+
+#[bench]
 fn base_tr_fixer(b: &mut Bencher) {
     let c = mk();
     let module = as_es(&c);
 
-    b.iter(|| black_box(module.clone().fold_with(&mut fixer(Some(c.comments())))));
+    b.iter(|| {
+        black_box(c.run_transform(true, || {
+            module.clone().fold_with(&mut fixer(Some(c.comments())))
+        }))
+    });
 }
 
 #[bench]
