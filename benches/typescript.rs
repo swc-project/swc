@@ -29,7 +29,7 @@ fn mk() -> swc::Compiler {
 }
 
 #[bench]
-fn base_parsing(b: &mut Bencher) {
+fn base_parser(b: &mut Bencher) {
     let c = mk();
 
     b.iter(|| {
