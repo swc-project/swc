@@ -5,13 +5,12 @@ extern crate test;
 use std::{hint::black_box, sync::Arc};
 use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
 use swc_common::{
-    chain,
     errors::{ColorConfig, Handler},
     FileName, FilePathMapping, SourceMap,
 };
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
-use swc_ecma_transforms::{compat, fixer, hygiene, resolver, typescript};
+use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -50,71 +49,6 @@ fn as_es(c: &swc::Compiler) -> Program {
     let program = parse(c);
 
     program.fold_with(&mut typescript::strip())
-}
-
-/// This benchmark exists to know exact execution time of each pass.
-#[bench]
-fn base_parser(b: &mut Bencher) {
-    let c = mk();
-
-    b.iter(|| black_box(parse(&c)));
-}
-
-/// This benchmark exists to know exact execution time of each pass.
-#[bench]
-fn base_tr_clone(b: &mut Bencher) {
-    let c = mk();
-    let module = parse(&c);
-
-    b.iter(|| black_box(module.clone()));
-}
-
-#[bench]
-fn base_tr_typescript_strip(b: &mut Bencher) {
-    let c = mk();
-    let module = parse(&c);
-
-    b.iter(|| black_box(module.clone().fold_with(&mut typescript::strip())));
-}
-
-#[bench]
-fn base_tr_es2016(b: &mut Bencher) {
-    let c = mk();
-    let module = as_es(&c);
-
-    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2016())));
-}
-
-#[bench]
-fn base_tr_es2017(b: &mut Bencher) {
-    let c = mk();
-    let module = as_es(&c);
-
-    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2017())));
-}
-
-#[bench]
-fn base_tr_es2018(b: &mut Bencher) {
-    let c = mk();
-    let module = as_es(&c);
-
-    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2018())));
-}
-
-#[bench]
-fn base_tr_es2020(b: &mut Bencher) {
-    let c = mk();
-    let module = as_es(&c);
-
-    b.iter(|| {
-        black_box(c.run_transform(false, || {
-            module.clone().fold_with(&mut chain!(
-                compat::es2020::nullish_coalescing(),
-                compat::es2020::optional_chaining(),
-                compat::es2020::class_properties(),
-            ))
-        }))
-    });
 }
 
 #[bench]
