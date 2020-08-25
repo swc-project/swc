@@ -240,7 +240,7 @@ impl<I: Tokens> Buffer<I> {
         });
     }
 
-    #[inline(never)]
+    #[inline]
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
         self.prev_span = match prev {
