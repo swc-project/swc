@@ -61,6 +61,16 @@ impl<T> MapWithMut for Vec<T> {
     }
 }
 
+impl<T> MapWithMut for Box<T>
+where
+    T: MapWithMut,
+{
+    #[inline(always)]
+    fn dummy() -> Self {
+        Box::new(T::dummy())
+    }
+}
+
 pub(crate) trait PatOrExprExt: AsOptExpr {
     fn as_ref(&self) -> &PatOrExpr;
     fn as_mut(&mut self) -> &mut PatOrExpr;
