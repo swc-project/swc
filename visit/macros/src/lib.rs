@@ -566,14 +566,14 @@ where
             match mode {
                 Mode::Fold => expr,
 
-                Mode::VisitMut => q!(Vars { expr }, { expr.as_mut() }).parse(),
+                Mode::VisitMut => q!(Vars { expr }, { expr }).parse(),
 
                 Mode::Visit => q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse(),
             }
         } else {
             match mode {
                 Mode::Fold => expr,
-                Mode::VisitMut => q!(Vars { expr }, { expr.as_mut() }).parse(),
+                Mode::VisitMut => q!(Vars { expr }, { expr }).parse(),
                 Mode::Visit => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         };
@@ -1106,7 +1106,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                                 return mk_exact(
                                                     mode,
                                                     ident,
-                                                    &q!(Vars { item }, { Option<&mut Vec<item>> })
+                                                    &q!(Vars { item }, { &mut Option<Vec<item>> })
                                                         .parse(),
                                                 );
                                             }
@@ -1132,7 +1132,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                             return mk_exact(
                                                 mode,
                                                 ident,
-                                                &q!(Vars { arg }, { Option<&mut arg> }).parse(),
+                                                &q!(Vars { arg }, { &mut Option<arg> }).parse(),
                                             );
                                         }
                                         Mode::Visit => {
@@ -1378,10 +1378,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             .parse(),
                                             Mode::VisitMut => q!(
                                                 Vars { ident },
-                                                ({
-                                                    n.iter_mut()
-                                                        .for_each(|v| _visitor.ident(v.as_mut()))
-                                                })
+                                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                                             )
                                             .parse(),
                                             Mode::Visit => q!(
