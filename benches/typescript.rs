@@ -114,12 +114,12 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
     let module = as_es(&c);
 
     b.iter(|| {
-        black_box(
+        black_box(c.run_transform(true, || {
             module
                 .clone()
                 .fold_with(&mut resolver())
-                .fold_with(&mut hygiene()),
-        )
+                .fold_with(&mut hygiene())
+        }))
     });
 }
 
