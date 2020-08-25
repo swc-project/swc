@@ -48,6 +48,26 @@ fn es2020(b: &mut Bencher) {
 }
 
 #[bench]
+fn es2020_nullish_coalescing(b: &mut Bencher) {
+    tr!(b, || compat::es2020::nullish_coalescing());
+}
+
+#[bench]
+fn es2020_optional_chaining(b: &mut Bencher) {
+    tr!(b, || compat::es2020::optional_chaining());
+}
+
+#[bench]
+fn es2020_typescript_class_properties(b: &mut Bencher) {
+    tr!(b, || compat::es2020::typescript_class_properties());
+}
+
+#[bench]
+fn es2020_class_properties(b: &mut Bencher) {
+    tr!(b, || compat::es2020::class_properties());
+}
+
+#[bench]
 fn es2018(b: &mut Bencher) {
     tr!(b, || compat::es2018());
 }
