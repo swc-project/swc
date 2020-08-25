@@ -3,6 +3,7 @@ use crate::{
     util::{prepend_stmts, var::VarCollector, ExprFactory},
 };
 use fxhash::FxHashMap;
+use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -468,10 +469,10 @@ impl Visit for Strip {
 
 macro_rules! type_to_none {
     ($name:ident, $T:ty) => {
-        fn $name(&mut self, node: Option<$T>) -> Option<$T> {
+        fn $name(&mut self, node: &mut Option<$T>) {
             node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
 
-            None
+            *node = None;
         }
     };
 }
@@ -597,11 +598,12 @@ impl VisitMut for Strip {
                     obj,
                     prop,
                     computed,
-                }) => Expr::Member(MemberExpr {
-                    span,
-                    obj: obj.visit_mut_with(self),
-                    prop: if computed {
-                        prop.visit_mut_with(self)
+                }) => {
+                    obj.visit_mut_with(self);
+
+                    let prop = if computed {
+                        prop.visit_mut_with(self);
+                        prop
                     } else {
                         match *prop {
                             Expr::Ident(i) => Box::new(Expr::Ident(Ident {
@@ -611,10 +613,19 @@ impl VisitMut for Strip {
                             })),
                             _ => prop,
                         }
-                    },
-                    computed,
-                }),
-                _ => expr.visit_mut_children_with(self),
+                    };
+
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj,
+                        prop,
+                        computed,
+                    })
+                }
+                _ => {
+                    expr.visit_mut_children_with(self);
+                    expr
+                }
             };
 
             expr
@@ -652,8 +663,6 @@ impl VisitMut for Strip {
             }
             _ => s,
         });
-
-        s
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
@@ -673,8 +682,6 @@ impl VisitMut for Strip {
                         ImportSpecifier::Namespace(..) => {}
                     }
                 }
-
-                import
             }
             Phase::DropImports => {
                 self.was_side_effect_import = import.specifiers.is_empty();
@@ -696,8 +703,6 @@ impl VisitMut for Strip {
                     }
                     _ => true,
                 });
-
-                import
             }
         }
     }
@@ -744,12 +749,12 @@ impl VisitMut for Strip {
 
         // First pass
         self.phase = Phase::Analysis;
-        orig = orig.visit_mut_children_with(self);
+        orig.visit_mut_children_with(self);
         self.phase = Phase::DropImports;
 
         // Second pass
         let mut stmts = Vec::with_capacity(orig.len());
-        for item in orig {
+        for item in take(orig) {
             self.was_side_effect_import = false;
             match item {
                 Stmt::Empty(..) => continue,
@@ -783,12 +788,15 @@ impl VisitMut for Strip {
                 | Stmt::Decl(Decl::TsModule(..))
                 | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
 
-                _ => stmts.push(item.visit_mut_with(self)),
+                _ => {
+                    item.visit_mut_with(self);
+                    stmts.push(item);
+                }
             };
         }
         self.phase = old;
 
-        stmts
+        *orig = stmts
     }
 
     fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
@@ -830,8 +838,6 @@ impl VisitMut for Strip {
 
             _ => true,
         });
-
-        members
     }
 
     fn visit_mut_opt_accessibility(&mut self, n: &mut Option<Accessibility>) {
@@ -851,18 +857,17 @@ impl VisitMut for Strip {
         });
     }
 
-    fn visit_mut_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let old = self.phase;
 
         // First pass
         self.phase = Phase::Analysis;
-        let items = items.visit_mut_children_with(self);
-
-        self.phase = Phase::DropImports;
+        items.visit_mut_children_with(self);
 
         // Second pass
+        self.phase = Phase::DropImports;
         let mut stmts = Vec::with_capacity(items.len());
-        for item in items {
+        for item in take(items) {
             self.was_side_effect_import = false;
             match item {
                 // Strip out ts-only extensions
@@ -933,7 +938,7 @@ impl VisitMut for Strip {
                 })) => continue,
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                    let i = i.visit_mut_with(self);
+                    i.visit_mut_with(self);
 
                     if self.was_side_effect_import || !i.specifiers.is_empty() {
                         stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
@@ -1024,13 +1029,12 @@ impl VisitMut for Strip {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
-                    stmts.push(ModuleItem::ModuleDecl(
-                        ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                            span: export.span(),
-                            expr: export.expr,
-                        })
-                        .visit_mut_with(self),
-                    ))
+                    let mut item = ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                        span: export.span(),
+                        expr: export.expr,
+                    });
+                    item.visit_mut_with(self);
+                    stmts.push(ModuleItem::ModuleDecl(item))
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
@@ -1056,18 +1060,18 @@ impl VisitMut for Strip {
                     )))
                 }
 
-                _ => stmts.push(item.visit_mut_with(self)),
+                _ => {
+                    item.visit_mut_with(self);
+                    stmts.push(item)
+                }
             };
         }
         self.phase = old;
-
-        stmts
     }
 
-    fn visit_mut_var_declarator(&mut self, mut d: VarDeclarator) -> VarDeclarator {
-        d = d.visit_mut_children_with(self);
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        d.visit_mut_children_with(self);
         d.definite = false;
-        d
     }
 }
 
