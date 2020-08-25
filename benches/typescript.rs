@@ -100,14 +100,6 @@ fn base_tr_es2018(b: &mut Bencher) {
     b.iter(|| black_box(module.clone().fold_with(&mut compat::es2018())));
 }
 
-#[bench]
-fn base_tr_es2019(b: &mut Bencher) {
-    let c = mk();
-    let module = as_es(&c);
-
-    b.iter(|| black_box(module.clone().fold_with(&mut compat::es2019())));
-}
-
 fn bench_swc(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
