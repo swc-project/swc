@@ -648,7 +648,7 @@ impl VisitMut for Strip {
         s.visit_mut_children_with(self);
         let span = s.span;
 
-        s.cons.map_with_mut(|cons| match cons {
+        s.cons.map_with_mut(|cons| match *cons {
             Stmt::Decl(Decl::TsEnum(e)) => {
                 let mut stmts = vec![];
                 self.handle_enum(e, &mut stmts);
