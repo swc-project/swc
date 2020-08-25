@@ -1,6 +1,6 @@
 [package]
 name = "swc_common"
-version = "0.9.1"
+version = "0.10.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -16,7 +16,7 @@ default = []
 [dependencies]
 ast_node = { version = "0.7", path = "../macros/ast_node" }
 from_variant = { version = "0.1", path = "../macros/from_variant" }
-swc_visit = { version = "0.1", path = "../visit" }
+swc_visit = { version = "0.2.0", path = "../visit" }
 once_cell = "1"
 either = "1.5"
 scoped-tls = { version = "1" }
