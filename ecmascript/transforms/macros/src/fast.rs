@@ -1,11 +1,11 @@
 use pmutil::q;
 use proc_macro2::TokenStream;
 use swc_macros_common::call_site;
-use syn::{Block, Ident, ImplItem, ImplItemMethod, ItemImpl};
+use syn::{FnArg, Ident, ImplItem, ImplItemMethod, ItemImpl, Pat, Path, Stmt};
 
 pub fn expand(attr: TokenStream, item: ItemImpl) -> ItemImpl {
     let expander = Expander {
-        handler: attr,
+        handler: syn::parse2(attr).expect("#[fast_path = \"path::to::checker\"]"),
         mode: detect_mode(&item),
     };
     let items = expander.inject_default_methods(item.items);
@@ -49,7 +49,7 @@ fn detect_mode(i: &ItemImpl) -> Mode {
 
 struct Expander {
     mode: Mode,
-    handler: TokenStream,
+    handler: Path,
 }
 
 impl Expander {
@@ -108,11 +108,54 @@ impl Expander {
     }
 
     /// Add fast path to a method
-    fn patch_method(&self, m: ImplItemMethod) -> ImplItemMethod {
-        let ty = m
+    fn patch_method(&self, mut m: ImplItemMethod) -> ImplItemMethod {
+        let ty_arg = m
             .sig
             .inputs
             .last()
             .expect("method of Fold / VisitMut must accept two parameters");
+        let ty_arg = match ty_arg {
+            FnArg::Receiver(_) => unreachable!(),
+            FnArg::Typed(ty) => ty,
+        };
+
+        let arg = match &*ty_arg.pat {
+            Pat::Ident(i) => &i.ident,
+            _ => unimplemented!(
+                "Fast-path injection for Fold / VisitMut where pattern is not an ident"
+            ),
+        };
+
+        let fast_path = match self.mode {
+            Mode::Fold => q!(
+                Vars {
+                    Checker: &self.handler,
+                    arg
+                },
+                {
+                    if !crate::perf::should_work::<Checker>(&arg) {
+                        return arg;
+                    }
+                }
+            )
+            .parse::<Stmt>(),
+            Mode::VisitMut => q!(
+                Vars {
+                    Checker: &self.handler,
+                    arg
+                },
+                {
+                    if !crate::perf::should_work::<Checker>(&arg) {
+                        return;
+                    }
+                }
+            )
+            .parse::<Stmt>(),
+        };
+        let mut stmts = vec![fast_path];
+        stmts.extend(m.block.stmts);
+
+        m.block.stmts = stmts;
+        m
     }
 }
