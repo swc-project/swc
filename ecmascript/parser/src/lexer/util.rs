@@ -283,6 +283,7 @@ pub trait CharExt: Copy {
     /// Test whether a given character code starts an identifier.
     ///
     /// https://tc39.github.io/ecma262/#prod-IdentifierStart
+    #[inline]
     fn is_ident_start(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -299,6 +300,7 @@ pub trait CharExt: Copy {
     }
 
     /// Test whether a given character is part of an identifier.
+    #[inline]
     fn is_ident_part(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -315,6 +317,7 @@ pub trait CharExt: Copy {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators
+    #[inline]
     fn is_line_break(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -327,6 +330,7 @@ pub trait CharExt: Copy {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-white-space
+    #[inline]
     fn is_ws(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
