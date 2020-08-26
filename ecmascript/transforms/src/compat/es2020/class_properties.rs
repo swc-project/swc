@@ -6,6 +6,7 @@ use self::{
 };
 use crate::{
     compat::es2015::classes::SuperFieldAccessFolder,
+    perf::Check,
     util::{
         alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
         undefined, ExprFactory, ModuleItemLike, StmtLike,
@@ -15,7 +16,8 @@ use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod class_name_tdz;
 mod private_field;
@@ -50,6 +52,7 @@ struct ClassProperties {
     mark: Mark,
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for ClassProperties {
     noop_fold_type!();
 
@@ -761,5 +764,61 @@ impl ClassProperties {
         } else {
             None
         }
+    }
+}
+
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_array_pat(&mut self, n: &ArrayPat, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_object_pat(&mut self, n: &ObjectPat, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_class_method(&mut self, n: &ClassMethod, _: &dyn Node) {
+        match n.key {
+            PropName::Computed(_) => {
+                self.found = true;
+                return;
+            }
+            _ => {}
+        }
+        n.visit_children_with(self)
+    }
+
+    fn visit_class_prop(&mut self, _: &ClassProp, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_private_prop(&mut self, _: &PrivateProp, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {
+        self.found = true;
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
