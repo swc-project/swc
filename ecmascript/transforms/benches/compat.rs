@@ -92,6 +92,11 @@ fn es2018_object_rest_spread(b: &mut Bencher) {
 }
 
 #[bench]
+fn es2018_optional_catch_binding(b: &mut Bencher) {
+    tr!(b, || compat::es2018::optional_catch_binding());
+}
+
+#[bench]
 fn es2017(b: &mut Bencher) {
     tr!(b, || compat::es2017());
 }
