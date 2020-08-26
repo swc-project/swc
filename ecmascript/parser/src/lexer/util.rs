@@ -128,21 +128,33 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self) -> LexResult<()> {
+        let mut had_line_break = false;
+        self.input.find(|c| match c {
+            // white spaces
+            _ if c.is_ws() => false,
+
+            // line breaks
+            _ if c.is_line_break() => {
+                had_line_break = true;
+                false
+            }
+
+            _ => true,
+        });
+        if had_line_break {
+            self.state.had_line_break = true;
+        }
+
         while let Some(c) = self.cur() {
             match c {
-                // white spaces
-                _ if c.is_ws() => {}
-
-                // line breaks
-                _ if c.is_line_break() => {
-                    self.state.had_line_break = true;
-                }
                 '/' => {
                     if self.peek() == Some('/') {
                         self.skip_line_comment(2);
+                        self.skip_space()?;
                         continue;
                     } else if self.peek() == Some('*') {
                         self.skip_block_comment()?;
+                        self.skip_space()?;
                         continue;
                     }
                     break;
@@ -150,8 +162,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 _ => break,
             }
-
-            self.bump();
         }
 
         Ok(())
