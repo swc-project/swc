@@ -2,8 +2,7 @@
 
 extern crate test;
 
-use std::sync::Arc;
-use swc_common::{chain, FileName, Mark, SourceMap};
+use swc_common::{chain, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{compat, helpers, typescript};
@@ -12,7 +11,7 @@ use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
-fn module(cm: Arc<SourceMap>) -> Module {
+fn module(cm: Lrc<SourceMap>) -> Module {
     let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
     let lexer = Lexer::new(
         Syntax::Typescript(Default::default()),
