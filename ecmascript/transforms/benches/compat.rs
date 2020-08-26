@@ -212,3 +212,27 @@ fn es2015_typeof_symbol(b: &mut Bencher) {
 fn es3(b: &mut Bencher) {
     tr!(b, || compat::es3(Default::default()));
 }
+
+#[bench]
+fn full_es2016(b: &mut Bencher) {
+    tr!(b, || chain!(
+        compat::es2020(),
+        compat::es2018(),
+        compat::es2017(),
+        compat::es2016(),
+    ));
+}
+
+#[bench]
+fn full_es2017(b: &mut Bencher) {
+    tr!(b, || chain!(
+        compat::es2020(),
+        compat::es2018(),
+        compat::es2017(),
+    ));
+}
+
+#[bench]
+fn full_es2018(b: &mut Bencher) {
+    tr!(b, || chain!(compat::es2020(), compat::es2018(),));
+}
