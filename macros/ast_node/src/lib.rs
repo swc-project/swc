@@ -13,7 +13,17 @@ mod spanned;
 
 #[proc_macro_derive(Spanned, attributes(span))]
 pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+    let input = match parse::<DeriveInput>(input) {
+        Ok(derive) => derive,
+        Err(_) => {
+            return syn::Error::new(
+                proc_macro2::Span::call_site(),
+                "Could not parse the input as a struct.",
+            )
+            .to_compile_error()
+            .into()
+        }
+    };
     let name = input.ident.clone();
 
     let item = self::spanned::derive(input);
@@ -49,7 +59,17 @@ pub fn ast_node(
     args: proc_macro::TokenStream,
     input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    let input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+    let input = match parse::<DeriveInput>(input) {
+        Ok(derive) => derive,
+        Err(_) => {
+            return syn::Error::new(
+                proc_macro2::Span::call_site(),
+                "Could not parse the input as a struct.",
+            )
+            .to_compile_error()
+            .into()
+        }
+    };
 
     // we should use call_site
     let mut item = Quote::new(Span::call_site());
