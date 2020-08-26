@@ -138,6 +138,7 @@ macro_rules! impl_for_for_stmt {
     };
 }
 
+#[fast_path(RestVisitor)]
 impl Fold for RestFolder {
     noop_fold_type!();
 
@@ -365,6 +366,10 @@ impl Visit for RestVisitor {
             ObjectPatProp::Rest(..) => self.found = true,
             _ => prop.visit_children_with(self),
         }
+    }
+
+    fn visit_rest_pat(&mut self, p: &RestPat, _: &dyn Node) {
+        self.found = true;
     }
 }
 
