@@ -305,7 +305,7 @@ pub trait CharExt: Copy {
             None => return false,
         };
         // TODO: Use Unicode ID instead of XID.
-        c == '$' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
+        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
             if c.is_ascii() {
                 false
             } else {
