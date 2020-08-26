@@ -2,7 +2,7 @@
 
 extern crate test;
 
-use swc_common::{FileName, Mark};
+use swc_common::{chain, FileName, Mark};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{compat, helpers, typescript};
