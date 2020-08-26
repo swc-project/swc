@@ -54,7 +54,6 @@ impl Strip {
     fn handle_decl(&mut self, decl: &Decl) {
         // We don't care about stuffs which cannot be exported
         if self.non_top_level {
-            eprintln!("not a top level");
             return;
         }
 
