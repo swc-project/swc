@@ -1,12 +1,17 @@
+use pmutil::q;
 use proc_macro2::TokenStream;
-use syn::{ImplItem, ImplItemMethod, ItemImpl};
+use swc_macros_common::call_site;
+use syn::{Block, Ident, ImplItem, ImplItemMethod, ItemImpl};
 
 pub fn expand(attr: TokenStream, item: ItemImpl) -> ItemImpl {
-    let mut expander = Expander {};
+    let expander = Expander {
+        handler: attr,
+        mode: detect_mode(&item),
+    };
+    let items = expander.inject_default_methods(item.items);
 
     ItemImpl {
-        items: item
-            .items
+        items: items
             .into_iter()
             .map(|item| match item {
                 ImplItem::Method(m) => ImplItem::Method(expander.patch_method(m)),
@@ -16,9 +21,100 @@ pub fn expand(attr: TokenStream, item: ItemImpl) -> ItemImpl {
         ..item
     }
 }
+#[derive(Debug, Clone, Copy)]
+pub enum Mode {
+    Fold,
+    VisitMut,
+}
 
-struct Expander {}
+impl Mode {
+    pub fn prefix(self) -> &'static str {
+        match self {
+            Mode::Fold => "fold",
+            Mode::VisitMut => "visit_mut",
+        }
+    }
+}
+
+fn detect_mode(i: &ItemImpl) -> Mode {
+    if i.items.iter().any(|item| match item {
+        ImplItem::Method(m) => m.sig.ident.to_string().starts_with("fold"),
+        _ => false,
+    }) {
+        return Mode::Fold;
+    }
+
+    Mode::VisitMut
+}
+
+struct Expander {
+    mode: Mode,
+    handler: TokenStream,
+}
 
 impl Expander {
-    fn patch_method(&self, m: ImplItemMethod) -> ImplItemMethod {}
+    fn inject_default_methods(&self, mut items: Vec<ImplItem>) -> Vec<ImplItem> {
+        let list = &[
+            ("stmt", q!({ Stmt })),
+            ("stmts", q!({ Vec<Stmt> })),
+            ("module_decl", q!({ ModuleDecl })),
+            ("module_item", q!({ ModuleItem })),
+            ("module_items", q!({ Vec<ModuleItems> })),
+            ("expr", q!({ Expr })),
+            ("exprs", q!({ Vec<Expr> })),
+            ("decl", q!({ Vec<Expr> })),
+            ("pat", q!({ Vec<Expr> })),
+        ];
+
+        for (name, ty) in list {
+            let has = items.iter().any(|item| match item {
+                ImplItem::Method(i) => i.sig.ident.to_string().ends_with(name),
+                _ => false,
+            });
+            if has {
+                continue;
+            }
+            let name = Ident::new(&format!("{}_{}", self.mode.prefix(), name), call_site());
+
+            let method = match self.mode {
+                Mode::Fold => q!(
+                    Vars {
+                        method: &name,
+                        Type: ty,
+                    },
+                    {
+                        fn method(&mut self, node: Type) -> Type {
+                            node.fold_children_with(self)
+                        }
+                    }
+                ),
+                Mode::VisitMut => q!(
+                    Vars {
+                        method: &name,
+                        Type: ty,
+                    },
+                    {
+                        fn method(&mut self, node: &mut Type) {
+                            node.visit_mut_with(self)
+                        }
+                    }
+                ),
+            };
+
+            items.push(method.parse());
+        }
+
+        items
+    }
+
+    /// Add fast path to a method
+    fn patch_method(&self, m: ImplItemMethod) -> ImplItemMethod {
+        let ty = m
+            .sig
+            .inputs
+            .last()
+            .expect("method of Fold / Visit must accept two parameters");
+
+        let is_fold = m.sig.ident.to_string().starts_with("fold_");
+    }
 }
