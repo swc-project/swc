@@ -453,8 +453,6 @@ impl Visit for Strip {
             TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
         }
     }
-
-    fn visit_pat(&mut self, _: &Pat, _: &dyn Node) {}
 }
 
 macro_rules! type_to_none {
