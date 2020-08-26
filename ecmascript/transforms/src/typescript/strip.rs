@@ -425,8 +425,22 @@ impl Strip {
 }
 
 impl Visit for Strip {
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        self.scope
+            .imported_idents
+            .entry((n.sym.clone(), n.span.ctxt()))
+            .and_modify(|v| v.has_concrete = true);
+
+        n.visit_children_with(self);
+    }
+
     fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
         self.handle_decl(n);
+
+        let old = self.non_top_level;
+        self.non_top_level = true;
+        n.visit_children_with(self);
+        self.non_top_level = old;
     }
 
     fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
@@ -634,11 +648,6 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        self.scope
-            .imported_idents
-            .entry((i.sym.clone(), i.span.ctxt()))
-            .and_modify(|v| v.has_concrete = true);
-
         i.optional = false;
         i.visit_mut_children_with(self);
     }
