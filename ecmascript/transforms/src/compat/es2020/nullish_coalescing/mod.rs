@@ -1,7 +1,11 @@
-use crate::util::{alias_if_required, undefined, StmtLike};
+use crate::{
+    perf::Check,
+    util::{alias_if_required, undefined, StmtLike},
+};
 use std::mem::replace;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]
@@ -19,20 +23,11 @@ struct NullishCoalescing {
 impl NullishCoalescing {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: FoldWith<Self> + StmtLike + VisitWith<ShouldWork>,
-        Vec<T>: VisitWith<ShouldWork>,
+        T: FoldWith<Self> + StmtLike,
     {
-        if !ShouldWork::should_work(&stmts) {
-            return stmts;
-        }
-
         let mut buf = Vec::with_capacity(stmts.len() + 2);
 
         for stmt in stmts {
-            if !ShouldWork::should_work(&stmt) {
-                buf.push(stmt);
-                continue;
-            }
             let stmt = stmt.fold_with(self);
 
             if !self.vars.is_empty() {
@@ -51,6 +46,7 @@ impl NullishCoalescing {
     }
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for NullishCoalescing {
     noop_fold_type!();
 
@@ -63,9 +59,6 @@ impl Fold for NullishCoalescing {
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        if !ShouldWork::should_work(&e) {
-            return e;
-        }
         let e = e.fold_children_with(self);
 
         match e {
@@ -128,20 +121,10 @@ impl Fold for NullishCoalescing {
     }
 }
 
+#[derive(Default)]
 struct ShouldWork {
     /// Found optional chaining?
     found: bool,
-}
-
-impl ShouldWork {
-    pub fn should_work<T>(n: &T) -> bool
-    where
-        T: VisitWith<Self>,
-    {
-        let mut v = Self { found: false };
-        n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-        v.found
-    }
 }
 
 impl Visit for ShouldWork {
@@ -153,5 +136,11 @@ impl Visit for ShouldWork {
         } else {
             e.visit_children_with(self)
         }
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
