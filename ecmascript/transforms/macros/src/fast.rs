@@ -113,8 +113,6 @@ impl Expander {
             .sig
             .inputs
             .last()
-            .expect("method of Fold / Visit must accept two parameters");
-
-        let is_fold = m.sig.ident.to_string().starts_with("fold_");
+            .expect("method of Fold / VisitMut must accept two parameters");
     }
 }
