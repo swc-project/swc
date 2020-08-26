@@ -1,9 +1,11 @@
 use crate::{
     ext::PatOrExprExt,
+    perf::Check,
     util::{ExprFactory, StmtLike},
 };
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-exponentiation-operator`
@@ -37,6 +39,7 @@ struct AssignFolder {
     vars: Vec<VarDeclarator>,
 }
 
+#[fast_path(ShouldFold)]
 impl Fold for AssignFolder {
     noop_fold_type!();
 
@@ -93,6 +96,7 @@ impl Fold for AssignFolder {
     }
 }
 
+#[fast_path(ShouldFold)]
 impl Fold for Exponentation {
     noop_fold_type!();
 
@@ -111,9 +115,6 @@ impl Exponentation {
         T: StmtLike + VisitWith<ShouldFold>,
         Vec<T>: FoldWith<Self> + VisitWith<ShouldFold>,
     {
-        if !should_fold(&stmts) {
-            return stmts;
-        }
         let stmts = stmts.fold_children_with(self);
 
         let mut buf = vec![];
@@ -156,14 +157,7 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     })
 }
 
-fn should_fold<N>(node: &N) -> bool
-where
-    N: VisitWith<ShouldFold>,
-{
-    let mut v = ShouldFold { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
+#[derive(Default)]
 struct ShouldFold {
     found: bool,
 }
@@ -185,6 +179,12 @@ impl Visit for ShouldFold {
             e.left.visit_with(e as _, self);
             e.right.visit_with(e as _, self);
         }
+    }
+}
+
+impl Check for ShouldFold {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
 
