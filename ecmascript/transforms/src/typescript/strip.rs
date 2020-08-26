@@ -844,9 +844,6 @@ impl VisitMut for Strip {
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         items.visit_with(&Invalid { span: DUMMY_SP }, self);
 
-        dbg!(&self.scope.decls);
-        dbg!(&self.scope.imported_idents);
-
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in take(items) {
             self.was_side_effect_import = false;
