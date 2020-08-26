@@ -22,25 +22,8 @@ pub fn strip() -> impl Fold {
 struct Strip {
     non_top_level: bool,
     scope: Scope,
-    phase: Phase,
 
     was_side_effect_import: bool,
-}
-
-#[derive(Debug, Clone, Copy)]
-enum Phase {
-    ///
-    ///  - analyze ident usages
-    ///  - remove type annotations
-    Analysis,
-    ///
-    ///  - remove type-only imports
-    DropImports,
-}
-impl Default for Phase {
-    fn default() -> Self {
-        Phase::Analysis
-    }
 }
 
 #[derive(Default)]
@@ -122,12 +105,7 @@ impl Strip {
     where
         T: VisitWith<Self>,
     {
-        match self.phase {
-            Phase::Analysis => {
-                node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-            }
-            Phase::DropImports => {}
-        }
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
     }
 
     fn handle_enum<T>(&mut self, e: TsEnumDecl, stmts: &mut Vec<T>)
@@ -447,12 +425,24 @@ impl Strip {
 }
 
 impl Visit for Strip {
-    fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
-        assert!(match self.phase {
-            Phase::Analysis => true,
-            _ => false,
-        });
+    fn visit_import_decl(&mut self, n: &ImportDecl, _: &dyn Node) {
+        macro_rules! store {
+            ($i:expr) => {{
+                self.scope
+                    .imported_idents
+                    .insert(($i.sym.clone(), $i.span.ctxt()), Default::default());
+            }};
+        }
+        for s in &n.specifiers {
+            match *s {
+                ImportSpecifier::Default(ref import) => store!(import.local),
+                ImportSpecifier::Named(ref import) => store!(import.local),
+                ImportSpecifier::Namespace(..) => {}
+            }
+        }
+    }
 
+    fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
         match *name {
             TsEntityName::Ident(ref i) => {
                 self.scope
@@ -670,45 +660,25 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
-        match self.phase {
-            Phase::Analysis => {
-                macro_rules! store {
-                    ($i:expr) => {{
-                        self.scope
-                            .imported_idents
-                            .insert(($i.sym.clone(), $i.span.ctxt()), Default::default());
-                    }};
-                }
-                for s in &import.specifiers {
-                    match *s {
-                        ImportSpecifier::Default(ref import) => store!(import.local),
-                        ImportSpecifier::Named(ref import) => store!(import.local),
-                        ImportSpecifier::Namespace(..) => {}
-                    }
-                }
-            }
-            Phase::DropImports => {
-                self.was_side_effect_import = import.specifiers.is_empty();
+        self.was_side_effect_import = import.specifiers.is_empty();
 
-                import.specifiers.retain(|s| match *s {
-                    ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
-                    | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. }) => {
-                        let entry = self
-                            .scope
-                            .imported_idents
-                            .get(&(local.sym.clone(), local.span.ctxt()));
-                        match entry {
-                            Some(&DeclInfo {
-                                has_type: true,
-                                has_concrete: false,
-                            }) => false,
-                            _ => true,
-                        }
-                    }
+        import.specifiers.retain(|s| match *s {
+            ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
+            | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. }) => {
+                let entry = self
+                    .scope
+                    .imported_idents
+                    .get(&(local.sym.clone(), local.span.ctxt()));
+                match entry {
+                    Some(&DeclInfo {
+                        has_type: true,
+                        has_concrete: false,
+                    }) => false,
                     _ => true,
-                });
+                }
             }
-        }
+            _ => true,
+        });
     }
 
     fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
@@ -749,13 +719,6 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
-        let old = self.phase;
-
-        // First pass
-        self.phase = Phase::Analysis;
-        orig.visit_mut_children_with(self);
-        self.phase = Phase::DropImports;
-
         // Second pass
         let mut stmts = Vec::with_capacity(orig.len());
         for mut item in take(orig) {
@@ -798,7 +761,6 @@ impl VisitMut for Strip {
                 }
             };
         }
-        self.phase = old;
 
         *orig = stmts
     }
@@ -862,14 +824,8 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let old = self.phase;
+        items.visit_with(&Invalid { span: DUMMY_SP }, self);
 
-        // First pass
-        self.phase = Phase::Analysis;
-        items.visit_mut_children_with(self);
-
-        // Second pass
-        self.phase = Phase::DropImports;
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in take(items) {
             self.was_side_effect_import = false;
@@ -1072,7 +1028,6 @@ impl VisitMut for Strip {
         }
 
         *items = stmts;
-        self.phase = old;
     }
 
     fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
