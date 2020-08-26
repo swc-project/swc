@@ -8,7 +8,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{as_folder, Fold, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = FxHashMap<Id, TsLit>;
@@ -101,13 +101,6 @@ impl Strip {
 }
 
 impl Strip {
-    fn add_types<T>(&mut self, node: &T)
-    where
-        T: VisitWith<Self>,
-    {
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-    }
-
     fn handle_enum<T>(&mut self, e: TsEnumDecl, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -492,8 +485,6 @@ impl Visit for Strip {
 macro_rules! type_to_none {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut Option<$T>) {
-            node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-
             *node = None;
         }
     };
@@ -508,13 +499,10 @@ impl VisitMut for Strip {
     fn visit_mut_class(&mut self, n: &mut Class) {
         n.is_abstract = false;
 
-        self.add_types(&n.type_params);
         n.type_params = None;
 
-        self.add_types(&n.super_type_params);
         n.super_type_params = None;
 
-        self.add_types(&n.implements);
         n.implements = Default::default();
 
         n.decorators.visit_mut_with(self);
@@ -590,19 +578,14 @@ impl VisitMut for Strip {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.map_with_mut(|expr| {
             let mut expr = match expr {
-                Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
-                    type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                    validate!(*expr)
-                }
-                Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
-                Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
-                    type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                    validate!(*expr)
-                }
-                Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
-                Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
-                    type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                    *expr
+                Expr::TsAs(TsAsExpr { expr, .. })
+                | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+                | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+                | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+                | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
+                    let mut expr = *expr;
+                    expr.visit_mut_with(self);
+                    expr
                 }
                 _ => expr,
             };
@@ -785,12 +768,10 @@ impl VisitMut for Strip {
 
     fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
         n.type_params = None;
-        self.add_types(&n.extends);
-        self.add_types(&n.body);
     }
 
     fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        self.add_types(node)
+        node.type_params = None;
     }
 
     type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
