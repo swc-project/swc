@@ -2,11 +2,9 @@
 
 extern crate test;
 
-#[global_allocator]
-static GLOBAL: System = System;
-
 use std::alloc::System;
 use swc_common::{FileName, Mark};
+use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{compat, helpers, typescript};
 use swc_ecma_visit::Fold;
@@ -50,7 +48,12 @@ macro_rules! tr {
 #[bench]
 fn base(b: &mut Bencher) {
     struct Noop;
-    impl Fold for Noop {}
+    impl Fold for Noop {
+        #[inline]
+        fn fold_module(&mut self, m: Module) -> Module {
+            m
+        }
+    }
     tr!(b, || Noop);
 }
 
