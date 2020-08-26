@@ -10,7 +10,23 @@ pub struct Text {
 #[ast_node]
 pub struct Stylesheet {
     pub span: Span,
-    pub rules: Vec<StyleRule>,
+    pub rules: Vec<Rule>,
+}
+
+#[ast_node]
+pub enum Rule {
+    At(AtRule),
+    Style(StyleRule),
+}
+
+#[ast_node]
+pub struct AtRule {
+    pub span: Span,
+    /// `id` in `@id (rule);`
+    ///
+    /// This does not contains `@`
+    pub id: Text,
+    pub text: Text,
 }
 
 #[ast_node]
@@ -29,9 +45,33 @@ pub struct Selector {
 }
 
 #[ast_node]
+pub struct IdSelector {
+    pub span: Span,
+    /// Does not include `#`
+    pub text: Text,
+}
+
+#[ast_node]
+pub struct ClassSelector {
+    pub span: Span,
+    /// Does not include `.`
+    pub text: Text,
+}
+
+#[ast_node]
+pub struct TagSelector {
+    pub span: Span,
+    pub text: Text,
+}
+
+#[ast_node]
 pub enum BaseSelector {
-    #[tag("Id")]
-    Id(Text),
+    #[tag("IdSelector")]
+    Id(IdSelector),
+    #[tag("ClassSelector")]
+    Class(ClassSelector),
+    #[tag("TagSelector")]
+    Tag(TagSelector),
 }
 
 #[ast_node]
