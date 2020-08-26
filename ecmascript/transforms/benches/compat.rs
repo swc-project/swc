@@ -2,7 +2,8 @@
 
 extern crate test;
 
-use swc_common::{chain, FileName, Mark};
+use std::sync::Arc;
+use swc_common::{chain, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{compat, helpers, typescript};
@@ -11,6 +12,19 @@ use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
+fn module(cm: Arc<SourceMap>) -> Module {
+    let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+    let lexer = Lexer::new(
+        Syntax::Typescript(Default::default()),
+        Default::default(),
+        StringInput::from(&*fm),
+        None,
+    );
+    let mut parser = Parser::new_from(lexer);
+    let module = parser.parse_module().map_err(|_| ()).unwrap();
+    module
+}
+
 fn run<V>(b: &mut Bencher, tr: impl Fn() -> V)
 where
     V: Fold,
@@ -18,15 +32,7 @@ where
     b.bytes = SOURCE.len() as _;
 
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-        let lexer = Lexer::new(
-            Syntax::Typescript(Default::default()),
-            Default::default(),
-            StringInput::from(&*fm),
-            None,
-        );
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().map_err(|_| ()).unwrap();
+        let module = module(cm);
         let module = module.fold_with(&mut typescript::strip());
 
         b.iter(|| {
@@ -53,6 +59,26 @@ fn base(b: &mut Bencher) {
         }
     }
     run(b, || Noop);
+}
+
+#[bench]
+fn common_typescript(b: &mut Bencher) {
+    b.bytes = SOURCE.len() as _;
+
+    let _ = ::testing::run_test(false, |cm, _| {
+        let module = module(cm);
+        let module = module.fold_with(&mut typescript::strip());
+
+        b.iter(|| {
+            let module = module.clone();
+
+            let _ = helpers::HELPERS.set(&Default::default(), || {
+                test::black_box(module.fold_with(&mut typescript::strip()));
+            });
+        });
+
+        Ok(())
+    });
 }
 
 #[bench]
