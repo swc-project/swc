@@ -2,7 +2,6 @@
 
 extern crate test;
 
-use std::alloc::System;
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
