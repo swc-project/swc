@@ -15,7 +15,7 @@ mod fast;
 ///
 /// # Usage
 ///
-/// `#[fast_path = "ShouldWork"]`
+/// `#[fast_path(ArrowVisitor)]`
 ///
 /// where `ShouldWork` implements `swc_ecma_transforms::perf::Check`
 #[proc_macro_attribute]

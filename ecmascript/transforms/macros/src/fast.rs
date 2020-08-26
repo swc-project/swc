@@ -5,7 +5,7 @@ use syn::{FnArg, Ident, ImplItem, ImplItemMethod, ItemImpl, Pat, Path, Stmt};
 
 pub fn expand(attr: TokenStream, item: ItemImpl) -> ItemImpl {
     let expander = Expander {
-        handler: syn::parse2(attr).expect("#[fast_path = \"path::to::checker\"]"),
+        handler: syn::parse2(attr).expect("Usage should be like #[fast_path(ArrowVisitor)]"),
         mode: detect_mode(&item),
     };
     let items = expander.inject_default_methods(item.items);
@@ -55,15 +55,15 @@ struct Expander {
 impl Expander {
     fn inject_default_methods(&self, mut items: Vec<ImplItem>) -> Vec<ImplItem> {
         let list = &[
-            ("stmt", q!({ Stmt })),
-            ("stmts", q!({ Vec<Stmt> })),
-            ("module_decl", q!({ ModuleDecl })),
-            ("module_item", q!({ ModuleItem })),
-            ("module_items", q!({ Vec<ModuleItems> })),
-            ("expr", q!({ Expr })),
-            ("exprs", q!({ Vec<Expr> })),
-            ("decl", q!({ Vec<Expr> })),
-            ("pat", q!({ Vec<Expr> })),
+            ("stmt", q!({ swc_ecma_ast::Stmt })),
+            ("stmts", q!({ Vec<swc_ecma_ast::Stmt> })),
+            ("module_decl", q!({ swc_ecma_ast::ModuleDecl })),
+            ("module_item", q!({ swc_ecma_ast::ModuleItem })),
+            ("module_items", q!({ Vec<swc_ecma_ast::ModuleItem> })),
+            ("expr", q!({ swc_ecma_ast::Expr })),
+            ("exprs", q!({ Vec<Box<swc_ecma_ast::Expr>> })),
+            ("decl", q!({ swc_ecma_ast::Decl })),
+            ("pat", q!({ swc_ecma_ast::Pat })),
         ];
 
         for (name, ty) in list {
@@ -133,7 +133,7 @@ impl Expander {
                     arg
                 },
                 {
-                    if !crate::perf::should_work::<Checker>(&arg) {
+                    if !crate::perf::should_work::<Checker, _>(&arg) {
                         return arg;
                     }
                 }
@@ -145,7 +145,7 @@ impl Expander {
                     arg
                 },
                 {
-                    if !crate::perf::should_work::<Checker>(&arg) {
+                    if !crate::perf::should_work::<Checker, _>(&arg) {
                         return;
                     }
                 }
