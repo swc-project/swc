@@ -145,7 +145,7 @@ impl Expander {
                     arg
                 },
                 {
-                    if !crate::perf::should_work::<Checker, _>(&arg) {
+                    if !crate::perf::should_work::<Checker, _>(&*arg) {
                         return;
                     }
                 }
