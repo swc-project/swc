@@ -1,8 +1,12 @@
-use crate::util::{prepend, undefined, ExprFactory, StmtLike};
+use crate::{
+    perf::Check,
+    util::{prepend, undefined, ExprFactory, StmtLike},
+};
 use std::{fmt::Debug, iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 
 pub fn optional_chaining() -> impl Fold {
     OptChaining::default()
@@ -13,6 +17,7 @@ struct OptChaining {
     vars: Vec<VarDeclarator>,
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for OptChaining {
     noop_fold_type!();
 
@@ -402,5 +407,24 @@ impl OptChaining {
             }
             _ => unreachable!("TsOptChain.expr = {:?}", e.expr),
         }
+    }
+}
+#[derive(Default)]
+struct ShouldWork {
+    /// Found optional chaining?
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _: &dyn Node) {
+        self.found = true;
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }

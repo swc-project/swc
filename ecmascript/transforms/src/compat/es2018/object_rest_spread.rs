@@ -1,9 +1,13 @@
-use crate::util::{
-    alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
+use crate::{
+    perf::Check,
+    util::{
+        alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
+    },
 };
 use std::{iter, mem};
 use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-proposal-object-rest-spread`
@@ -1058,15 +1062,11 @@ fn simplify_pat(pat: Pat) -> Pat {
 
 struct ObjectSpread;
 
+#[fast_path(SpreadVisitor)]
 impl Fold for ObjectSpread {
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        // fast-path
-        if !contains_spread(&expr) {
-            return expr;
-        }
-
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -1128,21 +1128,21 @@ impl Fold for ObjectSpread {
         }
     }
 }
+#[derive(Default)]
+struct SpreadVisitor {
+    found: bool,
+}
 
-fn contains_spread(expr: &Expr) -> bool {
-    struct Visitor {
-        found: bool,
+impl Visit for SpreadVisitor {
+    noop_visit_type!();
+
+    fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
+        self.found = true;
     }
+}
 
-    impl Visit for Visitor {
-        noop_visit_type!();
-
-        fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
-            self.found = true;
-        }
+impl Check for SpreadVisitor {
+    fn should_handle(&self) -> bool {
+        self.found
     }
-
-    let mut v = Visitor { found: false };
-    expr.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
 }

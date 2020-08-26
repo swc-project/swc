@@ -1,42 +1,29 @@
-use crate::util::{prepend_stmts, var::VarCollector, ExprFactory};
+use crate::{
+    ext::MapWithMut,
+    util::{prepend_stmts, var::VarCollector, ExprFactory},
+};
 use fxhash::FxHashMap;
-use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
+use std::mem::take;
+use swc_atoms::{js_word, JsWord};
+use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = FxHashMap<Id, TsLit>;
 
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
-    Strip::default()
+    as_folder(Strip::default())
 }
 
 #[derive(Default)]
 struct Strip {
     non_top_level: bool,
     scope: Scope,
-    phase: Phase,
 
     was_side_effect_import: bool,
-}
-
-#[derive(Debug, Clone, Copy)]
-enum Phase {
-    ///
-    ///  - analyze ident usages
-    ///  - remove type annotations
-    Analysis,
-    ///
-    ///  - remove type-only imports
-    DropImports,
-}
-impl Default for Phase {
-    fn default() -> Self {
-        Phase::Analysis
-    }
 }
 
 #[derive(Default)]
@@ -54,26 +41,25 @@ struct DeclInfo {
 }
 
 impl Strip {
+    fn store(&mut self, sym: JsWord, ctxt: SyntaxContext, concrete: bool) {
+        let entry = self.scope.decls.entry((sym, ctxt)).or_default();
+
+        if concrete {
+            entry.has_concrete = true
+        } else {
+            entry.has_type = true;
+        }
+    }
+
     fn handle_decl(&mut self, decl: &Decl) {
         // We don't care about stuffs which cannot be exported
         if self.non_top_level {
             return;
         }
 
-        macro_rules! store {
-            ($sym:expr, $ctxt:expr, $concrete:expr) => {{
-                let entry = self.scope.decls.entry(($sym.clone(), $ctxt)).or_default();
-
-                if $concrete {
-                    entry.has_concrete = true
-                } else {
-                    entry.has_type = true;
-                }
-            }};
-        }
         match *decl {
             Decl::Class(ClassDecl { ref ident, .. }) | Decl::Fn(FnDecl { ref ident, .. }) => {
-                store!(ident.sym, ident.span.ctxt(), true);
+                self.store(ident.sym.clone(), ident.span.ctxt, true);
             }
 
             Decl::Var(ref var) => {
@@ -84,14 +70,14 @@ impl Strip {
                 );
 
                 for name in names {
-                    store!(name.0, name.1, true);
+                    self.store(name.0.clone(), name.1, true);
                 }
             }
 
             Decl::TsEnum(TsEnumDecl { ref id, .. }) => {
                 // Currently swc cannot remove constant enums
-                store!(id.sym, id.span.ctxt(), true);
-                store!(id.sym, id.span.ctxt(), false);
+                self.store(id.sym.clone(), id.span.ctxt, true);
+                self.store(id.sym.clone(), id.span.ctxt, false);
             }
 
             Decl::TsInterface(TsInterfaceDecl { ref id, .. })
@@ -100,7 +86,7 @@ impl Strip {
                 ..
             })
             | Decl::TsTypeAlias(TsTypeAliasDecl { ref id, .. }) => {
-                store!(id.sym, id.span.ctxt(), false)
+                self.store(id.sym.clone(), id.span.ctxt, false)
             }
 
             Decl::TsModule(TsModuleDecl {
@@ -109,26 +95,12 @@ impl Strip {
                         ref value, span, ..
                     }),
                 ..
-            }) => store!(value, span.ctxt(), false),
+            }) => self.store(value.clone(), span.ctxt, false),
         }
     }
 }
 
 impl Strip {
-    fn add_types<T>(&mut self, node: T) -> T
-    where
-        T: VisitWith<Self>,
-    {
-        match self.phase {
-            Phase::Analysis => {
-                node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-            }
-            Phase::DropImports => {}
-        }
-
-        node
-    }
-
     fn handle_enum<T>(&mut self, e: TsEnumDecl, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -446,12 +418,58 @@ impl Strip {
 }
 
 impl Visit for Strip {
-    fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
-        assert!(match self.phase {
-            Phase::Analysis => true,
-            _ => false,
-        });
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        self.scope
+            .imported_idents
+            .entry((n.sym.clone(), n.span.ctxt()))
+            .and_modify(|v| v.has_concrete = true);
 
+        n.visit_children_with(self);
+    }
+
+    fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
+        self.handle_decl(n);
+
+        let old = self.non_top_level;
+        self.non_top_level = true;
+        n.visit_children_with(self);
+        self.non_top_level = old;
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = true;
+        n.iter()
+            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        self.non_top_level = old;
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = false;
+        n.iter()
+            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        self.non_top_level = old;
+    }
+
+    fn visit_import_decl(&mut self, n: &ImportDecl, _: &dyn Node) {
+        macro_rules! store {
+            ($i:expr) => {{
+                self.scope
+                    .imported_idents
+                    .insert(($i.sym.clone(), $i.span.ctxt()), Default::default());
+            }};
+        }
+        for s in &n.specifiers {
+            match *s {
+                ImportSpecifier::Default(ref import) => store!(import.local),
+                ImportSpecifier::Named(ref import) => store!(import.local),
+                ImportSpecifier::Namespace(..) => {}
+            }
+        }
+    }
+
+    fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
         match *name {
             TsEntityName::Ident(ref i) => {
                 self.scope
@@ -459,284 +477,231 @@ impl Visit for Strip {
                     .entry((i.sym.clone(), i.span.ctxt()))
                     .and_modify(|v| v.has_type = true);
             }
-            TsEntityName::TsQualifiedName(..) => name.visit_children_with(self),
+            TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
         }
     }
 }
 
 macro_rules! type_to_none {
     ($name:ident, $T:ty) => {
-        fn $name(&mut self, node: Option<$T>) -> Option<$T> {
-            node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-
-            None
+        fn $name(&mut self, node: &mut Option<$T>) {
+            *node = None;
         }
     };
 }
 
-impl Fold for Strip {
-    fn fold_array_pat(&mut self, mut pat: ArrayPat) -> ArrayPat {
-        pat = pat.fold_children_with(self);
-
-        pat.optional = false;
-
-        pat
+impl VisitMut for Strip {
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        n.visit_mut_children_with(self);
+        n.optional = false;
     }
 
-    fn fold_class(&mut self, node: Class) -> Class {
-        Class {
-            span: node.span,
-            is_abstract: false,
-            type_params: {
-                self.add_types(node.type_params);
-                None
-            },
-            super_type_params: {
-                self.add_types(node.super_type_params);
-                None
-            },
-            implements: {
-                self.add_types(node.implements);
-                vec![]
-            },
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        n.is_abstract = false;
 
-            decorators: node.decorators.fold_with(self),
-            body: node.body.fold_with(self),
-            super_class: node.super_class.fold_with(self),
-        }
+        n.type_params = None;
+
+        n.super_type_params = None;
+
+        n.implements = Default::default();
+
+        n.decorators.visit_mut_with(self);
+        n.body.visit_mut_with(self);
+        n.super_class.visit_mut_with(self);
     }
 
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
-        let c = c.fold_children_with(self);
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        n.visit_mut_children_with(self);
 
         let mut stmts = vec![];
 
-        let params = c.params.move_map(|param| match param {
-            ParamOrTsParamProp::Param(..) => param,
-            ParamOrTsParamProp::TsParamProp(param) => {
-                let (ident, param) = match param.param {
-                    TsParamPropParam::Ident(i) => (
-                        i.clone(),
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: Pat::Ident(i),
-                        },
-                    ),
-                    TsParamPropParam::Assign(AssignPat {
-                        span, left, right, ..
-                    }) if left.is_ident() => {
-                        let i = left.ident().unwrap();
-
-                        (
+        n.params.map_with_mut(|params| {
+            params.move_map(|param| match param {
+                ParamOrTsParamProp::Param(..) => param,
+                ParamOrTsParamProp::TsParamProp(param) => {
+                    let (ident, param) = match param.param {
+                        TsParamPropParam::Ident(i) => (
                             i.clone(),
                             Param {
                                 span: DUMMY_SP,
                                 decorators: Default::default(),
-                                pat: Pat::Assign(AssignPat {
-                                    span,
-                                    left: Box::new(Pat::Ident(i)),
-                                    right,
-                                    type_ann: None,
-                                }),
+                                pat: Pat::Ident(i),
                             },
-                        )
-                    }
-                    _ => unreachable!("destructuring pattern inside TsParameterProperty"),
-                };
-                stmts.push(
-                    AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Expr(Box::new(
-                            ThisExpr { span: DUMMY_SP }.make_member(ident.clone()),
-                        )),
-                        op: op!("="),
-                        right: Box::new(Expr::Ident(ident)),
-                    }
-                    .into_stmt(),
-                );
+                        ),
+                        TsParamPropParam::Assign(AssignPat {
+                            span, left, right, ..
+                        }) if left.is_ident() => {
+                            let i = left.ident().unwrap();
 
-                ParamOrTsParamProp::Param(param)
-            }
+                            (
+                                i.clone(),
+                                Param {
+                                    span: DUMMY_SP,
+                                    decorators: Default::default(),
+                                    pat: Pat::Assign(AssignPat {
+                                        span,
+                                        left: Box::new(Pat::Ident(i)),
+                                        right,
+                                        type_ann: None,
+                                    }),
+                                },
+                            )
+                        }
+                        _ => unreachable!("destructuring pattern inside TsParameterProperty"),
+                    };
+                    stmts.push(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Expr(Box::new(
+                                ThisExpr { span: DUMMY_SP }.make_member(ident.clone()),
+                            )),
+                            op: op!("="),
+                            right: Box::new(Expr::Ident(ident)),
+                        }
+                        .into_stmt(),
+                    );
+
+                    ParamOrTsParamProp::Param(param)
+                }
+            })
         });
 
-        let body = match c.body {
+        n.body = match n.body.take() {
             Some(mut body) => {
                 prepend_stmts(&mut body.stmts, stmts.into_iter());
                 Some(body)
             }
             None => None,
         };
-
-        Constructor { params, body, ..c }
     }
 
-    fn fold_decl(&mut self, decl: Decl) -> Decl {
-        self.handle_decl(&decl);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.map_with_mut(|expr| {
+            let mut expr = match expr {
+                Expr::TsAs(TsAsExpr { expr, .. })
+                | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+                | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+                | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+                | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
+                    let mut expr = *expr;
+                    expr.visit_mut_with(self);
+                    expr
+                }
+                _ => expr,
+            };
 
-        let old = self.non_top_level;
-        self.non_top_level = true;
-        let decl = decl.fold_children_with(self);
-        self.non_top_level = old;
-        decl
+            let expr = match expr {
+                Expr::Member(MemberExpr {
+                    span,
+                    mut obj,
+                    mut prop,
+                    computed,
+                }) => {
+                    obj.visit_mut_with(self);
+
+                    let prop = if computed {
+                        prop.visit_mut_with(self);
+                        prop
+                    } else {
+                        match *prop {
+                            Expr::Ident(i) => Box::new(Expr::Ident(Ident {
+                                optional: false,
+                                type_ann: None,
+                                ..i
+                            })),
+                            _ => prop,
+                        }
+                    };
+
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj,
+                        prop,
+                        computed,
+                    })
+                }
+                _ => {
+                    expr.visit_mut_children_with(self);
+                    expr
+                }
+            };
+
+            expr
+        });
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = match expr {
-            Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                validate!(*expr)
-            }
-            Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
-            Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
-                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                validate!(*expr)
-            }
-            Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
-            Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
-                *expr
-            }
-            _ => expr,
-        };
-
-        let expr = match expr {
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop,
-                computed,
-            }) => Expr::Member(MemberExpr {
-                span,
-                obj: obj.fold_with(self),
-                prop: if computed {
-                    prop.fold_with(self)
-                } else {
-                    match *prop {
-                        Expr::Ident(i) => Box::new(Expr::Ident(Ident {
-                            optional: false,
-                            type_ann: None,
-                            ..i
-                        })),
-                        _ => prop,
-                    }
-                },
-                computed,
-            }),
-            _ => expr.fold_children_with(self),
-        };
-
-        expr
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.optional = false;
+        i.visit_mut_children_with(self);
     }
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        self.scope
-            .imported_idents
-            .entry((i.sym.clone(), i.span.ctxt()))
-            .and_modify(|v| v.has_concrete = true);
-
-        Ident {
-            optional: false,
-            ..i.fold_children_with(self)
-        }
-    }
-
-    fn fold_if_stmt(&mut self, mut s: IfStmt) -> IfStmt {
-        s = s.fold_children_with(self);
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.visit_mut_children_with(self);
         let span = s.span;
 
-        s.cons = match *s.cons {
+        s.cons.map_with_mut(|cons| match *cons {
             Stmt::Decl(Decl::TsEnum(e)) => {
                 let mut stmts = vec![];
                 self.handle_enum(e, &mut stmts);
                 Box::new(Stmt::Block(BlockStmt { span, stmts }))
             }
-            _ => s.cons,
-        };
-
-        s.alt = s.alt.map(|s| match *s {
-            Stmt::Decl(Decl::TsEnum(e)) => {
-                let mut stmts = vec![];
-                self.handle_enum(e, &mut stmts);
-                Box::new(Stmt::Block(BlockStmt { span, stmts }))
-            }
-            _ => s,
+            _ => cons,
         });
 
-        s
+        s.alt.map_with_mut(|alt| {
+            alt.map(|s| match *s {
+                Stmt::Decl(Decl::TsEnum(e)) => {
+                    let mut stmts = vec![];
+                    self.handle_enum(e, &mut stmts);
+                    Box::new(Stmt::Block(BlockStmt { span, stmts }))
+                }
+                _ => s,
+            })
+        })
     }
 
-    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
-        match self.phase {
-            Phase::Analysis => {
-                macro_rules! store {
-                    ($i:expr) => {{
-                        self.scope
-                            .imported_idents
-                            .insert(($i.sym.clone(), $i.span.ctxt()), Default::default());
-                    }};
-                }
-                for s in &import.specifiers {
-                    match *s {
-                        ImportSpecifier::Default(ref import) => store!(import.local),
-                        ImportSpecifier::Named(ref import) => store!(import.local),
-                        ImportSpecifier::Namespace(..) => {}
-                    }
-                }
+    fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
+        self.was_side_effect_import = import.specifiers.is_empty();
 
-                import
-            }
-            Phase::DropImports => {
-                self.was_side_effect_import = import.specifiers.is_empty();
-
-                import.specifiers.retain(|s| match *s {
-                    ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
-                    | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. }) => {
-                        let entry = self
-                            .scope
-                            .imported_idents
-                            .get(&(local.sym.clone(), local.span.ctxt()));
-                        match entry {
-                            Some(&DeclInfo {
-                                has_type: true,
-                                has_concrete: false,
-                            }) => false,
-                            _ => true,
-                        }
-                    }
+        import.specifiers.retain(|s| match *s {
+            ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
+            | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. }) => {
+                let entry = self
+                    .scope
+                    .imported_idents
+                    .get(&(local.sym.clone(), local.span.ctxt()));
+                match entry {
+                    Some(&DeclInfo {
+                        has_type: true,
+                        has_concrete: false,
+                    }) => false,
                     _ => true,
-                });
-
-                import
+                }
             }
-        }
+            _ => true,
+        });
     }
 
-    fn fold_object_pat(&mut self, mut pat: ObjectPat) -> ObjectPat {
-        pat = pat.fold_children_with(self);
-
+    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
+        pat.visit_mut_children_with(self);
         pat.optional = false;
-
-        pat
     }
 
-    fn fold_private_prop(&mut self, mut prop: PrivateProp) -> PrivateProp {
-        prop = prop.fold_children_with(self);
+    fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
+        prop.visit_mut_children_with(self);
         prop.readonly = false;
-        prop
     }
 
-    fn fold_class_prop(&mut self, mut prop: ClassProp) -> ClassProp {
-        prop = prop.fold_children_with(self);
+    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
+        prop.visit_mut_children_with(self);
         prop.readonly = false;
-        prop
     }
 
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children_with(self);
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        stmt.visit_mut_children_with(self);
 
         match stmt {
-            Stmt::Decl(decl) => match decl {
+            Stmt::Decl(ref decl) => match decl {
                 Decl::TsInterface(..)
                 | Decl::TsModule(..)
                 | Decl::TsTypeAlias(..)
@@ -744,27 +709,20 @@ impl Fold for Strip {
                 | Decl::Class(ClassDecl { declare: true, .. })
                 | Decl::Fn(FnDecl { declare: true, .. }) => {
                     let span = decl.span();
-                    Stmt::Empty(EmptyStmt { span })
+                    *stmt = Stmt::Empty(EmptyStmt { span })
                 }
 
-                _ => Stmt::Decl(decl),
+                _ => {}
             },
 
-            _ => stmt,
+            _ => {}
         }
     }
 
-    fn fold_stmts(&mut self, mut orig: Vec<Stmt>) -> Vec<Stmt> {
-        let old = self.phase;
-
-        // First pass
-        self.phase = Phase::Analysis;
-        orig = orig.fold_children_with(self);
-        self.phase = Phase::DropImports;
-
+    fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
         // Second pass
         let mut stmts = Vec::with_capacity(orig.len());
-        for item in orig {
+        for mut item in take(orig) {
             self.was_side_effect_import = false;
             match item {
                 Stmt::Empty(..) => continue,
@@ -798,67 +756,62 @@ impl Fold for Strip {
                 | Stmt::Decl(Decl::TsModule(..))
                 | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
 
-                _ => stmts.push(item.fold_with(self)),
+                _ => {
+                    item.visit_mut_with(self);
+                    stmts.push(item);
+                }
             };
         }
-        self.phase = old;
 
-        stmts
+        *orig = stmts
     }
 
-    fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
-        TsInterfaceDecl {
-            span: node.span,
-            id: node.id,
-            type_params: None,
-            extends: self.add_types(node.extends),
-            body: self.add_types(node.body),
-            declare: false,
-        }
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        n.type_params = None;
     }
 
-    fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
-        self.add_types(node)
+    fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
+        node.type_params = None;
     }
 
-    type_to_none!(fold_opt_ts_type, Box<TsType>);
-    type_to_none!(fold_opt_ts_type_ann, TsTypeAnn);
-    type_to_none!(fold_opt_ts_type_param_decl, TsTypeParamDecl);
+    type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
+    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
+    type_to_none!(visit_mut_opt_ts_type_param_decl, TsTypeParamDecl);
     type_to_none!(
-        fold_opt_ts_type_param_instantiation,
+        visit_mut_opt_ts_type_param_instantiation,
         TsTypeParamInstantiation
     );
 
-    fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
-        let members = members.fold_children_with(self);
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        members.visit_mut_children_with(self);
 
-        members.move_flat_map(|member| match member {
-            ClassMember::TsIndexSignature(..) => None,
-            ClassMember::Constructor(Constructor { body: None, .. }) => None,
+        members.retain(|member| match *member {
+            ClassMember::TsIndexSignature(..) => false,
+            ClassMember::Constructor(Constructor { body: None, .. }) => false,
             ClassMember::Method(ClassMethod {
                 is_abstract: true, ..
             })
             | ClassMember::Method(ClassMethod {
                 function: Function { body: None, .. },
                 ..
-            }) => None,
+            }) => false,
             ClassMember::ClassProp(ClassProp {
                 value: None,
                 ref decorators,
                 ..
-            }) if decorators.is_empty() => None,
+            }) if decorators.is_empty() => false,
 
-            _ => Some(member),
-        })
+            _ => true,
+        });
     }
 
-    fn fold_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
-        None
+    fn visit_mut_opt_accessibility(&mut self, n: &mut Option<Accessibility>) {
+        *n = None;
     }
 
     /// Remove `this` from parameter list
-    fn fold_params(&mut self, params: Vec<Param>) -> Vec<Param> {
-        let mut params = params.fold_children_with(self);
+    fn visit_mut_params(&mut self, params: &mut Vec<Param>) {
+        params.visit_mut_children_with(self);
 
         params.retain(|param| match param.pat {
             Pat::Ident(Ident {
@@ -867,22 +820,13 @@ impl Fold for Strip {
             }) => false,
             _ => true,
         });
-
-        params
     }
 
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        let old = self.phase;
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        items.visit_with(&Invalid { span: DUMMY_SP }, self);
 
-        // First pass
-        self.phase = Phase::Analysis;
-        let items = items.fold_children_with(self);
-
-        self.phase = Phase::DropImports;
-
-        // Second pass
         let mut stmts = Vec::with_capacity(items.len());
-        for item in items {
+        for mut item in take(items) {
             self.was_side_effect_import = false;
             match item {
                 // Strip out ts-only extensions
@@ -952,8 +896,8 @@ impl Fold for Strip {
                     ..
                 })) => continue,
 
-                ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                    let i = i.fold_with(self);
+                ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
+                    i.visit_mut_with(self);
 
                     if self.was_side_effect_import || !i.specifiers.is_empty() {
                         stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
@@ -1044,13 +988,12 @@ impl Fold for Strip {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
-                    stmts.push(ModuleItem::ModuleDecl(
-                        ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                            span: export.span(),
-                            expr: export.expr,
-                        })
-                        .fold_with(self),
-                    ))
+                    let mut item = ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                        span: export.span(),
+                        expr: export.expr,
+                    });
+                    item.visit_mut_with(self);
+                    stmts.push(ModuleItem::ModuleDecl(item))
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
@@ -1076,18 +1019,19 @@ impl Fold for Strip {
                     )))
                 }
 
-                _ => stmts.push(item.fold_with(self)),
+                _ => {
+                    item.visit_mut_with(self);
+                    stmts.push(item)
+                }
             };
         }
-        self.phase = old;
 
-        stmts
+        *items = stmts;
     }
 
-    fn fold_var_declarator(&mut self, mut d: VarDeclarator) -> VarDeclarator {
-        d = d.fold_children_with(self);
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        d.visit_mut_children_with(self);
         d.definite = false;
-        d
     }
 }
 

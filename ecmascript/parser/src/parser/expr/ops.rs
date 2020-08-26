@@ -12,34 +12,19 @@ impl<'a, I: Tokens> Parser<I> {
 
         let left = match self.parse_unary_expr() {
             Ok(v) => v,
-            Err(err) => {
-                match {
-                    let is_err_token = match self.input.cur() {
-                        Some(&Token::Error(..)) => true,
-                        _ => false,
-                    };
-                    if is_err_token {
-                        return Err(err);
-                    }
+            Err(err) => match cur!(true)? {
+                &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
+                    self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                    match cur!(false) {
-                        Ok(cur) => cur,
-                        Err(..) => return Err(err),
-                    }
-                } {
-                    &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
-                        self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
-
-                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
-                    }
-                    &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
-                        self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
-
-                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
-                    }
-                    _ => return Err(err),
+                    Box::new(Expr::Invalid(Invalid { span: err.span() }))
                 }
-            }
+                &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
+                    self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+
+                    Box::new(Expr::Invalid(Invalid { span: err.span() }))
+                }
+                _ => return Err(err),
+            },
         };
 
         return_if_arrow!(left);
@@ -103,7 +88,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         if !self.syntax().nullish_coalescing() && op == op!("??") {
-            syntax_error!(left.span(), SyntaxError::NullishCoalescingNotEnabled)
+            self.emit_err(left.span(), SyntaxError::NullishCoalescingNotEnabled);
         }
 
         if op.precedence() <= min_prec {

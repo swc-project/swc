@@ -94,12 +94,14 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
     #[cold]
+    #[inline(never)]
     pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
         let span = self.span(start);
         self.error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
     #[cold]
+    #[inline(never)]
     pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
         Err(Error {
             error: Box::new((span, kind)),
@@ -107,12 +109,14 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     #[cold]
+    #[inline(never)]
     pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
         self.emit_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
     #[cold]
+    #[inline(never)]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
         let err = Error {
             error: Box::new((span, kind)),

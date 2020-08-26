@@ -1,8 +1,12 @@
-use crate::util::{alias_if_required, undefined, StmtLike};
+use crate::{
+    perf::Check,
+    util::{alias_if_required, undefined, StmtLike},
+};
 use std::mem::replace;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -42,6 +46,7 @@ impl NullishCoalescing {
     }
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for NullishCoalescing {
     noop_fold_type!();
 
@@ -113,5 +118,29 @@ impl Fold for NullishCoalescing {
         }
 
         e
+    }
+}
+
+#[derive(Default)]
+struct ShouldWork {
+    /// Found optional chaining?
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+        if e.op == op!("??") {
+            self.found = true;
+        } else {
+            e.visit_children_with(self)
+        }
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }

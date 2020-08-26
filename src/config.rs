@@ -195,7 +195,6 @@ impl Options {
             let config = transform.const_modules.unwrap_or_default();
 
             let globals = config.globals;
-
             Optional::new(const_modules(cm.clone(), globals), enabled)
         };
 

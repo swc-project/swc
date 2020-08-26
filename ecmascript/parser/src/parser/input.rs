@@ -240,7 +240,7 @@ impl<I: Tokens> Buffer<I> {
         });
     }
 
-    #[inline(never)]
+    #[inline]
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
         self.prev_span = match prev {
@@ -256,6 +256,15 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn cur_debug(&self) -> Option<&Token> {
         self.cur.as_ref().map(|it| &it.token)
+    }
+
+    #[cold]
+    #[inline(never)]
+    pub fn dump_cur(&mut self) -> String {
+        match self.cur() {
+            Some(v) => format!("{:?}", v),
+            None => format!("<eof>"),
+        }
     }
 
     /// Returns current token.

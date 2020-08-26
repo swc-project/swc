@@ -1,10 +1,12 @@
 use crate::{
     compat::es2015::arrow,
+    perf::Check,
     util::{contains_ident_ref, contains_this_expr, ExprFactory, StmtLike},
 };
 use std::iter;
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-async-to-generator`
@@ -38,6 +40,7 @@ struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for AsyncToGenerator {
     noop_fold_type!();
 
@@ -53,23 +56,14 @@ impl Fold for AsyncToGenerator {
 impl AsyncToGenerator {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + VisitWith<AsyncVisitor> + FoldWith<Actual>,
-        Vec<T>: FoldWith<Self> + VisitWith<AsyncVisitor>,
+        T: StmtLike + FoldWith<Actual>,
+        Vec<T>: FoldWith<Self>,
     {
-        if !contains_async(&stmts) {
-            return stmts;
-        }
-
         let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
-            if !contains_async(&stmt) {
-                buf.push(stmt);
-                continue;
-            }
-
             let mut actual = Actual {
                 extra_stmts: vec![],
             };
@@ -83,6 +77,7 @@ impl AsyncToGenerator {
     }
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for Actual {
     noop_fold_type!();
 
@@ -809,25 +804,18 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     })
 }
 
-fn contains_async<N>(node: &N) -> bool
-where
-    N: VisitWith<AsyncVisitor>,
-{
-    let mut v = AsyncVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
-
-struct AsyncVisitor {
+#[derive(Default)]
+struct ShouldWork {
     found: bool,
 }
 
-impl Visit for AsyncVisitor {
+impl Visit for ShouldWork {
     noop_visit_type!();
 
     fn visit_function(&mut self, f: &Function, _: &dyn Node) {
         if f.is_async {
             self.found = true;
+            return;
         }
         f.visit_children_with(self);
     }
@@ -835,7 +823,14 @@ impl Visit for AsyncVisitor {
     fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
         if f.is_async {
             self.found = true;
+            return;
         }
         f.visit_children_with(self);
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }

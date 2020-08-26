@@ -1,6 +1,8 @@
+use crate::perf::Check;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 
 pub fn reserved_words() -> impl 'static + Fold {
     EsReservedWord {}
@@ -8,6 +10,7 @@ pub fn reserved_words() -> impl 'static + Fold {
 
 struct EsReservedWord {}
 
+#[fast_path(ShouldWork)]
 impl Fold for EsReservedWord {
     noop_fold_type!();
 
@@ -55,18 +58,42 @@ impl Fold for EsReservedWord {
     }
 }
 
-fn rename_ident(sym: JsWord, _strict: bool) -> JsWord {
-    // Es
-
-    match &*sym {
+fn is_reserved(sym: &JsWord) -> bool {
+    match &**sym {
         "enum" | "implements" | "package" | "protected" | "interface" | "private" | "public"
         | "await" | "break" | "case" | "catch" | "class" | "const" | "continue" | "debugger"
         | "default" | "delete" | "do" | "else" | "export" | "extends" | "finally" | "for"
         | "function" | "if" | "in" | "instanceof" | "new" | "return" | "super" | "switch"
-        | "this" | "throw" | "try" | "typeof" | "var" | "void" | "while" | "with" | "yield" => {
-            format!("_{}", sym).into()
-        }
+        | "this" | "throw" | "try" | "typeof" | "var" | "void" | "while" | "with" | "yield" => true,
 
-        _ => sym,
+        _ => false,
+    }
+}
+
+fn rename_ident(sym: JsWord, _strict: bool) -> JsWord {
+    // Es
+    if is_reserved(&sym) {
+        format!("_{}", sym).into()
+    } else {
+        sym
+    }
+}
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if is_reserved(&i.sym) {
+            self.found = true;
+            return;
+        }
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
