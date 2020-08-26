@@ -368,7 +368,7 @@ impl Visit for RestVisitor {
         }
     }
 
-    fn visit_rest_pat(&mut self, p: &RestPat, _: &dyn Node) {
+    fn visit_rest_pat(&mut self, _: &RestPat, _: &dyn Node) {
         self.found = true;
     }
 }
