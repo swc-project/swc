@@ -793,15 +793,8 @@ impl Visit for ShouldWork {
         }
     }
 
-    fn visit_class_method(&mut self, n: &ClassMethod, _: &dyn Node) {
-        match n.key {
-            PropName::Computed(_) => {
-                self.found = true;
-                return;
-            }
-            _ => {}
-        }
-        n.visit_children_with(self)
+    fn visit_class_method(&mut self, _: &ClassMethod, _: &dyn Node) {
+        self.found = true;
     }
 
     fn visit_class_prop(&mut self, _: &ClassProp, _: &dyn Node) {
