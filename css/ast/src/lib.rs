@@ -15,7 +15,9 @@ pub struct Stylesheet {
 
 #[ast_node]
 pub enum Rule {
+    #[tag("AtRule")]
     At(AtRule),
+    #[tag("StyleRule")]
     Style(StyleRule),
 }
 
