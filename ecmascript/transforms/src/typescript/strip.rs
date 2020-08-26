@@ -54,6 +54,7 @@ impl Strip {
     fn handle_decl(&mut self, decl: &Decl) {
         // We don't care about stuffs which cannot be exported
         if self.non_top_level {
+            eprintln!("not a top level");
             return;
         }
 
@@ -425,6 +426,26 @@ impl Strip {
 }
 
 impl Visit for Strip {
+    fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
+        self.handle_decl(n);
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = true;
+        n.iter()
+            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        self.non_top_level = old;
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = false;
+        n.iter()
+            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        self.non_top_level = old;
+    }
+
     fn visit_import_decl(&mut self, n: &ImportDecl, _: &dyn Node) {
         macro_rules! store {
             ($i:expr) => {{
@@ -551,15 +572,6 @@ impl VisitMut for Strip {
             }
             None => None,
         };
-    }
-
-    fn visit_mut_decl(&mut self, decl: &mut Decl) {
-        self.handle_decl(&decl);
-
-        let old = self.non_top_level;
-        self.non_top_level = true;
-        decl.visit_mut_children_with(self);
-        self.non_top_level = old;
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
@@ -823,6 +835,9 @@ impl VisitMut for Strip {
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         items.visit_with(&Invalid { span: DUMMY_SP }, self);
+
+        dbg!(&self.scope.decls);
+        dbg!(&self.scope.imported_idents);
 
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in take(items) {
