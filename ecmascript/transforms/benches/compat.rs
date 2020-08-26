@@ -57,6 +57,11 @@ fn base(b: &mut Bencher) {
 }
 
 #[bench]
+fn common_reserved_word(b: &mut Bencher) {
+    tr!(b, || compat::reserved_words());
+}
+
+#[bench]
 fn es2020(b: &mut Bencher) {
     tr!(b, || compat::es2020());
 }
