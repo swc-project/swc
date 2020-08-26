@@ -699,26 +699,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.with_buf(|l, buf| {
             let mut has_escape = false;
-            {
-                // Optimize for idents without escpae
-                let s = l.input.uncons_while(|c| {
-                    if c.is_ident_part() {
-                        return true;
-                    }
-                    if c == '\\' {
-                        has_escape = true;
-                    }
-                    false
-                });
-
-                if !has_escape {
-                    return Ok((s.into(), false));
-                }
-                if !s.is_empty() {
-                    first = false;
-                }
-                buf.push_str(s);
-            };
 
             while let Some(c) = {
                 // Optimization
@@ -745,6 +725,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         if !l.is('u') {
                             l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
                         }
+                        has_escape = true;
                         let c = l.read_unicode_escape(start, &mut Raw(None))?;
                         let valid = if first {
                             c.is_ident_start()
