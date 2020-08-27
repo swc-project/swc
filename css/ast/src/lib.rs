@@ -42,7 +42,7 @@ pub struct StyleRule {
 pub struct Selector {
     pub span: Span,
     pub tag: Option<TagSelector>,
-    pub base: BaseSelector,
+    pub base: Vec<BaseSelector>,
     pub pseudo_class: Option<Text>,
     pub pseudo_element: Option<Text>,
 }
