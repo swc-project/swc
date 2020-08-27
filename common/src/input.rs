@@ -185,6 +185,29 @@ pub trait Input: Clone {
         F: FnMut(char) -> bool;
 
     fn reset_to(&mut self, to: BytePos);
+
+    /// Implementors can override the method to make it faster.
+    fn is_byte(&mut self, c: u8) -> bool {
+        match self.cur() {
+            Some(ch) => ch == c as char,
+            _ => false,
+        }
+    }
+
+    /// Implementors can override the method to make it faster.
+    fn eat_byte(&mut self, c: u8) -> bool {
+        match self.cur() {
+            Some(ch) => {
+                if ch == c as char {
+                    self.bump();
+                    true
+                } else {
+                    false
+                }
+            }
+            _ => false,
+        }
+    }
 }
 
 #[cfg(test)]
