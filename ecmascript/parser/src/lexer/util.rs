@@ -128,10 +128,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // white spaces
                 '\u{0009}' | '\u{000b}' | '\u{000c}' | '\u{0020}' | '\u{00a0}' | '\u{feff}' => {}
                 // line breaks
-                _ if c.is_line_break() => {
+                '\r' | '\n' | '\u{2028}' | '\u{2029}' => {
                     self.state.had_line_break = true;
                 }
-                _ if c.is_whitespace() => {}
 
                 '/' => {
                     if self.peek() == Some('/') {
@@ -143,6 +142,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                     break;
                 }
+
+                _ if c.is_whitespace() => {}
 
                 _ => break,
             }
