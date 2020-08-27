@@ -187,6 +187,7 @@ pub trait Input: Clone {
     fn reset_to(&mut self, to: BytePos);
 
     /// Implementors can override the method to make it faster.
+    #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
         match self.cur() {
             Some(ch) => ch == c as char,
@@ -195,6 +196,7 @@ pub trait Input: Clone {
     }
 
     /// Implementors can override the method to make it faster.
+    #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         match self.cur() {
             Some(ch) => {
