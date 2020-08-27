@@ -1,5 +1,5 @@
 use anyhow::{Context as _, Error};
-use neon::prelude::*;
+use napi::JsFunction;
 use std::sync::{mpsc::channel, Arc};
 use swc_bundler::Load;
 use swc_common::{FileName, SourceFile};
@@ -8,7 +8,7 @@ use swc_ecma_ast::{Module, Program};
 /// Loader provided by user.
 pub struct NeonLoader {
     pub swc: Arc<swc::Compiler>,
-    pub handler: EventHandler,
+    pub handler: Arc<JsFunction>,
 }
 
 impl Load for NeonLoader {

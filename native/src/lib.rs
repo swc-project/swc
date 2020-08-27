@@ -2,11 +2,12 @@
 
 #[macro_use]
 extern crate napi;
+#[macro_use]
+extern crate napi_derive;
 
 use anyhow::Error;
 use backtrace::Backtrace;
-use napi::{CallContext, JsFunction, JsUndefined, Module, Property};
-use neon::prelude::*;
+use napi::{CallContext, JsFunction, JsObject, JsUndefined, Module, Property};
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
 use swc_common::{self, errors::Handler, FilePathMapping, SourceMap};
