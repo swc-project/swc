@@ -1,14 +1,12 @@
 pub use self::input::Input;
-use crate::{
-    selectors::parse_selectors,
-    util::{span, PResultExt},
-};
 use nom::{
     bytes::complete::{tag, take_while, take_while1},
     multi::many0,
     IResult,
 };
+use selectors::parse_selectors;
 use swc_css_ast::*;
+use util::{span, take_ws, PResultExt};
 
 pub type PResult<'a, T> = IResult<Input<'a>, T>;
 
@@ -79,13 +77,3 @@ fn parse_style_rule(i: Input) -> PResult<StyleRule> {
 }
 
 fn parse_property(i: Input) -> PResult<Property> {}
-
-/// Eats one or more whitespaces
-fn take_ws(i: Input) -> PResult<()> {
-    let (i, _) = take_while1(|c| match c {
-        ' ' | '\t' => true,
-        _ => false,
-    })(i)?;
-
-    Ok((i, ()))
-}

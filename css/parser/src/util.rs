@@ -1,4 +1,5 @@
 use crate::{Input, PResult};
+use nom::bytes::complete::take_while1;
 use swc_common::{BytePos, Span};
 
 pub(crate) trait PResultExt<'a, T>: Into<PResult<'a, T>> {
@@ -24,4 +25,14 @@ impl<'a, T> PResultExt<'a, T> for PResult<'a, T> {}
 
 pub(crate) fn span(i: Input, start: BytePos) -> Span {
     Span::new(start, i.start_pos(), Default::default())
+}
+
+/// Eats one or more whitespaces
+pub(crate) fn take_ws(i: Input) -> PResult<()> {
+    let (i, _) = take_while1(|c| match c {
+        ' ' | '\t' => true,
+        _ => false,
+    })(i)?;
+
+    Ok((i, ()))
 }
