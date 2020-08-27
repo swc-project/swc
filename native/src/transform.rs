@@ -1,6 +1,6 @@
 use crate::{complete_output, util::MapErr};
 use anyhow::{Context as _, Error};
-use napi::{CallContext, Env, JsExternal, JsObject, Task};
+use napi::{CallContext, Env, JsBoolean, JsExternal, JsObject, JsString, Task};
 use path_clean::clean;
 use std::{
     path::{Path, PathBuf},
@@ -70,7 +70,7 @@ where
 
     let s = cx.argument::<JsString>(0)?.value();
     let is_module = cx.argument::<JsBoolean>(1)?;
-    let options_arg = cx.argument::<JsValue>(2)?;
+    let options_arg = cx.argument::<JsObject>(2)?;
 
     let options: Options = neon_serde::from_value(&mut cx, options_arg)?;
     let callback = cx.argument::<JsFunction>(3)?;

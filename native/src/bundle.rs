@@ -149,14 +149,12 @@ impl Task for BundleTask {
         ))
     }
 
-    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        match result {
-            Ok(v) => Ok(serialize(env, &v)),
-            Err(err) => env.throw_error(&format!("{:?}", err)),
-        }
+    fn resolve(&self, env: &mut Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+        serialize(env, &output)
     }
 }
 
+#[js_function(2)]
 pub(crate) fn bundle(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let c: Arc<Compiler>;
     let this = cx.this();

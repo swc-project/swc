@@ -86,6 +86,7 @@ impl Task for ParseFileTask {
     }
 }
 
+#[js_function(3)]
 pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
     let src = ctx.argument::<JsString>(0)?;
     let options_arg = ctx.argument::<JsObject>(1)?;
@@ -110,6 +111,7 @@ pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
     Ok(ctx.undefined().upcast())
 }
 
+#[js_function(2)]
 pub fn parse_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let c;
     let this = cx.this();
