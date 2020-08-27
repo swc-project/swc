@@ -1,5 +1,5 @@
 use crate::{Input, PResult};
-use nom::bytes::complete::take_while1;
+use nom::bytes::complete::{take_while, take_while1};
 use swc_common::{BytePos, Span};
 
 pub(crate) trait PResultExt<'a, T>: Into<PResult<'a, T>> {
@@ -35,4 +35,16 @@ pub(crate) fn take_ws(i: Input) -> PResult<()> {
     })(i)?;
 
     Ok((i, ()))
+}
+
+pub(crate) fn skip_ws(i: Input) -> Input {
+    let res: PResult<_> = take_while(|c| match c {
+        ' ' | '\t' => true,
+        _ => false,
+    })(i);
+
+    match res {
+        Ok(..) => i,
+        _ => unreachable!("Errro from skip_ws"),
+    }
 }

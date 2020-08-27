@@ -1,7 +1,7 @@
 //! https://www.w3.org/TR/selectors-3/#w3cselgrammar
 
 use crate::{
-    util::{span, PResultExt},
+    util::{skip_ws, span, PResultExt},
     Input, PResult,
 };
 use nom::{
