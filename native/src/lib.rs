@@ -1,13 +1,11 @@
 #![recursion_limit = "2048"]
 
-extern crate neon;
-extern crate neon_serde;
-extern crate path_clean;
-extern crate serde;
-extern crate swc;
+#[macro_use]
+extern crate napi;
 
 use anyhow::Error;
 use backtrace::Backtrace;
+use napi::{CallContext, JsFunction, JsUndefined, Module, Property};
 use neon::prelude::*;
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
@@ -18,7 +16,13 @@ mod parse;
 mod print;
 mod transform;
 
-fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
+// #[cfg(all(unix, not(target_env = "musl")))]
+// #[global_allocator]
+// static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
+
+register_module!(swc, init);
+
+fn init(m: &mut Module) -> napi::Result<()> {
     if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_else(|_| String::new()) == "1" {
         set_hook(Box::new(|_panic_info| {
             let backtrace = Backtrace::new();
@@ -26,18 +30,33 @@ fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
         }));
     }
 
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+    m.create_named_method("define", define_compiler_class)?;
+}
 
-    let handler = Arc::new(Handler::with_tty_emitter(
-        swc_common::errors::ColorConfig::Always,
-        true,
-        false,
-        Some(cm.clone()),
-    ));
+#[js_function]
+fn define_compiler_class(ctx: CallContext) -> napi::Result<JsFunction> {
+    let properties = vec![
+        Property::new("transformSync").with_method(transform::transform_sync),
+        Property::new("transform").with_method(transform::transform),
+        Property::new("transformFileSync").with_method(transform::transform_file_sync),
+        Property::new("transformFile").with_method(transform::transform_file),
+        Property::new("parse").with_method(parse::parse),
+        Property::new("parseSync").with_method(parse::parse_sync),
+        Property::new("parseFile").with_method(parse::parse_file),
+        Property::new("parseFileSync").with_method(parse::parse_file_sync),
+        Property::new("print").with_method(print::print),
+        Property::new("printSync").with_method(print::print_sync),
+        Property::new("bundle").with_method(bundle::bundle),
+    ];
 
-    let c = Compiler::new(cm.clone(), handler);
+    ctx.env
+        .define_class("Compiler", construct_compiler, properties)
+}
 
-    Ok(Arc::new(c))
+#[js_function]
+fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
+    // TODO: Assign swc::Compiler
+    ctx.env.get_undefined()
 }
 
 pub fn complete_output<'a>(
@@ -51,60 +70,3 @@ pub fn complete_output<'a>(
 }
 
 pub type ArcCompiler = Arc<Compiler>;
-
-declare_types! {
-    pub class JsCompiler for ArcCompiler {
-        init(cx) {
-            init(cx)
-        }
-
-        method transform(cx) {
-            transform::transform(cx)
-        }
-
-        method transformSync(cx) {
-            transform::transform_sync(cx)
-        }
-
-        method transformFile(cx) {
-            transform::transform_file(cx)
-        }
-
-        method transformFileSync(cx) {
-            transform::transform_file_sync(cx)
-        }
-
-        method parse(cx) {
-            parse::parse(cx)
-        }
-
-        method parseSync(cx) {
-            parse::parse_sync(cx)
-        }
-
-        method parseFile(cx) {
-            parse::parse_file(cx)
-        }
-
-        method parseFileSync(cx) {
-            parse::parse_file_sync(cx)
-        }
-
-        method print(cx) {
-            print::print(cx)
-        }
-
-        method printSync(cx) {
-            print::print_sync(cx)
-        }
-
-        method bundle(cx) {
-            bundle::bundle(cx)
-        }
-    }
-}
-
-register_module!(mut cx, {
-    cx.export_class::<JsCompiler>("Compiler")?;
-    Ok(())
-});
