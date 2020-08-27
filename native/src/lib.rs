@@ -5,9 +5,8 @@ extern crate napi;
 #[macro_use]
 extern crate napi_derive;
 
-use anyhow::Error;
 use backtrace::Backtrace;
-use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined, Module, Property};
+use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined, Module};
 use napi_serde::serialize;
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
@@ -29,7 +28,7 @@ mod util;
 // #[global_allocator]
 // static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
-static COMPILER: Lazy<Compiler> = Lazy::new(|| {
+static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let handler = Arc::new(Handler::with_tty_emitter(
         ColorConfig::Always,
@@ -38,7 +37,7 @@ static COMPILER: Lazy<Compiler> = Lazy::new(|| {
         Some(cm.clone()),
     ));
 
-    Compiler::new(cm.clone(), handler)
+    Arc::new(Compiler::new(cm.clone(), handler))
 });
 
 register_module!(swc, init);
@@ -69,6 +68,10 @@ fn init(m: &mut Module) -> napi::Result<()> {
     m.create_named_method("bundle", bundle::bundle)?;
 
     Ok(())
+}
+
+fn get_compiler(ctx: &CallContext) -> Arc<Compiler> {
+    COMPILER.clone()
 }
 
 #[js_function]
