@@ -1,6 +1,6 @@
 use crate::{complete_output, get_compiler, napi_serde::deserialize, util::MapErr};
 use anyhow::{Context as _, Error};
-use napi::{CallContext, Env, JsBoolean, JsExternal, JsObject, JsString, Task};
+use napi::{CallContext, Env, JsBoolean, JsObject, JsString, Task};
 use path_clean::clean;
 use std::{
     path::{Path, PathBuf},
@@ -69,46 +69,38 @@ where
 
     let options: Options = deserialize(cx.env, &options_arg)?;
 
-    let task = op(&c, s, is_module.get_value()?, options);
+    let task = op(&c, s.to_string(), is_module.get_value()?, options);
 
     cx.env.spawn(task)
 }
 
-pub fn exec_transform<F>(mut cx: CallContext<JsExternal>, op: F) -> napi::Result<JsObject>
+pub fn exec_transform<F>(mut cx: CallContext, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Compiler, String, &Options) -> Result<Arc<SourceFile>, Error>,
 {
+    let c = get_compiler(&cx);
+
     let s = cx.get::<JsString>(0)?;
     let is_module = cx.get::<JsBoolean>(1)?;
-    let options: Options = match cx.argument_opt(2) {
-        Some(v) => neon_serde::from_value(&mut cx, v)?,
-        None => {
-            let obj = cx.empty_object().upcast();
-            neon_serde::from_value(&mut cx, obj)?
-        }
-    };
+    let options = cx.get::<JsObject>(2)?;
+    let options: Options = deserialize(cx.env, &options)?;
 
-    let this = cx.this();
-    let output = {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-        c.run(|| {
-            if is_module.value() {
-                let program: Program =
-                    serde_json::from_str(&s.value()).expect("failed to deserialize Program");
-                c.process_js(program, &options)
-            } else {
-                let fm = op(&c, s.value(), &options).expect("failed to create fm");
-                c.process_js_file(fm, &options)
-            }
-        })
-    };
+    let output = c.run(|| -> napi::Result<_> {
+        if is_module.get_value()? {
+            let program: Program =
+                serde_json::from_str(s.as_str()?).expect("failed to deserialize Program");
+            c.process_js(program, &options).convert_err()
+        } else {
+            let fm = op(&c, s.as_str()?.to_string(), &options).expect("failed to create fm");
+            c.process_js_file(fm, &options).convert_err()
+        }
+    })?;
 
     complete_output(cx.env, output)
 }
 
 #[js_function(4)]
-pub fn transform(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
+pub fn transform(cx: CallContext) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, src, is_module, options| {
         let input = if is_module {
             Input::Program(src)
@@ -132,7 +124,7 @@ pub fn transform(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
 }
 
 #[js_function(4)]
-pub fn transform_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
+pub fn transform_sync(cx: CallContext) -> napi::Result<JsObject> {
     exec_transform(cx, |c, src, options| {
         Ok(c.cm.new_source_file(
             if options.filename.is_empty() {
@@ -146,7 +138,7 @@ pub fn transform_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
 }
 
 #[js_function(4)]
-pub fn transform_file(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
+pub fn transform_file(cx: CallContext) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, path, _, options| {
         let path = clean(&path);
 
@@ -159,7 +151,7 @@ pub fn transform_file(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
 }
 
 #[js_function(4)]
-pub fn transform_file_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
+pub fn transform_file_sync(cx: CallContext) -> napi::Result<JsObject> {
     exec_transform(cx, |c, path, _| {
         Ok(c.cm
             .load_file(Path::new(&path))

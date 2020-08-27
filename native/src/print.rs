@@ -1,6 +1,5 @@
 use crate::{complete_output, get_compiler, napi_serde::deserialize, util::MapErr};
-use anyhow::Error;
-use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, JsString, Task};
+use napi::{CallContext, Env, JsObject, JsString, Task};
 use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
