@@ -1,7 +1,6 @@
 pub use self::input::Input;
 use nom::{
-    bytes::complete::{is_a, tag, take_while, take_while1},
-    error::ErrorKind,
+    bytes::complete::{tag, take_while, take_while1},
     IResult,
 };
 use swc_css_ast::*;
@@ -12,8 +11,23 @@ pub type PResult<'a, T> = IResult<Input<'a>, T>;
 mod input;
 mod util;
 
-pub fn parse(i: Input) -> PResult<Stylesheet> {
-    unimplemented!("parse")
+pub fn parse(mut i: Input) -> PResult<Stylesheet> {
+    let start = i.start_pos();
+
+    let mut rules = vec![];
+    while !i.is_empty() {
+        let (input, rule) = parse_rule(i)?;
+        rules.push(rule);
+        i = input;
+    }
+
+    Ok((
+        i,
+        Stylesheet {
+            span: span(i, start),
+            rules,
+        },
+    ))
 }
 
 fn parse_rule(i: Input) -> PResult<Rule> {
@@ -49,7 +63,10 @@ fn parse_style_rule(i: Input) -> PResult<StyleRule> {
 
 /// Eats one or more whitespaces
 fn take_ws(i: Input) -> PResult<()> {
-    let (i, _) = take_while1(|c| c == ' ')(i)?;
+    let (i, _) = take_while1(|c| match c {
+        ' ' | '\t' => true,
+        _ => false,
+    })(i)?;
 
     Ok((i, ()))
 }
