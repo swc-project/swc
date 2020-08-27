@@ -11,7 +11,12 @@ use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined, Module, Property
 use napi_serde::serialize;
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
-use swc_common::{self, errors::Handler, FilePathMapping, SourceMap};
+use swc_common::{
+    self,
+    errors::{ColorConfig, Handler},
+    sync::Lazy,
+    FilePathMapping, SourceMap,
+};
 
 mod bundle;
 mod napi_serde;
@@ -23,6 +28,18 @@ mod util;
 // #[cfg(all(unix, not(target_env = "musl")))]
 // #[global_allocator]
 // static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
+
+static COMPILER: Lazy<Compiler> = Lazy::new(|| {
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+    let handler = Arc::new(Handler::with_tty_emitter(
+        ColorConfig::Always,
+        true,
+        false,
+        Some(cm.clone()),
+    ));
+
+    Compiler::new(cm.clone(), handler)
+});
 
 register_module!(swc, init);
 
@@ -36,27 +53,27 @@ fn init(m: &mut Module) -> napi::Result<()> {
 
     m.create_named_method("define", define_compiler_class)?;
 
+    m.create_named_method("transform", transform::transform)?;
+    m.create_named_method("transformSync", transform::transform_sync)?;
+    m.create_named_method("transformFile", transform::transform_file)?;
+    m.create_named_method("transformFileSync", transform::transform_file_sync)?;
+
+    m.create_named_method("parse", parse::parse)?;
+    m.create_named_method("parseSync", parse::parse_sync)?;
+    m.create_named_method("parseFile", parse::parse_file)?;
+    m.create_named_method("parseFileSync", parse::parse_file_sync)?;
+
+    m.create_named_method("print", print::print)?;
+    m.create_named_method("printSync", print::print_sync)?;
+
+    m.create_named_method("bundle", bundle::bundle)?;
+
     Ok(())
 }
 
 #[js_function]
 fn define_compiler_class(ctx: CallContext) -> napi::Result<JsFunction> {
-    let properties = vec![
-        Property::new("transformSync").with_method(transform::transform_sync),
-        Property::new("transform").with_method(transform::transform),
-        Property::new("transformFileSync").with_method(transform::transform_file_sync),
-        Property::new("transformFile").with_method(transform::transform_file),
-        Property::new("parse").with_method(parse::parse),
-        Property::new("parseSync").with_method(parse::parse_sync),
-        Property::new("parseFile").with_method(parse::parse_file),
-        Property::new("parseFileSync").with_method(parse::parse_file_sync),
-        Property::new("print").with_method(print::print),
-        Property::new("printSync").with_method(print::print_sync),
-        Property::new("bundle").with_method(bundle::bundle),
-    ];
-
-    ctx.env
-        .define_class("Compiler", construct_compiler, properties)
+    ctx.env.define_class("Compiler", construct_compiler, vec![])
 }
 
 #[js_function]

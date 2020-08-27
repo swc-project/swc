@@ -1,4 +1,4 @@
-use crate::napi_serde::deserialize;
+use crate::{napi_serde::deserialize, util::MapErr};
 use anyhow::{Context as _, Error};
 use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, JsString, Task};
 use std::{
@@ -18,24 +18,15 @@ pub struct ParseTask {
 }
 
 pub struct ParseFileTask {
-    pub c: Arc<Compiler>,
     pub path: PathBuf,
     pub options: ParseOptions,
 }
 
-pub fn complete_parse<'a>(
-    env: &mut Env,
-    result: Result<Program, Error>,
-    c: &Compiler,
-) -> napi::Result<JsString> {
-    c.run(|| match result {
-        Ok(program) => Ok(env
-            .create_string_from_std(
-                serde_json::to_string(&program).expect("failed to serialize Program"),
-            )
-            .upcast()),
-        Err(err) => env.throw_error(&format!("{:?}", err)),
-    })
+pub fn complete_parse<'a>(env: &mut Env, program: Program, c: &Compiler) -> napi::Result<JsString> {
+    let s = serde_json::to_string(&program)
+        .context("failed to serialize Program")
+        .convert_err()?;
+    env.create_string_from_std(s)
 }
 
 impl Task for ParseTask {
@@ -43,15 +34,18 @@ impl Task for ParseTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        self.c.run(|| {
-            self.c.parse_js(
+        let program = self
+            .c
+            .parse_js(
                 self.fm.clone(),
                 self.options.target,
                 self.options.syntax,
                 self.options.is_module,
                 self.options.comments,
             )
-        })
+            .convert_err()?;
+
+        Ok(program)
     }
 
     fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
@@ -140,55 +134,37 @@ pub fn parse_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     })
 }
 
+#[js_function(2)]
 pub fn parse_file_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsString> {
-    let c;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let compiler = this.borrow(&guard);
-        c = compiler.clone();
-    }
-    c.run(|| {
-        let path = cx.get::<JsString>(0)?;
-        let options_arg = cx.get::<JsObject>(1)?;
-        let options: ParseOptions = deserialize(&mut cx, options_arg)?;
+    let path = cx.get::<JsString>(0)?;
+    let options_arg = cx.get::<JsObject>(1)?;
+    let options: ParseOptions = deserialize(cx.env, &options_arg)?;
 
-        let program = {
-            let fm =
-                c.cm.load_file(Path::new(&path.value()))
-                    .expect("failed to read program file");
+    let program = {
+        let fm =
+            c.cm.load_file(Path::new(&path.value()))
+                .expect("failed to read program file");
 
-            c.parse_js(
-                fm,
-                options.target,
-                options.syntax,
-                options.is_module,
-                options.comments,
-            )
-        };
+        c.parse_js(
+            fm,
+            options.target,
+            options.syntax,
+            options.is_module,
+            options.comments,
+        )
+    };
 
-        complete_parse(cx, program, &c)
-    })
+    complete_parse(cx, program, &c)
 }
 
-pub fn parse_file(mut cx: CallContext<JsExternal>) -> napi::Result<JsString> {
+#[js_function(2)]
+pub fn parse_file(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let path = cx.get::<JsString>(0)?;
     let options_arg = cx.get::<JsObject>(1)?;
     let options: ParseOptions = deserialize(&mut cx, options_arg)?;
-    let callback = cx.get::<JsFunction>(2)?;
 
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-
-        ParseFileTask {
-            c: c.clone(),
-            path: path.value().into(),
-            options,
-        }
-        .schedule(callback);
-    };
-
-    Ok(cx.undefined().upcast())
+    cx.env.spawn(ParseFileTask {
+        path: path.value().into(),
+        options,
+    })
 }

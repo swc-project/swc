@@ -157,18 +157,10 @@ impl Task for BundleTask {
 #[js_function(2)]
 pub(crate) fn bundle(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let c: Arc<Compiler>;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let compiler = this.borrow(&guard);
-        c = compiler.clone();
-    }
-
-    let undefined = cx.undefined();
 
     let opt = cx.get::<JsObject>(0)?;
     let callback = cx.get::<JsFunction>(1)?;
-    let static_items: StaticConfigItem = deserialize(cx.env, opt.upcast())?;
+    let static_items: StaticConfigItem = deserialize(cx.env, &opt)?;
 
     let loader = Box::new(spack::loaders::swc::SwcLoader::new(
         c.clone(),
@@ -182,15 +174,12 @@ pub(crate) fn bundle(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> 
             }),
     ));
 
-    BundleTask {
+    cx.env.spawn(BundleTask {
         swc: c.clone(),
         config: ConfigItem {
             loader,
             resolver: Box::new(NodeResolver::new()) as Box<_>,
             static_items,
         },
-    }
-    .schedule(callback);
-
-    Ok(cx.undefined().upcast())
+    })
 }

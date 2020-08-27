@@ -44,32 +44,23 @@ impl Task for PrintTask {
     }
 }
 
+#[js_function(2)]
 pub fn print(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let program = cx.get::<JsString>(0)?;
     let program: Program =
         serde_json::from_str(&program.value()).expect("failed to deserialize Program");
 
     let options = cx.get::<JsObject>(1)?;
-    let options: Options = deserialize(&mut cx, options)?;
+    let options: Options = deserialize(cx.env, &options)?;
 
-    let callback = cx.get::<JsFunction>(2)?;
-
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-
-        PrintTask {
-            c: c.clone(),
-            program,
-            options,
-        }
-        .schedule(callback)
-    }
-
-    Ok(cx.undefined().upcast())
+    cx.env.spawn(PrintTask {
+        c: c.clone(),
+        program,
+        options,
+    })
 }
 
+#[js_function(2)]
 pub fn print_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let c;
     let this = cx.this();
