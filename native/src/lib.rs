@@ -62,10 +62,10 @@ fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
     ctx.env.get_undefined()
 }
 
-pub fn complete_output<'a>(
+pub fn complete_output(
     env: &mut Env,
     result: Result<TransformOutput, Error>,
-) -> napi::Result<'a, JsObject> {
+) -> napi::Result<JsObject> {
     match result {
         Ok(output) => Ok(serialize(&mut env, &output)?),
         Err(err) => env.throw_error(format!("{:?}", err)),

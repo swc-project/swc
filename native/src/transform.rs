@@ -1,6 +1,6 @@
-use crate::{complete_output, JsCompiler};
+use crate::complete_output;
 use anyhow::{Context as _, Error};
-use neon::prelude::*;
+use napi::{CallContext, Env, JsExternal, JsObject, Task};
 use path_clean::clean;
 use std::{
     path::{Path, PathBuf},
@@ -29,10 +29,9 @@ pub struct TransformTask {
 
 impl Task for TransformTask {
     type Output = TransformOutput;
-    type Error = Error;
-    type JsEvent = JsValue;
+    type JsValue = JsObject;
 
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
+    fn compute(&mut self) -> napi::Result<Self::Output> {
         self.c.run(|| match self.input {
             Input::Program(ref s) => {
                 let program: Program =
@@ -50,17 +49,13 @@ impl Task for TransformTask {
         })
     }
 
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_output(cx, result)
+    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_output(env, result)
     }
 }
 
 /// returns `compiler, (src / path), options, plugin, callback`
-pub fn schedule_transform<F>(mut cx: MethodContext<JsCompiler>, op: F) -> JsResult<JsValue>
+pub fn schedule_transform<F>(mut cx: CallContext<JsExternal>, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Arc<Compiler>, String, bool, Options) -> TransformTask,
 {
