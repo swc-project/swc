@@ -250,7 +250,7 @@ impl Options {
             .hygiene(!self.disable_hygiene)
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
-            .finalize(root_mark, syntax, config.module, comments);
+            .finalize(syntax, config.module, comments);
 
         BuiltConfig {
             minify: config.minify.unwrap_or(false),

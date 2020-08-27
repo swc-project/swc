@@ -112,7 +112,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
-        root_mark: Mark,
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt dyn Comments>,
@@ -183,7 +182,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 need_interop_analysis
             ),
             helpers::inject_helpers(),
-            ModuleConfig::build(self.cm.clone(), root_mark, module),
+            ModuleConfig::build(self.cm.clone(), self.global_mark, module),
             Optional::new(hygiene(), self.hygiene),
             Optional::new(fixer(comments), self.fixer),
         )
