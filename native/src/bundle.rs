@@ -166,8 +166,8 @@ pub(crate) fn bundle(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> 
 
     let undefined = cx.undefined();
 
-    let opt = cx.argument::<JsObject>(0)?;
-    let callback = cx.argument::<JsFunction>(1)?;
+    let opt = cx.get::<JsObject>(0)?;
+    let callback = cx.get::<JsFunction>(1)?;
     let static_items: StaticConfigItem = deserialize(cx.env, opt.upcast())?;
 
     let loader = Box::new(spack::loaders::swc::SwcLoader::new(

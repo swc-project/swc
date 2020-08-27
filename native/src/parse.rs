@@ -88,10 +88,10 @@ impl Task for ParseFileTask {
 
 #[js_function(3)]
 pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
-    let src = ctx.argument::<JsString>(0)?;
-    let options_arg = ctx.argument::<JsObject>(1)?;
+    let src = ctx.get::<JsString>(0)?;
+    let options_arg = ctx.get::<JsObject>(1)?;
     let options: ParseOptions = deserialize(&mut ctx, options_arg)?;
-    let callback = ctx.argument::<JsFunction>(2)?;
+    let callback = ctx.get::<JsFunction>(2)?;
 
     let this = ctx.this();
     {
@@ -121,8 +121,8 @@ pub fn parse_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
         c = compiler.clone();
     }
     c.run(|| {
-        let src = cx.argument::<JsString>(0)?;
-        let options_arg = cx.argument::<JsObject>(1)?;
+        let src = cx.get::<JsString>(0)?;
+        let options_arg = cx.get::<JsObject>(1)?;
         let options: ParseOptions = deserialize(&mut cx, options_arg)?;
 
         let program = {
@@ -149,8 +149,8 @@ pub fn parse_file_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsString
         c = compiler.clone();
     }
     c.run(|| {
-        let path = cx.argument::<JsString>(0)?;
-        let options_arg = cx.argument::<JsObject>(1)?;
+        let path = cx.get::<JsString>(0)?;
+        let options_arg = cx.get::<JsObject>(1)?;
         let options: ParseOptions = deserialize(&mut cx, options_arg)?;
 
         let program = {
@@ -172,10 +172,10 @@ pub fn parse_file_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsString
 }
 
 pub fn parse_file(mut cx: CallContext<JsExternal>) -> napi::Result<JsString> {
-    let path = cx.argument::<JsString>(0)?;
-    let options_arg = cx.argument::<JsObject>(1)?;
+    let path = cx.get::<JsString>(0)?;
+    let options_arg = cx.get::<JsObject>(1)?;
     let options: ParseOptions = deserialize(&mut cx, options_arg)?;
-    let callback = cx.argument::<JsFunction>(2)?;
+    let callback = cx.get::<JsFunction>(2)?;
 
     let this = cx.this();
     {

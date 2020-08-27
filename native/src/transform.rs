@@ -68,12 +68,12 @@ where
         c = this.borrow(&guard).clone();
     };
 
-    let s = cx.argument::<JsString>(0)?.value();
-    let is_module = cx.argument::<JsBoolean>(1)?;
-    let options_arg = cx.argument::<JsObject>(2)?;
+    let s = cx.get::<JsString>(0)?.value();
+    let is_module = cx.get::<JsBoolean>(1)?;
+    let options_arg = cx.get::<JsObject>(2)?;
 
     let options: Options = neon_serde::from_value(&mut cx, options_arg)?;
-    let callback = cx.argument::<JsFunction>(3)?;
+    let callback = cx.get::<JsFunction>(3)?;
 
     let task = op(&c, s, is_module.value(), options);
     task.schedule(callback);
@@ -85,8 +85,8 @@ pub fn exec_transform<F>(mut cx: CallContext<JsExternal>, op: F) -> napi::Result
 where
     F: FnOnce(&Compiler, String, &Options) -> Result<Arc<SourceFile>, Error>,
 {
-    let s = cx.argument::<JsString>(0)?;
-    let is_module = cx.argument::<JsBoolean>(1)?;
+    let s = cx.get::<JsString>(0)?;
+    let is_module = cx.get::<JsBoolean>(1)?;
     let options: Options = match cx.argument_opt(2) {
         Some(v) => neon_serde::from_value(&mut cx, v)?,
         None => {

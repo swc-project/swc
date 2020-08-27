@@ -45,14 +45,14 @@ impl Task for PrintTask {
 }
 
 pub fn print(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
-    let program = cx.argument::<JsString>(0)?;
+    let program = cx.get::<JsString>(0)?;
     let program: Program =
         serde_json::from_str(&program.value()).expect("failed to deserialize Program");
 
-    let options = cx.argument::<JsObject>(1)?;
+    let options = cx.get::<JsObject>(1)?;
     let options: Options = deserialize(&mut cx, options)?;
 
-    let callback = cx.argument::<JsFunction>(2)?;
+    let callback = cx.get::<JsFunction>(2)?;
 
     let this = cx.this();
     {
@@ -79,11 +79,11 @@ pub fn print_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
         c = compiler.clone();
     }
     c.run(|| {
-        let program = cx.argument::<JsString>(0)?;
+        let program = cx.get::<JsString>(0)?;
         let program: Program =
             serde_json::from_str(&program.value()).expect("failed to deserialize Program");
 
-        let options = cx.argument::<JsValue>(1)?;
+        let options = cx.get::<JsValue>(1)?;
         let options: Options = neon_serde::from_value(&mut cx, options)?;
 
         let result = {
