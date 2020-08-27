@@ -2,12 +2,12 @@ use napi::{Env, JsObject};
 use serde::{de::DeserializeOwned, Serialize, Serializer};
 
 struct Ser<'env> {
-    env: &'env mut Env,
+    env: &'env Env,
 }
 
 impl Serializer for Ser<'_> {}
 
-pub fn serialize<T>(env: &mut Env, node: &T) -> napi::Result<napi::JsObject>
+pub fn serialize<T>(env: &Env, node: &T) -> napi::Result<napi::JsObject>
 where
     T: Serialize,
 {

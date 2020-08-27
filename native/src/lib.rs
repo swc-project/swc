@@ -18,6 +18,7 @@ mod napi_serde;
 mod parse;
 mod print;
 mod transform;
+mod util;
 
 // #[cfg(all(unix, not(target_env = "musl")))]
 // #[global_allocator]
@@ -34,6 +35,8 @@ fn init(m: &mut Module) -> napi::Result<()> {
     }
 
     m.create_named_method("define", define_compiler_class)?;
+
+    Ok(())
 }
 
 #[js_function]
@@ -62,14 +65,8 @@ fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
     ctx.env.get_undefined()
 }
 
-pub fn complete_output(
-    env: &mut Env,
-    result: Result<TransformOutput, Error>,
-) -> napi::Result<JsObject> {
-    match result {
-        Ok(output) => Ok(serialize(&mut env, &output)?),
-        Err(err) => env.throw_error(format!("{:?}", err)),
-    }
+pub fn complete_output(env: &mut Env, output: TransformOutput) -> napi::Result<JsObject> {
+    serialize(&mut env, &output)
 }
 
 pub type ArcCompiler = Arc<Compiler>;

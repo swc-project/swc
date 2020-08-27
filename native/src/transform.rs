@@ -1,4 +1,4 @@
-use crate::complete_output;
+use crate::{complete_output, util::MapErr};
 use anyhow::{Context as _, Error};
 use napi::{CallContext, Env, JsExternal, JsObject, Task};
 use path_clean::clean;
@@ -32,21 +32,23 @@ impl Task for TransformTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        self.c.run(|| match self.input {
-            Input::Program(ref s) => {
-                let program: Program =
-                    serde_json::from_str(&s).expect("failed to deserialize Program");
-                // TODO: Source map
-                self.c.process_js(program, &self.options)
-            }
+        self.c
+            .run(|| match self.input {
+                Input::Program(ref s) => {
+                    let program: Program =
+                        serde_json::from_str(&s).expect("failed to deserialize Program");
+                    // TODO: Source map
+                    self.c.process_js(program, &self.options)
+                }
 
-            Input::File(ref path) => {
-                let fm = self.c.cm.load_file(path).context("failed to read module")?;
-                self.c.process_js_file(fm, &self.options)
-            }
+                Input::File(ref path) => {
+                    let fm = self.c.cm.load_file(path).context("failed to read module")?;
+                    self.c.process_js_file(fm, &self.options)
+                }
 
-            Input::Source(ref s) => self.c.process_js_file(s.clone(), &self.options),
-        })
+                Input::Source(ref s) => self.c.process_js_file(s.clone(), &self.options),
+            })
+            .convert_err()
     }
 
     fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
@@ -109,9 +111,10 @@ where
         })
     };
 
-    complete_output(cx, output)
+    complete_output(cx.env, output)
 }
 
+#[js_function(4)]
 pub fn transform(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, src, is_module, options| {
         let input = if is_module {
@@ -135,7 +138,7 @@ pub fn transform(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     })
 }
 
-#[js_function]
+#[js_function(4)]
 pub fn transform_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     exec_transform(cx, |c, src, options| {
         Ok(c.cm.new_source_file(
@@ -149,6 +152,7 @@ pub fn transform_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     })
 }
 
+#[js_function(4)]
 pub fn transform_file(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, path, _, options| {
         let path = clean(&path);
@@ -161,6 +165,7 @@ pub fn transform_file(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     })
 }
 
+#[js_function(4)]
 pub fn transform_file_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     exec_transform(cx, |c, path, _| {
         Ok(c.cm

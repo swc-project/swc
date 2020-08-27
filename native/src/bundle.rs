@@ -1,7 +1,10 @@
-use crate::napi_serde::{deserialize, serialize};
+use crate::{
+    napi_serde::{deserialize, serialize},
+    util::MapErr,
+};
 use anyhow::bail;
 use fxhash::FxHashMap;
-use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, Task};
+use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, Status, Task};
 use serde::Deserialize;
 use spack::resolvers::NodeResolver;
 use std::{
@@ -85,7 +88,9 @@ impl Task for BundleTask {
                 },
             );
 
-            let result = bundler.bundle(self.config.static_items.config.entry.clone().into())?;
+            let result = bundler
+                .bundle(self.config.static_items.config.entry.clone().into())
+                .convert_err()?;
 
             let result = result
                 .into_iter()
@@ -120,7 +125,8 @@ impl Task for BundleTask {
                         Ok((k, output))
                     })
                 })
-                .collect::<Result<_, _>>()?;
+                .collect::<Result<_, _>>()
+                .convert_err()?;
 
             Ok(result)
         }));
@@ -131,10 +137,16 @@ impl Task for BundleTask {
         };
 
         if let Some(s) = err.downcast_ref::<String>() {
-            bail!("panic detected: {}", s);
+            return Err(napi::Error::new(
+                Status::GenericFailure,
+                format!("panic detected: {}", s),
+            ));
         }
 
-        bail!("panic detected")
+        Err(napi::Error::new(
+            Status::GenericFailure,
+            format!("panic detected"),
+        ))
     }
 
     fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
