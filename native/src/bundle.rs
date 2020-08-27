@@ -1,7 +1,7 @@
-use crate::JsCompiler;
-use anyhow::{bail, Error};
+use crate::napi_serde::{deserialize, serialize};
+use anyhow::bail;
 use fxhash::FxHashMap;
-use neon::prelude::*;
+use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, Task};
 use serde::Deserialize;
 use spack::resolvers::NodeResolver;
 use std::{
@@ -33,10 +33,9 @@ struct BundleTask {
 
 impl Task for BundleTask {
     type Output = FxHashMap<String, TransformOutput>;
-    type Error = Error;
-    type JsEvent = JsValue;
+    type JsValue = JsObject;
 
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
+    fn compute(&mut self) -> napi::Result<Self::Output> {
         let res = catch_unwind(AssertUnwindSafe(|| {
             let bundler = Bundler::new(
                 self.swc.globals(),
@@ -138,19 +137,15 @@ impl Task for BundleTask {
         bail!("panic detected")
     }
 
-    fn complete(
-        self,
-        mut cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
+    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
         match result {
-            Ok(v) => Ok(neon_serde::to_value(&mut cx, &v)?.upcast()),
-            Err(err) => cx.throw_error(format!("{:?}", err)),
+            Ok(v) => Ok(serialize(env, &v)),
+            Err(err) => env.throw_error(&format!("{:?}", err)),
         }
     }
 }
 
-pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub(crate) fn bundle(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let c: Arc<Compiler>;
     let this = cx.this();
     {
@@ -163,33 +158,19 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
 
     let opt = cx.argument::<JsObject>(0)?;
     let callback = cx.argument::<JsFunction>(1)?;
-    let static_items: StaticConfigItem = neon_serde::from_value(&mut cx, opt.upcast())?;
+    let static_items: StaticConfigItem = deserialize(cx.env, opt.upcast())?;
 
-    let loader = opt
-        .get(&mut cx, "loader")?
-        .downcast::<JsFunction>()
-        .map(|f| {
-            let handler = EventHandler::new(&mut cx, undefined, f);
-            //
-            Box::new(spack::loaders::neon::NeonLoader {
-                swc: c.clone(),
-                handler,
-            }) as Box<dyn Load>
-        })
-        .unwrap_or_else(|_| {
-            Box::new(spack::loaders::swc::SwcLoader::new(
-                c.clone(),
-                static_items
-                    .config
-                    .options
-                    .as_ref()
-                    .cloned()
-                    .unwrap_or_else(|| {
-                        serde_json::from_value(serde_json::Value::Object(Default::default()))
-                            .unwrap()
-                    }),
-            ))
-        });
+    let loader = Box::new(spack::loaders::swc::SwcLoader::new(
+        c.clone(),
+        static_items
+            .config
+            .options
+            .as_ref()
+            .cloned()
+            .unwrap_or_else(|| {
+                serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
+            }),
+    ));
 
     BundleTask {
         swc: c.clone(),
