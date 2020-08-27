@@ -1,6 +1,6 @@
-use crate::JsCompiler;
+use crate::napi_serde::deserialize;
 use anyhow::{Context as _, Error};
-use neon::prelude::*;
+use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, JsString, Task};
 use std::{
     path::{Path, PathBuf},
     sync::Arc,
@@ -24,24 +24,25 @@ pub struct ParseFileTask {
 }
 
 pub fn complete_parse<'a>(
-    mut cx: impl Context<'a>,
+    env: &mut Env,
     result: Result<Program, Error>,
     c: &Compiler,
-) -> JsResult<'a, JsValue> {
+) -> napi::Result<JsString> {
     c.run(|| match result {
-        Ok(program) => Ok(cx
-            .string(serde_json::to_string(&program).expect("failed to serialize Program"))
+        Ok(program) => Ok(env
+            .create_string_from_std(
+                serde_json::to_string(&program).expect("failed to serialize Program"),
+            )
             .upcast()),
-        Err(err) => cx.throw_error(format!("{:?}", err)),
+        Err(err) => env.throw_error(&format!("{:?}", err)),
     })
 }
 
 impl Task for ParseTask {
     type Output = Program;
-    type Error = Error;
-    type JsEvent = JsValue;
+    type JsValue = JsString;
 
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
+    fn compute(&mut self) -> napi::Result<Self::Output> {
         self.c.run(|| {
             self.c.parse_js(
                 self.fm.clone(),
@@ -53,21 +54,16 @@ impl Task for ParseTask {
         })
     }
 
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_parse(cx, result, &self.c)
+    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_parse(env, result, &self.c)
     }
 }
 
 impl Task for ParseFileTask {
     type Output = Program;
-    type Error = Error;
-    type JsEvent = JsValue;
+    type JsValue = JsString;
 
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
+    fn compute(&mut self) -> napi::Result<Self::Output> {
         self.c.run(|| {
             let fm = self
                 .c
@@ -85,24 +81,20 @@ impl Task for ParseFileTask {
         })
     }
 
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_parse(cx, result, &self.c)
+    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_parse(env, result, &self.c)
     }
 }
 
-pub fn parse(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let src = cx.argument::<JsString>(0)?;
-    let options_arg = cx.argument::<JsValue>(1)?;
-    let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
-    let callback = cx.argument::<JsFunction>(2)?;
+pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
+    let src = ctx.argument::<JsString>(0)?;
+    let options_arg = ctx.argument::<JsObject>(1)?;
+    let options: ParseOptions = deserialize(&mut ctx, options_arg)?;
+    let callback = ctx.argument::<JsFunction>(2)?;
 
-    let this = cx.this();
+    let this = ctx.this();
     {
-        let guard = cx.lock();
+        let guard = ctx.lock();
         let c = this.borrow(&guard);
 
         let fm = c.cm.new_source_file(FileName::Anon, src.value());
@@ -115,10 +107,10 @@ pub fn parse(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
         .schedule(callback);
     };
 
-    Ok(cx.undefined().upcast())
+    Ok(ctx.undefined().upcast())
 }
 
-pub fn parse_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub fn parse_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let c;
     let this = cx.this();
     {
@@ -128,8 +120,8 @@ pub fn parse_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     }
     c.run(|| {
         let src = cx.argument::<JsString>(0)?;
-        let options_arg = cx.argument::<JsValue>(1)?;
-        let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
+        let options_arg = cx.argument::<JsObject>(1)?;
+        let options: ParseOptions = deserialize(&mut cx, options_arg)?;
 
         let program = {
             let fm = c.cm.new_source_file(FileName::Anon, src.value());
@@ -146,7 +138,7 @@ pub fn parse_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn parse_file_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub fn parse_file_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsString> {
     let c;
     let this = cx.this();
     {
@@ -156,8 +148,8 @@ pub fn parse_file_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     }
     c.run(|| {
         let path = cx.argument::<JsString>(0)?;
-        let options_arg = cx.argument::<JsValue>(1)?;
-        let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
+        let options_arg = cx.argument::<JsObject>(1)?;
+        let options: ParseOptions = deserialize(&mut cx, options_arg)?;
 
         let program = {
             let fm =
@@ -177,10 +169,10 @@ pub fn parse_file_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn parse_file(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub fn parse_file(mut cx: CallContext<JsExternal>) -> napi::Result<JsString> {
     let path = cx.argument::<JsString>(0)?;
-    let options_arg = cx.argument::<JsValue>(1)?;
-    let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
+    let options_arg = cx.argument::<JsObject>(1)?;
+    let options: ParseOptions = deserialize(&mut cx, options_arg)?;
     let callback = cx.argument::<JsFunction>(2)?;
 
     let this = cx.this();
