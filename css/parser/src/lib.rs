@@ -11,8 +11,8 @@ use util::{span, take_ws, PResultExt};
 pub type PResult<'a, T> = IResult<Input<'a>, T>;
 
 mod input;
+mod lexer;
 mod selectors;
-mod spec;
 mod util;
 
 pub fn parse(i: Input) -> PResult<Stylesheet> {
