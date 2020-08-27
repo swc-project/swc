@@ -1,23 +1,40 @@
 pub use self::input::Input;
-use nom::IResult;
+use nom::{
+    bytes::complete::{tag, take_while},
+    error::ErrorKind,
+    IResult,
+};
 use swc_css_ast::*;
+use util::PResultExt;
 
-pub type PResult<'a, T> = IResult<T, Input<'a>>;
+pub type PResult<'a, T> = IResult<Input<'a>, T>;
 
 mod input;
+mod util;
 
-pub fn parse(s: Input) -> PResult<Stylesheet> {
+pub fn parse(i: Input) -> PResult<Stylesheet> {
     unimplemented!("parse")
 }
 
-pub fn parse_rule(s: Input) -> PResult<Rule> {
-    unimplemented!("parse_rule")
+fn parse_rule(i: Input) -> PResult<Rule> {
+    if i.starts_with('@') {
+        return parse_at_rule(i).map_value(From::from);
+    }
+
+    parse_style_rule(i).map_value(From::from)
 }
 
-pub fn parse_at_rule(s: Input) -> PResult<AtRule> {
-    unimplemented!("parse_at_rule")
+fn parse_at_rule(i: Input) -> PResult<AtRule> {
+    let (i, _) = tag("@")(i)?;
+
+    let (i, id) = take_while(|c: char| c.is_alphabetic())(i)?;
+    let (i, _) = take_space(i);
+
+    let (i, text) = take_while(|c| c != ';')(i);
+
+    Ok((i, AtRule {}))
 }
 
-pub fn parse_style_rule(s: Input) -> PResult<StyleRule> {
+fn parse_style_rule(i: Input) -> PResult<StyleRule> {
     unimplemented!("parse_style_rule")
 }
