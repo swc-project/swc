@@ -7,12 +7,14 @@ extern crate napi_derive;
 
 use anyhow::Error;
 use backtrace::Backtrace;
-use napi::{CallContext, JsFunction, JsObject, JsUndefined, Module, Property};
+use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined, Module, Property};
+use napi_serde::serialize;
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
 use swc_common::{self, errors::Handler, FilePathMapping, SourceMap};
 
 mod bundle;
+mod napi_serde;
 mod parse;
 mod print;
 mod transform;
@@ -61,12 +63,12 @@ fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
 }
 
 pub fn complete_output<'a>(
-    mut cx: impl Context<'a>,
+    env: &mut Env,
     result: Result<TransformOutput, Error>,
-) -> JsResult<'a, JsValue> {
+) -> napi::Result<'a, JsObject> {
     match result {
-        Ok(output) => Ok(neon_serde::to_value(&mut cx, &output)?),
-        Err(err) => cx.throw_error(format!("{:?}", err)),
+        Ok(output) => Ok(serialize(&mut env, &output)?),
+        Err(err) => env.throw_error(format!("{:?}", err)),
     }
 }
 
