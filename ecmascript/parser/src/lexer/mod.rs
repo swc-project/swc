@@ -515,7 +515,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 if self.eat(b'\n') {
                     raw.push_str("\n");
-                    self.bump();
                 }
                 return Ok(None);
             }
