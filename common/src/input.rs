@@ -66,16 +66,10 @@ impl<'a> Input for StringInput<'a> {
 
     #[inline]
     fn bump(&mut self) {
-        #[cold]
-        #[inline(never)]
-        fn error() {
-            unreachable!("bump should not be called when cur() == None");
-        }
-
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos + BytePos((i + c.len_utf8()) as u32);
         } else {
-            error()
+            unreachable!("bump should not be called when cur() == None");
         }
     }
 
@@ -180,25 +174,6 @@ impl<'a> Input for StringInput<'a> {
             self.iter.as_str().as_bytes()[0] == c
         }
     }
-
-    fn eat_all_bytes(&mut self, c: u8) -> bool {
-        let pos = self.iter.as_str().bytes().position(|b| b != c);
-
-        // dbg!(pos);
-
-        if let Some(pos) = pos {
-            for _ in 0..pos {
-                self.iter.next();
-            }
-            // self.iter = self.iter.as_str()[pos..].char_indices();
-            self.last_pos = self.last_pos + BytePos(pos as _);
-            // dbg!(self.last_pos);
-
-            true
-        } else {
-            false
-        }
-    }
 }
 
 pub trait Input: Clone {
@@ -246,23 +221,6 @@ pub trait Input: Clone {
         } else {
             false
         }
-    }
-
-    /// Eats `c` from the start as many as it can.
-    ///
-    /// Returns true if input had eaten any.
-    #[inline]
-    fn eat_all_bytes(&mut self, c: u8) -> bool {
-        let mut eaten = false;
-        loop {
-            if self.is_byte(c) {
-                self.bump();
-                eaten = true;
-            } else {
-                break;
-            }
-        }
-        eaten
     }
 }
 

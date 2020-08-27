@@ -123,11 +123,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self) -> LexResult<()> {
-        while let Some(c) = {
-            self.input.eat_all_bytes(b' ');
-
-            self.cur()
-        } {
+        while let Some(c) = self.cur() {
             match c {
                 // white spaces
                 _ if c.is_ws() => {}
