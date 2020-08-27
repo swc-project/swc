@@ -79,7 +79,7 @@ where
     Ok(cx.undefined().upcast())
 }
 
-pub fn exec_transform<F>(mut cx: MethodContext<JsCompiler>, op: F) -> JsResult<JsValue>
+pub fn exec_transform<F>(mut cx: CallContext<JsExternal>, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Compiler, String, &Options) -> Result<Arc<SourceFile>, Error>,
 {
@@ -112,7 +112,7 @@ where
     complete_output(cx, output)
 }
 
-pub fn transform(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub fn transform(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, src, is_module, options| {
         let input = if is_module {
             Input::Program(src)
@@ -135,7 +135,8 @@ pub fn transform(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn transform_sync(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+#[js_function]
+pub fn transform_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     exec_transform(cx, |c, src, options| {
         Ok(c.cm.new_source_file(
             if options.filename.is_empty() {
@@ -148,7 +149,7 @@ pub fn transform_sync(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn transform_file(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub fn transform_file(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, path, _, options| {
         let path = clean(&path);
 
@@ -160,7 +161,7 @@ pub fn transform_file(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn transform_file_sync(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub fn transform_file_sync(cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     exec_transform(cx, |c, path, _| {
         Ok(c.cm
             .load_file(Path::new(&path))

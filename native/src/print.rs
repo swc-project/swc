@@ -1,6 +1,6 @@
 use crate::{complete_output, napi_serde::deserialize};
 use anyhow::Error;
-use napi::{CallContext, Env, JsExternal, JsObject, JsString, Task, JsFunction};
+use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, JsString, Task};
 use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
@@ -70,7 +70,7 @@ pub fn print(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     Ok(cx.undefined().upcast())
 }
 
-pub fn print_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+pub fn print_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
     let c;
     let this = cx.this();
     {
