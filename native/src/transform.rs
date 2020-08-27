@@ -1,4 +1,4 @@
-use crate::{complete_output, util::MapErr};
+use crate::{complete_output, get_compiler, napi_serde::deserialize, util::MapErr};
 use anyhow::{Context as _, Error};
 use napi::{CallContext, Env, JsBoolean, JsExternal, JsObject, JsString, Task};
 use path_clean::clean;
@@ -57,28 +57,21 @@ impl Task for TransformTask {
 }
 
 /// returns `compiler, (src / path), options, plugin, callback`
-pub fn schedule_transform<F>(mut cx: CallContext<JsExternal>, op: F) -> napi::Result<JsObject>
+pub fn schedule_transform<F>(mut cx: CallContext, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Arc<Compiler>, String, bool, Options) -> TransformTask,
 {
-    let c;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        c = this.borrow(&guard).clone();
-    };
+    let c = get_compiler(&cx);
 
-    let s = cx.get::<JsString>(0)?.value();
+    let s = cx.get::<JsString>(0)?.as_str()?;
     let is_module = cx.get::<JsBoolean>(1)?;
     let options_arg = cx.get::<JsObject>(2)?;
 
-    let options: Options = neon_serde::from_value(&mut cx, options_arg)?;
-    let callback = cx.get::<JsFunction>(3)?;
+    let options: Options = deserialize(cx.env, &options_arg)?;
 
-    let task = op(&c, s, is_module.value(), options);
-    task.schedule(callback);
+    let task = op(&c, s, is_module.get_value()?, options);
 
-    Ok(cx.undefined().upcast())
+    cx.env.spawn(task)
 }
 
 pub fn exec_transform<F>(mut cx: CallContext<JsExternal>, op: F) -> napi::Result<JsObject>

@@ -125,7 +125,8 @@ pub fn parse_sync(mut cx: CallContext) -> napi::Result<JsString> {
 }
 
 #[js_function(2)]
-pub fn parse_file_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsString> {
+pub fn parse_file_sync(mut cx: CallContext) -> napi::Result<JsString> {
+    let c = get_compiler(&cx);
     let path = cx.get::<JsString>(0)?;
     let options_arg = cx.get::<JsObject>(1)?;
     let options: ParseOptions = deserialize(cx.env, &options_arg)?;
@@ -148,12 +149,14 @@ pub fn parse_file_sync(mut cx: CallContext<JsExternal>) -> napi::Result<JsString
 }
 
 #[js_function(2)]
-pub fn parse_file(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
+pub fn parse_file(mut cx: CallContext) -> napi::Result<JsObject> {
+    let c = get_compiler(&cx);
     let path = cx.get::<JsString>(0)?;
     let options_arg = cx.get::<JsObject>(1)?;
     let options: ParseOptions = deserialize(&mut cx, options_arg)?;
 
     cx.env.spawn(ParseFileTask {
+        c,
         path: path.value().into(),
         options,
     })

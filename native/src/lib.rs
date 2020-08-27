@@ -85,8 +85,8 @@ fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
     ctx.env.get_undefined()
 }
 
-pub fn complete_output(env: &mut Env, output: TransformOutput) -> napi::Result<JsObject> {
-    serialize(&mut env, &output)
+pub fn complete_output(env: &Env, output: TransformOutput) -> napi::Result<JsObject> {
+    serialize(&env, &output)
 }
 
 pub type ArcCompiler = Arc<Compiler>;
