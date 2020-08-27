@@ -211,7 +211,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_primary_expr);
 
-        let _ = cur!(false);
+        let _ = self.input.cur();
         let start = cur_pos!();
 
         let can_be_arrow = self
@@ -220,99 +220,103 @@ impl<'a, I: Tokens> Parser<I> {
             .map(|s| s == start)
             .unwrap_or(false);
 
-        if eat!("this") {
-            return Ok(Box::new(Expr::This(ThisExpr { span: span!(start) })));
-        }
-
-        if is!("import") {
-            let import = self.parse_ident_name()?;
-            if self.input.syntax().import_meta() && is!('.') {
-                return self
-                    .parse_import_meta_prop(import)
-                    .map(Expr::MetaProp)
-                    .map(Box::new);
-            }
-
-            return self.parse_dynamic_import(start, import);
-        }
-
-        if is!("async") {
-            if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked() {
-                // handle `async function` expression
-                return self.parse_async_fn_expr();
-            }
-
-            if can_be_arrow && self.input.syntax().typescript() && peeked_is!('<') {
-                // try parsing `async<T>() => {}`
-                if let Some(res) = self.try_parse_ts(|p| {
-                    let start = cur_pos!();
-                    assert_and_bump!("async");
-                    p.try_parse_ts_generic_async_arrow_fn(start)
-                }) {
-                    return Ok(Box::new(Expr::Arrow(res)));
+        match self.input.cur() {
+            Some(tok) => match tok {
+                tok!("this") => {
+                    self.input.bump();
+                    return Ok(Box::new(Expr::This(ThisExpr { span: span!(start) })));
                 }
-            }
 
-            if can_be_arrow && peeked_is!('(') {
-                expect!("async");
-                let async_span = self.input.prev_span();
-                return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
-            }
-        }
+                tok!("import") => {
+                    let import = self.parse_ident_name()?;
+                    if self.input.syntax().import_meta() && is!('.') {
+                        return self
+                            .parse_import_meta_prop(import)
+                            .map(Expr::MetaProp)
+                            .map(Box::new);
+                    }
 
-        if is!('[') {
-            return self.parse_array_lit();
-        }
-        if is!('{') {
-            return self.parse_object();
+                    return self.parse_dynamic_import(start, import);
+                }
+
+                tok!("async") => {
+                    if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked()
+                    {
+                        // handle `async function` expression
+                        return self.parse_async_fn_expr();
+                    }
+
+                    if can_be_arrow && self.input.syntax().typescript() && peeked_is!('<') {
+                        // try parsing `async<T>() => {}`
+                        if let Some(res) = self.try_parse_ts(|p| {
+                            let start = cur_pos!();
+                            assert_and_bump!("async");
+                            p.try_parse_ts_generic_async_arrow_fn(start)
+                        }) {
+                            return Ok(Box::new(Expr::Arrow(res)));
+                        }
+                    }
+
+                    if can_be_arrow && peeked_is!('(') {
+                        expect!("async");
+                        let async_span = self.input.prev_span();
+                        return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
+                    }
+                }
+
+                tok!('[') => {
+                    return self.parse_array_lit();
+                }
+
+                tok!('{') => {
+                    return self.parse_object();
+                }
+
+                // Handle FunctionExpression and GeneratorExpression
+                tok!("function") => {
+                    return self.parse_fn_expr();
+                }
+
+                // Literals
+                tok!("null")
+                | tok!("true")
+                | tok!("false")
+                | Token::Num(..)
+                | Token::BigInt(..)
+                | Token::Str { .. } => {
+                    return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
+                }
+
+                // Regexp
+                Token::Regex(..) => match bump!() {
+                    Token::Regex(exp, flags) => {
+                        return Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
+                            span: span!(start),
+                            exp,
+                            flags,
+                        }))));
+                    }
+                    _ => unreachable!(),
+                },
+
+                tok!('`') => {
+                    // parse template literal
+                    return Ok(Box::new(Expr::Tpl(self.parse_tpl()?)));
+                }
+
+                tok!('(') => {
+                    return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
+                }
+
+                _ => {}
+            },
+            None => {}
         }
 
         let decorators = self.parse_decorators(false)?;
 
-        // Handle FunctionExpression and GeneratorExpression
-        if is!("function") {
-            return self.parse_fn_expr();
-        } else if is!("class") {
+        if is!("class") {
             return self.parse_class_expr(start, decorators);
-        }
-
-        // Literals
-        if match cur!(false) {
-            Ok(&tok!("null"))
-            | Ok(&tok!("true"))
-            | Ok(&tok!("false"))
-            | Ok(&Token::Num(..))
-            | Ok(&Token::BigInt(..))
-            | Ok(Token::Str { .. }) => true,
-            _ => false,
-        } {
-            return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
-        }
-
-        // Regexp
-        if match cur!(false) {
-            Ok(&Token::Regex(..)) => true,
-            _ => false,
-        } {
-            match bump!() {
-                Token::Regex(exp, flags) => {
-                    return Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
-                        span: span!(start),
-                        exp,
-                        flags,
-                    }))));
-                }
-                _ => unreachable!(),
-            }
-        }
-
-        if is!('`') {
-            // parse template literal
-            return Ok(Box::new(Expr::Tpl(self.parse_tpl()?)));
-        }
-
-        if is!('(') {
-            return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
         }
 
         if is!("let") || (self.input.syntax().typescript() && is!(IdentName)) || is!(IdentRef) {

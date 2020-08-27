@@ -116,7 +116,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // 1e2 = 100
         // 1e+2 = 100
         // 1e-2 = 0.01
-        if self.eat('e') || self.eat('E') {
+        if self.eat(b'e') || self.eat(b'E') {
             let next = match self.cur() {
                 Some(next) => next,
                 None => {
@@ -158,8 +158,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump(); // x
 
         let (val, s) = self.read_number_no_dot_as_str(radix)?;
-        if self.cur() == Some('n') {
-            self.input.bump();
+        if self.eat(b'n') {
             return Ok(Either::Right(s));
         }
 
