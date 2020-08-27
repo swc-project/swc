@@ -6,7 +6,7 @@ use std::{
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::Text;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Input<'i> {
     start: BytePos,
     end: BytePos,

@@ -1,25 +1,25 @@
 pub use self::input::Input;
+use crate::{
+    selectors::parse_selectors,
+    util::{span, PResultExt},
+};
 use nom::{
     bytes::complete::{tag, take_while, take_while1},
+    multi::many0,
     IResult,
 };
 use swc_css_ast::*;
-use util::{span, PResultExt};
 
 pub type PResult<'a, T> = IResult<Input<'a>, T>;
 
 mod input;
+mod selectors;
 mod util;
 
-pub fn parse(mut i: Input) -> PResult<Stylesheet> {
+pub fn parse(i: Input) -> PResult<Stylesheet> {
     let start = i.start_pos();
 
-    let mut rules = vec![];
-    while !i.is_empty() {
-        let (input, rule) = parse_rule(i)?;
-        rules.push(rule);
-        i = input;
-    }
+    let (i, rules) = many0(parse_rule)(i)?;
 
     Ok((
         i,
@@ -58,8 +58,27 @@ fn parse_at_rule(i: Input) -> PResult<AtRule> {
 }
 
 fn parse_style_rule(i: Input) -> PResult<StyleRule> {
-    unimplemented!("parse_style_rule")
+    let start = i.start_pos();
+
+    let (i, selectors) = parse_selectors(i)?;
+
+    let (i, _) = tag("{")(i)?;
+
+    let (i, properties) = many0(parse_property)(i)?;
+
+    let (i, _) = tag("}")(i)?;
+
+    Ok((
+        i,
+        StyleRule {
+            span: span(i, start),
+            selectors,
+            properties,
+        },
+    ))
 }
+
+fn parse_property(i: Input) -> PResult<Property> {}
 
 /// Eats one or more whitespaces
 fn take_ws(i: Input) -> PResult<()> {
