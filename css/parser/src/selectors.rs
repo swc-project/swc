@@ -11,7 +11,7 @@ use nom::{
 use swc_css_ast::*;
 
 pub(crate) fn parse_selectors(i: Input) -> PResult<Vec<Selector>> {
-    separated_list(|c| c == ',', parse_selector)(i)
+    separated_list(tag(","), parse_selector)(i)
 }
 
 fn parse_selector(i: Input) -> PResult<Selector> {
