@@ -674,16 +674,59 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(self.cur().is_some());
         let start = self.cur_pos();
 
-        let (word, has_escape) = self.read_word_as_str()?;
+        let (word, has_escape) = self.read_word_as_str_with(|s| match s {
+            "null" => Word::Null,
+            "true" => Word::True,
+            "false" => Word::False,
+            "await" => Await.into(),
+            "break" => Break.into(),
+            "case" => Case.into(),
+            "catch" => Catch.into(),
+            "continue" => Continue.into(),
+            "debugger" => Debugger.into(),
+            "default" => Default_.into(),
+            "do" => Do.into(),
+            "export" => Export.into(),
+            "else" => Else.into(),
+            "finally" => Finally.into(),
+            "for" => For.into(),
+            "function" => Function.into(),
+            "if" => If.into(),
+            "return" => Return.into(),
+            "switch" => Switch.into(),
+            "throw" => Throw.into(),
+            "try" => Try.into(),
+            "var" => Var.into(),
+            "let" => Let.into(),
+            "const" => Const.into(),
+            "while" => While.into(),
+            "with" => With.into(),
+            "new" => New.into(),
+            "this" => This.into(),
+            "super" => Super.into(),
+            "class" => Class.into(),
+            "extends" => Extends.into(),
+            "import" => Import.into(),
+            "yield" => Yield.into(),
+            "in" => In.into(),
+            "instanceof" => InstanceOf.into(),
+            "typeof" => TypeOf.into(),
+            "void" => Void.into(),
+            "delete" => Delete.into(),
+            _ => Word::Ident(s.into()),
+        })?;
 
         // Note: ctx is store in lexer because of this error.
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
-        if has_escape && self.ctx.is_reserved_word(&word) {
-            self.error(start, SyntaxError::EscapeInReservedWord { word })?
+        if has_escape && self.ctx.is_reserved(&word) {
+            self.error(
+                start,
+                SyntaxError::EscapeInReservedWord { word: word.into() },
+            )?
         } else {
-            Ok(Word(word.into()))
+            Ok(Word(word))
         }
     }
 
@@ -694,10 +737,17 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
+    fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
+        self.read_word_as_str_with(|s| JsWord::from(s))
+    }
+
     /// returns (word, has_escape)
     ///
     /// This method is optimized for texts without escape sequences.
-    fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
+    fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
+    where
+        F: FnOnce(&str) -> Ret,
+    {
         debug_assert!(self.cur().is_some());
         let mut first = true;
 
@@ -749,7 +799,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
                 first = false;
             }
-            Ok(((&**buf).into(), has_escape))
+            let value = convert(&buf);
+
+            Ok((value, has_escape))
         })
     }
 
