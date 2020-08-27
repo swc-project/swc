@@ -372,7 +372,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.input.bump();
 
                     // Handle -->
-                    if self.state.had_line_break && c == '-' && self.eat('>') {
+                    if self.state.had_line_break && c == '-' && self.eat(b'>') {
                         if self.ctx.module {
                             return self.error(start, SyntaxError::LegacyCommentInModule)?;
                         }
@@ -513,7 +513,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 raw.push_str("\r");
                 self.bump(); // remove '\r'
 
-                if self.cur() == Some('\n') {
+                if self.eat(b'\n') {
                     raw.push_str("\n");
                     self.bump();
                 }
@@ -615,7 +615,11 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Divide operator
         self.bump();
 
-        Ok(Some(if self.eat('=') { tok!("/=") } else { tok!('/') }))
+        Ok(Some(if self.eat(b'=') {
+            tok!("/=")
+        } else {
+            tok!('/')
+        }))
     }
 
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
@@ -626,7 +630,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // XML style comment. `<!--`
-        if c == '<' && self.is('!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
+        if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
             self.skip_space()?;
             if self.ctx.module {
@@ -649,7 +653,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        let token = if self.eat('=') {
+        let token = if self.eat(b'=') {
             match op {
                 Lt => BinOp(LtEq),
                 Gt => BinOp(GtEq),
@@ -722,7 +726,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // unicode escape
                     '\\' => {
                         l.bump();
-                        if !l.is('u') {
+                        if !l.is(b'u') {
                             l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
                         }
                         has_escape = true;
@@ -755,12 +759,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         raw.push_str("u");
 
-        if self.eat('{') {
+        if self.eat(b'{') {
             raw.push('{');
             // let cp_start = self.cur_pos();
             let c = self.read_code_point(raw)?;
 
-            if !self.eat('}') {
+            if !self.eat(b'}') {
                 self.error(start, SyntaxError::InvalidUnicodeEscape)?
             }
             raw.push('}');
@@ -882,7 +886,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Default::default());
 
         // input is terminated without following `/`
-        if !self.is('/') {
+        if !self.is(b'/') {
             self.error(start, SyntaxError::UnterminatedRegxp)?;
         }
 

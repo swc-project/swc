@@ -62,17 +62,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.bump()
     }
 
-    pub(super) fn is(&mut self, c: char) -> bool {
-        self.cur() == Some(c)
+    pub(super) fn is(&mut self, c: u8) -> bool {
+        self.input.is_byte(c)
     }
 
-    pub(super) fn eat(&mut self, c: char) -> bool {
-        if self.is(c) {
-            self.bump();
-            true
-        } else {
-            false
-        }
+    pub(super) fn eat(&mut self, c: u8) -> bool {
+        self.input.eat_byte(c)
     }
 
     pub(super) fn cur(&mut self) -> Option<char> {
