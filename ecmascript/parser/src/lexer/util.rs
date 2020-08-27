@@ -126,12 +126,13 @@ impl<'a, I: Input> Lexer<'a, I> {
         while let Some(c) = self.cur() {
             match c {
                 // white spaces
-                _ if c.is_ws() => {}
-
+                '\u{0009}' | '\u{000b}' | '\u{000c}' | '\u{0020}' | '\u{00a0}' | '\u{feff}' => {}
                 // line breaks
                 _ if c.is_line_break() => {
                     self.state.had_line_break = true;
                 }
+                _ if c.is_whitespace() => {}
+
                 '/' => {
                     if self.peek() == Some('/') {
                         self.skip_line_comment(2);
