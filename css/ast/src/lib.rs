@@ -41,6 +41,7 @@ pub struct StyleRule {
 #[ast_node]
 pub struct Selector {
     pub span: Span,
+    pub tag: Option<TagSelector>,
     pub base: BaseSelector,
     pub pseudo_class: Option<Text>,
     pub pseudo_element: Option<Text>,
@@ -72,8 +73,6 @@ pub enum BaseSelector {
     Id(IdSelector),
     #[tag("ClassSelector")]
     Class(ClassSelector),
-    #[tag("TagSelector")]
-    Tag(TagSelector),
 }
 
 #[ast_node]
