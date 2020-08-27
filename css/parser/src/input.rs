@@ -3,7 +3,7 @@ use std::{
     ops::{Deref, Range, RangeFrom, RangeTo},
     str::{CharIndices, Chars},
 };
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::Text;
 
 #[derive(Debug, Clone, Copy)]
@@ -11,6 +11,12 @@ pub struct Input<'i> {
     start: BytePos,
     end: BytePos,
     src: &'i str,
+}
+
+impl Spanned for Input<'_> {
+    fn span(&self) -> Span {
+        Span::new(self.start, self.end, Default::default())
+    }
 }
 
 impl<'i> Input<'i> {
@@ -25,6 +31,14 @@ impl<'i> Input<'i> {
     #[inline(always)]
     pub fn span(self) -> Span {
         Span::new(self.start, self.end, Default::default())
+    }
+
+    pub fn start_pos(&self) -> BytePos {
+        self.start
+    }
+
+    pub fn end_pos(&self) -> BytePos {
+        self.end
     }
 }
 
