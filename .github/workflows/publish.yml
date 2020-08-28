@@ -9,7 +9,6 @@ on: [push, pull_request]
 jobs:
   build:
     strategy:
-      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
@@ -57,6 +56,11 @@ jobs:
     name: Test bindings on ${{ matrix.os }} - node@${{ matrix.node }}
     needs:
       - build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ["10", "12", "14"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
