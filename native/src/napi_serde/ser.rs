@@ -1,25 +1,39 @@
-use super::{serialize, Error};
+use super::Error;
 use napi::{Env, JsObject, JsUnknown};
 use serde::{
     ser::{
         SerializeMap, SerializeSeq, SerializeStruct, SerializeStructVariant, SerializeTuple,
         SerializeTupleStruct, SerializeTupleVariant,
     },
-    Serializer,
+    Serialize, Serializer,
 };
 
-pub(super) struct Ser<'env> {
-    pub env: &'env Env,
+pub fn serialize<T>(env: &Env, node: &T) -> napi::Result<napi::JsUnknown>
+where
+    T: Serialize,
+{
+    let s = Ser { env };
+    match node.serialize(s) {
+        Ok(v) => Ok(v),
+        Err(err) => match err {
+            Error::Normal(v) => Err(napi::Error::new(Status::GenericFailure, format!("{:?}", v))),
+            Error::Napi(err) => Err(err),
+        },
+    }
+}
+
+struct Ser<'env> {
+    env: &'env Env,
 }
 
 #[doc(hidden)]
-pub struct ArraySerializer<'env> {
+struct ArraySerializer<'env> {
     env: &'env Env,
     array: JsObject,
 }
 
 #[doc(hidden)]
-pub struct TupleVariantSerializer<'env> {
+struct TupleVariantSerializer<'env> {
     env: &'env Env,
     outter_object: JsObject,
     key: &'static str,
@@ -27,20 +41,20 @@ pub struct TupleVariantSerializer<'env> {
 }
 
 #[doc(hidden)]
-pub struct MapSerializer<'env> {
+struct MapSerializer<'env> {
     env: &'env Env,
     object: JsObject,
     key_holder: JsObject,
 }
 
 #[doc(hidden)]
-pub struct StructSerializer<'env> {
+struct StructSerializer<'env> {
     env: &'env Env,
     object: JsObject,
 }
 
 #[doc(hidden)]
-pub struct StructVariantSerializer<'env> {
+struct StructVariantSerializer<'env> {
     env: &'env Env,
     outer_object: JsObject,
     inner: StructSerializer<'env>,

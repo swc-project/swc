@@ -2,33 +2,13 @@
 //!
 //! THis will be extracted as a standalone crate in future.
 
+pub use self::{de::deserialize, ser::serialize};
 use napi::{Env, JsObject, Status};
-use ser::Ser;
 use serde::{de::DeserializeOwned, Serialize};
 use std::{fmt, fmt::Display};
 
 mod de;
 mod ser;
-
-pub fn serialize<T>(env: &Env, node: &T) -> napi::Result<napi::JsUnknown>
-where
-    T: Serialize,
-{
-    let s = Ser { env };
-    match node.serialize(s) {
-        Ok(v) => Ok(v),
-        Err(err) => match err {
-            Error::Normal(v) => Err(napi::Error::new(Status::GenericFailure, format!("{:?}", v))),
-            Error::Napi(err) => Err(err),
-        },
-    }
-}
-
-pub fn deserialize<T>(env: &Env, v: &JsObject) -> napi::Result<T>
-where
-    T: DeserializeOwned,
-{
-}
 
 #[derive(Debug)]
 pub(crate) enum Error {
