@@ -12,15 +12,16 @@ use std::{fmt, fmt::Display};
 mod de;
 mod ser;
 
-pub fn serialize<T>(env: &Env, node: &T) -> napi::Result<napi::JsObject>
+pub fn serialize<T>(env: &Env, node: &T) -> napi::Result<napi::JsUnknown>
 where
     T: Serialize,
 {
     let s = Ser { env };
-    node.serialize(s)
+    let v = node
+        .serialize(s)
         .map_err(|err| err.0)
         .context("serialization failed")
-        .convert_err()
+        .convert_err()?;
 }
 
 pub fn deserialize<T>(env: &Env, v: &JsObject) -> napi::Result<T>
