@@ -17,7 +17,7 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "prepublishOnly": "tsc -d && node ./scripts/npm/prepublish.js",
-    "build": "tsc -d && cargo build --release && napi"
+    "build": "tsc -d && cargo build -p node --release && napi build --release ./native"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

@@ -1,16 +1,15 @@
 [package]
-authors = ["강동윤 <kdy1@outlook.kr>"]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 build = "build.rs"
 edition = "2018"
 exclude = ["artifacts.json", "index.node"]
 license = "MIT"
-name = "node-swc"
+name = "node"
 publish = false
 version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
-name = "ffi"
 
 [build-dependencies]
 napi-build = "0.2.1"
