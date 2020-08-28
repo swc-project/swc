@@ -2,7 +2,7 @@
 //!
 //! THis will be extracted as a standalone crate in future.
 
-use napi::{Env, JsObject};
+use napi::{Env, JsObject, Status};
 use ser::Ser;
 use serde::{de::DeserializeOwned, Serialize};
 use std::{fmt, fmt::Display};
@@ -15,11 +15,13 @@ where
     T: Serialize,
 {
     let s = Ser { env };
-    let v = node
-        .serialize(s)
-        .map_err(|err| err)
-        .context("serialization failed")
-        .convert_err()?;
+    match node.serialize(s) {
+        Ok(v) => Ok(v),
+        Err(err) => match err {
+            Error::Normal(v) => Err(napi::Error::new(Status::GenericFailure, format!("{:?}", v))),
+            Error::Napi(err) => Err(err),
+        },
+    }
 }
 
 pub fn deserialize<T>(env: &Env, v: &JsObject) -> napi::Result<T>
