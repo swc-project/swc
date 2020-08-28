@@ -17,7 +17,6 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "prepublishOnly": "tsc -d && node ./scripts/npm/prepublish.js",
-    "install": "node scripts/install.js || (npm install typescript napi-rs && npm run build)",
     "build": "tsc -d && cargo build --release && napi"
   },
   "devDependencies": {
