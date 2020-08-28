@@ -270,6 +270,17 @@ impl SerializeTuple for ArraySerializer<'_> {
 impl SerializeTupleStruct for ArraySerializer<'_> {
     type Ok = JsUnknown;
     type Error = Error;
+
+    fn serialize_field<T: ?Sized>(&mut self, value: &T) -> Result<(), Self::Error>
+    where
+        T: serde::Serialize,
+    {
+        SerializeSeq::serialize_element(self, value)
+    }
+
+    fn end(self) -> Result<Self::Ok, Self::Error> {
+        SerializeSeq::end(self)
+    }
 }
 
 impl SerializeTupleVariant for TupleVariantSerializer<'_> {
