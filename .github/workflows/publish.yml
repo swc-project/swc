@@ -29,9 +29,15 @@ jobs:
           echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
         shell: bash
 
-     - name: Install llvm
+      - name: Install llvm
         if: matrix.os == 'windows-latest'
         run: choco install -y llvm
+
+      - name: Set llvm path
+        if: matrix.os == 'windows-latest'
+        uses: allenevans/set-env@v1.0.0
+        with:
+          LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
 
       - name: Install node dependencies
         run: |
@@ -82,7 +88,7 @@ jobs:
 
       - name: Test bindings
         run: npm test
-        
+
   publish:
     name: Publish to npm
     needs:
