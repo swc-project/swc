@@ -29,6 +29,10 @@ jobs:
           echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
         shell: bash
 
+     - name: Install llvm
+        if: matrix.os == 'windows-latest'
+        run: choco install -y llvm
+
       - name: Install node dependencies
         run: |
           npm i
