@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: '12'
+          node-version: "12"
 
       - name: Install node dependencies
         run: |
@@ -26,8 +26,7 @@ jobs:
       - name: Build node module
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          npx tsc
-          npx neon build
+          npm run build
 
       - name: Test
         run: |
