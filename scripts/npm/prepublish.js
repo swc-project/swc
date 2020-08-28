@@ -6,7 +6,7 @@ const { version } = require('../../package.json')
 const platforms = require('./platforms')
 const updatePackageJson = require('./update-package')
 
-updatePackageJson(path.join(__dirname, 'package.json'), {
+updatePackageJson(path.join(__dirname, '..', '..', 'package.json'), {
     optionalDependencies: platforms.reduce((acc, cur) => {
         acc[`@swc-node/core-${cur}`] = `^${version}`
         return acc
