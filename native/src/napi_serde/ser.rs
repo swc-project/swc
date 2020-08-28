@@ -235,6 +235,20 @@ impl<'env> Serializer for Ser<'env> {
 impl SerializeSeq for ArraySerializer<'_> {
     type Ok = JsUnknown;
     type Error = Error;
+
+    fn serialize_element<T: ?Sized>(&mut self, value: &T) -> Result<(), Self::Error>
+    where
+        T: serde::Serialize,
+    {
+        let value = serialize(self.env, &value)?;
+        let cur_len = self.array.get_array_length()?;
+        self.array.set_index(cur_len as _, value)?;
+        Ok(())
+    }
+
+    fn end(self) -> Result<Self::Ok, Self::Error> {
+        Ok(self.array.into_unknown()?)
+    }
 }
 
 impl SerializeTuple for ArraySerializer<'_> {
