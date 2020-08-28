@@ -1,5 +1,5 @@
 use super::Error;
-use napi::{Env, JsObject, JsUnknown};
+use napi::{Env, JsObject, JsUnknown, Status};
 use serde::{
     ser::{
         SerializeMap, SerializeSeq, SerializeStruct, SerializeStructVariant, SerializeTuple,
@@ -234,7 +234,11 @@ impl<'env> Serializer for Ser<'env> {
     }
 
     fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap, Self::Error> {
-        Ok(MapSerializer { env: self.env })
+        Ok(MapSerializer {
+            env: self.env,
+            object: self.env.create_object()?,
+            key_holder: self.env.create_object()?,
+        })
     }
 
     fn serialize_struct(
@@ -242,7 +246,10 @@ impl<'env> Serializer for Ser<'env> {
         name: &'static str,
         len: usize,
     ) -> Result<Self::SerializeStruct, Self::Error> {
-        Ok(StructSerializer { env: self.env })
+        Ok(StructSerializer {
+            env: self.env,
+            object: self.env.create_object()?,
+        })
     }
 
     fn serialize_struct_variant(
@@ -252,7 +259,14 @@ impl<'env> Serializer for Ser<'env> {
         variant: &'static str,
         len: usize,
     ) -> Result<Self::SerializeStructVariant, Self::Error> {
-        Ok(StructVariantSerializer { env: self.env })
+        Ok(StructVariantSerializer {
+            env: self.env,
+            outer_object: self.env.create_object()?,
+            inner: StructSerializer {
+                env: self.env,
+                object: self.env.create_object()?,
+            },
+        })
     }
 }
 
@@ -386,7 +400,7 @@ impl SerializeStructVariant for StructVariantSerializer<'_> {
     where
         T: serde::Serialize,
     {
-        SerializeStruct::serialize_field(&self.inner, key, value)?;
+        SerializeStruct::serialize_field(&mut self.inner, key, value)?;
         Ok(())
     }
 
