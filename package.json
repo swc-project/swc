@@ -37,7 +37,8 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "prepublishOnly": "tsc -d && node ./scripts/npm/prepublish.js",
-    "build": "tsc -d && cargo build -p node --release && cd ./native && napi build --platform --release ."
+    "build": "tsc -d && cargo build -p node --release && cd ./native && napi build --platform --release .",
+    "test": "npm run build && jest node-swc/__tests__"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

@@ -30,4 +30,4 @@ jobs:
       - name: Test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          npx jest node-swc/__tests__
+          npm test
