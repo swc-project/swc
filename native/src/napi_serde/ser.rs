@@ -59,7 +59,7 @@ impl<'env> Serializer for Ser<'env> {
     type SerializeStructVariant = StructVariantSerializer<'env>;
 
     fn serialize_bool(self, v: bool) -> Result<Self::Ok, Self::Error> {
-        Ok(self.env.get_boolean(v)?)
+        Ok(self.env.get_boolean(v)?.into_unknown()?)
     }
 
     fn serialize_i8(self, v: i8) -> Result<Self::Ok, Self::Error> {

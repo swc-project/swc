@@ -2,8 +2,6 @@
 //!
 //! THis will be extracted as a standalone crate in future.
 
-use crate::util::MapErr;
-use anyhow::Context;
 use napi::{Env, JsObject};
 use ser::Ser;
 use serde::{de::DeserializeOwned, Serialize};
@@ -19,7 +17,7 @@ where
     let s = Ser { env };
     let v = node
         .serialize(s)
-        .map_err(|err| err.0)
+        .map_err(|err| err)
         .context("serialization failed")
         .convert_err()?;
 }
@@ -31,11 +29,17 @@ where
 }
 
 #[derive(Debug)]
-pub(crate) struct Error(anyhow::Error);
+pub(crate) enum Error {
+    Normal(anyhow::Error),
+    Napi(napi::Error),
+}
 
 impl Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        Display::fmt(&self.0, f)
+        match self {
+            Error::Normal(v) => Display::fmt(v, f),
+            Error::Napi(v) => Display::fmt(&v.reason, f),
+        }
     }
 }
 
@@ -53,12 +57,21 @@ impl serde::de::Error for Error {
 
 impl std::error::Error for Error {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        self.0.source()
+        match self {
+            Error::Normal(v) => v.source(),
+            Error::Napi(_) => None,
+        }
     }
 }
 
 impl From<anyhow::Error> for Error {
     fn from(e: anyhow::Error) -> Self {
-        Self(e)
+        Self::Normal(e)
+    }
+}
+
+impl From<napi::Error> for Error {
+    fn from(e: napi::Error) -> Self {
+        Self::Napi(e)
     }
 }
