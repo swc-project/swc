@@ -341,6 +341,23 @@ impl SerializeMap for MapSerializer<'_> {
 impl SerializeStruct for StructSerializer<'_> {
     type Ok = JsUnknown;
     type Error = Error;
+
+    fn serialize_field<T: ?Sized>(
+        &mut self,
+        key: &'static str,
+        value: &T,
+    ) -> Result<(), Self::Error>
+    where
+        T: serde::Serialize,
+    {
+        let value = serialize(self.env, &value)?;
+        self.object.set_named_property(key, value)?;
+        Ok(())
+    }
+
+    fn end(self) -> Result<Self::Ok, Self::Error> {
+        Ok(self.object.into_unknown()?)
+    }
 }
 
 impl SerializeStructVariant for StructVariantSerializer<'_> {
