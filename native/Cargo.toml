@@ -19,7 +19,7 @@ napi-build = "0.2.1"
 anyhow = "1"
 backtrace = "0.3"
 fxhash = "0.2"
-napi = "0.4.0"
+napi = "0.4.13"
 napi-derive = "0.4.0"
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
