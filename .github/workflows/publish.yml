@@ -95,31 +95,31 @@ jobs:
 
   publish:
     name: npm
-    # needs:
-    #   - verify
-    steps:
-      - uses: actions/checkout@v2
+    needs:
+      - verify
+    # steps:
+    #   - uses: actions/checkout@v2
 
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
+    #   - name: Setup node
+    #     uses: actions/setup-node@v1
+    #     with:
+    #       node-version: 12
 
-      - name: Set platform name
-        run: |
-          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
-        shell: bash
+    #   - name: Set platform name
+    #     run: |
+    #       export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+    #       echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+    #     shell: bash
 
-      # Do not cache node_modules, or yarn workspace links broken
-      - name: Install dependencies
-        run: npm i
+    #   # Do not cache node_modules, or yarn workspace links broken
+    #   - name: Install dependencies
+    #     run: npm i
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: ./scripts/npm/core-${{ env.PLATFORM_NAME }}
+    #   - name: Download artifacts
+    #     uses: actions/download-artifact@v2
+    #     with:
+    #       path: ./scripts/npm/core-${{ env.PLATFORM_NAME }}
 
-      - name: Publish to npm
-        run: |
-          npm publish --dry-run
+    #   - name: Publish to npm
+    #     run: |
+    #       npm publish --dry-run
