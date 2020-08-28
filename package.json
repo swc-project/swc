@@ -21,8 +21,8 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "prepublish": "tsc -d",
-    "install": "node scripts/install.js || (npm install neon-cli && neon build --release)",
-    "build": "tsc -d && neon build --release"
+    "install": "node scripts/install.js || (npm install typescript napi-rs && npm run build)",
+    "build": "tsc -d && cargo build --release && napi --release"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -39,7 +39,7 @@
     "browserslist": "^4.12.0",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
-    "neon-cli": "^0.3.3",
+    "napi-rs": "^0.2.6",
     "source-map": "^0.7.3",
     "sourcemap-validator": "^1.1.1",
     "typescript": "^3.9.7"
