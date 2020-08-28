@@ -13,17 +13,12 @@
     "type": "git",
     "url": "git+https://github.com/swc-project/swc.git"
   },
-  "dependencies": {
-    "mkdirp": "^0.5.1",
-    "node-fetch": "^2.6.0",
-    "progress": "^2.0.3",
-    "true-case-path": "^1.0.3"
-  },
+  "dependencies": {},
   "types": "./lib/index.d.ts",
   "scripts": {
-    "prepublish": "tsc -d",
+    "prepublishOnly": "tsc -d && node ./scripts/npm/prepublish.js",
     "install": "node scripts/install.js || (npm install typescript napi-rs && npm run build)",
-    "build": "tsc -d && cargo build --release"
+    "build": "tsc -d && cargo build --release && napi"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -41,6 +36,7 @@
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
     "napi-rs": "^0.2.6",
+    "progress": "^2.0.3",
     "source-map": "^0.7.3",
     "sourcemap-validator": "^1.1.1",
     "typescript": "^3.9.7"
