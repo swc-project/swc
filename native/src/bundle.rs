@@ -5,7 +5,7 @@ use crate::{
 };
 use anyhow::bail;
 use fxhash::FxHashMap;
-use napi::{CallContext, Env, JsExternal, JsFunction, JsObject, Status, Task};
+use napi::{CallContext, Env, JsObject, Status, Task};
 use serde::Deserialize;
 use spack::resolvers::NodeResolver;
 use std::{
@@ -156,7 +156,7 @@ impl Task for BundleTask {
 }
 
 #[js_function(1)]
-pub(crate) fn bundle(mut cx: CallContext) -> napi::Result<JsObject> {
+pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
     let c: Arc<Compiler> = get_compiler(&cx);
 
     let static_items: StaticConfigItem = cx.get_deserialized(0)?;

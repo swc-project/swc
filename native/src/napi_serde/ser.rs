@@ -34,9 +34,7 @@ struct ArraySerializer<'env> {
 
 #[doc(hidden)]
 struct TupleVariantSerializer<'env> {
-    env: &'env Env,
     outter_object: JsObject,
-    key: &'static str,
     inner: ArraySerializer<'env>,
 }
 
@@ -55,7 +53,6 @@ struct StructSerializer<'env> {
 
 #[doc(hidden)]
 struct StructVariantSerializer<'env> {
-    env: &'env Env,
     outer_object: JsObject,
     inner: StructSerializer<'env>,
 }
@@ -150,14 +147,14 @@ impl<'env> Serializer for Ser<'env> {
         Ok(self.env.get_null()?.into_unknown()?)
     }
 
-    fn serialize_unit_struct(self, name: &'static str) -> Result<Self::Ok, Self::Error> {
+    fn serialize_unit_struct(self, _name: &'static str) -> Result<Self::Ok, Self::Error> {
         Ok(self.env.get_null()?.into_unknown()?)
     }
 
     fn serialize_unit_variant(
         self,
-        name: &'static str,
-        variant_index: u32,
+        _name: &'static str,
+        _variant_index: u32,
         variant: &'static str,
     ) -> Result<Self::Ok, Self::Error> {
         self.serialize_str(variant)
@@ -165,7 +162,7 @@ impl<'env> Serializer for Ser<'env> {
 
     fn serialize_newtype_struct<T: ?Sized>(
         self,
-        name: &'static str,
+        _name: &'static str,
         value: &T,
     ) -> Result<Self::Ok, Self::Error>
     where
@@ -176,15 +173,15 @@ impl<'env> Serializer for Ser<'env> {
 
     fn serialize_newtype_variant<T: ?Sized>(
         self,
-        name: &'static str,
-        variant_index: u32,
+        _name: &'static str,
+        _variant_index: u32,
         variant: &'static str,
         value: &T,
     ) -> Result<Self::Ok, Self::Error>
     where
         T: serde::Serialize,
     {
-        let obj = self.env.create_object()?;
+        let mut obj = self.env.create_object()?;
         let value = serialize(&self.env, &value)?;
         obj.set_named_property(variant, value)?;
         Ok(obj.into_unknown()?)
@@ -206,7 +203,7 @@ impl<'env> Serializer for Ser<'env> {
 
     fn serialize_tuple_struct(
         self,
-        name: &'static str,
+        _name: &'static str,
         len: usize,
     ) -> Result<Self::SerializeTupleStruct, Self::Error> {
         Ok(ArraySerializer {
@@ -217,15 +214,13 @@ impl<'env> Serializer for Ser<'env> {
 
     fn serialize_tuple_variant(
         self,
-        name: &'static str,
-        variant_index: u32,
-        variant: &'static str,
+        _name: &'static str,
+        _variant_index: u32,
+        _variant: &'static str,
         len: usize,
     ) -> Result<Self::SerializeTupleVariant, Self::Error> {
         Ok(TupleVariantSerializer {
-            env: self.env,
             outter_object: self.env.create_object()?,
-            key: variant,
             inner: ArraySerializer {
                 env: self.env,
                 array: self.env.create_array_with_length(len)?,
@@ -233,7 +228,7 @@ impl<'env> Serializer for Ser<'env> {
         })
     }
 
-    fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap, Self::Error> {
+    fn serialize_map(self, _len: Option<usize>) -> Result<Self::SerializeMap, Self::Error> {
         Ok(MapSerializer {
             env: self.env,
             object: self.env.create_object()?,
@@ -243,8 +238,8 @@ impl<'env> Serializer for Ser<'env> {
 
     fn serialize_struct(
         self,
-        name: &'static str,
-        len: usize,
+        _name: &'static str,
+        _len: usize,
     ) -> Result<Self::SerializeStruct, Self::Error> {
         Ok(StructSerializer {
             env: self.env,
@@ -254,13 +249,12 @@ impl<'env> Serializer for Ser<'env> {
 
     fn serialize_struct_variant(
         self,
-        name: &'static str,
-        variant_index: u32,
-        variant: &'static str,
-        len: usize,
+        _name: &'static str,
+        _variant_index: u32,
+        _variant: &'static str,
+        _len: usize,
     ) -> Result<Self::SerializeStructVariant, Self::Error> {
         Ok(StructVariantSerializer {
-            env: self.env,
             outer_object: self.env.create_object()?,
             inner: StructSerializer {
                 env: self.env,
@@ -354,8 +348,7 @@ impl SerializeMap for MapSerializer<'_> {
     where
         T: serde::Serialize,
     {
-        let key = self.key_holder.coerce_to_object()?;
-        let key = key.get_named_property("key")?;
+        let key = self.key_holder.get_named_property("key")?;
         let value = serialize(self.env, &value)?;
         self.object.set_property(key, value)?;
         Ok(())

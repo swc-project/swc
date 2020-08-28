@@ -70,7 +70,7 @@ fn init(m: &mut Module) -> napi::Result<()> {
     Ok(())
 }
 
-fn get_compiler(ctx: &CallContext) -> Arc<Compiler> {
+fn get_compiler(_ctx: &CallContext) -> Arc<Compiler> {
     COMPILER.clone()
 }
 
@@ -86,7 +86,7 @@ fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
 }
 
 pub fn complete_output(env: &Env, output: TransformOutput) -> napi::Result<JsObject> {
-    serialize(&env, &output)
+    serialize(&env, &output)?.coerce_to_object()
 }
 
 pub type ArcCompiler = Arc<Compiler>;

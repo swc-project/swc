@@ -1,4 +1,7 @@
-use crate::{complete_output, get_compiler, napi_serde::deserialize, util::MapErr};
+use crate::{
+    complete_output, get_compiler,
+    util::{CtxtExt, MapErr},
+};
 use anyhow::{Context as _, Error};
 use napi::{CallContext, Env, JsBoolean, JsObject, JsString, Task};
 use path_clean::clean;
@@ -57,24 +60,22 @@ impl Task for TransformTask {
 }
 
 /// returns `compiler, (src / path), options, plugin, callback`
-pub fn schedule_transform<F>(mut cx: CallContext, op: F) -> napi::Result<JsObject>
+pub fn schedule_transform<F>(cx: CallContext, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Arc<Compiler>, String, bool, Options) -> TransformTask,
 {
     let c = get_compiler(&cx);
 
-    let s = cx.get::<JsString>(0)?.as_str()?;
+    let s = cx.get::<JsString>(0)?.as_str()?.to_string();
     let is_module = cx.get::<JsBoolean>(1)?;
-    let options_arg = cx.get::<JsObject>(2)?;
+    let options: Options = cx.get_deserialized(2)?;
 
-    let options: Options = deserialize(cx.env, &options_arg)?;
-
-    let task = op(&c, s.to_string(), is_module.get_value()?, options);
+    let task = op(&c, s, is_module.get_value()?, options);
 
     cx.env.spawn(task)
 }
 
-pub fn exec_transform<F>(mut cx: CallContext, op: F) -> napi::Result<JsObject>
+pub fn exec_transform<F>(cx: CallContext, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Compiler, String, &Options) -> Result<Arc<SourceFile>, Error>,
 {
@@ -82,8 +83,7 @@ where
 
     let s = cx.get::<JsString>(0)?;
     let is_module = cx.get::<JsBoolean>(1)?;
-    let options = cx.get::<JsObject>(2)?;
-    let options: Options = deserialize(cx.env, &options)?;
+    let options: Options = cx.get_deserialized(2)?;
 
     let output = c.run(|| -> napi::Result<_> {
         if is_module.get_value()? {

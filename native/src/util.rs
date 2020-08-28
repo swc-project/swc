@@ -1,7 +1,6 @@
 use anyhow::Context;
 use napi::{CallContext, JsBuffer, NapiValue, Status};
 use serde::de::DeserializeOwned;
-use std::borrow::Borrow;
 
 pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
     fn convert_err(self) -> napi::Result<T> {
