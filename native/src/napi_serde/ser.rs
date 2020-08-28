@@ -326,8 +326,9 @@ impl SerializeMap for MapSerializer<'_> {
     where
         T: serde::Serialize,
     {
-        let key = self.key_holder.coerce_to_string()?;
-        let value = key.get_named_property("key")?;
+        let key = self.key_holder.coerce_to_object()?;
+        let key = key.get_named_property("key")?;
+        let value = serialize(self.env, &value)?;
         self.object.set_property(key, value)?;
         Ok(())
     }
