@@ -1,6 +1,7 @@
 use crate::{
-    napi_serde::{deserialize, serialize},
-    util::MapErr,
+    get_compiler,
+    napi_serde::serialize,
+    util::{CtxtExt, MapErr},
 };
 use anyhow::bail;
 use fxhash::FxHashMap;
@@ -150,17 +151,15 @@ impl Task for BundleTask {
     }
 
     fn resolve(&self, env: &mut Env, output: Self::Output) -> napi::Result<Self::JsValue> {
-        serialize(env, &output)
+        serialize(env, &output)?.coerce_to_object()
     }
 }
 
-#[js_function(2)]
-pub(crate) fn bundle(mut cx: CallContext<JsExternal>) -> napi::Result<JsObject> {
-    let c: Arc<Compiler>;
+#[js_function(1)]
+pub(crate) fn bundle(mut cx: CallContext) -> napi::Result<JsObject> {
+    let c: Arc<Compiler> = get_compiler(&cx);
 
-    let opt = cx.get::<JsObject>(0)?;
-    let callback = cx.get::<JsFunction>(1)?;
-    let static_items: StaticConfigItem = deserialize(cx.env, &opt)?;
+    let static_items: StaticConfigItem = cx.get_deserialized(0)?;
 
     let loader = Box::new(spack::loaders::swc::SwcLoader::new(
         c.clone(),
