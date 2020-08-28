@@ -6,7 +6,7 @@
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.9.0"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "scripts": {
     "prepublish": "tsc -d",
     "install": "node scripts/install.js || (npm install typescript napi-rs && npm run build)",
-    "build": "tsc -d && cargo build --release && napi --release"
+    "build": "tsc -d && cargo build --release"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
