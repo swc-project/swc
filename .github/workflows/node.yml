@@ -5,7 +5,6 @@ on: [push, pull_request]
 env:
   CARGO_INCREMENTAL: 0
   CI: "1"
-  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
 
 jobs:
   integration-test:

@@ -15,7 +15,6 @@ on: [push, pull_request]
 env:
   CARGO_INCREMENTAL: 0
   CI: "1"
-  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
 
 jobs:
   fmt:
@@ -34,9 +33,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-#      - uses: actions/setup-node@v2-beta
-#          with:
-#            node-version: '12'
+      #      - uses: actions/setup-node@v2-beta
+      #          with:
+      #            node-version: '12'
 
       - name: Checkout submodules
         shell: bash
@@ -62,7 +61,6 @@ jobs:
       # Ensure that all components all compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
-
 
       - name: Download typescript parser test suite
         run: |
