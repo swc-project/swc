@@ -29,20 +29,20 @@ pub struct TupleVariantSerializer<'env> {
 #[doc(hidden)]
 pub struct MapSerializer<'env> {
     env: &'env Env,
-    object: Handle<'j, JsUnknown>,
-    key_holder: Handle<'j, JsUnknown>,
+    object: JsObject,
+    key_holder: JsObject,
 }
 
 #[doc(hidden)]
 pub struct StructSerializer<'env> {
     env: &'env Env,
-    object: Handle<'j, JsUnknown>,
+    object: JsObject,
 }
 
 #[doc(hidden)]
 pub struct StructVariantSerializer<'env> {
     env: &'env Env,
-    outer_object: Handle<'j, JsUnknown>,
+    outer_object: JsObject,
     inner: StructSerializer<'env>,
 }
 
@@ -312,6 +312,29 @@ impl SerializeTupleVariant for TupleVariantSerializer<'_> {
 impl SerializeMap for MapSerializer<'_> {
     type Ok = JsUnknown;
     type Error = Error;
+
+    fn serialize_key<T: ?Sized>(&mut self, key: &T) -> Result<(), Self::Error>
+    where
+        T: serde::Serialize,
+    {
+        let key = serialize(self.env, &key)?;
+        self.key_holder.set_named_property("key", key)?;
+        Ok(())
+    }
+
+    fn serialize_value<T: ?Sized>(&mut self, value: &T) -> Result<(), Self::Error>
+    where
+        T: serde::Serialize,
+    {
+        let key = self.key_holder.coerce_to_string()?;
+        let value = key.get_named_property("key")?;
+        self.object.set_property(key, value)?;
+        Ok(())
+    }
+
+    fn end(self) -> Result<Self::Ok, Self::Error> {
+        Ok(self.object.into_unknown()?)
+    }
 }
 
 impl SerializeStruct for StructSerializer<'_> {
