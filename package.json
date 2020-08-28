@@ -6,6 +6,15 @@
   "main": "./index.js",
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "swc",
+    "spack",
+    "babel",
+    "typescript",
+    "rust",
+    "webpack",
+    "tsc"
+  ],
   "engines": {
     "node": ">=8.9.0"
   },
