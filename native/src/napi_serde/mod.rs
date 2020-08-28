@@ -2,12 +2,9 @@
 //!
 //! THis will be extracted as a standalone crate in future.
 
-pub use self::{de::deserialize, ser::serialize};
-use napi::{Env, JsObject, Status};
-use serde::{de::DeserializeOwned, Serialize};
+pub use self::ser::serialize;
 use std::{fmt, fmt::Display};
 
-mod de;
 mod ser;
 
 #[derive(Debug)]
