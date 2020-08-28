@@ -59,16 +59,37 @@ impl<'env> Serializer for Ser<'env> {
     type SerializeStructVariant = StructVariantSerializer<'env>;
 }
 
-impl SerializeSeq for ArraySerializer<'_> {}
+impl SerializeSeq for ArraySerializer<'_> {
+    type Ok = JsObject;
+    type Error = Error;
+}
 
-impl SerializeTuple for ArraySerializer<'_> {}
+impl SerializeTuple for ArraySerializer<'_> {
+    type Ok = JsObject;
+    type Error = Error;
+}
 
-impl SerializeTupleStruct for ArraySerializer<'_> {}
+impl SerializeTupleStruct for ArraySerializer<'_> {
+    type Ok = JsObject;
+    type Error = Error;
+}
 
-impl SerializeTupleVariant for TupleVariantSerializer<'_> {}
+impl SerializeTupleVariant for TupleVariantSerializer<'_> {
+    type Ok = JsObject;
+    type Error = Error;
+}
 
-impl SerializeMap for MapSerializer<'_> {}
+impl SerializeMap for MapSerializer<'_> {
+    type Ok = JsObject;
+    type Error = Error;
+}
 
-impl SerializeStruct for StructSerializer<'_> {}
+impl SerializeStruct for StructSerializer<'_> {
+    type Ok = JsObject;
+    type Error = Error;
+}
 
-impl SerializeStructVariant for StructVariantSerializer<'_> {}
+impl SerializeStructVariant for StructVariantSerializer<'_> {
+    type Ok = JsObject;
+    type Error = Error;
+}
