@@ -34,9 +34,9 @@ jobs:
           npm i
 
       - name: Build
-          run: |
-            npm run build
-  
+        run: |
+          npm run build
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
