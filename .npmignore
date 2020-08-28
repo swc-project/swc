@@ -21,3 +21,6 @@ wasm/
 **/target/
 *.svg
 integration-tests/
+
+# napi is cool
+*.rs
