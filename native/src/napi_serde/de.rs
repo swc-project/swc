@@ -1,8 +1,9 @@
 use super::Error;
-use napi::{Env, JsBoolean, JsObject, JsUnknown, ValueType};
+use napi::{Env, JsBoolean, JsNumber, JsObject, JsUnknown, NapiValue, ValueType};
 use serde::{de::DeserializeOwned, Deserializer};
+use std::{convert::TryInto, intrinsics::transmute};
 
-pub fn deserialize<T>(env: &Env, v: &JsObject) -> napi::Result<T>
+pub fn deserialize<T>(env: &Env, v: JsUnknown) -> napi::Result<T>
 where
     T: DeserializeOwned,
 {
@@ -13,7 +14,7 @@ where
 
 struct De<'de> {
     env: &'de Env,
-    input: &'de JsUnknown,
+    input: JsUnknown,
 }
 
 impl<'de> Deserializer<'de> for De<'de> {
@@ -24,15 +25,42 @@ impl<'de> Deserializer<'de> for De<'de> {
         V: serde::de::Visitor<'de>,
     {
         match self.input.get_type()? {
-            ValueType::Number => JsBoolean::from(self.input),
-            ValueType::Unknown => {}
-            ValueType::Undefined => {}
-            ValueType::Null => {}
-            ValueType::Boolean => {}
-            ValueType::String => visitor.visit_string(self.input.into()),
-            ValueType::Symbol => {}
-            ValueType::Object => {}
-            ValueType::Function => {}
+            ValueType::Number => {
+                let v: f64 = self.input.coerce_to_number()?.try_into()?;
+
+                visitor.visit_f64(v)
+            }
+            ValueType::Unknown => Err(Error::Normal(anyhow::Error::msg(
+                "unknown type cannot be deserialized",
+            ))),
+            ValueType::Null | ValueType::Undefined => visitor.visit_none(),
+            ValueType::Boolean => {
+                let v: bool =
+                    unsafe { transmute::<JsUnknown, JsBoolean>(self.input) }.try_into()?;
+
+                visitor.visit_bool(v)
+            }
+            ValueType::String => visitor.visit_str(self.input.coerce_to_string()?.as_str()?),
+            ValueType::Symbol => Err(Error::Normal(anyhow::Error::msg(
+                "symbol type cannot be deserialized",
+            ))),
+            ValueType::Object => {
+                let obj = self.input.coerce_to_object()?;
+                if obj.is_array()? {
+                    let len = obj.get_array_length()?;
+
+                    let items = (0..len)
+                        .into_iter()
+                        .map(|i| obj.get_index(i))
+                        .collect::<Result<Vec<_>, _>>()?;
+                } else {
+                }
+            }
+
+            // TODO: Create a wrapper.
+            ValueType::Function => Err(Error::Normal(anyhow::Error::msg(
+                "function type cannot be deserialized",
+            ))),
             ValueType::External => Err(Error::Normal(anyhow::Error::msg(
                 "external type is not supported",
             ))),
