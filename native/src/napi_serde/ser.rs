@@ -1,6 +1,12 @@
 use super::Error;
 use napi::{Env, JsObject};
-use serde::Serializer;
+use serde::{
+    ser::{
+        SerializeMap, SerializeSeq, SerializeStruct, SerializeStructVariant, SerializeTuple,
+        SerializeTupleStruct, SerializeTupleVariant,
+    },
+    Serializer,
+};
 
 pub(super) struct Ser<'env> {
     pub env: &'env Env,
@@ -52,3 +58,17 @@ impl<'env> Serializer for Ser<'env> {
     type SerializeStruct = StructSerializer<'env>;
     type SerializeStructVariant = StructVariantSerializer<'env>;
 }
+
+impl SerializeSeq for ArraySerializer<'_> {}
+
+impl SerializeTuple for ArraySerializer<'_> {}
+
+impl SerializeTupleStruct for ArraySerializer<'_> {}
+
+impl SerializeTupleVariant for TupleVariantSerializer<'_> {}
+
+impl SerializeMap for MapSerializer<'_> {}
+
+impl SerializeStruct for StructSerializer<'_> {}
+
+impl SerializeStructVariant for StructVariantSerializer<'_> {}

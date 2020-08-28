@@ -1,3 +1,7 @@
+//! Serde for napi.
+//!
+//! THis will be extracted as a standalone crate in future.
+
 use crate::util::MapErr;
 use anyhow::Context;
 use napi::{Env, JsObject};
