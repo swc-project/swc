@@ -1,5 +1,5 @@
-use super::Error;
-use napi::{Env, JsUnknown};
+use super::{serialize, Error};
+use napi::{Env, JsObject, JsUnknown};
 use serde::{
     ser::{
         SerializeMap, SerializeSeq, SerializeStruct, SerializeStructVariant, SerializeTuple,
@@ -15,7 +15,7 @@ pub(super) struct Ser<'env> {
 #[doc(hidden)]
 pub struct ArraySerializer<'env> {
     env: &'env Env,
-    array: Handle<'j, JsArray>,
+    array: JsObject,
 }
 
 #[doc(hidden)]
@@ -169,15 +169,24 @@ impl<'env> Serializer for Ser<'env> {
     where
         T: serde::Serialize,
     {
-        todo!()
+        let obj = self.env.create_object()?;
+        let value = serialize(&self.env, &value)?;
+        obj.set_named_property(variant, value)?;
+        Ok(obj.into_unknown()?)
     }
 
     fn serialize_seq(self, len: Option<usize>) -> Result<Self::SerializeSeq, Self::Error> {
-        todo!()
+        Ok(ArraySerializer {
+            env: self.env,
+            array: self.env.create_array_with_length(len.unwrap_or(0))?,
+        })
     }
 
     fn serialize_tuple(self, len: usize) -> Result<Self::SerializeTuple, Self::Error> {
-        todo!()
+        Ok(ArraySerializer {
+            env: self.env,
+            array: self.env.create_array_with_length(len)?,
+        })
     }
 
     fn serialize_tuple_struct(
@@ -185,7 +194,10 @@ impl<'env> Serializer for Ser<'env> {
         name: &'static str,
         len: usize,
     ) -> Result<Self::SerializeTupleStruct, Self::Error> {
-        todo!()
+        Ok(ArraySerializer {
+            env: self.env,
+            array: self.env.create_array_with_length(len)?,
+        })
     }
 
     fn serialize_tuple_variant(
@@ -195,11 +207,10 @@ impl<'env> Serializer for Ser<'env> {
         variant: &'static str,
         len: usize,
     ) -> Result<Self::SerializeTupleVariant, Self::Error> {
-        todo!()
     }
 
     fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap, Self::Error> {
-        todo!()
+        Ok(MapSerializer { env: self.env })
     }
 
     fn serialize_struct(
@@ -207,7 +218,7 @@ impl<'env> Serializer for Ser<'env> {
         name: &'static str,
         len: usize,
     ) -> Result<Self::SerializeStruct, Self::Error> {
-        todo!()
+        Ok(StructSerializer { env: self.env })
     }
 
     fn serialize_struct_variant(
@@ -217,7 +228,7 @@ impl<'env> Serializer for Ser<'env> {
         variant: &'static str,
         len: usize,
     ) -> Result<Self::SerializeStructVariant, Self::Error> {
-        todo!()
+        Ok(StructVariantSerializer { env: self.env })
     }
 }
 
