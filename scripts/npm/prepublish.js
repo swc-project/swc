@@ -8,17 +8,16 @@ const updatePackageJson = require('./update-package')
 
 updatePackageJson(path.join(__dirname, '..', '..', 'package.json'), {
     optionalDependencies: platforms.reduce((acc, cur) => {
-        acc[`@swc-node/core-${cur}`] = `^${version}`
+        acc[`@swc/core-${cur}`] = `^${version}`
         return acc
     }, {}),
 })
 
 for (const name of [...platforms, 'linux-musl']) {
-    const pkgDir = path.join(__dirname, 'npm', `core-${name}`)
-    const filename = `swc.${name}.node`
-    const bindingFile = fs.readFileSync(path.join(__dirname, `bindings-${name}`, filename))
-    fs.writeFileSync(path.join(pkgDir, filename), bindingFile)
-    execSync('npm publish', {
+    const pkgDir = path.join(__dirname, `core-${name}`)
+    const bindingFile = fs.readFileSync(path.join(__dirname, '..', '..', 'native', `node.${name}.node`))
+    fs.writeFileSync(path.join(pkgDir, `swc.node`), bindingFile)
+    execSync('npm publish --dry-run', {
         cwd: pkgDir,
         env: process.env,
         stdio: 'inherit',
