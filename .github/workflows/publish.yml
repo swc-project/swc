@@ -29,10 +29,14 @@ jobs:
           echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
         shell: bash
 
-      - name: Build
+      - name: Install node dependencies
         run: |
-          npm run build
+          npm i
 
+      - name: Build
+          run: |
+            npm run build
+  
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
