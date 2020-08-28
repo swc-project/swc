@@ -21,7 +21,8 @@ pub struct ArraySerializer<'env> {
 #[doc(hidden)]
 pub struct TupleVariantSerializer<'env> {
     env: &'env Env,
-    outter_object: Handle<'j, JsUnknown>,
+    outter_object: JsObject,
+    key: &'static str,
     inner: ArraySerializer<'env>,
 }
 
@@ -207,6 +208,15 @@ impl<'env> Serializer for Ser<'env> {
         variant: &'static str,
         len: usize,
     ) -> Result<Self::SerializeTupleVariant, Self::Error> {
+        Ok(TupleVariantSerializer {
+            env: self.env,
+            outter_object: self.env.create_object()?,
+            key: variant,
+            inner: ArraySerializer {
+                env: self.env,
+                array: self.env.create_array_with_length(len)?,
+            },
+        })
     }
 
     fn serialize_map(self, len: Option<usize>) -> Result<Self::SerializeMap, Self::Error> {
@@ -286,6 +296,17 @@ impl SerializeTupleStruct for ArraySerializer<'_> {
 impl SerializeTupleVariant for TupleVariantSerializer<'_> {
     type Ok = JsUnknown;
     type Error = Error;
+
+    fn serialize_field<T: ?Sized>(&mut self, value: &T) -> Result<(), Self::Error>
+    where
+        T: serde::Serialize,
+    {
+        SerializeSeq::serialize_element(&mut self.inner, value)
+    }
+
+    fn end(self) -> Result<Self::Ok, Self::Error> {
+        Ok(self.outter_object.into_unknown()?)
+    }
 }
 
 impl SerializeMap for MapSerializer<'_> {
