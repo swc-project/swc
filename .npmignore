@@ -24,3 +24,5 @@ integration-tests/
 
 # napi is cool
 *.rs
+/scripts/npm
+/native/
