@@ -254,6 +254,17 @@ impl SerializeSeq for ArraySerializer<'_> {
 impl SerializeTuple for ArraySerializer<'_> {
     type Ok = JsUnknown;
     type Error = Error;
+
+    fn serialize_element<T: ?Sized>(&mut self, value: &T) -> Result<(), Self::Error>
+    where
+        T: serde::Serialize,
+    {
+        SerializeSeq::serialize_element(self, value)
+    }
+
+    fn end(self) -> Result<Self::Ok, Self::Error> {
+        SerializeSeq::end(self)
+    }
 }
 
 impl SerializeTupleStruct for ArraySerializer<'_> {
