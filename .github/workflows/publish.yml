@@ -41,37 +41,37 @@ jobs:
 
   verify:
     name: Test bindings on ${{ matrix.os }} - node@${{ matrix.node }}
-  needs:
-    - build
-  runs-on: ${{ matrix.os }}
-  steps:
-    - uses: actions/checkout@v2
+    needs:
+      - build
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Setup node
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
 
-    - name: Set platform name
-      run: |
-        export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-        echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
-      shell: bash
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+        shell: bash
 
-    # Do not cache node_modules, or yarn workspace links broken
-    - name: "Install dependencies"
-      run: npm i
+      # Do not cache node_modules, or yarn workspace links broken
+      - name: "Install dependencies"
+        run: npm i
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: core-${{ env.PLATFORM_NAME }}
-        path: ./scripts/npm/core-${{ env.PLATFORM_NAME }}
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: core-${{ env.PLATFORM_NAME }}
+          path: ./scripts/npm/core-${{ env.PLATFORM_NAME }}
 
-    - name: List packages
-      run: ls -R ./scripts/npm/
-      shell: bash
+      - name: List packages
+        run: ls -R ./scripts/npm/
+        shell: bash
 
-    - name: Test bindings
-      run: npm test
-      # TODO: Publish
+      - name: Test bindings
+        run: npm test
+        # TODO: Publish
