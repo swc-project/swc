@@ -1,0 +1,21 @@
+{
+  "name": "@swc/core-linux-musl",
+  "description": "The Linux 64-bit binary for @swc-node/core.",
+  "repository": "https://github.com/swc-project/swc",
+  "license": "MIT",
+  "version": "1.2.22",
+  "main": "swc.node",
+  "files": [
+    "swc.node"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ]
+}
