@@ -1,6 +1,6 @@
 use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, Resolve};
 use anyhow::Error;
-use relative_path::RelativePath;
+use relative_path::{RelativePath, RelativePathBuf};
 use std::{
     collections::HashMap,
     path::{Path, PathBuf},
@@ -39,7 +39,8 @@ where
                     }
                     BundleKind::Lib { name } => {
                         let hash = calc_hash(self.cm.clone(), &bundle.module)?;
-                        let mut new_name = PathBuf::from(name);
+                        let rel_path = RelativePathBuf::from(name);
+                        let mut new_name = rel_path.to_path(".");
                         let key = new_name.clone();
                         let file_name = new_name
                             .file_name()
