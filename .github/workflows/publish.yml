@@ -79,20 +79,11 @@ jobs:
       - name: Test bindings
         run: npm test
 
-  build-musl:
-    name: npm
-    runs-on: ubuntu-latest
-    needs:
-      - build
-    steps:
-      - uses: actions/checkout@v2
-
   publish:
     name: npm
     runs-on: ubuntu-latest
     needs:
       - build
-      - build-musl
     steps:
       - uses: actions/checkout@v2
 
