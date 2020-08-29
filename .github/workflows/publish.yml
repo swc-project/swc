@@ -66,11 +66,11 @@ jobs:
           path: swc.${{ env.PLATFORM_NAME }}.node
 
       - name: List packages
-          run: ls -R ./scripts/npm/
-          shell: bash
-  
+        run: ls -R ./scripts/npm/
+        shell: bash
+
       - name: Test bindings
-          run: npm test
+        run: npm test
 
   publish:
     name: npm
