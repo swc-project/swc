@@ -107,7 +107,7 @@ jobs:
       - name: Move binaries
         shell: bash
         run: |
-          cp ./binaries/* ./native
+          cp ./native/bindings/*.node ./native
 
       - name: Publish to npm
         run: |
