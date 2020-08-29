@@ -73,7 +73,7 @@ export class Compiler {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    const res = await bindings.parse(src, options);
+    const res = await bindings.parse(src, toBuffer(options));
     return JSON.parse(res);
   }
 
@@ -82,7 +82,8 @@ export class Compiler {
   parseSync(src: string, options?: ParseOptions): Program {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
-    return JSON.parse(bindings.parseSync(src, options));
+
+    return JSON.parse(bindings.parseSync(src, toBuffer(options)));
   }
 
   parseFile(
@@ -94,7 +95,7 @@ export class Compiler {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    const res = bindings.parseFile(path, options);
+    const res = bindings.parseFile(path, toBuffer(options));
 
     return JSON.parse(res);
   }
@@ -108,7 +109,7 @@ export class Compiler {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    return JSON.parse(bindings.parseFileSync(path, options));
+    return JSON.parse(bindings.parseFileSync(path, toBuffer(options)));
   }
 
   /**
@@ -118,7 +119,7 @@ export class Compiler {
   async print(m: Program, options?: Options): Promise<Output> {
     options = options || {};
 
-    return bindings.print(JSON.stringify(m), options)
+    return bindings.print(JSON.stringify(m), toBuffer(options))
   }
 
   /**
@@ -128,7 +129,7 @@ export class Compiler {
   printSync(m: Program, options?: Options): Output {
     options = options || {};
 
-    return bindings.printSync(JSON.stringify(m), options);
+    return bindings.printSync(JSON.stringify(m), toBuffer(options));
   }
 
   async transform(src: string | Program, options?: Options): Promise<Output> {
@@ -151,7 +152,7 @@ export class Compiler {
       return this.transform(plugin(m), options);
     }
 
-    return bindings.transform(isModule ? JSON.stringify(src) : src, isModule, options)
+    return bindings.transform(isModule ? JSON.stringify(src) : src, isModule, toBuffer(options))
   }
 
   transformSync(src: string | Program, options?: Options): Output {
@@ -175,7 +176,7 @@ export class Compiler {
     return bindings.transformSync(
       isModule ? JSON.stringify(src) : src,
       isModule,
-      options
+      toBuffer(options),
     )
   }
 
@@ -195,7 +196,7 @@ export class Compiler {
       return this.transform(plugin(m), options);
     }
 
-    return bindings.transformFile(path, false, options)
+    return bindings.transformFile(path, false, toBuffer(options))
   }
 
   transformFileSync(path: string, options?: Options): Output {
@@ -214,7 +215,7 @@ export class Compiler {
       return this.transformSync(plugin(m), options);
     }
 
-    return bindings.transformFileSync(path, /* isModule */ false, options);
+    return bindings.transformFileSync(path, /* isModule */ false, toBuffer(options));
   }
 
 
@@ -235,9 +236,9 @@ export class Compiler {
       return obj;
     }
 
-    return bindings.bundle({
+    return bindings.bundle(toBuffer({
       ...opts,
-    });
+    }));
   }
 }
 
@@ -333,3 +334,7 @@ export const DEFAULT_EXTENSIONS = Object.freeze([
   ".ts",
   ".tsx"
 ]);
+
+function toBuffer(t: any): Buffer {
+  return Buffer.from(JSON.stringify(t))
+}
