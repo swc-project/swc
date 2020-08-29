@@ -50,6 +50,16 @@ jobs:
           npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
 
+      - name: Install llvm
+        if: matrix.os == 'windows-latest'
+        run: choco install -y llvm
+
+      - name: Set llvm path
+        if: matrix.os == 'windows-latest'
+        uses: allenevans/set-env@v1.0.0
+        with:
+          LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
+
       - name: Cache
         uses: actions/cache@v2
         with:
