@@ -58,15 +58,15 @@ jobs:
         shell: bash
         run: |
           npm run build:dev
-          cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
+          cp native/node.$PLATFORM_NAME.node node.$PLATFORM_NAME.node
           cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
           (cd scripts/npm/core-$PLATFORM_NAME && npm link)
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: bindings-${{ env.PLATFORM_NAME }}
-          path: swc.${{ env.PLATFORM_NAME }}.node
+          name: bindings
+          path: node.${{ env.PLATFORM_NAME }}.node
 
       - name: List packages
         run: ls -R ./scripts/npm/
@@ -100,6 +100,11 @@ jobs:
       - name: List binaries
         run: ls -R ./native/
         shell: bash
+
+      - name: Move binaries
+        shell: bash
+        run: |
+          cp ./binaries/* ./native
 
       - name: Publish to npm
         run: |
