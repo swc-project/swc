@@ -38,7 +38,7 @@
   },
   "types": "./lib/index.d.ts",
   "scripts": {
-    "prepublishOnly": "npm run build && node ./scripts/npm/prepublish.js",
+    "prepublishOnly": "node ./scripts/npm/prepublish.js",
     "build": "tsc -d && cargo build -p node --release && cd ./native && napi build --platform --release .",
     "build:dev": "tsc -d && cargo build -p node && cd ./native && napi build --platform .",
     "test": "jest node-swc/__tests__"
