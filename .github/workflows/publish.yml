@@ -6,6 +6,10 @@ name: Publish
 #       - v*
 on: [push, pull_request]
 
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+
 jobs:
   build:
     strategy:
