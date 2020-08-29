@@ -26,3 +26,7 @@ integration-tests/
 *.rs
 /scripts/npm
 /native/
+/src
+/.vscode
+/ecmascript/transforms/src/helpers
+/node-swc/__tests__/
