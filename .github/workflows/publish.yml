@@ -57,7 +57,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          npm run build:dev
+          npm run build
           cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
           cp native/node.$PLATFORM_NAME.node node.$PLATFORM_NAME.node
           cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
