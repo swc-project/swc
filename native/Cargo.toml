@@ -29,3 +29,9 @@ swc_bundler = {path = "../bundler"}
 swc_common = {path = "../common", features = ["tty-emitter", "sourcemap"]}
 swc_ecma_ast = {path = "../ecmascript/ast"}
 swc_ecma_parser = {path = "../ecmascript/parser"}
+
+[target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
+jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
+
+[target.'cfg(windows)'.dependencies]
+mimalloc = {version = "0.1"}
