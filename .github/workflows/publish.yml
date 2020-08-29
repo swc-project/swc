@@ -58,6 +58,7 @@ jobs:
         shell: bash
         run: |
           npm run build:dev
+          cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
           cp native/node.$PLATFORM_NAME.node node.$PLATFORM_NAME.node
           cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
           (cd scripts/npm/core-$PLATFORM_NAME && npm link)
@@ -73,7 +74,9 @@ jobs:
         shell: bash
 
       - name: Test bindings
-        run: npm test
+        run: |
+          npm link  @swc/core-$PLATFORM_NAME
+          npm test
 
   publish:
     name: npm
