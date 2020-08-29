@@ -4722,10 +4722,10 @@ test!(
   }",
     r#"
     var _class, _dec, _dec1, _dec2;
-var _dec3 = Reflect.metadata("design:paramtypes", [
+var _dec3 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Generic === "undefined" ? Object : Generic,
     typeof Generic === "undefined" ? Object : Generic
-]), _dec4 = Reflect.metadata("design:type", Function);
+]), _dec4 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function);
 let MyClass = _class = Decorate(_class = _dec4(_class = _dec3(((_class = class MyClass {
     constructor(private generic: Generic<A>, generic2: Generic<A, B>){
     }
@@ -4733,7 +4733,7 @@ let MyClass = _class = Decorate(_class = _dec4(_class = _dec3(((_class = class M
     }
 }) || _class, _dec = function(target, key) {
     return Arg()(target, key, 1);
-}, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
+}, _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Inter === "undefined" ? Object : Inter,
     typeof InterGen === "undefined" ? Object : InterGen
 ]), _applyDecoratedDescriptor(_class.prototype, "method", [
@@ -4760,10 +4760,10 @@ class MyClass {
   ) {}
 }",
     r#"var _class;
-    var _dec = Reflect.metadata("design:paramtypes", [
+    var _dec = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof Generic === "undefined" ? Object : Generic,
         typeof Generic === "undefined" ? Object : Generic
-    ]), _dec1 = Reflect.metadata("design:type", Function);
+    ]), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function);
     let MyClass = _class = Decorate(_class = _dec1(_class = _dec((_class = class MyClass {
         constructor(private generic: Generic<A>, generic2: Generic<A, B>){
         }
@@ -4812,9 +4812,9 @@ test!(
     import { AppService } from "./app.service";
     import { Session, Res } from "@nestjs/common";
     import * as express from "express";
-    var _dec8 = Inject(), _dec9 = Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec10 = Inject(), _dec11 = Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec12 = Reflect.metadata("design:paramtypes", [
+    var _dec8 = Inject(), _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec10 = Inject(), _dec11 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec12 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof AppService === "undefined" ? Object : AppService
-    ]), _dec13 = Reflect.metadata("design:type", Function), _dec14 = Controller();
+    ]), _dec13 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec14 = Controller();
     export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_class = class AppController {
         constructor(private appService: AppService){
             _initializerDefineProperty(this, "appService", _descriptor, this);
@@ -4846,7 +4846,7 @@ test!(
         enumerable: true,
         writable: true,
         initializer: void 0,
-    }), _dec = Get(), _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
+    }), _dec = Get(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
         _dec,
         _dec1,
         _dec2
@@ -4854,7 +4854,7 @@ test!(
         return Res()(target, key, 0);
     }, _dec5 = function(target, key) {
         return Session()(target, key, 1);
-    }, _dec6 = Reflect.metadata("design:type", Function), _dec7 = Reflect.metadata("design:paramtypes", [
+    }, _dec6 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof express === "undefined" || typeof express.Response === "undefined" ? Object : express.Response,
         typeof express === "undefined" || typeof express.Express === "undefined" || typeof express.Express.Session === "undefined" ? Object : express.Express.Session
     ]), _applyDecoratedDescriptor(_class.prototype, "callback", [
@@ -4905,19 +4905,19 @@ test!(
     var _class, _class1, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class2, _dec8, _dec9, _dec10, _dec11;
     class Injected {
     }
-    var _dec12 = Reflect.metadata("design:paramtypes", [
+    var _dec12 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected
-    ]), _dec13 = Reflect.metadata("design:type", Function), _dec14 = function(target, key) {
+    ]), _dec13 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec14 = function(target, key) {
         return inject()(target, undefined, 0);
     };
     let MyClass = _class = _dec14(_class = _dec13(_class = _dec12((_class = class MyClass {
         constructor(parameter: Injected){
         }
     }) || _class) || _class) || _class) || _class;
-    var _dec15 = Reflect.metadata("design:paramtypes", [
+    var _dec15 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
-    ]), _dec16 = Reflect.metadata("design:type", Function), _dec17 = function(target, key) {
+    ]), _dec16 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec17 = function(target, key) {
         return inject("KIND")(target, undefined, 1);
     }, _dec18 = function(target, key) {
         return inject()(target, undefined, 0);
@@ -4931,7 +4931,7 @@ test!(
         }
     }) || _class1, _dec = function(target, key) {
         return demo()(target, key, 0);
-    }, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
+    }, _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         String,
         void 0
     ]), _applyDecoratedDescriptor(_class1.prototype, "methodUndecorated", [
@@ -4942,7 +4942,7 @@ test!(
         return inject()(target, key, 0);
     }, _dec5 = function(target, key) {
         return arg()(target, key, 1);
-    }, _dec6 = Reflect.metadata("design:type", Function), _dec7 = Reflect.metadata("design:paramtypes", [
+    }, _dec6 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Schema === "undefined" ? Object : Schema
     ]), _applyDecoratedDescriptor(_class1.prototype, "method", [
@@ -4952,10 +4952,10 @@ test!(
         _dec6,
         _dec7
     ], Object.getOwnPropertyDescriptor(_class1.prototype, "method"), _class1.prototype), _class1)) || _class1) || _class1) || _class1) || _class1;
-    var _dec19 = Reflect.metadata("design:paramtypes", [
+    var _dec19 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
-    ]), _dec20 = Reflect.metadata("design:type", Function), _dec21 = function(target, key) {
+    ]), _dec20 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec21 = function(target, key) {
         return inject()(target, undefined, 1);
     }, _dec22 = function(target, key) {
         return inject()(target, undefined, 0);
@@ -4967,7 +4967,7 @@ test!(
         }
     }) || _class2, _dec8 = decorate("example"), _dec9 = function(target, key) {
         return inject()(target, key, 0);
-    }, _dec10 = Reflect.metadata("design:type", Function), _dec11 = Reflect.metadata("design:paramtypes", [
+    }, _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         String
     ]), _applyDecoratedDescriptor(_class2.prototype, "method", [
         _dec8,
@@ -5057,7 +5057,7 @@ test!(
 import { Service } from "./service";
 import { Decorate } from "./Decorate";
 const sym = Symbol();
-var _dec9 = Reflect.metadata("design:paramtypes", [
+var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof String === "undefined" ? Object : String,
     typeof Number === "undefined" ? Object : Number,
     Number,
@@ -5077,7 +5077,7 @@ var _dec9 = Reflect.metadata("design:paramtypes", [
     Boolean,
     Boolean,
     void 0
-]), _dec10 = Reflect.metadata("design:type", Function), _dec11 = Decorate();
+]), _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = Decorate();
 let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sample {
     constructor(private p0: String, p1: Number, p2: 10, p3: "ABC", p4: boolean, p5: string, p6: number, p7: Object, p8: () => any, p9: "abc" | "def", p10: String | Number, p11: Function, p12: null, p13: undefined, p14: any, p15: (abc: any) => void, p16: falsee, p17: true, p18: string = "abc"){
     }
@@ -5089,7 +5089,7 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
     }
 }) || _class, _dec = function(target, key) {
     return Arg()(target, key, 0);
-}, _dec1 = Reflect.metadata("design:type", Function), _dec2 = Reflect.metadata("design:paramtypes", [
+}, _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Symbol === "undefined" ? Object : Symbol,
     Object,
     void 0,
@@ -5113,14 +5113,14 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
     _dec,
     _dec1,
     _dec2
-], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _dec3 = Decorate(), _dec4 = Reflect.metadata("design:type", Function), _dec5 = Reflect.metadata("design:paramtypes", [
+], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _dec3 = Decorate(), _dec4 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec5 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     void 0,
     typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name
 ]), _applyDecoratedDescriptor(_class.prototype, "method2", [
     _dec3,
     _dec4,
     _dec5
-], Object.getOwnPropertyDescriptor(_class.prototype, "method2"), _class.prototype), _dec6 = Decorate(), _dec7 = Reflect.metadata("design:type", Function), _dec8 = Reflect.metadata("design:paramtypes", [
+], Object.getOwnPropertyDescriptor(_class.prototype, "method2"), _class.prototype), _dec6 = Decorate(), _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec8 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     void 0
 ]), _applyDecoratedDescriptor(_class.prototype, "assignments", [
     _dec6,
