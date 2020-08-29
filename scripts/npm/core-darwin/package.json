@@ -3,7 +3,7 @@
   "description": "The macOS 64-bit binary for @swc/core.",
   "repository": "https://github.com/swc-project/swc",
   "license": "MIT",
-  "version": "1.2.22",
+  "version": "0.0.0",
   "main": "swc.node",
   "files": [
     "swc.node"
