@@ -25,12 +25,23 @@ jobs:
             **/target/
           key: ${{ runner.os }}-cargo-integration
 
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+        shell: bash
+
       - name: Prepare
         run: |
           npm config set prefix ~/npm
           npm i
           export PATH="$PATH:$HOME/npm/bin"
-          npx run build
+
+          npm run build
+          cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
+          cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
+          (cd scripts/npm/core-$PLATFORM_NAME && npm link)
+
           npm i -g @swc/cli
           npm link
 
