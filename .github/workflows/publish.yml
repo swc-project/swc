@@ -58,7 +58,6 @@ jobs:
         shell: bash
         run: |
           npm run build:dev
-          cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
           cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
           (cd scripts/npm/core-$PLATFORM_NAME && npm link)
 
@@ -70,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: core-${{ env.PLATFORM_NAME }}
-          path: swc.${{ env.PLATFORM_NAME }}.node
+          path: native/node.${{ env.PLATFORM_NAME }}.node
 
       - name: List packages
         run: ls -R ./scripts/npm/
@@ -92,20 +91,14 @@ jobs:
         with:
           node-version: 12
 
-      - name: Set platform name
-        run: |
-          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
-        shell: bash
-
       # Do not cache node_modules, or yarn workspace links broken
       - name: Install dependencies
         run: npm i
 
-      - name: Download artifacts
+      - name: Download all artifacts
         uses: actions/download-artifact@v2
         with:
-          path: ./scripts/npm/core-${{ env.PLATFORM_NAME }}
+          path: ./native
 
       - name: Publish to npm
         run: |
