@@ -10,6 +10,7 @@ edition = "2018"
 
 [features]
 codegen = ["swc_ecma_codegen"]
+dep_graph = ["swc_ecma_dep_graph"]
 parser = ["swc_ecma_parser"]
 utils = ["swc_ecma_utils"]
 transforms = ["swc_ecma_transforms"]
@@ -21,6 +22,7 @@ const-modules = ["swc_ecma_transforms", "swc_ecma_transforms/const-modules"]
 [dependencies]
 swc_ecma_ast = { version = "0.30.0", path ="./ast" }
 swc_ecma_codegen = { version = "0.34.0", path ="./codegen", optional = true }
+swc_ecma_dep_graph = { version = "0.1.0", path = "./dep-graph", optional = true }
 swc_ecma_parser = { version = "0.36.0", path ="./parser", optional = true }
 swc_ecma_utils = { version = "0.20.0", path ="./utils", optional = true }
 swc_ecma_transforms = { version = "0.22.0", path ="./transforms", optional = true }
