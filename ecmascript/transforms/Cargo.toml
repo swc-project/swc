@@ -1,49 +1,49 @@
 [package]
-name = "swc_ecma_transforms"
-version = "0.22.1"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/swc_ecma_transforms/"
 description = "rust port of babel and closure compiler."
+documentation = "https://swc-project.github.io/rustdoc/swc_ecma_transforms/"
 edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_ecma_transforms"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.22.2"
 
 [features]
 const-modules = ["dashmap"]
-react = ["dashmap"]
 default = []
+react = ["dashmap"]
 
 [dependencies]
-jsdoc = { version = "0.4.0", path ="../jsdoc" }
-swc_atoms = { version = "0.2.0", path ="../../atoms" }
-swc_common = { version = "0.10.0", path ="../../common" }
-swc_ecma_ast = { version = "0.30.0", path ="../ast" }
-swc_ecma_utils = { version = "0.20.0", path ="../utils" }
-swc_ecma_parser = { version = "0.36.0", path ="../parser" }
-swc_ecma_transforms_macros = { version = "0.1.0", path ="./macros" }
-swc_ecma_visit = { version = "0.16.0", path ="../visit" }
-dashmap = { version = "3", optional = true }
+Inflector = {version = "0.11.4", default-features = false}
+arrayvec = "0.5.1"
+dashmap = {version = "3", optional = true}
 either = "1.5"
 fxhash = "0.2"
 indexmap = "1"
+is-macro = "0.1"
+jsdoc = {version = "0.4.0", path = "../jsdoc"}
+log = "0.4.8"
 once_cell = "1"
-serde = { version = "1", features = ["derive"] }
 ordered-float = "1.0.1"
-Inflector = { version = "0.11.4", default-features = false }
-scoped-tls = "1"
 regex = "1"
-unicode-xid = "0.2"
-arrayvec = "0.5.1"
+retain_mut = "=0.1.1"
+scoped-tls = "1"
+serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 smallvec = "1"
-is-macro = "0.1"
-log = "0.4.8"
-retain_mut = "=0.1.1"
+swc_atoms = {version = "0.2.0", path = "../../atoms"}
+swc_common = {version = "0.10.0", path = "../../common"}
+swc_ecma_ast = {version = "0.30.0", path = "../ast"}
+swc_ecma_parser = {version = "0.36.0", path = "../parser"}
+swc_ecma_transforms_macros = {version = "0.1.0", path = "./macros"}
+swc_ecma_utils = {version = "0.20.0", path = "../utils"}
+swc_ecma_visit = {version = "0.16.0", path = "../visit"}
+unicode-xid = "0.2"
 
 [dev-dependencies]
-testing = { version = "0.10.0", path ="../../testing" }
-swc_ecma_codegen = { version = "0.34.0", path ="../codegen" }
-tempfile = "3"
 pretty_assertions = "0.6"
 sourcemap = "6"
+swc_ecma_codegen = {version = "0.34.0", path = "../codegen"}
+tempfile = "3"
+testing = {version = "0.10.0", path = "../../testing"}
 walkdir = "2"
