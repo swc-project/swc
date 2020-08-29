@@ -49,12 +49,13 @@ jobs:
       - name: Build
         run: |
           npm run build
+          mv native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: core-${{ env.PLATFORM_NAME }}
-          path: native/node.${{ env.PLATFORM_NAME }}.node
+          path: swc.${{ env.PLATFORM_NAME }}.node
 
   verify:
     name: Test bindings on ${{ matrix.os }} - node@${{ matrix.node }}
