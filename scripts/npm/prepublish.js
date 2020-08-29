@@ -14,14 +14,14 @@ updatePackageJson(path.join(__dirname, '..', '..', 'package.json'), {
 })
 
 
-for (const name of [...platforms, 'linux-musl']) {
+for (const name of platforms) {
     const pkgDir = path.join(__dirname, `core-${name}`)
     updatePackageJson(path.join(pkgDir, 'package.json'), {
         version: `${version}`,
     })
 }
 
-for (const name of [...platforms, 'linux-musl']) {
+for (const name of platforms) {
     const pkgDir = path.join(__dirname, `core-${name}`)
     const bindingFile = fs.readFileSync(path.join(__dirname, '..', '..', 'native', `node.${name}.node`))
     fs.writeFileSync(path.join(pkgDir, `swc.node`), bindingFile);
