@@ -1,8 +1,8 @@
+use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, SingleThreadedComments},
-    Loc, DUMMY_SP,
+    Loc, SourceMap, Span, DUMMY_SP,
 };
-pub use swc_common::{SourceMap, Span};
 use swc_ecma_ast as ast;
 use swc_ecma_visit::{self, Node, Visit, VisitWith};
 
@@ -15,6 +15,7 @@ pub fn analyze_dependencies(
         comments,
         source_map,
         items: vec![],
+        is_dynamic: false,
     };
     module.visit_with(&ast::Invalid { span: DUMMY_SP }, &mut v);
     v.items
@@ -26,6 +27,7 @@ pub enum DependencyKind {
     ImportType,
     Export,
     ExportType,
+    Require,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -40,13 +42,16 @@ pub struct DependencyDescriptor {
     pub col: usize,
     pub line: usize,
     /// The text specifier associated with the import/export statement.
-    pub specifier: String,
+    pub specifier: JsWord,
 }
 
 struct DependencyCollector<'a> {
     comments: &'a SingleThreadedComments,
     pub items: Vec<DependencyDescriptor>,
     source_map: &'a SourceMap,
+    // This field is used to determine if currently visited "require"
+    // is top level and "static", or inside module body and "dynamic".
+    is_dynamic: bool,
 }
 
 impl<'a> DependencyCollector<'a> {
@@ -61,7 +66,7 @@ impl<'a> DependencyCollector<'a> {
 
 impl<'a> Visit for DependencyCollector<'a> {
     fn visit_import_decl(&mut self, node: &ast::ImportDecl, _parent: &dyn Node) {
-        let specifier = node.src.value.to_string();
+        let specifier = node.src.value.clone();
         let span = node.span;
         let (location, leading_comments) = self.get_location_and_comments(span);
         let kind = if node.type_only {
@@ -81,7 +86,7 @@ impl<'a> Visit for DependencyCollector<'a> {
 
     fn visit_named_export(&mut self, node: &ast::NamedExport, _parent: &dyn Node) {
         if let Some(src) = &node.src {
-            let specifier = src.value.to_string();
+            let specifier = src.value.clone();
             let span = node.span;
             let (location, leading_comments) = self.get_location_and_comments(span);
             let kind = if node.type_only {
@@ -101,7 +106,7 @@ impl<'a> Visit for DependencyCollector<'a> {
     }
 
     fn visit_export_all(&mut self, node: &ast::ExportAll, _parent: &dyn Node) {
-        let specifier = node.src.value.to_string();
+        let specifier = node.src.value.clone();
         let span = node.span;
         let (location, leading_comments) = self.get_location_and_comments(span);
         self.items.push(DependencyDescriptor {
@@ -115,7 +120,7 @@ impl<'a> Visit for DependencyCollector<'a> {
     }
 
     fn visit_ts_import_type(&mut self, node: &ast::TsImportType, _parent: &dyn Node) {
-        let specifier = node.arg.value.to_string();
+        let specifier = node.arg.value.clone();
         let span = node.span;
         let (location, leading_comments) = self.get_location_and_comments(span);
         self.items.push(DependencyDescriptor {
@@ -128,6 +133,16 @@ impl<'a> Visit for DependencyCollector<'a> {
         });
     }
 
+    fn visit_module_items(&mut self, items: &[ast::ModuleItem], _parent: &dyn Node) {
+        swc_ecma_visit::visit_module_items(self, items, _parent);
+    }
+
+    fn visit_stmts(&mut self, items: &[ast::Stmt], _parent: &dyn Node) {
+        self.is_dynamic = true;
+        swc_ecma_visit::visit_stmts(self, items, _parent);
+        self.is_dynamic = false;
+    }
+
     fn visit_call_expr(&mut self, node: &ast::CallExpr, _parent: &dyn Node) {
         use ast::{Expr::*, ExprOrSuper::*};
 
@@ -137,24 +152,24 @@ impl<'a> Visit for DependencyCollector<'a> {
             Expr(boxed) => boxed,
         };
 
-        match &*call_expr {
-            Ident(ident) => {
-                if &ident.sym.to_string() != "import" {
-                    return;
-                }
-            }
+        let kind = match &*call_expr {
+            Ident(ident) => match ident.sym.to_string().as_str() {
+                "import" => DependencyKind::Import,
+                "require" => DependencyKind::Require,
+                _ => return,
+            },
             _ => return,
         };
 
         if let Some(arg) = node.args.get(0) {
             if let Lit(lit) = &*arg.expr {
                 if let ast::Lit::Str(str_) = lit {
-                    let specifier = str_.value.to_string();
+                    let specifier = str_.value.clone();
                     let span = node.span;
                     let (location, leading_comments) = self.get_location_and_comments(span);
                     self.items.push(DependencyDescriptor {
-                        kind: DependencyKind::Import,
-                        is_dynamic: true,
+                        kind,
+                        is_dynamic: self.is_dynamic,
                         leading_comments,
                         col: location.col_display,
                         line: location.line,
@@ -231,11 +246,26 @@ export * as Buzz from "./buzz.ts";
  * Foo
  */
 export type { Fizz } from "./fizz.d.ts";
-const foo = await import("./foo.ts");
+const { join } = require("path");
+
+// dynamic 
+
+try {
+    const foo = await import("./foo.ts");
+} catch (e) {
+    // pass
+}
+
+try {
+    const foo = require("some_package");
+} catch (e) {
+    // pass
+}
       "#;
         let (module, source_map, comments) = helper("test.ts", &source).unwrap();
+        // eprintln!("module {:#?}", module);
         let dependencies = analyze_dependencies(&module, &source_map, &comments);
-        assert_eq!(dependencies.len(), 5);
+        assert_eq!(dependencies.len(), 7);
         assert_eq!(
             dependencies,
             vec![
@@ -245,7 +275,7 @@ const foo = await import("./foo.ts");
                     leading_comments: Vec::new(),
                     col: 0,
                     line: 1,
-                    specifier: "./test.ts".to_owned()
+                    specifier: JsWord::from("./test.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -257,7 +287,7 @@ const foo = await import("./foo.ts");
                     }],
                     col: 0,
                     line: 3,
-                    specifier: "./foo.d.ts".to_owned()
+                    specifier: JsWord::from("./foo.d.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -269,7 +299,7 @@ const foo = await import("./foo.ts");
                     }],
                     col: 0,
                     line: 5,
-                    specifier: "./buzz.ts".to_owned()
+                    specifier: JsWord::from("./buzz.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportType,
@@ -288,15 +318,31 @@ const foo = await import("./foo.ts");
                     ],
                     col: 0,
                     line: 10,
-                    specifier: "./fizz.d.ts".to_owned()
+                    specifier: JsWord::from("./fizz.d.ts")
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Require,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    col: 17,
+                    line: 11,
+                    specifier: JsWord::from("path")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
                     is_dynamic: true,
                     leading_comments: Vec::new(),
-                    col: 18,
-                    line: 11,
-                    specifier: "./foo.ts".to_owned()
+                    col: 22,
+                    line: 16,
+                    specifier: JsWord::from("./foo.ts")
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Require,
+                    is_dynamic: true,
+                    leading_comments: Vec::new(),
+                    col: 16,
+                    line: 22,
+                    specifier: JsWord::from("some_package")
                 }
             ]
         );
