@@ -35,4 +35,8 @@ if (os.platform() !== 'win32') {
         expect(result.web).toBeTruthy();
         expect(result.web.code).toContain(`../common`);
     });
+} else {
+    it('should not be error on windows', async () => {
+        expect('I hate windows').toBeTruthy()
+    });
 }
