@@ -64,7 +64,7 @@ where
                             })
                             .expect("javascript file should have name");
                         new_name.pop();
-                        new_name = new_name.join(file_name.clone()).canonicalize()?;
+                        new_name = new_name.join(file_name.clone());
 
                         renamed.insert(key, new_name.to_string_lossy().to_string());
 
