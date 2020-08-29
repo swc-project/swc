@@ -97,6 +97,10 @@ jobs:
         with:
           path: ./native
 
+      - name: List binaries
+        run: ls -R ./native/
+        shell: bash
+
       - name: Publish to npm
         run: |
           npm publish --dry-run
