@@ -52,11 +52,10 @@ jobs:
           npm run build:dev
           cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
           cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
+          (cd scripts/npm/core-$PLATFORM_NAME && npm link)
 
       - name: Test
-        shell: bash
         run: |
-          (cd scripts/npm/core-$PLATFORM_NAME && npm link)
           npm test
 
       - name: Upload artifact
