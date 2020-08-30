@@ -77,14 +77,20 @@ where
             self.merge_reexports(plan, &mut entry, &info)
                 .context("failed to merge reepxorts")?;
 
-            let deps = (&*info.imports.specifiers)
-                .into_par_iter()
+            let to_merge: Vec<_> = info
+                .imports
+                .specifiers
+                .iter()
                 .filter(|(src, _)| {
                     log::trace!("Checking: {} <= {}", info.fm.name, src.src.value);
 
                     // Skip if a dependency is going to be merged by other dependency
                     module_plan.chunks.contains(&src.module_id)
                 })
+                .collect();
+
+            let deps = to_merge
+                .into_par_iter()
                 .map(|(src, specifiers)| -> Result<_, Error> {
                     self.run(|| {
                         log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
