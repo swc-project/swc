@@ -12,7 +12,7 @@ use swc_common::{chain, Mark};
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(
-        jsx(t.cm.clone(), options),
+        jsx(t.cm.clone(), Some(t.comments.clone()), options),
         display_name(),
         classes(),
         arrow(),
@@ -288,7 +288,6 @@ test!(
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -313,7 +312,6 @@ var profile = dom("div", null, dom("img", {
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -564,7 +562,6 @@ React.createElement("div", null, React.createElement(
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -583,7 +580,6 @@ dom("div", null, "no fragment is used");
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -915,7 +911,6 @@ test!(
 
 test!(
     // Comments are currently stripped out
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()

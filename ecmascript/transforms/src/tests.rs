@@ -20,7 +20,7 @@ use tempfile::tempdir_in;
 pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: SingleThreadedComments,
+    pub comments: Lrc<SingleThreadedComments>,
 }
 
 impl<'a> Tester<'a> {
@@ -101,7 +101,7 @@ impl<'a> Tester<'a> {
             .new_source_file(FileName::Real(name.into()), src.into());
 
         let module = {
-            let mut p = Parser::new(syntax, StringInput::from(&*fm), None);
+            let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
             let res = p
                 .parse_module()
                 .map_err(|e| e.into_diagnostic(&self.handler).emit());
@@ -174,7 +174,7 @@ pub(crate) fn test_transform<F, P>(
     expected: &str,
     ok_if_code_eq: bool,
 ) where
-    F: FnOnce(&mut Tester<'_>) -> P,
+    F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
     crate::tests::Tester::run(|tester| {

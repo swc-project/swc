@@ -223,7 +223,10 @@ impl Options {
 
         let pass = chain!(
             // handle jsx
-            Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
+            Optional::new(
+                react::react(cm.clone(), comments, transform.react),
+                syntax.jsx()
+            ),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {

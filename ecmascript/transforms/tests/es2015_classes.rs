@@ -2195,7 +2195,10 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(tr(), jsx(t.cm.clone(), Default::default())),
+    |t| chain!(
+        tr(),
+        jsx(t.cm.clone(), Some(t.comments.clone()), Default::default())
+    ),
     regression_2775,
     r#"
 import React, {Component} from 'react';
