@@ -1,10 +1,10 @@
 name: Publish
 
-# on:
-#   create:
-#     tags:
-#       - v*
-on: [push, pull_request]
+on:
+  create:
+    tags:
+      - v*
+# on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
@@ -109,6 +109,6 @@ jobs:
         run: |
           cp ./native/bindings/*.node ./native
 
-      - name: Publish to npm
-        run: |
-          npm publish --dry-run
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}

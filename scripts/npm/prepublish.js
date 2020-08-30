@@ -26,7 +26,7 @@ for (const name of platforms) {
     const bindingFile = fs.readFileSync(path.join(__dirname, '..', '..', 'native', `node.${name}.node`))
     fs.writeFileSync(path.join(pkgDir, `swc.node`), bindingFile);
 
-    execSync('npm publish --dry-run', {
+    execSync('npm publish', {
         cwd: pkgDir,
         env: process.env,
         stdio: 'inherit',
