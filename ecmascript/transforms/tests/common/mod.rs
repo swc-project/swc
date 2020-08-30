@@ -49,7 +49,7 @@ macro_rules! validate {
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: &'a SingleThreadedComments,
+    pub comments: Lrc<SingleThreadedComments>,
 }
 
 impl<'a> Tester<'a> {

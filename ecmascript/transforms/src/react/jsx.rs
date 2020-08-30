@@ -88,7 +88,10 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx<'a>(cm: Lrc<SourceMap>, comments: &'a dyn Comments, options: Options) -> impl 'a + Fold {
+pub fn jsx<C>(cm: Lrc<SourceMap>, comments: C, options: Options) -> impl Fold
+where
+    C: Comments,
+{
     Jsx {
         pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
         comments,
@@ -101,15 +104,21 @@ pub fn jsx<'a>(cm: Lrc<SourceMap>, comments: &'a dyn Comments, options: Options)
     }
 }
 
-struct Jsx<'a> {
+struct Jsx<C>
+where
+    C: Comments,
+{
     pragma: ExprOrSuper,
-    comments: &'a dyn Comments,
+    comments: C,
     pragma_frag: ExprOrSpread,
     use_builtins: bool,
     throw_if_namespace: bool,
 }
 
-impl Jsx<'_> {
+impl<C> Jsx<C>
+where
+    C: Comments,
+{
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
@@ -256,7 +265,10 @@ impl Jsx<'_> {
     }
 }
 
-impl Fold for Jsx<'_> {
+impl<C> Fold for Jsx<C>
+where
+    C: Comments,
+{
     noop_fold_type!();
 
     fn fold_module(&mut self, module: Module) -> Module {
@@ -307,7 +319,10 @@ impl Fold for Jsx<'_> {
     }
 }
 
-impl Jsx<'_> {
+impl<C> Jsx<C>
+where
+    C: Comments,
+{
     fn jsx_name(&self, name: JSXElementName) -> Box<Expr> {
         let span = name.span();
         match name {
