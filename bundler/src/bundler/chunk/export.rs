@@ -1,5 +1,5 @@
 use super::{merge::Unexporter, plan::Plan};
-use crate::{bundler::load::TransformedModule, util, Bundler, Load, Resolve};
+use crate::{bundler::load::TransformedModule, debug::print_hygiene, util, Bundler, Load, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
@@ -55,18 +55,21 @@ where
                                 )
                             })?;
 
-                        dep = self.drop_unused(dep, Some(&specifiers));
+                        // `export * from './foo'` does not have specifier
+                        if !specifiers.is_empty() {
+                            dep = self.drop_unused(dep, Some(&specifiers));
+                        }
 
                         dep.visit_mut_with(&mut UnexportAsVar {
                             target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                         });
-                        // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+                        print_hygiene("dep:unexport-as-var", &self.cm, &dep);
 
                         dep.visit_mut_with(&mut AliasExports {
                             importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                             decls: Default::default(),
                         });
-                        // print_hygiene("dep:alias-exports", &self.cm, &dep);
+                        print_hygiene("dep:alias-exports", &self.cm, &dep);
 
                         dep = dep.fold_with(&mut Unexporter);
 
