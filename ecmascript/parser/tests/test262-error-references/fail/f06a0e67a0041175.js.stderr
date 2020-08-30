@@ -1,6 +1,6 @@
-error: Unterminated template
- --> $DIR/tests/test262-parser/fail/f06a0e67a0041175.js:1:1
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/f06a0e67a0041175.js:1:6
   |
 1 | `test
-  | ^^^^^
+  |      ^
 

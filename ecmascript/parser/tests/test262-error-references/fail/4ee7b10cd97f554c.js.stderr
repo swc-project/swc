@@ -1,6 +1,6 @@
-error: Expected ], got <eof>
- --> $DIR/tests/test262-parser/fail/4ee7b10cd97f554c.js:1:2
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/4ee7b10cd97f554c.js:1:3
   |
 1 | [,
-  |  ^
+  |   ^
 

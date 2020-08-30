@@ -1,6 +1,6 @@
-error: Parenthesized expression cannot contain spread operator
- --> $DIR/tests/test262-parser/fail/82b8003b91d8b346.js:1:8
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/82b8003b91d8b346.js:1:10
   |
 1 | (b, ...a)
-  |        ^
+  |          ^
 

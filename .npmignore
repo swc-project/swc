@@ -21,3 +21,12 @@ wasm/
 **/target/
 *.svg
 integration-tests/
+
+# napi is cool
+*.rs
+/scripts/npm
+/native/
+/src
+/.vscode
+/ecmascript/transforms/src/helpers
+/node-swc/__tests__/

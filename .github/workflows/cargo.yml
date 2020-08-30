@@ -15,7 +15,6 @@ on: [push, pull_request]
 env:
   CARGO_INCREMENTAL: 0
   CI: "1"
-  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
 
 jobs:
   fmt:
@@ -34,9 +33,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-#      - uses: actions/setup-node@v2-beta
-#          with:
-#            node-version: '12'
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "12"
 
       - name: Checkout submodules
         shell: bash
@@ -51,6 +50,16 @@ jobs:
           npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
 
+      - name: Install llvm
+        if: matrix.os == 'windows-latest'
+        run: choco install -y llvm
+
+      - name: Set llvm path
+        if: matrix.os == 'windows-latest'
+        uses: allenevans/set-env@v1.0.0
+        with:
+          LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
+
       - name: Cache
         uses: actions/cache@v2
         with:
@@ -63,7 +72,6 @@ jobs:
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
 
-
       - name: Download typescript parser test suite
         run: |
           git clone --depth 1 https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc
@@ -71,7 +79,7 @@ jobs:
       - name: Run cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          cargo test --color always --all --exclude swc_ecma_parser
+          cargo test --color always --all --exclude node --exclude wasm
 
   #
   deploy-docs:

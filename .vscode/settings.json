@@ -13,7 +13,7 @@
     "editor.formatOnSave": true
   },
   "[typescript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   "rust.rustflags": "--cfg procmacro2_semver_exempt",
   // Important

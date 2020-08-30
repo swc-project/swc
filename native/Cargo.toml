@@ -1,32 +1,37 @@
 [package]
-name = "node-swc"
-version = "0.1.0"
-authors = ["강동윤 <kdy1@outlook.kr>"]
-license = "MIT"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 build = "build.rs"
-exclude = ["artifacts.json", "index.node"]
 edition = "2018"
+exclude = ["artifacts.json", "index.node"]
+license = "MIT"
+name = "node"
 publish = false
+version = "0.1.0"
 
 [lib]
-name = "ffi"
 crate-type = ["cdylib"]
 
 [build-dependencies]
-neon-build = "0.4.0"
+napi-build = "0.2.1"
 
 [dependencies]
-swc = { path = "../" }
-swc_bundler = { path = "../bundler" }
-swc_common = { path = "../common", features = ["tty-emitter", "sourcemap"] }
-swc_ecma_ast = { path = "../ecmascript/ast" }
-swc_ecma_parser = { path = "../ecmascript/parser" }
-spack = { path = "../spack" }
+anyhow = "1"
 backtrace = "0.3"
 fxhash = "0.2"
-anyhow = "1"
-serde_json = "1"
-neon = "0.4.0"
-neon-serde = "0.4.0"
+napi = "0.4.13"
+napi-derive = "0.4.0"
 path-clean = "0.1"
-serde = { version = "1", features = ["derive"] }
+serde = {version = "1", features = ["derive"]}
+serde_json = "1"
+spack = {path = "../spack"}
+swc = {path = "../"}
+swc_bundler = {path = "../bundler"}
+swc_common = {path = "../common", features = ["tty-emitter", "sourcemap"]}
+swc_ecma_ast = {path = "../ecmascript/ast"}
+swc_ecma_parser = {path = "../ecmascript/parser"}
+
+[target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
+jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
+
+[target.'cfg(windows)'.dependencies]
+mimalloc = {version = "0.1"}

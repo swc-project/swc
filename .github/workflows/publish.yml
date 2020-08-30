@@ -1,0 +1,114 @@
+name: Publish
+
+on:
+  create:
+    tags:
+      - v*
+# on: [push, pull_request]
+
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    name: Build - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+        shell: bash
+
+      - name: Install llvm
+        if: matrix.os == 'windows-latest'
+        run: choco install -y llvm
+
+      - name: Set llvm path
+        if: matrix.os == 'windows-latest'
+        uses: allenevans/set-env@v1.0.0
+        with:
+          LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
+
+      - name: Install node dependencies
+        run: |
+          npm i
+
+      - name: Build
+        shell: bash
+        run: |
+          npm run build
+          cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
+          cp native/node.$PLATFORM_NAME.node node.$PLATFORM_NAME.node
+          cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
+          (cd scripts/npm/core-$PLATFORM_NAME && npm link)
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: node.${{ env.PLATFORM_NAME }}.node
+
+      - name: List packages
+        run: ls -R ./scripts/npm/
+        shell: bash
+
+      - name: Test bindings
+        run: |
+          npm link  @swc/core-$PLATFORM_NAME
+          npm test
+
+  publish:
+    name: npm
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      # Do not cache node_modules, or yarn workspace links broken
+      - name: Install dependencies
+        run: npm i
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: ./native
+
+      - name: List binaries
+        run: ls -R ./native/
+        shell: bash
+
+      - name: Move binaries
+        shell: bash
+        run: |
+          cp ./native/bindings/*.node ./native
+
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}

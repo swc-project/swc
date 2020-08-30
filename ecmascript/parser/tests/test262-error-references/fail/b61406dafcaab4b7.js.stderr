@@ -1,6 +1,6 @@
-error: Expected 2 hex characters
- --> $DIR/tests/test262-parser/fail/b61406dafcaab4b7.js:1:3
+error: Unterminated string constant
+ --> $DIR/tests/test262-parser/fail/b61406dafcaab4b7.js:1:6
   |
 1 | ('\x0')
-  |   ^^^
+  |      ^^
 

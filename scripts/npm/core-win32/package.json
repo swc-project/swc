@@ -1,0 +1,21 @@
+{
+  "name": "@swc/core-win32",
+  "description": "The Windows 64-bit binary for @swc-node/core.",
+  "repository": "https://github.com/swc-project/swc",
+  "license": "MIT",
+  "version": "0.0.0",
+  "main": "swc.node",
+  "files": [
+    "swc.node"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ]
+}
