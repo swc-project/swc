@@ -8,7 +8,7 @@ use swc_common::{
     chain,
     pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
-    Mark, Span, Spanned,
+    BytePos, Mark, Span, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
@@ -51,48 +51,15 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
         "dce cannot use Mark::root() as used_mark"
     );
 
-    let used_mark = config.used_mark;
-
-    chain!(
-        as_folder(Dce {
-            config,
-            dropped: false,
-            included: Default::default(),
-            changed: false,
-            marking_phase: false,
-            decl_dropping_phase: false,
-        }),
-        as_folder(UsedMarkRemover { used_mark })
-    )
-}
-
-struct UsedMarkRemover {
-    used_mark: Mark,
-}
-
-impl CompilerPass for UsedMarkRemover {
-    fn name() -> Cow<'static, str> {
-        Cow::Borrowed("dce-cleanup")
-    }
-}
-
-impl Repeated for UsedMarkRemover {
-    fn changed(&self) -> bool {
-        false
-    }
-
-    fn reset(&mut self) {}
-}
-
-impl VisitMut for UsedMarkRemover {
-    noop_visit_mut_type!();
-
-    fn visit_mut_span(&mut self, s: &mut Span) {
-        let mut ctxt = s.ctxt.clone(); // explicit clone
-        if ctxt.remove_mark() == self.used_mark {
-            s.ctxt = ctxt;
-        }
-    }
+    as_folder(Dce {
+        changed: false,
+        config,
+        included: Default::default(),
+        preserved: Default::default(),
+        marking_phase: false,
+        decl_dropping_phase: false,
+        dropped: false,
+    })
 }
 
 #[derive(Debug)]
@@ -102,6 +69,8 @@ struct Dce<'a> {
 
     /// Identifiers which should be emitted.
     included: FxHashSet<Id>,
+
+    preserved: FxHashSet<(BytePos, BytePos)>,
 
     /// If true, idents are added to [included].
     marking_phase: bool,
@@ -680,7 +649,7 @@ impl Dce<'_> {
 }
 
 impl Dce<'_> {
-    pub fn is_marked(&self, span: Span) -> bool {
+    pub fn is_marked(&mut self, span: Span) -> bool {
         let mut ctxt = span.ctxt().clone();
 
         loop {
