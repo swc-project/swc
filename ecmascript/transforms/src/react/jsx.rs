@@ -6,7 +6,10 @@ use serde::{Deserialize, Serialize};
 use std::{iter, mem};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    comments::Comments, iter::IdentifyLast, sync::Lrc, FileName, SourceMap, Spanned, DUMMY_SP,
+    comments::{CommentKind, Comments},
+    iter::IdentifyLast,
+    sync::Lrc,
+    FileName, SourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
@@ -93,6 +96,7 @@ where
     C: Comments,
 {
     Jsx {
+        cm: cm.clone(),
         pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
         comments,
         pragma_frag: ExprOrSpread {
@@ -108,6 +112,7 @@ struct Jsx<C>
 where
     C: Comments,
 {
+    cm: Lrc<SourceMap>,
     pragma: ExprOrSuper,
     comments: Option<C>,
     pragma_frag: ExprOrSpread,
@@ -273,12 +278,40 @@ where
 
     fn fold_module(&mut self, module: Module) -> Module {
         let leading = if let Some(comments) = &self.comments {
-            comments.take_leading(module.span.lo)
+            let leading = comments.take_leading(module.span.lo);
+
+            if let Some(leading) = &leading {
+                for leading in &**leading {
+                    if leading.kind != CommentKind::Block {
+                        continue;
+                    }
+
+                    for line in leading.text.lines() {
+                        if !line.trim().starts_with("* @jsx") {
+                            continue;
+                        }
+
+                        if line.trim().starts_with("* @jsxFrag") {
+                            let src = line.replace("* @jsxFrag", "").trim().to_string();
+                            self.pragma_frag = ExprOrSpread {
+                                expr: parse_option(&self.cm, "module-jsx-pragma-frag", src),
+                                spread: None,
+                            };
+                        } else {
+                            let src = line.replace("* @jsx", "").trim().to_string();
+
+                            self.pragma =
+                                ExprOrSuper::Expr(parse_option(&self.cm, "module-jsx-pragma", src));
+                        }
+                    }
+                }
+            }
+
+            leading
         } else {
             None
         };
 
-        dbg!(&leading);
         let module = module.fold_children_with(self);
 
         if let Some(leading) = leading {
