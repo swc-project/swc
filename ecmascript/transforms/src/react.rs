@@ -17,7 +17,11 @@ mod jsx_src;
 /// `@babel/preset-react`
 ///
 /// Preset for all React plugins.
-pub fn react(cm: Lrc<SourceMap>, options: Options) -> impl Fold {
+pub fn react<'a>(
+    cm: Lrc<SourceMap>,
+    comments: &'a dyn Comments,
+    options: Options,
+) -> impl 'a + Fold {
     let Options { development, .. } = options;
 
     chain!(

@@ -88,7 +88,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(cm: Lrc<SourceMap>, comments: Lrc<&dyn Comments>, options: Options) -> impl Fold {
+pub fn jsx<'a>(cm: Lrc<SourceMap>, comments: &'a dyn Comments, options: Options) -> impl 'a + Fold {
     Jsx {
         pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
         comments,
