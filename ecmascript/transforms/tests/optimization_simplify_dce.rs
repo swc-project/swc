@@ -1,9 +1,10 @@
 #![feature(test)]
 use swc_common::{chain, Mark, SyntaxContext};
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
-    resolver,
+    proposals::decorators,
+    resolver, typescript,
 };
 #[macro_use]
 mod common;
@@ -472,4 +473,51 @@ export default class X {
     }
 }
 "
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        resolver(),
+        typescript::strip(),
+        decorators(decorators::Config {
+            legacy: true,
+            emit_metadata: false
+        }),
+        dce(Default::default())
+    ),
+    issue_898_2,
+    "export default class X {
+    @whatever
+    anything: number = 0;
+    x() {
+        const localVar = aFunctionSomewhere();
+        return localVar;
+    }
+}
+",
+    "
+var _class, _descriptor;
+let X = ((_class = class X {
+    x() {
+        const localVar = aFunctionSomewhere();
+        return localVar;
+    }
+    constructor(){
+        _initializerDefineProperty(this, \"anything\", _descriptor, this);
+    }
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, \"anything\", [
+    whatever
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return 0;
+    }
+}), _class);
+export { X as default };"
 );
