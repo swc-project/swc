@@ -5,36 +5,27 @@ use super::{
 use crate::{id::Id, load::Load, resolve::Resolve};
 use std::collections::HashMap;
 use swc_atoms::js_word;
-use swc_common::{FileName, SyntaxContext};
+use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,
 {
-    /// This method removes exported pure constants from the module.
-    ///
-    /// A pure constant is a exported literal.
-    ///
-    ///
     /// TODO: Support pattern like
     ///     export const [a, b] = [1, 2]
-    pub(super) fn extract_export_info(
-        &self,
-        file_name: &FileName,
-        module: &mut Module,
-    ) -> RawExports {
+    pub(super) fn extract_export_info(&self, file_name: &FileName, module: &Module) -> RawExports {
         self.run(|| {
             let mut v = ExportFinder {
                 info: Default::default(),
-                file_name,
-                bundler: self,
+                _file_name: file_name,
+                _bundler: self,
             };
 
-            module.visit_mut_with(&mut v);
+            module.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
 
             v.info
         })
@@ -59,42 +50,18 @@ where
     R: Resolve,
 {
     info: RawExports,
-    file_name: &'a FileName,
-    bundler: &'a Bundler<'b, L, R>,
+    _file_name: &'a FileName,
+    _bundler: &'a Bundler<'b, L, R>,
 }
 
-impl<L, R> ExportFinder<'_, '_, L, R>
+impl<L, R> Visit for ExportFinder<'_, '_, L, R>
 where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
-        // Don't apply mark if it's a core module.
-        if self
-            .bundler
-            .config
-            .external_modules
-            .iter()
-            .any(|v| v == src)
-        {
-            return None;
-        }
-        let path = self.bundler.resolve(self.file_name, src).ok()?;
-        let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
-        let ctxt = SyntaxContext::empty();
+    noop_visit_type!();
 
-        Some(ctxt.apply_mark(mark))
-    }
-}
-
-impl<L, R> VisitMut for ExportFinder<'_, '_, L, R>
-where
-    L: Load,
-    R: Resolve,
-{
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
+    fn visit_module_item(&mut self, item: &ModuleItem, _: &dyn Node) {
         match item {
             // TODO: Optimize pure constants
             //            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -180,18 +147,6 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
-                match &named.src {
-                    Some(v) => {
-                        let ctxt = self.ctxt_for(&v.value);
-                        match ctxt {
-                            Some(ctxt) => {
-                                named.span = named.span.with_ctxt(ctxt);
-                            }
-                            None => {}
-                        }
-                    }
-                    None => {}
-                };
                 let v = self.info.items.entry(named.src.clone()).or_default();
                 for s in &named.specifiers {
                     match s {
@@ -223,12 +178,7 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
-                match self.ctxt_for(&all.src.value) {
-                    Some(ctxt) => {
-                        all.span = all.span.with_ctxt(ctxt);
-                    }
-                    None => {}
-                }
+                self.info.items.entry(Some(all.src.clone())).or_default();
             }
             _ => {}
         }

@@ -89,13 +89,6 @@ where
                     self.run(|| {
                         log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                        if specifiers.iter().any(|v| v.is_namespace()) {
-                            unimplemented!(
-                                "accessing namespace dependency with computed key: {} -> {}",
-                                info.id,
-                                src.module_id
-                            )
-                        }
                         let imported = self.scope.get_module(src.module_id).unwrap();
                         info.helpers.extend(&imported.helpers);
 

@@ -154,7 +154,7 @@ where
             //     println!("After imports:\n{}\n", code,);
             // }
 
-            let exports = self.extract_export_info(file_name, &mut module);
+            let exports = self.extract_export_info(file_name, &module);
 
             let is_es6 = if !self.config.require {
                 true
