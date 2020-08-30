@@ -120,8 +120,13 @@ where
                         if imported.is_es6 {
                             // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
-                            // Tree-shaking
-                            dep = self.drop_unused(dep, Some(&specifiers));
+                            let is_side_effect_or_key_computed = specifiers.is_empty();
+
+                            // If an import with a computed key exists, we can't shake tree
+                            if !is_side_effect_or_key_computed {
+                                // Tree-shaking
+                                dep = self.drop_unused(dep, Some(&specifiers));
+                            }
 
                             // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
