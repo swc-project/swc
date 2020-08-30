@@ -1,17 +1,20 @@
 #![feature(test)]
 use swc_common::{chain, Mark, SyntaxContext};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
     resolver,
 };
-
 #[macro_use]
 mod common;
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
-            Default::default(),
+            Syntax::Es(EsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
             |_| chain!(resolver(), dce(Default::default())),
             $name,
             $src,
@@ -453,5 +456,20 @@ noop!(
     "
 class A {}
 console.log(new A());
+"
+);
+
+noop!(
+    issue_898_1,
+    "
+export default class X {
+    @whatever
+    anything= 0;
+
+    x() {
+        const localVar = aFunctionSomewhere();
+        return localVar;
+    }
+}
 "
 );
