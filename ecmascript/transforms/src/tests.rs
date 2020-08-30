@@ -20,7 +20,7 @@ use tempfile::tempdir_in;
 pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: SingleThreadedComments,
+    pub comments: &'a SingleThreadedComments,
 }
 
 impl<'a> Tester<'a> {
@@ -167,15 +167,15 @@ macro_rules! test_transform {
     }};
 }
 
-pub(crate) fn test_transform<F, P>(
+pub(crate) fn test_transform<'a, F, P>(
     syntax: Syntax,
     tr: F,
     input: &str,
     expected: &str,
     ok_if_code_eq: bool,
 ) where
-    F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
+    F: FnOnce(&mut Tester<'a>) -> P,
+    P: 'a + Fold,
 {
     crate::tests::Tester::run(|tester| {
         let expected = tester.apply_transform(

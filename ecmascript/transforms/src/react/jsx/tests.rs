@@ -12,7 +12,7 @@ use swc_common::{chain, Mark};
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(
-        jsx(t.cm.clone(), options),
+        jsx(t.cm.clone(), t.comments, options),
         display_name(),
         classes(),
         arrow(),

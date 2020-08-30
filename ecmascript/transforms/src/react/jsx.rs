@@ -101,15 +101,15 @@ pub fn jsx<'a>(cm: Lrc<SourceMap>, comments: &'a dyn Comments, options: Options)
     }
 }
 
-struct Jsx {
+struct Jsx<'a> {
     pragma: ExprOrSuper,
-    comments: Lrc<&dyn Comments>,
+    comments: &'a dyn Comments,
     pragma_frag: ExprOrSpread,
     use_builtins: bool,
     throw_if_namespace: bool,
 }
 
-impl Jsx {
+impl Jsx<'_> {
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
@@ -256,16 +256,20 @@ impl Jsx {
     }
 }
 
-impl Fold for Jsx {
+impl Fold for Jsx<'_> {
     noop_fold_type!();
 
     fn fold_module(&mut self, module: Module) -> Module {
-        let leading = self.comments.take_leading(module.span.lo)?;
+        let leading = self.comments.take_leading(module.span.lo);
 
         dbg!(&leading);
-        module.fold_children_with(self);
+        let module = module.fold_children_with(self);
 
-        self.comments.add_leading_comments(module.span.lo, leading);
+        if let Some(leading) = leading {
+            self.comments.add_leading_comments(module.span.lo, leading);
+        }
+
+        module
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -303,7 +307,7 @@ impl Fold for Jsx {
     }
 }
 
-impl Jsx {
+impl Jsx<'_> {
     fn jsx_name(&self, name: JSXElementName) -> Box<Expr> {
         let span = name.span();
         match name {

@@ -6,7 +6,7 @@ pub use self::{
     jsx_self::jsx_self,
     jsx_src::jsx_src,
 };
-use swc_common::{chain, sync::Lrc, SourceMap};
+use swc_common::{chain, comments::Comments, sync::Lrc, SourceMap};
 use swc_ecma_visit::Fold;
 
 mod display_name;
@@ -25,7 +25,7 @@ pub fn react<'a>(
     let Options { development, .. } = options;
 
     chain!(
-        jsx(cm.clone(), options),
+        jsx(cm.clone(), comments, options),
         display_name(),
         jsx_src(development, cm),
         jsx_self(development)
