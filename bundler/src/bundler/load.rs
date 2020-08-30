@@ -166,9 +166,11 @@ where
                 module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 v.forced_es6 || !v.found_other
             };
-            if is_es6 {
-                module = self.drop_unused(module, None);
-            }
+            // if is_es6 {
+            //     print_hygiene("before:dce", &self.cm, &module);
+            //     module = self.drop_unused(module, None);
+            //     print_hygiene("dce", &self.cm, &module);
+            // }
 
             let (imports, exports) = util::join(
                 || self.resolve_imports(file_name, imports),
