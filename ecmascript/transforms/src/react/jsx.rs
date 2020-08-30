@@ -5,7 +5,9 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{iter::IdentifyLast, sync::Lrc, FileName, SourceMap, Spanned, DUMMY_SP};
+use swc_common::{
+    comments::Comments, iter::IdentifyLast, sync::Lrc, FileName, SourceMap, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
@@ -86,9 +88,10 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Fold {
+pub fn jsx(cm: Lrc<SourceMap>, comments: Lrc<&dyn Comments>, options: Options) -> impl Fold {
     Jsx {
         pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
+        comments,
         pragma_frag: ExprOrSpread {
             spread: None,
             expr: parse_option(&cm, "pragmaFrag", options.pragma_frag),
@@ -100,6 +103,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Fold {
 
 struct Jsx {
     pragma: ExprOrSuper,
+    comments: Lrc<&dyn Comments>,
     pragma_frag: ExprOrSpread,
     use_builtins: bool,
     throw_if_namespace: bool,
@@ -254,6 +258,15 @@ impl Jsx {
 
 impl Fold for Jsx {
     noop_fold_type!();
+
+    fn fold_module(&mut self, module: Module) -> Module {
+        let leading = self.comments.take_leading(module.span.lo)?;
+
+        dbg!(&leading);
+        module.fold_children_with(self);
+
+        self.comments.add_leading_comments(module.span.lo, leading);
+    }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let mut expr = expr.fold_children_with(self);

@@ -288,7 +288,6 @@ test!(
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -313,7 +312,6 @@ var profile = dom("div", null, dom("img", {
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -393,7 +391,6 @@ test!(
 
 test!(
     // Optimization is not implemented yet
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -564,7 +561,6 @@ React.createElement("div", null, React.createElement(
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -583,7 +579,6 @@ dom("div", null, "no fragment is used");
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -733,7 +728,6 @@ React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 
 test!(
     // FIXME
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -915,7 +909,6 @@ test!(
 
 test!(
     // Comments are currently stripped out
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
