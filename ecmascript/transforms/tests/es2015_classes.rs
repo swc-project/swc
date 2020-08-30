@@ -2197,7 +2197,7 @@ test!(
     }),
     |t| chain!(
         tr(),
-        jsx(t.cm.clone(), t.comments.clone(), Default::default())
+        jsx(t.cm.clone(), Some(t.comments.clone()), Default::default())
     ),
     regression_2775,
     r#"
