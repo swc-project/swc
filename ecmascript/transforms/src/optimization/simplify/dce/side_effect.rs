@@ -144,6 +144,10 @@ impl Visit for SideEffectVisitor<'_> {
         self.found = true
     }
 
+    fn visit_export_all(&mut self, _: &ExportAll, _: &dyn Node) {
+        self.found = true;
+    }
+
     fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl, _: &dyn Node) {
         self.found = true;
     }
