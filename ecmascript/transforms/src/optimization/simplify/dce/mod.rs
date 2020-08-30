@@ -108,19 +108,19 @@ impl VisitMut for Dce<'_> {
     preserve!(visit_mut_continue_stmt, ContinueStmt);
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
         node.stmts.visit_mut_with(self);
 
-        if self.marking_phase || node.stmts.iter().any(|stmt| self.is_used(stmt.span())) {
+        if self.marking_phase || node.stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
             self.preserve(node.span);
             self.mark(&mut node.stmts);
         }
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if self.is_used(node.span()) {
+        if self.is_marked(node.span()) {
             return;
         }
 
@@ -133,13 +133,13 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
         node.visit_mut_children_with(self);
 
-        if self.is_used(node.test.span()) || self.is_used(node.body.span()) {
+        if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
             self.preserve(node.span);
 
             self.mark(&mut node.test);
@@ -148,14 +148,14 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
         self.preserve(node.span);
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -171,7 +171,7 @@ impl VisitMut for Dce<'_> {
             // Preserve only exported variables
             Decl::Var(v) => {
                 v.decls.retain_mut(|d| {
-                    if self.is_used(d.span()) {
+                    if self.is_marked(d.span()) {
                         return true;
                     }
 
@@ -207,7 +207,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -218,7 +218,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -230,7 +230,7 @@ impl VisitMut for Dce<'_> {
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
         log::debug!("ExprStmt ->");
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -245,7 +245,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        if self.is_used(f.span()) {
+        if self.is_marked(f.span()) {
             return;
         }
 
@@ -260,7 +260,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -268,9 +268,9 @@ impl VisitMut for Dce<'_> {
         node.body.visit_mut_with(self);
 
         if self.should_include(&node.left)
-            || self.is_used(node.left.span())
-            || self.is_used(node.right.span())
-            || self.is_used(node.body.span())
+            || self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+            || self.is_marked(node.body.span())
         {
             self.preserve(node.span);
 
@@ -281,7 +281,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -289,9 +289,9 @@ impl VisitMut for Dce<'_> {
         node.body.visit_mut_with(self);
 
         if self.should_include(&node.left)
-            || self.is_used(node.left.span())
-            || self.is_used(node.right.span())
-            || self.is_used(node.body.span())
+            || self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+            || self.is_marked(node.body.span())
         {
             self.preserve(node.span);
 
@@ -302,17 +302,17 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
         node.visit_mut_children_with(self);
 
         if node.test.is_none()
-            || self.is_used(node.init.span())
-            || self.is_used(node.test.span())
-            || self.is_used(node.update.span())
-            || self.is_used(node.body.span())
+            || self.is_marked(node.init.span())
+            || self.is_marked(node.test.span())
+            || self.is_marked(node.update.span())
+            || self.is_marked(node.body.span())
         {
             self.preserve(node.span);
 
@@ -324,7 +324,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if self.is_used(i.span) {
+        if self.is_marked(i.span) {
             return;
         }
 
@@ -337,15 +337,15 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
         node.visit_mut_children_with(self);
 
-        if self.is_used(node.test.span())
-            || self.is_used(node.cons.span())
-            || self.is_used(node.alt.span())
+        if self.is_marked(node.test.span())
+            || self.is_marked(node.cons.span())
+            || self.is_marked(node.alt.span())
         {
             self.preserve(node.span);
 
@@ -361,7 +361,7 @@ impl VisitMut for Dce<'_> {
             return;
         }
 
-        if self.is_used(import.span) {
+        if self.is_marked(import.span) {
             return;
         }
 
@@ -381,20 +381,20 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
         node.body.visit_mut_with(self);
 
-        if self.is_used(node.body.span()) {
+        if self.is_marked(node.body.span()) {
             self.preserve(node.span);
             self.mark(&mut node.body);
         }
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        if self.is_used(e.span()) {
+        if self.is_marked(e.span()) {
             return;
         }
 
@@ -405,7 +405,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -425,7 +425,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -434,13 +434,13 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
         node.visit_mut_children_with(self);
 
-        if self.is_used(node.test.span()) || node.cons.iter().any(|v| self.is_used(v.span())) {
+        if self.is_marked(node.test.span()) || node.cons.iter().any(|v| self.is_marked(v.span())) {
             self.preserve(node.span);
 
             self.mark(&mut node.test);
@@ -449,7 +449,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -461,8 +461,8 @@ impl VisitMut for Dce<'_> {
         //            self.is_marked(case.span)
         //        });
 
-        if self.is_used(node.discriminant.span())
-            || node.cases.iter().any(|case| self.is_used(case.span))
+        if self.is_marked(node.discriminant.span())
+            || node.cases.iter().any(|case| self.is_marked(case.span))
         {
             self.preserve(node.span);
             self.mark(&mut node.cases);
@@ -470,28 +470,28 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
         self.preserve(node.span);
 
         node.visit_mut_children_with(self);
 
-        if self.is_used(node.arg.span()) {
+        if self.is_marked(node.arg.span()) {
             self.mark(&mut node.arg)
         }
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
         node.visit_mut_children_with(self);
 
-        if self.is_used(node.block.span())
-            || self.is_used(node.handler.span())
-            || self.is_used(node.finalizer.span())
+        if self.is_marked(node.block.span())
+            || self.is_marked(node.handler.span())
+            || self.is_marked(node.finalizer.span())
         {
             self.preserve(node.span);
 
@@ -502,7 +502,7 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
@@ -511,14 +511,14 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
-        if self.is_used(var.span) {
+        if self.is_marked(var.span) {
             return;
         }
 
         var.visit_mut_children_with(self);
 
         var.decls.retain_mut(|decl| {
-            if self.is_used(decl.span()) {
+            if self.is_marked(decl.span()) {
                 return true;
             }
 
@@ -543,13 +543,13 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        if self.is_used(node.span) {
+        if self.is_marked(node.span) {
             return;
         }
 
         node.visit_mut_children_with(self);
 
-        if self.is_used(node.test.span()) || self.is_used(node.body.span()) {
+        if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
             self.preserve(node.span);
 
             self.mark(&mut node.test);
@@ -635,7 +635,7 @@ impl Dce<'_> {
 
                 idx += 1;
                 // Drop unused imports
-                if self.is_used(item.span()) {
+                if self.is_marked(item.span()) {
                     Some(item)
                 } else {
                     None
@@ -652,7 +652,7 @@ impl Dce<'_> {
         self.preserved.insert((span.lo, span.hi));
     }
 
-    fn is_used(&mut self, span: Span) -> bool {
+    fn is_marked(&mut self, span: Span) -> bool {
         self.preserved.contains(&(span.lo, span.hi))
     }
 
