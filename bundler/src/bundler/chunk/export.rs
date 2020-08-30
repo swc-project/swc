@@ -58,20 +58,23 @@ where
                         // `export * from './foo'` does not have specifier
                         if !specifiers.is_empty() {
                             dep = self.drop_unused(dep, Some(&specifiers));
+
+                            dep.visit_mut_with(&mut UnexportAsVar {
+                                target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                            });
+                            // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+
+                            dep.visit_mut_with(&mut AliasExports {
+                                importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                                decls: Default::default(),
+                            });
+                            // print_hygiene("dep:alias-exports", &self.cm, &dep);
+
+                            dep = dep.fold_with(&mut Unexporter);
+
+                            // print_hygiene("dep:before-merge", &self.cm,
+                            // &dep);
                         }
-
-                        dep.visit_mut_with(&mut UnexportAsVar {
-                            target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                        });
-                        print_hygiene("dep:unexport-as-var", &self.cm, &dep);
-
-                        dep.visit_mut_with(&mut AliasExports {
-                            importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                            decls: Default::default(),
-                        });
-                        print_hygiene("dep:alias-exports", &self.cm, &dep);
-
-                        dep = dep.fold_with(&mut Unexporter);
 
                         Ok(dep)
                     })
@@ -89,15 +92,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            // print_hygiene(
-            //     &format!(
-            //         "entry:injection {:?} <- {:?}",
-            //         SyntaxContext::empty().apply_mark(info.mark()),
-            //         SyntaxContext::empty().apply_mark(imported.mark()),
-            //     ),
-            //     &self.cm,
-            //     &entry,
-            // );
+            print_hygiene(
+                &format!(
+                    "entry:injection {:?} <- {:?}",
+                    SyntaxContext::empty().apply_mark(info.mark()),
+                    SyntaxContext::empty().apply_mark(imported.mark()),
+                ),
+                &self.cm,
+                &entry,
+            );
             // assert_eq!(injector.imported, vec![]);
         }
 
@@ -126,7 +129,6 @@ impl VisitMut for ExportInjector {
                     if export.src.value == self.src.value =>
                 {
                     buf.extend(take(&mut self.imported));
-                    buf.push(item);
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
