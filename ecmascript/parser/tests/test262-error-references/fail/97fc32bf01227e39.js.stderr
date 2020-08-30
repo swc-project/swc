@@ -1,6 +1,6 @@
-error: Unterminated regexp literal
- --> $DIR/tests/test262-parser/fail/97fc32bf01227e39.js:1:2
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/97fc32bf01227e39.js:1:6
   |
 1 | [/[/]
-  |  ^^^^
+  |      ^
 
