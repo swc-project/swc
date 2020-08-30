@@ -1,6 +1,6 @@
 {
   "name": "@swc/core",
-  "version": "1.2.22-alpha.1",
+  "version": "1.2.22-alpha.2",
   "description": "Super-fast alternative for babel",
   "homepage": "https://swc-project.github.io",
   "main": "./index.js",
@@ -69,8 +69,8 @@
     "url": "https://opencollective.com/swc"
   },
   "optionalDependencies": {
-    "@swc/core-darwin": "^1.2.22",
-    "@swc/core-linux": "^1.2.22",
-    "@swc/core-win32": "^1.2.22"
+    "@swc/core-darwin": "^1.2.22-alpha.2",
+    "@swc/core-linux": "^1.2.22-alpha.2",
+    "@swc/core-win32": "^1.2.22-alpha.2"
   }
 }
