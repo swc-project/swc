@@ -88,7 +88,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx<C>(cm: Lrc<SourceMap>, comments: C, options: Options) -> impl Fold
+pub fn jsx<C>(cm: Lrc<SourceMap>, comments: Option<C>, options: Options) -> impl Fold
 where
     C: Comments,
 {
@@ -109,7 +109,7 @@ where
     C: Comments,
 {
     pragma: ExprOrSuper,
-    comments: C,
+    comments: Option<C>,
     pragma_frag: ExprOrSpread,
     use_builtins: bool,
     throw_if_namespace: bool,
@@ -272,13 +272,19 @@ where
     noop_fold_type!();
 
     fn fold_module(&mut self, module: Module) -> Module {
-        let leading = self.comments.take_leading(module.span.lo);
+        let leading = if let Some(comments) = &self.comments {
+            comments.take_leading(module.span.lo)
+        } else {
+            None
+        };
 
         dbg!(&leading);
         let module = module.fold_children_with(self);
 
         if let Some(leading) = leading {
-            self.comments.add_leading_comments(module.span.lo, leading);
+            if let Some(comments) = &self.comments {
+                comments.add_leading_comments(module.span.lo, leading);
+            }
         }
 
         module
