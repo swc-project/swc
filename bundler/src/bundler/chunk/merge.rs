@@ -95,10 +95,8 @@ where
                     self.run(|| {
                         log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                        let imported = self.scope.get_module(src.module_id).unwrap();
-                        info.helpers.extend(&imported.helpers);
-
                         let dep_info = self.scope.get_module(src.module_id).unwrap();
+                        info.helpers.extend(&dep_info.helpers);
                         // In the case of
                         //
                         //  a <- b
@@ -117,7 +115,7 @@ where
                                 )
                             })?;
 
-                        if imported.is_es6 {
+                        if dep_info.is_es6 {
                             // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                             let is_side_effect_or_key_computed = specifiers.is_empty();
@@ -134,12 +132,12 @@ where
                                 .imports
                                 .specifiers
                                 .iter()
-                                .find(|(s, _)| s.module_id == imported.id)
+                                .find(|(s, _)| s.module_id == dep_info.id)
                                 .map(|v| &v.1)
                             {
                                 dep = dep.fold_with(&mut ExportRenamer {
-                                    mark: imported.mark(),
-                                    _exports: &imported.exports,
+                                    mark: dep_info.mark(),
+                                    _exports: &dep_info.exports,
                                     imports: &imports,
                                     extras: vec![],
                                 });
