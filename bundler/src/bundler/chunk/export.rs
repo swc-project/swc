@@ -69,6 +69,10 @@ where
                                 decls: Default::default(),
                             });
                             // print_hygiene("dep:alias-exports", &self.cm, &dep);
+                            if HYGIENE {
+                                print_hygiene("dep:alias-exports", &self.cm, &dep);
+                            }
+                            dep = dep.fold_with(&mut Unexporter);
 
                             dep = dep.fold_with(&mut Unexporter);
 
