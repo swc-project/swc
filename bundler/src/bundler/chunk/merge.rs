@@ -223,6 +223,8 @@ where
                     if injector.imported.is_empty() {
                         log::debug!("Merged {} as an es module", info.fm.name);
                         // print_hygiene("ES6", &self.cm, &entry);
+                        log::debug!("Merged {} as an es6 module", info.fm.name);
+                        print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
                     dep.body = take(&mut injector.imported);
