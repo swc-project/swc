@@ -21,6 +21,7 @@ ns.foo();
             info: Default::default(),
             ns_usage: Default::default(),
             deglob_phase: false,
+            imported_idents: Default::default(),
         };
         let m = m.fold_with(&mut v);
         assert!(v.info.forced_ns.is_empty());
@@ -50,6 +51,7 @@ ns.bar();
             info: Default::default(),
             ns_usage: Default::default(),
             deglob_phase: false,
+            imported_idents: Default::default(),
         };
         let m = m.fold_with(&mut v);
         assert!(v.info.forced_ns.is_empty());

@@ -42,6 +42,7 @@ where
                 info: Default::default(),
                 ns_usage: Default::default(),
                 deglob_phase: false,
+                imported_idents: Default::default(),
             };
             let body = body.fold_with(&mut v);
             v.deglob_phase = true;
@@ -113,6 +114,9 @@ where
 
     ns_usage: HashMap<JsWord, Vec<Id>>,
 
+    /// While deglobbing, we also marks imported identifiers.
+    imported_idents: HashMap<Id, SyntaxContext>,
+
     deglob_phase: bool,
 }
 
@@ -157,6 +161,24 @@ where
                 .contains(&import.src.value)
             {
                 return import;
+            }
+            if let Some(ctxt) = self.ctxt_for(&import.src.value) {
+                for specifier in &mut import.specifiers {
+                    match specifier {
+                        ImportSpecifier::Named(n) => {
+                            self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
+                        }
+                        ImportSpecifier::Default(n) => {
+                            self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
+                        }
+                        ImportSpecifier::Namespace(n) => {
+                            self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
+                        }
+                    }
+                }
             }
 
             self.info.imports.push(import.clone());
@@ -271,6 +293,13 @@ where
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
+            Expr::Ident(mut i) if self.deglob_phase => {
+                if let Some(&ctxt) = self.imported_idents.get(&i.to_id()) {
+                    i.span = i.span.with_ctxt(ctxt);
+                }
+                return Expr::Ident(i);
+            }
+
             Expr::Member(mut e) => {
                 e.obj = e.obj.fold_with(self);
 
@@ -522,5 +551,15 @@ where
         }
 
         node.fold_children_with(self)
+    }
+
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        e.obj = e.obj.fold_with(self);
+
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+
+        e
     }
 }
