@@ -25,7 +25,7 @@ where
                         Specifier::Specific { alias, local, .. } => {
                             used.push(alias.as_ref().unwrap_or(local).to_id());
                         }
-                        Specifier::Namespace { local } => {
+                        Specifier::Namespace { local, .. } => {
                             used.push(local.to_id());
                         }
                     }

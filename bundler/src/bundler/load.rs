@@ -268,6 +268,7 @@ where
                 imports,
                 lazy_imports,
                 dynamic_imports,
+                forced_ns,
             } = info;
 
             let loaded = imports
@@ -325,6 +326,7 @@ where
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {
                                 local: s.local.into(),
+                                all: forced_ns.contains(&src.src.value),
                             });
                         }
                     }

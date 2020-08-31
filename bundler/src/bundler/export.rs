@@ -152,6 +152,7 @@ where
                     match s {
                         ExportSpecifier::Namespace(n) => v.push(Specifier::Namespace {
                             local: n.name.clone().into(),
+                            all: false,
                         }),
                         ExportSpecifier::Default(d) => {
                             v.push(Specifier::Specific {

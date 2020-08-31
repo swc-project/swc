@@ -86,6 +86,8 @@ pub(super) struct RawImports {
     /// ```
     pub lazy_imports: Vec<ImportDecl>,
     pub dynamic_imports: Vec<Str>,
+
+    pub forced_ns: HashSet<JsWord>,
 }
 
 struct ImportHandler<'a, 'b, L, R>
