@@ -1,0 +1,28 @@
+{
+  "name": "benches",
+  "version": "1.0.0",
+  "description": "",
+  "main": "multicore.js",
+  "dependencies": {
+    "-": "0.0.1",
+    "@swc/core": "^1.2.22",
+    "@types/babel__core": "^7.1.9",
+    "@types/babel__preset-env": "^7.9.0",
+    "@types/benchmark": "^1.0.33",
+    "microtime": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-typescript": "^7.10.4",
+    "benchmark": "^2.1.4",
+    "rxjs": "^6.6.2",
+    "typescript": "^4.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
