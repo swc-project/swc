@@ -4,7 +4,7 @@ use anyhow::Error;
 use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, ExprFactory};
+use swc_ecma_utils::{find_ids, private_ident, ExprFactory, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -115,7 +115,17 @@ impl Fold for ExportToReturn {
 
         let stmt = match decl {
             ModuleDecl::Import(_) => None,
-            ModuleDecl::ExportDecl(export) => Some(Stmt::Decl(export.decl)),
+            ModuleDecl::ExportDecl(export) => {
+                let ids: Vec<Ident> = find_ids(&export.decl);
+                self.exports.extend(
+                    ids.into_iter()
+                        .map(Prop::Shorthand)
+                        .map(Box::new)
+                        .map(PropOrSpread::Prop),
+                );
+
+                Some(Stmt::Decl(export.decl))
+            }
             ModuleDecl::ExportNamed(NamedExport {
                 src: None,
                 specifiers,
