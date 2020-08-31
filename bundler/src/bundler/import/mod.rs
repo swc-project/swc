@@ -325,7 +325,6 @@ where
 
                                         return Expr::Ident(i);
                                     } else {
-                                        dbg!("!!!!!");
                                         if e.computed {
                                             self.info.forced_ns.insert(import.src.value.clone());
                                         } else {

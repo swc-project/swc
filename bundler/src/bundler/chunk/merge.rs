@@ -124,7 +124,6 @@ where
                                     Specifier::Namespace { all: true, .. } => true,
                                     _ => false,
                                 });
-                            dbg!(is_acccessed_with_computed_key);
 
                             // If an import with a computed key exists, we can't shake tree
                             if is_acccessed_with_computed_key {
