@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-typescript": "^7.10.4",
     "benchmark": "^2.1.4",
+    "esbuild": "^0.6.28",
     "rxjs": "^6.6.2",
     "typescript": "^4.0.2"
   },
