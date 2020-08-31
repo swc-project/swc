@@ -347,8 +347,15 @@ pub(super) struct Imports {
 /// Clone is relatively cheap
 #[derive(Debug, Clone, Is)]
 pub(super) enum Specifier {
-    Specific { local: Id, alias: Option<Id> },
-    Namespace { local: Id },
+    Specific {
+        local: Id,
+        alias: Option<Id>,
+    },
+    Namespace {
+        local: Id,
+        /// True for `import * as foo from 'foo'; foo[computedKey()]`
+        all: bool,
+    },
 }
 
 impl Specifier {
