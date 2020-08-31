@@ -24,12 +24,10 @@ where
     ///     };
     /// })();
     /// ```
-    #[allow(dead_code)]
     pub(super) fn wrap_esm_as_a_var(
         &self,
         info: &TransformedModule,
         module: Module,
     ) -> Result<Module, Error> {
-        unimplemented!("wrap_esm_as_a_var")
     }
 }
