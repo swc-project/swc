@@ -61,7 +61,7 @@ where
 
                 prepend(
                     &mut entry.body,
-                    ModuleItem::Stmt(wrap_module(self.top_level_mark, load_var, dep)),
+                    ModuleItem::Stmt(wrap_module(dep_info.mark(), load_var, dep)),
                 );
 
                 log::warn!("Injecting load");

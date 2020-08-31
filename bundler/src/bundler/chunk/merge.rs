@@ -60,11 +60,11 @@ where
 
             log::trace!("merge_modules({}) <- {:?}", info.fm.name, plan.normal);
 
-            // Respan using imported module's syntax context.
-            entry.visit_mut_with(&mut LocalMarker {
-                top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                specifiers: &info.imports.specifiers,
-            });
+            // // Respan using imported module's syntax context.
+            // entry.visit_mut_with(&mut LocalMarker {
+            //     top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+            //     specifiers: &info.imports.specifiers,
+            // });
 
             log::info!(
                 "Merge: ({}){} <= {:?}",
@@ -168,6 +168,26 @@ where
 
                                 dep = dep.fold_with(&mut Unexporter);
                             }
+                            print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+
+                            if let Some(imports) = info
+                                .imports
+                                .specifiers
+                                .iter()
+                                .find(|(s, _)| s.module_id == dep_info.id)
+                                .map(|v| &v.1)
+                            {
+                                dep = dep.fold_with(&mut ExportRenamer {
+                                    mark: dep_info.mark(),
+                                    _exports: &dep_info.exports,
+                                    imports: &imports,
+                                    extras: vec![],
+                                });
+                            }
+
+                            dep = dep.fold_with(&mut Unexporter);
+
+                            print_hygiene("dep:before-injection", &self.cm, &dep);
                         }
                         print_hygiene("dep:before-injection", &self.cm, &dep);
 

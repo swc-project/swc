@@ -86,10 +86,10 @@ where
 
             dep = self.process_circular_module(plan, circular_modules, &dep_info, dep)?;
 
-            dep = dep.fold_with(&mut top_level_ident_folder(
-                self.top_level_mark,
-                dep_info.mark(),
-            ));
+            // dep = dep.fold_with(&mut top_level_ident_folder(
+            //     self.top_level_mark,
+            //     dep_info.mark(),
+            // ));
 
             // print_hygiene("dep:process_circular_module", &self.cm, &dep);
 
@@ -136,10 +136,10 @@ where
             true
         });
 
-        module.visit_mut_with(&mut LocalMarker {
-            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-            specifiers: &entry.imports.specifiers,
-        });
+        // module.visit_mut_with(&mut LocalMarker {
+        //     top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+        //     specifiers: &entry.imports.specifiers,
+        // });
 
         // print_hygiene("END: process_circular_module", &self.cm, &module);
 

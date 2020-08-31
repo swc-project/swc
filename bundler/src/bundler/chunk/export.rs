@@ -33,10 +33,11 @@ where
             let (_, dep) = util::join(
                 || {
                     self.run(|| {
-                        entry.visit_mut_with(&mut NamedExportOrigMarker {
-                            top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                            target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                        });
+                        // entry.visit_mut_with(&mut NamedExportOrigMarker {
+                        //     top_level_ctxt:
+                        // SyntaxContext::empty().apply_mark(self.top_level_mark),
+                        //     target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
+                        // });
 
                         entry.visit_mut_with(&mut ExportRenamer {
                             from: SyntaxContext::empty().apply_mark(imported.mark()),

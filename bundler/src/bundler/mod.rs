@@ -61,8 +61,6 @@ where
 
     /// [Mark] used while tree shaking
     used_mark: Mark,
-    /// [Mark] used while tree shaking
-    top_level_mark: Mark,
 
     scope: Scope,
 }
@@ -93,7 +91,6 @@ where
                 loader,
                 resolver,
                 used_mark,
-                top_level_mark,
                 scope: Default::default(),
                 globals,
                 config,

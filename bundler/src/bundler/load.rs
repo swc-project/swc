@@ -118,9 +118,9 @@ where
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             log::trace!("transform_module({})", fm.name);
-            module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
-
             let (id, mark) = self.scope.module_id_gen.gen(file_name);
+
+            module = module.fold_with(&mut resolver_with_mark(mark));
 
             // {
             //     let code = self

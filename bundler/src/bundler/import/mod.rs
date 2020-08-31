@@ -1,5 +1,5 @@
 use super::Bundler;
-use crate::{load::Load, resolve::Resolve};
+use crate::{debug::print_hygiene, load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use std::{
     collections::{HashMap, HashSet},
@@ -31,6 +31,8 @@ where
         _mark: Mark,
     ) -> RawImports {
         self.run(|| {
+            print_hygiene("before:extract-import", &self.cm, &module);
+
             let body = replace(&mut module.body, vec![]);
 
             let mut v = ImportHandler {
@@ -159,10 +161,6 @@ where
 
             self.info.imports.push(import.clone());
             return import;
-        }
-
-        if let Some(ctxt) = self.ctxt_for(&import.src.value) {
-            import.span = import.span.with_ctxt(ctxt);
         }
 
         // deglob namespace imports
