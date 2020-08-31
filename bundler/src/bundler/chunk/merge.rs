@@ -170,20 +170,21 @@ where
                             }
                             print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
-                            if let Some(imports) = info
-                                .imports
-                                .specifiers
-                                .iter()
-                                .find(|(s, _)| s.module_id == dep_info.id)
-                                .map(|v| &v.1)
-                            {
-                                dep = dep.fold_with(&mut ExportRenamer {
-                                    mark: dep_info.mark(),
-                                    _exports: &dep_info.exports,
-                                    imports: &imports,
-                                    extras: vec![],
-                                });
-                            }
+                            // if let Some(imports) = info
+                            //     .imports
+                            //     .specifiers
+                            //     .iter()
+                            //     .find(|(s, _)| s.module_id == dep_info.id)
+                            //     .map(|v| &v.1)
+                            // {
+                            //     dep = dep.fold_with(&mut ExportRenamer {
+                            //         mark: dep_info.mark(),
+                            //         _exports: &dep_info.exports,
+                            //         imports: &imports,
+                            //         extras: vec![],
+                            //     });
+                            // }
+                            // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
 
                             dep = dep.fold_with(&mut Unexporter);
 
