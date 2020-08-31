@@ -121,7 +121,7 @@ module.exports = {
 const PARSERS = [
   [
     "swc (es3)",
-    "../",
+    '@swc/core',
     module =>
       module.transform(SOURCE, {
         jsc: { target: "es3" }
@@ -129,7 +129,7 @@ const PARSERS = [
   ],
   [
     "swc (es2015)",
-    "../",
+    '@swc/core',
     module =>
       module.transform(SOURCE, {
         jsc: { target: "es2015" }
@@ -137,7 +137,7 @@ const PARSERS = [
   ],
   [
     "swc (es2016)",
-    "../",
+    '@swc/core',
     module =>
       module.transform(SOURCE, {
         jsc: { target: "es2016" }
@@ -145,7 +145,7 @@ const PARSERS = [
   ],
   [
     "swc (es2017)",
-    "../",
+    '@swc/core',
     module =>
       module.transform(SOURCE, {
         jsc: { target: "es2017" }
@@ -153,7 +153,7 @@ const PARSERS = [
   ],
   [
     "swc (es2018)",
-    "../",
+    '@swc/core',
     module =>
       module.transform(SOURCE, {
         jsc: { target: "es2018" }
@@ -161,7 +161,7 @@ const PARSERS = [
   ],
   [
     "swc-optimize (es3)",
-    "../",
+    '@swc/core',
     module =>
       module.transform(SOURCE, {
         jsc: {

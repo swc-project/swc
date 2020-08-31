@@ -103,7 +103,7 @@ module.exports = {
 };
 `;
 
-const swc = require("../");
+const swc = require('@swc/core');
 const Visitor = require("../Visitor").default;
 
 const TESTS = [
