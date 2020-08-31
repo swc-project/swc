@@ -118,10 +118,14 @@ where
                         if dep_info.is_es6 {
                             // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
-                            let is_side_effect_or_key_computed = specifiers.is_empty();
+                            let is_acccessed_with_computed_key =
+                                specifiers.iter().any(|s| match s {
+                                    Specifier::Namespace { all: true, .. } => true,
+                                    _ => false,
+                                });
 
                             // If an import with a computed key exists, we can't shake tree
-                            if !is_side_effect_or_key_computed {
+                            if !is_acccessed_with_computed_key {
                                 // Tree-shaking
                                 dep = self.drop_unused(dep, Some(&specifiers));
                             }
