@@ -1,7 +1,6 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
-use retain_mut::RetainMut;
 use std::{
     collections::{HashMap, HashSet},
     mem::replace,

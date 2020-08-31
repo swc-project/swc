@@ -4,7 +4,7 @@ use anyhow::Error;
 use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, private_ident, ExprFactory, Id};
+use swc_ecma_utils::{find_ids, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -30,7 +30,7 @@ where
     /// ```
     pub(super) fn wrap_esm_as_a_var(
         &self,
-        info: &TransformedModule,
+        _info: &TransformedModule,
         module: Module,
         id: Ident,
     ) -> Result<Module, Error> {
@@ -130,9 +130,9 @@ impl Fold for ExportToReturn {
             }) => {
                 for s in specifiers {
                     match s {
-                        ExportSpecifier::Namespace(s) => {}
-                        ExportSpecifier::Default(s) => {}
-                        ExportSpecifier::Named(s) => {}
+                        ExportSpecifier::Namespace(_s) => {}
+                        ExportSpecifier::Default(_s) => {}
+                        ExportSpecifier::Named(_s) => {}
                     }
                 }
 
