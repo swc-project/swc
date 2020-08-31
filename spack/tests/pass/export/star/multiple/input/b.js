@@ -1,0 +1,1 @@
+export const [c, d, e] = [4, 5, 6]
