@@ -32,9 +32,9 @@ where
         &self,
         info: &TransformedModule,
         module: Module,
-    ) -> Result<(Module, Ident), Error> {
+        id: Ident,
+    ) -> Result<Module, Error> {
         let span = module.span;
-        let id = private_ident!("mod");
 
         let stmts = {
             let mut module = module.fold_with(&mut ExportToReturn::default());
@@ -84,14 +84,11 @@ where
             }],
         };
 
-        Ok((
-            Module {
-                span: DUMMY_SP,
-                shebang: None,
-                body: vec![ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl)))],
-            },
-            id,
-        ))
+        Ok(Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body: vec![ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl)))],
+        })
     }
 }
 
