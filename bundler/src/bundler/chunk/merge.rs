@@ -4,7 +4,6 @@ use crate::{
         export::Exports,
         load::{Imports, Source, Specifier},
     },
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -141,7 +140,8 @@ where
                                     id.clone().replace_mark(dep_info.mark()).into_ident(),
                                 )?;
 
-                                print_hygiene("dep:after wrapping esm", &self.cm, &dep);
+                            // print_hygiene("dep:after wrapping esm", &self.cm,
+                            // &dep);
                             } else {
                                 // Tree-shaking
                                 dep = self.drop_unused(dep, Some(&specifiers));
@@ -164,7 +164,7 @@ where
                                 dep = dep.fold_with(&mut Unexporter);
                             }
                         }
-                        print_hygiene("dep:before-injection", &self.cm, &dep);
+                        // print_hygiene("dep:before-injection", &self.cm, &dep);
 
                         Ok((src, dep, dep_info))
                     })
@@ -193,11 +193,11 @@ where
                     };
                     entry.body.visit_mut_with(&mut injector);
 
-                    print_hygiene("entry:after:injection", &self.cm, &entry);
+                    // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                     if injector.imported.is_empty() {
                         log::debug!("Merged {} as an es module", info.fm.name);
-                        print_hygiene("ES6", &self.cm, &entry);
+                        // print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
                     dep.body = take(&mut injector.imported);

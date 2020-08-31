@@ -1,5 +1,5 @@
 use super::{merge::Unexporter, plan::Plan};
-use crate::{bundler::load::TransformedModule, debug::print_hygiene, util, Bundler, Load, Resolve};
+use crate::{bundler::load::TransformedModule, util, Bundler, Load, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
@@ -92,15 +92,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            print_hygiene(
-                &format!(
-                    "entry:injection {:?} <- {:?}",
-                    SyntaxContext::empty().apply_mark(info.mark()),
-                    SyntaxContext::empty().apply_mark(imported.mark()),
-                ),
-                &self.cm,
-                &entry,
-            );
+            // print_hygiene(
+            //     &format!(
+            //         "entry:injection {:?} <- {:?}",
+            //         SyntaxContext::empty().apply_mark(info.mark()),
+            //         SyntaxContext::empty().apply_mark(imported.mark()),
+            //     ),
+            //     &self.cm,
+            //     &entry,
+            // );
             // assert_eq!(injector.imported, vec![]);
         }
 
