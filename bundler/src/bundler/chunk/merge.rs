@@ -4,6 +4,7 @@ use crate::{
         export::Exports,
         load::{Imports, Source, Specifier},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -123,35 +124,37 @@ where
                                     Specifier::Namespace { all: true, .. } => true,
                                     _ => false,
                                 });
+                            dbg!(is_acccessed_with_computed_key);
 
                             // If an import with a computed key exists, we can't shake tree
-                            if !is_acccessed_with_computed_key {
+                            if is_acccessed_with_computed_key {
+                                let (m, id) = self.wrap_esm_as_a_var(&dep_info, dep)?;
+                                print_hygiene("dep:after wrapping esm", &self.cm, &m);
+
+                                dep = m;
+                            } else {
                                 // Tree-shaking
                                 dep = self.drop_unused(dep, Some(&specifiers));
+
+                                if let Some(imports) = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|(s, _)| s.module_id == dep_info.id)
+                                    .map(|v| &v.1)
+                                {
+                                    dep = dep.fold_with(&mut ExportRenamer {
+                                        mark: dep_info.mark(),
+                                        _exports: &dep_info.exports,
+                                        imports: &imports,
+                                        extras: vec![],
+                                    });
+                                }
+
+                                dep = dep.fold_with(&mut Unexporter);
                             }
-
-                            // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
-
-                            if let Some(imports) = info
-                                .imports
-                                .specifiers
-                                .iter()
-                                .find(|(s, _)| s.module_id == dep_info.id)
-                                .map(|v| &v.1)
-                            {
-                                dep = dep.fold_with(&mut ExportRenamer {
-                                    mark: dep_info.mark(),
-                                    _exports: &dep_info.exports,
-                                    imports: &imports,
-                                    extras: vec![],
-                                });
-                            }
-
-                            dep = dep.fold_with(&mut Unexporter);
-
-                            // print_hygiene("dep:before-injection", &self.cm,
-                            // &dep);
                         }
+                        print_hygiene("dep:before-injection", &self.cm, &dep);
 
                         Ok((src, dep, dep_info))
                     })
@@ -180,11 +183,11 @@ where
                     };
                     entry.body.visit_mut_with(&mut injector);
 
-                    // print_hygiene("entry:after:injection", &self.cm, &entry);
+                    print_hygiene("entry:after:injection", &self.cm, &entry);
 
                     if injector.imported.is_empty() {
-                        log::debug!("Merged {} as an es6 module", info.fm.name);
-                        // print_hygiene("ES6", &self.cm, &entry);
+                        log::debug!("Merged {} as an es module", info.fm.name);
+                        print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
                     dep.body = take(&mut injector.imported);

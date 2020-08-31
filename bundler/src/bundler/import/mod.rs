@@ -1,6 +1,7 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
+use retain_mut::RetainMut;
 use std::{
     collections::{HashMap, HashSet},
     mem::replace,
@@ -38,7 +39,6 @@ where
                 bundler: self,
                 top_level: false,
                 info: Default::default(),
-                forces_ns: Default::default(),
                 ns_usage: Default::default(),
                 deglob_phase: false,
             };
@@ -87,6 +87,16 @@ pub(super) struct RawImports {
     pub lazy_imports: Vec<ImportDecl>,
     pub dynamic_imports: Vec<Str>,
 
+    /// Contains namespace imports accessed with computed key.
+    ///
+    ///
+    /// e.g.
+    ///
+    ///```js
+    /// import * as foo from './foo';
+    /// function bar() {}
+    /// foo[bar()]
+    /// ```
     pub forced_ns: HashSet<JsWord>,
 }
 
@@ -99,17 +109,6 @@ where
     bundler: &'a Bundler<'b, L, R>,
     top_level: bool,
     info: RawImports,
-    /// Contains namespace imports accessed with computed key.
-    ///
-    ///
-    /// e.g.
-    ///
-    ///```js
-    /// import * as foo from './foo';
-    /// function bar() {}
-    /// foo[bar()]
-    /// ```
-    forces_ns: HashSet<JsWord>,
 
     ns_usage: HashMap<JsWord, Vec<Id>>,
 
@@ -242,7 +241,7 @@ where
 
         if self.deglob_phase {
             for import in self.info.imports.iter_mut() {
-                let use_ns = self.forces_ns.contains(&import.src.value);
+                let use_ns = self.info.forced_ns.contains(&import.src.value);
 
                 if use_ns {
                     import.specifiers.retain(|s| match s {
@@ -306,9 +305,8 @@ where
                                         None => return e.into(),
                                         Some(mark) => mark,
                                     };
-
                                     if self.deglob_phase {
-                                        if self.forces_ns.contains(&import.src.value) {
+                                        if self.info.forced_ns.contains(&import.src.value) {
                                             //
                                             return e.into();
                                         }
@@ -327,8 +325,9 @@ where
 
                                         return Expr::Ident(i);
                                     } else {
+                                        dbg!("!!!!!");
                                         if e.computed {
-                                            self.forces_ns.insert(import.src.value.clone());
+                                            self.info.forced_ns.insert(import.src.value.clone());
                                         } else {
                                             let i = match &*e.prop {
                                                 Expr::Ident(i) => {

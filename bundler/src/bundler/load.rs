@@ -311,6 +311,9 @@ where
                 };
                 files.push((src.clone(), file_name));
 
+                dbg!(&decl.specifiers);
+                dbg!(&forced_ns);
+
                 // TODO: Handle rename
                 let mut specifiers = vec![];
                 for s in decl.specifiers {
