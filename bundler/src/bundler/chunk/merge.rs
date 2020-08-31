@@ -127,8 +127,20 @@ where
 
                             // If an import with a computed key exists, we can't shake tree
                             if is_acccessed_with_computed_key {
-                                dep =
-                                    self.wrap_esm_as_a_var(&dep_info, dep, private_ident!("TODO"))?;
+                                let id = specifiers
+                                    .iter()
+                                    .find_map(|s| match s {
+                                        Specifier::Namespace { local, all: true } => Some(local),
+                                        _ => None,
+                                    })
+                                    .unwrap();
+
+                                dep = self.wrap_esm_as_a_var(
+                                    &dep_info,
+                                    dep,
+                                    id.clone().replace_mark(dep_info.mark()).into_ident(),
+                                )?;
+
                                 print_hygiene("dep:after wrapping esm", &self.cm, &dep);
                             } else {
                                 // Tree-shaking
