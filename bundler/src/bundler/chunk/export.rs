@@ -1,5 +1,5 @@
 use super::{merge::Unexporter, plan::Plan};
-use crate::{bundler::load::TransformedModule, util, Bundler, Load, Resolve};
+use crate::{bundler::load::TransformedModule, debug::print_hygiene, util, Bundler, Load, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
@@ -7,6 +7,8 @@ use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+
+const HYGIENE: bool = true;
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -27,8 +29,9 @@ where
 
             info.helpers.extend(&imported.helpers);
 
-            // print_hygiene("entry:init", &self.cm, &entry);
-            // print_hygiene("dep:init", &self.cm, &dep);
+            if HYGIENE {
+                print_hygiene("entry:init", &self.cm, &entry);
+            }
 
             let (_, dep) = util::join(
                 || {
@@ -63,7 +66,10 @@ where
                             dep.visit_mut_with(&mut UnexportAsVar {
                                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                             });
-                            // print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+
+                            if HYGIENE {
+                                print_hygiene("dep:unexport-as-var", &self.cm, &dep);
+                            }
 
                             dep.visit_mut_with(&mut AliasExports {
                                 importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
@@ -75,10 +81,14 @@ where
                             }
                             dep = dep.fold_with(&mut Unexporter);
 
+                            if HYGIENE {
+                                print_hygiene("dep:alias-exports", &self.cm, &dep);
+                            }
                             dep = dep.fold_with(&mut Unexporter);
 
-                            // print_hygiene("dep:before-merge", &self.cm,
-                            // &dep);
+                            if HYGIENE {
+                                print_hygiene("dep:before-merge", &self.cm, &dep);
+                            }
                         }
 
                         Ok(dep)
@@ -87,8 +97,9 @@ where
             );
             let dep = dep?;
 
-            // print_hygiene("entry:before-injection", &self.cm, &entry);
-            // print_hygiene("dep:before-injection", &self.cm, &dep);
+            if HYGIENE {
+                print_hygiene("entry:before-injection", &self.cm, &entry);
+            }
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
