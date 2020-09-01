@@ -199,18 +199,23 @@ where
 
         // Fix direct dependencies.
         for (entry, deps) in builder.pending_direct_deps.drain() {
-            for (_, direct_deps) in builder.direct_deps.iter_mut() {
-                direct_deps.retain(|&id| {
-                    if deps.contains(&id) {
-                        return false;
+            for (key, direct_deps) in builder.direct_deps.iter_mut() {
+                if direct_deps.contains(&entry) {
+                    if *key == entry {
+                        direct_deps.extend_from_slice(&deps);
+                    } else {
+                        direct_deps.retain(|&id| {
+                            if deps.contains(&id) {
+                                return false;
+                            }
+                            true
+                        });
                     }
-                    true
-                });
+                }
             }
 
             builder.direct_deps.insert(entry, deps);
         }
-        dbg!(&builder.direct_deps);
 
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
