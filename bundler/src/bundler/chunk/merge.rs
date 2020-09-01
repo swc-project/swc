@@ -577,7 +577,7 @@ impl Fold for ExportRenamer<'_> {
                                     None => None,
                                 }
                             } else {
-                                self.aliased_import(&s.orig.sym)
+                                return;
                             }
                         }
                     };
