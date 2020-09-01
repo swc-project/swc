@@ -390,9 +390,11 @@ struct ExportRenamer<'a> {
 }
 
 impl ExportRenamer<'_> {
-    fn mark_as_remarking_required(&mut self, id: Id) -> SyntaxContext {
+    fn mark_as_remarking_required(&mut self, exported: Id, orig: Id) -> SyntaxContext {
         let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-        self.remark_map.insert((id.0.clone(), ctxt), id.1);
+        self.remark_map
+            .insert((exported.0.clone(), ctxt), exported.1);
+        self.remark_map.insert(orig, ctxt);
         ctxt
     }
 
@@ -446,7 +448,6 @@ impl Fold for ExportRenamer<'_> {
     }
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
-        dbg!(self.imports);
         let mut actual = ActualMarker {
             mark: self.dep_mark,
             imports: self.imports,
@@ -567,11 +568,11 @@ impl Fold for ExportRenamer<'_> {
 
                                 match self.aliased_import(&exported.sym) {
                                     Some(v) => {
-                                        let ctxt =
-                                            self.mark_as_remarking_required(exported.to_id());
+                                        let ctxt = self.mark_as_remarking_required(
+                                            exported.to_id(),
+                                            s.orig.to_id(),
+                                        );
 
-                                        self.remark_map
-                                            .insert((s.orig.sym.clone(), s.orig.span.ctxt), ctxt);
                                         Some((v.0, ctxt))
                                     }
                                     None => None,
