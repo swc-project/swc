@@ -12,6 +12,7 @@ mod cjs;
 mod export;
 mod merge;
 mod plan;
+mod remark;
 
 #[derive(Debug)]
 struct InternalEntry {
