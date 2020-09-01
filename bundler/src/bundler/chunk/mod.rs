@@ -79,7 +79,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{bundler::tests::suite, BundleKind};
+    use crate::bundler::tests::suite;
     use swc_common::FileName;
 
     #[test]

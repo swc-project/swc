@@ -132,11 +132,7 @@ fn concurrency_003() {
                 1,
                 "Sould merge b.js"
             );
-            assert_eq!(
-                determined.normal[&t.id("b.js")].chunks.len(),
-                0,
-                "No import"
-            );
+            assert!(!determined.normal.contains_key(&t.id("b.js")), "No import");
 
             Ok(())
         });
