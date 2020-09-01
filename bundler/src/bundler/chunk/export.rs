@@ -15,6 +15,37 @@ where
     L: Load,
     R: Resolve,
 {
+    /// This methods injects varaibles to connect two modules.
+    ///
+    /// (_n) denotes hygiene. Actual name is `bar`, not `bar_1`.
+    ///
+    /// # Entry
+    ///
+    /// ```js
+    /// import { bar_1, baz_1 } from './a';
+    /// console.log(bar_1, baz_1);
+    /// ```
+    ///
+    /// # Dep
+    ///
+    /// ```js
+    /// const foo_2 = 1;
+    /// const bar_2 = 2;
+    /// export { foo_2 as bar_2 };
+    /// export { bar_2 as baz_2 };     
+    /// ```
+    ///
+    /// # Output
+    ///
+    /// ```js
+    /// const foo_2 = 1;
+    /// const bar_2 = 2;
+    ///
+    /// const bar_1 = foo_2;
+    /// const baz_1 = bar_2;
+    ///
+    /// console.log(bar, baz);
+    /// ```
     pub(super) fn merge_reexports(
         &self,
         plan: &Plan,
