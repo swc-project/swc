@@ -14,7 +14,7 @@ function __spack_require__(mod) {
     };
 }
 var load = __spack_require__.bind(void 0, function(module, exports) {
-    var load1 = __spack_require__.bind(void 0, function(module, exports) /*!
+    var load1 = __spack_require__.bind(void 0, function(module1, exports1) /*!
  * node-progress
  * Copyright(c) 2011 TJ Holowaychuk <tj@vision-media.ca>
  * MIT Licensed
@@ -23,7 +23,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  * Expose `ProgressBar`.
  */
     {
-        exports = module.exports = ProgressBar;
+        exports1 = module1.exports = ProgressBar;
         /**
  * Initialize a `ProgressBar` with the given `fmt` string and `options` or
  * `total`.
