@@ -205,6 +205,9 @@ where
                         direct_deps.extend_from_slice(&deps);
                     } else {
                         direct_deps.retain(|&id| {
+                            if *key == id {
+                                return true;
+                            }
                             if deps.contains(&id) {
                                 return false;
                             }
@@ -214,7 +217,9 @@ where
                 }
             }
 
-            builder.direct_deps.insert(entry, deps);
+            if !builder.direct_deps.contains_key(&entry) {
+                builder.direct_deps.insert(entry, deps);
+            }
         }
         dbg!(&builder.direct_deps);
 
