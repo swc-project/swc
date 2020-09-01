@@ -6,6 +6,9 @@ use anyhow::{bail, Error};
 use petgraph::{algo::all_simple_paths, graphmap::DiGraphMap, visit::Bfs};
 use std::collections::{hash_map::Entry, HashMap};
 
+#[cfg(test)]
+mod tests;
+
 #[derive(Debug, Default)]
 struct PlanBuilder {
     entry_graph: ModuleGraph,
