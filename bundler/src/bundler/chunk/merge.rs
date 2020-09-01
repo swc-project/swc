@@ -153,7 +153,6 @@ where
                                     Specifier::Namespace { .. } => true,
                                     _ => false,
                                 });
-                                dbg!(is_namespace);
 
                                 if !is_namespace {
                                     // Tree-shaking
@@ -177,8 +176,6 @@ where
                                     };
                                     dep = dep.fold_with(&mut v);
                                     print_hygiene("dep: after renaming exports", &self.cm, &dep);
-
-                                    dbg!(&v.remark_map);
 
                                     // Swap syntax context. Although name is remark, it's actually
                                     // swapping because ExportRenamer inserts two-side conversion
@@ -605,7 +602,6 @@ impl Fold for ExportRenamer<'_> {
                     }
                 });
 
-                dbg!(&var_decls);
                 if !var_decls.is_empty() {
                     self.extras.push(Stmt::Decl(Decl::Var(VarDecl {
                         span,
