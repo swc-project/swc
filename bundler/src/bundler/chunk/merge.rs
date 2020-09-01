@@ -170,7 +170,7 @@ where
                                     .map(|v| &v.1)
                                 {
                                     let mut v = ExportRenamer {
-                                        dep_mark: dep_info.mark(),
+                                        dep_ctxt: dep_info.ctxt(),
                                         imports: &imports,
                                         extras: vec![],
                                         remark_map: Default::default(),
@@ -381,7 +381,7 @@ impl Fold for Unexporter {
 /// Applied to dependency modules.
 struct ExportRenamer<'a> {
     /// The mark applied to identifiers exported to dependant modules.
-    dep_mark: Mark,
+    dep_ctxt: SyntaxContext,
     remark_map: HashMap<Id, SyntaxContext>,
 
     /// Dependant module's import
@@ -390,6 +390,7 @@ struct ExportRenamer<'a> {
 }
 
 impl ExportRenamer<'_> {
+    /// Returns [SyntaxContext] for the name of variable.
     fn mark_as_remarking_required(&mut self, exported: Id, orig: Id) -> SyntaxContext {
         let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
         self.remark_map
@@ -449,7 +450,7 @@ impl Fold for ExportRenamer<'_> {
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         let mut actual = ActualMarker {
-            mark: self.dep_mark,
+            dep_ctxt: self.dep_ctxt,
             imports: self.imports,
         };
 
@@ -481,9 +482,7 @@ impl Fold for ExportRenamer<'_> {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(Ident::new(
                                     ident.0,
-                                    DUMMY_SP.with_ctxt(
-                                        SyntaxContext::empty().apply_mark(self.dep_mark),
-                                    ),
+                                    DUMMY_SP.with_ctxt(self.dep_ctxt),
                                 )),
                                 init: Some(Box::new(Expr::Class(c))),
                                 definite: false,
@@ -500,9 +499,7 @@ impl Fold for ExportRenamer<'_> {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(Ident::new(
                                     ident.0,
-                                    DUMMY_SP.with_ctxt(
-                                        SyntaxContext::empty().apply_mark(self.dep_mark),
-                                    ),
+                                    DUMMY_SP.with_ctxt(self.dep_ctxt),
                                 )),
                                 init: Some(Box::new(Expr::Fn(f))),
                                 definite: false,
@@ -524,17 +521,19 @@ impl Fold for ExportRenamer<'_> {
                 let ident = self.aliased_import(&js_word!("default"));
 
                 return if let Some(ident) = ident {
+                    dbg!(&ident);
+                    let ctxt = self.mark_as_remarking_required(
+                        (ident.0.clone(), self.dep_ctxt),
+                        ident.clone(),
+                    );
+
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: e.span,
                         kind: VarDeclKind::Const,
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(Ident::new(
-                                ident.0,
-                                DUMMY_SP
-                                    .with_ctxt(SyntaxContext::empty().apply_mark(self.dep_mark)),
-                            )),
+                            name: Pat::Ident(Ident::new(ident.0, DUMMY_SP.with_ctxt(ctxt))),
                             init: Some(e.expr),
                             definite: false,
                         }],
@@ -656,7 +655,7 @@ impl Fold for ExportRenamer<'_> {
 }
 
 struct ActualMarker<'a> {
-    mark: Mark,
+    dep_ctxt: SyntaxContext,
 
     /// Dependant module's import
     imports: &'a [Specifier],
@@ -680,9 +679,7 @@ impl Fold for ActualMarker<'_> {
             }
             _ => None,
         }) {
-            ident.span = ident
-                .span
-                .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
+            ident.span = ident.span.with_ctxt(self.dep_ctxt);
 
             return ident;
         }
