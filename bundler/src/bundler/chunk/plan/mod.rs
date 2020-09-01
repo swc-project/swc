@@ -20,6 +20,14 @@ struct PlanBuilder {
     circular: HashMap<ModuleId, Vec<ModuleId>>,
     direct_deps: HashMap<ModuleId, Vec<ModuleId>>,
 
+    /// Used for normalization
+    ///
+    /// This is required because we cannot know the order file is
+    /// loaded. It means we cannot know order
+    /// calls to add_to_graph.
+    /// Thus, we cannot track import order in add_to_graph.
+    pending_direct_deps: HashMap<ModuleId, Vec<ModuleId>>,
+
     kinds: HashMap<ModuleId, BundleKind>,
 }
 
@@ -73,6 +81,11 @@ impl PlanBuilder {
 
             // Track direct dependencies, but exclude if it will be recursively merged.
             self.direct_deps.entry(dep).or_default().push(dep_of_dep);
+        } else {
+            self.pending_direct_deps
+                .entry(dep)
+                .or_default()
+                .push(dep_of_dep);
         }
     }
 }
@@ -171,12 +184,27 @@ where
             plans.bundle_kinds.insert(*id, kind.clone());
         }
 
+        // Handle circular imports
         for (k, members) in &builder.circular {
             for (_entry, deps) in builder.direct_deps.iter_mut() {
                 deps.retain(|v| !members.contains(v));
             }
 
             builder.direct_deps.remove(k);
+        }
+
+        // Fix direct dependencies.
+        for (entry, deps) in builder.pending_direct_deps.drain() {
+            for (_, direct_deps) in builder.direct_deps.iter_mut() {
+                direct_deps.retain(|&id| {
+                    if deps.contains(&id) {
+                        return false;
+                    }
+                    true
+                });
+            }
+
+            builder.direct_deps.insert(entry, deps);
         }
 
         // Calculate actual chunking plans
