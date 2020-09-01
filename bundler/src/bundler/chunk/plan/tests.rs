@@ -23,6 +23,21 @@ fn assert_normal(t: &mut Tester, p: &Plan, entry: &str, deps: &[&str]) {
     );
 }
 
+fn assert_circular(t: &mut Tester, p: &Plan, entry: &str, members: &[&str]) {
+    assert_eq!(
+        p.circular[&t.id(&format!("{}.js", entry))]
+            .chunks
+            .iter()
+            .cloned()
+            .collect::<HashSet<_>>(),
+        members
+            .into_iter()
+            .map(|s| format!("{}.js", s))
+            .map(|s| t.id(&s))
+            .collect::<HashSet<_>>(),
+    );
+}
+
 #[test]
 fn concurrency_001() {
     suite()
@@ -213,6 +228,56 @@ fn cjs_concurrency() {
             assert_eq!(p.circular.len(), 0);
 
             assert_normal(t, &p, "main", &["a", "b"]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn circular_001() {
+    suite()
+        .file(
+            "main.js",
+            "
+                import { A } from './a';
+                import { B } from './b';
+
+                console.log(A, B);
+            ",
+        )
+        .file(
+            "a.js",
+            "
+            import { B } from './b'
+
+            export class A {
+                method() {
+                    return new B();
+                }
+            }
+        ",
+        )
+        .file(
+            "b.js",
+            "
+            import { A } from './a';
+
+            export class B extends A {
+            }
+            ",
+        )
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.determine_entries(entries)?;
+
+            assert_circular(t, &p, "a", &["a", "b"]);
+            assert_normal(t, &p, "main", &["a"]);
 
             Ok(())
         });
