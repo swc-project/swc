@@ -61,7 +61,12 @@ where
 
                 prepend(
                     &mut entry.body,
-                    ModuleItem::Stmt(wrap_module(dep_info.mark(), load_var, dep)),
+                    ModuleItem::Stmt(wrap_module(
+                        SyntaxContext::empty(),
+                        dep_info.mark(),
+                        load_var,
+                        dep,
+                    )),
                 );
 
                 log::warn!("Injecting load");
@@ -92,7 +97,12 @@ where
     }
 }
 
-fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
+fn wrap_module(
+    helper_ctxt: SyntaxContext,
+    top_level_mark: Mark,
+    load_var: Ident,
+    dep: Module,
+) -> Stmt {
     // ... body of foo
     let module_fn = Expr::Fn(FnExpr {
         ident: None,
@@ -149,12 +159,9 @@ fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
             name: Pat::Ident(load_var.clone()),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: Ident::new(
-                    "__spack_require__".into(),
-                    DUMMY_SP.apply_mark(top_level_mark),
-                )
-                .make_member(Ident::new("bind".into(), DUMMY_SP))
-                .as_callee(),
+                callee: Ident::new("__spack_require__".into(), DUMMY_SP.with_ctxt(helper_ctxt))
+                    .make_member(Ident::new("bind".into(), DUMMY_SP))
+                    .as_callee(),
                 args: vec![undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
                 type_args: None,
             }))),
