@@ -1,12 +1,11 @@
 use super::{
-    merge::{ImportDropper, LocalMarker, Unexporter},
+    merge::{ImportDropper, Unexporter},
     plan::{CircularPlan, Plan},
 };
 use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
-use hygiene::top_level_ident_folder;
 use std::borrow::Borrow;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
