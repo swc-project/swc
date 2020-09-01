@@ -83,3 +83,54 @@ fn concurrency_01_2() {
             Ok(())
         });
 }
+
+#[test]
+fn concurrency_01_3() {
+    suite()
+        .file(
+            "main.js",
+            "
+            import { A } from './a';
+            import { B } from './b';
+
+            console.log(A, B);
+            ",
+        )
+        .file(
+            "a.js",
+            "
+            import { B } from './b';
+
+            export class A extends B { }
+            ",
+        )
+        .file(
+            "b.js",
+            "
+            export class B { }
+            ",
+        )
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let determined = t.bundler.determine_entries(entries)?;
+
+            assert_eq!(determined.circular.len(), 0);
+            assert_eq!(determined.normal.len(), 2);
+            assert_eq!(
+                determined.normal.get(&t.id("a.js")).unwrap().chunks.len(),
+                2
+            );
+            assert_eq!(
+                determined.normal.get(&t.id("b.js")).unwrap().chunks.len(),
+                2
+            );
+
+            Ok(())
+        });
+}
