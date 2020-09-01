@@ -146,8 +146,16 @@ where
                             // print_hygiene("dep:after wrapping esm", &self.cm,
                             // &dep);
                             } else {
-                                // Tree-shaking
-                                dep = self.drop_unused(dep, Some(&specifiers));
+                                let is_namespace = specifiers.iter().any(|s| match s {
+                                    Specifier::Namespace { .. } => true,
+                                    _ => false,
+                                });
+                                dbg!(is_namespace);
+
+                                if !is_namespace {
+                                    // Tree-shaking
+                                    dep = self.drop_unused(dep, Some(&specifiers));
+                                }
 
                                 print_hygiene("dep: after tree shaking", &self.cm, &dep);
 

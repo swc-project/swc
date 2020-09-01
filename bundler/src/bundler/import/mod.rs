@@ -49,6 +49,7 @@ where
             let body = body.fold_with(&mut v);
             module.body = body;
 
+            dbg!(&v.info);
             v.info
         })
     }
@@ -319,6 +320,8 @@ where
                     ExprOrSuper::Expr(obj) => {
                         match &**obj {
                             Expr::Ident(i) => {
+                                dbg!(i);
+                                dbg!(&self.info.imports);
                                 // Search for namespace imports.
                                 // If possible, we de-glob namespace imports.
                                 if let Some(import) = self.info.imports.iter().find(|import| {
