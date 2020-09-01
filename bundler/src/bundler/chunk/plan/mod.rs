@@ -82,6 +82,10 @@ impl PlanBuilder {
             // Track direct dependencies, but exclude if it will be recursively merged.
             self.direct_deps.entry(dep).or_default().push(dep_of_dep);
         } else {
+            if self.circular.contains_key(&dep_of_dep) {
+                return;
+            }
+
             self.pending_direct_deps
                 .entry(dep)
                 .or_default()

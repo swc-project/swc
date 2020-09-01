@@ -134,3 +134,63 @@ fn concurrency_01_3() {
             Ok(())
         });
 }
+
+#[test]
+fn es6_determine_entries() {
+    suite()
+        .file(
+            "main.js",
+            "
+                import './a';
+                import './b';
+                ",
+        )
+        .file("a.js", "import './common';")
+        .file("b.js", "import './common';")
+        .file("common.js", r#"console.log('foo')"#)
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let determined = t.bundler.determine_entries(entries)?;
+
+            assert_eq!(determined.normal.len(), 2);
+            assert_eq!(determined.circular.len(), 0);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn cjs_determine_entries() {
+    suite()
+        .file(
+            "main.js",
+            "
+                require('./a');
+                require('./b');
+                ",
+        )
+        .file("a.js", "require('./common')")
+        .file("b.js", "require('./common')")
+        .file("common.js", r#"console.log('foo')"#)
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let determined = t.bundler.determine_entries(entries)?;
+
+            assert_eq!(determined.normal.len(), 2);
+            assert_eq!(determined.circular.len(), 0);
+
+            Ok(())
+        });
+}
