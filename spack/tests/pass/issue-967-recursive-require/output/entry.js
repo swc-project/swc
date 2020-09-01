@@ -17,19 +17,19 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
     console.log('c');
 });
 var load1 = __spack_require__.bind(void 0, function(module, exports) {
-    var load2 = __spack_require__.bind(void 0, function(module, exports) {
+    var load2 = __spack_require__.bind(void 0, function(module1, exports1) {
         console.log('a-b');
-        exports.default = 'ab';
+        exports1.default = 'ab';
     });
-    var load3 = __spack_require__.bind(void 0, function(module, exports) {
-        var load4 = __spack_require__.bind(void 0, function(module, exports) {
-            module.exports = {
+    var load3 = __spack_require__.bind(void 0, function(module1, exports1) {
+        var load4 = __spack_require__.bind(void 0, function(module2, exports2) {
+            module2.exports = {
                 default: 'a-a-a'
             };
         });
-        module.exports = load4();
+        module1.exports = load4();
     });
-    var load4 = __spack_require__.bind(void 0, function(module, exports) {
+    var load4 = __spack_require__.bind(void 0, function(module1, exports1) {
         console.log('b');
     });
     var aa = load3();
