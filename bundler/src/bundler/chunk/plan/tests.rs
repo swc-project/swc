@@ -85,7 +85,7 @@ fn concurrency_002() {
 }
 
 #[test]
-fn concurrency_01_3() {
+fn concurrency_003() {
     suite()
         .file(
             "main.js",
