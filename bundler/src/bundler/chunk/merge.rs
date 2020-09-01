@@ -4,6 +4,7 @@ use crate::{
         export::Exports,
         load::{Imports, Source, Specifier},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -54,6 +55,8 @@ where
             };
 
             let mut entry: Module = (*info.module).clone();
+
+            print_hygiene("entry:clone", &self.cm, &entry);
 
             log::trace!("merge_modules({}) <- {:?}", info.fm.name, plan.normal);
 
@@ -116,7 +119,7 @@ where
                             })?;
 
                         if dep_info.is_es6 {
-                            // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                            print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                             let is_acccessed_with_computed_key =
                                 specifiers.iter().any(|s| match s {
@@ -140,8 +143,7 @@ where
                                     id.clone().replace_mark(dep_info.mark()).into_ident(),
                                 )?;
 
-                            // print_hygiene("dep:after wrapping esm", &self.cm,
-                            // &dep);
+                                print_hygiene("dep:after wrapping esm", &self.cm, &dep);
                             } else {
                                 // Tree-shaking
                                 dep = self.drop_unused(dep, Some(&specifiers));
@@ -164,7 +166,7 @@ where
                                 dep = dep.fold_with(&mut Unexporter);
                             }
                         }
-                        // print_hygiene("dep:before-injection", &self.cm, &dep);
+                        print_hygiene("dep:before-injection", &self.cm, &dep);
 
                         Ok((src, dep, dep_info))
                     })
@@ -193,7 +195,7 @@ where
                     };
                     entry.body.visit_mut_with(&mut injector);
 
-                    // print_hygiene("entry:after:injection", &self.cm, &entry);
+                    print_hygiene("entry:after:injection", &self.cm, &entry);
 
                     if injector.imported.is_empty() {
                         log::debug!("Merged {} as an es module", info.fm.name);
@@ -416,9 +418,13 @@ impl Fold for ExportRenamer<'_> {
                 } else {
                     log::debug!("Removing default export expression as it's not imported");
 
+                    // Expression statement cannot start with function
                     ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                         span: e.span,
-                        expr: e.expr,
+                        expr: Box::new(Expr::Paren(ParenExpr {
+                            span: DUMMY_SP,
+                            expr: e.expr,
+                        })),
                     }))
                 };
             }
