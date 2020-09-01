@@ -520,8 +520,9 @@ impl Fold for ExportRenamer<'_> {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(e)) => {
                 let ident = self.aliased_import(&js_word!("default"));
 
+                // TODO: Optimize if type of expression is identifier.
+
                 return if let Some(ident) = ident {
-                    dbg!(&ident);
                     let ctxt = self.mark_as_remarking_required(
                         (ident.0.clone(), self.dep_ctxt),
                         ident.clone(),
