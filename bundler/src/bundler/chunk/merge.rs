@@ -178,6 +178,11 @@ where
                                     dep = dep.fold_with(&mut v);
                                     print_hygiene("dep: after renaming exports", &self.cm, &dep);
 
+                                    dbg!(&v.remark_map);
+
+                                    // Swap syntax context. Although name is remark, it's actually
+                                    // swapping because ExportRenamer inserts two-side conversion
+                                    // rule.
                                     if !v.remark_map.is_empty() {
                                         dep.visit_mut_with(&mut RemarkIdents { map: v.remark_map });
 
@@ -564,6 +569,9 @@ impl Fold for ExportRenamer<'_> {
                                     Some(v) => {
                                         let ctxt =
                                             self.mark_as_remarking_required(exported.to_id());
+
+                                        self.remark_map
+                                            .insert((s.orig.sym.clone(), s.orig.span.ctxt), ctxt);
                                         Some((v.0, ctxt))
                                     }
                                     None => None,
