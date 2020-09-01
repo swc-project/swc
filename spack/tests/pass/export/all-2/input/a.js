@@ -1,3 +1,3 @@
-import { Rout } from './c'
+import { Root } from './c'
 
-class A extends Root { }
+export class A extends Root { }
