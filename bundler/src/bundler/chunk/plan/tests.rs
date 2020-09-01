@@ -5,6 +5,10 @@ use swc_common::FileName;
 
 fn assert_normal(t: &mut Tester, p: &Plan, entry: &str, deps: &[&str]) {
     if deps.is_empty() {
+        if let Some(v) = p.normal.get(&t.id(&format!("{}.js", entry))) {
+            assert_eq!(v.chunks, vec![], "Should be empty");
+        }
+
         return;
     }
 
@@ -278,6 +282,8 @@ fn circular_001() {
 
             assert_circular(t, &p, "a", &["b"]);
             assert_normal(t, &p, "main", &["a"]);
+            assert_normal(t, &p, "a", &[]);
+            assert_normal(t, &p, "b", &[]);
 
             Ok(())
         });
