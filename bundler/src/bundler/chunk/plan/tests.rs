@@ -37,7 +37,7 @@ fn concurrency_01_1() {
             let determined = t.bundler.determine_entries(entries)?;
 
             assert_eq!(determined.circular.len(), 0);
-            assert_eq!(determined.normal.len(), 1);
+            assert_eq!(determined.normal.len(), 2);
 
             Ok(())
         });
@@ -78,7 +78,7 @@ fn concurrency_01_2() {
             let determined = t.bundler.determine_entries(entries)?;
 
             assert_eq!(determined.circular.len(), 0);
-            assert_eq!(determined.normal.len(), 1);
+            assert_eq!(determined.normal.len(), 2);
 
             Ok(())
         });
