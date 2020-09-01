@@ -221,7 +221,6 @@ where
                 builder.direct_deps.insert(entry, deps);
             }
         }
-        dbg!(&builder.circular);
 
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
@@ -246,7 +245,10 @@ where
                         // We need to mark modules as circular.
                         Entry::Vacant(e) => {
                             let plan = e.insert(CircularPlan::default());
-                            if let Some(v) = builder.circular.remove(&dep) {
+                            if let Some(mut v) = builder.circular.remove(&dep) {
+                                if let Some(index) = v.iter().position(|&id| id == dep) {
+                                    v.remove(index);
+                                }
                                 plan.chunks.extend(v);
                             }
                         }
