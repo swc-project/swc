@@ -54,8 +54,6 @@ where
 
             let mut entry: Module = (*info.module).clone();
 
-            print_hygiene("entry:clone", &self.cm, &entry);
-
             log::trace!("merge_modules({}) <- {:?}", info.fm.name, plan.normal);
 
             // // Respan using imported module's syntax context.
