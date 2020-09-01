@@ -165,6 +165,8 @@ where
                 return import;
             }
             if let Some(ctxt) = self.ctxt_for(&import.src.value) {
+                import.span = import.span.with_ctxt(ctxt);
+
                 for specifier in &mut import.specifiers {
                     match specifier {
                         ImportSpecifier::Named(n) => {
