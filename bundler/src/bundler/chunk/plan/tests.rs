@@ -1,6 +1,27 @@
-use crate::bundler::tests::suite;
-use std::collections::HashMap;
+use super::Plan;
+use crate::bundler::tests::{suite, Tester};
+use std::collections::{HashMap, HashSet};
 use swc_common::FileName;
+
+fn assert_normal(t: &mut Tester, p: &Plan, entry: &str, deps: &[&str]) {
+    if deps.is_empty() {
+        return;
+    }
+
+    assert_eq!(
+        p.normal[&t.id(&format!("{}.js", entry))]
+            .chunks
+            .iter()
+            .cloned()
+            .collect::<HashSet<_>>(),
+        deps.into_iter()
+            .map(|s| format!("{}.js", s))
+            .map(|s| t.id(&s))
+            .collect::<HashSet<_>>(),
+        "Should merge {:?}",
+        deps
+    );
+}
 
 #[test]
 fn concurrency_001() {
@@ -34,10 +55,13 @@ fn concurrency_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let determined = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.determine_entries(entries)?;
 
-            assert_eq!(determined.circular.len(), 0);
-            assert_eq!(determined.normal.len(), 2);
+            assert_eq!(p.circular.len(), 0);
+
+            assert_normal(t, &p, "main", &["a"]);
+            assert_normal(t, &p, "a", &["b"]);
+            assert_normal(t, &p, "b", &[]);
 
             Ok(())
         });
@@ -75,10 +99,13 @@ fn concurrency_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let determined = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.determine_entries(entries)?;
 
-            assert_eq!(determined.circular.len(), 0);
-            assert_eq!(determined.normal.len(), 2);
+            assert_eq!(p.circular.len(), 0);
+
+            assert_normal(t, &p, "main", &["a"]);
+            assert_normal(t, &p, "a", &["b"]);
+            assert_normal(t, &p, "b", &[]);
 
             Ok(())
         });
@@ -118,21 +145,13 @@ fn concurrency_003() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let determined = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.determine_entries(entries)?;
 
-            assert_eq!(determined.circular.len(), 0);
-            assert_eq!(determined.normal.len(), 2);
-            assert_eq!(
-                determined.normal[&t.id("main.js")].chunks.len(),
-                1,
-                "Should merge a.js"
-            );
-            assert_eq!(
-                determined.normal[&t.id("a.js")].chunks.len(),
-                1,
-                "Sould merge b.js"
-            );
-            assert!(!determined.normal.contains_key(&t.id("b.js")), "No import");
+            assert_eq!(p.circular.len(), 0);
+            assert_eq!(p.normal.len(), 2);
+            assert_normal(t, &p, "main", &["a", "b"]);
+            assert_normal(t, &p, "a.js", &["b"]);
+            assert_normal(t, &p, "b", &[]);
 
             Ok(())
         });
@@ -159,10 +178,10 @@ fn es6_concurrency() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let determined = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.determine_entries(entries)?;
 
-            assert_eq!(determined.circular.len(), 0);
-            assert_eq!(determined.normal.len(), 3);
+            assert_eq!(p.circular.len(), 0);
+            assert_eq!(p.normal.len(), 3);
 
             Ok(())
         });
@@ -189,13 +208,11 @@ fn cjs_concurrency() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
-            let determined = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.determine_entries(entries)?;
 
-            assert_eq!(determined.circular.len(), 0);
-            assert_eq!(determined.normal.len(), 3);
+            assert_eq!(p.circular.len(), 0);
 
-            assert_eq!(determined.normal[&t.id("main.js")].chunks.len(), 2, "a, b");
-            assert_eq!(determined.normal[&t.id("main.js")].chunks.len(), 2);
+            assert_normal(t, &p, "main", &["a", "b"]);
 
             Ok(())
         });
