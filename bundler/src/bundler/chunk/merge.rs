@@ -414,6 +414,7 @@ impl Fold for ExportRenamer<'_> {
                 };
 
                 match export.decl {
+                    // TODO: Optimize if c.ident is `Some`
                     DefaultDecl::Class(c) => {
                         return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: export.span,
@@ -427,6 +428,7 @@ impl Fold for ExportRenamer<'_> {
                             }],
                         })))
                     }
+                    // TODO: Optimize if f.ident is `Some`
                     DefaultDecl::Fn(f) => {
                         return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: export.span,
