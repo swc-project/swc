@@ -276,7 +276,7 @@ fn circular_001() {
 
             let p = t.bundler.determine_entries(entries)?;
 
-            assert_circular(t, &p, "a", &["a", "b"]);
+            assert_circular(t, &p, "a", &["b"]);
             assert_normal(t, &p, "main", &["a"]);
 
             Ok(())

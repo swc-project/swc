@@ -221,6 +221,7 @@ where
                 builder.direct_deps.insert(entry, deps);
             }
         }
+        dbg!(&builder.circular);
 
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
