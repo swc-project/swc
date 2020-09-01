@@ -148,6 +148,8 @@ where
                                 // Tree-shaking
                                 dep = self.drop_unused(dep, Some(&specifiers));
 
+                                print_hygiene("dep: after tree shaking", &self.cm, &dep);
+
                                 if let Some(imports) = info
                                     .imports
                                     .specifiers
@@ -161,6 +163,7 @@ where
                                         imports: &imports,
                                         extras: vec![],
                                     });
+                                    print_hygiene("dep: after renaming exports", &self.cm, &dep);
                                 }
 
                                 dep = dep.fold_with(&mut Unexporter);
@@ -399,11 +402,60 @@ impl Fold for ExportRenamer<'_> {
         match item {
             ModuleItem::Stmt(..) => return item,
 
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
+                let ident = self.aliased_import(&js_word!("default"));
+
+                let ident = if let Some(id) = ident {
+                    id
+                } else {
+                    log::info!("Dropping export default declaration because it's not used");
+
+                    return Stmt::Empty(EmptyStmt { span: DUMMY_SP }).into();
+                };
+
+                match export.decl {
+                    DefaultDecl::Class(c) => {
+                        return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: export.span,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.replace_mark(self.mark).into_ident()),
+                                init: Some(Box::new(Expr::Class(c))),
+                                definite: false,
+                            }],
+                        })))
+                    }
+                    DefaultDecl::Fn(f) => {
+                        return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: export.span,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.replace_mark(self.mark).into_ident()),
+                                init: Some(Box::new(Expr::Fn(f))),
+                                definite: false,
+                            }],
+                        })))
+                    }
+                    DefaultDecl::TsInterfaceDecl(_) => {
+                        log::info!(
+                            "Dropping export default declaration because ts interface declaration \
+                             is not supported yet"
+                        );
+
+                        return Stmt::Empty(EmptyStmt { span: DUMMY_SP }).into();
+                    }
+                }
+            }
+
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(e)) => {
                 let ident = self.aliased_import(&js_word!("default"));
 
                 return if let Some(ident) = ident {
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: e.span,
                         kind: VarDeclKind::Const,
                         declare: false,
@@ -413,8 +465,7 @@ impl Fold for ExportRenamer<'_> {
                             init: Some(e.expr),
                             definite: false,
                         }],
-                    }))
-                    .into()
+                    })))
                 } else {
                     log::debug!("Removing default export expression as it's not imported");
 

@@ -1,5 +1,3 @@
-const __default = class {
-
+const A = class {
 };
-
-console.log(__default)
+console.log(A);
