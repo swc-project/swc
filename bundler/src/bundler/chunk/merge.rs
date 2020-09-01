@@ -5,7 +5,7 @@ use crate::{
         load::{Imports, Source, Specifier},
     },
     debug::print_hygiene,
-    id::{Id, ModuleId},
+    id::ModuleId,
     load::Load,
     resolve::Resolve,
     util::IntoParallelIterator,
@@ -14,11 +14,12 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::{borrow::Cow, mem::take};
+use remark::RemarkIdents;
+use std::{borrow::Cow, collections::HashMap, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 mod remark;
@@ -168,12 +169,20 @@ where
                                     .find(|(s, _)| s.module_id == dep_info.id)
                                     .map(|v| &v.1)
                                 {
-                                    dep = dep.fold_with(&mut ExportRenamer {
-                                        mark: dep_info.mark(),
+                                    let mut v = ExportRenamer {
+                                        dep_mark: dep_info.mark(),
                                         imports: &imports,
                                         extras: vec![],
-                                    });
+                                        remark_map: Default::default(),
+                                    };
+                                    dep = dep.fold_with(&mut v);
                                     print_hygiene("dep: after renaming exports", &self.cm, &dep);
+
+                                    if !v.remark_map.is_empty() {
+                                        dep.visit_mut_with(&mut RemarkIdents { map: v.remark_map });
+
+                                        print_hygiene("dep: after remarking", &self.cm, &dep);
+                                    }
                                 }
 
                                 dep = dep.fold_with(&mut Unexporter);
@@ -367,27 +376,38 @@ impl Fold for Unexporter {
 /// Applied to dependency modules.
 struct ExportRenamer<'a> {
     /// The mark applied to identifiers exported to dependant modules.
-    mark: Mark,
+    dep_mark: Mark,
+    remark_map: HashMap<Id, SyntaxContext>,
+
     /// Dependant module's import
     imports: &'a [Specifier],
     extras: Vec<Stmt>,
 }
 
 impl ExportRenamer<'_> {
-    pub fn aliased_import(&self, sym: &JsWord) -> Option<Id> {
-        self.imports.iter().find_map(|s| match s {
-            Specifier::Specific {
-                ref local,
-                alias: Some(ref alias),
-                ..
-            } if *alias == *sym => Some(local.clone()),
-            Specifier::Specific {
-                ref local,
-                alias: None,
-                ..
-            } if *local == *sym => Some(local.clone()),
-            _ => None,
-        })
+    fn mark_as_remarking_required(&mut self, id: Id) -> SyntaxContext {
+        let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+        self.remark_map.insert((id.0.clone(), ctxt), id.1);
+        ctxt
+    }
+
+    fn aliased_import(&self, sym: &JsWord) -> Option<Id> {
+        self.imports
+            .iter()
+            .find_map(|s| match s {
+                Specifier::Specific {
+                    ref local,
+                    alias: Some(ref alias),
+                    ..
+                } if *alias == *sym => Some(local.clone()),
+                Specifier::Specific {
+                    ref local,
+                    alias: None,
+                    ..
+                } if *local == *sym => Some(local.clone()),
+                _ => None,
+            })
+            .map(|v| v.to_id())
     }
 }
 
@@ -423,7 +443,7 @@ impl Fold for ExportRenamer<'_> {
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         dbg!(self.imports);
         let mut actual = ActualMarker {
-            mark: self.mark,
+            mark: self.dep_mark,
             imports: self.imports,
         };
 
@@ -453,7 +473,12 @@ impl Fold for ExportRenamer<'_> {
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident.replace_mark(self.mark).into_ident()),
+                                name: Pat::Ident(Ident::new(
+                                    ident.0,
+                                    DUMMY_SP.with_ctxt(
+                                        SyntaxContext::empty().apply_mark(self.dep_mark),
+                                    ),
+                                )),
                                 init: Some(Box::new(Expr::Class(c))),
                                 definite: false,
                             }],
@@ -467,7 +492,12 @@ impl Fold for ExportRenamer<'_> {
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident.replace_mark(self.mark).into_ident()),
+                                name: Pat::Ident(Ident::new(
+                                    ident.0,
+                                    DUMMY_SP.with_ctxt(
+                                        SyntaxContext::empty().apply_mark(self.dep_mark),
+                                    ),
+                                )),
                                 init: Some(Box::new(Expr::Fn(f))),
                                 definite: false,
                             }],
@@ -494,7 +524,11 @@ impl Fold for ExportRenamer<'_> {
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(ident.replace_mark(self.mark).into_ident()),
+                            name: Pat::Ident(Ident::new(
+                                ident.0,
+                                DUMMY_SP
+                                    .with_ctxt(SyntaxContext::empty().apply_mark(self.dep_mark)),
+                            )),
                             init: Some(e.expr),
                             definite: false,
                         }],
@@ -524,7 +558,16 @@ impl Fold for ExportRenamer<'_> {
                         ExportSpecifier::Default(..) => self.aliased_import(&js_word!("default")),
                         ExportSpecifier::Named(s) => {
                             if let Some(exported) = &s.exported {
-                                self.aliased_import(&exported.sym)
+                                // We need remarking
+
+                                match self.aliased_import(&exported.sym) {
+                                    Some(v) => {
+                                        let ctxt =
+                                            self.mark_as_remarking_required(exported.to_id());
+                                        Some((v.0, ctxt))
+                                    }
+                                    None => None,
+                                }
                             } else {
                                 self.aliased_import(&s.orig.sym)
                             }
@@ -541,7 +584,7 @@ impl Fold for ExportRenamer<'_> {
 
                         var_decls.push(VarDeclarator {
                             span,
-                            name: Pat::Ident(i.into_ident()),
+                            name: Pat::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
                             init: Some(Box::new(Expr::Ident(orig))),
                             definite: false,
                         })
