@@ -1,5 +1,5 @@
 use super::Bundler;
-use crate::{debug::print_hygiene, load::Load, resolve::Resolve};
+use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use std::{
     collections::{HashMap, HashSet},
@@ -21,35 +21,32 @@ where
     L: Load,
     R: Resolve,
 {
-    /// This method de-globs imports if possible.
-    ///
-    /// Also this method colorizes require calls.
+    /// This method de-globs imports if possible and colorizes imported values.
     pub(super) fn extract_import_info(
         &self,
         path: &FileName,
         module: &mut Module,
-        _mark: Mark,
+        module_mark: Mark,
     ) -> RawImports {
         self.run(|| {
-            print_hygiene("before:extract-import", &self.cm, &module);
-
             let body = replace(&mut module.body, vec![]);
 
             let mut v = ImportHandler {
+                module_ctxt: SyntaxContext::empty().apply_mark(module_mark),
                 path,
                 bundler: self,
                 top_level: false,
                 info: Default::default(),
                 ns_usage: Default::default(),
-                deglob_phase: false,
                 imported_idents: Default::default(),
+                deglob_phase: false,
+                idents_to_deglob: Default::default(),
             };
             let body = body.fold_with(&mut v);
             v.deglob_phase = true;
             let body = body.fold_with(&mut v);
             module.body = body;
 
-            dbg!(&v.info);
             v.info
         })
     }
@@ -108,6 +105,9 @@ where
     L: Load,
     R: Resolve,
 {
+    /// The [SyntaxContext] for the top level module items.
+    //// The top level module items includes imported bindings.
+    module_ctxt: SyntaxContext,
     path: &'a FileName,
     bundler: &'a Bundler<'b, L, R>,
     top_level: bool,
@@ -119,6 +119,7 @@ where
     imported_idents: HashMap<Id, SyntaxContext>,
 
     deglob_phase: bool,
+    idents_to_deglob: HashSet<Id>,
 }
 
 impl<L, R> ImportHandler<'_, '_, L, R>
@@ -199,6 +200,7 @@ where
                             let specifiers: Vec<_> = ids
                                 .into_iter()
                                 .map(|id| {
+                                    self.idents_to_deglob.insert(id.clone());
                                     ImportSpecifier::Named(ImportNamedSpecifier {
                                         span: DUMMY_SP,
                                         local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
@@ -320,8 +322,19 @@ where
                     ExprOrSuper::Expr(obj) => {
                         match &**obj {
                             Expr::Ident(i) => {
-                                dbg!(i);
-                                dbg!(&self.info.imports);
+                                // Deglob identifier usages.
+                                if self.deglob_phase && self.idents_to_deglob.contains(&i.to_id()) {
+                                    match *e.prop {
+                                        Expr::Ident(prop) => {
+                                            return Expr::Ident(Ident::new(
+                                                prop.sym,
+                                                prop.span.with_ctxt(i.span.ctxt),
+                                            ))
+                                        }
+                                        _ => {}
+                                    }
+                                }
+
                                 // Search for namespace imports.
                                 // If possible, we de-glob namespace imports.
                                 if let Some(import) = self.info.imports.iter().find(|import| {
@@ -329,7 +342,7 @@ where
                                         match s {
                                             ImportSpecifier::Namespace(n) => {
                                                 return i.sym == n.local.sym
-                                                    && i.span.ctxt() == n.local.span.ctxt()
+                                                    && i.span.ctxt() == self.module_ctxt
                                             }
                                             _ => {}
                                         }
