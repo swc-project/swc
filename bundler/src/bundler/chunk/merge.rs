@@ -232,6 +232,7 @@ where
                 if self.config.require {
                     self.merge_cjs(
                         plan,
+                        is_entry,
                         &mut entry,
                         &info,
                         Cow::Owned(dep),

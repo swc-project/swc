@@ -28,9 +28,15 @@ where
     ///     const foo = load();
     /// ```
     /// As usual, this behavior depends on hygiene.
+    ///
+    /// # Parameters
+    ///
+    /// If `is_entry` is true, you can use import statement to import common js
+    /// modules.
     pub(super) fn merge_cjs(
         &self,
         plan: &Plan,
+        is_entry: bool,
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
@@ -40,6 +46,7 @@ where
         log::info!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
+            is_entry,
             ctxt: dep_info.ctxt(),
             load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.ctxt())),
             replaced: false,
@@ -72,8 +79,6 @@ where
                 log::warn!("Injecting load");
             }
 
-            log::info!("Replaced requires with load");
-
             if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
                 for &dep_id in &normal_plan.chunks {
                     if !targets.contains(&dep_id) {
@@ -83,6 +88,7 @@ where
                     let dep_info = self.scope.get_module(dep_id).unwrap();
                     self.merge_cjs(
                         plan,
+                        is_entry,
                         entry,
                         info,
                         Cow::Borrowed(&dep_info.module),
@@ -177,6 +183,7 @@ struct RequireReplacer {
     ctxt: SyntaxContext,
     load_var: Ident,
     replaced: bool,
+    is_entry: bool,
 }
 
 impl VisitMut for RequireReplacer {
@@ -184,6 +191,10 @@ impl VisitMut for RequireReplacer {
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
         node.visit_mut_children_with(self);
+
+        if !self.is_entry {
+            return;
+        }
 
         match node {
             ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
