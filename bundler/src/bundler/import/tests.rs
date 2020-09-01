@@ -1,7 +1,7 @@
 use super::ImportHandler;
 use crate::bundler::tests::suite;
 use std::path::Path;
-use swc_common::FileName;
+use swc_common::{FileName, Mark, SyntaxContext};
 use swc_ecma_visit::FoldWith;
 
 #[test]
@@ -22,6 +22,8 @@ ns.foo();
             ns_usage: Default::default(),
             deglob_phase: false,
             imported_idents: Default::default(),
+            module_ctxt: SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+            idents_to_deglob: Default::default(),
         };
         let m = m.fold_with(&mut v);
         assert!(v.info.forced_ns.is_empty());
@@ -52,6 +54,8 @@ ns.bar();
             ns_usage: Default::default(),
             deglob_phase: false,
             imported_idents: Default::default(),
+            module_ctxt: SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+            idents_to_deglob: Default::default(),
         };
         let m = m.fold_with(&mut v);
         assert!(v.info.forced_ns.is_empty());
