@@ -149,8 +149,8 @@ fn concurrency_003() {
 
             assert_eq!(p.circular.len(), 0);
             assert_eq!(p.normal.len(), 2);
-            assert_normal(t, &p, "main", &["a", "b"]);
-            assert_normal(t, &p, "a.js", &["b"]);
+            assert_normal(t, &p, "main", &["a"]);
+            assert_normal(t, &p, "a", &["b"]);
             assert_normal(t, &p, "b", &[]);
 
             Ok(())
