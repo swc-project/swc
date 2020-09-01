@@ -188,16 +188,8 @@ where
             plans.bundle_kinds.insert(*id, kind.clone());
         }
 
-        // Handle circular imports
-        for (k, members) in &builder.circular {
-            for (_entry, deps) in builder.direct_deps.iter_mut() {
-                deps.retain(|v| !members.contains(v));
-            }
-
-            builder.direct_deps.remove(k);
-        }
-
-        // Fix direct dependencies.
+        // Fix direct dependencies. See the doc of pending_direct_deps for more
+        // information.
         for (entry, deps) in builder.pending_direct_deps.drain() {
             for (key, direct_deps) in builder.direct_deps.iter_mut() {
                 if direct_deps.contains(&entry) {
@@ -220,6 +212,15 @@ where
             if !builder.direct_deps.contains_key(&entry) {
                 builder.direct_deps.insert(entry, deps);
             }
+        }
+
+        // Handle circular imports
+        for (k, members) in &builder.circular {
+            for (_entry, deps) in builder.direct_deps.iter_mut() {
+                deps.retain(|v| !members.contains(v));
+            }
+
+            builder.direct_deps.remove(k);
         }
 
         // Calculate actual chunking plans
@@ -285,7 +286,7 @@ where
             plans.normal.entry(entry).or_default();
         }
 
-        // dbg!(&plans);
+        dbg!(&plans);
 
         Ok(plans)
     }
