@@ -21,6 +21,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
+mod remark;
+
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
@@ -168,7 +170,6 @@ where
                                 {
                                     dep = dep.fold_with(&mut ExportRenamer {
                                         mark: dep_info.mark(),
-                                        _exports: &dep_info.exports,
                                         imports: &imports,
                                         extras: vec![],
                                     });
@@ -367,7 +368,6 @@ impl Fold for Unexporter {
 struct ExportRenamer<'a> {
     /// The mark applied to identifiers exported to dependant modules.
     mark: Mark,
-    _exports: &'a Exports,
     /// Dependant module's import
     imports: &'a [Specifier],
     extras: Vec<Stmt>,
@@ -375,8 +375,6 @@ struct ExportRenamer<'a> {
 
 impl ExportRenamer<'_> {
     pub fn aliased_import(&self, sym: &JsWord) -> Option<Id> {
-        log::debug!("aliased_import({})\n{:?}\n\n\n", sym, self.imports);
-
         self.imports.iter().find_map(|s| match s {
             Specifier::Specific {
                 ref local,
@@ -423,6 +421,7 @@ impl Fold for ExportRenamer<'_> {
     }
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
+        dbg!(self.imports);
         let mut actual = ActualMarker {
             mark: self.mark,
             imports: self.imports,
@@ -542,7 +541,7 @@ impl Fold for ExportRenamer<'_> {
 
                         var_decls.push(VarDeclarator {
                             span,
-                            name: Pat::Ident(i.replace_mark(self.mark).into_ident()),
+                            name: Pat::Ident(i.into_ident()),
                             init: Some(Box::new(Expr::Ident(orig))),
                             definite: false,
                         })
@@ -554,6 +553,7 @@ impl Fold for ExportRenamer<'_> {
                     }
                 });
 
+                dbg!(&var_decls);
                 if !var_decls.is_empty() {
                     self.extras.push(Stmt::Decl(Decl::Var(VarDecl {
                         span,
