@@ -291,6 +291,14 @@ where
         items.fold_children_with(self)
     }
 
+    fn fold_export_named_specifier(&mut self, mut s: ExportNamedSpecifier) -> ExportNamedSpecifier {
+        if let Some(&ctxt) = self.imported_idents.get(&s.orig.to_id()) {
+            s.orig.span = s.orig.span.with_ctxt(ctxt);
+        }
+
+        s
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Ident(mut i) if self.deglob_phase => {
