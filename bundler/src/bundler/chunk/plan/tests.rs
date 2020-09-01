@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use swc_common::FileName;
 
 #[test]
-fn concurrency_01_1() {
+fn concurrency_001() {
     suite()
         .file(
             "main.js",
@@ -44,7 +44,7 @@ fn concurrency_01_1() {
 }
 
 #[test]
-fn concurrency_01_2() {
+fn concurrency_002() {
     suite()
         .file(
             "main.js",
@@ -123,12 +123,19 @@ fn concurrency_01_3() {
             assert_eq!(determined.circular.len(), 0);
             assert_eq!(determined.normal.len(), 2);
             assert_eq!(
-                determined.normal.get(&t.id("a.js")).unwrap().chunks.len(),
-                2
+                determined.normal[&t.id("main.js")].chunks.len(),
+                1,
+                "Should merge a.js"
             );
             assert_eq!(
-                determined.normal.get(&t.id("b.js")).unwrap().chunks.len(),
-                2
+                determined.normal[&t.id("a.js")].chunks.len(),
+                1,
+                "Sould merge b.js"
+            );
+            assert_eq!(
+                determined.normal[&t.id("b.js")].chunks.len(),
+                0,
+                "No import"
             );
 
             Ok(())
@@ -136,7 +143,7 @@ fn concurrency_01_3() {
 }
 
 #[test]
-fn es6_determine_entries() {
+fn es6_concurrency() {
     suite()
         .file(
             "main.js",
@@ -158,15 +165,15 @@ fn es6_determine_entries() {
 
             let determined = t.bundler.determine_entries(entries)?;
 
-            assert_eq!(determined.normal.len(), 2);
             assert_eq!(determined.circular.len(), 0);
+            assert_eq!(determined.normal.len(), 3);
 
             Ok(())
         });
 }
 
 #[test]
-fn cjs_determine_entries() {
+fn cjs_concurrency() {
     suite()
         .file(
             "main.js",
@@ -188,8 +195,11 @@ fn cjs_determine_entries() {
 
             let determined = t.bundler.determine_entries(entries)?;
 
-            assert_eq!(determined.normal.len(), 2);
             assert_eq!(determined.circular.len(), 0);
+            assert_eq!(determined.normal.len(), 3);
+
+            assert_eq!(determined.normal[&t.id("main.js")].chunks.len(), 2, "a, b");
+            assert_eq!(determined.normal[&t.id("main.js")].chunks.len(), 2);
 
             Ok(())
         });
