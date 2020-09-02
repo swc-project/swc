@@ -196,6 +196,8 @@ where
                             dep = self.remark_exports(dep, dep_info.ctxt(), None);
                             // dep = dep.fold_with(&mut Unexporter);
 
+                            // As transitive deps can have no direct relation with entry,
+                            // remark_exports is not enough.
                             Ok((dep, dep_info))
                         })
                         .collect::<Vec<_>>();
@@ -217,6 +219,8 @@ where
                         targets.retain(|&id| !v.chunks.contains(&id));
                     }
                 }
+
+                print_hygiene("dep: before injection", &self.cm, &dep);
 
                 if dep_info.is_es6 {
                     print_hygiene("entry: before injection", &self.cm, &entry);
