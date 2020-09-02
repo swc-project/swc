@@ -69,7 +69,7 @@ where
                 plan.normal.get(&info.id)
             );
 
-            if module_plan.chunks.is_empty() {
+            if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
                 return Ok(entry);
             }
 
