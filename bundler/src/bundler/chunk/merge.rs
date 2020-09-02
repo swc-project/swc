@@ -52,10 +52,9 @@ where
                     &normal_plan
                 }
             };
+            log::debug!("Merge({}) <- {:?}", info.fm.name, module_plan);
 
             let mut entry: Module = (*info.module).clone();
-
-            log::trace!("merge_modules({}) <- {:?}", info.fm.name, plan.normal);
 
             // // Respan using imported module's syntax context.
             // entry.visit_mut_with(&mut LocalMarker {
