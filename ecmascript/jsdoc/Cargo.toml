@@ -1,6 +1,6 @@
 [package]
 name = "jsdoc"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
 license = "Apache-2.0/MIT"
@@ -16,8 +16,8 @@ nom = "5.1.2"
 serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]
-swc_ecma_ast = { version = "0.30.0", path = "../ast" }
-swc_ecma_parser = { version = "0.36.0", path = "../parser" }
+swc_ecma_ast = { version = "0.31.0", path = "../ast" }
+swc_ecma_parser = { version = "0.37.0", path = "../parser" }
 testing = { version = "0.10.0", path = "../../testing" }
 anyhow = "1"
 dashmap = "3"
