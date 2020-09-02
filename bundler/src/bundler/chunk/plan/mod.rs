@@ -293,12 +293,10 @@ where
                         // Should be merged as a transitive dependency.
                         //
                         let module = least_common_ancestor(&builder.entry_graph, dependants);
-                        plans
-                            .normal
-                            .entry(module)
-                            .or_default()
-                            .transitive_chunks
-                            .push(dep);
+                        let t = &mut plans.normal.entry(module).or_default().transitive_chunks;
+                        if !t.contains(&dep) {
+                            t.push(dep)
+                        }
                     } else {
                         // Direct dependency.
                         plans.normal.entry(id).or_default().chunks.push(dep);

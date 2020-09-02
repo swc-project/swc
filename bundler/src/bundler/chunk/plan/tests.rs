@@ -276,6 +276,8 @@ fn transitive_001() {
 
             let p = t.bundler.determine_entries(entries)?;
 
+            dbg!(&p);
+
             assert_eq!(p.circular.len(), 0);
             assert_normal_transitive(t, &p, "main", &["a", "b"], &["common"]);
             assert_normal_transitive(t, &p, "a", &[], &[]);
