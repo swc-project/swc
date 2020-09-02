@@ -1,4 +1,4 @@
-use super::{export::UnexportAsVar, plan::Plan};
+use super::plan::Plan;
 use crate::{
     bundler::{
         export::Exports,
