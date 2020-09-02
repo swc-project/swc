@@ -286,3 +286,76 @@ fn transitive_001() {
             Ok(())
         });
 }
+
+#[test]
+fn transitive_002() {
+    suite()
+        .file(
+            "main.js",
+            "
+                import './a';
+                import './b';
+                import './c';
+                import './d';
+                ",
+        )
+        .file(
+            "a.js",
+            "
+                import './common1';
+                import './common2';
+                ",
+        )
+        .file(
+            "b.js",
+            "
+                import './common2';
+                import './common1';
+                ",
+        )
+        .file(
+            "c.js",
+            "
+                import './common3';
+                import './common2';
+                ",
+        )
+        .file(
+            "d.js",
+            "
+                import './common1';
+                import './common4';
+                ",
+        )
+        .file("common1.js", r#"console.log(1)"#)
+        .file("common2.js", r#"console.log(2)"#)
+        .file("common3.js", r#"console.log(3)"#)
+        .file("common4.js", r#"console.log(4)"#)
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let p = t.bundler.determine_entries(entries)?;
+
+            dbg!(&p);
+
+            assert_eq!(p.circular.len(), 0);
+            assert_normal_transitive(
+                t,
+                &p,
+                "main",
+                &["a", "b", "c", "d"],
+                &["common1", "common2"],
+            );
+            assert_normal_transitive(t, &p, "a", &[], &[]);
+            assert_normal_transitive(t, &p, "b", &[], &[]);
+            assert_normal_transitive(t, &p, "b", &[], &["common3"]);
+            assert_normal_transitive(t, &p, "b", &[], &["common4"]);
+
+            Ok(())
+        });
+}
