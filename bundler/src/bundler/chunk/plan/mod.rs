@@ -154,7 +154,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, module.id, None);
+            self.add_to_graph(&mut builder, module.id, module.id);
         }
 
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
@@ -306,19 +306,7 @@ where
         Ok(plans)
     }
 
-    fn add_to_graph(
-        &self,
-        builder: &mut PlanBuilder,
-        module_id: ModuleId,
-        root_id: ModuleId,
-        target_id: Option<ModuleId>,
-    ) {
-        if let Some(target_id) = target_id {
-            if target_id == module_id {
-                return;
-            }
-        }
-
+    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
         let contains = builder.entry_graph.contains_node(module_id);
 
         builder.entry_graph.add_node(module_id);
@@ -373,7 +361,7 @@ where
         }
 
         for (src, _) in m.imports.specifiers.iter().chain(&m.exports.reexports) {
-            self.add_to_graph(builder, src.module_id, root_id, None);
+            self.add_to_graph(builder, src.module_id, root_id);
 
             builder.entry_graph.add_edge(
                 module_id,
