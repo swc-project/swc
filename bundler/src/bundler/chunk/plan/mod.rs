@@ -291,11 +291,16 @@ where
 
                     if 2 <= dependants.len() {
                         // Should be merged as a transitive dependency.
-                        //
                         let module = least_common_ancestor(&builder.entry_graph, dependants);
-                        let t = &mut plans.normal.entry(module).or_default().transitive_chunks;
-                        if !t.contains(&dep) {
-                            t.push(dep)
+
+                        if dependants.len() == 2 && dependants.contains(&module) {
+                            let entry = *dependants.iter().find(|&&v| v != module).unwrap();
+                            plans.normal.entry(entry).or_default().chunks.push(dep);
+                        } else {
+                            let t = &mut plans.normal.entry(module).or_default().transitive_chunks;
+                            if !t.contains(&dep) {
+                                t.push(dep)
+                            }
                         }
                     } else {
                         // Direct dependency.
