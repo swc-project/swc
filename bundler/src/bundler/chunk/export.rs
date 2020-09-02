@@ -52,9 +52,12 @@ where
         entry: &mut Module,
         info: &TransformedModule,
     ) -> Result<(), Error> {
+        log::debug!("merge_reexports: {}", info.fm.name);
         entry.visit_mut_with(&mut DefaultRenamer);
 
         for (src, specifiers) in &info.exports.reexports {
+            log::info!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
+
             let imported = self.scope.get_module(src.module_id).unwrap();
             assert!(imported.is_es6, "Reexports are es6 only");
 
@@ -67,12 +70,6 @@ where
             let (_, dep) = util::join(
                 || {
                     self.run(|| {
-                        // entry.visit_mut_with(&mut NamedExportOrigMarker {
-                        //     top_level_ctxt:
-                        // SyntaxContext::empty().apply_mark(self.top_level_mark),
-                        //     target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                        // });
-
                         entry.visit_mut_with(&mut ExportRenamer {
                             from: SyntaxContext::empty().apply_mark(imported.mark()),
                             to: SyntaxContext::empty().apply_mark(info.mark()),
@@ -113,7 +110,7 @@ where
                             if HYGIENE {
                                 print_hygiene("dep:alias-exports", &self.cm, &dep);
                             }
-                            dep = dep.fold_with(&mut Unexporter);
+                            // dep = dep.fold_with(&mut Unexporter);
 
                             if HYGIENE {
                                 print_hygiene("dep:before-merge", &self.cm, &dep);
@@ -137,15 +134,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            // print_hygiene(
-            //     &format!(
-            //         "entry:injection {:?} <- {:?}",
-            //         SyntaxContext::empty().apply_mark(info.mark()),
-            //         SyntaxContext::empty().apply_mark(imported.mark()),
-            //     ),
-            //     &self.cm,
-            //     &entry,
-            // );
+            print_hygiene(
+                &format!(
+                    "entry:injection {:?} <- {:?}",
+                    SyntaxContext::empty().apply_mark(info.mark()),
+                    SyntaxContext::empty().apply_mark(imported.mark()),
+                ),
+                &self.cm,
+                &entry,
+            );
             // assert_eq!(injector.imported, vec![]);
         }
 
