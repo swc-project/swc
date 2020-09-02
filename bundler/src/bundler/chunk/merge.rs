@@ -196,7 +196,7 @@ where
                                 }
                                 print_hygiene("dep:before-injection", &self.cm, &dep);
 
-                                Ok((src, dep, dep_info))
+                                Ok((dep, dep_info))
                             })
                         })
                         .collect::<Vec<_>>()
@@ -233,13 +233,13 @@ where
             prepend_stmts(&mut entry.body, transitive_deps?.into_iter());
 
             for dep in deps {
-                let (src, mut dep, dep_info) = dep?;
-                if let Some(idx) = targets.iter().position(|v| *v == src.module_id) {
+                let (mut dep, dep_info) = dep?;
+                if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
                     targets.remove(idx);
-                    if let Some(v) = plan.normal.get(&src.module_id) {
+                    if let Some(v) = plan.normal.get(&dep_info.id) {
                         targets.retain(|&id| !v.chunks.contains(&id));
                     }
-                    if let Some(v) = plan.circular.get(&src.module_id) {
+                    if let Some(v) = plan.circular.get(&dep_info.id) {
                         targets.retain(|&id| !v.chunks.contains(&id));
                     }
                 }
@@ -250,7 +250,7 @@ where
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
                         imported: take(&mut dep.body),
-                        src: src.src.clone(),
+                        ctxt: dep_info.ctxt(),
                     };
                     entry.body.visit_mut_with(&mut injector);
 
@@ -425,7 +425,7 @@ impl VisitMut for LocalMarker<'_> {
 
 struct Es6ModuleInjector {
     imported: Vec<ModuleItem>,
-    src: Str,
+    ctxt: SyntaxContext,
 }
 
 impl VisitMut for Es6ModuleInjector {
@@ -438,8 +438,8 @@ impl VisitMut for Es6ModuleInjector {
         for item in items {
             //
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { ref src, .. }))
-                    if src.value == self.src.value =>
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { span, .. }))
+                    if span.ctxt == self.ctxt =>
                 {
                     buf.extend(take(&mut self.imported));
                 }
