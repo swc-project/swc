@@ -209,6 +209,7 @@ impl Strip {
                     Expr::Unary(ref expr) => {
                         let v = compute(e, span, values, None, Some(&expr.arg))?;
                         match v {
+                            TsLit::BigInt(BigInt { value, .. }) => {}
                             TsLit::Number(Number { value: v, .. }) => {
                                 return Ok(TsLit::Number(Number {
                                     span,
@@ -292,6 +293,7 @@ impl Strip {
                         TsLit::Tpl(v) => {
                             Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
                         }
+                        TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),
                     }
                 })
                 .or_else(|err| match &m.init {
