@@ -151,11 +151,6 @@ where
                                         // print_hygiene("dep: before tree shaking", &self.cm,
                                         // &dep);
 
-                                        let is_namespace = specifiers.iter().any(|s| match s {
-                                            Specifier::Namespace { .. } => true,
-                                            _ => false,
-                                        });
-
                                         print_hygiene("dep: after tree shaking", &self.cm, &dep);
 
                                         if let Some(imports) = info
@@ -201,7 +196,7 @@ where
                         })
                         .collect::<Vec<_>>()
                 },
-                || -> Result<_, Error> {
+                || {
                     let deps = module_plan
                         .transitive_chunks
                         .clone()
@@ -211,28 +206,19 @@ where
                             let mut dep = self.merge_modules(plan, id, false, true)?;
 
                             dep = self.remark_exports(dep, dep_info.ctxt(), None);
-                            dep = dep.fold_with(&mut Unexporter);
+                            // dep = dep.fold_with(&mut Unexporter);
 
-                            Ok(dep)
+                            Ok((dep, dep_info))
                         })
                         .collect::<Vec<_>>();
 
-                    let mut body = vec![];
-                    for dep in deps {
-                        let dep = dep?;
-
-                        body.extend(dep.body);
-                    }
-
-                    Ok(body)
+                    deps
                 },
             );
 
             let mut targets = module_plan.chunks.clone();
 
-            prepend_stmts(&mut entry.body, transitive_deps?.into_iter());
-
-            for dep in deps {
+            for dep in transitive_deps.into_iter().chain(deps) {
                 let (mut dep, dep_info) = dep?;
                 if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
                     targets.remove(idx);
