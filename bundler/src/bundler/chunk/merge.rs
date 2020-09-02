@@ -1,4 +1,4 @@
-use super::plan::Plan;
+use super::{export::UnexportAsVar, plan::Plan};
 use crate::{
     bundler::{
         export::Exports,
@@ -142,6 +142,8 @@ where
                             // print_hygiene("dep:after wrapping esm", &self.cm,
                             // &dep);
                             } else {
+                                // print_hygiene("dep: before tree shaking", &self.cm, &dep);
+
                                 let is_namespace = specifiers.iter().any(|s| match s {
                                     Specifier::Namespace { .. } => true,
                                     _ => false,
@@ -164,7 +166,7 @@ where
                                     dep = self.remark_exports(dep, dep_info.ctxt(), &imports);
                                 }
 
-                                dep = dep.fold_with(&mut Unexporter);
+                                print_hygiene("dep: remarking exports", &self.cm, &dep);
                             }
                             // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
@@ -185,8 +187,6 @@ where
                             // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
 
                             dep = dep.fold_with(&mut Unexporter);
-
-                            print_hygiene("dep:before-injection", &self.cm, &dep);
                         }
                         print_hygiene("dep:before-injection", &self.cm, &dep);
 
@@ -210,6 +210,8 @@ where
                 }
 
                 if dep_info.is_es6 {
+                    print_hygiene("entry: before injection", &self.cm, &entry);
+
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
                         imported: take(&mut dep.body),
@@ -221,8 +223,6 @@ where
 
                     if injector.imported.is_empty() {
                         log::debug!("Merged {} as an es module", info.fm.name);
-                        // print_hygiene("ES6", &self.cm, &entry);
-                        log::debug!("Merged {} as an es6 module", info.fm.name);
                         print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
