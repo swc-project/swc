@@ -4,6 +4,16 @@ use std::collections::{HashMap, HashSet};
 use swc_common::FileName;
 
 fn assert_normal(t: &mut Tester, p: &Plan, entry: &str, deps: &[&str]) {
+    assert_normal_transitive(t, p, entry, deps, &[]);
+}
+
+fn assert_normal_transitive(
+    t: &mut Tester,
+    p: &Plan,
+    entry: &str,
+    deps: &[&str],
+    transitive_deps: &[&str],
+) {
     if deps.is_empty() {
         if let Some(v) = p.normal.get(&t.id(&format!("{}.js", entry))) {
             assert_eq!(v.chunks, vec![], "Should be empty");
@@ -25,6 +35,21 @@ fn assert_normal(t: &mut Tester, p: &Plan, entry: &str, deps: &[&str]) {
         "Should merge {:?}",
         deps
     );
+
+    assert_eq!(
+        p.normal[&t.id(&format!("{}.js", entry))]
+            .transitive_chunks
+            .iter()
+            .cloned()
+            .collect::<HashSet<_>>(),
+        transitive_deps
+            .into_iter()
+            .map(|s| format!("{}.js", s))
+            .map(|s| t.id(&s))
+            .collect::<HashSet<_>>(),
+        "Should merge {:?} transitively",
+        deps
+    )
 }
 
 fn assert_circular(t: &mut Tester, p: &Plan, entry: &str, members: &[&str]) {
@@ -177,67 +202,6 @@ fn concurrency_003() {
 }
 
 #[test]
-fn es6_concurrency() {
-    suite()
-        .file(
-            "main.js",
-            "
-                import './a';
-                import './b';
-                ",
-        )
-        .file("a.js", "import './common';")
-        .file("b.js", "import './common';")
-        .file("common.js", r#"console.log('foo')"#)
-        .run(|t| {
-            let module = t
-                .bundler
-                .load_transformed(&FileName::Real("main.js".into()))?
-                .unwrap();
-            let mut entries = HashMap::default();
-            entries.insert("main.js".to_string(), module);
-
-            let p = t.bundler.determine_entries(entries)?;
-
-            assert_eq!(p.circular.len(), 0);
-            assert_eq!(p.normal.len(), 3);
-
-            Ok(())
-        });
-}
-
-#[test]
-fn cjs_concurrency() {
-    suite()
-        .file(
-            "main.js",
-            "
-                require('./a');
-                require('./b');
-                ",
-        )
-        .file("a.js", "require('./common')")
-        .file("b.js", "require('./common')")
-        .file("common.js", r#"console.log('foo')"#)
-        .run(|t| {
-            let module = t
-                .bundler
-                .load_transformed(&FileName::Real("main.js".into()))?
-                .unwrap();
-            let mut entries = HashMap::default();
-            entries.insert("main.js".to_string(), module.clone());
-
-            let p = t.bundler.determine_entries(entries)?;
-
-            assert_eq!(p.circular.len(), 0);
-
-            assert_normal(t, &p, "main", &["a", "b"]);
-
-            Ok(())
-        });
-}
-
-#[test]
 fn circular_001() {
     suite()
         .file(
@@ -284,6 +248,39 @@ fn circular_001() {
             assert_normal(t, &p, "main", &["a"]);
             assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn transitive_001() {
+    suite()
+        .file(
+            "main.js",
+            "
+                import './a';
+                import './b';
+                ",
+        )
+        .file("a.js", "import './common';")
+        .file("b.js", "import './common';")
+        .file("common.js", r#"console.log('foo')"#)
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let p = t.bundler.determine_entries(entries)?;
+
+            assert_eq!(p.circular.len(), 0);
+            assert_eq!(p.normal.len(), 3);
+            assert_normal_transitive(t, &p, "main", &["a", "b"], &["common"]);
+            assert_normal_transitive(t, &p, "a", &[], &[]);
+            assert_normal_transitive(t, &p, "b", &[], &[]);
 
             Ok(())
         });

@@ -114,8 +114,16 @@ impl Plan {
 
 #[derive(Debug, Default)]
 pub(super) struct NormalPlan {
-    // Direct dependencies
+    /// Direct dependencies
     pub chunks: Vec<ModuleId>,
+
+    /// Used to handle
+    ///
+    /// - a -> b
+    /// - a -> c
+    /// - b -> d
+    /// - c -> d
+    pub transitive_chunks: Vec<ModuleId>,
 }
 
 #[derive(Debug, Default)]
