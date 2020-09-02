@@ -319,14 +319,8 @@ struct ActualMarker<'a> {
     imports: &'a [Specifier],
 }
 
-impl Fold for ActualMarker<'_> {
-    noop_fold_type!();
-
-    fn fold_expr(&mut self, node: Expr) -> Expr {
-        node
-    }
-
-    fn fold_ident(&mut self, ident: Ident) -> Ident {
+impl ActualMarker<'_> {
+    fn rename(&self, ident: Ident) -> Result<Ident, Ident> {
         if let Some(mut ident) = self.imports.iter().find_map(|s| match s {
             Specifier::Specific {
                 alias: Some(alias),
@@ -339,11 +333,59 @@ impl Fold for ActualMarker<'_> {
         }) {
             ident.span = ident.span.with_ctxt(self.dep_ctxt);
 
-            return ident;
+            return Ok(ident);
         }
 
-        ident
+        Err(ident)
     }
+}
+
+impl Fold for ActualMarker<'_> {
+    noop_fold_type!();
+
+    fn fold_expr(&mut self, node: Expr) -> Expr {
+        node
+    }
+
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
+        match self.rename(ident) {
+            Ok(v) => v,
+            Err(v) => v,
+        }
+    }
+
+    fn fold_export_named_specifier(&mut self, s: ExportNamedSpecifier) -> ExportNamedSpecifier {
+        if let Some(..) = s.exported {
+            ExportNamedSpecifier {
+                orig: self.fold_ident(s.orig),
+                ..s
+            }
+        } else {
+            match self.rename(s.orig.clone()) {
+                Ok(exported) => ExportNamedSpecifier {
+                    orig: s.orig,
+                    exported: Some(exported),
+                    ..s
+                },
+                Err(orig) => ExportNamedSpecifier { orig, ..s },
+            }
+        }
+    }
+
+    fn fold_prop(&mut self, p: Prop) -> Prop {
+        match p {
+            Prop::Shorthand(i) => match self.rename(i.clone()) {
+                Ok(renamed) => Prop::KeyValue(KeyValueProp {
+                    key: i.into(),
+                    value: Box::new(renamed.into()),
+                }),
+                Err(orig) => Prop::Shorthand(orig),
+            },
+            _ => p.fold_with(self),
+        }
+    }
+
+    // TODO: shorthand, etc
 }
 
 struct RemarkIdents {
