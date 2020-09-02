@@ -149,11 +149,6 @@ where
                                     _ => false,
                                 });
 
-                                if !is_namespace {
-                                    // Tree-shaking
-                                    dep = self.drop_unused(dep, Some(&specifiers));
-                                }
-
                                 print_hygiene("dep: after tree shaking", &self.cm, &dep);
 
                                 if let Some(imports) = info

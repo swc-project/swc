@@ -92,8 +92,6 @@ where
 
                         // `export * from './foo'` does not have specifier
                         if !specifiers.is_empty() {
-                            dep = self.drop_unused(dep, Some(&specifiers));
-
                             dep.visit_mut_with(&mut UnexportAsVar {
                                 target_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                             });
