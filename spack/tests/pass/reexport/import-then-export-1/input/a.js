@@ -1,3 +1,3 @@
-import { a } from './b';
+import { b } from './b';
 
-export { a }
+export { b }

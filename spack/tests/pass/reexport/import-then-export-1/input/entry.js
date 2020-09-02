@@ -1,1 +1,2 @@
-import { a } from './a'
+import { b } from './a'
+console.log(b)
