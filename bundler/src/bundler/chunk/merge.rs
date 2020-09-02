@@ -89,83 +89,9 @@ where
                 })
                 .collect();
 
-            let deps = to_merge
-                .into_par_iter()
-                .map(|(src, specifiers)| -> Result<_, Error> {
-                    self.run(|| {
-                        log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
-
-                        let dep_info = self.scope.get_module(src.module_id).unwrap();
-                        info.helpers.extend(&dep_info.helpers);
-                        // In the case of
-                        //
-                        //  a <- b
-                        //  b <- c
-                        //
-                        // we change it to
-                        //
-                        // a <- b + chunk(c)
-                        //
-                        let mut dep = self
-                            .merge_modules(plan, src.module_id, false, false)
-                            .with_context(|| {
-                                format!(
-                                    "failed to merge: ({}):{} <= ({}):{}",
-                                    info.id, info.fm.name, src.module_id, src.src.value
-                                )
-                            })?;
-
-                        if dep_info.is_es6 {
-                            print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
-
-                            let is_acccessed_with_computed_key =
-                                specifiers.iter().any(|s| match s {
-                                    Specifier::Namespace { all: true, .. } => true,
-                                    _ => false,
-                                });
-
-                            // If an import with a computed key exists, we can't shake tree
-                            if is_acccessed_with_computed_key {
-                                let id = specifiers
-                                    .iter()
-                                    .find_map(|s| match s {
-                                        Specifier::Namespace { local, all: true } => Some(local),
-                                        _ => None,
-                                    })
-                                    .unwrap();
-
-                                dep = self.wrap_esm_as_a_var(
-                                    &dep_info,
-                                    dep,
-                                    id.clone().replace_mark(dep_info.mark()).into_ident(),
-                                )?;
-
-                            // print_hygiene("dep:after wrapping esm", &self.cm,
-                            // &dep);
-                            } else {
-                                // print_hygiene("dep: before tree shaking", &self.cm, &dep);
-
-                                let is_namespace = specifiers.iter().any(|s| match s {
-                                    Specifier::Namespace { .. } => true,
-                                    _ => false,
-                                });
-
-                                print_hygiene("dep: after tree shaking", &self.cm, &dep);
             let (deps, transitive_deps) = util::join(
                 || {
-                    let to_merge: Vec<_> = info
-                        .imports
-                        .specifiers
-                        .iter()
-                        .filter(|(src, _)| {
-                            log::trace!("Checking: {} <= {}", info.fm.name, src.src.value);
-
-                            // Skip if a dependency is going to be merged by other dependency
-                            module_plan.chunks.contains(&src.module_id)
-                        })
-                        .collect();
-
-                    let deps = to_merge
+                    to_merge
                         .into_par_iter()
                         .map(|(src, specifiers)| -> Result<_, Error> {
                             self.run(|| {
@@ -230,11 +156,6 @@ where
                                             _ => false,
                                         });
 
-                                        if !is_namespace {
-                                            // Tree-shaking
-                                            dep = self.drop_unused(dep, Some(&specifiers));
-                                        }
-
                                         print_hygiene("dep: after tree shaking", &self.cm, &dep);
 
                                         if let Some(imports) = info
@@ -253,6 +174,23 @@ where
 
                                         print_hygiene("dep: remarking exports", &self.cm, &dep);
                                     }
+                                    // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+
+                                    // if let Some(imports) = info
+                                    //     .imports
+                                    //     .specifiers
+                                    //     .iter()
+                                    //     .find(|(s, _)| s.module_id == dep_info.id)
+                                    //     .map(|v| &v.1)
+                                    // {
+                                    //     dep = dep.fold_with(&mut ExportRenamer {
+                                    //         mark: dep_info.mark(),
+                                    //         _exports: &dep_info.exports,
+                                    //         imports: &imports,
+                                    //         extras: vec![],
+                                    //     });
+                                    // }
+                                    // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
 
                                     dep = dep.fold_with(&mut Unexporter);
                                 }
@@ -261,9 +199,7 @@ where
                                 Ok((src, dep, dep_info))
                             })
                         })
-                        .collect::<Vec<_>>();
-
-                    deps
+                        .collect::<Vec<_>>()
                 },
                 || -> Result<_, Error> {
                     let deps = module_plan
@@ -383,7 +319,13 @@ impl VisitMut for ImportDropper<'_> {
 
     fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
         match i {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { .. })) => {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
+                if self
+                    .imports
+                    .specifiers
+                    .iter()
+                    .any(|(s, _)| s.src.value == *src.value) =>
+            {
                 *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
             }
             _ => {}
