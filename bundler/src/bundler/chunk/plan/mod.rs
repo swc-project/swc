@@ -3,9 +3,11 @@ use crate::{
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{bail, Error};
+use lca::least_common_ancestor;
 use petgraph::{algo::all_simple_paths, graphmap::DiGraphMap, visit::Bfs};
 use std::collections::{hash_map::Entry, HashMap};
 
+mod lca;
 #[cfg(test)]
 mod tests;
 
@@ -276,18 +278,32 @@ where
         }
 
         for (id, deps) in builder.direct_deps.drain() {
-            let e = plans.normal.entry(id).or_default();
-
             for &dep in &deps {
                 if builder.circular.get(&id).is_some() {
-                    e.chunks.push(dep);
+                    plans.normal.entry(id).or_default().chunks.push(dep);
                     continue;
                 }
+
+                let dependants = builder.reverse.get(&dep).map(|s| &**s).unwrap_or(&[]);
 
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
 
-                    e.chunks.push(dep);
+                    if 2 <= dependants.len() {
+                        // Should be merged as a transitive dependency.
+                        //
+                        let module = least_common_ancestor(&builder.entry_graph, dependants);
+                        plans
+                            .normal
+                            .entry(module)
+                            .or_default()
+                            .transitive_chunks
+                            .push(dep);
+                    } else {
+                        // Direct dependency.
+                        plans.normal.entry(id).or_default().chunks.push(dep);
+                    }
+
                     continue;
                 }
             }
@@ -295,10 +311,6 @@ where
 
         for &entry in &plans.entries {
             plans.normal.entry(entry).or_default();
-        }
-
-        {
-            // Calculate transitive dependencies
         }
 
         // dbg!(&plans);
