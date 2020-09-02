@@ -278,14 +278,35 @@ where
             // }
 
             if is_entry {
-                entry.visit_mut_with(&mut ImportDropper {
-                    imports: &info.imports,
-                });
+                entry.body.retain(|item| {
+                    match item {
+                        ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                            for (id, p) in &plan.normal {
+                                if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                                    log::debug!("Dropping import");
+                                    return false;
+                                }
 
-                for (id, p) in &plan.circular {
-                    entry.body.retain(|item| {
-                        match item {
-                            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                                for &mid in &p.chunks {
+                                    if import.span.ctxt
+                                        == self.scope.get_module(mid).unwrap().ctxt()
+                                    {
+                                        log::debug!("Dropping direct import");
+                                        return false;
+                                    }
+                                }
+
+                                for &mid in &p.transitive_chunks {
+                                    if import.span.ctxt
+                                        == self.scope.get_module(mid).unwrap().ctxt()
+                                    {
+                                        log::debug!("Dropping transitive import");
+                                        return false;
+                                    }
+                                }
+                            }
+
+                            for (id, p) in &plan.circular {
                                 // Drop if it's one of circular import
                                 if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
                                     log::debug!("Dropping circular import");
@@ -301,12 +322,12 @@ where
                                     }
                                 }
                             }
-                            _ => {}
                         }
+                        _ => {}
+                    }
 
-                        true
-                    });
-                }
+                    true
+                });
             }
 
             Ok(entry)
