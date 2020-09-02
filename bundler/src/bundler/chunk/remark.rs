@@ -123,7 +123,29 @@ impl Fold for ExportRenamer<'_> {
             ModuleItem::Stmt(..) => return item,
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
-                let ident = self.aliased_import(&js_word!("default"));
+                let ident = match export.decl {
+                    DefaultDecl::Class(ClassExpr {
+                        ident: Some(ident),
+                        class,
+                    }) => {
+                        return ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                            ident,
+                            declare: false,
+                            class,
+                        })))
+                    }
+                    DefaultDecl::Fn(FnExpr {
+                        ident: Some(ident),
+                        function,
+                    }) => {
+                        return ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                            ident,
+                            declare: false,
+                            function,
+                        })))
+                    }
+                    _ => self.aliased_import(&js_word!("default")),
+                };
 
                 let ident = if let Some(id) = ident {
                     id
@@ -134,7 +156,6 @@ impl Fold for ExportRenamer<'_> {
                 };
 
                 match export.decl {
-                    // TODO: Optimize if c.ident is `Some`
                     DefaultDecl::Class(c) => {
                         return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: export.span,
@@ -151,7 +172,6 @@ impl Fold for ExportRenamer<'_> {
                             }],
                         })))
                     }
-                    // TODO: Optimize if f.ident is `Some`
                     DefaultDecl::Fn(f) => {
                         return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: export.span,
