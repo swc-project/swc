@@ -218,7 +218,7 @@ where
 
             let mut targets = module_plan.chunks.clone();
 
-            for dep in transitive_deps.into_iter().chain(deps) {
+            for dep in deps.into_iter().chain(transitive_deps) {
                 let (mut dep, dep_info) = dep?;
                 if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
                     targets.remove(idx);
