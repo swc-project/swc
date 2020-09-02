@@ -374,41 +374,6 @@ impl Fold for Unexporter {
     }
 }
 
-/// Applied to the importer module, and marks (connects) imported idents.
-pub(super) struct LocalMarker<'a> {
-    /// Syntax context of the top level items.
-    pub top_level_ctxt: SyntaxContext,
-    pub specifiers: &'a [(Source, Vec<Specifier>)],
-}
-
-impl VisitMut for LocalMarker<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_ident(&mut self, mut node: &mut Ident) {
-        if node.span.ctxt != self.top_level_ctxt {
-            return;
-        }
-
-        for (s, specifiers) in self.specifiers {
-            if specifiers.iter().any(|id| *id.local() == *node) {
-                node.span = node.span.with_ctxt(s.ctxt);
-            }
-        }
-    }
-
-    fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        node.body.visit_mut_with(self);
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
-}
-
 struct Es6ModuleInjector {
     imported: Vec<ModuleItem>,
     ctxt: SyntaxContext,
