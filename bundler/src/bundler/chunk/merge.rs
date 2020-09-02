@@ -253,23 +253,6 @@ where
 
                                         print_hygiene("dep: remarking exports", &self.cm, &dep);
                                     }
-                                    // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
-
-                                    // if let Some(imports) = info
-                                    //     .imports
-                                    //     .specifiers
-                                    //     .iter()
-                                    //     .find(|(s, _)| s.module_id == dep_info.id)
-                                    //     .map(|v| &v.1)
-                                    // {
-                                    //     dep = dep.fold_with(&mut ExportRenamer {
-                                    //         mark: dep_info.mark(),
-                                    //         _exports: &dep_info.exports,
-                                    //         imports: &imports,
-                                    //         extras: vec![],
-                                    //     });
-                                    // }
-                                    // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
 
                                     dep = dep.fold_with(&mut Unexporter);
                                 }
@@ -282,22 +265,36 @@ where
 
                     deps
                 },
-                || {
+                || -> Result<_, Error> {
+                    let deps = module_plan
+                        .transitive_chunks
+                        .clone()
+                        .into_par_iter()
+                        .map(|id| -> Result<_, Error> {
+                            let dep_info = self.scope.get_module(id).unwrap();
+                            let mut dep = self.merge_modules(plan, id, false, true)?;
+
+                            dep = self.remark_exports(dep, dep_info.ctxt(), None);
+                            dep = dep.fold_with(&mut Unexporter);
+
+                            Ok(dep)
+                        })
+                        .collect::<Vec<_>>();
+
                     let mut body = vec![];
+                    for dep in deps {
+                        let dep = dep?;
 
-                    module_plan.transitive_chunks.iter().for_each(|&id| {
-                        let module = self.scope.get_module(id).unwrap();
+                        body.extend(dep.body);
+                    }
 
-                        body.extend(module.module.body.iter().cloned());
-                    });
-
-                    body
+                    Ok(body)
                 },
             );
 
             let mut targets = module_plan.chunks.clone();
 
-            prepend_stmts(&mut entry.body, transitive_deps.into_iter());
+            prepend_stmts(&mut entry.body, transitive_deps?.into_iter());
 
             for dep in deps {
                 let (src, mut dep, dep_info) = dep?;
@@ -386,13 +383,7 @@ impl VisitMut for ImportDropper<'_> {
 
     fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
         match i {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
-                if self
-                    .imports
-                    .specifiers
-                    .iter()
-                    .any(|(s, _)| s.src.value == *src.value) =>
-            {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { .. })) => {
                 *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
             }
             _ => {}
