@@ -8,4 +8,5 @@ function getC() {
 }
 class C {
 }
-console.log(a, a());
+const a1 = a;
+console.log(a1, a1());
