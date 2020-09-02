@@ -50,6 +50,8 @@ struct ExportRenamer<'a> {
 impl ExportRenamer<'_> {
     /// Returns [SyntaxContext] for the name of variable.
     fn mark_as_remarking_required(&mut self, exported: Id, orig: Id) -> SyntaxContext {
+        log::info!("Remarking required: {:?} -> {:?}", exported, orig);
+
         let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
         self.remark_map
             .insert((exported.0.clone(), ctxt), exported.1);
@@ -409,6 +411,7 @@ impl VisitMut for RemarkIdents {
         let id = (*n).to_id();
         if let Some(&ctxt) = self.map.get(&id) {
             n.span = n.span.with_ctxt(ctxt);
+            log::info!("Remark: {:?} -> {:?}", id, ctxt)
         }
     }
 }
