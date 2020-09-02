@@ -52,26 +52,19 @@ where
                     &normal_plan
                 }
             };
-            log::debug!("Merge({}) <- {:?}", info.fm.name, module_plan);
 
             let mut entry: Module = (*info.module).clone();
-
-            // // Respan using imported module's syntax context.
-            // entry.visit_mut_with(&mut LocalMarker {
-            //     top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-            //     specifiers: &info.imports.specifiers,
-            // });
-
-            log::info!(
-                "Merge: ({}){} <= {:?}",
-                info.id,
-                info.fm.name,
-                plan.normal.get(&info.id)
-            );
 
             if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
                 return Ok(entry);
             }
+
+            log::info!(
+                "Merge: ({}) {} <= {:?}",
+                info.id,
+                info.fm.name,
+                plan.normal.get(&info.id)
+            );
 
             self.merge_reexports(plan, &mut entry, &info)
                 .context("failed to merge reepxorts")?;
