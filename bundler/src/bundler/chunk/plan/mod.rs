@@ -20,6 +20,9 @@ struct PlanBuilder {
     circular: HashMap<ModuleId, Vec<ModuleId>>,
     direct_deps: HashMap<ModuleId, Vec<ModuleId>>,
 
+    /// Used to calcuate transitive dependencies.
+    reverse: HashMap<ModuleId, Vec<ModuleId>>,
+
     /// Used for normalization
     ///
     /// This is required because we cannot know the order file is
@@ -294,6 +297,10 @@ where
             plans.normal.entry(entry).or_default();
         }
 
+        {
+            // Calculate transitive dependencies
+        }
+
         // dbg!(&plans);
 
         Ok(plans)
@@ -374,6 +381,12 @@ where
                 if src.is_unconditional { 2 } else { 1 },
             );
             builder.try_add_direct_dep(root_id, module_id, src.module_id);
+
+            builder
+                .reverse
+                .entry(src.module_id)
+                .or_default()
+                .push(module_id);
         }
     }
 }
