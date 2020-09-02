@@ -7,6 +7,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
+    BigInt,
 };
 use is_macro::Is;
 use serde::{
@@ -684,6 +685,9 @@ pub enum TsLit {
 
     #[tag("BooleanLiteral")]
     Bool(Bool),
+
+    #[tag("BigIntLiteral")]
+    BigInt(BigInt),
 
     #[tag("TemplateLiteral")]
     Tpl(Tpl),
