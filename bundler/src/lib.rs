@@ -1,3 +1,5 @@
+#![cfg_attr(test, feature(track_caller))]
+
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config},
     id::ModuleId,

@@ -3,10 +3,12 @@ use crate::bundler::tests::{suite, Tester};
 use std::collections::{HashMap, HashSet};
 use swc_common::FileName;
 
+#[track_caller]
 fn assert_normal(t: &mut Tester, p: &Plan, entry: &str, deps: &[&str]) {
     assert_normal_transitive(t, p, entry, deps, &[]);
 }
 
+#[track_caller]
 fn assert_normal_transitive(
     t: &mut Tester,
     p: &Plan,
