@@ -209,7 +209,7 @@ impl Strip {
                     Expr::Unary(ref expr) => {
                         let v = compute(e, span, values, None, Some(&expr.arg))?;
                         match v {
-                            TsLit::BigInt(BigInt { value, .. }) => {}
+                            TsLit::BigInt(BigInt { .. }) => {}
                             TsLit::Number(Number { value: v, .. }) => {
                                 return Ok(TsLit::Number(Number {
                                     span,
