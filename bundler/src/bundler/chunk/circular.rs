@@ -9,8 +9,6 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
-mod hygiene;
-
 /// Circular imports are hard to handle.
 ///
 /// We use some dedicated method to handle circular dependencies.
