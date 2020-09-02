@@ -353,6 +353,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_ts_lit(&mut self, n: &TsLit) -> Result {
         match n {
+            TsLit::BigInt(n) => emit!(n),
             TsLit::Number(n) => emit!(n),
             TsLit::Str(n) => emit!(n),
             TsLit::Bool(n) => emit!(n),
