@@ -26,6 +26,8 @@ where
         };
         dep = dep.fold_with(&mut v);
 
+        log::info!("Remark map: {:?}", v.remark_map);
+
         // Swap syntax context. Although name is remark, it's actually
         // swapping because ExportRenamer inserts two-side conversion
         // rule.
@@ -228,9 +230,18 @@ impl Fold for ExportRenamer<'_> {
 
                                 match self.aliased_import(&exported.sym) {
                                     Some(v) => {
-                                        let ctxt = self.mark_as_remarking_required(
-                                            exported.to_id(),
-                                            s.orig.to_id(),
+                                        let ctxt = self
+                                            .mark_as_remarking_required(v.clone(), s.orig.to_id());
+                                        log::trace!(
+                                            "exported = {}{:?}",
+                                            exported.sym,
+                                            exported.span.ctxt
+                                        );
+                                        log::trace!("id = {:?}", v);
+                                        log::trace!(
+                                            "orig = {}{:?}",
+                                            s.orig.sym,
+                                            s.orig.span.ctxt()
                                         );
 
                                         Some((v.0, ctxt))
