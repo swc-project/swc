@@ -296,15 +296,19 @@ impl VisitMut for UnexportAsVar {
                                     definite: true,
                                 })
                             }
-                            None => decls.push(VarDeclarator {
-                                span: n.span,
-                                name: Pat::Ident(Ident::new(
-                                    n.orig.sym.clone(),
-                                    n.orig.span.with_ctxt(self.target_ctxt),
-                                )),
-                                init: Some(Box::new(Expr::Ident(n.orig.clone()))),
-                                definite: false,
-                            }),
+                            None => {
+                                log::debug!("Alias: {:?} -> {:?}", n.orig, self.target_ctxt);
+
+                                decls.push(VarDeclarator {
+                                    span: n.span,
+                                    name: Pat::Ident(Ident::new(
+                                        n.orig.sym.clone(),
+                                        n.orig.span.with_ctxt(self.target_ctxt),
+                                    )),
+                                    init: Some(Box::new(Expr::Ident(n.orig.clone()))),
+                                    definite: false,
+                                })
+                            }
                         },
                     }
                 }
