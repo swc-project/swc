@@ -71,7 +71,6 @@ where
         dep: ModuleId,
     ) -> Result<Module, Error> {
         self.run(|| {
-            let dep_info = self.scope.get_module(dep).unwrap();
             let mut dep = self
                 .merge_modules(plan, dep, false, false)
                 .context("failed to merge dependency of a cyclic module")?;

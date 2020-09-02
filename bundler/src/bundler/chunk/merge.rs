@@ -1,9 +1,6 @@
 use super::plan::Plan;
 use crate::{
-    bundler::{
-        export::Exports,
-        load::{Imports, Source, Specifier},
-    },
+    bundler::load::{Imports, Specifier},
     debug::print_hygiene,
     id::ModuleId,
     load::Load,
@@ -15,9 +12,8 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use std::{borrow::Cow, mem::take};
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>

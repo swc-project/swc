@@ -360,15 +360,6 @@ pub(super) enum Specifier {
     },
 }
 
-impl Specifier {
-    pub fn local(&self) -> &Id {
-        match self {
-            Specifier::Specific { local, .. } => local,
-            Specifier::Namespace { local, .. } => local,
-        }
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub(super) struct Source {
     pub is_loaded_synchronously: bool,
