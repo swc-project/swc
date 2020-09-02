@@ -280,7 +280,33 @@ where
             if is_entry {
                 entry.visit_mut_with(&mut ImportDropper {
                     imports: &info.imports,
-                })
+                });
+
+                for (id, p) in &plan.circular {
+                    entry.body.retain(|item| {
+                        match item {
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                                // Drop if it's one of circular import
+                                if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                                    log::debug!("Dropping circular import");
+                                    return false;
+                                }
+
+                                for &mid in &p.chunks {
+                                    if import.span.ctxt
+                                        == self.scope.get_module(mid).unwrap().ctxt()
+                                    {
+                                        log::debug!("Dropping circular import");
+                                        return false;
+                                    }
+                                }
+                            }
+                            _ => {}
+                        }
+
+                        true
+                    });
+                }
             }
 
             Ok(entry)
