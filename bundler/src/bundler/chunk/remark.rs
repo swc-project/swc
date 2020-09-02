@@ -12,11 +12,14 @@ where
     R: Resolve,
 {
     /// Applied to dependencies
+    ///
+    ///
+    /// If `imports` is [None], it means all specifier can be used.
     pub(super) fn remark_exports(
         &self,
         mut dep: Module,
         dep_ctxt: SyntaxContext,
-        imports: &[Specifier],
+        imports: Option<&[Specifier]>,
     ) -> Module {
         let mut v = ExportRenamer {
             dep_ctxt,
@@ -45,7 +48,7 @@ struct ExportRenamer<'a> {
     remark_map: HashMap<Id, SyntaxContext>,
 
     /// Dependant module's import
-    imports: &'a [Specifier],
+    imports: Option<&'a [Specifier]>,
     extras: Vec<Stmt>,
 }
 
@@ -62,7 +65,13 @@ impl ExportRenamer<'_> {
     }
 
     fn aliased_import(&self, sym: &JsWord) -> Option<Id> {
+        if self.imports.is_none() {
+            return Some((sym.clone(), self.dep_ctxt));
+        }
+
         self.imports
+            .as_ref()
+            .unwrap()
             .iter()
             .find_map(|s| match s {
                 Specifier::Specific {
@@ -359,12 +368,16 @@ struct ActualMarker<'a> {
     dep_ctxt: SyntaxContext,
 
     /// Dependant module's import
-    imports: &'a [Specifier],
+    imports: Option<&'a [Specifier]>,
 }
 
 impl ActualMarker<'_> {
     fn rename(&self, ident: Ident) -> Result<Ident, Ident> {
-        if let Some(mut ident) = self.imports.iter().find_map(|s| match s {
+        if self.imports.is_none() {
+            return Err(ident);
+        }
+
+        if let Some(mut ident) = self.imports.as_ref().unwrap().iter().find_map(|s| match s {
             Specifier::Specific {
                 alias: Some(alias),
                 local,
