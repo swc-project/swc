@@ -47,8 +47,8 @@ fn assert_normal_transitive(
             .map(|s| format!("{}.js", s))
             .map(|s| t.id(&s))
             .collect::<HashSet<_>>(),
-        "Should merge {:?} transitively",
-        deps
+        "Should merge {:?} transitivly",
+        transitive_deps
     )
 }
 
