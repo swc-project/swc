@@ -1,2 +1,3 @@
 const foo = 1;
-console.log(foo);
+const foo1 = foo;
+console.log(foo1);

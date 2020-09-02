@@ -236,7 +236,17 @@ impl Fold for ExportRenamer<'_> {
                                     None => None,
                                 }
                             } else {
-                                return;
+                                match self.aliased_import(&s.orig.sym) {
+                                    Some(id) => {
+                                        let ctxt = self.mark_as_remarking_required(
+                                            (s.orig.sym.clone(), self.dep_ctxt),
+                                            s.orig.to_id(),
+                                        );
+
+                                        Some((id.0, ctxt))
+                                    }
+                                    None => None,
+                                }
                             }
                         }
                     };
