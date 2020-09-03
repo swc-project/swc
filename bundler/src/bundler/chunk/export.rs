@@ -98,6 +98,8 @@ where
                                     print_hygiene("dep: after export remarker", &self.cm, &dep);
                                 }
 
+                                dbg!(&v.remark_map);
+
                                 self.remark(&mut dep, &v.remark_map);
                                 remark_map = v.remark_map;
 
@@ -182,8 +184,14 @@ impl VisitMut for ExportRemarker {
     noop_visit_mut_type!();
 
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if n.exported.is_some() {
-            // TODO: ???
+        if let Some(exported) = &n.exported {
+            let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            // self.remark_map.insert(n.orig.to_id(), ctxt);
+            self.remark_map
+                .insert((exported.sym.clone(), self.entry_ctxt), ctxt);
+            self.remark_map
+                .insert((exported.sym.clone(), self.dep_ctxt), ctxt);
+
             return;
         }
 
@@ -333,8 +341,8 @@ impl VisitMut for UnexportAsVar {
                         ExportSpecifier::Named(n) => match &n.exported {
                             Some(exported) => {
                                 // TODO: (maybe) Check previous context
-                                let mut exported = exported.clone();
-                                exported.span = exported.span.with_ctxt(self.dep_ctxt);
+                                let exported = exported.clone();
+                                // exported.span = exported.span.with_ctxt(self.dep_ctxt);
 
                                 decls.push(VarDeclarator {
                                     span: n.span,
