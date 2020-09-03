@@ -1,8 +1,6 @@
 const b = '1';
 const a = '1';
 console.log(b);
-const a1 = a;
-export { a1 as a };
+export { a };
 const b = '1';
-const b1 = b;
-export { b1 as b };
+export { b };
