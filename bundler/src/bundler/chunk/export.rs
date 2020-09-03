@@ -49,7 +49,7 @@ where
     pub(super) fn merge_reexports(
         &self,
         plan: &Plan,
-        entry: &mut Module,
+        mut entry: &mut Module,
         info: &TransformedModule,
     ) -> Result<(), Error> {
         log::debug!("merge_reexports: {}", info.fm.name);
@@ -74,6 +74,8 @@ where
                 },
                 || -> Result<_, Error> {
                     self.run(|| {
+                        let mut remark_map = RemarkMap::default();
+
                         let mut dep = self
                             .merge_modules(plan, src.module_id, false, false)
                             .with_context(|| {
@@ -85,6 +87,25 @@ where
 
                         // `export * from './foo'` does not have specifier
                         if !specifiers.is_empty() {
+                            {
+                                let mut v = ExportRemarker {
+                                    remark_map: Default::default(),
+                                    entry_ctxt: info.ctxt(),
+                                    dep_ctxt: src.ctxt,
+                                };
+                                dep.visit_mut_with(&mut v);
+                                if HYGIENE {
+                                    print_hygiene("dep: after export remarker", &self.cm, &dep);
+                                }
+
+                                self.remark(&mut dep, &v.remark_map);
+                                remark_map = v.remark_map;
+
+                                if HYGIENE {
+                                    print_hygiene("dep: after remakring exports", &self.cm, &dep);
+                                }
+                            }
+
                             dep.visit_mut_with(&mut UnexportAsVar {
                                 dep_ctxt: src.ctxt,
                                 entry_ctxt: info.ctxt(),
@@ -115,34 +136,17 @@ where
                                 print_hygiene("dep:before-merge", &self.cm, &dep);
                             }
                         }
-                        {
-                            let mut v = ExportRemarker {
-                                remark_map: Default::default(),
-                                entry_ctxt: info.ctxt(),
-                            };
-                            dep.visit_mut_with(&mut v);
-                            if HYGIENE {
-                                print_hygiene("dep: after export remarker", &self.cm, &dep);
-                            }
 
-                            dbg!(&v.remark_map);
-
-                            self.remark(&mut dep, v.remark_map);
-
-                            if HYGIENE {
-                                print_hygiene("dep: after remakring exports", &self.cm, &dep);
-                            }
-                        }
-
-                        Ok(dep)
+                        Ok((dep, remark_map))
                     })
                 },
             );
-            let dep = dep?;
+            let (dep, remark_map) = dep?;
 
             if HYGIENE {
                 print_hygiene("entry:before-injection", &self.cm, &entry);
             }
+            self.remark(&mut entry, &remark_map);
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
@@ -170,20 +174,8 @@ where
 /// Connects two module, by remakring some identifiers.
 struct ExportRemarker {
     entry_ctxt: SyntaxContext,
+    dep_ctxt: SyntaxContext,
     remark_map: RemarkMap,
-}
-
-impl ExportRemarker {
-    /// Returns [SyntaxContext] for the name of variable.
-    fn mark_as_remarking_required(&mut self, exported: Id, orig: Id) -> SyntaxContext {
-        log::info!("Remarking required: {:?} -> {:?}", exported, orig);
-
-        let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-        self.remark_map
-            .insert((exported.0.clone(), ctxt), exported.1);
-        self.remark_map.insert(orig, ctxt);
-        ctxt
-    }
 }
 
 impl VisitMut for ExportRemarker {
@@ -196,12 +188,14 @@ impl VisitMut for ExportRemarker {
         }
 
         let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-        self.remark_map.insert(n.orig.to_id(), ctxt);
+        // self.remark_map.insert(n.orig.to_id(), ctxt);
+        self.remark_map
+            .insert((n.orig.sym.clone(), self.entry_ctxt), ctxt);
+        self.remark_map
+            .insert((n.orig.sym.clone(), self.dep_ctxt), ctxt);
 
-        if n.orig.span.ctxt == self.entry_ctxt {
-            n.exported = Some(Ident::new(n.orig.sym.clone(), n.orig.span));
-            n.orig.span = n.orig.span.with_ctxt(ctxt);
-        }
+        n.exported = Some(Ident::new(n.orig.sym.clone(), n.orig.span));
+        n.orig.span = n.orig.span.with_ctxt(ctxt);
     }
 }
 

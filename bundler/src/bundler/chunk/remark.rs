@@ -36,12 +36,12 @@ where
         // Swap syntax context. Although name is remark, it's actually
         // swapping because ExportRenamer inserts two-side conversion
         // rule.
-        self.remark(&mut dep, v.remark_map);
+        self.remark(&mut dep, &v.remark_map);
 
         dep
     }
 
-    pub(super) fn remark(&self, module: &mut Module, remark_map: RemarkMap) {
+    pub(super) fn remark(&self, module: &mut Module, remark_map: &RemarkMap) {
         module.visit_mut_with(&mut RemarkIdents { map: remark_map });
     }
 }
@@ -448,11 +448,11 @@ impl Fold for ActualMarker<'_> {
     // TODO: shorthand, etc
 }
 
-struct RemarkIdents {
-    map: RemarkMap,
+struct RemarkIdents<'a> {
+    map: &'a RemarkMap,
 }
 
-impl VisitMut for RemarkIdents {
+impl VisitMut for RemarkIdents<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
