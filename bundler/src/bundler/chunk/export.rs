@@ -1,7 +1,6 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Specifier, TransformedModule},
-    debug::print_hygiene,
     util, Bundler, Load, Resolve,
 };
 use anyhow::{Context, Error};
@@ -11,7 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
-const HYGIENE: bool = true;
+const HYGIENE: bool = false;
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -103,13 +102,6 @@ where
             );
             let dep = dep?;
 
-            if HYGIENE {
-                print_hygiene("entry:before-injection", &self.cm, &entry);
-            }
-            if HYGIENE {
-                print_hygiene("dep:before-injection", &self.cm, &dep);
-            }
-
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
                 imported: dep.body,
@@ -117,15 +109,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            print_hygiene(
-                &format!(
-                    "entry:injection {:?} <- {:?}",
-                    SyntaxContext::empty().apply_mark(info.mark()),
-                    SyntaxContext::empty().apply_mark(imported.mark()),
-                ),
-                &self.cm,
-                &entry,
-            );
+            // print_hygiene(
+            //     &format!(
+            //         "entry:injection {:?} <- {:?}",
+            //         SyntaxContext::empty().apply_mark(info.mark()),
+            //         SyntaxContext::empty().apply_mark(imported.mark()),
+            //     ),
+            //     &self.cm,
+            //     &entry,
+            // );
             // assert_eq!(injector.imported, vec![]);
         }
 
