@@ -421,12 +421,9 @@ impl Fold for DepUnexporter<'_> {
                                 return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
                             }
                         }
-                        Decl::Var(v) => {
-                            let ids: Vec<Id> = find_ids(&v.decls);
-                            for id in ids {
-                                if self.is_exported(&id) {
-                                    return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
-                                }
+                        Decl::Var(..) => {
+                            if self.exports.is_empty() {
+                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
                             }
                         }
                         _ => {}
