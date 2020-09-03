@@ -1610,6 +1610,7 @@ impl<I: Tokens> Parser<I> {
             TsLit::Tpl(tpl)
         } else {
             match self.parse_lit()? {
+                Lit::BigInt(n) => TsLit::BigInt(n),
                 Lit::Bool(n) => TsLit::Bool(n),
                 Lit::Num(n) => TsLit::Number(n),
                 Lit::Str(n) => TsLit::Str(n),
@@ -1748,7 +1749,12 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
             }
-            Token::Str { .. } | Token::Num { .. } | tok!("true") | tok!("false") | tok!('`') => {
+            Token::BigInt { .. }
+            | Token::Str { .. }
+            | Token::Num { .. }
+            | tok!("true")
+            | tok!("false")
+            | tok!('`') => {
                 return self
                     .parse_ts_lit_type_node()
                     .map(TsType::from)

@@ -1530,6 +1530,7 @@ define!({
         pub lit: TsLit,
     }
     pub enum TsLit {
+        BigInt(BigInt),
         Number(Number),
         Str(Str),
         Bool(Bool),
