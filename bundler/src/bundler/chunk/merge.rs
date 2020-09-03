@@ -156,6 +156,7 @@ where
                                                 dep,
                                                 dep_info.ctxt(),
                                                 Some(&imports),
+                                                true,
                                             );
                                         }
 
@@ -197,7 +198,7 @@ where
                             let dep_info = self.scope.get_module(id).unwrap();
                             let mut dep = self.merge_modules(plan, id, false, true)?;
 
-                            dep = self.remark_exports(dep, dep_info.ctxt(), None);
+                            dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
                             // dep = dep.fold_with(&mut Unexporter);
 
                             // As transitive deps can have no direct relation with entry,

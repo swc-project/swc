@@ -22,12 +22,14 @@ where
         mut dep: Module,
         dep_ctxt: SyntaxContext,
         imports: Option<&[Specifier]>,
+        unexport: bool,
     ) -> Module {
         let mut v = ExportRenamer {
             dep_ctxt,
             imports,
             extras: vec![],
             remark_map: Default::default(),
+            unexport,
         };
         dep = dep.fold_with(&mut v);
 
@@ -54,6 +56,8 @@ struct ExportRenamer<'a> {
     /// Dependant module's import
     imports: Option<&'a [Specifier]>,
     extras: Vec<Stmt>,
+
+    unexport: bool,
 }
 
 impl ExportRenamer<'_> {
@@ -341,11 +345,26 @@ impl Fold for ExportRenamer<'_> {
 
                     Decl::Class(mut c) => {
                         c.ident = c.ident.fold_with(&mut actual);
-                        Stmt::Decl(Decl::Class(c)).into()
+                        if self.unexport {
+                            Stmt::Decl(Decl::Class(c)).into()
+                        } else {
+                            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                decl: Decl::Class(c),
+                                ..decl
+                            }))
+                        }
                     }
                     Decl::Fn(mut f) => {
                         f.ident = f.ident.fold_with(&mut actual);
-                        Stmt::Decl(Decl::Fn(f)).into()
+
+                        if self.unexport {
+                            Stmt::Decl(Decl::Fn(f)).into()
+                        } else {
+                            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                decl: Decl::Fn(f),
+                                ..decl
+                            }))
+                        }
                     }
                     Decl::Var(..) => {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl.fold_with(&mut actual)))

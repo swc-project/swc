@@ -5,6 +5,7 @@ use crate::{
     util, Bundler, Load, Resolve,
 };
 use anyhow::{Context, Error};
+use retain_mut::RetainMut;
 use std::mem::{replace, take};
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -87,16 +88,12 @@ where
                                 )
                             })?;
 
-                        dep = self.remark_exports(dep, src.ctxt, None);
+                        dep = self.remark_exports(dep, src.ctxt, None, false);
 
                         dep.visit_mut_with(&mut UnexportAsVar {
                             dep_ctxt: src.ctxt,
                             entry_ctxt: info.ctxt(),
                         });
-
-                        if HYGIENE {
-                            print_hygiene("dep: before unexporting", &self.cm, &entry);
-                        }
 
                         dep = dep.fold_with(&mut DepUnexporter {
                             exports: &specifiers,
@@ -110,6 +107,9 @@ where
 
             if HYGIENE {
                 print_hygiene("entry:before-injection", &self.cm, &entry);
+            }
+            if HYGIENE {
+                print_hygiene("dep:before-injection", &self.cm, &dep);
             }
 
             // Replace import statement / require with module body
@@ -390,13 +390,49 @@ struct DepUnexporter<'a> {
     exports: &'a [Specifier],
 }
 
+impl DepUnexporter<'_> {
+    fn is_exported(&self, id: &Id) -> bool {
+        if self.exports.is_empty() {
+            return true;
+        }
+
+        self.exports.iter().any(|s| match s {
+            Specifier::Specific { local, .. } => local.to_id() == *id,
+            Specifier::Namespace { local, all } => local.to_id() == *id || *all,
+        })
+    }
+}
+
 impl Fold for DepUnexporter<'_> {
     noop_fold_type!();
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         match item {
             ModuleItem::ModuleDecl(decl) => match decl {
-                ModuleDecl::ExportDecl(decl) => ModuleItem::Stmt(Stmt::Decl(decl.decl)),
+                ModuleDecl::ExportDecl(mut export) => {
+                    match &mut export.decl {
+                        Decl::Class(c) => {
+                            if self.is_exported(&c.ident.to_id()) {
+                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                            }
+                        }
+                        Decl::Fn(f) => {
+                            if self.is_exported(&f.ident.to_id()) {
+                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                            }
+                        }
+                        Decl::Var(v) => {
+                            let ids: Vec<Id> = find_ids(&v.decls);
+                            for id in ids {
+                                if self.is_exported(&id) {
+                                    return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                    ModuleItem::Stmt(Stmt::Decl(export.decl))
+                }
 
                 ModuleDecl::ExportDefaultDecl(export) => match export.decl {
                     DefaultDecl::Class(ClassExpr { ident: None, .. })
