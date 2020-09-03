@@ -15,7 +15,7 @@ pub fn analyze_dependencies(
         comments,
         source_map,
         items: vec![],
-        is_dynamic: false,
+        is_top_level: true,
     };
     module.visit_with(&ast::Invalid { span: DUMMY_SP }, &mut v);
     v.items
@@ -51,7 +51,7 @@ struct DependencyCollector<'a> {
     source_map: &'a SourceMap,
     // This field is used to determine if currently visited "require"
     // is top level and "static", or inside module body and "dynamic".
-    is_dynamic: bool,
+    is_top_level: bool,
 }
 
 impl<'a> DependencyCollector<'a> {
@@ -138,9 +138,9 @@ impl<'a> Visit for DependencyCollector<'a> {
     }
 
     fn visit_stmts(&mut self, items: &[ast::Stmt], _parent: &dyn Node) {
-        self.is_dynamic = true;
+        self.is_top_level = false;
         swc_ecma_visit::visit_stmts(self, items, _parent);
-        self.is_dynamic = false;
+        self.is_top_level = true;
     }
 
     fn visit_call_expr(&mut self, node: &ast::CallExpr, _parent: &dyn Node) {
@@ -161,6 +161,9 @@ impl<'a> Visit for DependencyCollector<'a> {
             _ => return,
         };
 
+        // import() are always dynamic, even if at top level
+        let is_dynamic = !self.is_top_level || kind == DependencyKind::Import;
+
         if let Some(arg) = node.args.get(0) {
             if let Lit(lit) = &*arg.expr {
                 if let ast::Lit::Str(str_) = lit {
@@ -169,7 +172,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                     let (location, leading_comments) = self.get_location_and_comments(span);
                     self.items.push(DependencyDescriptor {
                         kind,
-                        is_dynamic: self.is_dynamic,
+                        is_dynamic,
                         leading_comments,
                         col: location.col_display,
                         line: location.line,
@@ -249,6 +252,7 @@ export type { Fizz } from "./fizz.d.ts";
 const { join } = require("path");
 
 // dynamic 
+await import("./foo1.ts");
 
 try {
     const foo = await import("./foo.ts");
@@ -265,7 +269,7 @@ try {
         let (module, source_map, comments) = helper("test.ts", &source).unwrap();
         // eprintln!("module {:#?}", module);
         let dependencies = analyze_dependencies(&module, &source_map, &comments);
-        assert_eq!(dependencies.len(), 7);
+        assert_eq!(dependencies.len(), 8);
         assert_eq!(
             dependencies,
             vec![
@@ -332,8 +336,16 @@ try {
                     kind: DependencyKind::Import,
                     is_dynamic: true,
                     leading_comments: Vec::new(),
+                    col: 6,
+                    line: 14,
+                    specifier: JsWord::from("./foo1.ts")
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Import,
+                    is_dynamic: true,
+                    leading_comments: Vec::new(),
                     col: 22,
-                    line: 16,
+                    line: 17,
                     specifier: JsWord::from("./foo.ts")
                 },
                 DependencyDescriptor {
@@ -341,7 +353,7 @@ try {
                     is_dynamic: true,
                     leading_comments: Vec::new(),
                     col: 16,
-                    line: 22,
+                    line: 23,
                     specifier: JsWord::from("some_package")
                 }
             ]
