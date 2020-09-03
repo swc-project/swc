@@ -66,10 +66,11 @@ where
             let (_, dep) = util::join(
                 || {
                     self.run(|| {
-                        entry.visit_mut_with(&mut ExportRenamer {
-                            from: SyntaxContext::empty().apply_mark(imported.mark()),
-                            to: SyntaxContext::empty().apply_mark(info.mark()),
-                        });
+                        // entry.visit_mut_with(&mut ExportRenamer {
+                        //     from: SyntaxContext::empty().apply_mark(imported.
+                        // mark()),
+                        //     to: SyntaxContext::empty().apply_mark(info.
+                        // mark()), });
                     })
                 },
                 || -> Result<_, Error> {
@@ -84,6 +85,17 @@ where
                                     info.id, info.fm.name, src.module_id, src.src.value
                                 )
                             })?;
+
+                        dep = self.remark_exports(dep, src.ctxt, None);
+
+                        dep.visit_mut_with(&mut UnexportAsVar {
+                            dep_ctxt: src.ctxt,
+                            entry_ctxt: info.ctxt(),
+                        });
+
+                        dep = dep.fold_with(&mut Unexporter);
+
+                        return Ok((dep, remark_map));
 
                         // `export * from './foo'` does not have specifier
                         if !specifiers.is_empty() {
