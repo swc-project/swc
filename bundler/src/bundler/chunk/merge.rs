@@ -14,6 +14,7 @@ use rayon::iter::ParallelIterator;
 use std::{borrow::Cow, mem::take};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -210,7 +211,11 @@ where
 
             let mut targets = module_plan.chunks.clone();
 
-            for dep in deps.into_iter().chain(transitive_deps) {
+            for (dep, is_direct) in deps
+                .into_iter()
+                .map(|v| (v, true))
+                .chain(transitive_deps.into_iter().map(|v| (v, false)))
+            {
                 let (mut dep, dep_info) = dep?;
                 if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
                     targets.remove(idx);
@@ -222,10 +227,10 @@ where
                     }
                 }
 
-                print_hygiene("dep: before injection", &self.cm, &dep);
+                // print_hygiene("dep: before injection", &self.cm, &dep);
 
                 if dep_info.is_es6 {
-                    print_hygiene("entry: before injection", &self.cm, &entry);
+                    // print_hygiene("entry: before injection", &self.cm, &entry);
 
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
@@ -235,9 +240,16 @@ where
                     entry.body.visit_mut_with(&mut injector);
 
                     if injector.imported.is_empty() {
-                        print_hygiene("entry:after:injection", &self.cm, &entry);
+                        // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         log::debug!("Merged {} as an es module", info.fm.name);
+                        print_hygiene("ES6", &self.cm, &entry);
+                        continue;
+                    }
+
+                    if !is_direct {
+                        prepend_stmts(&mut entry.body, injector.imported.into_iter());
+
                         print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
