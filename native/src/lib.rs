@@ -15,7 +15,6 @@ static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 use backtrace::Backtrace;
 use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined, Module};
-use napi_serde::serialize;
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
 use swc_common::{
@@ -26,7 +25,6 @@ use swc_common::{
 };
 
 mod bundle;
-mod napi_serde;
 mod parse;
 mod print;
 mod transform;
@@ -84,7 +82,8 @@ fn get_compiler(_ctx: &CallContext) -> Arc<Compiler> {
 
 #[js_function]
 fn define_compiler_class(ctx: CallContext) -> napi::Result<JsFunction> {
-    ctx.env.define_class("Compiler", construct_compiler, vec![])
+    ctx.env
+        .define_class("Compiler", construct_compiler, &vec![])
 }
 
 #[js_function]
@@ -94,7 +93,7 @@ fn construct_compiler(ctx: CallContext<JsObject>) -> napi::Result<JsUndefined> {
 }
 
 pub fn complete_output(env: &Env, output: TransformOutput) -> napi::Result<JsObject> {
-    serialize(&env, &output)?.coerce_to_object()
+    env.to_js_value(&output)?.coerce_to_object()
 }
 
 pub type ArcCompiler = Arc<Compiler>;

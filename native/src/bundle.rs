@@ -1,6 +1,5 @@
 use crate::{
     get_compiler,
-    napi_serde::serialize,
     util::{CtxtExt, MapErr},
 };
 use anyhow::bail;
@@ -151,7 +150,7 @@ impl Task for BundleTask {
     }
 
     fn resolve(&self, env: &mut Env, output: Self::Output) -> napi::Result<Self::JsValue> {
-        serialize(env, &output)?.coerce_to_object()
+        env.to_js_value(&output)?.coerce_to_object()
     }
 }
 
