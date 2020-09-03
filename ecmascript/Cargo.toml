@@ -1,31 +1,31 @@
 [package]
-name = "swc_ecmascript"
-version = "0.7.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/swc_ecmascript/"
 description = "Ecmascript"
+documentation = "https://swc-project.github.io/rustdoc/swc_ecmascript/"
 edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_ecmascript"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.7.1"
 
 [features]
 codegen = ["swc_ecma_codegen"]
 dep_graph = ["swc_ecma_dep_graph"]
 parser = ["swc_ecma_parser"]
-utils = ["swc_ecma_utils"]
 transforms = ["swc_ecma_transforms"]
+utils = ["swc_ecma_utils"]
 visit = ["swc_ecma_visit"]
 
-react = ["swc_ecma_transforms", "swc_ecma_transforms/react"]
 const-modules = ["swc_ecma_transforms", "swc_ecma_transforms/const-modules"]
+react = ["swc_ecma_transforms", "swc_ecma_transforms/react"]
 
 [dependencies]
-swc_ecma_ast = { version = "0.31.0", path ="./ast" }
-swc_ecma_codegen = { version = "0.35.0", path ="./codegen", optional = true }
-swc_ecma_dep_graph = { version = "0.2.0", path = "./dep-graph", optional = true }
-swc_ecma_parser = { version = "0.37.0", path ="./parser", optional = true }
-swc_ecma_utils = { version = "0.21.0", path ="./utils", optional = true }
-swc_ecma_transforms = { version = "0.23.0", path ="./transforms", optional = true }
-swc_ecma_visit = { version = "0.17.0", path ="./visit", optional = true }
+swc_ecma_ast = {version = "0.31.0", path = "./ast"}
+swc_ecma_codegen = {version = "0.35.0", path = "./codegen", optional = true}
+swc_ecma_dep_graph = {version = "0.2.0", path = "./dep-graph", optional = true}
+swc_ecma_parser = {version = "0.37.0", path = "./parser", optional = true}
+swc_ecma_transforms = {version = "0.23.0", path = "./transforms", optional = true}
+swc_ecma_utils = {version = "0.21.0", path = "./utils", optional = true}
+swc_ecma_visit = {version = "0.17.0", path = "./visit", optional = true}
 
 [dev-dependencies]
