@@ -234,13 +234,16 @@ where
                     };
                     entry.body.visit_mut_with(&mut injector);
 
-                    print_hygiene("entry:after:injection", &self.cm, &entry);
-
                     if injector.imported.is_empty() {
+                        print_hygiene("entry:after:injection", &self.cm, &entry);
+
                         log::debug!("Merged {} as an es module", info.fm.name);
                         print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
+
+                    print_hygiene("entry: failed to inject", &self.cm, &entry);
+
                     dep.body = take(&mut injector.imported);
                 }
 

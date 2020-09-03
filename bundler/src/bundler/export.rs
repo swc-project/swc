@@ -8,7 +8,7 @@ use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -17,15 +17,19 @@ where
 {
     /// TODO: Support pattern like
     ///     export const [a, b] = [1, 2]
-    pub(super) fn extract_export_info(&self, file_name: &FileName, module: &Module) -> RawExports {
+    pub(super) fn extract_export_info(
+        &self,
+        file_name: &FileName,
+        module: &mut Module,
+    ) -> RawExports {
         self.run(|| {
             let mut v = ExportFinder {
                 info: Default::default(),
-                _file_name: file_name,
-                _bundler: self,
+                file_name,
+                bundler: self,
             };
 
-            module.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            module.visit_mut_with(&mut v);
 
             v.info
         })
@@ -50,18 +54,42 @@ where
     R: Resolve,
 {
     info: RawExports,
-    _file_name: &'a FileName,
-    _bundler: &'a Bundler<'b, L, R>,
+    file_name: &'a FileName,
+    bundler: &'a Bundler<'b, L, R>,
 }
 
-impl<L, R> Visit for ExportFinder<'_, '_, L, R>
+impl<L, R> ExportFinder<'_, '_, L, R>
 where
     L: Load,
     R: Resolve,
 {
-    noop_visit_type!();
+    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
+        // Don't apply mark if it's a core module.
+        if self
+            .bundler
+            .config
+            .external_modules
+            .iter()
+            .any(|v| v == src)
+        {
+            return None;
+        }
+        let path = self.bundler.resolve(self.file_name, src).ok()?;
+        let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
+        let ctxt = SyntaxContext::empty();
 
-    fn visit_module_item(&mut self, item: &ModuleItem, _: &dyn Node) {
+        Some(ctxt.apply_mark(mark))
+    }
+}
+
+impl<L, R> VisitMut for ExportFinder<'_, '_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    noop_visit_mut_type!();
+
+    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {
             // TODO: Optimize pure constants
             //            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -147,8 +175,14 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
+                let ctxt = named
+                    .src
+                    .as_ref()
+                    .map(|s| &*s.value)
+                    .and_then(|src| self.ctxt_for(src));
+
                 let v = self.info.items.entry(named.src.clone()).or_default();
-                for s in &named.specifiers {
+                for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => v.push(Specifier::Namespace {
                             local: n.name.clone().into(),
@@ -161,6 +195,10 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
+                            if let Some(ctxt) = ctxt {
+                                n.orig.span = n.orig.span.with_ctxt(ctxt);
+                            }
+
                             if let Some(exported) = &n.exported {
                                 v.push(Specifier::Specific {
                                     local: exported.clone().into(),
