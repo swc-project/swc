@@ -51,6 +51,8 @@ where
 
             let mut entry: Module = (*info.module).clone();
 
+            print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
+
             if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
                 return Ok(entry);
             }

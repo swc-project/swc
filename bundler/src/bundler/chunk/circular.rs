@@ -39,7 +39,6 @@ where
         let mut entry = self
             .merge_modules(plan, entry_id, false, true)
             .context("failed to merge dependency of a cyclic module")?;
-        // print_hygiene("entry:init", &self.cm, &entry);
 
         entry.visit_mut_with(&mut ImportDropper {
             imports: &entry_module.imports,

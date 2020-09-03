@@ -63,10 +63,6 @@ where
 
             info.helpers.extend(&imported.helpers);
 
-            if HYGIENE {
-                print_hygiene("entry:init", &self.cm, &entry);
-            }
-
             let (_, dep) = util::join(
                 || {
                     self.run(|| {
