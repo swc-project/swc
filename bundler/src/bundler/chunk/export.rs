@@ -10,8 +10,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
-const HYGIENE: bool = false;
-
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
