@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use std::io::{stdout, Write};
+use std::io::{stderr, Write};
 use swc_common::{sync::Lrc, SourceMap};
 use swc_ecma_ast::{Ident, Module};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -9,7 +9,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
     let module = t.clone().fold_with(&mut HygieneVisualizer);
 
-    let stdout = stdout();
+    let stdout = stderr();
     let mut w = stdout.lock();
 
     writeln!(w, "==================== @ {} ====================", event).unwrap();
