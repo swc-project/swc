@@ -75,8 +75,6 @@ where
                 },
                 || -> Result<_, Error> {
                     self.run(|| {
-                        let mut remark_map = RemarkMap::default();
-
                         let mut dep = self
                             .merge_modules(plan, src.module_id, false, false)
                             .with_context(|| {
@@ -95,72 +93,15 @@ where
 
                         dep = dep.fold_with(&mut Unexporter);
 
-                        return Ok((dep, remark_map));
-
-                        // `export * from './foo'` does not have specifier
-                        if !specifiers.is_empty() {
-                            {
-                                let mut v = ExportRemarker {
-                                    remark_map: Default::default(),
-                                    entry_ctxt: info.ctxt(),
-                                    dep_ctxt: src.ctxt,
-                                };
-                                dep.visit_mut_with(&mut v);
-                                if HYGIENE {
-                                    print_hygiene("dep: after export remarker", &self.cm, &dep);
-                                }
-
-                                dbg!(&v.remark_map);
-
-                                self.remark(&mut dep, &v.remark_map);
-                                remark_map = v.remark_map;
-
-                                if HYGIENE {
-                                    print_hygiene("dep: after remakring exports", &self.cm, &dep);
-                                }
-                            }
-
-                            dep.visit_mut_with(&mut UnexportAsVar {
-                                dep_ctxt: src.ctxt,
-                                entry_ctxt: info.ctxt(),
-                            });
-
-                            if HYGIENE {
-                                print_hygiene(
-                                    &format!("dep: unexport-as-var: {}", src.src.value),
-                                    &self.cm,
-                                    &dep,
-                                );
-                            }
-
-                            dep.visit_mut_with(&mut AliasExports {
-                                importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
-                                decls: Default::default(),
-                            });
-                            if HYGIENE {
-                                print_hygiene("dep:alias-exports", &self.cm, &dep);
-                            }
-                            dep = dep.fold_with(&mut Unexporter);
-
-                            if HYGIENE {
-                                print_hygiene("dep: unexport", &self.cm, &dep);
-                            }
-
-                            if HYGIENE {
-                                print_hygiene("dep:before-merge", &self.cm, &dep);
-                            }
-                        }
-
-                        Ok((dep, remark_map))
+                        Ok(dep)
                     })
                 },
             );
-            let (dep, remark_map) = dep?;
+            let dep = dep?;
 
             if HYGIENE {
                 print_hygiene("entry:before-injection", &self.cm, &entry);
             }
-            self.remark(&mut entry, &remark_map);
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
