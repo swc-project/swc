@@ -24,6 +24,7 @@ where
             let mut renamed = HashMap::default();
 
             for mut bundle in bundles {
+                bundle.module = self.drop_unused(bundle.module);
                 match bundle.kind {
                     BundleKind::Named { .. } => {
                         // Inject helpers

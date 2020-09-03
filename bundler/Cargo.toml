@@ -1,38 +1,38 @@
 [package]
-name = "swc_bundler"
-version = "0.6.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/swc_bundler/"
 description = "Very fast ecmascript bundler"
+documentation = "https://swc-project.github.io/rustdoc/swc_bundler/"
 edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_bundler"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.6.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
-default = []
 concurrent = ["swc_common/concurrent", "dashmap", "rayon"]
-
+default = []
 
 [dependencies]
-swc_atoms = {  version = "0.2", path = "../atoms" }
-swc_common = { version = "0.10.0", path = "../common" }
-swc_ecma_ast = { version = "0.31.0", path = "../ecmascript/ast" }
-swc_ecma_codegen = { version = "0.35.0", path = "../ecmascript/codegen" }
-swc_ecma_parser = { version = "0.37.0", path = "../ecmascript/parser" }
-swc_ecma_transforms = { version = "0.23.0", path = "../ecmascript/transforms" }
-swc_ecma_utils = { version = "0.21.0", path = "../ecmascript/utils" }
-swc_ecma_visit = { version = "0.17.0", path = "../ecmascript/visit" }
 anyhow = "1"
 crc = "1.8"
-radix_fmt = "1"
-relative-path = "1.2"
-log = "0.4"
-petgraph = "0.5"
-once_cell = "1"
-dashmap = { version = "3", optional = true }
-rayon = { version = "1", optional = true }
+dashmap = {version = "3", optional = true}
 is-macro = "0.1"
+log = "0.4"
+once_cell = "1"
+petgraph = "0.5"
+radix_fmt = "1"
+rayon = {version = "1", optional = true}
+relative-path = "1.2"
+retain_mut = "=0.1.1"
+swc_atoms = {version = "0.2", path = "../atoms"}
+swc_common = {version = "0.10.0", path = "../common"}
+swc_ecma_ast = {version = "0.31.0", path = "../ecmascript/ast"}
+swc_ecma_codegen = {version = "0.35.0", path = "../ecmascript/codegen"}
+swc_ecma_parser = {version = "0.37.0", path = "../ecmascript/parser"}
+swc_ecma_transforms = {version = "0.23.0", path = "../ecmascript/transforms"}
+swc_ecma_utils = {version = "0.21.0", path = "../ecmascript/utils"}
+swc_ecma_visit = {version = "0.17.0", path = "../ecmascript/visit"}
 
 [dev-dependencies]
-testing = { version = "0.10.0", path = "../testing" }
+testing = {version = "0.10.0", path = "../testing"}

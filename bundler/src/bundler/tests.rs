@@ -1,6 +1,6 @@
 //! Utilities for testing.
-use super::{Bundler, Config};
-use crate::{util::HygieneRemover, Load, Resolve};
+use super::{load::TransformedModule, Bundler, Config};
+use crate::{util::HygieneRemover, Load, ModuleId, Resolve};
 use anyhow::Error;
 use std::{collections::HashMap, path::PathBuf};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
@@ -59,12 +59,16 @@ impl Resolve for Resolver {
 }
 
 impl<'a> Tester<'a> {
-    // pub fn module(&self, name: &str) -> TransformedModule {
-    //     self.bundler
-    //         .scope
-    //         .get_module_by_path(&FileName::Real(name.to_string().into()))
-    //         .unwrap_or_else(|| panic!("failed to find module named {}", name))
-    // }
+    pub fn id(&self, name: &str) -> ModuleId {
+        self.module(name).id
+    }
+
+    pub fn module(&self, name: &str) -> TransformedModule {
+        self.bundler
+            .scope
+            .get_module_by_path(&FileName::Real(name.to_string().into()))
+            .unwrap_or_else(|| panic!("failed to find module named {}", name))
+    }
 
     pub fn parse(&self, s: &str) -> Module {
         let fm = self

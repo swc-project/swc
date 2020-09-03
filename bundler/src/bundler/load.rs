@@ -118,9 +118,9 @@ where
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             log::trace!("transform_module({})", fm.name);
-            module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
-
             let (id, mark) = self.scope.module_id_gen.gen(file_name);
+
+            module = module.fold_with(&mut resolver_with_mark(mark));
 
             // {
             //     let code = self
@@ -166,9 +166,11 @@ where
                 module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 v.forced_es6 || !v.found_other
             };
-            if is_es6 {
-                module = self.drop_unused(module, None);
-            }
+            // if is_es6 {
+            //     print_hygiene("before:dce", &self.cm, &module);
+            //     module = self.drop_unused(module, None);
+            //     print_hygiene("dce", &self.cm, &module);
+            // }
 
             let (imports, exports) = util::join(
                 || self.resolve_imports(file_name, imports),
@@ -266,6 +268,7 @@ where
                 imports,
                 lazy_imports,
                 dynamic_imports,
+                forced_ns,
             } = info;
 
             let loaded = imports
@@ -323,6 +326,7 @@ where
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {
                                 local: s.local.into(),
+                                all: forced_ns.contains(&src.src.value),
                             });
                         }
                     }
@@ -345,17 +349,15 @@ pub(super) struct Imports {
 /// Clone is relatively cheap
 #[derive(Debug, Clone, Is)]
 pub(super) enum Specifier {
-    Specific { local: Id, alias: Option<Id> },
-    Namespace { local: Id },
-}
-
-impl Specifier {
-    pub fn local(&self) -> &Id {
-        match self {
-            Specifier::Specific { local, .. } => local,
-            Specifier::Namespace { local, .. } => local,
-        }
-    }
+    Specific {
+        local: Id,
+        alias: Option<Id>,
+    },
+    Namespace {
+        local: Id,
+        /// True for `import * as foo from 'foo'; foo[computedKey()]`
+        all: bool,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]

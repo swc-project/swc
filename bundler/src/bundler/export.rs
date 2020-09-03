@@ -15,11 +15,6 @@ where
     L: Load,
     R: Resolve,
 {
-    /// This method removes exported pure constants from the module.
-    ///
-    /// A pure constant is a exported literal.
-    ///
-    ///
     /// TODO: Support pattern like
     ///     export const [a, b] = [1, 2]
     pub(super) fn extract_export_info(
@@ -180,23 +175,18 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
-                match &named.src {
-                    Some(v) => {
-                        let ctxt = self.ctxt_for(&v.value);
-                        match ctxt {
-                            Some(ctxt) => {
-                                named.span = named.span.with_ctxt(ctxt);
-                            }
-                            None => {}
-                        }
-                    }
-                    None => {}
-                };
+                let ctxt = named
+                    .src
+                    .as_ref()
+                    .map(|s| &*s.value)
+                    .and_then(|src| self.ctxt_for(src));
+
                 let v = self.info.items.entry(named.src.clone()).or_default();
-                for s in &named.specifiers {
+                for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => v.push(Specifier::Namespace {
                             local: n.name.clone().into(),
+                            all: false,
                         }),
                         ExportSpecifier::Default(d) => {
                             v.push(Specifier::Specific {
@@ -205,6 +195,10 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
+                            if let Some(ctxt) = ctxt {
+                                n.orig.span = n.orig.span.with_ctxt(ctxt);
+                            }
+
                             if let Some(exported) = &n.exported {
                                 v.push(Specifier::Specific {
                                     local: exported.clone().into(),
@@ -223,12 +217,7 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
-                match self.ctxt_for(&all.src.value) {
-                    Some(ctxt) => {
-                        all.span = all.span.with_ctxt(ctxt);
-                    }
-                    None => {}
-                }
+                self.info.items.entry(Some(all.src.clone())).or_default();
             }
             _ => {}
         }

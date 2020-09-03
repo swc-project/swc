@@ -3,10 +3,11 @@ use crate::{Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, DUMMY_SP, GLOBALS};
+use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
 
 mod chunk;
+mod computed_key;
 mod export;
 mod finalize;
 mod helpers;
@@ -60,8 +61,7 @@ where
 
     /// [Mark] used while tree shaking
     used_mark: Mark,
-    /// [Mark] used while tree shaking
-    top_level_mark: Mark,
+    _helper_ctxt: SyntaxContext,
 
     scope: Scope,
 }
@@ -81,21 +81,18 @@ where
         GLOBALS.set(&globals, || {
             let used_mark = Mark::fresh(Mark::root());
             log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
-            let top_level_mark = Mark::fresh(Mark::root());
-            log::info!(
-                "top-level mark: {:?}",
-                DUMMY_SP.apply_mark(top_level_mark).ctxt()
-            );
+            let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            log::info!("Helper ctxt: {:?}", helper_ctxt);
 
             Bundler {
+                config,
+                globals,
                 cm,
                 loader,
                 resolver,
                 used_mark,
-                top_level_mark,
+                _helper_ctxt: helper_ctxt,
                 scope: Default::default(),
-                globals,
-                config,
             }
         })
     }

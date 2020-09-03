@@ -28,9 +28,15 @@ where
     ///     const foo = load();
     /// ```
     /// As usual, this behavior depends on hygiene.
+    ///
+    /// # Parameters
+    ///
+    /// If `is_entry` is true, you can use import statement to import common js
+    /// modules.
     pub(super) fn merge_cjs(
         &self,
         plan: &Plan,
+        is_entry: bool,
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
@@ -40,6 +46,7 @@ where
         log::info!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
+            is_entry,
             ctxt: dep_info.ctxt(),
             load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.ctxt())),
             replaced: false,
@@ -61,13 +68,16 @@ where
 
                 prepend(
                     &mut entry.body,
-                    ModuleItem::Stmt(wrap_module(self.top_level_mark, load_var, dep)),
+                    ModuleItem::Stmt(wrap_module(
+                        SyntaxContext::empty(),
+                        dep_info.mark(),
+                        load_var,
+                        dep,
+                    )),
                 );
 
                 log::warn!("Injecting load");
             }
-
-            log::info!("Replaced requires with load");
 
             if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
                 for &dep_id in &normal_plan.chunks {
@@ -78,6 +88,7 @@ where
                     let dep_info = self.scope.get_module(dep_id).unwrap();
                     self.merge_cjs(
                         plan,
+                        is_entry,
                         entry,
                         info,
                         Cow::Borrowed(&dep_info.module),
@@ -92,7 +103,12 @@ where
     }
 }
 
-fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
+fn wrap_module(
+    helper_ctxt: SyntaxContext,
+    top_level_mark: Mark,
+    load_var: Ident,
+    dep: Module,
+) -> Stmt {
     // ... body of foo
     let module_fn = Expr::Fn(FnExpr {
         ident: None,
@@ -149,12 +165,9 @@ fn wrap_module(top_level_mark: Mark, load_var: Ident, dep: Module) -> Stmt {
             name: Pat::Ident(load_var.clone()),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: Ident::new(
-                    "__spack_require__".into(),
-                    DUMMY_SP.apply_mark(top_level_mark),
-                )
-                .make_member(Ident::new("bind".into(), DUMMY_SP))
-                .as_callee(),
+                callee: Ident::new("__spack_require__".into(), DUMMY_SP.with_ctxt(helper_ctxt))
+                    .make_member(Ident::new("bind".into(), DUMMY_SP))
+                    .as_callee(),
                 args: vec![undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
                 type_args: None,
             }))),
@@ -170,6 +183,7 @@ struct RequireReplacer {
     ctxt: SyntaxContext,
     load_var: Ident,
     replaced: bool,
+    is_entry: bool,
 }
 
 impl VisitMut for RequireReplacer {
@@ -177,6 +191,10 @@ impl VisitMut for RequireReplacer {
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
         node.visit_mut_children_with(self);
+
+        if !self.is_entry {
+            return;
+        }
 
         match node {
             ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {

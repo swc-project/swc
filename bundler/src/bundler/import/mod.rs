@@ -21,26 +21,26 @@ where
     L: Load,
     R: Resolve,
 {
-    /// This method de-globs imports if possible.
-    ///
-    /// Also this method colorizes require calls.
+    /// This method de-globs imports if possible and colorizes imported values.
     pub(super) fn extract_import_info(
         &self,
         path: &FileName,
         module: &mut Module,
-        _mark: Mark,
+        module_mark: Mark,
     ) -> RawImports {
         self.run(|| {
             let body = replace(&mut module.body, vec![]);
 
             let mut v = ImportHandler {
+                module_ctxt: SyntaxContext::empty().apply_mark(module_mark),
                 path,
                 bundler: self,
                 top_level: false,
                 info: Default::default(),
-                forces_ns: Default::default(),
                 ns_usage: Default::default(),
+                imported_idents: Default::default(),
                 deglob_phase: false,
+                idents_to_deglob: Default::default(),
             };
             let body = body.fold_with(&mut v);
             v.deglob_phase = true;
@@ -86,17 +86,7 @@ pub(super) struct RawImports {
     /// ```
     pub lazy_imports: Vec<ImportDecl>,
     pub dynamic_imports: Vec<Str>,
-}
 
-struct ImportHandler<'a, 'b, L, R>
-where
-    L: Load,
-    R: Resolve,
-{
-    path: &'a FileName,
-    bundler: &'a Bundler<'b, L, R>,
-    top_level: bool,
-    info: RawImports,
     /// Contains namespace imports accessed with computed key.
     ///
     ///
@@ -107,11 +97,29 @@ where
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    forces_ns: HashSet<JsWord>,
+    pub forced_ns: HashSet<JsWord>,
+}
+
+struct ImportHandler<'a, 'b, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    /// The [SyntaxContext] for the top level module items.
+    //// The top level module items includes imported bindings.
+    module_ctxt: SyntaxContext,
+    path: &'a FileName,
+    bundler: &'a Bundler<'b, L, R>,
+    top_level: bool,
+    info: RawImports,
 
     ns_usage: HashMap<JsWord, Vec<Id>>,
 
+    /// While deglobbing, we also marks imported identifiers.
+    imported_idents: HashMap<Id, SyntaxContext>,
+
     deglob_phase: bool,
+    idents_to_deglob: HashSet<Id>,
 }
 
 impl<L, R> ImportHandler<'_, '_, L, R>
@@ -156,13 +164,29 @@ where
             {
                 return import;
             }
+            if let Some(ctxt) = self.ctxt_for(&import.src.value) {
+                import.span = import.span.with_ctxt(ctxt);
+
+                for specifier in &mut import.specifiers {
+                    match specifier {
+                        ImportSpecifier::Named(n) => {
+                            self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
+                        }
+                        ImportSpecifier::Default(n) => {
+                            self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
+                        }
+                        ImportSpecifier::Namespace(n) => {
+                            self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
+                        }
+                    }
+                }
+            }
 
             self.info.imports.push(import.clone());
             return import;
-        }
-
-        if let Some(ctxt) = self.ctxt_for(&import.src.value) {
-            import.span = import.span.with_ctxt(ctxt);
         }
 
         // deglob namespace imports
@@ -178,6 +202,7 @@ where
                             let specifiers: Vec<_> = ids
                                 .into_iter()
                                 .map(|id| {
+                                    self.idents_to_deglob.insert(id.clone());
                                     ImportSpecifier::Named(ImportNamedSpecifier {
                                         span: DUMMY_SP,
                                         local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
@@ -240,7 +265,7 @@ where
 
         if self.deglob_phase {
             for import in self.info.imports.iter_mut() {
-                let use_ns = self.forces_ns.contains(&import.src.value);
+                let use_ns = self.info.forced_ns.contains(&import.src.value);
 
                 if use_ns {
                     import.specifiers.retain(|s| match s {
@@ -271,8 +296,23 @@ where
         items.fold_children_with(self)
     }
 
+    fn fold_export_named_specifier(&mut self, mut s: ExportNamedSpecifier) -> ExportNamedSpecifier {
+        if let Some(&ctxt) = self.imported_idents.get(&s.orig.to_id()) {
+            s.orig.span = s.orig.span.with_ctxt(ctxt);
+        }
+
+        s
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
+            Expr::Ident(mut i) if self.deglob_phase => {
+                if let Some(&ctxt) = self.imported_idents.get(&i.to_id()) {
+                    i.span = i.span.with_ctxt(ctxt);
+                }
+                return Expr::Ident(i);
+            }
+
             Expr::Member(mut e) => {
                 e.obj = e.obj.fold_with(self);
 
@@ -284,6 +324,19 @@ where
                     ExprOrSuper::Expr(obj) => {
                         match &**obj {
                             Expr::Ident(i) => {
+                                // Deglob identifier usages.
+                                if self.deglob_phase && self.idents_to_deglob.contains(&i.to_id()) {
+                                    match *e.prop {
+                                        Expr::Ident(prop) => {
+                                            return Expr::Ident(Ident::new(
+                                                prop.sym,
+                                                prop.span.with_ctxt(i.span.ctxt),
+                                            ))
+                                        }
+                                        _ => {}
+                                    }
+                                }
+
                                 // Search for namespace imports.
                                 // If possible, we de-glob namespace imports.
                                 if let Some(import) = self.info.imports.iter().find(|import| {
@@ -291,7 +344,7 @@ where
                                         match s {
                                             ImportSpecifier::Namespace(n) => {
                                                 return i.sym == n.local.sym
-                                                    && i.span.ctxt() == n.local.span.ctxt()
+                                                    && i.span.ctxt() == self.module_ctxt
                                             }
                                             _ => {}
                                         }
@@ -304,9 +357,8 @@ where
                                         None => return e.into(),
                                         Some(mark) => mark,
                                     };
-
                                     if self.deglob_phase {
-                                        if self.forces_ns.contains(&import.src.value) {
+                                        if self.info.forced_ns.contains(&import.src.value) {
                                             //
                                             return e.into();
                                         }
@@ -326,7 +378,7 @@ where
                                         return Expr::Ident(i);
                                     } else {
                                         if e.computed {
-                                            self.forces_ns.insert(import.src.value.clone());
+                                            self.info.forced_ns.insert(import.src.value.clone());
                                         } else {
                                             let i = match &*e.prop {
                                                 Expr::Ident(i) => {
@@ -525,5 +577,15 @@ where
         }
 
         node.fold_children_with(self)
+    }
+
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        e.obj = e.obj.fold_with(self);
+
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+
+        e
     }
 }
