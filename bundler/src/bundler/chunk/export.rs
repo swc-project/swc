@@ -135,39 +135,6 @@ where
     }
 }
 
-/// Connects two module, by remakring some identifiers.
-struct ExportRemarker {
-    entry_ctxt: SyntaxContext,
-    dep_ctxt: SyntaxContext,
-    remark_map: RemarkMap,
-}
-
-impl VisitMut for ExportRemarker {
-    noop_visit_mut_type!();
-
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if let Some(exported) = &n.exported {
-            let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-            // self.remark_map.insert(n.orig.to_id(), ctxt);
-            self.remark_map
-                .insert((exported.sym.clone(), self.entry_ctxt), ctxt);
-            self.remark_map
-                .insert((exported.sym.clone(), self.dep_ctxt), ctxt);
-
-            return;
-        }
-
-        let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-        // self.remark_map.insert(n.orig.to_id(), ctxt);
-        self.remark_map
-            .insert((n.orig.sym.clone(), self.entry_ctxt), ctxt);
-        self.remark_map
-            .insert((n.orig.sym.clone(), self.dep_ctxt), ctxt);
-
-        n.exported = Some(Ident::new(n.orig.sym.clone(), n.orig.span.with_ctxt(ctxt)));
-    }
-}
-
 struct ExportInjector {
     imported: Vec<ModuleItem>,
     src: Str,
