@@ -6,6 +6,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
+pub(super) type RemarkMap = HashMap<Id, SyntaxContext>;
+
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
@@ -34,18 +36,20 @@ where
         // Swap syntax context. Although name is remark, it's actually
         // swapping because ExportRenamer inserts two-side conversion
         // rule.
-        if !v.remark_map.is_empty() {
-            dep.visit_mut_with(&mut RemarkIdents { map: v.remark_map });
-        }
+        self.remark(&mut dep, v.remark_map);
 
         dep
+    }
+
+    pub(super) fn remark(&self, module: &mut Module, remark_map: RemarkMap) {
+        module.visit_mut_with(&mut RemarkIdents { map: remark_map });
     }
 }
 /// Applied to dependency modules.
 struct ExportRenamer<'a> {
     /// The mark applied to identifiers exported to dependant modules.
     dep_ctxt: SyntaxContext,
-    remark_map: HashMap<Id, SyntaxContext>,
+    remark_map: RemarkMap,
 
     /// Dependant module's import
     imports: Option<&'a [Specifier]>,
@@ -445,7 +449,7 @@ impl Fold for ActualMarker<'_> {
 }
 
 struct RemarkIdents {
-    map: HashMap<Id, SyntaxContext>,
+    map: RemarkMap,
 }
 
 impl VisitMut for RemarkIdents {
