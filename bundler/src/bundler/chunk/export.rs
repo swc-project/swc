@@ -202,8 +202,7 @@ impl VisitMut for ExportRemarker {
         self.remark_map
             .insert((n.orig.sym.clone(), self.dep_ctxt), ctxt);
 
-        n.exported = Some(Ident::new(n.orig.sym.clone(), n.orig.span));
-        n.orig.span = n.orig.span.with_ctxt(ctxt);
+        n.exported = Some(Ident::new(n.orig.sym.clone(), n.orig.span.with_ctxt(ctxt)));
     }
 }
 
