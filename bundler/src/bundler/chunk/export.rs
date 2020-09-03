@@ -97,16 +97,14 @@ where
                                 importer_ctxt: SyntaxContext::empty().apply_mark(info.mark()),
                                 decls: Default::default(),
                             });
-                            // print_hygiene("dep:alias-exports", &self.cm, &dep);
                             if HYGIENE {
                                 print_hygiene("dep:alias-exports", &self.cm, &dep);
                             }
                             dep = dep.fold_with(&mut Unexporter);
 
                             if HYGIENE {
-                                print_hygiene("dep:alias-exports", &self.cm, &dep);
+                                print_hygiene("dep: unexport", &self.cm, &dep);
                             }
-                            // dep = dep.fold_with(&mut Unexporter);
 
                             if HYGIENE {
                                 print_hygiene("dep:before-merge", &self.cm, &dep);
