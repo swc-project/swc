@@ -1,11 +1,11 @@
-use super::{merge::Unexporter, plan::Plan};
+use super::{merge::Unexporter, plan::Plan, remark::RemarkMap};
 use crate::{bundler::load::TransformedModule, debug::print_hygiene, util, Bundler, Load, Resolve};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 
 const HYGIENE: bool = true;
@@ -115,12 +115,30 @@ where
                                 print_hygiene("dep:before-merge", &self.cm, &dep);
                             }
                         }
+                        {
+                            let mut v = ExportRemarker {
+                                remark_map: Default::default(),
+                                entry_ctxt: info.ctxt(),
+                            };
+                            dep.visit_mut_with(&mut v);
+                            if HYGIENE {
+                                print_hygiene("dep: after export remarker", &self.cm, &dep);
+                            }
 
-                        Ok((dep, src.ctxt))
+                            dbg!(&v.remark_map);
+
+                            self.remark(&mut dep, v.remark_map);
+
+                            if HYGIENE {
+                                print_hygiene("dep: after remakring exports", &self.cm, &dep);
+                            }
+                        }
+
+                        Ok(dep)
                     })
                 },
             );
-            let (dep, dep_ctxt) = dep?;
+            let dep = dep?;
 
             if HYGIENE {
                 print_hygiene("entry:before-injection", &self.cm, &entry);
@@ -130,8 +148,6 @@ where
             let mut injector = ExportInjector {
                 imported: dep.body,
                 src: src.src.clone(),
-                dep_ctxt,
-                entry_ctxt: info.ctxt(),
             };
             entry.body.visit_mut_with(&mut injector);
 
@@ -151,11 +167,47 @@ where
     }
 }
 
+/// Connects two module, by remakring some identifiers.
+struct ExportRemarker {
+    entry_ctxt: SyntaxContext,
+    remark_map: RemarkMap,
+}
+
+impl ExportRemarker {
+    /// Returns [SyntaxContext] for the name of variable.
+    fn mark_as_remarking_required(&mut self, exported: Id, orig: Id) -> SyntaxContext {
+        log::info!("Remarking required: {:?} -> {:?}", exported, orig);
+
+        let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+        self.remark_map
+            .insert((exported.0.clone(), ctxt), exported.1);
+        self.remark_map.insert(orig, ctxt);
+        ctxt
+    }
+}
+
+impl VisitMut for ExportRemarker {
+    noop_visit_mut_type!();
+
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if n.exported.is_some() {
+            // TODO: ???
+            return;
+        }
+
+        let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+        self.remark_map.insert(n.orig.to_id(), ctxt);
+
+        if n.orig.span.ctxt == self.entry_ctxt {
+            n.exported = Some(Ident::new(n.orig.sym.clone(), n.orig.span));
+            n.orig.span = n.orig.span.with_ctxt(ctxt);
+        }
+    }
+}
+
 struct ExportInjector {
     imported: Vec<ModuleItem>,
     src: Str,
-    dep_ctxt: SyntaxContext,
-    entry_ctxt: SyntaxContext,
 }
 
 impl VisitMut for ExportInjector {
@@ -179,40 +231,11 @@ impl VisitMut for ExportInjector {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                     export @ NamedExport { src: Some(..), .. },
                 )) if export.src.as_ref().unwrap().value == self.src.value => {
-                    fn handle(
-                        entry_ctxt: SyntaxContext,
-                        dep_ctxt: SyntaxContext,
-                        mut n: ExportNamedSpecifier,
-                    ) -> ExportNamedSpecifier {
-                        if n.exported.is_some() {
-                            // TODO: ???
-                            return n;
-                        }
-
-                        if n.orig.span.ctxt == entry_ctxt {
-                            n.exported = Some(Ident::new(n.orig.sym.clone(), n.orig.span));
-                            n.orig.span = n.orig.span.with_ctxt(dep_ctxt);
-                        }
-                        n
-                    }
-
-                    let specifiers = export
-                        .specifiers
-                        .into_iter()
-                        .map(|s| match s {
-                            ExportSpecifier::Named(s) => {
-                                ExportSpecifier::Named(handle(self.entry_ctxt, self.dep_ctxt, s))
-                            }
-                            _ => s,
-                        })
-                        .collect();
-
                     buf.extend(take(&mut self.imported));
 
                     buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
                             src: None,
-                            specifiers,
                             ..export
                         },
                     )));
