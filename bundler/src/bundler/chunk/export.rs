@@ -1,12 +1,16 @@
 use super::{merge::Unexporter, plan::Plan, remark::RemarkMap};
-use crate::{bundler::load::TransformedModule, debug::print_hygiene, util, Bundler, Load, Resolve};
+use crate::{
+    bundler::load::{Specifier, TransformedModule},
+    debug::print_hygiene,
+    util, Bundler, Load, Resolve,
+};
 use anyhow::{Context, Error};
 use std::mem::{replace, take};
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 const HYGIENE: bool = true;
 
@@ -91,7 +95,13 @@ where
                             entry_ctxt: info.ctxt(),
                         });
 
-                        dep = dep.fold_with(&mut Unexporter);
+                        if HYGIENE {
+                            print_hygiene("dep: before unexporting", &self.cm, &entry);
+                        }
+
+                        dep = dep.fold_with(&mut DepUnexporter {
+                            exports: &specifiers,
+                        });
 
                         Ok(dep)
                     })
@@ -422,4 +432,60 @@ impl VisitMut for DefaultRenamer {
     }
 
     fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
+}
+
+struct DepUnexporter<'a> {
+    exports: &'a [Specifier],
+}
+
+impl Fold for DepUnexporter<'_> {
+    noop_fold_type!();
+
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
+        match item {
+            ModuleItem::ModuleDecl(decl) => match decl {
+                ModuleDecl::ExportDecl(decl) => ModuleItem::Stmt(Stmt::Decl(decl.decl)),
+
+                ModuleDecl::ExportDefaultDecl(export) => match export.decl {
+                    DefaultDecl::Class(ClassExpr { ident: None, .. })
+                    | DefaultDecl::Fn(FnExpr { ident: None, .. }) => {
+                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                    }
+                    DefaultDecl::TsInterfaceDecl(decl) => {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(decl)))
+                    }
+
+                    DefaultDecl::Class(ClassExpr {
+                        ident: Some(ident),
+                        class,
+                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                        declare: false,
+                        ident,
+                        class,
+                    }))),
+
+                    DefaultDecl::Fn(FnExpr {
+                        ident: Some(ident),
+                        function,
+                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                        declare: false,
+                        function,
+                        ident,
+                    }))),
+                },
+
+                // Empty statement
+                ModuleDecl::ExportAll(..)
+                | ModuleDecl::ExportDefaultExpr(..)
+                | ModuleDecl::ExportNamed(..) => {
+                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                }
+                ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
+
+                _ => unimplemented!("Unexported: {:?}", decl),
+            },
+
+            _ => item,
+        }
+    }
 }
