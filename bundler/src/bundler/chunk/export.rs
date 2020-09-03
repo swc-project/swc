@@ -320,23 +320,6 @@ impl VisitMut for UnexportAsVar {
     fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
 }
 
-pub(super) struct NamedExportOrigMarker {
-    pub top_level_ctxt: SyntaxContext,
-    pub target_ctxt: SyntaxContext,
-}
-
-impl VisitMut for NamedExportOrigMarker {
-    noop_visit_mut_type!();
-
-    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        if s.orig.span.ctxt == self.top_level_ctxt {
-            s.orig.span = s.orig.span.with_ctxt(self.target_ctxt);
-        }
-    }
-
-    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
-}
-
 struct AliasExports {
     /// Syntax context of the importer.
     importer_ctxt: SyntaxContext,
