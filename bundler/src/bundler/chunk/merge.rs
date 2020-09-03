@@ -1,7 +1,6 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Imports, Specifier},
-    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -53,7 +52,7 @@ where
 
             let mut entry: Module = (*info.module).clone();
 
-            print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
+            // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
             if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
                 return Ok(entry);
@@ -110,7 +109,7 @@ where
                                     })?;
 
                                 if dep_info.is_es6 {
-                                    print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                                    // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                                     let is_acccessed_with_computed_key =
                                         specifiers.iter().any(|s| match s {
@@ -143,7 +142,7 @@ where
                                         // print_hygiene("dep: before tree shaking", &self.cm,
                                         // &dep);
 
-                                        print_hygiene("dep: after tree shaking", &self.cm, &dep);
+                                        // print_hygiene("dep: after tree shaking", &self.cm, &dep);
 
                                         if let Some(imports) = info
                                             .imports
@@ -160,7 +159,8 @@ where
                                             );
                                         }
 
-                                        print_hygiene("dep: remarking exports", &self.cm, &dep);
+                                        // print_hygiene("dep: remarking
+                                        // exports", &self.cm, &dep);
                                     }
                                     // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
@@ -182,7 +182,7 @@ where
 
                                     dep = dep.fold_with(&mut Unexporter);
                                 }
-                                print_hygiene("dep:before-injection", &self.cm, &dep);
+                                // print_hygiene("dep:before-injection", &self.cm, &dep);
 
                                 Ok((dep, dep_info))
                             })
@@ -245,18 +245,18 @@ where
                         // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         log::debug!("Merged {} as an es module", info.fm.name);
-                        print_hygiene("ES6", &self.cm, &entry);
+                        // print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
 
                     if !is_direct {
                         prepend_stmts(&mut entry.body, injector.imported.into_iter());
 
-                        print_hygiene("ES6", &self.cm, &entry);
+                        // print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
 
-                    print_hygiene("entry: failed to inject", &self.cm, &entry);
+                    // print_hygiene("entry: failed to inject", &self.cm, &entry);
 
                     dep.body = take(&mut injector.imported);
                 }
