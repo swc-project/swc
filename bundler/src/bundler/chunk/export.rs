@@ -53,11 +53,10 @@ where
     pub(super) fn merge_reexports(
         &self,
         plan: &Plan,
-        mut entry: &mut Module,
+        entry: &mut Module,
         info: &TransformedModule,
     ) -> Result<(), Error> {
         log::debug!("merge_reexports: {}", info.fm.name);
-        entry.visit_mut_with(&mut DefaultRenamer);
 
         for (src, specifiers) in &info.exports.reexports {
             log::info!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
@@ -414,20 +413,6 @@ impl VisitMut for AliasExports {
                 _ => {}
             },
             _ => {}
-        }
-    }
-
-    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
-}
-
-struct DefaultRenamer;
-
-impl VisitMut for DefaultRenamer {
-    noop_visit_mut_type!();
-
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if n.orig.sym == js_word!("default") {
-            n.orig.sym = "__default".into()
         }
     }
 

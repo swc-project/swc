@@ -12,6 +12,7 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use std::{borrow::Cow, mem::take};
+use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
@@ -345,6 +346,8 @@ where
 
                     true
                 });
+
+                entry.visit_mut_with(&mut DefaultRenamer);
             }
 
             Ok(entry)
@@ -456,5 +459,38 @@ impl VisitMut for Es6ModuleInjector {
         }
 
         *orig = buf;
+    }
+}
+
+struct DefaultRenamer;
+
+impl VisitMut for DefaultRenamer {
+    noop_visit_mut_type!();
+
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        match n {
+            Pat::Ident(n) => {
+                if n.sym == js_word!("default") {
+                    n.sym = "__default".into()
+                }
+                return;
+            }
+            _ => {}
+        }
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Ident(n) => {
+                if n.sym == js_word!("default") {
+                    n.sym = "__default".into()
+                }
+                return;
+            }
+            _ => {}
+        }
+
+        n.visit_mut_children_with(self);
     }
 }
