@@ -177,7 +177,7 @@ where
         for (idx, dep) in self.deps.iter().enumerate() {
             match dep.borrow() {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
-                    log::trace!(
+                    log::debug!(
                         "Decl (from dep) = {}{:?}, Ident = {}{:?}",
                         decl.ident.sym,
                         decl.ident.span.ctxt,
@@ -186,6 +186,7 @@ where
                     );
                     if decl.ident.sym == i.sym && decl.ident.span.ctxt == i.span.ctxt {
                         self.idx = Some(idx);
+                        log::info!("Index is {}", idx);
                         break;
                     }
                 }
@@ -202,8 +203,13 @@ where
         }
     }
 
+    #[inline]
+    fn visit_import_decl(&mut self, _: &ImportDecl, _: &dyn Node) {}
+    #[inline]
     fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
+    #[inline]
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    #[inline]
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
 
     /// We only search for top-level binding
