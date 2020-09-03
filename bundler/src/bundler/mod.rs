@@ -61,7 +61,7 @@ where
 
     /// [Mark] used while tree shaking
     used_mark: Mark,
-    helper_ctxt: SyntaxContext,
+    _helper_ctxt: SyntaxContext,
 
     scope: Scope,
 }
@@ -91,7 +91,7 @@ where
                 loader,
                 resolver,
                 used_mark,
-                helper_ctxt,
+                _helper_ctxt: helper_ctxt,
                 scope: Default::default(),
             }
         })

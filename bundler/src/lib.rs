@@ -1,4 +1,5 @@
 #![cfg_attr(test, feature(track_caller))]
+#![deny(unused)]
 
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config},

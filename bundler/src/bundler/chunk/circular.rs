@@ -65,7 +65,7 @@ where
     fn merge_two_circular_modules(
         &self,
         plan: &Plan,
-        circular_modules: &[TransformedModule],
+        _circular_modules: &[TransformedModule],
         mut entry: Module,
         dep: ModuleId,
     ) -> Result<Module, Error> {

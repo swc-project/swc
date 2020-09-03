@@ -1,14 +1,12 @@
-use super::{merge::Unexporter, plan::Plan, remark::RemarkMap};
+use super::plan::Plan;
 use crate::{
     bundler::load::{Specifier, TransformedModule},
     debug::print_hygiene,
     util, Bundler, Load, Resolve,
 };
 use anyhow::{Context, Error};
-use retain_mut::RetainMut;
 use std::mem::{replace, take};
-use swc_atoms::js_word;
-use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
@@ -92,7 +90,7 @@ where
 
                         dep.visit_mut_with(&mut UnexportAsVar {
                             dep_ctxt: src.ctxt,
-                            entry_ctxt: info.ctxt(),
+                            _entry_ctxt: info.ctxt(),
                         });
 
                         dep = dep.fold_with(&mut DepUnexporter {
@@ -229,7 +227,7 @@ struct UnexportAsVar {
     /// Syntax context for the generated variables.
     dep_ctxt: SyntaxContext,
 
-    entry_ctxt: SyntaxContext,
+    _entry_ctxt: SyntaxContext,
 }
 
 impl VisitMut for UnexportAsVar {

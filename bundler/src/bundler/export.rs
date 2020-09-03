@@ -5,7 +5,7 @@ use super::{
 use crate::{id::Id, load::Load, resolve::Resolve};
 use std::collections::HashMap;
 use swc_atoms::js_word;
-use swc_common::{FileName, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
