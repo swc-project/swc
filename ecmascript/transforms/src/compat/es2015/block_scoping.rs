@@ -4,7 +4,8 @@ use std::{collections::HashMap, mem::replace};
 use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike,
+    contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id,
+    StmtLike,
 };
 use swc_ecma_visit::{
     noop_fold_type, noop_visit_mut_type, Fold, FoldWith, Node, Visit, VisitMut, VisitMutWith,
@@ -126,6 +127,19 @@ impl BlockScoping {
                 if used.is_empty() {
                     return body;
                 }
+                let this = if contains_this_expr(&body) {
+                    let ident = private_ident!("_this");
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(ident.clone()),
+                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                        definite: false,
+                    });
+                    Some(ident)
+                } else {
+                    None
+                };
+
                 let mut flow_helper = FlowHelper {
                     all: &args,
                     has_continue: false,
@@ -142,24 +156,29 @@ impl BlockScoping {
                     },
                 };
 
-                if !flow_helper.mutated.is_empty() {
+                if !flow_helper.mutated.is_empty() || this.is_some() {
+                    let no_modification = flow_helper.mutated.is_empty();
                     let mut v = MutationHandler {
                         map: &mut flow_helper.mutated,
                         in_function: false,
+                        this,
                     };
+
                     // Modifies identifiers, and add reassignments to break / continue / return
                     body.visit_mut_with(&mut v);
 
-                    if body
-                        .stmts
-                        .last()
-                        .map(|s| match s {
-                            Stmt::Return(..) => false,
-                            _ => true,
-                        })
-                        .unwrap_or(true)
-                    {
-                        body.stmts.push(v.make_reassignemnt(None).into_stmt());
+                    if !no_modification {
+                        if body
+                            .stmts
+                            .last()
+                            .map(|s| match s {
+                                Stmt::Return(..) => false,
+                                _ => true,
+                            })
+                            .unwrap_or(true)
+                        {
+                            body.stmts.push(v.make_reassignemnt(None).into_stmt());
+                        }
                     }
                 }
 
@@ -814,10 +833,15 @@ impl Fold for FlowHelper<'_> {
 struct MutationHandler<'a> {
     map: &'a mut HashMap<Id, SyntaxContext>,
     in_function: bool,
+    this: Option<Ident>,
 }
 
 impl MutationHandler<'_> {
     fn make_reassignemnt(&self, orig: Option<Box<Expr>>) -> Expr {
+        if self.map.is_empty() {
+            return *orig.unwrap_or_else(|| undefined(DUMMY_SP));
+        }
+
         let mut exprs = Vec::with_capacity(self.map.len() + 1);
 
         for (id, ctxt) in &*self.map {
@@ -852,6 +876,22 @@ impl VisitMut for MutationHandler<'_> {
         }
     }
 
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Expr::This(this) => {
+                if let Some(remapped) = &self.this {
+                    *n = Expr::Ident(Ident::new(
+                        remapped.sym.clone(),
+                        this.span.with_ctxt(remapped.span.ctxt),
+                    ))
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         let old = self.in_function;
         self.in_function = true;
@@ -871,7 +911,7 @@ impl VisitMut for MutationHandler<'_> {
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
-        if self.in_function {
+        if self.in_function || self.map.is_empty() {
             return;
         }
 
