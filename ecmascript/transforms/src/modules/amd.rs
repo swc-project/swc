@@ -7,7 +7,7 @@ use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
 use swc_atoms::js_word;
-use swc_common::{Mark, DUMMY_SP};
+use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
@@ -620,4 +620,145 @@ impl ModulePass for Amd {
     fn scope_mut(&mut self) -> &mut Scope {
         &mut self.scope
     }
+
+    fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+        handle_dynamic_import(span, args)
+    }
+}
+
+/// ```js
+/// 
+/// new Promise(function(resolve, reject) {
+///     require([
+///           'js/foo'
+///     ], function (foo) {
+///           resolve(foo)
+///     }, function (err) {
+//          reject(err);
+///     });
+/// });
+///
+/// ```
+pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    Expr::New(NewExpr {
+        span,
+        callee: Box::new(Expr::Ident(quote_ident!("Promise"))),
+        args: Some(vec![FnExpr {
+            ident: None,
+            function: Function {
+                span: DUMMY_SP,
+                is_async: false,
+                is_generator: false,
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+                params: vec![
+                    // resolve
+                    Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: Pat::Ident(quote_ident!("resolve")),
+                    },
+                    // reject
+                    Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: Pat::Ident(quote_ident!("reject")),
+                    },
+                ],
+
+                // require([
+                //         'js/foo'
+                // ], function (foo) {
+                //         resolve(foo)
+                // }, function (err) {
+                //         reject(err);
+                // });
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: quote_ident!("require").as_callee(),
+                                args: vec![
+                                    ArrayLit {
+                                        span: DUMMY_SP,
+                                        elems: args.into_iter().map(Some).collect(),
+                                    }
+                                    .as_arg(),
+                                    // function (foo) {
+                                    //     resolve(foo)
+                                    // }
+                                    FnExpr {
+                                        ident: None,
+
+                                        function: Function {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            is_async: false,
+                                            is_generator: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                            params: vec![Param {
+                                                span: DUMMY_SP,
+                                                decorators: Default::default(),
+                                                pat: Pat::Ident(quote_ident!("dep")),
+                                            }],
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: quote_ident!("resolve").as_callee(),
+                                                    args: vec![quote_ident!("dep").as_arg()],
+                                                    type_args: Default::default(),
+                                                }
+                                                .into_stmt()],
+                                            }),
+                                        },
+                                    }
+                                    .as_arg(),
+                                    // function (err) {
+                                    //         reject(err);
+                                    // };
+                                    FnExpr {
+                                        ident: None,
+                                        function: Function {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            is_async: false,
+                                            is_generator: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                            params: vec![Param {
+                                                span: DUMMY_SP,
+                                                decorators: Default::default(),
+                                                pat: Pat::Ident(quote_ident!("err")),
+                                            }],
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: quote_ident!("reject").as_callee(),
+                                                    args: vec![quote_ident!("err").as_arg()],
+                                                    type_args: Default::default(),
+                                                }
+                                                .into_stmt()],
+                                            }),
+                                        },
+                                    }
+                                    .as_arg(),
+                                ],
+                                type_args: Default::default(),
+                            }
+                            .into(),
+                        ),
+                    })],
+                }),
+            },
+        }
+        .as_arg()]),
+        type_args: Default::default(),
+    })
 }
