@@ -127,6 +127,7 @@ impl BlockScoping {
                     return body;
                 }
                 let mut flow_helper = FlowHelper {
+                    all: &used,
                     has_continue: false,
                     has_break: false,
                     has_return: false,
@@ -693,14 +694,26 @@ impl Visit for InfectionFinder<'_> {
 }
 
 #[derive(Debug)]
-struct FlowHelper {
+struct FlowHelper<'a> {
     has_continue: bool,
     has_break: bool,
     has_return: bool,
+    all: &'a Vec<Id>,
     mutated: HashMap<Id, SyntaxContext>,
 }
 
-impl Fold for FlowHelper {
+impl<'a> FlowHelper<'a> {
+    fn check(&mut self, i: Id) {
+        if self.all.contains(&i) {
+            self.mutated.insert(
+                i,
+                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+            );
+        }
+    }
+}
+
+impl Fold for FlowHelper<'_> {
     noop_fold_type!();
 
     /// noop
@@ -715,13 +728,28 @@ impl Fold for FlowHelper {
 
     fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
         match *n.arg {
-            Expr::Ident(ref i) => {
-                self.mutated.insert(
-                    i.to_id(),
-                    SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
-                );
-            }
+            Expr::Ident(ref i) => self.check(i.to_id()),
             _ => {}
+        }
+
+        n.fold_children_with(self)
+    }
+
+    fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
+        match &n.left {
+            PatOrExpr::Expr(e) => match &**e {
+                Expr::Ident(i) => {
+                    self.check(i.to_id());
+                }
+                _ => {}
+            },
+            PatOrExpr::Pat(p) => {
+                let ids: Vec<Id> = find_ids(p);
+
+                for id in ids {
+                    self.check(id);
+                }
+            }
         }
 
         n.fold_children_with(self)
