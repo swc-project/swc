@@ -9,44 +9,9 @@ import {
 } from "./types";
 export * from "./types";
 import { BundleInput, compileBundleOptions } from "./spack";
-import { loadBinding } from '@node-rs/helper';
-import { platform } from 'os';
+import { loadBinding } from "@node-rs/helper";
 
-
-let bindings: any
-let linuxError = null
-
-try {
-  bindings = loadBinding(__dirname, 'swc')
-} catch (e) {
-  const platformName = platform()
-  try {
-    bindings = require(`@swc/core-${platformName}`)
-  } catch (e) {
-    if (platformName !== 'linux') {
-      throw new TypeError('Not compatible with your platform. Error message: ' + e.message)
-    } else {
-      linuxError = e
-    }
-  }
-}
-
-if (!bindings) {
-  try {
-    require.resolve('@swc/core-linux-musl')
-  } catch (e) {
-    throw new TypeError(
-      `Could not load @swc/core-linux, You may need add @swc/core-linux-musl to optionalDependencies of your project`,
-    )
-  }
-  try {
-    bindings = require('@swc/core-linux-musl')
-  } catch (e) {
-    throw new TypeError(
-      `Linux glibc version load error: ${linuxError.message}; Linux musl version load error: Error message: ${e.message}`,
-    )
-  }
-}
+const bindings = loadBinding(__dirname, "swc", "@swc/core")
 
 /**
  * Version of the swc binding.
