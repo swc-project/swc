@@ -15,11 +15,12 @@ where
     pub(super) fn optimize(&self, node: Module) -> Module {
         self.run(|| {
             let node = node
+                .fold_with(&mut inlining::inlining(inlining::Config {}))
                 .fold_with(&mut dce::dce(dce::Config {
                     used: None,
                     used_mark: self.used_mark,
-                }))
-                .fold_with(&mut inlining::inlining(inlining::Config {}));
+                }));
+
             node
         })
     }
