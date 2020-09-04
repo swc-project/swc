@@ -1,6 +1,6 @@
 use crate::util::undefined;
 use smallvec::SmallVec;
-use std::mem::replace;
+use std::{collections::HashSet, mem::replace};
 use swc_common::{util::map::Map, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -39,6 +39,7 @@ enum ScopeKind {
         args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
+        mutated: HashSet<Id>,
     },
     Fn,
     Block,
@@ -111,7 +112,13 @@ impl BlockScoping {
             }
 
             //
-            if let Some(ScopeKind::ForLetLoop { args, used, .. }) = self.scope.pop() {
+            if let Some(ScopeKind::ForLetLoop {
+                args,
+                used,
+                mut mutated,
+                ..
+            }) = self.scope.pop()
+            {
                 if used.is_empty() {
                     return body;
                 }
@@ -119,6 +126,7 @@ impl BlockScoping {
                     has_continue: false,
                     has_break: false,
                     has_return: false,
+                    mutated: &mut mutated,
                 };
 
                 let var_name = private_ident!("_loop");
@@ -382,6 +390,7 @@ impl Fold for BlockScoping {
                 all: vars,
                 args,
                 used: vec![],
+                mutated: Default::default(),
             }
         };
         let body = self.fold_with_scope(kind, node.body);
@@ -411,6 +420,7 @@ impl Fold for BlockScoping {
                 all: vars,
                 args,
                 used: vec![],
+                mutated: Default::default(),
             }
         };
         let body = self.fold_with_scope(kind, node.body);
@@ -442,6 +452,7 @@ impl Fold for BlockScoping {
                 all: vars,
                 args,
                 used: vec![],
+                mutated: Default::default(),
             }
         };
         let body = self.fold_with_scope(kind, node.body);
@@ -650,22 +661,35 @@ impl Visit for InfectionFinder<'_> {
 }
 
 #[derive(Debug)]
-struct FlowHelper {
+struct FlowHelper<'a> {
     has_continue: bool,
     has_break: bool,
     has_return: bool,
+    mutated: &'a mut HashSet<Id>,
 }
 
-/// noop
-impl Fold for FlowHelper {
+impl Fold for FlowHelper<'_> {
     noop_fold_type!();
 
+    /// noop
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         f
     }
 
+    /// noop
     fn fold_function(&mut self, f: Function) -> Function {
         f
+    }
+
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        match *n.arg {
+            Expr::Ident(ref i) => {
+                self.mutated.insert(i.to_id());
+            }
+            _ => {}
+        }
+
+        n.fold_children_with(self)
     }
 
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
@@ -1038,7 +1062,15 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| block_scoping(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
         issue_1022_1,
         "
         for (let i = 0; i < 5; i++) {
