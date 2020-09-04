@@ -75,6 +75,16 @@ where
                 .filter(|(src, _)| {
                     log::trace!("Checking: {} <= {}", info.fm.name, src.src.value);
 
+                    // Import and export from same file. We use export to merge it.
+                    if info
+                        .exports
+                        .reexports
+                        .iter()
+                        .any(|(es, _)| es.module_id == src.module_id)
+                    {
+                        return false;
+                    }
+
                     // Skip if a dependency is going to be merged by other dependency
                     module_plan.chunks.contains(&src.module_id)
                 })
