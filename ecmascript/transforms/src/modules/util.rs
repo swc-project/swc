@@ -485,7 +485,7 @@ impl Scope {
                     _ => false,
                 } =>
             {
-                return folder.make_dynamic_import(args)
+                return folder.make_dynamic_import(span, args)
             }
 
             Expr::Member(e) => {
