@@ -12,14 +12,16 @@ where
     ///
     /// Note: Context of used_exports is ignored, as the specifiers comes from
     /// other module.
-    pub(super) fn optimize(&self, node: Module) -> Module {
+    pub(super) fn optimize(&self, mut node: Module) -> Module {
         self.run(|| {
-            let node = node
-                .fold_with(&mut inlining::inlining(inlining::Config {}))
-                .fold_with(&mut dce::dce(dce::Config {
-                    used: None,
-                    used_mark: self.used_mark,
-                }));
+            if !self.config.disable_inliner {
+                node = node.fold_with(&mut inlining::inlining(inlining::Config {}))
+            }
+
+            node = node.fold_with(&mut dce::dce(dce::Config {
+                used: None,
+                used_mark: self.used_mark,
+            }));
 
             node
         })

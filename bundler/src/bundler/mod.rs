@@ -18,10 +18,17 @@ mod scope;
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Config {
     /// If it's true, [Bundler] searches for require calls.
     pub require: bool,
+
+    /// If it's true, many temporary variables will be generated.
+    ///
+    /// This option exists mainly for testing. As inlining and dce removes all
+    /// temporary variables, it's really hard to see what's going on.
+    pub disable_inliner: bool,
+
     /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
 }

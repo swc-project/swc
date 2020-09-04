@@ -128,6 +128,7 @@ impl TestBuilder {
                     Default::default(),
                     Config {
                         require: true,
+                        disable_inliner: true,
                         external_modules: vec![],
                     },
                 );

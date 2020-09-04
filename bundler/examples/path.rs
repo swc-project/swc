@@ -20,6 +20,7 @@ fn main() {
         Config {
             require: true,
             external_modules,
+            ..Default::default()
         },
     );
     let mut entries = HashMap::default();
