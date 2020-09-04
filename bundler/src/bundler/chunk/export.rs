@@ -1,6 +1,7 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Specifier, TransformedModule},
+    debug::print_hygiene,
     util::IntoParallelIterator,
     Bundler, Load, Resolve,
 };
@@ -65,6 +66,8 @@ where
                 let imported = self.scope.get_module(src.module_id).unwrap();
                 assert!(imported.is_es6, "Reexports are es6 only");
 
+                dbg!(&specifiers);
+
                 info.helpers.extend(&imported.helpers);
 
                 let mut dep = self
@@ -76,16 +79,28 @@ where
                         )
                     })?;
 
+                print_hygiene(&format!("dep: start"), &self.cm, &dep);
+
                 dep = self.remark_exports(dep, src.ctxt, None, false);
 
-                dep.visit_mut_with(&mut UnexportAsVar {
-                    dep_ctxt: src.ctxt,
-                    _entry_ctxt: info.ctxt(),
-                });
+                print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
-                dep = dep.fold_with(&mut DepUnexporter {
-                    exports: &specifiers,
-                });
+                if !specifiers.is_empty() {
+                    dep.visit_mut_with(&mut UnexportAsVar {
+                        dep_ctxt: src.ctxt,
+                        _entry_ctxt: info.ctxt(),
+                        _exports: &specifiers,
+                    });
+
+                    print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
+
+                    dep = dep.fold_with(&mut DepUnexporter {
+                        exports: &specifiers,
+                    });
+
+                    print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                }
+
                 Ok((src, dep))
             })
             .collect::<Vec<_>>();
@@ -99,18 +114,14 @@ where
                 src: src.src.clone(),
             };
             entry.body.visit_mut_with(&mut injector);
-        }
 
-        // print_hygiene(
-        //     &format!(
-        //         "entry:injection {:?} <- {:?}",
-        //         SyntaxContext::empty().apply_mark(info.mark()),
-        //         SyntaxContext::empty().apply_mark(imported.mark()),
-        //     ),
-        //     &self.cm,
-        //     &entry,
-        // );
-        // assert_eq!(injector.imported, vec![]);
+            print_hygiene(
+                &format!("entry:injection {:?} <- {:?}", info.ctxt(), src.ctxt,),
+                &self.cm,
+                &entry,
+            );
+            assert_eq!(injector.imported, vec![]);
+        }
 
         Ok(())
     }
@@ -171,14 +182,17 @@ impl VisitMut for ExportInjector {
 /// ```js
 /// const e3 = l1;
 /// ```
-struct UnexportAsVar {
+struct UnexportAsVar<'a> {
     /// Syntax context for the generated variables.
     dep_ctxt: SyntaxContext,
 
     _entry_ctxt: SyntaxContext,
+
+    /// Exports to preserve
+    _exports: &'a [Specifier],
 }
 
-impl VisitMut for UnexportAsVar {
+impl VisitMut for UnexportAsVar<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
