@@ -1038,15 +1038,7 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| {
-            let mark = Mark::fresh(Mark::root());
-            es2015::es2015(
-                mark,
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
-        },
+        |_| block_scoping(),
         issue_1022_1,
         "
         for (let i = 0; i < 5; i++) {
