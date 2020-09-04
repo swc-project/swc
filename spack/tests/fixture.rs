@@ -136,6 +136,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         NodeResolver::new(),
                         Config {
                             require: true,
+                            disable_inliner: true,
                             external_modules: vec![
                                 "assert",
                                 "buffer",

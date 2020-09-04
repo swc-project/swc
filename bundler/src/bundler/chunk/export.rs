@@ -1,9 +1,12 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Specifier, TransformedModule},
-    util, Bundler, Load, Resolve,
+    util::IntoParallelIterator,
+    Bundler, Load, Resolve,
 };
 use anyhow::{Context, Error};
+#[cfg(feature = "concurrent")]
+use rayon::iter::ParallelIterator;
 use std::mem::{replace, take};
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -54,51 +57,53 @@ where
     ) -> Result<(), Error> {
         log::debug!("merge_reexports: {}", info.fm.name);
 
-        for (src, specifiers) in &info.exports.reexports {
-            log::info!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
+        let deps = (&*info.exports.reexports)
+            .into_par_iter()
+            .map(|(src, specifiers)| -> Result<_, Error> {
+                log::info!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
 
-            let imported = self.scope.get_module(src.module_id).unwrap();
-            assert!(imported.is_es6, "Reexports are es6 only");
+                let imported = self.scope.get_module(src.module_id).unwrap();
+                assert!(imported.is_es6, "Reexports are es6 only");
 
-            info.helpers.extend(&imported.helpers);
+                info.helpers.extend(&imported.helpers);
 
-            let (_, dep) = util::join(
-                || {
-                    self.run(|| {
-                        // entry.visit_mut_with(&mut ExportRenamer {
-                        //     from: SyntaxContext::empty().apply_mark(imported.
-                        // mark()),
-                        //     to: SyntaxContext::empty().apply_mark(info.
-                        // mark()), });
-                    })
-                },
-                || -> Result<_, Error> {
-                    self.run(|| {
-                        let mut dep = self
-                            .merge_modules(plan, src.module_id, false, false)
-                            .with_context(|| {
-                                format!(
-                                    "failed to merge for reexport: ({}):{} <= ({}):{}",
-                                    info.id, info.fm.name, src.module_id, src.src.value
-                                )
-                            })?;
+                let mut dep = self
+                    .merge_modules(plan, src.module_id, false, false)
+                    .with_context(|| {
+                        format!(
+                            "failed to merge for reexport: ({}):{} <= ({}):{}",
+                            info.id, info.fm.name, src.module_id, src.src.value
+                        )
+                    })?;
 
-                        dep = self.remark_exports(dep, src.ctxt, None, false);
+                // print_hygiene(&format!("dep: start"), &self.cm, &dep);
 
-                        dep.visit_mut_with(&mut UnexportAsVar {
-                            dep_ctxt: src.ctxt,
-                            _entry_ctxt: info.ctxt(),
-                        });
+                dep = self.remark_exports(dep, src.ctxt, None, false);
 
-                        dep = dep.fold_with(&mut DepUnexporter {
-                            exports: &specifiers,
-                        });
+                // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
-                        Ok(dep)
-                    })
-                },
-            );
-            let dep = dep?;
+                if !specifiers.is_empty() {
+                    dep.visit_mut_with(&mut UnexportAsVar {
+                        dep_ctxt: src.ctxt,
+                        _entry_ctxt: info.ctxt(),
+                        _exports: &specifiers,
+                    });
+
+                    // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
+
+                    dep = dep.fold_with(&mut DepUnexporter {
+                        exports: &specifiers,
+                    });
+
+                    // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                }
+
+                Ok((src, dep))
+            })
+            .collect::<Vec<_>>();
+
+        for dep in deps {
+            let (src, dep) = dep?;
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
@@ -108,15 +113,11 @@ where
             entry.body.visit_mut_with(&mut injector);
 
             // print_hygiene(
-            //     &format!(
-            //         "entry:injection {:?} <- {:?}",
-            //         SyntaxContext::empty().apply_mark(info.mark()),
-            //         SyntaxContext::empty().apply_mark(imported.mark()),
-            //     ),
+            //     &format!("entry:injection {:?} <- {:?}", info.ctxt(), src.ctxt,),
             //     &self.cm,
             //     &entry,
             // );
-            // assert_eq!(injector.imported, vec![]);
+            assert_eq!(injector.imported, vec![]);
         }
 
         Ok(())
@@ -167,41 +168,6 @@ impl VisitMut for ExportInjector {
     }
 }
 
-struct ExportRenamer {
-    /// Syntax context for the top level.
-    from: SyntaxContext,
-    /// Syntax context for the top level nodes of dependency module.
-    to: SyntaxContext,
-}
-
-impl VisitMut for ExportRenamer {
-    noop_visit_mut_type!();
-
-    fn visit_mut_named_export(&mut self, export: &mut NamedExport) {
-        // if export.src.is_none() {
-        //     return;
-        // }
-
-        export.specifiers.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        match &mut s.exported {
-            Some(v) => {
-                if v.span.ctxt == self.from {
-                    v.span = v.span.with_ctxt(self.to);
-                }
-            }
-            None => {}
-        }
-        if s.orig.span.ctxt == self.from {
-            s.orig.span = s.orig.span.with_ctxt(self.to);
-        }
-    }
-
-    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
-}
-
 /// Converts
 ///
 /// ```js
@@ -213,14 +179,17 @@ impl VisitMut for ExportRenamer {
 /// ```js
 /// const e3 = l1;
 /// ```
-struct UnexportAsVar {
+struct UnexportAsVar<'a> {
     /// Syntax context for the generated variables.
     dep_ctxt: SyntaxContext,
 
     _entry_ctxt: SyntaxContext,
+
+    /// Exports to preserve
+    _exports: &'a [Specifier],
 }
 
-impl VisitMut for UnexportAsVar {
+impl VisitMut for UnexportAsVar<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {

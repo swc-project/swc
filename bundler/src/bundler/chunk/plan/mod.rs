@@ -385,11 +385,10 @@ where
             );
             builder.try_add_direct_dep(root_id, module_id, src.module_id);
 
-            builder
-                .reverse
-                .entry(src.module_id)
-                .or_default()
-                .push(module_id);
+            let rev = builder.reverse.entry(src.module_id).or_default();
+            if !rev.contains(&module_id) {
+                rev.push(module_id);
+            }
         }
     }
 }

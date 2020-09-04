@@ -85,6 +85,7 @@ impl Task for BundleTask {
                     .into_iter()
                     .map(From::from)
                     .collect(),
+                    ..Default::default()
                 },
             );
 
