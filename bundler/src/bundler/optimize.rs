@@ -12,7 +12,7 @@ where
     ///
     /// Note: Context of used_exports is ignored, as the specifiers comes from
     /// other module.
-    pub(super) fn drop_unused(&self, node: Module) -> Module {
+    pub(super) fn optimize(&self, node: Module) -> Module {
         self.run(|| {
             // let mut used = vec![];
 

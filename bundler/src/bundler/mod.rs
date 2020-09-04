@@ -13,10 +13,10 @@ mod finalize;
 mod helpers;
 mod import;
 mod load;
+mod optimize;
 mod scope;
 #[cfg(test)]
 mod tests;
-mod usage_analysis;
 
 #[derive(Debug)]
 pub struct Config {
