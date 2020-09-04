@@ -669,48 +669,54 @@ impl ModulePass for CommonJs {
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        let resolve_call = CallExpr {
-            span: DUMMY_SP,
-            callee: member_expr!(DUMMY_SP, Promise.resolve).as_callee(),
-            args: Default::default(),
-            type_args: Default::default(),
-        };
-        // Promise.resolve().then
-        let then = resolve_call.make_member(quote_ident!("then"));
-
-        // Promise.resolve().then(function () { return require('./foo'); })
-        return Expr::Call(CallExpr {
-            span,
-            callee: then.as_callee(),
-            args: vec![
-                // function () { return require('./foo'); }
-                FnExpr {
-                    ident: None,
-                    function: Function {
-                        span: DUMMY_SP,
-                        params: vec![],
-                        is_generator: false,
-                        is_async: false,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                        decorators: Default::default(),
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: quote_ident!("require").as_callee(),
-                                    args,
-                                    type_args: Default::default(),
-                                }))),
-                            })],
-                        }),
-                    },
-                }
-                .as_arg(),
-            ],
-            type_args: Default::default(),
-        });
+        handle_dynamic_import(span, args)
     }
+}
+
+/// ```js
+/// Promise.resolve().then(function () { return require('./foo'); })
+/// ```
+pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    let resolve_call = CallExpr {
+        span: DUMMY_SP,
+        callee: member_expr!(DUMMY_SP, Promise.resolve).as_callee(),
+        args: Default::default(),
+        type_args: Default::default(),
+    };
+    // Promise.resolve().then
+    let then = resolve_call.make_member(quote_ident!("then"));
+
+    return Expr::Call(CallExpr {
+        span,
+        callee: then.as_callee(),
+        args: vec![
+            // function () { return require('./foo'); }
+            FnExpr {
+                ident: None,
+                function: Function {
+                    span: DUMMY_SP,
+                    params: vec![],
+                    is_generator: false,
+                    is_async: false,
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                    decorators: Default::default(),
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: quote_ident!("require").as_callee(),
+                                args,
+                                type_args: Default::default(),
+                            }))),
+                        })],
+                    }),
+                },
+            }
+            .as_arg(),
+        ],
+        type_args: Default::default(),
+    });
 }

@@ -622,7 +622,7 @@ impl ModulePass for Amd {
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        handle_dynamic_immport(span, args)
+        handle_dynamic_import(span, args)
     }
 }
 
@@ -639,7 +639,7 @@ impl ModulePass for Amd {
 /// });
 ///
 /// ```
-pub(super) fn handle_dynamic_immport(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr {
     Expr::New(NewExpr {
         span,
         callee: Box::new(Expr::Ident(quote_ident!("Promise"))),

@@ -1881,9 +1881,12 @@ export const foo = function () {
 
 test!(
     syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
+    |t| tr(
+        t,
+        Config {
+            ..Default::default()
+        }
+    ),
     issue_1018_1,
     "async function foo() {
     await import('foo');
