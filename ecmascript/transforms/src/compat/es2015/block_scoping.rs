@@ -1137,8 +1137,8 @@ foo();"
     return vars;
   };",
         "module.exports = function(values) {
-    var _loop = function(i) {
-        elem = this.elements[i];
+    var _this = this, _loop = function(i) {
+        elem = _this.elements[i];
         name = elem.name;
         if (!name) return 'continue';
         val = values[name];
@@ -1354,6 +1354,26 @@ expect(foo()).toBe(false);
         }
         ",
         r#"
+        var C = function() {
+            "use strict";
+            function C() {
+                _classCallCheck(this, C);
+            }
+            _createClass(C, [
+                {
+                    key: "m",
+                    value: function m() {
+                        var _this = this, _loop = function(x) {
+                            console.log(_this, function(y) {
+                                return y != x;
+                            });
+                        };
+                        for(var x = 0; x < 10; x++)_loop(x);
+                    }
+                }
+            ]);
+            return C;
+        }();
         "#
     );
 }
