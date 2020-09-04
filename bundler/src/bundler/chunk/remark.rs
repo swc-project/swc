@@ -252,89 +252,190 @@ impl Fold for ExportRenamer<'_> {
                 };
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(e))
-                if self.unexport && e.src.is_none() =>
-            {
-                let mut var_decls = Vec::with_capacity(e.specifiers.len());
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(e)) if e.src.is_none() => {
+                if self.unexport {
+                    let mut var_decls = Vec::with_capacity(e.specifiers.len());
 
-                e.specifiers.into_iter().for_each(|specifier| {
-                    let span = specifier.span();
-                    let ident = match &specifier {
-                        // TODO
-                        ExportSpecifier::Namespace(s) => self.aliased_import(&s.name.sym),
-                        ExportSpecifier::Default(..) => self.aliased_import(&js_word!("default")),
-                        ExportSpecifier::Named(s) => {
-                            if let Some(exported) = &s.exported {
-                                // We need remarking
+                    e.specifiers.into_iter().for_each(|specifier| {
+                        let span = specifier.span();
+                        let ident = match &specifier {
+                            // TODO
+                            ExportSpecifier::Namespace(s) => self.aliased_import(&s.name.sym),
+                            ExportSpecifier::Default(..) => {
+                                self.aliased_import(&js_word!("default"))
+                            }
+                            ExportSpecifier::Named(s) => {
+                                if let Some(exported) = &s.exported {
+                                    // We need remarking
 
-                                match self.aliased_import(&exported.sym) {
-                                    Some(v) => {
-                                        let ctxt = self
-                                            .mark_as_remarking_required(v.clone(), s.orig.to_id());
-                                        log::trace!(
-                                            "exported = {}{:?}",
-                                            exported.sym,
-                                            exported.span.ctxt
-                                        );
-                                        log::trace!("id = {:?}", v);
-                                        log::trace!(
-                                            "orig = {}{:?}",
-                                            s.orig.sym,
-                                            s.orig.span.ctxt()
-                                        );
+                                    match self.aliased_import(&exported.sym) {
+                                        Some(v) => {
+                                            let ctxt = self.mark_as_remarking_required(
+                                                v.clone(),
+                                                s.orig.to_id(),
+                                            );
+                                            log::trace!(
+                                                "exported = {}{:?}",
+                                                exported.sym,
+                                                exported.span.ctxt
+                                            );
+                                            log::trace!("id = {:?}", v);
+                                            log::trace!(
+                                                "orig = {}{:?}",
+                                                s.orig.sym,
+                                                s.orig.span.ctxt()
+                                            );
 
-                                        Some((v.0, ctxt))
+                                            Some((v.0, ctxt))
+                                        }
+                                        None => None,
                                     }
-                                    None => None,
-                                }
-                            } else {
-                                match self.aliased_import(&s.orig.sym) {
-                                    Some(id) => {
-                                        let ctxt = self.mark_as_remarking_required(
-                                            (s.orig.sym.clone(), self.dep_ctxt),
-                                            s.orig.to_id(),
-                                        );
+                                } else {
+                                    match self.aliased_import(&s.orig.sym) {
+                                        Some(id) => {
+                                            let ctxt = self.mark_as_remarking_required(
+                                                (s.orig.sym.clone(), self.dep_ctxt),
+                                                s.orig.to_id(),
+                                            );
 
-                                        Some((id.0, ctxt))
+                                            Some((id.0, ctxt))
+                                        }
+                                        None => None,
                                     }
-                                    None => None,
                                 }
                             }
-                        }
-                    };
-
-                    if let Some(i) = ident {
-                        let orig = match specifier {
-                            // TODO
-                            ExportSpecifier::Namespace(s) => s.name,
-                            ExportSpecifier::Default(..) => Ident::new(js_word!("default"), span),
-                            ExportSpecifier::Named(s) => s.orig,
                         };
 
-                        var_decls.push(VarDeclarator {
+                        if let Some(i) = ident {
+                            let orig = match specifier {
+                                // TODO
+                                ExportSpecifier::Namespace(s) => s.name,
+                                ExportSpecifier::Default(..) => {
+                                    Ident::new(js_word!("default"), span)
+                                }
+                                ExportSpecifier::Named(s) => s.orig,
+                            };
+
+                            var_decls.push(VarDeclarator {
+                                span,
+                                name: Pat::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
+                                init: Some(Box::new(Expr::Ident(orig))),
+                                definite: false,
+                            })
+                        } else {
+                            log::debug!(
+                                "Removing export specifier {:?} as it's not imported",
+                                specifier
+                            );
+                        }
+                    });
+
+                    if !var_decls.is_empty() {
+                        self.extras.push(Stmt::Decl(Decl::Var(VarDecl {
                             span,
-                            name: Pat::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
-                            init: Some(Box::new(Expr::Ident(orig))),
-                            definite: false,
-                        })
-                    } else {
-                        log::debug!(
-                            "Removing export specifier {:?} as it's not imported",
-                            specifier
-                        );
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: var_decls,
+                        })))
                     }
-                });
 
-                if !var_decls.is_empty() {
-                    self.extras.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls: var_decls,
-                    })))
+                    return Stmt::Empty(EmptyStmt { span }).into();
+                } else {
+                    let mut export_specifiers = Vec::with_capacity(e.specifiers.len());
+
+                    e.specifiers.into_iter().for_each(|specifier| {
+                        let span = specifier.span();
+                        let ident = match &specifier {
+                            // TODO
+                            ExportSpecifier::Namespace(s) => self.aliased_import(&s.name.sym),
+                            ExportSpecifier::Default(..) => {
+                                self.aliased_import(&js_word!("default"))
+                            }
+                            ExportSpecifier::Named(s) => {
+                                if let Some(exported) = &s.exported {
+                                    // We need remarking
+
+                                    match self.aliased_import(&exported.sym) {
+                                        Some(v) => {
+                                            let ctxt = self.mark_as_remarking_required(
+                                                v.clone(),
+                                                s.orig.to_id(),
+                                            );
+                                            log::trace!(
+                                                "exported = {}{:?}",
+                                                exported.sym,
+                                                exported.span.ctxt
+                                            );
+                                            log::trace!("id = {:?}", v);
+                                            log::trace!(
+                                                "orig = {}{:?}",
+                                                s.orig.sym,
+                                                s.orig.span.ctxt()
+                                            );
+
+                                            Some((v.0, ctxt))
+                                        }
+                                        None => None,
+                                    }
+                                } else {
+                                    match self.aliased_import(&s.orig.sym) {
+                                        Some(id) => {
+                                            let ctxt = self.mark_as_remarking_required(
+                                                (s.orig.sym.clone(), self.dep_ctxt),
+                                                s.orig.to_id(),
+                                            );
+
+                                            Some((id.0, ctxt))
+                                        }
+                                        None => None,
+                                    }
+                                }
+                            }
+                        };
+
+                        if let Some(i) = ident {
+                            let orig = match specifier {
+                                // TODO
+                                ExportSpecifier::Namespace(s) => s.name,
+                                ExportSpecifier::Default(..) => {
+                                    Ident::new(js_word!("default"), span)
+                                }
+                                ExportSpecifier::Named(s) => s.orig,
+                            };
+
+                            export_specifiers.push(ExportSpecifier::Named(ExportNamedSpecifier {
+                                span,
+                                orig,
+                                exported: Some(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
+                            }));
+
+                        // export_specifiers.push(VarDeclarator {
+                        //     span,
+                        //     name: Pat::Ident(Ident::new(i.0,
+                        // DUMMY_SP.with_ctxt(i.1))),
+                        //     init: Some(Box::new(Expr::Ident(orig))),
+                        //     definite: false,
+                        // })
+                        } else {
+                            log::debug!(
+                                "Removing export specifier {:?} as it's not imported (`unexport` \
+                                 is false, but it's not used)",
+                                specifier
+                            );
+                        }
+                    });
+
+                    if !export_specifiers.is_empty() {
+                        return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                            type_only: false,
+                            span: e.span,
+                            specifiers: export_specifiers,
+                            src: None,
+                        }));
+                    }
+
+                    return Stmt::Empty(EmptyStmt { span }).into();
                 }
-
-                return Stmt::Empty(EmptyStmt { span }).into();
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) => {
