@@ -206,7 +206,8 @@ impl BlockScoping {
                     span: DUMMY_SP,
                     callee: var_name.as_callee(),
                     args: args
-                        .into_iter()
+                        .iter()
+                        .cloned()
                         .map(|i| ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)))),
