@@ -16,6 +16,8 @@ pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;
     fn scope(&self) -> &Scope;
     fn scope_mut(&mut self) -> &mut Scope;
+
+    fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr;
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -466,6 +468,26 @@ impl Scope {
                 Ok(expr) => expr,
                 Err(ident) => Expr::Ident(ident),
             },
+
+            // Handle dynamic imports.
+            // See https://github.com/swc-project/swc/issues/1018
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) if args.len() == 1
+                && match *callee {
+                    Expr::Ident(Ident {
+                        sym: js_word!("import"),
+                        ..
+                    }) => true,
+                    _ => false,
+                } =>
+            {
+                return folder.make_dynamic_import(span, args)
+            }
+
             Expr::Member(e) => {
                 if e.computed {
                     Expr::Member(MemberExpr {
