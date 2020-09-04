@@ -759,4 +759,16 @@ impl ModulePass for Umd {
     fn scope_mut(&mut self) -> &mut Scope {
         &mut self.scope
     }
+
+    /// ```js
+    ///  exports === undefined ? (try_amd) : (try_common_js)
+    /// ```
+    fn make_dynamic_import(&mut self, span: swc_common::Span, args: Vec<ExprOrSpread>) -> Expr {
+        Expr::Cond(CondExpr {
+            span,
+            test: Box::new(quote_ident!("exports").make_eq(quote_ident!("undefined"))),
+            cons: Box::new(super::amd::handle_dynamic_import(span, args.clone())),
+            alt: Box::new(super::common_js::handle_dynamic_import(span, args)),
+        })
+    }
 }
