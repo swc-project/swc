@@ -127,7 +127,7 @@ impl BlockScoping {
                     return body;
                 }
                 let mut flow_helper = FlowHelper {
-                    all: &used,
+                    all: &args,
                     has_continue: false,
                     has_break: false,
                     has_return: false,
