@@ -51,6 +51,21 @@ impl<'a, I: Tokens> Parser<I> {
                 None => return Ok(next_left),
             };
 
+            match &*next_left {
+                Expr::Bin(BinExpr {
+                    right,
+                    op: op!("??"),
+                    ..
+                }) => match &**right {
+                    Expr::Bin(BinExpr { span, op, .. }) if *op == op!("&&") || *op == op!("||") => {
+                        self.emit_err(*span, SyntaxError::NullishCoalescingWithLogicalOp);
+                    }
+
+                    _ => {}
+                },
+                _ => {}
+            }
+
             left = next_left;
         }
     }
@@ -191,18 +206,7 @@ impl<'a, I: Tokens> Parser<I> {
             right,
         }));
 
-        let expr = self.parse_bin_op_recursively(node, min_prec)?;
-
-        if op == op!("??") {
-            match *expr {
-                Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
-                    self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
-                }
-
-                _ => {}
-            }
-        }
-        Ok((expr, None))
+        return Ok((node, Some(min_prec)));
     }
 
     /// Parse unary expression and update expression.
