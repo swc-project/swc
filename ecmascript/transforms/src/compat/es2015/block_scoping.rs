@@ -1182,8 +1182,17 @@ expect(foo()).toBe(false);
             console.log(i++, [2].every(x => x != i))
         }
         ",
-        "
-        "
+        r#"
+        var _loop = function(i1) {
+            console.log(i1++, [
+                2
+            ].every(function(x) {
+                return x != i;
+            }));
+            i = i1, void 0;
+        };
+        for(var i = 0; i < 5; i++)_loop(i);        
+        "#
     );
 
     test!(
@@ -1204,8 +1213,21 @@ expect(foo()).toBe(false);
             if (i % 2 === 0) continue
         }
         ",
-        "
-        "
+        r#"
+        var _loop = function(i1) {
+            console.log(i1++, [
+                2
+            ].every(function(x) {
+                return x != i;
+            }));
+            if (i1 % 2 === 0) return (i = i1, "continue");
+            i = i1, void 0;
+        };
+        for(var i = 0; i < 5; i++){
+            var _ret = _loop(i);
+            if (_ret === "continue") continue;
+        }        
+        "#
     );
 
     test!(
@@ -1226,7 +1248,20 @@ expect(foo()).toBe(false);
             if (i % 2 === 0) break
         }
         ",
-        "
-        "
+        r#"
+        var _loop = function(i1) {
+            console.log(i1++, [
+                2
+            ].every(function(x) {
+                return x != i;
+            }));
+            if (i1 % 2 === 0) return (i = i1, "break");
+            i = i1, void 0;
+        };
+        for(var i = 0; i < 5; i++){
+            var _ret = _loop(i);
+            if (_ret === "break") break;
+        }
+        "#
     );
 }
