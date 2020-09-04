@@ -252,7 +252,9 @@ impl Fold for ExportRenamer<'_> {
                 };
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(e)) if e.src.is_none() => {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(e))
+                if self.unexport && e.src.is_none() =>
+            {
                 let mut var_decls = Vec::with_capacity(e.specifiers.len());
 
                 e.specifiers.into_iter().for_each(|specifier| {
