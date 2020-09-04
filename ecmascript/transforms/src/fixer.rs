@@ -90,7 +90,7 @@ impl Fold for Fixer<'_> {
         self.ctx = Context::Callee { is_new: true };
         callee = callee.fold_with(self);
         match *callee {
-            Expr::Call(..) => callee = Box::new(self.wrap(*callee)),
+            Expr::Call(..) | Expr::Bin(..) => callee = Box::new(self.wrap(*callee)),
             _ => {}
         }
         self.ctx = old;
@@ -1055,4 +1055,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     test_fixer!(new_cond, "new (a ? B : C)()", "new (a ? B : C)()");
 
     identical!(issue_931, "new (eval('Date'))();");
+
+    identical!(issue_1002, "new (P || (P = Promise))");
 }
