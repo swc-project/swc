@@ -1185,5 +1185,18 @@ test!(
     "async function foo() {
     await import('foo');
   }",
-    ""
+    "define([], function() {
+      \"use strict\";
+      async function foo() {
+          await new Promise(function(resolve, reject) {
+              require([
+                  \"foo\"
+              ], function(dep) {
+                  resolve(dep);
+              }, function(err) {
+                  reject(err);
+              });
+          });
+      }
+  });"
 );

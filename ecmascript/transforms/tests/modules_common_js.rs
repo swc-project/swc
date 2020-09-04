@@ -4239,5 +4239,12 @@ test!(
     "async function foo() {
       await import('foo');
     }",
-    ""
+    "
+    \"use strict\";
+    async function foo() {
+        await Promise.resolve().then(function() {
+            return require(\"foo\");
+        });
+    }
+    "
 );
