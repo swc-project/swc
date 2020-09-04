@@ -1,6 +1,7 @@
 #![feature(test)]
 use common::Tester;
 use swc_common::{chain, Mark};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     modules::{
         umd::{umd, Config},
@@ -13,8 +14,11 @@ use swc_ecma_visit::Fold;
 #[macro_use]
 mod common;
 
-fn syntax() -> ::swc_ecma_parser::Syntax {
-    Default::default()
+fn syntax() -> Syntax {
+    Syntax::Es(EsConfig {
+        dynamic_import: true,
+        ..Default::default()
+    })
 }
 
 fn tr(tester: &mut Tester<'_>, config: Config) -> impl Fold {
@@ -1873,4 +1877,16 @@ export const foo = function () {
     }();
     _exports.foo = foo;
 });"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_1018_1,
+    "async function foo() {
+    await import('foo');
+  }",
+    ""
 );

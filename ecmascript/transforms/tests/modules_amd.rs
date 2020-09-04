@@ -1,6 +1,6 @@
 #![feature(test)]
 use swc_common::chain;
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     modules::{
         amd::{amd, Config},
@@ -14,7 +14,10 @@ use swc_ecma_visit::Fold;
 mod common;
 
 fn syntax() -> Syntax {
-    Default::default()
+    Syntax::Es(EsConfig {
+        dynamic_import: true,
+        ..Default::default()
+    })
 }
 
 fn tr(config: Config) -> impl Fold {
@@ -1171,4 +1174,16 @@ export const foo = function () {
     _exports.foo = foo;
 });
 "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_1018_1,
+    "async function foo() {
+    await import('foo');
+  }",
+    ""
 );

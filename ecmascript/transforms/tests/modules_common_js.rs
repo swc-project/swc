@@ -1,6 +1,6 @@
 #![feature(test)]
 use swc_common::{chain, Mark};
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     compat,
     compat::es2020::class_properties,
@@ -22,7 +22,10 @@ use swc_ecma_visit::Fold;
 mod common;
 
 fn syntax() -> Syntax {
-    Default::default()
+    Syntax::Es(EsConfig {
+        dynamic_import: true,
+        ..Default::default()
+    })
 }
 fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsConfig {
@@ -4225,4 +4228,16 @@ test!(
     var _default = isBuffer;
     exports.default = _default;
 "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_1018_1,
+    "async function foo() {
+      await import('foo');
+    }",
+    ""
 );
