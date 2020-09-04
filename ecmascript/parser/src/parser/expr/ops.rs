@@ -40,9 +40,27 @@ impl<'a, I: Tokens> Parser<I> {
     /// `parseExprOp`
     pub(in crate::parser) fn parse_bin_op_recursively(
         &mut self,
+        mut left: Box<Expr>,
+        mut min_prec: u8,
+    ) -> PResult<Box<Expr>> {
+        loop {
+            let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
+
+            min_prec = match next_prec {
+                Some(v) => v,
+                None => return Ok(next_left),
+            };
+
+            left = next_left;
+        }
+    }
+
+    /// Returns `(left, Some(next_prec))` or `(expr, None)`.
+    fn parse_bin_op_recursively_inner(
+        &mut self,
         left: Box<Expr>,
         min_prec: u8,
-    ) -> PResult<Box<Expr>> {
+    ) -> PResult<(Box<Expr>, Option<u8>)> {
         const PREC_OF_IN: u8 = 7;
 
         if self.input.syntax().typescript()
@@ -69,21 +87,21 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             };
 
-            return self.parse_bin_op_recursively(node, min_prec);
+            return self.parse_bin_op_recursively_inner(node, min_prec);
         }
 
         let ctx = self.ctx();
         // Return left on eof
         let word = match cur!(false) {
             Ok(cur) => cur,
-            Err(..) => return Ok(left),
+            Err(..) => return Ok((left, None)),
         };
         let op = match *word {
             Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => op!("in"),
             Word(Word::Keyword(Keyword::InstanceOf)) => op!("instanceof"),
             Token::BinOp(op) => op.into(),
             _ => {
-                return Ok(left);
+                return Ok((left, None));
             }
         };
 
@@ -100,7 +118,7 @@ impl<'a, I: Tokens> Parser<I> {
                 op.precedence()
             );
 
-            return Ok(left);
+            return Ok((left, None));
         }
         bump!();
         trace!(
@@ -184,7 +202,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
         }
-        Ok(expr)
+        Ok((expr, None))
     }
 
     /// Parse unary expression and update expression.
