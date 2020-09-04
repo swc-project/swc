@@ -199,7 +199,7 @@ where
                             let mut dep = self.merge_modules(plan, id, false, true)?;
 
                             dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
-                            // dep = dep.fold_with(&mut Unexporter);
+                            dep = dep.fold_with(&mut Unexporter);
 
                             // As transitive deps can have no direct relation with entry,
                             // remark_exports is not enough.
