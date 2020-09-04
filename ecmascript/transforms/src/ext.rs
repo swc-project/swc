@@ -7,6 +7,10 @@ use swc_ecma_utils::ExprExt;
 pub(crate) trait MapWithMut: Sized {
     fn dummy() -> Self;
 
+    fn take(&mut self) -> Self {
+        replace(self, Self::dummy())
+    }
+
     #[inline]
     fn map_with_mut<F>(&mut self, op: F)
     where
@@ -68,6 +72,22 @@ where
     #[inline(always)]
     fn dummy() -> Self {
         Box::new(T::dummy())
+    }
+}
+
+impl MapWithMut for Ident {
+    fn dummy() -> Self {
+        Ident::new(js_word!(""), DUMMY_SP)
+    }
+}
+
+impl MapWithMut for ObjectPatProp {
+    fn dummy() -> Self {
+        ObjectPatProp::Assign(AssignPatProp {
+            span: DUMMY_SP,
+            key: Ident::dummy(),
+            value: None,
+        })
     }
 }
 

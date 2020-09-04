@@ -3,6 +3,7 @@ use crate::tests::HygieneVisualizer;
 use std::collections::HashMap;
 use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
+use swc_ecma_visit::{Fold, FoldWith};
 
 struct Marker {
     map: HashMap<JsWord, Mark>,
