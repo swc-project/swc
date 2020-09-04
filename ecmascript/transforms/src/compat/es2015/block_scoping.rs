@@ -1293,4 +1293,27 @@ expect(foo()).toBe(false);
         }
         "#
     );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1021_1,
+        "
+        class C {
+            m() {
+                for (let x = 0; x < 10; x++) console.log(this, y => y != x)
+            }
+        }
+        ",
+        r#"
+        "#
+    );
 }
