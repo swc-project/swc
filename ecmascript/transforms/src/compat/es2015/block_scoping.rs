@@ -1,12 +1,15 @@
 use crate::util::undefined;
 use smallvec::SmallVec;
-use std::{collections::HashSet, mem::replace};
-use swc_common::{util::map::Map, Spanned, DUMMY_SP};
+use std::{collections::HashMap, mem::replace};
+use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_mut_type, Fold, FoldWith, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 
 ///
 ///
@@ -39,7 +42,8 @@ enum ScopeKind {
         args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
-        mutated: HashSet<Id>,
+        /// Map of original identifer to modified syntax context
+        mutated: HashMap<Id, SyntaxContext>,
     },
     Fn,
     Block,
@@ -115,7 +119,7 @@ impl BlockScoping {
             if let Some(ScopeKind::ForLetLoop {
                 args,
                 used,
-                mut mutated,
+                mutated,
                 ..
             }) = self.scope.pop()
             {
@@ -126,8 +130,37 @@ impl BlockScoping {
                     has_continue: false,
                     has_break: false,
                     has_return: false,
-                    mutated: &mut mutated,
+                    mutated,
                 };
+
+                let mut body = match body.fold_with(&mut flow_helper) {
+                    Stmt::Block(bs) => bs,
+                    body => BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![body],
+                    },
+                };
+
+                if !flow_helper.mutated.is_empty() {
+                    let mut v = MutationHandler {
+                        map: &mut flow_helper.mutated,
+                        in_function: false,
+                    };
+                    // Modifies identifiers, and add reassignments to break / continue / return
+                    body.visit_mut_with(&mut v);
+
+                    if body
+                        .stmts
+                        .last()
+                        .map(|s| match s {
+                            Stmt::Return(..) => false,
+                            _ => true,
+                        })
+                        .unwrap_or(true)
+                    {
+                        body.stmts.push(v.make_reassignemnt(None).into_stmt());
+                    }
+                }
 
                 let var_name = private_ident!("_loop");
 
@@ -141,23 +174,22 @@ impl BlockScoping {
                                 span: DUMMY_SP,
                                 params: args
                                     .iter()
-                                    .map(|i| Param {
-                                        span: DUMMY_SP,
-                                        decorators: Default::default(),
-                                        pat: Pat::Ident(Ident::new(
-                                            i.0.clone(),
-                                            DUMMY_SP.with_ctxt(i.1),
-                                        )),
+                                    .map(|i| {
+                                        let ctxt =
+                                            flow_helper.mutated.get(i).copied().unwrap_or(i.1);
+
+                                        Param {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            pat: Pat::Ident(Ident::new(
+                                                i.0.clone(),
+                                                DUMMY_SP.with_ctxt(ctxt),
+                                            )),
+                                        }
                                     })
                                     .collect(),
                                 decorators: Default::default(),
-                                body: Some(match body.fold_with(&mut flow_helper) {
-                                    Stmt::Block(bs) => bs,
-                                    body => BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: vec![body],
-                                    },
-                                }),
+                                body: Some(body),
                                 is_generator: false,
                                 is_async: false,
                                 type_params: None,
@@ -661,14 +693,14 @@ impl Visit for InfectionFinder<'_> {
 }
 
 #[derive(Debug)]
-struct FlowHelper<'a> {
+struct FlowHelper {
     has_continue: bool,
     has_break: bool,
     has_return: bool,
-    mutated: &'a mut HashSet<Id>,
+    mutated: HashMap<Id, SyntaxContext>,
 }
 
-impl Fold for FlowHelper<'_> {
+impl Fold for FlowHelper {
     noop_fold_type!();
 
     /// noop
@@ -684,7 +716,10 @@ impl Fold for FlowHelper<'_> {
     fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
         match *n.arg {
             Expr::Ident(ref i) => {
-                self.mutated.insert(i.to_id());
+                self.mutated.insert(
+                    i.to_id(),
+                    SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+                );
             }
             _ => {}
         }
@@ -744,6 +779,76 @@ impl Fold for FlowHelper<'_> {
             }
             _ => node.fold_children_with(self),
         }
+    }
+}
+
+struct MutationHandler<'a> {
+    map: &'a mut HashMap<Id, SyntaxContext>,
+    in_function: bool,
+}
+
+impl MutationHandler<'_> {
+    fn make_reassignemnt(&self, orig: Option<Box<Expr>>) -> Expr {
+        let mut exprs = Vec::with_capacity(self.map.len() + 1);
+
+        for (id, ctxt) in &*self.map {
+            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new(
+                    id.0.clone(),
+                    DUMMY_SP.with_ctxt(id.1),
+                )))),
+                op: op!("="),
+                right: Box::new(Expr::Ident(Ident::new(
+                    id.0.clone(),
+                    DUMMY_SP.with_ctxt(*ctxt),
+                ))),
+            })));
+        }
+        exprs.push(orig.unwrap_or(undefined(DUMMY_SP)));
+
+        Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs,
+        })
+    }
+}
+
+impl VisitMut for MutationHandler<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if let Some(&ctxt) = self.map.get(&n.to_id()) {
+            n.span = n.span.with_ctxt(ctxt)
+        }
+    }
+
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        let old = self.in_function;
+        self.in_function = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_function = old;
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old = self.in_function;
+        self.in_function = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_function = old;
+    }
+
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        if self.in_function {
+            return;
+        }
+
+        let val = n.arg.take();
+
+        n.arg = Some(Box::new(self.make_reassignemnt(val)))
     }
 }
 
@@ -1075,6 +1180,50 @@ expect(foo()).toBe(false);
         "
         for (let i = 0; i < 5; i++) {
             console.log(i++, [2].every(x => x != i))
+        }
+        ",
+        "
+        "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1022_2,
+        "
+        for (let i = 0; i < 5; i++) {
+            console.log(i++, [2].every(x => x != i))
+            if (i % 2 === 0) continue
+        }
+        ",
+        "
+        "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1022_3,
+        "
+        for (let i = 0; i < 5; i++) {
+            console.log(i++, [2].every(x => x != i))
+            if (i % 2 === 0) break
         }
         ",
         "
