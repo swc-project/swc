@@ -142,13 +142,17 @@ impl<'a> Hygiene<'a> {
         old.retain(|c| *c != ctxt);
         //        debug_assert!(old.is_empty() || old.len() == 1);
 
-        let new = declared_symbols.entry(renamed.to_boxed_str()).or_default();
+        let new = declared_symbols
+            .entry(renamed.clone().into_boxed_str())
+            .or_default();
         new.push(ctxt);
         debug_assert!(new.len() == 1);
 
-        dbg!("Insert");
-
-        scope.ops.borrow_mut().rename.insert((sym, ctxt), renamed);
+        scope
+            .ops
+            .borrow_mut()
+            .rename
+            .insert((sym, ctxt), renamed.into());
     }
 }
 
