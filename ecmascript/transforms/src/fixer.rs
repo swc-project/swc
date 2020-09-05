@@ -157,6 +157,128 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
         self.unwrap_expr(e);
 
+        self.wrap_with_paren_if_required(e)
+    }
+
+    fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
+        e.visit_mut_children_with(self);
+
+        if e.spread.is_none() {
+            match *e.expr {
+                Expr::Yield(..) => {
+                    self.wrap(&mut e.expr);
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
+        node.visit_mut_children_with(self);
+
+        match *node.cons {
+            Stmt::If(..) => {
+                node.cons = Box::new(Stmt::Block(BlockStmt {
+                    span: node.cons.span(),
+                    stmts: vec![*node.cons.take()],
+                }));
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        node.key.visit_mut_with(self);
+        self.ctx = old;
+
+        node.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_key_value_prop(&mut self, prop: &mut KeyValueProp) {
+        prop.visit_mut_children_with(self);
+
+        match *prop.value {
+            Expr::Seq(..) => self.wrap(&mut prop.value),
+            _ => {}
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
+        name.visit_mut_children_with(self);
+
+        match name {
+            PropName::Computed(c) if c.expr.is_seq() => {
+                self.wrap(&mut c.expr);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        match stmt {
+            Stmt::Expr(expr) => {
+                let old = self.ctx;
+                self.ctx = Context::Default;
+                expr.visit_mut_with(self);
+                self.ctx = old;
+            }
+            _ => stmt.visit_mut_children_with(self),
+        };
+
+        match stmt {
+            Stmt::Expr(ExprStmt { ref mut expr, .. }) => {
+                self.handle_expr_stmt(&mut **expr);
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
+        node.name.visit_mut_children_with(self);
+
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: true };
+        node.init.visit_mut_with(self);
+        self.ctx = old;
+    }
+
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        debug_assert!(self.span_map.is_empty());
+        self.span_map.clear();
+
+        let n = n.visit_mut_children_with(self);
+        if let Some(c) = self.comments {
+            for (to, from) in self.span_map.drain() {
+                c.move_leading(from.lo, to.lo);
+                c.move_trailing(from.hi, to.hi);
+            }
+        }
+
+        n
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        debug_assert!(self.span_map.is_empty());
+        self.span_map.clear();
+
+        let n = n.visit_mut_children_with(self);
+        if let Some(c) = self.comments {
+            for (to, from) in self.span_map.drain() {
+                c.move_leading(from.lo, to.lo);
+                c.move_trailing(from.hi, to.hi);
+            }
+        }
+
+        n
+    }
+}
+
+impl Fixer<'_> {
+    fn wrap_with_paren_if_required(&mut self, e: &mut Expr) {
         match e {
             Expr::Member(MemberExpr { obj, .. })
                 if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
@@ -399,124 +521,6 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
-    fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
-        e.visit_mut_children_with(self);
-
-        if e.spread.is_none() {
-            match *e.expr {
-                Expr::Yield(..) => {
-                    self.wrap(&mut e.expr);
-                }
-                _ => {}
-            }
-        }
-    }
-
-    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        node.visit_mut_children_with(self);
-
-        match *node.cons {
-            Stmt::If(..) => {
-                node.cons = Box::new(Stmt::Block(BlockStmt {
-                    span: node.cons.span(),
-                    stmts: vec![*node.cons.take()],
-                }));
-            }
-
-            _ => {}
-        }
-    }
-
-    fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
-        node.key.visit_mut_with(self);
-        self.ctx = old;
-
-        node.value.visit_mut_with(self);
-    }
-
-    fn visit_mut_key_value_prop(&mut self, prop: &mut KeyValueProp) {
-        prop.visit_mut_children_with(self);
-
-        match *prop.value {
-            Expr::Seq(..) => self.wrap(&mut prop.value),
-            _ => {}
-        }
-    }
-
-    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
-        name.visit_mut_children_with(self);
-
-        match name {
-            PropName::Computed(c) if c.expr.is_seq() => {
-                self.wrap(&mut c.expr);
-            }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
-        match stmt {
-            Stmt::Expr(expr) => {
-                let old = self.ctx;
-                self.ctx = Context::Default;
-                expr.visit_mut_with(self);
-                self.ctx = old;
-            }
-            _ => stmt.visit_mut_children_with(self),
-        };
-
-        match stmt {
-            Stmt::Expr(ExprStmt { ref mut expr, .. }) => {
-                self.handle_expr_stmt(&mut **expr);
-            }
-
-            _ => {}
-        }
-    }
-
-    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
-        node.name.visit_mut_children_with(self);
-
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: true };
-        node.init.visit_mut_with(self);
-        self.ctx = old;
-    }
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        debug_assert!(self.span_map.is_empty());
-        self.span_map.clear();
-
-        let n = n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
-
-        n
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        debug_assert!(self.span_map.is_empty());
-        self.span_map.clear();
-
-        let n = n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
-
-        n
-    }
-}
-
-impl Fixer<'_> {
     /// Wrap with a paren.
     fn wrap(&mut self, e: &mut Expr) {
         let span = e.span();
