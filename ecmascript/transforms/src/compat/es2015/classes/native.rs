@@ -1,17 +1,21 @@
+use phf::phf_set;
+
 macro_rules! native {
     (
         $sym:expr,
         $(
             $i:tt
         ),*
-    ) => {
-        match $sym{
+    ) => {{
+        static SET: phf::Set<&'static str> = phf_set! {
             $(
-                $i => true,
+                $i,
             )*
-            _ => false
-        }
-    };
+        };
+
+
+        SET.contains($sym)
+    }};
 }
 
 pub(crate) fn is_native(sym: &str) -> bool {
