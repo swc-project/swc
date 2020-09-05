@@ -46,18 +46,20 @@ impl<'a, I: Tokens> Parser<I> {
         loop {
             let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
 
-            min_prec = match next_prec {
-                Some(v) => v,
-                None => return Ok(next_left),
-            };
-
             match &*next_left {
                 Expr::Bin(BinExpr {
-                    right,
-                    op: op!("??"),
+                    span,
+                    left,
+                    op: op!("&&"),
                     ..
-                }) => match &**right {
-                    Expr::Bin(BinExpr { span, op, .. }) if *op == op!("&&") || *op == op!("||") => {
+                })
+                | Expr::Bin(BinExpr {
+                    span,
+                    left,
+                    op: op!("||"),
+                    ..
+                }) => match &**left {
+                    Expr::Bin(BinExpr { op: op!("??"), .. }) => {
                         self.emit_err(*span, SyntaxError::NullishCoalescingWithLogicalOp);
                     }
 
@@ -65,6 +67,11 @@ impl<'a, I: Tokens> Parser<I> {
                 },
                 _ => {}
             }
+
+            min_prec = match next_prec {
+                Some(v) => v,
+                None => return Ok(next_left),
+            };
 
             left = next_left;
         }
