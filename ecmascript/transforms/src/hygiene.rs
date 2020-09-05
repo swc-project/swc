@@ -35,6 +35,10 @@ impl<'a> Hygiene<'a> {
         let can_declare_without_renaming = self.current.can_declare(ident.sym.clone(), ctxt);
         let sym = self.current.change_symbol(ident.sym, ctxt);
 
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("Changed symbol to {}{:?} ", sym, ctxt);
+        }
+
         self.current
             .declared_symbols
             .borrow_mut()
