@@ -104,7 +104,7 @@ impl<'a> Hygiene<'a> {
         // Update symbol list
         let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
-        let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym, ctxt));
+        let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym.clone(), ctxt));
 
         debug_assert!(
             is_not_renamed,
