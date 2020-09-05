@@ -7,7 +7,7 @@ use fxhash::FxHashMap;
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
-use swc_common::{chain, Span, SyntaxContext};
+use swc_common::{chain, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
