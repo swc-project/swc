@@ -1,5 +1,5 @@
 use super::*;
-use crate::{resolver, tests::HygieneVisualizer};
+use crate::tests::HygieneVisualizer;
 use std::collections::HashMap;
 use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
@@ -1184,31 +1184,3 @@ fn exported_class_1() {
         export { Foo1 as Foo };",
     );
 }
-
-test!(
-    Syntax::default(),
-    |_| resolver(),
-    perf_bug,
-    "
-let a;
-use(a);
-{
-    let a;
-    use(a);
-    {
-        let a;
-        use(a);
-        {
-            let a;
-            use(a);
-            {
-                let a;
-                use(a);
-            }
-            use(a);
-        }
-    }
-}
-",
-    ""
-);
