@@ -346,6 +346,7 @@ impl<'a> Scope<'a> {
 }
 
 #[macro_export]
+#[deprecated = "Not a public api"]
 macro_rules! track_ident {
     () => {
         fn fold_export_specifier(&mut self, s: ExportSpecifier) -> ExportSpecifier {
