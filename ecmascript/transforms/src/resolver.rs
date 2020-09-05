@@ -483,7 +483,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        let key = n.key.visit_mut_with(self);
+        n.key.visit_mut_with(self);
         let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(
@@ -506,7 +506,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        let id = self.visit_mut_binding_ident(&mut n.id);
+        self.visit_mut_binding_ident(&mut n.id);
         let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(
@@ -528,7 +528,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        let id = self.visit_mut_binding_ident(&mut n.id);
+        self.visit_mut_binding_ident(&mut n.id);
         let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(
@@ -658,9 +658,9 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
-        let key = m.key.visit_mut_with(self);
+        m.key.visit_mut_with(self);
 
-        let function = {
+        {
             let child_mark = Mark::fresh(self.mark);
 
             // Child folder
@@ -672,11 +672,11 @@ impl<'a> VisitMut for Resolver<'a> {
             );
 
             m.function.visit_mut_with(&mut child)
-        };
+        }
     }
 
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
-        let decorators = p.decorators.visit_mut_with(self);
+        p.decorators.visit_mut_with(self);
 
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
@@ -720,9 +720,8 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
         // We don't fold this as Hoister handles this.
-        let ident = node.ident;
 
-        let function = {
+        {
             let child_mark = Mark::fresh(self.mark);
 
             // Child folder
@@ -733,10 +732,11 @@ impl<'a> VisitMut for Resolver<'a> {
                 self.handle_types,
             );
 
-            folder.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
+            folder.cur_defining =
+                Some((node.ident.sym.clone(), node.ident.span.ctxt().remove_mark()));
 
             node.function.visit_mut_with(&mut folder)
-        };
+        }
     }
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
@@ -794,7 +794,7 @@ impl<'a> VisitMut for Resolver<'a> {
                         "resolver: IdentRef (type = {}) {}{:?}",
                         self.in_type,
                         sym,
-                        i.span.ctxt()
+                        span.ctxt()
                     );
                 }
 
@@ -901,7 +901,7 @@ impl<'a> VisitMut for Resolver<'a> {
         let old_hoist = self.hoist;
 
         self.hoist = VarDeclKind::Var == decl.kind;
-        let decls = decl.decls.visit_mut_with(self);
+        decl.decls.visit_mut_with(self);
 
         self.hoist = old_hoist;
     }
