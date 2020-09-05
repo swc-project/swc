@@ -1,5 +1,5 @@
 use super::*;
-use crate::tests::HygieneVisualizer;
+use crate::{resolver, tests::HygieneVisualizer};
 use std::collections::HashMap;
 use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
@@ -1185,92 +1185,30 @@ fn exported_class_1() {
     );
 }
 
-// #[test]
-// fn issue_598() {
-//     test_module(
-//         |tester| {
-//             let mark1 = Mark::fresh(Mark::root());
-//             let mark2 = Mark::fresh(Mark::root());
-
-//             Ok(tester
-//                 .parse_module(
-//                     "actual1.js",
-//                     "export function foo() {
-//     console.log(i18n(_templateObject()));
-//     console.log(i18n(_templateObject()));
-// }",
-//                 )?
-//                 .fold_with(&mut OnceMarker::new(&[(
-//                     "_templateObject",
-//                     &[mark1, mark2],
-//                 )])))
-//         },
-//         "export function foo() {
-//     console.log(i18n(_templateObject1()));
-//     console.log(i18n(_templateObject()));
-// }",
-//     );
-// }
-
-// #[test]
-// fn issue_598_2() {
-//     test_module(
-//         |tester| {
-//             let mark1 = Mark::fresh(Mark::root());
-//             let mark2 = Mark::fresh(Mark::root());
-//             let mark3 = Mark::fresh(Mark::root());
-
-//             Ok(tester
-//                 .parse_module(
-//                     "actual1.js",
-//                     "export function foo() {
-//     console.log(i18n(_templateObject()));
-//     console.log(i18n(_templateObject()));
-//     console.log(i18n(_templateObject()));
-// }",
-//                 )?
-//                 .fold_with(&mut OnceMarker::new(&[(
-//                     "_templateObject",
-//                     &[mark1, mark2, mark3],
-//                 )])))
-//         },
-//         "export function foo() {
-//     console.log(i18n(_templateObject1()));
-//     console.log(i18n(_templateObject2()));
-//     console.log(i18n(_templateObject()));
-// }",
-//     );
-// }
-
-// #[test]
-// fn issue_598_3() {
-//     test_module(
-//         |tester| {
-//             let mark1 = Mark::fresh(Mark::root());
-//             let mark2 = Mark::fresh(Mark::root());
-//             let mark3 = Mark::fresh(Mark::root());
-//             let mark4 = Mark::fresh(Mark::root());
-
-//             Ok(tester
-//                 .parse_module(
-//                     "actual1.js",
-//                     "export function foo() {
-//     console.log(i18n(_templateObject()));
-//     console.log(i18n(_templateObject()));
-//     console.log(i18n(_templateObject()));
-//     console.log(i18n(_templateObject()));
-// }",
-//                 )?
-//                 .fold_with(&mut OnceMarker::new(&[(
-//                     "_templateObject",
-//                     &[mark1, mark2, mark3, mark4],
-//                 )])))
-//         },
-//         "export function foo() {
-//     console.log(i18n(_templateObject1()));
-//     console.log(i18n(_templateObject2()));
-//     console.log(i18n(_templateObject3()));
-//     console.log(i18n(_templateObject()));
-// }",
-//     );
-// }
+test!(
+    Syntax::default(),
+    |_| resolver(),
+    perf_bug,
+    "
+let a;
+use(a);
+{
+    let a;
+    use(a);
+    {
+        let a;
+        use(a);
+        {
+            let a;
+            use(a);
+            {
+                let a;
+                use(a);
+            }
+            use(a);
+        }
+    }
+}
+",
+    ""
+);
