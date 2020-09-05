@@ -8,7 +8,8 @@ on:
 
 env:
   CARGO_INCREMENTAL: 0
-  CI: "1"
+  CI: '1'
+  DEBUG: 'napi:*'
 
 jobs:
   build:
@@ -51,32 +52,24 @@ jobs:
           LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
 
       - name: Install node dependencies
-        run: |
-          npm i
+        run: npm i
 
       - name: Build
         shell: bash
-        run: |
-          npm run build
-          cp native/node.$PLATFORM_NAME.node swc.$PLATFORM_NAME.node
-          cp native/node.$PLATFORM_NAME.node node.$PLATFORM_NAME.node
-          cp native/node.$PLATFORM_NAME.node scripts/npm/core-$PLATFORM_NAME/swc.node
-          (cd scripts/npm/core-$PLATFORM_NAME && npm link)
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: bindings
-          path: node.${{ env.PLATFORM_NAME }}.node
+          path: swc.${{ env.PLATFORM_NAME }}.node
 
       - name: List packages
         run: ls -R ./scripts/npm/
         shell: bash
 
       - name: Test bindings
-        run: |
-          npm link  @swc/core-$PLATFORM_NAME
-          npm test
+        run: npm test
 
   publish:
     name: npm
@@ -98,17 +91,17 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v2
         with:
-          path: ./native
+          path: artifacts
 
       - name: List binaries
-        run: ls -R ./native/
+        run: ls -R artifacts
         shell: bash
 
       - name: Move binaries
         shell: bash
-        run: |
-          cp ./native/bindings/*.node ./native
+        run: npm run artifacts
 
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

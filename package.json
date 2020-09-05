@@ -33,15 +33,20 @@
   "cpu": [
     "x64"
   ],
+  "napi": {
+    "name": "swc"
+  },
   "dependencies": {
-    "@node-rs/helper": "^0.3.1"
+    "@node-rs/helper": "^0.4.0"
   },
   "types": "./lib/index.d.ts",
   "scripts": {
-    "prepublishOnly": "tsc -d && node ./scripts/npm/prepublish.js",
-    "build": "tsc -d && cargo build -p node --release && cd ./native && napi build --platform --release .",
-    "build:dev": "tsc -d && cargo build -p node && cd ./native && napi build --platform .",
-    "test": "jest node-swc/__tests__"
+    "artifacts": "napi artifacts -t scripts/npm",
+    "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
+    "build": "tsc -d && cargo build -p node --release && napi build --platform --release --cargo-name node",
+    "build:dev": "tsc -d && cargo build -p node && napi build --platform --cargo-name node",
+    "test": "jest node-swc/__tests__",
+    "version": "napi version -p scripts/npm"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -58,7 +63,7 @@
     "browserslist": "^4.12.0",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
-    "napi-rs": "^0.2.6",
+    "napi-rs": "^0.3.1",
     "progress": "^2.0.3",
     "source-map": "^0.7.3",
     "sourcemap-validator": "^1.1.1",
@@ -67,10 +72,5 @@
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/swc"
-  },
-  "optionalDependencies": {
-    "@swc/core-darwin": "^1.2.22",
-    "@swc/core-linux": "^1.2.22",
-    "@swc/core-win32": "^1.2.22"
   }
 }
