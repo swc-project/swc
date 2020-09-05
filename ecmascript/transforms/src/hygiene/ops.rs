@@ -1,5 +1,5 @@
 use crate::ext::MapWithMut;
-use ahash::AHashMap;
+use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -7,7 +7,7 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 #[derive(Debug, Default)]
 pub(super) struct Operations {
-    pub rename: AHashMap<Id, JsWord>,
+    pub rename: FxHashMap<Id, JsWord>,
 }
 
 pub(super) struct Operator<'a>(pub &'a Operations);

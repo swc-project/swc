@@ -3,7 +3,7 @@ use crate::{
     compat::es2015::classes::native::is_native,
     scope::{IdentType, ScopeKind},
 };
-use ahash::AHashMap;
+use fxhash::FxHashMap;
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
@@ -228,7 +228,7 @@ struct Scope<'a> {
     pub kind: ScopeKind,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<AHashMap<Box<str>, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Operations>,
 }

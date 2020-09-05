@@ -15,7 +15,6 @@ react = ["dashmap"]
 
 [dependencies]
 Inflector = {version = "0.11.4", default-features = false}
-ahash = "0.4.4"
 arrayvec = "0.5.1"
 dashmap = {version = "3", optional = true}
 either = "1.5"
