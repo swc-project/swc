@@ -5,7 +5,7 @@ use crate::{
 };
 use fxhash::FxHashMap;
 use smallvec::{smallvec, SmallVec};
-use std::cell::RefCell;
+use std::{cell::RefCell, fmt::Write};
 use swc_atoms::JsWord;
 use swc_common::{chain, SyntaxContext};
 use swc_ecma_ast::*;
@@ -100,12 +100,16 @@ impl<'a> Hygiene<'a> {
         // symbol conflicts
         let renamed = {
             let mut i = 0;
+            let len = sym.len();
+            let mut s = String::with_capacity(sym.len() + 2);
+            s.push_str(&sym);
             loop {
                 i += 1;
-                let sym = format!("{}{}", sym, i);
+                s.truncate(len);
+                write!(s, "{}", i).unwrap();
 
-                if !self.current.is_declared(&sym) {
-                    break sym;
+                if !self.current.is_declared(&s) {
+                    break s;
                 }
             }
         };
