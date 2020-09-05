@@ -1,18 +1,16 @@
 use crate::ext::MapWithMut;
+use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-
-#[derive(Debug)]
-pub(super) enum ScopeOp {
-    Rename {
-        from: (JsWord, SyntaxContext),
-        to: JsWord,
-    },
+#[derive(Debug, Default)]
+pub(super) struct Operations {
+    pub rename: HashMap<Id, JsWord>,
 }
 
-pub(super) struct Operator<'a>(pub &'a [ScopeOp]);
+pub(super) struct Operator<'a>(pub &'a Operations);
 
 impl<'a> VisitMut for Operator<'a> {
     noop_visit_mut_type!();
@@ -300,19 +298,12 @@ impl VisitMut for VarFolder<'_, '_> {
 impl<'a> Operator<'a> {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
-        for op in self.0 {
-            match *op {
-                ScopeOp::Rename { ref from, ref to }
-                    if from.1 == ident.span.ctxt && from.0 == ident.sym =>
-                {
-                    // Clear mark
-                    ident.span = ident.span.with_ctxt(SyntaxContext::empty());
-                    ident.sym = to.clone();
-                    return Ok(());
-                }
-                _ => {}
-            }
+        if let Some(sym) = self.0.rename.get(&ident.to_id()) {
+            ident.span = ident.span.with_ctxt(SyntaxContext::empty());
+            ident.sym = sym.clone();
+            return Ok(());
         }
+
         Err(())
     }
 }

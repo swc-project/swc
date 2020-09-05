@@ -1,4 +1,4 @@
-use self::ops::{Operator, ScopeOp};
+use self::ops::{Operations, Operator};
 use crate::{
     compat::es2015::classes::native::is_native,
     scope::{IdentType, ScopeKind},
@@ -104,9 +104,7 @@ impl<'a> Hygiene<'a> {
         // Update symbol list
         let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
-        let is_not_renamed = scope.ops.borrow().iter().all(|op| match *op {
-            ScopeOp::Rename { ref from, .. } => from.0 != sym || from.1 != ctxt,
-        });
+        let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym, ctxt));
 
         debug_assert!(
             is_not_renamed,
@@ -131,10 +129,7 @@ impl<'a> Hygiene<'a> {
         new.push(ctxt);
         debug_assert!(new.len() == 1);
 
-        scope.ops.borrow_mut().push(ScopeOp::Rename {
-            from: (sym, ctxt),
-            to: renamed,
-        });
+        scope.ops.borrow_mut().rename.insert((sym, ctxt), renamed);
     }
 }
 
@@ -165,7 +160,7 @@ impl<'a> Hygiene<'a> {
     {
         let ops = self.current.ops.borrow();
 
-        if ops.is_empty() {
+        if ops.rename.is_empty() {
             return;
         }
         node.visit_mut_with(&mut Operator(&ops))
@@ -212,7 +207,7 @@ struct Scope<'a> {
     /// All references declared in this scope
     pub declared_symbols: RefCell<HashMap<JsWord, Vec<SyntaxContext>>>,
 
-    pub(crate) ops: RefCell<Vec<ScopeOp>>,
+    pub(crate) ops: RefCell<Operations>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -310,16 +305,11 @@ impl<'a> Scope<'a> {
         let mut cur = Some(self);
 
         while let Some(scope) = cur {
-            for op in scope.ops.borrow().iter() {
-                match *op {
-                    ScopeOp::Rename { ref from, ref to } if from.0 == sym && from.1 == ctxt => {
-                        if cfg!(debug_assertions) && LOG {
-                            eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
-                        }
-                        sym = to.clone()
-                    }
-                    _ => {}
+            if let Some(to) = scope.ops.borrow().rename.get(&(sym.clone(), ctxt)) {
+                if cfg!(debug_assertions) && LOG {
+                    eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
                 }
+                sym = to.clone()
             }
 
             cur = scope.parent;
@@ -332,10 +322,9 @@ impl<'a> Scope<'a> {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }
-        for op in self.ops.borrow().iter() {
-            match *op {
-                ScopeOp::Rename { ref to, .. } if sym == to => return true,
-                _ => {}
+        for (_, to) in &self.ops.borrow().rename {
+            if to == sym {
+                return true;
             }
         }
         match self.parent {
