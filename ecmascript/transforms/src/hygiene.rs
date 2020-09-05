@@ -1,6 +1,6 @@
 use self::ops::{Operations, Operator};
 use crate::{
-    compat::es2015::classes::native::is_native,
+    compat::es2015::classes::native::{is_native, is_native_word},
     scope::{IdentType, ScopeKind},
 };
 use fxhash::FxHashMap;
@@ -719,7 +719,7 @@ impl<'a> VisitMut for Hygiene<'a> {
             IdentType::Binding => self.add_declared_ref(i.clone()),
             IdentType::Ref => {
                 // Special cases
-                if is_native(&i.sym) {
+                if is_native_word(&i.sym) {
                     return;
                 }
 
