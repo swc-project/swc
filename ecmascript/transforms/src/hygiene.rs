@@ -148,7 +148,7 @@ impl<'a> Hygiene<'a> {
 
         let new = declared_symbols
             .entry(renamed.clone().into_boxed_str())
-            .or_default();
+            .or_insert_with(|| Vec::with_capacity(2));
         new.push(ctxt);
         debug_assert!(new.len() == 1);
 
