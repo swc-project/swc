@@ -149,8 +149,8 @@ struct MarkClearer;
 impl VisitMut for MarkClearer {
     noop_visit_mut_type!();
 
-    fn visit_mut_span(&mut self, span: &mut Span) {
-        *span = span.with_ctxt(SyntaxContext::empty());
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        ident.span.ctxt = SyntaxContext::empty();
     }
 }
 
