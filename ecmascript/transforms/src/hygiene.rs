@@ -15,7 +15,17 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
+
+trait ToBoxedStr {
+    fn to_boxed_str(&self) -> Box<str>;
+}
+
+impl ToBoxedStr for JsWord {
+    fn to_boxed_str(&self) -> Box<str> {
+        (**self).to_owned().into_boxed_str()
+    }
+}
 
 struct Hygiene<'a> {
     current: Scope<'a>,
@@ -32,7 +42,8 @@ impl<'a> Hygiene<'a> {
             eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
         }
 
-        let can_declare_without_renaming = self.current.can_declare(ident.sym.clone(), ctxt);
+        let can_declare_without_renaming =
+            self.current.can_declare(&ident.sym.to_boxed_str(), ctxt);
         let sym = self.current.change_symbol(ident.sym, ctxt);
 
         if cfg!(debug_assertions) && LOG {
@@ -42,8 +53,8 @@ impl<'a> Hygiene<'a> {
         self.current
             .declared_symbols
             .borrow_mut()
-            .entry(sym.clone())
-            .or_insert_with(Vec::new)
+            .entry(sym.to_boxed_str())
+            .or_default()
             .push(ctxt);
 
         if can_declare_without_renaming {
@@ -104,7 +115,8 @@ impl<'a> Hygiene<'a> {
         }
 
         let sym = self.current.change_symbol(sym, ctxt);
-        let scope = self.current.scope_of(sym.clone(), ctxt);
+        let boxed_sym = sym.to_boxed_str();
+        let scope = self.current.scope_of(&boxed_sym, ctxt);
 
         // Update symbol list
         let mut declared_symbols = scope.declared_symbols.borrow_mut();
@@ -119,7 +131,7 @@ impl<'a> Hygiene<'a> {
             scope.ops.borrow(),
         );
 
-        let old = declared_symbols.entry(sym.clone()).or_default();
+        let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
         assert!(
             old.contains(&ctxt),
             "{:?} does not contain {}{:?}",
@@ -130,7 +142,7 @@ impl<'a> Hygiene<'a> {
         old.retain(|c| *c != ctxt);
         //        debug_assert!(old.is_empty() || old.len() == 1);
 
-        let new = declared_symbols.entry(renamed.clone()).or_default();
+        let new = declared_symbols.entry(renamed.to_boxed_str()).or_default();
         new.push(ctxt);
         debug_assert!(new.len() == 1);
 
@@ -210,7 +222,7 @@ struct Scope<'a> {
     pub kind: ScopeKind,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Operations>,
 }
@@ -232,8 +244,8 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn scope_of(&self, sym: JsWord, ctxt: SyntaxContext) -> &'a Scope<'_> {
-        if let Some(prev) = self.declared_symbols.borrow().get(&sym) {
+    fn scope_of(&self, sym: &Box<str>, ctxt: SyntaxContext) -> &'a Scope<'_> {
+        if let Some(prev) = self.declared_symbols.borrow().get(sym) {
             if prev.contains(&ctxt) {
                 return self;
             }
@@ -245,11 +257,11 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn can_declare(&self, sym: JsWord, ctxt: SyntaxContext) -> bool {
+    fn can_declare(&self, sym: &Box<str>, ctxt: SyntaxContext) -> bool {
         match self.parent {
             None => {}
             Some(parent) => {
-                if !parent.can_declare(sym.clone(), ctxt) {
+                if !parent.can_declare(sym, ctxt) {
                     return false;
                 }
             }
@@ -259,7 +271,7 @@ impl<'a> Scope<'a> {
             return false;
         }
 
-        if let Some(ctxts) = self.declared_symbols.borrow().get(&sym) {
+        if let Some(ctxts) = self.declared_symbols.borrow().get(sym) {
             ctxts.contains(&ctxt)
         } else {
             // No variable named `sym` is declared
@@ -281,7 +293,7 @@ impl<'a> Scope<'a> {
 
         let mut ctxts = smallvec![];
         {
-            if let Some(cxs) = self.declared_symbols.get_mut().get(&sym) {
+            if let Some(cxs) = self.declared_symbols.get_mut().get(&*sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -291,7 +303,7 @@ impl<'a> Scope<'a> {
         let mut cur = self.parent;
 
         while let Some(scope) = cur {
-            if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
+            if let Some(cxs) = scope.declared_symbols.borrow().get(&*sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -323,7 +335,7 @@ impl<'a> Scope<'a> {
         sym
     }
 
-    fn is_declared(&self, sym: &JsWord) -> bool {
+    fn is_declared(&self, sym: &str) -> bool {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }

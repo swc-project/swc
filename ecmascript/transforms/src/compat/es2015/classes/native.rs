@@ -1,5 +1,3 @@
-use swc_atoms::{js_word, JsWord};
-
 macro_rules! native {
     (
         $sym:expr,
@@ -7,16 +5,16 @@ macro_rules! native {
             $i:tt
         ),*
     ) => {
-        match *$sym{
+        match $sym{
             $(
-                js_word!($i) => true,
+                $i => true,
             )*
             _ => false
         }
     };
 }
 
-pub(crate) fn is_native(sym: &JsWord) -> bool {
+pub(crate) fn is_native(sym: &str) -> bool {
     native!(
         sym,
         "Array",
