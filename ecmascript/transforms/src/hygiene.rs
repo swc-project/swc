@@ -102,7 +102,7 @@ impl<'a> Hygiene<'a> {
             let mut i = 0;
             loop {
                 i += 1;
-                let sym: JsWord = format!("{}{}", sym, i).into();
+                let sym = format!("{}{}", sym, i);
 
                 if !self.current.is_declared(&sym) {
                     break sym;
@@ -145,6 +145,8 @@ impl<'a> Hygiene<'a> {
         let new = declared_symbols.entry(renamed.to_boxed_str()).or_default();
         new.push(ctxt);
         debug_assert!(new.len() == 1);
+
+        dbg!("Insert");
 
         scope.ops.borrow_mut().rename.insert((sym, ctxt), renamed);
     }
