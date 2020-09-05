@@ -303,7 +303,7 @@ impl<'a> Operator<'a> {
         for op in self.0 {
             match *op {
                 ScopeOp::Rename { ref from, ref to }
-                    if *from.0 == ident.sym && from.1 == ident.span.ctxt() =>
+                    if from.1 == ident.span.ctxt && from.0 == ident.sym =>
                 {
                     // Clear mark
                     ident.span = ident.span.with_ctxt(SyntaxContext::empty());

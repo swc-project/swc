@@ -312,7 +312,7 @@ impl<'a> Scope<'a> {
         while let Some(scope) = cur {
             for op in scope.ops.borrow().iter() {
                 match *op {
-                    ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1 == ctxt => {
+                    ScopeOp::Rename { ref from, ref to } if from.0 == sym && from.1 == ctxt => {
                         if cfg!(debug_assertions) && LOG {
                             eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
                         }
