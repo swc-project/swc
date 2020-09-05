@@ -547,9 +547,12 @@ impl Fixer<'_> {
                 ref mut expr,
                 ..
             }) => {
+                let expr_span = expr.span();
+                let paren_span = *paren_span;
                 self.unwrap_expr(&mut **expr);
+                *e = *expr.take();
 
-                self.span_map.insert(expr.span(), *paren_span);
+                self.span_map.insert(expr_span, paren_span);
             }
             _ => {}
         }
