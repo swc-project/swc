@@ -20,11 +20,13 @@ where
 
     B: Fold,
 {
+    #[inline(always)]
     fn fold_module(&mut self, n: Module) -> Module {
         let n = self.first.fold_module(n);
         self.second.fold_module(n)
     }
 
+    #[inline(always)]
     fn fold_script(&mut self, n: Script) -> Script {
         let n = self.first.fold_script(n);
         self.second.fold_script(n)
