@@ -170,16 +170,7 @@ impl VisitMut for Fixer<'_> {
                     && match self.ctx {
                         Context::ForcedExpr { is_var_decl: true } => true,
                         _ => false,
-                    } =>
-            {
-                match obj {
-                    ExprOrSuper::Super(_) => {}
-                    ExprOrSuper::Expr(obj) => self.unwrap_expr(&mut **obj),
-                }
-
-                self.unwrap_expr(&mut *n.prop);
-                return;
-            }
+                    } => {}
 
             MemberExpr {
                 obj: ExprOrSuper::Expr(ref mut obj),
@@ -207,15 +198,21 @@ impl VisitMut for Fixer<'_> {
 
             _ => {}
         }
+    }
 
-        match &mut n.obj {
-            ExprOrSuper::Expr(obj) => {
-                self.unwrap_expr(&mut **obj);
-            }
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        n.visit_mut_children_with(self);
+
+        match *n.arg {
+            Expr::Assign(..)
+            | Expr::Bin(..)
+            | Expr::Seq(..)
+            | Expr::Cond(..)
+            | Expr::Arrow(..)
+            | Expr::Yield(..) => self.wrap(&mut n.arg),
+
             _ => {}
         }
-
-        self.unwrap_expr(&mut *n.prop);
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
@@ -499,16 +496,6 @@ impl Fixer<'_> {
                     _ => {}
                 }
             }
-
-            Expr::Unary(expr) => match *expr.arg {
-                Expr::Assign(..)
-                | Expr::Bin(..)
-                | Expr::Seq(..)
-                | Expr::Cond(..)
-                | Expr::Arrow(..)
-                | Expr::Yield(..) => self.wrap(&mut expr.arg),
-                _ => {}
-            },
 
             Expr::Assign(expr) => {
                 match &mut *expr.right {
