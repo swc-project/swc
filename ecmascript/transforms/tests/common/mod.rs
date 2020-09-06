@@ -11,8 +11,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap, Span,
-    DUMMY_SP,
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
@@ -392,10 +391,6 @@ impl VisitMut for Normalizer {
             },
             _ => {}
         }
-    }
-
-    fn visit_mut_span(&mut self, span: &mut Span) {
-        span.ctxt = Default::default();
     }
 }
 
