@@ -340,10 +340,10 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         match stmt {
-            Stmt::Expr(expr) => {
+            Stmt::Expr(expr_stmt) => {
                 let old = self.ctx;
                 self.ctx = Context::Default;
-                expr.visit_mut_with(self);
+                expr_stmt.visit_mut_with(self);
                 self.ctx = old;
             }
             _ => stmt.visit_mut_children_with(self),
