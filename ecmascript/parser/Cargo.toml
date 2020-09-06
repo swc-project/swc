@@ -1,39 +1,39 @@
 [package]
-name = "swc_ecma_parser"
-version = "0.37.1"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/swc_ecma_parser/"
 description = "Feature-complete es2019 parser."
+documentation = "https://swc-project.github.io/rustdoc/swc_ecma_parser/"
 edition = "2018"
 include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
+license = "Apache-2.0/MIT"
+name = "swc_ecma_parser"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.37.2"
 
 [features]
 default = []
 
 [dependencies]
-swc_atoms = { version = "0.2", path ="../../atoms" }
-swc_common = { version = "0.10.0", path ="../../common" }
-swc_ecma_ast = { version = "0.31.0", path ="../ast" }
-swc_ecma_parser_macros = { version = "0.4.1", path ="./macros" }
-swc_ecma_visit = { version = "0.17.0", path ="../visit" }
-enum_kind = { version = "0.2", path ="../../macros/enum_kind" }
-unicode-xid = "0.2"
-log = "0.4"
-either = { version = "1.4" }
-serde = { version = "1", features = ["derive"] }
-smallvec = "1"
-num-bigint = "0.2"
+either = {version = "1.4"}
+enum_kind = {version = "0.2", path = "../../macros/enum_kind"}
 fxhash = "0.2.1"
-
+log = "0.4"
+logos = "0.11.4"
+num-bigint = "0.2"
+serde = {version = "1", features = ["derive"]}
+smallvec = "1"
+swc_atoms = {version = "0.2", path = "../../atoms"}
+swc_common = {version = "0.10.0", path = "../../common"}
+swc_ecma_ast = {version = "0.31.0", path = "../ast"}
+swc_ecma_parser_macros = {version = "0.4.1", path = "./macros"}
+swc_ecma_visit = {version = "0.17.0", path = "../visit"}
+unicode-xid = "0.2"
 
 [dev-dependencies]
-testing = { version = "0.10.0", path ="../../testing" }
 env_logger = "0.7"
-walkdir = "2"
-serde_json = "1"
 pretty_assertions = "0.6"
+serde_json = "1"
+testing = {version = "0.10.0", path = "../../testing"}
+walkdir = "2"
 
 [[example]]
 name = "lexer"
