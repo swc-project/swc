@@ -393,10 +393,6 @@ impl VisitMut for Normalizer {
             _ => {}
         }
     }
-
-    fn visit_mut_span(&mut self, span: &mut Span) {
-        span.ctxt = Default::default();
-    }
 }
 
 struct HygieneVisualizer;
