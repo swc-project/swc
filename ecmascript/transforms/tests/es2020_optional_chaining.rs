@@ -115,12 +115,12 @@ function test(foo) {
     foo === null || foo === void 0 ? void 0 : (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.baz;
     foo === null || foo === void 0 ? void 0 : foo(foo);
     foo === null || foo === void 0 ? void 0 : foo.bar();
-    (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(ref1, foo.bar, false);
-    foo === null || foo === void 0 ? void 0 : (ref2 = foo.bar) === null || ref2 === void 0 ? void 0 : ref2.call(ref2, foo.bar, true);
+    (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(foo, foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (ref2 = foo.bar) === null || ref2 === void 0 ? void 0 : ref2.call(foo, foo.bar, true);
     (ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.baz(foo.bar, false);
     foo === null || foo === void 0 ? void 0 : (ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : ref4.baz(foo.bar, true);
-    (ref5 = foo.bar) === null || ref5 === void 0 ? void 0 : (ref6 = ref5.baz) === null || ref6 === void 0 ? void 0 : ref6.call(ref6, foo.bar, false);
-    foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.baz) === null || ref8 === void 0 ? void 0 : ref8.call(ref8, foo.bar, true);
+    (ref5 = foo.bar) === null || ref5 === void 0 ? void 0 : (ref6 = ref5.baz) === null || ref6 === void 0 ? void 0 : ref6.call(ref5, foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.baz) === null || ref8 === void 0 ? void 0 : ref8.call(ref7, foo.bar, true);
 }
 "#
 );
@@ -302,15 +302,14 @@ foo?.bar?.()?.baz
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
-(ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(ref, foo.bar, false);
-foo === null || foo === void 0 ? void 0 : (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(ref1, foo.bar, true);
+(ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(foo, foo.bar, false);
+foo === null || foo === void 0 ? void 0 : (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(foo, foo.bar, true);
 foo === null || foo === void 0 ? void 0 : foo().bar;
 foo === null || foo === void 0 ? void 0 : (ref2 = foo()) === null || ref2 === void 0 ? void 0 : ref2.bar;
-(ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.call(ref3).baz;
-(ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(ref4)) === null || ref5 === void 0 ? void 0 : ref5.baz;
-foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(ref6).baz;
-foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(ref7)) === null || ref8 === void 0 ? void 0 : ref8.baz;
-"#
+(ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.call(foo).baz;
+(ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(foo)) === null || ref5 === void 0 ? void 0 : ref5.baz;
+foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(foo).baz;
+foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(foo)) === null || ref8 === void 0 ? void 0 : ref8.baz;"#
 );
 
 // general_unary_exec
@@ -539,7 +538,7 @@ a === null || a === void 0
     ? void 0
     : (ref1 = ref.c) === null || ref1 === void 0
       ? void 0
-      : ref1.call(ref1);"
+      : ref1.call(ref);"
 );
 
 test!(
