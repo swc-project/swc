@@ -203,7 +203,7 @@ macro_rules! tr_only {
                         &Options {
                             config: Some(Config {
                                 jsc: JscConfig {
-                                    target: JscTarget::Es2016,
+                                    target: %target,
                                     syntax: Some(Syntax::Typescript(TsConfig {
                                         ..Default::default()
                                     })),
