@@ -11,8 +11,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap, Span,
-    DUMMY_SP,
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
@@ -188,11 +187,11 @@ where
         }
 
         let actual = actual
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
             .fold_with(&mut swc_ecma_transforms::fixer(None))
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+            .fold_with(&mut as_folder(DropSpan {
+                preserve_ctxt: false,
+            }));
 
         if actual == expected {
             return Ok(());
