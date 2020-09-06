@@ -203,9 +203,9 @@ pub(crate) fn test_transform<F, P>(
         let actual = actual
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::fixer::fixer(None))
-            .fold_with(&mut DropSpan {
+            .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,
-            });
+            }));
 
         if actual == expected {
             return Ok(());
