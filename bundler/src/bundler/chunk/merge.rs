@@ -504,4 +504,12 @@ impl VisitMut for DefaultRenamer {
 
         n.visit_mut_children_with(self);
     }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+
+        if n.computed {
+            n.prop.visit_mut_with(self)
+        }
+    }
 }
