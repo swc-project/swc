@@ -650,42 +650,6 @@ impl VisitMut for Strip {
 
                 new_stack.extend(res)
             }
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        match e {
-            Expr::TsAs(TsAsExpr { expr, .. })
-            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
-                expr.visit_mut_with(self);
-                *e = (**expr).take();
-            }
-            _ => {}
-        }
-
-        e.map_with_mut(|expr| {
-            let expr = match expr {
-                Expr::Member(MemberExpr {
-                    span,
-                    mut obj,
-                    mut prop,
-                    computed,
-                }) => {
-                    obj.visit_mut_with(self);
-
-                    let prop = if computed {
-                        prop.visit_mut_with(self);
-                        prop
-                    } else {
-                        match *prop {
-                            Expr::Ident(i) => Box::new(Expr::Ident(Ident {
-                                optional: false,
-                                type_ann: None,
-                                ..i
-                            })),
-                            _ => prop,
-                        }
-                    };
 
             if new_stack.is_empty() {
                 return;
