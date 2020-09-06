@@ -92,6 +92,18 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
+        expr.visit_mut_children_with(self);
+
+        match &mut *expr.right {
+            // `foo = (bar = baz)` => foo = bar = baz
+            Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
+
+            Expr::Seq(..) => self.wrap(&mut expr.right),
+            _ => {}
+        }
+    }
+
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let old = self.ctx;
         self.ctx = Context::Default;
@@ -493,17 +505,6 @@ impl Fixer<'_> {
 
                 match self.ctx {
                     Context::Callee { is_new: true } => self.wrap(e),
-                    _ => {}
-                }
-            }
-
-            Expr::Assign(expr) => {
-                match &mut *expr.right {
-                    // `foo = (bar = baz)` => foo = bar = baz
-                    Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
-
-                    // Handle `foo = bar = init()
-                    Expr::Seq(..) => self.wrap(&mut expr.right),
                     _ => {}
                 }
             }
