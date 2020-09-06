@@ -20,6 +20,7 @@ use swc_ecma_transforms::helpers::{inject_helpers, HELPERS};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
+use testing::assert_eq;
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
