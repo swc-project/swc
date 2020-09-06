@@ -701,7 +701,30 @@ impl<'a> Emitter<'a> {
             _ => false,
         };
 
-        emit!(node.left);
+        {
+            let mut left = Some(node);
+            let mut lefts = vec![];
+            while let Some(l) = left {
+                lefts.push(l);
+
+                match &*l.left {
+                    Expr::Bin(b) => {
+                        left = Some(b);
+                    }
+                    _ => break,
+                }
+            }
+
+            for (i, left) in lefts.into_iter().rev().enumerate() {
+                if i == 0 {
+                    emit!(left.left);
+                }
+                operator!(left.op.as_str());
+                emit!(left.right);
+            }
+        }
+
+        // emit!(node.left);
 
         let need_pre_space = need_space
             || match *node.left {
