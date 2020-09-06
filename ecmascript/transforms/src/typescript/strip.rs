@@ -105,23 +105,21 @@ impl Strip {
     fn handle_expr<'a>(&mut self, n: &'a mut Expr) -> Vec<&'a mut Expr> {
         match n {
             Expr::Bin(BinExpr { left, right, .. }) => return vec![&mut **left, &mut **right],
+
+            // Remove types
+            Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
+                expr.visit_mut_with(self);
+                let expr = *expr.take();
+                *n = expr;
+            }
             _ => {}
         }
 
-        n.map_with_mut(|expr| {
-            let mut expr = match expr {
-                Expr::TsAs(TsAsExpr { expr, .. })
-                | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-                | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-                | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-                | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
-                    let mut expr = *expr;
-                    expr.visit_mut_with(self);
-                    expr
-                }
-                _ => expr,
-            };
-
+        n.map_with_mut(|mut expr| {
             let expr = match expr {
                 Expr::Bin(..) => expr,
                 Expr::Member(MemberExpr {
