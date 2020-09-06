@@ -15,7 +15,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 trait ToBoxedStr {
     fn to_boxed_str(&self) -> Box<str>;
