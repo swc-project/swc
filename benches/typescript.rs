@@ -236,3 +236,14 @@ tr_only!(transforms_es2017, JscTarget::Es2017);
 tr_only!(transforms_es2018, JscTarget::Es2018);
 tr_only!(transforms_es2019, JscTarget::Es2019);
 tr_only!(transforms_es2020, JscTarget::Es2020);
+
+#[bench]
+fn parser(b: &mut Bencher) {
+    let c = mk();
+
+    //TODO: Use target
+
+    b.iter(|| {
+        black_box(parse(&c));
+    })
+}
