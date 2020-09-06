@@ -1,6 +1,6 @@
 {
   "name": "@swc/core",
-  "version": "1.2.23",
+  "version": "1.2.23-alpha.1",
   "description": "Super-fast alternative for babel",
   "homepage": "https://swc-project.github.io",
   "main": "./index.js",

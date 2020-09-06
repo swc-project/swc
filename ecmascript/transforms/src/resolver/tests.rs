@@ -1096,7 +1096,8 @@ var instance = new SomeClass({
         console.log('CORRECT FUNCTION CALLED');
     }
 });
-instance.call();"
+instance.call();",
+    ok_if_code_eq
 );
 
 test!(
@@ -1220,7 +1221,8 @@ export class HygieneTest {
         _defineProperty(this, 'duration', DURATION);
         this.duration = duration ?? DURATION;
     }
-}"
+}",
+    ok_if_code_eq
 );
 
 identical_ts!(ts_resolver_001, "type A = B;");

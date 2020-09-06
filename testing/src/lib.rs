@@ -3,6 +3,7 @@
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
 use once_cell::sync::Lazy;
+pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
 use std::{
     fmt,

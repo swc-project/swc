@@ -5,46 +5,22 @@ use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
     io::{self, Write},
+    mem::replace,
     path::Path,
     process::Command,
     sync::{Arc, RwLock},
 };
 use swc_common::{
-    chain, comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::helpers::{inject_helpers, HELPERS};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{as_folder, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-
-pub fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Fold> {
-    Box::new(chain!(
-        tr,
-        swc_ecma_transforms::debug::validator::Validator { name },
-    ))
-}
-
-macro_rules! validating {
-    ($folder:expr) => {{
-        common::validating(stringify!($folder), $folder)
-    }};
-}
-
-macro_rules! validate {
-    ($e:expr) => {{
-        use swc_ecma_visit::FoldWith;
-        if cfg!(debug_assertions) {
-            $e.fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                name: concat!(file!(), ':', line!(), ':', column!()),
-            })
-        } else {
-            $e
-        }
-    }};
-}
+use testing::assert_eq;
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -127,12 +103,12 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = validate!(module)
-            .fold_with(&mut tr)
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: true,
-            }))
-            .fold_with(&mut Normalizer);
+        let mut module = module.fold_with(&mut tr);
+
+        module.visit_mut_with(&mut DropSpan {
+            preserve_ctxt: true,
+        });
+        module.visit_mut_with(&mut Normalizer);
 
         Ok(module)
     }
@@ -211,11 +187,11 @@ where
         }
 
         let actual = actual
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
             .fold_with(&mut swc_ecma_transforms::fixer(None))
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+            .fold_with(&mut as_folder(DropSpan {
+                preserve_ctxt: false,
+            }));
 
         if actual == expected {
             return Ok(());
@@ -401,16 +377,19 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold for Normalizer {
-    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children_with(self);
+impl VisitMut for Normalizer {
+    fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
+        node.visit_mut_children_with(self);
 
         match node {
-            PatOrExpr::Pat(pat) => match *pat {
-                Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => PatOrExpr::Pat(pat),
+            PatOrExpr::Pat(pat) => match &mut **pat {
+                Pat::Expr(e) => {
+                    let e = replace(e, Box::new(Expr::Invalid(Invalid { span: DUMMY_SP })));
+                    *node = PatOrExpr::Expr(e);
+                }
+                _ => {}
             },
-            _ => node,
+            _ => {}
         }
     }
 }

@@ -1,22 +1,15 @@
-use crate::{
-    ext::{AsOptExpr, PatOrExprExt},
-    util::ExprFactory,
-};
+use crate::ext::{AsOptExpr, MapWithMut, PatOrExprExt};
 use fxhash::FxHashMap;
-use swc_common::{
-    comments::Comments,
-    util::{map::Map, move_map::MoveMap},
-    Span, Spanned,
-};
+use swc_common::{comments::Comments, Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold {
-    Fixer {
+    as_folder(Fixer {
         comments,
         ctx: Default::default(),
         span_map: Default::default(),
-    }
+    })
 }
 
 struct Fixer<'a> {
@@ -56,123 +49,90 @@ impl Default for Context {
 
 macro_rules! array {
     ($name:ident, $T:tt) => {
-        fn $name(&mut self, e: $T) -> $T {
+        fn $name(&mut self, e: &mut $T) {
             let old = self.ctx;
             self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
-            let elems = e.elems.fold_with(self);
+            e.elems.visit_mut_with(self);
             self.ctx = old;
-
-            $T { elems, ..e }
         }
     };
 }
 
-impl Fold for Fixer<'_> {
-    noop_fold_type!();
+impl VisitMut for Fixer<'_> {
+    noop_visit_mut_type!();
 
-    array!(fold_array_lit, ArrayLit);
+    array!(visit_mut_array_lit, ArrayLit);
     // array!(ArrayPat);
 
-    fn fold_new_expr(&mut self, node: NewExpr) -> NewExpr {
-        let NewExpr {
-            span,
-            mut callee,
-            args,
-            type_args,
-        } = node;
-
+    fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: false };
-        let args = args.fold_with(self);
+        node.args.visit_mut_with(self);
         self.ctx = old;
 
         let old = self.ctx;
         self.ctx = Context::Callee { is_new: true };
-        callee = callee.fold_with(self);
-        match *callee {
-            Expr::Call(..) | Expr::Bin(..) => callee = Box::new(self.wrap(*callee)),
+        node.callee.visit_mut_with(self);
+        match *node.callee {
+            Expr::Call(..) | Expr::Bin(..) => self.wrap(&mut node.callee),
             _ => {}
         }
         self.ctx = old;
-
-        NewExpr {
-            span,
-            callee,
-            args,
-            type_args,
-        }
     }
 
-    fn fold_call_expr(&mut self, node: CallExpr) -> CallExpr {
-        let CallExpr {
-            span,
-            callee,
-            args,
-            type_args,
-        } = node;
-
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: false };
-        let args = args.fold_with(self);
+        node.args.visit_mut_with(self);
         self.ctx = old;
 
         let old = self.ctx;
         self.ctx = Context::Callee { is_new: false };
-        let callee = callee.fold_with(self);
+        node.callee.visit_mut_with(self);
         self.ctx = old;
-
-        CallExpr {
-            span,
-            callee,
-            args,
-            type_args,
-        }
     }
 
-    fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
+    fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let old = self.ctx;
         self.ctx = Context::Default;
-        let mut node = node.fold_children_with(self);
-        node.body = match node.body {
-            BlockStmtOrExpr::Expr(e) if e.is_seq() => {
-                BlockStmtOrExpr::Expr(Box::new(self.wrap(*e)))
+        node.visit_mut_children_with(self);
+        match &mut node.body {
+            BlockStmtOrExpr::Expr(ref mut e) if e.is_seq() => {
+                self.wrap(&mut **e);
             }
-            _ => node.body,
+            _ => {}
         };
         self.ctx = old;
-        node
     }
 
-    fn fold_assign_pat_prop(&mut self, node: AssignPatProp) -> AssignPatProp {
-        let key = node.key.fold_children_with(self);
+    fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
+        node.key.visit_mut_children_with(self);
 
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: false };
-        let value = node.value.fold_with(self);
+        node.value.visit_mut_with(self);
         self.ctx = old;
-
-        AssignPatProp { key, value, ..node }
     }
 
-    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        let body = body.fold_children_with(self);
+    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+        body.visit_mut_children_with(self);
 
         match body {
-            BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
-                BlockStmtOrExpr::Expr(Box::new(self.wrap(*expr)))
+            BlockStmtOrExpr::Expr(ref mut expr) if expr.is_object() => {
+                self.wrap(&mut **expr);
             }
 
-            _ => body,
+            _ => {}
         }
     }
 
-    fn fold_class(&mut self, node: Class) -> Class {
+    fn visit_mut_class(&mut self, node: &mut Class) {
         let old = self.ctx;
         self.ctx = Context::Default;
-        let mut node: Class = node.fold_children_with(self);
-        node.super_class = match node.super_class {
-            Some(e) if e.is_seq() || e.is_await_expr() => Some(Box::new(self.wrap(*e))),
-            _ => node.super_class,
+        node.visit_mut_children_with(self);
+        match &mut node.super_class {
+            Some(ref mut e) if e.is_seq() || e.is_await_expr() => self.wrap(&mut **e),
+            _ => {}
         };
         self.ctx = old;
 
@@ -180,52 +140,159 @@ impl Fold for Fixer<'_> {
             ClassMember::Empty(..) => false,
             _ => true,
         });
-
-        node
     }
 
-    fn fold_export_default_expr(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
+    fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
         let old = self.ctx;
         self.ctx = Context::Default;
-        let mut node = node.fold_children_with(self);
-        node.expr = match *node.expr {
-            Expr::Arrow(..) | Expr::Seq(..) => Box::new(self.wrap(*node.expr)),
-            _ => node.expr,
+        node.visit_mut_children_with(self);
+        match &mut *node.expr {
+            Expr::Arrow(..) | Expr::Seq(..) => self.wrap(&mut node.expr),
+            _ => {}
         };
         self.ctx = old;
-        node
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
-        let expr = self.unwrap_expr(expr);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+        self.unwrap_expr(e);
 
-        match expr {
-            Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj,
-                prop,
-            }) if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
-                && match self.ctx {
-                    Context::ForcedExpr { is_var_decl: true } => true,
-                    _ => false,
-                } =>
-            {
-                MemberExpr {
-                    span,
-                    computed,
-                    obj,
-                    prop,
+        self.wrap_with_paren_if_required(e)
+    }
+
+    fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
+        e.visit_mut_children_with(self);
+
+        if e.spread.is_none() {
+            match *e.expr {
+                Expr::Yield(..) => {
+                    self.wrap(&mut e.expr);
                 }
-                .into()
+                _ => {}
+            }
+        }
+    }
+
+    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
+        node.visit_mut_children_with(self);
+
+        match *node.cons {
+            Stmt::If(..) => {
+                node.cons = Box::new(Stmt::Block(BlockStmt {
+                    span: node.cons.span(),
+                    stmts: vec![*node.cons.take()],
+                }));
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        node.key.visit_mut_with(self);
+        self.ctx = old;
+
+        node.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_key_value_prop(&mut self, prop: &mut KeyValueProp) {
+        prop.visit_mut_children_with(self);
+
+        match *prop.value {
+            Expr::Seq(..) => self.wrap(&mut prop.value),
+            _ => {}
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
+        name.visit_mut_children_with(self);
+
+        match name {
+            PropName::Computed(c) if c.expr.is_seq() => {
+                self.wrap(&mut c.expr);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        match stmt {
+            Stmt::Expr(expr) => {
+                let old = self.ctx;
+                self.ctx = Context::Default;
+                expr.visit_mut_with(self);
+                self.ctx = old;
+            }
+            _ => stmt.visit_mut_children_with(self),
+        };
+
+        match stmt {
+            Stmt::Expr(ExprStmt { ref mut expr, .. }) => {
+                self.handle_expr_stmt(&mut **expr);
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
+        node.name.visit_mut_children_with(self);
+
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: true };
+        node.init.visit_mut_with(self);
+        self.ctx = old;
+    }
+
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        debug_assert!(self.span_map.is_empty());
+        self.span_map.clear();
+
+        let n = n.visit_mut_children_with(self);
+        if let Some(c) = self.comments {
+            for (to, from) in self.span_map.drain() {
+                c.move_leading(from.lo, to.lo);
+                c.move_trailing(from.hi, to.hi);
+            }
+        }
+
+        n
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        debug_assert!(self.span_map.is_empty());
+        self.span_map.clear();
+
+        let n = n.visit_mut_children_with(self);
+        if let Some(c) = self.comments {
+            for (to, from) in self.span_map.drain() {
+                c.move_leading(from.lo, to.lo);
+                c.move_trailing(from.hi, to.hi);
+            }
+        }
+
+        n
+    }
+}
+
+impl Fixer<'_> {
+    fn wrap_with_paren_if_required(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Member(MemberExpr { obj, .. })
+                if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
+                    && match self.ctx {
+                        Context::ForcedExpr { is_var_decl: true } => true,
+                        _ => false,
+                    } =>
+            {
+                return
             }
 
             Expr::Member(MemberExpr {
-                span,
-                computed,
-                obj: ExprOrSuper::Expr(obj),
-                prop,
+                obj: ExprOrSuper::Expr(ref mut obj),
+                ..
             }) if obj.is_fn_expr()
                 || obj.is_cond()
                 || obj.is_unary()
@@ -238,18 +305,12 @@ impl Fold for Fixer<'_> {
                 || obj.is_class()
                 || obj.is_yield_expr()
                 || obj.is_await_expr()
-                || match *obj {
+                || match **obj {
                     Expr::New(NewExpr { args: None, .. }) => true,
                     _ => false,
                 } =>
             {
-                MemberExpr {
-                    span,
-                    computed,
-                    obj: self.wrap(*obj).as_obj(),
-                    prop,
-                }
-                .into()
+                self.wrap(&mut **obj);
             }
 
             // Flatten seq expr
@@ -270,23 +331,25 @@ impl Fold for Fixer<'_> {
                         .filter_map(|(i, e)| {
                             let is_last = i + 1 == exprs_len;
                             if is_last {
-                                Some(e)
+                                Some(e.take())
                             } else {
-                                ignore_return_value(e)
+                                ignore_return_value(e.take())
                             }
                         })
                         .collect::<Vec<_>>();
                     if exprs.len() == 1 {
-                        return *exprs.pop().unwrap();
+                        *e = *exprs.pop().unwrap();
+                        return;
                     }
-                    Expr::Seq(SeqExpr { span, exprs })
+                    Expr::Seq(SeqExpr { span: *span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
                     for (i, expr) in exprs.into_iter().enumerate() {
                         let is_last = i + 1 == exprs_len;
 
-                        match *expr {
-                            Expr::Seq(SeqExpr { exprs, .. }) => {
+                        match **expr {
+                            Expr::Seq(SeqExpr { ref mut exprs, .. }) => {
+                                let exprs = exprs.take();
                                 if !is_last {
                                     buf.extend(exprs.into_iter().filter_map(ignore_return_value));
                                 } else {
@@ -301,360 +364,166 @@ impl Fold for Fixer<'_> {
                                     }
                                 }
                             }
-                            _ => buf.push(expr),
+                            _ => buf.push(expr.take()),
                         }
                     }
 
                     if buf.len() == 1 {
-                        return *buf.pop().unwrap();
+                        *e = *buf.pop().unwrap();
+                        return;
                     }
                     buf.shrink_to_fit();
-                    Expr::Seq(SeqExpr { span, exprs: buf })
+
+                    Expr::Seq(SeqExpr {
+                        span: *span,
+                        exprs: buf,
+                    })
                 };
 
                 match self.ctx {
-                    Context::ForcedExpr { .. } => Expr::Paren(ParenExpr {
-                        span,
-                        expr: Box::new(expr),
-                    }),
-                    _ => expr,
-                }
+                    Context::ForcedExpr { .. } => {
+                        *e = Expr::Paren(ParenExpr {
+                            span: *span,
+                            expr: Box::new(expr),
+                        })
+                    }
+                    _ => *e = expr,
+                };
             }
 
-            Expr::Bin(mut expr) => {
-                expr.right = match *expr.right {
-                    e @ Expr::Assign(..)
-                    | e @ Expr::Seq(..)
-                    | e @ Expr::Yield(..)
-                    | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..) => Box::new(self.wrap(e)),
+            Expr::Bin(ref mut expr) => {
+                match &mut *expr.right {
+                    Expr::Assign(..)
+                    | Expr::Seq(..)
+                    | Expr::Yield(..)
+                    | Expr::Cond(..)
+                    | Expr::Arrow(..) => {
+                        self.wrap(&mut expr.right);
+                    }
                     Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                         if op_of_rhs.precedence() <= expr.op.precedence() {
-                            Box::new(self.wrap(*expr.right))
-                        } else {
-                            expr.right
+                            self.wrap(&mut expr.right);
                         }
                     }
-                    _ => expr.right,
+                    _ => {}
                 };
 
-                match *expr.left {
+                match &mut *expr.left {
                     // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
                     // But it should be `(1 + x) * Nan`
                     Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
                         if op_of_lhs.precedence() < expr.op.precedence() {
-                            Expr::Bin(BinExpr {
-                                left: Box::new(self.wrap(*expr.left)),
-                                ..expr
-                            })
-                        } else {
-                            Expr::Bin(expr)
+                            self.wrap(&mut expr.left);
                         }
                     }
 
-                    e @ Expr::Seq(..)
-                    | e @ Expr::Update(..)
-                    | e
-                    @
-                    Expr::Unary(UnaryExpr {
+                    Expr::Seq(..)
+                    | Expr::Update(..)
+                    | Expr::Unary(UnaryExpr {
                         op: op!("delete"), ..
                     })
-                    | e
-                    @
-                    Expr::Unary(UnaryExpr {
+                    | Expr::Unary(UnaryExpr {
                         op: op!("void"), ..
                     })
-                    | e @ Expr::Yield(..)
-                    | e @ Expr::Cond(..)
-                    | e @ Expr::Assign(..)
-                    | e @ Expr::Arrow(..) => Expr::Bin(BinExpr {
-                        left: Box::new(self.wrap(e)),
-                        ..expr
-                    }),
-                    e @ Expr::Object(..)
+                    | Expr::Yield(..)
+                    | Expr::Cond(..)
+                    | Expr::Assign(..)
+                    | Expr::Arrow(..) => {
+                        self.wrap(&mut expr.left);
+                    }
+                    Expr::Object(..)
                         if expr.op == op!("instanceof")
                             || expr.op == op!("==")
                             || expr.op == op!("===")
                             || expr.op == op!("!=")
                             || expr.op == op!("!==") =>
                     {
-                        Expr::Bin(BinExpr {
-                            left: Box::new(e.wrap_with_paren()),
-                            ..expr
-                        })
+                        self.wrap(&mut expr.left)
                     }
-                    _ => Expr::Bin(expr),
+                    _ => {}
                 }
             }
 
             Expr::Cond(expr) => {
-                let test = match *expr.test {
-                    e @ Expr::Seq(..)
-                    | e @ Expr::Assign(..)
-                    | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..) => Box::new(self.wrap(e)),
+                match &mut *expr.test {
+                    Expr::Seq(..) | Expr::Assign(..) | Expr::Cond(..) | Expr::Arrow(..) => {
+                        self.wrap(&mut expr.test)
+                    }
 
-                    e @ Expr::Object(..) | e @ Expr::Fn(..) | e @ Expr::Class(..) => {
+                    Expr::Object(..) | Expr::Fn(..) | Expr::Class(..) => {
                         if self.ctx == Context::Default {
-                            Box::new(self.wrap(e))
-                        } else {
-                            Box::new(e)
+                            self.wrap(&mut expr.test)
                         }
                     }
-                    _ => expr.test,
+                    _ => {}
                 };
 
-                let cons = match *expr.cons {
-                    e @ Expr::Seq(..) => Box::new(self.wrap(e)),
-                    _ => expr.cons,
+                match *expr.cons {
+                    Expr::Seq(..) => self.wrap(&mut expr.cons),
+                    _ => {}
                 };
 
-                let alt = match *expr.alt {
-                    e @ Expr::Seq(..) => Box::new(self.wrap(e)),
-                    _ => expr.alt,
+                match *expr.alt {
+                    Expr::Seq(..) => self.wrap(&mut expr.alt),
+                    _ => {}
                 };
-                let expr = Expr::Cond(CondExpr {
-                    test,
-                    cons,
-                    alt,
-                    ..expr
-                });
+
                 match self.ctx {
-                    Context::Callee { is_new: true } => self.wrap(expr),
-                    _ => expr,
+                    Context::Callee { is_new: true } => self.wrap(e),
+                    _ => {}
                 }
             }
 
-            Expr::Unary(expr) => {
-                let arg = match *expr.arg {
-                    e @ Expr::Assign(..)
-                    | e @ Expr::Bin(..)
-                    | e @ Expr::Seq(..)
-                    | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..)
-                    | e @ Expr::Yield(..) => Box::new(self.wrap(e)),
-                    _ => expr.arg,
-                };
-
-                Expr::Unary(UnaryExpr { arg, ..expr })
-            }
+            Expr::Unary(expr) => match *expr.arg {
+                Expr::Assign(..)
+                | Expr::Bin(..)
+                | Expr::Seq(..)
+                | Expr::Cond(..)
+                | Expr::Arrow(..)
+                | Expr::Yield(..) => self.wrap(&mut expr.arg),
+                _ => {}
+            },
 
             Expr::Assign(expr) => {
-                let right = match *expr.right {
+                match &mut *expr.right {
                     // `foo = (bar = baz)` => foo = bar = baz
-                    Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {
-                        expr.right
-                    }
+                    Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
 
                     // Handle `foo = bar = init()
-                    Expr::Seq(right) => Box::new(self.wrap(right)),
-                    _ => expr.right,
-                };
-
-                Expr::Assign(AssignExpr { right, ..expr })
+                    Expr::Seq(..) => self.wrap(&mut expr.right),
+                    _ => {}
+                }
             }
 
             Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if callee.is_arrow() => Expr::Call(CallExpr {
-                span,
-                callee: self.wrap(*callee).as_callee(),
-                args,
-                type_args,
-            }),
+                callee: ExprOrSuper::Expr(ref mut callee),
+                ..
+            }) if callee.is_arrow() => {
+                self.wrap(&mut **callee);
+            }
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
+                callee: ExprOrSuper::Expr(ref mut callee),
+                ..
             }) if callee.is_fn_expr() => match self.ctx {
-                Context::ForcedExpr { .. } => Expr::Call(CallExpr {
-                    span,
-                    callee: callee.as_callee(),
-                    args,
-                    type_args,
-                }),
+                Context::ForcedExpr { .. } => {}
 
-                Context::Callee { is_new: true } => self.wrap(CallExpr {
-                    span,
-                    callee: callee.as_callee(),
-                    args,
-                    type_args,
-                }),
+                Context::Callee { is_new: true } => self.wrap(e),
 
-                _ => Expr::Call(CallExpr {
-                    span,
-                    callee: self.wrap(*callee).as_callee(),
-                    args,
-                    type_args,
-                }),
+                _ => self.wrap(&mut **callee),
             },
             Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if callee.is_assign() => Expr::Call(CallExpr {
-                span,
-                callee: self.wrap(*callee).as_callee(),
-                args,
-                type_args,
-            }),
-            _ => expr,
-        }
-    }
-
-    fn fold_expr_or_spread(&mut self, e: ExprOrSpread) -> ExprOrSpread {
-        let e = e.fold_children_with(self);
-
-        if e.spread.is_none() {
-            match *e.expr {
-                Expr::Yield(..) => {
-                    return ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(self.wrap(*e.expr)),
-                    }
-                }
-                _ => {}
-            }
-        }
-
-        e
-    }
-
-    fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
-        let node: IfStmt = node.fold_children_with(self);
-
-        match *node.cons {
-            Stmt::If(..) => IfStmt {
-                cons: Box::new(Stmt::Block(BlockStmt {
-                    span: node.cons.span(),
-                    stmts: vec![*node.cons],
-                })),
-                ..node
-            },
-
-            _ => node,
-        }
-    }
-
-    fn fold_key_value_pat_prop(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
-        let key = node.key.fold_with(self);
-        self.ctx = old;
-
-        let value = node.value.fold_with(self);
-
-        KeyValuePatProp { key, value }
-    }
-
-    fn fold_key_value_prop(&mut self, prop: KeyValueProp) -> KeyValueProp {
-        let prop = prop.fold_children_with(self);
-
-        match *prop.value {
-            Expr::Seq(..) => KeyValueProp {
-                value: Box::new(self.wrap(*prop.value)),
-                ..prop
-            },
-            _ => prop,
-        }
-    }
-
-    fn fold_prop_name(&mut self, mut name: PropName) -> PropName {
-        name = name.fold_children_with(self);
-
-        match name {
-            PropName::Computed(c) if c.expr.is_seq() => {
-                return PropName::Computed(ComputedPropName {
-                    span: c.span,
-                    expr: Box::new(self.wrap(*c.expr)),
-                });
-            }
+                callee: ExprOrSuper::Expr(ref mut callee),
+                ..
+            }) if callee.is_assign() => self.wrap(&mut **callee),
             _ => {}
         }
-
-        name
     }
 
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = match stmt {
-            Stmt::Expr(expr) => {
-                let old = self.ctx;
-                self.ctx = Context::Default;
-                let expr = expr.fold_with(self);
-                self.ctx = old;
-                Stmt::Expr(expr)
-            }
-            _ => stmt.fold_children_with(self),
-        };
-
-        let stmt = match stmt {
-            Stmt::Expr(ExprStmt { span, expr }) => Stmt::Expr(ExprStmt {
-                span,
-                expr: expr.map(|e| self.handle_expr_stmt(e)),
-            }),
-
-            _ => stmt,
-        };
-
-        stmt
-    }
-
-    fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
-        let name = node.name.fold_children_with(self);
-
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: true };
-        let init = node.init.fold_with(self);
-        self.ctx = old;
-
-        VarDeclarator { name, init, ..node }
-    }
-
-    fn fold_module(&mut self, n: Module) -> Module {
-        debug_assert!(self.span_map.is_empty());
-        self.span_map.clear();
-
-        let n = n.fold_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
-
-        n
-    }
-
-    fn fold_script(&mut self, n: Script) -> Script {
-        debug_assert!(self.span_map.is_empty());
-        self.span_map.clear();
-
-        let n = n.fold_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
-
-        n
-    }
-}
-
-impl Fixer<'_> {
-    fn wrap<T>(&mut self, e: T) -> Expr
-    where
-        T: Into<Expr>,
-    {
-        let expr = Box::new(e.into());
-        let span = expr.span();
+    /// Wrap with a paren.
+    fn wrap(&mut self, e: &mut Expr) {
+        let span = e.span();
 
         let span = if let Some(span) = self.span_map.remove(&span) {
             span
@@ -662,71 +531,61 @@ impl Fixer<'_> {
             span
         };
 
-        Expr::Paren(ParenExpr { expr, span })
+        let expr = Box::new(e.take());
+        *e = Expr::Paren(ParenExpr { expr, span })
     }
 
     /// Removes paren
-    fn unwrap_expr(&mut self, mut e: Expr) -> Expr {
+    fn unwrap_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
-                self.unwrap_expr(*exprs.pop().unwrap())
+                self.unwrap_expr(exprs.last_mut().unwrap());
+                *e = *exprs.last_mut().unwrap().take();
             }
             Expr::Paren(ParenExpr {
                 span: paren_span,
-                expr,
+                ref mut expr,
                 ..
             }) => {
-                let e = self.unwrap_expr(*expr);
+                let expr_span = expr.span();
+                let paren_span = *paren_span;
+                self.unwrap_expr(&mut **expr);
+                *e = *expr.take();
 
-                self.span_map.insert(e.span(), paren_span);
-                e
+                self.span_map.insert(expr_span, paren_span);
             }
-            _ => e,
+            _ => {}
         }
     }
 
-    fn handle_expr_stmt(&mut self, expr: Expr) -> Expr {
+    fn handle_expr_stmt(&mut self, expr: &mut Expr) {
         match expr {
             // It's important for arrow pass to work properly.
             Expr::Object(..) | Expr::Class(..) | Expr::Fn(..) => self.wrap(expr),
 
             // ({ a } = foo)
             Expr::Assign(AssignExpr {
-                span,
                 left: PatOrExpr::Pat(left),
-                op,
-                right,
-            }) if left.is_object() => self.wrap(AssignExpr {
-                span,
-                left: PatOrExpr::Pat(left),
-                op,
-                right,
-            }),
+                ..
+            }) if left.is_object() => self.wrap(expr),
 
-            Expr::Seq(SeqExpr { span, exprs }) => {
+            Expr::Seq(SeqExpr { exprs, .. }) => {
                 debug_assert!(
                     exprs.len() != 1,
                     "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
                 );
 
-                let mut i = 0;
                 let len = exprs.len();
-                Expr::Seq(SeqExpr {
-                    span,
-                    exprs: exprs.move_map(|expr| {
-                        i += 1;
-                        let is_last = len == i;
+                exprs.into_iter().enumerate().for_each(|(i, mut expr)| {
+                    let is_last = len == i + 1;
 
-                        if !is_last {
-                            expr.map(|e| self.handle_expr_stmt(e))
-                        } else {
-                            expr
-                        }
-                    }),
-                })
+                    if !is_last {
+                        self.handle_expr_stmt(&mut expr);
+                    }
+                });
             }
 
-            _ => expr,
+            _ => {}
         }
     }
 }

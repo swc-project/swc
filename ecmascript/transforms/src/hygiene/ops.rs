@@ -1,25 +1,24 @@
+use crate::ext::MapWithMut;
+use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
-
-#[derive(Debug)]
-pub(super) enum ScopeOp {
-    Rename {
-        from: (JsWord, SyntaxContext),
-        to: JsWord,
-    },
+use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+#[derive(Debug, Default)]
+pub(super) struct Operations {
+    pub rename: FxHashMap<Id, JsWord>,
 }
 
-pub(super) struct Operator<'a>(pub &'a [ScopeOp]);
+pub(super) struct Operator<'a>(pub &'a Operations);
 
-impl<'a> Fold for Operator<'a> {
-    noop_fold_type!();
+impl<'a> VisitMut for Operator<'a> {
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let mut stmts = Vec::with_capacity(items.len());
 
-        for item in items {
+        for mut item in items.take() {
             let span = item.span();
 
             macro_rules! export {
@@ -44,15 +43,15 @@ impl<'a> Fold for Operator<'a> {
                     span,
                     decl:
                         Decl::Class(ClassDecl {
-                            ident,
-                            class,
+                            mut ident,
+                            mut class,
                             declare,
                         }),
                 })) => {
-                    let class = class.fold_with(self);
+                    class.visit_mut_with(self);
                     let orig_ident = ident.clone();
-                    match self.rename_ident(ident) {
-                        Ok(ident) => {
+                    match self.rename_ident(&mut ident) {
+                        Ok(..) => {
                             stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
                                 ident: ident.clone(),
                                 class,
@@ -60,7 +59,7 @@ impl<'a> Fold for Operator<'a> {
                             }))));
                             export!(orig_ident, ident);
                         }
-                        Err(ident) => {
+                        Err(..) => {
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                                 span,
                                 decl: Decl::Class(ClassDecl {
@@ -76,15 +75,15 @@ impl<'a> Fold for Operator<'a> {
                     span,
                     decl:
                         Decl::Fn(FnDecl {
-                            ident,
-                            function,
+                            mut ident,
+                            mut function,
                             declare,
                         }),
                 })) => {
-                    let function = function.fold_with(self);
+                    function.visit_mut_with(self);
                     let orig_ident = ident.clone();
-                    match self.rename_ident(ident) {
-                        Ok(ident) => {
+                    match self.rename_ident(&mut ident) {
+                        Ok(..) => {
                             stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
                                 ident: ident.clone(),
                                 function,
@@ -92,7 +91,7 @@ impl<'a> Fold for Operator<'a> {
                             }))));
                             export!(orig_ident, ident);
                         }
-                        Err(ident) => {
+                        Err(..) => {
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                                 span,
                                 decl: Decl::Fn(FnDecl {
@@ -111,13 +110,13 @@ impl<'a> Fold for Operator<'a> {
                     let decls = var.decls;
 
                     let mut renamed: Vec<ExportSpecifier> = vec![];
-                    let decls = decls.move_map(|decl| {
-                        let name = decl.name.fold_with(&mut VarFolder {
+                    let decls = decls.move_map(|mut decl| {
+                        decl.name.visit_mut_with(&mut VarFolder {
                             orig: self,
                             renamed: &mut renamed,
                         });
-                        let init = decl.init.fold_with(self);
-                        VarDeclarator { name, init, ..decl }
+                        decl.init.visit_mut_with(self);
+                        decl
                     });
                     if renamed.is_empty() {
                         stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -139,144 +138,132 @@ impl<'a> Fold for Operator<'a> {
                         },
                     )));
                 }
-                _ => stmts.push(item.fold_with(self)),
+                _ => {
+                    item.visit_mut_with(self);
+                    stmts.push(item)
+                }
             }
         }
 
-        stmts
+        *items = stmts
     }
 
     /// Preserve key of properties.
-    fn fold_assign_pat_prop(&mut self, p: AssignPatProp) -> AssignPatProp {
-        match p.value {
-            Some(value) => AssignPatProp {
-                value: Some(value.fold_children_with(self)),
-                ..p
-            },
-            None => p,
+    fn visit_mut_assign_pat_prop(&mut self, p: &mut AssignPatProp) {
+        match &mut p.value {
+            Some(value) => {
+                value.visit_mut_children_with(self);
+            }
+            None => {}
         }
     }
 
-    fn fold_export_named_specifier(&mut self, s: ExportNamedSpecifier) -> ExportNamedSpecifier {
+    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
         if s.exported.is_some() {
-            return ExportNamedSpecifier {
-                orig: s.orig.fold_with(self),
-                ..s
-            };
+            s.orig.visit_mut_with(self);
+            return;
         }
 
         let exported = s.orig.clone();
 
-        match self.rename_ident(s.orig) {
-            Ok(orig) => ExportNamedSpecifier {
-                exported: Some(exported),
-                orig,
-                ..s
-            },
-            Err(orig) => ExportNamedSpecifier { orig, ..s },
+        match self.rename_ident(&mut s.orig) {
+            Ok(..) => {
+                s.exported = Some(exported);
+            }
+            Err(..) => {}
         }
     }
 
-    fn fold_ident(&mut self, ident: Ident) -> Ident {
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
         match self.rename_ident(ident) {
             Ok(i) | Err(i) => i,
         }
     }
 
-    fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
+    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
         if s.imported.is_some() {
-            return ImportNamedSpecifier {
-                local: s.local.fold_with(self),
-                ..s
-            };
+            s.local.visit_mut_with(self);
+            return;
         }
 
         let imported = s.local.clone();
-        let local = self.rename_ident(s.local);
+        let local = self.rename_ident(&mut s.local);
 
         match local {
-            Ok(local) => ImportNamedSpecifier {
-                imported: Some(imported),
-                local,
-                ..s
-            },
-            Err(local) => ImportNamedSpecifier { local, ..s },
+            Ok(..) => {
+                s.imported = Some(imported);
+            }
+            Err(..) => {}
         }
     }
 
     /// Preserve key of properties.
-    fn fold_key_value_pat_prop(&mut self, p: KeyValuePatProp) -> KeyValuePatProp {
-        KeyValuePatProp {
-            key: p.key.fold_with(self),
-            value: p.value.fold_with(self),
-            ..p
+    fn visit_mut_key_value_pat_prop(&mut self, p: &mut KeyValuePatProp) {
+        p.key.visit_mut_with(self);
+        p.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
+        p.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
+        expr.span.visit_mut_with(self);
+        expr.obj.visit_mut_with(self);
+
+        if expr.computed {
+            expr.prop.visit_mut_with(self)
         }
     }
 
-    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
-        KeyValueProp {
-            value: p.value.fold_with(self),
-            ..p
-        }
-    }
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        n.visit_mut_children_with(self);
 
-    fn fold_member_expr(&mut self, expr: MemberExpr) -> MemberExpr {
-        let span = expr.span.fold_with(self);
-        let obj = expr.obj.fold_with(self);
-
-        let prop = if expr.computed {
-            expr.prop.fold_with(self)
-        } else {
-            expr.prop
-        };
-        MemberExpr {
-            span,
-            obj,
-            prop,
-            computed: expr.computed,
-        }
-    }
-
-    fn fold_object_pat_prop(&mut self, p: ObjectPatProp) -> ObjectPatProp {
-        let p = p.fold_children_with(self);
-
-        match p {
-            ObjectPatProp::Assign(p) => match self.rename_ident(p.key.clone()) {
-                Ok(renamed) => KeyValuePatProp {
-                    key: PropName::Ident(p.key),
-
-                    value: Box::new(Pat::Ident(renamed)),
-                }
-                .into(),
-                Err(_) => p.into(),
-            },
-            _ => p,
-        }
-    }
-
-    fn fold_prop(&mut self, prop: Prop) -> Prop {
-        match prop {
-            Prop::Shorthand(i) => {
-                match self.rename_ident(i.clone()) {
-                    Ok(renamed) => Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident {
-                            // clear mark
-                            span: i.span.with_ctxt(SyntaxContext::empty()),
-                            ..i
-                        }),
-                        value: Box::new(Expr::Ident(renamed)),
-                    }),
-                    Err(i) => Prop::Shorthand(i),
+        match n {
+            ObjectPatProp::Assign(p) => {
+                let mut renamed = p.key.clone();
+                match self.rename_ident(&mut renamed) {
+                    Ok(..) => {
+                        *n = KeyValuePatProp {
+                            key: PropName::Ident(p.key.take()),
+                            value: Box::new(Pat::Ident(renamed)),
+                        }
+                        .into();
+                    }
+                    Err(_) => {}
                 }
             }
-            _ => prop.fold_children_with(self),
+            _ => {}
         }
     }
 
-    fn fold_prop_name(&mut self, n: PropName) -> PropName {
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        match prop {
+            Prop::Shorthand(i) => {
+                let mut renamed = i.clone();
+                match self.rename_ident(&mut renamed) {
+                    Ok(..) => {
+                        *prop = Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(Ident {
+                                // clear mark
+                                span: i.span.with_ctxt(SyntaxContext::empty()),
+                                type_ann: None,
+                                ..i.clone()
+                            }),
+                            value: Box::new(Expr::Ident(renamed)),
+                        })
+                    }
+                    Err(..) => {}
+                }
+            }
+            _ => prop.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         match n {
-            PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
-            _ => n,
+            PropName::Computed(c) => c.visit_mut_with(self),
+            _ => {}
         }
     }
 }
@@ -286,48 +273,37 @@ struct VarFolder<'a, 'b> {
     renamed: &'a mut Vec<ExportSpecifier>,
 }
 
-impl Fold for VarFolder<'_, '_> {
-    noop_fold_type!();
+impl VisitMut for VarFolder<'_, '_> {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, n: Expr) -> Expr {
-        n
-    }
+    #[inline]
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
         let orig = i.clone();
         match self.orig.rename_ident(i) {
-            Ok(i) => {
+            Ok(..) => {
                 self.renamed
                     .push(ExportSpecifier::Named(ExportNamedSpecifier {
                         span: i.span,
                         exported: Some(orig),
                         orig: i.clone(),
                     }));
-                i
             }
-            Err(i) => i,
+            Err(..) => {}
         }
     }
 }
 
 impl<'a> Operator<'a> {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
-    fn rename_ident(&mut self, ident: Ident) -> Result<Ident, Ident> {
-        for op in self.0 {
-            match *op {
-                ScopeOp::Rename { ref from, ref to }
-                    if *from.0 == ident.sym && from.1 == ident.span.ctxt() =>
-                {
-                    return Ok(Ident {
-                        // Clear mark
-                        span: ident.span.with_ctxt(SyntaxContext::empty()),
-                        sym: to.clone(),
-                        ..ident
-                    });
-                }
-                _ => {}
-            }
+    fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
+        if let Some(sym) = self.0.rename.get(&ident.to_id()) {
+            ident.span = ident.span.with_ctxt(SyntaxContext::empty());
+            ident.sym = sym.clone();
+            return Ok(());
         }
-        Err(ident)
+
+        Err(())
     }
 }

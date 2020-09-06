@@ -17,19 +17,19 @@ mod common;
 struct ParenRemover;
 impl Fold for ParenRemover {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = validate!(expr);
+        let expr = expr;
         let span = expr.span();
 
         let expr = expr.fold_children_with(self);
 
-        validate!(match expr {
+        match expr {
             Expr::Paren(ParenExpr { expr, .. }) => match *expr {
                 Expr::Member(e) => Expr::Member(MemberExpr { span, ..e }),
                 Expr::New(e) => Expr::New(NewExpr { span, ..e }),
                 _ => *expr,
             },
             _ => expr,
-        })
+        }
     }
 }
 
@@ -40,10 +40,10 @@ fn syntax() -> Syntax {
 fn tr() -> impl Fold {
     chain!(
         ParenRemover,
-        validating!(arrow()),
-        validating!(parameters()),
-        validating!(destructuring(destructuring::Config { loose: false })),
-        validating!(function_name()),
+        arrow(),
+        parameters(),
+        destructuring(destructuring::Config { loose: false }),
+        function_name(),
         async_to_generator(),
         fixer(None)
     )

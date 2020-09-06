@@ -690,10 +690,9 @@ impl<'a> Emitter<'a> {
         emit!(node.right);
     }
 
-    #[emitter]
-    fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
-        self.emit_leading_comments_of_pos(node.span().lo())?;
-
+    /// Prints operator and right node of a binary expression.
+    #[inline(never)]
+    fn emit_bin_expr_trailing(&mut self, node: &BinExpr) -> Result {
         // let indent_before_op = needs_indention(node, &node.left, node.op);
         // let indent_after_op = needs_indention(node, node.op, &node.right);
         let need_space = match node.op {
@@ -701,19 +700,17 @@ impl<'a> Emitter<'a> {
             _ => false,
         };
 
-        emit!(node.left);
-
         let need_pre_space = need_space
             || match *node.left {
                 Expr::Update(UpdateExpr { prefix: false, .. }) => true,
                 _ => false,
             };
         if need_pre_space {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
-        operator!(node.op.as_str());
+        operator!(self, node.op.as_str());
 
         let need_post_space = need_space
             || match *node.right {
@@ -721,11 +718,47 @@ impl<'a> Emitter<'a> {
                 _ => false,
             };
         if need_post_space {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
-        emit!(node.right);
+        emit!(self, node.right);
+
+        Ok(())
+    }
+
+    #[emitter]
+    fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
+        {
+            let mut left = Some(node);
+            let mut lefts = vec![];
+            while let Some(l) = left {
+                lefts.push(l);
+
+                match &*l.left {
+                    Expr::Bin(b) => {
+                        left = Some(b);
+                    }
+                    _ => break,
+                }
+            }
+
+            let len = lefts.len();
+
+            for (i, left) in lefts.into_iter().rev().enumerate() {
+                if i == 0 {
+                    emit!(left.left);
+                }
+                // Check if it's last
+                if i + 1 != len {
+                    self.emit_bin_expr_trailing(left)?;
+                }
+            }
+        }
+
+        self.emit_bin_expr_trailing(node)?;
     }
 
     #[emitter]
