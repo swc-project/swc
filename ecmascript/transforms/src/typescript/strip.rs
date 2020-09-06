@@ -116,49 +116,32 @@ impl Strip {
                 let expr = *expr.take();
                 *n = expr;
             }
-            _ => {}
-        }
 
-        n.map_with_mut(|mut expr| {
-            let expr = match expr {
-                Expr::Bin(..) => expr,
-                Expr::Member(MemberExpr {
-                    span,
-                    mut obj,
-                    mut prop,
-                    computed,
-                }) => {
-                    obj.visit_mut_with(self);
+            Expr::Member(MemberExpr {
+                obj,
+                prop,
+                computed,
+                ..
+            }) => {
+                obj.visit_mut_with(self);
 
-                    let prop = if computed {
-                        prop.visit_mut_with(self);
-                        prop
-                    } else {
-                        match *prop {
-                            Expr::Ident(i) => Box::new(Expr::Ident(Ident {
-                                optional: false,
-                                type_ann: None,
-                                ..i
-                            })),
-                            _ => prop,
+                if *computed {
+                    prop.visit_mut_with(self);
+                } else {
+                    match &mut **prop {
+                        Expr::Ident(i) => {
+                            i.type_ann = None;
+                            i.optional = false;
                         }
-                    };
-
-                    Expr::Member(MemberExpr {
-                        span,
-                        obj,
-                        prop,
-                        computed,
-                    })
+                        _ => {}
+                    }
                 }
-                _ => {
-                    expr.visit_mut_children_with(self);
-                    expr
-                }
-            };
+            }
 
-            expr
-        });
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
 
         vec![]
     }
