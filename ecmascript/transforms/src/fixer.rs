@@ -1,6 +1,6 @@
 use crate::ext::{AsOptExpr, MapWithMut, PatOrExprExt};
 use fxhash::FxHashMap;
-use swc_common::{comments::Comments, Span, Spanned};
+use swc_common::{comments::Comments, util::move_map::MoveMap, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -607,6 +607,14 @@ impl Fixer<'_> {
 fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
     match *expr {
         Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
+        Expr::Seq(SeqExpr { span, exprs }) => {
+            let mut exprs = exprs.move_flat_map(ignore_return_value);
+
+            match exprs.len() {
+                0 | 1 => exprs.pop(),
+                _ => Some(Box::new(Expr::Seq(SeqExpr { span, exprs }))),
+            }
+        }
         Expr::Unary(UnaryExpr {
             op: op!("void"),
             arg,
