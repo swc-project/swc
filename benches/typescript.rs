@@ -203,7 +203,7 @@ macro_rules! tr_only {
                         &Options {
                             config: Some(Config {
                                 jsc: JscConfig {
-                                    target: %target,
+                                    target: $target,
                                     syntax: Some(Syntax::Typescript(TsConfig {
                                         ..Default::default()
                                     })),
