@@ -568,3 +568,13 @@ test!(
     "var ref;
 (ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d.e.f.g.h.i"
 );
+
+// https://github.com/Brooooooklyn/swc-node/issues/62
+test!(
+    syntax(),
+    |_| tr(()),
+    swc_node_issue_62,
+    "a.focus?.()",
+    "var ref;
+    (ref = a.focus) === null || ref === void 0 ? void 0 : ref.call(a);"
+);
