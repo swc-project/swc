@@ -441,7 +441,13 @@ impl Fixer<'_> {
                                     }
                                 }
                             }
-                            _ => buf.push(expr.take()),
+                            _ => {
+                                if is_last {
+                                    buf.push(expr.take());
+                                } else {
+                                    buf.extend(ignore_return_value(expr.take()));
+                                }
+                            }
                         }
                     }
 
@@ -594,7 +600,6 @@ impl Fixer<'_> {
 }
 
 fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
-    dbg!(&*expr);
     match *expr {
         Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
         Expr::Seq(SeqExpr { span, exprs }) => {
