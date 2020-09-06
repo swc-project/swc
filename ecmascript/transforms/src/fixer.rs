@@ -1,6 +1,6 @@
 use crate::ext::{AsOptExpr, MapWithMut, PatOrExprExt};
 use fxhash::FxHashMap;
-use swc_common::{comments::Comments, util::move_map::MoveMap, Span, Spanned};
+use swc_common::{comments::Comments, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -338,24 +338,13 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
-    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
-        match stmt {
-            Stmt::Expr(expr_stmt) => {
-                let old = self.ctx;
-                self.ctx = Context::Default;
-                expr_stmt.visit_mut_with(self);
-                self.ctx = old;
-            }
-            _ => stmt.visit_mut_children_with(self),
-        };
+    fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        s.expr.visit_mut_with(self);
+        self.ctx = old;
 
-        match stmt {
-            Stmt::Expr(ExprStmt { ref mut expr, .. }) => {
-                self.handle_expr_stmt(&mut **expr);
-            }
-
-            _ => {}
-        }
+        self.handle_expr_stmt(&mut *s.expr);
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
@@ -605,10 +594,22 @@ impl Fixer<'_> {
 }
 
 fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
+    dbg!(&*expr);
     match *expr {
         Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
         Expr::Seq(SeqExpr { span, exprs }) => {
-            let mut exprs = exprs.move_flat_map(ignore_return_value);
+            let len = exprs.len();
+            let mut exprs: Vec<_> = exprs
+                .into_iter()
+                .enumerate()
+                .filter_map(|(i, expr)| {
+                    if i + 1 == len {
+                        Some(expr)
+                    } else {
+                        ignore_return_value(expr)
+                    }
+                })
+                .collect();
 
             match exprs.len() {
                 0 | 1 => exprs.pop(),
