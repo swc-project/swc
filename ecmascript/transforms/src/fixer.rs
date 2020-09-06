@@ -105,6 +105,61 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
+        expr.visit_mut_children_with(self);
+
+        match &mut *expr.right {
+            Expr::Assign(..)
+            | Expr::Seq(..)
+            | Expr::Yield(..)
+            | Expr::Cond(..)
+            | Expr::Arrow(..) => {
+                self.wrap(&mut expr.right);
+            }
+            Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
+                if op_of_rhs.precedence() <= expr.op.precedence() {
+                    self.wrap(&mut expr.right);
+                }
+            }
+            _ => {}
+        };
+
+        match &mut *expr.left {
+            // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
+            // But it should be `(1 + x) * Nan`
+            Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
+                if op_of_lhs.precedence() < expr.op.precedence() {
+                    self.wrap(&mut expr.left);
+                }
+            }
+
+            Expr::Seq(..)
+            | Expr::Update(..)
+            | Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            })
+            | Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            })
+            | Expr::Yield(..)
+            | Expr::Cond(..)
+            | Expr::Assign(..)
+            | Expr::Arrow(..) => {
+                self.wrap(&mut expr.left);
+            }
+            Expr::Object(..)
+                if expr.op == op!("instanceof")
+                    || expr.op == op!("==")
+                    || expr.op == op!("===")
+                    || expr.op == op!("!=")
+                    || expr.op == op!("!==") =>
+            {
+                self.wrap(&mut expr.left)
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);
         n.prop.visit_mut_with(self);
@@ -413,59 +468,6 @@ impl Fixer<'_> {
                     }
                     _ => *e = expr,
                 };
-            }
-
-            Expr::Bin(ref mut expr) => {
-                match &mut *expr.right {
-                    Expr::Assign(..)
-                    | Expr::Seq(..)
-                    | Expr::Yield(..)
-                    | Expr::Cond(..)
-                    | Expr::Arrow(..) => {
-                        self.wrap(&mut expr.right);
-                    }
-                    Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
-                        if op_of_rhs.precedence() <= expr.op.precedence() {
-                            self.wrap(&mut expr.right);
-                        }
-                    }
-                    _ => {}
-                };
-
-                match &mut *expr.left {
-                    // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
-                    // But it should be `(1 + x) * Nan`
-                    Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
-                        if op_of_lhs.precedence() < expr.op.precedence() {
-                            self.wrap(&mut expr.left);
-                        }
-                    }
-
-                    Expr::Seq(..)
-                    | Expr::Update(..)
-                    | Expr::Unary(UnaryExpr {
-                        op: op!("delete"), ..
-                    })
-                    | Expr::Unary(UnaryExpr {
-                        op: op!("void"), ..
-                    })
-                    | Expr::Yield(..)
-                    | Expr::Cond(..)
-                    | Expr::Assign(..)
-                    | Expr::Arrow(..) => {
-                        self.wrap(&mut expr.left);
-                    }
-                    Expr::Object(..)
-                        if expr.op == op!("instanceof")
-                            || expr.op == op!("==")
-                            || expr.op == op!("===")
-                            || expr.op == op!("!=")
-                            || expr.op == op!("!==") =>
-                    {
-                        self.wrap(&mut expr.left)
-                    }
-                    _ => {}
-                }
             }
 
             Expr::Cond(expr) => {
