@@ -105,6 +105,64 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        n.prop.visit_mut_with(self);
+
+        match n {
+            MemberExpr { obj, .. }
+                if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
+                    && match self.ctx {
+                        Context::ForcedExpr { is_var_decl: true } => true,
+                        _ => false,
+                    } =>
+            {
+                match obj {
+                    ExprOrSuper::Super(_) => {}
+                    ExprOrSuper::Expr(obj) => self.unwrap_expr(&mut **obj),
+                }
+
+                self.unwrap_expr(&mut *n.prop);
+                return;
+            }
+
+            MemberExpr {
+                obj: ExprOrSuper::Expr(ref mut obj),
+                ..
+            } if obj.is_fn_expr()
+                || obj.is_cond()
+                || obj.is_unary()
+                || obj.is_seq()
+                || obj.is_update()
+                || obj.is_bin()
+                || obj.is_object()
+                || obj.is_assign()
+                || obj.is_arrow()
+                || obj.is_class()
+                || obj.is_yield_expr()
+                || obj.is_await_expr()
+                || match **obj {
+                    Expr::New(NewExpr { args: None, .. }) => true,
+                    _ => false,
+                } =>
+            {
+                self.wrap(&mut **obj);
+                return;
+            }
+
+            _ => {}
+        }
+
+        match &mut n.obj {
+            ExprOrSuper::Expr(obj) => {
+                self.unwrap_expr(&mut **obj);
+            }
+            _ => {}
+        }
+
+        self.unwrap_expr(&mut *n.prop);
+    }
+
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
         node.key.visit_mut_children_with(self);
 
@@ -154,12 +212,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
         self.unwrap_expr(e);
+        e.visit_mut_children_with(self);
 
         self.wrap_with_paren_if_required(e)
     }
-
     fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
         e.visit_mut_children_with(self);
 
@@ -280,39 +337,6 @@ impl VisitMut for Fixer<'_> {
 impl Fixer<'_> {
     fn wrap_with_paren_if_required(&mut self, e: &mut Expr) {
         match e {
-            Expr::Member(MemberExpr { obj, .. })
-                if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
-                    && match self.ctx {
-                        Context::ForcedExpr { is_var_decl: true } => true,
-                        _ => false,
-                    } =>
-            {
-                return
-            }
-
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(ref mut obj),
-                ..
-            }) if obj.is_fn_expr()
-                || obj.is_cond()
-                || obj.is_unary()
-                || obj.is_seq()
-                || obj.is_update()
-                || obj.is_bin()
-                || obj.is_object()
-                || obj.is_assign()
-                || obj.is_arrow()
-                || obj.is_class()
-                || obj.is_yield_expr()
-                || obj.is_await_expr()
-                || match **obj {
-                    Expr::New(NewExpr { args: None, .. }) => true,
-                    _ => false,
-                } =>
-            {
-                self.wrap(&mut **obj);
-            }
-
             // Flatten seq expr
             Expr::Seq(SeqExpr { span, exprs }) => {
                 let len = exprs
