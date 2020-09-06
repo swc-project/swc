@@ -107,39 +107,6 @@ fn config_for_file(b: &mut Bencher) {
 }
 
 /// This benchmark exists to know exact execution time of each pass.
-#[bench]
-fn config_transforms(b: &mut Bencher) {
-    let c = mk();
-    let module = parse(&c);
-
-    b.iter(|| {
-        let program = module.clone();
-
-        let mut config = c
-            .config_for_file(
-                &Options {
-                    config: Some(Config {
-                        jsc: JscConfig {
-                            target: JscTarget::Es2016,
-                            syntax: Some(Syntax::Typescript(TsConfig {
-                                ..Default::default()
-                            })),
-                            ..Default::default()
-                        },
-                        module: None,
-                        ..Default::default()
-                    }),
-                    swcrc: false,
-                    is_module: true,
-                    ..Default::default()
-                },
-                &FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
-            )
-            .unwrap();
-        let program = c.run_transform(true, || program.fold_with(&mut config.pass));
-        black_box(program)
-    });
-}
 
 fn bench_codegen(b: &mut Bencher, _target: JscTarget) {
     let c = mk();
@@ -220,3 +187,52 @@ compat!(full_es2017, JscTarget::Es2017);
 compat!(full_es2018, JscTarget::Es2018);
 compat!(full_es2019, JscTarget::Es2019);
 compat!(full_es2020, JscTarget::Es2020);
+
+macro_rules! tr_only {
+    ($name:ident, $target:expr) => {
+        #[bench]
+        fn $name(b: &mut Bencher) {
+            let c = mk();
+            let module = parse(&c);
+
+            b.iter(|| {
+                let program = module.clone();
+
+                let mut config = c
+                    .config_for_file(
+                        &Options {
+                            config: Some(Config {
+                                jsc: JscConfig {
+                                    target: JscTarget::Es2016,
+                                    syntax: Some(Syntax::Typescript(TsConfig {
+                                        ..Default::default()
+                                    })),
+                                    ..Default::default()
+                                },
+                                module: None,
+                                ..Default::default()
+                            }),
+                            swcrc: false,
+                            is_module: true,
+                            ..Default::default()
+                        },
+                        &FileName::Real(
+                            "rxjs/src/internal/observable/dom/AjaxObservable.ts".into(),
+                        ),
+                    )
+                    .unwrap();
+                let program = c.run_transform(true, || program.fold_with(&mut config.pass));
+                black_box(program)
+            });
+        }
+    };
+}
+
+tr_only!(transforms_es3, JscTarget::Es3);
+tr_only!(transforms_es5, JscTarget::Es5);
+tr_only!(transforms_es2015, JscTarget::Es2015);
+tr_only!(transforms_es2016, JscTarget::Es2016);
+tr_only!(transforms_es2017, JscTarget::Es2017);
+tr_only!(transforms_es2018, JscTarget::Es2018);
+tr_only!(transforms_es2019, JscTarget::Es2019);
+tr_only!(transforms_es2020, JscTarget::Es2020);
