@@ -671,14 +671,6 @@ impl SimplifyExpr {
 
             op!("~") => {
                 if let Known(value) = arg.as_number() {
-                    println!(
-                        "Value: {} -> {} -> {} -> {}",
-                        value,
-                        value as u32,
-                        !(value as u32),
-                        !(value as u32) as i32
-                    );
-                    println!("{}", value as i32 as u32);
                     if value.fract() == 0.0 {
                         return Expr::Lit(Lit::Num(Number {
                             span,

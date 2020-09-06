@@ -92,6 +92,18 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
+        expr.visit_mut_children_with(self);
+
+        match &mut *expr.right {
+            // `foo = (bar = baz)` => foo = bar = baz
+            Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
+
+            Expr::Seq(..) => self.wrap(&mut expr.right),
+            _ => {}
+        }
+    }
+
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let old = self.ctx;
         self.ctx = Context::Default;
@@ -103,6 +115,116 @@ impl VisitMut for Fixer<'_> {
             _ => {}
         };
         self.ctx = old;
+    }
+
+    fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
+        expr.visit_mut_children_with(self);
+
+        match &mut *expr.right {
+            Expr::Assign(..)
+            | Expr::Seq(..)
+            | Expr::Yield(..)
+            | Expr::Cond(..)
+            | Expr::Arrow(..) => {
+                self.wrap(&mut expr.right);
+            }
+            Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
+                if op_of_rhs.precedence() <= expr.op.precedence() {
+                    self.wrap(&mut expr.right);
+                }
+            }
+            _ => {}
+        };
+
+        match &mut *expr.left {
+            // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
+            // But it should be `(1 + x) * Nan`
+            Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
+                if op_of_lhs.precedence() < expr.op.precedence() {
+                    self.wrap(&mut expr.left);
+                }
+            }
+
+            Expr::Seq(..)
+            | Expr::Update(..)
+            | Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            })
+            | Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            })
+            | Expr::Yield(..)
+            | Expr::Cond(..)
+            | Expr::Assign(..)
+            | Expr::Arrow(..) => {
+                self.wrap(&mut expr.left);
+            }
+            Expr::Object(..)
+                if expr.op == op!("instanceof")
+                    || expr.op == op!("==")
+                    || expr.op == op!("===")
+                    || expr.op == op!("!=")
+                    || expr.op == op!("!==") =>
+            {
+                self.wrap(&mut expr.left)
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        n.prop.visit_mut_with(self);
+
+        match n {
+            MemberExpr { obj, .. }
+                if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
+                    && match self.ctx {
+                        Context::ForcedExpr { is_var_decl: true } => true,
+                        _ => false,
+                    } => {}
+
+            MemberExpr {
+                obj: ExprOrSuper::Expr(ref mut obj),
+                ..
+            } if obj.is_fn_expr()
+                || obj.is_cond()
+                || obj.is_unary()
+                || obj.is_seq()
+                || obj.is_update()
+                || obj.is_bin()
+                || obj.is_object()
+                || obj.is_assign()
+                || obj.is_arrow()
+                || obj.is_class()
+                || obj.is_yield_expr()
+                || obj.is_await_expr()
+                || match **obj {
+                    Expr::New(NewExpr { args: None, .. }) => true,
+                    _ => false,
+                } =>
+            {
+                self.wrap(&mut **obj);
+                return;
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        n.visit_mut_children_with(self);
+
+        match *n.arg {
+            Expr::Assign(..)
+            | Expr::Bin(..)
+            | Expr::Seq(..)
+            | Expr::Cond(..)
+            | Expr::Arrow(..)
+            | Expr::Yield(..) => self.wrap(&mut n.arg),
+
+            _ => {}
+        }
     }
 
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
@@ -154,12 +276,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
         self.unwrap_expr(e);
+        e.visit_mut_children_with(self);
 
         self.wrap_with_paren_if_required(e)
     }
-
     fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
         e.visit_mut_children_with(self);
 
@@ -217,24 +338,13 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
-    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
-        match stmt {
-            Stmt::Expr(expr) => {
-                let old = self.ctx;
-                self.ctx = Context::Default;
-                expr.visit_mut_with(self);
-                self.ctx = old;
-            }
-            _ => stmt.visit_mut_children_with(self),
-        };
+    fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        s.expr.visit_mut_with(self);
+        self.ctx = old;
 
-        match stmt {
-            Stmt::Expr(ExprStmt { ref mut expr, .. }) => {
-                self.handle_expr_stmt(&mut **expr);
-            }
-
-            _ => {}
-        }
+        self.handle_expr_stmt(&mut *s.expr);
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
@@ -280,39 +390,6 @@ impl VisitMut for Fixer<'_> {
 impl Fixer<'_> {
     fn wrap_with_paren_if_required(&mut self, e: &mut Expr) {
         match e {
-            Expr::Member(MemberExpr { obj, .. })
-                if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
-                    && match self.ctx {
-                        Context::ForcedExpr { is_var_decl: true } => true,
-                        _ => false,
-                    } =>
-            {
-                return
-            }
-
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(ref mut obj),
-                ..
-            }) if obj.is_fn_expr()
-                || obj.is_cond()
-                || obj.is_unary()
-                || obj.is_seq()
-                || obj.is_update()
-                || obj.is_bin()
-                || obj.is_object()
-                || obj.is_assign()
-                || obj.is_arrow()
-                || obj.is_class()
-                || obj.is_yield_expr()
-                || obj.is_await_expr()
-                || match **obj {
-                    Expr::New(NewExpr { args: None, .. }) => true,
-                    _ => false,
-                } =>
-            {
-                self.wrap(&mut **obj);
-            }
-
             // Flatten seq expr
             Expr::Seq(SeqExpr { span, exprs }) => {
                 let len = exprs
@@ -364,7 +441,13 @@ impl Fixer<'_> {
                                     }
                                 }
                             }
-                            _ => buf.push(expr.take()),
+                            _ => {
+                                if is_last {
+                                    buf.push(expr.take());
+                                } else {
+                                    buf.extend(ignore_return_value(expr.take()));
+                                }
+                            }
                         }
                     }
 
@@ -389,59 +472,6 @@ impl Fixer<'_> {
                     }
                     _ => *e = expr,
                 };
-            }
-
-            Expr::Bin(ref mut expr) => {
-                match &mut *expr.right {
-                    Expr::Assign(..)
-                    | Expr::Seq(..)
-                    | Expr::Yield(..)
-                    | Expr::Cond(..)
-                    | Expr::Arrow(..) => {
-                        self.wrap(&mut expr.right);
-                    }
-                    Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
-                        if op_of_rhs.precedence() <= expr.op.precedence() {
-                            self.wrap(&mut expr.right);
-                        }
-                    }
-                    _ => {}
-                };
-
-                match &mut *expr.left {
-                    // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
-                    // But it should be `(1 + x) * Nan`
-                    Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
-                        if op_of_lhs.precedence() < expr.op.precedence() {
-                            self.wrap(&mut expr.left);
-                        }
-                    }
-
-                    Expr::Seq(..)
-                    | Expr::Update(..)
-                    | Expr::Unary(UnaryExpr {
-                        op: op!("delete"), ..
-                    })
-                    | Expr::Unary(UnaryExpr {
-                        op: op!("void"), ..
-                    })
-                    | Expr::Yield(..)
-                    | Expr::Cond(..)
-                    | Expr::Assign(..)
-                    | Expr::Arrow(..) => {
-                        self.wrap(&mut expr.left);
-                    }
-                    Expr::Object(..)
-                        if expr.op == op!("instanceof")
-                            || expr.op == op!("==")
-                            || expr.op == op!("===")
-                            || expr.op == op!("!=")
-                            || expr.op == op!("!==") =>
-                    {
-                        self.wrap(&mut expr.left)
-                    }
-                    _ => {}
-                }
             }
 
             Expr::Cond(expr) => {
@@ -470,27 +500,6 @@ impl Fixer<'_> {
 
                 match self.ctx {
                     Context::Callee { is_new: true } => self.wrap(e),
-                    _ => {}
-                }
-            }
-
-            Expr::Unary(expr) => match *expr.arg {
-                Expr::Assign(..)
-                | Expr::Bin(..)
-                | Expr::Seq(..)
-                | Expr::Cond(..)
-                | Expr::Arrow(..)
-                | Expr::Yield(..) => self.wrap(&mut expr.arg),
-                _ => {}
-            },
-
-            Expr::Assign(expr) => {
-                match &mut *expr.right {
-                    // `foo = (bar = baz)` => foo = bar = baz
-                    Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
-
-                    // Handle `foo = bar = init()
-                    Expr::Seq(..) => self.wrap(&mut expr.right),
                     _ => {}
                 }
             }
@@ -593,6 +602,25 @@ impl Fixer<'_> {
 fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
     match *expr {
         Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
+        Expr::Seq(SeqExpr { span, exprs }) => {
+            let len = exprs.len();
+            let mut exprs: Vec<_> = exprs
+                .into_iter()
+                .enumerate()
+                .filter_map(|(i, expr)| {
+                    if i + 1 == len {
+                        Some(expr)
+                    } else {
+                        ignore_return_value(expr)
+                    }
+                })
+                .collect();
+
+            match exprs.len() {
+                0 | 1 => exprs.pop(),
+                _ => Some(Box::new(Expr::Seq(SeqExpr { span, exprs }))),
+            }
+        }
         Expr::Unary(UnaryExpr {
             op: op!("void"),
             arg,

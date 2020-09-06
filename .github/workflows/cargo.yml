@@ -76,12 +76,15 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc
 
-      - name: Run cargo test
+      - name: Run fast cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
           EXEC=0 cargo test --color always --all --exclude node --exclude wasm
-          cargo test --color always --all --exclude node --exclude wasm
 
+      - name: Run slow cargo test
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          cargo test --color always --all --exclude node --exclude wasm
   #
   deploy-docs:
     runs-on: ubuntu-latest

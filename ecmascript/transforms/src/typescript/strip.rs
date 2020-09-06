@@ -105,62 +105,43 @@ impl Strip {
     fn handle_expr<'a>(&mut self, n: &'a mut Expr) -> Vec<&'a mut Expr> {
         match n {
             Expr::Bin(BinExpr { left, right, .. }) => return vec![&mut **left, &mut **right],
-            _ => {}
-        }
 
-        n.map_with_mut(|expr| {
-            let mut expr = match expr {
-                Expr::TsAs(TsAsExpr { expr, .. })
-                | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-                | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-                | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-                | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
-                    let mut expr = *expr;
-                    expr.visit_mut_with(self);
-                    expr
-                }
-                _ => expr,
-            };
+            // Remove types
+            Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => {
+                expr.visit_mut_with(self);
+                let expr = *expr.take();
+                *n = expr;
+            }
 
-            let expr = match expr {
-                Expr::Bin(..) => expr,
-                Expr::Member(MemberExpr {
-                    span,
-                    mut obj,
-                    mut prop,
-                    computed,
-                }) => {
-                    obj.visit_mut_with(self);
+            Expr::Member(MemberExpr {
+                obj,
+                prop,
+                computed,
+                ..
+            }) => {
+                obj.visit_mut_with(self);
 
-                    let prop = if computed {
-                        prop.visit_mut_with(self);
-                        prop
-                    } else {
-                        match *prop {
-                            Expr::Ident(i) => Box::new(Expr::Ident(Ident {
-                                optional: false,
-                                type_ann: None,
-                                ..i
-                            })),
-                            _ => prop,
+                if *computed {
+                    prop.visit_mut_with(self);
+                } else {
+                    match &mut **prop {
+                        Expr::Ident(i) => {
+                            i.type_ann = None;
+                            i.optional = false;
                         }
-                    };
-
-                    Expr::Member(MemberExpr {
-                        span,
-                        obj,
-                        prop,
-                        computed,
-                    })
+                        _ => {}
+                    }
                 }
-                _ => {
-                    expr.visit_mut_children_with(self);
-                    expr
-                }
-            };
+            }
 
-            expr
-        });
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
 
         vec![]
     }
