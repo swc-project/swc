@@ -79,6 +79,7 @@ jobs:
       - name: Run cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
+          EXEC=0 cargo test --color always --all --exclude node --exclude wasm
           cargo test --color always --all --exclude node --exclude wasm
 
   #
