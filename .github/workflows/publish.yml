@@ -55,8 +55,16 @@ jobs:
         run: npm i
 
       - name: Build
+        if: matrix.os != 'macos-latest'
         shell: bash
         run: npm run build
+
+      - name: Build
+        if: matrix.os == 'macos-latest'
+        shell: bash
+        run: npm run build
+        env:
+          MACOSX_DEPLOYMENT_TARGET: '10.13'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
