@@ -546,7 +546,8 @@ fn cjs_004() {
             assert_eq!(p.circular.len(), 0);
             // As both of a and b depend on `common`, it should be merged into a parent
             // module.
-            assert_normal_transitive(t, &p, "main", &["a", "b"], &["common"]);
+            assert_normal(t, &p, "main", &["entry"]);
+            assert_normal_transitive(t, &p, "entry", &["a", "b"], &["common"]);
             assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
 
