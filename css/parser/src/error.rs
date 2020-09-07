@@ -2,7 +2,7 @@ use swc_common::{Span, Spanned};
 
 #[derive(Debug, Clone)]
 pub struct Error {
-    inner: Box<(Span, ErrorKind)>,
+    pub(crate) inner: Box<(Span, ErrorKind)>,
 }
 
 impl Spanned for Error {

@@ -13,5 +13,11 @@ impl Parser<'_> {
 
     fn parse_rule(&mut self) -> PResult<Rule> {}
 
+    fn parse_at_rule(&mut self) -> PResult<AtRule> {
+        expect!(self, "@");
+    }
+
+    fn parse_style_rule(&mut self) -> PResult<StyleRule> {}
+
     fn parse_property(&mut self) -> PResult<Property> {}
 }

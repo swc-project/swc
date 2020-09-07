@@ -1,6 +1,7 @@
 use logos::Logos;
 
-#[derive(Logos, Debug, PartialEq, Eq)]
+/// This does not implements [PartialEq] nor [Eq] as it's not optimized out.
+#[derive(Logos, Debug)]
 pub(crate) enum Token {
     #[error]
     #[regex(r#"[ \n\t\r]*"#, logos::skip)] // skip whitespace
