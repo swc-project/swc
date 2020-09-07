@@ -316,7 +316,6 @@ where
                         // a <- b
                         // a <- c
                         let module = least_common_ancestor(&builder.entry_graph, dependants);
-                        dbg!(module, dependants);
 
                         let normal_plan = plans.normal.entry(module).or_default();
                         normal_plan.transitive_chunks.reserve(deps.len());
@@ -325,7 +324,13 @@ where
                             if !normal_plan.chunks.contains(&dep)
                                 && !normal_plan.transitive_chunks.contains(&dep)
                             {
-                                normal_plan.transitive_chunks.push(dep);
+                                if dependants.contains(&module) {
+                                    // `entry` depends on `module` directly
+
+                                    normal_plan.chunks.push(dep);
+                                } else {
+                                    normal_plan.transitive_chunks.push(dep);
+                                }
                             }
                         }
 
