@@ -1,12 +1,24 @@
+//! Temporarilly exposed for benchmarking
+
+use crate::{
+    error::Error, lexer::TokenContexts, token::TokenAndSpan, Context, JscTarget, Syntax, Tokens,
+};
 use logos::Logos;
 
+#[derive(Debug, Default, Clone, Copy)]
+pub(crate) struct Extras {
+    pub had_line_break: bool,
+}
+
+/// Interal tokens for super-fast lexing.
 #[derive(Logos, Debug)]
+#[logos(extras = Extras)]
 #[logos(subpattern decimal = r"[0-9][_0-9]*")]
 #[logos(subpattern hex = r"[0-9a-fA-F][_0-9a-fA-F]*")]
 #[logos(subpattern octal = r"[0-7][_0-7]*")]
 #[logos(subpattern binary = r"[0-1][_0-1]*")]
 #[logos(subpattern exp = r"[eE][+-]?[0-9][_0-9]*")]
-pub(crate) enum InternalToken {
+pub(crate) enum IToken {
     #[error]
     #[regex(r"[\s]+", logos::skip)]
     Error,
@@ -333,4 +345,50 @@ pub(crate) enum InternalToken {
 
     #[token("#!")]
     Shebang,
+}
+
+struct LogosLexer<'a> {
+    inner: logos::Lexer<'a, IToken>,
+}
+
+impl Clone for LogosLexer<'_> {
+    fn clone(&self) -> Self {
+        let mut inner = IToken::lexer(self.inner.source());
+        inner.extras = self.inner.extras.clone();
+        LogosLexer { inner }
+    }
+}
+
+pub fn lexer(s: &str) -> impl '_ + Tokens {
+    LogosLexer {
+        inner: IToken::lexer(s),
+    }
+}
+
+impl Iterator for LogosLexer<'_> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {}
+}
+
+impl Tokens for LogosLexer<'_> {
+    fn set_ctx(&mut self, ctx: Context) {}
+
+    fn ctx(&self) -> Context {}
+
+    fn syntax(&self) -> Syntax {}
+
+    fn target(&self) -> JscTarget {}
+
+    fn set_expr_allowed(&mut self, allow: bool) {}
+
+    fn token_context(&self) -> &TokenContexts {}
+
+    fn token_context_mut(&mut self) -> &mut TokenContexts {}
+
+    fn set_token_context(&mut self, _c: TokenContexts) {}
+
+    fn add_error(&self, error: Error) {}
+
+    fn take_errors(&mut self) -> Vec<Error> {}
 }
