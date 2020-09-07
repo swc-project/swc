@@ -11,14 +11,14 @@ pub struct Extras {
 }
 
 /// Interal tokens for super-fast lexing.
-#[derive(Logos, Debug)]
+#[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 #[logos(extras = Extras)]
 #[logos(subpattern decimal = r"[0-9][_0-9]*")]
 #[logos(subpattern hex = r"[0-9a-fA-F][_0-9a-fA-F]*")]
 #[logos(subpattern octal = r"[0-7][_0-7]*")]
 #[logos(subpattern binary = r"[0-1][_0-1]*")]
 #[logos(subpattern exp = r"[eE][+-]?[0-9][_0-9]*")]
-pub enum IToken {
+pub enum InternalToken {
     #[error]
     #[regex(r"[\s]+", logos::skip)]
     Error,
@@ -167,9 +167,6 @@ pub enum IToken {
     /// ':'
     #[token(":")]
     Colon,
-    /// '::'
-    #[token("::")]
-    ColonColon,
     ///
     /// `==`
     #[token("==")]
@@ -251,6 +248,7 @@ pub enum IToken {
     /// `??`
     #[token("??")]
     NullishCoalescing,
+
     ///
     /// `=`
     #[token("=")]
@@ -305,10 +303,6 @@ pub enum IToken {
     #[token("??=")]
     NullishAssign,
 
-    /// '${'
-    #[token("${")]
-    DollarLBrace,
-
     /// Content of template literal
     #[regex(r#"`(?:[^`]|\\`)*`"#)]
     Template,
@@ -338,6 +332,8 @@ pub enum IToken {
     #[regex("0[xX](?&hex)")]
     #[regex("0[oO](?&octal)")]
     #[regex("0[bB](?&binary)")]
+    #[regex("\\.[0-9]+")]
+    #[regex("\\.[0-9]+n")]
     Num,
 
     #[regex("[0-9]+n")]
@@ -345,26 +341,52 @@ pub enum IToken {
 
     #[token("#!")]
     Shebang,
+
+    #[token("\\")]
+    BackSlash,
 }
 
-/// Supper-fast but dumb lexer, which don't know how to handle slash. It just
-/// returns `Slash` instead of `RegExp` / `Div`
+/// Supper-fast but dumb lexer, as it does not know how to handle slash. It just
+/// returns `Div`.
+#[derive(Clone)]
 pub struct DumbLexer<'a> {
-    inner: Lexer<'a, IToken>,
+    cur: Option<InternalToken>,
+    inner: Lexer<'a, InternalToken>,
 }
 
 impl<'a> DumbLexer<'a> {
-    pub fn new(s: &'a str) -> Self {
-        DumbLexer {
-            inner: IToken::lexer(s),
+    pub fn bump(&mut self) {
+        match self.cur.take() {
+            Some(_) => {}
+            None => {
+                self.inner.next();
+            }
         }
     }
-}
+    #[inline]
+    pub fn new(s: &'a str) -> Self {
+        DumbLexer {
+            cur: None,
+            inner: InternalToken::lexer(s),
+        }
+    }
 
-impl Clone for DumbLexer<'_> {
-    fn clone(&self) -> Self {
-        let mut inner = IToken::lexer(self.inner.source());
-        inner.extras = self.inner.extras.clone();
-        DumbLexer { inner }
+    #[inline]
+    pub fn cur(&mut self) -> Option<InternalToken> {
+        match self.cur {
+            Some(_) => {}
+            None => {
+                self.cur = self.inner.next();
+            }
+        }
+
+        self.cur
+    }
+
+    #[inline]
+    pub fn peek(&mut self) -> Option<InternalToken> {
+        let _cur = self.cur()?;
+
+        self.inner.clone().next()
     }
 }

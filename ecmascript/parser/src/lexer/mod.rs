@@ -12,13 +12,16 @@ use crate::{
 };
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, marker::PhantomData, mem::take, rc::Rc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
     BytePos, Span,
 };
+use swc_ecma_raw_lexer::{DumbLexer, InternalToken};
 
+#[macro_use]
+mod macros;
 pub mod input;
 mod jsx;
 mod number;
@@ -96,7 +99,8 @@ pub struct Lexer<'a, I: Input> {
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
 
     pub(crate) ctx: Context,
-    input: I,
+    input: DumbLexer<'a>,
+    marker: PhantomData<I>,
     /// Stores last position of the last comment.
     ///
     /// [Rc] and [RefCell] is used because this value should always increment,
@@ -118,7 +122,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(
         syntax: Syntax,
         target: JscTarget,
-        input: I,
+        input: &'a str,
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         Lexer {
@@ -128,7 +132,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 None
             },
             comments,
-            input,
+            input: DumbLexer::new(input),
+            marker: PhantomData,
             last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
             ctx: Default::default(),
@@ -165,86 +170,80 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.cur_pos();
 
         let token = match c {
-            '#' => return self.read_token_number_sign(),
+            itok!("#") => return self.read_token_number_sign(),
             // Identifier or keyword. '\uXXXX' sequences are allowed in
             // identifiers, so '\' also dispatches to that.
-            c if c == '\\' || c.is_ident_start() => return self.read_ident_or_keyword().map(Some),
+            InternalToken::Ident | itok!("\\") => return self.read_ident_or_keyword().map(Some),
 
             //
-            '.' => {
-                // Check for eof
-                let next = match self.input.peek() {
-                    Some(next) => next,
-                    None => {
-                        self.input.bump();
-                        return Ok(Some(tok!('.')));
-                    }
-                };
-                if '0' <= next && next <= '9' {
-                    return self
-                        .read_number(true)
-                        .map(|v| match v {
-                            Left(v) => Num(v),
-                            Right(v) => BigInt(v),
-                        })
-                        .map(Some);
-                }
-
-                self.input.bump(); // 1st `.`
-
-                if next == '.' && self.input.peek() == Some('.') {
-                    self.input.bump(); // 2nd `.`
-                    self.input.bump(); // 3rd `.`
-
-                    return Ok(Some(tok!("...")));
-                }
-
+            itok!(".") => {
                 return Ok(Some(tok!('.')));
             }
 
-            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' => {
+            InternalToken::Num => {
+                return self
+                    .read_number(true)
+                    .map(|v| match v {
+                        Left(v) => Num(v),
+                        Right(v) => BigInt(v),
+                    })
+                    .map(Some);
+            }
+
+            itok!("...") => {
+                return Ok(Some(tok!("...")));
+            }
+
+            itok!("(")
+            | itok!(")")
+            | itok!(";")
+            | itok!(",")
+            | itok!("[")
+            | itok!("]")
+            | itok!("{")
+            | itok!("}")
+            | itok!("@") => {
                 // These tokens are emitted directly.
                 self.input.bump();
                 return Ok(Some(match c {
-                    '(' => LParen,
-                    ')' => RParen,
-                    ';' => Semi,
-                    ',' => Comma,
-                    '[' => LBracket,
-                    ']' => RBracket,
-                    '{' => LBrace,
-                    '}' => RBrace,
-                    '@' => At,
-                    '?' => QuestionMark,
+                    itok!("(") => LParen,
+                    itok!(")") => RParen,
+                    itok!(";") => Semi,
+                    itok!(",") => Comma,
+                    itok!("[") => LBracket,
+                    itok!("]") => RBracket,
+                    itok!("{") => LBrace,
+                    itok!("}") => RBrace,
+                    itok!("@") => At,
+                    itok!("?") => QuestionMark,
                     _ => unreachable!(),
                 }));
             }
 
-            '?' => match self.input.peek() {
-                Some('?') => {
-                    self.input.bump();
-                    self.input.bump();
-                    if self.syntax.typescript() && self.input.cur() == Some('=') {
-                        self.input.bump();
-                        return Ok(Some(tok!("??=")));
-                    }
-                    return Ok(Some(tok!("??")));
-                }
-                _ => {
-                    self.input.bump();
-                    return Ok(Some(tok!('?')));
-                }
-            },
+            itok!("??=") if self.syntax.typescript() => {
+                self.input.bump();
+                return Ok(Some(tok!("??=")));
+            }
 
-            '`' => {
+            itok!("??") => {
+                self.input.bump();
+                return Ok(Some(tok!("??")));
+            }
+
+            itok!("?") => {
+                self.input.bump();
+                return Ok(Some(tok!('?')));
+            }
+
+            itok!("`") => {
                 self.bump();
                 return Ok(Some(tok!('`')));
             }
 
-            ':' => {
+            itok!(":") => {
                 self.input.bump();
 
-                if self.syntax.fn_bind() && self.input.cur() == Some(':') {
+                if self.syntax.fn_bind() && self.input.cur() == Some(itok!(":")) {
                     self.input.bump();
                     return Ok(Some(tok!("::")));
                 }
@@ -252,45 +251,19 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(Some(tok!(':')));
             }
 
-            '0' => {
-                let next = self.input.peek();
-
-                let radix = match next {
-                    Some('x') | Some('X') => 16,
-                    Some('o') | Some('O') => 8,
-                    Some('b') | Some('B') => 2,
-                    _ => {
-                        return self
-                            .read_number(false)
-                            .map(|v| match v {
-                                Left(v) => Num(v),
-                                Right(v) => BigInt(v),
-                            })
-                            .map(Some)
-                    }
-                };
-
+            InternalToken::Num => {
                 return self
-                    .read_radix_number(radix)
+                    .read_number()
                     .map(|v| match v {
                         Left(v) => Num(v),
                         Right(v) => BigInt(v),
                     })
                     .map(Some);
             }
-            '1'..='9' => {
-                return self
-                    .read_number(false)
-                    .map(|v| match v {
-                        Left(v) => Num(v),
-                        Right(v) => BigInt(v),
-                    })
-                    .map(Some)
-            }
 
-            '"' | '\'' => return self.read_str_lit().map(Some),
+            InternalToken::Str => return self.read_str_lit().map(Some),
 
-            '/' => return self.read_slash(),
+            InternalToken::Div => return self.read_slash(),
 
             c @ '%' | c @ '*' => {
                 let is_mul = c == '*';
