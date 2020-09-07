@@ -289,6 +289,12 @@ where
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
 
+                    // Common js support.
+                    if !self.scope.get_module(dep).unwrap().is_es6 {
+                        plans.normal.entry(id).or_default().chunks.push(dep);
+                        continue;
+                    }
+
                     if 2 <= dependants.len() {
                         // Should be merged as a transitive dependency.
                         let module = least_common_ancestor(&builder.entry_graph, dependants);
@@ -383,7 +389,15 @@ where
                 src.module_id,
                 if src.is_unconditional { 2 } else { 1 },
             );
-            builder.try_add_direct_dep(root_id, module_id, src.module_id);
+            if self.scope.get_module(src.module_id).unwrap().is_es6 {
+                builder.try_add_direct_dep(root_id, module_id, src.module_id);
+            } else {
+                // Common js support.
+                let v = builder.direct_deps.entry(root_id).or_default();
+                if !v.contains(&src.module_id) {
+                    v.push(src.module_id);
+                }
+            }
 
             let rev = builder.reverse.entry(src.module_id).or_default();
             if !rev.contains(&module_id) {
