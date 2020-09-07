@@ -439,7 +439,7 @@ fn cjs_002() {
             dbg!(&p);
 
             assert_eq!(p.circular.len(), 0);
-            assert_normal(t, &p, "main", &["a", "b"]);
+            assert_normal(t, &p, "main", &["a"]);
             assert_normal(t, &p, "a", &["b"]);
 
             Ok(())
