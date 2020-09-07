@@ -282,14 +282,14 @@ where
                     plans.normal.entry(id).or_default().chunks.push(dep);
                     continue;
                 }
-
+                let is_es6 = self.scope.get_module(dep).unwrap().is_es6;
                 let dependants = builder.reverse.get(&dep).map(|s| &**s).unwrap_or(&[]);
 
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
 
                     // Common js support.
-                    if !self.scope.get_module(dep).unwrap().is_es6 {
+                    if !is_es6 {
                         // Dependancy of
                         //
                         // a -> b
@@ -326,7 +326,6 @@ where
                             {
                                 if dependants.contains(&module) {
                                     // `entry` depends on `module` directly
-
                                     normal_plan.chunks.push(dep);
                                 } else {
                                     normal_plan.transitive_chunks.push(dep);
