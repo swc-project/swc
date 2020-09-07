@@ -554,3 +554,56 @@ fn cjs_004() {
             Ok(())
         });
 }
+
+#[test]
+fn cjs_005() {
+    suite()
+        .file(
+            "main.js",
+            "
+            require('./a')
+            const b = require('./b');
+            require('./c')
+            ",
+        )
+        .file(
+            "a.js",
+            "
+            require('./b');
+            ",
+        )
+        .file(
+            "b.js",
+            "
+            module.exports = 'b'
+            ",
+        )
+        .file(
+            "c.js",
+            "
+            module.exports = 'c'
+            ",
+        )
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let p = t.bundler.determine_entries(entries)?;
+
+            dbg!(&p);
+
+            assert_eq!(p.circular.len(), 0);
+            // As both of a and b depend on `common`, it should be merged into a parent
+            // module.
+            assert_normal(t, &p, "main", &["entry"]);
+            assert_normal_transitive(t, &p, "entry", &["a", "b"], &["common"]);
+            assert_normal(t, &p, "a", &[]);
+            assert_normal(t, &p, "b", &[]);
+
+            Ok(())
+        });
+}
