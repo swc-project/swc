@@ -272,7 +272,6 @@ where
                         plans.normal.entry(prev).or_default().chunks.push(dep);
                     }
                 }
-
                 prev = dep;
             }
         }
@@ -283,11 +282,59 @@ where
                     plans.normal.entry(id).or_default().chunks.push(dep);
                     continue;
                 }
-
+                let is_es6 = self.scope.get_module(dep).unwrap().is_es6;
                 let dependants = builder.reverse.get(&dep).map(|s| &**s).unwrap_or(&[]);
 
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
+
+                    // Common js support.
+                    if !is_es6 {
+                        // Dependancy of
+                        //
+                        // a -> b
+                        // b -> c
+                        //
+                        // results in
+                        //
+                        // a <- b
+                        // b <- c
+                        //
+                        if dependants.len() <= 1 {
+                            plans.normal.entry(id).or_default().chunks.push(dep);
+                            continue;
+                        }
+
+                        // We now have a module depended by multiple modules. Let's say
+                        //
+                        // a -> b
+                        // a -> c
+                        // b -> c
+                        //
+                        // results in
+                        //
+                        // a <- b
+                        // a <- c
+                        let module = least_common_ancestor(&builder.entry_graph, dependants);
+
+                        let normal_plan = plans.normal.entry(module).or_default();
+                        normal_plan.transitive_chunks.reserve(deps.len());
+
+                        for &dep in &deps {
+                            if !normal_plan.chunks.contains(&dep)
+                                && !normal_plan.transitive_chunks.contains(&dep)
+                            {
+                                if dependants.contains(&module) {
+                                    // `entry` depends on `module` directly
+                                    normal_plan.chunks.push(dep);
+                                } else {
+                                    normal_plan.transitive_chunks.push(dep);
+                                }
+                            }
+                        }
+
+                        continue;
+                    }
 
                     if 2 <= dependants.len() {
                         // Should be merged as a transitive dependency.
@@ -383,7 +430,15 @@ where
                 src.module_id,
                 if src.is_unconditional { 2 } else { 1 },
             );
-            builder.try_add_direct_dep(root_id, module_id, src.module_id);
+            if self.scope.get_module(src.module_id).unwrap().is_es6 {
+                builder.try_add_direct_dep(root_id, module_id, src.module_id);
+            } else {
+                // Common js support.
+                let v = builder.direct_deps.entry(module_id).or_default();
+                if !v.contains(&src.module_id) {
+                    v.push(src.module_id);
+                }
+            }
 
             let rev = builder.reverse.entry(src.module_id).or_default();
             if !rev.contains(&module_id) {

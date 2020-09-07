@@ -88,7 +88,7 @@ where
                     let dep_info = self.scope.get_module(dep_id).unwrap();
                     self.merge_cjs(
                         plan,
-                        is_entry,
+                        false,
                         entry,
                         info,
                         Cow::Borrowed(&dep_info.module),

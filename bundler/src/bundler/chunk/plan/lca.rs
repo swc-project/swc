@@ -21,18 +21,11 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
             return first;
         }
 
-        if let Some(id) = lca_opt(g, &[first], &[second]) {
+        if let Some(id) = check_itself_and_parent(g, &[first], &[second]) {
             log::info!("Found lca: {:?}", id);
             return id;
         }
 
-        let li = g.neighbors_directed(first, Incoming).collect::<Vec<_>>();
-        let ri = g.neighbors_directed(second, Incoming).collect::<Vec<_>>();
-
-        if let Some(id) = lca_opt(g, &li, &ri) {
-            log::info!("Found lca: {:?}", id);
-            return id;
-        }
         unreachable!("failed to calculagte least common ancestor")
     }
 
@@ -45,8 +38,11 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
         });
 }
 
-fn lca_opt(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId> {
-    for &l in li {
+fn check_itself<I>(li: I, ri: &[ModuleId]) -> Option<ModuleId>
+where
+    I: IntoIterator<Item = ModuleId>,
+{
+    for l in li {
         for &r in ri {
             if l == r {
                 return Some(l);
@@ -54,17 +50,34 @@ fn lca_opt(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId
         }
     }
 
+    None
+}
+
+fn check_itself_and_parent(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId> {
+    if let Some(id) = check_itself(li.iter().copied(), ri) {
+        return Some(id);
+    }
+
     for &l in li {
-        let vec: Vec<_> = g.neighbors_directed(l, Incoming).collect();
-        if let Some(id) = lca_opt(g, &vec, ri) {
+        if let Some(id) = check_itself(g.neighbors_directed(l, Incoming), ri) {
             return Some(id);
         }
     }
 
-    for &l in ri {
-        let vec: Vec<_> = g.neighbors_directed(l, Incoming).collect();
-        if let Some(id) = lca_opt(g, li, &vec) {
+    for &r in ri {
+        if let Some(id) = check_itself(g.neighbors_directed(r, Incoming), li) {
             return Some(id);
+        }
+    }
+
+    for &l in li {
+        for &r in ri {
+            let lv = g.neighbors_directed(l, Incoming).collect::<Vec<_>>();
+            let rv = g.neighbors_directed(r, Incoming).collect::<Vec<_>>();
+
+            if let Some(id) = check_itself_and_parent(g, &lv, &rv) {
+                return Some(id);
+            }
         }
     }
 

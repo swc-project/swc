@@ -84,7 +84,7 @@ jobs:
       - name: Run slow cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          cargo test --color always --all --exclude node --exclude wasm
+          cargo test --color always -p swc_ecma_transforms
   #
   deploy-docs:
     runs-on: ubuntu-latest
