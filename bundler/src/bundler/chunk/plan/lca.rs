@@ -83,6 +83,3 @@ fn check_itself_and_parent(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) ->
 
     None
 }
-
-#[cfg(test)]
-mod tests {}
