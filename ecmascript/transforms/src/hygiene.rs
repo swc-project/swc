@@ -132,13 +132,6 @@ impl<'a> Hygiene<'a> {
         );
 
         let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
-        assert!(
-            old.contains(&ctxt),
-            "{:?} does not contain {}{:?}",
-            declared_symbols,
-            sym,
-            ctxt
-        );
         old.retain(|c| *c != ctxt);
         //        debug_assert!(old.is_empty() || old.len() == 1);
 
