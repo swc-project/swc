@@ -78,4 +78,22 @@ pub enum BaseSelector {
 #[ast_node]
 pub struct Property {
     pub span: Span,
+    pub id: Text,
+    pub value: Value,
+    /// Includes `!`
+    pub important: Option<Span>,
+}
+
+#[ast_node]
+pub enum Value {
+    #[tag("Text")]
+    Raw(Text),
+    #[tag("ParenValue")]
+    Paren(ParenValue),
+}
+
+#[ast_node]
+pub struct ParenValue {
+    pub span: Span,
+    pub value: Box<Value>,
 }
