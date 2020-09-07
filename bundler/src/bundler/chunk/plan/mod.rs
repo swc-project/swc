@@ -283,16 +283,54 @@ where
                     continue;
                 }
 
-                // Common js support.
-                if !self.scope.get_module(dep).unwrap().is_es6 {
-                    plans.normal.entry(id).or_default().chunks.push(dep);
-                    continue;
-                }
-
                 let dependants = builder.reverse.get(&dep).map(|s| &**s).unwrap_or(&[]);
 
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
+
+                    // Common js support.
+                    if !self.scope.get_module(dep).unwrap().is_es6 {
+                        // Dependancy of
+                        //
+                        // a -> b
+                        // b -> c
+                        //
+                        // results in
+                        //
+                        // a <- b
+                        // b <- c
+                        //
+                        if dependants.len() <= 1 {
+                            plans.normal.entry(id).or_default().chunks.push(dep);
+                            continue;
+                        }
+
+                        // We now have a module depended by multiple modules. Let's say
+                        //
+                        // a -> b
+                        // a -> c
+                        // b -> c
+                        //
+                        // results in
+                        //
+                        // a <- b
+                        // a <- c
+                        let module = least_common_ancestor(&builder.entry_graph, dependants);
+                        dbg!(module, dependants);
+
+                        let normal_plan = plans.normal.entry(module).or_default();
+                        normal_plan.transitive_chunks.reserve(deps.len());
+
+                        for &dep in &deps {
+                            if !normal_plan.chunks.contains(&dep)
+                                && !normal_plan.transitive_chunks.contains(&dep)
+                            {
+                                normal_plan.transitive_chunks.push(dep);
+                            }
+                        }
+
+                        continue;
+                    }
 
                     if 2 <= dependants.len() {
                         // Should be merged as a transitive dependency.
