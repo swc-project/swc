@@ -4,6 +4,7 @@ native/artifacts.json
 **/*~
 **/node_modules
 **/.DS_Store
+artifacts/
 
 pkg/
 
