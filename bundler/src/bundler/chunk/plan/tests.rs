@@ -404,3 +404,44 @@ fn cjs_001() {
             Ok(())
         });
 }
+
+#[test]
+fn cjs_002() {
+    suite()
+        .file(
+            "main.js",
+            "
+                require('./a')
+                ",
+        )
+        .file(
+            "a.js",
+            "
+                require('./b')
+                ",
+        )
+        .file(
+            "b.js",
+            "
+                module.exports = 'b';
+                ",
+        )
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let p = t.bundler.determine_entries(entries)?;
+
+            dbg!(&p);
+
+            assert_eq!(p.circular.len(), 0);
+            assert_normal(t, &p, "main", &["a", "b"]);
+            assert_normal(t, &p, "a", &["b"]);
+
+            Ok(())
+        });
+}
