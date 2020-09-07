@@ -399,7 +399,7 @@ fn cjs_001() {
 
             assert_eq!(p.circular.len(), 0);
             assert_normal(t, &p, "main", &["a", "b"]);
-            assert_normal(t, &p, "a", &["b"]);
+            assert_normal(t, &p, "a", &[]);
 
             Ok(())
         });
@@ -489,7 +489,7 @@ fn cjs_003() {
             assert_eq!(p.circular.len(), 0);
             // As both of a and b depend on `common`, it should be merged into a parent
             // module.
-            assert_normal_transitive(t, &p, "main", &["a", "b"], &["common"]);
+            assert_normal(t, &p, "main", &["a", "b", "common"]);
             assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
 
