@@ -272,7 +272,6 @@ where
                         plans.normal.entry(prev).or_default().chunks.push(dep);
                     }
                 }
-
                 prev = dep;
             }
         }
@@ -284,16 +283,16 @@ where
                     continue;
                 }
 
+                // Common js support.
+                if !self.scope.get_module(dep).unwrap().is_es6 {
+                    plans.normal.entry(id).or_default().chunks.push(dep);
+                    continue;
+                }
+
                 let dependants = builder.reverse.get(&dep).map(|s| &**s).unwrap_or(&[]);
 
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                     log::info!("Module dep: {} => {}", id, dep);
-
-                    // Common js support.
-                    if !self.scope.get_module(dep).unwrap().is_es6 {
-                        plans.normal.entry(id).or_default().chunks.push(dep);
-                        continue;
-                    }
 
                     if 2 <= dependants.len() {
                         // Should be merged as a transitive dependency.
@@ -393,7 +392,7 @@ where
                 builder.try_add_direct_dep(root_id, module_id, src.module_id);
             } else {
                 // Common js support.
-                let v = builder.direct_deps.entry(root_id).or_default();
+                let v = builder.direct_deps.entry(module_id).or_default();
                 if !v.contains(&src.module_id) {
                     v.push(src.module_id);
                 }
