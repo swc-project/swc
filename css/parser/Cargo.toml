@@ -1,14 +1,14 @@
 [package]
-name = "swc_css_parser"
-version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
+name = "swc_css_parser"
+version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_atoms = { path = "../../atoms" }
-swc_common = { path = "../../common" }
-swc_css_ast = { path = "../ast" }
-nom = "5.1.2"
-serde = { version = "1", features = ["derive"] }
+logos = "0.11.4"
+serde = {version = "1", features = ["derive"]}
+swc_atoms = {path = "../../atoms"}
+swc_common = {path = "../../common"}
+swc_css_ast = {path = "../ast"}
