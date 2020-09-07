@@ -468,6 +468,12 @@ fn cjs_003() {
                 module.exports = require('./common')
                 ",
         )
+        .file(
+            "common.js",
+            "
+                module.exports = 'common'
+                ",
+        )
         .run(|t| {
             let module = t
                 .bundler
@@ -481,9 +487,11 @@ fn cjs_003() {
             dbg!(&p);
 
             assert_eq!(p.circular.len(), 0);
+            // As both of a and b depend on `common`, it should be merged into a parent
+            // module.
             assert_normal_transitive(t, &p, "main", &["a", "b"], &["common"]);
-            assert_normal(t, &p, "a", &["common"]);
-            assert_normal(t, &p, "b", &["common"]);
+            assert_normal(t, &p, "a", &[]);
+            assert_normal(t, &p, "b", &[]);
 
             Ok(())
         });
