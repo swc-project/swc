@@ -26,14 +26,6 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
             return id;
         }
 
-        let li = g.neighbors_directed(first, Incoming).collect::<Vec<_>>();
-        let ri = g.neighbors_directed(second, Incoming).collect::<Vec<_>>();
-
-        if let Some(id) = check_itself_and_parent(g, &li, &ri) {
-            log::info!("Found lca: {:?}", id);
-            return id;
-        }
-
         unreachable!("failed to calculagte least common ancestor")
     }
 
@@ -75,6 +67,17 @@ fn check_itself_and_parent(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) ->
     for &r in ri {
         if let Some(id) = check_itself(g.neighbors_directed(r, Incoming), li) {
             return Some(id);
+        }
+    }
+
+    for &l in li {
+        for &r in ri {
+            let lv = g.neighbors_directed(l, Incoming).collect::<Vec<_>>();
+            let rv = g.neighbors_directed(r, Incoming).collect::<Vec<_>>();
+
+            if let Some(id) = check_itself_and_parent(g, &lv, &rv) {
+                return Some(id);
+            }
         }
     }
 
