@@ -1,0 +1,14 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "**Not for direct usage**. This is an interal utility crate to reduce compile time."
+documentation = "https://swc-project.github.io/rustdoc/swc_ecma_parser/"
+edition = "2018"
+include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
+license = "Apache-2.0/MIT"
+name = "swc_ecma_raw_lexer"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+logos = "0.11.4"

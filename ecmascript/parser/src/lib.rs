@@ -103,7 +103,6 @@ use swc_common::Span;
 mod macros;
 pub mod error;
 pub mod lexer;
-pub mod lexer2;
 mod parser;
 pub mod token;
 

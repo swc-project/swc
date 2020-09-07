@@ -1,12 +1,12 @@
+//! **Not for direct usage**. This is an interal utility crate to reduce compile
+//! time.
+
 //! Temporarilly exposed for benchmarking
 
-use crate::{
-    error::Error, lexer::TokenContexts, token::TokenAndSpan, Context, JscTarget, Syntax, Tokens,
-};
-use logos::Logos;
+use logos::{Lexer, Logos};
 
 #[derive(Debug, Default, Clone, Copy)]
-pub(crate) struct Extras {
+pub struct Extras {
     pub had_line_break: bool,
 }
 
@@ -18,7 +18,7 @@ pub(crate) struct Extras {
 #[logos(subpattern octal = r"[0-7][_0-7]*")]
 #[logos(subpattern binary = r"[0-1][_0-1]*")]
 #[logos(subpattern exp = r"[eE][+-]?[0-9][_0-9]*")]
-pub(crate) enum IToken {
+pub enum IToken {
     #[error]
     #[regex(r"[\s]+", logos::skip)]
     Error,
@@ -347,48 +347,24 @@ pub(crate) enum IToken {
     Shebang,
 }
 
-struct LogosLexer<'a> {
-    inner: logos::Lexer<'a, IToken>,
+/// Supper-fast but dumb lexer, which don't know how to handle slash. It just
+/// returns `Slash` instead of `RegExp` / `Div`
+pub struct DumbLexer<'a> {
+    inner: Lexer<'a, IToken>,
 }
 
-impl Clone for LogosLexer<'_> {
+impl<'a> DumbLexer<'a> {
+    pub fn new(s: &'a str) -> Self {
+        DumbLexer {
+            inner: IToken::lexer(s),
+        }
+    }
+}
+
+impl Clone for DumbLexer<'_> {
     fn clone(&self) -> Self {
         let mut inner = IToken::lexer(self.inner.source());
         inner.extras = self.inner.extras.clone();
-        LogosLexer { inner }
+        DumbLexer { inner }
     }
-}
-
-pub fn lexer(s: &str) -> impl '_ + Tokens {
-    LogosLexer {
-        inner: IToken::lexer(s),
-    }
-}
-
-impl Iterator for LogosLexer<'_> {
-    type Item = TokenAndSpan;
-
-    fn next(&mut self) -> Option<Self::Item> {}
-}
-
-impl Tokens for LogosLexer<'_> {
-    fn set_ctx(&mut self, ctx: Context) {}
-
-    fn ctx(&self) -> Context {}
-
-    fn syntax(&self) -> Syntax {}
-
-    fn target(&self) -> JscTarget {}
-
-    fn set_expr_allowed(&mut self, allow: bool) {}
-
-    fn token_context(&self) -> &TokenContexts {}
-
-    fn token_context_mut(&mut self) -> &mut TokenContexts {}
-
-    fn set_token_context(&mut self, _c: TokenContexts) {}
-
-    fn add_error(&self, error: Error) {}
-
-    fn take_errors(&mut self) -> Vec<Error> {}
 }
