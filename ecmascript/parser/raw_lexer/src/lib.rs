@@ -418,12 +418,12 @@ impl<'a> DumbLexer<'a> {
         self.inner.clone().next()
     }
 
-    pub fn slice_cur(&mut self) -> Option<&'a str> {
+    pub fn slice_cur(&mut self) -> &'a str {
         let _cur = self.cur();
 
         match self.cur {
-            Some(ref v) => Some(v.2),
-            None => None,
+            Some(ref v) => v.2,
+            None => "",
         }
     }
 

@@ -152,7 +152,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             let cur_pos = self.input.cur_pos();
 
-            if ch == '\\' {
+            if ch == itok!("\\") {
                 has_escape = true;
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
@@ -165,7 +165,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             if ch == quote {
                 break;
             }
-            if ch == '&' {
+            if ch == itok!("&") {
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 out.push(self.read_jsx_entity()?);
                 chunk_start = self.input.cur_pos();
