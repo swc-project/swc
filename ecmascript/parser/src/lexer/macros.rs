@@ -100,6 +100,12 @@ macro_rules! itok {
     ("===") => {
         swc_ecma_raw_lexer::InternalToken::EqEqEq
     };
+    ("!=") => {
+        swc_ecma_raw_lexer::InternalToken::NotEq
+    };
+    ("!==") => {
+        swc_ecma_raw_lexer::InternalToken::NotEqEq
+    };
     ("/") => {
         swc_ecma_raw_lexer::InternalToken::Div
     };
@@ -157,5 +163,9 @@ macro_rules! itok {
     };
     ("&&=") => {
         swc_ecma_raw_lexer::InternalToken::AndAssign
+    };
+
+    ("=>") => {
+        swc_ecma_raw_lexer::InternalToken::Arrow
     };
 }
