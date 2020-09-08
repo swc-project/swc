@@ -404,7 +404,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let start = self.input.cur_pos();
-        self.input.bump();
+
+        self.input.bump(); // '#'
         let c = self.input.cur();
         if c == Some('!') {
             loop {
