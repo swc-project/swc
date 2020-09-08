@@ -898,10 +898,10 @@ impl<'a, I: Input> Lexer<'a, I> {
         if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
             return Ok(None);
         }
-        self.input.bump();
-        self.input.bump();
-        let s = self.input.uncons_while(|c| !c.is_line_break());
-        Ok(Some(s.into()))
+        match self.input.cur()? {
+            InternalToken::Interpreter => return Ok(Some(self.input.slice_cur().into())),
+            _ => None,
+        }
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
