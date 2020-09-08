@@ -62,7 +62,7 @@ pub enum InternalToken {
     #[token("debugger")]
     Debugger,
     #[token("default")]
-    Default_,
+    Default,
     #[token("do")]
     Do,
 
