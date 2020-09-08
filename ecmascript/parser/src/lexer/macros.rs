@@ -90,4 +90,17 @@ macro_rules! itok {
     ("%") => {
         swc_ecma_raw_lexer::InternalToken::Mod
     };
+    ("*") => {
+        swc_ecma_raw_lexer::InternalToken::Mul
+    };
+    ("**") => {
+        swc_ecma_raw_lexer::InternalToken::Exp
+    };
+
+    ("*=") => {
+        swc_ecma_raw_lexer::InternalToken::MulAssign
+    };
+    ("**=") => {
+        swc_ecma_raw_lexer::InternalToken::ExpAssign
+    };
 }

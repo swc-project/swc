@@ -266,77 +266,28 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             InternalToken::Div => return self.read_slash(),
 
-            c @ itok!("%") | c @ itok!("*") => {
-                let is_mul = c == '*';
-                self.input.bump();
-                let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
+            itok!("**=") => AssignOp(ExpAssign),
+            itok!("*=") => AssignOp(MulAssign),
+            itok!("%") => AssignOp(ModAssign),
 
-                // check for **
-                if is_mul && self.input.cur() == Some('*') {
-                    self.input.bump();
-                    token = BinOp(Exp)
-                }
-
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    token = match token {
-                        BinOp(Mul) => AssignOp(MulAssign),
-                        BinOp(Mod) => AssignOp(ModAssign),
-                        BinOp(Exp) => AssignOp(ExpAssign),
-                        _ => unreachable!(),
-                    }
-                }
-
-                token
-            }
+            itok!("**") => BinOp(Exp),
+            itok!("*") => BinOp(Mul),
+            itok!("%") => BinOp(Mod),
 
             // Logical operators
-            c @ '|' | c @ '&' => {
-                self.input.bump();
-                let token = if c == '&' { BitAnd } else { BitOr };
+            itok!("|=") => AssignOp(BitOrAssign),
+            itok!("&=") => AssignOp(BitAndAssign),
+            itok!("|") => BinOp(BitOr),
+            itok!("&") => BinOp(BitAnd),
 
-                // '|=', '&='
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    return Ok(Some(AssignOp(match token {
-                        BitAnd => BitAndAssign,
-                        BitOr => BitOrAssign,
-                        _ => unreachable!(),
-                    })));
-                }
+            itok!("||") => BinOp(Or),
+            itok!("&&") => BinOp(And),
+            itok!("||=") => AssignOp(OrAssign),
+            itok!("&&=") => AssignOp(AndAssign),
 
-                // '||', '&&'
-                if self.input.cur() == Some(c) {
-                    self.input.bump();
-
-                    if self.syntax.typescript() && self.input.cur() == Some('=') {
-                        self.input.bump();
-                        return Ok(Some(AssignOp(match token {
-                            BitAnd => AndAssign,
-                            BitOr => OrAssign,
-                            _ => unreachable!(),
-                        })));
-                    }
-
-                    return Ok(Some(BinOp(match token {
-                        BitAnd => LogicalAnd,
-                        BitOr => LogicalOr,
-                        _ => unreachable!(),
-                    })));
-                }
-
-                BinOp(token)
-            }
-            '^' => {
-                // Bitwise xor
-                self.input.bump();
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    AssignOp(BitXorAssign)
-                } else {
-                    BinOp(BitXor)
-                }
-            }
+            // Bitwise xor
+            itok!("^=") => AssignOp(BitXorAssign),
+            itok!("^") => BinOp(BitXor),
 
             '+' | '-' => {
                 self.input.bump();
