@@ -319,9 +319,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
             }
 
-            '<' | '>' => return self.read_token_lt_gt(),
+            itok!("<") | itok!(">") => return self.read_token_lt_gt(),
 
-            '!' | '=' => {
+            itok!("!") | itok!("=") => {
                 self.input.bump();
 
                 if self.input.cur() == Some('=') {

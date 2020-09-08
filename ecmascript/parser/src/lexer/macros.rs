@@ -75,6 +75,9 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::At
     };
 
+    ("!") => {
+        swc_ecma_raw_lexer::InternalToken::Bang
+    };
     ("+") => {
         swc_ecma_raw_lexer::InternalToken::Plus
     };
@@ -83,6 +86,13 @@ macro_rules! itok {
     };
     ("*") => {
         swc_ecma_raw_lexer::InternalToken::Mul
+    };
+
+    ("==") => {
+        swc_ecma_raw_lexer::InternalToken::EqEq
+    };
+    ("===") => {
+        swc_ecma_raw_lexer::InternalToken::EqEqEq
     };
     ("/") => {
         swc_ecma_raw_lexer::InternalToken::Div
@@ -112,6 +122,9 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::And
     };
 
+    ("=") => {
+        swc_ecma_raw_lexer::InternalToken::Assign
+    };
     ("*=") => {
         swc_ecma_raw_lexer::InternalToken::MulAssign
     };
