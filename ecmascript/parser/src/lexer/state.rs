@@ -4,6 +4,7 @@ use enum_kind::Kind;
 use log::trace;
 use std::{mem, mem::take};
 use swc_common::BytePos;
+use swc_ecma_raw_lexer::InternalToken;
 
 /// State of lexer.
 ///
@@ -222,7 +223,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                         || self.state.context.current() == Some(TokenContext::JSXClosingTag)
                     {
-                        if c.is_ident_start() {
+                        if c == InternalToken::Ident {
                             return self.read_jsx_word().map(Some);
                         }
 
