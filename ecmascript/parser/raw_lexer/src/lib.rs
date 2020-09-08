@@ -443,4 +443,18 @@ impl<'a> DumbLexer<'a> {
         self.inner = InternalToken::lexer(source);
         self.inner.bump(new_idx as _);
     }
+
+    pub fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
+        assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        let s = self.inner.source();
+
+        let start_idx = (start - self.start).0 as usize;
+        let end_idx = (end - self.start).0 as usize;
+
+        let ret = &s[start_idx..end_idx];
+
+        self.inner.bump(ret.len());
+
+        ret
+    }
 }
