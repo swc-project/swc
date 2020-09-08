@@ -232,7 +232,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                             return Ok(Some(Token::JSXTagEnd));
                         }
 
-                        if (c == itok!("'") || c == itok!("\""))
+                        if c == InternalToken::Str
                             && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                         {
                             return self.read_jsx_str(c).map(Some);
