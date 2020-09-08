@@ -19,10 +19,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             let cur_pos = self.input.cur_pos();
 
             match cur {
-                '<' | '{' => {
+                itok!("<") | itok!("{") => {
                     //
                     if cur_pos == self.state.start {
-                        if cur == '<' && self.state.is_expr_allowed {
+                        if cur == itok!("<") && self.state.is_expr_allowed {
                             self.input.bump();
                             return Ok(Token::JSXTagStart).map(Some);
                         }
