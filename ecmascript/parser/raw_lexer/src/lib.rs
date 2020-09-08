@@ -485,10 +485,28 @@ impl<'a> DumbLexer<'a> {
         ret
     }
 
-    pub fn cur_char(&self) -> Option<char> {
+    fn as_str(&self) -> &str {
         match &self.cur {
-            Some(v) => v.2.chars().next(),
-            None => self.inner.remainder().chars().next(),
+            Some(v) => v.2,
+            None => self.inner.remainder(),
+        }
+    }
+
+    pub fn cur_char(&self) -> Option<char> {
+        self.as_str().chars().next()
+    }
+
+    pub fn eat(&mut self, needle: u8) -> bool {
+        let bytes = self.as_str().as_bytes();
+        if bytes.is_empty() {
+            return false;
+        }
+
+        if bytes[0] == needle {
+            self.bump_bytes(1);
+            true
+        } else {
+            false
         }
     }
 }
