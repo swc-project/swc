@@ -434,4 +434,13 @@ impl<'a> DumbLexer<'a> {
     pub fn bump_bytes(&mut self, cnt: usize) {
         self.inner.bump(cnt);
     }
+
+    pub fn reset_to(&mut self, pos: BytePos) {
+        self.cur = None;
+        let new_idx = pos.0 - self.start.0;
+        let source = self.inner.source();
+
+        self.inner = InternalToken::lexer(source);
+        self.inner.bump(new_idx as _);
+    }
 }

@@ -134,7 +134,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(out)
     }
 
-    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
+    pub(super) fn read_jsx_str(&mut self, quote: InternalToken) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
         self.input.bump(); // `quote`
@@ -169,7 +169,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 out.push(self.read_jsx_entity()?);
                 chunk_start = self.input.cur_pos();
-            } else if ch.is_line_break() {
+            } else if ch == InternalToken::NewLine {
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 match self.read_jsx_new_line(false)? {
                     Either::Left(s) => out.push_str(s),
