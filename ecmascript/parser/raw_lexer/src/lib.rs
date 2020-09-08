@@ -4,7 +4,7 @@
 //! Temporarilly exposed for benchmarking
 
 use logos::{Lexer, Logos};
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, DUMMY_SP};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub struct Extras {
@@ -402,7 +402,10 @@ impl<'a> DumbLexer<'a> {
     pub fn span(&mut self) -> Span {
         let _cur = self.cur();
 
-        let s = self.cur.as_ref()?.1;
+        let s = match self.cur.as_ref() {
+            Some(v) => v.1.clone(),
+            _ => return DUMMY_SP,
+        };
 
         Span::new(
             BytePos(s.start as _),
