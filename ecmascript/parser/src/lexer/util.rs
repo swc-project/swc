@@ -119,9 +119,9 @@ impl<'a, I: Input> Lexer<'a, I> {
         while let Some(c) = self.cur() {
             match c {
                 // white spaces
-                '\u{0009}' | '\u{000b}' | '\u{000c}' | '\u{0020}' | '\u{00a0}' | '\u{feff}' => {}
+                InternalToken::Whitespace => {}
                 // line breaks
-                '\r' | '\n' | '\u{2028}' | '\u{2029}' => {
+                InternalToken::NewLine => {
                     self.state.had_line_break = true;
                 }
 
