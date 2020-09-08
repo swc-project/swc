@@ -87,6 +87,12 @@ macro_rules! itok {
     ("*") => {
         swc_ecma_raw_lexer::InternalToken::Mul
     };
+    ("++") => {
+        swc_ecma_raw_lexer::InternalToken::PlusPlus
+    };
+    ("--") => {
+        swc_ecma_raw_lexer::InternalToken::MinusMinus
+    };
 
     ("==") => {
         swc_ecma_raw_lexer::InternalToken::EqEq
