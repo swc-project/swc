@@ -430,4 +430,8 @@ impl<'a> DumbLexer<'a> {
     pub fn is_at_start(&self) -> bool {
         self.inner.span().start == 0
     }
+
+    pub fn bump_bytes(&mut self, cnt: usize) {
+        self.inner.bump(cnt);
+    }
 }

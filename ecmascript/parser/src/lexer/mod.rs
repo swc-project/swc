@@ -426,7 +426,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// In template literal, we should preserve raw string.
     fn read_escaped_char(&mut self, raw: &mut Raw) -> LexResult<Option<Char>> {
-        debug_assert_eq!(self.cur(), Some('\\'));
+        debug_assert_eq!(self.cur(), Some(itok!("\\")));
         let start = self.cur_pos();
         self.bump(); // '\'
 
@@ -572,7 +572,11 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // XML style comment. `<!--`
-        if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
+        if c == '<'
+            && self.cur() == Some(itok!("!"))
+            && self.peek() == Some(itok!("-"))
+            && self.peek_ahead() == Some(itok!("-"))
+        {
             self.input.bump_bytes(3);
             self.skip_space()?;
             if self.ctx.module {
