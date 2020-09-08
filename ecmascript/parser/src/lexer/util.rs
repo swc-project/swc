@@ -135,8 +135,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     break;
                 }
 
-                _ if c.is_whitespace() => {}
-
                 _ => break,
             }
 
