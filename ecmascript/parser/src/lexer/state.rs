@@ -239,7 +239,10 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         }
                     }
 
-                    if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
+                    if c == itok!("<")
+                        && self.state.is_expr_allowed
+                        && self.input.peek() != Some(itok!("!"))
+                    {
                         self.input.bump();
                         return Ok(Some(Token::JSXTagStart));
                     }
@@ -649,7 +652,7 @@ where
     F: FnOnce(&mut Lexer<'_, crate::lexer::input::StringInput<'_>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |_, fm| {
-        let mut l = Lexer::new(syntax, Default::default(), fm, None);
+        let mut l = Lexer::new(syntax, Default::default(), fm.start_pos, s, None);
         let res = f(&mut l);
 
         let c = vec![TokenContext::BraceStmt];

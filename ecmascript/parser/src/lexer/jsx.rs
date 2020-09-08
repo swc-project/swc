@@ -90,7 +90,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             };
             self.input.bump();
 
-            if c == itok!(";") {
+            if c == ';' {
                 if s.starts_with('#') {
                     if s[1..].starts_with('x') {
                         if is_hex(&s[2..]) {
@@ -118,10 +118,10 @@ impl<'a, I: Input> Lexer<'a, I> {
     ) -> LexResult<Either<&'static str, char>> {
         debug_assert!(self.syntax.jsx());
 
-        let ch = self.input.cur().unwrap();
-        self.input.bump();
+        let ch = self.input.cur_char().unwrap();
+        self.input.bump_bytes(1);
 
-        let out = if ch == '\r' && self.input.cur() == Some('\n') {
+        let out = if ch == '\r' && self.input.cur_char() == Some('\n') {
             self.input.bump();
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {

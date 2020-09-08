@@ -489,7 +489,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 raw.push_str("\r");
                 self.bump(); // remove '\r'
 
-                if self.eat(b'\n') {
+                if self.input.eat(b'\n') {
                     raw.push_str("\n");
                 }
                 return Ok(None);
@@ -521,7 +521,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 raw.push(c);
                 self.bump();
                 let first_c = if c == '0' {
-                    match self.cur() {
+                    match self.input.cur_char() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
                         _ => return Ok(Some('\u{0000}'.into())),
@@ -542,7 +542,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {
                     ($check:expr) => {{
-                        match self.cur().and_then(|c| c.to_digit(8)) {
+                        match self.input.cur_char().and_then(|c| c.to_digit(8)) {
                             Some(v) => {
                                 value = if $check {
                                     let new_val = value
@@ -555,7 +555,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 } else {
                                     value * 8 + v as u8
                                 };
-                                self.bump();
+                                self.input.bump_bytes(c.len_utf8());
                             }
                             _ => return Ok(Some(value as u32).map(From::from)),
                         }
@@ -702,7 +702,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// This method is optimized for texts without escape sequences.
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&str) -> Ret,
+        F: FnOnce(InternalToken) -> Ret,
     {
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
         let mut first = true;
