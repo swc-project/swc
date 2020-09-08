@@ -944,4 +944,17 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_931, "new (eval('Date'))();");
 
     identical!(issue_1002, "new (P || (P = Promise))");
+
+    test_fixer!(
+        issue_1050,
+        "
+        export function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
+            const elemE = elem(E)
+            const removeE = remove(E)
+            const insertE = insert(E)
+            return (a) => (set) => (elemE(a, set) ? removeE : insertE)(a)(set)
+        }
+        ",
+        ""
+    );
 }
