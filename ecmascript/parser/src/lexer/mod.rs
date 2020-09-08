@@ -465,7 +465,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let in_template = raw.0.is_some();
 
-        let c = match self.cur() {
+        let c = match self.input.cur_char() {
             Some(c) => c,
             None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
         };

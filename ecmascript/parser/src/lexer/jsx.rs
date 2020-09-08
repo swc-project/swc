@@ -84,7 +84,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start_pos = self.input.cur_pos();
 
         for _ in 0..10 {
-            let c = match self.input.cur() {
+            let c = match self.input.cur_char() {
                 Some(c) => c,
                 None => break,
             };

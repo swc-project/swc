@@ -474,4 +474,13 @@ impl<'a> DumbLexer<'a> {
 
         ret
     }
+
+    pub fn cur_char(&mut self) -> Option<char> {
+        assert_eq!(
+            self.cur, None,
+            ".cur_char() should only called after consuming current token"
+        );
+
+        self.inner.remainder().chars().next()
+    }
 }
