@@ -122,6 +122,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(
         syntax: Syntax,
         target: JscTarget,
+        start: BytePos,
         input: &'a str,
         comments: Option<&'a dyn Comments>,
     ) -> Self {
@@ -132,7 +133,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 None
             },
             comments,
-            input: DumbLexer::new(input),
+            input: DumbLexer::new(start, input),
             marker: PhantomData,
             last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
@@ -182,7 +183,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             InternalToken::Num => {
                 return self
-                    .read_number(true)
+                    .read_number()
                     .map(|v| match v {
                         Left(v) => Num(v),
                         Right(v) => BigInt(v),
@@ -265,7 +266,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             InternalToken::Div => return self.read_slash(),
 
-            c @ '%' | c @ '*' => {
+            c @ itok!("%") | c @ itok!("*") => {
                 let is_mul = c == '*';
                 self.input.bump();
                 let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };

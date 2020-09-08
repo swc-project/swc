@@ -11,18 +11,8 @@ use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
-    pub(super) fn read_number(
-        &mut self,
-        starts_with_dot: bool,
-    ) -> LexResult<Either<f64, BigIntValue>> {
+    pub(super) fn read_number(&mut self) -> LexResult<Either<f64, BigIntValue>> {
         debug_assert!(self.cur().is_some());
-        if starts_with_dot {
-            debug_assert_eq!(
-                self.cur(),
-                Some('.'),
-                "read_number(starts_with_dot = true) expects current char to be '.'"
-            );
-        }
         let start = self.cur_pos();
 
         let starts_with_zero = self.cur().unwrap() == '0';
@@ -461,9 +451,7 @@ mod tests {
     }
 
     fn num(s: &'static str) -> f64 {
-        lex(s, |l| {
-            l.read_number(s.starts_with('.')).unwrap().left().unwrap()
-        })
+        lex(s, |l| l.read_number().unwrap().left().unwrap())
     }
 
     fn int(radix: u8, s: &'static str) -> u32 {
@@ -543,7 +531,7 @@ mod tests {
         assert_eq!(
             lex(
                 "10000000000000000000000000000000000000000000000000000n",
-                |l| l.read_number(false).unwrap().right().unwrap()
+                |l| l.read_number().unwrap().right().unwrap()
             ),
             "10000000000000000000000000000000000000000000000000000"
                 .parse::<BigIntValue>()

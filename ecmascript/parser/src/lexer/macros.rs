@@ -74,4 +74,20 @@ macro_rules! itok {
     ("@") => {
         swc_ecma_raw_lexer::InternalToken::At
     };
+
+    ("+") => {
+        swc_ecma_raw_lexer::InternalToken::Plus
+    };
+    ("-") => {
+        swc_ecma_raw_lexer::InternalToken::Minus
+    };
+    ("*") => {
+        swc_ecma_raw_lexer::InternalToken::Mul
+    };
+    ("/") => {
+        swc_ecma_raw_lexer::InternalToken::Div
+    };
+    ("%") => {
+        swc_ecma_raw_lexer::InternalToken::Rem
+    };
 }

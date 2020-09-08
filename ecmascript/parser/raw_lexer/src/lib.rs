@@ -4,6 +4,7 @@
 //! Temporarilly exposed for benchmarking
 
 use logos::{Lexer, Logos};
+use swc_common::BytePos;
 
 #[derive(Debug, Default, Clone, Copy)]
 pub struct Extras {
@@ -347,6 +348,7 @@ pub enum InternalToken {
 /// returns `Div`.
 #[derive(Clone)]
 pub struct DumbLexer<'a> {
+    start: BytePos,
     cur: Option<InternalToken>,
     inner: Lexer<'a, InternalToken>,
 }
@@ -361,11 +363,19 @@ impl<'a> DumbLexer<'a> {
         }
     }
     #[inline]
-    pub fn new(s: &'a str) -> Self {
+    pub fn new(start: BytePos, s: &'a str) -> Self {
         DumbLexer {
+            start,
             cur: None,
             inner: InternalToken::lexer(s),
         }
+    }
+
+    #[inline]
+    pub fn cur_pos(&mut self) -> BytePos {
+        let span = self.inner.span();
+
+        self.start + BytePos(span.start as _)
     }
 
     #[inline]
