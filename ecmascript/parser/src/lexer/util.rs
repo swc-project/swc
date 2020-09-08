@@ -212,7 +212,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
         while let Some(c) = self.cur() {
-            if was_star && c == '/' {
+            if was_star && c == itok!("/") {
                 debug_assert_eq!(self.cur(), Some(itok!("/")));
                 self.bump(); // '/'
 

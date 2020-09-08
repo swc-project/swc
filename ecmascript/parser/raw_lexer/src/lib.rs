@@ -400,7 +400,9 @@ impl<'a> DumbLexer<'a> {
 
     #[inline]
     pub fn span(&mut self) -> Span {
-        let s = self.inner.span();
+        let _cur = self.cur();
+
+        let s = self.cur.as_ref()?.1;
 
         Span::new(
             BytePos(s.start as _),

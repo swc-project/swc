@@ -10,12 +10,28 @@ use num_bigint::BigInt as BigIntValue;
 use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a, I: Input> Lexer<'a, I> {
-    /// Reads an integer, octal integer, or floating-point number
-    pub(super) fn read_number(&mut self) -> LexResult<Either<f64, BigIntValue>> {
+    pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
         assert_eq!(self.cur(), Some(InternalToken::Num));
-        let s = self.input.slice_cur().unwrap();
+        let start = self.cur_pos();
+        let span = self.input.span();
 
-        let starts_with_zero = self.cur().unwrap() == '0';
+        let mut s: &str = self.input.slice_cur();
+
+        match BigIntValue::parse_bytes(s.as_bytes(), 10) {
+            Some(v) => Ok(v),
+            None => self.error_span(span, SyntaxError::InvalidBigIntLit),
+        }
+    }
+
+    /// Reads an integer, octal integer, or floating-point number
+    pub(super) fn read_number(&mut self) -> LexResult<f64> {
+        assert_eq!(self.cur(), Some(InternalToken::Num));
+        let mut s: &str = self.input.slice_cur();
+        let starts_with_dot = s.starts_with('.');
+
+        s = &s[1..];
+
+        let starts_with_zero = s.starts_with('0');
 
         let val = if starts_with_dot {
             // first char is '.'
@@ -23,10 +39,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         } else {
             // Use read_number_no_dot to support long numbers.
             let (val, s) = self.read_number_no_dot_as_str(10)?;
-            if self.input.cur() == Some('n') {
-                self.input.bump();
-                return Ok(Either::Right(s));
-            }
+
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
@@ -165,7 +178,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, BigIntValue)> {
+    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<f64> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 10 || radix == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
@@ -191,11 +204,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.error(start, SyntaxError::ExpectedDigit { radix })?;
         }
 
-        Ok((
-            val,
-            BigIntValue::parse_bytes(&raw.0.take().unwrap().as_bytes(), radix as _)
-                .expect("failed to parse string as a bigint"),
-        ))
+        Ok(val)
     }
 
     /// Ensure that ident cannot directly follow numbers.
