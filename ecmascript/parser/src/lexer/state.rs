@@ -1,4 +1,4 @@
-use super::{Context, Input, Lexer};
+use super::{Context, Lexer};
 use crate::{error::Error, input::Tokens, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use log::trace;
@@ -100,7 +100,7 @@ impl<'a> From<&'a Token> for TokenType {
     }
 }
 
-impl<I: Input> Tokens for Lexer<'_, I> {
+impl Tokens for Lexer<'_> {
     fn set_ctx(&mut self, ctx: Context) {
         self.ctx = ctx
     }
@@ -140,7 +140,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     }
 }
 
-impl<'a, I: Input> Iterator for Lexer<'a, I> {
+impl<'a> Iterator for Lexer<'a> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
         let mut start = self.cur_pos();
@@ -287,7 +287,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 );
             }
             self.state.update(start, &token);
-            self.state.prev_hi = self.last_pos();
+            let hi = self.input.span().hi;
+            self.state.prev_hi = hi;
         }
 
         token.map(|token| {
@@ -649,7 +650,7 @@ pub(crate) fn with_lexer<F, Ret>(
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&mut Lexer<'_, crate::lexer::input::StringInput<'_>>) -> Result<Ret, ()>,
+    F: FnOnce(&mut Lexer<'_>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |_, fm| {
         let mut l = Lexer::new(syntax, Default::default(), fm.start_pos, s, None);

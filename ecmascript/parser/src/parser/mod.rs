@@ -10,7 +10,7 @@ use crate::{
 };
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, input::Input, BytePos, Span};
+use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::*;
 use swc_ecma_parser_macros::parser;
 #[cfg(test)]
@@ -51,9 +51,20 @@ struct State {
     potential_arrow_start: Option<BytePos>,
 }
 
-impl<'a, I: Input> Parser<Lexer<'a, I>> {
-    pub fn new(syntax: Syntax, input: I, comments: Option<&'a dyn Comments>) -> Self {
-        Self::new_from(Lexer::new(syntax, Default::default(), input, comments))
+impl<'a> Parser<Lexer<'a>> {
+    pub fn new(
+        syntax: Syntax,
+        start: BytePos,
+        input: &'a str,
+        comments: Option<&'a dyn Comments>,
+    ) -> Self {
+        Self::new_from(Lexer::new(
+            syntax,
+            Default::default(),
+            start,
+            input,
+            comments,
+        ))
     }
 }
 
@@ -179,7 +190,7 @@ impl<I: Tokens> Parser<I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
         let lexer = Lexer::new(syntax, JscTarget::Es2019, input, None);
@@ -198,7 +209,7 @@ where
 #[cfg(test)]
 pub fn test_parser_comment<F, Ret>(c: &dyn Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
         let lexer = Lexer::new(syntax, JscTarget::Es2019, input, Some(&c));
@@ -217,7 +228,7 @@ where
 #[cfg(test)]
 pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
 where
-    F: for<'a> FnMut(&'a mut Parser<Lexer<'a, crate::StringInput<'_>>>) -> PResult<()>,
+    F: for<'a> FnMut(&'a mut Parser<Lexer<'a>>) -> PResult<()>,
 {
     b.bytes = s.len() as u64;
 

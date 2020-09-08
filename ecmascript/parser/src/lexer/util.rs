@@ -5,7 +5,7 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use super::{input::Input, Char, LexResult, Lexer};
+use super::{Char, LexResult, Lexer};
 use crate::error::{Error, SyntaxError};
 use std::char;
 use swc_common::{
@@ -42,9 +42,9 @@ impl Raw {
 // pub const LINE_SEPARATOR: char = '\u{2028}';
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     pub(super) fn span(&self, start: BytePos) -> Span {
-        let end = self.last_pos();
+        let end = self.input.span().hi;
         if cfg!(debug_assertions) && start > end {
             unreachable!(
                 "assertion failed: (span.start <= span.end).
@@ -75,9 +75,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     pub(super) fn cur_pos(&mut self) -> BytePos {
         self.input.cur_pos()
-    }
-    pub(super) fn last_pos(&self) -> BytePos {
-        self.input.last_pos()
     }
 
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
@@ -202,7 +199,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // jsdoc
         let slice_start = self.cur_pos();
-        let mut was_star = if self.cur() == Some('*') {
+        let mut was_star = if self.cur() == Some(itok!("*")) {
             self.bump();
             true
         } else {
@@ -241,7 +238,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
                 return Ok(());
             }
-            if c.is_line_break() {
+            if c == InternalToken::NewLine {
                 self.state.had_line_break = true;
             }
 

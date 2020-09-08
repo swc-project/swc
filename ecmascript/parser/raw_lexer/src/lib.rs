@@ -435,6 +435,13 @@ impl<'a> DumbLexer<'a> {
         self.inner.clone().next()
     }
 
+    #[inline]
+    pub fn peek_ahead(&mut self) -> Option<InternalToken> {
+        let _cur = self.cur()?;
+
+        self.inner.clone().skip(1).next()
+    }
+
     pub fn slice_cur(&mut self) -> &'a str {
         let _cur = self.cur();
 

@@ -8,7 +8,7 @@ use log::trace;
 use num_bigint::BigInt as BigIntValue;
 use std::{fmt::Write, iter::FusedIterator};
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
         assert_eq!(self.cur(), Some(InternalToken::Num));
         let start = self.cur_pos();
@@ -121,8 +121,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         // 1e2 = 100
         // 1e+2 = 100
         // 1e-2 = 0.01
-        if self.eat(b'e') || self.eat(b'E') {
-            let next = match self.cur() {
+        if self.input.eat(b'e') || self.input.eat(b'E') {
+            let next = match self.input.cur_char() {
                 Some(next) => next,
                 None => {
                     let pos = self.cur_pos();
@@ -211,9 +211,9 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
-        match self.cur() {
+        match self.input.cur_char() {
             Some(c) if c.is_ident_start() => {
-                let span = pos_span(self.cur_pos());
+                let span = self.input.span();
                 self.error_span(span, SyntaxError::IdentAfterNum)?
             }
             _ => Ok(()),
@@ -291,7 +291,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut total: Ret = Default::default();
 
         let mut prev = None;
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input.cur_char() {
             if allow_num_separator && self.syntax.num_sep() && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
@@ -318,7 +318,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                 };
 
-                let next = self.input.peek();
+                let next = self.input.peek_char();
 
                 if !is_allowed(next) {
                     self.emit_error(
@@ -415,13 +415,13 @@ fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static
 
 #[cfg(test)]
 mod tests {
-    use super::{input::StringInput, *};
+    use super::*;
     use crate::EsConfig;
     use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<'_, StringInput<'_>>) -> Ret,
+        F: FnOnce(&mut Lexer<'_>) -> Ret,
     {
         crate::with_test_sess(s, |_, fm| {
             let mut l = Lexer::new(

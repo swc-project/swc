@@ -92,12 +92,14 @@
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
 
+use std::sync::Arc;
+
 pub use self::{
     lexer::input::{Input, StringInput},
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::Span;
+use swc_common::{SourceFile, Span};
 
 #[macro_use]
 mod macros;
@@ -427,13 +429,13 @@ pub struct Context {
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&swc_common::errors::Handler, StringInput<'_>) -> Result<Ret, ()>,
+    F: FnOnce(&swc_common::errors::Handler, Arc<SourceFile>) -> Result<Ret, ()>,
 {
     use swc_common::FileName;
 
     ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
-        f(handler, (&*fm).into())
+        f(handler, fm)
     })
 }

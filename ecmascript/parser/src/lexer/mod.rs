@@ -11,7 +11,7 @@ use crate::{
     Context, JscTarget, Syntax,
 };
 use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, marker::PhantomData, mem::take, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
@@ -92,14 +92,13 @@ impl Iterator for CharIter {
 impl FusedIterator for CharIter {}
 
 #[derive(Clone)]
-pub struct Lexer<'a, I: Input> {
+pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
 
     pub(crate) ctx: Context,
     input: DumbLexer<'a>,
-    marker: PhantomData<I>,
     /// Stores last position of the last comment.
     ///
     /// [Rc] and [RefCell] is used because this value should always increment,
@@ -115,9 +114,9 @@ pub struct Lexer<'a, I: Input> {
     buf: String,
 }
 
-impl<I: Input> FusedIterator for Lexer<'_, I> {}
+impl FusedIterator for Lexer<'_> {}
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     pub fn new(
         syntax: Syntax,
         target: JscTarget,
@@ -133,7 +132,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             },
             comments,
             input: DumbLexer::new(start, input),
-            marker: PhantomData,
             last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
             ctx: Default::default(),
@@ -147,7 +145,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Utility method to reuse buffer.
     fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<'any, I>, &mut String) -> LexResult<Ret>,
+        F: for<'any> FnOnce(&mut Lexer<'any>, &mut String) -> LexResult<Ret>,
     {
         let mut buf = take(&mut self.buf);
         buf.clear();
@@ -220,7 +218,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     itok!("{") => LBrace,
                     itok!("}") => RBrace,
                     itok!("@") => At,
-                    itok!("?") => QuestionMark,
                     itok!("...") => DotDotDot,
                     itok!("<<") => BinOp(LShift),
                     itok!("<<=") => AssignOp(LShiftAssign),
@@ -246,12 +243,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
 
                 return Ok(Some(tok!(':')));
-            }
-
-            InternalToken::BigInt => return self.read_bigint().map(Token::BigInt).map(Some),
-
-            InternalToken::Num => {
-                return self.read_number().map(Token::Num).map(Some);
             }
 
             InternalToken::Str => return self.read_str_lit().map(Some),
@@ -577,7 +568,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 }
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some(itok!("/")));
         // let start = self.cur_pos();
@@ -761,60 +752,27 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     fn read_str_lit(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
-        let start = self.cur_pos();
-        let quote = self.cur().unwrap();
-        self.bump(); // '"'
+        debug_assert_eq!(self.cur(), Some(InternalToken::Str));
 
-        self.with_buf(|l, out| {
-            let mut has_escape = false;
+        let slice = self.input.slice_cur();
+        self.input.bump();
 
-            while let Some(c) = {
-                // Optimization
-                {
-                    let s = l
-                        .input
-                        .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
-                    out.push_str(s);
-                }
-                l.cur()
-            } {
-                match c {
-                    c if c == quote => {
-                        l.bump();
-                        return Ok(Token::Str {
-                            value: (&**out).into(),
-                            has_escape,
-                        });
-                    }
-                    '\\' => {
-                        if let Some(s) = l.read_escaped_char(&mut Raw(None))? {
-                            out.extend(s);
-                        }
-                        has_escape = true
-                    }
-                    c if c.is_line_break() => l.error(start, SyntaxError::UnterminatedStrLit)?,
-                    _ => {
-                        out.push(c);
-                        l.bump();
-                    }
-                }
-            }
-
-            l.error(start, SyntaxError::UnterminatedStrLit)?
+        Ok(Token::Str {
+            has_escape: slice.contains('\\'),
+            value: slice.into(),
         })
     }
 
     /// Expects current char to be '/'
     fn read_regexp(&mut self) -> LexResult<Token> {
-        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.cur(), Some(itok!("/")));
         let start = self.cur_pos();
-        self.bump();
+        self.bump(); // '/'
 
         let (mut escaped, mut in_class) = (false, false);
         // let content_start = self.cur_pos();
         let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.cur() {
+            while let Some(c) = l.input.cur_char() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_break() {
@@ -843,7 +801,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Default::default());
 
         // input is terminated without following `/`
-        if !self.is(b'/') {
+        if !self.input.is(b'/') {
             self.error(start, SyntaxError::UnterminatedRegxp)?;
         }
 
@@ -864,11 +822,8 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {
-        if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
-            return Ok(None);
-        }
-        match self.input.cur()? {
-            InternalToken::Interpreter => return Ok(Some(self.input.slice_cur().into())),
+        match self.input.cur() {
+            Some(InternalToken::Interpreter) => return Ok(Some(self.input.slice_cur().into())),
             _ => Ok(None),
         }
     }
@@ -901,6 +856,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 });
             }
 
+            let c = self.input.cur_char().unwrap();
+
             if c == '\\' {
                 has_escape = true;
                 raw.push('\\');
@@ -912,9 +869,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
-                let c = if c == '\r' && self.peek() == Some('\n') {
+                let c = if c == '\r' && self.input.peeked_is(b'\n') {
                     raw.push_str("\\r\\n");
-                    self.bump(); // '\r'
+                    self.input.bump_bytes(1); // '\r'
                     '\n'
                 } else {
                     match c {
