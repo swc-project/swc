@@ -1,3 +1,4 @@
+/// Internal token
 macro_rules! itok {
     ("'") => {
         swc_ecma_raw_lexer::InternalToken::Quote
