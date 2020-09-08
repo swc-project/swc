@@ -382,7 +382,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// `#`
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur().is_some());
+        debug_assert_eq!(self.cur(), Some(itok!("#")));
 
         let start = self.input.cur_pos();
 
