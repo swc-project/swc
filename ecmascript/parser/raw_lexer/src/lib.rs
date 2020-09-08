@@ -343,7 +343,7 @@ pub enum InternalToken {
     #[regex("0[xX](?&hex)")]
     #[regex("0[oO](?&octal)")]
     #[regex("0[bB](?&binary)")]
-    #[regex("[0-9]*\\.[0-9]+([eE][+-]?[0-9]+)?|[0-9]+[eE][+-]?[0-9]+")]
+    #[regex("[0-9]*\\.[0-9]+([eE][+-]?[0-9]+)?|[0f9]+[eE][+-]?[0-9]+")]
     Num,
 
     #[regex("[0-9]+n")]
@@ -360,6 +360,9 @@ pub enum InternalToken {
 
     #[token("/*")]
     BlockCommentStart,
+
+    #[token("${")]
+    DollarLBrace,
 }
 
 /// Supper-fast but dumb lexer, as it does not know how to handle slash. It just

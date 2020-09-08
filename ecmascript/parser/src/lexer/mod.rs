@@ -937,14 +937,13 @@ impl<'a, I: Input> Lexer<'a, I> {
         while let Some(c) = self.cur() {
             if c == itok!("`") || c == itok!("${") {
                 if start == self.cur_pos() && self.state.last_was_tpl_element() {
-                    if c == '$' {
-                        self.bump();
-                        self.bump();
-                        return Ok(tok!("${"));
+                    self.bump();
+
+                    return Ok(if c == itok!("${") {
+                        tok!("${")
                     } else {
-                        self.bump();
-                        return Ok(tok!('`'));
-                    }
+                        tok!('`')
+                    });
                 }
 
                 // TODO: Handle error
