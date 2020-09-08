@@ -522,4 +522,19 @@ impl<'a> DumbLexer<'a> {
             false
         }
     }
+
+    #[inline]
+    pub fn peek_char(&self) -> Option<char> {
+        self.as_str().chars().skip(1).next()
+    }
+
+    #[inline]
+    pub fn peeked_is(&self, needle: u8) -> bool {
+        let bytes = self.as_str().as_bytes();
+        if bytes.len() <= 1 {
+            return false;
+        }
+
+        bytes[1] == needle
+    }
 }
