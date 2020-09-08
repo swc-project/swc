@@ -449,7 +449,17 @@ impl<'a> DumbLexer<'a> {
     }
 
     pub fn bump_bytes(&mut self, cnt: usize) {
-        self.inner.bump(cnt);
+        match self.cur {
+            Some(..) => {
+                let mut new_inner = self.inner.clone();
+                self.cur = None;
+                new_inner.bump(cnt);
+                self.inner = new_inner;
+            }
+            None => {
+                self.inner.bump(cnt);
+            }
+        }
     }
 
     pub fn reset_to(&mut self, pos: BytePos) {
@@ -475,12 +485,10 @@ impl<'a> DumbLexer<'a> {
         ret
     }
 
-    pub fn cur_char(&mut self) -> Option<char> {
-        assert_eq!(
-            self.cur, None,
-            ".cur_char() should only called after consuming current token"
-        );
-
-        self.inner.remainder().chars().next()
+    pub fn cur_char(&self) -> Option<char> {
+        match &self.cur {
+            Some(v) => v.2.chars().next(),
+            None => self.inner.remainder().chars().next(),
+        }
     }
 }
