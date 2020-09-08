@@ -782,7 +782,11 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
+        let ident_type = self.ident_type;
+        let in_type = self.in_type;
         i.visit_mut_children_with(self);
+        self.in_type = in_type;
+        self.ident_type = ident_type;
 
         match self.ident_type {
             IdentType::Binding => self.visit_mut_binding_ident(i),
@@ -881,18 +885,16 @@ impl<'a> VisitMut for Resolver<'a> {
             self.handle_types,
         );
 
-        let o = o.visit_mut_children_with(&mut child_folder);
+        o.visit_mut_children_with(&mut child_folder);
         self.cur_defining = child_folder.cur_defining;
-        o
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         self.in_type = false;
         let old = self.cur_defining.take();
-        let p = p.visit_mut_children_with(self);
+        p.visit_mut_children_with(self);
 
         self.cur_defining = old;
-        p
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
