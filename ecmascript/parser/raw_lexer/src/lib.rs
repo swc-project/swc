@@ -509,4 +509,17 @@ impl<'a> DumbLexer<'a> {
             false
         }
     }
+
+    pub fn is(&mut self, needle: u8) -> bool {
+        let bytes = self.as_str().as_bytes();
+        if bytes.is_empty() {
+            return false;
+        }
+
+        if bytes[0] == needle {
+            true
+        } else {
+            false
+        }
+    }
 }
