@@ -630,7 +630,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(self.cur().is_some());
         let start = self.cur_pos();
 
-        let (word, has_escape) = self.read_word_as_str_with(|s| match s {
+        let (word, has_escape) = self.read_word_as_str_with(|tok, value| match tok {
             InternalToken::Null => Word::Null,
             InternalToken::True => Word::True,
             InternalToken::False => Word::False,
@@ -669,7 +669,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             InternalToken::TypeOf => TypeOf.into(),
             InternalToken::Void => Void.into(),
             InternalToken::Delete => Delete.into(),
-            _ => Word::Ident(s.into()),
+            _ => Word::Ident(value.into()),
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -694,7 +694,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
-        self.read_word_as_str_with(|s| JsWord::from(s))
+        self.read_word_as_str_with(|_, s| JsWord::from(s))
     }
 
     /// returns (word, has_escape)
@@ -702,79 +702,26 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// This method is optimized for texts without escape sequences.
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(InternalToken) -> Ret,
+        F: FnOnce(InternalToken, &str) -> Ret,
     {
-        debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
-        let mut first = true;
+        let slice = self.input.slice_cur();
+        let ret = convert(self.input.cur().unwrap(), slice);
 
-        let s = &self.input.into();
-
-        self.with_buf(|l, buf| {
-            let mut has_escape = false;
-
-            while let Some(c) = {
-                // Optimization
-                {
-                    let s = l.input.uncons_while(|c| c.is_ident_part());
-                    if !s.is_empty() {
-                        first = false;
-                    }
-                    buf.push_str(s)
-                }
-
-                l.cur()
-            } {
-                let start = l.cur_pos();
-
-                match c {
-                    c if c.is_ident_part() => {
-                        l.bump();
-                        buf.push(c);
-                    }
-                    // unicode escape
-                    '\\' => {
-                        l.bump();
-                        if !l.is(b'u') {
-                            l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
-                        }
-                        has_escape = true;
-                        let c = l.read_unicode_escape(start, &mut Raw(None))?;
-                        let valid = if first {
-                            c.is_ident_start()
-                        } else {
-                            c.is_ident_part()
-                        };
-
-                        if !valid {
-                            l.error(start, SyntaxError::InvalidIdentChar)?
-                        }
-                        buf.extend(c);
-                    }
-
-                    _ => {
-                        break;
-                    }
-                }
-                first = false;
-            }
-            let value = convert(&buf);
-
-            Ok((value, has_escape))
-        })
+        Ok((ret, slice.contains('\\')))
     }
 
     fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<Char> {
-        debug_assert_eq!(self.cur(), Some('u'));
+        debug_assert_eq!(self.input.cur_char(), Some('u'));
         self.bump();
 
         raw.push_str("u");
 
-        if self.eat(b'{') {
+        if self.input.eat(b'{') {
             raw.push('{');
             // let cp_start = self.cur_pos();
             let c = self.read_code_point(raw)?;
 
-            if !self.eat(b'}') {
+            if !self.input.eat(b'}') {
                 self.error(start, SyntaxError::InvalidUnicodeEscape)?
             }
             raw.push('}');
