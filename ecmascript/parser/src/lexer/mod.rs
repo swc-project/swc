@@ -300,7 +300,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                             if self.ctx.module {
                                 return self.error(start, SyntaxError::LegacyCommentInModule)?;
                             }
-                            self.skip_line_comment(0);
+                            self.skip_line_comment();
                             self.skip_space()?;
                             return self.read_token();
                         }
@@ -573,7 +573,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // XML style comment. `<!--`
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
-            self.skip_line_comment(3);
+            self.input.bump_bytes(3);
             self.skip_space()?;
             if self.ctx.module {
                 self.error(start, SyntaxError::LegacyCommentInModule)?;

@@ -125,14 +125,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.state.had_line_break = true;
                 }
 
-                '/' => {
-                    if self.peek() == Some('/') {
-                        self.skip_line_comment(2);
-                        continue;
-                    } else if self.peek() == Some('*') {
-                        self.skip_block_comment()?;
-                        continue;
-                    }
+                itok!("//") => {
+                    self.skip_line_comment();
+                }
+                itok!("/*") => {
+                    self.skip_block_comment()?;
+                }
+                itok!("/") => {
                     break;
                 }
 
@@ -147,11 +146,9 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(())
     }
 
-    pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
+    /// Calller should remove `//` before calling this
+    pub(super) fn skip_line_comment(&mut self) {
         let start = self.cur_pos();
-        for _ in 0..start_skip {
-            self.bump();
-        }
         let slice_start = self.cur_pos();
 
         // foo // comment for foo
@@ -226,7 +223,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         while let Some(c) = self.cur() {
             if was_star && c == '/' {
-                debug_assert_eq!(self.cur(), Some('/'));
+                debug_assert_eq!(self.cur(), Some(itok!("/")));
                 self.bump(); // '/'
 
                 let end = self.cur_pos();
