@@ -58,8 +58,8 @@ pub enum SyntaxError {
     UnterminatedRegxp,
     UnterminatedTpl,
     IdentAfterNum,
-    UnexpectedChar {
-        c: char,
+    UnexpectedToken {
+        token: String,
     },
     InvalidStrEscape,
     InvalidUnicodeEscape,
@@ -248,7 +248,7 @@ impl SyntaxError {
             SyntaxError::UnterminatedRegxp => "Unterminated regexp literal".into(),
             SyntaxError::UnterminatedTpl => "Unterminated template".into(),
             SyntaxError::IdentAfterNum => "Identifier cannot follow number".into(),
-            SyntaxError::UnexpectedChar { c } => format!("Unexpected character {:?}", c).into(),
+            SyntaxError::UnexpectedToken { token } => format!("Unexpected token {}", token).into(),
             SyntaxError::InvalidStrEscape => "Invalid string escape".into(),
             SyntaxError::InvalidUnicodeEscape => "Invalid unciode escape".into(),
             SyntaxError::InvalidCodePoint => "Invalid unciode code point".into(),
