@@ -125,6 +125,12 @@ macro_rules! itok {
     ("=") => {
         swc_ecma_raw_lexer::InternalToken::Assign
     };
+    ("+=") => {
+        swc_ecma_raw_lexer::InternalToken::AddAssign
+    };
+    ("-=") => {
+        swc_ecma_raw_lexer::InternalToken::SubAssign
+    };
     ("*=") => {
         swc_ecma_raw_lexer::InternalToken::MulAssign
     };

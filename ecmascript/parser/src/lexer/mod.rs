@@ -289,35 +289,32 @@ impl<'a, I: Input> Lexer<'a, I> {
             itok!("^=") => AssignOp(BitXorAssign),
             itok!("^") => BinOp(BitXor),
 
-            '+' | '-' => {
+            itok!("++") => PlusPlus,
+
+            itok!("--") => {
                 self.input.bump();
 
-                // '++', '--'
-                if self.input.cur() == Some(c) {
-                    self.input.bump();
-
-                    // Handle -->
-                    if self.state.had_line_break && c == '-' && self.eat(b'>') {
-                        if self.ctx.module {
-                            return self.error(start, SyntaxError::LegacyCommentInModule)?;
+                if self.state.had_line_break {
+                    match self.cur() {
+                        itok!(">") => {
+                            if self.ctx.module {
+                                return self.error(start, SyntaxError::LegacyCommentInModule)?;
+                            }
+                            self.skip_line_comment(0);
+                            self.skip_space()?;
+                            return self.read_token();
                         }
-                        self.skip_line_comment(0);
-                        self.skip_space()?;
-                        return self.read_token();
                     }
-
-                    if c == '+' {
-                        PlusPlus
-                    } else {
-                        MinusMinus
-                    }
-                } else if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    AssignOp(if c == '+' { AddAssign } else { SubAssign })
-                } else {
-                    BinOp(if c == '+' { Add } else { Sub })
                 }
+
+                MinusMinus
             }
+
+            itok!("+") => BinOp(Add),
+            itok!("-") => BinOp(Sub),
+
+            itok!("+=") => AssignOp(AddAssign),
+            itok!("-=") => AssignOp(SubAssign),
 
             itok!("<") | itok!(">") => return self.read_token_lt_gt(),
 

@@ -12,6 +12,7 @@ use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
 };
+use swc_ecma_raw_lexer::InternalToken;
 use unicode_xid::UnicodeXID;
 
 /// Collector for raw string.
@@ -62,21 +63,13 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.bump()
     }
 
-    pub(super) fn is(&mut self, c: u8) -> bool {
-        self.input.is_byte(c)
-    }
-
-    pub(super) fn eat(&mut self, c: u8) -> bool {
-        self.input.eat_byte(c)
-    }
-
-    pub(super) fn cur(&mut self) -> Option<char> {
+    pub(super) fn cur(&mut self) -> Option<InternalToken> {
         self.input.cur()
     }
-    pub(super) fn peek(&mut self) -> Option<char> {
+    pub(super) fn peek(&mut self) -> Option<InternalToken> {
         self.input.peek()
     }
-    pub(super) fn peek_ahead(&mut self) -> Option<char> {
+    pub(super) fn peek_ahead(&mut self) -> Option<InternalToken> {
         self.input.peek_ahead()
     }
 
