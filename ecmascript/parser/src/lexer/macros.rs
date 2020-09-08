@@ -105,6 +105,12 @@ macro_rules! itok {
     ("^") => {
         swc_ecma_raw_lexer::InternalToken::BitXor
     };
+    ("||") => {
+        swc_ecma_raw_lexer::InternalToken::Or
+    };
+    ("&&") => {
+        swc_ecma_raw_lexer::InternalToken::And
+    };
 
     ("*=") => {
         swc_ecma_raw_lexer::InternalToken::MulAssign
@@ -120,5 +126,11 @@ macro_rules! itok {
     };
     ("^=") => {
         swc_ecma_raw_lexer::InternalToken::BitXorAssign
+    };
+    ("||=") => {
+        swc_ecma_raw_lexer::InternalToken::OrAssign
+    };
+    ("&&=") => {
+        swc_ecma_raw_lexer::InternalToken::AndAssign
     };
 }
