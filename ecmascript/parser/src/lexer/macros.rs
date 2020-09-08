@@ -1,4 +1,11 @@
 macro_rules! itok {
+    ("'") => {
+        swc_ecma_raw_lexer::InternalToken::Quote
+    };
+    ("\"") => {
+        swc_ecma_raw_lexer::InternalToken::DoubleQuote
+    };
+
     ("<") => {
         swc_ecma_raw_lexer::InternalToken::Lt
     };
