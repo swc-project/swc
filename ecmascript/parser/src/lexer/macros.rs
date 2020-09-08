@@ -208,4 +208,8 @@ macro_rules! itok {
     (">>>=") => {
         swc_ecma_raw_lexer::InternalToken::ZeroFillRShiftAssign
     };
+
+    ("${") => {
+        swc_ecma_raw_lexer::InternalToken::DollarLBrace
+    };
 }

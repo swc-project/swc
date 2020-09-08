@@ -935,7 +935,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut raw = String::new();
 
         while let Some(c) = self.cur() {
-            if c == '`' || (c == '$' && self.peek() == Some('{')) {
+            if c == itok!("`") || c == itok!("${") {
                 if start == self.cur_pos() && self.state.last_was_tpl_element() {
                     if c == '$' {
                         self.bump();
