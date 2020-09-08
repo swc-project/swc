@@ -80,8 +80,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut s = String::new();
 
         let c = self.input.cur();
-        debug_assert_eq!(c, Some('&'));
-        self.input.bump();
+        debug_assert_eq!(c, Some(itok!("&")));
+        self.input.bump(); // '&'
 
         let start_pos = self.input.cur_pos();
 
@@ -92,7 +92,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             };
             self.input.bump();
 
-            if c == ';' {
+            if c == itok!(";") {
                 if s.starts_with('#') {
                     if s[1..].starts_with('x') {
                         if is_hex(&s[2..]) {
@@ -199,20 +199,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// by isIdentifierStart in readToken.
     pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
-        debug_assert!(self.input.cur().is_some());
-        debug_assert!(self.input.cur().unwrap().is_ident_start());
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
 
-        let mut first = true;
-        let slice = self.input.uncons_while(|c| {
-            if first {
-                first = false;
-                c.is_ident_start()
-            } else {
-                c.is_ident_part() || c == '-'
-            }
-        });
-
-        Ok(Token::JSXName { name: slice.into() })
+        Ok(Token::JSXName {
+            name: self.input.slice_cur().into(),
+        })
     }
 }
 

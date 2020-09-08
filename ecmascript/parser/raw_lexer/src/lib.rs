@@ -356,6 +356,12 @@ pub enum InternalToken {
 
     #[token("\\")]
     BackSlash,
+
+    #[token("//")]
+    LineCommmentStart,
+
+    #[token("/*")]
+    BlockCommentStart,
 }
 
 /// Supper-fast but dumb lexer, as it does not know how to handle slash. It just
