@@ -116,10 +116,10 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::BitXor
     };
     ("||") => {
-        swc_ecma_raw_lexer::InternalToken::Or
+        swc_ecma_raw_lexer::InternalToken::LogicalOr
     };
     ("&&") => {
-        swc_ecma_raw_lexer::InternalToken::And
+        swc_ecma_raw_lexer::InternalToken::LogicalAnd
     };
 
     ("=") => {
