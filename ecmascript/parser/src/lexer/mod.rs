@@ -181,16 +181,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(Some(tok!('.')));
             }
 
-            InternalToken::BigInt => return self.read_bigint().map(Some),
+            InternalToken::BigInt => return self.read_bigint().map(Token::BigInt).map(Some),
 
             InternalToken::Num => {
-                return self
-                    .read_number()
-                    .map(|v| match v {
-                        Left(v) => Num(v),
-                        Right(v) => BigInt(v),
-                    })
-                    .map(Some);
+                return self.read_number().map(Token::Num).map(Some);
             }
 
             itok!("??")
@@ -258,43 +252,88 @@ impl<'a, I: Input> Lexer<'a, I> {
             InternalToken::BigInt => return self.read_bigint().map(Some),
 
             InternalToken::Num => {
-                return self
-                    .read_number()
-                    .map(|v| match v {
-                        Left(v) => Num(v),
-                        Right(v) => BigInt(v),
-                    })
-                    .map(Some);
+                return self.read_number().map(Token::Num).map(Some);
             }
 
             InternalToken::Str => return self.read_str_lit().map(Some),
 
             InternalToken::Div => return self.read_slash(),
 
-            itok!("**=") => AssignOp(ExpAssign),
-            itok!("*=") => AssignOp(MulAssign),
-            itok!("%") => AssignOp(ModAssign),
+            itok!("**=") => {
+                self.bump();
+                AssignOp(ExpAssign)
+            }
+            itok!("*=") => {
+                self.bump();
+                AssignOp(MulAssign)
+            }
+            itok!("%") => {
+                self.bump();
+                AssignOp(ModAssign)
+            }
 
-            itok!("**") => BinOp(Exp),
-            itok!("*") => BinOp(Mul),
-            itok!("%") => BinOp(Mod),
+            itok!("**") => {
+                self.bump();
+                BinOp(Exp)
+            }
+            itok!("*") => {
+                self.bump();
+                BinOp(Mul)
+            }
+            itok!("%") => {
+                self.bump();
+                BinOp(Mod)
+            }
 
             // Logical operators
-            itok!("|=") => AssignOp(BitOrAssign),
-            itok!("&=") => AssignOp(BitAndAssign),
-            itok!("|") => BinOp(BitOr),
-            itok!("&") => BinOp(BitAnd),
+            itok!("|=") => {
+                self.bump();
+                AssignOp(BitOrAssign)
+            }
+            itok!("&=") => {
+                self.bump();
+                AssignOp(BitAndAssign)
+            }
+            itok!("|") => {
+                self.bump();
+                BinOp(BitOr)
+            }
+            itok!("&") => {
+                self.bump();
+                BinOp(BitAnd)
+            }
 
-            itok!("||") => BinOp(LogicalOr),
-            itok!("&&") => BinOp(LogicalAnd),
-            itok!("||=") => AssignOp(OrAssign),
-            itok!("&&=") => AssignOp(AndAssign),
+            itok!("||") => {
+                self.bump();
+                BinOp(LogicalOr)
+            }
+            itok!("&&") => {
+                self.bump();
+                BinOp(LogicalAnd)
+            }
+            itok!("||=") => {
+                self.bump();
+                AssignOp(OrAssign)
+            }
+            itok!("&&=") => {
+                self.bump();
+                AssignOp(AndAssign)
+            }
 
             // Bitwise xor
-            itok!("^=") => AssignOp(BitXorAssign),
-            itok!("^") => BinOp(BitXor),
+            itok!("^=") => {
+                self.bump();
+                AssignOp(BitXorAssign)
+            }
+            itok!("^") => {
+                self.bump();
+                BinOp(BitXor)
+            }
 
-            itok!("++") => PlusPlus,
+            itok!("++") => {
+                self.bump();
+                PlusPlus
+            }
 
             itok!("--") => {
                 self.input.bump();
