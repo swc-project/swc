@@ -536,7 +536,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 impl<'a, I: Input> Lexer<'a, I> {
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
-        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.cur(), Some(itok!("/")));
         // let start = self.cur_pos();
 
         // Regex
@@ -547,10 +547,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Divide operator
         self.bump();
 
-        Ok(Some(if self.eat(b'=') {
-            tok!("/=")
-        } else {
-            tok!('/')
+        Ok(Some(match self.input.cur() {
+            Some(itok!("=")) => {
+                self.bump();
+                tok!("/=")
+            }
+            _ => tok!('/'),
         }))
     }
 
