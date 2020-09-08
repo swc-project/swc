@@ -13,3 +13,6 @@ version = "0.1.0"
 [dependencies]
 logos = "0.11.4"
 swc_common = {version = "0.10.0", path = "../../../common"}
+
+[dev-dependencies]
+testing = {version = "0.10.0", path = "../../../testing"}
