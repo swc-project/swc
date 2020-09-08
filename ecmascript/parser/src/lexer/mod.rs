@@ -248,7 +248,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(Some(tok!(':')));
             }
 
-            InternalToken::BigInt => return self.read_bigint().map(Some),
+            InternalToken::BigInt => return self.read_bigint().map(Token::BigInt).map(Some),
 
             InternalToken::Num => {
                 return self.read_number().map(Token::Num).map(Some);
