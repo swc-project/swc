@@ -403,22 +403,12 @@ impl<'a, I: Input> Lexer<'a, I> {
             return Ok(false);
         }
 
-        let start = self.input.cur_pos();
-
-        self.input.bump(); // '#'
-        let c = self.input.cur();
-        if c == Some('!') {
-            loop {
-                while let Some(c) = self.input.cur() {
-                    if c != '\n' && c != '\r' && c != '\u{8232}' && c != '\u{8233}' {
-                        self.input.bump();
-                        continue;
-                    }
-                }
+        match self.input.cur() {
+            Some(InternalToken::Interpreter) => {
+                self.input.bump();
+                Ok(true)
             }
-        } else {
-            self.input.reset_to(start);
-            Ok(false)
+            _ => Ok(false),
         }
     }
 

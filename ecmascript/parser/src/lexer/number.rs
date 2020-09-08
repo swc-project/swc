@@ -12,8 +12,8 @@ use std::{fmt::Write, iter::FusedIterator};
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(&mut self) -> LexResult<Either<f64, BigIntValue>> {
-        debug_assert!(self.cur().is_some());
-        let start = self.cur_pos();
+        assert_eq!(self.cur(), Some(InternalToken::Num));
+        let s = self.input.slice_cur().unwrap();
 
         let starts_with_zero = self.cur().unwrap() == '0';
 
@@ -128,28 +128,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             val = format!("{}e{}{}", val, flag, exp)
                 .parse()
                 .expect("failed to parse float literal");
-        }
-
-        self.ensure_not_ident()?;
-
-        Ok(Either::Left(val))
-    }
-
-    /// Returns `Left(value)` or `Right(BigInt)`
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Either<f64, BigIntValue>> {
-        debug_assert!(
-            radix == 2 || radix == 8 || radix == 16,
-            "radix should be one of 2, 8, 16, but got {}",
-            radix
-        );
-        debug_assert_eq!(self.cur(), Some('0'));
-
-        self.bump(); // 0
-        self.bump(); // x
-
-        let (val, s) = self.read_number_no_dot_as_str(radix)?;
-        if self.eat(b'n') {
-            return Ok(Either::Right(s));
         }
 
         self.ensure_not_ident()?;

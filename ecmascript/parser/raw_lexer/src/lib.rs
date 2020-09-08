@@ -351,8 +351,8 @@ pub enum InternalToken {
     #[regex("[0-9]+n")]
     BigInt,
 
-    #[token("#!")]
-    Shebang,
+    #[token("#![.]*[\n\r\u{8232}\u{8233}]")]
+    Interpreter,
 
     #[token("\\")]
     BackSlash,
