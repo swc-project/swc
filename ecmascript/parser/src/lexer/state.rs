@@ -226,12 +226,12 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                             return self.read_jsx_word().map(Some);
                         }
 
-                        if c == '>' {
+                        if c == itok!(">") {
                             self.input.bump();
                             return Ok(Some(Token::JSXTagEnd));
                         }
 
-                        if (c == '\'' || c == '"')
+                        if (c == itok!("'") || c == itok!("\""))
                             && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                         {
                             return self.read_jsx_str(c).map(Some);
