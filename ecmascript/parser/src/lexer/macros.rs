@@ -187,4 +187,24 @@ macro_rules! itok {
     ("/*") => {
         swc_ecma_raw_lexer::InternalToken::BlockCommentStart
     };
+
+    ("<<") => {
+        swc_ecma_raw_lexer::InternalToken::LShift
+    };
+    (">>") => {
+        swc_ecma_raw_lexer::InternalToken::RShift
+    };
+    (">>>") => {
+        swc_ecma_raw_lexer::InternalToken::ZeroFillRShift
+    };
+
+    ("<<=") => {
+        swc_ecma_raw_lexer::InternalToken::LShiftAssign
+    };
+    (">>=") => {
+        swc_ecma_raw_lexer::InternalToken::RShiftAssign
+    };
+    (">>>=") => {
+        swc_ecma_raw_lexer::InternalToken::ZeroFillRShiftAssign
+    };
 }

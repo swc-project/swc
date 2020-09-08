@@ -203,7 +203,13 @@ impl<'a, I: Input> Lexer<'a, I> {
             | itok!("]")
             | itok!("{")
             | itok!("}")
-            | itok!("@") => {
+            | itok!("@")
+            | itok!("<<")
+            | itok!("<<=")
+            | itok!(">>")
+            | itok!(">>=")
+            | itok!(">>>")
+            | itok!(">>>=") => {
                 // These tokens are emitted directly.
                 self.input.bump();
                 return Ok(Some(match c {
@@ -221,6 +227,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                     itok!("@") => At,
                     itok!("?") => QuestionMark,
                     itok!("...") => DotDotDot,
+                    itok!("<<") => BinOp(LShift),
+                    itok!("<<=") => AssignOp(LShiftAssign),
+                    itok!(">>") => BinOp(RShift),
+                    itok!(">>=") => AssignOp(RShiftAssign),
+                    itok!(">>>") => BinOp(ZeroFillRShift),
+                    itok!(">>>=") => AssignOp(ZeroFillRShiftAssign),
                     _ => unreachable!(),
                 }));
             }
@@ -546,7 +558,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
+        debug_assert!(self.cur() == Some(itok!("<")) || self.cur() == Some(itok!(">")));
 
         let start = self.cur_pos();
         let c = self.cur().unwrap();
@@ -566,34 +578,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             return self.read_token();
         }
 
-        let mut op = if c == '<' { Lt } else { Gt };
-
-        // '<<', '>>'
-        if self.cur() == Some(c) {
-            self.bump();
-            op = if c == '<' { LShift } else { RShift };
-
-            //'>>>'
-            if c == '>' && self.cur() == Some(c) {
-                self.bump();
-                op = ZeroFillRShift;
-            }
-        }
-
-        let token = if self.eat(b'=') {
-            match op {
-                Lt => BinOp(LtEq),
-                Gt => BinOp(GtEq),
-                LShift => AssignOp(LShiftAssign),
-                RShift => AssignOp(RShiftAssign),
-                ZeroFillRShift => AssignOp(ZeroFillRShiftAssign),
-                _ => unreachable!(),
-            }
-        } else {
-            BinOp(op)
-        };
-
-        Ok(Some(token))
+        let mut op = if c == itok!("<") { Lt } else { Gt };
     }
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
