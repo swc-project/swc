@@ -900,7 +900,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
         match self.input.cur()? {
             InternalToken::Interpreter => return Ok(Some(self.input.slice_cur().into())),
-            _ => None,
+            _ => Ok(None),
         }
     }
 
