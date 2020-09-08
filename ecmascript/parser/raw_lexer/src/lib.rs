@@ -23,7 +23,7 @@ pub enum InternalToken {
     #[error]
     Error,
 
-    #[regex(r"[\s]+", filter_ws)]
+    #[regex(r"[\s]+")]
     Ws,
 
     #[token("null")]
@@ -407,5 +407,9 @@ impl<'a> DumbLexer<'a> {
             Some(ref v) => Some(v.2),
             None => None,
         }
+    }
+
+    pub fn is_at_start(&self) -> bool {
+        self.inner.span().start == 0
     }
 }
