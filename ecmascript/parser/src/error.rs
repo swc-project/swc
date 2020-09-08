@@ -30,6 +30,7 @@ impl Error {
 #[non_exhaustive]
 pub enum SyntaxError {
     Eof,
+    InvalidBigIntLit,
     DeclNotAllowed,
 
     InvalidSuperCall,
@@ -221,6 +222,7 @@ impl SyntaxError {
             SyntaxError::TopLevelAwait => "top level await requires target to es2017 or higher \
                                            and topLevelAwait:true for ecmascript"
                 .into(),
+            SyntaxError::InvalidBigIntLit => "Invalid bigint literal".into(),
             SyntaxError::LegacyDecimal => {
                 "Legacy decimal escape is not permitted in strict mode".into()
             }
