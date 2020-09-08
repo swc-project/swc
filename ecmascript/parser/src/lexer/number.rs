@@ -4,7 +4,6 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 use super::*;
 use crate::error::SyntaxError;
-use either::Either;
 use log::trace;
 use num_bigint::BigInt as BigIntValue;
 use std::{fmt::Write, iter::FusedIterator};
@@ -148,7 +147,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left(val))
+        Ok(val)
     }
 
     /// This can read long integers like

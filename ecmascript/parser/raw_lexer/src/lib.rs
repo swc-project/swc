@@ -339,13 +339,11 @@ pub enum InternalToken {
     #[regex(r#"'(?:[^']|\\')*'"#)]
     Str,
 
-    /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[regex("(?&decimal)")]
     #[regex("0[xX](?&hex)")]
     #[regex("0[oO](?&octal)")]
     #[regex("0[bB](?&binary)")]
     #[regex("\\.[0-9]+")]
-    #[regex("\\.[0-9]+n")]
     Num,
 
     #[regex("[0-9]+n")]
