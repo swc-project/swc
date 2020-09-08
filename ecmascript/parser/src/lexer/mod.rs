@@ -646,7 +646,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
         match self.cur() {
-            Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
+            Some(InternalToken::Ident) => self.read_word_as_str().map(Some),
             _ => Ok(None),
         }
     }
@@ -662,8 +662,10 @@ impl<'a, I: Input> Lexer<'a, I> {
     where
         F: FnOnce(&str) -> Ret,
     {
-        debug_assert!(self.cur().is_some());
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
         let mut first = true;
+
+        let s = &self.input.into();
 
         self.with_buf(|l, buf| {
             let mut has_escape = false;
