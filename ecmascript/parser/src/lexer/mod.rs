@@ -257,7 +257,7 @@ impl<'a> Lexer<'a> {
                 self.bump();
                 AssignOp(MulAssign)
             }
-            itok!("%") => {
+            itok!("%=") => {
                 self.bump();
                 AssignOp(ModAssign)
             }

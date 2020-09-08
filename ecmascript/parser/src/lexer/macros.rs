@@ -72,7 +72,7 @@ macro_rules! itok {
     };
 
     ("`") => {
-        swc_ecma_raw_lexer::InternalToken::Tilde
+        swc_ecma_raw_lexer::InternalToken::BackQutoe
     };
     (":") => {
         swc_ecma_raw_lexer::InternalToken::Colon
@@ -123,6 +123,9 @@ macro_rules! itok {
     };
     ("%") => {
         swc_ecma_raw_lexer::InternalToken::Mod
+    };
+    ("%=") => {
+        swc_ecma_raw_lexer::InternalToken::ModAssign
     };
     ("*") => {
         swc_ecma_raw_lexer::InternalToken::Mul
