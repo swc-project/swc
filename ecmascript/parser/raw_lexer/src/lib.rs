@@ -349,7 +349,7 @@ pub enum InternalToken {
 #[derive(Clone)]
 pub struct DumbLexer<'a> {
     start: BytePos,
-    cur: Option<InternalToken>,
+    cur: Option<(InternalToken, logos::Span, &'a str)>,
     inner: Lexer<'a, InternalToken>,
 }
 
@@ -383,11 +383,12 @@ impl<'a> DumbLexer<'a> {
         match self.cur {
             Some(_) => {}
             None => {
-                self.cur = self.inner.next();
+                let token = self.inner.next()?;
+                self.cur = Some((token, self.inner.span(), self.inner.slice()))
             }
         }
 
-        self.cur
+        self.cur.as_ref().map(|v| v.0)
     }
 
     #[inline]
@@ -395,5 +396,14 @@ impl<'a> DumbLexer<'a> {
         let _cur = self.cur()?;
 
         self.inner.clone().next()
+    }
+
+    pub fn slice_cur(&mut self) -> Option<&'a str> {
+        let _cur = self.cur();
+
+        match self.cur {
+            Some(ref v) => Some(v.2),
+            None => None,
+        }
     }
 }

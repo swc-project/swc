@@ -363,7 +363,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 BinOp(EqEq)
             }
 
-            '~' => {
+            itok!("~") => {
                 self.input.bump();
                 tok!('~')
             }

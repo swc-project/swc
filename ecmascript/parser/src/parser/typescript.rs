@@ -2496,6 +2496,7 @@ mod tests {
                         ..Default::default()
                     }),
                     JscTarget::Es2019,
+                    input.start_pos(),
                     input,
                     None,
                 );

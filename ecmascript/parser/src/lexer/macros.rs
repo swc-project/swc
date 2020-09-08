@@ -12,6 +12,10 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::Gte
     };
 
+    ("~") => {
+        swc_ecma_raw_lexer::InternalToken::Tilde
+    };
+
     ("(") => {
         swc_ecma_raw_lexer::InternalToken::LParen
     };
