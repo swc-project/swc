@@ -92,14 +92,12 @@
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
 
-use std::sync::Arc;
-
 pub use self::{
     lexer::input::{Input, StringInput},
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::{SourceFile, Span};
+use swc_common::Span;
 
 #[macro_use]
 mod macros;
@@ -429,7 +427,10 @@ pub struct Context {
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&swc_common::errors::Handler, Arc<SourceFile>) -> Result<Ret, ()>,
+    F: FnOnce(
+        &swc_common::errors::Handler,
+        std::sync::Arc<swc_common::SourceFile>,
+    ) -> Result<Ret, ()>,
 {
     use swc_common::FileName;
 
