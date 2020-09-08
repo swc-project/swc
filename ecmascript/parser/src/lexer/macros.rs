@@ -96,11 +96,29 @@ macro_rules! itok {
     ("**") => {
         swc_ecma_raw_lexer::InternalToken::Exp
     };
+    ("|") => {
+        swc_ecma_raw_lexer::InternalToken::BitOr
+    };
+    ("&") => {
+        swc_ecma_raw_lexer::InternalToken::BitAnd
+    };
+    ("^") => {
+        swc_ecma_raw_lexer::InternalToken::BitXor
+    };
 
     ("*=") => {
         swc_ecma_raw_lexer::InternalToken::MulAssign
     };
     ("**=") => {
         swc_ecma_raw_lexer::InternalToken::ExpAssign
+    };
+    ("|=") => {
+        swc_ecma_raw_lexer::InternalToken::BitOrAssign
+    };
+    ("&=") => {
+        swc_ecma_raw_lexer::InternalToken::BitAndAssign
+    };
+    ("^=") => {
+        swc_ecma_raw_lexer::InternalToken::BitXorAssign
     };
 }
