@@ -1462,3 +1462,13 @@ class A extends Nullable {
 new A();
     "
 );
+
+// See: https://github.com/denoland/deno_lint/pull/304
+identical_ts!(
+    ts_resolver_parameter,
+    "
+    new Promise((resolve: () => void, _) => {
+        setTimeout(resolve, 100);
+    });
+    "
+);
