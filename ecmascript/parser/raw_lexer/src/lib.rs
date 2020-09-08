@@ -21,8 +21,10 @@ pub struct Extras {
 #[logos(subpattern exp = r"[eE][+-]?[0-9][_0-9]*")]
 pub enum InternalToken {
     #[error]
-    #[regex(r"[\s]+", logos::skip)]
     Error,
+
+    #[regex(r"[\s]+", filter_ws)]
+    Ws,
 
     #[token("null")]
     Null,
