@@ -88,6 +88,6 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::Div
     };
     ("%") => {
-        swc_ecma_raw_lexer::InternalToken::Rem
+        swc_ecma_raw_lexer::InternalToken::Mod
     };
 }
