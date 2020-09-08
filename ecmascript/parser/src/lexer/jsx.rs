@@ -54,7 +54,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    pub(super) fn read_jsx_entity(&mut self) -> LexResult<char> {
+    fn read_jsx_entity(&mut self) -> LexResult<char> {
         debug_assert!(self.syntax.jsx());
 
         fn from_code(s: &str, radix: u32) -> LexResult<char> {
