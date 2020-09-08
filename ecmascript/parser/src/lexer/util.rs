@@ -197,10 +197,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
         let start = self.cur_pos();
 
-        debug_assert_eq!(self.cur(), Some('/'));
-        debug_assert_eq!(self.peek(), Some('*'));
-
-        self.bump();
+        debug_assert_eq!(self.cur(), Some(itok!("/*")));
         self.bump();
 
         // jsdoc
@@ -248,7 +245,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.state.had_line_break = true;
             }
 
-            was_star = c == '*';
+            was_star = c == itok!("*");
             self.bump();
         }
 
