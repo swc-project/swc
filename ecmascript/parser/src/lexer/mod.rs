@@ -10,7 +10,6 @@ use crate::{
     token::*,
     Context, JscTarget, Syntax,
 };
-use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, char, iter::FusedIterator, marker::PhantomData, mem::take, rc::Rc};
 use swc_atoms::{js_word, JsWord};

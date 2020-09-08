@@ -28,8 +28,9 @@ impl<'a, I: Input> Lexer<'a, I> {
         assert_eq!(self.cur(), Some(InternalToken::Num));
         let mut s: &str = self.input.slice_cur();
         let starts_with_dot = s.starts_with('.');
-
-        s = &s[1..];
+        if starts_with_dot {
+            s = &s[1..];
+        }
 
         let starts_with_zero = s.starts_with('0');
 
@@ -38,7 +39,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             0f64
         } else {
             // Use read_number_no_dot to support long numbers.
-            let (val, s) = self.read_number_no_dot_as_str(10)?;
+            let val = self.read_number_no_dot_as_str(10)?;
 
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
@@ -51,10 +52,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. `0` is decimal (so it can be part of float)
                     //
                     // e.g. `000` is octal
-                    if start.0 != self.last_pos().0 - 1 {
+                    if 1 < s.len() {
                         // `-1` is utf 8 length of `0`
 
-                        return self.make_legacy_octal(start, 0f64).map(Either::Left);
+                        return self.make_legacy_octal(start, 0f64);
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
