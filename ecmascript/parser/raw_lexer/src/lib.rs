@@ -358,7 +358,7 @@ pub enum InternalToken {
     BackSlash,
 
     #[token("//")]
-    LineCommmentStart,
+    LineCommentStart,
 
     #[token("/*")]
     BlockCommentStart,
