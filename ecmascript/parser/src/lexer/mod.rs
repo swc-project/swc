@@ -564,7 +564,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // XML style comment. `<!--`
-        if c == '<'
+        if c == itok!("<")
             && self.cur() == Some(itok!("!"))
             && self.peek() == Some(itok!("-"))
             && self.peek_ahead() == Some(itok!("-"))
