@@ -262,9 +262,6 @@ pub enum InternalToken {
     /// `*=`
     #[token("*=")]
     MulAssign,
-    /// `/=`
-    #[token("/=")]
-    DivAssign,
     /// `%=`
     #[token("%=")]
     ModAssign,

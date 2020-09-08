@@ -5,7 +5,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
-        let mut chunk_start = self.cur_pos();
+        let mut chunk_start = self.input.cur_pos();
         let mut out = String::new();
 
         loop {
@@ -16,13 +16,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.error(start, SyntaxError::UnterminatedJSXContents)?
                 }
             };
-            let cur_pos = self.cur_pos();
+            let cur_pos = self.input.cur_pos();
 
             match cur {
-                itok!("<") | itok!("{") => {
+                '<' | '{' => {
                     //
                     if cur_pos == self.state.start {
-                        if cur == itok!("<") && self.state.is_expr_allowed {
+                        if cur == '<' && self.state.is_expr_allowed {
                             self.input.bump();
                             return Ok(Token::JSXTagStart).map(Some);
                         }
@@ -37,7 +37,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     out.push_str(self.input.slice(chunk_start, cur_pos));
                     out.push(self.read_jsx_entity()?);
 
-                    chunk_start = self.cur_pos();
+                    chunk_start = self.input.cur_pos();
                 }
 
                 _ => {
@@ -80,7 +80,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut s = String::new();
 
         let c = self.input.cur();
-        debug_assert_eq!(c, Some(itok!("&")));
+        debug_assert_eq!(c, Some('&'));
         self.input.bump();
 
         let start_pos = self.input.cur_pos();
