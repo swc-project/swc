@@ -280,8 +280,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             itok!("|") => BinOp(BitOr),
             itok!("&") => BinOp(BitAnd),
 
-            itok!("||") => BinOp(Or),
-            itok!("&&") => BinOp(And),
+            itok!("||") => BinOp(LogicalOr),
+            itok!("&&") => BinOp(LogicalAnd),
             itok!("||=") => AssignOp(OrAssign),
             itok!("&&=") => AssignOp(AndAssign),
 
