@@ -198,12 +198,16 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             self.state.start = start;
 
             if self.syntax.typescript() && self.ctx.in_type {
-                if c == '<' {
-                    self.input.bump();
-                    return Ok(Some(tok!('<')));
-                } else if c == '>' {
-                    self.input.bump();
-                    return Ok(Some(tok!('>')));
+                match self.cur() {
+                    Some(itok!("<")) => {
+                        self.input.bump();
+                        return Ok(Some(tok!('<')));
+                    }
+                    Some(itok!(">")) => {
+                        self.input.bump();
+                        return Ok(Some(tok!('>')));
+                    }
+                    _ => {}
                 }
             }
 
