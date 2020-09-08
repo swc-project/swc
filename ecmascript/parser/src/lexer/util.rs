@@ -161,17 +161,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         while let Some(c) = self.cur() {
             self.bump();
-            if c.is_line_break() {
+            if c == InternalToken::NewLine {
                 self.state.had_line_break = true;
+                break;
             }
-            match c {
-                '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
-                    break;
-                }
-                _ => {
-                    end = self.cur_pos();
-                }
-            }
+
+            end = self.cur_pos();
         }
 
         if let Some(ref comments) = self.comments {
