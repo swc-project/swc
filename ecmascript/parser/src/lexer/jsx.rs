@@ -40,18 +40,16 @@ impl<'a, I: Input> Lexer<'a, I> {
                     chunk_start = self.input.cur_pos();
                 }
 
-                _ => {
-                    if cur.is_line_break() {
-                        out.push_str(self.input.slice(chunk_start, cur_pos));
-                        match self.read_jsx_new_line(true)? {
-                            Either::Left(s) => out.push_str(s),
-                            Either::Right(c) => out.push(c),
-                        }
-                        chunk_start = cur_pos;
-                    } else {
-                        self.input.bump()
+                InternalToken::NewLine => {
+                    out.push_str(self.input.slice(chunk_start, cur_pos));
+                    match self.read_jsx_new_line(true)? {
+                        Either::Left(s) => out.push_str(s),
+                        Either::Right(c) => out.push(c),
                     }
+                    chunk_start = cur_pos;
                 }
+
+                _ => self.input.bump(),
             }
         }
     }
