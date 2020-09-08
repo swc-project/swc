@@ -27,6 +27,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(&mut self) -> LexResult<f64> {
         assert_eq!(self.cur(), Some(InternalToken::Num));
         let mut s: &str = self.input.slice_cur();
+        let span = self.input.span();
         let starts_with_dot = s.starts_with('.');
         if starts_with_dot {
             s = &s[1..];
@@ -55,7 +56,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     if 1 < s.len() {
                         // `-1` is utf 8 length of `0`
 
-                        return self.make_legacy_octal(start, 0f64);
+                        return self.make_legacy_octal(span, 0f64);
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -67,7 +68,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         // if it contains '8' or '9', it's decimal.
                         if d.clone().any(|v| v == 8 || v == 9) {
                             if self.ctx.strict {
-                                self.error(start, SyntaxError::LegacyDecimal)?
+                                self.error_span(span, SyntaxError::LegacyDecimal)?
                             }
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
@@ -77,7 +78,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 .to_string()
                                 .parse()
                                 .expect("failed to parse numeric value as f64");
-                            return self.make_legacy_octal(start, val).map(Either::Left);
+                            return self.make_legacy_octal(span, val);
                         }
                     }
                 }
@@ -93,11 +94,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         //  `0.a`, `08.a`, `102.a` are invalid.
         //
         // `.1.a`, `.1e-4.a` are valid,
-        if self.cur() == Some('.') {
-            self.bump();
+        if self.cur() == Some(itok!(".")) {
+            self.bump(); // '.'
+
             if starts_with_dot {
-                debug_assert!(self.cur().is_some());
-                debug_assert!(self.cur().unwrap().is_digit(10));
+                // debug_assert!(self.cur().is_some());
+                // debug_assert!(self.cur().unwrap().is_digit(10));
             }
 
             let mut raw = Raw(Some(String::new()));
@@ -357,14 +359,15 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(total)
     }
 
-    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<f64> {
+    #[inline(never)]
+    fn make_legacy_octal(&mut self, span: Span, val: f64) -> LexResult<f64> {
         self.ensure_not_ident()?;
 
         if self.syntax.typescript() && self.target >= JscTarget::Es5 {
-            self.emit_error(start, SyntaxError::TS1085);
+            self.emit_error_span(span, SyntaxError::TS1085);
         }
         if self.ctx.strict {
-            self.emit_error(start, SyntaxError::LegacyOctal);
+            self.emit_error_span(span, SyntaxError::LegacyOctal);
         }
 
         return Ok(val);
