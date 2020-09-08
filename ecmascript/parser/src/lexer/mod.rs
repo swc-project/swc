@@ -579,6 +579,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let mut op = if c == itok!("<") { Lt } else { Gt };
+
+        Ok(Some(BinOp(op)))
     }
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
