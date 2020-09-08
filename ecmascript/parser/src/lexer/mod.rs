@@ -296,7 +296,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 if self.state.had_line_break {
                     match self.cur() {
-                        itok!(">") => {
+                        Some(itok!(">")) => {
                             if self.ctx.module {
                                 return self.error(start, SyntaxError::LegacyCommentInModule)?;
                             }
@@ -304,50 +304,65 @@ impl<'a, I: Input> Lexer<'a, I> {
                             self.skip_space()?;
                             return self.read_token();
                         }
+
+                        _ => {}
                     }
                 }
 
                 MinusMinus
             }
 
-            itok!("+") => BinOp(Add),
-            itok!("-") => BinOp(Sub),
+            itok!("+") => {
+                self.bump();
+                BinOp(Add)
+            }
+            itok!("-") => {
+                self.bump();
+                BinOp(Sub)
+            }
 
-            itok!("+=") => AssignOp(AddAssign),
-            itok!("-=") => AssignOp(SubAssign),
+            itok!("+=") => {
+                self.bump();
+                AssignOp(AddAssign)
+            }
+            itok!("-=") => {
+                self.bump();
+                AssignOp(SubAssign)
+            }
 
             itok!("<") | itok!(">") => return self.read_token_lt_gt(),
 
-            itok!("!") | itok!("=") => {
-                self.input.bump();
-
-                if self.input.cur() == Some('=') {
-                    // "=="
-                    self.input.bump();
-
-                    if self.input.cur() == Some('=') {
-                        self.input.bump();
-                        if c == '!' {
-                            BinOp(NotEqEq)
-                        } else {
-                            BinOp(EqEqEq)
-                        }
-                    } else if c == '!' {
-                        BinOp(NotEq)
-                    } else {
-                        BinOp(EqEq)
-                    }
-                } else if c == '=' && self.input.cur() == Some('>') {
-                    // "=>"
-                    self.input.bump();
-
-                    Arrow
-                } else if c == '!' {
-                    Bang
-                } else {
-                    AssignOp(Assign)
-                }
+            itok!("!") => {
+                self.bump();
+                Bang
             }
+            itok!("=") => {
+                self.bump();
+                AssignOp(Assign)
+            }
+
+            itok!("=>") => {
+                self.bump();
+                AssignOp(Assign)
+            }
+
+            itok!("!==") => {
+                self.bump();
+                BinOp(NotEqEq)
+            }
+            itok!("!=") => {
+                self.bump();
+                BinOp(NotEq)
+            }
+            itok!("===") => {
+                self.bump();
+                BinOp(EqEqEq)
+            }
+            itok!("==") => {
+                self.bump();
+                BinOp(EqEq)
+            }
+
             '~' => {
                 self.input.bump();
                 tok!('~')
