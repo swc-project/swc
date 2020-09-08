@@ -79,10 +79,10 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::Bang
     };
     ("+") => {
-        swc_ecma_raw_lexer::InternalToken::Plus
+        swc_ecma_raw_lexer::InternalToken::Add
     };
     ("-") => {
-        swc_ecma_raw_lexer::InternalToken::Minus
+        swc_ecma_raw_lexer::InternalToken::Sub
     };
     ("*") => {
         swc_ecma_raw_lexer::InternalToken::Mul
