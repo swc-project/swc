@@ -191,11 +191,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                     .map(Some);
             }
 
-            itok!("...") => {
-                return Ok(Some(tok!("...")));
-            }
-
-            itok!("(")
+            itok!("??")
+            | itok!("?")
+            | itok!("`")
+            | itok!("...")
+            | itok!("(")
             | itok!(")")
             | itok!(";")
             | itok!(",")
@@ -207,6 +207,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // These tokens are emitted directly.
                 self.input.bump();
                 return Ok(Some(match c {
+                    itok!("??") => tok!("??"),
+                    itok!("?") => tok!('?'),
+                    itok!("`") => tok!('`'),
                     itok!("(") => LParen,
                     itok!(")") => RParen,
                     itok!(";") => Semi,
@@ -217,6 +220,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     itok!("}") => RBrace,
                     itok!("@") => At,
                     itok!("?") => QuestionMark,
+                    itok!("...") => DotDotDot,
                     _ => unreachable!(),
                 }));
             }
@@ -224,21 +228,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             itok!("??=") if self.syntax.typescript() => {
                 self.input.bump();
                 return Ok(Some(tok!("??=")));
-            }
-
-            itok!("??") => {
-                self.input.bump();
-                return Ok(Some(tok!("??")));
-            }
-
-            itok!("?") => {
-                self.input.bump();
-                return Ok(Some(tok!('?')));
-            }
-
-            itok!("`") => {
-                self.bump();
-                return Ok(Some(tok!('`')));
             }
 
             itok!(":") => {
