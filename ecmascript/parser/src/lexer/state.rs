@@ -1,5 +1,5 @@
 use super::{Context, Input, Lexer};
-use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
+use crate::{error::Error, input::Tokens, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use log::trace;
 use std::{mem, mem::take};
