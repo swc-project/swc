@@ -157,7 +157,8 @@ impl Syntax {
         }
     }
 
-    pub fn num_sep(self) -> bool {
+    /// Always true as numeric separator is now in the ecmascript spec.
+    pub const fn num_sep(self) -> bool {
         true
     }
 

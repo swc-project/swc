@@ -17,7 +17,6 @@ impl<'a> Lexer<'a> {
             2 <= s.len(),
             "Big int literal should have at least one digit and 'n'"
         );
-
         self.input.bump();
 
         match BigIntValue::parse_bytes(s[..s.len() - 1].as_bytes(), 10) {
@@ -302,14 +301,10 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    /// This method handles numeric separator.
+    ///
     /// `op`- |total, radix, value| -> (total * radix + value, continue)
-    fn read_digits<F, Ret>(
-        &mut self,
-        radix: u8,
-        mut op: F,
-        raw: &mut Raw,
-        allow_num_separator: bool,
-    ) -> LexResult<Ret>
+    fn parse_number<F, Ret>(&self, s: &str, radix: u8, mut op: F) -> LexResult<Ret>
     where
         F: FnMut(Ret, u8, u32) -> (Ret, bool),
         Ret: Copy + Default,
@@ -326,8 +321,8 @@ impl<'a> Lexer<'a> {
         let mut total: Ret = Default::default();
 
         let mut prev = None;
-        while let Some(c) = self.input.cur_char() {
-            if allow_num_separator && self.syntax.num_sep() && c == '_' {
+        for c in s.chars() {
+            if self.syntax.num_sep() && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
                         return false;

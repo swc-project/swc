@@ -18,6 +18,7 @@ enum_kind = {version = "0.2", path = "../../macros/enum_kind"}
 fxhash = "0.2.1"
 log = "0.4"
 num-bigint = "0.2"
+num-traits = "0.2.12"
 serde = {version = "1", features = ["derive"]}
 smallvec = "1"
 swc_atoms = {version = "0.2", path = "../../atoms"}
