@@ -174,11 +174,6 @@ impl<'a> Lexer<'a> {
             // identifiers, so '\' also dispatches to that.
             InternalToken::Ident | itok!("\\") => return self.read_ident_or_keyword().map(Some),
 
-            //
-            itok!(".") => {
-                return Ok(Some(tok!('.')));
-            }
-
             InternalToken::BigInt => return self.read_bigint().map(Token::BigInt).map(Some),
 
             InternalToken::Num => {
@@ -227,6 +222,7 @@ impl<'a> Lexer<'a> {
             | itok!("?")
             | itok!("`")
             | itok!("...")
+            | itok!(".")
             | itok!("(")
             | itok!(")")
             | itok!(";")
@@ -258,6 +254,7 @@ impl<'a> Lexer<'a> {
                     itok!("}") => RBrace,
                     itok!("@") => At,
                     itok!("...") => DotDotDot,
+                    itok!(".") => Dot,
                     itok!("<<") => BinOp(LShift),
                     itok!("<<=") => AssignOp(LShiftAssign),
                     itok!(">>") => BinOp(RShift),
