@@ -563,5 +563,5 @@ fn issue_1052() {
     let f = file("tests/projects/issue-1052/input.ts").unwrap();
     println!("{}", f);
 
-    panic!()
+    assert!(!f.contains("_new"))
 }
