@@ -316,7 +316,7 @@ pub enum InternalToken {
     NullishAssign,
 
     /// Content of template literal
-    #[regex(r#"`(?:[^`]|\\`)*`"#)]
+    #[regex(r#"(?:[^`^(\\$\\{)]|\\`)*"#)]
     Template,
 
     /// '?'
