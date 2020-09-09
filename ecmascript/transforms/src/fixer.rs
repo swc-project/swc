@@ -89,6 +89,13 @@ impl VisitMut for Fixer<'_> {
         let old = self.ctx;
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
+        match &mut node.callee {
+            ExprOrSuper::Expr(e) if e.is_cond() => {
+                self.wrap(&mut **e);
+            }
+            _ => {}
+        }
+
         self.ctx = old;
     }
 
@@ -944,4 +951,11 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_931, "new (eval('Date'))();");
 
     identical!(issue_1002, "new (P || (P = Promise))");
+
+    identical!(
+        issue_1050,
+        "
+        (a) => (set) => (elemE(a, set) ? removeE : insertE)(a)(set)
+        "
+    );
 }
