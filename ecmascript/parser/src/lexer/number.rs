@@ -42,9 +42,19 @@ impl<'a> Lexer<'a> {
 
             InternalToken::DecNum => {}
 
-            InternalToken::HexNum => {}
+            InternalToken::HexNum => {
+                debug_assert!(
+                    self.input.slice_cur().starts_with("0x")
+                        || self.input.slice_cur().starts_with("0X")
+                );
+            }
 
-            InternalToken::OctalNum => {}
+            InternalToken::OctalNum => {
+                debug_assert!(
+                    self.input.slice_cur().starts_with("0o")
+                        || self.input.slice_cur().starts_with("0O")
+                );
+            }
 
             _ => unreachable!("read_number called with {:?}", self.cur().unwrap()),
         }
