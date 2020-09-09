@@ -6,7 +6,7 @@ use super::*;
 use crate::error::SyntaxError;
 use log::trace;
 use num_bigint::BigInt as BigIntValue;
-use std::{fmt::Write, iter::FusedIterator};
+use std::iter::FusedIterator;
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
