@@ -816,7 +816,7 @@ impl<'a> Lexer<'a> {
                     }
                     escaped = c == '\\';
                 }
-                l.bump();
+                l.input.bump_bytes(c.len_utf8());
                 buf.push(c);
             }
 
