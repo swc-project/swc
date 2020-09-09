@@ -27,6 +27,20 @@ impl VisitMut for EsReservedWord {
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        match &e.obj {
+            ExprOrSuper::Super(_) => {}
+            ExprOrSuper::Expr(obj) => match &**obj {
+                Expr::Ident(Ident {
+                    sym: js_word!("new"),
+                    ..
+                })
+                | Expr::Ident(Ident {
+                    sym: js_word!("import"),
+                    ..
+                }) => return,
+                _ => {}
+            },
+        }
         e.obj.visit_mut_with(self);
 
         if e.computed {
