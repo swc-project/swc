@@ -346,10 +346,10 @@ pub enum InternalToken {
     #[token("\\")]
     BackSlash,
 
-    #[token("//")]
+    #[regex(r"//[^\n]*")]
     LineCommentStart,
 
-    #[token("/*")]
+    #[regex(r"/\*(?:[^*]|\*[^/])*\*/")]
     BlockCommentStart,
 
     #[token("${")]
