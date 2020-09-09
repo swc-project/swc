@@ -28,7 +28,27 @@ impl<'a> Lexer<'a> {
 
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(&mut self) -> LexResult<f64> {
-        assert_eq!(self.cur(), Some(InternalToken::Num));
+        assert_ne!(self.input.cur(), None);
+
+        match self.input.cur().unwrap() {
+            InternalToken::FloatNum => {}
+
+            InternalToken::BinNum => {
+                debug_assert!(
+                    self.input.slice_cur().starts_with("0b")
+                        || self.input.slice_cur().starts_with("0B")
+                );
+            }
+
+            InternalToken::DecNum => {}
+
+            InternalToken::HexNum => {}
+
+            InternalToken::OctalNum => {}
+
+            _ => unreachable!("read_number called with {:?}", self.cur().unwrap()),
+        }
+
         let mut s: &str = self.input.slice_cur();
         let span = self.input.span();
         self.input.bump();

@@ -325,12 +325,20 @@ pub enum InternalToken {
     #[regex(r#"'(?:[^']|\\\\|\\')*'"#)]
     Str,
 
-    #[regex("(?&decimal)")]
-    #[regex("0[xX](?&hex)")]
-    #[regex("0[oO](?&octal)")]
-    #[regex("0[bB](?&binary)")]
     #[regex("[0-9]*\\.[0-9_]+([eE][+-]?[0-9_]+)?|[0f9]+[eE][+-]?[0-9_]+")]
-    Num,
+    FloatNum,
+
+    #[regex("0[bB](?&binary)")]
+    BinNum,
+
+    #[regex("(?&decimal)")]
+    DecNum,
+
+    #[regex("0[xX](?&hex)")]
+    HexNum,
+
+    #[regex("0[oO](?&octal)")]
+    OctalNum,
 
     #[regex("[0-9]+n")]
     BigInt,
