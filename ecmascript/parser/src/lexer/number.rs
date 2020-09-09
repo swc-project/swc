@@ -10,7 +10,7 @@ use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
-        assert_eq!(self.cur(), Some(InternalToken::Num));
+        assert_eq!(self.cur(), Some(InternalToken::BigInt));
         let span = self.input.span();
 
         let s: &str = self.input.slice_cur();
