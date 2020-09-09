@@ -72,7 +72,7 @@ macro_rules! itok {
     };
 
     ("`") => {
-        swc_ecma_raw_lexer::InternalToken::BackQutoe
+        swc_ecma_raw_lexer::InternalToken::BackQuote
     };
     (":") => {
         swc_ecma_raw_lexer::InternalToken::Colon

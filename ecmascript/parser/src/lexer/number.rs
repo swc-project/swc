@@ -11,10 +11,9 @@ use std::{fmt::Write, iter::FusedIterator};
 impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
         assert_eq!(self.cur(), Some(InternalToken::Num));
-        let start = self.cur_pos();
         let span = self.input.span();
 
-        let mut s: &str = self.input.slice_cur();
+        let s: &str = self.input.slice_cur();
 
         match BigIntValue::parse_bytes(s.as_bytes(), 10) {
             Some(v) => Ok(v),
@@ -554,7 +553,13 @@ mod tests {
 
             let vec = panic::catch_unwind(|| {
                 crate::with_test_sess(case, |_, input| {
-                    let mut l = Lexer::new(Syntax::default(), Default::default(), input, None);
+                    let mut l = Lexer::new(
+                        Syntax::default(),
+                        Default::default(),
+                        input.start_pos,
+                        case,
+                        None,
+                    );
                     l.ctx.strict = strict;
                     Ok(l.map(|ts| ts.token).collect::<Vec<_>>())
                 })

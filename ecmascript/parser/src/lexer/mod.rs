@@ -611,7 +611,7 @@ impl<'a> Lexer<'a> {
             return self.read_token();
         }
 
-        let mut op = if c == itok!("<") { Lt } else { Gt };
+        let op = if c == itok!("<") { Lt } else { Gt };
 
         Ok(Some(BinOp(op)))
     }
