@@ -161,6 +161,11 @@ impl<'a> Iterator for Lexer<'a> {
                 start = self.input.cur_pos();
             };
 
+            if let Some(InternalToken::Error) = self.input.cur() {
+                // TODO: Change this to lex error
+                unreachable!("Error token: {}", self.input.slice_cur());
+            }
+
             match self.input.cur() {
                 Some(..) => {}
                 // End of input.
