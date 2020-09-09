@@ -170,45 +170,6 @@ impl<'a> Lexer<'a> {
         let token = match c {
             itok!("#") => return self.read_token_number_sign(),
 
-            InternalToken::Null => return Ok(Token::Word(Word::Null)),
-            InternalToken::True => return Ok(Token::Word(Word::True)),
-            InternalToken::False => return Ok(Token::Word(Word::False)),
-            InternalToken::Await => return Ok(Token::Word(Await.into())),
-            InternalToken::Break => return Ok(Token::Word(Break.into())),
-            InternalToken::Case => return Ok(Token::Word(Case.into())),
-            InternalToken::Catch => return Ok(Token::Word(Catch.into())),
-            InternalToken::Continue => return Ok(Token::Word(Continue.into())),
-            InternalToken::Debugger => return Ok(Token::Word(Debugger.into())),
-            InternalToken::Default => return Ok(Token::Word(Default_.into())),
-            InternalToken::Do => return Ok(Token::Word(Do.into())),
-            InternalToken::Export => return Ok(Token::Word(Export.into())),
-            InternalToken::Else => return Ok(Token::Word(Else.into())),
-            InternalToken::Finally => return Ok(Token::Word(Finally.into())),
-            InternalToken::For => For.into(),
-            InternalToken::Function => Function.into(),
-            InternalToken::If => If.into(),
-            InternalToken::Return => Return.into(),
-            InternalToken::Switch => Switch.into(),
-            InternalToken::Throw => Throw.into(),
-            InternalToken::Try => Try.into(),
-            InternalToken::Var => Var.into(),
-            InternalToken::Let => Let.into(),
-            InternalToken::Const => Const.into(),
-            InternalToken::While => While.into(),
-            InternalToken::With => With.into(),
-            InternalToken::New => New.into(),
-            InternalToken::This => This.into(),
-            InternalToken::Super => Super.into(),
-            InternalToken::Class => Class.into(),
-            InternalToken::Extends => Extends.into(),
-            InternalToken::Import => Import.into(),
-            InternalToken::Yield => Yield.into(),
-            InternalToken::In => In.into(),
-            InternalToken::InstanceOf => InstanceOf.into(),
-            InternalToken::TypeOf => TypeOf.into(),
-            InternalToken::Void => Void.into(),
-            InternalToken::Delete => Delete.into(),
-
             // Identifier or keyword. '\uXXXX' sequences are allowed in
             // identifiers, so '\' also dispatches to that.
             InternalToken::Ident | itok!("\\") => return self.read_ident_or_keyword().map(Some),
@@ -224,7 +185,45 @@ impl<'a> Lexer<'a> {
                 return self.read_number().map(Token::Num).map(Some);
             }
 
-            itok!("??")
+            InternalToken::Null
+            | InternalToken::True
+            | InternalToken::False
+            | InternalToken::Await
+            | InternalToken::Break
+            | InternalToken::Case
+            | InternalToken::Catch
+            | InternalToken::Continue
+            | InternalToken::Debugger
+            | InternalToken::Default
+            | InternalToken::Do
+            | InternalToken::Export
+            | InternalToken::Else
+            | InternalToken::Finally
+            | InternalToken::For
+            | InternalToken::Function
+            | InternalToken::If
+            | InternalToken::Return
+            | InternalToken::Switch
+            | InternalToken::Throw
+            | InternalToken::Try
+            | InternalToken::Var
+            | InternalToken::Let
+            | InternalToken::Const
+            | InternalToken::While
+            | InternalToken::With
+            | InternalToken::New
+            | InternalToken::This
+            | InternalToken::Super
+            | InternalToken::Class
+            | InternalToken::Extends
+            | InternalToken::Import
+            | InternalToken::Yield
+            | InternalToken::In
+            | InternalToken::InstanceOf
+            | InternalToken::TypeOf
+            | InternalToken::Void
+            | InternalToken::Delete
+            | itok!("??")
             | itok!("?")
             | itok!("`")
             | itok!("...")
@@ -265,6 +264,44 @@ impl<'a> Lexer<'a> {
                     itok!(">>=") => AssignOp(RShiftAssign),
                     itok!(">>>") => BinOp(ZeroFillRShift),
                     itok!(">>>=") => AssignOp(ZeroFillRShiftAssign),
+                    InternalToken::Null => Word(Word::Null),
+                    InternalToken::True => Word(Word::True),
+                    InternalToken::False => Word(Word::False),
+                    InternalToken::Await => Word(Await.into()),
+                    InternalToken::Break => Word(Break.into()),
+                    InternalToken::Case => Word(Case.into()),
+                    InternalToken::Catch => Word(Catch.into()),
+                    InternalToken::Continue => Word(Continue.into()),
+                    InternalToken::Debugger => Word(Debugger.into()),
+                    InternalToken::Default => Word(Default_.into()),
+                    InternalToken::Do => Word(Do.into()),
+                    InternalToken::Export => Word(Export.into()),
+                    InternalToken::Else => Word(Else.into()),
+                    InternalToken::Finally => Word(Finally.into()),
+                    InternalToken::For => Word(For.into()),
+                    InternalToken::Function => Word(Function.into()),
+                    InternalToken::If => Word(If.into()),
+                    InternalToken::Return => Word(Return.into()),
+                    InternalToken::Switch => Word(Switch.into()),
+                    InternalToken::Throw => Word(Throw.into()),
+                    InternalToken::Try => Word(Try.into()),
+                    InternalToken::Var => Word(Var.into()),
+                    InternalToken::Let => Word(Let.into()),
+                    InternalToken::Const => Word(Const.into()),
+                    InternalToken::While => Word(While.into()),
+                    InternalToken::With => Word(With.into()),
+                    InternalToken::New => Word(New.into()),
+                    InternalToken::This => Word(This.into()),
+                    InternalToken::Super => Word(Super.into()),
+                    InternalToken::Class => Word(Class.into()),
+                    InternalToken::Extends => Word(Extends.into()),
+                    InternalToken::Import => Word(Import.into()),
+                    InternalToken::Yield => Word(Yield.into()),
+                    InternalToken::In => Word(In.into()),
+                    InternalToken::InstanceOf => Word(InstanceOf.into()),
+                    InternalToken::TypeOf => Word(TypeOf.into()),
+                    InternalToken::Void => Word(Void.into()),
+                    InternalToken::Delete => Word(Delete.into()),
                     _ => unreachable!(),
                 }));
             }
