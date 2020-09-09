@@ -1,8 +1,6 @@
 //! **Not for direct usage**. This is an interal utility crate to reduce compile
 //! time.
 
-//! Temporarilly exposed for benchmarking
-
 use logos::{Lexer, Logos};
 use swc_common::{BytePos, Span, DUMMY_SP};
 
@@ -363,12 +361,15 @@ pub struct DumbLexer<'a> {
     start: BytePos,
     cur: Option<(InternalToken, logos::Span, &'a str)>,
     inner: Lexer<'a, InternalToken>,
+    prev_hi: BytePos,
 }
 
 impl<'a> DumbLexer<'a> {
     pub fn bump(&mut self) {
         match self.cur.take() {
-            Some(_) => {}
+            Some(v) => {
+                self.prev_hi = self.start + BytePos(v.1.end as _);
+            }
             None => {
                 self.inner.next();
             }
@@ -380,6 +381,7 @@ impl<'a> DumbLexer<'a> {
             start,
             cur: None,
             inner: InternalToken::lexer(s),
+            prev_hi: start,
         }
     }
 
@@ -401,13 +403,16 @@ impl<'a> DumbLexer<'a> {
 
         Span::new(
             BytePos(s.start as _),
-            BytePos(s.end as _),
+            BytePos((s.end - 1) as _),
             Default::default(),
         )
     }
 
+    pub const fn prev_hi(&self) -> BytePos {
+        self.prev_hi
+    }
+
     #[inline]
-    #[track_caller]
     pub fn cur(&mut self) -> Option<InternalToken> {
         match self.cur {
             Some(_) => {}
@@ -454,6 +459,7 @@ impl<'a> DumbLexer<'a> {
                 self.cur = None;
                 new_inner.bump(cnt);
                 self.inner = new_inner;
+                self.prev_hi = self.prev_hi + BytePos(cnt as _);
             }
             None => {
                 self.inner.bump(cnt);

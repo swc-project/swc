@@ -7,6 +7,7 @@ use super::{
 use crate::error::{Error, SyntaxError};
 use std::{ops::Range, str};
 use test::{black_box, Bencher};
+use testing::assert_eq;
 
 fn sp(r: Range<usize>) -> Span {
     Span {

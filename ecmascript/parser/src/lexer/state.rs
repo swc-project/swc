@@ -269,7 +269,7 @@ impl<'a> Iterator for Lexer<'a> {
             Err(e) => e,
         };
 
-        let span = Span::new(start, self.input.span().hi, Default::default());
+        let span = Span::new(start, self.input.prev_hi(), Default::default());
         if let Some(ref token) = token {
             if self.leading_comments_buffer.is_some()
                 && !self
