@@ -2,7 +2,9 @@ use crate::perf::Check;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, Node, Visit, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+};
 
 pub fn reserved_words() -> impl 'static + Fold {
     as_folder(EsReservedWord)
@@ -76,6 +78,8 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
+    noop_visit_type!();
+
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if is_reserved(&i.sym) {
             self.found = true;
