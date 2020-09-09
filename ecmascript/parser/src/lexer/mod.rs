@@ -169,6 +169,46 @@ impl<'a> Lexer<'a> {
 
         let token = match c {
             itok!("#") => return self.read_token_number_sign(),
+
+            InternalToken::Null => return Ok(Token::Word(Word::Null)),
+            InternalToken::True => return Ok(Token::Word(Word::True)),
+            InternalToken::False => return Ok(Token::Word(Word::False)),
+            InternalToken::Await => return Ok(Token::Word(Await.into())),
+            InternalToken::Break => return Ok(Token::Word(Break.into())),
+            InternalToken::Case => return Ok(Token::Word(Case.into())),
+            InternalToken::Catch => return Ok(Token::Word(Catch.into())),
+            InternalToken::Continue => return Ok(Token::Word(Continue.into())),
+            InternalToken::Debugger => return Ok(Token::Word(Debugger.into())),
+            InternalToken::Default => return Ok(Token::Word(Default_.into())),
+            InternalToken::Do => return Ok(Token::Word(Do.into())),
+            InternalToken::Export => return Ok(Token::Word(Export.into())),
+            InternalToken::Else => return Ok(Token::Word(Else.into())),
+            InternalToken::Finally => return Ok(Token::Word(Finally.into())),
+            InternalToken::For => For.into(),
+            InternalToken::Function => Function.into(),
+            InternalToken::If => If.into(),
+            InternalToken::Return => Return.into(),
+            InternalToken::Switch => Switch.into(),
+            InternalToken::Throw => Throw.into(),
+            InternalToken::Try => Try.into(),
+            InternalToken::Var => Var.into(),
+            InternalToken::Let => Let.into(),
+            InternalToken::Const => Const.into(),
+            InternalToken::While => While.into(),
+            InternalToken::With => With.into(),
+            InternalToken::New => New.into(),
+            InternalToken::This => This.into(),
+            InternalToken::Super => Super.into(),
+            InternalToken::Class => Class.into(),
+            InternalToken::Extends => Extends.into(),
+            InternalToken::Import => Import.into(),
+            InternalToken::Yield => Yield.into(),
+            InternalToken::In => In.into(),
+            InternalToken::InstanceOf => InstanceOf.into(),
+            InternalToken::TypeOf => TypeOf.into(),
+            InternalToken::Void => Void.into(),
+            InternalToken::Delete => Delete.into(),
+
             // Identifier or keyword. '\uXXXX' sequences are allowed in
             // identifiers, so '\' also dispatches to that.
             InternalToken::Ident | itok!("\\") => return self.read_ident_or_keyword().map(Some),
@@ -697,6 +737,8 @@ impl<'a> Lexer<'a> {
     {
         let slice = self.input.slice_cur();
         let ret = convert(self.input.cur().unwrap(), slice);
+
+        self.input.bump();
 
         Ok((ret, slice.contains('\\')))
     }

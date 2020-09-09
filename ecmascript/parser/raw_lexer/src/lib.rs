@@ -343,7 +343,7 @@ pub enum InternalToken {
     #[regex("0[xX](?&hex)")]
     #[regex("0[oO](?&octal)")]
     #[regex("0[bB](?&binary)")]
-    #[regex("[0-9]*\\.[0-9]+([eE][+-]?[0-9]+)?|[0f9]+[eE][+-]?[0-9]+")]
+    #[regex("[0-9]*\\.[0-9_]+([eE][+-]?[0-9_]+)?|[0f9]+[eE][+-]?[0-9_]+")]
     Num,
 
     #[regex("[0-9]+n")]
@@ -416,12 +416,13 @@ impl<'a> DumbLexer<'a> {
     }
 
     #[inline]
+    #[track_caller]
     pub fn cur(&mut self) -> Option<InternalToken> {
         match self.cur {
             Some(_) => {}
             None => {
                 let token = self.inner.next()?;
-                self.cur = Some((token, self.inner.span(), self.inner.slice()))
+                self.cur = Some((token, self.inner.span(), self.inner.slice()));
             }
         }
 
