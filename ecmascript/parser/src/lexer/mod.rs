@@ -176,7 +176,11 @@ impl<'a> Lexer<'a> {
 
             InternalToken::BigInt => return self.read_bigint().map(Token::BigInt).map(Some),
 
-            InternalToken::Num => {
+            InternalToken::FloatNum
+            | InternalToken::BinNum
+            | InternalToken::DecNum
+            | InternalToken::HexNum
+            | InternalToken::OctalNum => {
                 return self.read_number().map(Token::Num).map(Some);
             }
 
