@@ -692,13 +692,23 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+            self.handle_types,
+        );
+
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
-        c.params.visit_mut_with(self);
+        c.params.visit_mut_with(&mut folder);
         self.ident_type = old;
 
-        c.body.visit_mut_with(self);
-        c.key.visit_mut_with(self);
+        c.body.visit_mut_with(&mut folder);
+        c.key.visit_mut_with(&mut folder);
     }
 
     /// Leftmost one of a member expression should be resolved.
