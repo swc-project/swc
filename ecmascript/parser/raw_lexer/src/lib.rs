@@ -23,19 +23,11 @@ pub enum InternalToken {
     #[error]
     Error,
 
-    #[token("\n")]
-    #[token("\r")]
-    #[token("\u{2028}")]
-    #[token("\u{2029}")]
+    #[regex("[\n\r\u{2028}\u{2029}]+")]
     NewLine,
 
     /// Whitespace except newlines
-    #[token("\u{0009}")]
-    #[token("\u{000b}")]
-    #[token("\u{000c}")]
-    #[token("\u{0020}")]
-    #[token("\u{00a0}")]
-    #[token("\u{feff}")]
+    #[regex("[\u{0009}\u{000b}\u{000c}\u{0020}\u{00a0}\u{feff}]+")]
     Whitespace,
 
     #[token("null")]
