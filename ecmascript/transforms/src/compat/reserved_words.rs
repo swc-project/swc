@@ -2,60 +2,39 @@ use crate::perf::Check;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, Node, Visit, VisitMut, VisitMutWith};
 
 pub fn reserved_words() -> impl 'static + Fold {
-    EsReservedWord {}
+    as_folder(EsReservedWord)
 }
 
-struct EsReservedWord {}
+struct EsReservedWord;
 
 #[fast_path(ShouldWork)]
-impl Fold for EsReservedWord {
-    noop_fold_type!();
+impl VisitMut for EsReservedWord {
+    noop_visit_mut_type!();
 
-    fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
-        n
+    fn visit_mut_export_specifier(&mut self, _n: &mut ExportSpecifier) {}
+
+    fn visit_mut_meta_prop_expr(&mut self, _n: &mut MetaPropExpr) {}
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        rename_ident(&mut i.sym, true);
     }
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        let sym = rename_ident(i.sym, true);
-
-        Ident { sym, ..i }
+    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
+        s.local.visit_mut_with(self);
     }
 
-    fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
-        if s.imported.is_some() {
-            ImportNamedSpecifier {
-                local: s.local.fold_with(self),
-                ..s
-            }
-        } else {
-            ImportNamedSpecifier {
-                imported: s.imported.fold_with(self),
-                ..s
-            }
-        }
-    }
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
 
-    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
         if e.computed {
-            MemberExpr {
-                obj: e.obj.fold_with(self),
-                prop: e.prop.fold_with(self),
-                ..e
-            }
-        } else {
-            MemberExpr {
-                obj: e.obj.fold_with(self),
-                ..e
-            }
+            e.prop.visit_mut_with(self);
         }
     }
 
-    fn fold_prop_name(&mut self, n: PropName) -> PropName {
-        n
-    }
+    fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
 }
 
 fn is_reserved(sym: &JsWord) -> bool {
@@ -70,12 +49,11 @@ fn is_reserved(sym: &JsWord) -> bool {
     }
 }
 
-fn rename_ident(sym: JsWord, _strict: bool) -> JsWord {
+fn rename_ident(sym: &mut JsWord, _strict: bool) {
     // Es
-    if is_reserved(&sym) {
-        format!("_{}", sym).into()
-    } else {
-        sym
+    if is_reserved(&*sym) {
+        let s = format!("_{}", sym).into();
+        *sym = s;
     }
 }
 #[derive(Default)]
