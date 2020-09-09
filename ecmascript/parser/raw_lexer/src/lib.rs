@@ -340,7 +340,7 @@ pub enum InternalToken {
     #[regex("0[oO](?&octal)")]
     OctalNum,
 
-    #[regex("[0-9]+n")]
+    #[regex("[0-9][0-9_]+n")]
     BigInt,
 
     #[token("#![.]*[\n\r\u{8232}\u{8233}]")]
