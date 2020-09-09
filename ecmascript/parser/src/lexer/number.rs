@@ -35,8 +35,8 @@ impl<'a> Lexer<'a> {
             InternalToken::FloatNum => {
                 let val = s.replace('_', "").parse().unwrap_or_else(|err| {
                     panic!(
-                        "InternalToken::FloatNum returned '{}', which is not a valid f64",
-                        s
+                        "InternalToken::FloatNum returned '{}', which is not a valid f64: {:?}",
+                        s, err
                     )
                 });
 
