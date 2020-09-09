@@ -305,9 +305,6 @@ pub enum InternalToken {
     #[token("??=")]
     NullishAssign,
 
-    // /// Content of template literal
-    // #[regex(r#"(?:[^`^(\\$\\{)]|\\`)*"#)]
-    // Template,
     /// '?'
     #[token("?")]
     QuestionMark,

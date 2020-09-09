@@ -909,10 +909,10 @@ impl<'a> Lexer<'a> {
                     }
                     c
                 };
-                self.bump();
+                self.input.bump_bytes(c.len_utf8());
                 cooked.push(c);
             } else {
-                self.bump();
+                self.input.bump_bytes(c.len_utf8());
                 cooked.push(c);
                 raw.push(c);
             }
