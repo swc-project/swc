@@ -391,9 +391,11 @@ impl<'a> DumbLexer<'a> {
 
     #[inline]
     pub fn cur_pos(&mut self) -> BytePos {
-        let span = self.inner.span();
+        let _ = self.cur();
 
-        self.start + BytePos(span.start as _)
+        let span = self.span();
+
+        span.lo
     }
 
     #[inline]
@@ -402,7 +404,7 @@ impl<'a> DumbLexer<'a> {
 
         let s = match self.cur.as_ref() {
             Some(v) => v.1.clone(),
-            _ => return DUMMY_SP,
+            _ => return Span::new(self.prev_hi, self.prev_hi, Default::default()),
         };
 
         Span::new(
