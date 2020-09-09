@@ -172,7 +172,7 @@ impl<'a> Lexer<'a> {
 
             // Identifier or keyword. '\uXXXX' sequences are allowed in
             // identifiers, so '\' also dispatches to that.
-            InternalToken::Ident | itok!("\\") => return self.read_ident_or_keyword().map(Some),
+            InternalToken::Ident | itok!("\\") => return self.read_ident().map(Some),
 
             InternalToken::BigInt => return self.read_bigint().map(Token::BigInt).map(Some),
 
@@ -691,64 +691,13 @@ impl<'a> Lexer<'a> {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
-    fn read_ident_or_keyword(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur().is_some());
-        let start = self.cur_pos();
+    fn read_ident(&mut self) -> LexResult<Token> {
+        debug_assert_eq!(self.cur(), Some(InternalToken::Ident));
 
-        let (word, has_escape) = self.read_word_as_str_with(|tok, value| match tok {
-            InternalToken::Null => Word::Null,
-            InternalToken::True => Word::True,
-            InternalToken::False => Word::False,
-            InternalToken::Await => Await.into(),
-            InternalToken::Break => Break.into(),
-            InternalToken::Case => Case.into(),
-            InternalToken::Catch => Catch.into(),
-            InternalToken::Continue => Continue.into(),
-            InternalToken::Debugger => Debugger.into(),
-            InternalToken::Default => Default_.into(),
-            InternalToken::Do => Do.into(),
-            InternalToken::Export => Export.into(),
-            InternalToken::Else => Else.into(),
-            InternalToken::Finally => Finally.into(),
-            InternalToken::For => For.into(),
-            InternalToken::Function => Function.into(),
-            InternalToken::If => If.into(),
-            InternalToken::Return => Return.into(),
-            InternalToken::Switch => Switch.into(),
-            InternalToken::Throw => Throw.into(),
-            InternalToken::Try => Try.into(),
-            InternalToken::Var => Var.into(),
-            InternalToken::Let => Let.into(),
-            InternalToken::Const => Const.into(),
-            InternalToken::While => While.into(),
-            InternalToken::With => With.into(),
-            InternalToken::New => New.into(),
-            InternalToken::This => This.into(),
-            InternalToken::Super => Super.into(),
-            InternalToken::Class => Class.into(),
-            InternalToken::Extends => Extends.into(),
-            InternalToken::Import => Import.into(),
-            InternalToken::Yield => Yield.into(),
-            InternalToken::In => In.into(),
-            InternalToken::InstanceOf => InstanceOf.into(),
-            InternalToken::TypeOf => TypeOf.into(),
-            InternalToken::Void => Void.into(),
-            InternalToken::Delete => Delete.into(),
-            _ => Word::Ident(value.into()),
-        })?;
+        let word = Word::Ident(self.input.slice_cur().into());
+        self.input.bump();
 
-        // Note: ctx is store in lexer because of this error.
-        // 'await' and 'yield' may have semantic of reserved word, which means lexer
-        // should know context or parser should handle this error. Our approach to this
-        // problem is former one.
-        if has_escape && self.ctx.is_reserved(&word) {
-            self.error(
-                start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
-            )?
-        } else {
-            Ok(Word(word))
-        }
+        Ok(Word(word))
     }
 
     fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
