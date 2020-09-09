@@ -32,7 +32,15 @@ impl<'a> Lexer<'a> {
         let s = self.input.slice_cur();
 
         match self.input.cur().unwrap() {
-            InternalToken::FloatNum => {}
+            InternalToken::FloatNum => {
+                //
+                return Ok(s.replace('_', "").parse().unwrap_or_else(|err| {
+                    panic!(
+                        "InternalToken::FloatNum returned '{}', which is not a valid f64",
+                        s
+                    )
+                }));
+            }
 
             InternalToken::BinNum => {
                 debug_assert!(
@@ -343,7 +351,7 @@ impl<'a> Lexer<'a> {
         let mut total: Ret = Default::default();
 
         let mut prev = None;
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input.cur_char() {
             if allow_num_separator && self.syntax.num_sep() && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
@@ -370,15 +378,15 @@ impl<'a> Lexer<'a> {
                     }
                 };
 
-                let next = self.input.peek();
+                let next = self.input.peek_char();
 
                 if !is_allowed(next) {
-                    self.emit_error(
+                    self.emit_error_bpos(
                         start,
                         SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
                     );
                 } else if is_forbidden(prev) || is_forbidden(next) {
-                    self.emit_error(
+                    self.emit_error_bpos(
                         start,
                         SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
                     );
@@ -413,7 +421,7 @@ impl<'a> Lexer<'a> {
     /// This method handles numeric separator.
     ///
     /// `op`- |total, radix, value| -> (total * radix + value)
-    fn parse_number<F, Ret>(&self, s: &str, radix: u8, mut op: F) -> LexResult<Ret>
+    fn parse_number<F, Ret>(&mut self, s: &str, radix: u8, mut op: F) -> LexResult<Ret>
     where
         F: FnMut(Ret, u8, u32) -> Ret,
         Ret: Copy + Default,
@@ -425,10 +433,6 @@ impl<'a> Lexer<'a> {
         );
 
         // TODO: Work with bytes (under assumption that s is all ascii)
-
-        trace!("read_digits(radix = {}), cur = {:?}", radix, self.cur());
-
-        let start = self.cur_pos();
 
         let mut total: Ret = Default::default();
 
@@ -463,15 +467,9 @@ impl<'a> Lexer<'a> {
                 let next = self.input.peek_char();
 
                 if !is_allowed(next) {
-                    self.emit_error(
-                        start,
-                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
-                    );
+                    self.emit_error(SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits);
                 } else if is_forbidden(prev) || is_forbidden(next) {
-                    self.emit_error(
-                        start,
-                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
-                    );
+                    self.emit_error(SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits);
                 }
                 continue;
             }

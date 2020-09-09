@@ -79,8 +79,15 @@ impl<'a> Lexer<'a> {
 
     #[cold]
     #[inline(never)]
-    pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
+    pub(super) fn emit_error_bpos(&mut self, start: BytePos, kind: SyntaxError) {
         let span = Span::new(start, self.input.span().hi, Default::default());
+        self.emit_error_span(span, kind)
+    }
+
+    #[cold]
+    #[inline(never)]
+    pub(super) fn emit_error(&mut self, kind: SyntaxError) {
+        let span = self.input.span();
         self.emit_error_span(span, kind)
     }
 
