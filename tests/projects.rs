@@ -557,3 +557,11 @@ fn issue_895() {
     assert!(!s.contains("_url."));
     assert!(!s.contains("_url,"));
 }
+
+#[test]
+fn issue_1052() {
+    let f = file("tests/projects/issue-1052/input.ts").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("_new"))
+}
