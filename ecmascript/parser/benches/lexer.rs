@@ -79,7 +79,7 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
         b.iter(|| {
-            let lexer = Lexer::new(syntax, Default::default(), StringInput::from(&*fm), None);
+            let lexer = Lexer::new(syntax, Default::default(), fm.start_pos, &fm.src, None);
             for t in lexer {
                 black_box(t);
             }

@@ -161,7 +161,7 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 
         b.iter(|| {
             let _ = test::black_box({
-                let lexer = Lexer::new(syntax, Default::default(), StringInput::from(&*fm), None);
+                let lexer = Lexer::new(syntax, Default::default(), fm.start_pos, &fm.src, None);
                 let mut parser = Parser::new_from(lexer);
                 parser.parse_module()
             });
