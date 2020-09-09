@@ -10,12 +10,17 @@ use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
-        assert_eq!(self.cur(), Some(InternalToken::BigInt));
+        debug_assert_eq!(self.cur(), Some(InternalToken::BigInt));
         let span = self.input.span();
-
         let s: &str = self.input.slice_cur();
+        debug_assert!(
+            2 <= s.len(),
+            "Big int literal should have at least one digit and 'n'"
+        );
 
-        match BigIntValue::parse_bytes(s.as_bytes(), 10) {
+        self.input.bump();
+
+        match BigIntValue::parse_bytes(s[..s.len() - 1].as_bytes(), 10) {
             Some(v) => Ok(v),
             None => self.error_span(span, SyntaxError::InvalidBigIntLit),
         }
