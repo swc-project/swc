@@ -319,6 +319,97 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    /// `op`- |total, radix, value| -> (total * radix + value, continue)
+    fn read_digits<F, Ret>(
+        &mut self,
+        radix: u8,
+        mut op: F,
+        raw: &mut Raw,
+        allow_num_separator: bool,
+    ) -> LexResult<Ret>
+    where
+        F: FnMut(Ret, u8, u32) -> (Ret, bool),
+        Ret: Copy + Default,
+    {
+        debug_assert!(
+            radix == 2 || radix == 8 || radix == 10 || radix == 16,
+            "radix for read_int should be one of 2, 8, 10, 16, but got {}",
+            radix
+        );
+        trace!("read_digits(radix = {}), cur = {:?}", radix, self.cur());
+
+        let start = self.cur_pos();
+
+        let mut total: Ret = Default::default();
+
+        let mut prev = None;
+        while let Some(c) = self.cur() {
+            if allow_num_separator && self.syntax.num_sep() && c == '_' {
+                let is_allowed = |c: Option<char>| {
+                    if c.is_none() {
+                        return false;
+                    }
+                    let c = c.unwrap();
+                    c.is_digit(radix as _)
+                };
+                let is_forbidden = |c: Option<char>| {
+                    if c.is_none() {
+                        return true;
+                    }
+
+                    if radix == 16 {
+                        match c.unwrap() {
+                            '.' | 'X' | '_' | 'x' => true,
+                            _ => false,
+                        }
+                    } else {
+                        match c.unwrap() {
+                            '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o' => true,
+                            _ => false,
+                        }
+                    }
+                };
+
+                let next = self.input.peek();
+
+                if !is_allowed(next) {
+                    self.emit_error(
+                        start,
+                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                    );
+                } else if is_forbidden(prev) || is_forbidden(next) {
+                    self.emit_error(
+                        start,
+                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                    );
+                }
+
+                // Ignore this _ character
+                self.input.bump();
+                continue;
+            }
+
+            // e.g. (val for a) = 10  where radix = 16
+            let val = if let Some(val) = c.to_digit(radix as _) {
+                val
+            } else {
+                return Ok(total);
+            };
+
+            raw.push(c);
+
+            self.bump();
+            let (t, cont) = op(total, radix, val);
+            total = t;
+            if !cont {
+                return Ok(total);
+            }
+            prev = Some(c);
+        }
+
+        Ok(total)
+    }
+
     /// This method handles numeric separator.
     ///
     /// `op`- |total, radix, value| -> (total * radix + value)
