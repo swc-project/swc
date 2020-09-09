@@ -12,8 +12,8 @@ impl<'a> Lexer<'a> {
             let cur = match self.input.cur() {
                 Some(c) => c,
                 None => {
-                    let start = self.state.start;
-                    self.error(start, SyntaxError::UnterminatedJSXContents)?
+                    let span = self.input.span();
+                    self.error_span(span, SyntaxError::UnterminatedJSXContents)?
                 }
             };
             let cur_pos = self.input.cur_pos();

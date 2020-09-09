@@ -215,7 +215,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer>) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {

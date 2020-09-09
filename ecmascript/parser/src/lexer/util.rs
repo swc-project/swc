@@ -43,22 +43,6 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
-    pub(super) fn span(&mut self, start: BytePos) -> Span {
-        let end = self.input.span().hi;
-        if cfg!(debug_assertions) && start > end {
-            unreachable!(
-                "assertion failed: (span.start <= span.end).
- start = {}, end = {}",
-                start.0, end.0
-            )
-        }
-        Span {
-            lo: start,
-            hi: end,
-            ctxt: SyntaxContext::empty(),
-        }
-    }
-
     pub(super) fn bump(&mut self) {
         self.input.bump()
     }
@@ -81,8 +65,8 @@ impl<'a> Lexer<'a> {
     #[cold]
     #[inline(never)]
     pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
-        let span = self.span(start);
-        self.error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        let span = Span::new(start, self.input.span().hi, Default::default());
+        self.error_span(span, kind)
     }
 
     #[cold]
@@ -96,8 +80,8 @@ impl<'a> Lexer<'a> {
     #[cold]
     #[inline(never)]
     pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
-        let span = self.span(start);
-        self.emit_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        let span = Span::new(start, self.input.span().hi, Default::default());
+        self.emit_error_span(span, kind)
     }
 
     #[cold]

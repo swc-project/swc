@@ -3,7 +3,7 @@ use crate::{error::Error, input::Tokens, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use log::trace;
 use std::{mem, mem::take};
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use swc_ecma_raw_lexer::InternalToken;
 
 /// State of lexer.
@@ -269,7 +269,7 @@ impl<'a> Iterator for Lexer<'a> {
             Err(e) => e,
         };
 
-        let span = self.span(start);
+        let span = Span::new(start, self.input.span().hi, Default::default());
         if let Some(ref token) = token {
             if self.leading_comments_buffer.is_some()
                 && !self
