@@ -136,6 +136,7 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.syntax.jsx());
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
+        // TODO: Use cow
         let mut out = String::new();
         out.push_str(self.input.slice_cur());
         let s = self.input.slice_cur();
@@ -149,16 +150,15 @@ impl<'a> Lexer<'a> {
             // TODO: Handle newline
             out.push(c);
         }
+        out.reserve(self.input.slice_cur().len());
+
+        for (_, c) in self.input.slice_cur().char_indices() {
+            // TODO: Handle escape
+            // TODO: Handle newline
+            out.push(c);
+        }
 
         // loop {
-        //     let ch = match self.input.cur() {
-        //         Some(c) => c,
-        //         None => {
-        //             let start = self.state.start;
-        //             self.error(start, SyntaxError::UnterminatedStrLit)?
-        //         }
-        //     };
-
         //     if ch == itok!("\\") {
         //         has_escape = true;
         //         if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
