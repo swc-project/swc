@@ -134,55 +134,57 @@ impl<'a> Lexer<'a> {
 
     pub(super) fn read_jsx_str(&mut self, quote: InternalToken) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
-        let mut has_escape = false;
         let mut out = String::new();
-        let mut chunk_start = self.input.cur_pos();
-        loop {
-            let ch = match self.input.cur() {
-                Some(c) => c,
-                None => {
-                    let start = self.state.start;
-                    self.error(start, SyntaxError::UnterminatedStrLit)?
-                }
-            };
+        out.push_str(self.input.slice_cur());
+        let s = self.input.slice_cur();
+        let s = &s[1..s.len() - 1];
 
-            let cur_pos = self.input.cur_pos();
+        // TODO: Use cow
+        let mut out = String::with_capacity(s.len());
 
-            if ch == itok!("\\") {
-                has_escape = true;
-                out.push_str(self.input.slice(chunk_start, cur_pos));
-                if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
-                    out.extend(s);
-                }
-                chunk_start = self.input.cur_pos();
-                continue;
-            }
-
-            if ch == quote {
-                break;
-            }
-            if ch == itok!("&") {
-                out.push_str(self.input.slice(chunk_start, cur_pos));
-                out.push(self.read_jsx_entity()?);
-                chunk_start = self.input.cur_pos();
-            } else if ch == InternalToken::NewLine {
-                out.push_str(self.input.slice(chunk_start, cur_pos));
-                match self.read_jsx_new_line(false)? {
-                    Either::Left(s) => out.push_str(s),
-                    Either::Right(c) => out.push(c),
-                }
-                chunk_start = cur_pos;
-            } else {
-                self.input.bump();
-            }
+        for (_, c) in s.char_indices() {
+            // TODO: Handle escape
+            // TODO: Handle newline
+            out.push(c);
         }
-        let cur_pos = self.input.cur_pos();
-        out.push_str(self.input.slice(chunk_start, cur_pos));
+
+        // loop {
+        //     let ch = match self.input.cur() {
+        //         Some(c) => c,
+        //         None => {
+        //             let start = self.state.start;
+        //             self.error(start, SyntaxError::UnterminatedStrLit)?
+        //         }
+        //     };
+
+        //     if ch == itok!("\\") {
+        //         has_escape = true;
+        //         if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
+        //             out.extend(s);
+        //         }
+        //         continue;
+        //     }
+
+        //     if ch == quote {
+        //         break;
+        //     }
+        //     if ch == itok!("&") {
+        //         out.push(self.read_jsx_entity()?);
+        //     } else if ch == InternalToken::NewLine {
+        //         match self.read_jsx_new_line(false)? {
+        //             Either::Left(s) => out.push_str(s),
+        //             Either::Right(c) => out.push(c),
+        //         }
+        //     } else {
+        //         out.push_str(self.input.slice_cur());
+        //     }
+        // }
         self.input.bump();
         Ok(Token::Str {
+            has_escape: out.contains('\\'),
             value: out.into(),
-            has_escape,
         })
     }
 
