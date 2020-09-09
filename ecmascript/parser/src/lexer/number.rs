@@ -29,6 +29,8 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_number(&mut self) -> LexResult<f64> {
         assert_ne!(self.input.cur(), None);
 
+        let s = self.input.slice_cur();
+
         match self.input.cur().unwrap() {
             InternalToken::FloatNum => {}
 
@@ -37,15 +39,27 @@ impl<'a> Lexer<'a> {
                     self.input.slice_cur().starts_with("0b")
                         || self.input.slice_cur().starts_with("0B")
                 );
+
+                return self.parse_number(&s[2..], 2, |total, radix, value| {
+                    f64::mul_add(total, radix as _, value as _)
+                });
             }
 
-            InternalToken::DecNum => {}
+            InternalToken::DecNum => {
+                return self.parse_number(s, 10, |total, radix, value| {
+                    f64::mul_add(total, radix as _, value as _)
+                });
+            }
 
             InternalToken::HexNum => {
                 debug_assert!(
                     self.input.slice_cur().starts_with("0x")
                         || self.input.slice_cur().starts_with("0X")
                 );
+
+                return self.parse_number(&s[2..], 16, |total, radix, value| {
+                    f64::mul_add(total, radix as _, value as _)
+                });
             }
 
             InternalToken::OctalNum => {
@@ -53,6 +67,10 @@ impl<'a> Lexer<'a> {
                     self.input.slice_cur().starts_with("0o")
                         || self.input.slice_cur().starts_with("0O")
                 );
+
+                return self.parse_number(&s[2..], 8, |total, radix, value| {
+                    f64::mul_add(total, radix as _, value as _)
+                });
             }
 
             _ => unreachable!("read_number called with {:?}", self.cur().unwrap()),
@@ -303,10 +321,10 @@ impl<'a> Lexer<'a> {
 
     /// This method handles numeric separator.
     ///
-    /// `op`- |total, radix, value| -> (total * radix + value, continue)
+    /// `op`- |total, radix, value| -> (total * radix + value)
     fn parse_number<F, Ret>(&self, s: &str, radix: u8, mut op: F) -> LexResult<Ret>
     where
-        F: FnMut(Ret, u8, u32) -> (Ret, bool),
+        F: FnMut(Ret, u8, u32) -> Ret,
         Ret: Copy + Default,
     {
         debug_assert!(
@@ -364,9 +382,6 @@ impl<'a> Lexer<'a> {
                         SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
                     );
                 }
-
-                // Ignore this _ character
-                self.input.bump();
                 continue;
             }
 
@@ -377,14 +392,7 @@ impl<'a> Lexer<'a> {
                 return Ok(total);
             };
 
-            raw.push(c);
-
-            self.bump();
-            let (t, cont) = op(total, radix, val);
-            total = t;
-            if !cont {
-                return Ok(total);
-            }
+            total = op(total, radix, val);
             prev = Some(c);
         }
 
