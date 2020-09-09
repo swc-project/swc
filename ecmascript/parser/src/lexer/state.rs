@@ -292,8 +292,7 @@ impl<'a> Iterator for Lexer<'a> {
                 );
             }
             self.state.update(start, &token);
-            let hi = self.input.span().hi;
-            self.state.prev_hi = hi;
+            self.state.prev_hi = self.input.prev_hi();
         }
 
         token.map(|token| {
@@ -661,8 +660,8 @@ where
         let mut l = Lexer::new(syntax, Default::default(), fm.start_pos, s, None);
         let res = f(&mut l);
 
-        // let c = vec![TokenContext::BraceStmt];
-        // debug_assert_eq!(l.state.context.0, c);
+        let c = vec![TokenContext::BraceStmt];
+        debug_assert_eq!(l.state.context.0, c);
 
         res
     })
