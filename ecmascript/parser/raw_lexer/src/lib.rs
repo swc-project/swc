@@ -365,16 +365,15 @@ pub struct DumbLexer<'a> {
 }
 
 impl<'a> DumbLexer<'a> {
+    #[inline]
     pub fn bump(&mut self) {
-        match self.cur.take() {
-            Some(v) => {
-                self.prev_hi = self.start + BytePos(v.1.end as _);
-            }
-            None => {
-                self.inner.next();
-            }
-        }
+        let _ = self.cur();
+
+        self.cur.take();
+
+        self.prev_hi = self.prev_hi + BytePos(self.inner.slice().len() as _);
     }
+
     #[inline]
     pub fn new(start: BytePos, s: &'a str) -> Self {
         DumbLexer {
@@ -394,7 +393,7 @@ impl<'a> DumbLexer<'a> {
 
     #[inline]
     pub fn span(&mut self) -> Span {
-        let _cur = self.cur();
+        let _ = self.cur();
 
         let s = match self.cur.as_ref() {
             Some(v) => v.1.clone(),
@@ -403,7 +402,7 @@ impl<'a> DumbLexer<'a> {
 
         Span::new(
             BytePos(s.start as _),
-            BytePos((s.end - 1) as _),
+            BytePos(s.end as _),
             Default::default(),
         )
     }
@@ -417,6 +416,7 @@ impl<'a> DumbLexer<'a> {
         match self.cur {
             Some(_) => {}
             None => {
+                self.prev_hi = self.start + BytePos(self.inner.span().end as u32);
                 let token = self.inner.next()?;
                 self.cur = Some((token, self.inner.span(), self.inner.slice()));
             }
@@ -448,10 +448,12 @@ impl<'a> DumbLexer<'a> {
         }
     }
 
+    #[inline]
     pub fn is_at_start(&self) -> bool {
         self.inner.span().start == 0
     }
 
+    #[inline]
     pub fn bump_bytes(&mut self, cnt: usize) {
         match self.cur {
             Some(..) => {
@@ -467,6 +469,7 @@ impl<'a> DumbLexer<'a> {
         }
     }
 
+    #[inline]
     pub fn reset_to(&mut self, pos: BytePos) {
         self.cur = None;
         let new_idx = pos.0 - self.start.0;
@@ -476,6 +479,7 @@ impl<'a> DumbLexer<'a> {
         self.inner.bump(new_idx as _);
     }
 
+    #[inline]
     pub fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
         assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.inner.source();
@@ -490,6 +494,7 @@ impl<'a> DumbLexer<'a> {
         ret
     }
 
+    #[inline]
     fn as_str(&self) -> &str {
         match &self.cur {
             Some(v) => v.2,
@@ -497,10 +502,12 @@ impl<'a> DumbLexer<'a> {
         }
     }
 
+    #[inline]
     pub fn cur_char(&self) -> Option<char> {
         self.as_str().chars().next()
     }
 
+    #[inline]
     pub fn eat(&mut self, needle: u8) -> bool {
         let bytes = self.as_str().as_bytes();
         if bytes.is_empty() {
@@ -515,6 +522,7 @@ impl<'a> DumbLexer<'a> {
         }
     }
 
+    #[inline]
     pub fn is(&mut self, needle: u8) -> bool {
         let bytes = self.as_str().as_bytes();
         if bytes.is_empty() {
