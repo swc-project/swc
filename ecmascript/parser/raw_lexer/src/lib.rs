@@ -335,7 +335,7 @@ pub enum InternalToken {
 
     /// String literal.
     #[regex(r#""(?:[^"]|\\")*""#)]
-    #[regex(r#"'(?:[^']|\\')*'"#)]
+    #[regex(r#"'(?:[^']|\\\\|\\')*'"#)]
     Str,
 
     #[regex("(?&decimal)")]

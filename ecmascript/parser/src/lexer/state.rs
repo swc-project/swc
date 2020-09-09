@@ -219,9 +219,6 @@ impl<'a> Iterator for Lexer<'a> {
                 }
 
                 let c = self.cur();
-                if c == Some(InternalToken::Error) {
-                    dbg!(self.input.slice_cur());
-                }
                 if let Some(c) = c {
                     if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                         || self.state.context.current() == Some(TokenContext::JSXClosingTag)
