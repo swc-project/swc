@@ -862,6 +862,8 @@ impl<'a> Lexer<'a> {
         let mut raw = String::new();
 
         while let Some(c) = self.cur() {
+            dbg!(c);
+
             if c == itok!("`") || c == itok!("${") {
                 if start == self.cur_pos() && self.state.last_was_tpl_element() {
                     self.bump();
@@ -873,6 +875,8 @@ impl<'a> Lexer<'a> {
                     });
                 }
 
+                self.input.bump();
+
                 // TODO: Handle error
                 return Ok(Template {
                     cooked: cooked.into(),
@@ -882,7 +886,7 @@ impl<'a> Lexer<'a> {
             }
 
             let c = self.input.cur_char().unwrap();
-
+            dbg!(c);
             if c == '\\' {
                 has_escape = true;
                 raw.push('\\');
