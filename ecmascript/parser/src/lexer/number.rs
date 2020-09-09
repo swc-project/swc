@@ -26,6 +26,7 @@ impl<'a> Lexer<'a> {
         assert_eq!(self.cur(), Some(InternalToken::Num));
         let mut s: &str = self.input.slice_cur();
         let span = self.input.span();
+        self.input.bump();
         let starts_with_dot = s.starts_with('.');
         if starts_with_dot {
             s = &s[1..];
