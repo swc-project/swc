@@ -33,13 +33,16 @@ impl<'a> Lexer<'a> {
 
         match self.input.cur().unwrap() {
             InternalToken::FloatNum => {
-                //
-                return Ok(s.replace('_', "").parse().unwrap_or_else(|err| {
+                let val = s.replace('_', "").parse().unwrap_or_else(|err| {
                     panic!(
                         "InternalToken::FloatNum returned '{}', which is not a valid f64",
                         s
                     )
-                }));
+                });
+
+                self.ensure_not_ident()?;
+
+                return Ok(val);
             }
 
             InternalToken::BinNum => {
@@ -84,130 +87,129 @@ impl<'a> Lexer<'a> {
             _ => unreachable!("read_number called with {:?}", self.cur().unwrap()),
         }
 
-        let mut s: &str = self.input.slice_cur();
-        let span = self.input.span();
-        self.input.bump();
-        let starts_with_dot = s.starts_with('.');
-        if starts_with_dot {
-            s = &s[1..];
-        }
+        // let mut s: &str = self.input.slice_cur();
+        // let span = self.input.span();
+        // self.input.bump();
+        // let starts_with_dot = s.starts_with('.');
+        // if starts_with_dot {
+        //     s = &s[1..];
+        // }
 
-        let starts_with_zero = s.starts_with('0');
+        // let starts_with_zero = s.starts_with('0');
 
-        let val = if starts_with_dot {
-            // first char is '.'
-            0f64
-        } else {
-            // Use read_number_no_dot to support long numbers.
-            let val = self.read_number_no_dot_as_str(10)?;
+        // let val = if starts_with_dot {
+        //     // first char is '.'
+        //     0f64
+        // } else {
+        //     // Use read_number_no_dot to support long numbers.
+        //     let val = self.read_number_no_dot_as_str(10)?;
 
-            if starts_with_zero {
-                // TODO: I guess it would be okay if I don't use -ffast-math
-                // (or something like that), but needs review.
+        //     if starts_with_zero {
+        //         // TODO: I guess it would be okay if I don't use -ffast-math
+        //         // (or something like that), but needs review.
 
-                if val == 0.0f64 {
-                    // If only one zero is used, it's decimal.
-                    // And if multiple zero is used, it's octal.
-                    //
-                    // e.g. `0` is decimal (so it can be part of float)
-                    //
-                    // e.g. `000` is octal
-                    if 1 < s.len() {
-                        // `-1` is utf 8 length of `0`
+        //         if val == 0.0f64 {
+        //             // If only one zero is used, it's decimal.
+        //             // And if multiple zero is used, it's octal.
+        //             //
+        //             // e.g. `0` is decimal (so it can be part of float)
+        //             //
+        //             // e.g. `000` is octal
+        //             if 1 < s.len() {
+        //                 // `-1` is utf 8 length of `0`
 
-                        return self.make_legacy_octal(span, 0f64);
-                    }
-                } else {
-                    // strict mode hates non-zero decimals starting with zero.
-                    // e.g. 08.1 is strict mode violation but 0.1 is valid float.
+        //                 return self.make_legacy_octal(span, 0f64);
+        //             }
+        //         } else {
+        //             // strict mode hates non-zero decimals starting with
+        // zero.             // e.g. 08.1 is strict mode violation but
+        // 0.1 is valid float.
 
-                    if val.fract() < 1e-10 {
-                        let d = digits(val.round() as u64, 10);
+        //             if val.fract() < 1e-10 {
+        //                 let d = digits(val.round() as u64, 10);
 
-                        // if it contains '8' or '9', it's decimal.
-                        if d.clone().any(|v| v == 8 || v == 9) {
-                            if self.ctx.strict {
-                                self.error_span(span, SyntaxError::LegacyDecimal)?
-                            }
-                        } else {
-                            // It's Legacy octal, and we should reinterpret value.
-                            let val = u64::from_str_radix(&val.to_string(), 8)
-                                .expect("Does this can really happen?");
-                            let val = val
-                                .to_string()
-                                .parse()
-                                .expect("failed to parse numeric value as f64");
-                            return self.make_legacy_octal(span, val);
-                        }
-                    }
-                }
-            }
+        //                 // if it contains '8' or '9', it's decimal.
+        //                 if d.clone().any(|v| v == 8 || v == 9) {
+        //                     if self.ctx.strict {
+        //                         self.error_span(span,
+        // SyntaxError::LegacyDecimal)?                     }
+        //                 } else {
+        //                     // It's Legacy octal, and we should reinterpret
+        // value.                     let val =
+        // u64::from_str_radix(&val.to_string(), 8)
+        // .expect("Does this can really happen?");
+        // let val = val                         .to_string()
+        //                         .parse()
+        //                         .expect("failed to parse numeric value as
+        // f64");                     return
+        // self.make_legacy_octal(span, val);                 }
+        //             }
+        //         }
+        //     }
 
-            val
-        };
+        //     val
+        // };
 
-        // At this point, number cannot be an octal literal.
+        // // At this point, number cannot be an octal literal.
 
-        let mut val: f64 = val;
+        // let mut val: f64 = val;
 
-        //  `0.a`, `08.a`, `102.a` are invalid.
-        //
-        // `.1.a`, `.1e-4.a` are valid,
-        if self.cur() == Some(itok!(".")) {
-            self.bump(); // '.'
+        // //  `0.a`, `08.a`, `102.a` are invalid.
+        // //
+        // // `.1.a`, `.1e-4.a` are valid,
+        // if self.cur() == Some(itok!(".")) {
+        //     self.bump(); // '.'
 
-            if starts_with_dot {
-                // debug_assert!(self.cur().is_some());
-                // debug_assert!(self.cur().unwrap().is_digit(10));
-            }
+        //     if starts_with_dot {
+        //         // debug_assert!(self.cur().is_some());
+        //         // debug_assert!(self.cur().unwrap().is_digit(10));
+        //     }
 
-            let mut raw = Raw(Some(String::new()));
-            // Read numbers after dot
-            let dec_val = self.read_int(10, 0, &mut raw)?;
-            val = self.with_buf(|_, s| {
-                write!(s, "{}.", val).unwrap();
+        //     let mut raw = Raw(Some(String::new()));
+        //     // Read numbers after dot
+        //     let dec_val = self.read_int(10, 0, &mut raw)?;
+        //     val = self.with_buf(|_, s| {
+        //         write!(s, "{}.", val).unwrap();
 
-                if let Some(..) = dec_val {
-                    s.push_str(&raw.0.as_ref().unwrap());
-                }
+        //         if let Some(..) = dec_val {
+        //             s.push_str(&raw.0.as_ref().unwrap());
+        //         }
 
-                Ok(s.parse().expect("failed to parse float using rust's impl"))
-            })?;
-        }
+        //         Ok(s.parse().expect("failed to parse float using rust's
+        // impl"))     })?;
+        // }
 
-        // Handle 'e' and 'E'
-        //
-        // .5e1 = 5
-        // 1e2 = 100
-        // 1e+2 = 100
-        // 1e-2 = 0.01
-        if self.input.eat(b'e') || self.input.eat(b'E') {
-            let next = match self.input.cur_char() {
-                Some(next) => next,
-                None => {
-                    let pos = self.cur_pos();
-                    self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
-                }
-            };
+        // // Handle 'e' and 'E'
+        // //
+        // // .5e1 = 5
+        // // 1e2 = 100
+        // // 1e+2 = 100
+        // // 1e-2 = 0.01
+        // if self.input.eat(b'e') || self.input.eat(b'E') {
+        //     let next = match self.input.cur_char() {
+        //         Some(next) => next,
+        //         None => {
+        //             let pos = self.cur_pos();
+        //             self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
+        //         }
+        //     };
 
-            let positive = if next == '+' || next == '-' {
-                self.bump(); // remove '+', '-'
-                next == '+'
-            } else {
-                true
-            };
+        //     let positive = if next == '+' || next == '-' {
+        //         self.bump(); // remove '+', '-'
+        //         next == '+'
+        //     } else {
+        //         true
+        //     };
 
-            let exp = self.read_number_no_dot(10)?;
-            let flag = if positive { '+' } else { '-' };
-            // TODO:
-            val = format!("{}e{}{}", val, flag, exp)
-                .parse()
-                .expect("failed to parse float literal");
-        }
+        //     let exp = self.read_number_no_dot(10)?;
+        //     let flag = if positive { '+' } else { '-' };
+        //     // TODO:
+        //     val = format!("{}e{}{}", val, flag, exp)
+        //         .parse()
+        //         .expect("failed to parse float literal");
+        // }
 
-        self.ensure_not_ident()?;
-
-        Ok(val)
+        // Ok(val)
     }
 
     /// This can read long integers like
@@ -484,6 +486,8 @@ impl<'a> Lexer<'a> {
             total = op(total, radix, val);
             prev = Some(c);
         }
+
+        self.ensure_not_ident()?;
 
         Ok(total)
     }
