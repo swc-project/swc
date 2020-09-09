@@ -5,7 +5,6 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
-        let mut chunk_start = self.input.cur_pos();
         let mut out = String::new();
 
         loop {
@@ -26,30 +25,29 @@ impl<'a> Lexer<'a> {
                             self.input.bump();
                             return Ok(Token::JSXTagStart).map(Some);
                         }
+
                         return self.read_token();
                     }
-                    out.push_str(self.input.slice(chunk_start, cur_pos));
 
                     return Ok(Token::JSXText { raw: out.into() }).map(Some);
                 }
 
                 itok!("&") => {
-                    out.push_str(self.input.slice(chunk_start, cur_pos));
                     out.push(self.read_jsx_entity()?);
-
-                    chunk_start = self.input.cur_pos();
                 }
 
                 InternalToken::NewLine => {
-                    out.push_str(self.input.slice(chunk_start, cur_pos));
+                    out.push_str(self.input.slice_cur());
                     match self.read_jsx_new_line(true)? {
                         Either::Left(s) => out.push_str(s),
                         Either::Right(c) => out.push(c),
                     }
-                    chunk_start = cur_pos;
                 }
 
-                _ => self.input.bump(),
+                _ => {
+                    out.push_str(self.input.slice_cur());
+                    self.input.bump();
+                }
             }
         }
     }
@@ -137,7 +135,6 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_str(&mut self, quote: InternalToken) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
-        self.input.bump(); // `quote`
         let mut has_escape = false;
         let mut out = String::new();
         let mut chunk_start = self.input.cur_pos();
