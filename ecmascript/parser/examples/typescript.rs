@@ -23,7 +23,8 @@ fn main() {
     let lexer = Lexer::new(
         Syntax::Typescript(Default::default()),
         Default::default(),
-        StringInput::from(&*fm),
+        fm.start_pos,
+        &fm.src,
         None,
     );
 

@@ -203,7 +203,7 @@ mod tests {
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());
 
             let comments = SingleThreadedComments::default();
-            let lexer: Lexer<StringInput<'_>> = Lexer::new(
+            let lexer: Lexer = Lexer::new(
                 Syntax::Typescript(TsConfig {
                     dts: file_name.ends_with(".d.ts"),
                     tsx: file_name.contains("tsx"),
@@ -213,7 +213,8 @@ mod tests {
                     ..Default::default()
                 }),
                 JscTarget::Es2015,
-                (&*fm).into(),
+                fm.start_pos,
+                &fm.src,
                 Some(&comments),
             );
 

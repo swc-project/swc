@@ -82,10 +82,11 @@ fn load_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         no_early_errors: true,
                     }),
                     Default::default(),
-                    (&*src).into(),
+                    src.start_pos,
+                    &src.src,
                     Some(&comments),
                 );
-                let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
+                let mut parser: Parser<Lexer> = Parser::new_from(lexer);
 
                 {
                     let module = parser

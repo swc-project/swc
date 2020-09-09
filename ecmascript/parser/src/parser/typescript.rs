@@ -2496,8 +2496,8 @@ mod tests {
                         ..Default::default()
                     }),
                     JscTarget::Es2019,
-                    input.start_pos(),
-                    input,
+                    input.start_pos,
+                    &input.src,
                     None,
                 );
                 let lexer = Capturing::new(lexer);
@@ -2523,7 +2523,8 @@ mod tests {
                     ..Default::default()
                 }),
                 JscTarget::Es2019,
-                input,
+                input.start_pos,
+                &input.src,
                 None,
             );
             let lexer = Capturing::new(lexer);

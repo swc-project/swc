@@ -309,14 +309,14 @@ fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
 
 fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer>) -> PResult<Ret>,
 {
     let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-        let mut p = Parser::new(Syntax::default(), (&*fm).into(), None);
+        let mut p = Parser::new(Syntax::default(), fm.start_pos, &fm.src, None);
 
         let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
 

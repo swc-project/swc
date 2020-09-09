@@ -71,7 +71,8 @@ fn add_fixture(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
                                 ..Default::default()
                             }),
                             Default::default(),
-                            StringInput::from(&*fm),
+                            fm.start_pos,
+                            &fm.src,
                             Some(&comments),
                         );
                         let mut p = Parser::new_from(lexer);

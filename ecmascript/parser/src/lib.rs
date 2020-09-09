@@ -429,7 +429,7 @@ fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
     F: FnOnce(
         &swc_common::errors::Handler,
-        std::sync::Arc<swc_common::SourceFile>,
+        swc_common::sync::Lrc<swc_common::SourceFile>,
     ) -> Result<Ret, ()>,
 {
     use swc_common::FileName;

@@ -43,7 +43,7 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
-    pub(super) fn span(&self, start: BytePos) -> Span {
+    pub(super) fn span(&mut self, start: BytePos) -> Span {
         let end = self.input.span().hi;
         if cfg!(debug_assertions) && start > end {
             unreachable!(

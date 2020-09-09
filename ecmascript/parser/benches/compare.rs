@@ -17,7 +17,7 @@ where
     let _ = ::testing::run_test(false, |cm, _| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-        let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
+        let mut parser = Parser::new(Syntax::default(), fm.start_pos, &fm.src, None);
         let module = parser.parse_module().map_err(|_| ()).unwrap();
         b.iter(|| {
             let module = module.clone();
