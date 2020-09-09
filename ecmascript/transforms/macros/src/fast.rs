@@ -118,6 +118,9 @@ impl Expander {
             FnArg::Receiver(_) => unreachable!(),
             FnArg::Typed(ty) => ty,
         };
+        if m.block.stmts.is_empty() {
+            return m;
+        }
 
         let arg = match &*ty_arg.pat {
             Pat::Ident(i) => &i.ident,
