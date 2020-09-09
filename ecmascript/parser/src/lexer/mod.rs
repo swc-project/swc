@@ -873,8 +873,6 @@ impl<'a> Lexer<'a> {
                     });
                 }
 
-                self.input.bump();
-
                 // TODO: Handle error
                 return Ok(Template {
                     cooked: cooked.into(),
@@ -912,9 +910,9 @@ impl<'a> Lexer<'a> {
                 self.input.bump_bytes(c.len_utf8());
                 cooked.push(c);
             } else {
-                self.input.bump_bytes(c.len_utf8());
-                cooked.push(c);
-                raw.push(c);
+                cooked.push_str(self.input.slice_cur());
+                raw.push_str(self.input.slice_cur());
+                self.input.bump();
             }
         }
 
