@@ -161,8 +161,8 @@ impl<'a> Iterator for Lexer<'a> {
                 start = self.input.cur_pos();
             };
 
-            let c = match self.input.cur() {
-                Some(c) => c,
+            match self.input.cur() {
+                Some(..) => {}
                 // End of input.
                 None => {
                     // Treat last comments as trailing.
@@ -188,7 +188,7 @@ impl<'a> Iterator for Lexer<'a> {
 
                     return Ok(None);
                 }
-            };
+            }
 
             // println!(
             //     "\tContext: ({:?}) {:?}",

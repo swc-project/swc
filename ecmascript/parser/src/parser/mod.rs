@@ -193,7 +193,7 @@ where
     F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let lexer = Lexer::new(syntax, JscTarget::Es2019, input, None);
+        let lexer = Lexer::new(syntax, JscTarget::Es2019, input.start_pos, s, None);
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
 
@@ -212,7 +212,7 @@ where
     F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let lexer = Lexer::new(syntax, JscTarget::Es2019, input, Some(&c));
+        let lexer = Lexer::new(syntax, JscTarget::Es2019, input.start_pos, s, Some(&c));
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
 
@@ -234,7 +234,7 @@ where
 
     let _ = crate::with_test_sess(s, |handler, input| {
         b.iter(|| {
-            let lexer = Lexer::new(syntax, Default::default(), input.clone(), None);
+            let lexer = Lexer::new(syntax, Default::default(), input.start_pos, s, None);
             let _ =
                 f(&mut Parser::new_from(lexer)).map_err(|err| err.into_diagnostic(handler).emit());
         });
