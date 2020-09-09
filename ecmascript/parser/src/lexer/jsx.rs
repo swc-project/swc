@@ -198,11 +198,10 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
+        let name = self.input.slice_cur();
         self.input.bump();
 
-        Ok(Token::JSXName {
-            name: self.input.slice_cur().into(),
-        })
+        Ok(Token::JSXName { name: name.into() })
     }
 }
 
