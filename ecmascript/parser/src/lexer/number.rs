@@ -314,6 +314,9 @@ impl<'a> Lexer<'a> {
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
             radix
         );
+
+        // TODO: Work with bytes (under assumption that s is all ascii)
+
         trace!("read_digits(radix = {}), cur = {:?}", radix, self.cur());
 
         let start = self.cur_pos();
