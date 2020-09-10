@@ -11,13 +11,13 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::Lt
     };
     ("<=") => {
-        swc_ecma_raw_lexer::InternalToken::Lte
+        swc_ecma_raw_lexer::InternalToken::LtEq
     };
     (">") => {
         swc_ecma_raw_lexer::InternalToken::Gt
     };
     (">=") => {
-        swc_ecma_raw_lexer::InternalToken::Gte
+        swc_ecma_raw_lexer::InternalToken::GtEq
     };
 
     ("~") => {

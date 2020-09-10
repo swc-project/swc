@@ -442,9 +442,19 @@ impl<'a> Lexer<'a> {
                 tok!('<')
             }
 
+            itok!("<=") => {
+                self.input.advance();
+                BinOp(LtEq)
+            }
+
             itok!(">") => {
                 self.input.advance();
                 tok!('>')
+            }
+
+            itok!(">=") => {
+                self.input.advance();
+                BinOp(GtEq)
             }
 
             itok!("!") => {
