@@ -135,7 +135,7 @@ pub enum InternalToken {
 
     #[token("@")]
     At,
-    #[token(".")]
+    #[token(".", priority = 100)]
     Dot,
 
     #[token("...")]
@@ -326,7 +326,7 @@ pub enum InternalToken {
     Str,
 
     #[regex("[0-9]*([eE][+-]?[0-9_]+)?|[0f9]+[eE][+-]?[0-9_]+")]
-    #[regex("[0-9]*\\.[0-9_]+([eE][+-]?[0-9_]+)?|[0f9]+[eE][+-]?[0-9_]+")]
+    #[regex("[0-9]*\\.[0-9_]*([eE][+-]?[0-9_]+)?|[0f9]+[eE][+-]?[0-9_]+")]
     FloatNum,
 
     #[regex("0[bB](?&binary)")]
