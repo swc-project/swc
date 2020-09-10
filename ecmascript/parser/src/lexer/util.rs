@@ -10,7 +10,7 @@ use crate::error::{Error, SyntaxError};
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
-    BytePos, Span, SyntaxContext,
+    BytePos, Span,
 };
 use swc_ecma_raw_lexer::InternalToken;
 use unicode_xid::UnicodeXID;
