@@ -433,46 +433,6 @@ impl<'a> Lexer<'a> {
     }
 }
 
-fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static {
-    debug_assert!(radix > 0);
-
-    #[derive(Clone, Copy)]
-    struct Digits {
-        n: u64,
-        divisor: u64,
-    }
-
-    impl Digits {
-        fn new(n: u64, radix: u64) -> Self {
-            let mut divisor = 1;
-            while n >= divisor * radix {
-                divisor *= radix;
-            }
-
-            Digits { n, divisor }
-        }
-    }
-
-    impl Iterator for Digits {
-        type Item = u64;
-
-        fn next(&mut self) -> Option<u64> {
-            if self.divisor == 0 {
-                None
-            } else {
-                let v = Some(self.n / self.divisor);
-                self.n %= self.divisor;
-                self.divisor /= 10;
-                v
-            }
-        }
-    }
-
-    impl FusedIterator for Digits {}
-
-    Digits::new(value, radix)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
