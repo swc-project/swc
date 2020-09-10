@@ -19,14 +19,11 @@ pub struct Extras {
 #[logos(subpattern exp = r"[eE][+-]?[0-9][_0-9]*")]
 pub enum InternalToken {
     #[error]
+    #[regex("[\u{0009}\u{000b}\u{000c}\u{0020}\u{00a0}\u{feff}]+", logos::skip)]
     Error,
 
     #[regex("[\n\r\u{2028}\u{2029}]+")]
     NewLine,
-
-    /// Whitespace except newlines
-    #[regex("[\u{0009}\u{000b}\u{000c}\u{0020}\u{00a0}\u{feff}]+")]
-    Whitespace,
 
     #[token("null")]
     Null,
