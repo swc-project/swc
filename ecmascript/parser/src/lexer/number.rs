@@ -6,7 +6,7 @@ use super::*;
 use crate::error::SyntaxError;
 use log::trace;
 use num_bigint::BigInt as BigIntValue;
-use std::{fmt::Write, iter::FusedIterator};
+use std::fmt::Write;
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
@@ -280,7 +280,7 @@ impl<'a> Lexer<'a> {
         let mut total: Ret = Default::default();
 
         let mut prev = None;
-        while let Some(c) = iter.next() {
+        while let Some(c) = iter.clone().next() {
             if allow_num_separator && self.syntax.num_sep() && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
@@ -322,6 +322,7 @@ impl<'a> Lexer<'a> {
                 }
 
                 // Ignore this _ character
+                iter.next();
                 continue;
             }
 
@@ -332,6 +333,7 @@ impl<'a> Lexer<'a> {
                 return Ok(total);
             };
 
+            iter.next();
             raw.push(c);
 
             let (t, cont) = op(total, radix, val);
@@ -594,7 +596,7 @@ mod tests {
                     Ok(vec) => vec,
                     Err(err) => panic::resume_unwind(err),
                 };
-                assert_eq!(vec.len(), 1);
+                assert_eq!(vec.len(), 1, "{:?}", vec);
                 let token = vec.into_iter().next().unwrap();
                 assert_eq!(Num(expected), token);
             } else if let Ok(vec) = vec {
