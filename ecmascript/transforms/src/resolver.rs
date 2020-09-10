@@ -615,6 +615,12 @@ impl<'a> VisitMut for Resolver<'a> {
         self.cur_defining = folder.cur_defining;
     }
 
+    fn visit_mut_param(&mut self, param: &mut Param) {
+        self.in_type = false;
+        self.ident_type = IdentType::Binding;
+        param.visit_mut_children_with(self);
+    }
+
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
         let child_mark = Mark::fresh(self.mark);
 
