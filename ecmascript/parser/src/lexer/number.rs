@@ -217,7 +217,6 @@ impl<'a> Lexer<'a> {
     /// were read, the integer value otherwise.
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
-    pub(super) fn read_int(&mut self, radix: u8, len: u8, raw: &mut Raw) -> LexResult<Option<f64>> {
     fn parse_int(
         &mut self,
         iter: &mut Chars,
@@ -225,7 +224,6 @@ impl<'a> Lexer<'a> {
         len: u8,
         raw: &mut Raw,
     ) -> LexResult<Option<f64>> {
-    fn read_int(&mut self, radix: u8, len: u8, raw: &mut Raw) -> LexResult<Option<f64>> {
         let mut count = 0;
         let v = self.read_digits(
             iter,
@@ -254,7 +252,6 @@ impl<'a> Lexer<'a> {
     ) -> LexResult<Option<u32>> {
         let mut count = 0;
         let v = self.read_digits(
-            iter,
             radix,
             |opt: Option<u32>, radix, val| {
                 count += 1;
@@ -300,7 +297,7 @@ impl<'a> Lexer<'a> {
         let mut total: Ret = Default::default();
 
         let mut prev = None;
-        while let Some(c) = iter.clone().next() {
+        while let Some(c) = iter.next() {
             if allow_num_separator && self.syntax.num_sep() && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
@@ -327,7 +324,7 @@ impl<'a> Lexer<'a> {
                     }
                 };
 
-                let next = iter.clone().nth(1);
+                let next = self.input.peek_char();
 
                 if !is_allowed(next) {
                     self.emit_error_bpos(
@@ -413,7 +410,7 @@ impl<'a> Lexer<'a> {
                     }
                 };
 
-                let next = iter.clone().next();
+                let next = iter.as_str().chars().next();
 
                 if !is_allowed(next) {
                     self.emit_error(SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits);
@@ -528,9 +525,9 @@ mod tests {
 
     fn int(radix: u8, s: &'static str) -> u32 {
         lex(s, |l| {
-            l.parse_int_u32(&mut s.chars(), radix, 0, &mut Raw(None))
+            l.parse_int_u32(radix, 0, &mut Raw(None))
                 .unwrap()
-                .expect("parse_int_u32 returned None")
+                .expect("read_int returned None")
         })
     }
 

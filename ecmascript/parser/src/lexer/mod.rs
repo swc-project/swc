@@ -776,9 +776,6 @@ impl<'a> Lexer<'a> {
     /// Read `CodePoint`.
     fn parse_code_point(&mut self, iter: &mut Chars, raw: &mut Raw) -> LexResult<Char> {
         let start = self.input.cur_pos();
-        let val = self.read_int_u32(16, 0, raw)?;
-    fn parse_code_point(&mut self, iter: &mut Chars, raw: &mut Raw) -> LexResult<Char> {
-        let start = self.input.cur_pos();
         let val = self.parse_int_u32(iter, 16, 0, raw)?;
         match val {
             Some(val) if 0x0010_FFFF >= val => match char::from_u32(val) {
@@ -817,9 +814,7 @@ impl<'a> Lexer<'a> {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_break() {
-                    l.error(start, SyntaxError::UnterminatedRegxp)?;
                     lexer.error(start, SyntaxError::UnterminatedRegxp)?;
-                    self.error(start, SyntaxError::UnterminatedRegxp)?;
                 }
 
                 if escaped {
@@ -905,14 +900,6 @@ impl<'a> Lexer<'a> {
                 has_escape = true;
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
-                let ch = self.read_escaped_char(&mut wrapped)?;
-                self.input.advance(); // '\\'
-
-                let ch =
-                    self.with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut wrapped))?;
-
-                let ch = self.parse_escaped_char(self.input.chars(), &mut wrapped)?;
-                self.input.advance(); // '\\'
 
                 let ch = self
                     .with_chars(|lexer, iter| lexer.parse_escaped_char(&mut iter, &mut wrapped))?;
