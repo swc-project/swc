@@ -3,7 +3,7 @@
 extern crate test;
 
 use swc_common::FileName;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use test::Bencher;
 
 #[bench]

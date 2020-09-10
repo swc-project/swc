@@ -4,7 +4,7 @@ extern crate test;
 
 use swc_common::{FileName, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Module;
-use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, Syntax};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
 use test::Bencher;
 
