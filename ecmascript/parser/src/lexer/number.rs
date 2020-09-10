@@ -598,7 +598,10 @@ mod tests {
                 };
                 assert_eq!(vec.len(), 1, "{:?}", vec);
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(expected), token);
+                match token {
+                    Token::Num(actual) => assert_eq!(expected, actual),
+                    _ => assert_eq!(Num(expected), token),
+                }
             } else if let Ok(vec) = vec {
                 assert_ne!(vec![Num(expected)], vec)
             }
