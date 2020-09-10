@@ -106,6 +106,8 @@ impl<'a> Lexer<'a> {
     pub(super) fn skip_space(&mut self) -> LexResult<()> {
         while let Some(c) = self.input.cur() {
             match c {
+                // white spaces
+                InternalToken::Whitespace => {}
                 // line breaks
                 InternalToken::NewLine => {
                     self.state.had_line_break = true;
