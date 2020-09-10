@@ -519,7 +519,7 @@ mod tests {
                 None,
             );
             let ret = f(&mut l);
-            assert_eq!(l.input.cur(), None);
+            assert_eq!(l.input.cur(), None, "{} is remaining", l.input.slice());
             Ok(ret)
         })
         .unwrap()
@@ -531,9 +531,11 @@ mod tests {
 
     fn int(radix: u8, s: &'static str) -> u32 {
         lex(s, |l| {
-            l.parse_int_u32(&mut s.chars(), radix, 0, &mut Raw(None))
-                .unwrap()
-                .expect("read_int returned None")
+            l.with_chars(|l, iter| {
+                l.parse_int_u32(iter, radix, 0, &mut Raw(None))
+                    .unwrap()
+                    .expect("read_int returned None")
+            })
         })
     }
 
