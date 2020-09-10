@@ -88,7 +88,6 @@
 //!
 //!
 //! [tc39/test262]:https://github.com/tc39/test262
-#![deny(unused)]
 #![cfg_attr(test, feature(test))]
 
 pub use self::{
