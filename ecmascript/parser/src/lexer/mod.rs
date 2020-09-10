@@ -1,7 +1,6 @@
 //! ECMAScript lexer.
 
 pub use self::{
-    input::Input,
     state::{TokenContext, TokenContexts},
 };
 use self::{state::State, util::*};
@@ -21,7 +20,6 @@ use swc_ecma_raw_lexer::{DumbLexer, InternalToken};
 
 #[macro_use]
 mod macros;
-pub mod input;
 mod jsx;
 mod number;
 mod state;
