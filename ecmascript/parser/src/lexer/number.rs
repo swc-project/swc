@@ -31,7 +31,7 @@ impl<'a> Lexer<'a> {
 
         let tok = self.input.cur().unwrap();
         let span = self.input.span();
-        let s = self.input.slice();
+        let mut s = self.input.slice();
         self.input.advance();
 
         match tok {
