@@ -76,7 +76,11 @@ impl<'a> Lexer<'a> {
                 });
             }
 
-            _ => unreachable!("read_number called with {:?}", self.input.cur().unwrap()),
+            _ => unreachable!(
+                "read_number called with {:?} ({})",
+                self.input.cur().unwrap(),
+                self.input.slice()
+            ),
         }
 
         // let mut s: &str = self.input.slice_cur();
