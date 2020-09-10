@@ -684,8 +684,6 @@ impl<'a> Lexer<'a> {
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident(&mut self) -> LexResult<Token> {
-        debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
-
         let word = Word::Ident(self.input.slice().into());
         self.input.advance();
 
