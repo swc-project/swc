@@ -75,7 +75,7 @@ impl<'a> Lexer<'a> {
 
         let start_pos = self.input.cur_pos();
 
-        let ret: Option<char> = self.with_chars(|lexer, chars| {
+        let ret: Option<char> = self.with_chars(|_, chars| {
             let mut s = String::new();
 
             for _ in 0..10 {
