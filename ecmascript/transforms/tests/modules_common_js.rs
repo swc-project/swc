@@ -4237,14 +4237,27 @@ test!(
     }),
     issue_1018_1,
     "async function foo() {
-      await import('foo');
-    }",
+    await import('foo');
+  }",
     "
-    \"use strict\";
-    async function foo() {
-        await Promise.resolve().then(function() {
-            return require(\"foo\");
-        });
-    }
+  \"use strict\";
+  async function foo() {
+      await Promise.resolve().then(function() {
+          return require(\"foo\");
+      });
+  }
+  "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_1043_1,
     "
+  export * from './http';
+  export { Scope } from './interfaces'
+  ",
+    ""
 );
