@@ -29,10 +29,11 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_number(&mut self) -> LexResult<f64> {
         assert_ne!(self.input.cur(), None);
 
+        let tok = self.input.cur().unwrap();
         let s = self.input.slice();
         self.input.advance();
 
-        match self.input.cur().unwrap() {
+        match tok {
             InternalToken::FloatNum => {
                 let val = s.replace('_', "").parse().unwrap_or_else(|err| {
                     panic!(
