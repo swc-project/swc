@@ -1015,4 +1015,7 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_param(&mut self, _: &mut Param) {}
+
+    #[inline]
+    fn visit_mut_ts_param_prop(&mut self, _: &mut TsParamProp) {}
 }
