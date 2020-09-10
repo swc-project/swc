@@ -66,12 +66,9 @@ impl<'a> Lexer<'a> {
                 //  `0.a`, `08.a`, `102.a` are invalid.
                 //
                 // `.1.a`, `.1e-4.a` are valid,
-                if iter.clone().next() == Some('.') {
-                    iter.next(); // '.'
-
-                    if starts_with_dot {
-                        // debug_assert!(self.cur().is_some());
-                        // debug_assert!(self.cur().unwrap().is_digit(10));
+                if starts_with_dot || iter.clone().next() == Some('.') {
+                    if iter.clone().next() == Some('.') {
+                        iter.next(); // '.'
                     }
 
                     let mut raw = Raw(Some(String::new()));
@@ -84,7 +81,6 @@ impl<'a> Lexer<'a> {
                         if let Some(..) = dec_val {
                             s.push_str(&raw.0.as_ref().unwrap());
                         }
-
                         s.parse().expect("failed to parse float using rust's impl")
                     };
                 }
@@ -603,7 +599,7 @@ mod tests {
                     _ => assert_eq!(Num(expected), token),
                 }
             } else if let Ok(vec) = vec {
-                assert_ne!(vec![Num(expected)], vec)
+                assert_ne!(vec![Num(expected)], vec, "Should not be {:?}", expected)
             }
         }
     }
