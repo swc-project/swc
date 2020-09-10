@@ -49,9 +49,13 @@ impl<'a> Lexer<'a> {
                     0f64
                 } else {
                     // Use read_number_no_dot to support long numbers.
-                    let val = self.read_digits(&mut iter, 10, |total, radix, value| {
-                        f64::mul_add(total, radix as _, value as _)
-                    })?;
+                    let val = self.read_digits(
+                        &mut iter,
+                        10,
+                        |total, radix, value| f64::mul_add(total, radix as _, value as _),
+                        &mut Raw(None),
+                        true,
+                    )?;
 
                     val
                 };
@@ -111,9 +115,13 @@ impl<'a> Lexer<'a> {
                         true
                     };
 
-                    let exp = self.read_digits(&mut iter, 10, |total, radix, value| {
-                        f64::mul_add(total, radix as _, value as _)
-                    })?;
+                    let exp = self.read_digits(
+                        &mut iter,
+                        10,
+                        |total, radix, value| f64::mul_add(total, radix as _, value as _),
+                        &mut Raw(None),
+                        true,
+                    )?;
                     let flag = if positive { '+' } else { '-' };
                     // TODO:
                     val = format!("{}e{}{}", val, flag, exp)
