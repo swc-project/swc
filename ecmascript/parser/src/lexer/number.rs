@@ -6,7 +6,7 @@ use super::*;
 use crate::error::SyntaxError;
 use log::trace;
 use num_bigint::BigInt as BigIntValue;
-use std::iter::FusedIterator;
+use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
@@ -104,7 +104,7 @@ impl<'a> Lexer<'a> {
                     let next = match iter.clone().next() {
                         Some(next) => next,
                         None => {
-                            let pos = self.cur_pos();
+                            let pos = self.input.cur_pos();
                             self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
                         }
                     };
