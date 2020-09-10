@@ -136,6 +136,9 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.syntax.jsx());
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
+        let s = self.input.slice_cur();
+        let s = &s[1..s.len() - 1];
+
         // TODO: Use cow
         let mut out = String::new();
         out.push_str(self.input.slice_cur());
@@ -151,6 +154,7 @@ impl<'a> Lexer<'a> {
             out.push(c);
         }
         out.reserve(self.input.slice_cur().len());
+        let mut out = String::with_capacity(s.len());
 
         for (_, c) in self.input.slice_cur().char_indices() {
             // TODO: Handle escape
