@@ -795,7 +795,7 @@ impl<'a> Lexer<'a> {
         let content: JsWord = self.with_chars(|lexer, iter| {
             let mut buf = String::new();
 
-            while let Some(c) = iter.next() {
+            while let Some(c) = iter.clone().next() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_break() {
@@ -814,6 +814,7 @@ impl<'a> Lexer<'a> {
                     }
                     escaped = c == '\\';
                 }
+                iter.next();
                 buf.push(c);
             }
 
