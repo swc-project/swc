@@ -30,16 +30,16 @@ impl<'a> Lexer<'a> {
         assert_ne!(self.input.cur(), None);
 
         let tok = self.input.cur().unwrap();
+        let start = self.input.cur_pos();
         let span = self.input.span();
-        let mut s = self.input.slice();
+        let s = self.input.slice();
         self.input.advance();
 
         match tok {
             InternalToken::FloatNum => {
                 let starts_with_dot = s.starts_with('.');
-                if starts_with_dot {
-                    s = &s[1..];
-                }
+
+                let starts_with_zero = !starts_with_dot && s.starts_with('0');
 
                 let mut iter = s.chars();
 
@@ -55,6 +55,42 @@ impl<'a> Lexer<'a> {
                         &mut Raw(None),
                         true,
                     )?;
+
+                    if starts_with_zero {
+                        if val == 0.0f64 {
+                            // If only one zero is used, it's decimal literal but if multiple zero
+                            // is used, it's octal literal.
+                            //
+                            // e.g. `0` is decimal (so it can be part of float)
+                            //
+                            // e.g. `000` is octal
+                            if s.len() - 1 != iter.as_str().len() {
+                                // `-1` is utf 8 length of `0`
+
+                                return self.make_legacy_octal(span, 0f64);
+                            }
+                        } else {
+                            if val.fract() < 1e-10 {
+                                let d = digits(val.round() as u64, 10);
+
+                                // if it contains '8' or '9', it's decimal.
+                                if d.clone().any(|v| v == 8 || v == 9) {
+                                    if self.ctx.strict {
+                                        self.error(start, SyntaxError::LegacyDecimal)?
+                                    }
+                                } else {
+                                    // It's Legacy octal, and we should reinterpret value.
+                                    let val = u64::from_str_radix(&val.to_string(), 8)
+                                        .expect("Does this can really happen?");
+                                    let val = val
+                                        .to_string()
+                                        .parse()
+                                        .expect("failed to parse numeric value as f64");
+                                    return self.make_legacy_octal(span, val);
+                                }
+                            }
+                        }
+                    }
 
                     val
                 };
@@ -118,6 +154,7 @@ impl<'a> Lexer<'a> {
                         &mut Raw(None),
                         true,
                     )?;
+
                     let flag = if positive { '+' } else { '-' };
                     // TODO:
                     val = format!("{}e{}{}", val, flag, exp)
@@ -431,6 +468,46 @@ impl<'a> Lexer<'a> {
     }
 }
 
+fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static {
+    debug_assert!(radix > 0);
+
+    #[derive(Clone, Copy)]
+    struct Digits {
+        n: u64,
+        divisor: u64,
+    }
+
+    impl Digits {
+        fn new(n: u64, radix: u64) -> Self {
+            let mut divisor = 1;
+            while n >= divisor * radix {
+                divisor *= radix;
+            }
+
+            Digits { n, divisor }
+        }
+    }
+
+    impl Iterator for Digits {
+        type Item = u64;
+
+        fn next(&mut self) -> Option<u64> {
+            if self.divisor == 0 {
+                None
+            } else {
+                let v = Some(self.n / self.divisor);
+                self.n %= self.divisor;
+                self.divisor /= 10;
+                v
+            }
+        }
+    }
+
+    impl FusedIterator for Digits {}
+
+    Digits::new(value, radix)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -552,8 +629,11 @@ mod tests {
 
     /// Valid even on strict mode.
     const VALID_CASES: &[&str] = &[".0", "0.e-1", "0e8", ".8e1", "0.8e1", "1.18e1"];
-    const INVALID_CASES_ON_STRICT: &[&str] = &["08e1", "08.1", "08.8e1", "08", "01"];
-    const INVALID_CASES: &[&str] = &["01.8e1", "012e1", "00e1", "00.0"];
+    /// "00e1", "00.0" is always invalid, but swc almost always parse input as
+    /// module, and nobody uses legacy octal literals.
+    const INVALID_CASES_ON_STRICT: &[&str] =
+        &["08e1", "08.1", "08.8e1", "08", "01", "00e1", "00.0"];
+    const INVALID_CASES: &[&str] = &["01.8e1", "012e1"];
 
     fn test_floats(strict: bool, success: bool, cases: &'static [&'static str]) {
         for case in cases {
@@ -612,9 +692,15 @@ mod tests {
     //    }
 
     #[test]
-    fn non_strict() {
+    fn valid() {
         test_floats(false, true, VALID_CASES);
+    }
+    #[test]
+    fn invalid_on_strict_mode() {
         test_floats(false, true, INVALID_CASES_ON_STRICT);
+    }
+    #[test]
+    fn invalid() {
         test_floats(false, false, INVALID_CASES);
     }
 }
