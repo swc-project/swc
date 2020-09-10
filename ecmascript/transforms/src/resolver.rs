@@ -1006,4 +1006,7 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
+
+    #[inline]
+    fn visit_mut_param(&mut self, _: &mut Param) {}
 }
