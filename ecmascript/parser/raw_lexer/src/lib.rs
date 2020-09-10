@@ -321,7 +321,7 @@ pub enum InternalToken {
     Tilde,
 
     /// String literal.
-    #[regex(r#""(?:[^"]|\\")*""#)]
+    #[regex(r#""(?:[^"]|\\\\|\\")*""#)]
     #[regex(r#"'(?:[^']|\\\\|\\')*'"#)]
     Str,
 
