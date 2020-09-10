@@ -11,7 +11,7 @@ use crate::{
     Context, JscTarget, Syntax,
 };
 use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc, str::Chars};
+use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc, str::Chars};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
@@ -140,21 +140,6 @@ impl<'a> Lexer<'a> {
             errors: Default::default(),
             buf: String::with_capacity(16),
         }
-    }
-
-    /// Utility method to reuse buffer.
-    fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
-    where
-        F: for<'any> FnOnce(&mut Lexer<'any>, &mut String) -> LexResult<Ret>,
-    {
-        let mut buf = take(&mut self.buf);
-        buf.clear();
-
-        let res = op(self, &mut buf);
-
-        self.buf = buf;
-
-        res
     }
 
     /// babel: `getTokenFromCode`

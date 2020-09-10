@@ -47,8 +47,9 @@ impl<'a> Lexer<'a> {
     where
         F: FnOnce(&mut Lexer, &mut Chars) -> Ret,
     {
-        let remaining: &str = self.input.remainder();
-        let mut chars = remaining.chars();
+        let input = self.input.clone();
+        let remaining: &str = input.remainder();
+        let mut chars = remaining.chars().clone();
 
         let ret = op(self, &mut chars);
 
