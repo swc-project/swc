@@ -914,6 +914,7 @@ impl<'a> Lexer<'a> {
                     };
                     cooked.push(c);
                 }
+                self.input.advance();
             } else {
                 cooked.push_str(self.input.slice());
                 raw.push_str(self.input.slice());
