@@ -1,8 +1,6 @@
 //! ECMAScript lexer.
 
-pub use self::{
-    state::{TokenContext, TokenContexts},
-};
+pub use self::state::{TokenContext, TokenContexts};
 use self::{state::State, util::*};
 use crate::{
     error::{Error, SyntaxError},

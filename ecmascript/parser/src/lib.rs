@@ -90,10 +90,7 @@
 //! [tc39/test262]:https://github.com/tc39/test262
 #![cfg_attr(test, feature(test))]
 
-pub use self::{
-    lexer::input::{Input, StringInput},
-    parser::*,
-};
+pub use self::parser::*;
 use serde::{Deserialize, Serialize};
 use swc_common::Span;
 
