@@ -7,7 +7,7 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{Char, LexResult, Lexer};
 use crate::error::{Error, SyntaxError};
-use std::char;
+use std::{char, str::Chars};
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span,
@@ -43,6 +43,22 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
+    pub fn with_chars<F, Ret>(&mut self, op: F) -> Ret
+    where
+        F: FnOnce(&mut Lexer, &mut Chars) -> Ret,
+    {
+        let remaining: &str = self.input.remainder();
+        let mut chars = remaining.chars();
+
+        let ret = op(self, &mut chars);
+
+        let diff = remaining.len() - chars.as_str().len();
+
+        self.input.bump_bytes(diff);
+
+        ret
+    }
+
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
     #[cold]
     #[inline(never)]

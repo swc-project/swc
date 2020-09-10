@@ -810,7 +810,7 @@ impl<'a> Lexer<'a> {
 
         let (mut escaped, mut in_class) = (false, false);
         // let content_start = self.cur_pos();
-        let content: JsWord = self.input.with_chars(|iter| {
+        let content: JsWord = self.with_chars(|lexer, iter| {
             let mut buf = String::new();
 
             while let Some(c) = iter.next() {
@@ -915,8 +915,7 @@ impl<'a> Lexer<'a> {
                 self.input.advance(); // '\\'
 
                 let ch = self
-                    .input
-                    .with_chars(|iter| self.parse_escaped_char(&mut iter, &mut wrapped))?;
+                    .with_chars(|lexer, iter| lexer.parse_escaped_char(&mut iter, &mut wrapped))?;
 
                 raw = wrapped.0.unwrap();
                 if let Some(s) = ch {

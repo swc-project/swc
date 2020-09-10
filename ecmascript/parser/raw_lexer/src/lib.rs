@@ -2,7 +2,6 @@
 //! time.
 
 use logos::{Lexer, Logos};
-use std::str::Chars;
 use swc_common::{BytePos, Span};
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -474,42 +473,15 @@ impl<'a> DumbLexer<'a> {
         self.inner.bump(new_idx as _);
     }
 
-    // TODO: Remove
-    pub fn cur_char(&mut self) -> Option<char> {
-        assert_eq!(self.cur, None);
-
-        self.inner.remainder().chars().next()
-    }
-
-    // TODO: Remove
-    pub fn peek_char(&mut self) -> Option<char> {
-        assert_eq!(self.cur, None);
-
-        self.inner.remainder().chars().nth(1)
-    }
-
-    // TODO: Remove
     pub fn bump_bytes(&mut self, n: usize) {
         assert_eq!(self.cur, None);
 
         self.inner.bump(n);
     }
 
-    pub fn with_chars<F, Ret>(&mut self, op: F) -> Ret
-    where
-        F: FnOnce(&mut Chars) -> Ret,
-    {
+    pub fn remainder(&self) -> &str {
         assert_eq!(self.cur, None);
 
-        let remaining: &str = self.inner.remainder();
-        let mut chars = remaining.chars();
-
-        let ret = op(&mut chars);
-
-        let diff = remaining.len() - chars.as_str().len();
-
-        self.inner.bump(diff);
-
-        ret
+        self.inner.remainder()
     }
 }

@@ -51,14 +51,14 @@ impl<'a> Lexer<'a> {
     fn read_jsx_entity(&mut self) -> LexResult<char> {
         debug_assert!(self.syntax.jsx());
 
-        fn from_code(s: &str, radix: u32) -> LexResult<char> {
+        fn from_code(s: &str, radix: u32) -> char {
             // TODO(kdy1): unwrap -> Err
             let c = char::from_u32(
                 u32::from_str_radix(s, radix).expect("failed to parse string as number"),
             )
             .expect("failed to parse number as char");
 
-            Ok(c)
+            c
         }
 
         fn is_hex(s: &str) -> bool {
@@ -69,37 +69,43 @@ impl<'a> Lexer<'a> {
             s.chars().all(|c| c.is_digit(10))
         }
 
-        let mut s = String::new();
-
         let c = self.input.cur();
         debug_assert_eq!(c, Some(itok!("&")));
         self.input.advance(); // '&'
 
         let start_pos = self.input.cur_pos();
 
-        for _ in 0..10 {
-            let c = match self.input.cur_char() {
-                Some(c) => c,
-                None => break,
-            };
-            self.input.bump_bytes(c.len_utf8());
+        let ret: Option<char> = self.with_chars(|lexer, chars| {
+            let mut s = String::new();
 
-            if c == ';' {
-                if s.starts_with('#') {
-                    if s[1..].starts_with('x') {
-                        if is_hex(&s[2..]) {
-                            return from_code(&s[2..], 16);
+            for _ in 0..10 {
+                let c = match chars.next() {
+                    Some(c) => c,
+                    None => break,
+                };
+
+                if c == ';' {
+                    if s.starts_with('#') {
+                        if s[1..].starts_with('x') {
+                            if is_hex(&s[2..]) {
+                                return Some(from_code(&s[2..], 16));
+                            }
+                        } else if is_dec(&s[1..]) {
+                            return Some(from_code(&s[1..], 10));
                         }
-                    } else if is_dec(&s[1..]) {
-                        return from_code(&s[1..], 10);
+                    } else if let Some(entity) = xhtml(&s) {
+                        return Some(entity);
                     }
-                } else if let Some(entity) = xhtml(&s) {
-                    return Ok(entity);
+                    break;
                 }
-                break;
+
+                s.push(c)
             }
 
-            s.push(c)
+            None
+        });
+        if let Some(v) = ret {
+            return Ok(v);
         }
 
         self.input.reset_to(start_pos);
