@@ -30,6 +30,7 @@ impl<'a> Lexer<'a> {
         assert_ne!(self.input.cur(), None);
 
         let s = self.input.slice();
+        self.input.advance();
 
         match self.input.cur().unwrap() {
             InternalToken::FloatNum => {
