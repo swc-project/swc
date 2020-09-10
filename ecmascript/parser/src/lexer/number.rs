@@ -41,7 +41,6 @@ impl<'a> Lexer<'a> {
                     s = &s[1..];
                 }
 
-                let starts_with_zero = s.starts_with('0');
                 let mut iter = s.chars();
 
                 let val = if starts_with_dot {
