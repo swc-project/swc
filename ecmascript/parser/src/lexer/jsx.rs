@@ -117,12 +117,12 @@ impl<'a> Lexer<'a> {
         let mut iter = self.input.slice().chars();
 
         while let Some(c) = iter.next() {
-            let out = if c == '\r' && iter.as_str().starts_with('\n') {
+            if c == '\r' && iter.as_str().starts_with('\n') {
                 to.push_str(if normalize_crlf { "\n" } else { "\r\n" });
                 iter.next();
             } else {
                 to.push(c);
-            };
+            }
             let cur_pos = self.input.cur_pos();
             self.state.cur_line += 1;
             self.state.line_start = cur_pos;
@@ -137,12 +137,6 @@ impl<'a> Lexer<'a> {
         let s = self.input.slice();
         let s = &s[1..s.len() - 1]; // Remove quote
         let mut has_escape = false;
-
-        // TODO: Use cow
-        let mut out = String::new();
-        out.push_str(self.input.slice());
-        let s = self.input.slice();
-        let s = &s[1..s.len() - 1];
 
         // TODO: Use cow
         let mut out = String::with_capacity(s.len());

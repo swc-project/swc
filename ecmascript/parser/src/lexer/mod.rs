@@ -499,12 +499,15 @@ impl<'a> Lexer<'a> {
             }
 
             // unexpected character
-            c => self.error_span(
-                pos_span(start),
-                SyntaxError::UnexpectedToken {
-                    token: format!("{:?} ({}))", c, self.input.slice()),
-                },
-            )?,
+            c => {
+                let s = self.input.slice();
+                self.error_span(
+                    pos_span(start),
+                    SyntaxError::UnexpectedToken {
+                        token: format!("{:?} ({}))", c, s),
+                    },
+                )?
+            }
         };
 
         Ok(Some(token))
@@ -617,11 +620,13 @@ impl<'a> Lexer<'a> {
 
                 // TODO: Show template instead of strict mode
                 if in_template {
-                    self.error_span(self.input.span(), SyntaxError::LegacyOctal)?
+                    let span = self.input.span();
+                    self.error_span(span, SyntaxError::LegacyOctal)?
                 }
 
                 if self.ctx.strict {
-                    self.error_span(self.input.span(), SyntaxError::LegacyOctal)?
+                    let span = self.input.span();
+                    self.error_span(span, SyntaxError::LegacyOctal)?
                 }
 
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
@@ -805,9 +810,9 @@ impl<'a> Lexer<'a> {
 
         let (mut escaped, mut in_class) = (false, false);
         // let content_start = self.cur_pos();
-        let content: JsWord = {
+        let content: JsWord = self.input.with_chars(|iter| {
             let mut buf = String::new();
-            let mut iter = self.input.chars();
+
             while let Some(c) = iter.next() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
@@ -832,9 +837,8 @@ impl<'a> Lexer<'a> {
                 buf.push(c);
             }
 
-            self.input.advance();
             Ok(buf.into())
-        }?;
+        })?;
         // let content_span = Span::new(content_start, self.cur_pos(),
         // Default::default());
 
@@ -908,6 +912,12 @@ impl<'a> Lexer<'a> {
                     self.with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut wrapped))?;
 
                 let ch = self.parse_escaped_char(self.input.chars(), &mut wrapped)?;
+                self.input.advance(); // '\\'
+
+                let ch = self
+                    .input
+                    .with_chars(|iter| self.parse_escaped_char(&mut iter, &mut wrapped))?;
+
                 raw = wrapped.0.unwrap();
                 if let Some(s) = ch {
                     cooked.extend(s);

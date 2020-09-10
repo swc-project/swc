@@ -2,6 +2,7 @@
 //! time.
 
 use logos::{Lexer, Logos};
+use std::str::Chars;
 use swc_common::{BytePos, Span};
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -473,16 +474,6 @@ impl<'a> DumbLexer<'a> {
         self.inner.bump(new_idx as _);
     }
 
-    #[inline]
-    pub fn chars<'w>(&'w mut self) -> Chars<'w, 'a> {
-        assert_eq!(self.cur, None);
-
-        Chars {
-            lexer: self,
-            idx: 0,
-        }
-    }
-
     // TODO: Remove
     pub fn cur_char(&mut self) -> Option<char> {
         assert_eq!(self.cur, None);
@@ -503,31 +494,22 @@ impl<'a> DumbLexer<'a> {
 
         self.inner.bump(n);
     }
-}
 
-pub struct Chars<'a, 'b> {
-    lexer: &'a mut DumbLexer<'b>,
-    idx: usize,
-}
+    pub fn with_chars<F, Ret>(&mut self, op: F) -> Ret
+    where
+        F: FnOnce(&mut Chars) -> Ret,
+    {
+        assert_eq!(self.cur, None);
 
-impl Iterator for Chars<'_, '_> {
-    type Item = char;
+        let remaining: &str = self.inner.remainder();
+        let mut chars = remaining.chars();
 
-    fn next(&mut self) -> Option<Self::Item> {
-        let s: &str = self.lexer.inner.remainder();
-        let s = &s[self.idx..];
-        let c = s.chars().next();
+        let ret = op(&mut chars);
 
-        if let Some(c) = c {
-            self.idx += c.len_utf8();
-        }
+        let diff = remaining.len() - chars.as_str().len();
 
-        c
-    }
-}
+        self.inner.bump(diff);
 
-impl Drop for Chars<'_, '_> {
-    fn drop(&mut self) {
-        self.lexer.inner.bump(self.idx);
+        ret
     }
 }
