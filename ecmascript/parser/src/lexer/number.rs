@@ -287,8 +287,16 @@ impl<'a> Lexer<'a> {
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
     pub(super) fn read_int(&mut self, radix: u8, len: u8, raw: &mut Raw) -> LexResult<Option<f64>> {
+    fn parse_int(
+        &mut self,
+        iter: &mut Chars,
+        radix: u8,
+        len: u8,
+        raw: &mut Raw,
+    ) -> LexResult<Option<f64>> {
         let mut count = 0;
         let v = self.read_digits(
+            iter,
             radix,
             |opt: Option<f64>, radix, val| {
                 count += 1;
@@ -305,7 +313,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    pub(super) fn read_int_u32(
+    pub(super) fn parse_int_u32(
         &mut self,
         radix: u8,
         len: u8,
@@ -581,7 +589,7 @@ mod tests {
 
     fn int(radix: u8, s: &'static str) -> u32 {
         lex(s, |l| {
-            l.read_int_u32(radix, 0, &mut Raw(None))
+            l.parse_int_u32(radix, 0, &mut Raw(None))
                 .unwrap()
                 .expect("read_int returned None")
         })

@@ -22,7 +22,7 @@ fn bench_module(b: &mut Bencher, src: &'static str) {
             let mut lexer = DumbLexer::new(fm.start_pos, src);
             while let Some(t) = lexer.cur() {
                 black_box(t);
-                lexer.bump();
+                lexer.advance();
             }
         });
         Ok(())

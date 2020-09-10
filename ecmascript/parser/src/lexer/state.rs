@@ -143,7 +143,7 @@ impl Tokens for Lexer<'_> {
 impl<'a> Iterator for Lexer<'a> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
-        let mut start = self.cur_pos();
+        let mut start = self.input.cur_pos();
 
         let res = (|| -> Result<Option<_>, _> {
             if self.state.is_first {
@@ -163,7 +163,7 @@ impl<'a> Iterator for Lexer<'a> {
 
             if let Some(InternalToken::Error) = self.input.cur() {
                 // TODO: Change this to lex error
-                unreachable!("Error token: {}", self.input.slice_cur());
+                unreachable!("Error token: {}", self.input.slice());
             }
 
             match self.input.cur() {
@@ -204,13 +204,13 @@ impl<'a> Iterator for Lexer<'a> {
             self.state.start = start;
 
             if self.syntax.typescript() && self.ctx.in_type {
-                match self.cur() {
+                match self.input.cur() {
                     Some(itok!("<")) => {
-                        self.input.bump();
+                        self.input.advance();
                         return Ok(Some(tok!('<')));
                     }
                     Some(itok!(">")) => {
-                        self.input.bump();
+                        self.input.advance();
                         return Ok(Some(tok!('>')));
                     }
                     _ => {}
@@ -223,7 +223,7 @@ impl<'a> Iterator for Lexer<'a> {
                     return self.read_jsx_token();
                 }
 
-                let c = self.cur();
+                let c = self.input.cur();
                 if let Some(c) = c {
                     if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                         || self.state.context.current() == Some(TokenContext::JSXClosingTag)
@@ -233,7 +233,7 @@ impl<'a> Iterator for Lexer<'a> {
                         }
 
                         if c == itok!(">") {
-                            self.input.bump();
+                            self.input.advance();
                             return Ok(Some(Token::JSXTagEnd));
                         }
 
@@ -248,7 +248,7 @@ impl<'a> Iterator for Lexer<'a> {
                         && self.state.is_expr_allowed
                         && self.input.peek() != Some(itok!("!"))
                     {
-                        self.input.bump();
+                        self.input.advance();
                         return Ok(Some(Token::JSXTagStart));
                     }
                 }

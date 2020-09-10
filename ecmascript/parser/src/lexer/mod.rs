@@ -11,7 +11,7 @@ use crate::{
     Context, JscTarget, Syntax,
 };
 use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc, str::Chars};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
@@ -243,7 +243,7 @@ impl<'a> Lexer<'a> {
             | itok!(">>>")
             | itok!(">>>=") => {
                 // These tokens are emitted directly.
-                self.input.bump();
+                self.input.advance();
                 return Ok(Some(match c {
                     itok!("??") => tok!("??"),
                     itok!("?") => tok!('?'),
@@ -527,16 +527,13 @@ impl<'a> Lexer<'a> {
     /// Read an escaped charater for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, raw: &mut Raw) -> LexResult<Option<Char>> {
-        debug_assert_eq!(self.cur(), Some(itok!("\\")));
-        let start = self.cur_pos();
-        self.bump(); // '\'
-
+    fn parse_escaped_char(&mut self, iter: &mut Chars, raw: &mut Raw) -> LexResult<Option<Char>> {
+        let start = self.input.cur_pos(); // TODO: correct pos
         let in_template = raw.0.is_some();
 
-        let c = match self.input.cur_char() {
+        let c = match iter.clone().next() {
             Some(c) => c,
-            None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
+            None => self.error(start, SyntaxError::InvalidStrEscape)?,
         };
 
         macro_rules! push_c_and_ret {
@@ -556,9 +553,10 @@ impl<'a> Lexer<'a> {
             'f' => push_c_and_ret!('\u{000c}'),
             '\r' => {
                 raw.push_str("\r");
-                self.bump(); // remove '\r'
+                iter.next(); // remove '\r'
 
-                if self.input.eat(b'\n') {
+                if iter.as_str().starts_with('\n') {
+                    iter.next();
                     raw.push_str("\n");
                 }
                 return Ok(None);
@@ -570,27 +568,27 @@ impl<'a> Lexer<'a> {
                     '\u{2029}' => raw.push_str("\u{2029}"),
                     _ => unreachable!(),
                 }
-                self.bump();
+                iter.next();
                 return Ok(None);
             }
 
             // read hexadecimal escape sequences
             'x' => {
-                raw.push_str("0x");
-                self.bump(); // 'x'
-                return self.read_hex_char(start, 2, raw).map(Some);
+                raw.push_str("\\x");
+                iter.next(); // 'x'
+                return self.parse_hex_char(iter, start, 2, raw).map(Some);
             }
 
             // read unicode escape sequences
             'u' => {
-                return self.read_unicode_escape(start, raw).map(Some);
+                return self.parse_unicode_escape(iter, start, raw).map(Some);
             }
             // octal escape sequences
             '0'..='7' => {
                 raw.push(c);
-                self.bump();
+                iter.next(); // first digit
                 let first_c = if c == '0' {
-                    match self.input.cur_char() {
+                    match iter.next() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
                         _ => return Ok(Some('\u{0000}'.into())),
@@ -601,17 +599,17 @@ impl<'a> Lexer<'a> {
 
                 // TODO: Show template instead of strict mode
                 if in_template {
-                    self.error(start, SyntaxError::LegacyOctal)?
+                    self.error_span(self.input.span(), SyntaxError::LegacyOctal)?
                 }
 
                 if self.ctx.strict {
-                    self.error(start, SyntaxError::LegacyOctal)?
+                    self.error_span(self.input.span(), SyntaxError::LegacyOctal)?
                 }
 
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {
                     ($check:expr) => {{
-                        match self.input.cur_char().and_then(|c| c.to_digit(8)) {
+                        match iter.next().and_then(|c| c.to_digit(8)) {
                             Some(v) => {
                                 value = if $check {
                                     let new_val = value
@@ -624,7 +622,7 @@ impl<'a> Lexer<'a> {
                                 } else {
                                     value * 8 + v as u8
                                 };
-                                self.input.bump_bytes(c.len_utf8());
+                                iter.next();
                             }
                             _ => return Ok(Some(value as u32).map(From::from)),
                         }
@@ -640,7 +638,7 @@ impl<'a> Lexer<'a> {
                 c
             }
         };
-        self.input.bump();
+        iter.next();
 
         Ok(Some(c.into()))
     }
@@ -730,16 +728,21 @@ impl<'a> Lexer<'a> {
         Ok((ret, slice.contains('\\')))
     }
 
-    fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<Char> {
-        debug_assert_eq!(self.input.cur_char(), Some('u'));
-        self.bump();
+    fn parse_unicode_escape(
+        &mut self,
+        iter: &mut Chars,
+        start: BytePos,
+        raw: &mut Raw,
+    ) -> LexResult<Char> {
+        debug_assert_eq!(iter.clone().next(), Some('u'));
+        iter.next();
 
         raw.push_str("u");
 
         if self.input.eat(b'{') {
             raw.push('{');
             // let cp_start = self.cur_pos();
-            let c = self.read_code_point(raw)?;
+            let c = self.parse_code_point(iter, raw)?;
 
             if !self.input.eat(b'}') {
                 self.error(start, SyntaxError::InvalidUnicodeEscape)?
@@ -748,7 +751,7 @@ impl<'a> Lexer<'a> {
 
             Ok(c)
         } else {
-            self.read_hex_char(start, 4, raw)
+            self.parse_hex_char(iter, start, 4, raw)
         }
     }
 
@@ -756,11 +759,17 @@ impl<'a> Lexer<'a> {
     ///
     /// THis method returns [Char] as non-utf8 character is valid in javsacript.
     /// See https://github.com/swc-project/swc/issues/261
-    fn read_hex_char(&mut self, start: BytePos, count: u8, raw: &mut Raw) -> LexResult<Char> {
+    fn parse_hex_char(
+        &mut self,
+        iter: &mut Chars,
+        start: BytePos,
+        count: u8,
+        raw: &mut Raw,
+    ) -> LexResult<Char> {
         debug_assert!(count == 2 || count == 4);
 
         // let pos = self.cur_pos();
-        match self.read_int_u32(16, count, raw)? {
+        match self.parse_int_u32(iter, 16, count, raw)? {
             Some(val) => Ok(val.into()),
             None => self.error(start, SyntaxError::ExpectedHexChars { count })?,
         }
@@ -770,6 +779,9 @@ impl<'a> Lexer<'a> {
     fn read_code_point(&mut self, raw: &mut Raw) -> LexResult<Char> {
         let start = self.cur_pos();
         let val = self.read_int_u32(16, 0, raw)?;
+    fn parse_code_point(&mut self, iter: &mut Chars, raw: &mut Raw) -> LexResult<Char> {
+        let start = self.input.cur_pos();
+        let val = self.parse_int_u32(iter, 16, 0, raw)?;
         match val {
             Some(val) if 0x0010_FFFF >= val => match char::from_u32(val) {
                 Some(c) => Ok(c.into()),
@@ -806,6 +818,7 @@ impl<'a> Lexer<'a> {
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_break() {
                     l.error(start, SyntaxError::UnterminatedRegxp)?;
+                    lexer.error(start, SyntaxError::UnterminatedRegxp)?;
                 }
 
                 if escaped {
@@ -891,6 +904,11 @@ impl<'a> Lexer<'a> {
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
                 let ch = self.read_escaped_char(&mut wrapped)?;
+                self.input.advance(); // '\\'
+
+                let ch =
+                    self.with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut wrapped))?;
+
                 raw = wrapped.0.unwrap();
                 if let Some(s) = ch {
                     cooked.extend(s);

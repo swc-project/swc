@@ -184,14 +184,6 @@ macro_rules! itok {
         swc_ecma_raw_lexer::InternalToken::Arrow
     };
 
-    ("//") => {
-        swc_ecma_raw_lexer::InternalToken::LineCommentStart
-    };
-
-    ("/*") => {
-        swc_ecma_raw_lexer::InternalToken::BlockCommentStart
-    };
-
     ("<<") => {
         swc_ecma_raw_lexer::InternalToken::LShift
     };

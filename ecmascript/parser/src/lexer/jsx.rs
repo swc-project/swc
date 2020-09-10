@@ -22,7 +22,7 @@ impl<'a> Lexer<'a> {
                     //
                     if cur_pos == self.state.start {
                         if cur == itok!("<") && self.state.is_expr_allowed {
-                            self.input.bump();
+                            self.input.advance();
                             return Ok(Token::JSXTagStart).map(Some);
                         }
 
@@ -37,7 +37,7 @@ impl<'a> Lexer<'a> {
                 }
 
                 InternalToken::NewLine => {
-                    out.push_str(self.input.slice_cur());
+                    //
                     match self.read_jsx_new_line(true)? {
                         Either::Left(s) => out.push_str(s),
                         Either::Right(c) => out.push(c),
@@ -46,7 +46,7 @@ impl<'a> Lexer<'a> {
 
                 _ => {
                     out.push_str(self.input.slice_cur());
-                    self.input.bump();
+                    self.input.advance();
                 }
             }
         }
@@ -77,7 +77,7 @@ impl<'a> Lexer<'a> {
 
         let c = self.input.cur();
         debug_assert_eq!(c, Some(itok!("&")));
-        self.input.bump(); // '&'
+        self.input.advance(); // '&'
 
         let start_pos = self.input.cur_pos();
 
@@ -115,12 +115,14 @@ impl<'a> Lexer<'a> {
         normalize_crlf: bool,
     ) -> LexResult<Either<&'static str, char>> {
         debug_assert!(self.syntax.jsx());
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::NewLine));
 
-        let ch = self.input.cur_char().unwrap();
-        self.input.bump_bytes(1);
+        let ch = iter
+            .next()
+            .expect("read_jsx_new_line should only be called if there exists input");
 
-        let out = if ch == '\r' && self.input.cur_char() == Some('\n') {
-            self.input.bump();
+        let out = if ch == '\r' && iter.as_str().starts_with('\n') {
+            iter.next();
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
             Either::Right(ch)
@@ -132,12 +134,13 @@ impl<'a> Lexer<'a> {
         Ok(out)
     }
 
-    pub(super) fn read_jsx_str(&mut self, quote: InternalToken) -> LexResult<Token> {
+    pub(super) fn read_jsx_str(&mut self, _: InternalToken) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
         let s = self.input.slice_cur();
         let s = &s[1..s.len() - 1];
+        let mut has_escape = false;
 
         // TODO: Use cow
         let mut out = String::new();
@@ -147,8 +150,16 @@ impl<'a> Lexer<'a> {
 
         // TODO: Use cow
         let mut out = String::with_capacity(s.len());
+        let mut iter = s.chars();
 
-        for (_, c) in s.char_indices() {
+        while let Some(c) = iter.next() {
+            if c == '\\' {
+                has_escape = true;
+                if let Some(s) = self.parse_escaped_char(&mut iter, &mut Raw(None))? {
+                    out.extend(s);
+                }
+                continue;
+            }
             // TODO: Handle escape
             // TODO: Handle newline
             out.push(c);
@@ -163,17 +174,6 @@ impl<'a> Lexer<'a> {
         }
 
         // loop {
-        //     if ch == itok!("\\") {
-        //         has_escape = true;
-        //         if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
-        //             out.extend(s);
-        //         }
-        //         continue;
-        //     }
-
-        //     if ch == quote {
-        //         break;
-        //     }
         //     if ch == itok!("&") {
         //         out.push(self.read_jsx_entity()?);
         //     } else if ch == InternalToken::NewLine {
@@ -187,7 +187,7 @@ impl<'a> Lexer<'a> {
         // }
         self.input.bump();
         Ok(Token::Str {
-            has_escape: out.contains('\\'),
+            has_escape,
             value: out.into(),
         })
     }

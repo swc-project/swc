@@ -2,7 +2,7 @@
 //! time.
 
 use logos::{Lexer, Logos};
-use swc_common::{BytePos, Span, DUMMY_SP};
+use swc_common::{BytePos, Span};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub struct Extras {
@@ -350,10 +350,10 @@ pub enum InternalToken {
     BackSlash,
 
     #[regex(r"//[^\n]*")]
-    LineCommentStart,
+    LineComment,
 
     #[regex(r"/\*(?:[^*]|\*[^/])*\*/")]
-    BlockCommentStart,
+    BlockComment,
 
     #[token("${")]
     DollarLBrace,
@@ -371,7 +371,7 @@ pub struct DumbLexer<'a> {
 
 impl<'a> DumbLexer<'a> {
     #[inline]
-    pub fn bump(&mut self) {
+    pub fn advance(&mut self) {
         let _ = self.cur();
 
         self.cur.take();
@@ -446,7 +446,7 @@ impl<'a> DumbLexer<'a> {
         self.inner.clone().skip(1).next()
     }
 
-    pub fn slice_cur(&mut self) -> &'a str {
+    pub fn slice(&mut self) -> &'a str {
         let _cur = self.cur();
 
         match self.cur {
@@ -484,77 +484,5 @@ impl<'a> DumbLexer<'a> {
 
         self.inner = InternalToken::lexer(source);
         self.inner.bump(new_idx as _);
-    }
-
-    #[inline]
-    pub fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
-        assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
-        let s = self.inner.source();
-
-        let start_idx = (start - self.start).0 as usize;
-        let end_idx = (end - self.start).0 as usize;
-
-        let ret = &s[start_idx..end_idx];
-
-        self.inner.bump(ret.len());
-
-        ret
-    }
-
-    #[inline]
-    fn as_str(&self) -> &str {
-        match &self.cur {
-            Some(v) => v.2,
-            None => self.inner.remainder(),
-        }
-    }
-
-    #[inline]
-    pub fn cur_char(&self) -> Option<char> {
-        self.as_str().chars().next()
-    }
-
-    #[inline]
-    pub fn eat(&mut self, needle: u8) -> bool {
-        let bytes = self.as_str().as_bytes();
-        if bytes.is_empty() {
-            return false;
-        }
-
-        if bytes[0] == needle {
-            self.bump_bytes(1);
-            true
-        } else {
-            false
-        }
-    }
-
-    #[inline]
-    pub fn is(&mut self, needle: u8) -> bool {
-        let bytes = self.as_str().as_bytes();
-        if bytes.is_empty() {
-            return false;
-        }
-
-        if bytes[0] == needle {
-            true
-        } else {
-            false
-        }
-    }
-
-    #[inline]
-    pub fn peek_char(&self) -> Option<char> {
-        self.as_str().chars().skip(1).next()
-    }
-
-    #[inline]
-    pub fn peeked_is(&self, needle: u8) -> bool {
-        let bytes = self.as_str().as_bytes();
-        if bytes.len() <= 1 {
-            return false;
-        }
-
-        bytes[1] == needle
     }
 }

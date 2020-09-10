@@ -43,24 +43,6 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
-    pub(super) fn bump(&mut self) {
-        self.input.bump()
-    }
-
-    pub(super) fn cur(&mut self) -> Option<InternalToken> {
-        self.input.cur()
-    }
-    pub(super) fn peek(&mut self) -> Option<InternalToken> {
-        self.input.peek()
-    }
-    pub(super) fn peek_ahead(&mut self) -> Option<InternalToken> {
-        self.input.peek_ahead()
-    }
-
-    pub(super) fn cur_pos(&mut self) -> BytePos {
-        self.input.cur_pos()
-    }
-
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
     #[cold]
     #[inline(never)]
@@ -104,7 +86,7 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self) -> LexResult<()> {
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input.cur() {
             match c {
                 // white spaces
                 InternalToken::Whitespace => {}
@@ -113,20 +95,17 @@ impl<'a> Lexer<'a> {
                     self.state.had_line_break = true;
                 }
 
-                itok!("//") => {
+                InternalToken::LineComment => {
                     self.skip_line_comment();
                 }
-                itok!("/*") => {
+                InternalToken::BlockComment => {
                     self.skip_block_comment()?;
-                }
-                itok!("/") => {
-                    break;
                 }
 
                 _ => break,
             }
 
-            self.bump();
+            self.input.advance();
         }
 
         Ok(())
@@ -134,8 +113,7 @@ impl<'a> Lexer<'a> {
 
     /// Calller should remove `//` before calling this
     pub(super) fn skip_line_comment(&mut self) {
-        let start = self.cur_pos();
-        let slice_start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         // foo // comment for foo
         // bar
@@ -145,28 +123,17 @@ impl<'a> Lexer<'a> {
         // bar
         //
         let is_for_next = self.state.had_line_break;
-        let mut end = self.cur_pos();
-
-        while let Some(c) = self.cur() {
-            self.bump();
-            if c == InternalToken::NewLine {
-                self.state.had_line_break = true;
-                break;
-            }
-
-            end = self.cur_pos();
-        }
 
         if let Some(ref comments) = self.comments {
-            let s = self.input.slice(slice_start, end);
+            let s = self.input.slice();
             let cmt = Comment {
                 kind: CommentKind::Line,
-                span: Span::new(start, end, SyntaxContext::empty()),
+                span: self.input.span(),
                 text: s.into(),
             };
 
             if start >= *self.last_comment_pos.borrow() {
-                *self.last_comment_pos.borrow_mut() = end;
+                *self.last_comment_pos.borrow_mut() = cmt.span.hi;
 
                 if is_for_next {
                     if let Some(buf) = &self.leading_comments_buffer {
@@ -177,66 +144,39 @@ impl<'a> Lexer<'a> {
                 }
             }
         }
-
-        self.input.reset_to(end);
     }
 
     /// Expects current char to be '/' and next char to be '*'.
     pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
-        debug_assert_eq!(self.cur(), Some(itok!("/*")));
-        self.bump();
-
-        // jsdoc
-        let slice_start = self.cur_pos();
-        let mut was_star = if self.cur() == Some(itok!("*")) {
-            self.bump();
-            true
-        } else {
-            false
-        };
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::BlockComment));
 
         let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
-        while let Some(c) = self.cur() {
-            if was_star && c == itok!("/") {
-                debug_assert_eq!(self.cur(), Some(itok!("/")));
-                self.bump(); // '/'
+        if let Some(ref comments) = self.comments {
+            let s = self.input.slice();
+            let s = &s[..s.len() - 2];
+            let cmt = Comment {
+                kind: CommentKind::Block,
+                span: self.input.span(),
+                text: s.into(),
+            };
 
-                let end = self.cur_pos();
-                if let Some(ref comments) = self.comments {
-                    let src = self.input.slice(slice_start, end);
-                    let s = &src[..src.len() - 2];
-                    let cmt = Comment {
-                        kind: CommentKind::Block,
-                        span: Span::new(start, end, SyntaxContext::empty()),
-                        text: s.into(),
-                    };
+            let _ = self.input.peek();
+            if start >= *self.last_comment_pos.borrow() {
+                *self.last_comment_pos.borrow_mut() = cmt.span.hi;
 
-                    let _ = self.input.peek();
-                    if start >= *self.last_comment_pos.borrow() {
-                        *self.last_comment_pos.borrow_mut() = end;
-
-                        if is_for_next {
-                            if let Some(buf) = &self.leading_comments_buffer {
-                                buf.borrow_mut().push(cmt);
-                            }
-                        } else {
-                            comments.add_trailing(self.state.prev_hi, cmt);
-                        }
+                if is_for_next {
+                    if let Some(buf) = &self.leading_comments_buffer {
+                        buf.borrow_mut().push(cmt);
                     }
+                } else {
+                    comments.add_trailing(self.state.prev_hi, cmt);
                 }
-                return Ok(());
             }
-            if c == InternalToken::NewLine {
-                self.state.had_line_break = true;
-            }
-
-            was_star = c == itok!("*");
-            self.bump();
         }
-
+        self.input.advance();
         self.error(start, SyntaxError::UnterminatedBlockComment)?
     }
 }
