@@ -358,7 +358,6 @@ impl<'a> Lexer<'a> {
 
             raw.push(c);
 
-            self.input.bump_bytes(c.len_utf8());
             let (t, cont) = op(total, radix, val);
             total = t;
             if !cont {
