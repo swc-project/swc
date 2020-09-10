@@ -528,9 +528,9 @@ mod tests {
 
     fn int(radix: u8, s: &'static str) -> u32 {
         lex(s, |l| {
-            l.parse_int_u32(radix, 0, &mut Raw(None))
+            l.parse_int_u32(&mut s.chars(), radix, 0, &mut Raw(None))
                 .unwrap()
-                .expect("read_int returned None")
+                .expect("parse_int_u32 returned None")
         })
     }
 
