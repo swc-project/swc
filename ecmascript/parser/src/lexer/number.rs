@@ -252,6 +252,7 @@ impl<'a> Lexer<'a> {
     ) -> LexResult<Option<u32>> {
         let mut count = 0;
         let v = self.read_digits(
+            iter,
             radix,
             |opt: Option<u32>, radix, val| {
                 count += 1;
@@ -324,7 +325,7 @@ impl<'a> Lexer<'a> {
                     }
                 };
 
-                let next = self.input.peek_char();
+                let next = iter.clone().next();
 
                 if !is_allowed(next) {
                     self.emit_error_bpos(
@@ -525,7 +526,7 @@ mod tests {
 
     fn int(radix: u8, s: &'static str) -> u32 {
         lex(s, |l| {
-            l.parse_int_u32(radix, 0, &mut Raw(None))
+            l.parse_int_u32(&mut s.chars(), radix, 0, &mut Raw(None))
                 .unwrap()
                 .expect("read_int returned None")
         })
