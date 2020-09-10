@@ -78,15 +78,16 @@ impl<'a> Lexer<'a> {
                     let mut raw = Raw(Some(String::new()));
                     // Read numbers after dot
                     let dec_val = self.parse_int(&mut iter, 10, 0, &mut raw)?;
-                    val = self.with_buf(|_, s| {
+                    val = {
+                        let mut s = String::new();
                         write!(s, "{}.", val).unwrap();
 
                         if let Some(..) = dec_val {
                             s.push_str(&raw.0.as_ref().unwrap());
                         }
 
-                        Ok(s.parse().expect("failed to parse float using rust's impl"))
-                    })?;
+                        s.parse().expect("failed to parse float using rust's impl")
+                    };
                 }
 
                 // Handle 'e' and 'E'
@@ -99,7 +100,7 @@ impl<'a> Lexer<'a> {
                     Some('e') | Some('E') => true,
                     _ => false,
                 } {
-                    iter.next();
+                    iter.next(); // 'e' or 'E'
                     let next = match iter.clone().next() {
                         Some(next) => next,
                         None => {
