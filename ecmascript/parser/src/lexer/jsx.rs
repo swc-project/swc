@@ -1,5 +1,4 @@
 use super::*;
-use either::Either;
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
@@ -38,14 +37,11 @@ impl<'a> Lexer<'a> {
 
                 InternalToken::NewLine => {
                     //
-                    match self.read_jsx_new_line(true)? {
-                        Either::Left(s) => out.push_str(s),
-                        Either::Right(c) => out.push(c),
-                    }
+                    self.read_jsx_new_line(&mut out, true)?;
                 }
 
                 _ => {
-                    out.push_str(self.input.slice_cur());
+                    out.push_str(self.input.slice());
                     self.input.advance();
                 }
             }
@@ -86,7 +82,7 @@ impl<'a> Lexer<'a> {
                 Some(c) => c,
                 None => break,
             };
-            self.input.bump();
+            self.input.bump_bytes(c.len_utf8());
 
             if c == ';' {
                 if s.starts_with('#') {
@@ -112,40 +108,40 @@ impl<'a> Lexer<'a> {
 
     pub(super) fn read_jsx_new_line(
         &mut self,
+        to: &mut String,
         normalize_crlf: bool,
-    ) -> LexResult<Either<&'static str, char>> {
+    ) -> LexResult<()> {
         debug_assert!(self.syntax.jsx());
         debug_assert_eq!(self.input.cur(), Some(InternalToken::NewLine));
 
-        let ch = iter
-            .next()
-            .expect("read_jsx_new_line should only be called if there exists input");
+        let mut iter = self.input.slice().chars();
 
-        let out = if ch == '\r' && iter.as_str().starts_with('\n') {
-            iter.next();
-            Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
-        } else {
-            Either::Right(ch)
-        };
-        let cur_pos = self.input.cur_pos();
-        self.state.cur_line += 1;
-        self.state.line_start = cur_pos;
-
-        Ok(out)
+        while let Some(c) = iter.next() {
+            let out = if c == '\r' && iter.as_str().starts_with('\n') {
+                to.push_str(if normalize_crlf { "\n" } else { "\r\n" });
+                iter.next();
+            } else {
+                to.push(c);
+            };
+            let cur_pos = self.input.cur_pos();
+            self.state.cur_line += 1;
+            self.state.line_start = cur_pos;
+        }
+        Ok(())
     }
 
     pub(super) fn read_jsx_str(&mut self, _: InternalToken) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
-        let s = self.input.slice_cur();
-        let s = &s[1..s.len() - 1];
+        let s = self.input.slice();
+        let s = &s[1..s.len() - 1]; // Remove quote
         let mut has_escape = false;
 
         // TODO: Use cow
         let mut out = String::new();
-        out.push_str(self.input.slice_cur());
-        let s = self.input.slice_cur();
+        out.push_str(self.input.slice());
+        let s = self.input.slice();
         let s = &s[1..s.len() - 1];
 
         // TODO: Use cow
@@ -160,15 +156,6 @@ impl<'a> Lexer<'a> {
                 }
                 continue;
             }
-            // TODO: Handle escape
-            // TODO: Handle newline
-            out.push(c);
-        }
-        out.reserve(self.input.slice_cur().len());
-        let mut out = String::with_capacity(s.len());
-
-        for (_, c) in self.input.slice_cur().char_indices() {
-            // TODO: Handle escape
             // TODO: Handle newline
             out.push(c);
         }
@@ -185,7 +172,7 @@ impl<'a> Lexer<'a> {
         //         out.push_str(self.input.slice_cur());
         //     }
         // }
-        self.input.bump();
+        self.input.advance();
         Ok(Token::Str {
             has_escape,
             value: out.into(),
@@ -201,8 +188,8 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
-        let name = self.input.slice_cur();
-        self.input.bump();
+        let name = self.input.slice();
+        self.input.advance();
 
         Ok(Token::JSXName { name: name.into() })
     }

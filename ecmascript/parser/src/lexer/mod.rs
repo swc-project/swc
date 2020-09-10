@@ -165,7 +165,7 @@ impl<'a> Lexer<'a> {
                 return Ok(None);
             }
         };
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         let token = match c {
             itok!("#") => return self.read_token_number_sign(),
@@ -308,15 +308,15 @@ impl<'a> Lexer<'a> {
             }
 
             itok!("??=") if self.syntax.typescript() => {
-                self.input.bump();
+                self.input.advance();
                 return Ok(Some(tok!("??=")));
             }
 
             itok!(":") => {
-                self.input.bump();
+                self.input.advance();
 
                 if self.syntax.fn_bind() && self.input.cur() == Some(itok!(":")) {
-                    self.input.bump();
+                    self.input.advance();
                     return Ok(Some(tok!("::")));
                 }
 
@@ -328,86 +328,86 @@ impl<'a> Lexer<'a> {
             InternalToken::Div => return self.read_slash(),
 
             itok!("**=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(ExpAssign)
             }
             itok!("*=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(MulAssign)
             }
             itok!("%=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(ModAssign)
             }
 
             itok!("**") => {
-                self.bump();
+                self.input.advance();
                 BinOp(Exp)
             }
             itok!("*") => {
-                self.bump();
+                self.input.advance();
                 BinOp(Mul)
             }
             itok!("%") => {
-                self.bump();
+                self.input.advance();
                 BinOp(Mod)
             }
 
             // Logical operators
             itok!("|=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(BitOrAssign)
             }
             itok!("&=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(BitAndAssign)
             }
             itok!("|") => {
-                self.bump();
+                self.input.advance();
                 BinOp(BitOr)
             }
             itok!("&") => {
-                self.bump();
+                self.input.advance();
                 BinOp(BitAnd)
             }
 
             itok!("||") => {
-                self.bump();
+                self.input.advance();
                 BinOp(LogicalOr)
             }
             itok!("&&") => {
-                self.bump();
+                self.input.advance();
                 BinOp(LogicalAnd)
             }
             itok!("||=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(OrAssign)
             }
             itok!("&&=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(AndAssign)
             }
 
             // Bitwise xor
             itok!("^=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(BitXorAssign)
             }
             itok!("^") => {
-                self.bump();
+                self.input.advance();
                 BinOp(BitXor)
             }
 
             itok!("++") => {
-                self.bump();
+                self.input.advance();
                 PlusPlus
             }
 
             itok!("--") => {
-                self.input.bump();
+                self.input.advance();
 
                 if self.state.had_line_break {
-                    match self.cur() {
+                    match self.input.cur() {
                         Some(itok!(">")) => {
                             if self.ctx.module {
                                 return self.error(start, SyntaxError::LegacyCommentInModule)?;
@@ -425,58 +425,76 @@ impl<'a> Lexer<'a> {
             }
 
             itok!("+") => {
-                self.bump();
+                self.input.advance();
                 BinOp(Add)
             }
             itok!("-") => {
-                self.bump();
+                self.input.advance();
                 BinOp(Sub)
             }
 
             itok!("+=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(AddAssign)
             }
             itok!("-=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(SubAssign)
             }
 
-            itok!("<") | itok!(">") => return self.read_token_lt_gt(),
+            // XML style comment. `<!--`
+            InternalToken::XmlCommentStart => {
+                self.input.advance();
+                self.skip_space()?;
+                if self.ctx.module {
+                    self.error(start, SyntaxError::LegacyCommentInModule)?;
+                }
+                return self.read_token();
+            }
+
+            itok!("<") => {
+                self.input.advance();
+                tok!('<')
+            }
+
+            itok!(">") => {
+                self.input.advance();
+                tok!('>')
+            }
 
             itok!("!") => {
-                self.bump();
+                self.input.advance();
                 Bang
             }
             itok!("=") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(Assign)
             }
 
             itok!("=>") => {
-                self.bump();
+                self.input.advance();
                 AssignOp(Assign)
             }
 
             itok!("!==") => {
-                self.bump();
+                self.input.advance();
                 BinOp(NotEqEq)
             }
             itok!("!=") => {
-                self.bump();
+                self.input.advance();
                 BinOp(NotEq)
             }
             itok!("===") => {
-                self.bump();
+                self.input.advance();
                 BinOp(EqEqEq)
             }
             itok!("==") => {
-                self.bump();
+                self.input.advance();
                 BinOp(EqEq)
             }
 
             itok!("~") => {
-                self.input.bump();
+                self.input.advance();
                 tok!('~')
             }
 
@@ -484,7 +502,7 @@ impl<'a> Lexer<'a> {
             c => self.error_span(
                 pos_span(start),
                 SyntaxError::UnexpectedToken {
-                    token: format!("{:?}", c),
+                    token: format!("{:?} ({}))", c, self.input.slice()),
                 },
             )?,
         };
@@ -494,7 +512,7 @@ impl<'a> Lexer<'a> {
 
     /// `#`
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
-        debug_assert_eq!(self.cur(), Some(itok!("#")));
+        debug_assert_eq!(self.input.cur(), Some(itok!("#")));
 
         let start = self.input.cur_pos();
 
@@ -503,7 +521,7 @@ impl<'a> Lexer<'a> {
         }
 
         if self.syntax.class_private_props() || self.syntax.class_private_methods() {
-            self.input.bump(); // '#'
+            self.input.advance(); // '#'
             return Ok(Some(Token::Hash));
         }
 
@@ -517,7 +535,7 @@ impl<'a> Lexer<'a> {
 
         match self.input.cur() {
             Some(InternalToken::Interpreter) => {
-                self.input.bump();
+                self.input.advance();
                 Ok(true)
             }
             _ => Ok(false),
@@ -646,7 +664,7 @@ impl<'a> Lexer<'a> {
 
 impl<'a> Lexer<'a> {
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
-        debug_assert_eq!(self.cur(), Some(itok!("/")));
+        debug_assert_eq!(self.input.cur(), Some(itok!("/")));
         // let start = self.cur_pos();
 
         // Regex
@@ -655,55 +673,29 @@ impl<'a> Lexer<'a> {
         }
 
         // Divide operator
-        self.bump();
+        self.input.advance(); // ';'
 
         Ok(Some(match self.input.cur() {
             Some(itok!("=")) => {
-                self.bump();
+                self.input.advance();
                 tok!("/=")
             }
             _ => tok!('/'),
         }))
     }
 
-    fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur() == Some(itok!("<")) || self.cur() == Some(itok!(">")));
-
-        let start = self.cur_pos();
-        let c = self.cur().unwrap();
-        self.bump();
-
-        // XML style comment. `<!--`
-        if c == itok!("<")
-            && self.cur() == Some(itok!("!"))
-            && self.peek() == Some(itok!("-"))
-            && self.peek_ahead() == Some(itok!("-"))
-        {
-            self.input.bump_bytes(3);
-            self.skip_space()?;
-            if self.ctx.module {
-                self.error(start, SyntaxError::LegacyCommentInModule)?;
-            }
-            return self.read_token();
-        }
-
-        let op = if c == itok!("<") { Lt } else { Gt };
-
-        Ok(Some(BinOp(op)))
-    }
-
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident(&mut self) -> LexResult<Token> {
-        debug_assert_eq!(self.cur(), Some(InternalToken::Ident));
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::Ident));
 
-        let word = Word::Ident(self.input.slice_cur().into());
-        self.input.bump();
+        let word = Word::Ident(self.input.slice().into());
+        self.input.advance();
 
         Ok(Word(word))
     }
 
     fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
-        match self.cur() {
+        match self.input.cur() {
             Some(InternalToken::Ident) => self.read_word_as_str().map(Some),
             _ => Ok(None),
         }
@@ -720,12 +712,12 @@ impl<'a> Lexer<'a> {
     where
         F: FnOnce(InternalToken, &str) -> Ret,
     {
-        let slice = self.input.slice_cur();
-        let ret = convert(self.input.cur().unwrap(), slice);
+        let s = self.input.slice();
+        let ret = convert(self.input.cur().unwrap(), s);
 
-        self.input.bump();
+        self.input.advance();
 
-        Ok((ret, slice.contains('\\')))
+        Ok((ret, s.contains('\\')))
     }
 
     fn parse_unicode_escape(
@@ -739,12 +731,13 @@ impl<'a> Lexer<'a> {
 
         raw.push_str("u");
 
-        if self.input.eat(b'{') {
+        if iter.as_str().starts_with('{') {
+            iter.next();
             raw.push('{');
             // let cp_start = self.cur_pos();
             let c = self.parse_code_point(iter, raw)?;
 
-            if !self.input.eat(b'}') {
+            if !iter.as_str().starts_with('}') {
                 self.error(start, SyntaxError::InvalidUnicodeEscape)?
             }
             raw.push('}');
@@ -776,8 +769,8 @@ impl<'a> Lexer<'a> {
     }
 
     /// Read `CodePoint`.
-    fn read_code_point(&mut self, raw: &mut Raw) -> LexResult<Char> {
-        let start = self.cur_pos();
+    fn parse_code_point(&mut self, iter: &mut Chars, raw: &mut Raw) -> LexResult<Char> {
+        let start = self.input.cur_pos();
         let val = self.read_int_u32(16, 0, raw)?;
     fn parse_code_point(&mut self, iter: &mut Chars, raw: &mut Raw) -> LexResult<Char> {
         let start = self.input.cur_pos();
@@ -793,10 +786,10 @@ impl<'a> Lexer<'a> {
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     fn read_str_lit(&mut self) -> LexResult<Token> {
-        debug_assert_eq!(self.cur(), Some(InternalToken::Str));
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
-        let slice = self.input.slice_cur();
-        self.input.bump();
+        let slice = self.input.slice();
+        self.input.advance();
 
         Ok(Token::Str {
             has_escape: slice.contains('\\'),
@@ -806,19 +799,22 @@ impl<'a> Lexer<'a> {
 
     /// Expects current char to be '/'
     fn read_regexp(&mut self) -> LexResult<Token> {
-        debug_assert_eq!(self.cur(), Some(itok!("/")));
-        let start = self.cur_pos();
-        self.bump(); // '/'
+        debug_assert_eq!(self.input.cur(), Some(itok!("/")));
+        let start = self.input.cur_pos();
+        self.input.advance(); // '/'
 
         let (mut escaped, mut in_class) = (false, false);
         // let content_start = self.cur_pos();
-        let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.input.cur_char() {
+        let content: JsWord = {
+            let mut buf = String::new();
+            let mut iter = self.input.chars();
+            while let Some(c) = iter.next() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_break() {
                     l.error(start, SyntaxError::UnterminatedRegxp)?;
                     lexer.error(start, SyntaxError::UnterminatedRegxp)?;
+                    self.error(start, SyntaxError::UnterminatedRegxp)?;
                 }
 
                 if escaped {
@@ -833,21 +829,21 @@ impl<'a> Lexer<'a> {
                     }
                     escaped = c == '\\';
                 }
-                l.input.bump_bytes(c.len_utf8());
                 buf.push(c);
             }
 
-            Ok((&**buf).into())
-        })?;
+            self.input.advance();
+            Ok(buf.into())
+        }?;
         // let content_span = Span::new(content_start, self.cur_pos(),
         // Default::default());
 
         // input is terminated without following `/`
-        if !self.input.is(b'/') {
+        if self.input.cur() != Some(itok!("/")) {
             self.error(start, SyntaxError::UnterminatedRegxp)?;
         }
 
-        self.bump(); // '/'
+        self.input.advance(); // '/'
 
         // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
         // sequence." TODO: check for escape
@@ -865,23 +861,26 @@ impl<'a> Lexer<'a> {
 
     fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {
         match self.input.cur() {
-            Some(InternalToken::Interpreter) => return Ok(Some(self.input.slice_cur().into())),
+            Some(InternalToken::Interpreter) => {
+                self.input.advance();
+                return Ok(Some(self.input.slice().into()));
+            }
             _ => Ok(None),
         }
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         // TODO: Optimize
         let mut has_escape = false;
         let mut cooked = String::new();
         let mut raw = String::new();
 
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input.cur() {
             if c == itok!("`") || c == itok!("${") {
-                if start == self.cur_pos() && self.state.last_was_tpl_element() {
-                    self.bump();
+                if start == self.input.cur_pos() && self.state.last_was_tpl_element() {
+                    self.input.advance();
 
                     return Ok(if c == itok!("${") {
                         tok!("${")
@@ -898,8 +897,7 @@ impl<'a> Lexer<'a> {
                 });
             }
 
-            let c = self.input.cur_char().unwrap();
-            if c == '\\' {
+            if c == itok!("\\") {
                 has_escape = true;
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
@@ -909,32 +907,35 @@ impl<'a> Lexer<'a> {
                 let ch =
                     self.with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut wrapped))?;
 
+                let ch = self.parse_escaped_char(self.input.chars(), &mut wrapped)?;
                 raw = wrapped.0.unwrap();
                 if let Some(s) = ch {
                     cooked.extend(s);
                 }
-            } else if c.is_line_break() {
+            } else if c == InternalToken::NewLine {
                 self.state.had_line_break = true;
-                let c = if c == '\r' && self.input.peeked_is(b'\n') {
-                    raw.push_str("\\r\\n");
-                    self.input.bump_bytes(1); // '\r'
-                    '\n'
-                } else {
-                    match c {
-                        '\n' => raw.push_str("\n"),
-                        '\r' => raw.push_str("\r"),
-                        '\u{2028}' => raw.push_str("\u{2028}"),
-                        '\u{2029}' => raw.push_str("\u{2029}"),
-                        _ => unreachable!(),
-                    }
-                    c
-                };
-                self.input.bump_bytes(c.len_utf8());
-                cooked.push(c);
+
+                let mut iter = self.input.slice().chars();
+                while let Some(c) = iter.next() {
+                    let c = if c == '\r' && iter.as_str().starts_with('\n') {
+                        raw.push_str("\\r\\n");
+                        '\n'
+                    } else {
+                        match c {
+                            '\n' => raw.push_str("\n"),
+                            '\r' => raw.push_str("\r"),
+                            '\u{2028}' => raw.push_str("\u{2028}"),
+                            '\u{2029}' => raw.push_str("\u{2029}"),
+                            _ => unreachable!(),
+                        }
+                        c
+                    };
+                    cooked.push(c);
+                }
             } else {
-                cooked.push_str(self.input.slice_cur());
-                raw.push_str(self.input.slice_cur());
-                self.input.bump();
+                cooked.push_str(self.input.slice());
+                raw.push_str(self.input.slice());
+                self.input.advance();
             }
         }
 

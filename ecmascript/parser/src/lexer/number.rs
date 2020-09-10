@@ -10,14 +10,14 @@ use std::iter::FusedIterator;
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_bigint(&mut self) -> LexResult<BigIntValue> {
-        debug_assert_eq!(self.cur(), Some(InternalToken::BigInt));
+        debug_assert_eq!(self.input.cur(), Some(InternalToken::BigInt));
         let span = self.input.span();
-        let s: &str = self.input.slice_cur();
+        let s: &str = self.input.slice();
         debug_assert!(
             2 <= s.len(),
             "Big int literal should have at least one digit and 'n'"
         );
-        self.input.bump();
+        self.input.advance();
 
         match BigIntValue::parse_bytes(s[..s.len() - 1].as_bytes(), 10) {
             Some(v) => Ok(v),
@@ -29,7 +29,7 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_number(&mut self) -> LexResult<f64> {
         assert_ne!(self.input.cur(), None);
 
-        let s = self.input.slice_cur();
+        let s = self.input.slice();
 
         match self.input.cur().unwrap() {
             InternalToken::FloatNum => {
@@ -46,10 +46,7 @@ impl<'a> Lexer<'a> {
             }
 
             InternalToken::BinNum => {
-                debug_assert!(
-                    self.input.slice_cur().starts_with("0b")
-                        || self.input.slice_cur().starts_with("0B")
-                );
+                debug_assert!(s.starts_with("0b") || s.starts_with("0B"));
 
                 return self.parse_number(&s[2..], 2, |total, radix, value| {
                     f64::mul_add(total, radix as _, value as _)
@@ -63,10 +60,7 @@ impl<'a> Lexer<'a> {
             }
 
             InternalToken::HexNum => {
-                debug_assert!(
-                    self.input.slice_cur().starts_with("0x")
-                        || self.input.slice_cur().starts_with("0X")
-                );
+                debug_assert!(s.starts_with("0x") || s.starts_with("0X"));
 
                 return self.parse_number(&s[2..], 16, |total, radix, value| {
                     f64::mul_add(total, radix as _, value as _)
@@ -74,17 +68,14 @@ impl<'a> Lexer<'a> {
             }
 
             InternalToken::OctalNum => {
-                debug_assert!(
-                    self.input.slice_cur().starts_with("0o")
-                        || self.input.slice_cur().starts_with("0O")
-                );
+                debug_assert!(s.starts_with("0o") || s.starts_with("0O"));
 
                 return self.parse_number(&s[2..], 8, |total, radix, value| {
                     f64::mul_add(total, radix as _, value as _)
                 });
             }
 
-            _ => unreachable!("read_number called with {:?}", self.cur().unwrap()),
+            _ => unreachable!("read_number called with {:?}", self.input.cur().unwrap()),
         }
 
         // let mut s: &str = self.input.slice_cur();
@@ -212,74 +203,14 @@ impl<'a> Lexer<'a> {
         // Ok(val)
     }
 
-    /// This can read long integers like
-    /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot(&mut self, radix: u8) -> LexResult<f64> {
-        debug_assert!(
-            radix == 2 || radix == 8 || radix == 10 || radix == 16,
-            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
-            radix
-        );
-        let start = self.cur_pos();
-
-        let mut read_any = false;
-
-        let res = self.read_digits(
-            radix,
-            |total, radix, v| {
-                read_any = true;
-                (f64::mul_add(total, radix as f64, v as f64), true)
-            },
-            &mut Raw(None),
-            true,
-        );
-
-        if !read_any {
-            self.error(start, SyntaxError::ExpectedDigit { radix })?;
-        }
-        res
-    }
-
-    /// This can read long integers like
-    /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<f64> {
-        debug_assert!(
-            radix == 2 || radix == 8 || radix == 10 || radix == 16,
-            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
-            radix
-        );
-        let start = self.cur_pos();
-
-        let mut read_any = false;
-
-        let mut raw = Raw(Some(String::new()));
-
-        let val = self.read_digits(
-            radix,
-            |total, radix, v| {
-                read_any = true;
-                (f64::mul_add(total, radix as f64, v as f64), true)
-            },
-            &mut raw,
-            true,
-        )?;
-
-        if !read_any {
-            self.error(start, SyntaxError::ExpectedDigit { radix })?;
-        }
-
-        Ok(val)
-    }
-
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
-        match self.input.cur_char() {
-            Some(c) if c.is_ident_start() => {
-                let span = self.input.span();
-                self.error_span(span, SyntaxError::IdentAfterNum)?
-            }
-            _ => Ok(()),
+        if self.input.slice().starts_with(|c: char| c.is_ident_start()) {
+            let span = self.input.span();
+            self.error_span(span, SyntaxError::IdentAfterNum)?
         }
+
+        Ok(())
     }
 
     /// Read an integer in the given radix. Return `None` if zero digits
@@ -294,6 +225,7 @@ impl<'a> Lexer<'a> {
         len: u8,
         raw: &mut Raw,
     ) -> LexResult<Option<f64>> {
+    fn read_int(&mut self, radix: u8, len: u8, raw: &mut Raw) -> LexResult<Option<f64>> {
         let mut count = 0;
         let v = self.read_digits(
             iter,
@@ -354,9 +286,13 @@ impl<'a> Lexer<'a> {
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
             radix
         );
-        trace!("read_digits(radix = {}), cur = {:?}", radix, self.cur());
+        trace!(
+            "read_digits(radix = {}), cur = {:?}",
+            radix,
+            self.input.cur()
+        );
 
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         let mut total: Ret = Default::default();
 
@@ -403,7 +339,6 @@ impl<'a> Lexer<'a> {
                 }
 
                 // Ignore this _ character
-                self.input.bump();
                 continue;
             }
 
@@ -416,7 +351,7 @@ impl<'a> Lexer<'a> {
 
             raw.push(c);
 
-            self.bump();
+            self.input.bump_bytes(c.len_utf8());
             let (t, cont) = op(total, radix, val);
             total = t;
             if !cont {
@@ -447,7 +382,8 @@ impl<'a> Lexer<'a> {
         let mut total: Ret = Default::default();
 
         let mut prev = None;
-        for c in s.chars() {
+        let mut iter = s.chars();
+        while let Some(c) = iter.next() {
             if self.syntax.num_sep() && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
@@ -474,7 +410,7 @@ impl<'a> Lexer<'a> {
                     }
                 };
 
-                let next = self.input.peek_char();
+                let next = iter.as_str().chars().next();
 
                 if !is_allowed(next) {
                     self.emit_error(SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits);

@@ -357,6 +357,9 @@ pub enum InternalToken {
 
     #[token("${")]
     DollarLBrace,
+
+    #[token("<!--")]
+    XmlCommentStart,
 }
 
 /// Supper-fast but dumb lexer, as it does not know how to handle slash. It just
@@ -461,22 +464,6 @@ impl<'a> DumbLexer<'a> {
     }
 
     #[inline]
-    pub fn bump_bytes(&mut self, cnt: usize) {
-        match self.cur {
-            Some(..) => {
-                let mut new_inner = self.inner.clone();
-                self.cur = None;
-                new_inner.bump(cnt);
-                self.inner = new_inner;
-                self.prev_hi = self.prev_hi + BytePos(cnt as _);
-            }
-            None => {
-                self.inner.bump(cnt);
-            }
-        }
-    }
-
-    #[inline]
     pub fn reset_to(&mut self, pos: BytePos) {
         self.cur = None;
         let new_idx = pos.0 - self.start.0;
@@ -484,5 +471,63 @@ impl<'a> DumbLexer<'a> {
 
         self.inner = InternalToken::lexer(source);
         self.inner.bump(new_idx as _);
+    }
+
+    #[inline]
+    pub fn chars<'w>(&'w mut self) -> Chars<'w, 'a> {
+        assert_eq!(self.cur, None);
+
+        Chars {
+            lexer: self,
+            idx: 0,
+        }
+    }
+
+    // TODO: Remove
+    pub fn cur_char(&mut self) -> Option<char> {
+        assert_eq!(self.cur, None);
+
+        self.inner.remainder().chars().next()
+    }
+
+    // TODO: Remove
+    pub fn peek_char(&mut self) -> Option<char> {
+        assert_eq!(self.cur, None);
+
+        self.inner.remainder().chars().nth(1)
+    }
+
+    // TODO: Remove
+    pub fn bump_bytes(&mut self, n: usize) {
+        assert_eq!(self.cur, None);
+
+        self.inner.bump(n);
+    }
+}
+
+pub struct Chars<'a, 'b> {
+    lexer: &'a mut DumbLexer<'b>,
+    idx: usize,
+}
+
+impl Iterator for Chars<'_, '_> {
+    type Item = char;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let s: &str = self.lexer.inner.remainder();
+        let s = &s[self.idx..];
+        let c = s.chars().next();
+
+        if let Some(c) = c {
+            self.idx += c.len_utf8();
+        }
+
+        c
+    }
+}
+
+impl Drop for Chars<'_, '_> {
+    fn drop(&mut self) {
+        self.lexer.inner.bump(self.idx);
     }
 }
