@@ -1527,8 +1527,8 @@ to_ts!(
             } else {
                 buf__2 += `\r\n--${boundary__2}\r\n`;
             }
-            for (const [key__2, value__2] of headers__2.entries()){
-                buf__2 += `${key__2}: ${value__2}\r\n`;
+            for (const [key__3, value__3] of headers__2.entries()){
+                buf__2 += `${key__3}: ${value__3}\r\n`;
             }
             buf__2 += `\r\n`;
             this.partHeader = buf__2;
