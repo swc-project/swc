@@ -8,7 +8,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
@@ -245,14 +245,19 @@ impl<'a> Resolver<'a> {
             }
         }
 
-        let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
-            if *cur != ident.sym {
-                (true, self.mark)
-            } else {
-                (false, override_mark)
+        let (should_insert, mark) = match kind {
+            None | Some(VarDeclKind::Var) => {
+                if let Some((ref cur, override_mark)) = self.cur_defining {
+                    if *cur != ident.sym {
+                        (true, self.mark)
+                    } else {
+                        (false, override_mark)
+                    }
+                } else {
+                    (true, self.mark)
+                }
             }
-        } else {
-            (true, self.mark)
+            _ => (true, self.mark),
         };
 
         let mut mark = mark;
@@ -873,9 +878,7 @@ impl<'a> VisitMut for Resolver<'a> {
         f.params.visit_mut_with(self);
 
         self.ident_type = IdentType::Ref;
-        f.body
-            .as_mut()
-            .map(|stmt| stmt.visit_mut_children_with(self));
+        f.body.visit_mut_with(self);
 
         f.return_type.visit_mut_with(self);
     }
