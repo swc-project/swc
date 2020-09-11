@@ -1,2 +1,2 @@
-/* not comment*/;
+/* not comment*/ ;
 a-- > 1;

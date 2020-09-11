@@ -1,4 +1,4 @@
 switch(a){
     case 1:
-        /* perfect */b();
+        /* perfect */ b();
 }

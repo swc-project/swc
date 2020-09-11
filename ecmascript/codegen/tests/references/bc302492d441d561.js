@@ -1,3 +1,3 @@
 (function() {
-    var a = 1; /* sync */
+    var a = 1; /* sync */ 
 }).b(this);

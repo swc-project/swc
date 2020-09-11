@@ -1,5 +1,5 @@
 {
     throw a; /* Multiline
-Comment */
+Comment */ 
     a;
 }

@@ -1,3 +1,3 @@
-/*@ngInject*/var a = function(b) {
+/*@ngInject*/ var a = function(b) {
     return b;
 };
