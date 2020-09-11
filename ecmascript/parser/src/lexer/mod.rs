@@ -795,7 +795,7 @@ impl<'a> Lexer<'a> {
         };
 
         Ok(Token::Str {
-            has_escape: true,
+            has_escape,
             value: value.into(),
         })
     }
