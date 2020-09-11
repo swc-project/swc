@@ -570,7 +570,7 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
+        self.in_type = false;
         self.ident_type = IdentType::Binding;
         n.visit_mut_children_with(self)
     }
@@ -713,8 +713,12 @@ impl<'a> VisitMut for Resolver<'a> {
         c.params.visit_mut_with(&mut folder);
         self.ident_type = old;
 
-        c.body.visit_mut_with(&mut folder);
-        c.key.visit_mut_with(&mut folder);
+        match &mut c.body {
+            Some(body) => {
+                body.visit_mut_children_with(&mut folder);
+            }
+            None => {}
+        }
     }
 
     /// Leftmost one of a member expression should be resolved.
@@ -999,7 +1003,6 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if node.kind != VarDeclKind::Var {
-            dbg!(&node);
             return;
         }
         self.resolver.hoist = false;
@@ -1020,13 +1023,14 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
-        n.body.visit_mut_with(self);
-    }
+    fn visit_mut_catch_clause(&mut self, _: &mut CatchClause) {}
 
     #[inline]
     fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
 
     #[inline]
     fn visit_mut_param(&mut self, _: &mut Param) {}
+
+    #[inline]
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 }
