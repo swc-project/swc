@@ -515,6 +515,10 @@ fn trim(i: Input) -> Input {
 
     let end = i.trim_end().len();
 
+    if start >= end {
+        return i;
+    }
+
     i.slice(start..end)
 }
 
