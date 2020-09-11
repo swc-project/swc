@@ -177,7 +177,7 @@ impl<'a> Resolver<'a> {
         None
     }
 
-    fn visit_mut_binding_ident(&mut self, ident: &mut Ident) {
+    fn visit_mut_binding_ident(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
             eprintln!("resolver: Binding {}{:?}", ident.sym, ident.span.ctxt());
         }
@@ -256,13 +256,23 @@ impl<'a> Resolver<'a> {
             if self.hoist {
                 let mut cursor = Some(&self.current);
 
-                while let Some(c) = cursor {
-                    if c.kind == ScopeKind::Fn {
-                        c.hoisted_symbols.borrow_mut().insert(ident.sym.clone());
-                        break;
+                match kind {
+                    Some(VarDeclKind::Var) | None => {
+                        while let Some(c) = cursor {
+                            if c.kind == ScopeKind::Fn {
+                                c.hoisted_symbols.borrow_mut().insert(ident.sym.clone());
+                                break;
+                            }
+                            cursor = c.parent;
+                            mark = mark.parent();
+                        }
                     }
-                    cursor = c.parent;
-                    mark = mark.parent();
+                    Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
+                        self.current
+                            .hoisted_symbols
+                            .borrow_mut()
+                            .insert(ident.sym.clone());
+                    }
                 }
             } else {
                 self.current.declared_symbols.insert(ident.sym.clone());
@@ -382,7 +392,7 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
         self.in_type = true;
-        self.visit_mut_binding_ident(&mut param.name);
+        self.visit_mut_binding_ident(&mut param.name, None);
         param.default.visit_mut_with(self);
         param.constraint.visit_mut_with(self);
     }
@@ -437,7 +447,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = false;
-        self.visit_mut_binding_ident(&mut decl.id);
+        self.visit_mut_binding_ident(&mut decl.id, None);
         decl.members.visit_mut_with(self);
     }
 
@@ -515,7 +525,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        self.visit_mut_binding_ident(&mut n.id);
+        self.visit_mut_binding_ident(&mut n.id, None);
         let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(
@@ -537,7 +547,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        self.visit_mut_binding_ident(&mut n.id);
+        self.visit_mut_binding_ident(&mut n.id, None);
         let child_mark = Mark::fresh(self.mark);
         // Child folder
         let mut child = Resolver::new(
@@ -558,7 +568,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        self.visit_mut_binding_ident(&mut n.id);
+        self.visit_mut_binding_ident(&mut n.id, None);
 
         n.module_ref.visit_mut_with(self);
     }
@@ -569,7 +579,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        self.visit_mut_binding_ident(&mut n.id);
+        self.visit_mut_binding_ident(&mut n.id, None);
 
         n.body.visit_mut_with(self);
     }
@@ -827,7 +837,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &mut e.ident {
-            self.visit_mut_binding_ident(ident)
+            self.visit_mut_binding_ident(ident, None)
         }
 
         let child_mark = Mark::fresh(self.mark);
@@ -870,7 +880,7 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = ident_type;
 
         match self.ident_type {
-            IdentType::Binding => self.visit_mut_binding_ident(i),
+            IdentType::Binding => self.visit_mut_binding_ident(i, None),
             IdentType::Ref => {
                 let Ident { span, sym, .. } = i;
 
@@ -922,7 +932,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
                     i.span = span;
                     // Support hoisting
-                    self.visit_mut_binding_ident(i)
+                    self.visit_mut_binding_ident(i, None)
                 }
             }
             // We currently does not touch labels
@@ -1016,7 +1026,10 @@ impl<'a> VisitMut for Resolver<'a> {
 
         // Phase 1: Handle hoisting
         {
-            let mut hoister = Hoister { resolver: self };
+            let mut hoister = Hoister {
+                resolver: self,
+                kind: None,
+            };
             stmts.visit_mut_children_with(&mut hoister)
         }
 
@@ -1027,7 +1040,10 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         // Phase 1: Handle hoisting
         {
-            let mut hoister = Hoister { resolver: self };
+            let mut hoister = Hoister {
+                resolver: self,
+                kind: None,
+            };
             stmts.visit_mut_children_with(&mut hoister)
         }
 
@@ -1039,13 +1055,15 @@ impl<'a> VisitMut for Resolver<'a> {
 /// The folder which handles var / function hoisting.
 struct Hoister<'a, 'b> {
     resolver: &'a mut Resolver<'b>,
+    kind: Option<VarDeclKind>,
 }
 
 impl VisitMut for Hoister<'_, '_> {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.resolver.visit_mut_binding_ident(&mut node.ident);
+        self.resolver
+            .visit_mut_binding_ident(&mut node.ident, Some(VarDeclKind::Var));
     }
 
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
@@ -1063,12 +1081,14 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        if node.kind != VarDeclKind::Var {
-            return;
-        }
+        let old_kind = self.kind;
+        self.kind = Some(node.kind);
+
         self.resolver.hoist = false;
 
-        node.visit_mut_children_with(self)
+        node.visit_mut_children_with(self);
+
+        self.kind = old_kind;
     }
 
     #[inline]
@@ -1078,7 +1098,7 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         match node {
-            Pat::Ident(i) => self.resolver.visit_mut_binding_ident(i),
+            Pat::Ident(i) => self.resolver.visit_mut_binding_ident(i, self.kind),
             _ => node.visit_mut_children_with(self),
         }
     }
