@@ -1477,3 +1477,55 @@ to_ts!(
     });
     "
 );
+
+// See: https://github.com/denoland/deno_lint/pull/304
+to_ts!(
+    let_scoping,
+    "
+    const usage = () => {
+        return a;
+    };
+    let a;
+    ",
+    "
+    
+    "
+);
+
+to_ts!(
+    ts_resolver_parameter_property,
+    r#"class PartWriter implements Deno.Writer {
+        constructor(
+          private writer: Deno.Writer,
+          readonly boundary: string,
+          public headers: Headers,
+          isFirstBoundary: boolean,
+        ) {
+          let buf = "";
+          if (isFirstBoundary) {
+            buf += `--${boundary}\r\n`;
+          } else {
+            buf += `\r\n--${boundary}\r\n`;
+          }
+          for (const [key, value] of headers.entries()) {
+            buf += `${key}: ${value}\r\n`;
+          }
+          buf += `\r\n`;
+          this.partHeader = buf;
+        }
+    "#,
+    ""
+);
+
+to_ts!(
+    ts_resolver_catch_param,
+    r#"
+try {
+    return target(...args);
+} catch (err) {
+    switch (err.name) {
+    }
+}
+    "#,
+    ""
+);
