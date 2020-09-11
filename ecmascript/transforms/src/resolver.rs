@@ -1012,7 +1012,7 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_catch_clause(&mut self, n: &CatchClause) {}
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {}
 
     #[inline]
     fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
