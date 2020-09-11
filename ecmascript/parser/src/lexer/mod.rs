@@ -787,12 +787,22 @@ impl<'a> Lexer<'a> {
         let s = &s[1..s.len() - 1];
         self.input.advance();
 
+        let value = self.lex_str_with_escape(s)?;
+        let has_escape = match value {
+            Cow::Owned(..) => true,
+            _ => false,
+        };
+
+        Ok(Token::Str {
+            has_escape: true,
+            value: value.into(),
+        })
+    }
+
+    fn lex_str_with_escape<'s>(&mut self, s: &'s str) -> Cow<'s, str> {
         if !s.contains('\\') {
             // Fast path
-            return Ok(Token::Str {
-                has_escape: false,
-                value: s.into(),
-            });
+            return Ok(Cow::Borrowed(s));
         }
 
         let mut buf = String::with_capacity(s.len());
@@ -821,10 +831,7 @@ impl<'a> Lexer<'a> {
 
         buf.push_str(&s[chunk_start..]);
 
-        Ok(Token::Str {
-            has_escape: true,
-            value: buf.into(),
-        })
+        Cow::Owned(buf)
     }
 
     /// Expects current char to be '/'
