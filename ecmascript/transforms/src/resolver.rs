@@ -8,7 +8,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
@@ -179,7 +179,12 @@ impl<'a> Resolver<'a> {
 
     fn visit_mut_binding_ident(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
-            eprintln!("resolver: Binding {}{:?}", ident.sym, ident.span.ctxt());
+            eprintln!(
+                "resolver: Binding {}{:?} {:?}",
+                ident.sym,
+                ident.span.ctxt(),
+                kind
+            );
         }
 
         if ident.span.ctxt() != SyntaxContext::empty() {
@@ -649,8 +654,11 @@ impl<'a> VisitMut for Resolver<'a> {
             self.handle_types,
         );
 
+        self.ident_type = IdentType::Binding;
         n.init.visit_mut_with(&mut child);
+        self.ident_type = IdentType::Ref;
         n.test.visit_mut_with(&mut child);
+        self.ident_type = IdentType::Ref;
         n.update.visit_mut_with(&mut child);
 
         child.visit_mut_stmt_within_same_scope(&mut *n.body);
@@ -1114,4 +1122,36 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        match n {
+            VarDeclOrExpr::VarDecl(VarDecl {
+                kind: VarDeclKind::Let,
+                ..
+            })
+            | VarDeclOrExpr::VarDecl(VarDecl {
+                kind: VarDeclKind::Const,
+                ..
+            }) => {}
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        match n {
+            VarDeclOrPat::VarDecl(VarDecl {
+                kind: VarDeclKind::Let,
+                ..
+            })
+            | VarDeclOrPat::VarDecl(VarDecl {
+                kind: VarDeclKind::Const,
+                ..
+            }) => {}
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
 }
