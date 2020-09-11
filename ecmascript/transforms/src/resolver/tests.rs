@@ -1522,12 +1522,23 @@ to_ts!(
 to_ts!(
     ts_resolver_catch_param,
     r#"
-try {
-    return target(...args);
-} catch (err) {
-    switch (err.name) {
+function wrapper(...args) {
+    try {
+        return target(...args);
+    } catch (err) {
+        switch (err.name) {
+        }
     }
 }
     "#,
-    ""
+    "
+    function wrapper(...args__2) {
+        try {
+            return target(...args__2);
+        } catch (err__2) {
+            switch(err__2.name){
+            }
+        }
+    }
+    "
 );

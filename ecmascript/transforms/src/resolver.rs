@@ -991,6 +991,7 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if node.kind != VarDeclKind::Var {
+            dbg!(&node);
             return;
         }
         self.resolver.hoist = false;
@@ -1009,6 +1010,9 @@ impl VisitMut for Hoister<'_, '_> {
             _ => node.visit_mut_children_with(self),
         }
     }
+
+    #[inline]
+    fn visit_mut_catch_clause(&mut self, n: &CatchClause) {}
 
     #[inline]
     fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
