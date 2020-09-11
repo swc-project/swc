@@ -15,12 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    19,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -79,11 +78,11 @@
                     57,
                 ),
                 hi: BytePos(
-                    71,
+                    69,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Port number.' type=dynamic),
+            value: Atom('Port number.' type=dynamic),
         },
         tags: [],
     },
@@ -103,11 +102,11 @@
                     109,
                 ),
                 hi: BytePos(
-                    129,
+                    127,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Open a connection.' type=dynamic),
+            value: Atom('Open a connection.' type=dynamic),
         },
         tags: [],
     },

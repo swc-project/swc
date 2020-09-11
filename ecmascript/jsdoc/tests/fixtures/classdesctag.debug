@@ -15,12 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    28,
+                    23,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Asdf.
+            value: Atom('Asdf.
              *' type=dynamic),
         },
         tags: [
@@ -83,7 +82,7 @@
                 103,
             ),
             hi: BytePos(
-                133,
+                103,
             ),
             ctxt: #0,
         },
@@ -93,12 +92,11 @@
                     103,
                 ),
                 hi: BytePos(
-                    107,
+                    103,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -149,6 +147,70 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        103,
+                    ),
+                    hi: BytePos(
+                        108,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            103,
+                        ),
+                        hi: BytePos(
+                            108,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                103,
+                            ),
+                            hi: BytePos(
+                                108,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        103,
+                                    ),
+                                    hi: BytePos(
+                                        106,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('Bar' type=inline),
+                            },
+                        ),
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        103,
+                                    ),
+                                    hi: BytePos(
+                                        117,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @constructor' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -167,12 +229,11 @@
                     184,
                 ),
                 hi: BytePos(
-                    206,
+                    201,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * The Baz class.
+            value: Atom('The Baz class.
              *' type=dynamic),
         },
         tags: [

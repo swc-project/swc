@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    21,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                My test module.' type=dynamic),
+            value: Atom('My test module.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -101,11 +100,11 @@
                     75,
                 ),
                 hi: BytePos(
-                    76,
+                    75,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -174,11 +173,11 @@
                     166,
                 ),
                 hi: BytePos(
-                    188,
+                    186,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Document a property.' type=dynamic),
+            value: Atom('Document a property.' type=dynamic),
         },
         tags: [],
     },
@@ -198,11 +197,11 @@
                     230,
                 ),
                 hi: BytePos(
-                    250,
+                    248,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Document a method.' type=dynamic),
+            value: Atom('Document a method.' type=dynamic),
         },
         tags: [],
     },

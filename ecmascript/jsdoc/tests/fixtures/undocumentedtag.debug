@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    25,
+                    23,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Undocumented doclet.
+            value: Atom('Undocumented doclet.
              *' type=dynamic),
         },
         tags: [

@@ -15,12 +15,11 @@
                     29,
                 ),
                 hi: BytePos(
-                    79,
+                    69,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                    Document your constructor function here.' type=dynamic),
+            value: Atom('Document your constructor function here.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -248,12 +247,11 @@
                     271,
                 ),
                 hi: BytePos(
-                    307,
+                    297,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                    Document your method here.' type=dynamic),
+            value: Atom('Document your method here.' type=dynamic),
         },
         tags: [
             TagItem {

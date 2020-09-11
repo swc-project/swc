@@ -329,21 +329,12 @@ fn issue_532() {
     assert_eq!(
         f,
         "\
-/*pre:1*/
-test();
-test(123/*post:3*/
-);
-test(/*pre:4*/
-123);
-test(/*pre:5*/
-123/*post:6*/
-);
-test(/*pre:7*/
-123,/*pre:8*/
-456);
-test(123/*post:9*/
-,456/*post:10*/
-);"
+/*pre:1*/test();
+test(123/*post:3*/);
+test(/*pre:4*/123);
+test(/*pre:5*/123/*post:6*/);
+test(/*pre:7*/123,/*pre:8*/456);
+test(123/*post:9*/,456/*post:10*/);"
     )
 }
 
@@ -556,4 +547,12 @@ fn issue_895() {
 
     assert!(!s.contains("_url."));
     assert!(!s.contains("_url,"));
+}
+
+#[test]
+fn issue_1052() {
+    let f = file("tests/projects/issue-1052/input.ts").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("_new"))
 }

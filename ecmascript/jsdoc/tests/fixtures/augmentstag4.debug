@@ -15,12 +15,11 @@
                     48,
                 ),
                 hi: BytePos(
-                    52,
+                    48,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -92,11 +91,11 @@
                     125,
                 ),
                 hi: BytePos(
-                    133,
+                    131,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* member' type=dynamic),
+            value: Atom('member' type=inline),
         },
         tags: [],
     },
@@ -116,11 +115,11 @@
                     168,
                 ),
                 hi: BytePos(
-                    184,
+                    182,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* another member' type=dynamic),
+            value: Atom('another member' type=dynamic),
         },
         tags: [],
     },
@@ -140,12 +139,11 @@
                     217,
                 ),
                 hi: BytePos(
-                    256,
+                    247,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * explicitly named member
+            value: Atom('explicitly named member
                  *' type=dynamic),
         },
         tags: [
@@ -217,12 +215,11 @@
                     324,
                 ),
                 hi: BytePos(
-                    328,
+                    324,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

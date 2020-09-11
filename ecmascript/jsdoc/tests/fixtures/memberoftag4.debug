@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    26,
+                    21,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Namespace doStuff.
+            value: Atom('Namespace doStuff.
              *' type=dynamic),
         },
         tags: [
@@ -93,12 +92,11 @@
                     53,
                 ),
                 hi: BytePos(
-                    106,
+                    101,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Function with the same name as its namespace.
+            value: Atom('Function with the same name as its namespace.
              *' type=dynamic),
         },
         tags: [
@@ -181,12 +179,11 @@
                     154,
                 ),
                 hi: BytePos(
-                    212,
+                    207,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Function with a different name than the namespace.
+            value: Atom('Function with a different name than the namespace.
              *' type=dynamic),
         },
         tags: [

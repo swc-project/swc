@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    42,
+                    37,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Describe the Subscription class here.' type=dynamic),
+            value: Atom('Describe the Subscription class here.' type=dynamic),
         },
         tags: [],
     },
@@ -30,7 +29,7 @@
                 74,
             ),
             hi: BytePos(
-                136,
+                74,
             ),
             ctxt: #0,
         },
@@ -40,12 +39,11 @@
                     74,
                 ),
                 hi: BytePos(
-                    127,
+                    118,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Describe the constructor here.
+            value: Atom('Describe the constructor here.
                  *
                  *' type=dynamic),
         },
@@ -113,6 +111,55 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        74,
+                    ),
+                    hi: BytePos(
+                        81,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            74,
+                        ),
+                        hi: BytePos(
+                            81,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('example' type=inline),
+                },
+                tag: Example(
+                    ExampleTag {
+                        span: Span {
+                            lo: BytePos(
+                                74,
+                            ),
+                            hi: BytePos(
+                                81,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    74,
+                                ),
+                                hi: BytePos(
+                                    120,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('* var subscription = new Subscription();
+                                 ' type=dynamic),
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -131,11 +178,11 @@
                     283,
                 ),
                 hi: BytePos(
-                    318,
+                    316,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Force the subscription to expire.' type=dynamic),
+            value: Atom('Force the subscription to expire.' type=dynamic),
         },
         tags: [],
     },
@@ -155,12 +202,11 @@
                     343,
                 ),
                 hi: BytePos(
-                    383,
+                    378,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Describe the Subscriber class here.' type=dynamic),
+            value: Atom('Describe the Subscriber class here.' type=dynamic),
         },
         tags: [],
     },
@@ -180,12 +226,11 @@
                     425,
                 ),
                 hi: BytePos(
-                    478,
+                    469,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Describe the constructor here.
+            value: Atom('Describe the constructor here.
                  *
                  *' type=dynamic),
         },
@@ -271,11 +316,11 @@
                     570,
                 ),
                 hi: BytePos(
-                    616,
+                    614,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Check whether the subscriber has a callback.' type=dynamic),
+            value: Atom('Check whether the subscriber has a callback.' type=dynamic),
         },
         tags: [],
     },
@@ -295,12 +340,11 @@
                     646,
                 ),
                 hi: BytePos(
-                    673,
+                    668,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Subclass namespace.
+            value: Atom('Subclass namespace.
              *' type=dynamic),
         },
         tags: [
@@ -360,12 +404,11 @@
                     713,
                 ),
                 hi: BytePos(
-                    752,
+                    747,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Expiring subscription subclass.
+            value: Atom('Expiring subscription subclass.
              *' type=dynamic),
         },
         tags: [
@@ -425,12 +468,11 @@
                     833,
                 ),
                 hi: BytePos(
-                    886,
+                    877,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Describe the constructor here.
+            value: Atom('Describe the constructor here.
                  *
                  *' type=dynamic),
         },
@@ -516,11 +558,11 @@
                     978,
                 ),
                 hi: BytePos(
-                    979,
+                    978,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -602,11 +644,11 @@
                     1038,
                 ),
                 hi: BytePos(
-                    1056,
+                    1054,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Instance method.' type=dynamic),
+            value: Atom('Instance method.' type=dynamic),
         },
         tags: [],
     },

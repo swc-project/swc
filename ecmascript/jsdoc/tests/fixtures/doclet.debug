@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    138,
+                    132,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                Markdown asterisks in a doclet that does not use leading asterisks.
+            value: Atom('Markdown asterisks in a doclet that does not use leading asterisks.
                 **Strong** is strong.
             
                 * List item 1.
@@ -108,12 +107,11 @@
                     215,
                 ),
                 hi: BytePos(
-                    346,
+                    341,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Markdown asterisks in a doclet that uses leading asterisks.
+            value: Atom('Markdown asterisks in a doclet that uses leading asterisks.
              * **Strong** is strong.
              *
              * * List item 1.

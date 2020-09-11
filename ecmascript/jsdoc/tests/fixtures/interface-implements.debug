@@ -15,12 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    19,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -78,12 +77,11 @@
                     60,
                 ),
                 hi: BytePos(
-                    64,
+                    60,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -152,12 +150,11 @@
                     120,
                 ),
                 hi: BytePos(
-                    124,
+                    120,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -226,12 +223,11 @@
                     188,
                 ),
                 hi: BytePos(
-                    211,
+                    206,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * before each method' type=dynamic),
+            value: Atom('before each method' type=dynamic),
         },
         tags: [],
     },
@@ -251,12 +247,11 @@
                     265,
                 ),
                 hi: BytePos(
-                    280,
+                    275,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * it method.' type=dynamic),
+            value: Atom('it method.' type=dynamic),
         },
         tags: [],
     },
@@ -276,12 +271,11 @@
                     326,
                 ),
                 hi: BytePos(
-                    330,
+                    326,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -353,11 +347,11 @@
                     399,
                 ),
                 hi: BytePos(
-                    400,
+                    399,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -426,11 +420,11 @@
                     456,
                 ),
                 hi: BytePos(
-                    457,
+                    456,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -499,11 +493,11 @@
                     491,
                 ),
                 hi: BytePos(
-                    504,
+                    502,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* keyboard up' type=dynamic),
+            value: Atom('keyboard up' type=dynamic),
         },
         tags: [],
     },
@@ -523,12 +517,11 @@
                     560,
                 ),
                 hi: BytePos(
-                    595,
+                    590,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * my tester's beforeEach method.' type=dynamic),
+            value: Atom('my tester's beforeEach method.' type=dynamic),
         },
         tags: [],
     },
@@ -548,12 +541,11 @@
                     689,
                 ),
                 hi: BytePos(
-                    693,
+                    689,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -611,11 +603,11 @@
                     733,
                 ),
                 hi: BytePos(
-                    765,
+                    763,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Interface for doing some work.' type=dynamic),
+            value: Atom('Interface for doing some work.' type=dynamic),
         },
         tags: [],
     },
@@ -635,12 +627,11 @@
                     812,
                 ),
                 hi: BytePos(
-                    816,
+                    812,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -712,11 +703,11 @@
                     884,
                 ),
                 hi: BytePos(
-                    899,
+                    897,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Do some work.' type=dynamic),
+            value: Atom('Do some work.' type=dynamic),
         },
         tags: [],
     },
@@ -736,12 +727,11 @@
                     991,
                 ),
                 hi: BytePos(
-                    995,
+                    991,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

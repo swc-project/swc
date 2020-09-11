@@ -15,11 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    51,
+                    49,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Class representing pizza toppings.' type=dynamic),
+            value: Atom('Class representing pizza toppings.' type=dynamic),
         },
         tags: [],
     },
@@ -39,12 +39,11 @@
                     83,
                 ),
                 hi: BytePos(
-                    155,
+                    146,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Set whether sardines are included in the pizza toppings.
+            value: Atom('Set whether sardines are included in the pizza toppings.
                  *' type=dynamic),
         },
         tags: [

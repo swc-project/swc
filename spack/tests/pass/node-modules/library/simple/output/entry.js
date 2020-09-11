@@ -18,11 +18,9 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  * node-progress
  * Copyright(c) 2011 TJ Holowaychuk <tj@vision-media.ca>
  * MIT Licensed
- */
-    /**
+ */ /**
  * Expose `ProgressBar`.
- */
-    {
+ */ {
         exports1 = module1.exports = ProgressBar;
         /**
  * Initialize a `ProgressBar` with the given `fmt` string and `options` or
@@ -54,8 +52,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  * @param {string} fmt
  * @param {object|number} options or total
  * @api public
- */
-        function ProgressBar(fmt, options) {
+ */ function ProgressBar(fmt, options) {
             this.stream = options.stream || process.stderr;
             if (typeof options == 'number') {
                 var total = options;
@@ -92,8 +89,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  * @param {number|object} len or tokens
  * @param {object} tokens
  * @api public
- */
-        ProgressBar.prototype.tick = function(len, tokens) {
+ */ ProgressBar.prototype.tick = function(len, tokens) {
             if (len !== 0) len = len || 1;
             // swap tokens
             if ('object' == typeof len) tokens = len, len = 1;
@@ -118,8 +114,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  *
  * @param {object} tokens
  * @api public
- */
-        ProgressBar.prototype.render = function(tokens, force) {
+ */ ProgressBar.prototype.render = function(tokens, force) {
             force = force !== undefined ? force : false;
             if (tokens) this.tokens = tokens;
             if (!this.stream.isTTY) return;
@@ -134,22 +129,16 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
             var elapsed = new Date - this.start;
             var eta = percent == 100 ? 0 : elapsed * (this.total / this.curr - 1);
             var rate = this.curr / (elapsed / 1000);
-            /* populate the bar template with percentages and timestamps */
-            var str = this.fmt.replace(':current', this.curr).replace(':total', this.total).replace(':elapsed', isNaN(elapsed) ? '0.0' : (elapsed / 1000).toFixed(1)).replace(':eta', isNaN(eta) || !isFinite(eta) ? '0.0' : (eta / 1000).toFixed(1)).replace(':percent', percent.toFixed(0) + '%').replace(':rate', Math.round(rate));
-            /* compute the available space (non-zero) for the bar */
-            var availableSpace = Math.max(0, this.stream.columns - str.replace(':bar', '').length);
+            /* populate the bar template with percentages and timestamps */ var str = this.fmt.replace(':current', this.curr).replace(':total', this.total).replace(':elapsed', isNaN(elapsed) ? '0.0' : (elapsed / 1000).toFixed(1)).replace(':eta', isNaN(eta) || !isFinite(eta) ? '0.0' : (eta / 1000).toFixed(1)).replace(':percent', percent.toFixed(0) + '%').replace(':rate', Math.round(rate));
+            /* compute the available space (non-zero) for the bar */ var availableSpace = Math.max(0, this.stream.columns - str.replace(':bar', '').length);
             if (availableSpace && process.platform === 'win32') availableSpace = availableSpace - 1;
             var width = Math.min(this.width, availableSpace);
-            /* TODO: the following assumes the user has one ':bar' token */
-            completeLength = Math.round(width * ratio);
+            /* TODO: the following assumes the user has one ':bar' token */ completeLength = Math.round(width * ratio);
             complete = Array(Math.max(0, completeLength + 1)).join(this.chars.complete);
             incomplete = Array(Math.max(0, width - completeLength + 1)).join(this.chars.incomplete);
-            /* add head to the complete string */
-            if (completeLength > 0) complete = complete.slice(0, -1) + this.chars.head;
-            /* fill in the actual progress bar */
-            str = str.replace(':bar', complete + incomplete);
-            /* replace the extra tokens */
-            if (this.tokens) for(var key in this.tokens)str = str.replace(':' + key, this.tokens[key]);
+            /* add head to the complete string */ if (completeLength > 0) complete = complete.slice(0, -1) + this.chars.head;
+            /* fill in the actual progress bar */ str = str.replace(':bar', complete + incomplete);
+            /* replace the extra tokens */ if (this.tokens) for(var key in this.tokens)str = str.replace(':' + key, this.tokens[key]);
             if (this.lastDraw !== str) {
                 this.stream.cursorTo(0);
                 this.stream.write(str);
@@ -169,8 +158,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  * @param {number} ratio The ratio (between 0 and 1 inclusive) to set the
  *   overall completion to.
  * @api public
- */
-        ProgressBar.prototype.update = function(ratio, tokens) {
+ */ ProgressBar.prototype.update = function(ratio, tokens) {
             var goal = Math.floor(ratio * this.total);
             var delta = goal - this.curr;
             this.tick(delta, tokens);
@@ -179,8 +167,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  * "interrupt" the progress bar and write a message above it.
  * @param {string} message The message to write.
  * @api public
- */
-        ProgressBar.prototype.interrupt = function(message) {
+ */ ProgressBar.prototype.interrupt = function(message) {
             // clear the current line
             this.stream.clearLine();
             // move the cursor to the start of the line
@@ -196,8 +183,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  * Terminates a progress bar.
  *
  * @api public
- */
-        ProgressBar.prototype.terminate = function() {
+ */ ProgressBar.prototype.terminate = function() {
             if (this.clear) {
                 if (this.stream.clearLine) {
                     this.stream.clearLine();

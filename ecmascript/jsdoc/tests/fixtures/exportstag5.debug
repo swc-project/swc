@@ -15,11 +15,11 @@
                     71,
                 ),
                 hi: BytePos(
-                    72,
+                    71,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -88,11 +88,11 @@
                     128,
                 ),
                 hi: BytePos(
-                    129,
+                    128,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -174,11 +174,11 @@
                     185,
                 ),
                 hi: BytePos(
-                    224,
+                    222,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* This should be in the Foo module doc.' type=dynamic),
+            value: Atom('This should be in the Foo module doc.' type=dynamic),
         },
         tags: [],
     },

@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -78,11 +78,11 @@
                     31,
                 ),
                 hi: BytePos(
-                    32,
+                    31,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -154,11 +154,11 @@
                     53,
                 ),
                 hi: BytePos(
-                    54,
+                    53,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -230,11 +230,11 @@
                     87,
                 ),
                 hi: BytePos(
-                    88,
+                    87,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -293,11 +293,11 @@
                     116,
                 ),
                 hi: BytePos(
-                    144,
+                    142,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Member of the namespace S.' type=dynamic),
+            value: Atom('Member of the namespace S.' type=dynamic),
         },
         tags: [],
     },

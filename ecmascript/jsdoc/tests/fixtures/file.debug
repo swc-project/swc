@@ -5,7 +5,7 @@
                 0,
             ),
             hi: BytePos(
-                35,
+                0,
             ),
             ctxt: #0,
         },
@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    4,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -67,6 +66,54 @@
                                 ctxt: #0,
                             },
                             value: Atom('This is a file doclet.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        9,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            9,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('copyright' type=dynamic),
+                },
+                tag: Copyright(
+                    CopyrightTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                9,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    20,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Michael Mathews 2011' type=dynamic),
                         },
                     },
                 ),

@@ -95,7 +95,7 @@ impl Expander {
                     },
                     {
                         fn method(&mut self, node: &mut Type) {
-                            node.visit_mut_with(self)
+                            node.visit_mut_children_with(self)
                         }
                     }
                 ),
@@ -118,6 +118,12 @@ impl Expander {
             FnArg::Receiver(_) => unreachable!(),
             FnArg::Typed(ty) => ty,
         };
+        if m.sig.ident == "visit_mut_ident" || m.sig.ident == "fold_ident" {
+            return m;
+        }
+        if m.block.stmts.is_empty() {
+            return m;
+        }
 
         let arg = match &*ty_arg.pat {
             Pat::Ident(i) => &i.ident,

@@ -15,11 +15,11 @@
                     1,
                 ),
                 hi: BytePos(
-                    2,
+                    1,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -78,12 +78,11 @@
                     44,
                 ),
                 hi: BytePos(
-                    75,
+                    65,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                    The current position.' type=dynamic),
+            value: Atom('The current position.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -239,12 +238,11 @@
                     220,
                 ),
                 hi: BytePos(
-                    264,
+                    250,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                        The x coordinate of the point.' type=dynamic),
+            value: Atom('The x coordinate of the point.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -374,12 +372,11 @@
                     384,
                 ),
                 hi: BytePos(
-                    428,
+                    414,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                        The y coordinate of the point.' type=dynamic),
+            value: Atom('The y coordinate of the point.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -509,11 +506,11 @@
                     635,
                 ),
                 hi: BytePos(
-                    636,
+                    635,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -643,11 +640,11 @@
                     777,
                 ),
                 hi: BytePos(
-                    798,
+                    796,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* The current cursor.' type=dynamic),
+            value: Atom('The current cursor.' type=dynamic),
         },
         tags: [],
     },

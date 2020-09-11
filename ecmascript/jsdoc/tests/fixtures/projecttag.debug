@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    58,
+                    52,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                An automated documentation generator for JavaScript.' type=dynamic),
+            value: Atom('An automated documentation generator for JavaScript.' type=dynamic),
         },
         tags: [
             TagItem {

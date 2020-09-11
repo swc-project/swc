@@ -1,6 +1,6 @@
 {
   "name": "@swc/core",
-  "version": "1.2.23-alpha.1",
+  "version": "1.2.26",
   "description": "Super-fast alternative for babel",
   "homepage": "https://swc-project.github.io",
   "main": "./index.js",
@@ -41,7 +41,7 @@
   },
   "types": "./lib/index.d.ts",
   "scripts": {
-    "artifacts": "napi artifacts -t scripts/npm",
+    "artifacts": "napi artifacts",
     "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
     "build": "tsc -d && cargo build -p node --release && napi build --platform --release --cargo-name node",
     "build:dev": "tsc -d && cargo build -p node && napi build --platform --cargo-name node",

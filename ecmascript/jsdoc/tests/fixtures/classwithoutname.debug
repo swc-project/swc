@@ -15,12 +15,11 @@
                     98,
                 ),
                 hi: BytePos(
-                    144,
+                    135,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Create an instance of MyClass.
+            value: Atom('Create an instance of MyClass.
                  *' type=dynamic),
         },
         tags: [

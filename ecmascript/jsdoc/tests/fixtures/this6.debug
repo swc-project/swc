@@ -15,11 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    16,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,12 +100,11 @@
                     39,
                 ),
                 hi: BytePos(
-                    63,
+                    58,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * An ES6 class.
+            value: Atom('An ES6 class.
              *
              *' type=dynamic),
         },
@@ -189,12 +188,11 @@
                     132,
                 ),
                 hi: BytePos(
-                    179,
+                    166,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                     * My property.
+            value: Atom('My property.
                      *
                      *' type=dynamic),
         },

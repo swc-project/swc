@@ -4,6 +4,7 @@ native/artifacts.json
 **/*~
 **/node_modules
 **/.DS_Store
+artifacts/
 
 pkg/
 
@@ -30,3 +31,4 @@ integration-tests/
 /.vscode
 /ecmascript/transforms/src/helpers
 /node-swc/__tests__/
+/*.node

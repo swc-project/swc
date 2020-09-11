@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -90,7 +90,7 @@
                 25,
             ),
             hi: BytePos(
-                54,
+                35,
             ),
             ctxt: #0,
         },
@@ -100,12 +100,11 @@
                     25,
                 ),
                 hi: BytePos(
-                    60,
+                    55,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Enum for quad-state values.
+            value: Atom('Enum for quad-state values.
              *' type=dynamic),
         },
         tags: [
@@ -157,6 +156,67 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        25,
+                    ),
+                    hi: BytePos(
+                        33,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            25,
+                        ),
+                        hi: BytePos(
+                            33,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('memberof' type=dynamic),
+                },
+                tag: MemberOf(
+                    MemberOfTag {
+                        span: Span {
+                            lo: BytePos(
+                                25,
+                            ),
+                            hi: BytePos(
+                                33,
+                            ),
+                            ctxt: #0,
+                        },
+                        parent_name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    25,
+                                ),
+                                hi: BytePos(
+                                    35,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            25,
+                                        ),
+                                        hi: BytePos(
+                                            31,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('module' type=static),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -175,11 +235,11 @@
                     153,
                 ),
                 hi: BytePos(
-                    159,
+                    157,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* true' type=inline),
+            value: Atom('true' type=static),
         },
         tags: [],
     },
@@ -199,12 +259,11 @@
                     228,
                 ),
                 hi: BytePos(
-                    264,
+                    259,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Enum for penta-state values.
+            value: Atom('Enum for penta-state values.
              *' type=dynamic),
         },
         tags: [
@@ -274,12 +333,11 @@
                     307,
                 ),
                 hi: BytePos(
-                    357,
+                    352,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Enum for penta-state values, BUT SHOUTIER.
+            value: Atom('Enum for penta-state values, BUT SHOUTIER.
              *' type=dynamic),
         },
         tags: [
@@ -349,11 +407,11 @@
                     406,
                 ),
                 hi: BytePos(
-                    412,
+                    410,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* true' type=inline),
+            value: Atom('true' type=static),
         },
         tags: [],
     },
