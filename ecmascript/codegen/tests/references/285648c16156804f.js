@@ -1,6 +1,5 @@
 (function() {
     return;
     /* Multiline
-Comment */
-    a;
+Comment */a;
 });

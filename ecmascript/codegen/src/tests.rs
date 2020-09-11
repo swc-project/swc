@@ -144,12 +144,7 @@ b; // bar",
 
 #[test]
 fn comment_4() {
-    test_from_to(
-        "/** foo */
-a",
-        "/** foo */
-a;",
-    );
+    test_from_to("/** foo */ a", "/** foo */ a;");
 }
 
 #[test]

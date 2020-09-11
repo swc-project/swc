@@ -1,2 +1,1 @@
-1; /* block comment 1 */
- /* block comment 2 */
+1; /* block comment 1 */ /* block comment 2 */

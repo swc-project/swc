@@ -1,2 +1,1 @@
-var a; /* block comment 1 */
- /* block comment 2 */
+var a; /* block comment 1 */ /* block comment 2 */

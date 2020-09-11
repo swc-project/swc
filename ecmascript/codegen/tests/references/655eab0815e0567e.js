@@ -1,3 +1,2 @@
-/**/
-function a() {
+/**/function a() {
 }

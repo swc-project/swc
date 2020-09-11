@@ -1,4 +1,3 @@
-/*@ngInject*/
-function a(b) {
+/*@ngInject*/function a(b) {
     return b;
 }

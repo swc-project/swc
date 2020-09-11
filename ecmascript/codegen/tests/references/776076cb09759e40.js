@@ -1,2 +1,1 @@
-1; /*The*/
- /*Answer*/
+1; /*The*/ /*Answer*/
