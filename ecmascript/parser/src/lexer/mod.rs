@@ -7,6 +7,7 @@ use crate::{
     token::*,
     Context, JscTarget, Syntax,
 };
+use memchr::memchr_iter;
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc, str::Chars};
 use swc_atoms::{js_word, JsWord};
@@ -779,13 +780,44 @@ impl<'a> Lexer<'a> {
     fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
-        let slice = self.input.slice();
+        let s = self.input.slice();
+        // Remove quotes
+        let s = &s[1..s.len() - 1];
         self.input.advance();
 
-        Ok(Token::Str {
-            has_escape: slice.contains('\\'),
-            value: slice.into(),
-        })
+        if !s.contains('\\') {
+            // Fast path
+            return Ok(Token::Str {
+                has_escape: s.contains('\\'),
+                value: s.into(),
+            });
+        }
+
+        let mut buf = String::with_capacity(s.len());
+        let mut chunk_start = 0usize;
+        for idx in memchr_iter(b'\\', s.as_bytes()) {
+            //
+            if idx != chunk_start {
+                let chunk = &s[chunk_start..idx];
+                dbg!(chunk);
+                buf.push_str(chunk);
+                chunk_start = idx;
+            }
+            let mut iter = s[chunk_start..].chars();
+
+            let c = self.parse_escaped_char(&mut iter, &mut Raw(None))?;
+            if let Some(c) = c {
+                buf.extend(c);
+            }
+
+            dbg!(idx, &*buf);
+        }
+
+        buf.push_str(&s[chunk_start..]);
+
+        dbg!(chunk_start, &*buf);
+
+        unimplemented!()
     }
 
     /// Expects current char to be '/'

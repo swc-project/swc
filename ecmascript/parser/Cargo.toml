@@ -17,6 +17,7 @@ either = {version = "1.4"}
 enum_kind = {version = "0.2", path = "../../macros/enum_kind"}
 fxhash = "0.2.1"
 log = "0.4"
+memchr = "2.3.3"
 num-bigint = "0.2"
 num-traits = "0.2.12"
 serde = {version = "1", features = ["derive"]}
