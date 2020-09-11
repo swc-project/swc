@@ -650,6 +650,7 @@ impl<'a> Lexer<'a> {
             }
             _ => {
                 raw.push(c);
+                iter.next();
                 c
             }
         };
@@ -735,6 +736,7 @@ impl<'a> Lexer<'a> {
                 self.error(start, SyntaxError::InvalidUnicodeEscape)?
             }
             raw.push('}');
+            iter.next();
 
             Ok(c)
         } else {
