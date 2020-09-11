@@ -83,7 +83,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
 
         "borrows" => {
             let (input, from) = parse_name_path(i)?;
-            let (input, _) = tag("as")(input)?;
+            let (_, input) = tag("as")(input)?;
             let (input, to) = parse_name_path(input)?;
             i = input;
             Tag::Borrows(BorrowsTag { span, from, to })
@@ -163,7 +163,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         }
 
         "example" => {
-            let (input, text) = take_while(|c| c != '@')(i)?;
+            let (text, input) = take_while(|c| c != '@')(i)?;
             i = input;
             Tag::Example(ExampleTag {
                 span,
@@ -554,7 +554,7 @@ fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
         components.push(component);
         i = input;
 
-        let (input, _) = match tag(".")(i) {
+        let (_, input) = match tag(".")(i) {
             Ok(v) => v,
             Err(err) => {
                 if components.is_empty() {
