@@ -1482,10 +1482,12 @@ to_ts!(
 to_ts!(
     let_scoping,
     "
-    const usage = () => {
-        return a;
-    };
-    let a;
+    function wrapper() {
+        const usage = () => {
+            return a;
+        };
+        let a;
+    }
     ",
     "
     
