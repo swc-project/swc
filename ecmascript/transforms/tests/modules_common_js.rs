@@ -447,6 +447,9 @@ export { Foo, baz };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
+
 Object.defineProperty(exports, "Foo", {
   enumerable: true,
   get: function () {
@@ -459,8 +462,6 @@ Object.defineProperty(exports, "baz", {
     return _moduleWithGetter.baz;
   }
 });
-
-var _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
 
 "#
 );
@@ -2160,6 +2161,19 @@ export { named2 };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+function _white() {
+  const data = require("white");
+
+  _white = function () {
+    return data;
+  };
+
+  return data;
+}
+
+var _black = require("black");
+
 Object.defineProperty(exports, "named1", {
   enumerable: true,
   get: function () {
@@ -2173,17 +2187,7 @@ Object.defineProperty(exports, "named2", {
   }
 });
 
-function _white() {
-  const data = require("white");
 
-  _white = function () {
-    return data;
-  };
-
-  return data;
-}
-
-var _black = require("black");
 
 
 "#
@@ -2654,6 +2658,7 @@ export { default } from 'foo';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var _foo = require("foo");
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
@@ -2661,7 +2666,6 @@ Object.defineProperty(exports, "default", {
   }
 });
 
-var _foo = require("foo");
 
 "#
 );
@@ -4267,5 +4271,27 @@ test!(
   export * from './http';
   export { Scope } from './interfaces'
   ",
-    ""
+    r#"
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var _interfaces = require("./interfaces");
+var _http = require("./http");
+Object.defineProperty(exports, "Scope", {
+    enumerable: true,
+    get: function() {
+        return _interfaces.Scope;
+    }
+});
+Object.keys(_http).forEach(function(key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+        enumerable: true,
+        get: function() {
+            return _http[key];
+        }
+    });
+});
+  "#
 );
