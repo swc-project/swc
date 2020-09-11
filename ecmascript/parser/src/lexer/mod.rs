@@ -937,6 +937,7 @@ impl<'a> Lexer<'a> {
                 has_escape = true;
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
+                self.input.advance();
 
                 let ch =
                     self.with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut wrapped))?;
