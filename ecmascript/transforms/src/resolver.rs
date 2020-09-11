@@ -614,10 +614,10 @@ impl<'a> VisitMut for Resolver<'a> {
         let old_hoist = self.hoist;
         let old = folder.ident_type;
         folder.ident_type = IdentType::Binding;
-        self.hoist = false;
+        folder.hoist = false;
         e.params.visit_mut_with(&mut folder);
         folder.ident_type = old;
-        self.hoist = old_hoist;
+        folder.hoist = old_hoist;
 
         e.body.visit_mut_with(&mut folder);
 
