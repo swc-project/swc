@@ -1037,6 +1037,7 @@ impl<'a> VisitMut for Resolver<'a> {
             let mut hoister = Hoister {
                 resolver: self,
                 kind: None,
+                in_block: false,
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1051,6 +1052,7 @@ impl<'a> VisitMut for Resolver<'a> {
             let mut hoister = Hoister {
                 resolver: self,
                 kind: None,
+                in_block: false,
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1064,6 +1066,7 @@ impl<'a> VisitMut for Resolver<'a> {
 struct Hoister<'a, 'b> {
     resolver: &'a mut Resolver<'b>,
     kind: Option<VarDeclKind>,
+    in_block: bool,
 }
 
 impl VisitMut for Hoister<'_, '_> {
@@ -1089,6 +1092,13 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
+        if self.in_block {
+            match node.kind {
+                VarDeclKind::Const | VarDeclKind::Let => return,
+                _ => {}
+            }
+        }
+
         let old_kind = self.kind;
         self.kind = Some(node.kind);
 
@@ -1153,5 +1163,12 @@ impl VisitMut for Hoister<'_, '_> {
                 n.visit_mut_children_with(self);
             }
         }
+    }
+
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        let old_in_block = self.in_block;
+        self.in_block = true;
+        n.visit_mut_children_with(self);
+        self.in_block = old_in_block;
     }
 }
