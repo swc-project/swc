@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -78,11 +78,11 @@
                     42,
                 ),
                 hi: BytePos(
-                    55,
+                    53,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document me' type=dynamic),
+            value: Atom('document me' type=dynamic),
         },
         tags: [],
     },
@@ -102,11 +102,11 @@
                     93,
                 ),
                 hi: BytePos(
-                    94,
+                    93,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -165,11 +165,11 @@
                     133,
                 ),
                 hi: BytePos(
-                    146,
+                    144,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document me' type=dynamic),
+            value: Atom('document me' type=dynamic),
         },
         tags: [],
     },
@@ -189,11 +189,11 @@
                     183,
                 ),
                 hi: BytePos(
-                    196,
+                    194,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document me' type=dynamic),
+            value: Atom('document me' type=dynamic),
         },
         tags: [],
     },

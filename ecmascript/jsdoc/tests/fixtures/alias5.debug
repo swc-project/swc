@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    29,
+                    24,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Toaster singleton.
+            value: Atom('Toaster singleton.
              *
              *' type=dynamic),
         },
@@ -81,12 +80,11 @@
                     128,
                 ),
                 hi: BytePos(
-                    165,
+                    156,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Toast an item.
+            value: Atom('Toast an item.
                  *
                  *' type=dynamic),
         },
@@ -160,7 +158,7 @@
                 305,
             ),
             hi: BytePos(
-                347,
+                305,
             ),
             ctxt: #0,
         },
@@ -170,12 +168,11 @@
                     305,
                 ),
                 hi: BytePos(
-                    346,
+                    337,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Clean the toaster.
+            value: Atom('Clean the toaster.
                  *
                  *' type=dynamic),
         },
@@ -241,6 +238,103 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        305,
+                    ),
+                    hi: BytePos(
+                        313,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            305,
+                        ),
+                        hi: BytePos(
+                            313,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('memberof' type=dynamic),
+                },
+                tag: MemberOf(
+                    MemberOfTag {
+                        span: Span {
+                            lo: BytePos(
+                                305,
+                            ),
+                            hi: BytePos(
+                                313,
+                            ),
+                            ctxt: #0,
+                        },
+                        parent_name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    305,
+                                ),
+                                hi: BytePos(
+                                    327,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            305,
+                                        ),
+                                        hi: BytePos(
+                                            312,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Toaster' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        305,
+                    ),
+                    hi: BytePos(
+                        313,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            305,
+                        ),
+                        hi: BytePos(
+                            313,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('instance' type=dynamic),
+                },
+                tag: Instance(
+                    InstanceTag {
+                        span: Span {
+                            lo: BytePos(
+                                305,
+                            ),
+                            hi: BytePos(
+                                313,
+                            ),
+                            ctxt: #0,
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -259,12 +353,11 @@
                     479,
                 ),
                 hi: BytePos(
-                    539,
+                    526,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                     * Get the Toaster instance.
+            value: Atom('Get the Toaster instance.
                      *
                      *' type=dynamic),
         },

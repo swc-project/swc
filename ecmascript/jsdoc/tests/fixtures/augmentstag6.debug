@@ -15,11 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    16,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -77,11 +77,11 @@
                     60,
                 ),
                 hi: BytePos(
-                    82,
+                    80,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Open the connection.' type=dynamic),
+            value: Atom('Open the connection.' type=dynamic),
         },
         tags: [],
     },
@@ -101,12 +101,11 @@
                     133,
                 ),
                 hi: BytePos(
-                    137,
+                    133,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -177,11 +176,11 @@
                     216,
                 ),
                 hi: BytePos(
-                    239,
+                    237,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Close the connection.' type=dynamic),
+            value: Atom('Close the connection.' type=dynamic),
         },
         tags: [],
     },

@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,11 +100,11 @@
                     28,
                 ),
                 hi: BytePos(
-                    53,
+                    51,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* The name of the module.' type=dynamic),
+            value: Atom('The name of the module.' type=dynamic),
         },
         tags: [],
     },
@@ -124,11 +124,11 @@
                     89,
                 ),
                 hi: BytePos(
-                    121,
+                    119,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* The most recent blended color.' type=dynamic),
+            value: Atom('The most recent blended color.' type=dynamic),
         },
         tags: [],
     },
@@ -148,11 +148,11 @@
                     157,
                 ),
                 hi: BytePos(
-                    185,
+                    183,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Blend two colors together.' type=dynamic),
+            value: Atom('Blend two colors together.' type=dynamic),
         },
         tags: [],
     },
@@ -172,12 +172,11 @@
                     321,
                 ),
                 hi: BytePos(
-                    384,
+                    375,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Get the red, green, and blue values of a color.
+            value: Atom('Get the red, green, and blue values of a color.
                  *' type=dynamic),
         },
         tags: [

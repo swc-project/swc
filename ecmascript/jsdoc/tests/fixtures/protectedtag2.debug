@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -90,12 +90,11 @@
                     48,
                 ),
                 hi: BytePos(
-                    76,
+                    71,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Unique ID generator.
+            value: Atom('Unique ID generator.
              *' type=dynamic),
         },
         tags: [
@@ -155,11 +154,11 @@
                     124,
                 ),
                 hi: BytePos(
-                    147,
+                    145,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Generate a unique ID.' type=dynamic),
+            value: Atom('Generate a unique ID.' type=dynamic),
         },
         tags: [],
     },

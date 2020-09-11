@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    33,
+                    28,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Describe the module here.
+            value: Atom('Describe the module here.
              *' type=dynamic),
         },
         tags: [
@@ -102,11 +101,11 @@
                     65,
                 ),
                 hi: BytePos(
-                    91,
+                    89,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Describe the class here.' type=dynamic),
+            value: Atom('Describe the class here.' type=dynamic),
         },
         tags: [],
     },
@@ -126,12 +125,11 @@
                     131,
                 ),
                 hi: BytePos(
-                    174,
+                    165,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Create a new configuration.
+            value: Atom('Create a new configuration.
                  *' type=dynamic),
         },
         tags: [
@@ -216,11 +214,11 @@
                     234,
                 ),
                 hi: BytePos(
-                    248,
+                    246,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Document me.' type=dynamic),
+            value: Atom('Document me.' type=dynamic),
         },
         tags: [],
     },
@@ -240,12 +238,11 @@
                     287,
                 ),
                 hi: BytePos(
-                    335,
+                    326,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Get the configuration ID.
+            value: Atom('Get the configuration ID.
                  *
                  *' type=dynamic),
         },

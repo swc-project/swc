@@ -1,6 +1,6 @@
 [package]
 name = "jsdoc"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
 license = "Apache-2.0/MIT"

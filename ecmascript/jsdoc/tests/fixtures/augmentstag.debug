@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    4,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -79,11 +78,11 @@
                     45,
                 ),
                 hi: BytePos(
-                    61,
+                    59,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* First property' type=dynamic),
+            value: Atom('First property' type=dynamic),
         },
         tags: [],
     },
@@ -103,12 +102,11 @@
                     93,
                 ),
                 hi: BytePos(
-                    116,
+                    111,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Second property
+            value: Atom('Second property
              *' type=dynamic),
         },
         tags: [
@@ -178,12 +176,11 @@
                     177,
                 ),
                 hi: BytePos(
-                    202,
+                    197,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * First parent method.' type=dynamic),
+            value: Atom('First parent method.' type=dynamic),
         },
         tags: [],
     },
@@ -203,12 +200,11 @@
                     249,
                 ),
                 hi: BytePos(
-                    275,
+                    270,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Second parent method.' type=dynamic),
+            value: Atom('Second parent method.' type=dynamic),
         },
         tags: [],
     },
@@ -228,12 +224,11 @@
                     322,
                 ),
                 hi: BytePos(
-                    347,
+                    342,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Third parent method.' type=dynamic),
+            value: Atom('Third parent method.' type=dynamic),
         },
         tags: [],
     },
@@ -253,12 +248,11 @@
                     394,
                 ),
                 hi: BytePos(
-                    398,
+                    394,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -330,11 +324,11 @@
                     455,
                 ),
                 hi: BytePos(
-                    469,
+                    467,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Third prop *' type=dynamic),
+            value: Atom('Third prop *' type=dynamic),
         },
         tags: [],
     },
@@ -354,12 +348,11 @@
                     500,
                 ),
                 hi: BytePos(
-                    525,
+                    520,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Second child method.' type=dynamic),
+            value: Atom('Second child method.' type=dynamic),
         },
         tags: [],
     },
@@ -379,12 +372,11 @@
                     572,
                 ),
                 hi: BytePos(
-                    576,
+                    572,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -456,11 +448,11 @@
                     635,
                 ),
                 hi: BytePos(
-                    651,
+                    649,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Override prop1' type=dynamic),
+            value: Atom('Override prop1' type=dynamic),
         },
         tags: [],
     },
@@ -480,12 +472,11 @@
                     684,
                 ),
                 hi: BytePos(
-                    713,
+                    708,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Third grandchild method.' type=dynamic),
+            value: Atom('Third grandchild method.' type=dynamic),
         },
         tags: [],
     },

@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,11 +100,11 @@
                     51,
                 ),
                 hi: BytePos(
-                    79,
+                    77,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Blend two colors together.' type=dynamic),
+            value: Atom('Blend two colors together.' type=dynamic),
         },
         tags: [],
     },
@@ -124,11 +124,11 @@
                     128,
                 ),
                 hi: BytePos(
-                    164,
+                    162,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Darken a color by the given shade.' type=dynamic),
+            value: Atom('Darken a color by the given shade.' type=dynamic),
         },
         tags: [],
     },

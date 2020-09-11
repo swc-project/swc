@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,11 +100,11 @@
                     20,
                 ),
                 hi: BytePos(
-                    21,
+                    20,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -162,11 +162,11 @@
                     59,
                 ),
                 hi: BytePos(
-                    60,
+                    59,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -224,11 +224,11 @@
                     100,
                 ),
                 hi: BytePos(
-                    114,
+                    112,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Root object.' type=dynamic),
+            value: Atom('Root object.' type=dynamic),
         },
         tags: [],
     },
@@ -248,11 +248,11 @@
                     137,
                 ),
                 hi: BytePos(
-                    158,
+                    156,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Obtain a unique ID.' type=dynamic),
+            value: Atom('Obtain a unique ID.' type=dynamic),
         },
         tags: [],
     },
@@ -272,11 +272,11 @@
                     230,
                 ),
                 hi: BytePos(
-                    269,
+                    267,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Associate an object with a unique ID.' type=dynamic),
+            value: Atom('Associate an object with a unique ID.' type=dynamic),
         },
         tags: [],
     },

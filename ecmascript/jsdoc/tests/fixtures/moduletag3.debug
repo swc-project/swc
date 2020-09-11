@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -148,12 +148,11 @@
                     71,
                 ),
                 hi: BytePos(
-                    102,
+                    100,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-            Construct a new Photo manager' type=dynamic),
+            value: Atom('Construct a new Photo manager' type=dynamic),
         },
         tags: [
             TagItem {
@@ -238,11 +237,11 @@
                     264,
                 ),
                 hi: BytePos(
-                    265,
+                    264,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

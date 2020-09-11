@@ -15,11 +15,11 @@
                     73,
                 ),
                 hi: BytePos(
-                    74,
+                    73,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -78,11 +78,11 @@
                     106,
                 ),
                 hi: BytePos(
-                    117,
+                    115,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* A method.' type=dynamic),
+            value: Atom('A method.' type=dynamic),
         },
         tags: [],
     },
@@ -102,11 +102,11 @@
                     164,
                 ),
                 hi: BytePos(
-                    165,
+                    164,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -165,11 +165,11 @@
                     197,
                 ),
                 hi: BytePos(
-                    214,
+                    212,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Another method.' type=dynamic),
+            value: Atom('Another method.' type=dynamic),
         },
         tags: [],
     },
@@ -179,7 +179,7 @@
                 260,
             ),
             hi: BytePos(
-                276,
+                260,
             ),
             ctxt: #0,
         },
@@ -189,11 +189,11 @@
                     260,
                 ),
                 hi: BytePos(
-                    261,
+                    260,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -244,6 +244,67 @@
                             },
                         ),
                         name: None,
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        260,
+                    ),
+                    hi: BytePos(
+                        268,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            260,
+                        ),
+                        hi: BytePos(
+                            268,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('augments' type=dynamic),
+                },
+                tag: Augments(
+                    AugmentsTag {
+                        span: Span {
+                            lo: BytePos(
+                                260,
+                            ),
+                            hi: BytePos(
+                                268,
+                            ),
+                            ctxt: #0,
+                        },
+                        class: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    260,
+                                ),
+                                hi: BytePos(
+                                    260,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            260,
+                                        ),
+                                        hi: BytePos(
+                                            263,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Bar' type=inline),
+                                },
+                            ],
+                        },
                     },
                 ),
             },

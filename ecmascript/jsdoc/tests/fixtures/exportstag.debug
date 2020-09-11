@@ -15,12 +15,11 @@
                     24,
                 ),
                 hi: BytePos(
-                    64,
+                    54,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                    A module representing a shirt.' type=dynamic),
+            value: Atom('A module representing a shirt.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -137,11 +136,11 @@
                     149,
                 ),
                 hi: BytePos(
-                    176,
+                    174,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* A property of the module.' type=dynamic),
+            value: Atom('A property of the module.' type=dynamic),
         },
         tags: [],
     },
@@ -161,11 +160,11 @@
                     215,
                 ),
                 hi: BytePos(
-                    216,
+                    215,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -224,11 +223,11 @@
                     284,
                 ),
                 hi: BytePos(
-                    310,
+                    308,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* A property of the class.' type=dynamic),
+            value: Atom('A property of the class.' type=dynamic),
         },
         tags: [],
     },

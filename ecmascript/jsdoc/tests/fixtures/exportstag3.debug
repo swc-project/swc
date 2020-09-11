@@ -15,12 +15,11 @@
                     12,
                 ),
                 hi: BytePos(
-                    74,
+                    64,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                    Utility functions to ease working with DOM elements.' type=dynamic),
+            value: Atom('Utility functions to ease working with DOM elements.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -89,11 +88,11 @@
                     168,
                 ),
                 hi: BytePos(
-                    212,
+                    210,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Get the value of a property on an element.' type=dynamic),
+            value: Atom('Get the value of a property on an element.' type=dynamic),
         },
         tags: [],
     },
@@ -113,11 +112,11 @@
                     339,
                 ),
                 hi: BytePos(
-                    389,
+                    387,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Determine if an element is in the document head.' type=dynamic),
+            value: Atom('Determine if an element is in the document head.' type=dynamic),
         },
         tags: [],
     },

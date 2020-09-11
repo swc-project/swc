@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    36,
+                    31,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * This is a module called foo.
+            value: Atom('This is a module called foo.
              *' type=dynamic),
         },
         tags: [
@@ -102,12 +101,11 @@
                     56,
                 ),
                 hi: BytePos(
-                    101,
+                    96,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * The module exports a single function.
+            value: Atom('The module exports a single function.
              *' type=dynamic),
         },
         tags: [

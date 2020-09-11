@@ -5,7 +5,7 @@
                 19,
             ),
             hi: BytePos(
-                31,
+                23,
             ),
             ctxt: #0,
         },
@@ -15,11 +15,11 @@
                     19,
                 ),
                 hi: BytePos(
-                    20,
+                    19,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -61,7 +61,7 @@
                                     19,
                                 ),
                                 hi: BytePos(
-                                    31,
+                                    23,
                                 ),
                                 ctxt: #0,
                             },
@@ -72,11 +72,11 @@
                                             19,
                                         ),
                                         hi: BytePos(
-                                            19,
+                                            27,
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: Atom('<global>' type=dynamic),
                                 },
                             ],
                         },

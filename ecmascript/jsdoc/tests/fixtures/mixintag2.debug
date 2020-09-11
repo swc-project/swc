@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,12 +100,11 @@
                     35,
                 ),
                 hi: BytePos(
-                    52,
+                    47,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Object A.
+            value: Atom('Object A.
              *' type=dynamic),
         },
         tags: [
@@ -175,11 +174,11 @@
                     90,
                 ),
                 hi: BytePos(
-                    104,
+                    102,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Some method.' type=dynamic),
+            value: Atom('Some method.' type=dynamic),
         },
         tags: [],
     },
@@ -199,12 +198,11 @@
                     140,
                 ),
                 hi: BytePos(
-                    173,
+                    168,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Object B. Mixes Object A.
+            value: Atom('Object B. Mixes Object A.
              *' type=dynamic),
         },
         tags: [
@@ -274,12 +272,11 @@
                     240,
                 ),
                 hi: BytePos(
-                    297,
+                    292,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Object C. Mixes Object B and adds its own method.
+            value: Atom('Object C. Mixes Object B and adds its own method.
              *' type=dynamic),
         },
         tags: [
@@ -349,12 +346,11 @@
                     365,
                 ),
                 hi: BytePos(
-                    459,
+                    450,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Super-sweet method that's named in the comment, making this a virtual comment.
+            value: Atom('Super-sweet method that's named in the comment, making this a virtual comment.
                  *' type=dynamic),
         },
         tags: [
@@ -416,7 +412,7 @@
                 545,
             ),
             hi: BytePos(
-                585,
+                545,
             ),
             ctxt: #0,
         },
@@ -426,12 +422,11 @@
                     545,
                 ),
                 hi: BytePos(
-                    589,
+                    584,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Class that mixes Object A, so it gets {' type=dynamic),
+            value: Atom('Class that mixes Object A, so it gets {' type=dynamic),
         },
         tags: [
             TagItem {
@@ -482,6 +477,57 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        545,
+                    ),
+                    hi: BytePos(
+                        550,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            545,
+                        ),
+                        hi: BytePos(
+                            550,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                545,
+                            ),
+                            hi: BytePos(
+                                550,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        545,
+                                    ),
+                                    hi: BytePos(
+                                        573,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @mixes module:mixy.ObjectA' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -500,11 +546,11 @@
                     702,
                 ),
                 hi: BytePos(
-                    715,
+                    713,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Do a thing.' type=dynamic),
+            value: Atom('Do a thing.' type=dynamic),
         },
         tags: [],
     },
@@ -514,7 +560,7 @@
                 776,
             ),
             hi: BytePos(
-                858,
+                856,
             ),
             ctxt: #0,
         },
@@ -524,12 +570,11 @@
                     776,
                 ),
                 hi: BytePos(
-                    820,
+                    815,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Class that mixes Object C, so it gets {' type=dynamic),
+            value: Atom('Class that mixes Object C, so it gets {' type=dynamic),
         },
         tags: [
             TagItem {

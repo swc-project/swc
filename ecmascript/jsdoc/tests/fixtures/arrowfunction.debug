@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    35,
+                    30,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Increment a number by 1.
+            value: Atom('Increment a number by 1.
              *
              *' type=dynamic),
         },
@@ -106,12 +105,11 @@
                     116,
                 ),
                 hi: BytePos(
-                    150,
+                    145,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Print a value to the console.' type=dynamic),
+            value: Atom('Print a value to the console.' type=dynamic),
         },
         tags: [],
     },
@@ -131,11 +129,11 @@
                     170,
                 ),
                 hi: BytePos(
-                    171,
+                    170,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -204,12 +202,11 @@
                     214,
                 ),
                 hi: BytePos(
-                    257,
+                    252,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Create a class with a `name` property.' type=dynamic),
+            value: Atom('Create a class with a `name` property.' type=dynamic),
         },
         tags: [],
     },

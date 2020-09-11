@@ -15,12 +15,11 @@
                     68,
                 ),
                 hi: BytePos(
-                    72,
+                    68,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

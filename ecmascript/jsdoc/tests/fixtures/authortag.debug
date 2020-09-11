@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -81,7 +81,7 @@
                 91,
             ),
             hi: BytePos(
-                131,
+                121,
             ),
             ctxt: #0,
         },
@@ -91,11 +91,11 @@
                     91,
                 ),
                 hi: BytePos(
-                    92,
+                    91,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -142,6 +142,54 @@
                                 ctxt: #0,
                             },
                             value: Atom('John Doe <john.doe@gmail.com>' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        91,
+                    ),
+                    hi: BytePos(
+                        97,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            91,
+                        ),
+                        hi: BytePos(
+                            97,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('author' type=inline),
+                },
+                tag: Author(
+                    AuthorTag {
+                        span: Span {
+                            lo: BytePos(
+                                91,
+                            ),
+                            hi: BytePos(
+                                97,
+                            ),
+                            ctxt: #0,
+                        },
+                        author: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
                         },
                     },
                 ),

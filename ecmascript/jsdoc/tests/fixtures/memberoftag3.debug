@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,11 +100,11 @@
                     160,
                 ),
                 hi: BytePos(
-                    161,
+                    160,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -163,11 +163,11 @@
                     234,
                 ),
                 hi: BytePos(
-                    235,
+                    234,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -239,11 +239,11 @@
                     322,
                 ),
                 hi: BytePos(
-                    330,
+                    328,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* A leaf' type=dynamic),
+            value: Atom('A leaf' type=inline),
         },
         tags: [],
     },

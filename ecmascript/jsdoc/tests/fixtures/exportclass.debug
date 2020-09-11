@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    18,
+                    13,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Foo module
+            value: Atom('Foo module
              *' type=dynamic),
         },
         tags: [
@@ -102,11 +101,11 @@
                     38,
                 ),
                 hi: BytePos(
-                    57,
+                    55,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Class description' type=dynamic),
+            value: Atom('Class description' type=dynamic),
         },
         tags: [],
     },

@@ -15,11 +15,11 @@
                     29,
                 ),
                 hi: BytePos(
-                    30,
+                    29,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -88,11 +88,11 @@
                     61,
                 ),
                 hi: BytePos(
-                    62,
+                    61,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

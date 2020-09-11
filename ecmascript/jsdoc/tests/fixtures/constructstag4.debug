@@ -15,11 +15,11 @@
                     26,
                 ),
                 hi: BytePos(
-                    27,
+                    26,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -101,12 +101,11 @@
                     54,
                 ),
                 hi: BytePos(
-                    89,
+                    79,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                    Describe the constructor.' type=dynamic),
+            value: Atom('Describe the constructor.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -223,11 +222,11 @@
                     244,
                 ),
                 hi: BytePos(
-                    269,
+                    267,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* The name of the person.' type=dynamic),
+            value: Atom('The name of the person.' type=dynamic),
         },
         tags: [],
     },
@@ -247,11 +246,11 @@
                     313,
                 ),
                 hi: BytePos(
-                    314,
+                    313,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -335,11 +334,11 @@
                     395,
                 ),
                 hi: BytePos(
-                    418,
+                    416,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* The person's message.' type=dynamic),
+            value: Atom('The person's message.' type=dynamic),
         },
         tags: [],
     },

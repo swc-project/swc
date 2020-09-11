@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    33,
+                    28,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Describe the module here.
+            value: Atom('Describe the module here.
              *' type=dynamic),
         },
         tags: [
@@ -92,7 +91,7 @@
                 65,
             ),
             hi: BytePos(
-                130,
+                65,
             ),
             ctxt: #0,
         },
@@ -102,12 +101,11 @@
                     65,
                 ),
                 hi: BytePos(
-                    103,
+                    98,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Create a new configuration.
+            value: Atom('Create a new configuration.
              *
              *' type=dynamic),
         },
@@ -160,6 +158,70 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        65,
+                    ),
+                    hi: BytePos(
+                        70,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            65,
+                        ),
+                        hi: BytePos(
+                            70,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                65,
+                            ),
+                            hi: BytePos(
+                                70,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        65,
+                                    ),
+                                    hi: BytePos(
+                                        96,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @alias module:mymodule/config' type=dynamic),
+                            },
+                        ),
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        65,
+                                    ),
+                                    hi: BytePos(
+                                        85,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @param {string} id' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -178,11 +240,11 @@
                     236,
                 ),
                 hi: BytePos(
-                    250,
+                    248,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Document me.' type=dynamic),
+            value: Atom('Document me.' type=dynamic),
         },
         tags: [],
     },
@@ -202,12 +264,11 @@
                     276,
                 ),
                 hi: BytePos(
-                    312,
+                    307,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Get the configuration ID.
+            value: Atom('Get the configuration ID.
              *
              *' type=dynamic),
         },

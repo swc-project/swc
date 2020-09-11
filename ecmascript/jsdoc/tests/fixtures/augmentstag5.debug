@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -78,11 +78,11 @@
                     68,
                 ),
                 hi: BytePos(
-                    69,
+                    68,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -164,11 +164,11 @@
                     95,
                 ),
                 hi: BytePos(
-                    114,
+                    112,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Description for {' type=dynamic),
+            value: Atom('Description for {' type=dynamic),
         },
         tags: [
             TagItem {
@@ -237,11 +237,11 @@
                     196,
                 ),
                 hi: BytePos(
-                    215,
+                    213,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Description for {' type=dynamic),
+            value: Atom('Description for {' type=dynamic),
         },
         tags: [
             TagItem {
@@ -310,11 +310,11 @@
                     285,
                 ),
                 hi: BytePos(
-                    286,
+                    285,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -373,11 +373,11 @@
                     338,
                 ),
                 hi: BytePos(
-                    339,
+                    338,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -459,11 +459,11 @@
                     365,
                 ),
                 hi: BytePos(
-                    384,
+                    382,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Description for {' type=dynamic),
+            value: Atom('Description for {' type=dynamic),
         },
         tags: [
             TagItem {
@@ -532,11 +532,11 @@
                     466,
                 ),
                 hi: BytePos(
-                    485,
+                    483,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Description for {' type=dynamic),
+            value: Atom('Description for {' type=dynamic),
         },
         tags: [
             TagItem {
@@ -605,12 +605,11 @@
                     555,
                 ),
                 hi: BytePos(
-                    559,
+                    555,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

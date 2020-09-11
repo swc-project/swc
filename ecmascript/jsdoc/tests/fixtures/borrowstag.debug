@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -91,12 +91,11 @@
                     80,
                 ),
                 hi: BytePos(
-                    125,
+                    119,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                Remove whitespace from around a string.' type=dynamic),
+            value: Atom('Remove whitespace from around a string.' type=dynamic),
         },
         tags: [
             TagItem {

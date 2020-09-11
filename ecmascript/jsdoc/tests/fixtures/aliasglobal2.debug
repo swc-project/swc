@@ -5,7 +5,7 @@
                 19,
             ),
             hi: BytePos(
-                39,
+                19,
             ),
             ctxt: #0,
         },
@@ -15,12 +15,11 @@
                     19,
                 ),
                 hi: BytePos(
-                    61,
+                    52,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Creates a new test object.
+            value: Atom('Creates a new test object.
                  *' type=dynamic),
         },
         tags: [
@@ -85,6 +84,44 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        19,
+                    ),
+                    hi: BytePos(
+                        30,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            19,
+                        ),
+                        hi: BytePos(
+                            30,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                19,
+                            ),
+                            hi: BytePos(
+                                30,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -103,11 +140,11 @@
                     148,
                 ),
                 hi: BytePos(
-                    162,
+                    160,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Document me.' type=dynamic),
+            value: Atom('Document me.' type=dynamic),
         },
         tags: [],
     },
@@ -127,11 +164,11 @@
                     209,
                 ),
                 hi: BytePos(
-                    223,
+                    221,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Document me.' type=dynamic),
+            value: Atom('Document me.' type=dynamic),
         },
         tags: [],
     },
@@ -151,11 +188,11 @@
                     286,
                 ),
                 hi: BytePos(
-                    300,
+                    298,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Document me.' type=dynamic),
+            value: Atom('Document me.' type=dynamic),
         },
         tags: [],
     },

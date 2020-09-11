@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    137,
+                    132,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * This provides methods used for event handling. It's not meant to
+            value: Atom('This provides methods used for event handling. It's not meant to
              * be used directly, except as a provider of related methods.
              *
              *' type=dynamic),
@@ -92,11 +91,11 @@
                     172,
                 ),
                 hi: BytePos(
-                    190,
+                    188,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* fires something.' type=dynamic),
+            value: Atom('fires something.' type=dynamic),
         },
         tags: [],
     },
@@ -116,11 +115,11 @@
                     227,
                 ),
                 hi: BytePos(
-                    246,
+                    244,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* handles a signal.' type=dynamic),
+            value: Atom('handles a signal.' type=dynamic),
         },
         tags: [],
     },
@@ -140,12 +139,11 @@
                     279,
                 ),
                 hi: BytePos(
-                    283,
+                    279,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

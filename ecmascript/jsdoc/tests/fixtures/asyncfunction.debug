@@ -15,12 +15,11 @@
                     151,
                 ),
                 hi: BytePos(
-                    172,
+                    167,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Add a number.
+            value: Atom('Add a number.
              *' type=dynamic),
         },
         tags: [
@@ -105,12 +104,11 @@
                     355,
                 ),
                 hi: BytePos(
-                    381,
+                    376,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Subtract a number.
+            value: Atom('Subtract a number.
              *' type=dynamic),
         },
         tags: [
@@ -195,12 +193,11 @@
                     589,
                 ),
                 hi: BytePos(
-                    606,
+                    601,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Adder class.' type=dynamic),
+            value: Atom('Adder class.' type=dynamic),
         },
         tags: [],
     },
@@ -220,12 +217,11 @@
                     631,
                 ),
                 hi: BytePos(
-                    668,
+                    659,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Construct an Adder instance.' type=dynamic),
+            value: Atom('Construct an Adder instance.' type=dynamic),
         },
         tags: [],
     },
@@ -245,12 +241,11 @@
                     705,
                 ),
                 hi: BytePos(
-                    734,
+                    725,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Add a number.
+            value: Atom('Add a number.
                  *' type=dynamic),
         },
         tags: [

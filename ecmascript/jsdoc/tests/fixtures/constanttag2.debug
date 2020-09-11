@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    38,
+                    33,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * ES 2015 class assigned to a const' type=dynamic),
+            value: Atom('ES 2015 class assigned to a const' type=dynamic),
         },
         tags: [],
     },

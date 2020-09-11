@@ -15,11 +15,11 @@
                     34,
                 ),
                 hi: BytePos(
-                    56,
+                    54,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Give x another name.' type=dynamic),
+            value: Atom('Give x another name.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -139,11 +139,11 @@
                     132,
                 ),
                 hi: BytePos(
-                    145,
+                    143,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document me' type=dynamic),
+            value: Atom('document me' type=dynamic),
         },
         tags: [],
     },

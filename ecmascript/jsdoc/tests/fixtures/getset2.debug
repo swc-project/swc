@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    17,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Employee class.' type=dynamic),
+            value: Atom('Employee class.' type=dynamic),
         },
         tags: [],
     },
@@ -39,12 +39,11 @@
                     44,
                 ),
                 hi: BytePos(
-                    69,
+                    60,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Location.
+            value: Atom('Location.
                  *' type=dynamic),
         },
         tags: [
@@ -114,11 +113,11 @@
                     158,
                 ),
                 hi: BytePos(
-                    159,
+                    158,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

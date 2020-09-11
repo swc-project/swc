@@ -15,11 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    45,
+                    43,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Class representing a widget.' type=dynamic),
+            value: Atom('Class representing a widget.' type=dynamic),
         },
         tags: [],
     },
@@ -39,12 +39,11 @@
                     70,
                 ),
                 hi: BytePos(
-                    129,
+                    120,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Add users who can access the widget.
+            value: Atom('Add users who can access the widget.
                  *
                  *' type=dynamic),
         },
