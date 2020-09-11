@@ -788,7 +788,7 @@ impl<'a> Lexer<'a> {
         if !s.contains('\\') {
             // Fast path
             return Ok(Token::Str {
-                has_escape: s.contains('\\'),
+                has_escape: false,
                 value: s.into(),
             });
         }
@@ -799,10 +799,10 @@ impl<'a> Lexer<'a> {
             //
             if idx != chunk_start {
                 let chunk = &s[chunk_start..idx];
-                dbg!(chunk);
                 buf.push_str(chunk);
-                chunk_start = idx;
+                // 1 for '\'
             }
+            chunk_start = idx + 1;
             let mut iter = s[idx + 1..].chars();
             let iter_orig_len = iter.as_str().len();
 
@@ -811,15 +811,14 @@ impl<'a> Lexer<'a> {
                 buf.extend(c);
             }
             chunk_start += iter_orig_len - iter.as_str().len();
-
-            dbg!(idx, &*buf);
         }
 
         buf.push_str(&s[chunk_start..]);
 
-        dbg!(chunk_start, &*buf);
-
-        unimplemented!()
+        Ok(Token::Str {
+            has_escape: true,
+            value: buf.into(),
+        })
     }
 
     /// Expects current char to be '/'
