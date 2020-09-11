@@ -803,12 +803,14 @@ impl<'a> Lexer<'a> {
                 buf.push_str(chunk);
                 chunk_start = idx;
             }
-            let mut iter = s[chunk_start..].chars();
+            let mut iter = s[idx + 1..].chars();
+            let iter_orig_len = iter.as_str().len();
 
             let c = self.parse_escaped_char(&mut iter, &mut Raw(None))?;
             if let Some(c) = c {
                 buf.extend(c);
             }
+            chunk_start += iter_orig_len - iter.as_str().len();
 
             dbg!(idx, &*buf);
         }
