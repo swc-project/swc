@@ -684,10 +684,11 @@ impl<'a> Lexer<'a> {
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident(&mut self) -> LexResult<Token> {
-        let word = Word::Ident(self.input.slice().into());
+        let s = self.input.slice().into();
         self.input.advance();
+        let s = self.lex_str_with_escape(s)?;
 
-        Ok(Word(word))
+        Ok(Word(s.into()))
     }
 
     fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
@@ -799,7 +800,7 @@ impl<'a> Lexer<'a> {
         })
     }
 
-    fn lex_str_with_escape<'s>(&mut self, s: &'s str) -> Cow<'s, str> {
+    fn lex_str_with_escape<'s>(&mut self, s: &'s str) -> LexResult<Cow<'s, str>> {
         if !s.contains('\\') {
             // Fast path
             return Ok(Cow::Borrowed(s));
