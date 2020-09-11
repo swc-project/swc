@@ -552,6 +552,7 @@ impl<'a> Lexer<'a> {
         macro_rules! push_c_and_ret {
             ($c:expr) => {{
                 raw.push(c);
+                iter.next();
                 $c
             }};
         }
