@@ -434,6 +434,17 @@ fn issue_1061_1() {
     )
 }
 
+#[test]
+fn issue_1061_2() {
+    test_identical(
+        "(function(){
+        return /******/ function(modules) {
+
+        };
+    })",
+    )
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
