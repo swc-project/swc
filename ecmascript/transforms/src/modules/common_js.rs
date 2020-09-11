@@ -400,7 +400,7 @@ impl Fold for CommonJs {
                                         .into(),
                                     );
                                 } else {
-                                    stmts.push(
+                                    extra_stmts.push(
                                         define_property(vec![
                                             quote_ident!("exports").as_arg(),
                                             {
