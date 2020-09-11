@@ -1535,8 +1535,8 @@ function wrapper(...args) {
     function wrapper(...args__2) {
         try {
             return target(...args__2);
-        } catch (err__2) {
-            switch(err__2.name){
+        } catch (err__3) {
+            switch(err__3.name){
             }
         }
     }
