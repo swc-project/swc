@@ -423,26 +423,6 @@ fn issue_915_4() {
     test_identical(r#"`\\r\\n--${this.boundary}`;"#);
 }
 
-#[test]
-fn issue_1061_1() {
-    test_identical(
-        "(function() {
-            return( /******/(function(modules) {
-            }));
-        });",
-    )
-}
-
-#[test]
-fn issue_1061_2() {
-    test_identical(
-        "(function() {
-            return( /******/function(modules) {
-            });
-        })",
-    )
-}
-
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
