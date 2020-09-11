@@ -782,14 +782,15 @@ export {default as foo} from "foo";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = _interopRequireDefault(require("foo"));
+
 Object.defineProperty(exports, "foo", {
   enumerable: true,
   get: function () {
     return _foo.default;
   }
 });
-
-var _foo = _interopRequireDefault(require("foo"));
 
 "#
 );
@@ -1357,12 +1358,6 @@ export { foo as default };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _white().default;
-  }
-});
 
 function _white() {
     const data = _interopRequireDefault(require("white"));
@@ -1372,6 +1367,12 @@ function _white() {
     return data;
 }
 
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _white().default;
+  }
+});
 
 "#
 );
@@ -1774,13 +1775,6 @@ export { named };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "named", {
-  enumerable: true,
-  get: function () {
-    return _foo().named;
-  }
-});
-
 function _foo() {
   const data = require("foo");
 
@@ -1790,6 +1784,13 @@ function _foo() {
 
   return data;
 }
+Object.defineProperty(exports, "named", {
+  enumerable: true,
+  get: function () {
+    return _foo().named;
+  }
+});
+
 
 "#
 );
@@ -2264,6 +2265,9 @@ export {foo as default, bar} from "foo";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = require("foo");
+
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
@@ -2276,8 +2280,6 @@ Object.defineProperty(exports, "bar", {
     return _foo.bar;
   }
 });
-
-var _foo = require("foo");
 
 "#
 );
@@ -2588,12 +2590,6 @@ export { namespace };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "namespace", {
-  enumerable: true,
-  get: function () {
-    return namespace();
-  }
-});
 
 function namespace() {
   const data = _interopRequireWildcard(require("foo"));
@@ -2606,6 +2602,12 @@ function namespace() {
 }
 
 
+Object.defineProperty(exports, "namespace", {
+  enumerable: true,
+  get: function () {
+    return namespace();
+  }
+});
 
 "#
 );
@@ -2717,6 +2719,9 @@ export { foo, foo1, foo2, foo3, foo4, foo5, foo6, foo7, foo8, foo9, foo10, foo11
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = require("foo");
+
 Object.defineProperty(exports, "foo", {
   enumerable: true,
   get: function () {
@@ -3324,8 +3329,6 @@ Object.defineProperty(exports, "foo100", {
   }
 });
 
-var _foo = require("foo");
-
 "#
 );
 
@@ -3493,12 +3496,6 @@ export { foo as default };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _foo().default;
-  }
-});
 
 function _foo() {
   const data = _interopRequireDefault(require("foo"));
@@ -3509,6 +3506,13 @@ function _foo() {
 
   return data;
 }
+
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _foo().default;
+  }
+});
 
 "#
 );
@@ -3655,15 +3659,15 @@ export { named };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = require("./foo");
+
 Object.defineProperty(exports, "named", {
   enumerable: true,
   get: function () {
     return _foo.named;
   }
 });
-
-var _foo = require("./foo");
-
 "#
 );
 
