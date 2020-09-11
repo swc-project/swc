@@ -3043,3 +3043,12 @@ export default (identifier: string, level = 0, b = "", m = false) => {
 );
 
 to!(bin_01, "a!!!! + b!!!!!! + c!!!!!", "a + b + c");
+
+to!(
+    deno_7413,
+    "
+    import { a } from './foo';
+    import { Type } from './types';
+    ",
+    ""
+);
