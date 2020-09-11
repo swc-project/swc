@@ -425,7 +425,7 @@ impl<'a> Lexer<'a> {
             }
 
             // XML style comment. `<!--`
-            InternalToken::XmlCommentStart => {
+            InternalToken::XmlComment | InternalToken::XmlCommentEnd => {
                 self.input.advance();
                 self.skip_space()?;
                 if self.ctx.module {
