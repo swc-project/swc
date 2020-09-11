@@ -25,7 +25,6 @@ macro_rules! write_comments {
                     $e.wr.write_comment(cmt.span, "/*")?;
                     $e.wr.write_comment(cmt.span, &cmt.text)?;
                     $e.wr.write_comment(cmt.span, "*/")?;
-                    $e.wr.write_line()?;
                 }
             }
         }
