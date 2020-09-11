@@ -31,3 +31,4 @@ integration-tests/
 /.vscode
 /ecmascript/transforms/src/helpers
 /node-swc/__tests__/
+/*.node
