@@ -1066,6 +1066,7 @@ impl<'a> VisitMut for Resolver<'a> {
 struct Hoister<'a, 'b> {
     resolver: &'a mut Resolver<'b>,
     kind: Option<VarDeclKind>,
+    /// Hoister should not touch let / const in the block.
     in_block: bool,
 }
 
