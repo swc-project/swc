@@ -800,6 +800,10 @@ impl<'a> Lexer<'a> {
         for idx in memchr_iter(b'\\', s.as_bytes()) {
             //
             if idx != chunk_start {
+                // Handle `\\`
+                if chunk_start >= idx {
+                    continue;
+                }
                 let chunk = &s[chunk_start..idx];
                 buf.push_str(chunk);
                 // 1 for '\'
