@@ -612,7 +612,7 @@ impl Debug for Token {
             JSXTagStart => write!(f, "< (jsx tag start)")?,
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
             Shebang(_) => write!(f, "#!")?,
-            Token::Error(_) => write!(f, "<lexing error>")?,
+            Token::Error(e) => write!(f, "<lexing error>: {:?}", e)?,
         }
 
         Ok(())
