@@ -182,7 +182,7 @@ where
 #[macro_export]
 macro_rules! noop_fold_type {
     ($name:ident, $N:tt) => {
-        #[inline(always)]
+        #[inline]
         fn $name(&mut self, node: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
             node
         }
@@ -261,7 +261,7 @@ macro_rules! noop_fold_type {
 #[macro_export]
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
-        #[inline(always)]
+        #[inline]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn $crate::Node) {}
     };
     () => {
@@ -338,7 +338,7 @@ macro_rules! noop_visit_type {
 #[macro_export]
 macro_rules! noop_visit_mut_type {
     ($name:ident, $N:ident) => {
-        #[inline(always)]
+        #[inline]
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {}
     };
     () => {

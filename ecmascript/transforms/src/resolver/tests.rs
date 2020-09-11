@@ -1477,3 +1477,91 @@ to_ts!(
     });
     "
 );
+
+// See: https://github.com/denoland/deno_lint/pull/304
+to_ts!(
+    let_scoping,
+    "
+    function wrapper() {
+        const usage = () => {
+            return a;
+        };
+        let a;
+    }
+    ",
+    "
+    function wrapper() {
+        const usage__2 = ()=>{
+            return a__2;
+        };
+        let a__2;
+    }    
+    "
+);
+
+to_ts!(
+    ts_resolver_parameter_property,
+    r#"
+    class PartWriter implements Deno.Writer {
+        constructor(
+          private writer: Deno.Writer,
+          readonly boundary: string,
+          public headers: Headers,
+          isFirstBoundary: boolean,
+        ) {
+          let buf = "";
+          if (isFirstBoundary) {
+            buf += `--${boundary}\r\n`;
+          } else {
+            buf += `\r\n--${boundary}\r\n`;
+          }
+          for (const [key, value] of headers.entries()) {
+            buf += `${key}: ${value}\r\n`;
+          }
+          buf += `\r\n`;
+          this.partHeader = buf;
+        }
+    }
+    "#,
+    r#"
+    class PartWriter {
+        constructor(private writer__2: Deno.Writer., readonly boundary__2: string, public headers__2: Headers, isFirstBoundary__2: boolean){
+            let buf__2 = "";
+            if (isFirstBoundary__2) {
+                buf__2 += `--${boundary__2}\r\n`;
+            } else {
+                buf__2 += `\r\n--${boundary__2}\r\n`;
+            }
+            for (const [key__3, value__3] of headers__2.entries()){
+                buf__2 += `${key__3}: ${value__3}\r\n`;
+            }
+            buf__2 += `\r\n`;
+            this.partHeader = buf__2;
+        }
+    }
+    "#
+);
+
+to_ts!(
+    ts_resolver_catch_param,
+    r#"
+function wrapper(...args) {
+    try {
+        return target(...args);
+    } catch (err) {
+        switch (err.name) {
+        }
+    }
+}
+    "#,
+    "
+    function wrapper(...args__2) {
+        try {
+            return target(...args__2);
+        } catch (err__3) {
+            switch(err__3.name){
+            }
+        }
+    }
+    "
+);
