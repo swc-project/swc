@@ -601,7 +601,7 @@ impl<'a> Lexer<'a> {
                 raw.push(c);
                 iter.next(); // first digit
                 let first_c = if c == '0' {
-                    match iter.next() {
+                    match iter.clone().next() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
                         _ => return Ok(Some('\u{0000}'.into())),
@@ -624,7 +624,7 @@ impl<'a> Lexer<'a> {
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {
                     ($check:expr) => {{
-                        match iter.next().and_then(|c| c.to_digit(8)) {
+                        match iter.clone().next().and_then(|c| c.to_digit(8)) {
                             Some(v) => {
                                 value = if $check {
                                     let new_val = value
@@ -653,7 +653,6 @@ impl<'a> Lexer<'a> {
                 c
             }
         };
-        iter.next();
 
         Ok(Some(c.into()))
     }
