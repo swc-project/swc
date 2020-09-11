@@ -682,8 +682,8 @@ impl VisitMut for Strip {
                     .get(&(local.sym.clone(), local.span.ctxt()));
                 match entry {
                     Some(&DeclInfo {
-                        has_type: true,
                         has_concrete: false,
+                        ..
                     }) => false,
                     _ => true,
                 }
@@ -897,6 +897,7 @@ impl VisitMut for Strip {
                     continue
                 }
 
+                // Always strip type only import / exports
                 ModuleItem::Stmt(Stmt::Empty(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     type_only: true, ..
