@@ -125,6 +125,15 @@ impl<'a> Resolver<'a> {
         }
     }
 
+    fn visit_mut_stmt_within_same_scope(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Block(s) => {
+                s.visit_mut_children_with(self);
+            }
+            _ => s.visit_mut_with(self),
+        }
+    }
+
     /// Returns a [Mark] for an identifier reference.
     fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
         if self.handle_types && self.in_type {
@@ -619,6 +628,58 @@ impl<'a> VisitMut for Resolver<'a> {
         self.in_type = false;
         self.ident_type = IdentType::Binding;
         param.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        let child_mark = Mark::fresh(self.mark);
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        n.init.visit_mut_with(&mut child);
+        n.test.visit_mut_with(&mut child);
+        n.update.visit_mut_with(&mut child);
+
+        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+
+        self.cur_defining = child.cur_defining;
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        let child_mark = Mark::fresh(self.mark);
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        n.left.visit_mut_with(&mut child);
+        n.right.visit_mut_with(&mut child);
+
+        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+
+        self.cur_defining = child.cur_defining;
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        let child_mark = Mark::fresh(self.mark);
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+            self.handle_types,
+        );
+
+        n.left.visit_mut_with(&mut child);
+        n.right.visit_mut_with(&mut child);
+
+        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+
+        self.cur_defining = child.cur_defining;
     }
 
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
