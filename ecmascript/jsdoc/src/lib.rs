@@ -584,9 +584,9 @@ fn parse_opt_word(i: Input) -> IResult<Input, Option<Text>> {
 }
 
 fn parse_word(i: Input) -> IResult<Input, Text> {
-    let res = i
-        .iter_indices()
-        .find(|(_, c)| !(('a' <= *c && *c <= 'z') || ('A' <= *c && *c <= 'Z')));
+    let res = i.iter_indices().find(|(_, c)| {
+        !(('a' <= *c && *c <= 'z') || ('A' <= *c && *c <= 'Z' || *c == '<' || *c == '>'))
+    });
 
     if let Some((idx, _)) = res {
         let rest = i.slice(idx + 1..);
@@ -635,7 +635,7 @@ fn skip_ws(i: Input) -> Input {
 fn skip(i: Input) -> Input {
     //
 
-    let mut at_line_start = false;
+    let mut at_line_start = true;
     let mut index = 0;
 
     for (idx, c) in i.char_indices() {
@@ -669,6 +669,32 @@ mod tests {
 
     fn input(s: &str) -> Input {
         Input::new(BytePos(0), BytePos(s.as_bytes().len() as _), s)
+    }
+
+    #[test]
+    fn issue_1058() {
+        let (i, ret) = parse(input(
+            r#"
+            * 
+            * @param list - LinkedList<T>
+            * @example <caption>Linkedlists.compareWith</caption>
+            * import { LinkedList } from './js_test/linkedlist.ts'
+            * const testArr = [1, 2, 3, 4, 5, 6, 78, 9, 0, 65];
+            * const firstList = new LinkedList<number>();
+            * const secondList = new LinkedList<number>();
+            * for (let data of testArr) {
+            *   firstList.insertNode(data);
+            *   secondList.insertNode(data);
+            * }
+            * const result = firstList.compareWith(secondList);
+            * assert(result);
+            * @returns boolean
+            "#,
+        ))
+        .unwrap();
+
+        assert_eq!(&*skip(i), "");
+        assert_eq!(ret.tags.len(), 3);
     }
 
     #[test]
