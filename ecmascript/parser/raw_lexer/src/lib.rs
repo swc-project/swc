@@ -12,6 +12,8 @@ pub struct Extras {
 /// Interal tokens for super-fast lexing.
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 #[logos(extras = Extras)]
+#[logos(subpattern unicode_4 = r"[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]")]
+#[logos(subpattern unicode = r"[{][0-9a-fA-F]+[}]")]
 #[logos(subpattern decimal = r"[0-9][_0-9]*")]
 #[logos(subpattern hex = r"[0-9a-fA-F][_0-9a-fA-F]*")]
 #[logos(subpattern octal = r"[0-7][_0-7]*")]
@@ -35,7 +37,7 @@ pub enum InternalToken {
     #[token("false")]
     False,
 
-    #[regex(r#"[a-zA-Z$_\p{XID_Start}][a-zA-Z0-9$_\p{XID_Continue}]*"#)]
+    #[regex(r#"[a-zA-Z$_\p{XID_Start}\\\\][a-zA-Z0-9$_\p{XID_Continue}\\\\&unicode&unicode_4]*"#)]
     Ident,
 
     #[token("await")]
