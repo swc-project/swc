@@ -1696,12 +1696,6 @@ export { namespace2 };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "namespace1", {
-  enumerable: true,
-  get: function () {
-    return namespace1();
-  }
-});
 
 exports.namespace2 = void 0;
 function namespace1() {
@@ -1716,6 +1710,12 @@ function namespace1() {
 
 
 var namespace2 = _interopRequireWildcard(require("black"));
+Object.defineProperty(exports, "namespace1", {
+  enumerable: true,
+  get: function () {
+    return namespace1();
+  }
+});
 exports.namespace2 = namespace2;
 
 "#
