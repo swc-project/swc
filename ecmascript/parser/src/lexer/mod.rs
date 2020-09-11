@@ -688,7 +688,7 @@ impl<'a> Lexer<'a> {
         self.input.advance();
         let s = self.lex_str_with_escape(s)?;
 
-        Ok(Word(s.into()))
+        Ok(Word(Word::Ident(s.into())))
     }
 
     fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
@@ -832,7 +832,7 @@ impl<'a> Lexer<'a> {
 
         buf.push_str(&s[chunk_start..]);
 
-        Cow::Owned(buf)
+        Ok(Cow::Owned(buf))
     }
 
     /// Expects current char to be '/'
