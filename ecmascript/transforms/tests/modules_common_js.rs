@@ -639,15 +639,15 @@ export {foo} from "foo";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = require("foo");
+
 Object.defineProperty(exports, "foo", {
   enumerable: true,
   get: function () {
     return _foo.foo;
   }
 });
-
-var _foo = require("foo");
-
 "#
 );
 
@@ -670,14 +670,15 @@ export { foo as default };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = _interopRequireDefault(require("./foo"));
+
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
     return _foo.default;
   }
 });
-
-var _foo = _interopRequireDefault(require("./foo"));
 
 "#
 );
@@ -996,14 +997,15 @@ export {foo as bar} from "foo";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = require("foo");
+
 Object.defineProperty(exports, "bar", {
   enumerable: true,
   get: function () {
     return _foo.foo;
   }
 });
-
-var _foo = require("foo");
 
 "#
 );
@@ -1734,6 +1736,9 @@ export {foo, bar} from "foo";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = require("foo");
+
 Object.defineProperty(exports, "foo", {
   enumerable: true,
   get: function () {
@@ -1746,8 +1751,6 @@ Object.defineProperty(exports, "bar", {
     return _foo.bar;
   }
 });
-
-var _foo = require("foo");
 
 "#
 );
@@ -2296,14 +2299,15 @@ export {foo as default} from "foo";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _foo = require("foo");
+
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
     return _foo.foo;
   }
 });
-
-var _foo = require("foo");
 
 "#
 );
