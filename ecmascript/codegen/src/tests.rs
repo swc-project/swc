@@ -426,22 +426,20 @@ fn issue_915_4() {
 #[test]
 fn issue_1061_1() {
     test_identical(
-        "(function(){
-        return /******/ (function(modules) {
-
-        });
-    })",
+        "(function() {
+            return( /******/(function(modules) {
+            }));
+        });",
     )
 }
 
 #[test]
 fn issue_1061_2() {
     test_identical(
-        "(function(){
-        return /******/ function(modules) {
-
-        };
-    })",
+        "(function() {
+            return( /******/function(modules) {
+            });
+        })",
     )
 }
 
