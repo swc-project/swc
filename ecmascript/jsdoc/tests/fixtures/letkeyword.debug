@@ -15,12 +15,11 @@
                     73,
                 ),
                 hi: BytePos(
-                    107,
+                    98,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * My example module.
+            value: Atom('My example module.
                  *' type=dynamic),
         },
         tags: [
@@ -90,12 +89,11 @@
                     170,
                 ),
                 hi: BytePos(
-                    201,
+                    188,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                     * My example method.' type=dynamic),
+            value: Atom('My example method.' type=dynamic),
         },
         tags: [],
     },

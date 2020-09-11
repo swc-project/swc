@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -90,7 +90,7 @@
                 25,
             ),
             hi: BytePos(
-                84,
+                65,
             ),
             ctxt: #0,
         },
@@ -100,11 +100,11 @@
                     25,
                 ),
                 hi: BytePos(
-                    55,
+                    53,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* An event (has listeners).
+            value: Atom('An event (has listeners).
              *' type=dynamic),
         },
         tags: [
@@ -156,6 +156,67 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        25,
+                    ),
+                    hi: BytePos(
+                        33,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            25,
+                        ),
+                        hi: BytePos(
+                            33,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('memberof' type=dynamic),
+                },
+                tag: MemberOf(
+                    MemberOfTag {
+                        span: Span {
+                            lo: BytePos(
+                                25,
+                            ),
+                            hi: BytePos(
+                                33,
+                            ),
+                            ctxt: #0,
+                        },
+                        parent_name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    25,
+                                ),
+                                hi: BytePos(
+                                    65,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            25,
+                                        ),
+                                        hi: BytePos(
+                                            31,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('module' type=static),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -164,7 +225,7 @@
                 137,
             ),
             hi: BytePos(
-                207,
+                137,
             ),
             ctxt: #0,
         },
@@ -174,11 +235,11 @@
                     137,
                 ),
                 hi: BytePos(
-                    152,
+                    150,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* A handler.
+            value: Atom('A handler.
              *' type=dynamic),
         },
         tags: [
@@ -230,6 +291,102 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        137,
+                    ),
+                    hi: BytePos(
+                        144,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            137,
+                        ),
+                        hi: BytePos(
+                            144,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('listens' type=inline),
+                },
+                tag: Listens(
+                    ListensTag {
+                        span: Span {
+                            lo: BytePos(
+                                137,
+                            ),
+                            hi: BytePos(
+                                144,
+                            ),
+                            ctxt: #0,
+                        },
+                        event_name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    137,
+                                ),
+                                hi: BytePos(
+                                    172,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('module:myModule~Events.event:Event2' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        137,
+                    ),
+                    hi: BytePos(
+                        144,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            137,
+                        ),
+                        hi: BytePos(
+                            144,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('listens' type=inline),
+                },
+                tag: Listens(
+                    ListensTag {
+                        span: Span {
+                            lo: BytePos(
+                                137,
+                            ),
+                            hi: BytePos(
+                                144,
+                            ),
+                            ctxt: #0,
+                        },
+                        event_name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    137,
+                                ),
+                                hi: BytePos(
+                                    146,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('fakeEvent' type=dynamic),
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -248,11 +405,11 @@
                     288,
                 ),
                 hi: BytePos(
-                    309,
+                    307,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Another handler.
+            value: Atom('Another handler.
              *' type=dynamic),
         },
         tags: [
@@ -322,11 +479,11 @@
                     380,
                 ),
                 hi: BytePos(
-                    397,
+                    395,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* a namespace.
+            value: Atom('a namespace.
              *' type=dynamic),
         },
         tags: [

@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    24,
+                    19,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * A Polymer class.
+            value: Atom('A Polymer class.
              *' type=dynamic),
         },
         tags: [

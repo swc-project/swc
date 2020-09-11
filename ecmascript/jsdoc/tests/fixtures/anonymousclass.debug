@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,11 +100,11 @@
                     21,
                 ),
                 hi: BytePos(
-                    33,
+                    31,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Test class' type=dynamic),
+            value: Atom('Test class' type=dynamic),
         },
         tags: [],
     },
@@ -124,12 +124,11 @@
                     66,
                 ),
                 hi: BytePos(
-                    98,
+                    89,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Test constructor
+            value: Atom('Test constructor
                  *' type=dynamic),
         },
         tags: [
@@ -214,11 +213,11 @@
                     180,
                 ),
                 hi: BytePos(
-                    193,
+                    191,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Test member' type=dynamic),
+            value: Atom('Test member' type=dynamic),
         },
         tags: [],
     },
@@ -238,11 +237,11 @@
                     234,
                 ),
                 hi: BytePos(
-                    247,
+                    245,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Test method' type=dynamic),
+            value: Atom('Test method' type=dynamic),
         },
         tags: [],
     },
@@ -262,11 +261,11 @@
                     272,
                 ),
                 hi: BytePos(
-                    292,
+                    290,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Test static method' type=dynamic),
+            value: Atom('Test static method' type=dynamic),
         },
         tags: [],
     },

@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    27,
+                    22,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Public variable.
+            value: Atom('Public variable.
              *
              *' type=dynamic),
         },

@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -88,11 +88,11 @@
                     68,
                 ),
                 hi: BytePos(
-                    69,
+                    68,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -161,11 +161,11 @@
                     153,
                 ),
                 hi: BytePos(
-                    154,
+                    153,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -234,12 +234,11 @@
                     241,
                 ),
                 hi: BytePos(
-                    282,
+                    277,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * A description of the function.
+            value: Atom('A description of the function.
              *
              *' type=dynamic),
         },

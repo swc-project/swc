@@ -15,11 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    16,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -88,11 +88,11 @@
                     64,
                 ),
                 hi: BytePos(
-                    91,
+                    89,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* A property of the module.' type=dynamic),
+            value: Atom('A property of the module.' type=dynamic),
         },
         tags: [],
     },
@@ -112,11 +112,11 @@
                     123,
                 ),
                 hi: BytePos(
-                    124,
+                    123,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -175,11 +175,11 @@
                     185,
                 ),
                 hi: BytePos(
-                    211,
+                    209,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* A property of the class.' type=dynamic),
+            value: Atom('A property of the class.' type=dynamic),
         },
         tags: [],
     },
@@ -199,11 +199,11 @@
                     243,
                 ),
                 hi: BytePos(
-                    265,
+                    263,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Iron the turtleneck.' type=dynamic),
+            value: Atom('Iron the turtleneck.' type=dynamic),
         },
         tags: [],
     },

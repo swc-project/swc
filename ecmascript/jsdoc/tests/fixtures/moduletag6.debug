@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,12 +100,11 @@
                     24,
                 ),
                 hi: BytePos(
-                    60,
+                    55,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * The name of the application.
+            value: Atom('The name of the application.
              *' type=dynamic),
         },
         tags: [

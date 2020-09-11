@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    37,
+                    32,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * A function that does nothing.
+            value: Atom('A function that does nothing.
              *' type=dynamic),
         },
         tags: [

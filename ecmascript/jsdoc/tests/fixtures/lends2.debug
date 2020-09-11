@@ -15,11 +15,11 @@
                     29,
                 ),
                 hi: BytePos(
-                    30,
+                    29,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -101,11 +101,11 @@
                     65,
                 ),
                 hi: BytePos(
-                    86,
+                    84,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Construct a Person.' type=dynamic),
+            value: Atom('Construct a Person.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -174,11 +174,11 @@
                     181,
                 ),
                 hi: BytePos(
-                    206,
+                    204,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* The name of the person.' type=dynamic),
+            value: Atom('The name of the person.' type=dynamic),
         },
         tags: [],
     },
@@ -198,11 +198,11 @@
                     262,
                 ),
                 hi: BytePos(
-                    280,
+                    278,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Speak a message.' type=dynamic),
+            value: Atom('Speak a message.' type=dynamic),
         },
         tags: [],
     },

@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    35,
+                    30,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * My structural interface.
+            value: Atom('My structural interface.
              *
              *' type=dynamic),
         },

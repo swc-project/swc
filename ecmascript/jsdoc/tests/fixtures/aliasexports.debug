@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,12 +100,11 @@
                     20,
                 ),
                 hi: BytePos(
-                    41,
+                    36,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Bar class.
+            value: Atom('Bar class.
              *
              *' type=dynamic),
         },
@@ -189,11 +188,11 @@
                     86,
                 ),
                 hi: BytePos(
-                    101,
+                    99,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Create a Bar.' type=dynamic),
+            value: Atom('Create a Bar.' type=dynamic),
         },
         tags: [],
     },

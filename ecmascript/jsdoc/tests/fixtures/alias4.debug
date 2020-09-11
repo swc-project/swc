@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -100,12 +100,11 @@
                     57,
                 ),
                 hi: BytePos(
-                    99,
+                    90,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Jacket constructor.
+            value: Atom('Jacket constructor.
                  *
                  *' type=dynamic),
         },

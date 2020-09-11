@@ -15,12 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    36,
+                    31,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Socket class.
+            value: Atom('Socket class.
              *' type=dynamic),
         },
         tags: [
@@ -93,12 +92,11 @@
                     100,
                 ),
                 hi: BytePos(
-                    121,
+                    116,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Open the socket.' type=dynamic),
+            value: Atom('Open the socket.' type=dynamic),
         },
         tags: [],
     },
@@ -118,12 +116,11 @@
                     168,
                 ),
                 hi: BytePos(
-                    210,
+                    205,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Unique identifier for `Socket` class.' type=dynamic),
+            value: Atom('Unique identifier for `Socket` class.' type=dynamic),
         },
         tags: [],
     },

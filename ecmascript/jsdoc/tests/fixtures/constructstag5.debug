@@ -15,11 +15,11 @@
                     36,
                 ),
                 hi: BytePos(
-                    37,
+                    36,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -101,12 +101,11 @@
                     70,
                 ),
                 hi: BytePos(
-                    105,
+                    88,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                           Constructs a duck.' type=dynamic),
+            value: Atom('Constructs a duck.' type=dynamic),
         },
         tags: [
             TagItem {
@@ -175,11 +174,11 @@
                     244,
                 ),
                 hi: BytePos(
-                    256,
+                    254,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Say hello.' type=dynamic),
+            value: Atom('Say hello.' type=dynamic),
         },
         tags: [],
     },

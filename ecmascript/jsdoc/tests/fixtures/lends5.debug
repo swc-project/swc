@@ -15,12 +15,11 @@
                     18,
                 ),
                 hi: BytePos(
-                    26,
+                    18,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 *' type=dynamic),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -92,11 +91,11 @@
                     124,
                 ),
                 hi: BytePos(
-                    125,
+                    124,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -178,11 +177,11 @@
                     165,
                 ),
                 hi: BytePos(
-                    183,
+                    181,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Speak a message.' type=dynamic),
+            value: Atom('Speak a message.' type=dynamic),
         },
         tags: [],
     },

@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    19,
+                    17,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Blah Blah Blah
+            value: Atom('Blah Blah Blah
              *' type=dynamic),
         },
         tags: [
@@ -89,11 +89,11 @@
                     55,
                 ),
                 hi: BytePos(
-                    56,
+                    55,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    28,
+                    23,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * My mutator function.
+            value: Atom('My mutator function.
              *' type=dynamic),
         },
         tags: [

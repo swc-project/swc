@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    4,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -92,7 +91,7 @@
                 59,
             ),
             hi: BytePos(
-                102,
+                86,
             ),
             ctxt: #0,
         },
@@ -102,12 +101,11 @@
                     59,
                 ),
                 hi: BytePos(
-                    63,
+                    59,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -171,6 +169,67 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        59,
+                    ),
+                    hi: BytePos(
+                        67,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            59,
+                        ),
+                        hi: BytePos(
+                            67,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('requires' type=dynamic),
+                },
+                tag: Requires(
+                    RequiresTag {
+                        span: Span {
+                            lo: BytePos(
+                                59,
+                            ),
+                            hi: BytePos(
+                                67,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    59,
+                                ),
+                                hi: BytePos(
+                                    86,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            59,
+                                        ),
+                                        hi: BytePos(
+                                            62,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Pez' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -179,7 +238,7 @@
                 147,
             ),
             hi: BytePos(
-                227,
+                147,
             ),
             ctxt: #0,
         },
@@ -189,12 +248,11 @@
                     147,
                 ),
                 hi: BytePos(
-                    151,
+                    147,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -302,6 +360,224 @@
                                 ctxt: #0,
                             },
                             value: Atom('module:zest}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        147,
+                    ),
+                    hi: BytePos(
+                        155,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            147,
+                        ),
+                        hi: BytePos(
+                            155,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('requires' type=dynamic),
+                },
+                tag: Requires(
+                    RequiresTag {
+                        span: Span {
+                            lo: BytePos(
+                                147,
+                            ),
+                            hi: BytePos(
+                                155,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    147,
+                                ),
+                                hi: BytePos(
+                                    214,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            147,
+                                        ),
+                                        hi: BytePos(
+                                            147,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('' type=static),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        147,
+                    ),
+                    hi: BytePos(
+                        156,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            147,
+                        ),
+                        hi: BytePos(
+                            156,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('linkplain' type=dynamic),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                147,
+                            ),
+                            hi: BytePos(
+                                156,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    147,
+                                ),
+                                hi: BytePos(
+                                    159,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('module:zing}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        147,
+                    ),
+                    hi: BytePos(
+                        155,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            147,
+                        ),
+                        hi: BytePos(
+                            155,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('requires' type=dynamic),
+                },
+                tag: Requires(
+                    RequiresTag {
+                        span: Span {
+                            lo: BytePos(
+                                147,
+                            ),
+                            hi: BytePos(
+                                155,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    147,
+                                ),
+                                hi: BytePos(
+                                    176,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            147,
+                                        ),
+                                        hi: BytePos(
+                                            147,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('' type=static),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        147,
+                    ),
+                    hi: BytePos(
+                        157,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            147,
+                        ),
+                        hi: BytePos(
+                            157,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('linkstupid' type=dynamic),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                147,
+                            ),
+                            hi: BytePos(
+                                157,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    147,
+                                ),
+                                hi: BytePos(
+                                    162,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('module:pizzazz}' type=dynamic),
                         },
                     },
                 ),
