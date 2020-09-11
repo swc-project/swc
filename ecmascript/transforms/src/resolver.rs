@@ -983,8 +983,16 @@ impl VisitMut for Hoister<'_, '_> {
         self.resolver.visit_mut_binding_ident(&mut node.ident);
     }
 
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
     #[inline]
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    #[inline]
+    fn visit_mut_tagged_tpl(&mut self, _: &mut TaggedTpl) {}
+
+    #[inline]
+    fn visit_mut_tpl(&mut self, _: &mut Tpl) {}
 
     #[inline]
     fn visit_mut_function(&mut self, _: &mut Function) {}
@@ -1012,7 +1020,9 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_catch_clause(&mut self, _: &mut CatchClause) {}
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        n.body.visit_mut_with(self);
+    }
 
     #[inline]
     fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}

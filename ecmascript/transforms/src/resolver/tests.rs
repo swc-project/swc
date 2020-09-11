@@ -1496,7 +1496,8 @@ to_ts!(
 
 to_ts!(
     ts_resolver_parameter_property,
-    r#"class PartWriter implements Deno.Writer {
+    r#"
+    class PartWriter implements Deno.Writer {
         constructor(
           private writer: Deno.Writer,
           readonly boundary: string,
@@ -1515,6 +1516,7 @@ to_ts!(
           buf += `\r\n`;
           this.partHeader = buf;
         }
+    }
     "#,
     ""
 );
