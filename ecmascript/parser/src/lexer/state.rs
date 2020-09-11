@@ -166,7 +166,7 @@ impl<'a> Iterator for Lexer<'a> {
                 unreachable!("Error token: {}", self.input.slice());
             }
 
-            match dbg!(self.input.cur()) {
+            match self.input.cur() {
                 Some(..) => {}
                 // End of input.
                 None => {
