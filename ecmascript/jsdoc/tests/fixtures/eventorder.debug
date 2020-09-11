@@ -15,12 +15,11 @@
                     43,
                 ),
                 hi: BytePos(
-                    64,
+                    59,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Socket class.
+            value: Atom('Socket class.
              *' type=dynamic),
         },
         tags: [
@@ -70,7 +69,7 @@
                 112,
             ),
             hi: BytePos(
-                172,
+                112,
             ),
             ctxt: #0,
         },
@@ -80,12 +79,11 @@
                     112,
                 ),
                 hi: BytePos(
-                    134,
+                    129,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Send a packet.
+            value: Atom('Send a packet.
              *' type=dynamic),
         },
         tags: [
@@ -152,6 +150,68 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        112,
+                    ),
+                    hi: BytePos(
+                        118,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            112,
+                        ),
+                        hi: BytePos(
+                            118,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('return' type=static),
+                },
+                tag: Return(
+                    ReturnTag {
+                        span: Span {
+                            lo: BytePos(
+                                112,
+                            ),
+                            hi: BytePos(
+                                118,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        112,
+                                    ),
+                                    hi: BytePos(
+                                        121,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{boolean}' type=dynamic),
+                            },
+                        ),
+                        description: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    112,
+                                ),
+                                hi: BytePos(
+                                    150,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('`true` on success, `false` on failure.' type=dynamic),
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -170,12 +230,11 @@
                     304,
                 ),
                 hi: BytePos(
-                    346,
+                    341,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Virtual doclet for `Packet` class.
+            value: Atom('Virtual doclet for `Packet` class.
              *' type=dynamic),
         },
         tags: [
@@ -248,12 +307,11 @@
                     368,
                 ),
                 hi: BytePos(
-                    390,
+                    385,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Close the socket.' type=dynamic),
+            value: Atom('Close the socket.' type=dynamic),
         },
         tags: [],
     },

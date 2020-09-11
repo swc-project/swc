@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    44,
+                    39,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * This function is package-private.
+            value: Atom('This function is package-private.
              *
              *' type=dynamic),
         },

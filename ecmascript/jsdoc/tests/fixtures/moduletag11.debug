@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    20,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Test module.
+            value: Atom('Test module.
              *' type=dynamic),
         },
         tags: [
@@ -102,11 +101,11 @@
                     40,
                 ),
                 hi: BytePos(
-                    53,
+                    51,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Test class.' type=dynamic),
+            value: Atom('Test class.' type=dynamic),
         },
         tags: [],
     },
@@ -126,11 +125,11 @@
                     82,
                 ),
                 hi: BytePos(
-                    107,
+                    105,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Test class constructor.' type=dynamic),
+            value: Atom('Test class constructor.' type=dynamic),
         },
         tags: [],
     },
@@ -150,11 +149,11 @@
                     139,
                 ),
                 hi: BytePos(
-                    153,
+                    151,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Test method.' type=dynamic),
+            value: Atom('Test method.' type=dynamic),
         },
         tags: [],
     },

@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    37,
+                    31,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                Describe the Ticker class here.' type=dynamic),
+            value: Atom('Describe the Ticker class here.' type=dynamic),
         },
         tags: [
             TagItem {

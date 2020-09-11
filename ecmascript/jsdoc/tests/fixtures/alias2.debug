@@ -15,11 +15,11 @@
                     19,
                 ),
                 hi: BytePos(
-                    20,
+                    19,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -101,11 +101,11 @@
                     67,
                 ),
                 hi: BytePos(
-                    80,
+                    78,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document me' type=dynamic),
+            value: Atom('document me' type=dynamic),
         },
         tags: [],
     },

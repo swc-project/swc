@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    3,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-            *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -101,11 +100,11 @@
                     42,
                 ),
                 hi: BytePos(
-                    58,
+                    56,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document fooIn' type=dynamic),
+            value: Atom('document fooIn' type=dynamic),
         },
         tags: [],
     },
@@ -125,11 +124,11 @@
                     89,
                 ),
                 hi: BytePos(
-                    90,
+                    89,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -188,11 +187,11 @@
                     119,
                 ),
                 hi: BytePos(
-                    137,
+                    135,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document bar.Zop' type=dynamic),
+            value: Atom('document bar.Zop' type=dynamic),
         },
         tags: [],
     },
@@ -212,11 +211,11 @@
                     174,
                 ),
                 hi: BytePos(
-                    175,
+                    174,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -275,11 +274,11 @@
                     227,
                 ),
                 hi: BytePos(
-                    256,
+                    254,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document exports.Frotz#quaz' type=dynamic),
+            value: Atom('document exports.Frotz#quaz' type=dynamic),
         },
         tags: [],
     },
@@ -299,11 +298,11 @@
                     292,
                 ),
                 hi: BytePos(
-                    309,
+                    307,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* document fooOut' type=dynamic),
+            value: Atom('document fooOut' type=dynamic),
         },
         tags: [],
     },

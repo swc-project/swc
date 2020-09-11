@@ -15,12 +15,11 @@
                     15,
                 ),
                 hi: BytePos(
-                    69,
+                    64,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Generate the Fibonacci sequence of numbers.
+            value: Atom('Generate the Fibonacci sequence of numbers.
              *
              *' type=dynamic),
         },
@@ -105,12 +104,11 @@
                     162,
                 ),
                 hi: BytePos(
-                    216,
+                    211,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Generate the Fibonacci sequence of numbers.
+            value: Atom('Generate the Fibonacci sequence of numbers.
              *
              *' type=dynamic),
         },
@@ -195,12 +193,11 @@
                     301,
                 ),
                 hi: BytePos(
-                    355,
+                    350,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Generate the Fibonacci sequence of numbers.
+            value: Atom('Generate the Fibonacci sequence of numbers.
              *
              *' type=dynamic),
         },

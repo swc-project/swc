@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    51,
+                    45,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                A builder function for the Stick application;' type=dynamic),
+            value: Atom('A builder function for the Stick application;' type=dynamic),
         },
         tags: [
             TagItem {

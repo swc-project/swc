@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    34,
+                    29,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Enum for tri-state values.
+            value: Atom('Enum for tri-state values.
              *' type=dynamic),
         },
         tags: [
@@ -90,11 +89,11 @@
                     77,
                 ),
                 hi: BytePos(
-                    83,
+                    81,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* true' type=inline),
+            value: Atom('true' type=static),
         },
         tags: [],
     },
@@ -114,11 +113,11 @@
                     121,
                 ),
                 hi: BytePos(
-                    122,
+                    121,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -187,12 +186,11 @@
                     164,
                 ),
                 hi: BytePos(
-                    207,
+                    202,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Numeric enum for true/false values.
+            value: Atom('Numeric enum for true/false values.
              *' type=dynamic),
         },
         tags: [
@@ -262,11 +260,11 @@
                     259,
                 ),
                 hi: BytePos(
-                    266,
+                    264,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* false' type=inline),
+            value: Atom('false' type=static),
         },
         tags: [],
     },

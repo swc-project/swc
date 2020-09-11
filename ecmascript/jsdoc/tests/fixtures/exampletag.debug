@@ -5,7 +5,7 @@
                 0,
             ),
             hi: BytePos(
-                46,
+                0,
             ),
             ctxt: #0,
         },
@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -61,11 +61,13 @@
                                     0,
                                 ),
                                 hi: BytePos(
-                                    0,
+                                    46,
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: Atom('* console.log("foo");
+                             * console.log("bar");
+                             ' type=dynamic),
                         },
                     },
                 ),
@@ -78,7 +80,7 @@
                 71,
             ),
             hi: BytePos(
-                119,
+                71,
             ),
             ctxt: #0,
         },
@@ -88,11 +90,11 @@
                     71,
                 ),
                 hi: BytePos(
-                    72,
+                    71,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -134,12 +136,61 @@
                                     71,
                                 ),
                                 hi: BytePos(
-                                    123,
+                                    119,
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('@example
-                             * <caption>Example 2</caption>
+                            value: Atom('* console.log("foo");
+                             * console.log("bar");
+                             * ' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        71,
+                    ),
+                    hi: BytePos(
+                        78,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            71,
+                        ),
+                        hi: BytePos(
+                            78,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('example' type=inline),
+                },
+                tag: Example(
+                    ExampleTag {
+                        span: Span {
+                            lo: BytePos(
+                                71,
+                            ),
+                            hi: BytePos(
+                                78,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    71,
+                                ),
+                                hi: BytePos(
+                                    113,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('* <caption>Example 2</caption>
                              * 1 + 2;
                              ' type=dynamic),
                         },

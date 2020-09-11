@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    4,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             *' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -69,7 +68,7 @@
                 47,
             ),
             hi: BytePos(
-                74,
+                47,
             ),
             ctxt: #0,
         },
@@ -79,12 +78,11 @@
                     47,
                 ),
                 hi: BytePos(
-                    75,
+                    70,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Throw a snowball.
+            value: Atom('Throw a snowball.
              *
              *' type=dynamic),
         },
@@ -137,6 +135,54 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        47,
+                    ),
+                    hi: BytePos(
+                        52,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            47,
+                        ),
+                        hi: BytePos(
+                            52,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('fires' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                47,
+                            ),
+                            hi: BytePos(
+                                52,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    47,
+                                ),
+                                hi: BytePos(
+                                    63,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Hurl#event:brick' type=dynamic),
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -155,12 +201,11 @@
                     174,
                 ),
                 hi: BytePos(
-                    182,
+                    174,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 *' type=dynamic),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -229,12 +274,11 @@
                     249,
                 ),
                 hi: BytePos(
-                    283,
+                    278,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Throw a football match.
+            value: Atom('Throw a football match.
              *
              *' type=dynamic),
         },
@@ -305,12 +349,11 @@
                     365,
                 ),
                 hi: BytePos(
-                    373,
+                    365,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 *' type=dynamic),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

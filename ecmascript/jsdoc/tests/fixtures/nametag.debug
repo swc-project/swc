@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    15,
+                    10,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * A view.
+            value: Atom('A view.
              *' type=dynamic),
         },
         tags: [
@@ -93,7 +92,7 @@
                 34,
             ),
             hi: BytePos(
-                44,
+                34,
             ),
             ctxt: #0,
         },
@@ -103,12 +102,11 @@
                     34,
                 ),
                 hi: BytePos(
-                    55,
+                    50,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * A controller.
+            value: Atom('A controller.
              *' type=dynamic),
         },
         tags: [
@@ -170,6 +168,44 @@
                                 },
                             ],
                         },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        34,
+                    ),
+                    hi: BytePos(
+                        39,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            34,
+                        ),
+                        hi: BytePos(
+                            39,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                34,
+                            ),
+                            hi: BytePos(
+                                39,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
                     },
                 ),
             },

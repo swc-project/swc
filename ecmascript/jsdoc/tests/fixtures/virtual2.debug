@@ -15,11 +15,11 @@
                     27,
                 ),
                 hi: BytePos(
-                    28,
+                    27,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -101,11 +101,11 @@
                     64,
                 ),
                 hi: BytePos(
-                    65,
+                    64,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -174,12 +174,11 @@
                     161,
                 ),
                 hi: BytePos(
-                    203,
+                    194,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Callback for `say`.
+            value: Atom('Callback for `say`.
                  *
                  *' type=dynamic),
         },
@@ -263,12 +262,11 @@
                     361,
                 ),
                 hi: BytePos(
-                    415,
+                    406,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-                 * Speak a message asynchronously.
+            value: Atom('Speak a message asynchronously.
                  *
                  *' type=dynamic),
         },

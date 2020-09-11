@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    92,
+                    90,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* (scope tags for global objects do not override globalness hence need a container class)
+            value: Atom('(scope tags for global objects do not override globalness hence need a container class)
              *' type=dynamic),
         },
         tags: [
@@ -101,11 +101,11 @@
                     116,
                 ),
                 hi: BytePos(
-                    117,
+                    116,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -162,11 +162,11 @@
                     144,
                 ),
                 hi: BytePos(
-                    145,
+                    144,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -223,11 +223,11 @@
                     178,
                 ),
                 hi: BytePos(
-                    179,
+                    178,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

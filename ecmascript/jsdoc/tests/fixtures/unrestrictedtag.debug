@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    20,
+                    15,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * My class.
+            value: Atom('My class.
              *
              *' type=dynamic),
         },

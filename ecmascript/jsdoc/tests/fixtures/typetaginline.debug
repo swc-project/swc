@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    27,
+                    22,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Inline type info only.' type=dynamic),
+            value: Atom('Inline type info only.' type=dynamic),
         },
         tags: [],
     },
@@ -40,11 +39,11 @@
                     52,
                 ),
                 hi: BytePos(
-                    53,
+                    52,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -103,7 +102,7 @@
                 85,
             ),
             hi: BytePos(
-                148,
+                85,
             ),
             ctxt: #0,
         },
@@ -113,12 +112,11 @@
                     85,
                 ),
                 hi: BytePos(
-                    128,
+                    123,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Inline type info that conflicts with `' type=dynamic),
+            value: Atom('Inline type info that conflicts with `' type=dynamic),
         },
         tags: [
             TagItem {
@@ -184,6 +182,57 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        85,
+                    ),
+                    hi: BytePos(
+                        90,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            85,
+                        ),
+                        hi: BytePos(
+                            90,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                85,
+                            ),
+                            hi: BytePos(
+                                90,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        85,
+                                    ),
+                                    hi: BytePos(
+                                        136,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @param {number} candyId - The candy's identifier.' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -202,11 +251,11 @@
                     232,
                 ),
                 hi: BytePos(
-                    233,
+                    232,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -275,12 +324,11 @@
                     267,
                 ),
                 hi: BytePos(
-                    318,
+                    313,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Inline type info for leading param only.
+            value: Atom('Inline type info for leading param only.
              *
              *' type=dynamic),
         },
@@ -366,11 +414,11 @@
                     363,
                 ),
                 hi: BytePos(
-                    364,
+                    363,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -439,12 +487,11 @@
                     409,
                 ),
                 hi: BytePos(
-                    461,
+                    456,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Inline type info for trailing param only.
+            value: Atom('Inline type info for trailing param only.
              *
              *' type=dynamic),
         },
@@ -530,11 +577,11 @@
                     523,
                 ),
                 hi: BytePos(
-                    524,
+                    523,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -593,7 +640,7 @@
                 558,
             ),
             hi: BytePos(
-                608,
+                558,
             ),
             ctxt: #0,
         },
@@ -603,12 +650,11 @@
                     558,
                 ),
                 hi: BytePos(
-                    607,
+                    602,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Inline type info for inner param only.
+            value: Atom('Inline type info for inner param only.
              *
              *' type=dynamic),
         },
@@ -676,6 +722,132 @@
                     },
                 ),
             },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        558,
+                    ),
+                    hi: BytePos(
+                        563,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            558,
+                        ),
+                        hi: BytePos(
+                            563,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                558,
+                            ),
+                            hi: BytePos(
+                                563,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        558,
+                                    ),
+                                    hi: BytePos(
+                                        566,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    558,
+                                ),
+                                hi: BytePos(
+                                    563,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('shade' type=inline),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        558,
+                    ),
+                    hi: BytePos(
+                        563,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            558,
+                        ),
+                        hi: BytePos(
+                            563,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                558,
+                            ),
+                            hi: BytePos(
+                                563,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        558,
+                                    ),
+                                    hi: BytePos(
+                                        566,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    558,
+                                ),
+                                hi: BytePos(
+                                    563,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('brand' type=inline),
+                        },
+                    },
+                ),
+            },
         ],
     },
     JsDoc {
@@ -694,11 +866,11 @@
                     719,
                 ),
                 hi: BytePos(
-                    720,
+                    719,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {

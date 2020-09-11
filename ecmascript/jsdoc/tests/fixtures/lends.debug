@@ -15,11 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    1,
+                    0,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -78,11 +78,11 @@
                     42,
                 ),
                 hi: BytePos(
-                    43,
+                    42,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
@@ -164,11 +164,11 @@
                     78,
                 ),
                 hi: BytePos(
-                    102,
+                    100,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Set up initial values.' type=dynamic),
+            value: Atom('Set up initial values.' type=dynamic),
         },
         tags: [],
     },
@@ -188,11 +188,11 @@
                     157,
                 ),
                 hi: BytePos(
-                    182,
+                    180,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* The name of the person.' type=dynamic),
+            value: Atom('The name of the person.' type=dynamic),
         },
         tags: [],
     },
@@ -212,11 +212,11 @@
                     238,
                 ),
                 hi: BytePos(
-                    256,
+                    254,
                 ),
                 ctxt: #0,
             },
-            value: Atom('* Speak a message.' type=dynamic),
+            value: Atom('Speak a message.' type=dynamic),
         },
         tags: [],
     },

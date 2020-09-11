@@ -15,12 +15,11 @@
                     0,
                 ),
                 hi: BytePos(
-                    25,
+                    20,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Parent interface.
+            value: Atom('Parent interface.
              *' type=dynamic),
         },
         tags: [
@@ -79,12 +78,11 @@
                     69,
                 ),
                 hi: BytePos(
-                    94,
+                    89,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Open the connection.' type=dynamic),
+            value: Atom('Open the connection.' type=dynamic),
         },
         tags: [],
     },
@@ -104,12 +102,11 @@
                     145,
                 ),
                 hi: BytePos(
-                    169,
+                    164,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Child interface.
+            value: Atom('Child interface.
              *' type=dynamic),
         },
         tags: [
@@ -181,12 +178,11 @@
                     234,
                 ),
                 hi: BytePos(
-                    276,
+                    271,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*
-             * Implementation of child interface.
+            value: Atom('Implementation of child interface.
              *' type=dynamic),
         },
         tags: [
@@ -259,11 +255,11 @@
                     345,
                 ),
                 hi: BytePos(
-                    346,
+                    345,
                 ),
                 ctxt: #0,
             },
-            value: Atom('*' type=inline),
+            value: Atom('' type=static),
         },
         tags: [
             TagItem {
