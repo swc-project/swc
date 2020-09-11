@@ -9,7 +9,7 @@ use crate::{
 };
 use memchr::memchr_iter;
 use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc, str::Chars};
+use std::{borrow::Cow, cell::RefCell, char, iter::FusedIterator, rc::Rc, str::Chars};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
