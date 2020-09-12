@@ -1641,38 +1641,9 @@ to_ts!(
     r#"
     const directiveHandlers: DirectiveHandlers = {
         TAG(state, _name, ...args: string[]): void {
-          if (args.length !== 2) {
-            return throwError(state, "TAG directive accepts exactly two arguments");
-          }
-      
           const handle = args[0];
-          const prefix = args[1];
-      
           if (!PATTERN_TAG_HANDLE.test(handle)) {
-            return throwError(
-              state,
-              "ill-formed tag handle (first argument) of the TAG directive",
-            );
           }
-      
-          if (_hasOwnProperty.call(state.tagMap, handle)) {
-            return throwError(
-              state,
-              `there is a previously declared suffix for "${handle}" tag handle`,
-            );
-          }
-      
-          if (!PATTERN_TAG_URI.test(prefix)) {
-            return throwError(
-              state,
-              "ill-formed tag prefix (second argument) of the TAG directive",
-            );
-          }
-      
-          if (typeof state.tagMap === "undefined") {
-            state.tagMap = {};
-          }
-          state.tagMap[handle] = prefix;
         },
       };
     "#,
