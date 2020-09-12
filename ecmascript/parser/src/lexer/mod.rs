@@ -685,7 +685,6 @@ impl<'a> Lexer<'a> {
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident(&mut self) -> LexResult<Token> {
         let s = self.input.slice().into();
-        dbg!(s, self.input.cur());
         self.input.advance();
         let s = self.lex_str_with_escape(s)?;
 
@@ -801,13 +800,13 @@ impl<'a> Lexer<'a> {
         })
     }
 
+    /// TODO: Accept buf
     fn lex_str_with_escape<'s>(&mut self, s: &'s str) -> LexResult<Cow<'s, str>> {
         if !s.contains('\\') {
             // Fast path
             return Ok(Cow::Borrowed(s));
         }
 
-        dbg!(s);
         let mut buf = String::with_capacity(s.len());
         let mut chunk_start = 0usize;
         for idx in memchr_iter(b'\\', s.as_bytes()) {
@@ -935,44 +934,57 @@ impl<'a> Lexer<'a> {
                 });
             }
 
-            if c == itok!("\\") {
-                has_escape = true;
-                raw.push('\\');
-                let mut wrapped = Raw(Some(raw));
-                self.input.advance();
+            match c {
+                itok!("\\") => {
+                    has_escape = true;
+                    raw.push('\\');
+                    let mut wrapped = Raw(Some(raw));
+                    self.input.advance();
 
-                let ch =
-                    self.with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut wrapped))?;
+                    let ch = self
+                        .with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut wrapped))?;
 
-                raw = wrapped.0.unwrap();
-                if let Some(s) = ch {
-                    cooked.extend(s);
+                    raw = wrapped.0.unwrap();
+                    if let Some(s) = ch {
+                        cooked.extend(s);
+                    }
                 }
-            } else if c == InternalToken::NewLine {
-                self.state.had_line_break = true;
+                InternalToken::NewLine => {
+                    self.state.had_line_break = true;
 
-                let mut iter = self.input.slice().chars();
-                while let Some(c) = iter.next() {
-                    let c = if c == '\r' && iter.as_str().starts_with('\n') {
-                        raw.push_str("\\r\\n");
-                        '\n'
-                    } else {
-                        match c {
-                            '\n' => raw.push_str("\n"),
-                            '\r' => raw.push_str("\r"),
-                            '\u{2028}' => raw.push_str("\u{2028}"),
-                            '\u{2029}' => raw.push_str("\u{2029}"),
-                            _ => unreachable!(),
-                        }
-                        c
-                    };
-                    cooked.push(c);
+                    let mut iter = self.input.slice().chars();
+                    while let Some(c) = iter.next() {
+                        let c = if c == '\r' && iter.as_str().starts_with('\n') {
+                            raw.push_str("\\r\\n");
+                            '\n'
+                        } else {
+                            match c {
+                                '\n' => raw.push_str("\n"),
+                                '\r' => raw.push_str("\r"),
+                                '\u{2028}' => raw.push_str("\u{2028}"),
+                                '\u{2029}' => raw.push_str("\u{2029}"),
+                                _ => unreachable!(),
+                            }
+                            c
+                        };
+                        cooked.push(c);
+                    }
+                    self.input.advance();
                 }
-                self.input.advance();
-            } else {
-                cooked.push_str(self.input.slice());
-                raw.push_str(self.input.slice());
-                self.input.advance();
+                InternalToken::Ident => {
+                    let s = self.input.slice();
+                    has_escape |= s.contains('\\');
+
+                    let text = self.lex_str_with_escape(s)?;
+                    cooked.push_str(&*text);
+                    raw.push_str(s);
+                    self.input.advance();
+                }
+                _ => {
+                    cooked.push_str(self.input.slice());
+                    raw.push_str(self.input.slice());
+                    self.input.advance();
+                }
             }
         }
 
