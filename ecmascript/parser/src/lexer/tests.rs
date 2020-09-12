@@ -1076,6 +1076,17 @@ fn issue_915_1() {
     );
 }
 
+#[test]
+fn str_lit_only_escape() {
+    assert_eq!(
+        lex_tokens(Default::default(), "'\\'"),
+        vec![Token::Str {
+            value: "\\".into(),
+            has_escape: true
+        }]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
