@@ -151,8 +151,30 @@ impl<'a> Lexer<'a> {
         while let Some(c) = iter.next() {
             if c == '\\' {
                 has_escape = true;
-                if let Some(s) = self.parse_escaped_char(&mut iter, &mut Raw(None))? {
-                    out.extend(s);
+
+                if iter.as_str().is_empty() {
+                    self.input.advance();
+                    let v = self
+                        .with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut Raw(None)))?;
+
+                    if let Some(v) = v {
+                        out.extend(v);
+                    }
+                    continue;
+                }
+                let res = self.parse_escaped_char(&mut iter, &mut Raw(None));
+
+                match res {
+                    Ok(v) => match v {
+                        Some(v) => {
+                            out.extend(v);
+                        }
+                        _ => {}
+                    },
+                    Err(err) => {
+                        self.input.advance();
+                        return Err(err);
+                    }
                 }
                 continue;
             }
