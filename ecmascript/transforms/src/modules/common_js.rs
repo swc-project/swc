@@ -8,6 +8,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
@@ -304,7 +305,7 @@ impl Fold for CommonJs {
                             {
                                 let is_import_default = orig.sym == js_word!("default");
 
-                                let key = (orig.sym.clone(), orig.span.ctxt());
+                                let key = orig.to_id();
                                 if self.scope.declared_vars.contains(&key) {
                                     self.scope
                                         .exported_vars
