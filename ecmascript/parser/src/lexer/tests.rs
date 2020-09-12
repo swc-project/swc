@@ -1079,20 +1079,9 @@ fn issue_915_1() {
 #[test]
 fn str_lit_only_escape_1() {
     assert_eq!(
-        lex_tokens(Default::default(), "'\\'"),
-        vec![Token::Str {
-            value: "\\".into(),
-            has_escape: true
-        }]
-    );
-}
-
-#[test]
-fn str_lit_only_escape_2() {
-    assert_eq!(
         lex_tokens(Default::default(), "'\\\\'"),
         vec![Token::Str {
-            value: "\\\\".into(),
+            value: "\\".into(),
             has_escape: true
         }]
     );
