@@ -296,6 +296,17 @@ fn str_escape_3() {
 }
 
 #[test]
+fn str_escape_4() {
+    assert_eq!(
+        lex_tokens(Syntax::default(), r#"'\\'"#),
+        vec![Token::Str {
+            value: "\\".into(),
+            has_escape: true
+        }]
+    );
+}
+
+#[test]
 fn str_escape_hex() {
     assert_eq!(
         lex(Syntax::default(), r#"'\x61'"#),
@@ -985,6 +996,40 @@ fn issue_299_03() {
             Token::Str {
                 value: "\\".into(),
                 has_escape: true
+            },
+            Token::JSXTagEnd,
+            JSXText { raw: "ABC".into() },
+            JSXTagStart,
+            tok!('/'),
+            JSXName {
+                name: "Page".into()
+            },
+            JSXTagEnd,
+            Semi,
+        ]
+    );
+}
+
+#[test]
+fn issue_299_04() {
+    assert_eq!(
+        lex_tokens(
+            crate::Syntax::Es(crate::EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            "<Page num='foo'>ABC</Page>;"
+        ),
+        vec![
+            Token::JSXTagStart,
+            Token::JSXName {
+                name: "Page".into()
+            },
+            Token::JSXName { name: "num".into() },
+            tok!('='),
+            Token::Str {
+                value: "foo".into(),
+                has_escape: false
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
