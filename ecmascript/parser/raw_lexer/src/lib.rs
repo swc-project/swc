@@ -331,8 +331,8 @@ pub enum InternalToken {
     Tilde,
 
     /// String literal.
-    #[regex(r#""(?:[^"]|\\[.])*""#)]
-    #[regex(r#"'(?:[^']|\\[.])*'"#)]
+    #[regex(r#""(?:[^"]|\\[.\\])*""#)]
+    #[regex(r#"'(?:[^']|\\[.\\])*'"#)]
     Str,
 
     #[regex("[0-9]*([eE][+-]?[0-9_]+)?|[0f9]+[eE][+-]?[0-9_]+")]
@@ -445,8 +445,6 @@ impl<'a> DumbLexer<'a> {
                 self.cur = Some((token, self.inner.span(), self.inner.slice()));
             }
         }
-
-        eprintln!("{}", self.inner.remainder());
 
         self.cur.as_ref().map(|v| v.0)
     }
