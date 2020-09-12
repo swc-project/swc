@@ -4276,8 +4276,8 @@ test!(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interfaces = require("./interfaces");
 var _http = require("./http");
+var _interfaces = require("./interfaces");
 Object.defineProperty(exports, "Scope", {
     enumerable: true,
     get: function() {

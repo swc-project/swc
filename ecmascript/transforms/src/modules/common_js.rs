@@ -88,6 +88,8 @@ impl Fold for CommonJs {
                         )) => {}
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
+                            self.scope.import_to_export(&export.src, true);
+
                             self.scope
                                 .import_types
                                 .entry(export.src.value.clone())
@@ -97,6 +99,14 @@ impl Fold for CommonJs {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
                         | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
                             init_export!("default")
+                        }
+
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                            src: Some(ref src),
+                            ref specifiers,
+                            ..
+                        })) => {
+                            self.scope.import_to_export(&src, !specifiers.is_empty());
                         }
                         _ => {}
                     }
