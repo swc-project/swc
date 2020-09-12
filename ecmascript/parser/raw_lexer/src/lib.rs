@@ -37,9 +37,15 @@ pub enum InternalToken {
     #[token("false")]
     False,
 
-    #[regex(r#"[a-zA-Z$_\p{XID_Start}][a-zA-Z0-9$_\p{XID_Continue}&unicode&unicode4]*"#)]
-    #[regex(r#"&unicode[a-zA-Z0-9$_\p{XID_Continue}&unicode&unicode4)]*"#)]
-    #[regex(r#"(\\\\[u][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])*"#)]
+    #[regex(r#"[a-zA-Z$_\p{XID_Start}]([a-zA-Z0-9$_\p{XID_Continue}]|(?&unicode)|(?&unicode4))*"#)]
+    #[regex(
+        r#"(?&unicode)([a-zA-Z0-9$_\p{XID_Continue}]|(?&unicode)|(?&unicode4))*"#,
+        priority = 10
+    )]
+    #[regex(
+        r#"(?&unicode4)([a-zA-Z0-9$_\p{XID_Continue}]|(?&unicode)|(?&unicode4))*"#,
+        priority = 10
+    )]
     Ident,
 
     #[token("await")]
