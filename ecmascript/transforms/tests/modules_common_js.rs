@@ -4276,8 +4276,8 @@ test!(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interfaces = require("./interfaces");
 var _http = require("./http");
+var _interfaces = require("./interfaces");
 Object.defineProperty(exports, "Scope", {
     enumerable: true,
     get: function() {
@@ -4294,4 +4294,53 @@ Object.keys(_http).forEach(function(key) {
     });
 });
   "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_1043_2,
+    "
+import 'reflect-metadata';
+
+export * from './http';
+export { id } from './interfaces';
+export * from './pipes';
+",
+    r#"
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    require("reflect-metadata");
+    var _http = require("./http");
+    var _interfaces = require("./interfaces");
+    var _pipes = require("./pipes");
+    Object.defineProperty(exports, "id", {
+        enumerable: true,
+        get: function() {
+            return _interfaces.id;
+        }
+    });
+    Object.keys(_http).forEach(function(key) {
+        if (key === "default" || key === "__esModule") return;
+        Object.defineProperty(exports, key, {
+            enumerable: true,
+            get: function() {
+                return _http[key];
+            }
+        });
+    });
+    Object.keys(_pipes).forEach(function(key) {
+        if (key === "default" || key === "__esModule") return;
+        Object.defineProperty(exports, key, {
+            enumerable: true,
+            get: function() {
+                return _pipes[key];
+            }
+        });
+    });
+    "#
 );
