@@ -623,6 +623,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             }
             Expr::Ident(ident) => Ok(ident.into()),
+            Expr::Member(..) => Ok(Pat::Expr(expr)),
             Expr::Array(ArrayLit {
                 elems: mut exprs, ..
             }) => {
@@ -710,7 +711,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // Invalid patterns.
             // Note that assignment expression with '=' is valid, and handled above.
-            Expr::Lit(..) | Expr::Member(..) | Expr::Assign(..) => {
+            Expr::Lit(..) | Expr::Assign(..) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
                 Ok(Pat::Invalid(Invalid { span }))
             }
