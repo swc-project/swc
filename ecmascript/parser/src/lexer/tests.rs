@@ -950,7 +950,7 @@ fn issue_299_02() {
                 jsx: true,
                 ..Default::default()
             }),
-            "<Page num='\\''>ABC</Page>;"
+            r"<Page num='\''>ABC</Page>;"
         ),
         vec![
             Token::JSXTagStart,
