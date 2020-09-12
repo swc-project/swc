@@ -12,7 +12,7 @@ pub struct Extras {
 /// Interal tokens for super-fast lexing.
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 #[logos(extras = Extras)]
-#[logos(subpattern unicode_4 = r"\\\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]")]
+#[logos(subpattern unicode4 = r"\\\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]")]
 #[logos(subpattern unicode = r"\\\\u[{][0-9a-fA-F]+[}]")]
 #[logos(subpattern decimal = r"[0-9][_0-9]*")]
 #[logos(subpattern hex = r"[0-9a-fA-F][_0-9a-fA-F]*")]
@@ -37,7 +37,9 @@ pub enum InternalToken {
     #[token("false")]
     False,
 
-    #[regex(r#"[a-zA-Z$_\p{XID_Start}&unicode&unicode_4][a-zA-Z0-9$_\p{XID_Continue}&unicode&unicode_4]*"#)]
+    #[regex(r#"[a-zA-Z$_\p{XID_Start}][a-zA-Z0-9$_\p{XID_Continue}&unicode&unicode4]*"#)]
+    #[regex(r#"&unicode[a-zA-Z0-9$_\p{XID_Continue}&unicode&unicode4]*"#)]
+    #[regex(r#"&unicode4[a-zA-Z0-9$_\p{XID_Continue}&unicode&unicode4]*"#)]
     Ident,
 
     #[token("await")]
@@ -334,7 +336,7 @@ pub enum InternalToken {
     #[regex("0[bB](?&binary)")]
     BinNum,
 
-    #[regex("(?&decimal)", priority = 99)]
+    #[regex("(?&decimal)")]
     DecNum,
 
     #[regex("0[xX](?&hex)")]
