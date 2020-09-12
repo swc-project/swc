@@ -1577,6 +1577,12 @@ function wrapper(a) {
 }
     "#,
     "
+function wrapper(a__2) {
+    var a__2;
+    {
+        let a__3;
+    }
+}    
     "
 );
 
@@ -1590,6 +1596,11 @@ function wrapper(a) {
 }
     "#,
     "
+function wrapper(a__2) {
+    {
+        let a__3;
+    }
+}    
     "
 );
 
@@ -1597,9 +1608,30 @@ to_ts!(
     function_scope_3,
     r#"
 function wrapper(a) {
+    {
+        var a;
+    }
+}
+    "#,
+    "
+function wrapper(a__2) {
+    {
+        var a__2;
+    }
+}    
+    "
+);
+
+to_ts!(
+    function_scope_4,
+    r#"
+function wrapper(a) {
     let a;
 }
     "#,
     "
+function wrapper(a__2) {
+    let a__2;
+}    
     "
 );
