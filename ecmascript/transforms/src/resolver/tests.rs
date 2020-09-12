@@ -1565,3 +1565,41 @@ function wrapper(...args) {
     }
     "
 );
+
+to_ts!(
+    function_scope_1,
+    r#"
+function wrapper(a) {
+    var a;
+    {
+        let a;
+    }
+}
+    "#,
+    "
+    "
+);
+
+to_ts!(
+    function_scope_2,
+    r#"
+function wrapper(a) {
+    {
+        let a;
+    }
+}
+    "#,
+    "
+    "
+);
+
+to_ts!(
+    function_scope_3,
+    r#"
+function wrapper(a) {
+    let a;
+}
+    "#,
+    "
+    "
+);
