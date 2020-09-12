@@ -878,7 +878,13 @@ impl<'a> VisitMut for Resolver<'a> {
         f.params.visit_mut_with(self);
 
         self.ident_type = IdentType::Ref;
-        f.body.visit_mut_with(self);
+        match &mut f.body {
+            Some(body) => {
+                // Prevent creating new scope.
+                body.visit_mut_children_with(self);
+            }
+            None => {}
+        }
 
         f.return_type.visit_mut_with(self);
     }
