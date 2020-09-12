@@ -685,6 +685,7 @@ impl<'a> Lexer<'a> {
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident(&mut self) -> LexResult<Token> {
         let s = self.input.slice().into();
+        dbg!(s, self.input.cur());
         self.input.advance();
         let s = self.lex_str_with_escape(s)?;
 
@@ -806,6 +807,7 @@ impl<'a> Lexer<'a> {
             return Ok(Cow::Borrowed(s));
         }
 
+        dbg!(s);
         let mut buf = String::with_capacity(s.len());
         let mut chunk_start = 0usize;
         for idx in memchr_iter(b'\\', s.as_bytes()) {
