@@ -188,6 +188,11 @@ impl<'a> Lexer<'a> {
                     })?;
                     return self.make_legacy_octal(span, v);
                 }
+                if s.starts_with('0') {
+                    if self.ctx.strict {
+                        self.error(start, SyntaxError::LegacyDecimal)?
+                    }
+                }
 
                 return self.parse_number(s, 10, |total, radix, value| {
                     f64::mul_add(total, radix as _, value as _)
