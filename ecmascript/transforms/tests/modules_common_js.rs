@@ -4295,3 +4295,25 @@ Object.keys(_http).forEach(function(key) {
 });
   "#
 );
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_1043_2,
+    "
+import 'reflect-metadata';
+
+export * from './cache';
+export * from './decorators';
+export * from './enums';
+export * from './exceptions';
+export * from './http';
+export * from './pipes';
+export * from './serializer';
+export * from './services';
+export * from './utils';
+",
+    r#""#
+);
