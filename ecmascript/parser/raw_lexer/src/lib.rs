@@ -12,8 +12,8 @@ pub struct Extras {
 /// Interal tokens for super-fast lexing.
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 #[logos(extras = Extras)]
-#[logos(subpattern unicode4 = r"\\\\[u][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]")]
-#[logos(subpattern unicode = r"\\\\[u][{][0-9a-fA-F]+[}]")]
+#[logos(subpattern unicode4 = r"\\[u][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]")]
+#[logos(subpattern unicode = r"\\[u][{][0-9a-fA-F]+[}]")]
 #[logos(subpattern decimal = r"[0-9][_0-9]*")]
 #[logos(subpattern hex = r"[0-9a-fA-F][_0-9a-fA-F]*")]
 #[logos(subpattern octal = r"[0-7][_0-7]*")]
