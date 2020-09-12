@@ -1083,10 +1083,12 @@ impl VisitMut for Hoister<'_, '_> {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        self.resolver.in_type = false;
         self.resolver
             .visit_mut_binding_ident(&mut node.ident, Some(VarDeclKind::Var));
     }
 
+    #[inline]
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
     #[inline]
@@ -1125,6 +1127,7 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
+        self.resolver.in_type = false;
         match node {
             Pat::Ident(i) => self.resolver.visit_mut_binding_ident(i, self.kind),
             _ => node.visit_mut_children_with(self),

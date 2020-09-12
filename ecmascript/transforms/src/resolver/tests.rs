@@ -1635,3 +1635,25 @@ function wrapper(a__2) {
 }    
     "
 );
+
+to_ts!(
+    ts_resolver_deno_undef_001,
+    r#"
+    const directiveHandlers: DirectiveHandlers = {
+        TAG(state, _name, ...args: string[]): void {
+          const handle = args[0];
+          if (!PATTERN_TAG_HANDLE.test(handle)) {
+          }
+        },
+      };
+    "#,
+    r#"
+    const directiveHandlers: DirectiveHandlers = {
+        TAG (state__2, _name__2, ...args__2: string[]): void {
+            const handle__2 = args__2[0];
+            if (!PATTERN_TAG_HANDLE.test(handle__2)) {
+            }
+        }
+    };
+    "#
+);
