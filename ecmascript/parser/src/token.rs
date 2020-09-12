@@ -591,9 +591,16 @@ impl Debug for Token {
             Semi => write!(f, ";")?,
             Comma => write!(f, ",")?,
             BackQuote => write!(f, "`")?,
-            Template { raw, cooked, .. } => {
-                write!(f, "template token (raw = {}, cooked = {})", raw, cooked)?
-            }
+            Template {
+                raw,
+                cooked,
+                has_escape,
+                ..
+            } => write!(
+                f,
+                "template token (raw = {}, cooked = {}, has_escape = {})",
+                raw, cooked, has_escape
+            )?,
             Colon => write!(f, ":")?,
             ColonColon => write!(f, "::")?,
             BinOp(op) => write!(f, "{}", BinaryOp::from(*op).as_str())?,
