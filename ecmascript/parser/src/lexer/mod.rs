@@ -307,7 +307,7 @@ impl<'a> Lexer<'a> {
 
             InternalToken::Str => return self.read_str_lit().map(Some),
 
-            InternalToken::Div => return self.read_slash(),
+            itok!("/") => return self.read_slash(),
 
             itok!("**=") => {
                 self.input.advance();
@@ -671,7 +671,7 @@ impl<'a> Lexer<'a> {
         }
 
         // Divide operator
-        self.input.advance(); // ';'
+        self.input.advance(); // '/'
 
         Ok(Some(match self.input.cur() {
             Some(itok!("=")) => {
