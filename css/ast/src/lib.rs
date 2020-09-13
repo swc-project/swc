@@ -103,6 +103,7 @@ pub enum Value {
 pub struct HashValue {
     /// Includes `#`
     pub span: Span,
+    /// Does **not** include `#`
     pub value: Text,
 }
 
