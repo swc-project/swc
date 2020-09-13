@@ -4,8 +4,6 @@ use swc_css_ast::*;
 impl Parser<'_> {
     pub(super) fn parse_style_rule(&mut self) -> PResult<StyleRule> {}
 
-    fn parse_property(&mut self) -> PResult<Property> {}
-
     pub(super) fn parse_decl_block(&mut self) -> PResult<DeclBlock> {
         let start = self.i.cur_pos();
         expect!(self, "{");
