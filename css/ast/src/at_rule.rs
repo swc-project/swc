@@ -1,6 +1,5 @@
-use swc_common::{ast_node, Span};
-
 use crate::{media_query::MediaQuery, Number, Property, Text};
+use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum AtRule {
     #[tag("CharsetRule")]

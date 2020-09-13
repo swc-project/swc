@@ -1,5 +1,6 @@
 #![deny(unused)]
 
+pub use self::{at_rule::*, media_query::*};
 pub use at_rule::AtRule;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
