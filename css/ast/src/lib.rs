@@ -1,6 +1,7 @@
 #![deny(unused)]
 
 pub use at_rule::AtRule;
+use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
@@ -88,10 +89,38 @@ pub struct Property {
 
 #[ast_node]
 pub enum Value {
-    #[tag("Text")]
-    Raw(Text),
     #[tag("ParenValue")]
     Paren(ParenValue),
+    #[tag("UnitValue")]
+    Unit(UnitValue),
+    #[tag("Number")]
+    Number(Number),
+    #[tag("HashValue")]
+    Hash(HashValue),
+}
+
+#[ast_node]
+pub struct HashValue {
+    /// Includes `#`
+    pub span: Span,
+    pub value: Text,
+}
+
+#[ast_node]
+pub struct UnitValue {
+    pub span: Span,
+    pub value: Text,
+    pub unit: SpannedUnit,
+}
+
+#[ast_node]
+pub struct SpannedUnit {
+    pub span: Span,
+    pub unit: Unit,
+}
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum Unit {
+    Px,
 }
 
 #[ast_node]
