@@ -465,7 +465,7 @@ impl<'a> Lexer<'a> {
 
             itok!("=>") => {
                 self.input.advance();
-                AssignOp(Assign)
+                tok!("=>")
             }
 
             itok!("!==") => {
