@@ -618,7 +618,7 @@ impl Debug for Token {
             JSXText { raw } => write!(f, "jsx text ({})", raw)?,
             JSXTagStart => write!(f, "< (jsx tag start)")?,
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
-            Shebang(_) => write!(f, "#!")?,
+            Shebang(t) => write!(f, "#! ({:?})", &**t)?,
             Token::Error(e) => write!(f, "<lexing error>: {:?}", e)?,
         }
 

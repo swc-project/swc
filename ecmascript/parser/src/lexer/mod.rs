@@ -899,8 +899,10 @@ impl<'a> Lexer<'a> {
     fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {
         match self.input.cur() {
             Some(InternalToken::Interpreter) => {
+                let ret = self.input.slice();
+                let ret = &ret[2..];
                 self.input.advance();
-                return Ok(Some(self.input.slice().into()));
+                return Ok(Some(ret.into()));
             }
             _ => Ok(None),
         }
