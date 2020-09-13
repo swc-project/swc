@@ -1,6 +1,6 @@
 use swc_common::{ast_node, Span};
 
-use crate::Text;
+use crate::{media_query::MediaQuery, Text};
 #[ast_node]
 pub enum AtRule {
     #[tag("CharsetRule")]
@@ -19,10 +19,11 @@ pub struct CharsetRule {
 #[ast_node]
 pub struct MediaRule {
     pub span: Span,
-    pub query: Text,
+    pub query: Box<MediaQuery>,
 }
 
 #[ast_node]
 pub struct UnknownAtRule {
     pub span: Span,
+    pub name: Text,
 }
