@@ -114,7 +114,7 @@ jobs:
     name: npm
     runs-on: ubuntu-latest
     needs:
-      - build
+      # - build
       - build_musl
     steps:
       - uses: actions/checkout@v2
