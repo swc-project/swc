@@ -114,7 +114,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: bindings
-          path: swc.linux-musl.node
+          path: scripts/npm/swc.linux-musl.node
   publish:
     name: npm
     runs-on: ubuntu-latest
