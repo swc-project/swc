@@ -1,4 +1,4 @@
-use crate::{media_query::MediaQuery, Number, Property, Str, Text};
+use crate::{media_query::MediaQuery, DeclBlock, Number, Property, Str, Text};
 use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum AtRule {
@@ -84,7 +84,7 @@ pub struct KeyframesRule {
 pub struct KeyframeElement {
     pub span: Span,
     pub selector: KeyframeSelector,
-    pub properties: Vec<Property>,
+    pub block: DeclBlock,
 }
 
 #[ast_node]
@@ -104,7 +104,7 @@ pub struct KeyframePercentSelector {
 #[ast_node]
 pub struct FontFaceRule {
     pub span: Span,
-    pub properties: Vec<Property>,
+    pub properties: DeclBlock,
 }
 
 #[ast_node]

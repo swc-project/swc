@@ -48,6 +48,13 @@ pub enum Rule {
 pub struct StyleRule {
     pub span: Span,
     pub selectors: Vec<Selector>,
+    pub block: DeclBlock,
+}
+
+#[ast_node]
+pub struct DeclBlock {
+    /// Includes `{` and `}`.
+    pub span: Span,
     pub properties: Vec<Property>,
 }
 
