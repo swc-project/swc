@@ -22,8 +22,20 @@ impl<'i> Parser<'i> {
         }
     }
 
-    /// Eat one word, but not punctuntions or spaces.
     pub(super) fn parse_word(&mut self) -> PResult<Text> {
+        let token = self.i.cur();
+        let word = self.parse_opt_word()?;
+
+        match word {
+            Some(v) => Ok(v),
+            None => self.err(SyntaxError::ExpectedWord {
+                got: token.unwrap(),
+            }),
+        }
+    }
+
+    /// Eat one word, but not punctuntions or spaces.
+    pub(super) fn parse_opt_word(&mut self) -> PResult<Option<Text>> {
         match self.i.cur() {
             Some(t) => match t {
                 Token::Error
@@ -39,7 +51,7 @@ impl<'i> Parser<'i> {
                 | Token::Hash
                 | Token::Plus
                 | Token::Minus
-                | Token::Dot => self.err(SyntaxError::ExpectedWord { got: t }),
+                | Token::Dot => Ok(None),
 
                 // TODO: Optimize using js_word
                 Token::Ident | Token::Important | Token::Px => {
@@ -47,10 +59,10 @@ impl<'i> Parser<'i> {
                     let s = self.i.slice();
                     self.i.bump();
 
-                    return Ok(Text {
+                    return Ok(Some(Text {
                         span,
                         sym: s.into(),
-                    });
+                    }));
                 }
             },
             None => self.err(SyntaxError::Eof),

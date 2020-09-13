@@ -1,4 +1,4 @@
-use crate::{error::Error, lexer::Lexer, token::Token, SyntaxError};
+use crate::{error::Error, lexer::Lexer, token::Token};
 use swc_common::Span;
 use swc_css_ast::*;
 
