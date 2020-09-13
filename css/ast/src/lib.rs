@@ -6,10 +6,17 @@ use swc_common::{ast_node, Span};
 
 mod at_rule;
 mod media_query;
+
 #[ast_node]
 pub struct Text {
     pub span: Span,
     pub sym: JsWord,
+}
+
+#[ast_node]
+pub struct Number {
+    pub span: Span,
+    pub value: Box<Value>,
 }
 
 #[ast_node]
