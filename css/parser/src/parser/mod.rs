@@ -37,6 +37,4 @@ impl Parser<'_> {
             _ => self.parse_style_rule().map(From::from),
         }
     }
-
-    fn parse_property(&mut self) -> PResult<Property> {}
 }
