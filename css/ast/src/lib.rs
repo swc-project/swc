@@ -80,9 +80,9 @@ pub enum BaseSelector {
 #[ast_node]
 pub struct Property {
     pub span: Span,
-    pub id: Text,
+    pub name: Text,
     pub value: Value,
-    /// Includes `!`
+    /// The span includes `!`
     pub important: Option<Span>,
 }
 

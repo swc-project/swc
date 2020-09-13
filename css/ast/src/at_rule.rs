@@ -112,4 +112,5 @@ pub struct FontFaceRule {
 pub struct UnknownAtRule {
     pub span: Span,
     pub name: Text,
+    pub extras: Text,
 }
