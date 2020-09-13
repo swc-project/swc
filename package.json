@@ -34,7 +34,10 @@
     "x64"
   ],
   "napi": {
-    "name": "swc"
+    "name": "swc",
+    "musl": [
+      "linux"
+    ]
   },
   "dependencies": {
     "@node-rs/helper": "^0.4.0"
