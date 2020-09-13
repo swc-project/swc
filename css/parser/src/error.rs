@@ -26,4 +26,5 @@ impl Error {
 pub enum SyntaxError {
     Eof,
     ExpectedWord { got: Token },
+    ExpectedStr { got: Token },
 }

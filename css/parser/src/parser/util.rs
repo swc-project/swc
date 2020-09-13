@@ -1,7 +1,26 @@
-use crate::Parser;
+use crate::{token::Token, Error, PResult, Parser, SyntaxError};
+use swc_common::Span;
+use swc_css_ast::*;
 
 impl<'i> Parser<'i> {
-    pub(super) fn parse_str(&mut self) -> PResult<Str> {}
+    pub(super) fn parse_str(&mut self) -> PResult<Str> {
+        match self.i.cur() {
+            Some(t) => match t {
+                Token::Str => {
+                    let span = self.i.span();
+                    let s = self.i.slice();
+                    self.i.bump();
+
+                    Ok(Str {
+                        span,
+                        sym: s.into(),
+                    })
+                }
+                _ => self.err(SyntaxError::ExpectedStr { got: t }),
+            },
+            None => self.err(SyntaxError::Eof),
+        }
+    }
 
     /// Eat one word, but not punctuntions or spaces.
     pub(super) fn pares_word(&mut self) -> PResult<Text> {
