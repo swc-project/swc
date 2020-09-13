@@ -8,6 +8,7 @@ version = "0.1.0"
 
 [dependencies]
 logos = "0.11.4"
+matches = "0.1.8"
 serde = {version = "1", features = ["derive"]}
 swc_atoms = {path = "../../atoms"}
 swc_common = {path = "../../common"}
