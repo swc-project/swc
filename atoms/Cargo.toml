@@ -1,7 +1,7 @@
 [package]
 name = "swc_atoms"
 build = "build.rs"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
