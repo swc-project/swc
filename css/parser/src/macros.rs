@@ -24,10 +24,10 @@ macro_rules! expect {
                         got: other,
                     },
                 )),
-            }),
+            })?,
             None => Err(Error {
                 inner: Box::new(($parser.i.span(), SyntaxError::Eof)),
-            }),
+            })?,
         }
     }};
 }
