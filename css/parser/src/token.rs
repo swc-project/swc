@@ -40,6 +40,7 @@ pub(crate) enum Token {
 
     #[token("+")]
     Plus,
+
     #[token("-")]
     Minus,
 
