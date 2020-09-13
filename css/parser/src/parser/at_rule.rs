@@ -83,8 +83,15 @@ impl Parser<'_> {
     fn parse_keyframe_selector(&mut self) -> PResult<KeyframeSelector> {
         let start = self.i.cur_pos();
 
-        Ok(KeyframeSelector {
-            span: self.i.make_span(start),
+        let word = self.parse_opt_word()?;
+
+        Ok(match word {
+            Some(v) => KeyframeSelector::Extra(v),
+            None => {
+                let percent = self.parse_percent()?;
+
+                KeyframeSelector::Percent(percent)
+            }
         })
     }
 
