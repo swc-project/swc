@@ -117,6 +117,13 @@ pub enum Value {
 }
 
 #[ast_node]
+pub struct ParenProperty {
+    /// Includes `(` and `)`
+    pub span: Span,
+    pub property: Property,
+}
+
+#[ast_node]
 pub struct HashValue {
     /// Includes `#`
     pub span: Span,

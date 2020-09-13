@@ -1,3 +1,4 @@
+use crate::{ParenProperty, Text};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -6,6 +7,11 @@ pub enum MediaQuery {
     And(AndMediaQuery),
     #[tag("OrMediaQuery")]
     Or(OrMediaQuery),
+    /// e.g. `screen`
+    #[tag("Text")]
+    Text(Text),
+    #[tag("ParenPropery")]
+    Value(ParenProperty),
 }
 
 #[ast_node]
