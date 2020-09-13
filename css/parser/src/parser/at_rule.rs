@@ -32,9 +32,16 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_media_rule(&mut self, start: BytePos) -> PResult<MediaRule> {}
+    fn parse_media_rule(&mut self, start: BytePos) -> PResult<MediaRule> {
+        let query = self.parse_media_query().map(Box::new)?;
 
-    fn parse_media_query(&mut self, start: BytePos) -> PResult<MediaQuery> {}
+        Ok(MediaRule {
+            span: self.i.make_span(start),
+            query,
+        })
+    }
+
+    fn parse_media_query(&mut self) -> PResult<MediaQuery> {}
 
     fn parse_import_rule(&mut self, start: BytePos) -> PResult<ImportRule> {
         let src = self.parse_str()?;
