@@ -1,10 +1,10 @@
 use crate::{error::Error, lexer::Lexer, token::Token, SyntaxError};
-use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
 mod at_rule;
 mod style_rule;
+mod util;
 
 pub type PResult<T> = Result<T, Error>;
 
@@ -39,54 +39,4 @@ impl Parser<'_> {
     }
 
     fn parse_property(&mut self) -> PResult<Property> {}
-
-    /// Eat one word, but not punctuntions or spaces.
-    fn pares_word(&mut self) -> PResult<Text> {
-        match self.i.cur() {
-            Some(t) => match t {
-                Token::Error
-                | Token::Semi
-                | Token::Color
-                | Token::Comma
-                | Token::At
-                | Token::Str
-                | Token::LParen
-                | Token::RParen
-                | Token::LBrace
-                | Token::RBrace
-                | Token::Hash
-                | Token::Plus
-                | Token::Minus
-                | Token::Dot => self.err(SyntaxError::ExpectedWord { got: t }),
-
-                // TODO: Optimize using js_word
-                Token::Ident | Token::Important | Token::Px => {
-                    let span = self.i.span();
-                    let s = self.i.slice();
-                    self.i.bump();
-
-                    return Ok(Text {
-                        span,
-                        sym: s.into(),
-                    });
-                }
-            },
-            None => self.err(SyntaxError::Eof),
-        }
-    }
-
-    #[cold]
-    #[inline(never)]
-    fn err<T>(&mut self, err: SyntaxError) -> PResult<T> {
-        let span = self.i.span();
-        self.err_span(span, err)
-    }
-
-    #[cold]
-    #[inline(never)]
-    fn err_span<T>(&mut self, span: Span, err: SyntaxError) -> PResult<T> {
-        Err(Error {
-            inner: Box::new((span, err)),
-        })
-    }
 }

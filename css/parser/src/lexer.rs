@@ -74,6 +74,7 @@ impl<'i> Lexer<'i> {
         self.cur.as_ref().map(|v| v.0)
     }
 
+    #[inline]
     pub fn slice(&mut self) -> &'i str {
         let _cur = self.cur();
 
@@ -81,5 +82,10 @@ impl<'i> Lexer<'i> {
             Some(ref v) => v.2,
             None => "",
         }
+    }
+
+    #[inline]
+    pub fn make_span(&self, start: BytePos) -> Span {
+        Span::new(start, self.prev_hi, Default::default())
     }
 }

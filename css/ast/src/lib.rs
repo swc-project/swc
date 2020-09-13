@@ -9,6 +9,15 @@ use swc_common::{ast_node, Span};
 mod at_rule;
 mod media_query;
 
+/// Quoted string
+#[ast_node]
+pub struct Str {
+    /// Includes quotes
+    pub span: Span,
+    /// Does not include quotes
+    pub sym: String,
+}
+
 #[ast_node]
 pub struct Text {
     pub span: Span,

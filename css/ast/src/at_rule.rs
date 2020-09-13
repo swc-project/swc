@@ -1,4 +1,4 @@
-use crate::{media_query::MediaQuery, Number, Property, Text};
+use crate::{media_query::MediaQuery, Number, Property, Str, Text};
 use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum AtRule {
@@ -21,8 +21,9 @@ pub enum AtRule {
 #[ast_node]
 pub struct CharsetRule {
     pub span: Span,
-    pub charset: Text,
+    pub charset: Str,
 }
+
 #[ast_node]
 pub struct MediaRule {
     pub span: Span,
