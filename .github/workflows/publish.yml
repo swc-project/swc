@@ -1,15 +1,15 @@
 name: Publish
 
-on:
-  create:
-    tags:
-      - v*
-# on: [push, pull_request]
+# on:
+#   create:
+#     tags:
+#       - v*
+on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
-  CI: '1'
-  DEBUG: 'napi:*'
+  CI: "1"
+  DEBUG: "napi:*"
 
 jobs:
   build:
@@ -64,7 +64,7 @@ jobs:
         shell: bash
         run: npm run build
         env:
-          MACOSX_DEPLOYMENT_TARGET: '10.13'
+          MACOSX_DEPLOYMENT_TARGET: "10.13"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -109,10 +109,10 @@ jobs:
         shell: bash
         run: npm run artifacts
 
-      - name: Publish
-        run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          npm publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Publish
+      #   run: |
+      #     echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      #     npm publish
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
