@@ -12,21 +12,21 @@ macro_rules! tok {
 
 macro_rules! expect {
     ($parser:expr, $t:tt) => {{
-        use crate::error::{Error, ErrorKind};
+        use crate::error::{Error, SyntaxError};
 
         match $parser.i.cur() {
             Some(tok!($t)) => {}
             Some(other) => Err(Error {
                 inner: Box::new((
                     $parser.i.span(),
-                    ErrorKind::Expected {
+                    SyntaxError::Expected {
                         expected: tok!($t),
                         got: other,
                     },
                 )),
             }),
             None => Err(Error {
-                inner: Box::new(($parser.i.span(), ErrorKind::Eof)),
+                inner: Box::new(($parser.i.span(), SyntaxError::Eof)),
             }),
         }
     }};
