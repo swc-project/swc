@@ -4,7 +4,7 @@ use logos::Logos;
 #[derive(Logos, Debug)]
 pub(crate) enum Token {
     #[error]
-    #[regex(r#"[ \n\t\r]*"#, logos::skip)] // skip whitespace
+    #[regex("[ \n\t\r]*", logos::skip)]
     Error,
 
     #[token(";")]
@@ -19,25 +19,19 @@ pub(crate) enum Token {
     #[token("@")]
     At,
 
-    #[token(".")]
-    Dot,
-
-    #[token("#")]
-    Hash,
-
+    /// Quoted string
     #[regex(r#"'(?:[^']|\\[.\\])*'"#)]
-    #[regex(r#""(?:[^"]|\\[.\\])*""#)]
+    #[regex("\"(?:[^\"]|\\\\[.\\\\])*\"")]
     Str,
+
+    #[regex(r#"[a-zA-Z\-][a-zA-Z\-]*"#)]
+    Ident,
 
     #[token("(")]
     LParen,
+
     #[token(")")]
     RParen,
-
-    #[token("[")]
-    LBracket,
-    #[token("]")]
-    RBracket,
 
     #[token("{")]
     LBrace,
@@ -49,7 +43,15 @@ pub(crate) enum Token {
     #[token("-")]
     Minus,
 
-    #[token("<")]
-    Lt,
-    // Num()
+    #[token(".")]
+    Dot,
+
+    #[token("#")]
+    Hash,
+
+    #[token("important")]
+    Important,
+
+    #[token("px")]
+    Px,
 }
