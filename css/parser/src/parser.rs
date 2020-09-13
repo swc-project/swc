@@ -55,6 +55,18 @@ impl Parser<'_> {
 
     fn parse_charset_rule(&mut self) -> PResult<CharsetRule> {}
 
+    fn parse_media_rule(&mut self) -> PResult<MediaRule> {}
+
+    fn parse_media_query(&mut self) -> PResult<MediaQuery> {}
+
+    fn parse_import_rule(&mut self) -> PResult<ImportRule> {}
+
+    fn parse_keyframes_rule(&mut self) -> PResult<KeyframesRule> {}
+
+    fn parse_font_face_rule(&mut self) -> PResult<FontFaceRule> {}
+
+    fn parse_unknown_at_rule(&mut self) -> PResult<UnknownAtRule> {}
+
     fn parse_style_rule(&mut self) -> PResult<StyleRule> {}
 
     fn parse_property(&mut self) -> PResult<Property> {}
