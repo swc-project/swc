@@ -73,10 +73,12 @@ impl Parser<'_> {
         let start = self.i.cur_pos();
 
         let selector = self.parse_keyframe_selector()?;
+        let block = self.parse_decl_block()?;
 
         Ok(KeyframeElement {
             span: self.i.make_span(start),
             selector,
+            block,
         })
     }
 
