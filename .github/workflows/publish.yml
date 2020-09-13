@@ -103,8 +103,8 @@ jobs:
 
       - name: "Build"
         run: |
-          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "cargo build --release"
-          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "./node_modules/.bin/napi build --platform --musl --release -c ./package.json ./scripts/npm"
+          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "cargo build -p node --release"
+          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "./node_modules/.bin/napi build --platform --cargo-name node --musl --release -c ./package.json ./scripts/npm"
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
