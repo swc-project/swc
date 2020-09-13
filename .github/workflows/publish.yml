@@ -1,10 +1,9 @@
 name: Publish
 
-# on:
-#   create:
-#     tags:
-#       - v*
-on: [push, pull_request]
+on:
+  create:
+    tags:
+      - v*
 
 env:
   CARGO_INCREMENTAL: 0
