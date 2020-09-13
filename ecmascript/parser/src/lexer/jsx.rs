@@ -141,6 +141,7 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(self.input.cur(), Some(InternalToken::Str));
 
         let s = self.input.slice();
+        self.input.advance();
         let s = &s[1..s.len() - 1]; // Remove quote
         let mut has_escape = false;
 
@@ -153,7 +154,6 @@ impl<'a> Lexer<'a> {
                 has_escape = true;
 
                 if iter.as_str().is_empty() {
-                    self.input.advance();
                     let v = self
                         .with_chars(|lexer, iter| lexer.parse_escaped_char(iter, &mut Raw(None)))?;
 
@@ -172,7 +172,6 @@ impl<'a> Lexer<'a> {
                         _ => {}
                     },
                     Err(err) => {
-                        self.input.advance();
                         return Err(err);
                     }
                 }
@@ -194,7 +193,6 @@ impl<'a> Lexer<'a> {
         //         out.push_str(self.input.slice_cur());
         //     }
         // }
-        self.input.advance();
         Ok(Token::Str {
             has_escape,
             value: out.into(),
