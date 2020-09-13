@@ -77,7 +77,7 @@ pub struct OrSupportsQuery {
 #[ast_node]
 pub struct KeyframesRule {
     pub span: Span,
-    pub keyframe: Vec<KeyframeElement>,
+    pub keyframes: Vec<KeyframeElement>,
 }
 
 #[ast_node]

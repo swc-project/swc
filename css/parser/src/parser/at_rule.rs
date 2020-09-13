@@ -45,7 +45,48 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_keyframes_rule(&mut self, start: BytePos) -> PResult<KeyframesRule> {}
+    fn parse_keyframes_rule(&mut self, start: BytePos) -> PResult<KeyframesRule> {
+        let name = self.parse_word()?;
+
+        expect!(self, "{");
+
+        let mut keyframes = vec![];
+
+        while let Some(t) = self.i.cur() {
+            if is!(self, "}") {
+                break;
+            }
+            let el = self.parse_keyframe_element()?;
+
+            keyframes.push(el);
+        }
+
+        expect!(self, "}");
+
+        Ok(KeyframesRule {
+            span: self.i.make_span(start),
+            keyframes,
+        })
+    }
+
+    fn parse_keyframe_element(&mut self) -> PResult<KeyframeElement> {
+        let start = self.i.cur_pos();
+
+        let selector = self.parse_keyframe_selector()?;
+
+        Ok(KeyframeElement {
+            span: self.i.make_span(start),
+            selector,
+        })
+    }
+
+    fn parse_keyframe_selector(&mut self) -> PResult<KeyframeSelector> {
+        let start = self.i.cur_pos();
+
+        Ok(KeyframeSelector {
+            span: self.i.make_span(start),
+        })
+    }
 
     fn parse_font_face_rule(&mut self, start: BytePos) -> PResult<FontFaceRule> {}
 
