@@ -15,7 +15,7 @@ macro_rules! expect {
         use crate::error::{Error, ErrorKind};
 
         match $parser.lexer.cur() {
-            Some(tok!($t)) => true,
+            Some(tok!($t)) => {}
             Some(other) => Err(Error {
                 inner: Box::new((
                     $parser.i.span(),
@@ -28,6 +28,15 @@ macro_rules! expect {
             None => Err(Error {
                 inner: Box::new(($parser.i.span(), ErrorKind::Eof)),
             }),
+        }
+    }};
+}
+
+macro_rules! is {
+    ($parser:expr, $t:tt) => {{
+        match $parser.lexer.cur() {
+            Some(tok!($t)) => true,
+            _ => false,
         }
     }};
 }
