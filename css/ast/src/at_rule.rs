@@ -33,8 +33,7 @@ pub struct MediaRule {
 #[ast_node]
 pub struct ImportRule {
     pub span: Span,
-    /// This field includes quotes.
-    pub src: Text,
+    pub src: Str,
 }
 
 #[ast_node]

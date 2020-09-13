@@ -9,7 +9,7 @@ impl Parser<'_> {
         let start = self.i.cur_pos();
         self.i.bump(); // '@'
 
-        let name = self.pares_word()?;
+        let name = self.parse_word()?;
 
         match name.sym {
             js_word!("charset") => self.parse_charset_rule(start).map(From::from),
@@ -36,7 +36,14 @@ impl Parser<'_> {
 
     fn parse_media_query(&mut self, start: BytePos) -> PResult<MediaQuery> {}
 
-    fn parse_import_rule(&mut self, start: BytePos) -> PResult<ImportRule> {}
+    fn parse_import_rule(&mut self, start: BytePos) -> PResult<ImportRule> {
+        let src = self.parse_str()?;
+
+        Ok(ImportRule {
+            span: self.i.make_span(start),
+            src,
+        })
+    }
 
     fn parse_keyframes_rule(&mut self, start: BytePos) -> PResult<KeyframesRule> {}
 

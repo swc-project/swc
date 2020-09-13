@@ -23,7 +23,7 @@ impl<'i> Parser<'i> {
     }
 
     /// Eat one word, but not punctuntions or spaces.
-    pub(super) fn pares_word(&mut self) -> PResult<Text> {
+    pub(super) fn parse_word(&mut self) -> PResult<Text> {
         match self.i.cur() {
             Some(t) => match t {
                 Token::Error
