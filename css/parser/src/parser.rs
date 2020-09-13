@@ -78,6 +78,7 @@ impl Parser<'_> {
                 | Token::Minus
                 | Token::Dot => self.err(SyntaxError::ExpectedWord { got: t }),
 
+                // TODO: Optimize using js_word
                 Token::Ident | Token::Important | Token::Px => {
                     let span = self.i.span();
                     let s = self.i.slice();
