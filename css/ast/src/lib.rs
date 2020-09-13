@@ -1,6 +1,11 @@
+#![deny(unused)]
+
+pub use at_rule::AtRule;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
+mod at_rule;
+mod media_query;
 #[ast_node]
 pub struct Text {
     pub span: Span,
@@ -19,16 +24,6 @@ pub enum Rule {
     At(AtRule),
     #[tag("StyleRule")]
     Style(StyleRule),
-}
-
-#[ast_node]
-pub struct AtRule {
-    pub span: Span,
-    /// `id` in `@id (rule);`
-    ///
-    /// This does not contains `@`
-    pub id: Text,
-    pub text: Text,
 }
 
 #[ast_node]
