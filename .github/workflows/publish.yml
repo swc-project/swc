@@ -4,12 +4,11 @@ on:
   create:
     tags:
       - v*
-# on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
-  CI: '1'
-  DEBUG: 'napi:*'
+  CI: "1"
+  DEBUG: "napi:*"
 
 jobs:
   build:
@@ -64,7 +63,7 @@ jobs:
         shell: bash
         run: npm run build
         env:
-          MACOSX_DEPLOYMENT_TARGET: '10.13'
+          MACOSX_DEPLOYMENT_TARGET: "10.13"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -79,11 +78,48 @@ jobs:
       - name: Test bindings
         run: npm test
 
+  build_musl:
+    name: stable - linux-musl - node@12
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to registry
+        run: |
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+        env:
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_USERNAME: ${{ github.actor }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull docker image
+        run: |
+          docker pull docker.pkg.github.com/napi-rs/napi-rs/rust-nodejs-alpine:lts
+          docker tag docker.pkg.github.com/napi-rs/napi-rs/rust-nodejs-alpine:lts builder
+      - name: "Install dependencies"
+        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org
+
+      - name: "Build"
+        run: |
+          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "cargo build -p node --release"
+          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "./node_modules/.bin/napi build --platform --cargo-name node --musl --release -c ./package.json ./scripts/npm"
+
+      - name: List packages
+        run: ls -R ./scripts/npm/
+        shell: bash
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: scripts/npm/swc.linux-musl.node
   publish:
     name: npm
     runs-on: ubuntu-latest
     needs:
       - build
+      - build_musl
     steps:
       - uses: actions/checkout@v2
 

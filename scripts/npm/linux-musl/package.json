@@ -1,0 +1,37 @@
+{
+  "name": "@swc/core-linux-musl",
+  "version": "1.2.23",
+  "os": [
+    "linux"
+  ],
+  "main": "swc.linux-musl.node",
+  "files": [
+    "swc.linux.node"
+  ],
+  "description": "Super-fast alternative for babel",
+  "keywords": [
+    "swc",
+    "spack",
+    "babel",
+    "typescript",
+    "rust",
+    "webpack",
+    "tsc"
+  ],
+  "author": "강동윤 <kdy1997.dev@gmail.com>",
+  "homepage": "https://swc-project.github.io",
+  "license": "MIT",
+  "cpu": [
+    "x64"
+  ],
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/swc-project/swc/issues"
+  }
+}
