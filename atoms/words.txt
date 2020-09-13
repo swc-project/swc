@@ -586,6 +586,7 @@ break
 call
 case
 catch
+charset
 class
 concat
 const
@@ -607,6 +608,7 @@ export
 extends
 false
 finally
+font-face
 for
 from
 function
@@ -615,6 +617,7 @@ global
 if
 implements
 import
+important
 in
 infer
 instanceof
@@ -622,9 +625,11 @@ interface
 is
 iterator
 key
+keyframes
 keyof
 length
 let
+media
 meta
 module
 namespace
@@ -646,6 +651,7 @@ set
 static
 string
 super
+supports
 switch
 symbol
 target
