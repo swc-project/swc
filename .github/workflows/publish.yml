@@ -12,72 +12,72 @@ env:
   DEBUG: "napi:*"
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+  # build:
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, macos-latest, windows-latest]
 
-    name: Build - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
+  #   name: Build - ${{ matrix.os }}
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
+  #     - name: Setup node
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12
 
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-publish-integration
+  #     - name: Cache
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           ~/.cargo/
+  #           **/target/
+  #         key: ${{ runner.os }}-publish-integration
 
-      - name: Set platform name
-        run: |
-          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
-        shell: bash
+  #     - name: Set platform name
+  #       run: |
+  #         export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+  #         echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+  #       shell: bash
 
-      - name: Install llvm
-        if: matrix.os == 'windows-latest'
-        run: choco install -y llvm
+  #     - name: Install llvm
+  #       if: matrix.os == 'windows-latest'
+  #       run: choco install -y llvm
 
-      - name: Set llvm path
-        if: matrix.os == 'windows-latest'
-        uses: allenevans/set-env@v1.0.0
-        with:
-          LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
+  #     - name: Set llvm path
+  #       if: matrix.os == 'windows-latest'
+  #       uses: allenevans/set-env@v1.0.0
+  #       with:
+  #         LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
 
-      - name: Install node dependencies
-        run: npm i
+  #     - name: Install node dependencies
+  #       run: npm i
 
-      - name: Build
-        if: matrix.os != 'macos-latest'
-        shell: bash
-        run: npm run build
+  #     - name: Build
+  #       if: matrix.os != 'macos-latest'
+  #       shell: bash
+  #       run: npm run build
 
-      - name: Build
-        if: matrix.os == 'macos-latest'
-        shell: bash
-        run: npm run build
-        env:
-          MACOSX_DEPLOYMENT_TARGET: "10.13"
+  #     - name: Build
+  #       if: matrix.os == 'macos-latest'
+  #       shell: bash
+  #       run: npm run build
+  #       env:
+  #         MACOSX_DEPLOYMENT_TARGET: "10.13"
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bindings
-          path: swc.${{ env.PLATFORM_NAME }}.node
+  #     - name: Upload artifact
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: bindings
+  #         path: swc.${{ env.PLATFORM_NAME }}.node
 
-      - name: List packages
-        run: ls -R ./scripts/npm/
-        shell: bash
+  #     - name: List packages
+  #       run: ls -R ./scripts/npm/
+  #       shell: bash
 
-      - name: Test bindings
-        run: npm test
+  #     - name: Test bindings
+  #       run: npm test
 
   build_musl:
     name: stable - linux-musl - node@12
@@ -109,7 +109,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: bindings
-          path: swc.${{ env.PLATFORM_NAME }}.node
+          path: swc.linux-musl.node
   publish:
     name: npm
     runs-on: ubuntu-latest
