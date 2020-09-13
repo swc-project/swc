@@ -74,9 +74,9 @@
     "url": "https://opencollective.com/swc"
   },
   "optionalDependencies": {
-    "@swc/core-darwin": "^1.2.28",
-    "@swc/core-linux": "^1.2.28",
-    "@swc/core-linux-musl": "^1.2.28",
-    "@swc/core-win32": "^1.2.28"
+    "@swc/core-darwin": "^1.2.27",
+    "@swc/core-linux": "^1.2.27",
+    "@swc/core-linux-musl": "^1.2.27",
+    "@swc/core-win32": "^1.2.27"
   }
 }
