@@ -5,6 +5,7 @@ use swc_css_ast::*;
 mod at_rule;
 mod style_rule;
 mod util;
+mod value;
 
 pub type PResult<T> = Result<T, Error>;
 
