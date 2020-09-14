@@ -1,4 +1,3 @@
-use crate::token::Token;
 use swc_common::{Span, Spanned};
 
 #[derive(Debug, Clone)]
@@ -24,8 +23,8 @@ impl Error {
 #[non_exhaustive]
 pub enum SyntaxError {
     Eof,
-    ExpectedWord { got: Token },
-    ExpectedStr { got: Token },
-    Expected { expected: Token, got: Token },
+    ExpectedWord { got: String },
+    ExpectedStr { got: String },
+    Expected { expected: String, got: String },
     ExpectedOneOf { expected: String, got: String },
 }

@@ -14,6 +14,12 @@ pub struct Parser<'i> {
     i: Lexer<'i>,
 }
 
+impl<'i> Parser<'i> {
+    pub(crate) fn new(i: Lexer<'i>) -> Self {
+        Self { i }
+    }
+}
+
 impl Parser<'_> {
     pub fn parse(&mut self) -> PResult<Stylesheet> {
         let start = self.i.cur_pos();

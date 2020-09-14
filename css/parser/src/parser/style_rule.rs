@@ -25,7 +25,8 @@ impl Parser<'_> {
                 break;
             }
 
-            self.parse_property()?;
+            let p = self.parse_property()?;
+            properties.push(p);
         }
 
         expect!(self, "}");

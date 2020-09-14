@@ -128,7 +128,7 @@ impl Parser<'_> {
 
     fn parse_supports_query(&mut self) -> PResult<Box<SupportsQuery>> {
         let start = self.i.cur_pos();
-        let query = self.parse_one_support_query_element()?;
+        let mut query = self.parse_one_support_query_element()?;
 
         loop {
             if is!(self, "{") {
@@ -188,7 +188,7 @@ impl Parser<'_> {
 
         let mut keyframes = vec![];
 
-        while let Some(t) = self.i.cur() {
+        while let Some(..) = self.i.cur() {
             if is!(self, "}") {
                 break;
             }
@@ -201,6 +201,7 @@ impl Parser<'_> {
 
         Ok(KeyframesRule {
             span: self.i.make_span(start),
+            name,
             keyframes,
         })
     }
@@ -219,8 +220,6 @@ impl Parser<'_> {
     }
 
     fn parse_keyframe_selector(&mut self) -> PResult<KeyframeSelector> {
-        let start = self.i.cur_pos();
-
         let word = self.parse_opt_word()?;
 
         Ok(match word {
@@ -246,7 +245,7 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_unknown_at_rule(&mut self, start: BytePos) -> PResult<UnknownAtRule> {
+    fn parse_unknown_at_rule(&mut self, _start: BytePos) -> PResult<UnknownAtRule> {
         unimplemented!("parse_unknown_at_rule")
     }
 }

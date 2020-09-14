@@ -35,8 +35,8 @@ macro_rules! expect {
                 inner: Box::new((
                     $parser.i.span(),
                     SyntaxError::Expected {
-                        expected: tok!($t),
-                        got: other,
+                        expected: format!("{:?}", tok!($t)),
+                        got: format!("{:?}", other),
                     },
                 )),
             })?,

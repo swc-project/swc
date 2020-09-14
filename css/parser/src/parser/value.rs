@@ -11,11 +11,7 @@ impl Parser<'_> {
         }
 
         match self.i.cur().unwrap() {
-            Token::Str => {
-                let s = self.parse_str()?;
-
-                return Ok(Value::Str(s));
-            }
+            Token::Str => self.parse_str().map(Value::Str),
 
             Token::Error
             | Token::Semi
@@ -26,15 +22,17 @@ impl Parser<'_> {
             | Token::RParen
             | Token::RBrace
             | Token::LBrace
-            | Token::BangImportant => self.err(SyntaxError::ExpectedOneOf {
-                expected: "value".into(),
-                got: format!("{:?}", self.i.cur().unwrap()),
-            }),
+            | Token::BangImportant => {
+                let got = format!("{:?}", self.i.cur().unwrap());
+                self.err(SyntaxError::ExpectedOneOf {
+                    expected: "value".into(),
+                    got,
+                })
+            }
 
-            Token::LParen => return self.parse_paren_value().map(Value::Paren),
-            Token::Plus => {}
-            Token::Minus => {}
-            Token::Hash => {}
+            Token::LParen => self.parse_paren_value().map(Value::Paren),
+            Token::Minus | Token::Plus => self.parse_numeric_valie(),
+            Token::Hash => self.parse_hash_value(),
 
             Token::Ident | Token::Px => unreachable!(),
         }
@@ -54,5 +52,27 @@ impl Parser<'_> {
             span: self.i.make_span(start),
             value,
         })
+    }
+
+    fn parse_numeric_valie(&mut self) -> PResult<Value> {
+        let _is_plus = match self.i.cur() {
+            Some(Token::Plus) => {
+                self.i.bump(); // '+'
+
+                true
+            }
+            Some(Token::Minus) => {
+                self.i.bump(); // '-'
+
+                false
+            }
+            _ => unreachable!(),
+        };
+
+        unimplemented!("parse_numeric_valie")
+    }
+
+    fn parse_hash_value(&mut self) -> PResult<Value> {
+        unimplemented!("parse_hash_value")
     }
 }
