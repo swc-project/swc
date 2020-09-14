@@ -286,7 +286,7 @@ where
                 let dependants = builder.reverse.get(&dep).map(|s| &**s).unwrap_or(&[]);
 
                 if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
-                    log::info!("Module dep: {} => {}", id, dep);
+                    log::info!("{:?} depends on {:?}", id, dep);
 
                     // Common js support.
                     if !is_es6 {
@@ -338,7 +338,13 @@ where
 
                     if 2 <= dependants.len() {
                         // Should be merged as a transitive dependency.
-                        let module = least_common_ancestor(&builder.entry_graph, dependants);
+                        let module = if plans.entries.contains(&dependants[0]) {
+                            dependants[0]
+                        } else if dependants.len() == 2 && plans.entries.contains(&dependants[1]) {
+                            dependants[1]
+                        } else {
+                            least_common_ancestor(&builder.entry_graph, dependants)
+                        };
 
                         if dependants.len() == 2 && dependants.contains(&module) {
                             let entry = *dependants.iter().find(|&&v| v != module).unwrap();
