@@ -54,6 +54,7 @@ fn assert_normal_transitive(
     )
 }
 
+#[track_caller]
 fn assert_circular(t: &mut Tester, p: &Plan, entry: &str, members: &[&str]) {
     assert_eq!(
         p.circular[&t.id(&format!("{}.js", entry))]
