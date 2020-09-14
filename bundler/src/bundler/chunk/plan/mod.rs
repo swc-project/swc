@@ -348,7 +348,10 @@ where
 
                         if dependants.len() == 2 && dependants.contains(&module) {
                             let entry = *dependants.iter().find(|&&v| v != module).unwrap();
-                            plans.normal.entry(entry).or_default().chunks.push(dep);
+                            let normal_plan = plans.normal.entry(entry).or_default();
+                            if !normal_plan.chunks.contains(&dep) {
+                                normal_plan.chunks.push(dep);
+                            }
                         } else {
                             let t = &mut plans.normal.entry(module).or_default().transitive_chunks;
                             if !t.contains(&dep) {
