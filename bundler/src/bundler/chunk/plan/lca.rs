@@ -26,7 +26,10 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
             return id;
         }
 
-        unreachable!("failed to calculagte least common ancestor")
+        unreachable!(
+            "failed to calculate least common ancestors of {:?}",
+            module_ids
+        )
     }
 
     return module_ids
