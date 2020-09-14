@@ -6,7 +6,7 @@ impl Parser<'_> {
         let word = self.parse_opt_word()?;
 
         match word {
-            Some(v) => return Ok(Value::Text(word)),
+            Some(v) => return Ok(Value::Text(v)),
             None => {}
         }
 
