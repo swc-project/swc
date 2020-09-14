@@ -14,6 +14,9 @@ macro_rules! tok {
     (")") => {
         crate::token::Token::RParen
     };
+    (",") => {
+        crate::token::Token::Comma
+    };
 }
 
 macro_rules! expect {
