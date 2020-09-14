@@ -46,3 +46,14 @@ macro_rules! is {
         }
     }};
 }
+
+macro_rules! eat {
+    ($parser:expr, $t:tt) => {{
+        if is!($parser, $t) {
+            $parser.i.bump();
+            true
+        } else {
+            false
+        }
+    }};
+}

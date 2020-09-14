@@ -25,5 +25,5 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_property(&mut self) -> PResult<Property> {}
+    pub(super) fn parse_property(&mut self) -> PResult<Property> {}
 }

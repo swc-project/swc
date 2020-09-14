@@ -79,7 +79,23 @@ impl Parser<'_> {
         Ok(query)
     }
 
-    fn parse_one_media_query_element(&mut self) -> PResult<Box<MediaQuery>> {}
+    fn parse_one_media_query_element(&mut self) -> PResult<Box<MediaQuery>> {
+        let start = self.i.cur_pos();
+
+        if eat!(self, "(") {
+            let property = self.parse_property()?;
+            expect!(self, ")");
+
+            return Ok(Box::new(MediaQuery::Value(ParenProperty {
+                span: self.i.make_span(start),
+                property,
+            })));
+        }
+
+        let text = self.parse_word()?;
+
+        Ok(Box::new(MediaQuery::Text(text)))
+    }
 
     fn parse_import_rule(&mut self, start: BytePos) -> PResult<ImportRule> {
         let src = self.parse_str()?;
