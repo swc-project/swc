@@ -47,7 +47,7 @@ pub enum Rule {
 #[ast_node]
 pub struct StyleRule {
     pub span: Span,
-    pub selectors: Vec<Selector>,
+    pub selectors: Vec<Box<Selector>>,
     pub block: DeclBlock,
 }
 
