@@ -260,6 +260,7 @@ where
                         Entry::Vacant(e) => {
                             let circular_plan = e.insert(CircularPlan::default());
                             if let Some(mut v) = builder.circular.remove(&dep) {
+                                dbg!(dep, &v);
                                 if let Some(index) = v.iter().position(|&id| id == dep) {
                                     v.remove(index);
                                 }
@@ -279,6 +280,11 @@ where
         for (id, deps) in builder.direct_deps.drain() {
             for &dep in &deps {
                 if builder.circular.get(&id).is_some() {
+                    log::debug!(
+                        "Adding a circular dependencuy {:?} to normal entry {:?}",
+                        dep,
+                        id
+                    );
                     plans.normal.entry(id).or_default().chunks.push(dep);
                     continue;
                 }
@@ -378,8 +384,7 @@ where
     }
 
     fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
-        let contains = builder.entry_graph.contains_node(module_id);
-
+        dbg!(module_id);
         builder.entry_graph.add_node(module_id);
         builder.tracking_graph.add_node(module_id);
 
@@ -389,50 +394,48 @@ where
             .expect("failed to get module");
 
         for (src, _) in &m.imports.specifiers {
-            log::trace!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
+            log::debug!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
         }
 
         // Prevent dejavu
-        if contains {
-            for (src, _) in &m.imports.specifiers {
-                if builder.entry_graph.contains_edge(module_id, src.module_id) {
-                    log::debug!(
-                        "({:?}) Maybe circular dep: {:?} => {:?}",
-                        root_id,
-                        module_id,
-                        src.module_id
-                    );
+        for (src, _) in &m.imports.specifiers {
+            if builder.entry_graph.contains_edge(src.module_id, module_id) {
+                log::debug!(
+                    "({:?}) circular dep: {:?} => {:?}",
+                    root_id,
+                    module_id,
+                    src.module_id
+                );
 
-                    // builder.mark_as_circular(module_id, src.module_id);
+                builder.mark_as_circular(module_id, src.module_id);
 
-                    let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
-                        &builder.entry_graph,
-                        src.module_id,
-                        module_id,
-                        0,
-                        None,
-                    )
-                    .collect::<Vec<_>>();
+                let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
+                    &builder.entry_graph,
+                    src.module_id,
+                    module_id,
+                    0,
+                    None,
+                )
+                .collect::<Vec<_>>();
 
-                    for path in circular_paths {
-                        for dep in path {
-                            builder.mark_as_circular(module_id, dep)
-                        }
+                for path in circular_paths {
+                    for dep in path {
+                        builder.mark_as_circular(module_id, dep)
                     }
-
-                    return;
-                } else {
-                    builder.entry_graph.add_edge(
-                        module_id,
-                        src.module_id,
-                        if src.is_unconditional { 2 } else { 1 },
-                    );
                 }
+            } else {
+                builder.entry_graph.add_edge(
+                    module_id,
+                    src.module_id,
+                    if src.is_unconditional { 2 } else { 1 },
+                );
             }
         }
 
         for (src, _) in m.imports.specifiers.iter().chain(&m.exports.reexports) {
-            self.add_to_graph(builder, src.module_id, root_id);
+            if !builder.entry_graph.contains_edge(src.module_id, module_id) {
+                self.add_to_graph(builder, src.module_id, root_id);
+            }
 
             builder.entry_graph.add_edge(
                 module_id,
