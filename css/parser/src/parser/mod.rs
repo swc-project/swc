@@ -3,6 +3,7 @@ use swc_common::Span;
 use swc_css_ast::*;
 
 mod at_rule;
+mod selector;
 mod style_rule;
 mod util;
 mod value;
