@@ -1,4 +1,4 @@
-use crate::{media_query::MediaQuery, DeclBlock, Number, Property, Str, Text};
+use crate::{media_query::MediaQuery, DeclBlock, Number, ParenProperty, Str, Text};
 use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum AtRule {
@@ -55,7 +55,7 @@ pub struct SupportsRule {
 #[ast_node]
 pub enum SupportsQuery {
     #[tag("Property")]
-    Property(Property),
+    Property(ParenProperty),
 
     #[tag("AndSupportsQuery")]
     And(AndSupportsQuery),
@@ -67,13 +67,15 @@ pub enum SupportsQuery {
 #[ast_node]
 pub struct AndSupportsQuery {
     pub span: Span,
-    pub queries: Vec<SupportsQuery>,
+    pub first: Box<SupportsQuery>,
+    pub second: Box<SupportsQuery>,
 }
 
 #[ast_node]
 pub struct OrSupportsQuery {
     pub span: Span,
-    pub queries: Vec<SupportsQuery>,
+    pub first: Box<SupportsQuery>,
+    pub second: Box<SupportsQuery>,
 }
 
 #[ast_node]

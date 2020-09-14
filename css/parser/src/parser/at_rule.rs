@@ -126,7 +126,60 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_supports_query(&mut self) -> PResult<Box<SupportsQuery>> {}
+    fn parse_supports_query(&mut self) -> PResult<Box<SupportsQuery>> {
+        let start = self.i.cur_pos();
+        let query = self.parse_one_support_query_element()?;
+
+        loop {
+            if is!(self, "{") {
+                break;
+            }
+
+            let and_or = self.parse_word()?;
+
+            match and_or.sym {
+                js_word!("and") => {
+                    let q = self.parse_one_support_query_element()?;
+                    query = Box::new(SupportsQuery::And(AndSupportsQuery {
+                        span: self.i.make_span(start),
+                        first: query,
+                        second: q,
+                    }))
+                }
+                js_word!("or") => {
+                    let q = self.parse_one_support_query_element()?;
+                    query = Box::new(SupportsQuery::Or(OrSupportsQuery {
+                        span: self.i.make_span(start),
+                        first: query,
+                        second: q,
+                    }))
+                }
+                _ => self.err(SyntaxError::ExpectedOneOf {
+                    expected: "'and' or 'or'".into(),
+                    got: and_or.sym,
+                })?,
+            }
+        }
+
+        Ok(query)
+    }
+
+    fn parse_one_support_query_element(&mut self) -> PResult<Box<SupportsQuery>> {
+        let start = self.i.cur_pos();
+        if eat!(self, "(") {
+            let property = self.parse_property()?;
+            expect!(self, ")");
+
+            return Ok(Box::new(SupportsQuery::Property(ParenProperty {
+                span: self.i.make_span(start),
+                property,
+            })));
+        }
+
+        expect!(self, "("); // This fails
+
+        unreachable!()
+    }
 
     fn parse_keyframes_rule(&mut self, start: BytePos) -> PResult<KeyframesRule> {
         let name = self.parse_word()?;
