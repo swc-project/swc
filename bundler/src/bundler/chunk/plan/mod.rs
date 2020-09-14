@@ -258,12 +258,12 @@ where
 
                         // We need to mark modules as circular.
                         Entry::Vacant(e) => {
-                            let plan = e.insert(CircularPlan::default());
+                            let circular_plan = e.insert(CircularPlan::default());
                             if let Some(mut v) = builder.circular.remove(&dep) {
                                 if let Some(index) = v.iter().position(|&id| id == dep) {
                                     v.remove(index);
                                 }
-                                plan.chunks.extend(v);
+                                circular_plan.chunks.extend(v);
                             }
                         }
                     }
