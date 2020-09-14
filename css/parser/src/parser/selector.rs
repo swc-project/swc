@@ -19,5 +19,7 @@ impl Parser<'_> {
         Ok(selectors)
     }
 
-    pub(super) fn parse_selector(&mut self) -> PResult<Box<Selector>> {}
+    pub(super) fn parse_selector(&mut self) -> PResult<Box<Selector>> {
+        unimplemented!("parse_selector")
+    }
 }
