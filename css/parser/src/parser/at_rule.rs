@@ -71,7 +71,7 @@ impl Parser<'_> {
                 }
                 _ => self.err(SyntaxError::ExpectedOneOf {
                     expected: "'and' or 'or'".into(),
-                    got: and_or.into(),
+                    got: String::from(&*and_or.sym),
                 })?,
             }
         }
@@ -156,7 +156,7 @@ impl Parser<'_> {
                 }
                 _ => self.err(SyntaxError::ExpectedOneOf {
                     expected: "'and' or 'or'".into(),
-                    got: and_or.sym,
+                    got: String::from(&*and_or.sym),
                 })?,
             }
         }
