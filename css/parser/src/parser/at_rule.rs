@@ -33,7 +33,7 @@ impl Parser<'_> {
     }
 
     fn parse_media_rule(&mut self, start: BytePos) -> PResult<MediaRule> {
-        let query = self.parse_media_query().map(Box::new)?;
+        let query = self.parse_media_query()?;
 
         Ok(MediaRule {
             span: self.i.make_span(start),
@@ -41,7 +41,7 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_media_query(&mut self) -> PResult<MediaQuery> {
+    fn parse_media_query(&mut self) -> PResult<Box<MediaQuery>> {
         let start = self.i.cur_pos();
         let mut query = self.parse_one_media_query_element()?;
 
@@ -158,7 +158,9 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_percent_selector(&mut self) -> PResult<KeyframePercentSelector> {}
+    fn parse_percent_selector(&mut self) -> PResult<KeyframePercentSelector> {
+        unimplemented!("parse_percent_selector")
+    }
 
     fn parse_font_face_rule(&mut self, start: BytePos) -> PResult<FontFaceRule> {
         let block = self.parse_decl_block()?;
@@ -169,5 +171,7 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_unknown_at_rule(&mut self, start: BytePos) -> PResult<UnknownAtRule> {}
+    fn parse_unknown_at_rule(&mut self, start: BytePos) -> PResult<UnknownAtRule> {
+        unimplemented!("parse_unknown_at_rule")
+    }
 }
