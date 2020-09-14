@@ -33,12 +33,14 @@ where
         };
         dep = dep.fold_with(&mut v);
 
-        log::info!("Remark map: {:?}", v.remark_map);
+        if !v.remark_map.is_empty() {
+            log::info!("Remark map: {:?}", v.remark_map);
 
-        // Swap syntax context. Although name is remark, it's actually
-        // swapping because ExportRenamer inserts two-side conversion
-        // rule.
-        self.remark(&mut dep, &v.remark_map);
+            // Swap syntax context. Although name is remark, it's actually
+            // swapping because ExportRenamer inserts two-side conversion
+            // rule.
+            self.remark(&mut dep, &v.remark_map);
+        }
 
         dep
     }
