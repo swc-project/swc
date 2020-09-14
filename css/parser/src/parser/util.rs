@@ -40,7 +40,7 @@ impl<'i> Parser<'i> {
             Some(t) => match t {
                 Token::Error
                 | Token::Semi
-                | Token::Color
+                | Token::Colon
                 | Token::Comma
                 | Token::At
                 | Token::Str
@@ -51,10 +51,11 @@ impl<'i> Parser<'i> {
                 | Token::Hash
                 | Token::Plus
                 | Token::Minus
-                | Token::Dot => Ok(None),
+                | Token::Dot
+                | Token::BangImportant => Ok(None),
 
                 // TODO: Optimize using js_word
-                Token::Ident | Token::Important | Token::Px => {
+                Token::Ident | Token::Px => {
                     let span = self.i.span();
                     let s = self.i.slice();
                     self.i.bump();

@@ -17,6 +17,12 @@ macro_rules! tok {
     (",") => {
         crate::token::Token::Comma
     };
+    (":") => {
+        crate::token::Token::Colon
+    };
+    ("!important") => {
+        crate::token::Token::BangImportant
+    };
 }
 
 macro_rules! expect {

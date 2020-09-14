@@ -11,7 +11,7 @@ pub(crate) enum Token {
     Semi,
 
     #[token(":")]
-    Color,
+    Colon,
 
     #[token(",")]
     Comma,
@@ -51,7 +51,7 @@ pub(crate) enum Token {
     Hash,
 
     #[token("important")]
-    Important,
+    BangImportant,
 
     #[token("px")]
     Px,

@@ -36,5 +36,26 @@ impl Parser<'_> {
         })
     }
 
-    pub(super) fn parse_property(&mut self) -> PResult<Property> {}
+    pub(super) fn parse_property(&mut self) -> PResult<Property> {
+        let start = self.i.cur_pos();
+
+        let name = self.parse_word()?;
+        expect!(self, ":");
+        let value = self.parse_value()?;
+
+        let important = if is!(self, "!important") {
+            let span = self.i.span();
+            self.i.bump();
+            Some(span)
+        } else {
+            None
+        };
+
+        Ok(Property {
+            span: self.i.make_span(start),
+            name,
+            value,
+            important,
+        })
+    }
 }
