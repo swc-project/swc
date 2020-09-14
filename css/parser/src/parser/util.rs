@@ -17,7 +17,9 @@ impl<'i> Parser<'i> {
                         sym: s.into(),
                     })
                 }
-                _ => self.err(SyntaxError::ExpectedStr { got: t }),
+                _ => self.err(SyntaxError::ExpectedStr {
+                    got: format!("{:?}", t),
+                }),
             },
             None => self.err(SyntaxError::Eof),
         }
@@ -30,7 +32,7 @@ impl<'i> Parser<'i> {
         match word {
             Some(v) => Ok(v),
             None => self.err(SyntaxError::ExpectedWord {
-                got: token.unwrap(),
+                got: format!("{:?}", token),
             }),
         }
     }
@@ -39,15 +41,11 @@ impl<'i> Parser<'i> {
     pub(super) fn parse_opt_word(&mut self) -> PResult<Option<Text>> {
         match self.i.cur() {
             Some(t) => {
-                if let Some(v) = as_word(t, self.i.slice()) {
+                if let Some(sym) = as_word(t, self.i.slice()) {
                     let span = self.i.span();
-                    let s = self.i.slice();
                     self.i.bump();
 
-                    return Ok(Some(Text {
-                        span,
-                        sym: s.into(),
-                    }));
+                    return Ok(Some(Text { span, sym }));
                 } else {
                     Ok(None)
                 }
