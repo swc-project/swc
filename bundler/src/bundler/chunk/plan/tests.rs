@@ -247,6 +247,8 @@ fn circular_001() {
 
             let p = t.bundler.determine_entries(entries)?;
 
+            dbg!(&p);
+
             assert_circular(t, &p, "a", &["b"]);
             assert_normal(t, &p, "main", &["a"]);
             assert_normal(t, &p, "a", &[]);
@@ -604,6 +606,56 @@ fn cjs_005() {
             assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
             assert_normal(t, &p, "c", &[]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn deno_001() {
+    suite()
+        .file(
+            "main.js",
+            r#"
+            import { listenAndServe } from "./http-server";
+            "#,
+        )
+        .file(
+            "http-server.js",
+            r#"
+            import { BufReader, BufWriter } from "./io-bufio";
+            import { bodyReader } from "./_io";
+            "#,
+        )
+        .file(
+            "_io.js",
+            r#"
+            import { BufReader, BufWriter } from "./io-bufio";
+            import { ServerRequest, Response } from "./http-server";
+            "#,
+        )
+        .file(
+            "io-bufio.js",
+            r#"
+            "#,
+        )
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let p = t.bundler.determine_entries(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p, "main", &["http-server"]);
+            assert_normal(t, &p, "http-server", &["_io"]);
+            assert_normal(t, &p, "io-bufio", &[""]);
+            assert_circular(t, &p, "http-server", &["io-bufio"]);
+            assert_circular(t, &p, "io-bufio", &["http-server"]);
 
             Ok(())
         });
