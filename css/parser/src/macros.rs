@@ -8,6 +8,12 @@ macro_rules! tok {
     ("}") => {
         crate::token::Token::RBrace
     };
+    ("(") => {
+        crate::token::Token::LParen
+    };
+    (")") => {
+        crate::token::Token::RParen
+    };
 }
 
 macro_rules! expect {

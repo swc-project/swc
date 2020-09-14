@@ -17,11 +17,13 @@ pub enum MediaQuery {
 #[ast_node]
 pub struct AndMediaQuery {
     pub span: Span,
-    pub queries: Vec<MediaQuery>,
+    pub first: Box<MediaQuery>,
+    pub second: Box<MediaQuery>,
 }
 
 #[ast_node]
 pub struct OrMediaQuery {
     pub span: Span,
-    pub queries: Vec<MediaQuery>,
+    pub first: Box<MediaQuery>,
+    pub second: Box<MediaQuery>,
 }

@@ -41,7 +41,41 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_media_query(&mut self) -> PResult<MediaQuery> {}
+    fn parse_media_query(&mut self) -> PResult<MediaQuery> {
+        let start = self.i.cur_pos();
+        let mut query = self.parse_one_media_query_element()?;
+
+        loop {
+            if is!(self, "{") {
+                break;
+            }
+
+            let and_or = self.parse_word()?;
+
+            match and_or.sym {
+                jw_word!("and") => {
+                    let q = self.parse_one_media_query_element()?;
+                    query = MediaQuery::And(AndMediaQuery {
+                        span: self.i.make_span(start),
+                        first: query,
+                        second: q,
+                    })
+                }
+                jw_word!("or") => {
+                    let q = self.parse_one_media_query_element()?;
+                    query = MediaQuery::Or(OrMediaQuery {
+                        span: self.i.make_span(start),
+                        first: query,
+                        second: q,
+                    })
+                }
+            }
+        }
+
+        Ok(query)
+    }
+
+    fn parse_one_media_query_element(&mut self) -> PResult<MediaQuery> {}
 
     fn parse_import_rule(&mut self, start: BytePos) -> PResult<ImportRule> {
         let src = self.parse_str()?;
@@ -97,12 +131,14 @@ impl Parser<'_> {
         Ok(match word {
             Some(v) => KeyframeSelector::Extra(v),
             None => {
-                let percent = self.parse_percent()?;
+                let percent = self.parse_percent_selector()?;
 
                 KeyframeSelector::Percent(percent)
             }
         })
     }
+
+    fn parse_percent_selector(&mut self) -> PResult<KeyframePercentSelector> {}
 
     fn parse_font_face_rule(&mut self, start: BytePos) -> PResult<FontFaceRule> {}
 
