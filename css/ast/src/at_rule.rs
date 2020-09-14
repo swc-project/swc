@@ -48,6 +48,8 @@ pub struct SupportsRule {
     pub span: Span,
     /// TODO: Create a dedicated ast type.
     pub query: Box<SupportsQuery>,
+
+    pub rules: Vec<DeclBlock>,
 }
 
 #[ast_node]

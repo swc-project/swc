@@ -15,7 +15,7 @@ impl Parser<'_> {
             js_word!("charset") => self.parse_charset_rule(start).map(From::from),
             js_word!("media") => self.parse_media_rule(start).map(From::from),
             js_word!("import") => self.parse_import_rule(start).map(From::from),
-            js_word!("supports") => self.parse_import_rule(start).map(From::from),
+            js_word!("supports") => self.parse_supports_rule(start).map(From::from),
             js_word!("keyframes") => self.parse_keyframes_rule(start).map(From::from),
             js_word!("font-face") => self.parse_font_face_rule(start).map(From::from),
 
@@ -105,6 +105,28 @@ impl Parser<'_> {
             src,
         })
     }
+
+    fn parse_supports_rule(&mut self, start: BytePos) -> PResult<SupportsRule> {
+        expect!(self, "(");
+        let query = self.parse_supports_query()?;
+        expect!(self, ")");
+
+        expect!(self, "{");
+        let mut rules = vec![];
+        while is!(self, "{") {
+            let block = self.parse_decl_block()?;
+            rules.push(block);
+        }
+        expect!(self, "}");
+
+        Ok(SupportsRule {
+            span: self.i.make_span(start),
+            query,
+            rules,
+        })
+    }
+
+    fn parse_supports_query(&mut self) -> PResult<Box<SupportsQuery>> {}
 
     fn parse_keyframes_rule(&mut self, start: BytePos) -> PResult<KeyframesRule> {
         let name = self.parse_word()?;
