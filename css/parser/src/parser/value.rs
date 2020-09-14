@@ -23,20 +23,25 @@ impl Parser<'_> {
             | Token::Comma
             | Token::At
             | Token::Dot
+            | Token::RParen
+            | Token::RBrace
+            | Token::LBrace
             | Token::BangImportant => self.err(SyntaxError::ExpectedOneOf {
                 expected: "value".into(),
                 got: format!("{:?}", self.i.cur().unwrap()),
             }),
 
-            Token::LParen => {}
-            Token::RParen => {}
-            Token::LBrace => {}
-            Token::RBrace => {}
+            Token::LParen => return self.parse_paren_value().map(Value::Paren),
             Token::Plus => {}
             Token::Minus => {}
             Token::Hash => {}
 
             Token::Ident | Token::Px => unreachable!(),
         }
+    }
+
+    fn parse_paren_value(&mut self) -> PResult<ParenValue> {
+        debug_assert_eq!(self.i.cur(), Some(Token::LParen));
+        self.i.bump(); // '('
     }
 }

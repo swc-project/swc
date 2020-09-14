@@ -1,7 +1,5 @@
-use swc_atoms::JsWord;
-use swc_common::{Span, Spanned};
-
 use crate::token::Token;
+use swc_common::{Span, Spanned};
 
 #[derive(Debug, Clone)]
 pub struct Error {

@@ -1,4 +1,5 @@
 use crate::{token::Token, Error, PResult, Parser, SyntaxError};
+use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -37,25 +38,8 @@ impl<'i> Parser<'i> {
     /// Eat one word, but not punctuntions or spaces.
     pub(super) fn parse_opt_word(&mut self) -> PResult<Option<Text>> {
         match self.i.cur() {
-            Some(t) => match t {
-                Token::Error
-                | Token::Semi
-                | Token::Colon
-                | Token::Comma
-                | Token::At
-                | Token::Str
-                | Token::LParen
-                | Token::RParen
-                | Token::LBrace
-                | Token::RBrace
-                | Token::Hash
-                | Token::Plus
-                | Token::Minus
-                | Token::Dot
-                | Token::BangImportant => Ok(None),
-
-                // TODO: Optimize using js_word
-                Token::Ident | Token::Px => {
+            Some(t) => {
+                if let Some(v) = as_word(t, self.i.slice()) {
                     let span = self.i.span();
                     let s = self.i.slice();
                     self.i.bump();
@@ -64,8 +48,10 @@ impl<'i> Parser<'i> {
                         span,
                         sym: s.into(),
                     }));
+                } else {
+                    Ok(None)
                 }
-            },
+            }
             None => self.err(SyntaxError::Eof),
         }
     }
@@ -83,5 +69,29 @@ impl<'i> Parser<'i> {
         Err(Error {
             inner: Box::new((span, err)),
         })
+    }
+}
+
+// TODO: Optimize using js_word
+fn as_word(t: Token, s: &str) -> Option<JsWord> {
+    match t {
+        Token::Error
+        | Token::Semi
+        | Token::Colon
+        | Token::Comma
+        | Token::At
+        | Token::Str
+        | Token::LParen
+        | Token::RParen
+        | Token::LBrace
+        | Token::RBrace
+        | Token::Hash
+        | Token::Plus
+        | Token::Minus
+        | Token::Dot
+        | Token::BangImportant => None,
+
+        // TODO: Optimize using js_word
+        Token::Ident | Token::Px => Some(s.into()),
     }
 }
