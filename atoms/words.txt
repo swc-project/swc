@@ -573,6 +573,7 @@ _defineProperty
 _extends
 _toConsumableArray
 abstract
+and
 any
 apply
 arguments
@@ -639,6 +640,7 @@ null
 number
 object
 of
+or
 package
 private
 process
