@@ -1,4 +1,4 @@
-use crate::{token::Token, PResult, Parser};
+use crate::{token::Token, PResult, Parser, SyntaxError};
 use swc_atoms::js_word;
 use swc_common::BytePos;
 use swc_css_ast::*;
@@ -55,27 +55,31 @@ impl Parser<'_> {
             match and_or.sym {
                 js_word!("and") => {
                     let q = self.parse_one_media_query_element()?;
-                    query = MediaQuery::And(AndMediaQuery {
+                    query = Box::new(MediaQuery::And(AndMediaQuery {
                         span: self.i.make_span(start),
                         first: query,
                         second: q,
-                    })
+                    }))
                 }
                 js_word!("or") => {
                     let q = self.parse_one_media_query_element()?;
-                    query = MediaQuery::Or(OrMediaQuery {
+                    query = Box::new(MediaQuery::Or(OrMediaQuery {
                         span: self.i.make_span(start),
                         first: query,
                         second: q,
-                    })
+                    }))
                 }
+                _ => self.err(SyntaxError::ExpectedOneOf {
+                    expected: "'and' or 'or'".into(),
+                    got: and_or.sym,
+                }),
             }
         }
 
         Ok(query)
     }
 
-    fn parse_one_media_query_element(&mut self) -> PResult<MediaQuery> {}
+    fn parse_one_media_query_element(&mut self) -> PResult<Box<MediaQuery>> {}
 
     fn parse_import_rule(&mut self, start: BytePos) -> PResult<ImportRule> {
         let src = self.parse_str()?;

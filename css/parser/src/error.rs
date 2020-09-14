@@ -1,3 +1,4 @@
+use swc_atoms::JsWord;
 use swc_common::{Span, Spanned};
 
 use crate::token::Token;
@@ -28,4 +29,5 @@ pub enum SyntaxError {
     ExpectedWord { got: Token },
     ExpectedStr { got: Token },
     Expected { expected: Token, got: Token },
+    ExpectedOneOf { expected: String, got: JsWord },
 }
