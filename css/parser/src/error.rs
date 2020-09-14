@@ -29,5 +29,5 @@ pub enum SyntaxError {
     ExpectedWord { got: Token },
     ExpectedStr { got: Token },
     Expected { expected: Token, got: Token },
-    ExpectedOneOf { expected: String, got: JsWord },
+    ExpectedOneOf { expected: String, got: String },
 }

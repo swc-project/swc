@@ -1,6 +1,42 @@
-use crate::{PResult, Parser};
+use crate::{token::Token, PResult, Parser, SyntaxError};
 use swc_css_ast::*;
 
 impl Parser<'_> {
-    pub(super) fn parse_percent(&mut self) -> PResult<Value> {}
+    pub(super) fn parse_value(&mut self) -> PResult<Value> {
+        let word = self.parse_opt_word()?;
+
+        match word {
+            Some(v) => return Ok(Value::Text(word)),
+            None => {}
+        }
+
+        match self.i.cur().unwrap() {
+            Token::Str => {
+                let s = self.parse_str()?;
+
+                return Ok(Value::Str(s));
+            }
+
+            Token::Error
+            | Token::Semi
+            | Token::Colon
+            | Token::Comma
+            | Token::At
+            | Token::Dot
+            | Token::BangImportant => self.err(SyntaxError::ExpectedOneOf {
+                expected: "value".into(),
+                got: format!("{:?}", self.i.cur().unwrap()),
+            }),
+
+            Token::LParen => {}
+            Token::RParen => {}
+            Token::LBrace => {}
+            Token::RBrace => {}
+            Token::Plus => {}
+            Token::Minus => {}
+            Token::Hash => {}
+
+            Token::Ident | Token::Px => unreachable!(),
+        }
+    }
 }

@@ -114,6 +114,10 @@ pub enum Value {
     Number(Number),
     #[tag("HashValue")]
     Hash(HashValue),
+    #[tag("Text")]
+    Text(Text),
+    #[tag("Str")]
+    Str(Str),
 }
 
 #[ast_node]
