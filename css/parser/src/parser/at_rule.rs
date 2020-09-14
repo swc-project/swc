@@ -53,7 +53,7 @@ impl Parser<'_> {
             let and_or = self.parse_word()?;
 
             match and_or.sym {
-                jw_word!("and") => {
+                js_word!("and") => {
                     let q = self.parse_one_media_query_element()?;
                     query = MediaQuery::And(AndMediaQuery {
                         span: self.i.make_span(start),
@@ -61,7 +61,7 @@ impl Parser<'_> {
                         second: q,
                     })
                 }
-                jw_word!("or") => {
+                js_word!("or") => {
                     let q = self.parse_one_media_query_element()?;
                     query = MediaQuery::Or(OrMediaQuery {
                         span: self.i.make_span(start),
