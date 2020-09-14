@@ -65,7 +65,7 @@ where
 
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(&file_name) {
-                log::info!("Cached: {}", file_name);
+                log::debug!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
 
