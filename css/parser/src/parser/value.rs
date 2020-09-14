@@ -42,6 +42,17 @@ impl Parser<'_> {
 
     fn parse_paren_value(&mut self) -> PResult<ParenValue> {
         debug_assert_eq!(self.i.cur(), Some(Token::LParen));
+        let start = self.i.cur_pos();
+
         self.i.bump(); // '('
+
+        let value = self.parse_value().map(Box::new)?;
+
+        expect!(self, ")");
+
+        Ok(ParenValue {
+            span: self.i.make_span(start),
+            value,
+        })
     }
 }
