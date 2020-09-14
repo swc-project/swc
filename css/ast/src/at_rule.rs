@@ -104,7 +104,7 @@ pub struct KeyframePercentSelector {
 #[ast_node]
 pub struct FontFaceRule {
     pub span: Span,
-    pub properties: DeclBlock,
+    pub block: DeclBlock,
 }
 
 #[ast_node]

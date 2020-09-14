@@ -160,7 +160,14 @@ impl Parser<'_> {
 
     fn parse_percent_selector(&mut self) -> PResult<KeyframePercentSelector> {}
 
-    fn parse_font_face_rule(&mut self, start: BytePos) -> PResult<FontFaceRule> {}
+    fn parse_font_face_rule(&mut self, start: BytePos) -> PResult<FontFaceRule> {
+        let block = self.parse_decl_block()?;
+
+        Ok(FontFaceRule {
+            span: self.i.make_span(start),
+            block,
+        })
+    }
 
     fn parse_unknown_at_rule(&mut self, start: BytePos) -> PResult<UnknownAtRule> {}
 }
