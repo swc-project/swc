@@ -55,7 +55,7 @@ where
         entry: &mut Module,
         info: &TransformedModule,
     ) -> Result<(), Error> {
-        log::debug!("merge_reexports: {}", info.fm.name);
+        log::trace!("merge_reexports: {}", info.fm.name);
 
         let deps = (&*info.exports.reexports)
             .into_par_iter()
@@ -241,7 +241,7 @@ impl VisitMut for UnexportAsVar<'_> {
                                 }
                             }
                             None => {
-                                log::debug!("Alias: {:?} -> {:?}", n.orig, self.dep_ctxt);
+                                log::trace!("Alias: {:?} -> {:?}", n.orig, self.dep_ctxt);
 
                                 decls.push(VarDeclarator {
                                     span: n.span,

@@ -315,7 +315,7 @@ impl VisitMut for RequireReplacer {
                                         self.replaced = true;
                                         *node = load.clone();
 
-                                        log::debug!("Found, and replacing require");
+                                        log::trace!("Found, and replacing require");
                                     }
                                 }
                                 _ => {}

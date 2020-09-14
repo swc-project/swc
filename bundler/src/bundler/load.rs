@@ -82,7 +82,7 @@ where
             let results = files
                 .into_par_iter()
                 .map(|(_src, path)| {
-                    log::debug!("loading dependency: {}", path);
+                    log::trace!("loading dependency: {}", path);
                     self.load_transformed(&path)
                 })
                 .collect::<Vec<_>>();

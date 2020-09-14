@@ -94,7 +94,7 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
     // While looping over items from entry, we check for dependency.
     loop {
         if entry.is_empty() {
-            log::debug!("entry is empty");
+            log::trace!("entry is empty");
             break;
         }
         let item = entry.drain(..=0).next().unwrap();
@@ -134,7 +134,7 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
             continue;
         }
 
-        log::debug!("No dependency");
+        log::trace!("No dependency");
 
         new.push(item);
     }
@@ -177,7 +177,7 @@ where
         for (idx, dep) in self.deps.iter().enumerate() {
             match dep.borrow() {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
-                    log::debug!(
+                    log::trace!(
                         "Decl (from dep) = {}{:?}, Ident = {}{:?}",
                         decl.ident.sym,
                         decl.ident.span.ctxt,
