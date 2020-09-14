@@ -10,6 +10,7 @@ use swc_common::{chain, comments::Comments, sync::Lrc, SourceMap};
 use swc_ecma_visit::Fold;
 
 mod display_name;
+mod fast_refresh;
 mod jsx;
 mod jsx_self;
 mod jsx_src;
