@@ -195,7 +195,6 @@ where
                             Entry::Vacant(e) => {
                                 let circular_plan = e.insert(CircularPlan::default());
                                 if let Some(mut v) = builder.circular.remove(&dep) {
-                                    dbg!(entry, &v);
                                     if let Some(index) = v.iter().position(|&id| id == dep) {
                                         v.remove(index);
                                     }
@@ -217,8 +216,6 @@ where
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {
-                dbg!(root_entry, entry);
-
                 let deps: Vec<_> = builder
                     .direct_deps
                     .neighbors_directed(entry, Outgoing)
@@ -226,7 +223,6 @@ where
 
                 for &dep in &deps {
                     let circular = builder.is_circular(dep);
-                    eprintln!("{:?} -> {:?}, [circular = {}]", entry, dep, circular);
 
                     if builder.circular.get(&entry).is_some() {
                         log::debug!(
@@ -260,7 +256,6 @@ where
                             //
                             if dependants.len() <= 1 {
                                 plans.normal.entry(entry).or_default().chunks.push(dep);
-                                dbg!(entry, dep);
                                 continue;
                             }
 
@@ -277,7 +272,6 @@ where
                             let module = least_common_ancestor(&builder.direct_deps, &dependants);
 
                             let normal_plan = plans.normal.entry(module).or_default();
-                            dbg!(module, &*deps);
 
                             for &dep in &deps {
                                 if !normal_plan.chunks.contains(&dep)
@@ -316,13 +310,11 @@ where
                                     entry = higher_module;
                                 }
 
-                                dbg!(entry, dep);
                                 let normal_plan = plans.normal.entry(entry).or_default();
                                 if !normal_plan.chunks.contains(&dep) {
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
-                                dbg!(higher_module, dep);
                                 let t = &mut plans
                                     .normal
                                     .entry(higher_module)
@@ -333,7 +325,6 @@ where
                                 }
                             }
                         } else {
-                            dbg!(entry, dep);
                             // Direct dependency.
                             plans.normal.entry(entry).or_default().chunks.push(dep);
                         }
