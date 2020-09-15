@@ -253,11 +253,9 @@ where
                         .direct_deps
                         .neighbors_directed(dep, Incoming)
                         .collect::<Vec<_>>();
-                    dbg!(&*dependants);
-                    dbg!(is_es6);
 
                     if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
-                        log::info!("{:?} depends on {:?}", root_entry, entry);
+                        log::debug!("{:?} depends on {:?}", entry, dep);
 
                         // Common js support.
                         if !is_es6 {
