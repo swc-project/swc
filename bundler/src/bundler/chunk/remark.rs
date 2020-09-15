@@ -34,7 +34,7 @@ where
         dep = dep.fold_with(&mut v);
 
         if !v.remark_map.is_empty() {
-            log::info!("Remark map: {:?}", v.remark_map);
+            log::debug!("Remark map: {:?}", v.remark_map);
 
             // Swap syntax context. Although name is remark, it's actually
             // swapping because ExportRenamer inserts two-side conversion
@@ -65,7 +65,7 @@ struct ExportRenamer<'a> {
 impl ExportRenamer<'_> {
     /// Returns [SyntaxContext] for the name of variable.
     fn mark_as_remarking_required(&mut self, exported: Id, orig: Id) -> SyntaxContext {
-        log::info!("Remarking required: {:?} -> {:?}", exported, orig);
+        log::debug!("Remarking required: {:?} -> {:?}", exported, orig);
 
         let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
         self.remark_map
@@ -169,7 +169,7 @@ impl Fold for ExportRenamer<'_> {
                 let ident = if let Some(id) = ident {
                     id
                 } else {
-                    log::info!("Dropping export default declaration because it's not used");
+                    log::debug!("Dropping export default declaration because it's not used");
 
                     return Stmt::Empty(EmptyStmt { span: DUMMY_SP }).into();
                 };
@@ -208,7 +208,7 @@ impl Fold for ExportRenamer<'_> {
                         })))
                     }
                     DefaultDecl::TsInterfaceDecl(_) => {
-                        log::info!(
+                        log::debug!(
                             "Dropping export default declaration because ts interface declaration \
                              is not supported yet"
                         );
@@ -241,7 +241,7 @@ impl Fold for ExportRenamer<'_> {
                         }],
                     })))
                 } else {
-                    log::debug!("Removing default export expression as it's not imported");
+                    log::trace!("Removing default export expression as it's not imported");
 
                     // Expression statement cannot start with function
                     ModuleItem::Stmt(Stmt::Expr(ExprStmt {
@@ -325,7 +325,7 @@ impl Fold for ExportRenamer<'_> {
                                 definite: false,
                             })
                         } else {
-                            log::debug!(
+                            log::trace!(
                                 "Removing export specifier {:?} as it's not imported",
                                 specifier
                             );
@@ -419,7 +419,7 @@ impl Fold for ExportRenamer<'_> {
                         //     definite: false,
                         // })
                         } else {
-                            log::debug!(
+                            log::trace!(
                                 "Removing export specifier {:?} as it's not imported (`unexport` \
                                  is false, but it's not used)",
                                 specifier
@@ -583,7 +583,7 @@ impl VisitMut for RemarkIdents<'_> {
         let id = (*n).to_id();
         if let Some(&ctxt) = self.map.get(&id) {
             n.span = n.span.with_ctxt(ctxt);
-            log::info!("Remark: {:?} -> {:?}", id, ctxt)
+            log::debug!("Remark: {:?} -> {:?}", id, ctxt)
         }
     }
 }
