@@ -13,6 +13,13 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
         return module_ids[0];
     }
 
+    // Check for roots
+    for &mid in module_ids {
+        if g.neighbors_directed(mid, Incoming).count() == 0 {
+            return mid;
+        }
+    }
+
     let first = module_ids[0];
     let second = module_ids[1];
 
