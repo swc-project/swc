@@ -4,7 +4,12 @@ use crate::{
 };
 use anyhow::{bail, Error};
 use lca::least_common_ancestor;
-use petgraph::{algo::all_simple_paths, graphmap::DiGraphMap, visit::Bfs, EdgeDirection::Outgoing};
+use petgraph::{
+    algo::all_simple_paths,
+    graphmap::DiGraphMap,
+    visit::Bfs,
+    EdgeDirection::{Incoming, Outgoing},
+};
 use std::collections::{hash_map::Entry, HashMap};
 
 mod lca;
@@ -13,8 +18,6 @@ mod tests;
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
-    full_dep: ModuleGraph,
-
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
     direct_deps: ModuleGraph,
@@ -133,9 +136,9 @@ where
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
-            let mut bfs = Bfs::new(&builder.full_dep, *id);
+            let mut bfs = Bfs::new(&builder.direct_deps, *id);
 
-            while let Some(dep) = bfs.next(&builder.full_dep) {
+            while let Some(dep) = bfs.next(&builder.direct_deps) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -163,8 +166,6 @@ where
                 }
             }
         }
-
-        // --- Above is buggy
 
         let mut plans = Plan::default();
 
@@ -217,6 +218,7 @@ where
                     }
 
                     if !builder.is_circular(prev) {
+                        dbg!(prev, dep);
                         plans.normal.entry(prev).or_default().chunks.push(dep);
                     }
                 }
@@ -224,111 +226,124 @@ where
             }
         }
 
-        for (id, _) in &builder.kinds {
-            let id = *id;
-            let mut bfs = Bfs::new(&builder.full_dep, id);
+        for (root_entry, _) in &builder.kinds {
+            let root_entry = *root_entry;
+            let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
-            while let Some(dep) = bfs.next(&builder.full_dep) {
-                if dep == id {
-                    // Useless
-                    continue;
-                }
+            while let Some(entry) = bfs.next(&builder.direct_deps) {
+                let deps: Vec<_> = builder
+                    .direct_deps
+                    .neighbors_directed(entry, Outgoing)
+                    .collect();
 
-                if builder.circular.get(&id).is_some() {
-                    log::debug!(
-                        "Adding a circular dependencuy {:?} to normal entry {:?}",
-                        dep,
-                        id
-                    );
-                    plans.normal.entry(id).or_default().chunks.push(dep);
-                    continue;
-                }
-                let is_es6 = self.scope.get_module(dep).unwrap().is_es6;
-                let dependants = builder.reverse.get(&dep).map(|s| &**s).unwrap_or(&[]);
+                for &dep in &deps {
+                    eprintln!("{:?} -> {:?}", entry, dep);
 
-                if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
-                    log::info!("{:?} depends on {:?}", id, dep);
+                    if builder.circular.get(&entry).is_some() {
+                        log::debug!(
+                            "Adding a circular dependencuy {:?} to normal entry {:?}",
+                            entry,
+                            root_entry
+                        );
+                        plans.normal.entry(entry).or_default().chunks.push(dep);
+                        continue;
+                    }
+                    let is_es6 = self.scope.get_module(entry).unwrap().is_es6;
+                    let dependants = builder
+                        .direct_deps
+                        .neighbors_directed(dep, Incoming)
+                        .collect::<Vec<_>>();
+                    dbg!(&*dependants);
 
-                    // Common js support.
-                    if !is_es6 {
-                        // Dependancy of
-                        //
-                        // a -> b
-                        // b -> c
-                        //
-                        // results in
-                        //
-                        // a <- b
-                        // b <- c
-                        //
-                        if dependants.len() <= 1 {
-                            plans.normal.entry(id).or_default().chunks.push(dep);
+                    if metadata.get(&entry).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
+                        log::info!("{:?} depends on {:?}", root_entry, entry);
+
+                        // Common js support.
+                        if !is_es6 {
+                            // Dependancy of
+                            //
+                            // a -> b
+                            // b -> c
+                            //
+                            // results in
+                            //
+                            // a <- b
+                            // b <- c
+                            //
+                            if dependants.len() <= 1 {
+                                plans.normal.entry(entry).or_default().chunks.push(dep);
+                                continue;
+                            }
+
+                            // We now have a module depended by multiple modules. Let's say
+                            //
+                            // a -> b
+                            // a -> c
+                            // b -> c
+                            //
+                            // results in
+                            //
+                            // a <- b
+                            // a <- c
+                            let module = least_common_ancestor(&builder.direct_deps, &dependants);
+
+                            let normal_plan = plans.normal.entry(module).or_default();
+                            normal_plan.transitive_chunks.reserve(deps.len());
+
+                            for &dep in &deps {
+                                if !normal_plan.chunks.contains(&dep)
+                                    && !normal_plan.transitive_chunks.contains(&dep)
+                                {
+                                    if dependants.contains(&module) {
+                                        // `entry` depends on `module` directly
+                                        normal_plan.chunks.push(dep);
+                                    } else {
+                                        normal_plan.transitive_chunks.push(dep);
+                                    }
+                                }
+                            }
+
                             continue;
                         }
 
-                        // We now have a module depended by multiple modules. Let's say
-                        //
-                        // a -> b
-                        // a -> c
-                        // b -> c
-                        //
-                        // results in
-                        //
-                        // a <- b
-                        // a <- c
-                        let module = least_common_ancestor(&builder.full_dep, dependants);
-                        let deps = builder
-                            .full_dep
-                            .neighbors_directed(id, Outgoing)
-                            .collect::<Vec<_>>();
-
-                        let normal_plan = plans.normal.entry(module).or_default();
-                        normal_plan.transitive_chunks.reserve(deps.len());
-
-                        for &dep in &deps {
-                            if !normal_plan.chunks.contains(&dep)
-                                && !normal_plan.transitive_chunks.contains(&dep)
+                        if 2 >= dependants.len() {
+                            // Should be merged as a transitive dependency.
+                            let merge_target = if plans.entries.contains(&dependants[0]) {
+                                dependants[0]
+                            } else if dependants.len() == 2
+                                && plans.entries.contains(&dependants[1])
                             {
-                                if dependants.contains(&module) {
-                                    // `entry` depends on `module` directly
+                                dependants[1]
+                            } else {
+                                least_common_ancestor(&builder.direct_deps, &dependants)
+                            };
+
+                            dbg!(merge_target);
+
+                            if dependants.len() == 2 && dependants.contains(&merge_target) {
+                                let entry =
+                                    *dependants.iter().find(|&&v| v != merge_target).unwrap();
+                                let normal_plan = plans.normal.entry(entry).or_default();
+                                if !normal_plan.chunks.contains(&dep) {
                                     normal_plan.chunks.push(dep);
-                                } else {
-                                    normal_plan.transitive_chunks.push(dep);
+                                }
+                            } else {
+                                let t = &mut plans
+                                    .normal
+                                    .entry(merge_target)
+                                    .or_default()
+                                    .transitive_chunks;
+                                if !t.contains(&dep) {
+                                    t.push(dep)
                                 }
                             }
+                        } else {
+                            // Direct dependency.
+                            plans.normal.entry(entry).or_default().chunks.push(dep);
                         }
 
                         continue;
                     }
-
-                    if 2 <= dependants.len() {
-                        // Should be merged as a transitive dependency.
-                        let module = if plans.entries.contains(&dependants[0]) {
-                            dependants[0]
-                        } else if dependants.len() == 2 && plans.entries.contains(&dependants[1]) {
-                            dependants[1]
-                        } else {
-                            least_common_ancestor(&builder.full_dep, dependants)
-                        };
-
-                        if dependants.len() == 2 && dependants.contains(&module) {
-                            let entry = *dependants.iter().find(|&&v| v != module).unwrap();
-                            let normal_plan = plans.normal.entry(entry).or_default();
-                            if !normal_plan.chunks.contains(&dep) {
-                                normal_plan.chunks.push(dep);
-                            }
-                        } else {
-                            let t = &mut plans.normal.entry(module).or_default().transitive_chunks;
-                            if !t.contains(&dep) {
-                                t.push(dep)
-                            }
-                        }
-                    } else {
-                        // Direct dependency.
-                        plans.normal.entry(id).or_default().chunks.push(dep);
-                    }
-
-                    continue;
                 }
             }
         }
@@ -343,7 +358,6 @@ where
     }
 
     fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
-        builder.full_dep.add_node(module_id);
         builder.direct_deps.add_node(module_id);
 
         let m = self
@@ -360,7 +374,6 @@ where
         {
             log::debug!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
 
-            builder.full_dep.add_edge(module_id, src.module_id, 0);
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
 
             let rev = builder.reverse.entry(src.module_id).or_default();
@@ -368,14 +381,14 @@ where
                 rev.push(module_id);
             }
 
-            if !builder.full_dep.contains_edge(src.module_id, module_id) {
+            if !builder.direct_deps.contains_edge(src.module_id, module_id) {
                 self.add_to_graph(builder, src.module_id, root_id);
             }
         }
 
         // Prevent dejavu
         for (src, _) in &m.imports.specifiers {
-            if builder.full_dep.contains_edge(src.module_id, module_id) {
+            if builder.direct_deps.contains_edge(src.module_id, module_id) {
                 log::debug!(
                     "({:?}) circular dep: {:?} => {:?}",
                     root_id,
@@ -386,7 +399,7 @@ where
                 builder.mark_as_circular(module_id, src.module_id);
 
                 let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
-                    &builder.full_dep,
+                    &builder.direct_deps,
                     src.module_id,
                     module_id,
                     0,
