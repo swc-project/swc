@@ -67,6 +67,9 @@ fn assert_circular(t: &mut Tester, p: &Plan, entry: &str, members: &[&str]) {
             .map(|s| format!("{}.js", s))
             .map(|s| t.id(&s))
             .collect::<HashSet<_>>(),
+        "[circular] `{}` should merge {:?}",
+        entry,
+        members
     );
 }
 
@@ -220,21 +223,12 @@ fn circular_001() {
             "a.js",
             "
             import { B } from './b'
-
-            export class A {
-                method() {
-                    return new B();
-                }
-            }
         ",
         )
         .file(
             "b.js",
             "
             import { A } from './a';
-
-            export class B extends A {
-            }
             ",
         )
         .run(|t| {
