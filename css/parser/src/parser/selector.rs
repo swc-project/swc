@@ -20,9 +20,18 @@ impl Parser<'_> {
     }
 
     pub(super) fn parse_selector(&mut self) -> PResult<Box<Selector>> {
+        let start = self.i.cur_pos();
         let simple = self.parse_simple_selector()?;
+        let components = vec![SelectorComponent::Simple(simple)];
 
-        unimplemented!("parse_selector")
+        if is!(self, ">") {
+            unimplemented!("Parsing of '>' in selector")
+        }
+
+        Ok(Box::new(Selector {
+            span: self.i.make_span(start),
+            components,
+        }))
     }
 
     fn parse_simple_selector(&mut self) -> PResult<SimpleSelector> {

@@ -38,6 +38,12 @@ macro_rules! tok {
     ("]") => {
         crate::token::Token::RBracket
     };
+    ("<") => {
+        crate::token::Token::Lt
+    };
+    (">") => {
+        crate::token::Token::Gt
+    };
 }
 
 macro_rules! cur {

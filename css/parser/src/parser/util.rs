@@ -73,7 +73,12 @@ impl<'i> Parser<'i> {
 // TODO: Optimize using js_word
 fn as_word(t: Token, s: &str) -> Option<JsWord> {
     match t {
-        Token::Error
+        Token::Mul
+        | Token::LBracket
+        | Token::RBracket
+        | Token::Lt
+        | Token::Gt
+        | Token::Error
         | Token::Semi
         | Token::Colon
         | Token::Comma

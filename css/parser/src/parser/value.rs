@@ -22,6 +22,11 @@ impl Parser<'_> {
             | Token::RParen
             | Token::RBrace
             | Token::LBrace
+            | Token::Mul
+            | Token::LBracket
+            | Token::RBracket
+            | Token::Lt
+            | Token::Gt
             | Token::BangImportant => {
                 let got = format!("{:?}", self.i.cur().unwrap());
                 self.err(SyntaxError::ExpectedOneOf {

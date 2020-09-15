@@ -63,4 +63,9 @@ pub(crate) enum Token {
 
     #[token("px")]
     Px,
+
+    #[token("<")]
+    Lt,
+    #[token(">")]
+    Gt,
 }
