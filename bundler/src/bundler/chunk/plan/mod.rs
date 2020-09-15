@@ -254,8 +254,9 @@ where
                         .neighbors_directed(dep, Incoming)
                         .collect::<Vec<_>>();
                     dbg!(&*dependants);
+                    dbg!(is_es6);
 
-                    if metadata.get(&entry).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
+                    if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                         log::info!("{:?} depends on {:?}", root_entry, entry);
 
                         // Common js support.
@@ -306,7 +307,7 @@ where
                             continue;
                         }
 
-                        if 2 >= dependants.len() {
+                        if 2 <= dependants.len() {
                             // Should be merged as a transitive dependency.
                             let merge_target = if plans.entries.contains(&dependants[0]) {
                                 dependants[0]
