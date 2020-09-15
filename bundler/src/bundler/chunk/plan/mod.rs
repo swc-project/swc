@@ -24,9 +24,6 @@ struct PlanBuilder {
 
     circular: HashMap<ModuleId, Vec<ModuleId>>,
 
-    /// Used to calcuate transitive dependencies.
-    reverse: HashMap<ModuleId, Vec<ModuleId>>,
-
     kinds: HashMap<ModuleId, BundleKind>,
 }
 
@@ -365,11 +362,6 @@ where
             );
 
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
-
-            let rev = builder.reverse.entry(src.module_id).or_default();
-            if !rev.contains(&module_id) {
-                rev.push(module_id);
-            }
 
             if !builder.direct_deps.contains_edge(src.module_id, module_id) {
                 self.add_to_graph(builder, src.module_id, root_id);
