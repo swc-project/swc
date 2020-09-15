@@ -19,7 +19,7 @@ impl Parser<'_> {
 
     pub(super) fn parse_selector(&mut self) -> PResult<Box<Selector>> {
         let start = self.i.cur_pos();
-        let first = self.parse_simple_selector()?;
+        let first = self.parse_compound_selector()?;
         let components = vec![SelectorComponent::Compound(first)];
 
         if is!(self, ">") {

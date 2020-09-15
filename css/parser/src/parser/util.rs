@@ -71,13 +71,7 @@ impl<'i> Parser<'i> {
 
     pub fn is_word(&mut self) -> bool {
         match self.i.cur() {
-            Some(t) => {
-                if let Some(sym) = as_word(t, self.i.slice()) {
-                    true
-                } else {
-                    false
-                }
-            }
+            Some(t) => as_word(t, self.i.slice()).is_some(),
             None => false,
         }
     }
