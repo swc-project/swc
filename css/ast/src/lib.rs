@@ -143,9 +143,16 @@ pub enum AttributeOp {
     Contains,
 }
 
+/// e.g. `a.my-btn`
+#[ast_node]
+pub struct CompoundSelector {
+    pub span: Span,
+    pub selectors: Vec<SimpleSelector>,
+}
+
 #[derive(Debug, Clone, PartialEq, FromVariant, Serialize, Deserialize)]
 pub enum SelectorComponent {
-    Simple(SimpleSelector),
+    Compound(CompoundSelector),
     Combinator(Combinator),
 }
 

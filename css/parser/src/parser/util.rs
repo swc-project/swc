@@ -68,6 +68,19 @@ impl<'i> Parser<'i> {
             inner: Box::new((span, err)),
         })
     }
+
+    pub fn is_word(&mut self) -> bool {
+        match self.i.cur() {
+            Some(t) => {
+                if let Some(sym) = as_word(t, self.i.slice()) {
+                    true
+                } else {
+                    false
+                }
+            }
+            None => false,
+        }
+    }
 }
 
 // TODO: Optimize using js_word

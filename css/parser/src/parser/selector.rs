@@ -9,11 +9,7 @@ impl Parser<'_> {
             let selector = self.parse_selector()?;
             selectors.push(selector);
 
-            if is!(self, "{") {
-                break;
-            }
-
-            if !is!(self, ",") {
+            if !eat!(self, ",") {
                 break;
             }
         }
@@ -23,8 +19,8 @@ impl Parser<'_> {
 
     pub(super) fn parse_selector(&mut self) -> PResult<Box<Selector>> {
         let start = self.i.cur_pos();
-        let simple = self.parse_simple_selector()?;
-        let components = vec![SelectorComponent::Simple(simple)];
+        let first = self.parse_simple_selector()?;
+        let components = vec![SelectorComponent::Compound(first)];
 
         if is!(self, ">") {
             unimplemented!("Parsing of '>' in selector")
@@ -34,6 +30,26 @@ impl Parser<'_> {
             span: self.i.make_span(start),
             components,
         }))
+    }
+
+    fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
+        let start = self.i.cur_pos();
+        let mut selectors = vec![];
+
+        loop {
+            let selector = self.parse_simple_selector()?;
+
+            selectors.push(selector);
+
+            if !is_one_of!(self, ".", "#", "[", "*") && !self.is_word() {
+                break;
+            }
+        }
+
+        Ok(CompoundSelector {
+            span: self.i.make_span(start),
+            selectors,
+        })
     }
 
     fn parse_simple_selector(&mut self) -> PResult<SimpleSelector> {

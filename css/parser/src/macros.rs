@@ -90,6 +90,17 @@ macro_rules! is {
     }};
 }
 
+macro_rules! is_one_of {
+    ($parser:expr, $($t:tt),*) => {{
+        match $parser.i.cur() {
+            $(
+               Some(tok!($t)) => true,
+            )*
+            _ => false,
+        }
+    }};
+}
+
 macro_rules! eat {
     ($parser:expr, $t:tt) => {{
         if is!($parser, $t) {
