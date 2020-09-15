@@ -4,7 +4,7 @@ pub use self::{at_rule::*, media_query::*};
 pub use at_rule::AtRule;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, FromVariant, Span};
 
 mod at_rule;
 mod media_query;
@@ -61,10 +61,107 @@ pub struct DeclBlock {
 #[ast_node]
 pub struct Selector {
     pub span: Span,
-    pub tag: Option<TagSelector>,
-    pub base: Vec<BaseSelector>,
-    pub pseudo_class: Option<Text>,
-    pub pseudo_element: Option<Text>,
+    pub components: Vec<SelectorComponent>,
+}
+
+#[ast_node]
+pub enum SimpleSelector {
+    /// `*`
+    #[tag("UniversalSelector")]
+    Universal(UniversalSelector),
+    /// A type selector.
+    ///
+    /// This selects elements whose name equals the given name.
+    #[tag("TagSelector")]
+    Tag(TagSelector),
+    #[tag("IdSelector")]
+    Id(IdSelector),
+
+    /// A class selector.
+    ///
+    /// This selects elements whose `class` attribute contains an identifier
+    /// with the given name.
+    #[tag("ClassSelector")]
+    Class(ClassSelector),
+
+    #[tag("AttributeSelector")]
+    Attribute(AttributeSelector),
+}
+
+#[ast_node]
+pub struct UniversalSelector {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct CompoundSelector {
+    pub span: Span,
+    pub selectors: Vec<SimpleSelector>,
+}
+
+#[ast_node]
+pub struct AttributeSelector {
+    pub attr: Text,
+    pub value: String,
+    pub modifier: Option<char>,
+    pub op: AttributeOp,
+    pub span: Span,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+pub enum AttributeOp {
+    /// \[attr\]
+    ///
+    /// Represents elements with an attribute name of `attr`
+    Any,
+
+    /// [attr=value]
+    ///
+    /// Represents elements with an attribute name of `attr`
+    /// whose value is exactly `value`
+    Equals,
+
+    /// [attr~=value]
+    ///
+    /// Represents elements with an attribute name of `attr`
+    /// whose value is a whitespace-separated list of words,
+    /// one of which is exactly `value`
+    Include,
+
+    /// [attr|=value]
+    ///
+    /// Represents elements with an attribute name of `attr`
+    /// whose value can be exactly value or can begin with
+    /// `value` immediately followed by a hyphen (`-`)
+    Dash,
+
+    /// [attr^=value]
+    Prefix,
+
+    /// [attr$=value]
+    Suffix,
+
+    /// [attr*=value]
+    ///
+    /// Represents elements with an attribute name of `attr`
+    /// whose value contains at least one occurrence of
+    /// `value` within the string
+    Contains,
+}
+
+#[derive(Debug, Clone, PartialEq, FromVariant, Serialize, Deserialize)]
+pub enum SelectorComponent {
+    Compound(CompoundSelector),
+    Combinator(Combinator),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum Combinator {
+    /// Matches the right-hand selector if it's a direct child of the left-hand
+    /// selector in the DOM tree.
+    ///
+    /// `'>'`
+    Child,
 }
 
 #[ast_node]
