@@ -176,13 +176,26 @@ where
                     if let Some(members) = builder.circular.get(&dep) {
                         // Exclude circular imnports from normal dependencies
                         for &circular_member in members {
-                            builder.direct_deps.remove_edge(entry, circular_member);
-                            let e = plans.normal.entry(entry).or_default();
-                            if !e.chunks.contains(&dep) {
-                                e.chunks.push(dep);
+                            if entry == circular_member {
+                                continue;
                             }
 
-                            log::debug!("[circular] Removing {:?} => {:?}", entry, circular_member);
+                            if builder
+                                .direct_deps
+                                .remove_edge(entry, circular_member)
+                                .is_some()
+                            {
+                                let e = plans.normal.entry(entry).or_default();
+                                if !e.chunks.contains(&dep) {
+                                    e.chunks.push(dep);
+                                }
+
+                                log::debug!(
+                                    "[circular] Removing {:?} => {:?}",
+                                    entry,
+                                    circular_member
+                                );
+                            }
                         }
 
                         // Add circular plans
