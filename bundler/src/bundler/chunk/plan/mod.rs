@@ -222,8 +222,6 @@ where
                     .collect();
 
                 for &dep in &deps {
-                    let circular = builder.is_circular(dep);
-
                     if builder.circular.get(&entry).is_some() {
                         log::debug!(
                             "Adding a circular dependencuy {:?} to normal entry {:?}",
