@@ -182,24 +182,19 @@ where
 
                             if builder
                                 .direct_deps
-                                .remove_edge(entry, circular_member)
+                                .remove_edge(dep, circular_member)
                                 .is_some()
                             {
-                                let e = plans.normal.entry(entry).or_default();
-                                if !e.chunks.contains(&dep) {
-                                    e.chunks.push(dep);
-                                }
-
                                 log::debug!(
                                     "[circular] Removing {:?} => {:?}",
-                                    entry,
+                                    dep,
                                     circular_member
                                 );
                             }
                         }
 
                         // Add circular plans
-                        match plans.circular.entry(entry) {
+                        match plans.circular.entry(dep) {
                             // Already added
                             Entry::Occupied(_) => {
                                 // TODO: assert!
@@ -208,9 +203,9 @@ where
                             // We need to mark modules as circular.
                             Entry::Vacant(e) => {
                                 let circular_plan = e.insert(CircularPlan::default());
-                                if let Some(mut v) = builder.circular.remove(&entry) {
+                                if let Some(mut v) = builder.circular.remove(&dep) {
                                     dbg!(entry, &v);
-                                    if let Some(index) = v.iter().position(|&id| id == entry) {
+                                    if let Some(index) = v.iter().position(|&id| id == dep) {
                                         v.remove(index);
                                     }
                                     circular_plan.chunks.extend(v);
