@@ -337,7 +337,7 @@ where
             plans.normal.entry(entry).or_default();
         }
 
-        // dbg!(&plans);
+        dbg!(&plans);
 
         Ok(plans)
     }
@@ -370,15 +370,22 @@ where
             if !rev.contains(&module_id) {
                 rev.push(module_id);
             }
-
-            if !builder.direct_deps.contains_edge(src.module_id, module_id) {
-                self.add_to_graph(builder, src.module_id, root_id);
-            }
         }
 
-        // Prevent dejavu
+        // Prevent stack overflow
         for (src, _) in &m.imports.specifiers {
-            if builder.direct_deps.contains_edge(src.module_id, module_id) {
+            let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
+                &builder.direct_deps,
+                src.module_id,
+                module_id,
+                0,
+                None,
+            )
+            .collect::<Vec<_>>();
+
+            if circular_paths.is_empty() {
+                self.add_to_graph(builder, src.module_id, root_id);
+            } else {
                 log::debug!(
                     "({:?}) circular dep: {:?} => {:?}",
                     root_id,
@@ -387,15 +394,6 @@ where
                 );
 
                 builder.mark_as_circular(module_id, src.module_id);
-
-                let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
-                    &builder.direct_deps,
-                    src.module_id,
-                    module_id,
-                    0,
-                    None,
-                )
-                .collect::<Vec<_>>();
 
                 for path in circular_paths {
                     for dep in path {
