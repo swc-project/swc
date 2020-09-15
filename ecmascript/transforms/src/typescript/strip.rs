@@ -17,7 +17,7 @@ type EnumValues = FxHashMap<Id, TsLit>;
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
 pub enum ImportNotUsedAsValues {
-    #[serde(rename = "rename")]
+    #[serde(rename = "remove")]
     Remove,
     #[serde(rename = "preserve")]
     Preserve,
