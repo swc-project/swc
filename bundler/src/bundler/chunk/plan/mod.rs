@@ -13,11 +13,11 @@ mod tests;
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
-    direct_deps_graph: ModuleGraph,
+    full_dep: ModuleGraph,
 
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
-    tracking_graph: ModuleGraph,
+    direct_deps: ModuleGraph,
 
     circular: HashMap<ModuleId, Vec<ModuleId>>,
 
@@ -66,17 +66,6 @@ impl PlanBuilder {
         self.circular
             .iter()
             .any(|(_, v)| v.iter().any(|&v| v == id))
-    }
-
-    fn try_add_direct_dep(&mut self, root_id: ModuleId, dep: ModuleId, dep_of_dep: ModuleId) {
-        log::debug!(
-            "try_add_direct_dep: root={:?}, dep={:?}, dep_of_dep={:?}",
-            root_id,
-            dep,
-            dep_of_dep
-        );
-
-        self.tracking_graph.add_edge(root_id, dep_of_dep, 0);
     }
 }
 
@@ -144,9 +133,9 @@ where
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
-            let mut bfs = Bfs::new(&builder.direct_deps_graph, *id);
+            let mut bfs = Bfs::new(&builder.full_dep, *id);
 
-            while let Some(dep) = bfs.next(&builder.direct_deps_graph) {
+            while let Some(dep) = bfs.next(&builder.full_dep) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -196,11 +185,11 @@ where
 
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
-            let mut bfs = Bfs::new(&builder.direct_deps_graph, *id);
+            let mut bfs = Bfs::new(&builder.direct_deps, *id);
 
             let mut prev = *id;
 
-            while let Some(dep) = bfs.next(&builder.direct_deps_graph) {
+            while let Some(dep) = bfs.next(&builder.direct_deps) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -237,9 +226,9 @@ where
 
         for (id, _) in &builder.kinds {
             let id = *id;
-            let mut bfs = Bfs::new(&builder.direct_deps_graph, id);
+            let mut bfs = Bfs::new(&builder.full_dep, id);
 
-            while let Some(dep) = bfs.next(&builder.direct_deps_graph) {
+            while let Some(dep) = bfs.next(&builder.full_dep) {
                 if dep == id {
                     // Useless
                     continue;
@@ -287,9 +276,9 @@ where
                         //
                         // a <- b
                         // a <- c
-                        let module = least_common_ancestor(&builder.direct_deps_graph, dependants);
+                        let module = least_common_ancestor(&builder.full_dep, dependants);
                         let deps = builder
-                            .direct_deps_graph
+                            .full_dep
                             .neighbors_directed(id, Outgoing)
                             .collect::<Vec<_>>();
 
@@ -319,7 +308,7 @@ where
                         } else if dependants.len() == 2 && plans.entries.contains(&dependants[1]) {
                             dependants[1]
                         } else {
-                            least_common_ancestor(&builder.direct_deps_graph, dependants)
+                            least_common_ancestor(&builder.full_dep, dependants)
                         };
 
                         if dependants.len() == 2 && dependants.contains(&module) {
@@ -354,9 +343,8 @@ where
     }
 
     fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
-        dbg!(module_id);
-        builder.direct_deps_graph.add_node(module_id);
-        builder.tracking_graph.add_node(module_id);
+        builder.full_dep.add_node(module_id);
+        builder.direct_deps.add_node(module_id);
 
         let m = self
             .scope
@@ -365,14 +353,23 @@ where
 
         for (src, _) in &m.imports.specifiers {
             log::debug!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
+
+            builder.full_dep.add_edge(module_id, src.module_id, 0);
+            builder.direct_deps.add_edge(module_id, src.module_id, 0);
+
+            let rev = builder.reverse.entry(src.module_id).or_default();
+            if !rev.contains(&module_id) {
+                rev.push(module_id);
+            }
+
+            if !builder.full_dep.contains_edge(src.module_id, module_id) {
+                self.add_to_graph(builder, src.module_id, root_id);
+            }
         }
 
         // Prevent dejavu
         for (src, _) in &m.imports.specifiers {
-            if builder
-                .direct_deps_graph
-                .contains_edge(src.module_id, module_id)
-            {
+            if builder.full_dep.contains_edge(src.module_id, module_id) {
                 log::debug!(
                     "({:?}) circular dep: {:?} => {:?}",
                     root_id,
@@ -383,7 +380,7 @@ where
                 builder.mark_as_circular(module_id, src.module_id);
 
                 let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
-                    &builder.direct_deps_graph,
+                    &builder.full_dep,
                     src.module_id,
                     module_id,
                     0,
@@ -396,39 +393,6 @@ where
                         builder.mark_as_circular(module_id, dep)
                     }
                 }
-            } else {
-                builder.direct_deps_graph.add_edge(
-                    module_id,
-                    src.module_id,
-                    if src.is_unconditional { 2 } else { 1 },
-                );
-            }
-        }
-
-        for (src, _) in m.imports.specifiers.iter().chain(&m.exports.reexports) {
-            if !builder
-                .direct_deps_graph
-                .contains_edge(src.module_id, module_id)
-            {
-                self.add_to_graph(builder, src.module_id, root_id);
-            }
-
-            builder.direct_deps_graph.add_edge(
-                module_id,
-                src.module_id,
-                if src.is_unconditional { 2 } else { 1 },
-            );
-
-            if self.scope.get_module(src.module_id).unwrap().is_es6 {
-                builder.try_add_direct_dep(root_id, module_id, src.module_id);
-            } else {
-                // Common js support.
-                builder.tracking_graph.add_edge(module_id, src.module_id, 0);
-            }
-
-            let rev = builder.reverse.entry(src.module_id).or_default();
-            if !rev.contains(&module_id) {
-                rev.push(module_id);
             }
         }
     }
