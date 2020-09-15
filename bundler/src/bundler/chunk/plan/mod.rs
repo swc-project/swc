@@ -10,7 +10,7 @@ use petgraph::{
     visit::Bfs,
     EdgeDirection::{Incoming, Outgoing},
 };
-use std::collections::{hash_map::Entry, HashMap};
+use std::collections::{hash_map::Entry, HashMap, HashSet};
 
 mod lca;
 #[cfg(test)]
@@ -18,6 +18,13 @@ mod tests;
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
+    /// A hashmap to check if a module import is circular.
+    ///
+    /// This contains all dependencies, including transitive ones. For example,
+    /// if `a` dependes on `b` and `b` depdends on `c`, all of
+    ///  `(a, b)`, `(a, c)`,`(b, c)` will be inserted.
+    all_deps: HashSet<(ModuleId, ModuleId)>,
+
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
     direct_deps: ModuleGraph,
