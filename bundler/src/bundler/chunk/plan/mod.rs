@@ -276,7 +276,6 @@ where
                             let module = least_common_ancestor(&builder.direct_deps, &dependants);
 
                             let normal_plan = plans.normal.entry(module).or_default();
-                            normal_plan.transitive_chunks.reserve(deps.len());
 
                             for &dep in &deps {
                                 if !normal_plan.chunks.contains(&dep)
@@ -296,7 +295,7 @@ where
 
                         if 2 <= dependants.len() {
                             // Should be merged as a transitive dependency.
-                            let merge_target = if plans.entries.contains(&dependants[0]) {
+                            let higher_module = if plans.entries.contains(&dependants[0]) {
                                 dependants[0]
                             } else if dependants.len() == 2
                                 && plans.entries.contains(&dependants[1])
@@ -306,11 +305,10 @@ where
                                 least_common_ancestor(&builder.direct_deps, &dependants)
                             };
 
-                            dbg!(merge_target);
-
-                            if dependants.len() == 2 && dependants.contains(&merge_target) {
+                            if dependants.len() == 2 && dependants.contains(&higher_module) {
                                 let entry =
-                                    *dependants.iter().find(|&&v| v != merge_target).unwrap();
+                                    *dependants.iter().find(|&&v| v != higher_module).unwrap();
+
                                 let normal_plan = plans.normal.entry(entry).or_default();
                                 if !normal_plan.chunks.contains(&dep) {
                                     normal_plan.chunks.push(dep);
@@ -318,7 +316,7 @@ where
                             } else {
                                 let t = &mut plans
                                     .normal
-                                    .entry(merge_target)
+                                    .entry(higher_module)
                                     .or_default()
                                     .transitive_chunks;
                                 if !t.contains(&dep) {
