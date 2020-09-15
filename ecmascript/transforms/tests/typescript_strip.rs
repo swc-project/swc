@@ -1,4 +1,5 @@
 #![feature(test)]
+use strip::strip_with_config;
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{
@@ -3044,16 +3045,35 @@ export default (identifier: string, level = 0, b = "", m = false) => {
 
 to!(bin_01, "a!!!! + b!!!!!! + c!!!!!", "a + b + c");
 
-to!(
-    deno_7413,
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        let mut config = strip::Config::default();
+        config.import_not_used_as_values = strip::ImportNotUsedAsValues::Remove;
+        strip_with_config(config)
+    },
+    deno_7413_1,
     "
     import { a } from './foo';
     import { Type } from './types';
     ",
-    ""
+    "
+    "
 );
 
-to!(
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        let mut config = strip::Config::default();
+        config.import_not_used_as_values = strip::ImportNotUsedAsValues::Remove;
+        strip_with_config(config)
+    },
     deno_7413_2,
     "
     import './foo';
