@@ -261,13 +261,13 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
-        log::debug!("ExprStmt ->");
+        log::trace!("ExprStmt ->");
         if self.is_marked(node.span) {
             return;
         }
 
         if self.should_include(&node.expr) {
-            log::debug!("\tIncluded");
+            log::trace!("\tIncluded");
             node.span = node.span.apply_mark(self.config.used_mark);
             self.mark(&mut node.expr);
             return;
@@ -362,7 +362,7 @@ impl VisitMut for Dce<'_> {
 
         if self.marking_phase {
             if self.included.insert(i.to_id()) {
-                log::info!("{} is used", i.sym);
+                log::debug!("{} is used", i.sym);
                 self.changed = true;
             }
         }
@@ -404,7 +404,7 @@ impl VisitMut for Dce<'_> {
         }
 
         // Drop unused imports.
-        log::debug!("Removing unused import specifiers");
+        log::trace!("Removing unused import specifiers");
         import.specifiers.retain(|s| self.should_include(s));
 
         if !import.specifiers.is_empty() {
@@ -616,7 +616,7 @@ impl Dce<'_> {
         preserved.reserve(items.len());
 
         loop {
-            log::info!("loop start");
+            log::debug!("loop start");
 
             self.changed = false;
             let mut idx = 0u32;
@@ -737,7 +737,7 @@ impl Dce<'_> {
     {
         let old = self.marking_phase;
         self.marking_phase = true;
-        log::info!("Marking: {}", type_name::<T>());
+        log::debug!("Marking: {}", type_name::<T>());
         node.visit_mut_with(self);
         self.marking_phase = old;
     }

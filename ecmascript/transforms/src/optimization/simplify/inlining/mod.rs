@@ -774,7 +774,7 @@ impl Fold for Inlining<'_> {
         self.phase = Phase::Analysis;
         items = items.fold_children_with(self);
 
-        log::debug!("Switching to Inlining phase");
+        log::trace!("Switching to Inlining phase");
 
         // Inline
         self.phase = Phase::Inlining;
