@@ -15,4 +15,4 @@ swc_common = {path = "../../common"}
 swc_css_ast = {path = "../ast"}
 
 [dev-dependencies]
-swc_common = {path = "../../testing"}
+testing = {path = "../../testing"}
