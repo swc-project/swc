@@ -78,18 +78,29 @@ impl PlanBuilder {
     }
 
     fn try_add_direct_dep(&mut self, root_id: ModuleId, dep: ModuleId, dep_of_dep: ModuleId) {
+        log::debug!(
+            "try_add_direct_dep: root={:?}, dep={:?}, dep_of_dep={:?}",
+            root_id,
+            dep,
+            dep_of_dep
+        );
+
         if let None = self.tracking_graph.add_edge(root_id, dep_of_dep, 0) {
+            dbg!();
             if self.circular.contains_key(&dep_of_dep) {
                 self.direct_deps.entry(root_id).or_default().push(dep);
+                dbg!();
                 return;
             }
 
             // Track direct dependencies, but exclude if it will be recursively merged.
             self.direct_deps.entry(dep).or_default().push(dep_of_dep);
         } else {
+            dbg!();
             if self.circular.contains_key(&dep_of_dep) {
                 return;
             }
+            dbg!();
 
             self.pending_direct_deps
                 .entry(dep)
@@ -201,6 +212,9 @@ where
             plans.bundle_kinds.insert(*id, kind.clone());
         }
 
+        dbg!(&builder.direct_deps);
+        dbg!(&builder.pending_direct_deps);
+
         // Fix direct dependencies. See the doc of pending_direct_deps for more
         // information.
         for (entry, deps) in builder.pending_direct_deps.drain() {
@@ -226,6 +240,7 @@ where
                 builder.direct_deps.insert(entry, deps);
             }
         }
+        // --- Above is buggy
 
         // Handle circular imports
         for (k, members) in &builder.circular {
@@ -442,6 +457,7 @@ where
                 src.module_id,
                 if src.is_unconditional { 2 } else { 1 },
             );
+
             if self.scope.get_module(src.module_id).unwrap().is_es6 {
                 builder.try_add_direct_dep(root_id, module_id, src.module_id);
             } else {
