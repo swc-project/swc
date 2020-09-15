@@ -94,12 +94,6 @@ pub struct UniversalSelector {
 }
 
 #[ast_node]
-pub struct CompoundSelector {
-    pub span: Span,
-    pub selectors: Vec<SimpleSelector>,
-}
-
-#[ast_node]
 pub struct AttributeSelector {
     pub attr: Text,
     pub value: String,
@@ -151,7 +145,7 @@ pub enum AttributeOp {
 
 #[derive(Debug, Clone, PartialEq, FromVariant, Serialize, Deserialize)]
 pub enum SelectorComponent {
-    Compound(CompoundSelector),
+    Simple(SimpleSelector),
     Combinator(Combinator),
 }
 
