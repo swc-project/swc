@@ -20,6 +20,42 @@ impl Parser<'_> {
     }
 
     pub(super) fn parse_selector(&mut self) -> PResult<Box<Selector>> {
+        let simple = self.parse_simple_selector()?;
+
         unimplemented!("parse_selector")
+    }
+
+    fn parse_simple_selector(&mut self) -> PResult<SimpleSelector> {
+        match cur!(self) {
+            tok!("*") => self
+                .parse_universal_selector()
+                .map(SimpleSelector::Universal),
+            tok!("#") => self.parse_id_selector().map(SimpleSelector::Id),
+            tok!(".") => self.parse_class_selector().map(SimpleSelector::Class),
+            tok!("[") => self
+                .parse_attribute_selector()
+                .map(SimpleSelector::Attribute),
+            _ => self.parse_tag_selector().map(SimpleSelector::Tag),
+        }
+    }
+
+    fn parse_universal_selector(&mut self) -> PResult<UniversalSelector> {
+        unimplemented!("parse_universal_selector")
+    }
+
+    fn parse_id_selector(&mut self) -> PResult<IdSelector> {
+        unimplemented!("parse_id_selector")
+    }
+
+    fn parse_class_selector(&mut self) -> PResult<ClassSelector> {
+        unimplemented!("parse_class_selector")
+    }
+
+    fn parse_tag_selector(&mut self) -> PResult<TagSelector> {
+        unimplemented!("parse_tag_selector")
+    }
+
+    fn parse_attribute_selector(&mut self) -> PResult<AttributeSelector> {
+        unimplemented!("parse_attribute_selector")
     }
 }
