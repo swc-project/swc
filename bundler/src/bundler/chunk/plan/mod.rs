@@ -111,7 +111,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, module.id);
+            self.add_to_graph(&mut builder, module.id, &mut vec![]);
         }
 
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
@@ -346,7 +346,12 @@ where
         Ok(plans)
     }
 
-    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
+    fn add_to_graph(
+        &self,
+        builder: &mut PlanBuilder,
+        module_id: ModuleId,
+        path: &mut Vec<ModuleId>,
+    ) {
         builder.direct_deps.add_node(module_id);
 
         let m = self
@@ -361,29 +366,26 @@ where
             .map(|v| &v.0)
             .chain(m.exports.reexports.iter().map(|v| &v.0))
         {
-            log::debug!(
-                "Dependency: ({:?}) {:?} => {:?}",
-                root_id,
-                module_id,
-                src.module_id
-            );
+            log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
 
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
 
-            if !builder.direct_deps.contains_edge(src.module_id, module_id) {
-                self.add_to_graph(builder, src.module_id, root_id);
+            for &id in &*path {
+                builder.all_deps.insert((id, src.module_id));
+            }
+            builder.all_deps.insert((module_id, src.module_id));
+
+            if !builder.all_deps.contains(&(src.module_id, module_id)) {
+                path.push(module_id);
+                self.add_to_graph(builder, src.module_id, path);
+                assert_eq!(path.pop(), Some(module_id));
             }
         }
 
         // Prevent dejavu
         for (src, _) in &m.imports.specifiers {
-            if builder.direct_deps.contains_edge(src.module_id, module_id) {
-                log::debug!(
-                    "({:?}) circular dep: {:?} => {:?}",
-                    root_id,
-                    module_id,
-                    src.module_id
-                );
+            if builder.all_deps.contains(&(src.module_id, module_id)) {
+                log::debug!("Circular dep: {:?} => {:?}", module_id, src.module_id);
 
                 builder.mark_as_circular(module_id, src.module_id);
 
