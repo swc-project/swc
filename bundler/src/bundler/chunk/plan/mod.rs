@@ -42,33 +42,11 @@ impl PlanBuilder {
             return;
         }
 
-        if let Some(v) = self.circular.iter_mut().find_map(|(_, v)| {
-            if v.contains(&src) || v.contains(&imported) {
-                Some(v)
-            } else {
-                None
-            }
-        }) {
-            if !v.contains(&src) {
-                v.push(src);
-            }
-            if !v.contains(&imported) {
-                v.push(imported);
-            }
-            return;
-        }
-
         self.circular.insert(src, vec![imported]);
     }
 
     fn is_circular(&self, id: ModuleId) -> bool {
-        if self.circular.get(&id).is_some() {
-            return true;
-        }
-
-        self.circular
-            .iter()
-            .any(|(_, v)| v.iter().any(|&v| v == id))
+        self.circular.get(&id).is_some()
     }
 }
 
@@ -184,45 +162,54 @@ where
             // builder.direct_deps.remove(k);
         }
 
-        // Calculate actual chunking plans
-        for (id, _) in builder.kinds.iter() {
-            let mut bfs = Bfs::new(&builder.direct_deps, *id);
+        for (root_entry, _) in builder.kinds.iter() {
+            let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
 
-            let mut prev = *id;
+            while let Some(entry) = bfs.next(&builder.direct_deps) {
+                let deps: Vec<_> = builder
+                    .direct_deps
+                    .neighbors_directed(entry, Outgoing)
+                    .collect();
 
-            while let Some(dep) = bfs.next(&builder.direct_deps) {
-                if dep == *id {
-                    // Useless
-                    continue;
-                }
-                // Check if it's circular.
-                if builder.is_circular(dep) {
-                    // Entry is `dep`.
-                    match plans.circular.entry(dep) {
-                        // Already added
-                        Entry::Occupied(_) => {
-                            // TODO: assert!
+                for dep in deps {
+                    // Check if it's circular.
+                    if let Some(members) = builder.circular.get(&dep) {
+                        // Exclude circular imnports from normal dependencies
+                        for &circular_member in members {
+                            builder.direct_deps.remove_edge(entry, circular_member);
+                            let e = plans.normal.entry(entry).or_default();
+                            if !e.chunks.contains(&dep) {
+                                e.chunks.push(dep);
+                            }
+
+                            log::debug!("[circular] Removing {:?} => {:?}", entry, circular_member);
                         }
 
-                        // We need to mark modules as circular.
-                        Entry::Vacant(e) => {
-                            let circular_plan = e.insert(CircularPlan::default());
-                            if let Some(mut v) = builder.circular.remove(&dep) {
-                                dbg!(dep, &v);
-                                if let Some(index) = v.iter().position(|&id| id == dep) {
-                                    v.remove(index);
+                        // Add circular plans
+                        match plans.circular.entry(entry) {
+                            // Already added
+                            Entry::Occupied(_) => {
+                                // TODO: assert!
+                            }
+
+                            // We need to mark modules as circular.
+                            Entry::Vacant(e) => {
+                                let circular_plan = e.insert(CircularPlan::default());
+                                if let Some(mut v) = builder.circular.remove(&entry) {
+                                    dbg!(entry, &v);
+                                    if let Some(index) = v.iter().position(|&id| id == entry) {
+                                        v.remove(index);
+                                    }
+                                    circular_plan.chunks.extend(v);
                                 }
-                                circular_plan.chunks.extend(v);
                             }
                         }
-                    }
 
-                    if !builder.is_circular(prev) {
-                        dbg!(prev, dep);
-                        plans.normal.entry(prev).or_default().chunks.push(dep);
+                        // if !builder.is_circular(dep) {
+                        //     plans.normal.entry(dep).or_default().chunks.
+                        // push(entry); }
                     }
                 }
-                prev = dep;
             }
         }
 
@@ -237,7 +224,8 @@ where
                     .collect();
 
                 for &dep in &deps {
-                    eprintln!("{:?} -> {:?}", entry, dep);
+                    let circular = builder.is_circular(dep);
+                    eprintln!("{:?} -> {:?}, [circular = {}]", entry, dep, circular);
 
                     if builder.circular.get(&entry).is_some() {
                         log::debug!(
