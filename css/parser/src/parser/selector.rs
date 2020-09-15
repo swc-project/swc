@@ -61,7 +61,13 @@ impl Parser<'_> {
     }
 
     fn parse_tag_selector(&mut self) -> PResult<TagSelector> {
-        unimplemented!("parse_tag_selector")
+        let start = self.i.cur_pos();
+        let text = self.parse_word()?;
+
+        Ok(TagSelector {
+            span: self.i.make_span(start),
+            text,
+        })
     }
 
     fn parse_attribute_selector(&mut self) -> PResult<AttributeSelector> {
