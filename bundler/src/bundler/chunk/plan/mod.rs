@@ -4,7 +4,7 @@ use crate::{
 };
 use anyhow::{bail, Error};
 use lca::least_common_ancestor;
-use petgraph::{algo::all_simple_paths, graphmap::DiGraphMap, visit::Bfs};
+use petgraph::{algo::all_simple_paths, graphmap::DiGraphMap, visit::Bfs, EdgeDirection::Outgoing};
 use std::collections::{hash_map::Entry, HashMap};
 
 mod lca;
@@ -13,25 +13,16 @@ mod tests;
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
-    entry_graph: ModuleGraph,
+    direct_deps_graph: ModuleGraph,
 
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
     tracking_graph: ModuleGraph,
 
     circular: HashMap<ModuleId, Vec<ModuleId>>,
-    direct_deps: HashMap<ModuleId, Vec<ModuleId>>,
 
     /// Used to calcuate transitive dependencies.
     reverse: HashMap<ModuleId, Vec<ModuleId>>,
-
-    /// Used for normalization
-    ///
-    /// This is required because we cannot know the order file is
-    /// loaded. It means we cannot know order
-    /// calls to add_to_graph.
-    /// Thus, we cannot track import order in add_to_graph.
-    pending_direct_deps: HashMap<ModuleId, Vec<ModuleId>>,
 
     kinds: HashMap<ModuleId, BundleKind>,
 }
@@ -85,28 +76,7 @@ impl PlanBuilder {
             dep_of_dep
         );
 
-        if let None = self.tracking_graph.add_edge(root_id, dep_of_dep, 0) {
-            dbg!();
-            if self.circular.contains_key(&dep_of_dep) {
-                self.direct_deps.entry(root_id).or_default().push(dep);
-                dbg!();
-                return;
-            }
-
-            // Track direct dependencies, but exclude if it will be recursively merged.
-            self.direct_deps.entry(dep).or_default().push(dep_of_dep);
-        } else {
-            dbg!();
-            if self.circular.contains_key(&dep_of_dep) {
-                return;
-            }
-            dbg!();
-
-            self.pending_direct_deps
-                .entry(dep)
-                .or_default()
-                .push(dep_of_dep);
-        }
+        self.tracking_graph.add_edge(root_id, dep_of_dep, 0);
     }
 }
 
@@ -174,9 +144,9 @@ where
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
-            let mut bfs = Bfs::new(&builder.entry_graph, *id);
+            let mut bfs = Bfs::new(&builder.direct_deps_graph, *id);
 
-            while let Some(dep) = bfs.next(&builder.entry_graph) {
+            while let Some(dep) = bfs.next(&builder.direct_deps_graph) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -205,6 +175,8 @@ where
             }
         }
 
+        // --- Above is buggy
+
         let mut plans = Plan::default();
 
         for (id, kind) in builder.kinds.iter() {
@@ -212,52 +184,23 @@ where
             plans.bundle_kinds.insert(*id, kind.clone());
         }
 
-        dbg!(&builder.direct_deps);
-        dbg!(&builder.pending_direct_deps);
-
-        // Fix direct dependencies. See the doc of pending_direct_deps for more
-        // information.
-        for (entry, deps) in builder.pending_direct_deps.drain() {
-            for (key, direct_deps) in builder.direct_deps.iter_mut() {
-                if direct_deps.contains(&entry) {
-                    if *key == entry {
-                        direct_deps.extend_from_slice(&deps);
-                    } else {
-                        direct_deps.retain(|&id| {
-                            if *key == id {
-                                return true;
-                            }
-                            if deps.contains(&id) {
-                                return false;
-                            }
-                            true
-                        });
-                    }
-                }
-            }
-
-            if !builder.direct_deps.contains_key(&entry) {
-                builder.direct_deps.insert(entry, deps);
-            }
-        }
-        // --- Above is buggy
-
         // Handle circular imports
         for (k, members) in &builder.circular {
-            for (_entry, deps) in builder.direct_deps.iter_mut() {
-                deps.retain(|v| !members.contains(v));
-            }
+            dbg!("Circular", k, members);
+            // for (_entry, deps) in builder.direct_deps.iter_mut() {
+            //     deps.retain(|v| !members.contains(v));
+            // }
 
-            builder.direct_deps.remove(k);
+            // builder.direct_deps.remove(k);
         }
 
         // Calculate actual chunking plans
         for (id, _) in builder.kinds.iter() {
-            let mut bfs = Bfs::new(&builder.entry_graph, *id);
+            let mut bfs = Bfs::new(&builder.direct_deps_graph, *id);
 
             let mut prev = *id;
 
-            while let Some(dep) = bfs.next(&builder.entry_graph) {
+            while let Some(dep) = bfs.next(&builder.direct_deps_graph) {
                 if dep == *id {
                     // Useless
                     continue;
@@ -292,8 +235,16 @@ where
             }
         }
 
-        for (id, deps) in builder.direct_deps.drain() {
-            for &dep in &deps {
+        for (id, _) in &builder.kinds {
+            let id = *id;
+            let mut bfs = Bfs::new(&builder.direct_deps_graph, id);
+
+            while let Some(dep) = bfs.next(&builder.direct_deps_graph) {
+                if dep == id {
+                    // Useless
+                    continue;
+                }
+
                 if builder.circular.get(&id).is_some() {
                     log::debug!(
                         "Adding a circular dependencuy {:?} to normal entry {:?}",
@@ -336,7 +287,11 @@ where
                         //
                         // a <- b
                         // a <- c
-                        let module = least_common_ancestor(&builder.entry_graph, dependants);
+                        let module = least_common_ancestor(&builder.direct_deps_graph, dependants);
+                        let deps = builder
+                            .direct_deps_graph
+                            .neighbors_directed(id, Outgoing)
+                            .collect::<Vec<_>>();
 
                         let normal_plan = plans.normal.entry(module).or_default();
                         normal_plan.transitive_chunks.reserve(deps.len());
@@ -364,7 +319,7 @@ where
                         } else if dependants.len() == 2 && plans.entries.contains(&dependants[1]) {
                             dependants[1]
                         } else {
-                            least_common_ancestor(&builder.entry_graph, dependants)
+                            least_common_ancestor(&builder.direct_deps_graph, dependants)
                         };
 
                         if dependants.len() == 2 && dependants.contains(&module) {
@@ -400,7 +355,7 @@ where
 
     fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, root_id: ModuleId) {
         dbg!(module_id);
-        builder.entry_graph.add_node(module_id);
+        builder.direct_deps_graph.add_node(module_id);
         builder.tracking_graph.add_node(module_id);
 
         let m = self
@@ -414,7 +369,10 @@ where
 
         // Prevent dejavu
         for (src, _) in &m.imports.specifiers {
-            if builder.entry_graph.contains_edge(src.module_id, module_id) {
+            if builder
+                .direct_deps_graph
+                .contains_edge(src.module_id, module_id)
+            {
                 log::debug!(
                     "({:?}) circular dep: {:?} => {:?}",
                     root_id,
@@ -425,7 +383,7 @@ where
                 builder.mark_as_circular(module_id, src.module_id);
 
                 let circular_paths = all_simple_paths::<Vec<ModuleId>, _>(
-                    &builder.entry_graph,
+                    &builder.direct_deps_graph,
                     src.module_id,
                     module_id,
                     0,
@@ -439,7 +397,7 @@ where
                     }
                 }
             } else {
-                builder.entry_graph.add_edge(
+                builder.direct_deps_graph.add_edge(
                     module_id,
                     src.module_id,
                     if src.is_unconditional { 2 } else { 1 },
@@ -448,11 +406,14 @@ where
         }
 
         for (src, _) in m.imports.specifiers.iter().chain(&m.exports.reexports) {
-            if !builder.entry_graph.contains_edge(src.module_id, module_id) {
+            if !builder
+                .direct_deps_graph
+                .contains_edge(src.module_id, module_id)
+            {
                 self.add_to_graph(builder, src.module_id, root_id);
             }
 
-            builder.entry_graph.add_edge(
+            builder.direct_deps_graph.add_edge(
                 module_id,
                 src.module_id,
                 if src.is_unconditional { 2 } else { 1 },
@@ -462,10 +423,7 @@ where
                 builder.try_add_direct_dep(root_id, module_id, src.module_id);
             } else {
                 // Common js support.
-                let v = builder.direct_deps.entry(module_id).or_default();
-                if !v.contains(&src.module_id) {
-                    v.push(src.module_id);
-                }
+                builder.tracking_graph.add_edge(module_id, src.module_id, 0);
             }
 
             let rev = builder.reverse.entry(src.module_id).or_default();
