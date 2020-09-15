@@ -13,7 +13,9 @@ impl Parser<'_> {
                 break;
             }
 
-            expect!(self, ",");
+            if !is!(self, ",") {
+                break;
+            }
         }
 
         Ok(selectors)
