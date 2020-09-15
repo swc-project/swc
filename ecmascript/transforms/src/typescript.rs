@@ -1,3 +1,3 @@
 pub use self::strip::strip;
 
-mod strip;
+pub mod strip;
