@@ -13,13 +13,27 @@ use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, Visit
 /// Value does not contain TsLit::Bool
 type EnumValues = FxHashMap<Id, TsLit>;
 
+#[derive(Debug, Default)]
+#[non_exhaustive]
+pub struct Config {}
+
+pub fn strip_with_config(config: Config) -> impl Fold {
+    as_folder(Strip {
+        config,
+        non_top_level: Default::default(),
+        scope: Default::default(),
+        was_side_effect_import: Default::default(),
+    })
+}
+
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
-    as_folder(Strip::default())
+    strip_with_config(Default::default())
 }
 
 #[derive(Default)]
 struct Strip {
+    config: Config,
     non_top_level: bool,
     scope: Scope,
 
