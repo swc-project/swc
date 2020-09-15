@@ -110,8 +110,6 @@ where
             self.add_to_graph(&mut builder, module.id, module.id);
         }
 
-        dbg!(&builder.direct_deps);
-
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
 
         // Draw dependency graph to calculte
@@ -260,6 +258,7 @@ where
                             //
                             if dependants.len() <= 1 {
                                 plans.normal.entry(entry).or_default().chunks.push(dep);
+                                dbg!(entry, dep);
                                 continue;
                             }
 
@@ -276,6 +275,7 @@ where
                             let module = least_common_ancestor(&builder.direct_deps, &dependants);
 
                             let normal_plan = plans.normal.entry(module).or_default();
+                            dbg!(module, &*deps);
 
                             for &dep in &deps {
                                 if !normal_plan.chunks.contains(&dep)
@@ -309,11 +309,13 @@ where
                                 let entry =
                                     *dependants.iter().find(|&&v| v != higher_module).unwrap();
 
+                                dbg!(entry, dep);
                                 let normal_plan = plans.normal.entry(entry).or_default();
                                 if !normal_plan.chunks.contains(&dep) {
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
+                                dbg!(higher_module, dep);
                                 let t = &mut plans
                                     .normal
                                     .entry(higher_module)
@@ -324,6 +326,7 @@ where
                                 }
                             }
                         } else {
+                            dbg!(entry, dep);
                             // Direct dependency.
                             plans.normal.entry(entry).or_default().chunks.push(dep);
                         }
@@ -358,7 +361,12 @@ where
             .map(|v| &v.0)
             .chain(m.exports.reexports.iter().map(|v| &v.0))
         {
-            log::debug!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
+            log::debug!(
+                "Dependency: ({:?}) {:?} => {:?}",
+                root_id,
+                module_id,
+                src.module_id
+            );
 
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
 
