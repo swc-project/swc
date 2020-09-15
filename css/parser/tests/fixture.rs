@@ -32,7 +32,7 @@ fn load_fixtures(tests: &mut Vec<TestDescAndFn>) {
     let root =
         PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not specified"))
             .join("tests")
-            .join("fixtire");
+            .join("fixture");
 
     for entry in WalkDir::new(&root) {
         let entry = entry.unwrap();
