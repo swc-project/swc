@@ -19,6 +19,9 @@ pub(crate) enum Token {
     #[token("@")]
     At,
 
+    #[token("*")]
+    Mul,
+
     /// Quoted string
     #[regex(r#"'(?:[^']|\\[.\\])*'"#)]
     #[regex("\"(?:[^\"]|\\\\[.\\\\])*\"")]
@@ -37,6 +40,11 @@ pub(crate) enum Token {
     LBrace,
     #[token("}")]
     RBrace,
+
+    #[token("[")]
+    LBracket,
+    #[token("]")]
+    RBracket,
 
     #[token("+")]
     Plus,

@@ -23,6 +23,34 @@ macro_rules! tok {
     ("!important") => {
         crate::token::Token::BangImportant
     };
+    (".") => {
+        crate::token::Token::Dot
+    };
+    ("*") => {
+        crate::token::Token::Mul
+    };
+    ("#") => {
+        crate::token::Token::Hash
+    };
+    ("[") => {
+        crate::token::Token::LBracket
+    };
+    ("]") => {
+        crate::token::Token::RBracket
+    };
+}
+
+macro_rules! cur {
+    ($parser:expr) => {{
+        use crate::error::{Error, SyntaxError};
+
+        match $parser.i.cur() {
+            Some(token) => token,
+            None => Err(Error {
+                inner: Box::new(($parser.i.span(), SyntaxError::Eof)),
+            })?,
+        }
+    }};
 }
 
 macro_rules! expect {
