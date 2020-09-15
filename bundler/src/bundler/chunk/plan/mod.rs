@@ -351,7 +351,13 @@ where
             .get_module(module_id)
             .expect("failed to get module");
 
-        for (src, _) in &m.imports.specifiers {
+        for src in m
+            .imports
+            .specifiers
+            .iter()
+            .map(|v| &v.0)
+            .chain(m.exports.reexports.iter().map(|v| &v.0))
+        {
             log::debug!("({:?}) {:?} => {:?}", root_id, module_id, src.module_id);
 
             builder.full_dep.add_edge(module_id, src.module_id, 0);
