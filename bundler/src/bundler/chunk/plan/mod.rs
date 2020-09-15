@@ -46,7 +46,7 @@ impl PlanBuilder {
     }
 
     fn is_circular(&self, id: ModuleId) -> bool {
-        self.circular.get(&id).is_some()
+        self.circular.get(&id).is_some() || self.circular.iter().any(|(_, v)| v.contains(&id))
     }
 }
 
@@ -217,6 +217,8 @@ where
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {
+                dbg!(root_entry, entry);
+
                 let deps: Vec<_> = builder
                     .direct_deps
                     .neighbors_directed(entry, Outgoing)
@@ -306,8 +308,13 @@ where
                             };
 
                             if dependants.len() == 2 && dependants.contains(&higher_module) {
-                                let entry =
+                                let mut entry =
                                     *dependants.iter().find(|&&v| v != higher_module).unwrap();
+
+                                // We choose higher node if import is circular
+                                if builder.is_circular(entry) {
+                                    entry = higher_module;
+                                }
 
                                 dbg!(entry, dep);
                                 let normal_plan = plans.normal.entry(entry).or_default();

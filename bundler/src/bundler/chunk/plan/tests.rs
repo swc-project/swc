@@ -646,10 +646,10 @@ fn deno_001() {
             dbg!(&p);
 
             assert_normal(t, &p, "main", &["http-server"]);
-            assert_normal(t, &p, "http-server", &["_io"]);
-            assert_normal(t, &p, "io-bufio", &[""]);
-            assert_circular(t, &p, "http-server", &["io-bufio"]);
-            assert_circular(t, &p, "io-bufio", &["http-server"]);
+            assert_normal(t, &p, "io-bufio", &[]);
+
+            assert_circular(t, &p, "http-server", &["_io"]);
+            // assert_circular(t, &p, "_io", &["http-server"]);
 
             Ok(())
         });
