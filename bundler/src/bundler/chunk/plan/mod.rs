@@ -110,6 +110,8 @@ where
             self.add_to_graph(&mut builder, module.id, module.id);
         }
 
+        dbg!(&builder.direct_deps);
+
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
 
         // Draw dependency graph to calculte
@@ -153,15 +155,6 @@ where
         }
 
         // Handle circular imports
-        for (k, members) in &builder.circular {
-            dbg!("Circular", k, members);
-            // for (_entry, deps) in builder.direct_deps.iter_mut() {
-            //     deps.retain(|v| !members.contains(v));
-            // }
-
-            // builder.direct_deps.remove(k);
-        }
-
         for (root_entry, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
 
