@@ -103,6 +103,17 @@ where
         &self,
         entries: HashMap<String, TransformedModule>,
     ) -> Result<Plan, Error> {
+        let plan = self.calculate_plan(entries)?;
+        let plan = self.handle_duplicates(plan);
+
+        Ok(plan)
+    }
+
+    fn handle_duplicates(&self, plan: Plan) -> Plan {
+        plan
+    }
+
+    fn calculate_plan(&self, entries: HashMap<String, TransformedModule>) -> Result<Plan, Error> {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {

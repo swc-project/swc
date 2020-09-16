@@ -105,7 +105,7 @@ fn concurrency_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             assert_eq!(p.circular.len(), 0);
 
@@ -149,7 +149,7 @@ fn concurrency_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             assert_eq!(p.circular.len(), 0);
 
@@ -195,7 +195,7 @@ fn concurrency_003() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             assert_eq!(p.circular.len(), 0);
             assert_eq!(p.normal.len(), 2);
@@ -239,7 +239,7 @@ fn circular_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -273,7 +273,7 @@ fn transitive_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -338,7 +338,7 @@ fn transitive_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -390,7 +390,7 @@ fn cjs_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -431,7 +431,7 @@ fn cjs_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -479,7 +479,7 @@ fn cjs_003() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -536,7 +536,7 @@ fn cjs_004() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -589,7 +589,7 @@ fn cjs_005() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -641,7 +641,7 @@ fn deno_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -690,7 +690,7 @@ fn circular_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
