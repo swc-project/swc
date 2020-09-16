@@ -46,11 +46,10 @@ impl Circulars {
 
         Some(&self.0[pos])
     }
-    pub fn remove(&mut self, id: ModuleId) -> Option<HashSet<ModuleId>> {
-        let pos = self.0.iter().position(|set| set.contains(&id))?;
-
-        Some(self.0.remove(pos))
-    }
+    // pub fn remove(&mut self, id: ModuleId) -> Option<HashSet<ModuleId>> {
+    //     let pos = self.0.iter().position(|set| set.contains(&id))?;
+    //     Some(self.0.remove(pos))
+    // }
 }
 
 impl Deref for Circulars {
@@ -249,9 +248,10 @@ where
                             // We need to mark modules as circular.
                             Entry::Vacant(e) => {
                                 let circular_plan = e.insert(CircularPlan::default());
-                                if let Some(mut v) = builder.circular.remove(dep) {
-                                    v.remove(&dep);
-                                    circular_plan.chunks.extend(v);
+                                if let Some(v) = builder.circular.get(dep) {
+                                    circular_plan
+                                        .chunks
+                                        .extend(v.iter().copied().filter(|&v| v != dep));
                                 }
                             }
                         }
