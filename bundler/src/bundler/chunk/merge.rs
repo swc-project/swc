@@ -10,6 +10,7 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
+use retain_mut::RetainMut;
 use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -327,8 +328,12 @@ where
             // }
 
             if is_entry {
-                entry.body.retain(|item| {
+                entry.body.retain_mut(|item| {
                     match item {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                            export.src = None;
+                        }
+
                         ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                             for (id, p) in &plan.normal {
                                 if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
@@ -372,6 +377,7 @@ where
                                 }
                             }
                         }
+
                         _ => {}
                     }
 
