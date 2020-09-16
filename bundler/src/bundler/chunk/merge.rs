@@ -69,7 +69,7 @@ where
                 plan.normal.get(&info.id)
             );
 
-            self.merge_reexports(plan, &mut entry, &info, merged)
+            self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
 
             let to_merge: Vec<_> = info
@@ -101,6 +101,7 @@ where
                         .map(|(src, specifiers)| -> Result<Option<_>, Error> {
                             self.run(|| {
                                 if !merged.insert(src.module_id) {
+                                    log::debug!("Skipping: {} <= {}", info.fm.name, src.src.value);
                                     return Ok(None);
                                 }
 

@@ -1,4 +1,4 @@
-use super::plan::Plan;
+use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Specifier, TransformedModule},
     util::{CHashSet, IntoParallelIterator},
@@ -52,22 +52,16 @@ where
     pub(super) fn merge_reexports(
         &self,
         plan: &Plan,
+        nomral_plan: &NormalPlan,
         entry: &mut Module,
         info: &TransformedModule,
         merged: &CHashSet<ModuleId>,
     ) -> Result<(), Error> {
         log::trace!("merge_reexports: {}", info.fm.name);
 
-        let direct_deps = info
-            .imports
-            .specifiers
-            .iter()
-            .map(|v| v.0.module_id)
-            .chain(info.exports.reexports.iter().map(|v| v.0.module_id))
-            .collect::<Vec<_>>();
-
         let mut reexports = info.exports.reexports.clone();
-        reexports.sort_by_key(|(src, _)| !direct_deps.contains(&src.module_id));
+        // Remove transitive dependencies which is merged by parent moudle.
+        reexports.retain(|(src, _)| nomral_plan.chunks.contains(&src.module_id));
 
         let deps = reexports
             .into_par_iter()
