@@ -80,12 +80,16 @@ impl Parser<'_> {
 
     fn parse_id_selector(&mut self) -> PResult<IdSelector> {
         trace_cur!(self, parse_id_selector);
+        debug_assert_eq!(self.i.cur(), Some(tok!("#")));
+        self.i.bump(); // '#'
 
         unimplemented!("parse_id_selector")
     }
 
     fn parse_class_selector(&mut self) -> PResult<ClassSelector> {
         trace_cur!(self, parse_class_selector);
+        debug_assert_eq!(self.i.cur(), Some(tok!(".")));
+        self.i.bump(); // '.'
 
         unimplemented!("parse_class_selector")
     }
