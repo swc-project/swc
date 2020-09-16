@@ -10,7 +10,10 @@ use petgraph::{
     visit::Bfs,
     EdgeDirection::{Incoming, Outgoing},
 };
-use std::collections::{hash_map::Entry, HashMap, HashSet};
+use std::{
+    collections::{hash_map::Entry, HashMap, HashSet},
+    ops::{Deref, DerefMut},
+};
 
 mod lca;
 #[cfg(test)]
@@ -29,28 +32,65 @@ struct PlanBuilder {
     /// directly)
     direct_deps: ModuleGraph,
 
-    circular: HashMap<ModuleId, Vec<ModuleId>>,
+    circular: Circulars,
 
     kinds: HashMap<ModuleId, BundleKind>,
 }
 
+#[derive(Debug, Default)]
+struct Circulars(Vec<HashSet<ModuleId>>);
+
+impl Circulars {
+    pub fn get(&self, id: ModuleId) -> Option<&HashSet<ModuleId>> {
+        let pos = self.0.iter().position(|set| set.contains(&id))?;
+
+        Some(&self.0[pos])
+    }
+    pub fn remove(&mut self, id: ModuleId) -> Option<HashSet<ModuleId>> {
+        let pos = self.0.iter().position(|set| set.contains(&id))?;
+
+        Some(self.0.remove(pos))
+    }
+}
+
+impl Deref for Circulars {
+    type Target = Vec<HashSet<ModuleId>>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for Circulars {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
 impl PlanBuilder {
     fn mark_as_circular(&mut self, src: ModuleId, imported: ModuleId) {
-        if let Some(v) = self.circular.get_mut(&src) {
-            if !v.contains(&src) {
-                v.push(src);
+        for set in self.circular.iter_mut() {
+            if set.contains(&src) || set.contains(&imported) {
+                set.insert(src);
+                set.insert(imported);
+                return;
             }
-            if !v.contains(&imported) {
-                v.push(imported);
-            }
-            return;
         }
 
-        self.circular.insert(src, vec![imported]);
+        let mut set = HashSet::default();
+        set.insert(src);
+        set.insert(imported);
+        self.circular.push(set);
     }
 
     fn is_circular(&self, id: ModuleId) -> bool {
-        self.circular.get(&id).is_some() || self.circular.iter().any(|(_, v)| v.contains(&id))
+        for set in self.circular.iter() {
+            if set.contains(&id) {
+                return true;
+            }
+        }
+
+        false
     }
 }
 
@@ -179,7 +219,7 @@ where
 
                 for dep in deps {
                     // Check if it's circular.
-                    if let Some(members) = builder.circular.get(&dep) {
+                    if let Some(members) = builder.circular.get(dep) {
                         // Exclude circular imnports from normal dependencies
                         for &circular_member in members {
                             if entry == circular_member {
@@ -209,10 +249,8 @@ where
                             // We need to mark modules as circular.
                             Entry::Vacant(e) => {
                                 let circular_plan = e.insert(CircularPlan::default());
-                                if let Some(mut v) = builder.circular.remove(&dep) {
-                                    if let Some(index) = v.iter().position(|&id| id == dep) {
-                                        v.remove(index);
-                                    }
+                                if let Some(mut v) = builder.circular.remove(dep) {
+                                    v.remove(&dep);
                                     circular_plan.chunks.extend(v);
                                 }
                             }
@@ -237,7 +275,7 @@ where
                     .collect();
 
                 for &dep in &deps {
-                    if builder.circular.get(&entry).is_some() {
+                    if builder.is_circular(entry) {
                         log::debug!(
                             "Adding a circular dependencuy {:?} to normal entry {:?}",
                             entry,
