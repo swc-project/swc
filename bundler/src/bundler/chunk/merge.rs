@@ -33,6 +33,8 @@ where
         merged: &CHashSet<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
+            merged.insert(entry);
+
             let info = self.scope.get_module(entry).unwrap();
 
             if !force_not_cyclic {
