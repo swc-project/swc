@@ -3,9 +3,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-import type { BufReader } from "../io/bufio.ts";
-import { concat } from "../bytes/mod.ts";
-import { decode } from "../encoding/utf8.ts";
 import type { BufReader } from "../io/bufio";
 import { concat } from "../bytes/mod";
 import { decode } from "../encoding/utf8";
@@ -26,7 +23,7 @@ function charCode(s: string): number {
 }
 
 export class TextProtoReader {
-  constructor(readonly r: BufReader) {}
+  constructor(readonly r: BufReader) { }
   constructor(readonly r: BufReader) { }
 
   /** readLine() reads a single line from the TextProtoReader,

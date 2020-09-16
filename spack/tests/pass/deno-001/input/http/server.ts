@@ -1,8 +1,4 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { encode } from "../encoding/utf8.ts";
-import { BufReader, BufWriter } from "../io/bufio.ts";
-import { assert } from "../_util/assert.ts";
-import { deferred, Deferred, MuxAsyncIterator } from "../async/mod.ts";
 import { encode } from "../encoding/utf8";
 import { BufReader, BufWriter } from "../io/bufio";
 import { assert } from "../_util/assert";
@@ -13,7 +9,6 @@ import {
     emptyReader,
     writeResponse,
     readRequest,
-} from "./_io.ts";
 } from "./_io";
 
 export class ServerRequest {
