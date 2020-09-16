@@ -113,7 +113,7 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
         if dep.is_empty() {
             log::trace!("dep is empty");
             new.push(item);
-            new.extend(entry);
+            new.append(&mut entry);
             break;
         }
 
@@ -139,6 +139,7 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
         if let Some(pos) = dependency_index(&dep[0], &entry) {
             log::trace!("Found reverse depndency: {}", pos);
 
+            new.push(item);
             new.extend(entry.drain(..=pos));
             new.extend(dep.drain(..=0));
             continue;
@@ -148,6 +149,8 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
 
         new.push(item);
     }
+
+    new.extend(entry);
 
     // Append remaining statements.
     new.extend(dep);
