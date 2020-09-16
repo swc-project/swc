@@ -71,7 +71,7 @@ where
     ) -> Result<Module, Error> {
         self.run(|| {
             let mut dep = self
-                .merge_modules(plan, dep, false, false)
+                .merge_modules(plan, dep, false, true)
                 .context("failed to merge dependency of a cyclic module")?;
 
             // print_hygiene("dep:init", &self.cm, &dep);
