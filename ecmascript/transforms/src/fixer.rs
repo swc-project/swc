@@ -958,4 +958,14 @@ var store = global[SHARED] || (global[SHARED] = {});
         (a) => (set) => (elemE(a, set) ? removeE : insertE)(a)(set)
         "
     );
+
+    identical!(
+        deno_001,
+        "
+    var Status;
+    function init(Status1) {
+    }(Status || (Status = {
+    }));
+"
+    );
 }
