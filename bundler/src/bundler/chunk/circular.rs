@@ -131,7 +131,7 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
         if let Some(pos) = dependency_index(&dep[0], &[&item]) {
             log::trace!("Found reverse depndency (index[0]): {}", pos);
 
-            new.extend(entry.drain(..=pos));
+            new.push(item);
             new.extend(dep.drain(..=0));
             continue;
         }
