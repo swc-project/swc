@@ -87,9 +87,9 @@ where
     ) -> Self {
         GLOBALS.set(&globals, || {
             let used_mark = Mark::fresh(Mark::root());
-            log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
+            log::debug!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-            log::info!("Helper ctxt: {:?}", helper_ctxt);
+            log::debug!("Helper ctxt: {:?}", helper_ctxt);
 
             Bundler {
                 config,

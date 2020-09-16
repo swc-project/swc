@@ -29,7 +29,7 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
         }
 
         if let Some(id) = check_itself_and_parent(g, &[first], &[second]) {
-            log::info!("Found lca: {:?}", id);
+            log::debug!("Found lca: {:?}", id);
             return id;
         }
 

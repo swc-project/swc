@@ -212,7 +212,7 @@ where
                     );
                     if decl.ident.sym == i.sym && decl.ident.span.ctxt == i.span.ctxt {
                         self.idx = Some(idx);
-                        log::info!("Index is {}", idx);
+                        log::debug!("Index is {}", idx);
                         break;
                     }
                 }

@@ -61,7 +61,7 @@ where
         let deps = (&*info.exports.reexports)
             .into_par_iter()
             .map(|(src, specifiers)| -> Result<_, Error> {
-                log::info!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
+                log::debug!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
 
                 let imported = self.scope.get_module(src.module_id).unwrap();
                 assert!(imported.is_es6, "Reexports are es6 only");
