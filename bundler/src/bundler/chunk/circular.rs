@@ -33,6 +33,13 @@ where
             circular_plan
         );
         let entry_module = self.scope.get_module(entry_id).unwrap();
+        let direct_deps = entry_module
+            .imports
+            .specifiers
+            .iter()
+            .map(|v| v.0.module_id)
+            .chain(entry_module.exports.reexports.iter().map(|v| v.0.module_id))
+            .collect::<Vec<_>>();
 
         let modules = circular_plan
             .chunks
@@ -48,8 +55,10 @@ where
             imports: &entry_module.imports,
         });
         // print_hygiene("entry:drop_imports", &self.cm, &entry);
+        let mut deps = circular_plan.chunks.clone();
+        deps.sort_by_key(|&dep| (!direct_deps.contains(&dep), dep));
 
-        for &dep in &*circular_plan.chunks {
+        for dep in deps {
             if dep == entry_id {
                 continue;
             }
