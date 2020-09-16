@@ -152,31 +152,7 @@ where
 
     /// 1. For entry -> a -> b -> a, entry -> a->c, entry -> b -> c,
     ///     we change c as transitive dependancy of entry.
-    fn handle_duplicates(&self, mut plan: Plan) -> Plan {
-        {
-            let mut circular_duplicates = HashMap::new();
-            for (id, c) in plan.circular.iter_mut() {
-                //
-                let mut all = HashSet::new();
-                let mut duplicates = HashSet::new();
-
-                for &chunk_id in c.chunks.iter() {
-                    if !all.insert(chunk_id) {
-                        duplicates.insert(chunk_id);
-                    }
-                }
-
-                c.chunks.retain(|chunk_id| !duplicates.contains(chunk_id));
-
-                circular_duplicates.insert(id, duplicates);
-            }
-
-            // TODO: Add circular_duplicates to transitive chunks
-        }
-
-        dbg!(&plan.normal);
-        dbg!(&plan.circular);
-
+    fn handle_duplicates(&self, plan: Plan) -> Plan {
         plan
     }
 
