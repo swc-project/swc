@@ -58,7 +58,18 @@ where
     ) -> Result<(), Error> {
         log::trace!("merge_reexports: {}", info.fm.name);
 
-        let deps = (&*info.exports.reexports)
+        let direct_deps = info
+            .imports
+            .specifiers
+            .iter()
+            .map(|v| v.0.module_id)
+            .chain(info.exports.reexports.iter().map(|v| v.0.module_id))
+            .collect::<Vec<_>>();
+
+        let mut reexports = info.exports.reexports.clone();
+        reexports.sort_by_key(|(src, _)| !direct_deps.contains(&src.module_id));
+
+        let deps = reexports
             .into_par_iter()
             .map(|(src, specifiers)| -> Result<_, Error> {
                 if !merged.insert(src.module_id) {
