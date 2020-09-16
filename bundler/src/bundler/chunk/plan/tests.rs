@@ -700,3 +700,142 @@ fn circular_002() {
             Ok(())
         });
 }
+
+#[test]
+fn deno_002() {
+    suite()
+        .file(
+            "main.js",
+            "
+            export * from './http-server'
+            ",
+        )
+        .file(
+            "http-server.js",
+            r#"
+            import { encode } from "./encoding-utf8";
+            import { BufReader, BufWriter } from "./io-bufio";
+            import { assert } from "./_util-assert";
+            import { deferred, Deferred, MuxAsyncIterator } from "./async-mod";
+            import {
+                bodyReader,
+                chunkedBodyReader,
+                emptyReader,
+                writeResponse,
+                readRequest,
+            } from "./http-_io";
+            "#,
+        )
+        .file(
+            "encoding-utf8.js",
+            "
+            // Skipped
+            ",
+        )
+        .file(
+            "io-bufio.js",
+            r#"
+            import { copyBytes } from "./bytes-mod";
+            import { assert } from "./_util-assert";
+            "#,
+        )
+        .file(
+            "_util-assert.js",
+            r#"
+            // Skipped
+            "#,
+        )
+        .file(
+            "async-mod.js",
+            r#"
+            export * from "./async-deferred";
+            export * from "./async-mux_async_iterator";
+            "#,
+        )
+        .file(
+            "http-_io.js",
+            r#"
+            import { BufReader, BufWriter } from "./io-bufio";
+            import { TextProtoReader } from "./textproto-mod";
+            import { assert } from "./_util-assert";
+            import { encoder } from "./encoding-utf8";
+            import { ServerRequest, Response } from "./http-server";
+            import { STATUS_TEXT } from "./http-http_status";
+            "#,
+        )
+        .file(
+            "textproto-mod.js",
+            r#"
+            import { BufReader } from "./io-bufio";
+            import { concat } from "./bytes-mod";
+            import { decode } from "./encoding-utf8";
+            "#,
+        )
+        .file(
+            "_util-assert.js",
+            r#"
+            // Skipped
+            "#,
+        )
+        .file("bytes-mod.js", "")
+        .file(
+            "async-mux_async_iterator.js",
+            r#"
+            import { Deferred, deferred } from "./async-deferred";
+            "#,
+        )
+        .file("async-deferred.js", "")
+        .file("http-http_status.js", "")
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p, "main", &["http-server"]);
+
+            assert_normal(
+                t,
+                &p,
+                "http-server",
+                &["encoding-utf8", "io-bufio", "_util-assert", "async-mod"],
+            );
+            assert_circular(t, &p, "http-server", &["http-_io"]);
+
+            assert_normal(t, &p, "encoding-utf8", &[]);
+
+            assert_normal(
+                t,
+                &p,
+                "io-bufio",
+                &[
+                    "bytes-mod",
+                    /* Merged by http-server
+                     * "_util-assert" */
+                ],
+            );
+
+            assert_normal(t, &p, "_util-assert", &[]);
+
+            assert_normal(t, &p, "http-_io", &[]);
+            // assert_circular(t, &p, "http-_io", &[]);
+
+            assert_normal(t, &p, "textproto-mod", &[]);
+
+            assert_normal(t, &p, "_util-assert", &[]);
+
+            assert_normal(t, &p, "async-mod", &["async-mux_async_iterator"]);
+
+            assert_normal(t, &p, "bytes-mod", &[]);
+
+            assert_normal(t, &p, "async-mux_asgync_iterator", &["async-deferred"]);
+
+            Ok(())
+        });
+}
