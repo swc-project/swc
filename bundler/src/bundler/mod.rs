@@ -49,8 +49,6 @@ pub struct Bundle {
     pub kind: BundleKind,
     pub id: ModuleId,
     /// Merged module.
-    ///
-    /// You **should** run fixer.
     pub module: Module,
 }
 
