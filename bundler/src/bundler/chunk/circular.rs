@@ -186,7 +186,11 @@ where
 
         for (idx, dep) in self.deps.iter().enumerate() {
             match dep.borrow() {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Class(decl),
+                    ..
+                }))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
                     log::trace!(
                         "Decl (from dep) = {}{:?}, Ident = {}{:?}",
                         decl.ident.sym,
@@ -200,6 +204,7 @@ where
                         break;
                     }
                 }
+
                 _ => {}
             }
         }
