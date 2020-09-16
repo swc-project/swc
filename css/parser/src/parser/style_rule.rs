@@ -3,6 +3,8 @@ use swc_css_ast::*;
 
 impl Parser<'_> {
     pub(super) fn parse_style_rule(&mut self) -> PResult<StyleRule> {
+        trace_cur!(self, parse_style_rule);
+
         let start = self.i.cur_pos();
         let selectors = self.parse_selectors()?;
 
@@ -16,6 +18,8 @@ impl Parser<'_> {
     }
 
     pub(super) fn parse_decl_block(&mut self) -> PResult<DeclBlock> {
+        trace_cur!(self, parse_decl_block);
+
         let start = self.i.cur_pos();
         expect!(self, "{");
         let mut properties = vec![];
@@ -38,6 +42,8 @@ impl Parser<'_> {
     }
 
     pub(super) fn parse_property(&mut self) -> PResult<Property> {
+        trace_cur!(self, parse_property);
+
         let start = self.i.cur_pos();
 
         let name = self.parse_word()?;

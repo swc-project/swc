@@ -3,6 +3,8 @@ use swc_css_ast::*;
 
 impl Parser<'_> {
     pub(super) fn parse_value(&mut self) -> PResult<Value> {
+        trace_cur!(self, parse_value);
+
         let word = self.parse_opt_word()?;
 
         match word {
@@ -44,6 +46,8 @@ impl Parser<'_> {
     }
 
     fn parse_paren_value(&mut self) -> PResult<ParenValue> {
+        trace_cur!(self, parse_paren_value);
+
         debug_assert_eq!(self.i.cur(), Some(Token::LParen));
         let start = self.i.cur_pos();
 
@@ -60,6 +64,8 @@ impl Parser<'_> {
     }
 
     fn parse_numeric_valie(&mut self) -> PResult<Value> {
+        trace_cur!(self, parse_numeric_valie);
+
         let _is_plus = match self.i.cur() {
             Some(Token::Plus) => {
                 self.i.bump(); // '+'
@@ -78,6 +84,8 @@ impl Parser<'_> {
     }
 
     fn parse_hash_value(&mut self) -> PResult<Value> {
+        trace_cur!(self, parse_hash_value);
+
         unimplemented!("parse_hash_value")
     }
 }

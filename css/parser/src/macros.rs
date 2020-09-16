@@ -111,3 +111,9 @@ macro_rules! eat {
         }
     }};
 }
+
+macro_rules! trace_cur {
+    ($parser:expr, $name:ident) => {{
+        eprintln!("{}: {:?}", stringify!($name), cur!($parser));
+    }};
+}

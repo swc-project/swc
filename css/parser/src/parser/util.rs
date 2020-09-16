@@ -5,6 +5,8 @@ use swc_css_ast::*;
 
 impl<'i> Parser<'i> {
     pub(super) fn parse_str(&mut self) -> PResult<Str> {
+        trace_cur!(self, parse_str);
+
         match self.i.cur() {
             Some(t) => match t {
                 Token::Str => {
@@ -26,6 +28,8 @@ impl<'i> Parser<'i> {
     }
 
     pub(super) fn parse_word(&mut self) -> PResult<Text> {
+        trace_cur!(self, parse_word);
+
         let token = self.i.cur();
         let word = self.parse_opt_word()?;
 
@@ -39,6 +43,8 @@ impl<'i> Parser<'i> {
 
     /// Eat one word, but not punctuntions or spaces.
     pub(super) fn parse_opt_word(&mut self) -> PResult<Option<Text>> {
+        trace_cur!(self, parse_opt_word);
+
         match self.i.cur() {
             Some(t) => {
                 if let Some(sym) = as_word(t, self.i.slice()) {

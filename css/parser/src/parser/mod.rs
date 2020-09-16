@@ -38,6 +38,8 @@ impl Parser<'_> {
     }
 
     fn parse_rule(&mut self) -> PResult<Rule> {
+        trace_cur!(self, parse_rule);
+
         assert_ne!(self.i.cur(), None);
 
         match self.i.cur().unwrap() {

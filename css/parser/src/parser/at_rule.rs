@@ -5,6 +5,8 @@ use swc_css_ast::*;
 
 impl Parser<'_> {
     pub(super) fn parse_at_rule(&mut self) -> PResult<AtRule> {
+        trace_cur!(self, parse_at_rule);
+
         assert_eq!(self.i.cur(), Some(Token::At));
         let start = self.i.cur_pos();
         self.i.bump(); // '@'
@@ -24,6 +26,8 @@ impl Parser<'_> {
     }
 
     fn parse_charset_rule(&mut self, start: BytePos) -> PResult<CharsetRule> {
+        trace_cur!(self, parse_charset_rule);
+
         let charset = self.parse_str()?;
 
         Ok(CharsetRule {
@@ -33,6 +37,8 @@ impl Parser<'_> {
     }
 
     fn parse_media_rule(&mut self, start: BytePos) -> PResult<MediaRule> {
+        trace_cur!(self, parse_media_rule);
+
         let query = self.parse_media_query()?;
 
         Ok(MediaRule {
@@ -42,6 +48,8 @@ impl Parser<'_> {
     }
 
     fn parse_media_query(&mut self) -> PResult<Box<MediaQuery>> {
+        trace_cur!(self, parse_media_query);
+
         let start = self.i.cur_pos();
         let mut query = self.parse_one_media_query_element()?;
 
@@ -80,6 +88,8 @@ impl Parser<'_> {
     }
 
     fn parse_one_media_query_element(&mut self) -> PResult<Box<MediaQuery>> {
+        trace_cur!(self, parse_one_media_query_element);
+
         let start = self.i.cur_pos();
 
         if eat!(self, "(") {
@@ -98,6 +108,8 @@ impl Parser<'_> {
     }
 
     fn parse_import_rule(&mut self, start: BytePos) -> PResult<ImportRule> {
+        trace_cur!(self, parse_import_rule);
+
         let src = self.parse_str()?;
 
         Ok(ImportRule {
@@ -107,6 +119,8 @@ impl Parser<'_> {
     }
 
     fn parse_supports_rule(&mut self, start: BytePos) -> PResult<SupportsRule> {
+        trace_cur!(self, parse_supports_rule);
+
         expect!(self, "(");
         let query = self.parse_supports_query()?;
         expect!(self, ")");
@@ -127,6 +141,8 @@ impl Parser<'_> {
     }
 
     fn parse_supports_query(&mut self) -> PResult<Box<SupportsQuery>> {
+        trace_cur!(self, parse_supports_query);
+
         let start = self.i.cur_pos();
         let mut query = self.parse_one_support_query_element()?;
 
@@ -165,6 +181,8 @@ impl Parser<'_> {
     }
 
     fn parse_one_support_query_element(&mut self) -> PResult<Box<SupportsQuery>> {
+        trace_cur!(self, parse_one_support_query_element);
+
         let start = self.i.cur_pos();
         if eat!(self, "(") {
             let property = self.parse_property()?;
@@ -182,6 +200,8 @@ impl Parser<'_> {
     }
 
     fn parse_keyframes_rule(&mut self, start: BytePos) -> PResult<KeyframesRule> {
+        trace_cur!(self, parse_keyframes_rule);
+
         let name = self.parse_word()?;
 
         expect!(self, "{");
@@ -207,6 +227,8 @@ impl Parser<'_> {
     }
 
     fn parse_keyframe_element(&mut self) -> PResult<KeyframeElement> {
+        trace_cur!(self, parse_keyframe_element);
+
         let start = self.i.cur_pos();
 
         let selector = self.parse_keyframe_selector()?;
@@ -220,6 +242,8 @@ impl Parser<'_> {
     }
 
     fn parse_keyframe_selector(&mut self) -> PResult<KeyframeSelector> {
+        trace_cur!(self, parse_keyframe_selector);
+
         let word = self.parse_opt_word()?;
 
         Ok(match word {
@@ -233,10 +257,14 @@ impl Parser<'_> {
     }
 
     fn parse_percent_selector(&mut self) -> PResult<KeyframePercentSelector> {
+        trace_cur!(self, parse_percent_selector);
+
         unimplemented!("parse_percent_selector")
     }
 
     fn parse_font_face_rule(&mut self, start: BytePos) -> PResult<FontFaceRule> {
+        trace_cur!(self, parse_font_face_rule);
+
         let block = self.parse_decl_block()?;
 
         Ok(FontFaceRule {
@@ -246,6 +274,8 @@ impl Parser<'_> {
     }
 
     fn parse_unknown_at_rule(&mut self, _start: BytePos) -> PResult<UnknownAtRule> {
+        trace_cur!(self, parse_unknown_at_rule);
+
         unimplemented!("parse_unknown_at_rule")
     }
 }
