@@ -823,8 +823,19 @@ fn deno_002() {
 
             assert_normal(t, &p, "_util-assert", &[]);
 
-            assert_normal(t, &p, "http-_io", &[]);
-            // assert_circular(t, &p, "http-_io", &[]);
+            assert_normal(
+                t,
+                &p,
+                "http-_io",
+                &[
+                    "io-bufio",
+                    "textproto-mod",
+                    "_util-assert",
+                    "encoding-utf8",
+                    "http-http_status",
+                ],
+            );
+            assert_circular(t, &p, "http-_io", &["server"]);
 
             assert_normal(t, &p, "textproto-mod", &[]);
 
