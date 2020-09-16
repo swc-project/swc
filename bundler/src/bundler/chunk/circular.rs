@@ -2,7 +2,7 @@ use super::{
     merge::{ImportDropper, Unexporter},
     plan::{CircularPlan, Plan},
 };
-use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
+use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::borrow::Borrow;
 use swc_common::DUMMY_SP;
@@ -22,6 +22,7 @@ where
         plan: &Plan,
         circular_plan: &CircularPlan,
         entry_id: ModuleId,
+        merged: &CHashSet<ModuleId>,
     ) -> Result<Module, Error> {
         assert!(
             circular_plan.chunks.len() >= 1,
@@ -35,9 +36,9 @@ where
             .iter()
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
-
+        merged.insert(entry_id);
         let mut entry = self
-            .merge_modules(plan, entry_id, false, true)
+            .merge_modules(plan, entry_id, false, true, merged)
             .context("failed to merge dependency of a cyclic module")?;
 
         entry.visit_mut_with(&mut ImportDropper {
@@ -49,8 +50,12 @@ where
             if dep == entry_id {
                 continue;
             }
+            if !merged.insert(dep) {
+                continue;
+            }
+            log::debug!("Circular merge: {:?}", dep);
 
-            let new_module = self.merge_two_circular_modules(plan, &modules, entry, dep)?;
+            let new_module = self.merge_two_circular_modules(plan, &modules, entry, dep, merged)?;
 
             entry = new_module;
 
@@ -68,10 +73,11 @@ where
         _circular_modules: &[TransformedModule],
         mut entry: Module,
         dep: ModuleId,
+        merged: &CHashSet<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
             let mut dep = self
-                .merge_modules(plan, dep, false, true)
+                .merge_modules(plan, dep, false, true, merged)
                 .context("failed to merge dependency of a cyclic module")?;
 
             // print_hygiene("dep:init", &self.cm, &dep);

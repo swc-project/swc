@@ -16,6 +16,7 @@ use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use util::CHashSet;
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -29,6 +30,7 @@ where
         entry: ModuleId,
         is_entry: bool,
         force_not_cyclic: bool,
+        merged: &CHashSet<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
             let info = self.scope.get_module(entry).unwrap();
@@ -36,8 +38,8 @@ where
             if !force_not_cyclic {
                 // Handle circular imports
                 if let Some(circular_plan) = plan.entry_as_circular(info.id) {
-                    log::info!("Circular dependency detected: ({})", info.fm.name);
-                    return Ok(self.merge_circular_modules(plan, circular_plan, entry)?);
+                    log::debug!("Circular dependency detected: ({})", info.fm.name);
+                    return Ok(self.merge_circular_modules(plan, circular_plan, entry, merged)?);
                 }
             }
 
@@ -65,7 +67,7 @@ where
                 plan.normal.get(&info.id)
             );
 
-            self.merge_reexports(plan, &mut entry, &info)
+            self.merge_reexports(plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
 
             let to_merge: Vec<_> = info
@@ -110,7 +112,7 @@ where
                                 // a <- b + chunk(c)
                                 //
                                 let mut dep = self
-                                    .merge_modules(plan, src.module_id, false, false)
+                                    .merge_modules(plan, src.module_id, false, false, merged)
                                     .with_context(|| {
                                         format!(
                                             "failed to merge: ({}):{} <= ({}):{}",
@@ -206,7 +208,7 @@ where
                         .into_par_iter()
                         .map(|id| -> Result<_, Error> {
                             let dep_info = self.scope.get_module(id).unwrap();
-                            let mut dep = self.merge_modules(plan, id, false, true)?;
+                            let mut dep = self.merge_modules(plan, id, false, true, merged)?;
 
                             dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
                             dep = dep.fold_with(&mut Unexporter);

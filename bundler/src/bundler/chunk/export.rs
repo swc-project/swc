@@ -1,8 +1,8 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Specifier, TransformedModule},
-    util::IntoParallelIterator,
-    Bundler, Load, Resolve,
+    util::{CHashSet, IntoParallelIterator},
+    Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
@@ -54,6 +54,7 @@ where
         plan: &Plan,
         entry: &mut Module,
         info: &TransformedModule,
+        merged: &CHashSet<ModuleId>,
     ) -> Result<(), Error> {
         log::trace!("merge_reexports: {}", info.fm.name);
 
@@ -68,7 +69,7 @@ where
                 info.helpers.extend(&imported.helpers);
 
                 let mut dep = self
-                    .merge_modules(plan, src.module_id, false, false)
+                    .merge_modules(plan, src.module_id, false, false, merged)
                     .with_context(|| {
                         format!(
                             "failed to merge for reexport: ({}):{} <= ({}):{}",
