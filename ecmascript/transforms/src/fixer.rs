@@ -963,8 +963,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         deno_001,
         "
     var Status;
-    function init(Status1) {
-    }(Status || (Status = {
+    (function init(Status1) {
+    })(Status || (Status = {
     }));
 "
     );
