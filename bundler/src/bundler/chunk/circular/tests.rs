@@ -57,22 +57,6 @@ fn simple_two() {
     );
 }
 
-#[test]
-fn simple_three() {
-    assert_merge_respecting_order(
-        &[
-            "export class A {}",
-            "export class B extends A {}",
-            "export class C extends B {}",
-        ],
-        "
-        export class A {} 
-        export class B extends A {}
-        export class C extends B {}
-        ",
-    );
-}
-
 #[track_caller]
 fn assert_dependency_index(entry: &str, dep: &str, expected: usize) {
     ::testing::run_test2(false, |cm, _handler| {
