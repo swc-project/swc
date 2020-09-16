@@ -22,6 +22,7 @@ fn parse(cm: Lrc<SourceMap>, name: &str, src: &str) -> Module {
 #[track_caller]
 fn assert_merge_respecting_order(modules: &[&str], output: &str) {
     for i in 0..modules.len() {
+        log::info!("[{}] Testing", i);
         ::testing::run_test2(false, |cm, _handler| {
             let mut entry = parse(cm.clone(), &format!("entry-{}", i), modules[i]).body;
 
@@ -36,6 +37,8 @@ fn assert_merge_respecting_order(modules: &[&str], output: &str) {
 
             let output = parse(cm.clone(), "output", output);
             assert_eq!(entry, output.body, "[{}]", i);
+
+            log::info!("[{}] Success", i);
 
             Ok(())
         })
@@ -68,4 +71,29 @@ fn simple_three() {
         export class C extends B {}
         ",
     );
+}
+
+#[track_caller]
+fn assert_dependency_index(entry: &str, dep: &str, expected: usize) {
+    ::testing::run_test2(false, |cm, _handler| {
+        let entry = parse(cm.clone(), "entry", entry);
+        let dep = parse(cm.clone(), "dep", dep);
+
+        let calculated = dependency_index(&entry.body[0], &dep.body);
+
+        assert_eq!(calculated, Some(expected));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn dep_index_class() {
+    assert_dependency_index("class A extends B {}", "class B {}", 0);
+}
+
+#[test]
+fn dep_index_export_class() {
+    assert_dependency_index("class A extends B {}", "export class B {}", 0);
 }
