@@ -51,6 +51,7 @@ where
                 continue;
             }
             if !merged.insert(dep) {
+                log::debug!("[circular merge] Already merged: {:?}", dep);
                 continue;
             }
             log::debug!("Circular merge: {:?}", dep);
