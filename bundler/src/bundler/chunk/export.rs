@@ -61,6 +61,10 @@ where
         let deps = (&*info.exports.reexports)
             .into_par_iter()
             .map(|(src, specifiers)| -> Result<_, Error> {
+                if !merged.insert(src.module_id) {
+                    return Ok(None);
+                }
+
                 log::debug!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
 
                 let imported = self.scope.get_module(src.module_id).unwrap();
@@ -99,12 +103,17 @@ where
                     // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
                 }
 
-                Ok((src, dep))
+                Ok(Some((src, dep)))
             })
             .collect::<Vec<_>>();
 
         for dep in deps {
-            let (src, dep) = dep?;
+            let dep = dep?;
+            let dep = match dep {
+                Some(v) => v,
+                None => continue,
+            };
+            let (src, dep) = dep;
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
