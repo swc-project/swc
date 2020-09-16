@@ -13,6 +13,13 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
         return module_ids[0];
     }
 
+    // Check for roots
+    for &mid in module_ids {
+        if g.neighbors_directed(mid, Incoming).count() == 0 {
+            return mid;
+        }
+    }
+
     let first = module_ids[0];
     let second = module_ids[1];
 
@@ -22,11 +29,14 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
         }
 
         if let Some(id) = check_itself_and_parent(g, &[first], &[second]) {
-            log::info!("Found lca: {:?}", id);
+            log::debug!("Found lca: {:?}", id);
             return id;
         }
 
-        unreachable!("failed to calculagte least common ancestor")
+        unreachable!(
+            "failed to calculate least common ancestors of {:?}",
+            module_ids
+        )
     }
 
     return module_ids

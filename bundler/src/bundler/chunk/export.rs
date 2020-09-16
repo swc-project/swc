@@ -1,8 +1,8 @@
-use super::plan::Plan;
+use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Specifier, TransformedModule},
-    util::IntoParallelIterator,
-    Bundler, Load, Resolve,
+    util::{CHashSet, IntoParallelIterator},
+    Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
@@ -52,15 +52,25 @@ where
     pub(super) fn merge_reexports(
         &self,
         plan: &Plan,
+        nomral_plan: &NormalPlan,
         entry: &mut Module,
         info: &TransformedModule,
+        merged: &CHashSet<ModuleId>,
     ) -> Result<(), Error> {
-        log::debug!("merge_reexports: {}", info.fm.name);
+        log::trace!("merge_reexports: {}", info.fm.name);
 
-        let deps = (&*info.exports.reexports)
+        let mut reexports = info.exports.reexports.clone();
+        // Remove transitive dependencies which is merged by parent moudle.
+        reexports.retain(|(src, _)| nomral_plan.chunks.contains(&src.module_id));
+
+        let deps = reexports
             .into_par_iter()
             .map(|(src, specifiers)| -> Result<_, Error> {
-                log::info!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
+                if !merged.insert(src.module_id) {
+                    return Ok(None);
+                }
+
+                log::debug!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
 
                 let imported = self.scope.get_module(src.module_id).unwrap();
                 assert!(imported.is_es6, "Reexports are es6 only");
@@ -68,7 +78,7 @@ where
                 info.helpers.extend(&imported.helpers);
 
                 let mut dep = self
-                    .merge_modules(plan, src.module_id, false, false)
+                    .merge_modules(plan, src.module_id, false, false, merged)
                     .with_context(|| {
                         format!(
                             "failed to merge for reexport: ({}):{} <= ({}):{}",
@@ -98,12 +108,17 @@ where
                     // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
                 }
 
-                Ok((src, dep))
+                Ok(Some((src, dep)))
             })
             .collect::<Vec<_>>();
 
         for dep in deps {
-            let (src, dep) = dep?;
+            let dep = dep?;
+            let dep = match dep {
+                Some(v) => v,
+                None => continue,
+            };
+            let (src, dep) = dep;
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
@@ -241,7 +256,7 @@ impl VisitMut for UnexportAsVar<'_> {
                                 }
                             }
                             None => {
-                                log::debug!("Alias: {:?} -> {:?}", n.orig, self.dep_ctxt);
+                                log::trace!("Alias: {:?} -> {:?}", n.orig, self.dep_ctxt);
 
                                 decls.push(VarDeclarator {
                                     span: n.span,

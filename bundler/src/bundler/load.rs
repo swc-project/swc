@@ -65,7 +65,7 @@ where
 
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(&file_name) {
-                log::info!("Cached: {}", file_name);
+                log::debug!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
 
@@ -75,14 +75,14 @@ where
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
-            log::info!("Storing module: {}", file_name);
+            log::info!("({}) Storing module: {}", v.id, file_name);
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in the `Scope`
             let results = files
                 .into_par_iter()
                 .map(|(_src, path)| {
-                    log::debug!("loading dependency: {}", path);
+                    log::trace!("loading dependency: {}", path);
                     self.load_transformed(&path)
                 })
                 .collect::<Vec<_>>();

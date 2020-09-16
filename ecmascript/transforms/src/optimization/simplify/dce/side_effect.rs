@@ -85,7 +85,7 @@ impl Visit for SideEffectVisitor<'_> {
     noop_visit_type!();
 
     fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
-        log::debug!("Visit<Expr>");
+        log::trace!("Visit<Expr>");
 
         if self.found || node.is_pure_callee() {
             return;

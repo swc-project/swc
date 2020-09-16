@@ -43,7 +43,7 @@ where
         dep_info: &TransformedModule,
         targets: &mut Vec<ModuleId>,
     ) -> Result<(), Error> {
-        log::info!("Merging as a common js module: {}", info.fm.name);
+        log::debug!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
             is_entry,
@@ -315,7 +315,7 @@ impl VisitMut for RequireReplacer {
                                         self.replaced = true;
                                         *node = load.clone();
 
-                                        log::debug!("Found, and replacing require");
+                                        log::trace!("Found, and replacing require");
                                     }
                                 }
                                 _ => {}

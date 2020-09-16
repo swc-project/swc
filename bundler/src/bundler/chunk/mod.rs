@@ -44,6 +44,7 @@ where
         entries: HashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         let plan = self.determine_entries(entries).context("failed to plan")?;
+        let merged = Default::default();
 
         Ok((&*plan.entries)
             .into_par_iter()
@@ -58,7 +59,7 @@ where
                         .clone();
 
                     let module = self
-                        .merge_modules(&plan, entry, true, false)
+                        .merge_modules(&plan, entry, true, false, &merged)
                         .context("failed to merge module")
                         .unwrap(); // TODO
 

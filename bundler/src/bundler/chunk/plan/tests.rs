@@ -54,6 +54,7 @@ fn assert_normal_transitive(
     )
 }
 
+#[track_caller]
 fn assert_circular(t: &mut Tester, p: &Plan, entry: &str, members: &[&str]) {
     assert_eq!(
         p.circular[&t.id(&format!("{}.js", entry))]
@@ -66,6 +67,9 @@ fn assert_circular(t: &mut Tester, p: &Plan, entry: &str, members: &[&str]) {
             .map(|s| format!("{}.js", s))
             .map(|s| t.id(&s))
             .collect::<HashSet<_>>(),
+        "[circular] `{}` should merge {:?}",
+        entry,
+        members
     );
 }
 
@@ -101,7 +105,7 @@ fn concurrency_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             assert_eq!(p.circular.len(), 0);
 
@@ -145,7 +149,7 @@ fn concurrency_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             assert_eq!(p.circular.len(), 0);
 
@@ -191,7 +195,7 @@ fn concurrency_003() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             assert_eq!(p.circular.len(), 0);
             assert_eq!(p.normal.len(), 2);
@@ -219,21 +223,12 @@ fn circular_001() {
             "a.js",
             "
             import { B } from './b'
-
-            export class A {
-                method() {
-                    return new B();
-                }
-            }
         ",
         )
         .file(
             "b.js",
             "
             import { A } from './a';
-
-            export class B extends A {
-            }
             ",
         )
         .run(|t| {
@@ -244,10 +239,12 @@ fn circular_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module.clone());
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
 
             assert_circular(t, &p, "a", &["b"]);
-            assert_normal(t, &p, "main", &["a"]);
+            assert_normal(t, &p, "main", &["a", "b"]);
             assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
 
@@ -276,7 +273,7 @@ fn transitive_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -341,7 +338,7 @@ fn transitive_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -393,7 +390,7 @@ fn cjs_001() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -434,7 +431,7 @@ fn cjs_002() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -482,7 +479,7 @@ fn cjs_003() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -539,7 +536,7 @@ fn cjs_004() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -592,7 +589,7 @@ fn cjs_005() {
             let mut entries = HashMap::default();
             entries.insert("main.js".to_string(), module);
 
-            let p = t.bundler.determine_entries(entries)?;
+            let p = t.bundler.calculate_plan(entries)?;
 
             dbg!(&p);
 
@@ -603,6 +600,102 @@ fn cjs_005() {
             assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
             assert_normal(t, &p, "c", &[]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn deno_001() {
+    suite()
+        .file(
+            "main.js",
+            r#"
+            import { listenAndServe } from "./http-server";
+            "#,
+        )
+        .file(
+            "http-server.js",
+            r#"
+            import { BufReader, BufWriter } from "./io-bufio";
+            import { bodyReader } from "./_io";
+            "#,
+        )
+        .file(
+            "_io.js",
+            r#"
+            import { BufReader, BufWriter } from "./io-bufio";
+            import { ServerRequest, Response } from "./http-server";
+            "#,
+        )
+        .file(
+            "io-bufio.js",
+            r#"
+            "#,
+        )
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module);
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p, "main", &["http-server"]);
+            assert_normal(t, &p, "io-bufio", &[]);
+
+            assert_circular(t, &p, "http-server", &["_io"]);
+            // assert_circular(t, &p, "_io", &["http-server"]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn circular_002() {
+    suite()
+        .file(
+            "main.js",
+            "
+            import './a';
+            ",
+        )
+        .file(
+            "a.js",
+            "
+            import './b';
+        ",
+        )
+        .file(
+            "b.js",
+            "
+            import './c';
+            ",
+        )
+        .file(
+            "c.js",
+            "
+            import './a';
+            ",
+        )
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p, "main", &["a"]);
+            assert_circular(t, &p, "a", &["b", "c"]);
 
             Ok(())
         });

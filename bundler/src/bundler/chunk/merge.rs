@@ -10,12 +10,14 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
+use retain_mut::RetainMut;
 use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use util::CHashSet;
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -29,15 +31,18 @@ where
         entry: ModuleId,
         is_entry: bool,
         force_not_cyclic: bool,
+        merged: &CHashSet<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
+            merged.insert(entry);
+
             let info = self.scope.get_module(entry).unwrap();
 
             if !force_not_cyclic {
                 // Handle circular imports
                 if let Some(circular_plan) = plan.entry_as_circular(info.id) {
-                    log::info!("Circular dependency detected: ({})", info.fm.name);
-                    return Ok(self.merge_circular_modules(plan, circular_plan, entry)?);
+                    log::debug!("Circular dependency detected: ({})", info.fm.name);
+                    return Ok(self.merge_circular_modules(plan, circular_plan, entry, merged)?);
                 }
             }
 
@@ -65,7 +70,7 @@ where
                 plan.normal.get(&info.id)
             );
 
-            self.merge_reexports(plan, &mut entry, &info)
+            self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
 
             let to_merge: Vec<_> = info
@@ -94,8 +99,13 @@ where
                 || {
                     to_merge
                         .into_par_iter()
-                        .map(|(src, specifiers)| -> Result<_, Error> {
+                        .map(|(src, specifiers)| -> Result<Option<_>, Error> {
                             self.run(|| {
+                                if !merged.insert(src.module_id) {
+                                    log::debug!("Skipping: {} <= {}", info.fm.name, src.src.value);
+                                    return Ok(None);
+                                }
+
                                 log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
                                 let dep_info = self.scope.get_module(src.module_id).unwrap();
@@ -110,7 +120,7 @@ where
                                 // a <- b + chunk(c)
                                 //
                                 let mut dep = self
-                                    .merge_modules(plan, src.module_id, false, false)
+                                    .merge_modules(plan, src.module_id, false, false, merged)
                                     .with_context(|| {
                                         format!(
                                             "failed to merge: ({}):{} <= ({}):{}",
@@ -194,7 +204,7 @@ where
                                 }
                                 // print_hygiene("dep:before-injection", &self.cm, &dep);
 
-                                Ok((dep, dep_info))
+                                Ok(Some((dep, dep_info)))
                             })
                         })
                         .collect::<Vec<_>>()
@@ -205,15 +215,19 @@ where
                         .clone()
                         .into_par_iter()
                         .map(|id| -> Result<_, Error> {
+                            if !merged.insert(id) {
+                                return Ok(None);
+                            }
+
                             let dep_info = self.scope.get_module(id).unwrap();
-                            let mut dep = self.merge_modules(plan, id, false, true)?;
+                            let mut dep = self.merge_modules(plan, id, false, true, merged)?;
 
                             dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
                             dep = dep.fold_with(&mut Unexporter);
 
                             // As transitive deps can have no direct relation with entry,
                             // remark_exports is not enough.
-                            Ok((dep, dep_info))
+                            Ok(Some((dep, dep_info)))
                         })
                         .collect::<Vec<_>>();
 
@@ -228,7 +242,14 @@ where
                 .map(|v| (v, true))
                 .chain(transitive_deps.into_iter().map(|v| (v, false)))
             {
-                let (mut dep, dep_info) = dep?;
+                let dep = dep?;
+                let dep = match dep {
+                    Some(v) => v,
+                    None => continue,
+                };
+
+                let (mut dep, dep_info) = dep;
+
                 if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
                     targets.remove(idx);
                     if let Some(v) = plan.normal.get(&dep_info.id) {
@@ -307,8 +328,12 @@ where
             // }
 
             if is_entry {
-                entry.body.retain(|item| {
+                entry.body.retain_mut(|item| {
                     match item {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                            export.src = None;
+                        }
+
                         ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                             for (id, p) in &plan.normal {
                                 if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
@@ -352,6 +377,7 @@ where
                                 }
                             }
                         }
+
                         _ => {}
                     }
 
