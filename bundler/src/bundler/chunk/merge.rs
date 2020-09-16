@@ -98,8 +98,12 @@ where
                 || {
                     to_merge
                         .into_par_iter()
-                        .map(|(src, specifiers)| -> Result<_, Error> {
+                        .map(|(src, specifiers)| -> Result<Option<_>, Error> {
                             self.run(|| {
+                                if !merged.insert(src.module_id) {
+                                    return Ok(None);
+                                }
+
                                 log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
                                 let dep_info = self.scope.get_module(src.module_id).unwrap();
@@ -198,7 +202,7 @@ where
                                 }
                                 // print_hygiene("dep:before-injection", &self.cm, &dep);
 
-                                Ok((dep, dep_info))
+                                Ok(Some((dep, dep_info)))
                             })
                         })
                         .collect::<Vec<_>>()
@@ -209,6 +213,10 @@ where
                         .clone()
                         .into_par_iter()
                         .map(|id| -> Result<_, Error> {
+                            if !merged.insert(id) {
+                                return Ok(None);
+                            }
+
                             let dep_info = self.scope.get_module(id).unwrap();
                             let mut dep = self.merge_modules(plan, id, false, true, merged)?;
 
@@ -217,7 +225,7 @@ where
 
                             // As transitive deps can have no direct relation with entry,
                             // remark_exports is not enough.
-                            Ok((dep, dep_info))
+                            Ok(Some((dep, dep_info)))
                         })
                         .collect::<Vec<_>>();
 
@@ -232,7 +240,14 @@ where
                 .map(|v| (v, true))
                 .chain(transitive_deps.into_iter().map(|v| (v, false)))
             {
-                let (mut dep, dep_info) = dep?;
+                let dep = dep?;
+                let dep = match dep {
+                    Some(v) => v,
+                    None => continue,
+                };
+
+                let (mut dep, dep_info) = dep;
+
                 if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
                     targets.remove(idx);
                     if let Some(v) = plan.normal.get(&dep_info.id) {
