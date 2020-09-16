@@ -95,8 +95,6 @@ impl PlanBuilder {
 
 #[derive(Debug, Default)]
 pub(super) struct Plan {
-    graph: ModuleGraph,
-
     pub entries: Vec<ModuleId>,
 
     /// key is entry
@@ -395,7 +393,6 @@ where
         }
 
         // dbg!(&plans);
-        plans.graph = builder.direct_deps;
         Ok(plans)
     }
 
