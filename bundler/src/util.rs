@@ -3,6 +3,34 @@ use swc_common::{Span, SyntaxContext};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 #[derive(Debug)]
+pub(crate) struct CHashSet<V>
+where
+    V: Eq + Hash,
+{
+    inner: CloneMap<V, ()>,
+}
+
+impl<V> CHashSet<V>
+where
+    V: Eq + Hash,
+{
+    pub fn insert(&self, v: V) -> bool {
+        self.inner.insert(v, ()).is_none()
+    }
+}
+
+impl<V> Default for CHashSet<V>
+where
+    V: Eq + Hash,
+{
+    fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+#[derive(Debug)]
 pub(crate) struct CloneMap<K, V>
 where
     K: Eq + Hash,
@@ -50,13 +78,13 @@ where
     }
 
     #[cfg(feature = "concurrent")]
-    pub fn insert(&self, k: K, v: V) {
-        self.inner.insert(k, v);
+    pub fn insert(&self, k: K, v: V) -> Option<V> {
+        self.inner.insert(k, v)
     }
 
     #[cfg(not(feature = "concurrent"))]
-    pub fn insert(&self, k: K, v: V) {
-        self.inner.borrow_mut().insert(k, v);
+    pub fn insert(&self, k: K, v: V) -> Option<V> {
+        self.inner.borrow_mut().insert(k, v)
     }
 }
 
