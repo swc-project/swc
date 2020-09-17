@@ -1,0 +1,222 @@
+{
+  "span": {
+    "start": 0,
+    "end": 56,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "span": {
+        "start": 0,
+        "end": 13,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "span": {
+            "start": 0,
+            "end": 10,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 0,
+                "end": 10,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 0,
+                    "end": 1,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 0,
+                      "end": 1,
+                      "ctxt": 0
+                    },
+                    "sym": "a"
+                  }
+                },
+                {
+                  "span": {
+                    "start": 1,
+                    "end": 10,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 2,
+                      "end": 10,
+                      "ctxt": 0
+                    },
+                    "sym": "my-class"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "span": {
+          "start": 11,
+          "end": 13,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "span": {
+        "start": 16,
+        "end": 34,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "span": {
+            "start": 16,
+            "end": 31,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 16,
+                "end": 31,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 16,
+                    "end": 18,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 17,
+                      "end": 18,
+                      "ctxt": 0
+                    },
+                    "sym": "b"
+                  }
+                },
+                {
+                  "span": {
+                    "start": 18,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 19,
+                      "end": 25,
+                      "ctxt": 0
+                    },
+                    "sym": "second"
+                  }
+                },
+                {
+                  "span": {
+                    "start": 25,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 26,
+                      "end": 31,
+                      "ctxt": 0
+                    },
+                    "sym": "thrid"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "span": {
+          "start": 32,
+          "end": 34,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "span": {
+        "start": 37,
+        "end": 55,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "span": {
+            "start": 37,
+            "end": 52,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 37,
+                "end": 52,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 37,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 38,
+                      "end": 39,
+                      "ctxt": 0
+                    },
+                    "sym": "c"
+                  }
+                },
+                {
+                  "span": {
+                    "start": 39,
+                    "end": 52,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 40,
+                      "end": 52,
+                      "ctxt": 0
+                    },
+                    "sym": "is-this-used"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "span": {
+          "start": 53,
+          "end": 55,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    }
+  ]
+}

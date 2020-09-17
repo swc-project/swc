@@ -1,0 +1,349 @@
+{
+  "span": {
+    "start": 0,
+    "end": 44,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "span": {
+        "start": 0,
+        "end": 7,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "span": {
+            "start": 0,
+            "end": 1,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 0,
+                "end": 1,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 0,
+                    "end": 1,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 0,
+                      "end": 1,
+                      "ctxt": 0
+                    },
+                    "sym": "a"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "span": {
+            "start": 3,
+            "end": 4,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 3,
+                "end": 4,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 3,
+                    "end": 3,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 3,
+                      "end": 4,
+                      "ctxt": 0
+                    },
+                    "sym": "p"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "span": {
+          "start": 5,
+          "end": 7,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "span": {
+        "start": 10,
+        "end": 19,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "span": {
+            "start": 10,
+            "end": 12,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 10,
+                "end": 12,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 10,
+                    "end": 12,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 11,
+                      "end": 12,
+                      "ctxt": 0
+                    },
+                    "sym": "b"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "span": {
+            "start": 14,
+            "end": 16,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 14,
+                "end": 16,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 14,
+                    "end": 16,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 15,
+                      "end": 16,
+                      "ctxt": 0
+                    },
+                    "sym": "c"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "span": {
+          "start": 17,
+          "end": 19,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "span": {
+        "start": 22,
+        "end": 31,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "span": {
+            "start": 22,
+            "end": 24,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 22,
+                "end": 24,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 22,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 23,
+                      "end": 24,
+                      "ctxt": 0
+                    },
+                    "sym": "d"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "span": {
+            "start": 26,
+            "end": 28,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 26,
+                "end": 28,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 26,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 27,
+                      "end": 28,
+                      "ctxt": 0
+                    },
+                    "sym": "e"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "span": {
+          "start": 29,
+          "end": 31,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "span": {
+        "start": 34,
+        "end": 43,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "span": {
+            "start": 34,
+            "end": 36,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 34,
+                "end": 36,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 34,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 35,
+                      "end": 36,
+                      "ctxt": 0
+                    },
+                    "sym": "d"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "span": {
+            "start": 38,
+            "end": 40,
+            "ctxt": 0
+          },
+          "components": [
+            {
+              "type": "Compound",
+              "span": {
+                "start": 38,
+                "end": 40,
+                "ctxt": 0
+              },
+              "selectors": [
+                {
+                  "span": {
+                    "start": 38,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "span": {
+                      "start": 39,
+                      "end": 40,
+                      "ctxt": 0
+                    },
+                    "sym": "e"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "span": {
+          "start": 41,
+          "end": 43,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    }
+  ]
+}
