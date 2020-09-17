@@ -67,6 +67,10 @@ where
         // Remove transitive dependencies which is merged by parent moudle.
         for v in info.exports.reexports.clone() {
             if nomral_plan.chunks.contains(&v.0.module_id) {
+                if v.1.is_empty() {
+                    additional_modules.push(v.clone());
+                }
+
                 reexports.push(v);
             } else {
                 additional_modules.push(v);
@@ -124,7 +128,14 @@ where
 
         {
             let mut decls = vec![];
-            for (_src, specifiers) in additional_modules {
+            for (src, mut specifiers) in additional_modules {
+                if specifiers.is_empty() {
+                    //
+                    let dep = self.scope.get_module(src.module_id).unwrap();
+
+                    specifiers = dep.exports.items.clone();
+                }
+
                 for specifier in specifiers {
                     let (imported, exported) = match specifier {
                         Specifier::Specific { local, alias } => {
