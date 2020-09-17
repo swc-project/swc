@@ -800,42 +800,23 @@ fn deno_002() {
 
             assert_normal(t, &p, "main", &["http-server"]);
 
-            assert_normal(
-                t,
-                &p,
-                "http-server",
-                &["encoding-utf8", "io-bufio", "_util-assert", "async-mod"],
-            );
+            assert_normal_transitive(t, &p, "http-server", &["async-mod"], &[]);
             assert_circular(t, &p, "http-server", &["http-_io"]);
 
             assert_normal(t, &p, "encoding-utf8", &[]);
 
-            assert_normal(
-                t,
-                &p,
-                "io-bufio",
-                &[
-                    "bytes-mod",
-                    /* Merged by http-server
-                     * "_util-assert" */
-                ],
-            );
+            assert_normal(t, &p, "io-bufio", &["bytes-mod"]);
 
             assert_normal(t, &p, "_util-assert", &[]);
 
-            assert_normal(
+            assert_normal_transitive(
                 t,
                 &p,
                 "http-_io",
-                &[
-                    "io-bufio",
-                    "textproto-mod",
-                    "_util-assert",
-                    "encoding-utf8",
-                    "http-http_status",
-                ],
+                &["textproto-mod", "http-http_status"],
+                &["encoding-utf8", "io-bufio", "_util-assert"],
             );
-            assert_circular(t, &p, "http-_io", &["server"]);
+            assert_circular(t, &p, "http-_io", &["http-server"]);
 
             assert_normal(t, &p, "textproto-mod", &[]);
 
@@ -845,7 +826,7 @@ fn deno_002() {
 
             assert_normal(t, &p, "bytes-mod", &[]);
 
-            assert_normal(t, &p, "async-mux_asgync_iterator", &["async-deferred"]);
+            assert_normal(t, &p, "async-mux_async_iterator", &["async-deferred"]);
 
             Ok(())
         });
