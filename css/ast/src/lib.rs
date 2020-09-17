@@ -151,6 +151,7 @@ pub struct CompoundSelector {
 }
 
 #[derive(Debug, Clone, PartialEq, FromVariant, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub enum SelectorComponent {
     Compound(CompoundSelector),
     Combinator(Combinator),
