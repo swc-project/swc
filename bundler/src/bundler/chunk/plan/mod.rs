@@ -201,6 +201,10 @@ where
             }
         }
 
+        Ok(self.build_plan(&metadata, builder))
+    }
+
+    fn build_plan(&self, metadata: &HashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
         let mut plans = Plan::default();
 
         for (id, kind) in builder.kinds.iter() {
@@ -208,6 +212,7 @@ where
             plans.bundle_kinds.insert(*id, kind.clone());
         }
 
+        // Convert graph to plan
         for (root_entry, _) in &builder.kinds {
             let root_entry = *root_entry;
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
@@ -356,9 +361,23 @@ where
                                     circular_member
                                 );
 
-                                let c = &mut plans.normal.entry(dep).or_default().chunks;
-                                if let Some(pos) = c.iter().position(|&v| v == circular_member) {
-                                    c.remove(pos);
+                                {
+                                    let c = &mut plans.normal.entry(dep).or_default().chunks;
+                                    if let Some(pos) = c.iter().position(|&v| v == circular_member)
+                                    {
+                                        c.remove(pos);
+                                    }
+                                }
+
+                                {
+                                    let c = &mut plans
+                                        .normal
+                                        .entry(circular_member)
+                                        .or_default()
+                                        .chunks;
+                                    if let Some(pos) = c.iter().position(|&v| v == dep) {
+                                        c.remove(pos);
+                                    }
                                 }
                             }
                         }
@@ -394,7 +413,7 @@ where
         }
 
         // dbg!(&plans);
-        Ok(plans)
+        plans
     }
 
     fn add_to_graph(
