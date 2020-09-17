@@ -448,7 +448,12 @@ impl Fold for ExportRenamer<'_> {
                     | Decl::TsEnum(_)
                     | Decl::TsModule(_) => ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)),
 
-                    Decl::Class(c) => {
+                    Decl::Class(mut c) => {
+                        c.ident = match actual.rename(c.ident, true) {
+                            Ok(v) => v,
+                            Err(v) => v,
+                        };
+
                         if self.unexport {
                             Stmt::Decl(Decl::Class(c)).into()
                         } else {
@@ -458,7 +463,11 @@ impl Fold for ExportRenamer<'_> {
                             }))
                         }
                     }
-                    Decl::Fn(f) => {
+                    Decl::Fn(mut f) => {
+                        f.ident = match actual.rename(f.ident, true) {
+                            Ok(v) => v,
+                            Err(v) => v,
+                        };
                         if self.unexport {
                             Stmt::Decl(Decl::Fn(f)).into()
                         } else {
@@ -497,7 +506,7 @@ struct ActualMarker<'a> {
 }
 
 impl ActualMarker<'_> {
-    fn rename(&self, ident: Ident) -> Result<Ident, Ident> {
+    fn rename(&self, ident: Ident, only_if_aliased: bool) -> Result<Ident, Ident> {
         if self.imports.is_none() {
             return Err(ident);
         }
@@ -507,7 +516,9 @@ impl ActualMarker<'_> {
                 alias: Some(alias),
                 local,
             } if *alias == ident.sym => Some(Ident::new(local.sym().clone(), ident.span)),
-            Specifier::Specific { alias: None, local } if *local == ident.sym => {
+            Specifier::Specific { alias: None, local }
+                if !only_if_aliased && *local == ident.sym =>
+            {
                 Some(local.clone().into_ident())
             }
             _ => None,
@@ -529,7 +540,7 @@ impl Fold for ActualMarker<'_> {
     }
 
     fn fold_ident(&mut self, ident: Ident) -> Ident {
-        match self.rename(ident) {
+        match self.rename(ident, false) {
             Ok(v) => v,
             Err(v) => v,
         }
@@ -542,7 +553,7 @@ impl Fold for ActualMarker<'_> {
                 ..s
             }
         } else {
-            match self.rename(s.orig.clone()) {
+            match self.rename(s.orig.clone(), false) {
                 Ok(exported) => ExportNamedSpecifier {
                     orig: s.orig,
                     exported: Some(exported),
@@ -555,7 +566,7 @@ impl Fold for ActualMarker<'_> {
 
     fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
-            Prop::Shorthand(i) => match self.rename(i.clone()) {
+            Prop::Shorthand(i) => match self.rename(i.clone(), false) {
                 Ok(renamed) => Prop::KeyValue(KeyValueProp {
                     key: i.into(),
                     value: Box::new(renamed.into()),
