@@ -1,9 +1,9 @@
+use self::lca::least_common_ancestor;
 use crate::{
     bundler::{load::TransformedModule, scope::Metadata},
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{bail, Error};
-use lca::least_common_ancestor;
 use petgraph::{
     algo::all_simple_paths,
     graphmap::DiGraphMap,
