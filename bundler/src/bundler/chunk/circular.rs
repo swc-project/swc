@@ -2,7 +2,10 @@ use super::{
     merge::{ImportDropper, Unexporter},
     plan::{CircularPlan, Plan},
 };
-use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::load::TransformedModule, debug::print_hygiene, util::CHashSet, Bundler, Load,
+    ModuleId, Resolve,
+};
 use anyhow::{Context, Error};
 use std::borrow::Borrow;
 use swc_common::DUMMY_SP;
@@ -100,7 +103,7 @@ where
             // Merge code
             entry.body = merge_respecting_order(entry.body, dep.body);
 
-            // print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
+            print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
             Ok(entry)
         })
     }
