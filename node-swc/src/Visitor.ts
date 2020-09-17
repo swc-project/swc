@@ -180,7 +180,7 @@ export default class Visitor {
   }
 
   visitModuleItems(items: ModuleItem[]): ModuleItem[] {
-    return items.map(this.visitModuleItem);
+    return items.map(this.visitModuleItem.bind(this));
   }
 
   visitModuleItem(n: ModuleItem): ModuleItem {
@@ -279,7 +279,7 @@ export default class Visitor {
   }
 
   visitExportSpecifiers(nodes: ExportSpecifier[]): ExportSpecifier[] {
-    return nodes.map(this.visitExportSpecifier);
+    return nodes.map(this.visitExportSpecifier.bind(this));
   }
 
   visitExportSpecifier(n: ExportSpecifier): ExportSpecifier {
@@ -359,7 +359,7 @@ export default class Visitor {
 
   visitArrayExpression(e: ArrayExpression): Expression {
     if (e.elements) {
-      e.elements = e.elements.map(this.visitArrayElement);
+      e.elements = e.elements.map(this.visitArrayElement.bind(this));
     }
     return e;
   }
@@ -411,7 +411,7 @@ export default class Visitor {
   }
 
   visitStatements(stmts: Statement[]): Statement[] {
-    return stmts.map(this.visitStatement);
+    return stmts.map(this.visitStatement.bind(this));
   }
 
   visitStatement(stmt: Statement): Statement {
@@ -474,7 +474,7 @@ export default class Visitor {
   }
 
   visitSwitchCases(cases: SwitchCase[]): SwitchCase[] {
-    return cases.map(this.visitSwitchCase);
+    return cases.map(this.visitSwitchCase.bind(this));
   }
 
   visitSwitchCase(c: SwitchCase): SwitchCase {
@@ -635,7 +635,7 @@ export default class Visitor {
   }
 
   visitVariableDeclarators(nodes: VariableDeclarator[]): VariableDeclarator[] {
-    return nodes.map(this.visitVariableDeclarator);
+    return nodes.map(this.visitVariableDeclarator.bind(this));
   }
 
   visitVariableDeclarator(n: VariableDeclarator): VariableDeclarator {
@@ -711,7 +711,7 @@ export default class Visitor {
   }
 
   visitTsTypeElements(nodes: TsTypeElement[]): TsTypeElement[] {
-    return nodes.map(this.visitTsTypeElement);
+    return nodes.map(this.visitTsTypeElement.bind(this));
   }
 
   visitTsTypeElement(n: TsTypeElement): TsTypeElement {
@@ -727,7 +727,7 @@ export default class Visitor {
   }
 
   visitTsEnumMembers(nodes: TsEnumMember[]): TsEnumMember[] {
-    return nodes.map(this.visitTsEnumMember);
+    return nodes.map(this.visitTsEnumMember.bind(this));
   }
 
   visitTsEnumMember(n: TsEnumMember): TsEnumMember {
@@ -759,7 +759,7 @@ export default class Visitor {
   }
 
   visitClassBody(members: ClassMember[]): ClassMember[] {
-    return members.map(this.visitClassMember);
+    return members.map(this.visitClassMember.bind(this));
   }
 
   visitClassMember(member: ClassMember): ClassMember {
@@ -786,7 +786,7 @@ export default class Visitor {
   }
 
   visitTsFnParameters(params: TsFnParameter[]): TsFnParameter[] {
-    return params.map(this.visitTsFnParameter);
+    return params.map(this.visitTsFnParameter.bind(this));
   }
 
   visitTsFnParameter(n: TsFnParameter): TsFnParameter {
@@ -826,7 +826,7 @@ export default class Visitor {
   visitConstructorParameters(
     nodes: (Param | TsParameterProperty)[]
   ): (Param | TsParameterProperty)[] {
-    return nodes.map(this.visitConstructorParameter);
+    return nodes.map(this.visitConstructorParameter.bind(this));
   }
 
   visitConstructorParameter(
@@ -936,7 +936,7 @@ export default class Visitor {
   visitTsExpressionsWithTypeArguments(
     nodes: TsExpressionWithTypeArguments[]
   ): TsExpressionWithTypeArguments[] {
-    return nodes.map(this.visitTsExpressionWithTypeArguments);
+    return nodes.map(this.visitTsExpressionWithTypeArguments.bind(this));
   }
 
   visitTsExpressionWithTypeArguments(
@@ -957,7 +957,7 @@ export default class Visitor {
   }
 
   visitTsTypes(nodes: TsType[]): TsType[] {
-    return nodes.map(this.visitTsType);
+    return nodes.map(this.visitTsType.bind(this));
   }
 
   visitTsEntityName(n: TsEntityName): TsEntityName {
@@ -977,7 +977,7 @@ export default class Visitor {
 
   visitDecorators(nodes: Decorator[] | undefined): Decorator[] | undefined {
     if (nodes) {
-      return nodes.map(this.visitDecorator);
+      return nodes.map(this.visitDecorator.bind(this));
     }
   }
 
@@ -1150,12 +1150,12 @@ export default class Visitor {
   }
 
   visitTemplateLiteral(n: TemplateLiteral): Expression {
-    n.expressions = n.expressions.map(this.visitExpression);
+    n.expressions = n.expressions.map(this.visitExpression.bind(this));
     return n;
   }
 
   visitParameters(n: Param[]): Param[] {
-    return n.map(this.visitParameter)
+    return n.map(this.visitParameter.bind(this))
   }
 
   visitParameter(n: Param): Param {
@@ -1165,12 +1165,12 @@ export default class Visitor {
 
   visitTaggedTemplateExpression(n: TaggedTemplateExpression): Expression {
     n.tag = this.visitExpression(n.tag);
-    n.expressions = n.expressions.map(this.visitExpression);
+    n.expressions = n.expressions.map(this.visitExpression.bind(this));
     return n;
   }
 
   visitSequenceExpression(n: SequenceExpression): Expression {
-    n.expressions = n.expressions.map(this.visitExpression);
+    n.expressions = n.expressions.map(this.visitExpression.bind(this));
     return n;
   }
 
@@ -1193,7 +1193,7 @@ export default class Visitor {
   visitObjectProperties(
     nodes: (Property | SpreadElement)[]
   ): (Property | SpreadElement)[] {
-    return nodes.map(this.visitObjectProperty);
+    return nodes.map(this.visitObjectProperty.bind(this));
   }
 
   visitObjectProperty(n: Property | SpreadElement): Property | SpreadElement {
@@ -1287,7 +1287,7 @@ export default class Visitor {
   }
 
   visitArguments(nodes: Argument[]): Argument[] {
-    return nodes.map(this.visitArgument);
+    return nodes.map(this.visitArgument.bind(this));
   }
 
   visitArgument(n: Argument): Argument {
@@ -1353,7 +1353,7 @@ export default class Visitor {
   }
 
   visitJSXElementChildren(nodes: JSXElementChild[]): JSXElementChild[] {
-    return nodes.map(this.visitJSXElementChild);
+    return nodes.map(this.visitJSXElementChild.bind(this));
   }
 
   visitJSXElementChild(n: JSXElementChild): JSXElementChild {
@@ -1428,7 +1428,7 @@ export default class Visitor {
   visitJSXAttributes(
     attrs: JSXAttributeOrSpread[] | undefined
   ): JSXAttributeOrSpread[] | undefined {
-    if (attrs) return attrs.map(this.visitJSXAttributeOrSpread);
+    if (attrs) return attrs.map(this.visitJSXAttributeOrSpread.bind(this));
   }
 
   visitJSXAttributeOrSpread(n: JSXAttributeOrSpread): JSXAttributeOrSpread {
@@ -1524,7 +1524,7 @@ export default class Visitor {
   }
 
   visitTsTypeParameters(nodes: TsTypeParameter[]): TsTypeParameter[] {
-    return nodes.map(this.visitTsTypeParameter);
+    return nodes.map(this.visitTsTypeParameter.bind(this));
   }
 
   visitTsTypeParameter(n: TsTypeParameter): TsTypeParameter {
@@ -1552,7 +1552,7 @@ export default class Visitor {
   }
 
   visitPatterns(nodes: Pattern[]): Pattern[] {
-    return nodes.map(this.visitPattern);
+    return nodes.map(this.visitPattern.bind(this));
   }
 
   visitImportDeclaration(n: ImportDeclaration): ImportDeclaration {
@@ -1562,7 +1562,7 @@ export default class Visitor {
   }
 
   visitImportSpecifiers(nodes: ImportSpecifier[]): ImportSpecifier[] {
-    return nodes.map(this.visitImportSpecifier);
+    return nodes.map(this.visitImportSpecifier.bind(this));
   }
 
   visitImportSpecifier(node: ImportSpecifier): ImportSpecifier {
@@ -1664,7 +1664,7 @@ export default class Visitor {
   visitObjectPatternProperties(
     nodes: ObjectPatternProperty[]
   ): ObjectPatternProperty[] {
-    return nodes.map(this.visitObjectPatternProperty);
+    return nodes.map(this.visitObjectPatternProperty.bind(this));
   }
 
   visitObjectPatternProperty(n: ObjectPatternProperty): ObjectPatternProperty {
@@ -1703,7 +1703,7 @@ export default class Visitor {
   visitArrayPatternElements(
     nodes: (Pattern | undefined)[]
   ): (Pattern | undefined)[] {
-    return nodes.map(this.visitArrayPatternElement);
+    return nodes.map(this.visitArrayPatternElement.bind(this));
   }
 
   visitArrayPatternElement(n: Pattern | undefined): Pattern | undefined {
