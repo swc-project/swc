@@ -1,7 +1,6 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Imports, Specifier},
-    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -79,7 +78,7 @@ where
             self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
 
-            print_hygiene("after: merge_reexports", &self.cm, &entry);
+            // print_hygiene("after: merge_reexports", &self.cm, &entry);
 
             let to_merge: Vec<_> = info
                 .imports
@@ -272,7 +271,7 @@ where
                     entry.body.visit_mut_with(&mut injector);
 
                     if injector.imported.is_empty() {
-                        print_hygiene("entry:after:injection", &self.cm, &entry);
+                        // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         log::debug!("Merged {} as an es module", info.fm.name);
                         // print_hygiene("ES6", &self.cm, &entry);
