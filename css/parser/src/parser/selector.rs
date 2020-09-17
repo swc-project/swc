@@ -88,10 +88,17 @@ impl Parser<'_> {
 
     fn parse_class_selector(&mut self) -> PResult<ClassSelector> {
         trace_cur!(self, parse_class_selector);
+
+        let start = self.i.cur_pos();
         debug_assert_eq!(self.i.cur(), Some(tok!(".")));
         self.i.bump(); // '.'
 
-        unimplemented!("parse_class_selector")
+        let text = self.parse_word()?;
+
+        Ok(ClassSelector {
+            span: self.i.make_span(start),
+            text,
+        })
     }
 
     fn parse_tag_selector(&mut self) -> PResult<TagSelector> {
