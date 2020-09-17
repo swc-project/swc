@@ -1,9 +1,9 @@
+use self::lca::least_common_ancestor;
 use crate::{
     bundler::{load::TransformedModule, scope::Metadata},
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{bail, Error};
-use lca::least_common_ancestor;
 use petgraph::{
     algo::all_simple_paths,
     graphmap::DiGraphMap,
@@ -201,6 +201,10 @@ where
             }
         }
 
+        Ok(self.build_plan(&metadata, builder))
+    }
+
+    fn build_plan(&self, metadata: &HashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
         let mut plans = Plan::default();
 
         for (id, kind) in builder.kinds.iter() {
@@ -208,64 +212,7 @@ where
             plans.bundle_kinds.insert(*id, kind.clone());
         }
 
-        // Handle circular imports
-        for (root_entry, _) in builder.kinds.iter() {
-            let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
-
-            while let Some(entry) = bfs.next(&builder.direct_deps) {
-                let deps: Vec<_> = builder
-                    .direct_deps
-                    .neighbors_directed(entry, Outgoing)
-                    .collect();
-
-                for dep in deps {
-                    // Check if it's circular.
-                    if let Some(members) = builder.circular.get(dep) {
-                        // Exclude circular imnports from normal dependencies
-                        for &circular_member in members {
-                            if entry == circular_member {
-                                continue;
-                            }
-
-                            if builder
-                                .direct_deps
-                                .remove_edge(dep, circular_member)
-                                .is_some()
-                            {
-                                log::debug!(
-                                    "[circular] Removing {:?} => {:?}",
-                                    dep,
-                                    circular_member
-                                );
-                            }
-                        }
-
-                        // Add circular plans
-                        match plans.circular.entry(dep) {
-                            // Already added
-                            Entry::Occupied(_) => {
-                                // TODO: assert!
-                            }
-
-                            // We need to mark modules as circular.
-                            Entry::Vacant(e) => {
-                                let circular_plan = e.insert(CircularPlan::default());
-                                if let Some(v) = builder.circular.get(dep) {
-                                    circular_plan
-                                        .chunks
-                                        .extend(v.iter().copied().filter(|&v| v != dep));
-                                }
-                            }
-                        }
-
-                        // if !builder.is_circular(dep) {
-                        //     plans.normal.entry(dep).or_default().chunks.
-                        // push(entry); }
-                    }
-                }
-            }
-        }
-
+        // Convert graph to plan
         for (root_entry, _) in &builder.kinds {
             let root_entry = *root_entry;
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
@@ -277,15 +224,20 @@ where
                     .collect();
 
                 for &dep in &deps {
-                    if builder.is_circular(entry) {
-                        log::debug!(
-                            "Adding a circular dependencuy {:?} to normal entry {:?}",
-                            entry,
-                            root_entry
-                        );
-                        plans.normal.entry(entry).or_default().chunks.push(dep);
-                        continue;
+                    if let Some(circular_members) = builder.circular.get(entry) {
+                        if circular_members.contains(&dep) {
+                            log::debug!(
+                                "Adding a circular dependency {:?} to normal entry {:?}",
+                                dep,
+                                entry
+                            );
+                            if entry != root_entry && dep != root_entry {
+                                plans.normal.entry(entry).or_default().chunks.push(dep);
+                            }
+                            continue;
+                        }
                     }
+
                     let is_es6 = self.scope.get_module(entry).unwrap().is_es6;
                     let dependants = builder
                         .direct_deps
@@ -331,9 +283,11 @@ where
                                     && !normal_plan.transitive_chunks.contains(&dep)
                                 {
                                     if dependants.contains(&module) {
+                                        log::trace!("Normal: {:?} => {:?}", module, dep);
                                         // `entry` depends on `module` directly
                                         normal_plan.chunks.push(dep);
                                     } else {
+                                        log::trace!("Transitive: {:?} => {:?}", module, dep);
                                         normal_plan.transitive_chunks.push(dep);
                                     }
                                 }
@@ -365,6 +319,7 @@ where
 
                                 let normal_plan = plans.normal.entry(entry).or_default();
                                 if !normal_plan.chunks.contains(&dep) {
+                                    log::trace!("Normal: {:?} => {:?}", entry, dep);
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
@@ -374,15 +329,90 @@ where
                                     .or_default()
                                     .transitive_chunks;
                                 if !t.contains(&dep) {
+                                    log::trace!("Transitive: {:?} => {:?}", entry, dep);
                                     t.push(dep)
                                 }
                             }
                         } else {
                             // Direct dependency.
+                            log::trace!("Normal: {:?} => {:?}", entry, dep);
                             plans.normal.entry(entry).or_default().chunks.push(dep);
                         }
 
                         continue;
+                    }
+                }
+            }
+        }
+
+        // Handle circular imports
+        for (root_entry, _) in builder.kinds.iter() {
+            let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
+
+            while let Some(entry) = bfs.next(&builder.direct_deps) {
+                let deps: Vec<_> = builder
+                    .direct_deps
+                    .neighbors_directed(entry, Outgoing)
+                    .collect();
+
+                for dep in deps {
+                    // Check if it's circular.
+                    if let Some(members) = builder.circular.get(dep) {
+                        // Exclude circular imnports from normal dependencies
+                        for &circular_member in members {
+                            if entry == circular_member {
+                                continue;
+                            }
+                            // Remove direct deps if it's circular
+                            if builder.direct_deps.contains_edge(dep, circular_member) {
+                                log::debug!(
+                                    "[circular] Removing {:?} => {:?}",
+                                    dep,
+                                    circular_member
+                                );
+
+                                {
+                                    let c = &mut plans.normal.entry(dep).or_default().chunks;
+                                    if let Some(pos) = c.iter().position(|&v| v == circular_member)
+                                    {
+                                        c.remove(pos);
+                                    }
+                                }
+
+                                {
+                                    let c = &mut plans
+                                        .normal
+                                        .entry(circular_member)
+                                        .or_default()
+                                        .chunks;
+                                    if let Some(pos) = c.iter().position(|&v| v == dep) {
+                                        c.remove(pos);
+                                    }
+                                }
+                            }
+                        }
+
+                        // Add circular plans
+                        match plans.circular.entry(dep) {
+                            // Already added
+                            Entry::Occupied(_) => {
+                                // TODO: assert!
+                            }
+
+                            // We need to mark modules as circular.
+                            Entry::Vacant(e) => {
+                                let circular_plan = e.insert(CircularPlan::default());
+                                if let Some(v) = builder.circular.get(dep) {
+                                    circular_plan
+                                        .chunks
+                                        .extend(v.iter().copied().filter(|&v| v != dep));
+                                }
+                            }
+                        }
+
+                        // if !builder.is_circular(dep) {
+                        //     plans.normal.entry(dep).or_default().chunks.
+                        // push(entry); }
                     }
                 }
             }
@@ -393,7 +423,7 @@ where
         }
 
         // dbg!(&plans);
-        Ok(plans)
+        plans
     }
 
     fn add_to_graph(

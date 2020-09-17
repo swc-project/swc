@@ -72,8 +72,11 @@ where
 
             entry = new_module;
 
-            // print_hygiene("entry:merge_two_circular_modules", &self.cm,
-            // &entry);
+            // print_hygiene(
+            //     "[circular] entry:merge_two_circular_modules",
+            //     &self.cm,
+            //     &entry,
+            // );
         }
 
         Ok(entry)
@@ -93,14 +96,18 @@ where
                 .merge_modules(plan, dep, false, true, merged)
                 .context("failed to merge dependency of a cyclic module")?;
 
-            // print_hygiene("dep:init", &self.cm, &dep);
+            // print_hygiene("[circular] dep:init", &self.cm, &dep);
 
             dep = dep.fold_with(&mut Unexporter);
 
             // Merge code
             entry.body = merge_respecting_order(entry.body, dep.body);
 
-            // print_hygiene("END :merge_two_circular_modules", &self.cm, &entry);
+            // print_hygiene(
+            //     "[circular] END :merge_two_circular_modules",
+            //     &self.cm,
+            //     &entry,
+            // );
             Ok(entry)
         })
     }

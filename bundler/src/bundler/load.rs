@@ -75,7 +75,7 @@ where
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
-            log::info!("({}) Storing module: {}", v.id, file_name);
+            log::debug!("({}) Storing module: {}", v.id, file_name);
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in the `Scope`
@@ -166,11 +166,6 @@ where
                 module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 v.forced_es6 || !v.found_other
             };
-            // if is_es6 {
-            //     print_hygiene("before:dce", &self.cm, &module);
-            //     module = self.drop_unused(module, None);
-            //     print_hygiene("dce", &self.cm, &module);
-            // }
 
             let (imports, exports) = util::join(
                 || self.resolve_imports(file_name, imports),

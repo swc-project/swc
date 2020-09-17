@@ -59,9 +59,22 @@ where
     ) -> Result<(), Error> {
         log::trace!("merge_reexports: {}", info.fm.name);
 
-        let mut reexports = info.exports.reexports.clone();
+        // Transitive dependencies
+        let mut additional_modules = vec![];
+        let mut reexports = vec![];
+
         // Remove transitive dependencies which is merged by parent moudle.
-        reexports.retain(|(src, _)| nomral_plan.chunks.contains(&src.module_id));
+        for v in info.exports.reexports.clone() {
+            if nomral_plan.chunks.contains(&v.0.module_id) {
+                if v.1.is_empty() {
+                    additional_modules.push(v.clone());
+                }
+
+                reexports.push(v);
+            } else {
+                additional_modules.push(v);
+            }
+        }
 
         let deps = reexports
             .into_par_iter()
@@ -112,6 +125,49 @@ where
             })
             .collect::<Vec<_>>();
 
+        {
+            let mut decls = vec![];
+            for (src, mut specifiers) in additional_modules {
+                if specifiers.is_empty() {
+                    //
+                    let dep = self.scope.get_module(src.module_id).unwrap();
+
+                    specifiers = dep.exports.items.clone();
+                }
+
+                for specifier in specifiers {
+                    let (imported, exported) = match specifier {
+                        Specifier::Specific { local, alias } => {
+                            let alias = alias.unwrap_or_else(|| local.clone());
+                            let local = local.replace_mark(info.mark());
+                            (local.into_ident(), alias.into_ident())
+                        }
+                        Specifier::Namespace { local, all } => {
+                            unimplemented!("namespaced re-export: local={:?}, all={}", local, all)
+                        }
+                    };
+                    let var = VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(imported),
+                        init: Some(Box::new(Expr::Ident(exported))),
+                        definite: false,
+                    };
+                    decls.push(var);
+                }
+            }
+
+            if !decls.is_empty() {
+                entry
+                    .body
+                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls,
+                    }))));
+            }
+        }
+
         for dep in deps {
             let dep = dep?;
             let dep = match dep {
@@ -119,6 +175,16 @@ where
                 None => continue,
             };
             let (src, dep) = dep;
+
+            // print_hygiene(
+            //     &format!(
+            //         "entry: before reexport injection {:?} <- {:?}",
+            //         info.ctxt(),
+            //         src.ctxt,
+            //     ),
+            //     &self.cm,
+            //     &entry,
+            // );
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
@@ -194,6 +260,10 @@ impl VisitMut for ExportInjector {
 /// ```js
 /// const e3 = l1;
 /// ```
+///
+/// export { foo#7 } from './b' where #7 is mark of './b'
+/// =>
+/// export { foo#7 as foo#5 } where #5 is mark of current entry.
 struct UnexportAsVar<'a> {
     /// Syntax context for the generated variables.
     dep_ctxt: SyntaxContext,
@@ -319,11 +389,11 @@ impl VisitMut for AliasExports {
             ModuleDecl::ExportDecl(ref export) => match &export.decl {
                 Decl::Class(c) => self.decls.push(VarDeclarator {
                     span: c.class.span,
-                    name: Pat::Ident(Ident::new(
+                    name: Pat::Ident(c.ident.clone()),
+                    init: Some(Box::new(Expr::Ident(Ident::new(
                         c.ident.sym.clone(),
                         c.ident.span.with_ctxt(self.importer_ctxt),
-                    )),
-                    init: Some(Box::new(Expr::Ident(c.ident.clone()))),
+                    )))),
                     definite: false,
                 }),
                 Decl::Fn(f) => self.decls.push(VarDeclarator {
