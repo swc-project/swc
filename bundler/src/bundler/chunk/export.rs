@@ -379,11 +379,11 @@ impl VisitMut for AliasExports {
             ModuleDecl::ExportDecl(ref export) => match &export.decl {
                 Decl::Class(c) => self.decls.push(VarDeclarator {
                     span: c.class.span,
-                    name: Pat::Ident(Ident::new(
+                    name: Pat::Ident(c.ident.clone()),
+                    init: Some(Box::new(Expr::Ident(Ident::new(
                         c.ident.sym.clone(),
                         c.ident.span.with_ctxt(self.importer_ctxt),
-                    )),
-                    init: Some(Box::new(Expr::Ident(c.ident.clone()))),
+                    )))),
                     definite: false,
                 }),
                 Decl::Fn(f) => self.decls.push(VarDeclarator {
