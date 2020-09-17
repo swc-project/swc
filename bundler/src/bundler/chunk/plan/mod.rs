@@ -231,7 +231,9 @@ where
                                 dep,
                                 entry
                             );
-                            plans.normal.entry(entry).or_default().chunks.push(dep);
+                            if entry != root_entry && dep != root_entry {
+                                plans.normal.entry(entry).or_default().chunks.push(dep);
+                            }
                             continue;
                         }
                     }

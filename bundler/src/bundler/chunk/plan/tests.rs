@@ -833,7 +833,7 @@ fn deno_002() {
 }
 
 #[test]
-fn circular_root_entry() {
+fn circular_root_entry_1() {
     suite()
         .file(
             "main.js",
@@ -863,6 +863,44 @@ fn circular_root_entry() {
 
             assert_circular(t, &p, "main", &["a"]);
             assert_normal(t, &p, "a", &["b"]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn circular_root_entry_2() {
+    suite()
+        .file(
+            "main.js",
+            "
+            import './a';
+            import './b';
+            ",
+        )
+        .file(
+            "a.js",
+            "
+            import './main';
+            import './b';
+        ",
+        )
+        .file("b.js", "")
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p, "main", &["b"]);
+            assert_circular(t, &p, "main", &["a"]);
+            assert_normal(t, &p, "a", &[]);
 
             Ok(())
         });
