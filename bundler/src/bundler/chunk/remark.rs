@@ -448,8 +448,7 @@ impl Fold for ExportRenamer<'_> {
                     | Decl::TsEnum(_)
                     | Decl::TsModule(_) => ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)),
 
-                    Decl::Class(mut c) => {
-                        c.ident = c.ident.fold_with(&mut actual);
+                    Decl::Class(c) => {
                         if self.unexport {
                             Stmt::Decl(Decl::Class(c)).into()
                         } else {
@@ -459,9 +458,7 @@ impl Fold for ExportRenamer<'_> {
                             }))
                         }
                     }
-                    Decl::Fn(mut f) => {
-                        f.ident = f.ident.fold_with(&mut actual);
-
+                    Decl::Fn(f) => {
                         if self.unexport {
                             Stmt::Decl(Decl::Fn(f)).into()
                         } else {
