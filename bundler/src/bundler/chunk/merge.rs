@@ -42,7 +42,12 @@ where
                 // Handle circular imports
                 if let Some(circular_plan) = plan.entry_as_circular(info.id) {
                     log::debug!("Circular dependency detected: ({})", info.fm.name);
-                    return Ok(self.merge_circular_modules(plan, circular_plan, entry, merged)?);
+                    let mut module =
+                        self.merge_circular_modules(plan, circular_plan, entry, merged)?;
+                    if is_entry {
+                        self.finalize_merging_of_entry(plan, &mut module);
+                    }
+                    return Ok(module);
                 }
             }
 
@@ -328,67 +333,65 @@ where
             // }
 
             if is_entry {
-                entry.body.retain_mut(|item| {
-                    match item {
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
-                            export.src = None;
-                        }
-
-                        ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                            for (id, p) in &plan.normal {
-                                if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
-                                    log::debug!("Dropping import");
-                                    return false;
-                                }
-
-                                for &mid in &p.chunks {
-                                    if import.span.ctxt
-                                        == self.scope.get_module(mid).unwrap().ctxt()
-                                    {
-                                        log::debug!("Dropping direct import");
-                                        return false;
-                                    }
-                                }
-
-                                for &mid in &p.transitive_chunks {
-                                    if import.span.ctxt
-                                        == self.scope.get_module(mid).unwrap().ctxt()
-                                    {
-                                        log::debug!("Dropping transitive import");
-                                        return false;
-                                    }
-                                }
-                            }
-
-                            for (id, p) in &plan.circular {
-                                // Drop if it's one of circular import
-                                if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
-                                    log::debug!("Dropping circular import");
-                                    return false;
-                                }
-
-                                for &mid in &p.chunks {
-                                    if import.span.ctxt
-                                        == self.scope.get_module(mid).unwrap().ctxt()
-                                    {
-                                        log::debug!("Dropping circular import");
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-
-                        _ => {}
-                    }
-
-                    true
-                });
-
-                entry.visit_mut_with(&mut DefaultRenamer);
+                self.finalize_merging_of_entry(plan, &mut entry);
             }
 
             Ok(entry)
         })
+    }
+
+    fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
+        entry.body.retain_mut(|item| {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                    export.src = None;
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    for (id, p) in &plan.normal {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                            log::debug!("Dropping import");
+                            return false;
+                        }
+
+                        for &mid in &p.chunks {
+                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
+                                log::debug!("Dropping direct import");
+                                return false;
+                            }
+                        }
+
+                        for &mid in &p.transitive_chunks {
+                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
+                                log::debug!("Dropping transitive import");
+                                return false;
+                            }
+                        }
+                    }
+
+                    for (id, p) in &plan.circular {
+                        // Drop if it's one of circular import
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                            log::debug!("Dropping circular import");
+                            return false;
+                        }
+
+                        for &mid in &p.chunks {
+                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
+                                log::debug!("Dropping circular import");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                _ => {}
+            }
+
+            true
+        });
+
+        entry.visit_mut_with(&mut DefaultRenamer);
     }
 }
 
