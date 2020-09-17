@@ -911,3 +911,54 @@ fn circular_root_entry_2() {
             Ok(())
         });
 }
+
+#[test]
+fn deno_003() {
+    suite()
+        .file(
+            "main.js",
+            "
+            export * from './async-mod'
+            ",
+        )
+        .file(
+            "async-mod.js",
+            r#"
+            export * from "./async-deferred";
+            export * from "./async-mux_async_iterator";
+            "#,
+        )
+        .file(
+            "async-mux_async_iterator.js",
+            r#"
+            import { Deferred, deferred } from "./async-deferred";
+            "#,
+        )
+        .file("async-deferred.js", "")
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p, "main", &["async-mod"]);
+
+            assert_normal_transitive(
+                t,
+                &p,
+                "async-mod",
+                &["async-mux_async_iterator"],
+                &["async-deferred"],
+            );
+
+            assert_normal(t, &p, "async-mux_async_iterator", &[]);
+
+            Ok(())
+        });
+}
