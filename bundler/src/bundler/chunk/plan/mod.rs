@@ -227,7 +227,7 @@ where
                     if let Some(circular_members) = builder.circular.get(entry) {
                         if circular_members.contains(&dep) {
                             log::debug!(
-                                "Adding a circular dependencuy {:?} to normal entry {:?}",
+                                "Adding a circular dependency {:?} to normal entry {:?}",
                                 dep,
                                 entry
                             );
