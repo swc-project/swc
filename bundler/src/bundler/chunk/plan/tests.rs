@@ -831,3 +831,39 @@ fn deno_002() {
             Ok(())
         });
 }
+
+#[test]
+fn circular_root_entry() {
+    suite()
+        .file(
+            "main.js",
+            "
+            import './a';
+            ",
+        )
+        .file(
+            "a.js",
+            "
+            import './main';
+            import './b';
+        ",
+        )
+        .file("b.js", "")
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_circular(t, &p, "main", &["a"]);
+            assert_normal(t, &p, "a", &["b"]);
+
+            Ok(())
+        });
+}
