@@ -260,7 +260,7 @@ where
                 print_hygiene("dep: before injection", &self.cm, &dep);
 
                 if dep_info.is_es6 {
-                    print_hygiene("entry: before injection", &self.cm, &entry);
+                    // print_hygiene("entry: before injection", &self.cm, &entry);
 
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
