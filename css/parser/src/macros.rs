@@ -64,7 +64,9 @@ macro_rules! expect {
         use crate::error::{Error, SyntaxError};
 
         match $parser.i.cur() {
-            Some(tok!($t)) => {}
+            Some(tok!($t)) => {
+                $parser.i.bump();
+            }
             Some(other) => Err(Error {
                 inner: Box::new((
                     $parser.i.span(),
