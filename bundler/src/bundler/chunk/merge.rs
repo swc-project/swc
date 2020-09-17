@@ -68,7 +68,7 @@ where
                 return Ok(entry);
             }
 
-            log::info!(
+            log::debug!(
                 "Merge: ({}) {} <= {:?}",
                 info.id,
                 info.fm.name,

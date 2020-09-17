@@ -75,7 +75,7 @@ where
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
-            log::info!("({}) Storing module: {}", v.id, file_name);
+            log::debug!("({}) Storing module: {}", v.id, file_name);
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in the `Scope`
