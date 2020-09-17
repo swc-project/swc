@@ -4,7 +4,7 @@ pub use self::{at_rule::*, media_query::*};
 pub use at_rule::AtRule;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{ast_node, FromVariant, Span};
+use swc_common::{ast_node, Span};
 
 mod at_rule;
 mod media_query;
@@ -150,11 +150,18 @@ pub struct CompoundSelector {
     pub selectors: Vec<SimpleSelector>,
 }
 
-#[derive(Debug, Clone, PartialEq, FromVariant, Serialize, Deserialize)]
-#[serde(tag = "type")]
+#[ast_node]
 pub enum SelectorComponent {
+    #[tag("CompoundSelector")]
     Compound(CompoundSelector),
-    Combinator(Combinator),
+    #[tag("CombinatorSelector")]
+    Combinator(CombinatorSelector),
+}
+
+#[ast_node]
+pub struct CombinatorSelector {
+    pub span: Span,
+    pub combinator: Combinator,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]

@@ -20,7 +20,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 0,
                 "end": 1,
@@ -54,7 +53,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 3,
                 "end": 4,
@@ -105,7 +103,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 10,
                 "end": 12,
@@ -139,7 +136,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 14,
                 "end": 16,
@@ -190,7 +186,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 22,
                 "end": 24,
@@ -224,7 +219,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 26,
                 "end": 28,
@@ -275,7 +269,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 34,
                 "end": 36,
@@ -309,7 +302,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 38,
                 "end": 40,

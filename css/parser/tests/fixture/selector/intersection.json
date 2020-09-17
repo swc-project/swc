@@ -20,7 +20,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 0,
                 "end": 10,
@@ -86,7 +85,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 16,
                 "end": 31,
@@ -167,7 +165,6 @@
           },
           "components": [
             {
-              "type": "Compound",
               "span": {
                 "start": 37,
                 "end": 52,
