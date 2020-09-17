@@ -49,7 +49,7 @@ fn load_fixtures(tests: &mut Vec<TestDescAndFn>) {
                     let fm = cm.load_file(entry.path()).unwrap();
 
                     let stylesheet = parse(fm.start_pos, &fm.src).unwrap();
-                    let json = serde_json::to_string(&stylesheet).unwrap();
+                    let json = serde_json::to_string_pretty(&stylesheet).unwrap();
 
                     let output = NormalizedOutput::from(json);
 
