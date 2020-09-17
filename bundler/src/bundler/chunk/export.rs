@@ -1,6 +1,7 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Specifier, TransformedModule},
+    debug::print_hygiene,
     util::{CHashSet, IntoParallelIterator},
     Bundler, Load, ModuleId, Resolve,
 };
@@ -59,9 +60,18 @@ where
     ) -> Result<(), Error> {
         log::trace!("merge_reexports: {}", info.fm.name);
 
-        let mut reexports = info.exports.reexports.clone();
+        // Transitive dependencies
+        let mut additional_modules = vec![];
+        let mut reexports = vec![];
+
         // Remove transitive dependencies which is merged by parent moudle.
-        reexports.retain(|(src, _)| nomral_plan.chunks.contains(&src.module_id));
+        for v in info.exports.reexports.clone() {
+            if nomral_plan.chunks.contains(&v.0.module_id) {
+                reexports.push(v);
+            } else {
+                additional_modules.push(v);
+            }
+        }
 
         let deps = reexports
             .into_par_iter()
@@ -86,11 +96,11 @@ where
                         )
                     })?;
 
-                // print_hygiene(&format!("dep: start"), &self.cm, &dep);
+                print_hygiene(&format!("dep: start"), &self.cm, &dep);
 
                 dep = self.remark_exports(dep, src.ctxt, None, false);
 
-                // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
+                print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
                 if !specifiers.is_empty() {
                     dep.visit_mut_with(&mut UnexportAsVar {
@@ -112,6 +122,42 @@ where
             })
             .collect::<Vec<_>>();
 
+        {
+            let mut decls = vec![];
+            for (_src, specifiers) in additional_modules {
+                for specifier in specifiers {
+                    let (imported, exported) = match specifier {
+                        Specifier::Specific { local, alias } => {
+                            let alias = alias.unwrap_or_else(|| local.clone());
+                            let local = local.replace_mark(info.mark());
+                            (local.into_ident(), alias.into_ident())
+                        }
+                        Specifier::Namespace { local, all } => {
+                            unimplemented!("namespaced re-export: local={:?}, all={}", local, all)
+                        }
+                    };
+                    let var = VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(imported),
+                        init: Some(Box::new(Expr::Ident(exported))),
+                        definite: false,
+                    };
+                    decls.push(var);
+                }
+            }
+
+            if !decls.is_empty() {
+                entry
+                    .body
+                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls,
+                    }))));
+            }
+        }
+
         for dep in deps {
             let dep = dep?;
             let dep = match dep {
@@ -120,6 +166,16 @@ where
             };
             let (src, dep) = dep;
 
+            print_hygiene(
+                &format!(
+                    "entry: before reexport injection {:?} <- {:?}",
+                    info.ctxt(),
+                    src.ctxt,
+                ),
+                &self.cm,
+                &entry,
+            );
+
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
                 imported: dep.body,
@@ -127,11 +183,11 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            // print_hygiene(
-            //     &format!("entry:injection {:?} <- {:?}", info.ctxt(), src.ctxt,),
-            //     &self.cm,
-            //     &entry,
-            // );
+            print_hygiene(
+                &format!("entry:injection {:?} <- {:?}", info.ctxt(), src.ctxt,),
+                &self.cm,
+                &entry,
+            );
             assert_eq!(injector.imported, vec![]);
         }
 
@@ -194,6 +250,10 @@ impl VisitMut for ExportInjector {
 /// ```js
 /// const e3 = l1;
 /// ```
+///
+/// export { foo#7 } from './b' where #7 is mark of './b'
+/// =>
+/// export { foo#7 as foo#5 } where #5 is mark of current entry.
 struct UnexportAsVar<'a> {
     /// Syntax context for the generated variables.
     dep_ctxt: SyntaxContext,
