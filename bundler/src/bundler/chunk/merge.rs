@@ -160,11 +160,7 @@ where
                                             dep,
                                             id.clone().replace_mark(dep_info.mark()).into_ident(),
                                         )?;
-
-                                        print_hygiene("dep:after wrapping esm", &self.cm, &dep);
                                     } else {
-                                        print_hygiene("dep: after tree shaking", &self.cm, &dep);
-
                                         if let Some(imports) = info
                                             .imports
                                             .specifiers
