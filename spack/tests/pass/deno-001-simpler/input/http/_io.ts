@@ -1,5 +1,3 @@
-import { BufReader, BufWriter } from "../io/bufio";
-import { TextProtoReader } from "../textproto/mod";
 import { ServerRequest, Response } from "./server";
 
 export function emptyReader(): Deno.Reader {

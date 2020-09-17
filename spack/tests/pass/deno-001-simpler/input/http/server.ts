@@ -1,5 +1,4 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { BufReader, BufWriter } from "../io/bufio";
 import { deferred, Deferred, MuxAsyncIterator } from "../async/mod";
 import {
     bodyReader,
