@@ -224,15 +224,18 @@ where
                     .collect();
 
                 for &dep in &deps {
-                    if builder.is_circular(entry) {
-                        log::debug!(
-                            "Adding a circular dependencuy {:?} to normal entry {:?}",
-                            entry,
-                            root_entry
-                        );
-                        plans.normal.entry(entry).or_default().chunks.push(dep);
-                        continue;
+                    if let Some(circular_members) = builder.circular.get(entry) {
+                        if circular_members.contains(&dep) {
+                            log::debug!(
+                                "Adding a circular dependencuy {:?} to normal entry {:?}",
+                                dep,
+                                entry
+                            );
+                            plans.normal.entry(entry).or_default().chunks.push(dep);
+                            continue;
+                        }
                     }
+
                     let is_es6 = self.scope.get_module(entry).unwrap().is_es6;
                     let dependants = builder
                         .direct_deps
@@ -278,9 +281,11 @@ where
                                     && !normal_plan.transitive_chunks.contains(&dep)
                                 {
                                     if dependants.contains(&module) {
+                                        log::trace!("Normal: {:?} => {:?}", module, dep);
                                         // `entry` depends on `module` directly
                                         normal_plan.chunks.push(dep);
                                     } else {
+                                        log::trace!("Transitive: {:?} => {:?}", module, dep);
                                         normal_plan.transitive_chunks.push(dep);
                                     }
                                 }
@@ -312,6 +317,7 @@ where
 
                                 let normal_plan = plans.normal.entry(entry).or_default();
                                 if !normal_plan.chunks.contains(&dep) {
+                                    log::trace!("Normal: {:?} => {:?}", entry, dep);
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
@@ -321,11 +327,13 @@ where
                                     .or_default()
                                     .transitive_chunks;
                                 if !t.contains(&dep) {
+                                    log::trace!("Transitive: {:?} => {:?}", entry, dep);
                                     t.push(dep)
                                 }
                             }
                         } else {
                             // Direct dependency.
+                            log::trace!("Normal: {:?} => {:?}", entry, dep);
                             plans.normal.entry(entry).or_default().chunks.push(dep);
                         }
 
