@@ -1,7 +1,6 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Imports, Specifier},
-    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -63,7 +62,7 @@ where
 
             let mut entry: Module = (*info.module).clone();
 
-            print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
+            // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
             if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
                 return Ok(entry);
@@ -135,7 +134,7 @@ where
                                     })?;
 
                                 if dep_info.is_es6 {
-                                    print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
+                                    // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                                     let is_acccessed_with_computed_key =
                                         specifiers.iter().any(|s| match s {
@@ -257,7 +256,7 @@ where
                     }
                 }
 
-                print_hygiene("dep: before injection", &self.cm, &dep);
+                // print_hygiene("dep: before injection", &self.cm, &dep);
 
                 if dep_info.is_es6 {
                     // print_hygiene("entry: before injection", &self.cm, &entry);
