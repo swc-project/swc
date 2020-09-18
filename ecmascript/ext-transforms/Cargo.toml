@@ -10,3 +10,9 @@ version = "0.0.0"
 
 [dependencies]
 phf = {version = "0.8.0", features = ["macros"]}
+swc_atoms = {path = "../../atoms"}
+swc_common = {path = "../../common"}
+swc_ecma_ast = {path = "../ast"}
+swc_ecma_parser = {path = "../parser"}
+swc_ecma_utils = {path = "../utils"}
+swc_ecma_visit = {path = "../visit"}
