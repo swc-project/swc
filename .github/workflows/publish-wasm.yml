@@ -1,0 +1,36 @@
+name: Publish (node)
+
+# on:
+#     create:
+#       tags:
+#         - v*
+on: [pull, pull_request]
+
+jobs:
+  build:
+    name: Build - wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build
+        run: wasm-pack build  --release
