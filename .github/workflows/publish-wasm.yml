@@ -1,10 +1,14 @@
 name: Publish (node)
 
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+
 # on:
 #     create:
 #       tags:
 #         - v*
-on: [pull, pull_request]
+on: [push, pull_request]
 
 jobs:
   build:
