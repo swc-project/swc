@@ -357,6 +357,16 @@ export interface TransformConfig {
    * Defaults to null, which skips optimizer pass.
    */
   optimizer?: OptimizerConfig;
+
+  /**
+   * https://swc-project.github.io/docs/configuring-swc.html#jsctransformlegacydecorator
+   */
+  legacyDecorator?: boolean
+
+  /**
+   * https://swc-project.github.io/docs/configuring-swc.html#jsctransformdecoratormetadata
+   */
+  decoratorMetadata?: boolean
 }
 
 export interface ReactConfig {
