@@ -4,11 +4,10 @@ env:
   CARGO_INCREMENTAL: 0
   CI: "1"
 
-# on:
-#     create:
-#       tags:
-#         - v*
-on: [push, pull_request]
+on:
+  create:
+    tags:
+      - v*
 
 jobs:
   build:
@@ -40,4 +39,9 @@ jobs:
         run: (cd wasm && wasm-pack build  --release --scope=swc --target nodejs)
 
       - name: Publish
-        run: (cd wasm/pkg && npm publish --dry-run)
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          (cd wasm/pkg && npm publish)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
