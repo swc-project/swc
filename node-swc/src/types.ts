@@ -306,6 +306,8 @@ export interface EsParserConfig {
   jsx?: boolean;
   /**
    * Defaults to `false`.
+   * 
+   * @deprecated Always true because it's in ecmascript spec.
    */
   numericSeparator?: boolean;
   /**
@@ -314,6 +316,8 @@ export interface EsParserConfig {
   classPrivateProperty?: boolean;
   /**
    * Defaults to `false`
+   * 
+   * @deprecated Always true because it's in ecmascript spec.
    */
   privateMethod?: boolean;
   /**
@@ -338,8 +342,22 @@ export interface EsParserConfig {
   dynamicImport?: boolean;
   /**
    * Defaults to `false`
+   * 
+   * @deprecated Always true because it's in ecmascript spec.
    */
   nullishCoalescing?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  exportDefaultFrom?: boolean,
+  /**
+   * Defaults to `false`
+   */
+  exportNamespaceFrom?: boolean,
+  /**
+   * Defaults to `false`
+   */
+  importMeta?: boolean,
 }
 
 /**
