@@ -1,13 +1,13 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 /* Resolves after the given number of milliseconds. */ export function delay(ms) {
-    return new Promise((res) => setTimeout(() => {
-        res();
-    }, ms)
+    return new Promise((res)=>setTimeout(()=>{
+            res();
+        }, ms)
     );
 }
 function deferred1() {
     let methods;
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject)=>{
     });
     return Object.assign(promise, methods);
 }
@@ -23,7 +23,7 @@ var tmp = Symbol.asyncIterator;
     }
     async callIteratorNext(iterator) {
         try {
-            const { value, done } = await iterator.next();
+            const { value , done  } = await iterator.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
                 iterator,
@@ -35,17 +35,17 @@ var tmp = Symbol.asyncIterator;
         this.signal.resolve();
     }
     async *iterate() {
-        while (this.iteratorCount > 0) {
+        while(this.iteratorCount > 0){
             // Sleep until any of the wrapped iterators yields.
             await this.signal;
             // Note that while we're looping over `yields`, new items may be added.
-            for (let i = 0; i < this.yields.length; i++) {
-                const { iterator, value } = this.yields[i];
+            for(let i = 0; i < this.yields.length; i++){
+                const { iterator , value  } = this.yields[i];
                 yield value;
                 this.callIteratorNext(iterator);
             }
             if (this.throws.length) {
-                for (const e of this.throws) throw e;
+                for (const e of this.throws)throw e;
                 this.throws.length = 0;
             }
             // Clear the `yields` list and reset the `signal` promise.
@@ -56,7 +56,7 @@ var tmp = Symbol.asyncIterator;
     [tmp]() {
         return this.iterate();
     }
-    constructor() {
+    constructor(){
         this.iteratorCount = 0;
         this.yields = [];
         this.throws = [];
@@ -75,19 +75,19 @@ var tmp = Symbol.asyncIterator;
  */ export function pooledMap(poolLimit, array, iteratorFn) {
     // Create the async iterable that is returned from this function.
     const res = new TransformStream({
-        async transform(p, controller) {
+        async transform (p, controller) {
             controller.enqueue(await p);
         }
     });
     // Start processing items from the iterator
-    (async () => {
+    (async ()=>{
         const writer = res.writable.getWriter();
         const executing = [];
-        for await (const item of array) {
-            const p = Promise.resolve().then(() => iteratorFn(item)
+        for await (const item of array){
+            const p = Promise.resolve().then(()=>iteratorFn(item)
             );
             writer.write(p);
-            const e = p.then(() => executing.splice(executing.indexOf(e), 1)
+            const e = p.then(()=>executing.splice(executing.indexOf(e), 1)
             );
             executing.push(e);
             if (executing.length >= poolLimit) await Promise.race(executing);

@@ -337,6 +337,8 @@ where
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
         entry.body.retain_mut(|item| {
             match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
+
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                     export.src = None;
                 }
