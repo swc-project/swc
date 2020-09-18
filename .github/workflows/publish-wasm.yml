@@ -37,7 +37,7 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        run: wasm-pack build  --release --scope=swc --target nodejs
+        run: (cd wasm && wasm-pack build  --release --scope=swc --target nodejs)
 
       - name: Publish
         run: (cd wasm/pkg && npm publish --dry-run)
