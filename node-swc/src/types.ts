@@ -408,8 +408,12 @@ export interface ConstModulesConfig {
   };
 }
 
+/// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerjsonify
 export interface OptimizerConfig {
+  /// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerglobals
   globals?: GlobalPassOption;
+  /// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerjsonify
+  jsonify?: { minCost: number }
 }
 
 /**
