@@ -16,6 +16,7 @@ use swc_atoms::JsWord;
 pub use swc_common::chain;
 use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
+use swc_ecma_ext_transforms::jest;
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
@@ -254,6 +255,8 @@ impl Options {
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
             .finalize(syntax, config.module, comments);
+
+        let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
         BuiltConfig {
             minify: config.minify.unwrap_or(false),
@@ -577,6 +580,16 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub decorator_metadata: bool,
+
+    #[serde(default)]
+    pub hidden: HiddenTransformConfig,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct HiddenTransformConfig {
+    #[serde(default)]
+    pub jest: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
