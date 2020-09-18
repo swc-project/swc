@@ -193,14 +193,14 @@ where
                     .body
                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
-                            span: DUMMY_SP,
+                            span: DUMMY_SP.with_ctxt(self.finalized_ctxt),
                             specifiers: star_reexports
                                 .into_iter()
                                 .map(|(imported, exported)| {
                                     ExportNamedSpecifier {
-                                        span: DUMMY_SP,
-                                        orig: imported.clone(),
-                                        exported: Some(exported.clone()),
+                                        span: DUMMY_SP.with_ctxt(self.finalized_ctxt),
+                                        orig: exported.clone(),
+                                        exported: Some(imported.clone()),
                                     }
                                     .into()
                                 })

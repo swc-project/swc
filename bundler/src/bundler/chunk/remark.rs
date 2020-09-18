@@ -30,6 +30,7 @@ where
             extras: vec![],
             remark_map: Default::default(),
             unexport,
+            finalized_ctxt: self.finalized_ctxt,
         };
         dep = dep.fold_with(&mut v);
 
@@ -60,6 +61,8 @@ struct ExportRenamer<'a> {
     extras: Vec<Stmt>,
 
     unexport: bool,
+
+    finalized_ctxt: SyntaxContext,
 }
 
 impl ExportRenamer<'_> {
@@ -255,6 +258,10 @@ impl Fold for ExportRenamer<'_> {
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(e)) if e.src.is_none() => {
+                if e.span.ctxt == self.finalized_ctxt {
+                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(e));
+                }
+
                 if self.unexport {
                     let mut var_decls = Vec::with_capacity(e.specifiers.len());
 
