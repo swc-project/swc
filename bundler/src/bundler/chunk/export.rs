@@ -1,6 +1,7 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Specifier, TransformedModule},
+    debug::print_hygiene,
     util::{CHashSet, IntoParallelIterator},
     Bundler, Load, ModuleId, Resolve,
 };
@@ -99,11 +100,11 @@ where
                         )
                     })?;
 
-                // print_hygiene(&format!("dep: start"), &self.cm, &dep);
+                print_hygiene(&format!("dep: start"), &self.cm, &dep);
 
                 dep = self.remark_exports(dep, src.ctxt, None, false);
 
-                // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
+                print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
                 if !specifiers.is_empty() {
                     dep.visit_mut_with(&mut UnexportAsVar {
@@ -126,8 +127,19 @@ where
             .collect::<Vec<_>>();
 
         {
-            let mut decls = vec![];
+            let mut normal_reexports = vec![];
+            let mut star_reexports = vec![];
             for (src, mut specifiers) in additional_modules {
+                // If a dependency is indirect, we need to export items from it manually.
+                let is_indirect = !nomral_plan.chunks.contains(&src.module_id);
+
+                let add_to = if specifiers.is_empty() && is_indirect {
+                    // User provided code like `export * from './foo';`, but planner decide to merge
+                    // it within dependency module. So we reexport them using a named export.
+                    &mut star_reexports
+                } else {
+                    &mut normal_reexports
+                };
                 if specifiers.is_empty() {
                     //
                     let dep = self.scope.get_module(src.module_id).unwrap();
@@ -146,25 +158,57 @@ where
                             unimplemented!("namespaced re-export: local={:?}, all={}", local, all)
                         }
                     };
-                    let var = VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(imported),
-                        init: Some(Box::new(Expr::Ident(exported))),
-                        definite: false,
-                    };
-                    decls.push(var);
+
+                    add_to.push((imported, exported));
                 }
             }
 
-            if !decls.is_empty() {
+            dbg!(&*normal_reexports);
+
+            if !normal_reexports.is_empty() {
                 entry
                     .body
                     .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Const,
                         declare: false,
-                        decls,
+                        decls: normal_reexports
+                            .into_iter()
+                            .map(|(imported, exported)| {
+                                let var = VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(imported),
+                                    init: Some(Box::new(Expr::Ident(exported))),
+                                    definite: false,
+                                };
+
+                                var
+                            })
+                            .collect(),
                     }))));
+            }
+
+            if !star_reexports.is_empty() {
+                entry
+                    .body
+                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport {
+                            span: DUMMY_SP,
+                            specifiers: star_reexports
+                                .into_iter()
+                                .map(|(imported, exported)| {
+                                    ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: imported.clone(),
+                                        exported: Some(exported.clone()),
+                                    }
+                                    .into()
+                                })
+                                .collect(),
+                            src: None,
+                            type_only: false,
+                        },
+                    )));
             }
         }
 
