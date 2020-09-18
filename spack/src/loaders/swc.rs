@@ -82,6 +82,7 @@ impl Load for SwcLoader {
                                                 optimizer: None,
                                                 legacy_decorator: c.legacy_decorator,
                                                 decorator_metadata: c.decorator_metadata,
+                                                hidden: Default::default(),
                                             })
                                         } else {
                                             None
