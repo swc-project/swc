@@ -1,7 +1,6 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Specifier, TransformedModule},
-    debug::print_hygiene,
     util::{CHashSet, IntoParallelIterator},
     Bundler, Load, ModuleId, Resolve,
 };
@@ -100,11 +99,11 @@ where
                         )
                     })?;
 
-                print_hygiene(&format!("dep: start"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: start"), &self.cm, &dep);
 
                 dep = self.remark_exports(dep, src.ctxt, None, false);
 
-                print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
                 if !specifiers.is_empty() {
                     dep.visit_mut_with(&mut UnexportAsVar {
@@ -193,12 +192,12 @@ where
                     .body
                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
-                            span: DUMMY_SP.with_ctxt(self.finalized_ctxt),
+                            span: DUMMY_SP,
                             specifiers: star_reexports
                                 .into_iter()
                                 .map(|(imported, exported)| {
                                     ExportNamedSpecifier {
-                                        span: DUMMY_SP.with_ctxt(self.finalized_ctxt),
+                                        span: DUMMY_SP,
                                         orig: exported.clone(),
                                         exported: Some(imported.clone()),
                                     }

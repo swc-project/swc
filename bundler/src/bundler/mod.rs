@@ -67,9 +67,6 @@ where
     /// [Mark] used while tree shaking
     used_mark: Mark,
     _helper_ctxt: SyntaxContext,
-    /// If this context is applied to a node, marker of identifiers inside it
-    /// should not be touched.
-    finalized_ctxt: SyntaxContext,
 
     scope: Scope,
 }
@@ -91,15 +88,12 @@ where
             log::debug!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
             log::debug!("Helper ctxt: {:?}", helper_ctxt);
-            let finalized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-            log::debug!("Finalized ctxt: {:?}", finalized_ctxt);
 
             Bundler {
                 config,
                 globals,
                 cm,
                 loader,
-                finalized_ctxt,
                 resolver,
                 used_mark,
                 _helper_ctxt: helper_ctxt,
