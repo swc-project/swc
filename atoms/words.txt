@@ -573,6 +573,7 @@ _defineProperty
 _extends
 _toConsumableArray
 abstract
+and
 any
 apply
 arguments
@@ -586,6 +587,7 @@ break
 call
 case
 catch
+charset
 class
 concat
 const
@@ -607,6 +609,7 @@ export
 extends
 false
 finally
+font-face
 for
 from
 function
@@ -615,6 +618,7 @@ global
 if
 implements
 import
+important
 in
 infer
 instanceof
@@ -622,9 +626,11 @@ interface
 is
 iterator
 key
+keyframes
 keyof
 length
 let
+media
 meta
 module
 namespace
@@ -634,6 +640,7 @@ null
 number
 object
 of
+or
 package
 private
 process
@@ -646,6 +653,7 @@ set
 static
 string
 super
+supports
 switch
 symbol
 target
