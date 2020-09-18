@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
-  CI: '1'
+  CI: "1"
 
 jobs:
   integration-test:
@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: '12'
+          node-version: "12"
 
       - name: Cache
         uses: actions/cache@v2
@@ -37,7 +37,7 @@ jobs:
           npm i
           export PATH="$PATH:$HOME/npm/bin"
 
-          npm run build
+          npm run build:dev
           npm i -g @swc/cli
           npm link
 

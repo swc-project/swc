@@ -4,7 +4,7 @@
 #![deny(trivial_casts)]
 #![deny(trivial_numeric_casts)]
 #![deny(unreachable_pub)]
-#![deny(variant_size_differences)]
+// #![deny(variant_size_differences)]
 
 pub use self::{
     class::{

@@ -9,7 +9,7 @@ use swc::{
     Compiler,
 };
 use swc_common::{
-    errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
+    errors::{DiagnosticBuilder, Emitter, Handler, SourceMapperDyn},
     FileName, FilePathMapping, SourceMap,
 };
 use swc_ecmascript::ast::Program;
@@ -98,24 +98,24 @@ fn codemap() -> Arc<SourceMap> {
 }
 
 /// Creates a new handler which emits to returned buffer.
-fn new_handler(cm: Arc<SourceMapperDyn>) -> (Arc<Handler>, BufferedError) {
+fn new_handler(_cm: Arc<SourceMapperDyn>) -> (Arc<Handler>, BufferedError) {
     let e = BufferedError::default();
 
-    let handler = Handler::with_emitter_and_flags(
-        Box::new(EmitterWriter::new(
-            Box::new(e.clone()),
-            Some(cm.clone()),
-            false,
-            false,
-        )),
-        HandlerFlags {
-            treat_err_as_bug: false,
-            can_emit_warnings: true,
-            ..Default::default()
-        },
-    );
+    let handler = Handler::with_emitter(true, false, Box::new(MyEmiter::default()));
 
     (Arc::new(handler), e)
+}
+
+#[derive(Clone, Default)]
+struct MyEmiter(BufferedError);
+
+impl Emitter for MyEmiter {
+    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
+        let z = &(self.0).0;
+        for msg in &db.message {
+            z.write().unwrap().push_str(&msg.0);
+        }
+    }
 }
 
 #[derive(Clone, Default)]
