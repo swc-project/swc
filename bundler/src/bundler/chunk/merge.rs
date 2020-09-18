@@ -326,6 +326,7 @@ where
             // }
 
             if is_entry {
+                // print_hygiene("done", &self.cm, &entry);
                 self.finalize_merging_of_entry(plan, &mut entry);
             }
 
@@ -336,6 +337,8 @@ where
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
         entry.body.retain_mut(|item| {
             match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
+
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                     export.src = None;
                 }
