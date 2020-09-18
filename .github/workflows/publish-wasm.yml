@@ -1,4 +1,4 @@
-name: Publish (node)
+name: Publish (wasm)
 
 env:
   CARGO_INCREMENTAL: 0
