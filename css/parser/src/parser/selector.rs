@@ -147,7 +147,7 @@ impl Parser<'_> {
 
     fn parse_attribute_selector_operator(&mut self) -> PResult<AttributeOp> {
         let op = match cur!(self) {
-            tok!("]") => AttributeOp::Any,
+            tok!("]") => return Ok(AttributeOp::Any),
             tok!("=") => AttributeOp::Equals,
             tok!("~=") => AttributeOp::Include,
             tok!("|=") => AttributeOp::Dash,
