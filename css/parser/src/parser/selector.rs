@@ -9,6 +9,10 @@ impl Parser<'_> {
             let selector = self.parse_selector()?;
             selectors.push(selector);
 
+            if is_one_of!(self, ".", "#", "[", "*") || self.is_word() {
+                continue;
+            }
+
             if !eat!(self, ",") {
                 break;
             }

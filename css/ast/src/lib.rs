@@ -58,9 +58,12 @@ pub struct DeclBlock {
     pub properties: Vec<Property>,
 }
 
+/// A selector is composed of `CompoundSelector`s separated by
+/// `Combinator`s. It selects elements based on their parent selectors.
 #[ast_node]
 pub struct Selector {
     pub span: Span,
+    /// This is never empty.
     pub components: Vec<SelectorComponent>,
 }
 
@@ -167,11 +170,23 @@ pub struct CombinatorSelector {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Combinator {
+    /// Matches the right-hand selector if it's immediately adjacent to the
+    /// left-hand selector in the DOM tree.
+    ///
+    /// `'+'`
+    NextSibling,
+
     /// Matches the right-hand selector if it's a direct child of the left-hand
     /// selector in the DOM tree.
     ///
     /// `'>'`
     Child,
+
+    /// Matches the right-hand selector if it comes after the left-hand selector
+    /// in the DOM tree.
+    ///
+    /// `'~'`
+    FollowingSibling,
 }
 
 #[ast_node]

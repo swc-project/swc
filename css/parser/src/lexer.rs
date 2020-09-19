@@ -13,7 +13,9 @@ pub(crate) struct Lexer<'i> {
 }
 
 impl<'i> Lexer<'i> {
-    pub fn had_ws_before_cur(&self) -> bool {
+    pub fn had_ws_before_cur(&mut self) -> bool {
+        let _ = self.cur();
+
         self.had_ws
     }
 
