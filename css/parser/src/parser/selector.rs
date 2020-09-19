@@ -1,4 +1,4 @@
-use crate::{token::Token, PResult, Parser};
+use crate::{PResult, Parser};
 use swc_css_ast::*;
 
 impl Parser<'_> {
