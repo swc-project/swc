@@ -185,7 +185,7 @@ macro_rules! test_unit_addition {
             grass_test!(
                 [<$u1 _plus_ $u2>],
                 concat!("a {\n  color: 1", stringify!($u1), " + 1", stringify!($u2), ";\n}\n"),
-                format!("a {{\n  color: {}{};\n}}\n", $out, stringify!($u1))
+                &format!("a {{\n  color: {}{};\n}}\n", $out, stringify!($u1))
             );
         );
     };

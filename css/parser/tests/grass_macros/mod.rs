@@ -1,16 +1,15 @@
+#![allow(dead_code)]
+
+use swc_common::FileName;
+
 #[macro_export]
-macro_rules! test {
+macro_rules! grass_test {
     ($( #[$attr:meta] ),*$func:ident, $input:expr) => {
         $(#[$attr])*
         #[test]
         #[allow(non_snake_case)]
         fn $func() {
-            let sass = grass::from_string($input.to_string(), &grass::Options::default())
-                .expect(concat!("failed to parse on ", $input));
-            assert_eq!(
-                String::from($input),
-                sass
-            );
+            crate::grass_macros::test(stringify!($func), $input);
         }
     };
     ($( #[$attr:meta] ),*$func:ident, $input:expr, $output:expr) => {
@@ -18,69 +17,50 @@ macro_rules! test {
         #[test]
         #[allow(non_snake_case)]
         fn $func() {
-            let sass = grass::from_string($input.to_string(), &grass::Options::default())
-                .expect(concat!("failed to parse on ", $input));
-            assert_eq!(
-                String::from($output),
-                sass
-            );
+            crate::grass_macros::test(stringify!($func), $output);
         }
     };
+}
+
+pub fn test(name: &str, s: &str) {
+    ::testing::run_test2(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Real(name.to_string().into()), s.to_string());
+
+        let res = swc_css_parser::parse(fm.start_pos, &fm.src);
+        res.unwrap();
+
+        // TODO: Print ast to file
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+pub fn error(name: &str, s: &str) {
+    ::testing::run_test2(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Real(name.to_string().into()), s.to_string());
+
+        let res = swc_css_parser::parse(fm.start_pos, &fm.src);
+        res.unwrap_err();
+
+        // TODO: Print error message to file
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 /// Verify the error *message*
 /// Span and scope information are not yet tested
 #[macro_export]
-macro_rules! error {
+macro_rules! grass_error {
     ($( #[$attr:meta] ),*$func:ident, $input:expr, $err:expr) => {
         $(#[$attr])*
         #[test]
         #[allow(non_snake_case)]
         fn $func() {
-            match grass::from_string($input.to_string(), &grass::Options::default()) {
-                Ok(..) => panic!("did not fail"),
-                Err(e) => assert_eq!($err, e.to_string()
-                                                .chars()
-                                                .take_while(|c| *c != '\n')
-                                                .collect::<String>()
-                                                .as_str()
-                ),
-            }
+            crate::grass_macros::error(stringify!($func), $input);
         }
-    };
-}
-
-/// Create a temporary file with the given name
-/// and contents.
-///
-/// This must be a macro rather than a function
-/// because the tempfile will be deleted when it
-/// exits scope
-#[macro_export]
-macro_rules! tempfile {
-    ($name:literal, $content:literal) => {
-        let mut f = tempfile::Builder::new()
-            .rand_bytes(0)
-            .prefix("")
-            .suffix($name)
-            .tempfile_in("")
-            .unwrap();
-        write!(f, "{}", $content).unwrap();
-    };
-    ($name:literal, $content:literal, dir=$dir:literal) => {
-        let _d = tempfile::Builder::new()
-            .rand_bytes(0)
-            .prefix("")
-            .suffix($dir)
-            .tempdir_in("")
-            .unwrap();
-        let mut f = tempfile::Builder::new()
-            .rand_bytes(0)
-            .prefix("")
-            .suffix($name)
-            .tempfile_in($dir)
-            .unwrap();
-        write!(f, "{}", $content).unwrap();
     };
 }
 

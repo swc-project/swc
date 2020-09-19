@@ -15,6 +15,7 @@ swc_common = {path = "../../common"}
 swc_css_ast = {path = "../ast"}
 
 [dev-dependencies]
+paste = "1.0.1"
 serde_json = "1"
 testing = {path = "../../testing"}
 walkdir = "2"
