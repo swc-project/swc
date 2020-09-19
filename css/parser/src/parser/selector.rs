@@ -25,11 +25,24 @@ impl Parser<'_> {
         trace_cur!(self, parse_selector);
 
         let start = self.i.cur_pos();
-        let first = self.parse_compound_selector()?;
-        let components = vec![SelectorComponent::Compound(first)];
+        let components = vec![];
 
-        if is_one_of!(self, ">", "+", "~") {
-            unimplemented!("Parsing of '>', '+', '~' in selector")
+        loop {
+            let sel = self
+                .parse_compound_selector()
+                .map(SelectorComponent::Compound)?;
+
+            components.push(sel);
+
+            if is_one_of!(self, ">", "+", "~") {
+                components.push(
+                    self.parse_selector_combinator()
+                        .map(SelectorComponent::Combinator)?,
+                );
+                continue;
+            }
+
+            break;
         }
 
         Ok(Box::new(Selector {
@@ -58,6 +71,21 @@ impl Parser<'_> {
             span: self.i.make_span(start),
             selectors,
         })
+    }
+
+    fn parse_selector_combinator(&mut self) -> PResult<CombinatorSelector> {
+        let span = self.i.span();
+        let combinator = if eat!(self, ">") {
+            Combinator::Child
+        } else if eat!(self, "+") {
+            Combinator::NextSibling
+        } else if eat!(self, "~") {
+            Combinator::FollowingSibling
+        } else {
+            expected_one_of!(self, ">", "+", "~")
+        };
+
+        Ok(CombinatorSelector { span, combinator })
     }
 
     fn parse_simple_selector(&mut self) -> PResult<SimpleSelector> {
