@@ -129,6 +129,7 @@ impl Parser<'_> {
 
         let op = self.parse_attribute_selector_operator()?;
         let value = self.parse_word()?;
+        expect!(self, "]");
 
         Ok(AttributeSelector {
             span: self.i.make_span(start),
