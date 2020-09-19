@@ -142,7 +142,7 @@ impl Parser<'_> {
     }
 
     fn parse_attribute_selector_operator(&mut self) -> PResult<AttributeOp> {
-        Ok(match cur!(self) {
+        let op = match cur!(self) {
             tok!("]") => AttributeOp::Any,
             tok!("=") => AttributeOp::Equals,
             tok!("~=") => AttributeOp::Include,
@@ -151,6 +151,9 @@ impl Parser<'_> {
             tok!("$=") => AttributeOp::Suffix,
             tok!("*=") => AttributeOp::Contains,
             _ => expected_one_of!(self, "]", "=", "~=", "|=", "^=", "$=", "*="),
-        })
+        };
+
+        self.i.bump();
+        Ok(op)
     }
 }
