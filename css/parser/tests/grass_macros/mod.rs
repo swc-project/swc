@@ -23,6 +23,11 @@ macro_rules! grass_test {
 }
 
 pub fn test(name: &str, s: &str) {
+    println!(
+        "===== ===== ===== ===== =====\n{}\n===== ===== ===== ===== =====",
+        s
+    );
+
     ::testing::run_test2(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Real(name.to_string().into()), s.to_string());
 
@@ -37,6 +42,11 @@ pub fn test(name: &str, s: &str) {
 }
 
 pub fn error(name: &str, s: &str) {
+    println!(
+        "===== ===== ===== ===== =====\n{}\n===== ===== ===== ===== =====",
+        s
+    );
+
     ::testing::run_test2(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Real(name.to_string().into()), s.to_string());
 
