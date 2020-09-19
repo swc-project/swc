@@ -127,7 +127,7 @@ impl Parser<'_> {
 
         let name = self.parse_word()?;
 
-        let op = self.parse_attribute_selector_operator()?;
+        let op = self.parse_attribute_selector_op()?;
         let value = if op == AttributeOp::Any {
             None
         } else {
@@ -145,7 +145,7 @@ impl Parser<'_> {
         })
     }
 
-    fn parse_attribute_selector_operator(&mut self) -> PResult<AttributeOp> {
+    fn parse_attribute_selector_op(&mut self) -> PResult<AttributeOp> {
         let op = match cur!(self) {
             tok!("]") => return Ok(AttributeOp::Any),
             tok!("=") => AttributeOp::Equals,
