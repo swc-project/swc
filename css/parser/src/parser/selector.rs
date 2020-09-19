@@ -49,7 +49,7 @@ impl Parser<'_> {
 
             selectors.push(selector);
 
-            if !is_one_of!(self, ".", "#", "[", "*") && !self.is_word() {
+            if !is_one_of!(self, ".", "#", "[", "*", ":") && !self.is_word() {
                 break;
             }
         }
