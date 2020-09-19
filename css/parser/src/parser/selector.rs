@@ -211,6 +211,10 @@ impl Parser<'_> {
             }
             if self.is_word() {
                 args.push(self.parse_word()?);
+                if is!(self, ")") {
+                    continue;
+                }
+                expect!(self, ",");
                 continue;
             }
 
