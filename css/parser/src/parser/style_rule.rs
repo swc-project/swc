@@ -31,6 +31,9 @@ impl Parser<'_> {
 
             let p = self.parse_property()?;
             properties.push(p);
+            if !eat!(self, ";") && !is!(self, "}") {
+                break;
+            }
         }
 
         expect!(self, "}");
