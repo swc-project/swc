@@ -78,8 +78,11 @@ impl Parser<'_> {
 
     fn parse_universal_selector(&mut self) -> PResult<UniversalSelector> {
         trace_cur!(self, parse_universal_selector);
+        debug_assert_eq!(self.i.cur(), Some(tok!("*")));
+        let span = self.i.span();
+        self.i.bump(); // '*'
 
-        unimplemented!("parse_universal_selector")
+        Ok(UniversalSelector { span })
     }
 
     fn parse_id_selector(&mut self) -> PResult<IdSelector> {
