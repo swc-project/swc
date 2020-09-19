@@ -72,6 +72,14 @@ pub enum SimpleSelector {
     /// `*`
     #[tag("UniversalSelector")]
     Universal(UniversalSelector),
+
+    /// A pseudo-class or pseudo-element selector.
+    ///
+    /// The semantics of a specific pseudo selector depends on its name. Some
+    /// selectors take arguments, including other selectors.
+    #[tag("PseudoSelector")]
+    Pseudo(PseudoSelector),
+
     /// A type selector.
     ///
     /// This selects elements whose name equals the given name.
@@ -187,6 +195,40 @@ pub enum Combinator {
     ///
     /// `'~'`
     FollowingSibling,
+}
+
+#[ast_node]
+pub struct PseudoSelector {
+    pub span: Span,
+
+    /// The name of this selector.
+    pub name: String,
+
+    /// Whether this is a pseudo-class selector.
+    ///
+    /// If this is false, this is a pseudo-element selector
+    pub is_class: bool,
+
+    /// Whether this is syntactically a pseudo-class selector.
+    ///
+    /// This is the same as `is_class` unless this selector is a pseudo-element
+    /// that was written syntactically as a pseudo-class (`:before`, `:after`,
+    /// `:first-line`, or `:first-letter`).
+    ///
+    /// If this is false, it is syntactically a psuedo-element
+    pub is_syntactic_class: bool,
+
+    /// The non-selector argument passed to this selector.
+    ///
+    /// This is `None` if there's no argument. If `argument` and `selector` are
+    /// both non-`None`, the selector follows the argument.
+    pub argument: Option<Box<str>>,
+
+    /// The selector argument passed to this selector.
+    ///
+    /// This is `None` if there's no selector. If `argument` and `selector` are
+    /// both non-`None`, the selector follows the argument.
+    pub selector: Option<Vec<Box<Selector>>>,
 }
 
 #[ast_node]
