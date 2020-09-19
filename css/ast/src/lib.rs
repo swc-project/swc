@@ -95,11 +95,11 @@ pub struct UniversalSelector {
 
 #[ast_node]
 pub struct AttributeSelector {
+    pub span: Span,
     pub attr: Text,
     pub value: String,
     pub modifier: Option<char>,
     pub op: AttributeOp,
-    pub span: Span,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
