@@ -76,6 +76,7 @@ impl<'i> Lexer<'i> {
                 self.prev_hi = self.start_pos + BytePos(self.inner.span().end as u32);
                 let token = self.inner.next()?;
                 self.had_ws = self.inner.extras.had_whitespace;
+                self.inner.extras = Default::default();
                 self.cur = Some((token, self.inner.span(), self.inner.slice()));
             }
         }
