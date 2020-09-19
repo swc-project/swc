@@ -202,7 +202,7 @@ pub struct PseudoSelector {
     pub span: Span,
 
     /// The name of this selector.
-    pub name: String,
+    pub name: Text,
 
     /// Whether this is a pseudo-class selector.
     ///
@@ -222,7 +222,7 @@ pub struct PseudoSelector {
     ///
     /// This is `None` if there's no argument. If `argument` and `selector` are
     /// both non-`None`, the selector follows the argument.
-    pub argument: Option<Box<str>>,
+    pub arguments: Option<Vec<Text>>,
 
     /// The selector argument passed to this selector.
     ///

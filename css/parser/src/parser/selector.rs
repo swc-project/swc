@@ -1,4 +1,4 @@
-use crate::{PResult, Parser};
+use crate::{token::Token, PResult, Parser};
 use swc_css_ast::*;
 
 impl Parser<'_> {
@@ -67,6 +67,8 @@ impl Parser<'_> {
             tok!("*") => self
                 .parse_universal_selector()
                 .map(SimpleSelector::Universal),
+            tok!(":") => self.parse_pseudo_selector().map(SimpleSelector::Pseudo),
+
             tok!("#") => self.parse_id_selector().map(SimpleSelector::Id),
             tok!(".") => self.parse_class_selector().map(SimpleSelector::Class),
             tok!("[") => self
@@ -166,5 +168,55 @@ impl Parser<'_> {
 
         self.i.bump();
         Ok(op)
+    }
+
+    fn parse_pseudo_selector(&mut self) -> PResult<PseudoSelector> {
+        debug_assert_eq!(self.i.cur(), Some(tok!(":")));
+        let start = self.i.cur_pos();
+        self.i.bump(); // ':'
+
+        // TODO: Check for difference
+        let _ = eat!(self, ":");
+
+        let name = self.parse_word()?;
+
+        let arguments = if is!(self, "(") {
+            Some(self.parse_pseudo_selector_args()?)
+        } else {
+            None
+        };
+
+        Ok(PseudoSelector {
+            span: self.i.make_span(start),
+            name,
+            // TODO
+            is_class: false,
+            // TODO
+            is_syntactic_class: false,
+            arguments,
+            // TODO
+            selector: None,
+        })
+    }
+
+    fn parse_pseudo_selector_args(&mut self) -> PResult<Vec<Text>> {
+        debug_assert_eq!(self.i.cur(), Some(tok!("(")));
+        self.i.bump(); // '('
+
+        let mut args = vec![];
+
+        loop {
+            if eat!(self, ")") {
+                break;
+            }
+            if self.is_word() {
+                args.push(self.parse_word()?);
+                continue;
+            }
+
+            unimplemented!("parse_pseudo_selector_args")
+        }
+
+        Ok(args)
     }
 }
