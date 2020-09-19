@@ -2,7 +2,7 @@
 mod grass_macros;
 
 // @content inside keyframes
-test!(
+grass_test!(
     content_inside_keyframes,
     "@mixin foo {
         @keyframes {
@@ -17,17 +17,17 @@ test!(
     "@keyframes {\n  color: red;\n}\n"
 );
 
-test!(
+grass_test!(
     empty_keyframes_is_emitted_exact,
     "@keyframes {}",
     "@keyframes {}\n"
 );
-test!(
+grass_test!(
     keyframes_is_at_root,
     "a {\n    @keyframes {}\n}\n",
     "@keyframes {}\n"
 );
-test!(
+grass_test!(
     keyframes_inside_ruleset_with_other_styles,
     "a {
         color: red;
@@ -36,78 +36,82 @@ test!(
     }",
     "a {\n  color: red;\n  color: green;\n}\n@keyframes {}\n"
 );
-test!(
+grass_test!(
     keyframes_lowercase_to,
     "@keyframes {to {color: red;}}",
     "@keyframes {\n  to {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     keyframes_lowercase_from,
     "@keyframes {from {color: red;}}",
     "@keyframes {\n  from {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     keyframes_uppercase_to,
     "@keyframes {TO {color: red;}}",
     "@keyframes {\n  to {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     keyframes_uppercase_from,
     "@keyframes {FROM {color: red;}}",
     "@keyframes {\n  from {\n    color: red;\n  }\n}\n"
 );
-error!(
+grass_error!(
     keyframes_invalid_selector_beginning_with_f,
-    "@keyframes {foo {}}", "Error: Expected \"to\" or \"from\"."
+    "@keyframes {foo {}}",
+    "Error: Expected \"to\" or \"from\"."
 );
-error!(
+grass_error!(
     keyframes_invalid_selector_beginning_with_t,
-    "@keyframes {too {}}", "Error: Expected \"to\" or \"from\"."
+    "@keyframes {too {}}",
+    "Error: Expected \"to\" or \"from\"."
 );
-error!(
+grass_error!(
     keyframes_invalid_selector_beginning_with_ascii_char,
-    "@keyframes {a {}}", "Error: Expected \"to\" or \"from\"."
+    "@keyframes {a {}}",
+    "Error: Expected \"to\" or \"from\"."
 );
-error!(
+grass_error!(
     keyframes_invalid_selector_number_missing_percent,
-    "@keyframes {10 {}}", "Error: expected \"%\"."
+    "@keyframes {10 {}}",
+    "Error: expected \"%\"."
 );
-test!(
+grass_test!(
     keyframes_simple_percent_selector,
     "@keyframes {0% {color: red;}}",
     "@keyframes {\n  0% {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     keyframes_comma_separated_percent_selectors,
     "@keyframes {0%, 5%, 10%, 15% {color: red;}}",
     "@keyframes {\n  0%, 5%, 10%, 15% {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     keyframes_empty_with_name,
     "@keyframes foo {}",
     "@keyframes foo {}\n"
 );
-test!(
+grass_test!(
     keyframes_variable_in_name,
     "@keyframes $foo {}",
     "@keyframes $foo {}\n"
 );
-test!(
+grass_test!(
     keyframes_arithmetic_in_name,
     "@keyframes 1 + 2 {}",
     "@keyframes 1 + 2 {}\n"
 );
-test!(
+grass_test!(
     keyframes_interpolation_in_name,
     "@keyframes #{1 + 2} {}",
     "@keyframes 3 {}\n"
 );
-test!(
+grass_test!(
     keyframes_contains_multiline_comment,
     "@keyframes foo {/**/}",
     "@keyframes foo {\n  /**/\n}\n"
 );
-test!(
+grass_test!(
     keyframes_multiple_rulesets,
     "@keyframes {
         to {
@@ -119,7 +123,7 @@ test!(
     }",
     "@keyframes {\n  to {\n    color: red;\n  }\n  from {\n    color: green;\n  }\n}\n"
 );
-test!(
+grass_test!(
     keyframes_vendor_prefix,
     "@-webkit-keyframes foo {
         0% {
@@ -128,7 +132,7 @@ test!(
     }",
     "@-webkit-keyframes foo {\n  0% {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     keyframes_allow_decimal_selector,
     "@keyframes foo {
         12.5% {

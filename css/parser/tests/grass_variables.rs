@@ -1,142 +1,142 @@
 #[macro_use]
 mod grass_macros;
 
-test!(
+grass_test!(
     basic_variable,
     "$height: 1px;\na {\n  height: $height;\n}\n",
     "a {\n  height: 1px;\n}\n"
 );
-test!(
+grass_test!(
     variable_redeclaration,
     "$a: 1px;\n$a: 2px;\na {\n  height: $a;\n}\n",
     "a {\n  height: 2px;\n}\n"
 );
-test!(
+grass_test!(
     variable_shadowing,
     "$a: 1px;\n$b: $a;\na {\n  height: $b;\n}\n",
     "a {\n  height: 1px;\n}\n"
 );
-test!(
+grass_test!(
     variable_shadowing_val_does_not_change,
     "$a: 1px;\n$b: $a; $a: 2px;\na {\n  height: $b;\n}\n",
     "a {\n  height: 1px;\n}\n"
 );
-test!(
+grass_test!(
     variable_shadowing_val_does_not_change_complex,
     "a {\n  color: red;\n}\n$y: before;\n$x: 1 2 $y;\n$y: after;\nfoo {\n  a: $x;\n}",
     "a {\n  color: red;\n}\n\nfoo {\n  a: 1 2 before;\n}\n"
 );
-test!(
+grass_test!(
     variable_whitespace,
     "$a   :    1px   ;\na {\n  height: $a;\n}\n",
     "a {\n  height: 1px;\n}\n"
 );
-test!(
+grass_test!(
     style_after_variable,
     "$a: 1px;\na {\n  height: $a;\n  color: red;\n}\n",
     "a {\n  height: 1px;\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     literal_and_variable_as_val,
     "$a: 1px;\na {\n  height: 1 $a;\n}\n",
     "a {\n  height: 1 1px;\n}\n"
 );
-test!(
+grass_test!(
     literal_and_variable_as_var,
     "$a: 1px;\n$b: 1 $a;\na {\n  height: $b;\n}\n",
     "a {\n  height: 1 1px;\n}\n"
 );
-test!(
+grass_test!(
     eats_whitespace_after_variable_value,
     "a {\n  b {\n    $c: red;\n  }\n  color: red;\n}\n",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     variable_changes_through_new_ruleset,
     "a {\n  $c: red;\nb {\n    $c: blue;\n  }\n  color: $c;\n}\n",
     "a {\n  color: blue;\n}\n"
 );
-test!(
+grass_test!(
     nested_interpolation,
     "$a: red; a {\n  color: #{#{$a}};\n}\n",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     numbers_in_variable,
     "$var1: red; a {\n  color: $var1;\n}\n",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     default_var_after,
     "$a: red;\n$a: blue !default;\na {\n  color: $a;\n}",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     default_var_before,
     "$a: red !default;\n$a: blue;\na {\n  color: $a;\n}",
     "a {\n  color: blue;\n}\n"
 );
-test!(
+grass_test!(
     default_var_whitespace,
     "$a: red     !default          ;\na {\n  color: $a;\n}",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     default_var_inside_rule,
     "a {\n  $a: red;\n  $a: blue !default;\n  color: $a;\n}",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     interpolation_in_variable,
     "$a: #{red};\na {\n  color: $a\n}\n",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     variable_decl_doesnt_end_in_semicolon,
     "a {\n  $a: red\n}\n\nb {\n  color: blue;\n}\n",
     "b {\n  color: blue;\n}\n"
 );
-test!(
+grass_test!(
     unicode_in_variables,
     "$vär: foo;\na {\n  color: $vär;\n}\n",
     "a {\n  color: foo;\n}\n"
 );
-test!(
+grass_test!(
     variable_does_not_include_interpolation,
     "$input: foo;\na {\n  color: $input#{\"literal\"};\n}\n",
     "a {\n  color: foo literal;\n}\n"
 );
-test!(
+grass_test!(
     whitespace_after_variable_name_in_declaration,
     "a {\n  $x : true;\n  color: $x;\n}\n",
     "a {\n  color: true;\n}\n"
 );
-test!(
+grass_test!(
     important_in_variable,
     "$a: !important;\n\na {\n  color: $a;\n}\n",
     "a {\n  color: !important;\n}\n"
 );
-test!(
+grass_test!(
     important_in_variable_casing,
     "$a: !ImPoRtAnT;\n\na {\n  color: $a;\n}\n",
     "a {\n  color: !important;\n}\n"
 );
-test!(
+grass_test!(
     exclamation_in_quoted_string,
     "$a: \"big bang!\";\n\na {\n  color: $a;\n}\n",
     "a {\n  color: \"big bang!\";\n}\n"
 );
-test!(
+grass_test!(
     flag_uses_escape_sequence,
     "$a: red;\n\na {\n  $a: green !\\67 lobal;\n}\n\na {\n  color: $a;\n}\n",
     "a {\n  color: green;\n}\n"
 );
-test!(
+grass_test!(
     not_equal_in_variable_decl,
     "$a: red != blue;\n\na {\n    color: $a;\n}\n",
     "a {\n  color: true;\n}\n"
 );
-test!(
+grass_test!(
     error_in_default_value_already_set_is_ignored,
     "$a: red;
 
@@ -147,12 +147,12 @@ test!(
     }",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     multiline_comments_everywhere,
     "  /**/  $a  /**/  :  /**/  red  /**/  ;  /**/  ",
     "/**/\n/**/\n"
 );
-test!(
+grass_test!(
     default_var_overrides_when_null_declared_global,
     "$a: null;
     $a: red !default;
@@ -162,7 +162,7 @@ test!(
     }",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     default_var_overrides_when_null_declared_local,
     "a {
         $a: null;
@@ -172,7 +172,7 @@ test!(
     }",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     default_var_overrides_when_null_declared_local_with_global_flags,
     "a {
         $a: null !global;
@@ -182,7 +182,7 @@ test!(
     }",
     "a {\n  color: red;\n}\n"
 );
-test!(
+grass_test!(
     default_at_root_inside_control_flow,
     "$a: initial;
 
@@ -195,7 +195,7 @@ test!(
     }",
     "a {\n  color: initial;\n}\n"
 );
-test!(
+grass_test!(
     default_at_root_inside_control_flow_outer_is_null,
     "$a: null;
 
@@ -208,7 +208,7 @@ test!(
     }",
     "a {\n  color: outer;\n}\n"
 );
-test!(
+grass_test!(
     variable_declared_at_root_inside_if,
     "@if true {
         $a: outer;
@@ -219,7 +219,7 @@ test!(
     }",
     "a {\n  color: false;\n}\n"
 );
-test!(
+grass_test!(
     variable_declared_at_root_inside_if_default,
     "@if true {
         $a: outer !default;
@@ -230,7 +230,7 @@ test!(
     }",
     "a {\n  color: false;\n}\n"
 );
-test!(
+grass_test!(
     variable_declared_at_root_inside_if_global,
     "@if true {
         $a: outer !global;
@@ -241,7 +241,7 @@ test!(
     }",
     "a {\n  color: true;\n}\n"
 );
-test!(
+grass_test!(
     variable_declared_at_root_and_globally_inside_if_default,
     "$a: null;
 
@@ -259,7 +259,7 @@ test!(
     }",
     "a {\n  color: outer;\n}\n\na {\n  color: outer;\n}\n"
 );
-test!(
+grass_test!(
     global_inside_style_inside_control_flow_declared_outer,
     "$y: a;
 
@@ -274,7 +274,7 @@ test!(
     }",
     "a {\n  color: b;\n}\n"
 );
-test!(
+grass_test!(
     inside_style_inside_control_flow_declared_outer,
     "$y: a;
 
@@ -289,7 +289,7 @@ test!(
     }",
     "a {\n  color: c;\n}\n"
 );
-test!(
+grass_test!(
     inside_style_inside_control_flow_declared_outer_global_comes_prior,
     "$a: a;
 
@@ -307,7 +307,7 @@ test!(
     "a {\n  color: b;\n  color: e;\n}\n"
 );
 // https://github.com/Kixiron/lasso/issues/7
-test!(
+grass_test!(
     regression_test_for_lasso_0_3_0,
     "$a: foo;
     $b: foo;
@@ -374,34 +374,41 @@ test!(
     ",
     "a {\n  color: #fff;\n}\n"
 );
-error!(ends_with_bang, "$a: red !;", "Error: Expected identifier.");
-error!(unknown_flag, "$a: red !foo;", "Error: Invalid flag name.");
-error!(
+grass_error!(ends_with_bang, "$a: red !;", "Error: Expected identifier.");
+grass_error!(unknown_flag, "$a: red !foo;", "Error: Invalid flag name.");
+grass_error!(
     flag_in_middle_of_value,
-    "$a: a !default b;", "Error: expected \";\"."
+    "$a: a !default b;",
+    "Error: expected \";\"."
 );
 // note: dart-sass expects !important
-error!(
+grass_error!(
     no_value_only_flag,
-    "$a: !default;", "Error: Expected expression."
+    "$a: !default;",
+    "Error: Expected expression."
 );
-error!(
+grass_error!(
     uppercase_flag,
-    "$a: 1 !GLOBAL;", "Error: Invalid flag name."
+    "$a: 1 !GLOBAL;",
+    "Error: Invalid flag name."
 );
-error!(
+grass_error!(
     undefined_variable,
-    "a {color: $a;}", "Error: Undefined variable."
+    "a {color: $a;}",
+    "Error: Undefined variable."
 );
-error!(
+grass_error!(
     invalid_escape,
-    "$\\110000: red;", "Error: Invalid escape sequence."
+    "$\\110000: red;",
+    "Error: Invalid escape sequence."
 );
-error!(
+grass_error!(
     nothing_after_hash_in_variable_decl,
-    "$color: #", "Error: Expected identifier."
+    "$color: #",
+    "Error: Expected identifier."
 );
-error!(
+grass_error!(
     only_semicolon_after_hash_in_variable_decl,
-    "$color: #;", "Error: Expected identifier."
+    "$color: #;",
+    "Error: Expected identifier."
 );

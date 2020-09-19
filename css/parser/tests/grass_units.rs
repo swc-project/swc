@@ -1,184 +1,188 @@
 #[macro_use]
 mod grass_macros;
 
-test!(unit_none, "a {\n  height: 1;\n}\n");
-test!(unit_not_attached, "a {\n  height: 1 px;\n}\n");
-test!(unit_px, "a {\n  height: 1px;\n}\n");
-test!(unit_em, "a {\n  height: 1em;\n}\n");
-test!(unit_rem, "a {\n  height: 1rem;\n}\n");
-test!(unit_percent, "a {\n  height: 1%;\n}\n");
-test!(
+grass_test!(unit_none, "a {\n  height: 1;\n}\n");
+grass_test!(unit_not_attached, "a {\n  height: 1 px;\n}\n");
+grass_test!(unit_px, "a {\n  height: 1px;\n}\n");
+grass_test!(unit_em, "a {\n  height: 1em;\n}\n");
+grass_test!(unit_rem, "a {\n  height: 1rem;\n}\n");
+grass_test!(unit_percent, "a {\n  height: 1%;\n}\n");
+grass_test!(
     unit_times_none,
     "a {\n  color: 3px * 2;\n}\n",
     "a {\n  color: 6px;\n}\n"
 );
-test!(
+grass_test!(
     none_times_unit,
     "a {\n  color: 2 * 3px;\n}\n",
     "a {\n  color: 6px;\n}\n"
 );
-test!(
+grass_test!(
     unit_fn_unit_times_none,
     "a {\n  color: unit(1px * 1);\n}\n",
     "a {\n  color: \"px\";\n}\n"
 );
-test!(
+grass_test!(
     unit_fn_none_times_unit,
     "a {\n  color: unit(1 * 1px);\n}\n",
     "a {\n  color: \"px\";\n}\n"
 );
-test!(
+grass_test!(
     unit_fn_unit_times_unit,
     "a {\n  color: unit(1px*1px);\n}\n",
     "a {\n  color: \"px*px\";\n}\n"
 );
-test!(
+grass_test!(
     unit_fn_unit_times_unit_times_unit,
     "a {\n  color: unit(1px * 1rad * 1em);\n}\n",
     "a {\n  color: \"px*rad*em\";\n}\n"
 );
-test!(
+grass_test!(
     unit_none_times_none_times_none,
     "a {\n  color: 1 * 1 * 1;\n}\n",
     "a {\n  color: 1;\n}\n"
 );
-test!(
+grass_test!(
     unit_plus_none,
     "a {\n  color: 10px + 10;\n}\n",
     "a {\n  color: 20px;\n}\n"
 );
-test!(
+grass_test!(
     none_plus_unit,
     "a {\n  color: 10 + 10px;\n}\n",
     "a {\n  color: 20px;\n}\n"
 );
-test!(
+grass_test!(
     unit_minus_none,
     "a {\n  color: 10px - 10;\n}\n",
     "a {\n  color: 0px;\n}\n"
 );
-test!(
+grass_test!(
     none_minus_unit,
     "a {\n  color: 10 - 10px;\n}\n",
     "a {\n  color: 0px;\n}\n"
 );
-test!(
+grass_test!(
     percent_plus_none,
     "a {\n  color: 10% + 10;\n}\n",
     "a {\n  color: 20%;\n}\n"
 );
-test!(
+grass_test!(
     unit_no_hyphen,
     "a {\n  color: 1px-2px;\n}\n",
     "a {\n  color: -1px;\n}\n"
 );
-test!(
+grass_test!(
     unit_starts_with_escape_sequence,
     "a {\n  color: 1\\9;\n}\n",
     "a {\n  color: 1\\9 ;\n}\n"
 );
-test!(
+grass_test!(
     unit_fn_starts_with_escape_sequence,
     "a {\n  color: unit(1\\9);\n}\n",
     "a {\n  color: \"\\\\9 \";\n}\n"
 );
-test!(
+grass_test!(
     non_ascii_numeric_interpreted_as_unit,
     "a {\n  color: 2߄;\n}\n",
     "@charset \"UTF-8\";\na {\n  color: 2߄;\n}\n"
 );
-test!(
+grass_test!(
     unit_div_same,
     "a {\n  color: unit(1em / 1em);\n}\n",
     "a {\n  color: \"\";\n}\n"
 );
-test!(
+grass_test!(
     unit_div_first_none,
     "a {\n  color: unit(1 / 1em);\n}\n",
     "a {\n  color: \"em^-1\";\n}\n"
 );
-test!(
+grass_test!(
     unit_div_second_none,
     "a {\n  color: unit(1em / 1);\n}\n",
     "a {\n  color: \"em\";\n}\n"
 );
-test!(
+grass_test!(
     unit_div_comparable,
     "a {\n  color: unit(1in / 1px);\n  color: (1in / 1px);\n}\n",
     "a {\n  color: \"\";\n  color: 96;\n}\n"
 );
-test!(
+grass_test!(
     unit_mul_times_mul,
     "a {\n  color: unit((1em * 1px) * (1em * 1px));\n}\n",
     "a {\n  color: \"em*px*em*px\";\n}\n"
 );
-test!(
+grass_test!(
     unit_single_times_mul,
     "a {\n  color: unit(1in * (1em * 1px));\n}\n",
     "a {\n  color: \"in*em*px\";\n}\n"
 );
-test!(
+grass_test!(
     unit_div_lhs_mul_uncomparable,
     "a {\n  color: unit((1 / 1in) * 1em);\n}\n",
     "a {\n  color: \"em/in\";\n}\n"
 );
-test!(
+grass_test!(
     unit_div_lhs_mul_same,
     "a {\n  color: unit((1 / 1in) * 1in);\n}\n",
     "a {\n  color: \"\";\n}\n"
 );
-test!(
+grass_test!(
     unit_begins_with_single_hyphen,
     "a {\n  color: unit(1-em);\n}\n",
     "a {\n  color: \"-em\";\n}\n"
 );
-test!(
+grass_test!(
     unit_begins_with_two_hyphens,
     "a {\n  color: 1--em;\n}\n",
     "a {\n  color: 1 --em;\n}\n"
 );
-test!(
+grass_test!(
     unit_begins_with_escape_sequence,
     "a {\n  color: unit(1\\65);\n}\n",
     "a {\n  color: \"e\";\n}\n"
 );
-test!(
+grass_test!(
     unit_begins_with_escape_sequence_followed_by_space_and_hyphen,
     "a {\n  color: unit(1\\65 -);\n}\n",
     "a {\n  color: \"e-\";\n}\n"
 );
-test!(
+grass_test!(
     unit_begins_with_single_hyphen_followed_by_escape_sequence,
     "a {\n  color: unit(1-\\65);\n}\n",
     "a {\n  color: \"-e\";\n}\n"
 );
-error!(
+grass_error!(
     display_single_div_with_none_numerator,
-    "a {\n  color: (1 / 1em);\n}\n", "Error: 1em^-1 isn't a valid CSS value."
+    "a {\n  color: (1 / 1em);\n}\n",
+    "Error: 1em^-1 isn't a valid CSS value."
 );
-error!(
+grass_error!(
     #[ignore = "non-comparable inverse units"]
     display_single_div_with_non_comparable_numerator,
-    "a {\n  color: (1px / 1em);\n}\n", "Error: 1px/em isn't a valid CSS value."
+    "a {\n  color: (1px / 1em);\n}\n",
+    "Error: 1px/em isn't a valid CSS value."
 );
-error!(
+grass_error!(
     display_single_mul,
-    "a {\n  color: 1rem * 1px;\n}\n", "Error: 1rem*px isn't a valid CSS value."
+    "a {\n  color: 1rem * 1px;\n}\n",
+    "Error: 1rem*px isn't a valid CSS value."
 );
-error!(
+grass_error!(
     display_arbitrary_mul,
     "a {\n  color: 1rem * 1px * 1rad * 1foo;\n}\n",
     "Error: 1rem*px*rad*foo isn't a valid CSS value."
 );
-error!(
+grass_error!(
     display_single_div_with_none_numerator_percent,
-    "a {\n  color: (35 / 7%);\n}\n", "Error: 5%^-1 isn't a valid CSS value."
+    "a {\n  color: (35 / 7%);\n}\n",
+    "Error: 5%^-1 isn't a valid CSS value."
 );
 
 macro_rules! test_unit_addition {
     ($u1:ident, $u2:ident, $out:literal) => {
         paste::item!(
-            test!(
+            grass_test!(
                 [<$u1 _plus_ $u2>],
                 concat!("a {\n  color: 1", stringify!($u1), " + 1", stringify!($u2), ";\n}\n"),
                 format!("a {{\n  color: {}{};\n}}\n", $out, stringify!($u1))

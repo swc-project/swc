@@ -4,7 +4,7 @@
 #[macro_use]
 mod grass_macros;
 
-test!(
+grass_test!(
     /// https://github.com/kaj/rsass/issues/41
     issue_41,
     "@function str-replace($string, $search, $replace: \"\") {

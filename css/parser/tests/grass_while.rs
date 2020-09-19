@@ -1,36 +1,37 @@
 #[macro_use]
 mod grass_macros;
 
-test!(
+grass_test!(
     inner_increment_var,
     "$a: 4;\n$b: 1;\na {\n  @while $a > $b {\n    color: $b;\n    $b: $b + 1;\n  }\n}",
     "a {\n  color: 1;\n  color: 2;\n  color: 3;\n}\n"
 );
-test!(
+grass_test!(
     outer_increment_var,
     "$a: 4;\n$b: 1;\n@while $a > $b {\na {\n    color: $b;\n  }\n  $b: $b + 1;\n}",
     "a {\n  color: 1;\n}\n\na {\n  color: 2;\n}\n\na {\n  color: 3;\n}\n"
 );
-test!(
+grass_test!(
     inner_while_false,
     "a {\n  @while false {\n    color: foo;\n  }\n}",
     ""
 );
-test!(
+grass_test!(
     outer_while_false,
     "@while false {\na {\n    color: $b;\n  }\n  $b: $b + 1;\n}",
     ""
 );
-error!(
+grass_error!(
     while_empty_condition,
-    "@while {}", "Error: Expected expression."
+    "@while {}",
+    "Error: Expected expression."
 );
-test!(
+grass_test!(
     early_return_in_function,
     "@function bar() {\n  @while (true) {\n    @return true;\n  }\n}\n\na {\n  color: bar();\n}\n",
     "a {\n  color: true;\n}\n"
 );
-test!(
+grass_test!(
     nested_while_at_root_scope,
     "$continue_inner: true;\n$continue_outer: true;\n\n@while $continue_outer {\n  @while \
      $continue_inner {\n    $continue_inner: false;\n  }\n\n  $continue_outer: \
@@ -38,14 +39,14 @@ test!(
      $continue_inner;\n}\n",
     "result {\n  continue_outer: false;\n  continue_inner: false;\n}\n"
 );
-test!(
+grass_test!(
     nested_while_not_at_root_scope,
     "$continue_inner: true;\n$continue_outer: true;\n\nresult {\n  @while $continue_outer {\n    \
      @while $continue_inner {\n      $continue_inner: false;\n    }\n\n    $continue_outer: \
      false;\n  }\n\n  continue_outer: $continue_outer;\n  continue_inner: $continue_inner;\n}\n",
     "result {\n  continue_outer: true;\n  continue_inner: true;\n}\n"
 );
-test!(
+grass_test!(
     local_scope_at_root,
     "$continue_inner: true;
     $continue_outer: true;
@@ -80,7 +81,7 @@ test!(
     }",
     "result {\n  local_explicit: inner;\n}\n"
 );
-test!(
+grass_test!(
     global_scope_at_root,
     "$continue_inner: true;
     $continue_outer: true;
@@ -110,7 +111,7 @@ test!(
     }",
     "result {\n  root_default: initial;\n  root_implicit: inner;\n  root_explicit: inner;\n}\n"
 );
-test!(
+grass_test!(
     if_inside_while,
     "$continue_outer: true;
     @while $continue_outer {
@@ -128,12 +129,13 @@ test!(
     }",
     "a {\n  color: red;\n}\n\na {\n  color: blue;\n}\n"
 );
-test!(
+grass_test!(
     multiline_comments_everywhere,
     "  /**/  @while  /**/  false  /**/  {}  /**/  ",
     "/**/\n/**/\n"
 );
-error!(
+grass_error!(
     missing_closing_curly_brace,
-    "@while true {", "Error: expected \"}\"."
+    "@while true {",
+    "Error: expected \"}\"."
 );

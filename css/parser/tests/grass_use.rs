@@ -3,46 +3,54 @@ use std::io::Write;
 #[macro_use]
 mod grass_macros;
 
-error!(
+grass_error!(
     after_style,
     "a {}
     @use \"foo\";
     ",
     "Error: @use rules must be written before any other rules."
 );
-error!(
+grass_error!(
     interpolation_in_as_identifier,
-    "@use \"sass:math\" as m#{a}th;", "Error: expected \";\"."
+    "@use \"sass:math\" as m#{a}th;",
+    "Error: expected \";\"."
 );
-error!(
+grass_error!(
     use_as_quoted_string,
-    "@use \"sass:math\" as \"math\";", "Error: Expected identifier."
+    "@use \"sass:math\" as \"math\";",
+    "Error: Expected identifier."
 );
-error!(
+grass_error!(
     use_as_missing_s,
-    "@use \"sass:math\" a math;", "Error: expected \";\"."
+    "@use \"sass:math\" a math;",
+    "Error: expected \";\"."
 );
-error!(
+grass_error!(
     unknown_module_get_variable,
-    "a { color: foo.$bar; }", "Error: There is no module with the namespace \"foo\"."
+    "a { color: foo.$bar; }",
+    "Error: There is no module with the namespace \"foo\"."
 );
-error!(
+grass_error!(
     unknown_module_get_function,
-    "a { color: foo.bar(); }", "Error: There is no module with the namespace \"foo\"."
+    "a { color: foo.bar(); }",
+    "Error: There is no module with the namespace \"foo\"."
 );
-error!(
+grass_error!(
     unknown_function,
-    "@use \"sass:math\";\na { color: math.bar(); }", "Error: Undefined function."
+    "@use \"sass:math\";\na { color: math.bar(); }",
+    "Error: Undefined function."
 );
-error!(
+grass_error!(
     module_function_missing_open_parens,
-    "@use \"sass:math\";\na { color: math.floor; }", "Error: expected \"(\"."
+    "@use \"sass:math\";\na { color: math.floor; }",
+    "Error: expected \"(\"."
 );
-error!(
+grass_error!(
     module_not_quoted_string,
-    "@use a", "Error: Expected string."
+    "@use a",
+    "Error: Expected string."
 );
-test!(
+grass_test!(
     use_as,
     "@use \"sass:math\" as foo;
     a {
@@ -50,7 +58,7 @@ test!(
     }",
     "a {\n  color: 1;\n}\n"
 );
-test!(
+grass_test!(
     use_as_uppercase,
     "@use \"sass:math\" AS foo;
     a {
@@ -58,7 +66,7 @@ test!(
     }",
     "a {\n  color: 1;\n}\n"
 );
-test!(
+grass_test!(
     use_as_universal,
     "@use \"sass:math\" as *;
     a {

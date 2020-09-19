@@ -1,7 +1,7 @@
 #[macro_use]
 mod grass_macros;
 
-test!(
+grass_test!(
     style_following,
     "@supports (a: b) {
         a {

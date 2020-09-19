@@ -1,21 +1,22 @@
 #[macro_use]
 mod grass_macros;
 
-test!(
+grass_test!(
     basic_toplevel,
     "@media foo {\n  a {\n    color: red;\n  }\n}\n"
 );
-error!(
+grass_error!(
     no_params,
-    "@media {\n  a {\n    color: red;\n  }\n}\n", "Error: Expected identifier."
+    "@media {\n  a {\n    color: red;\n  }\n}\n",
+    "Error: Expected identifier."
 );
-test!(
+grass_test!(
     basic_nested,
     "a {\n  @media foo {\n  color: red;\n  }\n}\n",
     "@media foo {\n  a {\n    color: red;\n  }\n}\n"
 );
-test!(empty_body, "@media (min-width: 2px) {}", "");
-test!(
+grass_test!(empty_body, "@media (min-width: 2px) {}", "");
+grass_test!(
     newlines_are_not_emitted_for_child_styles,
     "a {
         @media screen {
@@ -29,7 +30,7 @@ test!(
     }",
     "@media screen {\n  a b {\n    color: red;\n  }\n  a c {\n    color: green;\n  }\n}\n"
 );
-test!(
+grass_test!(
     multiple_identifiers_in_query,
     "@media not screen {
         a {
@@ -38,7 +39,7 @@ test!(
     }",
     "@media not screen {\n  a {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     multiple_identifiers_in_query_second_is_and,
     "@media print and (foo: 1 2 3) {
         a {
@@ -47,12 +48,12 @@ test!(
     }",
     "@media print and (foo: 1 2 3) {\n  a {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     single_identifier_inside_parens,
     "@media (color) {a {color: red;}}",
     "@media (color) {\n  a {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     quoted_colon_in_parens,
     "@media screen and (\":\") {
         a {
@@ -61,7 +62,7 @@ test!(
     }",
     "@media screen and (:) {\n  a {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     multiline_comments_everywhere,
     "@media/**/foo/**/and/**/(/**/bar/**/)/**/{
         a {
@@ -70,7 +71,7 @@ test!(
     }",
     "@media foo and (bar) {\n  a {\n    color: red;\n  }\n}\n"
 );
-test!(
+grass_test!(
     comparison_in_query,
     "@media (100px < 400px) {
         a {
@@ -79,7 +80,7 @@ test!(
     }",
     "@media (100px < 400px) {\n  a {\n    interpolation: in-parens;\n  }\n}\n"
 );
-test!(
+grass_test!(
     interpolated_comparison_in_query,
     "@media (#{100px < 400px}) {
         a {
@@ -88,7 +89,7 @@ test!(
     }",
     "@media (true) {\n  a {\n    interpolation: in-parens;\n  }\n}\n"
 );
-test!(
+grass_test!(
     single_eq_in_query,
     "@media (height=600px) {
         a {
@@ -98,7 +99,7 @@ test!(
     ",
     "@media (height = 600px) {\n  a {\n    b: c;\n  }\n}\n"
 );
-test!(
+grass_test!(
     double_eq_in_query,
     "@media (height==600px) {
         a {
@@ -108,11 +109,13 @@ test!(
     ",
     "@media (false) {\n  a {\n    b: c;\n  }\n}\n"
 );
-error!(
+grass_error!(
     media_feature_missing_closing_paren,
-    "@media foo and (bar:a", "Error: expected \")\"."
+    "@media foo and (bar:a",
+    "Error: expected \")\"."
 );
-error!(
+grass_error!(
     media_feature_missing_curly_brace_after_hash,
-    "@media foo and # {}", "Error: expected \"{\"."
+    "@media foo and # {}",
+    "Error: expected \"{\"."
 );
