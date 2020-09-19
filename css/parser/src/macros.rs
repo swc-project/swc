@@ -48,7 +48,7 @@ macro_rules! tok {
         crate::token::Token::Eq
     };
     ("$=") => {
-        crate::token::Token::Eq
+        crate::token::Token::DollarEq
     };
     ("*=") => {
         crate::token::Token::MulEq
@@ -134,6 +134,21 @@ macro_rules! eat {
 
 macro_rules! trace_cur {
     ($parser:expr, $name:ident) => {{
-        eprintln!("{}: {:?}", stringify!($name), cur!($parser));
+        // eprintln!("{}: {:?}", stringify!($name), cur!($parser));
+    }};
+}
+
+/// Return an error
+macro_rules! expected_one_of {
+    ($parser:expr, $($t:tt),*) => {{
+        Err(crate::error::Error {
+            inner: Box::new((
+                $parser.i.span(),
+                crate::error::SyntaxError::Expected {
+                    expected: concat!( $($t, )* ).to_string(),
+                    got: format!("{:?}", cur!($parser)),
+                },
+            )),
+        })?
     }};
 }

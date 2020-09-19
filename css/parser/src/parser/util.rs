@@ -105,6 +105,12 @@ fn as_word(t: Token, s: &str) -> Option<JsWord> {
         | Token::Plus
         | Token::Minus
         | Token::Dot
+        | Token::Eq
+        | Token::DollarEq
+        | Token::MulEq
+        | Token::XorEq
+        | Token::OrEq
+        | Token::TildeEq
         | Token::BangImportant => None,
 
         // TODO: Optimize using js_word

@@ -121,7 +121,35 @@ impl Parser<'_> {
 
     fn parse_attribute_selector(&mut self) -> PResult<AttributeSelector> {
         trace_cur!(self, parse_attribute_selector);
+        debug_assert_eq!(self.i.cur(), Some(tok!("[")));
+        let start = self.i.cur_pos();
+        self.i.bump(); // '['
 
-        unimplemented!("parse_attribute_selector")
+        let name = self.parse_word()?;
+
+        let op = self.parse_attribute_selector_operator()?;
+        let value = self.parse_word()?;
+
+        Ok(AttributeSelector {
+            span: self.i.make_span(start),
+            attr: name,
+            value,
+            // TODO: Fix this
+            modifier: None,
+            op,
+        })
+    }
+
+    fn parse_attribute_selector_operator(&mut self) -> PResult<AttributeOp> {
+        Ok(match cur!(self) {
+            tok!("]") => AttributeOp::Any,
+            tok!("=") => AttributeOp::Equals,
+            tok!("~=") => AttributeOp::Include,
+            tok!("|=") => AttributeOp::Dash,
+            tok!("^=") => AttributeOp::Prefix,
+            tok!("$=") => AttributeOp::Suffix,
+            tok!("*=") => AttributeOp::Contains,
+            _ => expected_one_of!(self, "]", "=", "~=", "|=", "^=", "$=", "*="),
+        })
     }
 }

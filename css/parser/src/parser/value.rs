@@ -12,7 +12,7 @@ impl Parser<'_> {
             None => {}
         }
 
-        match self.i.cur().unwrap() {
+        match cur!(self) {
             Token::Str => self.parse_str().map(Value::Str),
 
             Token::Error
@@ -28,6 +28,12 @@ impl Parser<'_> {
             | Token::LBracket
             | Token::RBracket
             | Token::Lt
+            | Token::Eq
+            | Token::DollarEq
+            | Token::MulEq
+            | Token::XorEq
+            | Token::OrEq
+            | Token::TildeEq
             | Token::Gt
             | Token::BangImportant => {
                 let got = format!("{:?}", self.i.cur().unwrap());
