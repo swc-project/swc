@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     type_is_string,
@@ -38,7 +38,8 @@ error!(
 );
 test!(
     evalutes_variables,
-    "a {\n  $primary: #f2ece4;\n  $accent: #e1d7d2;\n  color: radial-gradient($primary, $accent);\n}\n",
+    "a {\n  $primary: #f2ece4;\n  $accent: #e1d7d2;\n  color: radial-gradient($primary, \
+     $accent);\n}\n",
     "a {\n  color: radial-gradient(#f2ece4, #e1d7d2);\n}\n"
 );
 test!(

@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     splat_list_two_elements,

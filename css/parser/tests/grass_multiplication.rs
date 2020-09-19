@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 error!(
     map_lhs_mul,

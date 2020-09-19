@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     undefined_function_call_is_ident_adds,

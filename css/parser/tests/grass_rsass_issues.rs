@@ -2,7 +2,7 @@
 //! https://github.com/kaj/rsass/issues?q=is%3Aissue
 
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     /// https://github.com/kaj/rsass/issues/41
@@ -11,7 +11,8 @@ test!(
       $index: str-index($string, $search);
     
       @if $index {
-        @return str-slice($string, 1, $index - 1)+$replace+str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+        @return str-slice($string, 1, $index - 1)+$replace+str-replace(str-slice($string, $index + \
+     str-length($search)), $search, $replace);
       }
     
       @return $index;

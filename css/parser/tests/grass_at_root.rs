@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     simple_nested,
@@ -23,7 +23,8 @@ test!(
 );
 test!(
     nested_with_super_selector,
-    ".foo {\n  @at-root & {\n    .bar {\n      @at-root & {\n        a: b;\n      }\n    }\n  }\n}\n",
+    ".foo {\n  @at-root & {\n    .bar {\n      @at-root & {\n        a: b;\n      }\n    }\n  \
+     }\n}\n",
     ".foo .bar {\n  a: b;\n}\n"
 );
 test!(
@@ -38,12 +39,14 @@ test!(
 );
 test!(
     interpolated_super_selector_with_nothing,
-    "test {\n  @at-root {\n    #{&}post {\n      foo {\n        bar: baz;\n      }\n    }\n  }\n}\n",
+    "test {\n  @at-root {\n    #{&}post {\n      foo {\n        bar: baz;\n      }\n    }\n  \
+     }\n}\n",
     "testpost foo {\n  bar: baz;\n}\n"
 );
 test!(
     with_ampersand_single,
-    "test {\n  @at-root {\n    #{&}post {\n      foo {\n        bar: baz;\n      }\n    }\n  }\n}\n",
+    "test {\n  @at-root {\n    #{&}post {\n      foo {\n        bar: baz;\n      }\n    }\n  \
+     }\n}\n",
     "testpost foo {\n  bar: baz;\n}\n"
 );
 test!(

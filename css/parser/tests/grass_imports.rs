@@ -1,7 +1,7 @@
 use std::io::Write;
 
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 #[test]
 fn imports_variable() {
@@ -42,7 +42,8 @@ fn single_quotes_import() {
 
 #[test]
 fn comma_separated_import() {
-    let input = "@import 'comma_separated_import_first', 'comma_separated_import_second';\na {\n color: $a;\n}";
+    let input = "@import 'comma_separated_import_first', 'comma_separated_import_second';\na {\n \
+                 color: $a;\n}";
     tempfile!("comma_separated_import_first", "$a: red;");
     tempfile!("comma_separated_import_second", "p { color: blue; }");
     assert_eq!(
@@ -65,20 +66,21 @@ fn comma_separated_import_order() {
 
 #[test]
 fn comma_separated_import_order_css() {
-    let input =
-        "@import 'comma_separated_import_order1.css', 'comma_separated_import_order_css', url(third);";
+    let input = "@import 'comma_separated_import_order1.css', 'comma_separated_import_order_css', \
+                 url(third);";
     tempfile!("comma_separated_import_order1.css", "p { color: red; }");
     tempfile!("comma_separated_import_order_css", "p { color: blue; }");
     assert_eq!(
-        "@import \"comma_separated_import_order1.css\";\n\np {\n  color: blue;\n}\n@import url(third);\n",
+        "@import \"comma_separated_import_order1.css\";\n\np {\n  color: blue;\n}\n@import \
+         url(third);\n",
         &grass::from_string(input.to_string(), &grass::Options::default()).expect(input)
     );
 }
 
 #[test]
 fn comma_separated_import_trailing() {
-    let input =
-        "@import 'comma_separated_import_trailing1', 'comma_separated_import_trailing2', url(third),,,,,,,,;";
+    let input = "@import 'comma_separated_import_trailing1', 'comma_separated_import_trailing2', \
+                 url(third),,,,,,,,;";
     tempfile!("comma_separated_import_trailing1", "p { color: red; }");
     tempfile!("comma_separated_import_trailing2", "p { color: blue; }");
 

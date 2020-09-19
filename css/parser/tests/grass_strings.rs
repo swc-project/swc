@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     uppercase_ident,
@@ -91,12 +91,14 @@ test!(
 );
 test!(
     str_slice_bigger_than_usize_max,
-    "a {\n  color: str-slice($string: \"foo\", $start-at: -99999999999999999999, $end-at: 99999999999999999999);\n}\n",
+    "a {\n  color: str-slice($string: \"foo\", $start-at: -99999999999999999999, $end-at: \
+     99999999999999999999);\n}\n",
     "a {\n  color: \"foo\";\n}\n"
 );
 test!(
     str_slice_positive_index_bigger_than_usize_max,
-    "a {\n  color: str-slice($string: \"foo\", $start-at: 99999999999999999999, $end-at: -99999999999999999999);\n}\n",
+    "a {\n  color: str-slice($string: \"foo\", $start-at: 99999999999999999999, $end-at: \
+     -99999999999999999999);\n}\n",
     "a {\n  color: \"\";\n}\n"
 );
 test!(
@@ -226,12 +228,14 @@ test!(
 );
 test!(
     str_insert_positive_index_bigger_than_usize_max,
-    "a {\n  color: str-insert($string: \"foo\", $insert: \"X\", $index: 99999999999999999999);\n}\n",
+    "a {\n  color: str-insert($string: \"foo\", $insert: \"X\", $index: \
+     99999999999999999999);\n}\n",
     "a {\n  color: \"fooX\";\n}\n"
 );
 test!(
     str_insert_negative_index_bigger_than_usize_max,
-    "a {\n  color: str-insert($string: \"foo\", $insert: \"X\", $index: -99999999999999999999);\n}\n",
+    "a {\n  color: str-insert($string: \"foo\", $insert: \"X\", $index: \
+     -99999999999999999999);\n}\n",
     "a {\n  color: \"Xfoo\";\n}\n"
 );
 test!(hash_in_string, "a {\n  color: \"#foo\";\n}\n");

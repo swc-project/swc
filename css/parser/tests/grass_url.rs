@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     arithmetic_both_space,
@@ -57,7 +57,8 @@ test!(
 );
 test!(
     user_defined_function,
-    "$file-1x: \"budge.png\";\n@function fudge($str) {\n  @return \"assets/fudge/\"+$str;\n}\n\na {\n  color: url(fudge(\"#{$file-1x}\"));\n}\n",
+    "$file-1x: \"budge.png\";\n@function fudge($str) {\n  @return \"assets/fudge/\"+$str;\n}\n\na \
+     {\n  color: url(fudge(\"#{$file-1x}\"));\n}\n",
     "a {\n  color: url(\"assets/fudge/budge.png\");\n}\n"
 );
 test!(
@@ -109,7 +110,8 @@ test!(
 test!(url_dot_dot, "a {\n  color: url(../foo/bar/..baz/);\n}\n");
 test!(
     silent_comment_in_interpolation,
-    "$roboto-font-path: \"../fonts/roboto\";\n\na {\n  color: url(#{//}\n  $roboto-font-path});\n}\n",
+    "$roboto-font-path: \"../fonts/roboto\";\n\na {\n  color: url(#{//}\n  \
+     $roboto-font-path});\n}\n",
     "a {\n  color: url(../fonts/roboto);\n}\n"
 );
 test!(

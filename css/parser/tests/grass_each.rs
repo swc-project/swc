@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     each_space_separated_inner,
@@ -78,7 +78,8 @@ test!(
 // todo: newlines are not correct
 test!(
     multiline_comments_everywhere,
-    "  /**/  @each  /**/  $a  /**/  ,  /**/  $b  /**/  in  /**/  (  /**/  a  /**/  ,  /**/  b  /**/  )  /**/  {  /**/  
+    "  /**/  @each  /**/  $a  /**/  ,  /**/  $b  /**/  in  /**/  (  /**/  a  /**/  ,  /**/  b  \
+     /**/  )  /**/  {  /**/  
         a {
             color: $a;
             color: $b;

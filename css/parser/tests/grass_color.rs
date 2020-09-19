@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(preserves_named_color_case, "a {\n  color: OrAnGe;\n}\n");
 test!(
@@ -512,7 +512,8 @@ test!(
   foo: rgb(200, 150%, 170%);
 }
 ",
-    "p {\n  color: #ff8000;\n  color: red green blue;\n  color: red green blue;\n  color: redhux;\n  color: redgreen;\n  foo: #c8ffff;\n}\n"
+    "p {\n  color: #ff8000;\n  color: red green blue;\n  color: red green blue;\n  color: \
+     redhux;\n  color: redgreen;\n  foo: #c8ffff;\n}\n"
 );
 test!(
     sass_spec__spec_colors_change_color,
@@ -523,7 +524,8 @@ test!(
   color: change-color(hsl(25, 100%, 80%), $lightness: 40%, $alpha: 0.8);
 }
 ",
-    "p {\n  color: #102005;\n  color: rgba(16, 32, 48, 0.325);\n  color: #782005;\n  color: rgba(204, 85, 0, 0.8);\n}\n"
+    "p {\n  color: #102005;\n  color: rgba(16, 32, 48, 0.325);\n  color: #782005;\n  color: \
+     rgba(204, 85, 0, 0.8);\n}\n"
 );
 test!(
     transparent_from_function,

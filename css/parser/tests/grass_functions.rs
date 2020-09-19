@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     return_num,
@@ -63,7 +63,8 @@ test!(
 );
 test!(
     global_function_in_scope,
-    "@function f() {\n  @return g();\n}\n@function g() {\n  @return false;\n}\na {\n  color: f();\n  color: g();\n}\n",
+    "@function f() {\n  @return g();\n}\n@function g() {\n  @return false;\n}\na {\n  color: \
+     f();\n  color: g();\n}\n",
     "a {\n  color: false;\n  color: false;\n}\n"
 );
 test!(
@@ -78,7 +79,8 @@ test!(
 );
 test!(
     variable_declaration,
-    "@function str-replace($string, $search, $replace: \"\") {\n  $index: $string;\n  @return $index;\n}\n\na {\n  color: str-replace(\"a#b#c\", \"#\", \":\");\n}",
+    "@function str-replace($string, $search, $replace: \"\") {\n  $index: $string;\n  @return \
+     $index;\n}\n\na {\n  color: str-replace(\"a#b#c\", \"#\", \":\");\n}",
     "a {\n  color: \"a#b#c\";\n}\n"
 );
 error!(

@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 // this is `1` for node-sass, but .999999etc for web compiler
 test!(

@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     basic_mixin,
@@ -24,7 +24,8 @@ test!(
 );
 test!(
     mixin_two_rulesets,
-    "@mixin a {\n  b {\n    color: red;\n  }\n  c {\n    color: blue;\n  }\n}\nd {\n  @include a;\n}\n",
+    "@mixin a {\n  b {\n    color: red;\n  }\n  c {\n    color: blue;\n  }\n}\nd {\n  @include \
+     a;\n}\n",
     "d b {\n  color: red;\n}\nd c {\n  color: blue;\n}\n"
 );
 test!(
@@ -169,7 +170,8 @@ test!(
 );
 test!(
     include_list,
-    "@mixin foo($x) {\n  color: $x;\n}\na {\n  @include foo(0px 0px 0px 0px #ef8086 inset !important);\n}\n",
+    "@mixin foo($x) {\n  color: $x;\n}\na {\n  @include foo(0px 0px 0px 0px #ef8086 inset \
+     !important);\n}\n",
     "a {\n  color: 0px 0px 0px 0px #ef8086 inset !important;\n}\n"
 );
 test!(
@@ -189,12 +191,14 @@ test!(
 );
 test!(
     args_hyphen_arg_allows_underscore,
-    "@mixin foo($a-b) {\n  color: $a-b;\n  color: $a_b;\n}\na {\n  @include foo($a_b: a);\n  @include foo($a-b: a);\n}\n",
+    "@mixin foo($a-b) {\n  color: $a-b;\n  color: $a_b;\n}\na {\n  @include foo($a_b: a);\n  \
+     @include foo($a-b: a);\n}\n",
     "a {\n  color: a;\n  color: a;\n  color: a;\n  color: a;\n}\n"
 );
 test!(
     args_underscore_arg_allows_hyphen,
-    "@mixin foo($a_b) {\n  color: $a-b;\n  color: $a_b;\n}\na {\n  @include foo($a_b: a);\n  @include foo($a-b: a);\n}\n",
+    "@mixin foo($a_b) {\n  color: $a-b;\n  color: $a_b;\n}\na {\n  @include foo($a_b: a);\n  \
+     @include foo($a-b: a);\n}\n",
     "a {\n  color: a;\n  color: a;\n  color: a;\n  color: a;\n}\n"
 );
 test!(
@@ -209,17 +213,20 @@ test!(
 );
 test!(
     content_inside_unknown_at_rule,
-    "@mixin foo() {\n    @foo (max-width: max) {\n        @content;\n    }\n}\n\na {\n    @include foo {\n        color: red;\n    }\n}\n",
+    "@mixin foo() {\n    @foo (max-width: max) {\n        @content;\n    }\n}\n\na {\n    \
+     @include foo {\n        color: red;\n    }\n}\n",
     "@foo (max-width: max) {\n  a {\n    color: red;\n  }\n}\n"
 );
 test!(
     content_inside_media,
-    "@mixin foo() {\n    @media (max-width: max) {\n        @content;\n    }\n}\n\na {\n    @include foo {\n        color: red;\n    }\n}\n",
+    "@mixin foo() {\n    @media (max-width: max) {\n        @content;\n    }\n}\n\na {\n    \
+     @include foo {\n        color: red;\n    }\n}\n",
     "@media (max-width: max) {\n  a {\n    color: red;\n  }\n}\n"
 );
 error!(
     function_inside_mixin,
-    "@mixin foo() {\n    @function bar() {\n        @return foo;\n    }\n}\n\na {\n    @include foo {\n        color: red;\n    }\n}\n",
+    "@mixin foo() {\n    @function bar() {\n        @return foo;\n    }\n}\n\na {\n    @include \
+     foo {\n        color: red;\n    }\n}\n",
     "Error: Mixins may not contain function declarations."
 );
 error!(

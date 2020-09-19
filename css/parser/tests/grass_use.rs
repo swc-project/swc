@@ -1,7 +1,7 @@
 use std::io::Write;
 
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 error!(
     after_style,
@@ -69,7 +69,8 @@ test!(
 
 #[test]
 fn use_user_defined_same_directory() {
-    let input = "@use \"use_user_defined_same_directory\";\na {\n color: use_user_defined_same_directory.$a;\n}";
+    let input = "@use \"use_user_defined_same_directory\";\na {\n color: \
+                 use_user_defined_same_directory.$a;\n}";
     tempfile!(
         "use_user_defined_same_directory.scss",
         "$a: red; a { color: $a; }"
@@ -82,7 +83,8 @@ fn use_user_defined_same_directory() {
 
 #[test]
 fn private_variable_begins_with_underscore() {
-    let input = "@use \"private_variable_begins_with_underscore\" as module;\na {\n color: module.$_foo;\n}";
+    let input = "@use \"private_variable_begins_with_underscore\" as module;\na {\n color: \
+                 module.$_foo;\n}";
     tempfile!(
         "private_variable_begins_with_underscore.scss",
         "$_foo: red; a { color: $_foo; }"
@@ -178,7 +180,8 @@ fn use_idempotent_no_alias() {
 
 #[test]
 fn use_idempotent_with_alias() {
-    let input = "@use \"use_idempotent_with_alias__a\" as foo;\n@use \"use_idempotent_with_alias__b\" as foo;\n";
+    let input = "@use \"use_idempotent_with_alias__a\" as foo;\n@use \
+                 \"use_idempotent_with_alias__b\" as foo;\n";
     tempfile!("use_idempotent_with_alias__a.scss", "");
     tempfile!("use_idempotent_with_alias__b.scss", "");
 
@@ -220,7 +223,8 @@ fn use_as_with() {
 
 #[test]
 fn use_whitespace_and_comments() {
-    let input = "@use  /**/  \"use_whitespace_and_comments\"  /**/  as  /**/  foo  /**/  with  /**/  (  /**/  $a  /**/  :  /**/  red  /**/  )  /**/  ;";
+    let input = "@use  /**/  \"use_whitespace_and_comments\"  /**/  as  /**/  foo  /**/  with  \
+                 /**/  (  /**/  $a  /**/  :  /**/  red  /**/  )  /**/  ;";
     tempfile!(
         "use_whitespace_and_comments.scss",
         "$a: green !default; a { color: $a }"
@@ -293,7 +297,8 @@ fn use_variable_redeclaration_simple() {
 
 #[test]
 fn use_variable_redeclaration_default() {
-    let input = "@use \"use_variable_redeclaration_default\" as mod;\nmod.$a: 1 % red !default; a { color: mod.$a; }";
+    let input = "@use \"use_variable_redeclaration_default\" as mod;\nmod.$a: 1 % red !default; a \
+                 { color: mod.$a; }";
     tempfile!("use_variable_redeclaration_default.scss", "$a: green;");
 
     assert_eq!(

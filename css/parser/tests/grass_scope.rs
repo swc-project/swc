@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     scoping_var_decl_inner_ruleset,
@@ -13,7 +13,8 @@ test!(
 );
 test!(
     global_inserted_into_local_and_global_scopes,
-    "$foo: 42;\n\n.foo {\n  content: $foo;\n  $foo: 1337 !global;\n  content: $foo;\n}\n\n.bar {\n  content: $foo;\n}\n",
+    "$foo: 42;\n\n.foo {\n  content: $foo;\n  $foo: 1337 !global;\n  content: $foo;\n}\n\n.bar \
+     {\n  content: $foo;\n}\n",
     ".foo {\n  content: 42;\n  content: 1337;\n}\n\n.bar {\n  content: 1337;\n}\n"
 );
 test!(
@@ -57,7 +58,8 @@ test!(
         color: $a;
     }
     ",
-    "a {\n  color: orange;\n}\na b {\n  color: orange;\n}\na b c {\n  color: orange;\n}\na b c d {\n  color: orange;\n}\n"
+    "a {\n  color: orange;\n}\na b {\n  color: orange;\n}\na b c {\n  color: orange;\n}\na b c d \
+     {\n  color: orange;\n}\n"
 );
 test!(
     local_variable_exists_in_inner_fn_mixin_scope,

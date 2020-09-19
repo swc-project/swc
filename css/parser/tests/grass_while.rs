@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     inner_increment_var,
@@ -32,12 +32,17 @@ test!(
 );
 test!(
     nested_while_at_root_scope,
-    "$continue_inner: true;\n$continue_outer: true;\n\n@while $continue_outer {\n  @while $continue_inner {\n    $continue_inner: false;\n  }\n\n  $continue_outer: false;\n}\n\nresult {\n  continue_outer: $continue_outer;\n  continue_inner: $continue_inner;\n}\n",
+    "$continue_inner: true;\n$continue_outer: true;\n\n@while $continue_outer {\n  @while \
+     $continue_inner {\n    $continue_inner: false;\n  }\n\n  $continue_outer: \
+     false;\n}\n\nresult {\n  continue_outer: $continue_outer;\n  continue_inner: \
+     $continue_inner;\n}\n",
     "result {\n  continue_outer: false;\n  continue_inner: false;\n}\n"
 );
 test!(
     nested_while_not_at_root_scope,
-    "$continue_inner: true;\n$continue_outer: true;\n\nresult {\n  @while $continue_outer {\n    @while $continue_inner {\n      $continue_inner: false;\n    }\n\n    $continue_outer: false;\n  }\n\n  continue_outer: $continue_outer;\n  continue_inner: $continue_inner;\n}\n",
+    "$continue_inner: true;\n$continue_outer: true;\n\nresult {\n  @while $continue_outer {\n    \
+     @while $continue_inner {\n      $continue_inner: false;\n    }\n\n    $continue_outer: \
+     false;\n  }\n\n  continue_outer: $continue_outer;\n  continue_inner: $continue_inner;\n}\n",
     "result {\n  continue_outer: true;\n  continue_inner: true;\n}\n"
 );
 test!(

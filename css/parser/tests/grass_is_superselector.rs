@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     more_specific_class_compound,
@@ -286,12 +286,14 @@ test!(
 );
 test!(
     psuedo_any_prefix_superset,
-    "a {\n  color: is-superselector(\":-pfx-any(c d, e f, g h)\", \":-pfx-any(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-any(c d, e f, g h)\", \":-pfx-any(c d.i, e j \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_any_prefix_subset,
-    "a {\n  color: is-superselector(\":-pfx-any(c d.i, e j f)\", \":-pfx-any(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-any(c d.i, e j f)\", \":-pfx-any(c d, e f, g \
+     h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
@@ -316,17 +318,20 @@ test!(
 );
 test!(
     psuedo_current_prefix_superset,
-    "a {\n  color: is-superselector(\":-pfx-current(c d, e f, g h)\", \":-pfx-current(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-current(c d, e f, g h)\", \":-pfx-current(c d.i, e j \
+     f)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
     psuedo_current_prefix_subset,
-    "a {\n  color: is-superselector(\":-pfx-current(c d.i, e j f)\", \":-pfx-current(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-current(c d.i, e j f)\", \":-pfx-current(c d, e f, g \
+     h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
     psuedo_current_prefix_equal,
-    "a {\n  color: is-superselector(\":-pfx-current(c d, e f)\", \":-pfx-current(c d, e f)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-current(c d, e f)\", \":-pfx-current(c d, e \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
@@ -351,12 +356,14 @@ test!(
 );
 test!(
     psuedo_has_prefix_superset,
-    "a {\n  color: is-superselector(\":-pfx-has(c d, e f, g h)\", \":-pfx-has(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-has(c d, e f, g h)\", \":-pfx-has(c d.i, e j \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_has_prefix_subset,
-    "a {\n  color: is-superselector(\":-pfx-has(c d.i, e j f)\", \":-pfx-has(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-has(c d.i, e j f)\", \":-pfx-has(c d, e f, g \
+     h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
@@ -386,12 +393,14 @@ test!(
 );
 test!(
     psuedo_host_prefix_superset,
-    "a {\n  color: is-superselector(\":-pfx-host(c d, e f, g h)\", \":-pfx-host(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-host(c d, e f, g h)\", \":-pfx-host(c d.i, e j \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_host_prefix_subset,
-    "a {\n  color: is-superselector(\":-pfx-host(c d.i, e j f)\", \":-pfx-host(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-host(c d.i, e j f)\", \":-pfx-host(c d, e f, g \
+     h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
@@ -401,17 +410,20 @@ test!(
 );
 test!(
     psuedo_host_context_superset,
-    "a {\n  color: is-superselector(\":host-context(c d, e f, g h)\", \":host-context(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\":host-context(c d, e f, g h)\", \":host-context(c d.i, e j \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_host_context_subset,
-    "a {\n  color: is-superselector(\":host-context(c d.i, e j f)\", \":host-context(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\":host-context(c d.i, e j f)\", \":host-context(c d, e f, g \
+     h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
     psuedo_host_context_equal,
-    "a {\n  color: is-superselector(\":host-context(c d, e f)\", \":host-context(c d, e f)\");\n}\n",
+    "a {\n  color: is-superselector(\":host-context(c d, e f)\", \":host-context(c d, e \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
@@ -421,27 +433,32 @@ test!(
 );
 test!(
     psuedo_host_context_prefix_superset,
-    "a {\n  color: is-superselector(\":-pfx-host-context(c d, e f, g h)\", \":-pfx-host-context(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-host-context(c d, e f, g h)\", \":-pfx-host-context(c \
+     d.i, e j f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_host_context_prefix_subset,
-    "a {\n  color: is-superselector(\":-pfx-host-context(c d.i, e j f)\", \":-pfx-host-context(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-host-context(c d.i, e j f)\", \":-pfx-host-context(c \
+     d, e f, g h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
     psuedo_host_context_prefix_equal,
-    "a {\n  color: is-superselector(\":-pfx-host-context(c d, e f)\", \":-pfx-host-context(c d, e f)\");\n}\n",
+    "a {\n  color: is-superselector(\":-pfx-host-context(c d, e f)\", \":-pfx-host-context(c d, e \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_slotted_superset,
-    "a {\n  color: is-superselector(\"::slotted(c d, e f, g h)\", \"::slotted(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\"::slotted(c d, e f, g h)\", \"::slotted(c d.i, e j \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_slotted_subset,
-    "a {\n  color: is-superselector(\"::slotted(c d.i, e j f)\", \"::slotted(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\"::slotted(c d.i, e j f)\", \"::slotted(c d, e f, g \
+     h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
@@ -456,19 +473,22 @@ test!(
 );
 test!(
     psuedo_slotted_prefix_superset,
-    "a {\n  color: is-superselector(\"::-pfx-slotted(c d, e f, g h)\", \"::-pfx-slotted(c d.i, e j f)\");\n}\n",
+    "a {\n  color: is-superselector(\"::-pfx-slotted(c d, e f, g h)\", \"::-pfx-slotted(c d.i, e \
+     j f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 test!(
     psuedo_slotted_prefix_subset,
-    "a {\n  color: is-superselector(\"::-pfx-slotted(c d.i, e j f)\", \"::-pfx-slotted(c d, e f, g h)\");\n}\n",
+    "a {\n  color: is-superselector(\"::-pfx-slotted(c d.i, e j f)\", \"::-pfx-slotted(c d, e f, \
+     g h)\");\n}\n",
     "a {\n  color: false;\n}\n"
 );
 test!(
     psuedo_slotted_prefix_equal,
-    "a {\n  color: is-superselector(\"::-pfx-slotted(c d, e f)\", \"::-pfx-slotted(c d, e f)\");\n}\n",
+    "a {\n  color: is-superselector(\"::-pfx-slotted(c d, e f)\", \"::-pfx-slotted(c d, e \
+     f)\");\n}\n",
     "a {\n  color: true;\n}\n"
 );
 
-// todo: /spec/core_functions/selector/is_superselector/simple/pseudo/selector_arg/
-// :not, :matches, :nth-child, :nth-last-child
+// todo: /spec/core_functions/selector/is_superselector/simple/pseudo/
+// selector_arg/ :not, :matches, :nth-child, :nth-last-child

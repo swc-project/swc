@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     nest_one_arg,
@@ -142,12 +142,14 @@ error!(
 error!(
     unquoted_integer_first_arg,
     "a {\n  color: selector-nest(1);\n}\n",
-    "Error: $selectors: 1 is not a valid selector: it must be a string, a list of strings, or a list of lists of strings."
+    "Error: $selectors: 1 is not a valid selector: it must be a string, a list of strings, or a \
+     list of lists of strings."
 );
 error!(
     unquoted_integer_second_arg,
     "a {\n  color: selector-nest(\"c\", 1);\n}\n",
-    "Error: $selectors: 1 is not a valid selector: it must be a string, a list of strings, or a list of lists of strings."
+    "Error: $selectors: 1 is not a valid selector: it must be a string, a list of strings, or a \
+     list of lists of strings."
 );
 error!(
     empty_args,

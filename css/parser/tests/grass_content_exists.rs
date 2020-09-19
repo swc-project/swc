@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 error!(
     outside_mixin,
@@ -23,12 +23,14 @@ test!(
 );
 test!(
     include_style_inside_braces_no_args,
-    "@mixin foo {\n    color: content-exists();\n    @content;\n}\n\na {\n    @include foo{color: red;};\n}\n",
+    "@mixin foo {\n    color: content-exists();\n    @content;\n}\n\na {\n    @include foo{color: \
+     red;};\n}\n",
     "a {\n  color: true;\n  color: red;\n}\n"
 );
 test!(
     include_style_inside_braces_missing_semicolon_no_args,
-    "@mixin foo {\n    color: content-exists();\n    @content;\n}\n\na {\n    @include foo{color: red};\n}\n",
+    "@mixin foo {\n    color: content-exists();\n    @content;\n}\n\na {\n    @include foo{color: \
+     red};\n}\n",
     "a {\n  color: true;\n  color: red;\n}\n"
 );
 test!(

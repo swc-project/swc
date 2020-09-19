@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(unit_none, "a {\n  height: 1;\n}\n");
 test!(unit_not_attached, "a {\n  height: 1 px;\n}\n");

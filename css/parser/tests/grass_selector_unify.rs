@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     no_overlap,
@@ -374,7 +374,8 @@ test!(
 test!(
     combinator_sibling_and_sibling_overlap,
     "a {\n  color: selector-unify(\".c.s1-1 ~ .s1-2\", \".c.s2-1 ~ .s2-2\");\n}\n",
-    "a {\n  color: .c.s1-1 ~ .c.s2-1 ~ .s1-2.s2-2, .c.s2-1 ~ .c.s1-1 ~ .s1-2.s2-2, .c.s2-1.s1-1 ~ .s1-2.s2-2;\n}\n"
+    "a {\n  color: .c.s1-1 ~ .c.s2-1 ~ .s1-2.s2-2, .c.s2-1 ~ .c.s1-1 ~ .s1-2.s2-2, .c.s2-1.s1-1 ~ \
+     .s1-2.s2-2;\n}\n"
 );
 test!(
     combinator_sibling_and_sibling_conflict,
@@ -523,12 +524,16 @@ test!(
 );
 test!(
     lcs_non_contiguous_same_position,
-    "a {\n  color: selector-unify(\".s1-1 .c .d .s1-2 .e .s1-3\", \".s2-1 .c .d .s2-2 .e .s2-3\");\n}\n",
-    "a {\n  color: .s1-1 .s2-1 .c .d .s1-2 .s2-2 .e .s1-3.s2-3, .s2-1 .s1-1 .c .d .s1-2 .s2-2 .e .s1-3.s2-3, .s1-1 .s2-1 .c .d .s2-2 .s1-2 .e .s1-3.s2-3, .s2-1 .s1-1 .c .d .s2-2 .s1-2 .e .s1-3.s2-3;\n}\n"
+    "a {\n  color: selector-unify(\".s1-1 .c .d .s1-2 .e .s1-3\", \".s2-1 .c .d .s2-2 .e \
+     .s2-3\");\n}\n",
+    "a {\n  color: .s1-1 .s2-1 .c .d .s1-2 .s2-2 .e .s1-3.s2-3, .s2-1 .s1-1 .c .d .s1-2 .s2-2 .e \
+     .s1-3.s2-3, .s1-1 .s2-1 .c .d .s2-2 .s1-2 .e .s1-3.s2-3, .s2-1 .s1-1 .c .d .s2-2 .s1-2 .e \
+     .s1-3.s2-3;\n}\n"
 );
 test!(
     lcs_non_contiguous_different_positions,
-    "a {\n  color: selector-unify(\".s1-1 .c .d .s1-2 .e .s1-3\", \".c .s2-1 .d .e .s2-2 .s2-3\");\n}\n",
+    "a {\n  color: selector-unify(\".s1-1 .c .d .s1-2 .e .s1-3\", \".c .s2-1 .d .e .s2-2 \
+     .s2-3\");\n}\n",
     "a {\n  color: .s1-1 .c .s2-1 .d .s1-2 .e .s2-2 .s1-3.s2-3;\n}\n"
 );
 test!(
@@ -591,12 +596,14 @@ error!(
 error!(
     invalid_type_in_first_arg,
     "a {\n  color: selector-unify(1, \"c\");\n}\n",
-    "Error: $selector1: 1 is not a valid selector: it must be a string, a list of strings, or a list of lists of strings."
+    "Error: $selector1: 1 is not a valid selector: it must be a string, a list of strings, or a \
+     list of lists of strings."
 );
 error!(
     invalid_type_in_second_arg,
     "a {\n  color: selector-unify(\"c\", 1);\n}\n",
-    "Error: $selector2: 1 is not a valid selector: it must be a string, a list of strings, or a list of lists of strings."
+    "Error: $selector2: 1 is not a valid selector: it must be a string, a list of strings, or a \
+     list of lists of strings."
 );
 test!(
     simple_pseudo_no_arg_class_same,

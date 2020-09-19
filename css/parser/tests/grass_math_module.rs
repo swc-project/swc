@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     clamp_in_the_middle,
@@ -24,17 +24,20 @@ test!(
 error!(
     clamp_only_min_has_no_unit,
     "@use 'sass:math';\na {\n  color: math.clamp(0, 1cm, 2in);\n}\n",
-    "Error: $min is unitless but $number has unit cm. Arguments must all have units or all be unitless."
+    "Error: $min is unitless but $number has unit cm. Arguments must all have units or all be \
+     unitless."
 );
 error!(
     clamp_only_number_has_no_unit,
     "@use 'sass:math';\na {\n  color: math.clamp(0mm, 1, 2in);\n}\n",
-    "Error: $min has unit mm but $number is unitless. Arguments must all have units or all be unitless."
+    "Error: $min has unit mm but $number is unitless. Arguments must all have units or all be \
+     unitless."
 );
 error!(
     clamp_only_max_has_no_unit,
     "@use 'sass:math';\na {\n  color: math.clamp(0mm, 1cm, 2);\n}\n",
-    "Error: $min has unit mm but $max is unitless. Arguments must all have units or all be unitless."
+    "Error: $min has unit mm but $max is unitless. Arguments must all have units or all be \
+     unitless."
 );
 test!(
     sqrt_zero,
@@ -53,12 +56,14 @@ test!(
 );
 test!(
     sqrt_big_positive,
-    "@use 'sass:math';\na {\n  color: math.sqrt(9999999999999999999999999999999999999999999999999);\n}\n",
+    "@use 'sass:math';\na {\n  color: \
+     math.sqrt(9999999999999999999999999999999999999999999999999);\n}\n",
     "a {\n  color: 3162277660168379038695424;\n}\n"
 );
 test!(
     sqrt_big_negative,
-    "@use 'sass:math';\na {\n  color: math.sqrt(-9999999999999999999999999999999999999999999999999);\n}\n",
+    "@use 'sass:math';\na {\n  color: \
+     math.sqrt(-9999999999999999999999999999999999999999999999999);\n}\n",
     "a {\n  color: NaN;\n}\n"
 );
 test!(
@@ -477,7 +482,8 @@ error!(
 error!(
     hypot_first_has_no_unit_third_has_unit,
     "@use 'sass:math';\na {\n  color: math.hypot(1, 2, 3px);\n}\n",
-    "Error: Argument 1 is unitless but argument 3 has unit px. Arguments must all have units or all be unitless."
+    "Error: Argument 1 is unitless but argument 3 has unit px. Arguments must all have units or \
+     all be unitless."
 );
 error!(
     hypot_non_numeric_argument,
@@ -491,7 +497,8 @@ error!(
 error!(
     hypot_nan_has_no_unit_but_first_has_unit,
     "@use 'sass:math';\na {\n  color: math.hypot(1deg, 2deg, (0 / 0));\n}\n",
-    "Error: Argument 1 has unit deg but argument 3 is unitless. Arguments must all have units or all be unitless."
+    "Error: Argument 1 has unit deg but argument 3 is unitless. Arguments must all have units or \
+     all be unitless."
 );
 test!(
     atan2_both_positive,

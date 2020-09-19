@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     for_1_through_3,
@@ -43,7 +43,8 @@ test!(
 );
 test!(
     simple_return_in_function,
-    "@function foo() {\n  @for $i from 1 to 2 {\n    @return $i;\n  }\n}\na {\n  color: foo();\n}\n",
+    "@function foo() {\n  @for $i from 1 to 2 {\n    @return $i;\n  }\n}\na {\n  color: \
+     foo();\n}\n",
     "a {\n  color: 1;\n}\n"
 );
 test!(
@@ -59,7 +60,8 @@ test!(
 test!(
     from_negative_to_positive,
     "@for $i from -1 to 3 {\n    a {\n        color: red;\n    }\n}\n",
-    "a {\n  color: red;\n}\n\na {\n  color: red;\n}\n\na {\n  color: red;\n}\n\na {\n  color: red;\n}\n"
+    "a {\n  color: red;\n}\n\na {\n  color: red;\n}\n\na {\n  color: red;\n}\n\na {\n  color: \
+     red;\n}\n"
 );
 test!(
     from_negative_to_negative,

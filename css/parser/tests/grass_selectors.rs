@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     selector_nesting_el_mul_el,
@@ -663,7 +663,8 @@ test!(
 );
 test!(
     super_selector_is_null_when_at_root,
-    "@mixin foo {\n    #{if(&, 'true', 'false')} {\n        color: red;\n    }\n}\n\n@include foo;\n\na {\n    @include foo;\n}\n",
+    "@mixin foo {\n    #{if(&, 'true', 'false')} {\n        color: red;\n    }\n}\n\n@include \
+     foo;\n\na {\n    @include foo;\n}\n",
     "false {\n  color: red;\n}\n\na true {\n  color: red;\n}\n"
 );
 test!(
@@ -682,7 +683,8 @@ test!(
     "null {\n  color: null;\n}\n"
 );
 test!(
-    #[ignore = "we do not yet have a good way of consuming a string without converting \\a to a newline"]
+    #[ignore = "we do not yet have a good way of consuming a string without converting \\a to a \
+                newline"]
     silent_comment_in_quoted_attribute_value,
     ".foo bar[val=\"//\"] {\n  color: &;\n}\n",
     ".foo bar[val=\"//\"] {\n  color: .foo bar[val=\"//\"];\n}\n"

@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(
     if_toplevel_true,
@@ -52,12 +52,14 @@ test!(
 );
 test!(
     if_false_else_if_false_else,
-    "a {\n  @if false {\n    color: red;\n} @else if false {\n    color: blue;\n} @else {\n    color: green;\n}\n}\n",
+    "a {\n  @if false {\n    color: red;\n} @else if false {\n    color: blue;\n} @else {\n    \
+     color: green;\n}\n}\n",
     "a {\n  color: green;\n}\n"
 );
 test!(
     if_false_else_if_true_else,
-    "a {\n  @if false {\n    color: red;\n} @else if true {\n    color: blue;\n} @else {\n    color: green;\n}\n}\n",
+    "a {\n  @if false {\n    color: red;\n} @else if true {\n    color: blue;\n} @else {\n    \
+     color: green;\n}\n}\n",
     "a {\n  color: blue;\n}\n"
 );
 test!(
@@ -72,7 +74,8 @@ test!(
 );
 test!(
     nested_if_in_function,
-    "@function foo($value) {\n  @if true {\n    @if false {\n      @error foo;\n    }\n\n    @else {\n      @return $value;\n    }\n  }\n}
+    "@function foo($value) {\n  @if true {\n    @if false {\n      @error foo;\n    }\n\n    \
+     @else {\n      @return $value;\n    }\n  }\n}
     a { color: foo(bar); }",
     "a {\n  color: bar;\n}\n"
 );

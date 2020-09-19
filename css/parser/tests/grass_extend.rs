@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(empty_extend_self, "a { @extend a; }", "");
 test!(
@@ -717,14 +717,16 @@ test!(
     ".baz .bip .bap .bink .foo {a: b}
     .brat .bip .bap bar {@extend .foo}
     ",
-    ".baz .bip .bap .bink .foo, .baz .brat .bip .bap .bink bar, .brat .baz .bip .bap .bink bar {\n  a: b;\n}\n"
+    ".baz .bip .bap .bink .foo, .baz .brat .bip .bap .bink bar, .brat .baz .bip .bap .bink bar \
+     {\n  a: b;\n}\n"
 );
 test!(
     complex_extender_unifies_common_subsequence,
     ".a .x .b .y .foo {a: b}
     .a .n .b .m bar {@extend .foo}
     ",
-    ".a .x .b .y .foo, .a .x .n .b .y .m bar, .a .n .x .b .y .m bar, .a .x .n .b .m .y bar, .a .n .x .b .m .y bar {\n  a: b;\n}\n"
+    ".a .x .b .y .foo, .a .x .n .b .y .m bar, .a .n .x .b .y .m bar, .a .x .n .b .m .y bar, .a .n \
+     .x .b .m .y bar {\n  a: b;\n}\n"
 );
 test!(
     complex_extender_chooses_first_subsequence,
@@ -808,14 +810,16 @@ test!(
     ".bip > .bap .foo {a: b}
     .grip > .bap .bar {@extend .foo}
     ",
-    ".bip > .bap .foo, .bip > .bap .grip > .bap .bar, .grip > .bap .bip > .bap .bar {\n  a: b;\n}\n"
+    ".bip > .bap .foo, .bip > .bap .grip > .bap .bar, .grip > .bap .bip > .bap .bar {\n  a: \
+     b;\n}\n"
 );
 test!(
     complex_extender_with_early_child_selectors_doesnt_subsequence_them_2,
     ".bap > .bip .foo {a: b}
     .bap > .grip .bar {@extend .foo}
     ",
-    ".bap > .bip .foo, .bap > .bip .bap > .grip .bar, .bap > .grip .bap > .bip .bar {\n  a: b;\n}\n"
+    ".bap > .bip .foo, .bap > .bip .bap > .grip .bar, .bap > .grip .bap > .bip .bar {\n  a: \
+     b;\n}\n"
 );
 test!(
     complex_extender_with_child_selector_unifies_1,
@@ -1245,7 +1249,8 @@ test!(
     .bar {c: d; @extend .baz}
     .baz {e: f; @extend .foo}
     ",
-    ".foo, .baz, .bar {\n  a: b;\n}\n\n.bar, .foo, .baz {\n  c: d;\n}\n\n.baz, .bar, .foo {\n  e: f;\n}\n"
+    ".foo, .baz, .bar {\n  a: b;\n}\n\n.bar, .foo, .baz {\n  c: d;\n}\n\n.baz, .bar, .foo {\n  e: \
+     f;\n}\n"
 );
 test!(
     nested_extend_loop,
@@ -1290,7 +1295,8 @@ test!(
       }
     }
     ",
-    ".base-0, .added {\n  color: green;\n}\n\n.base-1, .added {\n  display: block;\n}\n\n.base-2, .added {\n  border: 1px solid blue;\n}\n"
+    ".base-0, .added {\n  color: green;\n}\n\n.base-1, .added {\n  display: block;\n}\n\n.base-2, \
+     .added {\n  border: 1px solid blue;\n}\n"
 );
 test!(
     inside_control_flow_while,
@@ -1306,7 +1312,8 @@ test!(
       }
     }
     ",
-    ".base-0, .added {\n  color: green;\n}\n\n.base-1, .added {\n  display: block;\n}\n\n.base-2, .added {\n  border: 1px solid blue;\n}\n"
+    ".base-0, .added {\n  color: green;\n}\n\n.base-1, .added {\n  display: block;\n}\n\n.base-2, \
+     .added {\n  border: 1px solid blue;\n}\n"
 );
 test!(
     basic_placeholder,
@@ -1415,7 +1422,8 @@ test!(
     "@media screen {@flooblehoof {.foo {a: b}}}
     @media screen {@flooblehoof {.bar {@extend .foo}}}
     ",
-    "@media screen {\n  @flooblehoof {\n    .foo, .bar {\n      a: b;\n    }\n  }\n}\n@media screen {\n  @flooblehoof {}\n}\n"
+    "@media screen {\n  @flooblehoof {\n    .foo, .bar {\n      a: b;\n    }\n  }\n}\n@media \
+     screen {\n  @flooblehoof {}\n}\n"
 );
 test!(
     extend_succeeds_when_one_extend_fails_but_others_dont,
@@ -1729,7 +1737,9 @@ test!(
     .foo-4:root > .bar-4 .x-4 { test: 4; }
     .baz-4:root .bang-4 .y-4 {@extend .x-4}    
     ",
-    ":root .foo-1, :root .bar-1 .baz-1 {\n  test: 1;\n}\n\n.foo-2:root .bar-2, .baz-2.foo-2:root .bang-2 {\n  test: 2;\n}\n\nhtml:root .bar-3 {\n  test: 3;\n}\n\n.foo-4:root > .bar-4 .x-4, .baz-4.foo-4:root > .bar-4 .bang-4 .y-4 {\n  test: 4;\n}\n"
+    ":root .foo-1, :root .bar-1 .baz-1 {\n  test: 1;\n}\n\n.foo-2:root .bar-2, .baz-2.foo-2:root \
+     .bang-2 {\n  test: 2;\n}\n\nhtml:root .bar-3 {\n  test: 3;\n}\n\n.foo-4:root > .bar-4 .x-4, \
+     .baz-4.foo-4:root > .bar-4 .bang-4 .y-4 {\n  test: 4;\n}\n"
 );
 test!(
     compound_unification_in_not,
@@ -1762,7 +1772,8 @@ test!(
     
     .bar {@extend \\02e foo}    
     ",
-    ".foo {\n  escape: none;\n}\n\n\\.foo, .bar {\n  escape: slash dot;\n}\n\n\\.foo, .bar {\n  escape: hex;\n}\n"
+    ".foo {\n  escape: none;\n}\n\n\\.foo, .bar {\n  escape: slash dot;\n}\n\n\\.foo, .bar {\n  \
+     escape: hex;\n}\n"
 );
 test!(
     #[ignore = "Rc<RefCell<Selector>>"]
@@ -1878,7 +1889,8 @@ test!(
         @extend b;
         color: red;
     }",
-    ":has(a >) b, :has(a >) :has(a >) :has(a >) b, :has(a >) :has(a >) :has(a >) b {\n  color: red;\n}\n"
+    ":has(a >) b, :has(a >) :has(a >) :has(a >) b, :has(a >) :has(a >) :has(a >) b {\n  color: \
+     red;\n}\n"
 );
 error!(
     extend_optional_keyword_not_complete,

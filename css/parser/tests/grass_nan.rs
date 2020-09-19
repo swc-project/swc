@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 error!(
     unitless_nan_str_slice_start_at,

@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 
 test!(unary_pos_unquoted_ident, "a {\n  color: +foo;\n}\n");
 test!(

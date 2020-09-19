@@ -1,5 +1,5 @@
 #[macro_use]
-mod macros;
+mod grass_macros;
 test!(
     map_get_key_exists,
     "a {\n  color: map-get((a: b), a);\n}\n",
@@ -134,7 +134,8 @@ test!(
 );
 test!(
     map_remove_two,
-    "a {\n  color: inspect(map-remove((\"foo\": 1, \"bar\": 2, \"baz\": 3), \"bar\", \"baz\"));\n}\n",
+    "a {\n  color: inspect(map-remove((\"foo\": 1, \"bar\": 2, \"baz\": 3), \"bar\", \
+     \"baz\"));\n}\n",
     "a {\n  color: (\"foo\": 1);\n}\n"
 );
 test!(
