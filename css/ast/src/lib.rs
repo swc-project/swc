@@ -97,7 +97,8 @@ pub struct UniversalSelector {
 pub struct AttributeSelector {
     pub span: Span,
     pub attr: Text,
-    pub value: String,
+    /// TODO: Change this to something better.  
+    pub value: Text,
     pub modifier: Option<char>,
     pub op: AttributeOp,
 }

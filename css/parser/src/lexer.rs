@@ -1,7 +1,6 @@
+use crate::token::Token;
 use logos::Logos;
 use swc_common::{BytePos, Span};
-
-use crate::token::Token;
 
 /// Wrapper for
 pub(crate) struct Lexer<'i> {

@@ -68,4 +68,22 @@ pub(crate) enum Token {
     Lt,
     #[token(">")]
     Gt,
+
+    #[token("=")]
+    Eq,
+
+    #[token("$=")]
+    DollarEq,
+
+    #[token("*=")]
+    MulEq,
+
+    #[token("^=")]
+    XorEq,
+
+    #[token("|=")]
+    OrEq,
+
+    #[token("~=")]
+    TildeEq,
 }

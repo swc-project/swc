@@ -44,6 +44,24 @@ macro_rules! tok {
     (">") => {
         crate::token::Token::Gt
     };
+    ("=") => {
+        crate::token::Token::Eq
+    };
+    ("$=") => {
+        crate::token::Token::Eq
+    };
+    ("*=") => {
+        crate::token::Token::MulEq
+    };
+    ("^=") => {
+        crate::token::Token::XorEq
+    };
+    ("|=") => {
+        crate::token::Token::OrEq
+    };
+    ("~=") => {
+        crate::token::Token::TildeEq
+    };
 }
 
 macro_rules! cur {
