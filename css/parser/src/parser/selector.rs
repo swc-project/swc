@@ -25,7 +25,7 @@ impl Parser<'_> {
         trace_cur!(self, parse_selector);
 
         let start = self.i.cur_pos();
-        let components = vec![];
+        let mut components = vec![];
 
         loop {
             let sel = self
@@ -34,15 +34,15 @@ impl Parser<'_> {
 
             components.push(sel);
 
-            if is_one_of!(self, ">", "+", "~") {
-                components.push(
-                    self.parse_selector_combinator()
-                        .map(SelectorComponent::Combinator)?,
-                );
-                continue;
+            if !is_one_of!(self, ">", "+", "~") {
+                break;
             }
 
-            break;
+            components.push(
+                self.parse_selector_combinator()
+                    .map(SelectorComponent::Combinator)?,
+            );
+            continue;
         }
 
         Ok(Box::new(Selector {
