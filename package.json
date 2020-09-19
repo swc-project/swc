@@ -2,7 +2,7 @@
   "name": "@swc/core",
   "version": "1.2.30",
   "description": "Super-fast alternative for babel",
-  "homepage": "https://swc-project.github.io",
+  "homepage": "https://swc.rs",
   "main": "./index.js",
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "license": "MIT",

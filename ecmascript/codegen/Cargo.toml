@@ -1,24 +1,24 @@
 [package]
-name = "swc_ecma_codegen"
-version = "0.35.2"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/swc_ecma_codegen/"
 description = "Ecmascript code generator for the swc project."
+documentation = "https://swc.rs/rustdoc/swc_ecma_codegen/"
 edition = "2018"
 include = ["Cargo.toml", "src/**/*.rs"]
+license = "Apache-2.0/MIT"
+name = "swc_ecma_codegen"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.35.2"
 
 [dependencies]
 bitflags = "1"
-swc_atoms = { version = "0.2", path ="../../atoms" }
-swc_common = { version = "0.10.0", path ="../../common" }
-swc_ecma_ast = { version = "0.31.0", path ="../ast" }
-swc_ecma_codegen_macros = { version = "0.5", path ="./macros" }
+num-bigint = {version = "0.2", features = ["serde"]}
 sourcemap = "6"
-num-bigint = { version = "0.2", features = ["serde"] }
+swc_atoms = {version = "0.2", path = "../../atoms"}
+swc_common = {version = "0.10.0", path = "../../common"}
+swc_ecma_ast = {version = "0.31.0", path = "../ast"}
+swc_ecma_codegen_macros = {version = "0.5", path = "./macros"}
 
 [dev-dependencies]
-swc_common = { version = "0.10.0", path ="../../common", features = ["sourcemap"] }
-swc_ecma_parser = { version = "0.37.0", path ="../parser" }
-testing = { version = "0.10.0", path ="../../testing" }
+swc_common = {version = "0.10.0", path = "../../common", features = ["sourcemap"]}
+swc_ecma_parser = {version = "0.37.0", path = "../parser"}
+testing = {version = "0.10.0", path = "../../testing"}

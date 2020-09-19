@@ -19,7 +19,7 @@
     "tsc"
   ],
   "author": "강동윤 <kdy1997.dev@gmail.com>",
-  "homepage": "https://swc-project.github.io",
+  "homepage": "https://swc.rs",
   "license": "MIT",
   "cpu": [
     "x64"

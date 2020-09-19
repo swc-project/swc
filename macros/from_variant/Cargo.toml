@@ -1,23 +1,21 @@
 [package]
-name = "from_variant"
-version = "0.1.2"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Automatically derive From impls for enums"
+documentation = "https://swc.rs/rustdoc/from_variant/"
 edition = "2018"
 license = "Apache-2.0/MIT"
+name = "from_variant"
 repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/from_variant/"
-description = "Automatically derive From impls for enums"
+version = "0.1.2"
 
 [lib]
 proc-macro = true
 
 [dependencies]
-swc_macros_common = { version = "0.3", path = "../common" }
 pmutil = "0.5.3"
 proc-macro2 = "1"
+swc_macros_common = {version = "0.3", path = "../common"}
 
 [dependencies.syn]
-version = "1"
 features = ["derive", "fold", "parsing", "printing"]
-
-
+version = "1"
