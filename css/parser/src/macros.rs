@@ -62,6 +62,12 @@ macro_rules! tok {
     ("~=") => {
         crate::token::Token::TildeEq
     };
+    ("+") => {
+        crate::token::Token::Plus
+    };
+    ("~") => {
+        crate::token::Token::Tilde
+    };
 }
 
 macro_rules! cur {

@@ -86,7 +86,8 @@ impl<'i> Parser<'i> {
 // TODO: Optimize using js_word
 fn as_word(t: Token, s: &str) -> Option<JsWord> {
     match t {
-        Token::Mul
+        Token::Tilde
+        | Token::Mul
         | Token::LBracket
         | Token::RBracket
         | Token::Lt

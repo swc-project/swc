@@ -35,6 +35,7 @@ impl Parser<'_> {
             | Token::OrEq
             | Token::TildeEq
             | Token::Gt
+            | Token::Tilde
             | Token::BangImportant => {
                 let got = format!("{:?}", self.i.cur().unwrap());
                 self.err(SyntaxError::ExpectedOneOf {

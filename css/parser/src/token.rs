@@ -92,6 +92,9 @@ pub(crate) enum Token {
 
     #[token("~=")]
     TildeEq,
+
+    #[token("~")]
+    Tilde,
 }
 
 fn lex_ws(lex: &mut logos::Lexer<Token>) -> Skip {

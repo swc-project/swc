@@ -28,8 +28,8 @@ impl Parser<'_> {
         let first = self.parse_compound_selector()?;
         let components = vec![SelectorComponent::Compound(first)];
 
-        if is!(self, ">") {
-            unimplemented!("Parsing of '>' in selector")
+        if is_one_of!(self, ">", "+", "~") {
+            unimplemented!("Parsing of '>', '+', '~' in selector")
         }
 
         Ok(Box::new(Selector {
