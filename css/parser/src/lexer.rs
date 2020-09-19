@@ -7,10 +7,16 @@ pub(crate) struct Lexer<'i> {
     inner: logos::Lexer<'i, Token>,
     start_pos: BytePos,
     prev_hi: BytePos,
+    /// Does a line break exist before `cur`?
+    had_ws: bool,
     cur: Option<(Token, logos::Span, &'i str)>,
 }
 
 impl<'i> Lexer<'i> {
+    pub fn had_ws_before_cur(&self) -> bool {
+        self.had_ws
+    }
+
     #[inline]
     pub fn bump(&mut self) {
         let _ = self.cur();
@@ -27,6 +33,7 @@ impl<'i> Lexer<'i> {
             cur: None,
             inner: Token::lexer(s),
             prev_hi: start_pos,
+            had_ws: false,
         }
     }
 
@@ -66,6 +73,7 @@ impl<'i> Lexer<'i> {
             None => {
                 self.prev_hi = self.start_pos + BytePos(self.inner.span().end as u32);
                 let token = self.inner.next()?;
+                self.had_ws = self.inner.extras.had_whitespace;
                 self.cur = Some((token, self.inner.span(), self.inner.slice()));
             }
         }

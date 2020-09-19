@@ -1,10 +1,16 @@
-use logos::Logos;
+use logos::{Logos, Skip};
+
+#[derive(Debug, Default, Clone, Copy)]
+pub struct Extras {
+    pub had_whitespace: bool,
+}
 
 /// This does not implements [PartialEq] nor [Eq] as it's not optimized out.
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
+#[logos(extras = Extras)]
 pub(crate) enum Token {
     #[error]
-    #[regex("[ \n\t\r]*", logos::skip)]
+    #[regex("[ \n\t\r]*", lex_ws)]
     Error,
 
     #[token(";")]
@@ -86,4 +92,10 @@ pub(crate) enum Token {
 
     #[token("~=")]
     TildeEq,
+}
+
+fn lex_ws(lex: &mut logos::Lexer<Token>) -> Skip {
+    lex.extras.had_whitespace = true;
+
+    Skip
 }
