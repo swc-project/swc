@@ -128,7 +128,11 @@ impl Parser<'_> {
         let name = self.parse_word()?;
 
         let op = self.parse_attribute_selector_operator()?;
-        let value = self.parse_word()?;
+        let value = if op == AttributeOp::Any {
+            None
+        } else {
+            self.parse_word().map(Some)?
+        };
         expect!(self, "]");
 
         Ok(AttributeSelector {

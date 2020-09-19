@@ -98,7 +98,7 @@ pub struct AttributeSelector {
     pub span: Span,
     pub attr: Text,
     /// TODO: Change this to something better.  
-    pub value: Text,
+    pub value: Option<Text>,
     pub modifier: Option<char>,
     pub op: AttributeOp,
 }
