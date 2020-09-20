@@ -29,7 +29,7 @@ use std::{
 };
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{VisitMutWith, VisitWith};
 use swc_ts_builtin_types::Lib;
 use swc_ts_types::{Id, ModuleTypeInfo};
 
