@@ -393,7 +393,7 @@ impl Analyzer<'_, '_> {
                                 && var_info.ty.as_ref().unwrap().is_unknown()
                             {
                                 // Type narrowing
-                                Some(ty.clone())
+                                Some(Box::new(ty.clone()))
                             } else {
                                 return Ok(());
                             };
@@ -458,7 +458,7 @@ impl Analyzer<'_, '_> {
 
                             Type::Tuple(Tuple { types, .. }) => {
                                 if types.len() > i {
-                                    self.try_assign_pat(span, elem, &types[i])?;
+                                    self.try_assign_pat(span, elem, &types[i].ty)?;
                                 }
                             }
 
@@ -557,7 +557,7 @@ impl Analyzer<'_, '_> {
     }
 
     fn add_true_false(&mut self, facts: &mut Facts, sym: &Id, ty: &Type) {
-        facts.insert_var(sym, ty.clone(), false);
+        facts.insert_var(sym, box ty.clone(), false);
     }
 
     /// Returns (type facts when test is matched, type facts when test is not
@@ -714,7 +714,7 @@ impl Analyzer<'_, '_> {
                             right: (&**right, &r_ty),
                         };
 
-                        match c.take(|(l, l_ty), (_, r_ty)| match *l_ty {
+                        match c.take(|(l, l_ty), (_, r_ty)| match **l_ty {
                             Type::Keyword(TsKeywordType {
                                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                                 ..
@@ -820,7 +820,7 @@ impl Validate<CondExpr> for Analyzer<'_, '_> {
 }
 
 impl Facts {
-    fn insert_var<N: Into<Name>>(&mut self, name: N, ty: Type, negate: bool) {
+    fn insert_var<N: Into<Name>>(&mut self, name: N, ty: Box<Type>, negate: bool) {
         let name = name.into();
 
         if negate {
