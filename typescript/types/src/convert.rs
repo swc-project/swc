@@ -164,7 +164,7 @@ impl From<super::TupleElement> for TsTupleElement {
     fn from(e: super::TupleElement) -> Self {
         TsTupleElement {
             span: e.span,
-            label: e.label.map(Ident::from).map(Pat::from),
+            label: e.label,
             ty: e.ty.into(),
         }
     }

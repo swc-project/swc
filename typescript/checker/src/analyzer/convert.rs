@@ -18,6 +18,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
 use swc_ecma_visit::VisitMutWith;
+use swc_ts_types::TupleElement;
 
 /// We analyze dependencies between type parameters, and fold parameter in
 /// topological order.
@@ -326,7 +327,18 @@ impl Validate<TsTupleType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
+impl Validate<TsTupleElement> for Analyzer<'_, '_> {
+    type Output = ValidationResult<TupleElement>;
+
+    fn validate(&mut self, node: &mut TsTupleElement) -> Self::Output {
+        Ok(TupleElement {
+            span: node.span,
+            label: node.label,
+            ty: node.ty.validate_with(self),
+        })
+    }
+}
+
 impl Validate<TsConditionalType> for Analyzer<'_, '_> {
     type Output = ValidationResult<Conditional>;
 
