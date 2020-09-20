@@ -810,8 +810,8 @@ impl Analyzer<'_, '_> {
                 return Ok(box Type::IndexedAccessType(IndexedAccessType {
                     span,
                     readonly: false,
-                    obj_type: box obj,
-                    index_type: box prop.validate_with(self)?,
+                    obj_type: obj,
+                    index_type: prop.validate_with(self)?,
                 }))
             }
 
@@ -857,7 +857,7 @@ impl Analyzer<'_, '_> {
                         | Type::Lit(TsLitType {
                             lit: TsLit::Number(..),
                             ..
-                        }) => return Ok(*elem_type.clone()),
+                        }) => return Ok(elem_type.clone()),
 
                         _ => {}
                     },
@@ -959,7 +959,7 @@ impl Analyzer<'_, '_> {
                         });
                     }
 
-                    return Ok(types[v as usize].clone());
+                    return Ok(types[v as usize].ty.clone());
                 }
                 _ => {
                     if types.is_empty() {
@@ -970,7 +970,7 @@ impl Analyzer<'_, '_> {
                     //                        return Ok(Cow::Borrowed(&types[0]));
                     //                    }
 
-                    return Ok(Type::Union(Union {
+                    return Ok(box Type::Union(Union {
                         span,
                         types: types.clone(),
                     }));
@@ -998,7 +998,7 @@ impl Analyzer<'_, '_> {
                             match m.key {
                                 PropName::Computed(ComputedPropName { ref expr, .. }) => {
                                     if (&**expr).eq_ignore_span(&prop) {
-                                        return Ok(Type::Function(ty::Function {
+                                        return Ok(box Type::Function(ty::Function {
                                             span,
                                             type_params: m.type_params.clone(),
                                             params: m.params.clone(),

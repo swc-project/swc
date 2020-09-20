@@ -142,13 +142,13 @@ impl Scope<'_> {
         self.types.entry(name).or_default().push(ty);
     }
 
-    pub fn this(&self) -> Option<Cow<Type>> {
+    pub fn this(&self) -> Option<Cow<Box<Type>>> {
         if let Some(ref this) = self.this {
             if this.as_str() == "" {
-                return Some(Cow::Owned(Type::any(DUMMY_SP)));
+                return Some(box Cow::Owned(Type::any(DUMMY_SP)));
             }
 
-            return Some(Cow::Owned(Type::Ref(Ref {
+            return Some(box Cow::Owned(Type::Ref(Ref {
                 span: DUMMY_SP,
                 type_name: this.clone().into(),
                 type_args: None,

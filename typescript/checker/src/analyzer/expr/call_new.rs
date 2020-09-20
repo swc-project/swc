@@ -24,7 +24,7 @@ use macros::validator;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ts_types::Id;
+use swc_ts_types::{FoldWith as _, Id};
 use ty::TypeExt;
 
 #[validator]
@@ -229,7 +229,7 @@ impl Analyzer<'_, '_> {
                                 &Id::word(js_word!("Object")),
                             )
                             .expect("`interface Object` is must");
-                            let methods = match i {
+                            let methods = match *i {
                                 Type::Static(Static {
                                     ty: Type::Interface(i),
                                     ..
@@ -276,7 +276,7 @@ impl Analyzer<'_, '_> {
                     // Handle toString()
                     macro_rules! handle {
                         () => {{
-                            return Ok(Type::from(TsKeywordType {
+                            return Ok(box Type::from(TsKeywordType {
                                 span,
                                 kind: TsKeywordTypeKind::TsStringKeyword,
                             }));
@@ -310,13 +310,13 @@ impl Analyzer<'_, '_> {
                         ..
                     }) => builtin_types::get_type(self.libs, span, &Id::word(js_word!("String")))
                         .expect("Builtin type named 'String' should exist"),
-                    _ => obj_type,
+                    _ => box obj_type,
                 };
 
                 match *obj_type.normalize() {
                     Type::Function(ref f) if kind == ExtractKind::Call => {
                         //
-                        return Ok(*f.ret_ty.clone());
+                        return Ok(f.ret_ty.clone());
                     }
 
                     Type::Keyword(TsKeywordType {
@@ -344,7 +344,7 @@ impl Analyzer<'_, '_> {
                                     ..
                                 }) => {
                                     if prop_name_to_expr(key).eq_ignore_span(&*prop) {
-                                        return Ok(*ret_ty.clone());
+                                        return Ok(ret_ty.clone());
                                     }
                                 }
                                 _ => {}
@@ -414,7 +414,7 @@ impl Analyzer<'_, '_> {
     fn extract(
         &mut self,
         span: Span,
-        ty: Type,
+        ty: Box<Type>,
         kind: ExtractKind,
         args: &mut Vec<TypeOrSpread>,
         type_args: Option<&TypeParamInstantiation>,
@@ -639,7 +639,7 @@ impl Analyzer<'_, '_> {
     fn get_best_return_type(
         &mut self,
         span: Span,
-        callee: Type,
+        callee: Box<Type>,
         kind: ExtractKind,
         type_args: Option<TypeParamInstantiation>,
         args: &mut Vec<TypeOrSpread>,

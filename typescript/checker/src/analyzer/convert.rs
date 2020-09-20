@@ -709,7 +709,7 @@ pub(crate) fn default_any_array_pat(arr: &mut ArrayPat) {
                         span,
                         // TODO?
                         label: None,
-                        ty,
+                        ty: *ty,
                     }
                 })
                 .collect(),
