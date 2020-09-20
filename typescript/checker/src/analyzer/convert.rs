@@ -333,7 +333,7 @@ impl Validate<TsTupleElement> for Analyzer<'_, '_> {
     fn validate(&mut self, node: &mut TsTupleElement) -> Self::Output {
         Ok(TupleElement {
             span: node.span,
-            label: node.label,
+            label: node.label.clone(),
             ty: node.ty.validate_with(self)?,
         })
     }
