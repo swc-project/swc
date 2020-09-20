@@ -109,7 +109,7 @@ impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
         self.register_type(
             e.id.clone().into(),
             match ty {
-                Ok(ref ty) => ty.clone().into(),
+                Ok(ref ty) => box ty.clone().into(),
                 Err(..) => Type::any(span),
             },
         )

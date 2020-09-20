@@ -148,9 +148,9 @@ impl Merge for Type {
     fn or(&mut self, r: Self) {
         let l_span = self.span();
 
-        let l = replace(self, *Type::never(l_span));
+        let l = box replace(self, *Type::never(l_span));
 
-        *self = *Type::union(once(l).chain(once(r)));
+        *self = *Type::union(vec![l, box r]);
     }
 }
 
