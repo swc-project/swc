@@ -815,7 +815,7 @@ impl Validate<CondExpr> for Analyzer<'_, '_> {
             _ => {}
         }
 
-        Ok(box Type::union(vec![cons, alt]))
+        Ok(Type::union(vec![cons, alt]))
     }
 }
 

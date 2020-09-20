@@ -8,10 +8,10 @@ pub use self::{
     id::Id,
     visit::{Fold, FoldWith, Node as TypeNode, Visit, VisitMut, VisitMutWith, VisitWith},
 };
-use num_traits::Zero;
 use fxhash::FxHashMap;
 use is_macro::Is;
 use num_bigint::BigInt;
+use num_traits::Zero;
 use std::{fmt::Debug, iter::FusedIterator, mem::transmute, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FromVariant, Span, Spanned, DUMMY_SP};
@@ -471,7 +471,7 @@ impl Type {
     /// Note:
     ///
     ///  - never types are excluded.
-    pub fn union<I: IntoIterator<Item = Self>>(iter: I) -> Box<Self> {
+    pub fn union<I: IntoIterator<Item = Box<Self>>>(iter: I) -> Box<Self> {
         let mut span = DUMMY_SP;
 
         let mut tys = vec![];
@@ -486,13 +486,13 @@ impl Type {
                 span = span.with_hi(sp.hi());
             }
 
-            match ty {
+            match *ty {
                 Type::Union(Union { types, .. }) => {
                     assert_ne!(types, vec![]);
                     tys.extend(types);
                 }
 
-                _ => tys.push(Box::new(ty)),
+                _ => tys.push(ty),
             }
         }
 

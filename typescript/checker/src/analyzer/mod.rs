@@ -83,7 +83,7 @@ pub struct Analyzer<'a, 'b> {
     in_declare: bool,
 
     resolved_import_types: FxHashMap<Id, Vec<Box<Type>>>,
-    resolved_import_vars: FxHashMap<Id, Type>,
+    resolved_import_vars: FxHashMap<Id, Box<Type>>,
     errored_imports: FxHashSet<Id>,
     pending_exports: Vec<((Id, Span), Expr)>,
 
@@ -409,7 +409,10 @@ impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
             let mut imports: Vec<ImportInfo> = vec![];
 
             // Extract imports
-            items.visit_with(&mut ImportFinder { to: &mut imports });
+            items.visit_with(
+                &Invalid { span: DUMMY_SP },
+                &mut ImportFinder { to: &mut imports },
+            );
 
             let loader = self.loader;
             let path = self.path.clone();
