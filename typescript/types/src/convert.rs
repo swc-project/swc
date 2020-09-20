@@ -1,4 +1,4 @@
-use super::Type;
+use super::{TupleElement, Type};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
@@ -155,13 +155,13 @@ impl From<super::Tuple> for TsType {
     fn from(t: super::Tuple) -> Self {
         TsType::TsTupleType(TsTupleType {
             span: t.span,
-            elem_types: t.types.into_iter().map(From::from).collect(),
+            elem_types: t.elems.into_iter().map(From::from).collect(),
         })
     }
 }
 
-impl From<super::TupleElement> for TsTupleElement {
-    fn from(e: super::TupleElement) -> Self {
+impl From<TupleElement> for TsTupleElement {
+    fn from(e: TupleElement) -> Self {
         TsTupleElement {
             span: e.span,
             label: e.label,
