@@ -2,6 +2,7 @@ use super::Type;
 use crate::{ty, type_facts::TypeFacts};
 use swc_common::Spanned;
 use swc_ecma_ast::{TsKeywordType, TsKeywordTypeKind};
+use ty::FoldWith;
 
 pub(super) struct TypeFactsHandler {
     pub facts: TypeFacts,
@@ -90,16 +91,17 @@ impl ty::Fold for TypeFactsHandler {
             let keywords = keywords
                 .map(|&kind| TsKeywordType { span, kind })
                 .map(Type::Keyword)
+                .map(Box::new)
                 .collect::<Vec<_>>();
             if !keywords.is_empty() {
-                return Type::union(keywords);
+                return *Type::union(keywords);
             }
         }
 
         match ty {
-            Type::Union(ref u) if u.types.is_empty() => return Type::never(u.span),
+            Type::Union(ref u) if u.types.is_empty() => return *Type::never(u.span),
             Type::Intersection(ref i) if i.types.iter().any(|ty| ty.is_never()) => {
-                return Type::never(i.span)
+                return *Type::never(i.span)
             }
             _ => {}
         }

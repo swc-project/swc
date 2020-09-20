@@ -4,6 +4,7 @@ use std::iter::once;
 use swc_ecma_ast::*;
 use swc_ecma_visit::Node;
 use swc_ts_types::{FoldWith, Id};
+use ty::TypeExt;
 
 #[derive(Debug, Default)]
 pub(super) struct Generalizer {

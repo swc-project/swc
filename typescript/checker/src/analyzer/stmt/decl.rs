@@ -13,6 +13,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
 use swc_ts_types::{FoldWith, Id};
+use ty::TypeExt;
 
 #[validator]
 impl Validate<VarDecl> for Analyzer<'_, '_> {
@@ -52,7 +53,8 @@ impl Validate<VarDecl> for Analyzer<'_, '_> {
                             Some(mut pat) => {
                                 //
                                 if i < tuple.elem_types.len() {
-                                    pat.set_ty(tuple.elem_types[i].ty.clone().into());
+                                    let ty = box tuple.elem_types[i].ty.clone();
+                                    pat.set_ty(Some(ty));
                                 }
 
                                 var.decls.push(VarDeclarator {
@@ -200,12 +202,12 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                     None => {
                         // infer type from value.
                         let mut ty = (|| {
-                            match value_ty {
+                            match *value_ty {
                                 Type::EnumVariant(ref v) => {
                                     if let Some(items) = self.find_type(&v.enum_name) {
                                         for ty in items {
                                             if let Type::Enum(ref e) = ty {
-                                                return Type::Enum(e.clone());
+                                                return box Type::Enum(e.clone());
                                             }
                                         }
                                     }
@@ -224,10 +226,10 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                         ty = ty.fold_with(&mut Generalizer::default());
 
                         if should_generalize_fully {
-                            ty = match ty {
+                            ty = match *ty {
                                 Type::Function(mut f) => {
-                                    f.ret_ty = box f.ret_ty.generalize_lit();
-                                    Type::Function(f)
+                                    f.ret_ty = f.ret_ty.generalize_lit();
+                                    box Type::Function(f)
                                 }
                                 _ => ty,
                             };
@@ -258,12 +260,12 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
 
                         // Handle implicit any
 
-                        match ty {
-                            Type::Tuple(Tuple { ref mut types, .. }) => {
-                                for (i, t) in types.iter_mut().enumerate() {
-                                    let span = t.span();
+                        match *ty {
+                            Type::Tuple(Tuple { ref mut elems, .. }) => {
+                                for (i, element) in elems.iter_mut().enumerate() {
+                                    let span = element.span();
 
-                                    match *t.normalize() {
+                                    match *element.ty.normalize() {
                                         Type::Keyword(TsKeywordType {
                                             kind: TsKeywordTypeKind::TsUndefinedKeyword,
                                             ..
@@ -277,7 +279,7 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                                         }
                                     }
                                     // Widen tuple types
-                                    *t = Type::any(span);
+                                    element.ty = Type::any(span);
 
                                     if self.rule.no_implicit_any {
                                         match v.name {
@@ -389,7 +391,7 @@ where
 {
     let mut v = TypeParamFinder { found: false };
 
-    node.visit_with(&mut v);
+    node.visit_with(&node, &mut v);
 
     v.found
 }

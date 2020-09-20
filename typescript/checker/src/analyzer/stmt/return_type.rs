@@ -5,7 +5,7 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use swc_common::Spanned;
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 use swc_ecma_visit::{Node, Visit, VisitMut, VisitMutWith, VisitWith};
@@ -202,7 +202,7 @@ where
         if !self.in_conditional {
             log::trace!("Checking for infinite loop");
             let mut v = LoopBreakerFinder { found: false };
-            s.visit_with(&mut v);
+            s.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
             let has_break = v.found;
             if !has_break {
                 match s {

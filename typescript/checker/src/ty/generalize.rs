@@ -16,12 +16,12 @@ impl ty::Fold for TupleToArray {
             Type::Tuple(tuple) => {
                 let mut types: Vec<Box<Type>> = vec![];
 
-                for ty in tuple.elems {
-                    if types.iter().any(|item| item.type_eq(&ty)) {
+                for element in tuple.elems {
+                    if types.iter().any(|item| item.type_eq(&element.ty)) {
                         continue;
                     }
 
-                    types.push(ty);
+                    types.push(element.ty);
                 }
 
                 let elem_type = Type::union(types);

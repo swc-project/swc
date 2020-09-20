@@ -37,7 +37,7 @@ impl Analyzer<'_, '_> {
         self.validate(e)
     }
 
-    fn validate_for_loop(&mut self, span: Span, lhs: &mut VarDeclOrPat, rty: Type) {
+    fn validate_for_loop(&mut self, span: Span, lhs: &mut VarDeclOrPat, rty: Box<Type>) {
         match lhs {
             VarDeclOrPat::Pat(Pat::Expr(l)) => {
                 let lty = match self.validate_expr(l, TypeOfMode::LValue, None) {

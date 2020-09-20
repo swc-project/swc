@@ -1,6 +1,7 @@
 use fxhash::FxHashMap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{ComputedPropName, Expr, PropName};
+use swc_ecma_utils::drop_span;
 
 /// **Note**: this struct ignores span of key.
 #[derive(Debug)]
@@ -20,20 +21,20 @@ impl<V> PropertyMap<V> {
     pub fn get(&self, expr: &Expr) -> Option<&V> {
         let expr = PropName::Computed(ComputedPropName {
             span: DUMMY_SP,
-            expr: box expr.clone().fold_with(&mut super::SpanRemover),
+            expr: box drop_span(expr.clone()),
         });
 
         self.inner.get(&expr)
     }
 
     pub fn get_prop_name(&self, p: &PropName) -> Option<&V> {
-        let expr = p.clone().fold_with(&mut super::SpanRemover);
+        let expr = drop_span(p.clone());
 
         self.inner.get(&expr)
     }
 
     pub fn insert(&mut self, key: PropName, v: V) {
-        let key = key.fold_with(&mut super::SpanRemover);
+        let key = drop_span(key);
         self.inner.insert(key, v);
     }
 }

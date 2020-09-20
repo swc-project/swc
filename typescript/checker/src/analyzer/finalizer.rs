@@ -1,7 +1,6 @@
 use super::Analyzer;
 use crate::{analyzer::util::ResultExt, ty, ty::Type};
 use swc_common::Spanned;
-use swc_ecma_visit::FoldWith as _;
 use swc_ts_types::FoldWith as _;
 
 impl Analyzer<'_, '_> {

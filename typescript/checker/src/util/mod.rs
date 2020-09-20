@@ -4,8 +4,7 @@ use crate::{
 };
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ModuleItemLike, StmtLike};
-use swc_ts_types::FoldWith;
+use swc_ecma_utils::{drop_span, ModuleItemLike, StmtLike};
 
 pub(crate) mod named;
 pub(crate) mod property_map;
@@ -41,12 +40,14 @@ macro_rules! impl_by_clone {
     ($T:ty) => {
         impl EqIgnoreSpan for $T {
             fn eq_ignore_span(&self, to: &Self) -> bool {
-                self.clone().fold_with(&mut SpanRemover) == to.clone().fold_with(&mut SpanRemover)
+                drop_span(self.clone()) == drop_span(to.clone())
             }
         }
 
         impl TypeEq<$T> for $T {
             fn type_eq(&self, to: &$T) -> bool {
+                use swc_ecma_visit::FoldWith;
+
                 let l = self.clone().fold_with(&mut TypeEqHelper);
                 let r = to.clone().fold_with(&mut TypeEqHelper);
 
@@ -55,17 +56,40 @@ macro_rules! impl_by_clone {
         }
     };
 }
-impl_by_clone!(Type);
+
+macro_rules! impl_ty_by_clone {
+    ($T:ty) => {
+        impl EqIgnoreSpan for $T {
+            fn eq_ignore_span(&self, to: &Self) -> bool {
+                use swc_ts_types::FoldWith;
+                self.clone().fold_with(&mut SpanRemover) == to.clone().fold_with(&mut SpanRemover)
+            }
+        }
+
+        impl TypeEq<$T> for $T {
+            fn type_eq(&self, to: &$T) -> bool {
+                use swc_ts_types::FoldWith;
+
+                let l = self.clone().fold_with(&mut TypeEqHelper);
+                let r = to.clone().fold_with(&mut TypeEqHelper);
+
+                l == r
+            }
+        }
+    };
+}
+
+impl_ty_by_clone!(Type);
 impl_by_clone!(Expr);
-impl_by_clone!(TypeElement);
+impl_ty_by_clone!(TypeElement);
 impl_by_clone!(TsLit);
 impl_by_clone!(TsLitType);
 impl_by_clone!(PropName);
-impl_by_clone!(Class);
-impl_by_clone!(FnParam);
+impl_ty_by_clone!(Class);
+impl_ty_by_clone!(FnParam);
 impl_by_clone!(ComputedPropName);
 impl_by_clone!(TsEntityName);
-impl_by_clone!(TypeParamInstantiation);
+impl_ty_by_clone!(TypeParamInstantiation);
 impl_by_clone!(TsTupleElement);
 
 struct SpanRemover;
@@ -84,6 +108,12 @@ impl ty::Fold for TypeEqHelper {
     fn fold_fn_param(&mut self, mut p: FnParam) -> FnParam {
         p.pat = Pat::Invalid(Invalid { span: DUMMY_SP });
         p
+    }
+}
+
+impl swc_ecma_visit::Fold for TypeEqHelper {
+    fn fold_span(&mut self, _: Span) -> Span {
+        DUMMY_SP
     }
 }
 
@@ -159,6 +189,7 @@ where
     }
 }
 
+/// TODO: Change it to return Box<Type>
 pub(crate) trait RemoveTypes {
     /// Removes falsy values from `self`.
     fn remove_falsy(self) -> Type;
@@ -172,7 +203,7 @@ impl RemoveTypes for Type {
         match self {
             Type::Keyword(TsKeywordType { kind, span }) => match kind {
                 TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
-                    return Type::never(span);
+                    return *Type::never(span);
                 }
                 _ => {}
             },
@@ -182,7 +213,7 @@ impl RemoveTypes for Type {
                         value: false, span, ..
                     }),
                 ..
-            }) => return Type::never(span),
+            }) => return *Type::never(span),
 
             Type::Union(u) => return u.remove_falsy(),
             Type::Intersection(i) => return i.remove_falsy(),
@@ -199,7 +230,7 @@ impl RemoveTypes for Type {
                     value: true, span, ..
                 }),
                 ..
-            }) => return Type::never(span),
+            }) => return *Type::never(span),
 
             Type::Union(u) => u.remove_truthy(),
             Type::Intersection(i) => i.remove_truthy(),
@@ -213,10 +244,10 @@ impl RemoveTypes for Intersection {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_falsy())
+            .map(|ty| box ty.remove_falsy())
             .collect::<Vec<_>>();
         if types.iter().any(|ty| ty.is_never()) {
-            return Type::never(self.span);
+            return *Type::never(self.span);
         }
 
         Intersection {
@@ -230,10 +261,10 @@ impl RemoveTypes for Intersection {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_truthy())
+            .map(|ty| box ty.remove_truthy())
             .collect::<Vec<_>>();
         if types.iter().any(|ty| ty.is_never()) {
-            return Type::never(self.span);
+            return *Type::never(self.span);
         }
 
         Intersection {
@@ -249,7 +280,7 @@ impl RemoveTypes for Union {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_falsy())
+            .map(|ty| box ty.remove_falsy())
             .filter(|ty| !ty.is_never())
             .collect();
         Union {
@@ -263,7 +294,7 @@ impl RemoveTypes for Union {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_truthy())
+            .map(|ty| box ty.remove_truthy())
             .filter(|ty| !ty.is_never())
             .collect();
         Union {

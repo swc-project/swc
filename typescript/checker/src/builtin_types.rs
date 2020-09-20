@@ -12,6 +12,7 @@ use once_cell::sync::{Lazy, OnceCell};
 use std::{collections::hash_map::Entry, path::PathBuf, sync::Arc};
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 use swc_ts_builtin_types::load;
 pub use swc_ts_builtin_types::Lib;
 use swc_ts_types::Id;
@@ -78,7 +79,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                 })) => {
                                     merged.types.insert(
                                         ident.into(),
-                                        function
+                                        box function
                                             .clone()
                                             .validate_with(&mut analyzer)
                                             .expect("builtin: failed to parse function")
@@ -129,7 +130,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         },
                                     );
 
-                                    merged.types.insert(c.ident.clone().into(), ty);
+                                    merged.types.insert(c.ident.clone().into(), box ty);
                                 }
 
                                 Stmt::Decl(Decl::TsModule(ref m)) => {
@@ -143,7 +144,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                     m.body.clone().visit_mut_with(&mut analyzer);
 
                                     match merged.types.entry(id) {
-                                        Entry::Occupied(mut e) => match e.get_mut() {
+                                        Entry::Occupied(mut e) => match &**e.get_mut() {
                                             ty::Type::Module(module) => {
                                                 //
                                                 module.exports.extend(analyzer.info.exports)
@@ -153,7 +154,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         },
                                         Entry::Vacant(e) => {
                                             e.insert(
-                                                Module {
+                                                box Module {
                                                     span: DUMMY_SP,
                                                     exports: analyzer.info.exports,
                                                 }
@@ -172,13 +173,13 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         .map(Type::from)
                                         .expect("builtin: failed to process type alias");
 
-                                    merged.types.insert(a.id.clone().into(), ty);
+                                    merged.types.insert(a.id.clone().into(), box ty);
                                 }
 
                                 // Merge interface
                                 Stmt::Decl(Decl::TsInterface(ref i)) => {
                                     match merged.types.entry(i.id.clone().into()) {
-                                        Entry::Occupied(mut e) => match *e.get_mut() {
+                                        Entry::Occupied(mut e) => match &**e.get_mut() {
                                             ty::Type::Interface(ref mut v) => {
                                                 v.body.extend(
                                                     analyzer
@@ -195,7 +196,8 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         },
                                         Entry::Vacant(e) => {
                                             e.insert(
-                                                i.clone()
+                                                box i
+                                                    .clone()
                                                     .validate_with(&mut analyzer)
                                                     .expect("builtin: failed to parse interface")
                                                     .into(),
