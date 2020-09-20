@@ -2,18 +2,18 @@ use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 
 /// This *colors* type parameters. After this pass, two type parameter declared
 /// in different function will be treated as not same.
 pub fn colorizer() -> impl 'static + swc_ecma_visit::Fold {
-    Colorizer {
+    as_folder(Colorizer {
         scope: Scope {
             parent: None,
             mark: Mark::root(),
             params: Default::default(),
         },
-    }
+    })
 }
 
 #[derive(Debug)]

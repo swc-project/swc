@@ -1,7 +1,7 @@
 //! A module to validate while type checking
 use crate::ty::{self, Ref, Type};
 use backtrace::Backtrace;
-use swc_ts_types::TypeNode;
+use swc_ts_types::{TypeNode, VisitWith};
 
 pub mod duplicate;
 

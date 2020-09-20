@@ -493,7 +493,7 @@ impl Validate<TsTypeRef> for Analyzer<'_, '_> {
                 if let Some(types) = self.find_type(&i.into()) {
                     for ty in types {
                         match ty.normalize() {
-                            Type::Param(..) => return Ok(ty.clone()),
+                            Type::Param(..) => return Ok(box ty.clone()),
                             _ => {}
                         }
                     }
@@ -503,7 +503,7 @@ impl Validate<TsTypeRef> for Analyzer<'_, '_> {
             _ => {}
         }
 
-        Ok(Ref {
+        Ok(box Ref {
             span: t.span,
             type_name: t.type_name.clone(),
             type_args,
@@ -598,8 +598,8 @@ impl Validate<TsIndexedAccessType> for Analyzer<'_, '_> {
         Ok(IndexedAccessType {
             span: t.span,
             readonly: t.readonly,
-            obj_type: box t.obj_type.validate_with(self)?,
-            index_type: box t.index_type.validate_with(self)?,
+            obj_type: t.obj_type.validate_with(self)?,
+            index_type: t.index_type.validate_with(self)?,
         })
     }
 }
@@ -611,8 +611,8 @@ impl Validate<TsType> for Analyzer<'_, '_> {
     fn validate(&mut self, ty: &mut TsType) -> Self::Output {
         self.record(ty);
 
-        Ok(match ty {
-            TsType::TsThisType(this) => box Type::This(this.clone()),
+        Ok(box match ty {
+            TsType::TsThisType(this) => Type::This(this.clone()),
             TsType::TsLitType(ty) => {
                 let mut ty = Type::Lit(ty.clone());
                 self.prevent_generalize(&mut ty);
@@ -637,8 +637,8 @@ impl Validate<TsType> for Analyzer<'_, '_> {
             TsType::TsConditionalType(cond) => Type::Conditional(self.validate(cond)?),
             TsType::TsMappedType(ty) => Type::Mapped(self.validate(ty)?),
             TsType::TsTypeOperator(ty) => Type::Operator(self.validate(ty)?),
-            TsType::TsParenthesizedType(ty) => self.validate(ty)?,
-            TsType::TsTypeRef(ty) => self.validate(ty)?,
+            TsType::TsParenthesizedType(ty) => return self.validate(ty),
+            TsType::TsTypeRef(ty) => return self.validate(ty),
             TsType::TsTypeQuery(ty) => Type::Query(ty.validate_with(self)?),
             TsType::TsOptionalType(ty) => unimplemented!("{:?}", ty),
             TsType::TsRestType(ty) => unimplemented!("{:?}", ty),

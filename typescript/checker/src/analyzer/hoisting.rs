@@ -194,7 +194,7 @@ impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
         if !self.no_decl {
             self.ids.insert(node.ident.clone().into());
         }
-        node.visit_children(self);
+        node.visit_children_with(self);
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
@@ -220,13 +220,13 @@ impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
 
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         let old = self.no_decl;
-        n.visit_children(self);
+        n.visit_children_with(self);
         self.no_decl = old;
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
         let old = self.no_decl;
-        n.visit_children(self);
+        n.visit_children_with(self);
         self.no_decl = old;
     }
 
@@ -246,7 +246,7 @@ impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
             _ => {}
         }
 
-        node.visit_children(self);
+        node.visit_children_with(self);
     }
 }
 

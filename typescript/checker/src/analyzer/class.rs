@@ -272,7 +272,7 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
                 }
 
                 c.key.visit_mut_with(child);
-                // c.function.visit_children(child);
+                // c.function.visit_children_with(child);
 
                 if child.ctx.in_declare && c.function.body.is_some() {
                     child.info.errors.push(Error::TS1183 { span: key_span })

@@ -17,7 +17,7 @@ pub struct AmbientFunctionHandler<'a> {
 
 impl swc_ecma_visit::Visit for AmbientFunctionHandler<'_> {
     fn visit_stmt(&mut self, node: &Stmt, _: &dyn Node) {
-        node.visit_children(self);
+        node.visit_children_with(self);
 
         match node {
             Stmt::Decl(Decl::Fn(..)) => {}

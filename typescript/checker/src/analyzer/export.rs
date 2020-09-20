@@ -160,7 +160,8 @@ impl Validate<ExportDecl> for Analyzer<'_, '_> {
                 let ty = e
                     .validate_with(self)
                     .store(&mut self.info.errors)
-                    .map(Type::from);
+                    .map(Type::from)
+                    .map(Box::new);
 
                 self.info
                     .exports

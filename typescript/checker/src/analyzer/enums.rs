@@ -338,7 +338,7 @@ struct LitValidator<'a> {
 
 impl Visit for LitValidator<'_> {
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e {
             Expr::Lit(..) => {}
