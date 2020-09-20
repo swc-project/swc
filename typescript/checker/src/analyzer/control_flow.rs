@@ -33,9 +33,9 @@ use swc_ts_types::Id;
 #[derive(Debug, Clone, Default)]
 pub(crate) struct CondFacts {
     pub facts: FxHashMap<Name, TypeFacts>,
-    pub vars: FxHashMap<Name, Type>,
+    pub vars: FxHashMap<Name, Box<Type>>,
     pub excludes: FxHashMap<Name, Vec<Box<Type>>>,
-    pub types: FxHashMap<Id, Type>,
+    pub types: FxHashMap<Id, Box<Type>>,
 }
 
 impl CondFacts {
@@ -815,7 +815,7 @@ impl Validate<CondExpr> for Analyzer<'_, '_> {
             _ => {}
         }
 
-        Ok(Type::union(vec![cons, alt]))
+        Ok(box Type::union(vec![cons, alt]))
     }
 }
 
