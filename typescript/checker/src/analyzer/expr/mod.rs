@@ -160,7 +160,7 @@ impl Validate<UpdateExpr> for Analyzer<'_, '_> {
             }
         }
 
-        Ok(Type::Keyword(TsKeywordType {
+        Ok(box Type::Keyword(TsKeywordType {
             kind: TsKeywordTypeKind::TsNumberKeyword,
             span,
         }))
@@ -270,9 +270,9 @@ impl Analyzer<'_, '_> {
             Expr::This(ThisExpr { span }) => {
                 let span = *span;
                 if let Some(ty) = self.scope.this() {
-                    return Ok(ty.into_owned());
+                    return Ok(box ty.into_owned());
                 }
-                return Ok(Type::from(TsThisType { span }));
+                return Ok(box Type::from(TsThisType { span }));
             }
 
             Expr::Ident(ref i) => self.type_of_var(i, mode, type_args),
@@ -300,17 +300,17 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
-                return Ok(Type::Tuple(Tuple { span, types }));
+                return Ok(box Type::Tuple(Tuple { span, types }));
             }
 
             Expr::Lit(Lit::Bool(v)) => {
-                return Ok(Type::Lit(TsLitType {
+                return Ok(box Type::Lit(TsLitType {
                     span: v.span,
                     lit: TsLit::Bool(*v),
                 }));
             }
             Expr::Lit(Lit::Str(ref v)) => {
-                return Ok(Type::Lit(TsLitType {
+                return Ok(box Type::Lit(TsLitType {
                     span: v.span,
                     lit: TsLit::Str(v.clone()),
                 }));
