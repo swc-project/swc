@@ -115,6 +115,15 @@ trait Merge {
     fn or(&mut self, other: Self);
 }
 
+impl<T> Merge for Box<T>
+where
+    T: Merge,
+{
+    fn or(&mut self, other: Self) {
+        T::or(&mut **self, *other)
+    }
+}
+
 impl<T> Merge for Vec<T> {
     fn or(&mut self, other: Self) {
         self.extend(other)

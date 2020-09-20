@@ -473,13 +473,13 @@ impl Analyzer<'_, '_> {
     #[inline(never)]
     pub(super) fn find_var(&self, name: &Id) -> Option<&VarInfo> {
         static ERR_VAR: Lazy<VarInfo> = Lazy::new(|| VarInfo {
-            ty: Some(box Type::any(DUMMY_SP)),
+            ty: Some(Type::any(DUMMY_SP)),
             kind: VarDeclKind::Const,
             initialized: true,
             copied: false,
         });
         static ANY_VAR: Lazy<VarInfo> = Lazy::new(|| VarInfo {
-            ty: Some(box Type::any(DUMMY_SP)),
+            ty: Some(Type::any(DUMMY_SP)),
             kind: VarDeclKind::Const,
             initialized: true,
             copied: false,
