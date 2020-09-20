@@ -87,7 +87,7 @@ impl Analyzer<'_, '_> {
     }
 }
 
-trait MyVisitor: Validate<Expr, Output = ValidationResult> {}
+trait MyVisitor: Validate<Expr, Output = ValidationResult> + VisitMut {}
 impl MyVisitor for Analyzer<'_, '_> {}
 
 struct ReturnTypeCollector<'a, A>

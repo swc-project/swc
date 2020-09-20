@@ -45,7 +45,7 @@ where
 
 pub trait ValidateWith<V> {
     type Output;
-    fn validate_with(&mut self, v: &mut V) -> ValidationResult<Self::Output>;
+    fn validate_with(&mut self, v: &mut V) -> Self::Output;
 }
 
 impl<V, T> ValidateWith<V> for T

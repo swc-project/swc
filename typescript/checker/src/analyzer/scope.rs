@@ -200,7 +200,7 @@ impl Analyzer<'_, '_> {
     /// Expands
     ///
     ///   - Type alias
-    pub(super) fn expand(&mut self, span: Span, ty: Type) -> ValidationResult {
+    pub(super) fn expand(&mut self, span: Span, ty: Box<Type>) -> ValidationResult {
         if self.is_builtin {
             return Ok(ty);
         }

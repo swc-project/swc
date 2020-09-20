@@ -1,8 +1,9 @@
 //! This module implements VisitMut for Analyzer
 
 use super::Analyzer;
+use crate::validator::{Validate, ValidateWith};
 use swc_ecma_ast::*;
-use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 macro_rules! forward {
     ($name:ident,$T:ty) => {
@@ -20,8 +21,21 @@ macro_rules! forward {
     };
 }
 
+macro_rules! use_visit_mut {
+    ($T:ty) => {
+        impl Validate<$T> for Analyzer<'_, '_> {
+            type Output = ();
+
+            fn validate(&mut self, node: &mut $T) -> Self::Output {
+                node.visit_mut_children_with(self)
+            }
+        }
+    };
+}
+
+use_visit_mut!(Stmt);
+
 /// All methods forward to `Validate<T>`
 impl VisitMut for Analyzer<'_, '_> {
     forward!(visit_mut_expr, Expr);
-    forward!(visit_mut_pat, Pat);
 }
