@@ -8,8 +8,10 @@ pub use self::{
     id::Id,
     visit::{Fold, FoldWith, Node as TypeNode, Visit, VisitMut, VisitMutWith, VisitWith},
 };
+use num_traits::Zero;
 use fxhash::FxHashMap;
 use is_macro::Is;
+use num_bigint::BigInt;
 use std::{fmt::Debug, iter::FusedIterator, mem::transmute, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FromVariant, Span, Spanned, DUMMY_SP};
@@ -1141,6 +1143,7 @@ impl Type {
                 TsLit::Str(v) => v.value != *"",
                 TsLit::Tpl(v) => v.quasis.first().unwrap().raw.value != *"",
                 TsLit::Bool(v) => v.value,
+                TsLit::BigInt(v) => v.value != BigInt::zero(),
             }),
             Type::Keyword(TsKeywordType { kind, .. }) => Known(match kind {
                 TsKeywordTypeKind::TsNeverKeyword
