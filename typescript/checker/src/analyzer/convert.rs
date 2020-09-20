@@ -493,7 +493,7 @@ impl Validate<TsTypeRef> for Analyzer<'_, '_> {
                 if let Some(types) = self.find_type(&i.into()) {
                     for ty in types {
                         match ty.normalize() {
-                            Type::Param(..) => return Ok(ty.clone()),
+                            Type::Param(..) => return Ok(box ty.clone()),
                             _ => {}
                         }
                     }

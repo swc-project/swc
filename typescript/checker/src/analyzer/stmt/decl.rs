@@ -11,8 +11,8 @@ use macros::validator;
 use std::mem::take;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
-use swc_ts_types::Id;
+use swc_ecma_visit::VisitMutWith;
+use swc_ts_types::{FoldWith, Id};
 
 #[validator]
 impl Validate<VarDecl> for Analyzer<'_, '_> {
@@ -52,7 +52,7 @@ impl Validate<VarDecl> for Analyzer<'_, '_> {
                             Some(mut pat) => {
                                 //
                                 if i < tuple.elem_types.len() {
-                                    pat.set_ty(tuple.elem_types[i].clone().into())
+                                    pat.set_ty(tuple.elem_types[i].ty.clone().into());
                                 }
 
                                 var.decls.push(VarDeclarator {

@@ -95,7 +95,7 @@ where
     A: MyVisitor,
 {
     pub analyzer: &'a mut A,
-    pub types: Vec<Result<Type, Error>>,
+    pub types: Vec<Result<Box<Type>, Error>>,
     /// Are we in if or switch statement?
     pub in_conditional: bool,
     pub forced_never: bool,

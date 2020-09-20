@@ -5,6 +5,7 @@ use crate::{
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ModuleItemLike, StmtLike};
+use swc_ts_types::FoldWith;
 
 pub(crate) mod named;
 pub(crate) mod property_map;

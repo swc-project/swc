@@ -1,6 +1,6 @@
 use crate::errors::{Error, Errors};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Node;
+use swc_ecma_visit::{Node, VisitWith};
 
 /// Handles
 ///

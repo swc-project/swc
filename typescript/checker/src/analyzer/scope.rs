@@ -560,7 +560,7 @@ impl Analyzer<'_, '_> {
     }
 
     #[inline(never)]
-    pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Box<Type>>> {
+    pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         #[allow(dead_code)]
         static ANY: Box<Type> = Type::any(DUMMY_SP);
 
@@ -627,10 +627,10 @@ impl Analyzer<'_, '_> {
                                     // Allow override query type.
                                     Type::Query(..) => {}
                                     _ => {
-                                        let ty = self.expand_fully(span, ty.clone(), true)?;
+                                        let ty = self.expand_fully(span, box ty.clone(), true)?;
                                         let var_ty = self.expand_fully(
                                             span,
-                                            generalized_var_ty.into_owned().clone(),
+                                            box generalized_var_ty.into_owned(),
                                             true,
                                         )?;
                                         let res = self.assign(&ty, &var_ty, span);
@@ -651,9 +651,9 @@ impl Analyzer<'_, '_> {
                                 }
                             }
                         }
-                        Type::union(vec![var_ty, ty])
+                        Type::union(vec![box var_ty, box ty])
                     } else {
-                        ty
+                        box ty
                     })
                 } else {
                     if let Some(var_ty) = v.ty {
@@ -685,7 +685,7 @@ impl Analyzer<'_, '_> {
         &mut self,
         kind: VarDeclKind,
         pat: &Pat,
-        ty: Type,
+        ty: Box<Type>,
     ) -> ValidationResult<()> {
         let span = pat.span();
 
@@ -713,16 +713,23 @@ impl Analyzer<'_, '_> {
                 //
 
                 // TODO: Normalize static
-                match ty {
-                    Type::Tuple(Tuple { types, .. }) => {
-                        if types.len() < elems.len() {
+                match *ty {
+                    Type::Tuple(Tuple {
+                        elems: ref tuple_elements,
+                        ..
+                    }) => {
+                        if tuple_elements.len() < elems.len() {
                             return Err(Error::TooManyTupleElements { span });
                         }
 
-                        for (elem, ty) in elems.into_iter().zip(types) {
+                        for (elem, tuple_element) in elems.into_iter().zip(tuple_elements) {
                             match *elem {
                                 Some(ref elem) => {
-                                    self.declare_complex_vars(kind, elem, ty)?;
+                                    self.declare_complex_vars(
+                                        kind,
+                                        elem,
+                                        tuple_element.ty.clone(),
+                                    )?;
                                 }
                                 None => {
                                     // Skip
@@ -740,7 +747,7 @@ impl Analyzer<'_, '_> {
                         for ty in types.iter() {
                             match *ty.normalize() {
                                 Type::Tuple(Tuple {
-                                    types: ref elem_types,
+                                    elems: ref elem_types,
                                     ..
                                 }) => {
                                     buf.push(elem_types);
@@ -760,7 +767,7 @@ impl Analyzer<'_, '_> {
                         {
                             match *elem {
                                 Some(ref elem) => {
-                                    let ty = Union {
+                                    let ty = box Union {
                                         span,
                                         types: types.into_iter().cloned().collect(),
                                     }
@@ -835,7 +842,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 // TODO: Normalize static
-                match ty {
+                match *ty {
                     Type::TypeLit(TypeLit { members, .. }) => {
                         handle_elems!(members);
                     }
@@ -994,6 +1001,7 @@ impl<'a> Scope<'a> {
 #[derive(Debug, Clone, Copy)]
 pub enum ItemRef<'a, T> {
     Single(&'a T),
+    Boxed(&'a Box<T>),
     Multi(&'a [T]),
 }
 
@@ -1005,6 +1013,7 @@ impl<'a, T> IntoIterator for ItemRef<'a, T> {
         match self {
             ItemRef::Single(s) => Either::Left(once(s)),
             ItemRef::Multi(s) => Either::Right(s.into_iter()),
+            ItemRef::Boxed(s) => Either::Left(once(&**s)),
         }
     }
 }
@@ -1252,10 +1261,10 @@ impl ty::Fold for Expander<'_, '_, '_> {
         };
 
         match res {
-            Ok(ty) => ty,
+            Ok(ty) => *ty,
             Err(err) => {
                 self.analyzer.info.errors.push(err);
-                Type::any(span)
+                *Type::any(span)
             }
         }
     }

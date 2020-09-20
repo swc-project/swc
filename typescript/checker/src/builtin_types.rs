@@ -18,8 +18,8 @@ use swc_ts_types::Id;
 
 #[derive(Debug, Default)]
 struct Merged {
-    vars: FxHashMap<Id, Type>,
-    types: FxHashMap<Id, Type>,
+    vars: FxHashMap<Id, Box<Type>>,
+    types: FxHashMap<Id, Box<Type>>,
 }
 
 fn merge(ls: &[Lib]) -> &'static Merged {

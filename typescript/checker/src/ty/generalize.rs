@@ -3,6 +3,7 @@ use crate::{
     util::TypeEq,
 };
 use swc_common::Spanned;
+use swc_ts_types::FoldWith;
 
 pub(super) struct TupleToArray;
 
@@ -15,7 +16,7 @@ impl ty::Fold for TupleToArray {
             Type::Tuple(tuple) => {
                 let mut types: Vec<Box<Type>> = vec![];
 
-                for ty in tuple.types {
+                for ty in tuple.elems {
                     if types.iter().any(|item| item.type_eq(&ty)) {
                         continue;
                     }
@@ -23,7 +24,7 @@ impl ty::Fold for TupleToArray {
                     types.push(ty);
                 }
 
-                let elem_type = box Type::union(types);
+                let elem_type = Type::union(types);
                 return Type::Array(Array { span, elem_type });
             }
 

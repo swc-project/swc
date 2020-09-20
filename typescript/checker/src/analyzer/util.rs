@@ -3,7 +3,7 @@ use crate::{analyzer::generic::is_literals, ty, ty::Type};
 use std::iter::once;
 use swc_ecma_ast::*;
 use swc_ecma_visit::Node;
-use swc_ts_types::Id;
+use swc_ts_types::{FoldWith, Id};
 
 #[derive(Debug, Default)]
 pub(super) struct Generalizer {

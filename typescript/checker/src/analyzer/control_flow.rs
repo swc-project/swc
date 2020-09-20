@@ -405,7 +405,7 @@ impl Analyzer<'_, '_> {
                         } else {
                             if let Some(types) = self.find_type(&i.into()) {
                                 for ty in types {
-                                    match &**ty {
+                                    match &*ty {
                                         Type::Module(..) => {
                                             return Err(Error::NotVariable {
                                                 span: i.span,

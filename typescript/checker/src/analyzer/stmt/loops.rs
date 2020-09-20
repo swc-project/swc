@@ -9,6 +9,7 @@ use crate::{
 use macros::{validator, validator_method};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 
 impl Analyzer<'_, '_> {
     #[validator_method]
@@ -48,7 +49,7 @@ impl Analyzer<'_, '_> {
                 match self.assign(
                     &Type::Array(Array {
                         span,
-                        elem_type: box lty,
+                        elem_type: lty,
                     }),
                     &rty,
                     lhs.span(),

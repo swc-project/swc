@@ -301,7 +301,7 @@ impl Analyzer<'_, '_> {
             Type::EnumVariant(ref v) => {
                 if let Some(types) = self.find_type(&v.enum_name) {
                     for ty in types {
-                        if let Type::Enum(Enum { members, .. }) = &**ty {
+                        if let Type::Enum(Enum { members, .. }) = ty {
                             if let Some(v) = members.iter().find(|m| match m.id {
                                 TsEnumMemberId::Ident(Ident { ref sym, .. })
                                 | TsEnumMemberId::Str(Str { value: ref sym, .. }) => *sym == v.name,

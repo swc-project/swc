@@ -444,7 +444,7 @@ impl Analyzer<'_, '_> {
             ExtractKind::New => match ty.normalize() {
                 Type::Class(ref cls) => {
                     //
-                    return Ok(Type::ClassInstance(ClassInstance {
+                    return Ok(box Type::ClassInstance(ClassInstance {
                         span,
                         cls: cls.clone(),
                         type_args: type_args.cloned(),
@@ -482,7 +482,7 @@ impl Analyzer<'_, '_> {
                 span,
                 f.type_params.as_ref().map(|v| &*v.params),
                 &f.params,
-                *f.ret_ty.clone(),
+                f.ret_ty.clone(),
                 type_args,
                 args,
             ),
@@ -521,7 +521,7 @@ impl Analyzer<'_, '_> {
 
             Type::Class(ref cls) if kind == ExtractKind::New => {
                 // TODO: Remove clone
-                return Ok(ClassInstance {
+                return Ok(box ClassInstance {
                     span,
                     cls: cls.clone(),
                     type_args: type_args.cloned(),
@@ -606,11 +606,11 @@ impl Analyzer<'_, '_> {
         match kind {
             ExtractKind::Call => Err(Error::NoCallSignature {
                 span,
-                callee: ty.clone(),
+                callee: box ty.clone(),
             }),
             ExtractKind::New => Err(Error::NoNewSignature {
                 span,
-                callee: ty.clone(),
+                callee: box ty.clone(),
             }),
         }
     }
@@ -685,7 +685,7 @@ impl Analyzer<'_, '_> {
                         span,
                         type_params,
                         &m.params,
-                        *m.ret_ty.clone(),
+                        m.ret_ty.clone(),
                         type_args.as_ref(),
                         &args,
                     );
@@ -695,7 +695,7 @@ impl Analyzer<'_, '_> {
                     span,
                     m.type_params.as_ref().map(|v| &*v.params),
                     &m.params,
-                    *m.ret_ty.clone(),
+                    m.ret_ty.clone(),
                     type_args.as_ref(),
                     &args,
                 ));
@@ -713,7 +713,7 @@ impl Analyzer<'_, '_> {
                 }
                 Type::Class(ref cls) if kind == ExtractKind::New => {
                     // TODO: Handle type parameters.
-                    return Ok(Type::ClassInstance(ClassInstance {
+                    return Ok(box Type::ClassInstance(ClassInstance {
                         span,
                         cls: cls.clone(),
                         type_args,
@@ -740,7 +740,7 @@ impl Analyzer<'_, '_> {
         span: Span,
         type_params: Option<&[TypeParam]>,
         params: &[FnParam],
-        ret_ty: Type,
+        ret_ty: Box<Type>,
         type_args: Option<&TypeParamInstantiation>,
         args: &[TypeOrSpread],
     ) -> ValidationResult {
@@ -763,7 +763,7 @@ impl Analyzer<'_, '_> {
         Ok(ret_ty.clone())
     }
 
-    pub(crate) fn generalize_ret_ty(&self, ty: Type) -> Type {
+    pub(crate) fn generalize_ret_ty(&self, ty: Box<Type>) -> Box<Type> {
         if self.ctx.generalize_ret_ty {
             ty.generalize_lit()
         } else {

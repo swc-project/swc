@@ -386,7 +386,7 @@ impl Analyzer<'_, '_> {
             Type::EnumVariant(EnumVariant { ref enum_name, .. }) => {
                 if let Some(types) = self.find_type(enum_name) {
                     for ty in types {
-                        if let Type::Enum(ref e) = &**ty {
+                        if let Type::Enum(ref e) = ty {
                             handle_enum_in_rhs!(e);
                         }
                     }

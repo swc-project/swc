@@ -2,7 +2,7 @@ use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith, VisitWith};
 
 /// This *colors* type parameters. After this pass, two type parameter declared
 /// in different function will be treated as not same.
@@ -149,8 +149,8 @@ impl VisitMut for Colorizer<'_> {
             let child_mark = Mark::fresh(self.scope.mark);
             let mut child = Colorizer::new(Scope::new(Some(&self.scope), child_mark, params));
 
-            d.type_params.visit_with(&mut child);
-            d.type_ann.visit_with(&mut child);
+            d.type_params.visit_with(d, &mut child);
+            d.type_ann.visit_with(d, &mut child);
 
             child.scope.params
         };
