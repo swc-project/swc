@@ -2,7 +2,7 @@ use super::{scope::ScopeKind, Analyzer};
 use crate::{
     analyzer::{expr::TypeOfMode, util::ResultExt, Ctx},
     errors::{Error, Errors},
-    ty::{MethodSignature, Operator, PropertySignature, Type, TypeElement},
+    ty::{MethodSignature, Operator, PropertySignature, Type, TypeElement, TypeExt},
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
@@ -10,7 +10,7 @@ use macros::validator;
 use swc_atoms::js_word;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Node;
+use swc_ecma_visit::{Node, VisitMutWith};
 
 #[derive(Debug, Clone, Copy)]
 pub(super) enum ComputedPropMode {
@@ -28,6 +28,8 @@ impl Validate<PropName> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
     fn validate(&mut self, node: &mut PropName) -> Self::Output {
+        use swc_ecma_visit::VisitMutWith;
+
         self.record(node);
 
         node.visit_mut_children_with(self);
@@ -84,7 +86,7 @@ impl Validate<ComputedPropName> for Analyzer<'_, '_> {
 
                 if let Some(ref ty) = ty {
                     // TODO: Add support for expressions like '' + ''.
-                    match *ty {
+                    match **ty {
                         _ if is_valid_key => {}
                         Type::Lit(..) => {}
                         Type::EnumVariant(..) => {}
@@ -276,7 +278,7 @@ impl Analyzer<'_, '_> {
                     let inferred_ret_ty = self
                         .visit_stmts_for_return(&mut body.stmts)?
                         .unwrap_or_else(|| {
-                            Type::Keyword(TsKeywordType {
+                            box Type::Keyword(TsKeywordType {
                                 span: body.span,
                                 kind: TsKeywordTypeKind::TsVoidKeyword,
                             })
@@ -371,8 +373,10 @@ pub(super) fn prop_name_to_expr(key: &PropName) -> Box<Expr> {
 }
 
 fn is_valid_computed_key(key: &Expr) -> bool {
+    use swc_ecma_visit::VisitWith;
+
     let mut v = ValidKeyChecker { valid: true };
-    key.visit_with(&mut v);
+    key.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.valid
 }
 

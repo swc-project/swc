@@ -22,7 +22,7 @@ use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
-use swc_ts_types::Id;
+use swc_ts_types::{Id, TupleElement};
 use ty::TypeExt;
 
 mod bin;
@@ -283,22 +283,27 @@ impl Analyzer<'_, '_> {
 
                 for elem in elems.iter_mut() {
                     let span = elem.span();
-                    match elem {
+                    let ty = match elem {
                         Some(ExprOrSpread {
                             spread: None,
                             ref mut expr,
                         }) => {
                             let ty = self.validate(expr)?;
-                            elements.push(ty)
+                            ty
                         }
                         Some(ExprOrSpread {
                             spread: Some(..), ..
                         }) => unimplemented!("type of array spread"),
                         None => {
                             let ty = Type::undefined(span);
-                            elements.push(ty)
+                            ty
                         }
-                    }
+                    };
+                    elements.push(TupleElement {
+                        span,
+                        label: None,
+                        ty,
+                    });
                 }
 
                 return Ok(box Type::Tuple(Tuple {
@@ -973,9 +978,10 @@ impl Analyzer<'_, '_> {
                     //                        return Ok(Cow::Borrowed(&types[0]));
                     //                    }
 
+                    // Drop labels
                     return Ok(box Type::Union(Union {
                         span,
-                        types: elems.clone(),
+                        types: elems.iter().map(|element| &element.ty).cloned().collect(),
                     }));
                 }
             },
@@ -1238,7 +1244,7 @@ impl Analyzer<'_, '_> {
                             | Type::TypeLit(_)
                             | Type::Keyword(_)
                             | Type::Lit(_) => {
-                                let mut ty = box ty.clone();
+                                let mut ty = ty.clone();
                                 ty.respan(span);
                                 return Ok(ty);
                             }

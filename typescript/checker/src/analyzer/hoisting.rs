@@ -1,6 +1,7 @@
 use crate::{analyzer::Analyzer, util::AsModuleDecl, ValidationResult};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{algo::toposort, graph::DiGraph, graphmap::DiGraphMap, visit::DfsPostOrder};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::DestructuringFinder;
 use swc_ecma_visit::Node;
@@ -99,7 +100,7 @@ impl Analyzer<'_, '_> {
                     no_decl: false,
                 };
 
-                node.visit_with(&mut v);
+                node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
             }
 
             // log::warn!("Id graph: ({}) ({:?}) <-- {:?}", idx, ids, deps);
@@ -191,6 +192,8 @@ pub(super) struct StmtDependencyFinder<'a> {
 
 impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
     fn visit_fn_decl(&mut self, node: &FnDecl, _: &dyn Node) {
+        use swc_ecma_visit::VisitWith;
+
         if !self.no_decl {
             self.ids.insert(node.ident.clone().into());
         }
@@ -198,47 +201,59 @@ impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+        use swc_ecma_visit::VisitWith;
+
         if !self.no_decl {
             {
                 let mut v = DestructuringFinder {
                     found: self.ids_buf,
                 };
-                node.name.visit_with(&mut v);
+                node.name.visit_with(node, &mut v);
             }
 
             self.ids.extend(self.ids_buf.drain(..));
         }
 
-        node.init.visit_with(self);
+        node.init.visit_with(node, self);
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
+        use swc_ecma_visit::VisitWith;
+
         let old = self.no_decl;
-        node.class.visit_with(self);
+        node.class.visit_with(node, self);
         self.no_decl = old;
     }
 
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+        use swc_ecma_visit::VisitWith;
+
         let old = self.no_decl;
         n.visit_children_with(self);
         self.no_decl = old;
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
+        use swc_ecma_visit::VisitWith;
+
         let old = self.no_decl;
         n.visit_children_with(self);
         self.no_decl = old;
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
-        node.obj.visit_with(self);
+        use swc_ecma_visit::VisitWith;
+
+        node.obj.visit_with(node, self);
 
         if node.computed {
-            node.prop.visit_with(self);
+            node.prop.visit_with(node, self);
         }
     }
 
     fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
+        use swc_ecma_visit::VisitWith;
+
         match node {
             Expr::Ident(ref i) => {
                 self.deps.insert(i.into());
@@ -255,6 +270,8 @@ impl Analyzer<'_, '_> {
         &mut self,
         params: &[TsTypeParam],
     ) -> ValidationResult<Vec<usize>> {
+        use swc_ecma_visit::VisitWith;
+
         let mut graph = DiGraphMap::<usize, usize>::with_capacity(params.len(), params.len() * 2);
         for i in 0..params.len() {
             graph.add_node(i);
@@ -270,8 +287,8 @@ impl Analyzer<'_, '_> {
                 };
 
                 for p in params {
-                    p.constraint.visit_with(&mut v);
-                    p.default.visit_with(&mut v);
+                    p.constraint.visit_with(p, &mut v);
+                    p.default.visit_with(p, &mut v);
                 }
 
                 for dep in &deps {

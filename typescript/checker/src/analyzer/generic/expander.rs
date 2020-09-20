@@ -17,7 +17,7 @@ use swc_ts_types::{FoldWith as _, Id};
 impl Analyzer<'_, '_> {
     pub(in super::super) fn expand_type_params(
         &mut self,
-        params: &FxHashMap<Id, Type>,
+        params: &FxHashMap<Id, Box<Type>>,
         ty: Box<Type>,
     ) -> ValidationResult {
         self.expand_type_params_inner(params, ty, false)
@@ -41,7 +41,7 @@ impl Analyzer<'_, '_> {
     ///      } ? P : never
     fn expand_type_params_inner(
         &mut self,
-        params: &FxHashMap<Id, Type>,
+        params: &FxHashMap<Id, Box<Type>>,
         ty: Box<Type>,
         fully: bool,
     ) -> ValidationResult {
@@ -77,7 +77,7 @@ impl Analyzer<'_, '_> {
 /// This struct does not expands ref to other thpe. See Analyzer.expand to do
 /// such operation.
 struct GenericExpander<'a> {
-    params: &'a FxHashMap<Id, Type>,
+    params: &'a FxHashMap<Id, Box<Type>>,
     /// Expand fully?
     fully: bool,
     dejavu: FxHashSet<Id>,
@@ -119,7 +119,7 @@ impl ty::Fold for GenericExpander<'_> {
                 log::info!("Ref: {}", Id::from(i));
 
                 if let Some(ty) = self.params.get(&i.into()) {
-                    return ty.clone();
+                    return *ty.clone();
                 }
 
                 return ty.fold_children_with(self);
@@ -132,7 +132,7 @@ impl ty::Fold for GenericExpander<'_> {
 
                 if let Some(ty) = self.params.get(&param.name) {
                     log::info!("generic_expand: Type parameter: {} => {:?}", param.name, ty);
-                    return ty.clone();
+                    return *ty.clone();
                 }
 
                 log::warn!(

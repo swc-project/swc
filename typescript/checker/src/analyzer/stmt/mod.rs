@@ -7,6 +7,7 @@ use crate::{
 };
 use macros::validator;
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 
 mod ambient_decl;
 mod decl;

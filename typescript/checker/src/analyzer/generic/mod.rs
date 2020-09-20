@@ -15,7 +15,7 @@ use itertools::{EitherOrBoth, Itertools};
 use std::{collections::hash_map::Entry, mem::take};
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ts_types::Id;
+use swc_ts_types::{FoldWith as _, Id, VisitMutWith as _, VisitWith as _};
 
 mod expander;
 mod remover;
@@ -23,12 +23,12 @@ mod remover;
 #[derive(Debug, Default)]
 struct InferData {
     /// Inferred type parameters
-    type_params: FxHashMap<Id, Type>,
+    type_params: FxHashMap<Id, Box<Type>>,
 
     /// Type parameters which requires renaming.
-    pending_type_params: FxHashMap<Id, Type>,
+    pending_type_params: FxHashMap<Id, Box<Type>>,
 
-    type_elements: FxHashMap<Id, Type>,
+    type_elements: FxHashMap<Id, Box<Type>>,
 }
 
 /// Type inference for arguments.
@@ -122,7 +122,7 @@ impl Analyzer<'_, '_> {
         type_params: &[TypeParam],
         params: &[FnParam],
         args: &[TypeOrSpread],
-    ) -> ValidationResult<FxHashMap<Id, Type>> {
+    ) -> ValidationResult<FxHashMap<Id, Box<Type>>> {
         log::debug!(
             "infer_arg_types: {:?}",
             type_params
@@ -182,7 +182,7 @@ impl Analyzer<'_, '_> {
                         );
                         inferred
                             .type_params
-                            .insert(type_param.name.clone(), Type::Param(p.clone()));
+                            .insert(type_param.name.clone(), box Type::Param(p.clone()));
                     }
                     continue;
                 }
@@ -194,7 +194,7 @@ impl Analyzer<'_, '_> {
             {
                 inferred.type_params.insert(
                     type_param.name.clone(),
-                    *type_param.constraint.clone().unwrap(),
+                    type_param.constraint.clone().unwrap(),
                 );
                 continue;
             }
@@ -207,7 +207,7 @@ impl Analyzer<'_, '_> {
                     _ => false,
                 }
             {
-                let ty = self.expand_fully(span, *type_param.constraint.clone().unwrap(), false)?;
+                let ty = self.expand_fully(span, type_param.constraint.clone().unwrap(), false)?;
                 inferred.type_params.insert(type_param.name.clone(), ty);
                 continue;
             }
@@ -220,7 +220,7 @@ impl Analyzer<'_, '_> {
             // Defaults to {}
             inferred.type_params.insert(
                 type_param.name.clone(),
-                Type::TypeLit(TypeLit {
+                box Type::TypeLit(TypeLit {
                     span,
                     members: vec![],
                 }),
@@ -262,10 +262,7 @@ impl Analyzer<'_, '_> {
 
                 if constraint.is_some() && is_literals(&constraint.as_ref().unwrap()) {
                     log::info!("infer from literal constraint: {} = {:?}", name, constraint);
-                    if let Some(orig) = inferred
-                        .type_params
-                        .insert(name.clone(), *constraint.clone().unwrap())
-                    {
+                    if let Some(orig) = inferred.type_params.get(&name) {
                         if !orig.eq_ignore_span(&constraint.as_ref().unwrap()) {
                             print_backtrace();
                             panic!(
@@ -291,7 +288,7 @@ impl Analyzer<'_, '_> {
                     log::info!("infer from constraint: {} = {:?}", name, constraint);
                     inferred
                         .type_params
-                        .insert(name.clone(), *constraint.clone().unwrap())
+                        .insert(name.clone(), constraint.clone().unwrap())
                         .expect_none("Cannot override");
                     return Ok(());
                 }
@@ -308,9 +305,9 @@ impl Analyzer<'_, '_> {
 
                         if let Some(orig) = inferred
                             .type_params
-                            .insert(name, Type::union(vec![param_ty, arg.clone()]))
+                            .insert(name, Type::union(vec![param_ty, box arg.clone()]))
                         {
-                            match orig {
+                            match *orig {
                                 Type::Union(..) => {
                                     // TODO: Verify that orig is union of
                                     // param_ty and arg_ty
@@ -326,7 +323,7 @@ impl Analyzer<'_, '_> {
                         }
                     }
                     Entry::Vacant(e) => {
-                        e.insert(arg.clone());
+                        e.insert(box arg.clone());
                     }
                 }
 
@@ -340,7 +337,7 @@ impl Analyzer<'_, '_> {
                 }) => return self.infer_type(inferred, &elem_type, &arg_elem_type),
 
                 Type::Tuple(arg) => {
-                    let arg = Type::union(arg.types.iter().cloned());
+                    let arg = Type::union(arg.elems.iter().map(|element| &element.ty).cloned());
                     return self.infer_type(inferred, &elem_type, &arg);
                 }
 
@@ -363,11 +360,11 @@ impl Analyzer<'_, '_> {
 
                         inferred
                             .type_elements
-                            .insert(name, Type::union(vec![prev_ty, arg.clone()]))
+                            .insert(name, Type::union(vec![prev_ty, box arg.clone()]))
                             .expect_none("Cannot override");
                     }
                     Entry::Vacant(e) => {
-                        e.insert(arg.clone());
+                        e.insert(box arg.clone());
                     }
                 }
 
@@ -444,8 +441,9 @@ impl Analyzer<'_, '_> {
                     return Ok(());
                 }
                 _ => {
-                    let param = self.expand_fully(param.span(), Type::Ref(param.clone()), true)?;
-                    match param {
+                    let param =
+                        self.expand_fully(param.span(), box Type::Ref(param.clone()), true)?;
+                    match *param {
                         Type::Ref(..) => {
                             dbg!();
 
@@ -562,7 +560,7 @@ impl Analyzer<'_, '_> {
                             assert_eq!(
                                 inferred.type_params.insert(
                                     name,
-                                    Type::TypeLit(TypeLit {
+                                    box Type::TypeLit(TypeLit {
                                         span: arg.span,
                                         members: new_members
                                     })
@@ -630,7 +628,7 @@ impl Analyzer<'_, '_> {
 
                             inferred
                                 .type_params
-                                .insert(name.clone(), list_ty)
+                                .insert(name.clone(), box list_ty)
                                 .expect_none("Cannot override");
                         }
 
@@ -710,7 +708,7 @@ impl Analyzer<'_, '_> {
 
                             inferred
                                 .type_params
-                                .insert(name.clone(), list_ty)
+                                .insert(name.clone(), box list_ty)
                                 .expect_none("Cannot override");
                             return Ok(());
                         }
@@ -731,8 +729,8 @@ impl Analyzer<'_, '_> {
             }) => return Ok(()),
             Type::Keyword(..) => {}
             Type::Ref(..) => {
-                let arg = self.expand(arg.span(), arg.clone())?;
-                match arg {
+                let arg = self.expand(arg.span(), box arg.clone())?;
+                match *arg {
                     Type::Ref(..) => {}
                     _ => {
                         return self.infer_type(inferred, param, &arg);
@@ -821,7 +819,12 @@ impl Analyzer<'_, '_> {
         param: &Tuple,
         arg: &Tuple,
     ) -> ValidationResult<()> {
-        for item in param.types.iter().zip_longest(&arg.types) {
+        for item in param
+            .elems
+            .iter()
+            .map(|element| &element.ty)
+            .zip_longest(arg.elems.iter().map(|element| &element.ty))
+        {
             match item {
                 EitherOrBoth::Both(param, arg) => self.infer_type(inferred, param, arg)?,
                 EitherOrBoth::Left(_) => {}
@@ -860,14 +863,14 @@ impl Analyzer<'_, '_> {
         arg_type_params: &TypeParamDecl,
     ) -> ValidationResult<()> {
         struct Renamer<'a> {
-            fixed: &'a FxHashMap<Id, Type>,
+            fixed: &'a FxHashMap<Id, Box<Type>>,
         }
 
         impl ty::VisitMut for Renamer<'_> {
             fn visit_mut_type(&mut self, node: &mut Type) {
                 match node {
                     Type::Param(p) if self.fixed.contains_key(&p.name) => {
-                        *node = (*self.fixed.get(&p.name).unwrap()).clone();
+                        *node = (**self.fixed.get(&p.name).unwrap()).clone();
                     }
                     _ => node.visit_mut_children_with(self),
                 }
@@ -899,7 +902,7 @@ impl Analyzer<'_, '_> {
     pub(super) fn rename_type_params(
         &mut self,
         span: Span,
-        mut ty: Type,
+        mut ty: Box<Type>,
         type_ann: Option<&Type>,
     ) -> ValidationResult {
         if self.is_builtin {
@@ -914,10 +917,10 @@ impl Analyzer<'_, '_> {
         // ty = self.expand(span, ty)?;
 
         let mut usage_visitor = TypeParamUsageFinder::default();
-        ty.normalize().visit_with(&mut usage_visitor);
+        ty.normalize().visit_with(&ty, &mut usage_visitor);
         if usage_visitor.params.is_empty() {
             log::debug!("rename_type_param: No type parameter is used in type");
-            match ty {
+            match *ty {
                 Type::Function(ref mut f) => {
                     f.type_params = None;
                 }
@@ -937,7 +940,7 @@ impl Analyzer<'_, '_> {
                  {:?}",
                 type_ann
             );
-            return Ok(ty.into_owned().fold_with(&mut TypeParamRenamer {
+            return Ok(box ty.into_owned().fold_with(&mut TypeParamRenamer {
                 inferred: inferred.type_params,
             }));
         }
@@ -947,7 +950,7 @@ impl Analyzer<'_, '_> {
             params: usage_visitor.params,
         });
 
-        match ty {
+        match *ty {
             Type::Function(ref mut f) => {
                 f.type_params = decl;
             }
@@ -961,7 +964,7 @@ impl Analyzer<'_, '_> {
 
 #[derive(Debug)]
 struct TypeParamRenamer {
-    inferred: FxHashMap<Id, Type>,
+    inferred: FxHashMap<Id, Box<Type>>,
 }
 
 impl ty::Fold for TypeParamRenamer {
@@ -971,7 +974,7 @@ impl ty::Fold for TypeParamRenamer {
         match ty {
             Type::Param(ref param) => {
                 if let Some(ty) = self.inferred.get(&param.name) {
-                    return ty.clone();
+                    return *ty.clone();
                 }
             }
             _ => {}

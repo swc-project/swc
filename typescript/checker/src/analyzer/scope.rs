@@ -25,6 +25,7 @@ use swc_atoms::js_word;
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ts_types::{FoldWith as _, Id};
+use ty::TypeExt;
 
 #[derive(Debug, Clone, Copy)]
 pub(super) struct Config {
@@ -43,7 +44,7 @@ impl Default for Config {
 macro_rules! no_ref {
     ($t:expr) => {{
         match $t {
-            Some(Type::Ref(..)) => panic!("cannot store a variable with type `Ref`"),
+            Some(box Type::Ref(..)) => panic!("cannot store a variable with type `Ref`"),
             _ => {}
         }
     }};
@@ -138,17 +139,17 @@ impl Scope<'_> {
     }
 
     /// Add a type to the scope.
-    fn register_type(&mut self, name: Id, ty: Type) {
+    fn register_type(&mut self, name: Id, ty: Box<Type>) {
         self.types.entry(name).or_default().push(ty);
     }
 
     pub fn this(&self) -> Option<Cow<Box<Type>>> {
         if let Some(ref this) = self.this {
             if this.as_str() == "" {
-                return Some(box Cow::Owned(Type::any(DUMMY_SP)));
+                return Some(Cow::Owned(Type::any(DUMMY_SP)));
             }
 
-            return Some(box Cow::Owned(Type::Ref(Ref {
+            return Some(Cow::Owned(box Type::Ref(Ref {
                 span: DUMMY_SP,
                 type_name: this.clone().into(),
                 type_args: None,
@@ -212,7 +213,7 @@ impl Analyzer<'_, '_> {
             full: false,
             expand_union: false,
         };
-        Ok(ty.into_owned().fold_with(&mut v))
+        Ok(box ty.into_owned().fold_with(&mut v))
     }
 
     /// Expands
@@ -241,7 +242,7 @@ impl Analyzer<'_, '_> {
             expand_union,
         };
 
-        Ok(ty.into_owned().fold_with(&mut v))
+        Ok(box ty.into_owned().fold_with(&mut v))
     }
 
     pub(super) fn register_type(&mut self, name: Id, ty: Box<Type>) -> Result<(), Error> {
@@ -386,7 +387,6 @@ impl Analyzer<'_, '_> {
 
                 if type_ann.is_none() {
                     if let Some(ty) = ty {
-                        // TODO: Generalize tuple
                         *type_ann = Some(ty.generalize_lit().generalize_tuple().into());
                         *optional = true;
                     }
@@ -507,7 +507,7 @@ impl Analyzer<'_, '_> {
         None
     }
 
-    pub(super) fn find_var_type(&self, name: &Id) -> Option<Cow<Type>> {
+    pub(super) fn find_var_type(&self, name: &Id) -> Option<Cow<Box<Type>>> {
         // println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
@@ -538,7 +538,7 @@ impl Analyzer<'_, '_> {
             };
 
             if let Some(ref excludes) = self.scope.facts.excludes.get(&name) {
-                match ty {
+                match *ty {
                     Type::Union(ty::Union { ref mut types, .. }) => {
                         for ty in types {
                             let span = (*ty).span();
@@ -560,7 +560,7 @@ impl Analyzer<'_, '_> {
     }
 
     #[inline(never)]
-    pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
+    pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Box<Type>>> {
         #[allow(dead_code)]
         static ANY: Box<Type> = Type::any(DUMMY_SP);
 
@@ -573,7 +573,7 @@ impl Analyzer<'_, '_> {
         }
 
         if !self.is_builtin {
-            if let Ok(Type::Static(s)) = builtin_types::get_type(self.libs, DUMMY_SP, name) {
+            if let Ok(box Type::Static(s)) = builtin_types::get_type(self.libs, DUMMY_SP, name) {
                 return Some(ItemRef::Single(s.ty));
             }
         }

@@ -11,6 +11,7 @@ use crate::{
 use macros::validator;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 
 #[derive(Debug, Clone, Copy)]
 pub(super) enum PatMode {
@@ -36,6 +37,8 @@ impl Validate<Pat> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::FnParam>;
 
     fn validate(&mut self, p: &mut Pat) -> Self::Output {
+        use swc_ecma_visit::VisitWith;
+
         self.record(p);
         if !self.is_builtin {
             debug_assert_ne!(p.span(), DUMMY_SP, "A pattern should have a valid span");
@@ -52,7 +55,7 @@ impl Validate<Pat> for Analyzer<'_, '_> {
 
                 let mut visitor = VarVisitor { names: &mut names };
 
-                p.visit_with(&mut visitor);
+                p.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
                 self.scope.declaring.extend(names.clone());
 
