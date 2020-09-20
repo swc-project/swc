@@ -2,6 +2,7 @@ use super::Analyzer;
 use crate::{analyzer::generic::is_literals, ty, ty::Type};
 use std::iter::once;
 use swc_ecma_ast::*;
+use swc_ecma_visit::Node;
 use swc_ts_types::Id;
 
 #[derive(Debug, Default)]
@@ -139,9 +140,9 @@ pub(super) struct VarVisitor<'a> {
 }
 
 impl swc_ecma_visit::Visit for VarVisitor<'_> {
-    fn visit_expr(&mut self, _: &Expr) {}
+    fn visit_expr(&mut self, _: &Expr, _: &dyn Node) {}
 
-    fn visit_ident(&mut self, i: &Ident) {
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         self.names.push(i.into())
     }
 }

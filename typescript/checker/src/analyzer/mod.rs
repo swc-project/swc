@@ -489,7 +489,7 @@ impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
                 errors: &mut self.info.errors,
             };
 
-            items.visit_with(&mut visitor);
+            items.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
             if visitor.last_ambient_name.is_some() {
                 visitor.errors.push(Error::TS2391 {
@@ -538,7 +538,7 @@ impl Validate<Vec<Stmt>> for Analyzer<'_, '_> {
             errors: &mut self.info.errors,
         };
 
-        items.visit_with(&mut visitor);
+        items.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
         if visitor.last_ambient_name.is_some() {
             visitor.errors.push(Error::TS2391 {

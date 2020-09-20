@@ -1,6 +1,7 @@
 //! A module to validate while type checking
 use crate::ty::{self, Ref, Type};
 use backtrace::Backtrace;
+use swc_ts_types::TypeNode;
 
 pub mod duplicate;
 
@@ -10,13 +11,13 @@ pub fn assert_no_ref(ty: &Type) {
         found: bool,
     }
     impl ty::Visit for Visitor {
-        fn visit_ref(&mut self, _: &Ref) {
+        fn visit_ref(&mut self, _: &Ref, _: &dyn TypeNode) {
             self.found = true;
         }
     }
 
     let mut v = Visitor { found: false };
-    ty.visit_with(&mut v);
+    ty.visit_with(ty, &mut v);
     if v.found {
         print_backtrace();
         unreachable!("A type ({:#?}) should not contain unresolved reference", ty)

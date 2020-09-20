@@ -334,7 +334,7 @@ impl Validate<TsTupleElement> for Analyzer<'_, '_> {
         Ok(TupleElement {
             span: node.span,
             label: node.label,
-            ty: node.ty.validate_with(self),
+            ty: node.ty.validate_with(self)?,
         })
     }
 }
@@ -376,7 +376,7 @@ impl Validate<TsTypeOperator> for Analyzer<'_, '_> {
         Ok(Operator {
             span: ty.span,
             op: ty.op,
-            ty: box ty.type_ann.validate_with(self)?,
+            ty: ty.type_ann.validate_with(self)?,
         })
     }
 }
@@ -388,7 +388,7 @@ impl Validate<TsArrayType> for Analyzer<'_, '_> {
     fn validate(&mut self, node: &mut TsArrayType) -> Self::Output {
         Ok(Array {
             span: node.span,
-            elem_type: box node.elem_type.validate_with(self)?,
+            elem_type: node.elem_type.validate_with(self)?,
         })
     }
 }
@@ -430,7 +430,7 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
 
         let mut params: Vec<_> = t.params.validate_with(self)?;
 
-        let ret_ty = box t.type_ann.validate_with(self)?;
+        let ret_ty = t.type_ann.validate_with(self)?;
 
         Ok(ty::Function {
             span: t.span,
@@ -456,7 +456,7 @@ impl Validate<TsConstructorType> for Analyzer<'_, '_> {
             span: t.span,
             type_params,
             params: t.params.validate_with(self)?,
-            type_ann: box t.type_ann.validate_with(self)?,
+            type_ann: t.type_ann.validate_with(self)?,
         })
     }
 }
@@ -482,9 +482,9 @@ impl Validate<TsTypeRef> for Analyzer<'_, '_> {
         match t.type_name {
             TsEntityName::Ident(ref i) if i.sym == js_word!("Array") && type_args.is_some() => {
                 if type_args.as_ref().unwrap().params.len() == 1 {
-                    return Ok(Type::Array(Array {
+                    return Ok(box Type::Array(Array {
                         span: t.span,
-                        elem_type: box type_args.unwrap().params.into_iter().next().unwrap(),
+                        elem_type: type_args.unwrap().params.into_iter().next().unwrap(),
                     }));
                 }
             }

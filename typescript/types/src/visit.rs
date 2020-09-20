@@ -204,7 +204,7 @@ define!({
 
     pub struct TupleElement {
         pub span: Span,
-        pub label: Option<Id>,
+        pub label: Option<Pat>,
         pub ty: Box<Type>,
     }
 
