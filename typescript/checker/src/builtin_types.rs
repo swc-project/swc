@@ -221,11 +221,11 @@ fn merge(ls: &[Lib]) -> &'static Merged {
     });
 }
 
-pub fn get_var(libs: &[Lib], span: Span, name: &Id) -> Result<Type, Error> {
+pub fn get_var(libs: &[Lib], span: Span, name: &Id) -> Result<Box<Type>, Error> {
     let lib = merge(libs);
 
     if let Some(v) = lib.vars.get(&name) {
-        return Ok(ty::Type::Static(Static { span, ty: v }));
+        return Ok(box ty::Type::Static(Static { span, ty: v }));
     }
 
     Err(Error::NoSuchVar {
@@ -234,11 +234,11 @@ pub fn get_var(libs: &[Lib], span: Span, name: &Id) -> Result<Type, Error> {
     })
 }
 
-pub fn get_type(libs: &[Lib], span: Span, name: &Id) -> Result<Type, Error> {
+pub fn get_type(libs: &[Lib], span: Span, name: &Id) -> Result<Box<Type>, Error> {
     let lib = merge(libs);
 
     if let Some(ty) = lib.types.get(name) {
-        return Ok(ty::Type::Static(Static { span, ty }));
+        return Ok(box ty::Type::Static(Static { span, ty }));
     }
 
     Err(Error::NoSuchType {

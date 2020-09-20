@@ -1,9 +1,6 @@
 use super::Analyzer;
 use crate::{
-    analyzer::{
-        util::{ResultExt, VarVisitor},
-        ScopeKind,
-    },
+    analyzer::util::{ResultExt, VarVisitor},
     errors::Error,
     ty,
     ty::Type,

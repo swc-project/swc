@@ -20,7 +20,6 @@ use std::{
     collections::hash_map::Entry,
     convert::TryFrom,
     hash::Hash,
-    iter::once,
     mem::replace,
     ops::{AddAssign, BitOr, Not},
 };

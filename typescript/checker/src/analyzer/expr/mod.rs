@@ -478,7 +478,7 @@ impl Analyzer<'_, '_> {
     pub(super) fn access_property(
         &mut self,
         span: Span,
-        obj: Type,
+        obj: Box<Type>,
         prop: &mut Expr,
         computed: bool,
         type_mode: TypeOfMode,
@@ -494,10 +494,10 @@ impl Analyzer<'_, '_> {
             members: &[TypeElement],
         ) -> ValidationResult<Option<Box<Type>>> {
             let prop_ty = if computed {
-                prop.validate_with(a)?.generalize_lit().into_owned()
+                box prop.validate_with(a)?.generalize_lit().into_owned()
             } else {
                 match prop {
-                    Expr::Ident(..) => Type::Keyword(TsKeywordType {
+                    Expr::Ident(..) => box Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsStringKeyword,
                         span,
                     }),
@@ -578,11 +578,11 @@ impl Analyzer<'_, '_> {
 
                             TypeElement::Method(ref m) => {
                                 //
-                                candidates.push(Type::Function(ty::Function {
+                                candidates.push(box Type::Function(ty::Function {
                                     span,
                                     type_params: m.type_params.clone(),
                                     params: m.params.clone(),
-                                    ret_ty: box m.ret_ty.clone().unwrap_or_else(|| Type::any(span)),
+                                    ret_ty: m.ret_ty.clone().unwrap_or_else(|| Type::any(span)),
                                 }));
                                 continue;
                             }
@@ -607,7 +607,7 @@ impl Analyzer<'_, '_> {
             debug_assert!(!span.is_dummy());
         }
 
-        let obj: Type = self.expand(span, obj)?.generalize_lit().into_owned();
+        let obj: Box<Type> = box self.expand(span, obj)?.generalize_lit().into_owned();
 
         match obj.normalize() {
             Type::Lit(..) => unreachable!(),
@@ -646,7 +646,7 @@ impl Analyzer<'_, '_> {
                         }
 
                         debug_assert_ne!(span, prop.span());
-                        return Ok(Type::EnumVariant(EnumVariant {
+                        return Ok(box Type::EnumVariant(EnumVariant {
                             span: match type_mode {
                                 TypeOfMode::LValue => prop.span(),
                                 TypeOfMode::RValue => span,
@@ -671,7 +671,7 @@ impl Analyzer<'_, '_> {
                                 Expr::Lit(Lit::Str(..)) | Expr::Lit(Lit::Num(..)) => true,
                                 _ => false,
                             } {
-                                let new_obj_ty = Type::Lit(TsLitType {
+                                let new_obj_ty = box Type::Lit(TsLitType {
                                     span,
                                     lit: match v.val.clone() {
                                         Expr::Lit(Lit::Str(s)) => TsLit::Str(s),
@@ -683,7 +683,7 @@ impl Analyzer<'_, '_> {
                                     .access_property(span, new_obj_ty, prop, computed, type_mode);
                             }
                         }
-                        return Ok(Type::Keyword(TsKeywordType {
+                        return Ok(box Type::Keyword(TsKeywordType {
                             span,
                             kind: TsKeywordTypeKind::TsStringKeyword,
                         }));
@@ -720,7 +720,7 @@ impl Analyzer<'_, '_> {
                                         Expr::Lit(Lit::Str(..)) | Expr::Lit(Lit::Num(..)) => true,
                                         _ => false,
                                     } {
-                                        let new_obj_ty = Type::Lit(TsLitType {
+                                        let new_obj_ty = box Type::Lit(TsLitType {
                                             span: *span,
                                             lit: match v.val.clone() {
                                                 Expr::Lit(Lit::Str(s)) => TsLit::Str(s),
@@ -764,20 +764,17 @@ impl Analyzer<'_, '_> {
                         ty::ClassMember::Method(ref mtd) => {
                             let mtd_key = prop_name_to_expr(&mtd.key);
                             if (*mtd_key).eq_ignore_span(prop) {
-                                return Ok(Type::Method(mtd.clone()));
+                                return Ok(box Type::Method(mtd.clone()));
                             }
                         }
 
                         ty::ClassMember::Constructor(ref cons) => match prop {
                             Expr::Ident(ref i) if i.sym == *"constructor" => {
-                                return Ok(Type::Constructor(ty::Constructor {
+                                return Ok(box Type::Constructor(ty::Constructor {
                                     span,
                                     type_params: cons.type_params.clone(),
                                     params: cons.params.clone(),
-                                    type_ann: box cons
-                                        .ret_ty
-                                        .clone()
-                                        .unwrap_or_else(|| obj.clone()),
+                                    type_ann: cons.ret_ty.clone().unwrap_or_else(|| obj.clone()),
                                 }))
                             }
                             _ => {}
@@ -794,7 +791,7 @@ impl Analyzer<'_, '_> {
                 // check for super class
                 if let Some(super_ty) = &c.super_class {
                     if let Ok(v) =
-                        self.access_property(span, *super_ty.clone(), prop, computed, type_mode)
+                        self.access_property(span, super_ty.clone(), prop, computed, type_mode)
                     {
                         return Ok(v);
                     }
@@ -810,7 +807,7 @@ impl Analyzer<'_, '_> {
             Type::Param(TypeParam {
                 span: p_span, name, ..
             }) => {
-                return Ok(Type::IndexedAccessType(IndexedAccessType {
+                return Ok(box Type::IndexedAccessType(IndexedAccessType {
                     span,
                     readonly: false,
                     obj_type: box obj,
@@ -822,7 +819,7 @@ impl Analyzer<'_, '_> {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
                 ..
             }) => {
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsAnyKeyword,
                 }));

@@ -49,7 +49,7 @@ impl Analyzer<'_, '_> {
     fn validate_type_cast(
         &mut self,
         span: Span,
-        orig_ty: Type,
+        orig_ty: Box<Type>,
         to: &mut TsType,
     ) -> ValidationResult {
         let orig_ty = self.expand_fully(span, orig_ty, true)?;

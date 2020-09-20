@@ -55,7 +55,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                 no_unknown!(rt);
             }};
             ($ty:expr) => {{
-                match $ty {
+                match *$ty {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsUnknownKeyword,
                         ..
@@ -76,7 +76,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     right: (&**right, &rt),
                 };
 
-                if let Some(()) = c.take(|(_, lt), (_, _)| match *lt {
+                if let Some(()) = c.take(|(_, lt), (_, _)| match **lt {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsUnknownKeyword,
                         ..
@@ -87,7 +87,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     return Err(Error::Unknown { span });
                 }
 
-                match lt {
+                match *lt {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsNumberKeyword,
                         ..
@@ -95,7 +95,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     | Type::Lit(TsLitType {
                         lit: TsLit::Number(..),
                         ..
-                    }) => match rt {
+                    }) => match *rt {
                         Type::Keyword(TsKeywordType {
                             kind: TsKeywordTypeKind::TsNumberKeyword,
                             ..
@@ -104,7 +104,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                             lit: TsLit::Number(..),
                             ..
                         }) => {
-                            return Ok(Type::Keyword(TsKeywordType {
+                            return Ok(box Type::Keyword(TsKeywordType {
                                 span,
                                 kind: TsKeywordTypeKind::TsStringKeyword,
                             }));
@@ -114,7 +114,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     _ => {}
                 }
 
-                if let Some(()) = c.take(|(_, lt), (_, _)| match *lt {
+                if let Some(()) = c.take(|(_, lt), (_, _)| match **lt {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsStringKeyword,
                         ..
@@ -126,7 +126,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
 
                     _ => None,
                 }) {
-                    return Ok(Type::Keyword(TsKeywordType {
+                    return Ok(box Type::Keyword(TsKeywordType {
                         span,
                         kind: TsKeywordTypeKind::TsStringKeyword,
                     }));
@@ -145,7 +145,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
 
                     None
                 }) {
-                    return Ok(Type::Keyword(TsKeywordType { span, kind }));
+                    return Ok(box Type::Keyword(TsKeywordType { span, kind }));
                 }
 
                 if c.any(|(_, ty)| {
@@ -158,7 +158,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                 // Rule:
                 //  - null is invalid operand
                 //  - undefined is invalid operand
-                if c.both(|(_, ty)| match *ty {
+                if c.both(|(_, ty)| match **ty {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsUndefinedKeyword,
                         ..
@@ -186,14 +186,14 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     },
                     _ => None,
                 }) {
-                    return Ok(Type::Keyword(TsKeywordType {
+                    return Ok(box Type::Keyword(TsKeywordType {
                         span,
                         kind: TsKeywordTypeKind::TsBooleanKeyword,
                     }));
                 }
 
                 if is_str_or_union(&lt) || is_str_or_union(&rt) {
-                    return Ok(Type::Keyword(TsKeywordType {
+                    return Ok(box Type::Keyword(TsKeywordType {
                         span,
                         kind: TsKeywordTypeKind::TsStringKeyword,
                     }));
@@ -204,7 +204,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
             op!("*") | op!("/") => {
                 no_unknown!();
 
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsNumberKeyword,
                 }));
@@ -221,14 +221,14 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
             | op!("**") => {
                 no_unknown!();
 
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     kind: TsKeywordTypeKind::TsNumberKeyword,
                     span,
                 }));
             }
 
             op!("===") | op!("!==") | op!("!=") | op!("==") => {
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsBooleanKeyword,
                 }));
@@ -260,7 +260,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     })
                 }
 
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsBooleanKeyword,
                 }));
@@ -269,7 +269,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
             op!("<=") | op!("<") | op!(">=") | op!(">") | op!("in") => {
                 no_unknown!();
 
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsBooleanKeyword,
                 }));
@@ -306,7 +306,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                         }
 
                         // Remove falsy types from lhs
-                        let lt = lt.remove_falsy();
+                        let lt = box lt.remove_falsy();
 
                         return Ok(Type::union(vec![lt, rt]));
                     }
@@ -380,7 +380,7 @@ impl Analyzer<'_, '_> {
                                 Type::Union(ref u) => {
                                     // Check if u contains r
                                     for ty in &u.types {
-                                        if ty.eq_ignore_span(r) {
+                                        if (**ty).eq_ignore_span(r) {
                                             return Some(());
                                         }
                                     }
@@ -571,13 +571,14 @@ impl Analyzer<'_, '_> {
     }
 }
 
+/// TODO: Rename: `is_all_str_lit`
 fn is_str_lit_or_union(t: &Type) -> bool {
     match t {
         Type::Lit(TsLitType {
             lit: TsLit::Str(..),
             ..
         }) => true,
-        Type::Union(Union { ref types, .. }) => types.iter().all(is_str_lit_or_union),
+        Type::Union(Union { ref types, .. }) => types.iter().all(|ty| is_str_lit_or_union(&ty)),
         _ => false,
     }
 }
@@ -592,7 +593,7 @@ fn is_str_or_union(t: &Type) -> bool {
             kind: TsKeywordTypeKind::TsStringKeyword,
             ..
         }) => true,
-        Type::Union(Union { ref types, .. }) => types.iter().all(is_str_or_union),
+        Type::Union(Union { ref types, .. }) => types.iter().all(|ty| is_str_or_union(&ty)),
         _ => false,
     }
 }

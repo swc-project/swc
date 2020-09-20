@@ -617,7 +617,7 @@ impl Validate<TsModuleDecl> for Analyzer<'_, '_> {
                         TsModuleName::Ident(ref i) => i.into(),
                         TsModuleName::Str(ref s) => Ident::new(s.value.clone(), s.span).into(),
                     },
-                    Type::Module(module),
+                    box Type::Module(module),
                 )
                 .store(&mut child.info.errors);
 

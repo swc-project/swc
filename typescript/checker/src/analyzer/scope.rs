@@ -24,7 +24,7 @@ use std::{
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ts_types::Id;
+use swc_ts_types::{FoldWith as _, Id};
 
 #[derive(Debug, Clone, Copy)]
 pub(super) struct Config {

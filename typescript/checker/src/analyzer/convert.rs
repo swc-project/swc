@@ -687,8 +687,9 @@ pub(crate) fn default_any_array_pat(arr: &mut ArrayPat) {
                 .elems
                 .iter_mut()
                 .map(|elem| {
+                    let span = elem.span();
                     // any
-                    match elem {
+                    let ty = match elem {
                         Some(Pat::Array(ref mut arr)) => {
                             default_any_array_pat(arr);
                             arr.type_ann.take().unwrap().type_ann
@@ -702,6 +703,13 @@ pub(crate) fn default_any_array_pat(arr: &mut ArrayPat) {
                             span: DUMMY_SP,
                             kind: TsKeywordTypeKind::TsAnyKeyword,
                         }),
+                    };
+
+                    TsTupleElement {
+                        span,
+                        // TODO?
+                        label: None,
+                        ty,
                     }
                 })
                 .collect(),

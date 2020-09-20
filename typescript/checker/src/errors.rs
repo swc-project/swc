@@ -441,14 +441,14 @@ pub enum Error {
     InvalidLhsInInstanceOf {
         span: Span,
         /// Type of the lhs
-        ty: Type,
+        ty: Box<Type>,
     },
 
     /// `TS2359`
     InvalidRhsInInstanceOf {
         span: Span,
         /// Type of the rhs
-        ty: Type,
+        ty: Box<Type>,
     },
 
     /// `TS2469`

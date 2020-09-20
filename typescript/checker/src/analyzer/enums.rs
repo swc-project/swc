@@ -123,7 +123,7 @@ impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
                         error: false,
                         decl: &e,
                     };
-                    init.visit_with(&mut v);
+                    init.visit_with(init, &mut v);
                     if v.error {
                         self.info
                             .errors

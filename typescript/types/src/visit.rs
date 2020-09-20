@@ -362,6 +362,6 @@ define!({
     pub struct TypeOrSpread {
         pub span: Span,
         pub spread: Option<Span>,
-        pub ty: Type,
+        pub ty: Box<Type>,
     }
 });

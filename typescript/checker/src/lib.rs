@@ -4,7 +4,6 @@
 #![deny(irrefutable_let_patterns)]
 #![feature(box_patterns)]
 #![feature(box_syntax)]
-#![feature(specialization)]
 #![feature(try_blocks)]
 #![feature(vec_remove_item)]
 #![feature(option_expect_none)]
@@ -190,7 +189,7 @@ impl Checker {
         });
 
         let mut a = Analyzer::root(path.clone(), &self.libs, self.rule, self);
-        module.visit_mut_with(&mut hygiene::colorizer());
+        module.fold_with(&mut hygiene::colorizer());
         module.validate_with(&mut a);
         let info = a.info;
 

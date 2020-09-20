@@ -2,7 +2,7 @@ use super::super::{pat::PatMode, Analyzer, Ctx};
 use crate::{
     analyzer::util::{Generalizer, ResultExt},
     errors::Error,
-    ty::{self, Tuple, Type, TypeParam, TypeParamDecl},
+    ty::{self, Tuple, Type, TypeParam},
     util::PatExt,
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -11,7 +11,7 @@ use macros::validator;
 use std::mem::take;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 use swc_ts_types::Id;
 
 #[validator]

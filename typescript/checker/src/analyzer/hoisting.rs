@@ -2,7 +2,7 @@ use crate::{analyzer::Analyzer, util::AsModuleDecl, ValidationResult};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{algo::toposort, graph::DiGraph, graphmap::DiGraphMap, visit::DfsPostOrder};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, DestructuringFinder};
+use swc_ecma_utils::DestructuringFinder;
 use swc_ecma_visit::Node;
 use swc_ts_types::Id;
 
