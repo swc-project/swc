@@ -141,16 +141,15 @@ impl Analyzer<'_, '_> {
                 return self.assign_inner(
                     to,
                     &Type::union(vec![
-                        Type::Keyword(TsKeywordType {
+                        box Type::Keyword(TsKeywordType {
                             span,
                             kind: TsKeywordTypeKind::TsNumberKeyword,
                         }),
-                        Type::Keyword(TsKeywordType {
+                        box Type::Keyword(TsKeywordType {
                             span,
                             kind: TsKeywordTypeKind::TsStringKeyword,
                         }),
-                    ])
-                    ,
+                    ]),
                     span,
                 );
             }};
