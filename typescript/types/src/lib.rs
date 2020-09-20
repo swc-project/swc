@@ -265,7 +265,7 @@ pub struct Operator {
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct Tuple {
     pub span: Span,
-    pub types: Vec<TupleElement>,
+    pub elements: Vec<TupleElement>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]

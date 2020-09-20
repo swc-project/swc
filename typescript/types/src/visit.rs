@@ -199,7 +199,7 @@ define!({
 
     pub struct Tuple {
         pub span: Span,
-        pub types: Vec<TupleElement>,
+        pub elements: Vec<TupleElement>,
     }
 
     pub struct TupleElement {
