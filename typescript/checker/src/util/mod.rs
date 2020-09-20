@@ -65,6 +65,7 @@ impl_by_clone!(FnParam);
 impl_by_clone!(ComputedPropName);
 impl_by_clone!(TsEntityName);
 impl_by_clone!(TypeParamInstantiation);
+impl_by_clone!(TsTupleElement);
 
 struct SpanRemover;
 impl ty::Fold for SpanRemover {

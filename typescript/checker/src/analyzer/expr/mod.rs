@@ -271,7 +271,7 @@ impl Analyzer<'_, '_> {
             Expr::This(ThisExpr { span }) => {
                 let span = *span;
                 if let Some(ty) = self.scope.this() {
-                    return Ok(box ty.into_owned());
+                    return Ok(ty.into_owned());
                 }
                 return Ok(box Type::from(TsThisType { span }));
             }
@@ -1051,34 +1051,30 @@ impl Analyzer<'_, '_> {
                 }
                 // print_backtrace();
 
-                return Ok(Type::Intersection(Intersection { span, types: new }));
+                return Ok(box Type::Intersection(Intersection { span, types: new }));
             }
 
             Type::Mapped(m) => {
                 // TODO: Verify that property is assignable to m.param
 
                 // I'm lazy
-                return Ok(*m
-                    .ty
-                    .as_ref()
-                    .cloned()
-                    .unwrap_or_else(|| box Type::any(span)));
+                return Ok(m.ty.as_ref().cloned().unwrap_or_else(|| Type::any(span)));
             }
 
             Type::Ref(..) => {
-                let index_type = box prop.validate_with(self)?;
+                let index_type = prop.validate_with(self)?;
                 // Return something like SimpleDBRecord<Flag>[Flag];
-                return Ok(Type::IndexedAccessType(IndexedAccessType {
+                return Ok(box Type::IndexedAccessType(IndexedAccessType {
                     span,
                     readonly: false,
-                    obj_type: box obj,
+                    obj_type: obj,
                     index_type,
                 }));
             }
 
             Type::IndexedAccessType(obj) => {
                 // TODO: Verify input type (obj.index_type)
-                return Ok(*obj.obj_type.clone());
+                return Ok(obj.obj_type.clone());
             }
 
             _ => {}
@@ -1106,7 +1102,7 @@ impl Analyzer<'_, '_> {
                     "Creating ref because we are currently defining a class: {}",
                     i.sym
                 );
-                return Ok(Type::Ref(Ref {
+                return Ok(box Type::Ref(Ref {
                     span,
                     type_name: TsEntityName::Ident(i.clone()),
                     type_args: None,
@@ -1121,10 +1117,10 @@ impl Analyzer<'_, '_> {
             js_word!("eval") => match type_mode {
                 TypeOfMode::LValue => return Err(Error::CannotAssignToNonVariable { span }),
                 TypeOfMode::RValue => {
-                    return Ok(Type::Function(ty::Function {
+                    return Ok(box Type::Function(ty::Function {
                         span,
                         params: vec![],
-                        ret_ty: box Type::any(span),
+                        ret_ty: Type::any(span),
                         type_params: None,
                     }));
                 }
@@ -1209,7 +1205,7 @@ impl Analyzer<'_, '_> {
             i.sym
         );
 
-        Ok(Type::Ref(Ref {
+        Ok(box Type::Ref(Ref {
             span,
             type_name: TsEntityName::Ident(i.clone()),
             type_args: None,
@@ -1239,7 +1235,7 @@ impl Analyzer<'_, '_> {
                             | Type::TypeLit(_)
                             | Type::Keyword(_)
                             | Type::Lit(_) => {
-                                let mut ty = ty.clone();
+                                let mut ty = box ty.clone();
                                 ty.respan(span);
                                 return Ok(ty);
                             }
@@ -1267,7 +1263,7 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
-                Ok(Type::Ref(Ref {
+                Ok(box Type::Ref(Ref {
                     span,
                     type_name: TsEntityName::Ident(i.clone()),
                     type_args,
@@ -1400,8 +1396,8 @@ impl Validate<ArrowExpr> for Analyzer<'_, '_> {
             let declared_ret_ty = match declared_ret_ty {
                 Some(ty) => {
                     let span = ty.span();
-                    Some(match ty {
-                        Type::Class(cls) => Type::ClassInstance(ClassInstance {
+                    Some(match *ty {
+                        Type::Class(cls) => box Type::ClassInstance(ClassInstance {
                             span,
                             cls,
                             type_args: None,
@@ -1434,24 +1430,26 @@ impl Validate<ArrowExpr> for Analyzer<'_, '_> {
                 span: f.span,
                 params,
                 type_params,
-                ret_ty: box declared_ret_ty
+                ret_ty: declared_ret_ty
                     .unwrap_or_else(|| inferred_return_type.unwrap_or_else(|| Type::any(f.span))),
             })
         })
     }
 }
 
-fn instantiate_class(ty: Type) -> Type {
+fn instantiate_class(ty: Box<Type>) -> Box<Type> {
     let span = ty.span();
 
-    match *ty.normalize() {
+    box match *ty.normalize() {
         Type::Tuple(Tuple { ref types, span }) => Type::Tuple(Tuple {
             span,
             types: types
                 .iter()
-                .map(|ty| {
+                .cloned()
+                .map(|mut element| {
                     // TODO: Remove clone
-                    instantiate_class(ty.clone())
+                    element.ty = instantiate_class(element.ty);
+                    element
                 })
                 .collect(),
         }),

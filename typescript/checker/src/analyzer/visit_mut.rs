@@ -34,6 +34,7 @@ macro_rules! use_visit_mut {
 }
 
 use_visit_mut!(Stmt);
+use_visit_mut!(Module);
 
 /// All methods forward to `Validate<T>`
 impl VisitMut for Analyzer<'_, '_> {

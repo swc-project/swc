@@ -228,8 +228,8 @@ pub enum Error {
     /// TS2322
     AssignFailed {
         span: Span,
-        left: Type,
-        right: Type,
+        left: Box<Type>,
+        right: Box<Type>,
         cause: Vec<Error>,
     },
 
@@ -271,12 +271,12 @@ pub enum Error {
 
     NoNewSignature {
         span: Span,
-        callee: Type,
+        callee: Box<Type>,
     },
 
     NoCallSignature {
         span: Span,
-        callee: Type,
+        callee: Box<Type>,
     },
 
     WrongTypeParams {

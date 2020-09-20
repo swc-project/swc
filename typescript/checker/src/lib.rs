@@ -21,12 +21,12 @@ use crate::{
     validator::ValidateWith,
 };
 use dashmap::DashMap;
-use fxhash::FxHashMap;
 use std::{path::PathBuf, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Globals, SourceMap, Span};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_visit::FoldWith as _;
 use swc_ts_types::Id;
 
 #[macro_use]
@@ -189,7 +189,7 @@ impl Checker {
         });
 
         let mut a = Analyzer::root(path.clone(), &self.libs, self.rule, self);
-        module.fold_with(&mut hygiene::colorizer());
+        let mut module = module.fold_with(&mut hygiene::colorizer());
         module.validate_with(&mut a);
         let info = a.info;
 

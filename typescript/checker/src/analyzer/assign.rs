@@ -37,8 +37,8 @@ impl Analyzer<'_, '_> {
             Error::Errors { .. } => err,
             _ => Error::AssignFailed {
                 span: err.span(),
-                left: left.clone(),
-                right: right.clone(),
+                left: box left.clone(),
+                right: box right.clone(),
                 cause: vec![err],
             },
         })
@@ -77,8 +77,8 @@ impl Analyzer<'_, '_> {
             () => {{
                 return Err(Error::AssignFailed {
                     span,
-                    left: to.clone(),
-                    right: rhs.clone(),
+                    left: box to.clone(),
+                    right: box rhs.clone(),
                     cause: vec![],
                 });
             }};
@@ -416,8 +416,8 @@ impl Analyzer<'_, '_> {
                         .assign_inner(&elem_type, &rhs_elem_type, span)
                         .map_err(|cause| Error::AssignFailed {
                             span,
-                            left: to.clone(),
-                            right: rhs.clone(),
+                            left: box to.clone(),
+                            right: box rhs.clone(),
                             cause: vec![cause],
                         });
                 }
@@ -617,8 +617,8 @@ impl Analyzer<'_, '_> {
 
                 return Err(Error::AssignFailed {
                     span,
-                    left: Type::Enum(e.clone()),
-                    right: rhs.clone(),
+                    left: box Type::Enum(e.clone()),
+                    right: box rhs.clone(),
                     cause: vec![],
                 });
             }

@@ -11,14 +11,14 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::{TsEntityName, TsTypeOperatorOp};
 use swc_ecma_visit::FoldWith;
-use swc_ts_types::Id;
+use swc_ts_types::{FoldWith as _, Id};
 
 /// Generic expander.
 impl Analyzer<'_, '_> {
     pub(in super::super) fn expand_type_params(
         &mut self,
         params: &FxHashMap<Id, Type>,
-        ty: Type,
+        ty: Box<Type>,
     ) -> ValidationResult {
         self.expand_type_params_inner(params, ty, false)
     }
@@ -42,7 +42,7 @@ impl Analyzer<'_, '_> {
     fn expand_type_params_inner(
         &mut self,
         params: &FxHashMap<Id, Type>,
-        ty: Type,
+        ty: Box<Type>,
         fully: bool,
     ) -> ValidationResult {
         let mut ty = ty.fold_with(&mut GenericExpander {

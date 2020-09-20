@@ -1,5 +1,3 @@
-use crate::ValidationResult;
-
 /// Visit with output
 pub trait Validate<T: ?Sized> {
     type Output;
