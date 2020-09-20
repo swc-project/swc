@@ -210,7 +210,7 @@ impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
                 self.register_type(i.clone(), box fn_ty.clone().into())
                     .store(&mut self.info.errors);
                 if let Some(ref i) = f.ident {
-                    self.override_var(VarDeclKind::Var, i.into(), fn_ty.into())
+                    self.override_var(VarDeclKind::Var, i.into(), box fn_ty.into())
                         .store(&mut self.info.errors);
                 }
 

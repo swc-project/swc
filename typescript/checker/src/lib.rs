@@ -173,7 +173,7 @@ impl Checker {
             let module = parser
                 .parse_typescript_module()
                 .map_err(|mut e| {
-                    e.emit();
+                    e.into_diagnostic(&self.handler).emit();
                     ()
                 })
                 .ok()

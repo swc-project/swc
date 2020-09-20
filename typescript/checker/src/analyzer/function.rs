@@ -10,7 +10,7 @@ use crate::{
 use macros::validator;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
-use swc_ecma_visit::FoldWith;
+use swc_ts_types::FoldWith as _;
 
 #[validator]
 impl Validate<Function> for Analyzer<'_, '_> {
@@ -71,17 +71,17 @@ impl Validate<Function> for Analyzer<'_, '_> {
 
             let mut declared_ret_ty = try_opt!(f.return_type.validate_with(child)).map(|ret_ty| {
                 let span = ret_ty.span();
-                match ret_ty {
-                    Type::Class(cls) => Type::ClassInstance(ClassInstance {
+                match *ret_ty {
+                    Type::Class(cls) => box Type::ClassInstance(ClassInstance {
                         span,
                         cls,
                         type_args: None,
                     }),
-                    ty => ty,
+                    _ => ret_ty,
                 }
             });
             if let Some(ty) = &mut declared_ret_ty {
-                match ty {
+                match &**ty {
                     Type::Ref(..) => {
                         child.prevent_expansion(ty);
                     }
@@ -130,7 +130,7 @@ impl Validate<Function> for Analyzer<'_, '_> {
                     }
 
                     // No return statement -> void
-                    Type::Keyword(TsKeywordType {
+                    box Type::Keyword(TsKeywordType {
                         span,
                         kind: TsKeywordTypeKind::TsVoidKeyword,
                     })
@@ -144,7 +144,7 @@ impl Validate<Function> for Analyzer<'_, '_> {
                 span: f.span,
                 params,
                 type_params,
-                ret_ty: box declared_ret_ty.unwrap_or_else(|| inferred_return_type),
+                ret_ty: declared_ret_ty.unwrap_or_else(|| inferred_return_type),
             }
             .into())
         })
@@ -153,7 +153,7 @@ impl Validate<Function> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     /// TODO: Handle recursive funciton
-    fn visit_fn(&mut self, name: Option<&Ident>, f: &mut Function) -> Type {
+    fn visit_fn(&mut self, name: Option<&Ident>, f: &mut Function) -> Box<Type> {
         let fn_ty: Result<_, _> = try {
             let no_implicit_any_span = name.as_ref().map(|name| name.span);
 
@@ -193,11 +193,11 @@ impl Analyzer<'_, '_> {
                 ty::Function { ref mut ret_ty, .. } => {
                     match **ret_ty {
                         // Handle tuple widening of the return type.
-                        Type::Tuple(Tuple { ref mut types, .. }) => {
-                            for t in types.iter_mut() {
-                                let span = t.span();
+                        Type::Tuple(Tuple { ref mut elems, .. }) => {
+                            for element in elems.iter_mut() {
+                                let span = element.span();
 
-                                match t.normalize() {
+                                match element.ty.normalize() {
                                     Type::Keyword(TsKeywordType {
                                         kind: TsKeywordTypeKind::TsUndefinedKeyword,
                                         ..
@@ -217,7 +217,7 @@ impl Analyzer<'_, '_> {
                                 //    });
                                 //}
 
-                                *t = Type::any(span);
+                                element.ty = Type::any(span);
                             }
                         }
 
@@ -234,7 +234,7 @@ impl Analyzer<'_, '_> {
         };
 
         match fn_ty {
-            Ok(ty) => ty.into(),
+            Ok(ty) => box ty.into(),
             Err(err) => {
                 self.info.errors.push(err);
                 Type::any(f.span)

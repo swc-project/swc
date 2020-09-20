@@ -422,8 +422,8 @@ impl Analyzer<'_, '_> {
                         });
                 }
 
-                Type::Tuple(Tuple { ref types, .. }) => {
-                    for el in types {
+                Type::Tuple(Tuple { ref elems, .. }) => {
+                    for el in elems {
                         self.assign_inner(elem_type, &el.ty, span)?;
                     }
                     return Ok(());
@@ -692,17 +692,18 @@ impl Analyzer<'_, '_> {
                 }
             }
 
-            Type::Tuple(Tuple { ref types, .. }) => {
+            Type::Tuple(Tuple { ref elems, .. }) => {
                 //
                 match *rhs.normalize() {
                     Type::Tuple(Tuple {
-                        types: ref r_types, ..
+                        elems: ref rhs_elems,
+                        ..
                     }) => {
-                        if types.len() < r_types.len() {
+                        if elems.len() < rhs_elems.len() {
                             fail!();
                         }
 
-                        for (l, r) in types.into_iter().zip(r_types) {
+                        for (l, r) in elems.into_iter().zip(rhs_elems) {
                             match self.assign_inner(&l.ty, &r.ty, span) {
                                 // Great
                                 Ok(()) => {}
@@ -848,9 +849,9 @@ impl Analyzer<'_, '_> {
                     return self.assign_inner(numeric_keyed_ty, elem_type, span)
                 }
 
-                Type::Tuple(Tuple { ref types, .. }) => {
+                Type::Tuple(Tuple { ref elems, .. }) => {
                     let mut errors = Errors::default();
-                    for el in types {
+                    for el in elems {
                         self.assign_inner(numeric_keyed_ty, &el.ty, el.span())
                             .store(&mut errors);
                     }

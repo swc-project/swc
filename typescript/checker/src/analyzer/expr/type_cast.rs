@@ -87,7 +87,7 @@ impl Analyzer<'_, '_> {
                 match *orig_ty.normalize() {
                     Type::Tuple(ref rt) => {
                         //
-                        if lt.types.len() != rt.types.len() {
+                        if lt.elems.len() != rt.elems.len() {
                             Err(Error::InvalidTupleCast {
                                 span,
                                 left: lt.span(),
@@ -97,14 +97,18 @@ impl Analyzer<'_, '_> {
 
                         let mut all_castable = true;
                         //
-                        for (i, lty) in lt.types.iter().enumerate() {
+                        for (i, left_element) in lt.elems.iter().enumerate() {
                             // if rt.types.len() >= i {
                             //     all_castable = false;
                             //     break;
                             // }
-                            let rty = &rt.types[i];
+                            let right_element = &rt.elems[i];
 
-                            let res = self.validate_type_cast_inner(span, &rty, &lty);
+                            let res = self.validate_type_cast_inner(
+                                span,
+                                &right_element.ty,
+                                &left_element.ty,
+                            );
 
                             if res.is_err() {
                                 all_castable = false;
@@ -125,7 +129,7 @@ impl Analyzer<'_, '_> {
                 //
                 match orig_ty {
                     Type::Tuple(ref rt) => {
-                        if rt.types[0].type_eq(&lt.elem_type) {
+                        if rt.elems[0].ty.type_eq(&lt.elem_type) {
                             return Ok(());
                         }
                     }

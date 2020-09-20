@@ -20,12 +20,12 @@ impl ty::Fold for ExpandAll<'_, '_, '_> {
         let ty: Type = ty.fold_children_with(self);
 
         match ty {
-            Type::Ref(..) => self
+            Type::Ref(..) => *self
                 .analyzer
-                .expand(ty.span(), ty.clone())
+                .expand(ty.span(), box ty.clone())
                 .store(&mut self.analyzer.info.errors)
-                .unwrap_or(ty),
-            _ => ty.freeze(),
+                .unwrap_or_else(|| box ty),
+            _ => *ty.freeze(),
         }
     }
 }

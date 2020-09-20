@@ -279,7 +279,7 @@ impl Analyzer<'_, '_> {
             Expr::Ident(ref i) => self.type_of_var(i, mode, type_args),
 
             Expr::Array(ArrayLit { ref mut elems, .. }) => {
-                let mut types: Vec<Box<Type>> = Vec::with_capacity(elems.len());
+                let mut elements = Vec::with_capacity(elems.len());
 
                 for elem in elems.iter_mut() {
                     let span = elem.span();
@@ -289,19 +289,22 @@ impl Analyzer<'_, '_> {
                             ref mut expr,
                         }) => {
                             let ty = self.validate(expr)?;
-                            types.push(ty)
+                            elements.push(ty)
                         }
                         Some(ExprOrSpread {
                             spread: Some(..), ..
                         }) => unimplemented!("type of array spread"),
                         None => {
                             let ty = Type::undefined(span);
-                            types.push(ty)
+                            elements.push(ty)
                         }
                     }
                 }
 
-                return Ok(box Type::Tuple(Tuple { span, types }));
+                return Ok(box Type::Tuple(Tuple {
+                    span,
+                    elems: elements,
+                }));
             }
 
             Expr::Lit(Lit::Bool(v)) => {
@@ -948,21 +951,21 @@ impl Analyzer<'_, '_> {
                 return Ok(Type::union(tys));
             }
 
-            Type::Tuple(Tuple { ref types, .. }) => match *prop {
+            Type::Tuple(Tuple { ref elems, .. }) => match *prop {
                 Expr::Lit(Lit::Num(n)) => {
                     let v = n.value.round() as i64;
-                    if v < 0 || types.len() <= v as usize {
+                    if v < 0 || elems.len() <= v as usize {
                         return Err(Error::TupleIndexError {
                             span: n.span(),
                             index: v,
-                            len: types.len() as u64,
+                            len: elems.len() as u64,
                         });
                     }
 
-                    return Ok(types[v as usize].ty.clone());
+                    return Ok(elems[v as usize].ty.clone());
                 }
                 _ => {
-                    if types.is_empty() {
+                    if elems.is_empty() {
                         return Ok(Type::any(span));
                     }
 
@@ -972,7 +975,7 @@ impl Analyzer<'_, '_> {
 
                     return Ok(box Type::Union(Union {
                         span,
-                        types: types.clone(),
+                        types: elems.clone(),
                     }));
                 }
             },
@@ -1441,9 +1444,9 @@ fn instantiate_class(ty: Box<Type>) -> Box<Type> {
     let span = ty.span();
 
     box match *ty.normalize() {
-        Type::Tuple(Tuple { ref types, span }) => Type::Tuple(Tuple {
+        Type::Tuple(Tuple { ref elems, span }) => Type::Tuple(Tuple {
             span,
-            types: types
+            elems: elems
                 .iter()
                 .cloned()
                 .map(|mut element| {
@@ -1463,6 +1466,6 @@ fn instantiate_class(ty: Box<Type>) -> Box<Type> {
             // TODO
             type_args: None,
         }),
-        _ => ty,
+        _ => return ty,
     }
 }

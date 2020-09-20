@@ -190,7 +190,7 @@ impl Analyzer<'_, '_> {
         &mut self,
         kind: VarDeclKind,
         name: Id,
-        ty: Type,
+        ty: Box<Type>,
     ) -> Result<(), Error> {
         self.declare_var(ty.span(), kind, name, Some(ty), true, true)?;
 

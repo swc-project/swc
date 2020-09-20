@@ -30,7 +30,7 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
                     self.type_of_member_expr(e, TypeOfMode::LValue)
                         .store(&mut self.info.errors);
 
-                    return Ok(Type::Keyword(TsKeywordType {
+                    return Ok(box Type::Keyword(TsKeywordType {
                         span,
                         kind: TsKeywordTypeKind::TsBooleanKeyword,
                     }));
@@ -69,7 +69,7 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
 
         match op {
             op!("typeof") => {
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsStringKeyword,
                 }));
@@ -79,14 +79,14 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
 
             op!(unary, "-") | op!(unary, "+") => {
                 if let Some(arg) = &arg {
-                    match arg {
+                    match &**arg {
                         Type::Lit(TsLitType {
                             lit: TsLit::Number(Number { span, value }),
                             ..
                         }) => {
                             let span = *span;
 
-                            return Ok(Type::Lit(TsLitType {
+                            return Ok(box Type::Lit(TsLitType {
                                 span,
                                 lit: TsLit::Number(Number {
                                     span,
@@ -102,14 +102,14 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
                     }
                 }
 
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsNumberKeyword,
                 }));
             }
 
             op!("~") => {
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsNumberKeyword,
                 }));
@@ -118,7 +118,7 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
         }
 
         match arg {
-            Some(Type::Keyword(TsKeywordType {
+            Some(box Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
             })) => return Err(Error::Unknown { span: arg.span() }),
@@ -138,7 +138,7 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
         // This is a worst case. We only return the type without good error reporting.
         match op {
             op!("!") | op!("delete") => {
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsBooleanKeyword,
                 }))
@@ -192,11 +192,11 @@ impl Analyzer<'_, '_> {
     }
 }
 
-fn negate(ty: Type) -> Type {
-    match ty {
+fn negate(ty: Box<Type>) -> Box<Type> {
+    match *ty {
         Type::Lit(TsLitType { ref lit, span }) => match *lit {
             TsLit::Bool(v) => {
-                return Type::Lit(TsLitType {
+                return box Type::Lit(TsLitType {
                     lit: TsLit::Bool(Bool {
                         value: !v.value,
                         ..v
@@ -205,7 +205,7 @@ fn negate(ty: Type) -> Type {
                 });
             }
             TsLit::Number(v) => {
-                return Type::Lit(TsLitType {
+                return box Type::Lit(TsLitType {
                     lit: TsLit::Bool(Bool {
                         value: v.value != 0.0,
                         span: v.span,
@@ -214,7 +214,7 @@ fn negate(ty: Type) -> Type {
                 });
             }
             TsLit::Str(ref v) => {
-                return Type::Lit(TsLitType {
+                return box Type::Lit(TsLitType {
                     lit: TsLit::Bool(Bool {
                         value: v.value != js_word!(""),
                         span: v.span,
@@ -223,10 +223,19 @@ fn negate(ty: Type) -> Type {
                 });
             }
             TsLit::Tpl(ref v) => {
-                return Type::Lit(TsLitType {
+                return box Type::Lit(TsLitType {
                     lit: TsLit::Bool(Bool {
                         value: v.quasis.iter().next().as_ref().unwrap().raw.value != js_word!(""),
                         span: v.span,
+                    }),
+                    span,
+                });
+            }
+            TsLit::BigInt(v) => {
+                return box Type::Lit(TsLitType {
+                    lit: TsLit::BigInt(BigInt {
+                        value: -v.value,
+                        ..v
                     }),
                     span,
                 });
@@ -236,7 +245,7 @@ fn negate(ty: Type) -> Type {
         _ => {}
     }
 
-    TsKeywordType {
+    box TsKeywordType {
         span: ty.span(),
         kind: TsKeywordTypeKind::TsBooleanKeyword,
     }

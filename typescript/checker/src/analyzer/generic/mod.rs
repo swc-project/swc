@@ -38,7 +38,7 @@ impl Analyzer<'_, '_> {
         &mut self,
         span: Span,
         type_params: &[TypeParam],
-        mut inferred: FxHashMap<Id, Type>,
+        mut inferred: FxHashMap<Id, Box<Type>>,
     ) -> ValidationResult<TypeParamInstantiation> {
         let mut params = Vec::with_capacity(type_params.len());
         for type_param in type_params {
@@ -65,7 +65,7 @@ impl Analyzer<'_, '_> {
                                 type_param.name,
                                 p.name
                             );
-                            params.push(Type::Param(p.clone()));
+                            params.push(box Type::Param(p.clone()));
                         }
                         continue;
                     }
@@ -75,7 +75,7 @@ impl Analyzer<'_, '_> {
                 if type_param.constraint.is_some()
                     && is_literals(&type_param.constraint.as_ref().unwrap())
                 {
-                    params.push(*type_param.constraint.clone().unwrap());
+                    params.push(type_param.constraint.clone().unwrap());
                     continue;
                 }
 
@@ -89,7 +89,7 @@ impl Analyzer<'_, '_> {
                     }
                 {
                     let ty =
-                        self.expand_fully(span, *type_param.constraint.clone().unwrap(), false)?;
+                        self.expand_fully(span, type_param.constraint.clone().unwrap(), false)?;
                     params.push(ty);
                     continue;
                 }
@@ -100,7 +100,7 @@ impl Analyzer<'_, '_> {
                 );
 
                 // Defaults to {}
-                params.push(Type::TypeLit(TypeLit {
+                params.push(box Type::TypeLit(TypeLit {
                     span,
                     members: vec![],
                 }));

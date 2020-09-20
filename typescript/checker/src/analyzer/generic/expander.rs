@@ -104,7 +104,7 @@ impl ty::Fold for GenericExpander<'_> {
                 if i.sym == js_word!("Array") {
                     return Type::Array(Array {
                         span,
-                        elem_type: box type_args
+                        elem_type: type_args
                             .as_ref()
                             .and_then(|args| args.params.iter().next().cloned())
                             .unwrap_or_else(|| Type::any(span)),
@@ -204,7 +204,7 @@ impl ty::Fold for GenericExpander<'_> {
                             .into_iter()
                             .map(|mut v| match v {
                                 TypeElement::Property(ref mut p) => {
-                                    p.type_ann = ty.clone().map(|v| *v.clone());
+                                    p.type_ann = ty.clone().map(|v| v.clone());
 
                                     v
                                 }
@@ -295,7 +295,7 @@ impl ty::Fold for GenericExpander<'_> {
                                                     computed: method.computed,
                                                     optional: method.optional,
                                                     params: vec![],
-                                                    type_ann: m.ty.clone().map(|v| *v),
+                                                    type_ann: m.ty.clone().map(|v| v),
                                                     type_params: None,
                                                 },
                                             ));
@@ -303,7 +303,7 @@ impl ty::Fold for GenericExpander<'_> {
                                         ty::TypeElement::Property(p) => {
                                             let mut p = p.clone();
                                             if let Some(ty) = &m.ty {
-                                                p.type_ann = Some(*ty.clone());
+                                                p.type_ann = Some(ty.clone());
                                             }
                                             //
                                             new_members.push(ty::TypeElement::Property(p));
@@ -355,7 +355,5 @@ impl ty::Fold for GenericExpander<'_> {
             Type::Static(s) => return s.ty.clone().fold_with(self),
             Type::Arc(a) => return (*a).clone().fold_with(self),
         }
-
-        ty
     }
 }

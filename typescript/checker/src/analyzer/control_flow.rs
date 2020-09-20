@@ -455,9 +455,9 @@ impl Analyzer<'_, '_> {
                                 self.try_assign_pat(span, elem, ty)?;
                             }
 
-                            Type::Tuple(Tuple { types, .. }) => {
-                                if types.len() > i {
-                                    self.try_assign_pat(span, elem, &types[i].ty)?;
+                            Type::Tuple(Tuple { elems, .. }) => {
+                                if elems.len() > i {
+                                    self.try_assign_pat(span, elem, &elems[i].ty)?;
                                 }
                             }
 

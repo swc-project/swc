@@ -27,6 +27,7 @@ impl Fold for LitGeneralizer {
                         TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
                         TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
                         TsLit::Tpl(..) => TsKeywordTypeKind::TsStringKeyword,
+                        TsLit::BigInt(..) => TsKeywordTypeKind::TsBigIntKeyword,
                     },
                 })
             }

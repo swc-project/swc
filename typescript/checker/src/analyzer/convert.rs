@@ -322,7 +322,7 @@ impl Validate<TsTupleType> for Analyzer<'_, '_> {
     fn validate(&mut self, t: &mut TsTupleType) -> Self::Output {
         Ok(Tuple {
             span: t.span,
-            types: t.elem_types.validate_with(self)?,
+            elems: t.elem_types.validate_with(self)?,
         })
     }
 }
