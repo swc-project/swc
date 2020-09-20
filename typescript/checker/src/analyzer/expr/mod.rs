@@ -23,6 +23,7 @@ use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
 use swc_ts_types::Id;
+use ty::TypeExt;
 
 mod bin;
 mod call_new;
@@ -402,7 +403,7 @@ impl Analyzer<'_, '_> {
                             members.push(p);
                         }
                         PropOrSpread::Spread(SpreadElement { ref mut expr, .. }) => {
-                            match self.validate(expr)? {
+                            match *self.validate(expr)? {
                                 Type::TypeLit(TypeLit {
                                     members: spread_members,
                                     ..
@@ -431,10 +432,10 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = special_type {
-                    return Ok(ty);
+                    return Ok(box ty);
                 }
 
-                return Ok(Type::TypeLit(TypeLit {
+                return Ok(box Type::TypeLit(TypeLit {
                     span: *span,
                     members,
                 }));

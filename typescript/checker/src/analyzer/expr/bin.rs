@@ -44,7 +44,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
             rt.as_ref().map(|v| &**v),
         );
 
-        let (lt, rt): (Type, Type) = match (lt, rt) {
+        let (lt, rt): (Box<Type>, Box<Type>) = match (lt, rt) {
             (Some(l), Some(r)) => (l, r),
             _ => return Err(Error::Errors { span, errors }),
         };
