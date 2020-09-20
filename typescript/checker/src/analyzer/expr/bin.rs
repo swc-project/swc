@@ -37,7 +37,12 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
             ty
         });
 
-        self.validate_bin_inner(span, op, lt.as_ref(), rt.as_ref());
+        self.validate_bin_inner(
+            span,
+            op,
+            lt.as_ref().map(|v| &**v),
+            rt.as_ref().map(|v| &**v),
+        );
 
         let (lt, rt): (Type, Type) = match (lt, rt) {
             (Some(l), Some(r)) => (l, r),

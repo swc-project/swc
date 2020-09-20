@@ -316,19 +316,19 @@ impl Analyzer<'_, '_> {
                 }));
             }
             Expr::Lit(Lit::Num(v)) => {
-                return Ok(Type::Lit(TsLitType {
+                return Ok(box Type::Lit(TsLitType {
                     span: v.span,
                     lit: TsLit::Number(*v),
                 }));
             }
             Expr::Lit(Lit::Null(Null { span })) => {
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span: *span,
                     kind: TsKeywordTypeKind::TsNullKeyword,
                 }));
             }
             Expr::Lit(Lit::Regex(..)) => {
-                return Ok(Type::Ref(Ref {
+                return Ok(box Type::Ref(Ref {
                     span,
                     type_name: TsEntityName::Ident(Ident {
                         span,
@@ -345,7 +345,7 @@ impl Analyzer<'_, '_> {
             Expr::Tpl(ref t) => {
                 // Check if tpl is constant. If it is, it's type is string literal.
                 if t.exprs.is_empty() {
-                    return Ok(Type::Lit(TsLitType {
+                    return Ok(box Type::Lit(TsLitType {
                         span: t.span(),
                         lit: TsLit::Str(
                             t.quasis[0]
@@ -356,14 +356,14 @@ impl Analyzer<'_, '_> {
                     }));
                 }
 
-                return Ok(Type::Keyword(TsKeywordType {
+                return Ok(box Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsStringKeyword,
                 }));
             }
 
             Expr::TsNonNull(TsNonNullExpr { ref mut expr, .. }) => {
-                Ok(expr.validate_with(self)?.remove_falsy())
+                Ok(box expr.validate_with(self)?.remove_falsy())
             }
 
             Expr::Object(ObjectLit {
@@ -451,15 +451,15 @@ impl Analyzer<'_, '_> {
                 ..
             }) => {
                 self.scope.this_class_name = ident.as_ref().map(|i| i.into());
-                return Ok(class.validate_with(self)?.into());
+                return Ok(box class.validate_with(self)?.into());
             }
 
-            Expr::Arrow(ref mut e) => return Ok(e.validate_with(self)?.into()),
+            Expr::Arrow(ref mut e) => return Ok(box e.validate_with(self)?.into()),
 
             Expr::Fn(FnExpr {
                 ref mut function, ..
             }) => {
-                return Ok(function.validate_with(self)?.into());
+                return Ok(box function.validate_with(self)?.into());
             }
 
             Expr::Member(ref mut expr) => {
