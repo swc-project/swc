@@ -140,7 +140,7 @@ impl Merge for VarInfo {
     fn or(&mut self, other: Self) {
         self.copied |= other.copied;
         self.initialized |= other.initialized;
-        Merge::or(&mut self.ty.as_deref_mut(), other.ty);
+        Merge::or(&mut self.ty, other.ty);
     }
 }
 

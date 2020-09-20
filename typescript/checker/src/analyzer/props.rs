@@ -30,7 +30,7 @@ impl Validate<PropName> for Analyzer<'_, '_> {
     fn validate(&mut self, node: &mut PropName) -> Self::Output {
         self.record(node);
 
-        node.visit_mut_children(self);
+        node.visit_mut_children_with(self);
 
         Ok(())
     }

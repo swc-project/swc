@@ -60,6 +60,7 @@ mod props;
 mod scope;
 mod stmt;
 mod util;
+mod visit_mut;
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Ctx {
@@ -191,7 +192,7 @@ fn make_module_ty(span: Span, exports: ModuleTypeInfo) -> ty::Module {
 //        let span = node.span;
 //
 //        let mut new = self.new(Scope::root());
-//        node.visit_mut_children(&mut new);
+//        node.visit_mut_children_with(&mut new);
 //        self.info.errors.append_errors(&mut new.info.errors);
 //        println!("after visit children");
 //
@@ -207,7 +208,7 @@ impl Validate<Script> for Analyzer<'_, '_> {
         let span = node.span;
 
         let mut new = self.new(Scope::root());
-        node.visit_mut_children(&mut new);
+        node.visit_mut_children_with(&mut new);
         self.info.errors.append_errors(&mut new.info.errors);
 
         Ok(self.finalize(make_module_ty(span, new.info.exports)))
@@ -495,7 +496,7 @@ impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
         }
 
         if self.is_builtin {
-            items.visit_mut_children(self);
+            items.visit_mut_children_with(self);
         } else {
             let order = self.reorder_stmts(&*items);
             assert_eq!(order.len(), items.len());
@@ -603,7 +604,7 @@ impl Validate<TsModuleDecl> for Analyzer<'_, '_> {
         self.with_child(ScopeKind::Block, Default::default(), |child| {
             child.ctx.in_declare = decl.declare;
 
-            decl.visit_mut_children(child);
+            decl.visit_mut_children_with(child);
 
             let exports = take(&mut child.info.exports);
             let module = child.finalize(ty::Module { span, exports });

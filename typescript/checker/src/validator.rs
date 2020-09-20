@@ -1,3 +1,5 @@
+use crate::ValidationResult;
+
 /// Visit with output
 pub trait Validate<T: ?Sized> {
     type Output;
@@ -43,7 +45,7 @@ where
 
 pub trait ValidateWith<V> {
     type Output;
-    fn validate_with(&mut self, v: &mut V) -> Self::Output;
+    fn validate_with(&mut self, v: &mut V) -> ValidationResult<Self::Output>;
 }
 
 impl<V, T> ValidateWith<V> for T

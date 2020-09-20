@@ -101,7 +101,7 @@ impl Validate<RestPat> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
     fn validate(&mut self, p: &mut RestPat) -> Self::Output {
-        p.visit_mut_children(self);
+        p.visit_mut_children_with(self);
 
         let mut errors = vec![];
 
@@ -147,7 +147,7 @@ impl Validate<AssignPat> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
     fn validate(&mut self, p: &mut AssignPat) -> Self::Output {
-        p.visit_mut_children(self);
+        p.visit_mut_children_with(self);
 
         //
         match *p.left {

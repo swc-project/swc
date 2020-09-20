@@ -131,7 +131,7 @@ macro_rules! simple {
         fn $name(&mut self, node: &mut $T) {
             // TODO: Prevent recursion of analyzer
             node.visit_mut_with(self.analyzer);
-            node.visit_mut_children(self);
+            node.visit_mut_children_with(self);
         }
     };
 }
@@ -195,7 +195,7 @@ where
             _ => false,
         };
 
-        s.visit_mut_children(self);
+        s.visit_mut_children_with(self);
 
         // Of `s` is always executed and we enter infinite loop, return type should be
         // never

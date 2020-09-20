@@ -44,9 +44,7 @@ mod type_facts;
 pub mod util;
 pub mod validator;
 
-pub type Result<T> = std::result::Result<T, Error>;
-
-pub type ValidationResult<T = Box<Type>> = Result<T>;
+pub type ValidationResult<T = Box<Type>> = Result<T, Error>;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct ImportInfo {

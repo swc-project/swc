@@ -221,7 +221,7 @@ impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
                     .as_ref()
                     .map(|v| v.into())
                     .unwrap_or_else(|| Id::word(js_word!("default")));
-                export.visit_mut_children(self);
+                export.visit_mut_children_with(self);
 
                 // TODO: Register type
 
@@ -229,7 +229,7 @@ impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
             }
             DefaultDecl::TsInterfaceDecl(ref i) => {
                 let i = i.id.clone().into();
-                export.visit_mut_children(self);
+                export.visit_mut_children_with(self);
 
                 // TODO: Register type
 

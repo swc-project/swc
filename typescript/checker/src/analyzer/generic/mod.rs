@@ -869,7 +869,7 @@ impl Analyzer<'_, '_> {
                     Type::Param(p) if self.fixed.contains_key(&p.name) => {
                         *node = (*self.fixed.get(&p.name).unwrap()).clone();
                     }
-                    _ => node.visit_mut_children(self),
+                    _ => node.visit_mut_children_with(self),
                 }
             }
         }

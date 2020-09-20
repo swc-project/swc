@@ -946,7 +946,7 @@ impl Validate<ClassExpr> for Analyzer<'_, '_> {
     fn validate(&mut self, c: &mut ClassExpr) -> Self::Output {
         self.scope.this_class_name = c.ident.as_ref().map(|v| v.into());
         let ty = match c.class.validate_with(self) {
-            Ok(ty) => ty.into(),
+            Ok(ty) => box ty.into(),
             Err(err) => {
                 self.info.errors.push(err);
                 ty::Type::any(c.span())
@@ -978,7 +978,7 @@ impl Validate<ClassExpr> for Analyzer<'_, '_> {
                     }
                 }
 
-                c.visit_mut_children(analyzer);
+                c.visit_mut_children_with(analyzer);
 
                 Ok(())
             })
@@ -1010,7 +1010,7 @@ impl Analyzer<'_, '_> {
 
         self.scope.this_class_name = Some(c.ident.clone().into());
         let ty = match c.class.validate_with(self) {
-            Ok(ty) => ty.into(),
+            Ok(ty) => box ty.into(),
             Err(err) => {
                 self.info.errors.push(err);
                 ty::Type::any(c.span())

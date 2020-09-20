@@ -102,7 +102,7 @@ impl VisitMut for Colorizer<'_> {
 
     fn visit_mut_ts_type_ref(&mut self, mut r: &mut TsTypeRef) {
         if r.type_params.is_some() {
-            r.visit_mut_children(self);
+            r.visit_mut_children_with(self);
             return;
         }
 

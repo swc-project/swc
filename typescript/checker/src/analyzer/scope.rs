@@ -562,7 +562,7 @@ impl Analyzer<'_, '_> {
     #[inline(never)]
     pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         #[allow(dead_code)]
-        static ANY: Type = Type::any(DUMMY_SP);
+        static ANY: Box<Type> = Type::any(DUMMY_SP);
 
         if self.errored_imports.get(name).is_some() {
             return Some(ItemRef::Single(&ANY));
