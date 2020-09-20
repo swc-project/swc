@@ -144,7 +144,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                     m.body.clone().visit_mut_with(&mut analyzer);
 
                                     match merged.types.entry(id) {
-                                        Entry::Occupied(mut e) => match &**e.get_mut() {
+                                        Entry::Occupied(mut e) => match &mut **e.get_mut() {
                                             ty::Type::Module(module) => {
                                                 //
                                                 module.exports.extend(analyzer.info.exports)
@@ -179,7 +179,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                 // Merge interface
                                 Stmt::Decl(Decl::TsInterface(ref i)) => {
                                     match merged.types.entry(i.id.clone().into()) {
-                                        Entry::Occupied(mut e) => match &**e.get_mut() {
+                                        Entry::Occupied(mut e) => match &mut **e.get_mut() {
                                             ty::Type::Interface(ref mut v) => {
                                                 v.body.extend(
                                                     analyzer

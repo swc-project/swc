@@ -231,11 +231,11 @@ fn negate(ty: Box<Type>) -> Box<Type> {
                     span,
                 });
             }
-            TsLit::BigInt(v) => {
+            TsLit::BigInt(ref v) => {
                 return box Type::Lit(TsLitType {
                     lit: TsLit::BigInt(BigInt {
-                        value: -v.value,
-                        ..v
+                        value: -v.value.clone(),
+                        span: v.span,
                     }),
                     span,
                 });
