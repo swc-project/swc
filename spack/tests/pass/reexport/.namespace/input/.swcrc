@@ -1,0 +1,10 @@
+{
+  "jsc": {
+    "target": "es2016",
+    "parser": {
+      "syntax": "ecmascript",
+      "dynamicImport": true,
+      "exportNamespaceFrom": true
+    }
+  }
+}

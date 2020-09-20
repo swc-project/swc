@@ -1,4 +1,4 @@
-use crate::helpers::{InjectHelpers, HELPERS};
+use crate::helpers::{inject_helpers, HELPERS};
 use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
@@ -14,17 +14,13 @@ use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
-
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: SingleThreadedComments,
+    pub comments: Lrc<SingleThreadedComments>,
 }
 
 impl<'a> Tester<'a> {
@@ -105,7 +101,7 @@ impl<'a> Tester<'a> {
             .new_source_file(FileName::Real(name.into()), src.into());
 
         let module = {
-            let mut p = Parser::new(syntax, StringInput::from(&*fm), None);
+            let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
             let res = p
                 .parse_module()
                 .map_err(|e| e.into_diagnostic(&self.handler).emit());
@@ -119,17 +115,15 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut DropSpan {
+            .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
-            })
+            }))
             .fold_with(&mut Normalizer);
 
         Ok(module)
     }
 
     pub fn print(&mut self, module: &Module) -> String {
-        let handlers = Box::new(MyHandlers);
-
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
@@ -142,7 +136,6 @@ impl<'a> Tester<'a> {
                     None,
                 )),
                 comments: None,
-                handlers,
             };
 
             // println!("Emitting: {:?}", module);
@@ -181,14 +174,14 @@ pub(crate) fn test_transform<F, P>(
     expected: &str,
     ok_if_code_eq: bool,
 ) where
-    F: FnOnce(&mut Tester<'_>) -> P,
+    F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
     crate::tests::Tester::run(|tester| {
         let expected = tester.apply_transform(
-            ::swc_ecma_utils::DropSpan {
+            as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
-            },
+            }),
             "output.js",
             syntax,
             expected,
@@ -208,11 +201,11 @@ pub(crate) fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
             .fold_with(&mut crate::fixer::fixer(None))
-            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
+            .fold_with(&mut as_folder(DropSpan {
+                preserve_ctxt: false,
+            }));
 
         if actual == expected {
             return Ok(());
@@ -311,7 +304,7 @@ where
             _ => {}
         }
 
-        let module = module
+        let mut module = module
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
@@ -319,7 +312,7 @@ where
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
-        let module = module.fold_with(&mut InjectHelpers {});
+        module = module.fold_with(&mut inject_helpers());
 
         let src = tester.print(&module);
         let root = Path::new(env!("CARGO_MANIFEST_DIR"))

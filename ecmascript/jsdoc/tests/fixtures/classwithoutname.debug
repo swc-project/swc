@@ -1,0 +1,76 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                98,
+            ),
+            hi: BytePos(
+                98,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    98,
+                ),
+                hi: BytePos(
+                    135,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Create an instance of MyClass.
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        98,
+                    ),
+                    hi: BytePos(
+                        108,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            98,
+                        ),
+                        hi: BytePos(
+                            108,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructs' type=dynamic),
+                },
+                tag: Constructs(
+                    ConstructsTag {
+                        span: Span {
+                            lo: BytePos(
+                                98,
+                            ),
+                            hi: BytePos(
+                                108,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

@@ -1,0 +1,50 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    11,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('document me' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                56,
+            ),
+            hi: BytePos(
+                56,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    56,
+                ),
+                hi: BytePos(
+                    67,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('document me' type=dynamic),
+        },
+        tags: [],
+    },
+]

@@ -1,0 +1,87 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                13,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    45,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('A builder function for the Stick application;' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        3,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            3,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('var' type=static),
+                },
+                tag: Member(
+                    MemberTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                3,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    8,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('function' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

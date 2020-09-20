@@ -1,4 +1,4 @@
-error: TS1048
+error: A rest parameter cannot have an initializer
  --> $DIR/tests/test262-parser/fail/043ab1c3982db3cd.js:1:15
   |
 1 | function x(...a = 1){}

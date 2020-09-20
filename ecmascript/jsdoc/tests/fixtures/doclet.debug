@@ -1,0 +1,187 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    132,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Markdown asterisks in a doclet that does not use leading asterisks.
+                **Strong** is strong.
+            
+                * List item 1.
+                * List item 2.' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        8,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    20,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('thingy - The thingy.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                215,
+            ),
+            hi: BytePos(
+                215,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    215,
+                ),
+                hi: BytePos(
+                    341,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Markdown asterisks in a doclet that uses leading asterisks.
+             * **Strong** is strong.
+             *
+             * * List item 1.
+             * * List item 2.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        215,
+                    ),
+                    hi: BytePos(
+                        220,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            215,
+                        ),
+                        hi: BytePos(
+                            220,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                215,
+                            ),
+                            hi: BytePos(
+                                220,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        215,
+                                    ),
+                                    hi: BytePos(
+                                        223,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    215,
+                                ),
+                                hi: BytePos(
+                                    235,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('thingy - The thingy.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

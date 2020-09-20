@@ -115,153 +115,164 @@ impl<'a, I: Tokens> Parser<I> {
             assert_and_bump!("const");
             assert_and_bump!("enum");
             return self
-                .parse_ts_enum_decl(start, /* is_const */ true)
+                .parse_ts_enum_decl(start, true)
                 .map(Decl::from)
                 .map(Stmt::from);
         }
 
-        if is_one_of!("break", "continue") {
-            let is_break = is!("break");
-            bump!();
+        match cur!(true)? {
+            tok!("break") | tok!("continue") => {
+                let is_break = is!("break");
+                bump!();
 
-            let label = if eat!(';') {
-                None
-            } else {
-                let i = self.parse_label_ident().map(Some)?;
+                let label = if eat!(';') {
+                    None
+                } else {
+                    let i = self.parse_label_ident().map(Some)?;
+                    expect!(';');
+                    i
+                };
+
+                let span = span!(start);
+                if is_break {
+                    if label.is_some() && !self.state.labels.contains(&label.as_ref().unwrap().sym)
+                    {
+                        self.emit_err(span, SyntaxError::TS1116);
+                    } else if !self.ctx().is_break_allowed {
+                        self.emit_err(span, SyntaxError::TS1105);
+                    }
+                } else {
+                    if !self.ctx().is_continue_allowed {
+                        self.emit_err(span, SyntaxError::TS1115);
+                    } else if label.is_some()
+                        && !self.state.labels.contains(&label.as_ref().unwrap().sym)
+                    {
+                        self.emit_err(span, SyntaxError::TS1107);
+                    }
+                }
+
+                return Ok(if is_break {
+                    Stmt::Break(BreakStmt { span, label })
+                } else {
+                    Stmt::Continue(ContinueStmt { span, label })
+                });
+            }
+
+            tok!("debugger") => {
+                bump!();
                 expect!(';');
-                i
-            };
+                return Ok(Stmt::Debugger(DebuggerStmt { span: span!(start) }));
+            }
 
-            let span = span!(start);
-            if is_break {
-                if label.is_some() && !self.state.labels.contains(&label.as_ref().unwrap().sym) {
-                    self.emit_err(span, SyntaxError::TS1116);
-                } else if !self.ctx().is_break_allowed {
-                    self.emit_err(span, SyntaxError::TS1105);
+            tok!("do") => {
+                return self.parse_do_stmt();
+            }
+
+            tok!("for") => {
+                return self.parse_for_stmt();
+            }
+
+            tok!("function") => {
+                if !include_decl {
+                    self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
-            } else {
-                if !self.ctx().is_continue_allowed {
-                    self.emit_err(span, SyntaxError::TS1115);
-                } else if label.is_some()
-                    && !self.state.labels.contains(&label.as_ref().unwrap().sym)
-                {
-                    self.emit_err(span, SyntaxError::TS1107);
+
+                return self.parse_fn_decl(decorators).map(Stmt::from);
+            }
+
+            tok!("class") => {
+                if !include_decl {
+                    self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
+                return self
+                    .parse_class_decl(start, start, decorators)
+                    .map(Stmt::from);
             }
 
-            return Ok(if is_break {
-                Stmt::Break(BreakStmt { span, label })
-            } else {
-                Stmt::Continue(ContinueStmt { span, label })
-            });
-        }
-
-        if is!("debugger") {
-            bump!();
-            expect!(';');
-            return Ok(Stmt::Debugger(DebuggerStmt { span: span!(start) }));
-        }
-
-        if is!("do") {
-            return self.parse_do_stmt();
-        }
-
-        if is!("for") {
-            return self.parse_for_stmt();
-        }
-
-        if is!("function") {
-            if !include_decl {
-                unexpected!()
+            tok!("if") => {
+                return self.parse_if_stmt();
             }
 
-            return self.parse_fn_decl(decorators).map(Stmt::from);
-        }
-
-        if is!("class") {
-            if !include_decl {
-                unexpected!()
+            tok!("return") => {
+                return self.parse_return_stmt();
             }
-            return self
-                .parse_class_decl(start, start, decorators)
-                .map(Stmt::from);
-        }
 
-        if is!("if") {
-            return self.parse_if_stmt();
-        }
+            tok!("switch") => {
+                return self.parse_switch_stmt();
+            }
 
-        if is!("return") {
-            return self.parse_return_stmt();
-        }
+            tok!("throw") => {
+                return self.parse_throw_stmt();
+            }
 
-        if is!("switch") {
-            return self.parse_switch_stmt();
-        }
+            // Error recovery
+            tok!("catch") => {
+                let span = self.input.cur_span();
+                self.emit_err(span, SyntaxError::TS1005);
 
-        if is!("throw") {
-            return self.parse_throw_stmt();
-        }
+                let _ = self.parse_catch_clause();
+                let _ = self.parse_finally_block();
 
-        // Error
-        if is!("catch") {
-            let span = self.input.cur_span();
-            self.emit_err(span, SyntaxError::TS1005);
+                return Ok(Stmt::Expr(ExprStmt {
+                    span,
+                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                }));
+            }
 
-            let _ = self.parse_catch_clause();
-            let _ = self.parse_finally_block();
+            // Error recovery
+            tok!("finally") => {
+                let span = self.input.cur_span();
+                self.emit_err(span, SyntaxError::TS1005);
 
-            return Ok(Stmt::Expr(ExprStmt {
-                span,
-                expr: Box::new(Expr::Invalid(Invalid { span })),
-            }));
-        }
+                let _ = self.parse_finally_block();
 
-        if is!("finally") {
-            let span = self.input.cur_span();
-            self.emit_err(span, SyntaxError::TS1005);
+                return Ok(Stmt::Expr(ExprStmt {
+                    span,
+                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                }));
+            }
 
-            let _ = self.parse_finally_block();
+            tok!("try") => {
+                return self.parse_try_stmt();
+            }
 
-            return Ok(Stmt::Expr(ExprStmt {
-                span,
-                expr: Box::new(Expr::Invalid(Invalid { span })),
-            }));
-        }
+            tok!("with") => {
+                return self.parse_with_stmt();
+            }
 
-        if is!("try") {
-            return self.parse_try_stmt();
-        }
+            tok!("while") => {
+                return self.parse_while_stmt();
+            }
 
-        if is!("with") {
-            return self.parse_with_stmt();
-        }
-
-        if is!("while") {
-            return self.parse_while_stmt();
-        }
-
-        if is!("var") || (include_decl && is!("const")) {
-            let v = self.parse_var_stmt(false)?;
-            return Ok(Stmt::Decl(Decl::Var(v)));
-        }
-
-        // 'let' can start an identifier reference.
-        if include_decl && is!("let") {
-            let strict = self.ctx().strict;
-            let is_keyword = match peek!() {
-                Ok(t) => t.follows_keyword_let(strict),
-                _ => false,
-            };
-
-            if is_keyword {
+            tok!("var") => {
                 let v = self.parse_var_stmt(false)?;
                 return Ok(Stmt::Decl(Decl::Var(v)));
             }
-        }
 
-        if is!('{') {
-            return self.parse_block(false).map(Stmt::Block);
+            tok!("const") if include_decl => {
+                let v = self.parse_var_stmt(false)?;
+                return Ok(Stmt::Decl(Decl::Var(v)));
+            }
+
+            // 'let' can start an identifier reference.
+            tok!("let") if include_decl => {
+                let strict = self.ctx().strict;
+                let is_keyword = match peek!() {
+                    Ok(t) => t.follows_keyword_let(strict),
+                    _ => false,
+                };
+
+                if is_keyword {
+                    let v = self.parse_var_stmt(false)?;
+                    return Ok(Stmt::Decl(Decl::Var(v)));
+                }
+            }
+
+            tok!('{') => {
+                return self.parse_block(false).map(Stmt::Block);
+            }
+
+            _ => {}
         }
 
         if eat_exact!(';') {

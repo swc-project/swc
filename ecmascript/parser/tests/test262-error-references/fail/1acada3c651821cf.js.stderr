@@ -1,4 +1,4 @@
-error: Expected RBrace, got Some(Semi)
+error: Expected }, got ;
  --> $DIR/tests/test262-parser/fail/1acada3c651821cf.js:1:12
   |
 1 | `hello ${10;test`

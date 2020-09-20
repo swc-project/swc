@@ -1,0 +1,409 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                47,
+            ),
+            hi: BytePos(
+                47,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    47,
+                ),
+                hi: BytePos(
+                    70,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Throw a snowball.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        47,
+                    ),
+                    hi: BytePos(
+                        52,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            47,
+                        ),
+                        hi: BytePos(
+                            52,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('fires' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                47,
+                            ),
+                            hi: BytePos(
+                                52,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    47,
+                                ),
+                                hi: BytePos(
+                                    60,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Hurl#snowball' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        47,
+                    ),
+                    hi: BytePos(
+                        52,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            47,
+                        ),
+                        hi: BytePos(
+                            52,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('fires' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                47,
+                            ),
+                            hi: BytePos(
+                                52,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    47,
+                                ),
+                                hi: BytePos(
+                                    63,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Hurl#event:brick' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                174,
+            ),
+            hi: BytePos(
+                174,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    174,
+                ),
+                hi: BytePos(
+                    174,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        174,
+                    ),
+                    hi: BytePos(
+                        179,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            174,
+                        ),
+                        hi: BytePos(
+                            179,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('event' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                174,
+                            ),
+                            hi: BytePos(
+                                179,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    174,
+                                ),
+                                hi: BytePos(
+                                    187,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Hurl#snowball' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                249,
+            ),
+            hi: BytePos(
+                249,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    249,
+                ),
+                hi: BytePos(
+                    278,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Throw a football match.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        249,
+                    ),
+                    hi: BytePos(
+                        254,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            249,
+                        ),
+                        hi: BytePos(
+                            254,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('emits' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                249,
+                            ),
+                            hi: BytePos(
+                                254,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    249,
+                                ),
+                                hi: BytePos(
+                                    267,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Hurl#footballMatch' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                365,
+            ),
+            hi: BytePos(
+                365,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    365,
+                ),
+                hi: BytePos(
+                    365,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        365,
+                    ),
+                    hi: BytePos(
+                        370,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            365,
+                        ),
+                        hi: BytePos(
+                            370,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('event' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                365,
+                            ),
+                            hi: BytePos(
+                                370,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    365,
+                                ),
+                                hi: BytePos(
+                                    383,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Hurl#footballMatch' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

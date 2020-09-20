@@ -2,5 +2,4 @@
 comment
 should
 be
-ignored */
-1;
+ignored */ 1;

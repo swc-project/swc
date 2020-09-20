@@ -15,7 +15,6 @@ on: [push, pull_request]
 env:
   CARGO_INCREMENTAL: 0
   CI: "1"
-  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
 
 jobs:
   check:
@@ -42,3 +41,7 @@ jobs:
       - name: Check swc_ecma_transforms
         run: |
           (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc_bundler
+        run: |
+          (cd bundler && cargo hack check --feature-powerset --no-dev-deps)

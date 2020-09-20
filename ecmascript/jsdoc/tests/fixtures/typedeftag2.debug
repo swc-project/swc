@@ -1,0 +1,102 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        7,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            7,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('typedef' type=inline),
+                },
+                tag: TypeDef(
+                    TypeDefTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                7,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        17,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{(string|number)}' type=dynamic),
+                            },
+                        ),
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            0,
+                                        ),
+                                        hi: BytePos(
+                                            0,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('' type=static),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

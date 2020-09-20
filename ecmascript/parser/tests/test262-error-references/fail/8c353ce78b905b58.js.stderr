@@ -1,6 +1,6 @@
-error: Expected RBrace, got None
- --> $DIR/tests/test262-parser/fail/8c353ce78b905b58.js:1:4
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/8c353ce78b905b58.js:1:5
   |
 1 | `${a
-  |    ^
+  |     ^
 

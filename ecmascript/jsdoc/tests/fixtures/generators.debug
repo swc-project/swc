@@ -1,0 +1,98 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    49,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Generate unique IDs starting at 0.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                151,
+            ),
+            hi: BytePos(
+                151,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    151,
+                ),
+                hi: BytePos(
+                    185,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Generate unique IDs starting at 1.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                304,
+            ),
+            hi: BytePos(
+                304,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    304,
+                ),
+                hi: BytePos(
+                    320,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Generator class.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                350,
+            ),
+            hi: BytePos(
+                350,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    350,
+                ),
+                hi: BytePos(
+                    384,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Generate unique IDs starting at 2.' type=dynamic),
+        },
+        tags: [],
+    },
+]

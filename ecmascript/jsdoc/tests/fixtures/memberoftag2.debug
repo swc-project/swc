@@ -1,0 +1,174 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                40,
+            ),
+            hi: BytePos(
+                40,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    40,
+                ),
+                hi: BytePos(
+                    40,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        40,
+                    ),
+                    hi: BytePos(
+                        48,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            40,
+                        ),
+                        hi: BytePos(
+                            48,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('memberof' type=dynamic),
+                },
+                tag: MemberOf(
+                    MemberOfTag {
+                        span: Span {
+                            lo: BytePos(
+                                40,
+                            ),
+                            hi: BytePos(
+                                48,
+                            ),
+                            ctxt: #0,
+                        },
+                        parent_name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    40,
+                                ),
+                                hi: BytePos(
+                                    40,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            40,
+                                        ),
+                                        hi: BytePos(
+                                            50,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Observable' type=dynamic),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                96,
+            ),
+            hi: BytePos(
+                106,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    96,
+                ),
+                hi: BytePos(
+                    96,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        96,
+                    ),
+                    hi: BytePos(
+                        104,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            96,
+                        ),
+                        hi: BytePos(
+                            104,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('memberof' type=dynamic),
+                },
+                tag: MemberOf(
+                    MemberOfTag {
+                        span: Span {
+                            lo: BytePos(
+                                96,
+                            ),
+                            hi: BytePos(
+                                104,
+                            ),
+                            ctxt: #0,
+                        },
+                        parent_name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    96,
+                                ),
+                                hi: BytePos(
+                                    106,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            96,
+                                        ),
+                                        hi: BytePos(
+                                            106,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Observable' type=dynamic),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

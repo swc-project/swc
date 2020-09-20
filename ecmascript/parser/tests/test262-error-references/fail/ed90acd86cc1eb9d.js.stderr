@@ -1,4 +1,4 @@
-error: Unexpected token Some(RParen)
+error: Unexpected token `)`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
  --> $DIR/tests/test262-parser/fail/ed90acd86cc1eb9d.js:4:1
   |
 4 | )

@@ -1,0 +1,149 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    17,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Blah Blah Blah
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        4,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            4,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('desc' type=inline),
+                },
+                tag: Description(
+                    DescriptionTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                4,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    14,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('halb halb halb' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                55,
+            ),
+            hi: BytePos(
+                63,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    55,
+                ),
+                hi: BytePos(
+                    55,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        55,
+                    ),
+                    hi: BytePos(
+                        66,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            55,
+                        ),
+                        hi: BytePos(
+                            66,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('description' type=dynamic),
+                },
+                tag: Description(
+                    DescriptionTag {
+                        span: Span {
+                            lo: BytePos(
+                                55,
+                            ),
+                            hi: BytePos(
+                                66,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

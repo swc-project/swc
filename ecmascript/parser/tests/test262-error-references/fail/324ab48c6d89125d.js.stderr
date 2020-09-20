@@ -1,4 +1,4 @@
-error: Unexpected token Some(Dot)
+error: Unexpected token `.`. Expected target
  --> $DIR/tests/test262-parser/fail/324ab48c6d89125d.js:1:20
   |
 1 | function f() { new..target; }

@@ -240,7 +240,7 @@ impl<I: Tokens> Buffer<I> {
         });
     }
 
-    #[inline(never)]
+    #[inline]
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
         self.prev_span = match prev {
@@ -258,15 +258,29 @@ impl<I: Tokens> Buffer<I> {
         self.cur.as_ref().map(|it| &it.token)
     }
 
+    #[cold]
+    #[inline(never)]
+    pub fn dump_cur(&mut self) -> String {
+        match self.cur() {
+            Some(v) => format!("{:?}", v),
+            None => format!("<eof>"),
+        }
+    }
+
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
+        #[cold]
+        #[inline(never)]
+        fn invalid_state() -> ! {
+            unreachable!(
+                "Current token is `None`. Parser should not call bump() without knowing current \
+                 token"
+            )
+        }
+
         let prev = match self.cur.take() {
             Some(t) => t,
-
-            None => unreachable!(
-                "Current token is `None`. Parser should not call bump()without knowing current \
-                 token"
-            ),
+            None => invalid_state(),
         };
         self.prev_span = prev.span;
 
@@ -313,7 +327,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     /// Get current token. Returns `None` only on eof.
-    #[inline(always)]
+    #[inline]
     pub fn cur(&mut self) -> Option<&Token> {
         if self.cur.is_none() {
             self.bump_inner();
@@ -321,7 +335,7 @@ impl<I: Tokens> Buffer<I> {
         self.cur.as_ref().map(|item| &item.token)
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn is(&mut self, expected: &Token) -> bool {
         match self.cur() {
             Some(t) => *expected == *t,
@@ -329,7 +343,7 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn peeked_is(&mut self, expected: &Token) -> bool {
         match self.peek() {
             Some(t) => *expected == *t,
@@ -337,7 +351,7 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn eat(&mut self, expected: &Token) -> bool {
         let v = self.is(expected);
         if v {
@@ -346,13 +360,19 @@ impl<I: Tokens> Buffer<I> {
         v
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
-        self.eat(&Word(Word::Keyword(kwd)))
+        match self.cur() {
+            Some(Token::Word(Word::Keyword(k))) if *k == kwd => {
+                self.bump();
+                true
+            }
+            _ => false,
+        }
     }
 
     /// Returns start of current token.
-    #[inline(always)]
+    #[inline]
     pub fn cur_pos(&mut self) -> BytePos {
         let _ = self.cur();
         self.cur
@@ -364,7 +384,7 @@ impl<I: Tokens> Buffer<I> {
             })
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn cur_span(&self) -> Span {
         let data = self
             .cur
@@ -376,50 +396,50 @@ impl<I: Tokens> Buffer<I> {
     }
 
     /// Returns last byte position of previous token.
-    #[inline(always)]
+    #[inline]
     pub fn last_pos(&self) -> BytePos {
         self.prev_span.hi
     }
 
     /// Returns span of the previous token.
-    #[inline(always)]
+    #[inline]
     pub fn prev_span(&self) -> Span {
         self.prev_span
     }
 
-    #[inline(always)]
+    #[inline]
     pub(crate) fn get_ctx(&self) -> Context {
         self.iter.ctx()
     }
 
-    #[inline(always)]
+    #[inline]
     pub(crate) fn set_ctx(&mut self, ctx: Context) {
         self.iter.set_ctx(ctx);
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn syntax(&self) -> Syntax {
         self.iter.syntax()
     }
-    #[inline(always)]
+    #[inline]
     pub fn target(&self) -> JscTarget {
         self.iter.target()
     }
 
-    #[inline(always)]
+    #[inline]
     pub(crate) fn set_expr_allowed(&mut self, allow: bool) {
         self.iter.set_expr_allowed(allow)
     }
 
-    #[inline(always)]
+    #[inline]
     pub(crate) fn token_context(&self) -> &lexer::TokenContexts {
         self.iter.token_context()
     }
-    #[inline(always)]
+    #[inline]
     pub(crate) fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
         self.iter.token_context_mut()
     }
-    #[inline(always)]
+    #[inline]
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
     }

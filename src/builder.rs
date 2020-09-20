@@ -88,10 +88,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self.then(pass)
     }
 
-    pub fn strip_typescript(self) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
-        self.then(typescript::strip())
-    }
-
     pub fn target(mut self, target: JscTarget) -> Self {
         self.target = target;
         self
@@ -116,7 +112,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
-        root_mark: Mark,
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt dyn Comments>,
@@ -133,7 +128,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         // compat
         let compat_pass = if let Some(env) = self.env {
-            Either::Left(swc_ecma_preset_env::preset_env(self.global_mark, env))
+            Either::Left(chain!(
+                Optional::new(typescript::strip(), syntax.typescript()),
+                swc_ecma_preset_env::preset_env(self.global_mark, env)
+            ))
         } else {
             Either::Right(chain!(
                 Optional::new(
@@ -146,8 +144,9 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 ),
                 Optional::new(
                     compat::es2020::class_properties(),
-                    self.target < JscTarget::Es2020
+                    self.target < JscTarget::Es2020,
                 ),
+                Optional::new(typescript::strip(), syntax.typescript()),
                 Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
                 Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
                 Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
@@ -182,8 +181,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 modules::import_analysis::import_analyzer(),
                 need_interop_analysis
             ),
-            helpers::InjectHelpers,
-            ModuleConfig::build(self.cm.clone(), root_mark, module),
+            helpers::inject_helpers(),
+            ModuleConfig::build(self.cm.clone(), self.global_mark, module),
             Optional::new(hygiene(), self.hygiene),
             Optional::new(fixer(comments), self.fixer),
         )

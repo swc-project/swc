@@ -81,14 +81,9 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
     let pass = add!(pass, ExponentiationOperator, es2016::exponentation());
 
     // ES2015
-    let pass = add!(pass, BlockScopedFunctions, es2015::BlockScopedFns);
-    let pass = add!(
-        pass,
-        TemplateLiterals,
-        es2015::TemplateLiteral::default(),
-        true
-    );
-    let pass = add!(pass, Classes, es2015::Classes::default());
+    let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
+    let pass = add!(pass, TemplateLiterals, es2015::template_literal(), true);
+    let pass = add!(pass, Classes, es2015::classes());
     let pass = add!(
         pass,
         Spread,
@@ -98,10 +93,10 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
     let pass = add!(pass, FunctionName, es2015::function_name());
     let pass = add!(pass, ArrowFunctions, es2015::arrow());
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
-    let pass = add!(pass, StickyRegex, es2015::StickyRegex);
+    let pass = add!(pass, StickyRegex, es2015::sticky_regex());
     // TODO:    InstanceOf,
-    let pass = add!(pass, TypeOfSymbol, es2015::TypeOfSymbol);
-    let pass = add!(pass, ShorthandProperties, es2015::Shorthand);
+    let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
+    let pass = add!(pass, ShorthandProperties, es2015::shorthand());
     let pass = add!(pass, Parameters, es2015::parameters());
     let pass = add!(
         pass,
@@ -138,15 +133,13 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
     //    NamedCapturingGroupsRegex,
 
     // ES 3
-    let pass = add!(pass, PropertyLiterals, es3::PropertyLiteral);
-    let pass = add!(pass, MemberExpressionLiterals, es3::MemberExprLit);
+    let pass = add!(pass, PropertyLiterals, es3::property_literals());
     let pass = add!(
         pass,
-        ReservedWords,
-        es3::ReservedWord {
-            preserve_import: c.dynamic_import
-        }
+        MemberExpressionLiterals,
+        es3::member_expression_literals()
     );
+    let pass = add!(pass, ReservedWords, es3::reserved_words(c.dynamic_import));
 
     if c.debug {
         println!("Targets: {:?}", targets);

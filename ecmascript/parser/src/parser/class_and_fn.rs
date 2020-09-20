@@ -198,7 +198,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is!("export") {
             if !allow_export {
-                unexpected!();
+                syntax_error!(self.input.cur_span(), SyntaxError::ExportNotAllowed);
             }
 
             if !self.syntax().decorators_before_export() {
@@ -454,11 +454,12 @@ impl<'a, I: Tokens> Parser<I> {
             // generator method
             let key = self.parse_class_prop_name()?;
             if readonly {
-                syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
+                self.emit_err(span!(start), SyntaxError::ReadOnlyMethod);
             }
             if is_constructor(&key) {
-                unexpected!();
+                self.emit_err(span!(start), SyntaxError::GeneratorConstructor);
             }
+
             return self.make_method(
                 |p| p.parse_unique_formal_params(),
                 MakeMethodArgs {
@@ -656,7 +657,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let key = self.parse_class_prop_name()?;
 
                 if readonly {
-                    unexpected!()
+                    self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
                 }
 
                 return match i.sym {
@@ -718,7 +719,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => {}
         }
 
-        unexpected!()
+        unexpected!("* for generator, private key, identifier or async")
     }
 
     fn make_property(
@@ -750,6 +751,7 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             in_class_prop: true,
             in_method: false,
+            include_in_expr: true,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {

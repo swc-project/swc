@@ -14,7 +14,7 @@ use swc_common::Span;
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
-#[derive(Kind, Debug, Clone, PartialEq)]
+#[derive(Kind, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Token {
     /// Identifier, "null", "true", "false".
@@ -566,5 +566,53 @@ impl Word {
             Word::True => Cow::Owned(js_word!("true")),
             Word::Null => Cow::Owned(js_word!("null")),
         }
+    }
+}
+
+impl Debug for Token {
+    /// This method is called only in the case of parsing failure.
+    #[cold]
+    #[inline(never)]
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match self {
+            Token::Word(w) => write!(f, "{:?}", w)?,
+            Arrow => write!(f, "=>")?,
+            Hash => write!(f, "#")?,
+            At => write!(f, "@")?,
+            Dot => write!(f, ".")?,
+            DotDotDot => write!(f, "...")?,
+            Bang => write!(f, "!")?,
+            LParen => write!(f, "(")?,
+            RParen => write!(f, ")")?,
+            LBracket => write!(f, "[")?,
+            RBracket => write!(f, "]")?,
+            LBrace => write!(f, "{{")?,
+            RBrace => write!(f, "}}")?,
+            Semi => write!(f, ";")?,
+            Comma => write!(f, ",")?,
+            BackQuote => write!(f, "`")?,
+            Template { raw, .. } => write!(f, "template token ({})", raw)?,
+            Colon => write!(f, ":")?,
+            ColonColon => write!(f, "::")?,
+            BinOp(op) => write!(f, "{}", BinaryOp::from(*op).as_str())?,
+            AssignOp(op) => write!(f, "{}", op.as_str())?,
+            DollarLBrace => write!(f, "${{")?,
+            QuestionMark => write!(f, "?")?,
+            PlusPlus => write!(f, "++")?,
+            MinusMinus => write!(f, "--")?,
+            Tilde => write!(f, "~")?,
+            Str { value, .. } => write!(f, "string literal ({})", value)?,
+            Regex(exp, flags) => write!(f, "regexp literal ({}, {})", exp, flags)?,
+            Num(..) => write!(f, "numeric literal")?,
+            BigInt(..) => write!(f, "bigint literal")?,
+            JSXName { name } => write!(f, "jsx name ({})", name)?,
+            JSXText { raw } => write!(f, "jsx text ({})", raw)?,
+            JSXTagStart => write!(f, "< (jsx tag start)")?,
+            JSXTagEnd => write!(f, "> (jsx tag end)")?,
+            Shebang(_) => write!(f, "#!")?,
+            Token::Error(_) => write!(f, "<lexing error>")?,
+        }
+
+        Ok(())
     }
 }

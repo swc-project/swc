@@ -1,0 +1,148 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        10,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            10,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('deprecated' type=dynamic),
+                },
+                tag: Deprecated(
+                    DeprecatedTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                10,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                40,
+            ),
+            hi: BytePos(
+                40,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    40,
+                ),
+                hi: BytePos(
+                    40,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        40,
+                    ),
+                    hi: BytePos(
+                        50,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            40,
+                        ),
+                        hi: BytePos(
+                            50,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('deprecated' type=dynamic),
+                },
+                tag: Deprecated(
+                    DeprecatedTag {
+                        span: Span {
+                            lo: BytePos(
+                                40,
+                            ),
+                            hi: BytePos(
+                                50,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    40,
+                                ),
+                                hi: BytePos(
+                                    57,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('since version 2.0' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

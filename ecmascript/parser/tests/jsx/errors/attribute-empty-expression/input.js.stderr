@@ -1,10 +1,10 @@
-error: Unexpected token Some(JSXTagEnd)
+error: Unexpected token `> (jsx tag end)`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
  --> $DIR/tests/jsx/errors/attribute-empty-expression/input.js:1:14
   |
 1 | <foo bar={} />
   |              ^
 
-error: TS1109
+error: Expression expected
  --> $DIR/tests/jsx/errors/attribute-empty-expression/input.js:1:13
   |
 1 | <foo bar={} />

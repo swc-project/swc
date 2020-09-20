@@ -1,44 +1,45 @@
 [workspace]
-members = ["typescript", "ecmascript", "native", "spack", "wasm"]
+members = ["typescript", "ecmascript", "ecmascript/jsdoc", "native", "spack", "wasm"]
 
 [package]
-name = "swc"
-version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/swc/"
 description = "Speedy web compiler"
+documentation = "https://swc-project.github.io/rustdoc/swc/"
 edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.0.0"
 
 [lib]
 name = "swc"
 
 [dependencies]
-swc_atoms = { path ="./atoms" }
-swc_common = { path ="./common", features = ["sourcemap", "concurrent"] }
-swc_ecma_ast = { path ="./ecmascript/ast" }
-swc_ecma_codegen = { path ="./ecmascript/codegen" }
-swc_ecma_parser = { path ="./ecmascript/parser" }
-swc_ecma_preset_env = { path ="./ecmascript/preset_env" }
-swc_ecma_transforms = { path ="./ecmascript/transforms", features = ["const-modules", "react"] }
-swc_ecma_visit = { path ="./ecmascript/visit" }
-swc_visit = { path ="./visit" }
 anyhow = "1"
-log = { version = "0.4", features = ["release_max_level_info"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+base64 = "0.12.0"
+dashmap = "3"
+either = "1"
+log = {version = "0.4", features = ["release_max_level_info"]}
 once_cell = "1"
 regex = "1"
-either = "1"
-dashmap = "=3.5.1"
+serde = {version = "1", features = ["derive"]}
+serde_json = "1"
 sourcemap = "6"
-base64 = "0.12.0"
+swc_atoms = {path = "./atoms"}
+swc_common = {path = "./common", features = ["sourcemap", "concurrent"]}
+swc_ecma_ast = {path = "./ecmascript/ast"}
+swc_ecma_codegen = {path = "./ecmascript/codegen"}
+swc_ecma_ext_transforms = {path = "./ecmascript/ext-transforms"}
+swc_ecma_parser = {path = "./ecmascript/parser"}
+swc_ecma_preset_env = {path = "./ecmascript/preset_env"}
+swc_ecma_transforms = {path = "./ecmascript/transforms", features = ["const-modules", "react"]}
+swc_ecma_visit = {path = "./ecmascript/visit"}
+swc_visit = {path = "./visit"}
 
 [dev-dependencies]
-testing = { path = "./testing" }
-walkdir = "2"
 rayon = "1"
+testing = {path = "./testing"}
+walkdir = "2"
 
 [[example]]
 name = "usage"
@@ -47,11 +48,7 @@ name = "usage"
 codegen-units = 1
 lto = true
 # debug = true
-opt-level = 'z'
+# opt-level = 'z'
 
 [profile.bench]
 codegen-units = 1
-#lto = true
-debug = true
-
-

@@ -1,0 +1,223 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                42,
+            ),
+            hi: BytePos(
+                42,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    42,
+                ),
+                hi: BytePos(
+                    42,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        42,
+                    ),
+                    hi: BytePos(
+                        47,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            42,
+                        ),
+                        hi: BytePos(
+                            47,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('lends' type=inline),
+                },
+                tag: Lends(
+                    LendsTag {
+                        span: Span {
+                            lo: BytePos(
+                                42,
+                            ),
+                            hi: BytePos(
+                                47,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    42,
+                                ),
+                                hi: BytePos(
+                                    48,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            42,
+                                        ),
+                                        hi: BytePos(
+                                            48,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Person' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                90,
+            ),
+            hi: BytePos(
+                90,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    90,
+                ),
+                hi: BytePos(
+                    112,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set up initial values.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                169,
+            ),
+            hi: BytePos(
+                169,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    169,
+                ),
+                hi: BytePos(
+                    192,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('The name of the person.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                250,
+            ),
+            hi: BytePos(
+                250,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    250,
+                ),
+                hi: BytePos(
+                    266,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Speak a message.' type=dynamic),
+        },
+        tags: [],
+    },
+]

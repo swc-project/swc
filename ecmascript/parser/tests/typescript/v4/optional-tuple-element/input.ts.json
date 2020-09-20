@@ -1,0 +1,148 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 60,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 60,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 11,
+          "end": 59,
+          "ctxt": 0
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 12,
+              "end": 25,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 12,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "first",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "ty": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 19,
+                "end": 25,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 27,
+              "end": 42,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 27,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": "second",
+              "typeAnnotation": null,
+              "optional": true
+            },
+            "ty": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 36,
+                "end": 42,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 44,
+              "end": 58,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "RestElement",
+              "span": {
+                "start": 44,
+                "end": 52,
+                "ctxt": 0
+              },
+              "rest": {
+                "start": 44,
+                "end": 47,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 47,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "value": "rest",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeAnnotation": null
+            },
+            "ty": {
+              "type": "TsArrayType",
+              "span": {
+                "start": 53,
+                "end": 58,
+                "ctxt": 0
+              },
+              "elemType": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 53,
+                  "end": 56,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

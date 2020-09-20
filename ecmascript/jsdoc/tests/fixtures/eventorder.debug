@@ -1,0 +1,318 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                43,
+            ),
+            hi: BytePos(
+                43,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    43,
+                ),
+                hi: BytePos(
+                    59,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Socket class.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        43,
+                    ),
+                    hi: BytePos(
+                        48,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            43,
+                        ),
+                        hi: BytePos(
+                            48,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                43,
+                            ),
+                            hi: BytePos(
+                                48,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                112,
+            ),
+            hi: BytePos(
+                112,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    112,
+                ),
+                hi: BytePos(
+                    129,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Send a packet.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        112,
+                    ),
+                    hi: BytePos(
+                        117,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            112,
+                        ),
+                        hi: BytePos(
+                            117,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                112,
+                            ),
+                            hi: BytePos(
+                                117,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        112,
+                                    ),
+                                    hi: BytePos(
+                                        120,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{Packet}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    112,
+                                ),
+                                hi: BytePos(
+                                    140,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('packet - The packet to send.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        112,
+                    ),
+                    hi: BytePos(
+                        118,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            112,
+                        ),
+                        hi: BytePos(
+                            118,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('return' type=static),
+                },
+                tag: Return(
+                    ReturnTag {
+                        span: Span {
+                            lo: BytePos(
+                                112,
+                            ),
+                            hi: BytePos(
+                                118,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        112,
+                                    ),
+                                    hi: BytePos(
+                                        121,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{boolean}' type=dynamic),
+                            },
+                        ),
+                        description: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    112,
+                                ),
+                                hi: BytePos(
+                                    150,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('`true` on success, `false` on failure.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                304,
+            ),
+            hi: BytePos(
+                304,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    304,
+                ),
+                hi: BytePos(
+                    341,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Virtual doclet for `Packet` class.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        304,
+                    ),
+                    hi: BytePos(
+                        309,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            304,
+                        ),
+                        hi: BytePos(
+                            309,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                304,
+                            ),
+                            hi: BytePos(
+                                309,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        304,
+                                    ),
+                                    hi: BytePos(
+                                        310,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('Packet' type=inline),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                368,
+            ),
+            hi: BytePos(
+                368,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    368,
+                ),
+                hi: BytePos(
+                    385,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Close the socket.' type=dynamic),
+        },
+        tags: [],
+    },
+]

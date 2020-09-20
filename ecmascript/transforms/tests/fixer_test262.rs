@@ -13,7 +13,7 @@ use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::fixer;
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -109,10 +109,6 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
-
 fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
@@ -166,8 +162,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let mut wr = Buf(Arc::new(RwLock::new(vec![])));
                     let mut wr2 = Buf(Arc::new(RwLock::new(vec![])));
 
-                    let handlers = Box::new(MyHandlers);
-                    let handlers2 = Box::new(MyHandlers);
                     let mut parser: Parser<Lexer<StringInput>> =
                         Parser::new(Syntax::default(), (&*src).into(), None);
 
@@ -182,7 +176,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 None,
                             )),
                             comments: None,
-                            handlers,
                         };
                         let mut expected_emitter = Emitter {
                             cfg: swc_ecma_codegen::Config { minify: false },
@@ -191,7 +184,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 cm, "\n", &mut wr2, None,
                             )),
                             comments: None,
-                            handlers: handlers2,
                         };
 
                         // Parse source
@@ -341,9 +333,11 @@ impl Fold for Normalizer {
 
 fn normalize<T>(node: T) -> T
 where
-    T: FoldWith<Normalizer> + FoldWith<DropSpan>,
+    T: FoldWith<Normalizer> + VisitMutWith<DropSpan>,
 {
-    node.fold_with(&mut Normalizer).fold_with(&mut DropSpan {
+    let mut node = node.fold_with(&mut Normalizer);
+    node.visit_mut_with(&mut DropSpan {
         preserve_ctxt: false,
-    })
+    });
+    node
 }

@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(Num(3.0))
+error: Expected {, got numeric literal
  --> $DIR/tests/test262-parser/fail/1b0b9bca042d4440.module.js:1:8
   |
 1 | export 3

@@ -1,4 +1,4 @@
-error: Expected Semi, got Some(RParen)
+error: Expected ;, got )
  --> $DIR/tests/test262-parser/fail/0ddab4a1a651034c.js:1:24
   |
 1 | for (let x = 42 in list) process(x);

@@ -1,4 +1,4 @@
-error: Unexpected token Some(Word(if))
+error: Unexpected token `if`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
  --> $DIR/tests/test262-parser/fail/4c3f75c2ad9dc102.js:1:11
   |
 1 | ({ set: s(if) { } })

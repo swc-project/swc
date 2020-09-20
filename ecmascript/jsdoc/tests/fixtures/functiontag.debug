@@ -1,0 +1,126 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                4,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        4,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            4,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('func' type=inline),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                4,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                37,
+            ),
+            hi: BytePos(
+                37,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    37,
+                ),
+                hi: BytePos(
+                    37,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        37,
+                    ),
+                    hi: BytePos(
+                        43,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            37,
+                        ),
+                        hi: BytePos(
+                            43,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('method' type=inline),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                37,
+                            ),
+                            hi: BytePos(
+                                43,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+]

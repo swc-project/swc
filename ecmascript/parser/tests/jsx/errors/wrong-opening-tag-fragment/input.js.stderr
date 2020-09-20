@@ -1,6 +1,6 @@
-error: Expected corresponding JSX closing tag for <something>
- --> $DIR/tests/jsx/errors/wrong-opening-tag-fragment/input.js:1:12
+error: Unexpected eof
+ --> $DIR/tests/jsx/errors/wrong-opening-tag-fragment/input.js:1:15
   |
 1 | <something></>
-  |            ^^^
+  |               ^
 

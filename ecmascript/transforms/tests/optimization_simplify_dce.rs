@@ -1,17 +1,21 @@
 #![feature(test)]
 use swc_common::{chain, Mark, SyntaxContext};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
-    resolver,
+    proposals::decorators,
+    resolver, typescript,
 };
-
 #[macro_use]
 mod common;
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
-            Default::default(),
+            Syntax::Es(EsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
             |_| chain!(resolver(), dce(Default::default())),
             $name,
             $src,
@@ -423,4 +427,97 @@ noop!(
 var load = function(){}
 var { progress } = load();
 console.log(progress);"
+);
+
+noop!(
+    spack_issue_008,
+    "class B {
+    }
+    class A extends B {
+    }
+    console.log('foo');
+    new A();"
+);
+
+noop!(
+    spack_issue_009,
+    "
+class A {
+    
+}
+function a() {
+    return new A();
+}
+console.log(a, a());
+"
+);
+
+noop!(
+    spack_issue_010,
+    "
+class A {}
+console.log(new A());
+"
+);
+
+noop!(
+    issue_898_1,
+    "
+export default class X {
+    @whatever
+    anything= 0;
+
+    x() {
+        const localVar = aFunctionSomewhere();
+        return localVar;
+    }
+}
+"
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        resolver(),
+        typescript::strip(),
+        decorators(decorators::Config {
+            legacy: true,
+            emit_metadata: false
+        }),
+        dce(Default::default())
+    ),
+    issue_898_2,
+    "export default class X {
+    @whatever
+    anything: number = 0;
+    x() {
+        const localVar = aFunctionSomewhere();
+        return localVar;
+    }
+}
+",
+    "
+var _class, _descriptor;
+let X = ((_class = class X {
+    x() {
+        const localVar = aFunctionSomewhere();
+        return localVar;
+    }
+    constructor(){
+        _initializerDefineProperty(this, \"anything\", _descriptor, this);
+    }
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, \"anything\", [
+    whatever
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return 0;
+    }
+}), _class);
+export { X as default };"
 );

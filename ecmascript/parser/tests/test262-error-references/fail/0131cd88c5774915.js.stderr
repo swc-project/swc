@@ -1,4 +1,4 @@
-error: Unexpected token Some(LBrace)
+error: Unexpected token `{`. Expected identifier, string literal, numeric literal or [ for the computed key
  --> $DIR/tests/test262-parser/fail/0131cd88c5774915.js:1:6
   |
 1 | ({get{a}:0})

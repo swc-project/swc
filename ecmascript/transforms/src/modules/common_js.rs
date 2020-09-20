@@ -6,9 +6,10 @@ use super::util::{
 use crate::util::{var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{Mark, DUMMY_SP};
+use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
     CommonJs {
@@ -26,9 +27,9 @@ struct CommonJs {
     in_top_level: bool,
 }
 
-noop_fold_type!(CommonJs);
-
 impl Fold for CommonJs {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 4);
@@ -87,6 +88,8 @@ impl Fold for CommonJs {
                         )) => {}
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
+                            self.scope.import_to_export(&export.src, true);
+
                             self.scope
                                 .import_types
                                 .entry(export.src.value.clone())
@@ -96,6 +99,14 @@ impl Fold for CommonJs {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
                         | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
                             init_export!("default")
+                        }
+
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                            src: Some(ref src),
+                            ref specifiers,
+                            ..
+                        })) => {
+                            self.scope.import_to_export(&src, !specifiers.is_empty());
                         }
                         _ => {}
                     }
@@ -304,7 +315,7 @@ impl Fold for CommonJs {
                             {
                                 let is_import_default = orig.sym == js_word!("default");
 
-                                let key = (orig.sym.clone(), orig.span.ctxt());
+                                let key = orig.to_id();
                                 if self.scope.declared_vars.contains(&key) {
                                     self.scope
                                         .exported_vars
@@ -400,7 +411,7 @@ impl Fold for CommonJs {
                                         .into(),
                                     );
                                 } else {
-                                    stmts.push(
+                                    extra_stmts.push(
                                         define_property(vec![
                                             quote_ident!("exports").as_arg(),
                                             {
@@ -667,4 +678,56 @@ impl ModulePass for CommonJs {
     fn scope_mut(&mut self) -> &mut Scope {
         &mut self.scope
     }
+
+    fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+        handle_dynamic_import(span, args)
+    }
+}
+
+/// ```js
+/// Promise.resolve().then(function () { return require('./foo'); })
+/// ```
+pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    let resolve_call = CallExpr {
+        span: DUMMY_SP,
+        callee: member_expr!(DUMMY_SP, Promise.resolve).as_callee(),
+        args: Default::default(),
+        type_args: Default::default(),
+    };
+    // Promise.resolve().then
+    let then = resolve_call.make_member(quote_ident!("then"));
+
+    return Expr::Call(CallExpr {
+        span,
+        callee: then.as_callee(),
+        args: vec![
+            // function () { return require('./foo'); }
+            FnExpr {
+                ident: None,
+                function: Function {
+                    span: DUMMY_SP,
+                    params: vec![],
+                    is_generator: false,
+                    is_async: false,
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                    decorators: Default::default(),
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: quote_ident!("require").as_callee(),
+                                args,
+                                type_args: Default::default(),
+                            }))),
+                        })],
+                    }),
+                },
+            }
+            .as_arg(),
+        ],
+        type_args: Default::default(),
+    });
 }

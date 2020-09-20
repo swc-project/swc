@@ -49,18 +49,22 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 }
 
 impl<'a> Input for StringInput<'a> {
+    #[inline]
     fn cur(&mut self) -> Option<char> {
         self.iter.clone().nth(0).map(|i| i.1)
     }
 
+    #[inline]
     fn peek(&mut self) -> Option<char> {
         self.iter.clone().nth(1).map(|i| i.1)
     }
 
+    #[inline]
     fn peek_ahead(&mut self) -> Option<char> {
         self.iter.clone().nth(2).map(|i| i.1)
     }
 
+    #[inline]
     fn bump(&mut self) {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos + BytePos((i + c.len_utf8()) as u32);
@@ -69,6 +73,7 @@ impl<'a> Input for StringInput<'a> {
         }
     }
 
+    #[inline]
     fn is_at_start(&self) -> bool {
         self.orig_start == self.last_pos
     }
@@ -81,10 +86,12 @@ impl<'a> Input for StringInput<'a> {
             .unwrap_or(self.last_pos)
     }
 
+    #[inline]
     fn last_pos(&self) -> BytePos {
         self.last_pos
     }
 
+    #[inline]
     fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
         assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
@@ -148,6 +155,7 @@ impl<'a> Input for StringInput<'a> {
         Some(self.last_pos)
     }
 
+    #[inline]
     fn reset_to(&mut self, to: BytePos) {
         let orig = self.orig;
         let idx = (to - self.orig_start).0 as usize;
@@ -156,6 +164,15 @@ impl<'a> Input for StringInput<'a> {
         self.iter = s.char_indices();
         self.start_pos = to;
         self.last_pos = to;
+    }
+
+    #[inline]
+    fn is_byte(&mut self, c: u8) -> bool {
+        if self.iter.as_str().len() == 0 {
+            false
+        } else {
+            self.iter.as_str().as_bytes()[0] == c
+        }
     }
 }
 
@@ -185,6 +202,26 @@ pub trait Input: Clone {
         F: FnMut(char) -> bool;
 
     fn reset_to(&mut self, to: BytePos);
+
+    /// Implementors can override the method to make it faster.
+    #[inline]
+    fn is_byte(&mut self, c: u8) -> bool {
+        match self.cur() {
+            Some(ch) => ch == c as char,
+            _ => false,
+        }
+    }
+
+    /// Implementors can override the method to make it faster.
+    #[inline]
+    fn eat_byte(&mut self, c: u8) -> bool {
+        if self.is_byte(c) {
+            self.bump();
+            true
+        } else {
+            false
+        }
+    }
 }
 
 #[cfg(test)]

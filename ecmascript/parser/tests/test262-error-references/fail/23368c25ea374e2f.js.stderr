@@ -1,4 +1,4 @@
-error: TS2406
+error: Invalid left-hand side in 'for...in' statement
  --> $DIR/tests/test262-parser/fail/23368c25ea374e2f.js:1:1
   |
 1 | (a,b)=(c,d);

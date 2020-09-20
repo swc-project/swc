@@ -1,0 +1,88 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                19,
+            ),
+            hi: BytePos(
+                23,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    19,
+                ),
+                hi: BytePos(
+                    19,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        19,
+                    ),
+                    hi: BytePos(
+                        24,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            19,
+                        ),
+                        hi: BytePos(
+                            24,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('alias' type=inline),
+                },
+                tag: Alias(
+                    AliasTag {
+                        span: Span {
+                            lo: BytePos(
+                                19,
+                            ),
+                            hi: BytePos(
+                                24,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    19,
+                                ),
+                                hi: BytePos(
+                                    23,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            19,
+                                        ),
+                                        hi: BytePos(
+                                            27,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('<global>' type=dynamic),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

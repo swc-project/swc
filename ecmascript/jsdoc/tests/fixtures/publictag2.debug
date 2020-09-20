@@ -1,0 +1,65 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                10,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    22,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Public variable.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('public' type=static),
+                },
+                tag: Public(
+                    PublicTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

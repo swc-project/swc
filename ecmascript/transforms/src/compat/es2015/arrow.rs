@@ -1,8 +1,12 @@
-use crate::util::{contains_this_expr, ExprFactory};
+use crate::{
+    perf::Check,
+    util::{contains_this_expr, ExprFactory},
+};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -58,15 +62,11 @@ pub fn arrow() -> impl Fold {
 
 struct Arrow;
 
-noop_fold_type!(Arrow);
-
+#[fast_path(ArrowVisitor)]
 impl Fold for Arrow {
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        // fast path
-        if !contains_arrow_expr(&e) {
-            return e;
-        }
+    noop_fold_type!();
 
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = validate!(e);
         let e = e.fold_children_with(self);
 
@@ -128,20 +128,21 @@ impl Fold for Arrow {
     }
 }
 
-fn contains_arrow_expr<N>(node: &N) -> bool
-where
-    N: VisitWith<ArrowVisitor>,
-{
-    let mut v = ArrowVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
-
+#[derive(Default)]
 struct ArrowVisitor {
     found: bool,
 }
+
 impl Visit for ArrowVisitor {
+    noop_visit_type!();
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
         self.found = true;
+    }
+}
+
+impl Check for ArrowVisitor {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }

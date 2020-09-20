@@ -1,0 +1,202 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    132,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('This provides methods used for event handling. It's not meant to
+             * be used directly, except as a provider of related methods.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('mixin' type=inline),
+                },
+                tag: Mixin(
+                    MixinTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                172,
+            ),
+            hi: BytePos(
+                172,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    172,
+                ),
+                hi: BytePos(
+                    188,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('fires something.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                227,
+            ),
+            hi: BytePos(
+                227,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    227,
+                ),
+                hi: BytePos(
+                    244,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('handles a signal.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                279,
+            ),
+            hi: BytePos(
+                279,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    279,
+                ),
+                hi: BytePos(
+                    279,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        279,
+                    ),
+                    hi: BytePos(
+                        290,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            279,
+                        ),
+                        hi: BytePos(
+                            290,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                279,
+                            ),
+                            hi: BytePos(
+                                290,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        279,
+                                    ),
+                                    hi: BytePos(
+                                        296,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @mixes Eventful' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+]

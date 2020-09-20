@@ -1,0 +1,2 @@
+/** @polymerBehavior */
+var MyPolymerBehavior = {};

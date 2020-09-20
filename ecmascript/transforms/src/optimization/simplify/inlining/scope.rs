@@ -76,7 +76,7 @@ impl Inlining<'_> {
             }) {
                 let v: VarInfo = v;
 
-                log::debug!("Hoisting a variable {:?}", id);
+                log::trace!("Hoisting a variable {:?}", id);
 
                 if self.scope.unresolved_usages.contains(&id) {
                     v.inline_prevented.set(true)
@@ -192,7 +192,7 @@ impl Inlining<'_> {
                 }
 
                 if scope.kind == ScopeKind::Loop {
-                    log::debug!("preventing inline as it's declared in a loop");
+                    log::trace!("preventing inline as it's declared in a loop");
                     self.scope.prevent_inline(&id);
                     break;
                 }
@@ -342,11 +342,11 @@ impl<'a> Scope<'a> {
                     log::trace!("found");
                     break;
                 }
-                log::debug!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
+                log::trace!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
 
                 match scope.kind {
                     ScopeKind::Fn { .. } => {
-                        log::debug!("{}: variable access from a nested function detected", id.0);
+                        log::trace!("{}: variable access from a nested function detected", id.0);
                         return true;
                     }
                     ScopeKind::Loop | ScopeKind::Cond => {
@@ -363,7 +363,7 @@ impl<'a> Scope<'a> {
 
     pub fn add_read(&mut self, id: &Id) {
         if self.read_prevents_inlining(id) {
-            log::debug!("prevent inlining because of read: {}", id.0);
+            log::trace!("prevent inlining because of read: {}", id.0);
 
             self.prevent_inline(id)
         }
@@ -402,11 +402,11 @@ impl<'a> Scope<'a> {
                 if found {
                     break;
                 }
-                log::debug!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
+                log::trace!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
 
                 match scope.kind {
                     ScopeKind::Fn { .. } => {
-                        log::debug!("{}: variable access from a nested function detected", id.0);
+                        log::trace!("{}: variable access from a nested function detected", id.0);
                         return true;
                     }
                     ScopeKind::Loop | ScopeKind::Cond => {
@@ -423,7 +423,7 @@ impl<'a> Scope<'a> {
 
     pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
         if self.write_prevents_inline(id) {
-            log::debug!("prevent inlining because of write: {}", id.0);
+            log::trace!("prevent inlining because of write: {}", id.0);
 
             self.prevent_inline(id)
         }
@@ -569,7 +569,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn prevent_inline(&self, id: &Id) {
-        log::debug!("({}) Prevent inlining: {:?}", self.depth(), id);
+        log::trace!("({}) Prevent inlining: {:?}", self.depth(), id);
 
         if let Some(v) = self.find_binding_from_current(id) {
             v.inline_prevented.set(true);

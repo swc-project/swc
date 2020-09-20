@@ -1,15 +1,18 @@
+use crate::perf::Check;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 struct OptionalCatchBinding;
-
-noop_fold_type!(OptionalCatchBinding);
 
 pub fn optional_catch_binding() -> impl Fold {
     OptionalCatchBinding
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for OptionalCatchBinding {
+    noop_fold_type!();
+
     fn fold_catch_clause(&mut self, mut cc: CatchClause) -> CatchClause {
         cc = cc.fold_children_with(self);
 
@@ -21,6 +24,28 @@ impl Fold for OptionalCatchBinding {
             param: Some(private_ident!("e").into()),
             ..cc
         }
+    }
+}
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
+        if n.param.is_none() {
+            self.found = true;
+            return;
+        }
+        n.visit_children_with(self)
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
 

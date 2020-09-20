@@ -32,14 +32,14 @@ install:
   - rm -rf ~/.nvm
   - git clone https://github.com/creationix/nvm.git ~/.nvm
   - source ~/.nvm/nvm.sh
-  - nvm install 8.15.0
-  - nvm use 8.15.0
+  - nvm install 12.18.3
+  - nvm use 12.18.3
   - npm install
   - npm install browserslist regenerator
   - npm install -g jest
 
 script:
-#  - RUST_BACKTRACE=0 cargo check --color always --all --all-targets
+  #  - RUST_BACKTRACE=0 cargo check --color always --all --all-targets
   - true
 
 before_deploy:

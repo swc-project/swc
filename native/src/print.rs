@@ -1,6 +1,8 @@
-use crate::{complete_output, JsCompiler};
-use anyhow::Error;
-use neon::prelude::*;
+use crate::{
+    complete_output, get_compiler,
+    util::{CtxtExt, MapErr},
+};
+use napi::{CallContext, Env, JsObject, JsString, Task};
 use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
@@ -18,11 +20,11 @@ pub struct PrintTask {
 
 impl Task for PrintTask {
     type Output = TransformOutput;
-    type Error = Error;
-    type JsEvent = JsValue;
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
-        self.c.run(|| {
-            self.c.print(
+    type JsValue = JsObject;
+
+    fn compute(&mut self) -> napi::Result<Self::Output> {
+        self.c
+            .print(
                 &self.program,
                 self.options
                     .source_maps
@@ -36,71 +38,51 @@ impl Task for PrintTask {
                     .minify
                     .unwrap_or(false),
             )
-        })
+            .convert_err()
     }
 
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_output(cx, result)
+    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_output(env, result)
     }
 }
 
-pub fn print(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let program = cx.argument::<JsString>(0)?;
+#[js_function(2)]
+pub fn print(cx: CallContext) -> napi::Result<JsObject> {
+    let c = get_compiler(&cx);
+    let program = cx.get::<JsString>(0)?;
     let program: Program =
-        serde_json::from_str(&program.value()).expect("failed to deserialize Program");
+        serde_json::from_str(program.as_str()?).expect("failed to deserialize Program");
 
-    let options = cx.argument::<JsValue>(1)?;
-    let options: Options = neon_serde::from_value(&mut cx, options)?;
+    let options: Options = cx.get_deserialized(1)?;
 
-    let callback = cx.argument::<JsFunction>(2)?;
-
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-
-        PrintTask {
-            c: c.clone(),
-            program,
-            options,
-        }
-        .schedule(callback)
-    }
-
-    Ok(cx.undefined().upcast())
+    cx.env.spawn(PrintTask {
+        c: c.clone(),
+        program,
+        options,
+    })
 }
 
-pub fn print_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let c;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let compiler = this.borrow(&guard);
-        c = compiler.clone();
+#[js_function(2)]
+pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
+    let c = get_compiler(&cx);
+
+    let program = cx.get::<JsString>(0)?;
+    let program: Program =
+        serde_json::from_str(&program.as_str()?).expect("failed to deserialize Program");
+
+    let options: Options = cx.get_deserialized(1)?;
+
+    let result = {
+        c.print(
+            &program,
+            options
+                .source_maps
+                .clone()
+                .unwrap_or(SourceMapsConfig::Bool(false)),
+            None,
+            options.config.unwrap_or_default().minify.unwrap_or(false),
+        )
     }
-    c.run(|| {
-        let program = cx.argument::<JsString>(0)?;
-        let program: Program =
-            serde_json::from_str(&program.value()).expect("failed to deserialize Program");
-
-        let options = cx.argument::<JsValue>(1)?;
-        let options: Options = neon_serde::from_value(&mut cx, options)?;
-
-        let result = {
-            c.print(
-                &program,
-                options
-                    .source_maps
-                    .clone()
-                    .unwrap_or(SourceMapsConfig::Bool(false)),
-                None,
-                options.config.unwrap_or_default().minify.unwrap_or(false),
-            )
-        };
-        complete_output(cx, result)
-    })
+    .convert_err()?;
+    complete_output(cx.env, result)
 }

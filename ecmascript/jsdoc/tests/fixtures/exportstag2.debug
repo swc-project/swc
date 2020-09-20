@@ -1,0 +1,160 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                53,
+            ),
+            hi: BytePos(
+                95,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    53,
+                ),
+                hi: BytePos(
+                    82,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('A module representing a coat.' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        53,
+                    ),
+                    hi: BytePos(
+                        60,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            53,
+                        ),
+                        hi: BytePos(
+                            60,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exports' type=inline),
+                },
+                tag: Exports(
+                    ExportsTag {
+                        span: Span {
+                            lo: BytePos(
+                                53,
+                            ),
+                            hi: BytePos(
+                                60,
+                            ),
+                            ctxt: #0,
+                        },
+                        module_name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    53,
+                                ),
+                                hi: BytePos(
+                                    60,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('my/coat' type=inline),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        53,
+                    ),
+                    hi: BytePos(
+                        61,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            53,
+                        ),
+                        hi: BytePos(
+                            61,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('requires' type=dynamic),
+                },
+                tag: Requires(
+                    RequiresTag {
+                        span: Span {
+                            lo: BytePos(
+                                53,
+                            ),
+                            hi: BytePos(
+                                61,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    53,
+                                ),
+                                hi: BytePos(
+                                    95,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            53,
+                                        ),
+                                        hi: BytePos(
+                                            55,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('my' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                250,
+            ),
+            hi: BytePos(
+                250,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    250,
+                ),
+                hi: BytePos(
+                    261,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('document me' type=dynamic),
+        },
+        tags: [],
+    },
+]

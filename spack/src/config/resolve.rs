@@ -1,6 +1,5 @@
-use fxhash::FxHashMap;
 use serde::Deserialize;
-use std::path::PathBuf;
+use std::{collections::HashMap, path::PathBuf};
 use swc_atoms::JsWord;
 
 /// https://webpack.js.org/configuration/resolve/
@@ -48,5 +47,5 @@ fn default_symlinks() -> bool {
 #[serde(rename = "Resolve.Alias", rename_all = "camelCase")]
 pub struct AliasConfig {
     #[serde(flatten)]
-    pub map: FxHashMap<JsWord, PathBuf>,
+    pub map: HashMap<JsWord, PathBuf>,
 }

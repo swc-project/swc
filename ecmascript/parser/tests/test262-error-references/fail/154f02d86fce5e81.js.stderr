@@ -1,4 +1,4 @@
-error: Expected Semi, got Some(RParen)
+error: Expected ;, got )
  --> $DIR/tests/test262-parser/fail/154f02d86fce5e81.js:1:22
   |
 1 | for (const x = 0 in y){}

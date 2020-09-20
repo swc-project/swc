@@ -3,11 +3,11 @@ use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     compat::{
-        es2015::{arrow, block_scoping, function_name, Classes},
+        es2015::{arrow, block_scoping, classes, function_name},
         es2016::exponentation,
         es2017::async_to_generator,
         es2020::class_properties,
-        es3::ReservedWord,
+        es3::reserved_words,
     },
     proposals::decorators,
     resolver, typescript,
@@ -36,11 +36,9 @@ fn tr() -> impl Fold {
         resolver(),
         function_name(),
         class_properties(),
-        Classes::default(),
+        classes(),
         block_scoping(),
-        ReservedWord {
-            preserve_import: false
-        },
+        reserved_words(false),
     )
 }
 
@@ -2849,7 +2847,7 @@ class Foo{
 
 test!(
     syntax(),
-    |_| chain!(resolver(), class_properties(), Classes::default()),
+    |_| chain!(resolver(), class_properties(), classes()),
     issue_342,
     "class Foo {
   constructor(bar) {
@@ -3169,7 +3167,7 @@ expect(Foo.test()).toBe("foo");
 // private_destructuring_object_pattern_1
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     private_destructuring_object_pattern_1,
     r#"
 class Foo {
@@ -3353,7 +3351,7 @@ var _bar = {
 // private_destructuring_array_pattern
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     private_destructuring_array_pattern,
     r#"
 class Foo {
@@ -3488,7 +3486,7 @@ var _myAsyncMethod1 = new WeakMap();
 
 class MyClass3{
     constructor(){
-        _myAsyncMethod.set(this, {
+        _myAsyncMethod2.set(this, {
             writable: true,
             value: (function() {
                 var _ref = _asyncToGenerator((function*() {
@@ -3501,7 +3499,7 @@ class MyClass3{
         });
     }
 }
-var _myAsyncMethod = new WeakMap();
+var _myAsyncMethod2 = new WeakMap();
 export { MyClass3 as default }
 
 "#
@@ -3510,7 +3508,7 @@ export { MyClass3 as default }
 // private_destructuring_array_pattern_1
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     private_destructuring_array_pattern_1,
     r#"
 class Foo {
@@ -3553,7 +3551,7 @@ test!(
             ..Default::default()
         }),
         class_properties(),
-        Classes::default(),
+        classes(),
     ),
     decorators_legacy_interop_strict,
     r#"
@@ -3772,7 +3770,7 @@ export { MyClass2 as default }
 // static_property_tdz_edgest_case
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default()),
+    |_| chain!(class_properties(), classes()),
     static_property_tdz_edgest_case,
     r#"
 class A {
@@ -4110,7 +4108,7 @@ new ComputedField();
 // private_canonical
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     private_canonical,
     r#"
 class Point {
@@ -4276,7 +4274,7 @@ class C {
 // private_destructuring_array_pattern_3
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     private_destructuring_array_pattern_3,
     r#"
 class Foo {
@@ -4334,7 +4332,7 @@ expect(getPropA()).toBe(1);
 // private_destructuring_array_pattern_2
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     private_destructuring_array_pattern_2,
     r#"
 class Foo {
@@ -4441,7 +4439,7 @@ test!(
             ..Default::default()
         }),
         class_properties(),
-        Classes::default()
+        classes()
     ),
     decorators_legacy_interop_local_define_property,
     r#"
@@ -4514,7 +4512,7 @@ test!(
     |_| chain!(
         class_properties(),
         exponentation(),
-        Classes::default(),
+        classes(),
         block_scoping(),
     ),
     private_instance,
@@ -4544,7 +4542,7 @@ var _bar = new WeakMap();
 // static_property_tdz_general
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default()),
+    |_| chain!(class_properties(), classes()),
     static_property_tdz_general,
     r#"
 class C {
@@ -4717,7 +4715,7 @@ var _bar = new WeakMap();
 // public_computed_without_block
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     public_computed_without_block,
     r#"
 const createClass = (k) => class { [k()] = 2 };
@@ -4765,7 +4763,7 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 // public_static_super
 test!(
     syntax(),
-    |_| chain!(class_properties(), Classes::default(), block_scoping()),
+    |_| chain!(class_properties(), classes(), block_scoping()),
     public_static_super,
     r#"
 class A {

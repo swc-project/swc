@@ -1,6 +1,7 @@
 #![feature(test)]
 use common::Tester;
 use swc_common::{chain, Mark};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     modules::{
         umd::{umd, Config},
@@ -13,8 +14,11 @@ use swc_ecma_visit::Fold;
 #[macro_use]
 mod common;
 
-fn syntax() -> ::swc_ecma_parser::Syntax {
-    Default::default()
+fn syntax() -> Syntax {
+    Syntax::Es(EsConfig {
+        dynamic_import: true,
+        ..Default::default()
+    })
 }
 
 fn tr(tester: &mut Tester<'_>, config: Config) -> impl Fold {
@@ -1873,4 +1877,50 @@ export const foo = function () {
     }();
     _exports.foo = foo;
 });"
+);
+
+test!(
+    syntax(),
+    |t| tr(
+        t,
+        Config {
+            ..Default::default()
+        }
+    ),
+    issue_1018_1,
+    "async function foo() {
+    await import('foo');
+  }",
+    "
+    (function(global, factory) {
+      if (typeof define === \"function\" && define.amd) {
+          define([], factory);
+      } else if (typeof exports !== \"undefined\") {
+          factory();
+      } else {
+          var mod = {
+              exports: {
+              }
+          };
+          factory();
+          global.input = mod.exports;
+      }
+  })(this, function() {
+      \"use strict\";
+      async function foo() {
+          await exports === undefined ? new Promise(function(resolve, reject) {
+              require([
+                  \"foo\"
+              ], function(dep) {
+                  resolve(dep);
+              }, function(err) {
+                  reject(err);
+              });
+          }) : Promise.resolve().then(function() {
+              return require(\"foo\");
+          });
+      }
+  });      
+    ",
+    ok_if_code_eq
 );

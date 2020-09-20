@@ -372,7 +372,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.input.bump();
 
                     // Handle -->
-                    if self.state.had_line_break && c == '-' && self.eat('>') {
+                    if self.state.had_line_break && c == '-' && self.eat(b'>') {
                         if self.ctx.module {
                             return self.error(start, SyntaxError::LegacyCommentInModule)?;
                         }
@@ -513,9 +513,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 raw.push_str("\r");
                 self.bump(); // remove '\r'
 
-                if self.cur() == Some('\n') {
+                if self.eat(b'\n') {
                     raw.push_str("\n");
-                    self.bump();
                 }
                 return Ok(None);
             }
@@ -615,7 +614,11 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Divide operator
         self.bump();
 
-        Ok(Some(if self.eat('=') { tok!("/=") } else { tok!('/') }))
+        Ok(Some(if self.eat(b'=') {
+            tok!("/=")
+        } else {
+            tok!('/')
+        }))
     }
 
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
@@ -626,7 +629,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // XML style comment. `<!--`
-        if c == '<' && self.is('!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
+        if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
             self.skip_space()?;
             if self.ctx.module {
@@ -649,7 +652,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        let token = if self.eat('=') {
+        let token = if self.eat(b'=') {
             match op {
                 Lt => BinOp(LtEq),
                 Gt => BinOp(GtEq),
@@ -670,16 +673,59 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(self.cur().is_some());
         let start = self.cur_pos();
 
-        let (word, has_escape) = self.read_word_as_str()?;
+        let (word, has_escape) = self.read_word_as_str_with(|s| match s {
+            "null" => Word::Null,
+            "true" => Word::True,
+            "false" => Word::False,
+            "await" => Await.into(),
+            "break" => Break.into(),
+            "case" => Case.into(),
+            "catch" => Catch.into(),
+            "continue" => Continue.into(),
+            "debugger" => Debugger.into(),
+            "default" => Default_.into(),
+            "do" => Do.into(),
+            "export" => Export.into(),
+            "else" => Else.into(),
+            "finally" => Finally.into(),
+            "for" => For.into(),
+            "function" => Function.into(),
+            "if" => If.into(),
+            "return" => Return.into(),
+            "switch" => Switch.into(),
+            "throw" => Throw.into(),
+            "try" => Try.into(),
+            "var" => Var.into(),
+            "let" => Let.into(),
+            "const" => Const.into(),
+            "while" => While.into(),
+            "with" => With.into(),
+            "new" => New.into(),
+            "this" => This.into(),
+            "super" => Super.into(),
+            "class" => Class.into(),
+            "extends" => Extends.into(),
+            "import" => Import.into(),
+            "yield" => Yield.into(),
+            "in" => In.into(),
+            "instanceof" => InstanceOf.into(),
+            "typeof" => TypeOf.into(),
+            "void" => Void.into(),
+            "delete" => Delete.into(),
+            _ => Word::Ident(s.into()),
+        })?;
 
         // Note: ctx is store in lexer because of this error.
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
-        if has_escape && self.ctx.is_reserved_word(&word) {
-            self.error(start, SyntaxError::EscapeInReservedWord { word })?
+        if has_escape && self.ctx.is_reserved(&word) {
+            self.error(
+                start,
+                SyntaxError::EscapeInReservedWord { word: word.into() },
+            )?
         } else {
-            Ok(Word(word.into()))
+            Ok(Word(word))
         }
     }
 
@@ -690,35 +736,22 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
+    fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
+        self.read_word_as_str_with(|s| JsWord::from(s))
+    }
+
     /// returns (word, has_escape)
     ///
     /// This method is optimized for texts without escape sequences.
-    fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
+    fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
+    where
+        F: FnOnce(&str) -> Ret,
+    {
         debug_assert!(self.cur().is_some());
         let mut first = true;
 
         self.with_buf(|l, buf| {
             let mut has_escape = false;
-            {
-                // Optimize for idents without escpae
-                let s = l.input.uncons_while(|c| {
-                    if c.is_ident_part() {
-                        return true;
-                    }
-                    if c == '\\' {
-                        has_escape = true;
-                    }
-                    false
-                });
-
-                if !has_escape {
-                    return Ok((s.into(), false));
-                }
-                if !s.is_empty() {
-                    first = false;
-                }
-                buf.push_str(s);
-            };
 
             while let Some(c) = {
                 // Optimization
@@ -742,9 +775,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // unicode escape
                     '\\' => {
                         l.bump();
-                        if !l.is('u') {
+                        if !l.is(b'u') {
                             l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
                         }
+                        has_escape = true;
                         let c = l.read_unicode_escape(start, &mut Raw(None))?;
                         let valid = if first {
                             c.is_ident_start()
@@ -764,7 +798,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
                 first = false;
             }
-            Ok(((&**buf).into(), has_escape))
+            let value = convert(&buf);
+
+            Ok((value, has_escape))
         })
     }
 
@@ -774,12 +810,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         raw.push_str("u");
 
-        if self.eat('{') {
+        if self.eat(b'{') {
             raw.push('{');
             // let cp_start = self.cur_pos();
             let c = self.read_code_point(raw)?;
 
-            if !self.eat('}') {
+            if !self.eat(b'}') {
                 self.error(start, SyntaxError::InvalidUnicodeEscape)?
             }
             raw.push('}');
@@ -901,7 +937,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Default::default());
 
         // input is terminated without following `/`
-        if !self.is('/') {
+        if !self.is(b'/') {
             self.error(start, SyntaxError::UnterminatedRegxp)?;
         }
 

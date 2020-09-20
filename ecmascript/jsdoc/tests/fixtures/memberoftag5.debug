@@ -1,0 +1,127 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    31,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Socket class.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        15,
+                    ),
+                    hi: BytePos(
+                        20,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            15,
+                        ),
+                        hi: BytePos(
+                            20,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                15,
+                            ),
+                            hi: BytePos(
+                                20,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        15,
+                                    ),
+                                    hi: BytePos(
+                                        41,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @memberof module:network' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                100,
+            ),
+            hi: BytePos(
+                100,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    100,
+                ),
+                hi: BytePos(
+                    116,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Open the socket.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                168,
+            ),
+            hi: BytePos(
+                168,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    168,
+                ),
+                hi: BytePos(
+                    205,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Unique identifier for `Socket` class.' type=dynamic),
+        },
+        tags: [],
+    },
+]

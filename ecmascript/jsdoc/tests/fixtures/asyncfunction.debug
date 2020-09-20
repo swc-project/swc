@@ -1,0 +1,317 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                151,
+            ),
+            hi: BytePos(
+                151,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    151,
+                ),
+                hi: BytePos(
+                    167,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Add a number.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        151,
+                    ),
+                    hi: BytePos(
+                        156,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            151,
+                        ),
+                        hi: BytePos(
+                            156,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                151,
+                            ),
+                            hi: BytePos(
+                                156,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        151,
+                                    ),
+                                    hi: BytePos(
+                                        159,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    151,
+                                ),
+                                hi: BytePos(
+                                    173,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('x - The number to add.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                355,
+            ),
+            hi: BytePos(
+                355,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    355,
+                ),
+                hi: BytePos(
+                    376,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Subtract a number.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        355,
+                    ),
+                    hi: BytePos(
+                        360,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            355,
+                        ),
+                        hi: BytePos(
+                            360,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                355,
+                            ),
+                            hi: BytePos(
+                                360,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        355,
+                                    ),
+                                    hi: BytePos(
+                                        363,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    355,
+                                ),
+                                hi: BytePos(
+                                    382,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('x - The number to subtract.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                589,
+            ),
+            hi: BytePos(
+                589,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    589,
+                ),
+                hi: BytePos(
+                    601,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Adder class.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                631,
+            ),
+            hi: BytePos(
+                631,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    631,
+                ),
+                hi: BytePos(
+                    659,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Construct an Adder instance.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                705,
+            ),
+            hi: BytePos(
+                705,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    705,
+                ),
+                hi: BytePos(
+                    725,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Add a number.
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        705,
+                    ),
+                    hi: BytePos(
+                        710,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            705,
+                        ),
+                        hi: BytePos(
+                            710,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                705,
+                            ),
+                            hi: BytePos(
+                                710,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        705,
+                                    ),
+                                    hi: BytePos(
+                                        713,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    705,
+                                ),
+                                hi: BytePos(
+                                    727,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('x - The number to add.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

@@ -17,6 +17,7 @@ use std::{
     sync::Arc,
 };
 use swc_common::{
+    chain,
     comments::{Comment, Comments},
     errors::Handler,
     input::StringInput,
@@ -27,6 +28,7 @@ use swc_ecma_codegen::{self, Emitter, Node};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
+    pass::noop,
     util,
 };
 use swc_ecma_visit::FoldWith;
@@ -54,6 +56,10 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
+    pub fn globals(&self) -> &Globals {
+        &self.globals
+    }
+
     pub fn comments(&self) -> &SwcComments {
         &self.comments
     }
@@ -196,7 +202,6 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
-                    let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
@@ -211,7 +216,6 @@ impl Compiler {
                                 None
                             },
                         )),
-                        handlers,
                     };
 
                     node.emit_with(&mut emitter)
@@ -384,13 +388,28 @@ impl Compiler {
         })
     }
 
-    pub fn process_js_file(
+    /// `custom_after_pass` is applied after swc transforms are applied.
+    pub fn process_js_with_custom_pass<P>(
         &self,
         fm: Arc<SourceFile>,
         opts: &Options,
-    ) -> Result<TransformOutput, Error> {
+        custom_after_pass: P,
+    ) -> Result<TransformOutput, Error>
+    where
+        P: swc_ecma_visit::Fold,
+    {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let config = BuiltConfig {
+                pass: chain!(config.pass, custom_after_pass),
+                syntax: config.syntax,
+                target: config.target,
+                minify: config.minify,
+                external_helpers: config.external_helpers,
+                source_maps: config.source_maps,
+                input_source_map: config.input_source_map,
+                is_module: config.is_module,
+            };
             let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
             let program = self.parse_js(
                 fm.clone(),
@@ -403,6 +422,14 @@ impl Compiler {
             self.process_js_inner(program, orig.as_ref(), config)
         })
         .context("failed to process js file")
+    }
+
+    pub fn process_js_file(
+        &self,
+        fm: Arc<SourceFile>,
+        opts: &Options,
+    ) -> Result<TransformOutput, Error> {
+        self.process_js_with_custom_pass(fm, opts, noop())
     }
 
     /// You can use custom pass with this method.
@@ -448,10 +475,6 @@ impl Compiler {
         })
     }
 }
-
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {

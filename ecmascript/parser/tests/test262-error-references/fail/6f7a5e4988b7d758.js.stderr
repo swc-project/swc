@@ -1,4 +1,4 @@
-error: Expected Semi, got Some(Num(0.0))
+error: Expected ;, got numeric literal
  --> $DIR/tests/test262-parser/fail/6f7a5e4988b7d758.js:1:12
   |
 1 | for(let of 0);

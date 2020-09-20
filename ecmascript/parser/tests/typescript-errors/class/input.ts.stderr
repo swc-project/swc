@@ -1,10 +1,10 @@
-error: Unexpected token Some(Bang)
+error: Unexpected token `!`. Expected identifier, string literal, numeric literal or [ for the computed key
  --> $DIR/tests/typescript-errors/class/input.ts:2:5
   |
 2 |   x?!: number;
   |     ^
 
-error: TS1005
+error: Expected a semicolon
  --> $DIR/tests/typescript-errors/class/input.ts:2:5
   |
 2 |   x?!: number;

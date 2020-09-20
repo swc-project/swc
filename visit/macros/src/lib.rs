@@ -402,12 +402,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + FoldWith<V>,
                 {
                     fn fold_with(self, v: &mut V) -> Self {
-                        Box::new((*self).fold_with(v))
+                        swc_visit::util::map::Map::map(self, |value| value.fold_with(v))
                     }
 
                     /// Visit children nodes of self with `v`
                     fn fold_children_with(self, v: &mut V) -> Self {
-                        Box::new((*self).fold_children_with(v))
+                        swc_visit::util::map::Map::map(self, |value| value.fold_children_with(v))
                     }
                 }
             }),
@@ -565,15 +565,13 @@ where
         expr = if is_opt_vec(ty) {
             match mode {
                 Mode::Fold => expr,
-
-                Mode::VisitMut => q!(Vars { expr }, { expr.as_mut() }).parse(),
-
+                Mode::VisitMut => expr,
                 Mode::Visit => q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse(),
             }
         } else {
             match mode {
                 Mode::Fold => expr,
-                Mode::VisitMut => q!(Vars { expr }, { expr.as_mut() }).parse(),
+                Mode::VisitMut => expr,
                 Mode::Visit => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         };
@@ -1106,7 +1104,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                                 return mk_exact(
                                                     mode,
                                                     ident,
-                                                    &q!(Vars { item }, { Option<&mut Vec<item>> })
+                                                    &q!(Vars { item }, { &mut Option<Vec<item>> })
                                                         .parse(),
                                                 );
                                             }
@@ -1132,7 +1130,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                             return mk_exact(
                                                 mode,
                                                 ident,
-                                                &q!(Vars { arg }, { Option<&mut arg> }).parse(),
+                                                &q!(Vars { arg }, { &mut Option<arg> }).parse(),
                                             );
                                         }
                                         Mode::Visit => {
@@ -1250,7 +1248,11 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                         Mode::Fold => {
                             let ident = method_name(mode, arg);
 
-                            return q!(Vars { ident }, ({ Box::new(_visitor.ident(*n)) })).parse();
+                            return q!(
+                                Vars { ident },
+                                ({ swc_visit::util::map::Map::map(n, |n| _visitor.ident(*n)) })
+                            )
+                            .parse();
                         }
                         Mode::Visit | Mode::VisitMut => {
                             return create_method_body(mode, arg);
@@ -1274,9 +1276,12 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     Vars { ident },
                                                     ({
                                                         match n {
-                                                            Some(n) => {
-                                                                Some(Box::new(_visitor.ident(*n)))
-                                                            }
+                                                            Some(n) => Some(
+                                                                swc_visit::util::map::Map::map(
+                                                                    n,
+                                                                    |n| _visitor.ident(n),
+                                                                ),
+                                                            ),
                                                             None => None,
                                                         }
                                                     })
@@ -1344,9 +1349,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 return q!(
                                                     Vars { ident },
                                                     ({
-                                                        n.into_iter()
-                                                            .map(|v| Box::new(_visitor.ident(*v)))
-                                                            .collect()
+                                                        swc_visit::util::move_map::MoveMap::move_map(
+                                                            n,
+                                                            |v| swc_visit::util::map::Map::map(v, |v|_visitor.ident(v)),
+                                                        )
                                                     })
                                                 )
                                                 .parse();
@@ -1361,18 +1367,16 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             Mode::Fold => q!(
                                                 Vars { ident },
                                                 ({
-                                                    n.into_iter()
-                                                        .map(|v| _visitor.ident(v))
-                                                        .collect()
+                                                    swc_visit::util::move_map::MoveMap::move_map(
+                                                        n,
+                                                        |v| _visitor.ident(v),
+                                                    )
                                                 })
                                             )
                                             .parse(),
                                             Mode::VisitMut => q!(
                                                 Vars { ident },
-                                                ({
-                                                    n.iter_mut()
-                                                        .for_each(|v| _visitor.ident(v.as_mut()))
-                                                })
+                                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                                             )
                                             .parse(),
                                             Mode::Visit => q!(
@@ -1390,9 +1394,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             Mode::Fold => q!(
                                                 Vars { ident },
                                                 ({
-                                                    n.into_iter()
-                                                        .map(|v| _visitor.ident(v))
-                                                        .collect()
+                                                    swc_visit::util::move_map::MoveMap::move_map(
+                                                        n,
+                                                        |v| _visitor.ident(v),
+                                                    )
                                                 })
                                             )
                                             .parse(),

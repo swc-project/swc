@@ -1,4 +1,4 @@
-error: RestPatInSetter
+error: Rest pattern is not allowed in setter
  --> $DIR/tests/test262-parser/fail/2f95824f19005b11.js:1:19
   |
 1 | var a = { set foo(...v) {} };

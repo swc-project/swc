@@ -1,0 +1,89 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    15,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        15,
+                    ),
+                    hi: BytePos(
+                        20,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            15,
+                        ),
+                        hi: BytePos(
+                            20,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                15,
+                            ),
+                            hi: BytePos(
+                                20,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                93,
+            ),
+            hi: BytePos(
+                93,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    93,
+                ),
+                hi: BytePos(
+                    108,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Render content.' type=dynamic),
+        },
+        tags: [],
+    },
+]

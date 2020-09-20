@@ -1,0 +1,66 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    39,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('This function is package-private.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        7,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            7,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('package' type=static),
+                },
+                tag: Package(
+                    PackageTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                7,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                    },
+                ),
+            },
+        ],
+    },
+]

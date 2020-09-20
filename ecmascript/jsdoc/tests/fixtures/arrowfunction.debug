@@ -1,0 +1,213 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    30,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Increment a number by 1.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        8,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    28,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('n - The number to increment.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                116,
+            ),
+            hi: BytePos(
+                116,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    116,
+                ),
+                hi: BytePos(
+                    145,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Print a value to the console.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                170,
+            ),
+            hi: BytePos(
+                174,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    170,
+                ),
+                hi: BytePos(
+                    170,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        170,
+                    ),
+                    hi: BytePos(
+                        174,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            170,
+                        ),
+                        hi: BytePos(
+                            174,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('type' type=static),
+                },
+                tag: Type(
+                    TypeTag {
+                        span: Span {
+                            lo: BytePos(
+                                170,
+                            ),
+                            hi: BytePos(
+                                174,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                214,
+            ),
+            hi: BytePos(
+                214,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    214,
+                ),
+                hi: BytePos(
+                    252,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Create a class with a `name` property.' type=dynamic),
+        },
+        tags: [],
+    },
+]

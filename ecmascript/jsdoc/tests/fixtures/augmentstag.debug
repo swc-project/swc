@@ -1,0 +1,483 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        11,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            11,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                11,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                45,
+            ),
+            hi: BytePos(
+                45,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    45,
+                ),
+                hi: BytePos(
+                    59,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('First property' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                93,
+            ),
+            hi: BytePos(
+                93,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    93,
+                ),
+                hi: BytePos(
+                    111,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Second property
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        93,
+                    ),
+                    hi: BytePos(
+                        97,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            93,
+                        ),
+                        hi: BytePos(
+                            97,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('type' type=static),
+                },
+                tag: Type(
+                    TypeTag {
+                        span: Span {
+                            lo: BytePos(
+                                93,
+                            ),
+                            hi: BytePos(
+                                97,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    93,
+                                ),
+                                hi: BytePos(
+                                    101,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{String}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                177,
+            ),
+            hi: BytePos(
+                177,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    177,
+                ),
+                hi: BytePos(
+                    197,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('First parent method.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                249,
+            ),
+            hi: BytePos(
+                249,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    249,
+                ),
+                hi: BytePos(
+                    270,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Second parent method.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                322,
+            ),
+            hi: BytePos(
+                322,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    322,
+                ),
+                hi: BytePos(
+                    342,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Third parent method.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                394,
+            ),
+            hi: BytePos(
+                394,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    394,
+                ),
+                hi: BytePos(
+                    394,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        394,
+                    ),
+                    hi: BytePos(
+                        405,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            394,
+                        ),
+                        hi: BytePos(
+                            405,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                394,
+                            ),
+                            hi: BytePos(
+                                405,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        394,
+                                    ),
+                                    hi: BytePos(
+                                        408,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @extends Foo' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                455,
+            ),
+            hi: BytePos(
+                455,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    455,
+                ),
+                hi: BytePos(
+                    467,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Third prop *' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                500,
+            ),
+            hi: BytePos(
+                500,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    500,
+                ),
+                hi: BytePos(
+                    520,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Second child method.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                572,
+            ),
+            hi: BytePos(
+                572,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    572,
+                ),
+                hi: BytePos(
+                    572,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        572,
+                    ),
+                    hi: BytePos(
+                        583,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            572,
+                        ),
+                        hi: BytePos(
+                            583,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                572,
+                            ),
+                            hi: BytePos(
+                                583,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        572,
+                                    ),
+                                    hi: BytePos(
+                                        588,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @extends {Bar}' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                635,
+            ),
+            hi: BytePos(
+                635,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    635,
+                ),
+                hi: BytePos(
+                    649,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Override prop1' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                684,
+            ),
+            hi: BytePos(
+                684,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    684,
+                ),
+                hi: BytePos(
+                    708,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Third grandchild method.' type=dynamic),
+        },
+        tags: [],
+    },
+]

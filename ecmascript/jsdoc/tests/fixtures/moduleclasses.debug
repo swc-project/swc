@@ -1,0 +1,231 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('module' type=static),
+                },
+                tag: Module(
+                    ModuleTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                        ty: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    3,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('foo' type=inline),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                20,
+            ),
+            hi: BytePos(
+                20,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    20,
+                ),
+                hi: BytePos(
+                    30,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Bar class.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                54,
+            ),
+            hi: BytePos(
+                54,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    54,
+                ),
+                hi: BytePos(
+                    70,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Construct a Bar.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                106,
+            ),
+            hi: BytePos(
+                106,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    106,
+                ),
+                hi: BytePos(
+                    118,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('bar property' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                157,
+            ),
+            hi: BytePos(
+                157,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    157,
+                ),
+                hi: BytePos(
+                    167,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Baz class.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                198,
+            ),
+            hi: BytePos(
+                198,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    198,
+                ),
+                hi: BytePos(
+                    214,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Construct a Baz.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                250,
+            ),
+            hi: BytePos(
+                250,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    250,
+                ),
+                hi: BytePos(
+                    262,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('baz property' type=dynamic),
+        },
+        tags: [],
+    },
+]

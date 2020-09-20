@@ -1,0 +1,678 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    16,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Parent class.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                61,
+            ),
+            hi: BytePos(
+                61,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    61,
+                ),
+                hi: BytePos(
+                    84,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Open the connection.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        61,
+                    ),
+                    hi: BytePos(
+                        68,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            61,
+                        ),
+                        hi: BytePos(
+                            68,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('virtual' type=inline),
+                },
+                tag: Abstract(
+                    AbstractTag {
+                        span: Span {
+                            lo: BytePos(
+                                61,
+                            ),
+                            hi: BytePos(
+                                68,
+                            ),
+                            ctxt: #0,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                149,
+            ),
+            hi: BytePos(
+                149,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    149,
+                ),
+                hi: BytePos(
+                    170,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Close the connection.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                227,
+            ),
+            hi: BytePos(
+                227,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    227,
+                ),
+                hi: BytePos(
+                    288,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Read the specified number of bytes from the connection.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        227,
+                    ),
+                    hi: BytePos(
+                        235,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            227,
+                        ),
+                        hi: BytePos(
+                            235,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('function' type=static),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                227,
+                            ),
+                            hi: BytePos(
+                                235,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        227,
+                                    ),
+                                    hi: BytePos(
+                                        242,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('Connection#read' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        227,
+                    ),
+                    hi: BytePos(
+                        232,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            227,
+                        ),
+                        hi: BytePos(
+                            232,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                227,
+                            ),
+                            hi: BytePos(
+                                232,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        227,
+                                    ),
+                                    hi: BytePos(
+                                        235,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    227,
+                                ),
+                                hi: BytePos(
+                                    263,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('bytes - The number of bytes to read.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        227,
+                    ),
+                    hi: BytePos(
+                        233,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            227,
+                        ),
+                        hi: BytePos(
+                            233,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('return' type=static),
+                },
+                tag: Return(
+                    ReturnTag {
+                        span: Span {
+                            lo: BytePos(
+                                227,
+                            ),
+                            hi: BytePos(
+                                233,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        227,
+                                    ),
+                                    hi: BytePos(
+                                        235,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{Buffer}' type=dynamic),
+                            },
+                        ),
+                        description: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    227,
+                                ),
+                                hi: BytePos(
+                                    252,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('The bytes that were read.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                477,
+            ),
+            hi: BytePos(
+                477,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    477,
+                ),
+                hi: BytePos(
+                    492,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Child class.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        477,
+                    ),
+                    hi: BytePos(
+                        482,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            477,
+                        ),
+                        hi: BytePos(
+                            482,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                477,
+                            ),
+                            hi: BytePos(
+                                482,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        477,
+                                    ),
+                                    hi: BytePos(
+                                        498,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @extends Connection' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                556,
+            ),
+            hi: BytePos(
+                556,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    556,
+                ),
+                hi: BytePos(
+                    556,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        556,
+                    ),
+                    hi: BytePos(
+                        566,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            556,
+                        ),
+                        hi: BytePos(
+                            566,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('inheritdoc' type=dynamic),
+                },
+                tag: InheritDoc(
+                    InheritDocTag {
+                        span: Span {
+                            lo: BytePos(
+                                556,
+                            ),
+                            hi: BytePos(
+                                566,
+                            ),
+                            ctxt: #0,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                615,
+            ),
+            hi: BytePos(
+                615,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    615,
+                ),
+                hi: BytePos(
+                    635,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Close the socket.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        615,
+                    ),
+                    hi: BytePos(
+                        620,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            615,
+                        ),
+                        hi: BytePos(
+                            620,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                615,
+                            ),
+                            hi: BytePos(
+                                620,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        615,
+                                    ),
+                                    hi: BytePos(
+                                        623,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    615,
+                                ),
+                                hi: BytePos(
+                                    677,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('message - A message explaining why the socket is being closed.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        615,
+                    ),
+                    hi: BytePos(
+                        625,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            615,
+                        ),
+                        hi: BytePos(
+                            625,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('inheritdoc' type=dynamic),
+                },
+                tag: InheritDoc(
+                    InheritDocTag {
+                        span: Span {
+                            lo: BytePos(
+                                615,
+                            ),
+                            hi: BytePos(
+                                625,
+                            ),
+                            ctxt: #0,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                782,
+            ),
+            hi: BytePos(
+                782,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    782,
+                ),
+                hi: BytePos(
+                    782,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        782,
+                    ),
+                    hi: BytePos(
+                        792,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            782,
+                        ),
+                        hi: BytePos(
+                            792,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('inheritdoc' type=dynamic),
+                },
+                tag: InheritDoc(
+                    InheritDocTag {
+                        span: Span {
+                            lo: BytePos(
+                                782,
+                            ),
+                            hi: BytePos(
+                                792,
+                            ),
+                            ctxt: #0,
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

@@ -1,0 +1,115 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    49,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Class representing pizza toppings.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                83,
+            ),
+            hi: BytePos(
+                83,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    83,
+                ),
+                hi: BytePos(
+                    146,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set whether sardines are included in the pizza toppings.
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        83,
+                    ),
+                    hi: BytePos(
+                        88,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            83,
+                        ),
+                        hi: BytePos(
+                            88,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                83,
+                            ),
+                            hi: BytePos(
+                                88,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        83,
+                                    ),
+                                    hi: BytePos(
+                                        92,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{boolean}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    83,
+                                ),
+                                hi: BytePos(
+                                    139,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('[bool] `true` to include sardines, `false` to omit them.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

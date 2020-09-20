@@ -102,6 +102,11 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     const IGNORED_ERROR_TESTS: &[&str] = &[
         // Old (wrong) tests
         "569a2c1bad3beeb2.js",
+        "3b6f737a4ac948a8.js",
+        "829d9261aa6cd22c.js",
+        "b03ee881dce1a367.js",
+        "cb92787da5075fd1.js",
+        "f0f498d6ae70038f.js",
         // Wrong tests
         "0d5e450f1da8a92a.js",
         "346316bef54d805a.js",
@@ -117,6 +122,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         "15a6123f6b825c38.js",
         "3bc2b27a7430f818.js",
         // Tmporarily ignored
+        "2fa321f0374c7017.js",
         "3dbb6e166b14a6c0.js",
         "66e383bfd18e66ab.js",
         "78c215fabdf13bae.js",

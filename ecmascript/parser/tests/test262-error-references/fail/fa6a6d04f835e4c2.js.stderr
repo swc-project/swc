@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(RBrace)
+error: Expected {, got }
  --> $DIR/tests/test262-parser/fail/fa6a6d04f835e4c2.js:1:44
   |
 1 | class A { constructor() {} 'constructor'() }

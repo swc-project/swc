@@ -1,4 +1,4 @@
-error: Unexpected token Some(Semi)
+error: Invalid access to super
  --> $DIR/tests/test262-parser/fail/49edc77061449ae3.js:1:42
   |
 1 | class A extends B { constructor() { super; } }

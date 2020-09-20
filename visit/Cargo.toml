@@ -1,6 +1,6 @@
 [package]
 name = "swc_visit"
-version = "0.1.0"
+version = "0.2.0"
 license = "Apache-2.0/MIT"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 repository = "https://github.com/swc-project/swc.git"
@@ -10,5 +10,5 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_visit_macros = { version = "0.1.0", path = "./macros" }
+swc_visit_macros = { version = "0.2.0", path = "./macros" }
 either = "1.5.3"

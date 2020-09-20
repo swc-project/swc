@@ -1,0 +1,269 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    64,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Generate the Fibonacci sequence of numbers.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        15,
+                    ),
+                    hi: BytePos(
+                        21,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            15,
+                        ),
+                        hi: BytePos(
+                            21,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('yields' type=inline),
+                },
+                tag: Yield(
+                    YieldTag {
+                        span: Span {
+                            lo: BytePos(
+                                15,
+                            ),
+                            hi: BytePos(
+                                21,
+                            ),
+                            ctxt: #0,
+                        },
+                        value: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        15,
+                                    ),
+                                    hi: BytePos(
+                                        23,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        description: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    15,
+                                ),
+                                hi: BytePos(
+                                    57,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('The next number in the Fibonacci sequence.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                162,
+            ),
+            hi: BytePos(
+                162,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    162,
+                ),
+                hi: BytePos(
+                    211,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Generate the Fibonacci sequence of numbers.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        162,
+                    ),
+                    hi: BytePos(
+                        168,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            162,
+                        ),
+                        hi: BytePos(
+                            168,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('yields' type=inline),
+                },
+                tag: Yield(
+                    YieldTag {
+                        span: Span {
+                            lo: BytePos(
+                                162,
+                            ),
+                            hi: BytePos(
+                                168,
+                            ),
+                            ctxt: #0,
+                        },
+                        value: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        162,
+                                    ),
+                                    hi: BytePos(
+                                        165,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('The' type=inline),
+                            },
+                        ),
+                        description: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    162,
+                                ),
+                                hi: BytePos(
+                                    200,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('next number in the Fibonacci sequence.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                301,
+            ),
+            hi: BytePos(
+                301,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    301,
+                ),
+                hi: BytePos(
+                    350,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Generate the Fibonacci sequence of numbers.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        301,
+                    ),
+                    hi: BytePos(
+                        307,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            301,
+                        ),
+                        hi: BytePos(
+                            307,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('yields' type=inline),
+                },
+                tag: Yield(
+                    YieldTag {
+                        span: Span {
+                            lo: BytePos(
+                                301,
+                            ),
+                            hi: BytePos(
+                                307,
+                            ),
+                            ctxt: #0,
+                        },
+                        value: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        301,
+                                    ),
+                                    hi: BytePos(
+                                        309,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        description: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    301,
+                                ),
+                                hi: BytePos(
+                                    301,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

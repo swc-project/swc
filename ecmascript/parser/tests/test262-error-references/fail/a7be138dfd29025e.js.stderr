@@ -10,7 +10,7 @@ note: This is the expression part of an expression statement
 2 |     { *[yield iter]() {} }
   |       ^^^^^^^^^^^^^^^
 
-error: TS1109
+error: Expression expected
  --> $DIR/tests/test262-parser/fail/a7be138dfd29025e.js:2:7
   |
 2 |     { *[yield iter]() {} }

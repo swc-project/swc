@@ -1,10 +1,12 @@
 use crate::{
     ext::PatOrExprExt,
+    perf::Check,
     util::{ExprFactory, StmtLike},
 };
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -28,19 +30,19 @@ use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 pub fn exponentation() -> impl Fold {
     Exponentation
 }
+
 #[derive(Clone, Copy)]
 struct Exponentation;
-
-noop_fold_type!(Exponentation);
 
 #[derive(Default)]
 struct AssignFolder {
     vars: Vec<VarDeclarator>,
 }
 
-noop_fold_type!(AssignFolder);
-
+#[fast_path(ShouldFold)]
 impl Fold for AssignFolder {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -94,7 +96,10 @@ impl Fold for AssignFolder {
     }
 }
 
+#[fast_path(ShouldFold)]
 impl Fold for Exponentation {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -110,9 +115,6 @@ impl Exponentation {
         T: StmtLike + VisitWith<ShouldFold>,
         Vec<T>: FoldWith<Self> + VisitWith<ShouldFold>,
     {
-        if !should_fold(&stmts) {
-            return stmts;
-        }
         let stmts = stmts.fold_children_with(self);
 
         let mut buf = vec![];
@@ -155,18 +157,13 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     })
 }
 
-fn should_fold<N>(node: &N) -> bool
-where
-    N: VisitWith<ShouldFold>,
-{
-    let mut v = ShouldFold { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
+#[derive(Default)]
 struct ShouldFold {
     found: bool,
 }
 impl Visit for ShouldFold {
+    noop_visit_type!();
+
     fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
         if e.op == op!("**") {
             self.found = true;
@@ -182,6 +179,12 @@ impl Visit for ShouldFold {
             e.left.visit_with(e as _, self);
             e.right.visit_with(e as _, self);
         }
+    }
+}
+
+impl Check for ShouldFold {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
 

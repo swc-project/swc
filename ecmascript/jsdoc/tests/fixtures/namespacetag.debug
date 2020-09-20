@@ -1,0 +1,304 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        9,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            9,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('namespace' type=static),
+                },
+                tag: Namespace(
+                    NamespaceTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                9,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                31,
+            ),
+            hi: BytePos(
+                31,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    31,
+                ),
+                hi: BytePos(
+                    31,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        31,
+                    ),
+                    hi: BytePos(
+                        40,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            31,
+                        ),
+                        hi: BytePos(
+                            40,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('namespace' type=static),
+                },
+                tag: Namespace(
+                    NamespaceTag {
+                        span: Span {
+                            lo: BytePos(
+                                31,
+                            ),
+                            hi: BytePos(
+                                40,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        31,
+                                    ),
+                                    hi: BytePos(
+                                        34,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('Foo' type=inline),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                53,
+            ),
+            hi: BytePos(
+                57,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    53,
+                ),
+                hi: BytePos(
+                    53,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        53,
+                    ),
+                    hi: BytePos(
+                        62,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            53,
+                        ),
+                        hi: BytePos(
+                            62,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('namespace' type=static),
+                },
+                tag: Namespace(
+                    NamespaceTag {
+                        span: Span {
+                            lo: BytePos(
+                                53,
+                            ),
+                            hi: BytePos(
+                                62,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        53,
+                                    ),
+                                    hi: BytePos(
+                                        63,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{function}' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                87,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    87,
+                ),
+                hi: BytePos(
+                    87,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        87,
+                    ),
+                    hi: BytePos(
+                        96,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            87,
+                        ),
+                        hi: BytePos(
+                            96,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('namespace' type=static),
+                },
+                tag: Namespace(
+                    NamespaceTag {
+                        span: Span {
+                            lo: BytePos(
+                                87,
+                            ),
+                            hi: BytePos(
+                                96,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                116,
+            ),
+            hi: BytePos(
+                116,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    116,
+                ),
+                hi: BytePos(
+                    142,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Member of the namespace S.' type=dynamic),
+        },
+        tags: [],
+    },
+]

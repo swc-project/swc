@@ -1,0 +1,293 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    23,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Asdf.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        15,
+                    ),
+                    hi: BytePos(
+                        20,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            15,
+                        ),
+                        hi: BytePos(
+                            20,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                15,
+                            ),
+                            hi: BytePos(
+                                20,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        15,
+                                    ),
+                                    hi: BytePos(
+                                        55,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @classdesc A description of the class.' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                103,
+            ),
+            hi: BytePos(
+                103,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    103,
+                ),
+                hi: BytePos(
+                    103,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        103,
+                    ),
+                    hi: BytePos(
+                        112,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            103,
+                        ),
+                        hi: BytePos(
+                            112,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('classdesc' type=dynamic),
+                },
+                tag: ClassDesc(
+                    JSDocClassDescTag {
+                        span: Span {
+                            lo: BytePos(
+                                103,
+                            ),
+                            hi: BytePos(
+                                112,
+                            ),
+                            ctxt: #0,
+                        },
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    103,
+                                ),
+                                hi: BytePos(
+                                    130,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('A description of the class.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        103,
+                    ),
+                    hi: BytePos(
+                        108,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            103,
+                        ),
+                        hi: BytePos(
+                            108,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                103,
+                            ),
+                            hi: BytePos(
+                                108,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        103,
+                                    ),
+                                    hi: BytePos(
+                                        106,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('Bar' type=inline),
+                            },
+                        ),
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        103,
+                                    ),
+                                    hi: BytePos(
+                                        117,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @constructor' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                184,
+            ),
+            hi: BytePos(
+                184,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    184,
+                ),
+                hi: BytePos(
+                    201,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('The Baz class.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        184,
+                    ),
+                    hi: BytePos(
+                        189,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            184,
+                        ),
+                        hi: BytePos(
+                            189,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                184,
+                            ),
+                            hi: BytePos(
+                                189,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        184,
+                                    ),
+                                    hi: BytePos(
+                                        215,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* Description of the Baz class.' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+]

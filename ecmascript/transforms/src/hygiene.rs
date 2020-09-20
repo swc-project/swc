@@ -1,14 +1,15 @@
-use self::ops::{Operator, ScopeOp};
+use self::ops::{Operations, Operator};
 use crate::{
-    compat::es2015::classes::native::is_native,
+    compat::es2015::classes::native::{is_native, is_native_word},
     scope::{IdentType, ScopeKind},
 };
+use fxhash::FxHashMap;
 use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, collections::HashMap};
+use std::cell::RefCell;
 use swc_atoms::JsWord;
-use swc_common::{chain, Span, SyntaxContext};
+use swc_common::{chain, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod ops;
 #[cfg(test)]
@@ -16,12 +17,20 @@ mod tests;
 
 const LOG: bool = false;
 
+trait ToBoxedStr {
+    fn to_boxed_str(&self) -> Box<str>;
+}
+
+impl ToBoxedStr for JsWord {
+    fn to_boxed_str(&self) -> Box<str> {
+        (**self).to_owned().into_boxed_str()
+    }
+}
+
 struct Hygiene<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
 }
-
-noop_fold_type!(Hygiene<'_>);
 
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
@@ -33,14 +42,19 @@ impl<'a> Hygiene<'a> {
             eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
         }
 
-        let can_declare_without_renaming = self.current.can_declare(ident.sym.clone(), ctxt);
+        let can_declare_without_renaming =
+            self.current.can_declare(&ident.sym.to_boxed_str(), ctxt);
         let sym = self.current.change_symbol(ident.sym, ctxt);
+
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("Changed symbol to {}{:?} ", sym, ctxt);
+        }
 
         self.current
             .declared_symbols
             .borrow_mut()
-            .entry(sym.clone())
-            .or_insert_with(Vec::new)
+            .entry(sym.to_boxed_str())
+            .or_default()
             .push(ctxt);
 
         if can_declare_without_renaming {
@@ -54,15 +68,21 @@ impl<'a> Hygiene<'a> {
         self.rename(sym, ctxt);
     }
 
-    fn add_used_ref(&mut self, ident: Ident) {
+    fn add_used_ref(&mut self, ident: &Ident) {
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("Ident ref: {}{:?}", ident.sym, ident.span.ctxt);
+        }
+
         let ctxt = ident.span.ctxt();
 
-        self.current
-            .declared_symbols
-            .borrow_mut()
-            .entry(ident.sym.clone())
-            .or_insert_with(Vec::new)
-            .push(ctxt);
+        // Commented out because of https://github.com/swc-project/swc/issues/962
+
+        // self.current
+        //     .declared_symbols
+        //     .borrow_mut()
+        //     .entry(ident.sym.clone())
+        //     .or_insert_with(Vec::new)
+        //     .push(ctxt);
 
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
@@ -82,7 +102,7 @@ impl<'a> Hygiene<'a> {
             let mut i = 0;
             loop {
                 i += 1;
-                let sym: JsWord = format!("{}{}", sym, i).into();
+                let sym = format!("{}{}", sym, i);
 
                 if !self.current.is_declared(&sym) {
                     break sym;
@@ -95,14 +115,13 @@ impl<'a> Hygiene<'a> {
         }
 
         let sym = self.current.change_symbol(sym, ctxt);
-        let scope = self.current.scope_of(sym.clone(), ctxt);
+        let boxed_sym = sym.to_boxed_str();
+        let scope = self.current.scope_of(&boxed_sym, ctxt);
 
         // Update symbol list
         let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
-        let is_not_renamed = scope.ops.borrow().iter().all(|op| match *op {
-            ScopeOp::Rename { ref from, .. } => from.0 != sym || from.1 != ctxt,
-        });
+        let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym.clone(), ctxt));
 
         debug_assert!(
             is_not_renamed,
@@ -112,62 +131,60 @@ impl<'a> Hygiene<'a> {
             scope.ops.borrow(),
         );
 
-        let old = declared_symbols.entry(sym.clone()).or_default();
-        assert!(
-            old.contains(&ctxt),
-            "{:?} does not contain {}{:?}",
-            declared_symbols,
-            sym,
-            ctxt
-        );
+        let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
         old.retain(|c| *c != ctxt);
         //        debug_assert!(old.is_empty() || old.len() == 1);
 
-        let new = declared_symbols.entry(renamed.clone()).or_default();
+        let new = declared_symbols
+            .entry(renamed.clone().into_boxed_str())
+            .or_insert_with(|| Vec::with_capacity(2));
         new.push(ctxt);
         debug_assert!(new.len() == 1);
 
-        scope.ops.borrow_mut().push(ScopeOp::Rename {
-            from: (sym, ctxt),
-            to: renamed,
-        });
+        scope
+            .ops
+            .borrow_mut()
+            .rename
+            .insert((sym, ctxt), renamed.into());
     }
 }
 
 pub fn hygiene() -> impl Fold + 'static {
-    #[derive(Clone, Copy)]
-    struct MarkClearer;
-    impl Fold for MarkClearer {
-        fn fold_span(&mut self, span: Span) -> Span {
-            span.with_ctxt(SyntaxContext::empty())
-        }
-    }
-
     chain!(
-        Hygiene {
+        as_folder(Hygiene {
             current: Default::default(),
             ident_type: IdentType::Ref,
-        },
-        MarkClearer
+        }),
+        as_folder(MarkClearer)
     )
 }
 
-impl<'a> Hygiene<'a> {
-    fn apply_ops<N>(&mut self, node: N) -> N
-    where
-        for<'o> N: FoldWith<Operator<'o>>,
-    {
-        let ops = self.current.ops.borrow();
+#[derive(Clone, Copy)]
+struct MarkClearer;
+impl VisitMut for MarkClearer {
+    noop_visit_mut_type!();
 
-        if ops.is_empty() {
-            return node;
-        }
-        node.fold_with(&mut Operator(&ops))
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        ident.span.ctxt = SyntaxContext::empty();
     }
 }
 
 impl<'a> Hygiene<'a> {
-    fn fold_fn(&mut self, ident: Option<Ident>, mut node: Function) -> Function {
+    fn apply_ops<N>(&mut self, node: &mut N)
+    where
+        for<'o> N: VisitMutWith<Operator<'o>>,
+    {
+        let ops = self.current.ops.borrow();
+
+        if ops.rename.is_empty() {
+            return;
+        }
+        node.visit_mut_with(&mut Operator(&ops))
+    }
+}
+
+impl<'a> Hygiene<'a> {
+    fn visit_mut_fn(&mut self, ident: Option<Ident>, node: &mut Function) {
         match ident {
             Some(ident) => {
                 self.add_declared_ref(ident);
@@ -181,13 +198,15 @@ impl<'a> Hygiene<'a> {
         };
 
         folder.ident_type = IdentType::Ref;
-        node.decorators = node.decorators.fold_with(&mut folder);
+        node.decorators.visit_mut_with(&mut folder);
 
         folder.ident_type = IdentType::Binding;
-        node.params = node.params.fold_with(&mut folder);
+        node.params.visit_mut_with(&mut folder);
 
         folder.ident_type = IdentType::Ref;
-        node.body = node.body.map(|stmt| stmt.fold_children_with(&mut folder));
+        node.body
+            .as_mut()
+            .map(|stmt| stmt.visit_mut_children_with(&mut folder));
 
         folder.apply_ops(node)
     }
@@ -202,9 +221,9 @@ struct Scope<'a> {
     pub kind: ScopeKind,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<HashMap<JsWord, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
-    pub(crate) ops: RefCell<Vec<ScopeOp>>,
+    pub(crate) ops: RefCell<Operations>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -224,8 +243,8 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn scope_of(&self, sym: JsWord, ctxt: SyntaxContext) -> &'a Scope<'_> {
-        if let Some(prev) = self.declared_symbols.borrow().get(&sym) {
+    fn scope_of(&self, sym: &Box<str>, ctxt: SyntaxContext) -> &'a Scope<'_> {
+        if let Some(prev) = self.declared_symbols.borrow().get(sym) {
             if prev.contains(&ctxt) {
                 return self;
             }
@@ -237,11 +256,11 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn can_declare(&self, sym: JsWord, ctxt: SyntaxContext) -> bool {
+    fn can_declare(&self, sym: &Box<str>, ctxt: SyntaxContext) -> bool {
         match self.parent {
             None => {}
             Some(parent) => {
-                if !parent.can_declare(sym.clone(), ctxt) {
+                if !parent.can_declare(sym, ctxt) {
                     return false;
                 }
             }
@@ -251,7 +270,7 @@ impl<'a> Scope<'a> {
             return false;
         }
 
-        if let Some(ctxts) = self.declared_symbols.borrow().get(&sym) {
+        if let Some(ctxts) = self.declared_symbols.borrow().get(sym) {
             ctxts.contains(&ctxt)
         } else {
             // No variable named `sym` is declared
@@ -273,7 +292,7 @@ impl<'a> Scope<'a> {
 
         let mut ctxts = smallvec![];
         {
-            if let Some(cxs) = self.declared_symbols.get_mut().get(&sym) {
+            if let Some(cxs) = self.declared_symbols.get_mut().get(&*sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -283,7 +302,7 @@ impl<'a> Scope<'a> {
         let mut cur = self.parent;
 
         while let Some(scope) = cur {
-            if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
+            if let Some(cxs) = scope.declared_symbols.borrow().get(&*sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -302,16 +321,11 @@ impl<'a> Scope<'a> {
         let mut cur = Some(self);
 
         while let Some(scope) = cur {
-            for op in scope.ops.borrow().iter() {
-                match *op {
-                    ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1 == ctxt => {
-                        if cfg!(debug_assertions) && LOG {
-                            eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
-                        }
-                        sym = to.clone()
-                    }
-                    _ => {}
+            if let Some(to) = scope.ops.borrow().rename.get(&(sym.clone(), ctxt)) {
+                if cfg!(debug_assertions) && LOG {
+                    eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
                 }
+                sym = to.clone()
             }
 
             cur = scope.parent;
@@ -320,14 +334,13 @@ impl<'a> Scope<'a> {
         sym
     }
 
-    fn is_declared(&self, sym: &JsWord) -> bool {
+    fn is_declared(&self, sym: &str) -> bool {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }
-        for op in self.ops.borrow().iter() {
-            match *op {
-                ScopeOp::Rename { ref to, .. } if sym == to => return true,
-                _ => {}
+        for (_, to) in &self.ops.borrow().rename {
+            if to == sym {
+                return true;
             }
         }
         match self.parent {
@@ -338,6 +351,7 @@ impl<'a> Scope<'a> {
 }
 
 #[macro_export]
+#[deprecated = "Not a public api"]
 macro_rules! track_ident {
     () => {
         fn fold_export_specifier(&mut self, s: ExportSpecifier) -> ExportSpecifier {
@@ -449,8 +463,16 @@ macro_rules! track_ident {
             let old = self.ident_type;
             self.ident_type = IdentType::Ref;
             let decorators = c.decorators.fold_with(self);
+
             self.ident_type = IdentType::Ref;
             let super_class = c.super_class.fold_with(self);
+
+            self.ident_type = IdentType::Binding;
+            let type_params = c.type_params.fold_with(self);
+
+            self.ident_type = IdentType::Ref;
+            let super_type_params = c.super_type_params.fold_with(self);
+
             self.ident_type = IdentType::Ref;
             let implements = c.implements.fold_with(self);
             self.ident_type = old;
@@ -464,8 +486,8 @@ macro_rules! track_ident {
                 implements,
                 body,
                 super_class,
-                type_params: c.type_params,
-                super_type_params: c.super_type_params,
+                type_params,
+                super_type_params,
             }
         }
 
@@ -478,166 +500,260 @@ macro_rules! track_ident {
     };
 }
 
-impl<'a> Fold for Hygiene<'a> {
-    track_ident!();
+macro_rules! track_ident_mut {
+    () => {
+        fn visit_mut_export_specifier(&mut self, s: &mut ExportSpecifier) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Ref;
+            s.visit_mut_children_with(self);
+            self.ident_type = old;
+        }
 
-    fn fold_arrow_expr(&mut self, mut node: ArrowExpr) -> ArrowExpr {
+        fn visit_mut_import_specifier(&mut self, s: &mut ImportSpecifier) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+
+            match s {
+                ImportSpecifier::Named(ImportNamedSpecifier { imported: None, .. })
+                | ImportSpecifier::Namespace(..)
+                | ImportSpecifier::Default(..) => s.visit_mut_children_with(self),
+                ImportSpecifier::Named(s) => s.local.visit_mut_with(self),
+            };
+
+            self.ident_type = old;
+        }
+
+        fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            f.param.visit_mut_with(self);
+            self.ident_type = old;
+
+            f.body.visit_mut_with(self);
+        }
+
+        // impl<'a> Fold for $T<'a> {
+        //     fn fold(&mut self, f: GetterProp) -> GetterProp {
+        //         let body = f.body.visit_mut_with(self);
+
+        //         GetterProp { body, ..c }
+        //     }
+        // }
+
+        fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Label;
+            s.label.visit_mut_with(self);
+            self.ident_type = old;
+
+            s.body.visit_mut_with(self);
+        }
+
+        fn visit_mut_break_stmt(&mut self, s: &mut BreakStmt) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Label;
+            s.label.visit_mut_with(self);
+            self.ident_type = old;
+        }
+
+        fn visit_mut_continue_stmt(&mut self, s: &mut ContinueStmt) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Label;
+            s.label.visit_mut_with(self);
+            self.ident_type = old;
+        }
+
+        fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            n.ident.visit_mut_with(self);
+            self.ident_type = old;
+
+            n.class.visit_mut_with(self);
+        }
+
+        fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            n.ident.visit_mut_with(self);
+            self.ident_type = old;
+
+            n.class.visit_mut_with(self);
+        }
+
+        fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
+            n.key.visit_mut_with(self);
+            n.value.visit_mut_with(self);
+        }
+
+        fn visit_mut_class(&mut self, c: &mut Class) {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Ref;
+            c.decorators.visit_mut_with(self);
+
+            self.ident_type = IdentType::Ref;
+            c.super_class.visit_mut_with(self);
+
+            self.ident_type = IdentType::Binding;
+            c.type_params.visit_mut_with(self);
+
+            self.ident_type = IdentType::Ref;
+            c.super_type_params.visit_mut_with(self);
+
+            self.ident_type = IdentType::Ref;
+            c.implements.visit_mut_with(self);
+            self.ident_type = old;
+
+            c.body.visit_mut_with(self);
+        }
+
+        fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+            match n {
+                PropName::Computed(c) => {
+                    c.visit_mut_with(self);
+                }
+                _ => {}
+            }
+        }
+    };
+}
+
+impl<'a> VisitMut for Hygiene<'a> {
+    noop_visit_mut_type!();
+
+    track_ident_mut!();
+
+    fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
 
         folder.ident_type = IdentType::Binding;
-        node.params = node.params.fold_with(&mut folder);
+        node.params.visit_mut_with(&mut folder);
 
         folder.ident_type = IdentType::Ref;
-        node.body = node.body.fold_with(&mut folder);
+        node.body.visit_mut_with(&mut folder);
 
         folder.apply_ops(node)
     }
 
-    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
+    fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
-        let node = node.fold_children_with(&mut folder);
+        node.visit_mut_children_with(&mut folder);
 
         folder.apply_ops(node)
     }
 
-    fn fold_catch_clause(&mut self, c: CatchClause) -> CatchClause {
+    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
         folder.ident_type = IdentType::Binding;
-        let param = c.param.fold_with(&mut folder);
+        c.param.visit_mut_with(&mut folder);
         folder.ident_type = IdentType::Ref;
 
-        let body = c.body.fold_with(&mut folder);
-
-        CatchClause { param, body, ..c }
+        c.body.visit_mut_with(&mut folder);
     }
 
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
+    fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
-        let params = c.params.fold_with(self);
+        c.params.visit_mut_with(self);
         self.ident_type = old;
 
-        let body = c.body.map(|bs| bs.fold_children_with(self));
-        let key = c.key.fold_with(self);
-
-        let c = Constructor {
-            params,
-            body,
-            key,
-            ..c
-        };
+        c.body.as_mut().map(|bs| bs.visit_mut_children_with(self));
+        c.key.visit_mut_with(self);
 
         self.apply_ops(c)
     }
 
-    fn fold_expr(&mut self, node: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, node: &mut Expr) {
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
-        let node = match node {
-            Expr::Ident(..) => node.fold_children_with(self),
+        match node {
+            Expr::Ident(..) => node.visit_mut_children_with(self),
             Expr::Member(e) => {
                 if e.computed {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        prop: e.prop.fold_with(self),
-                        ..e
-                    })
+                    e.obj.visit_mut_with(self);
+                    e.prop.visit_mut_with(self);
                 } else {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        ..e
-                    })
+                    e.obj.visit_mut_with(self)
                 }
             }
 
-            Expr::This(..) => node,
+            Expr::This(..) => {}
 
-            _ => node.fold_children_with(self),
+            _ => node.visit_mut_children_with(self),
         };
 
         self.ident_type = old;
-
-        node
     }
 
-    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
-        node.function = self.fold_fn(Some(node.ident.clone()), node.function);
-
-        node
+    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        self.visit_mut_fn(Some(node.ident.clone()), &mut node.function);
     }
 
-    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
-        node.function = self.fold_fn(node.ident.clone(), node.function);
-
-        node
+    fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
+        self.visit_mut_fn(node.ident.clone(), &mut node.function);
     }
 
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
-    fn fold_ident(&mut self, i: Ident) -> Ident {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
-            return i;
+            return;
         }
 
         match self.ident_type {
             IdentType::Binding => self.add_declared_ref(i.clone()),
             IdentType::Ref => {
                 // Special cases
-                if is_native(&i.sym) {
-                    return i;
+                if is_native_word(&i.sym) {
+                    return;
                 }
 
-                self.add_used_ref(i.clone());
+                self.add_used_ref(&i);
             }
             IdentType::Label => {
                 // We currently does not touch labels
-                return i;
+                return;
             }
         }
-
-        i
     }
 
-    fn fold_module(&mut self, module: Module) -> Module {
-        let module = validate!(module.fold_children_with(self));
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        module.visit_mut_children_with(self);
 
-        validate!(self.apply_ops(module))
+        self.apply_ops(module)
     }
 
-    fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
+    fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
-        let node = node.fold_children_with(&mut folder);
+        node.visit_mut_children_with(&mut folder);
 
         folder.apply_ops(node)
     }
 
-    fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
-        TryStmt {
-            span: node.span,
-            block: node.block.fold_children_with(self),
-            handler: node.handler.fold_with(self),
-            finalizer: node.finalizer.fold_children_with(self),
-        }
+    fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
+        node.block.visit_mut_children_with(self);
+
+        node.handler.visit_mut_with(self);
+        node.finalizer.visit_mut_children_with(self);
     }
 
-    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
+    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
-        let name = decl.name.fold_with(self);
+        decl.name.visit_mut_with(self);
         self.ident_type = old;
 
-        let init = decl.init.fold_with(self);
-        VarDeclarator { name, init, ..decl }
+        decl.init.visit_mut_with(self);
     }
 }

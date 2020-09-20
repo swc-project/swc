@@ -1,0 +1,681 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                68,
+            ),
+            hi: BytePos(
+                70,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    68,
+                ),
+                hi: BytePos(
+                    68,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        68,
+                    ),
+                    hi: BytePos(
+                        73,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            68,
+                        ),
+                        hi: BytePos(
+                            73,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('lends' type=inline),
+                },
+                tag: Lends(
+                    LendsTag {
+                        span: Span {
+                            lo: BytePos(
+                                68,
+                            ),
+                            hi: BytePos(
+                                73,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    68,
+                                ),
+                                hi: BytePos(
+                                    70,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            68,
+                                        ),
+                                        hi: BytePos(
+                                            72,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Base' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                95,
+            ),
+            hi: BytePos(
+                122,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    95,
+                ),
+                hi: BytePos(
+                    112,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Description for {' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        95,
+                    ),
+                    hi: BytePos(
+                        99,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            95,
+                        ),
+                        hi: BytePos(
+                            99,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('link' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                95,
+                            ),
+                            hi: BytePos(
+                                99,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                196,
+            ),
+            hi: BytePos(
+                218,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    196,
+                ),
+                hi: BytePos(
+                    213,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Description for {' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        196,
+                    ),
+                    hi: BytePos(
+                        200,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            196,
+                        ),
+                        hi: BytePos(
+                            200,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('link' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                196,
+                            ),
+                            hi: BytePos(
+                                200,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                285,
+            ),
+            hi: BytePos(
+                285,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    285,
+                ),
+                hi: BytePos(
+                    285,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        285,
+                    ),
+                    hi: BytePos(
+                        290,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            285,
+                        ),
+                        hi: BytePos(
+                            290,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                285,
+                            ),
+                            hi: BytePos(
+                                290,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                338,
+            ),
+            hi: BytePos(
+                340,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    338,
+                ),
+                hi: BytePos(
+                    338,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        338,
+                    ),
+                    hi: BytePos(
+                        343,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            338,
+                        ),
+                        hi: BytePos(
+                            343,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('lends' type=inline),
+                },
+                tag: Lends(
+                    LendsTag {
+                        span: Span {
+                            lo: BytePos(
+                                338,
+                            ),
+                            hi: BytePos(
+                                343,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    338,
+                                ),
+                                hi: BytePos(
+                                    340,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            338,
+                                        ),
+                                        hi: BytePos(
+                                            342,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Base' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                365,
+            ),
+            hi: BytePos(
+                392,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    365,
+                ),
+                hi: BytePos(
+                    382,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Description for {' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        365,
+                    ),
+                    hi: BytePos(
+                        369,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            365,
+                        ),
+                        hi: BytePos(
+                            369,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('link' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                365,
+                            ),
+                            hi: BytePos(
+                                369,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                466,
+            ),
+            hi: BytePos(
+                488,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    466,
+                ),
+                hi: BytePos(
+                    483,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Description for {' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        466,
+                    ),
+                    hi: BytePos(
+                        470,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            466,
+                        ),
+                        hi: BytePos(
+                            470,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('link' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                466,
+                            ),
+                            hi: BytePos(
+                                470,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                555,
+            ),
+            hi: BytePos(
+                555,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    555,
+                ),
+                hi: BytePos(
+                    555,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        555,
+                    ),
+                    hi: BytePos(
+                        560,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            555,
+                        ),
+                        hi: BytePos(
+                            560,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                555,
+                            ),
+                            hi: BytePos(
+                                560,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        555,
+                                    ),
+                                    hi: BytePos(
+                                        572,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @augments Base0' type=dynamic),
+                            },
+                        ),
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        555,
+                                    ),
+                                    hi: BytePos(
+                                        572,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @augments Base1' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+]

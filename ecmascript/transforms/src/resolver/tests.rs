@@ -1,16 +1,57 @@
 use super::*;
 use crate::{
     compat::{
-        es2015::{block_scoping, destructuring, Classes},
+        es2015::{block_scoping, classes, destructuring},
         es2020::class_properties,
     },
     modules::common_js::common_js,
 };
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
+
+struct TsHygiene {
+    top_level_mark: Mark,
+}
+
+impl VisitMut for TsHygiene {
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
+            return;
+        }
+
+        let ctxt = format!("{:?}", i.span.ctxt).replace("#", "");
+        i.sym = format!("{}__{}", i.sym, ctxt).into();
+        i.span = i.span.with_ctxt(SyntaxContext::empty());
+    }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        if n.computed {
+            n.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_ts_enum_member_id(&mut self, _: &mut TsEnumMemberId) {}
+
+    /// TODO: Handle tyep parameter correctly
+    fn visit_mut_ts_type_param(&mut self, _: &mut TsTypeParam) {}
+
+    fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
+}
 
 fn tr() -> impl Fold {
-    chain!(resolver(), block_scoping())
+    let mark = Mark::fresh(Mark::root());
+    chain!(resolver_with_mark(mark), block_scoping())
+}
+
+/// Typescript transforms
+fn ts_tr() -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+    chain!(
+        ts_resolver(top_level_mark),
+        as_folder(TsHygiene { top_level_mark })
+    )
 }
 
 fn syntax() -> Syntax {
@@ -27,15 +68,27 @@ fn ts() -> Syntax {
     })
 }
 
-macro_rules! identical {
-    ($name:ident, $src:literal) => {
-        test!(syntax(), |_| tr(), $name, $src, $src);
+macro_rules! to_ts {
+    ($name:ident, $src:literal, $to:literal) => {
+        test!(ts(), |_| ts_tr(), $name, $src, $to, ok_if_code_eq);
     };
 }
 
 macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
         test!(syntax(), |_| tr(), $name, $src, $to);
+    };
+}
+
+macro_rules! identical_ts {
+    ($name:ident, $src:literal) => {
+        to_ts!($name, $src, $src);
+    };
+}
+
+macro_rules! identical {
+    ($name:ident, $src:literal) => {
+        to!($name, $src, $src);
     };
 }
 
@@ -53,11 +106,12 @@ fn test_mark_for() {
         let mark3 = Mark::fresh(mark2);
         let mark4 = Mark::fresh(mark3);
 
-        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None);
+        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None, true);
         let mut folder2 = Resolver::new(
             mark2,
             Scope::new(ScopeKind::Block, Some(&folder1.current)),
             None,
+            true,
         );
         folder2.current.declared_symbols.insert("foo".into());
 
@@ -65,6 +119,7 @@ fn test_mark_for() {
             mark3,
             Scope::new(ScopeKind::Block, Some(&folder2.current)),
             None,
+            true,
         );
         folder3.current.declared_symbols.insert("bar".into());
         assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
@@ -73,6 +128,7 @@ fn test_mark_for() {
             mark4,
             Scope::new(ScopeKind::Block, Some(&folder3.current)),
             None,
+            true,
         );
         folder4.current.declared_symbols.insert("foo".into());
 
@@ -985,7 +1041,7 @@ test!(
     syntax(),
     |_| chain!(
         tr(),
-        Classes::default(),
+        classes(),
         destructuring(Default::default()),
         common_js(Mark::fresh(Mark::root()), Default::default())
     ),
@@ -1040,7 +1096,8 @@ var instance = new SomeClass({
         console.log('CORRECT FUNCTION CALLED');
     }
 });
-instance.call();"
+instance.call();",
+    ok_if_code_eq
 );
 
 test!(
@@ -1160,9 +1217,443 @@ export class HygieneTest {
     getDuration() {
         return this.duration;
     }
-    constructor(duration?: number){
+    constructor(duration: number){
         _defineProperty(this, 'duration', DURATION);
         this.duration = duration ?? DURATION;
     }
-}"
+}",
+    ok_if_code_eq
+);
+
+identical_ts!(ts_resolver_001, "type A = B;");
+
+identical_ts!(
+    ts_resolver_002,
+    "
+    class A {}
+    new A();
+    "
+);
+
+identical_ts!(
+    ts_resolver_003,
+    "
+    class Foo<T> {}
+    class A {}
+    class B {}
+    new Foo<A>();
+    new Foo<B>();
+    "
+);
+
+to_ts!(
+    ts_resolver_class_constructor,
+    "
+class G<T> {}
+class Foo {
+    constructor() {
+        class Foo {
+            
+        }
+
+        new G<Foo__2>();
+    }
+}
+new G<Foo>();
+",
+    "
+class G<T> {
+}
+class Foo {
+    constructor(){
+        class Foo__2 {
+        }
+        new G<Foo__2>();
+    }
+}
+new G<Foo>();
+        "
+);
+
+to_ts!(
+    ts_resolver_class_getter,
+    "
+class G<T> {}
+class Foo {
+    get foo() {
+        class Foo {
+            
+        }
+
+        new G<Foo>();
+    }
+}
+",
+    "
+class G<T> {
+}
+class Foo {
+    get foo() {
+        class Foo__2 {
+        }
+        new G<Foo__2>();
+    }
+}
+    "
+);
+
+to_ts!(
+    ts_resolver_neseted_interface,
+    "
+interface Foo {
+    name: string
+}
+
+function foo() {
+    interface Foo {
+        name: string
+    }
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+
+    ",
+    "
+interface Foo {
+    name: string;
+}
+function foo() {
+    interface Foo__2 {
+        name: string;
+    }
+    const foo__2 = {
+    } as Foo__2;
+}
+const bar = {
+} as Foo;
+    "
+);
+
+to_ts!(
+    ts_resolver_nested_enum,
+    "
+enum Foo {
+    name: string
+}
+
+function foo() {
+    enum Foo {
+        name: string
+    }
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+
+",
+    "
+    enum Foo {
+        name,
+        string
+    }
+    function foo() {
+        enum Foo__2 {
+            name,
+            string
+        }
+        const foo__2 = {
+        } as Foo__2;
+    }
+    const bar = {
+    } as Foo;
+    "
+);
+
+to_ts!(
+    ts_resolver_neseted_type_alias,
+    "
+type Foo = {};
+
+function foo() {
+    type Foo = string | number;
+    const foo = {} as Foo;
+}
+const bar = {} as Foo;
+    ",
+    "
+type Foo = {
+};
+function foo() {
+    type Foo__2 = string | number;
+    const foo__2 = {
+    } as Foo__2;
+}
+const bar = {
+} as Foo;    
+    "
+);
+
+to_ts!(
+    ts_resolver_import_and_type_ann,
+    "
+import { Nullable } from 'nullable';
+const a: Nullable<string> = 'hello';
+console.log(a);
+    ",
+    "
+import { Nullable } from 'nullable';
+const a: Nullable<string> = 'hello';
+console.log(a);
+    "
+);
+
+identical_ts!(
+    ts_resolver_import_and_type_param,
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'other';
+const a: Nullable<SomeOther> = 'hello';
+console.log(a);
+    "
+);
+
+identical_ts!(
+    ts_resolver_import_and_implements,
+    "
+import { Nullable } from 'nullable';
+import { Component } from 'react';
+class Foo implements Component<Nullable> {}
+new Foo();
+    "
+);
+
+identical_ts!(
+    ts_resolver_import_and_extends,
+    "
+    import { Nullable } from 'nullable';
+    import { Component } from 'react';
+    class Foo extends Component<Nullable, {}> {}
+    new Foo();
+    "
+);
+
+identical_ts!(
+    ts_resolver_method_type_param,
+    "
+import { Nullable } from 'nullable';
+import { Another } from 'some';
+class A {
+    do(): Nullable<Another> {
+    return null;
+    }
+}
+new A();
+    "
+);
+
+identical_ts!(
+    ts_resolver_nested_type_ref,
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'some';
+import { Another } from 'some';
+class A extends Nullable {
+    other: Nullable<Another>;
+}
+new A();
+    "
+);
+
+// See: https://github.com/denoland/deno_lint/pull/304
+to_ts!(
+    ts_resolver_parameter,
+    "
+    new Promise((resolve: () => void, _) => {
+        setTimeout(resolve, 100);
+    });
+    ",
+    "
+    new Promise((resolve__2: () => void, ___2) => {
+        setTimeout(resolve__2, 100);
+    });
+    "
+);
+
+// See: https://github.com/denoland/deno_lint/pull/304
+to_ts!(
+    let_scoping,
+    "
+    function wrapper() {
+        const usage = () => {
+            return a;
+        };
+        let a;
+    }
+    ",
+    "
+    function wrapper() {
+        const usage__2 = ()=>{
+            return a__2;
+        };
+        let a__2;
+    }    
+    "
+);
+
+to_ts!(
+    ts_resolver_parameter_property,
+    r#"
+    class PartWriter implements Deno.Writer {
+        constructor(
+          private writer: Deno.Writer,
+          readonly boundary: string,
+          public headers: Headers,
+          isFirstBoundary: boolean,
+        ) {
+          let buf = "";
+          if (isFirstBoundary) {
+            buf += `--${boundary}\r\n`;
+          } else {
+            buf += `\r\n--${boundary}\r\n`;
+          }
+          for (const [key, value] of headers.entries()) {
+            buf += `${key}: ${value}\r\n`;
+          }
+          buf += `\r\n`;
+          this.partHeader = buf;
+        }
+    }
+    "#,
+    r#"
+    class PartWriter {
+        constructor(private writer__2: Deno.Writer., readonly boundary__2: string, public headers__2: Headers, isFirstBoundary__2: boolean){
+            let buf__2 = "";
+            if (isFirstBoundary__2) {
+                buf__2 += `--${boundary__2}\r\n`;
+            } else {
+                buf__2 += `\r\n--${boundary__2}\r\n`;
+            }
+            for (const [key__3, value__3] of headers__2.entries()){
+                buf__2 += `${key__3}: ${value__3}\r\n`;
+            }
+            buf__2 += `\r\n`;
+            this.partHeader = buf__2;
+        }
+    }
+    "#
+);
+
+to_ts!(
+    ts_resolver_catch_param,
+    r#"
+function wrapper(...args) {
+    try {
+        return target(...args);
+    } catch (err) {
+        switch (err.name) {
+        }
+    }
+}
+    "#,
+    "
+    function wrapper(...args__2) {
+        try {
+            return target(...args__2);
+        } catch (err__3) {
+            switch(err__3.name){
+            }
+        }
+    }
+    "
+);
+
+to_ts!(
+    function_scope_1,
+    r#"
+function wrapper(a) {
+    var a;
+    {
+        let a;
+    }
+}
+    "#,
+    "
+function wrapper(a__2) {
+    var a__2;
+    {
+        let a__3;
+    }
+}    
+    "
+);
+
+to_ts!(
+    function_scope_2,
+    r#"
+function wrapper(a) {
+    {
+        let a;
+    }
+}
+    "#,
+    "
+function wrapper(a__2) {
+    {
+        let a__3;
+    }
+}    
+    "
+);
+
+to_ts!(
+    function_scope_3,
+    r#"
+function wrapper(a) {
+    {
+        var a;
+    }
+}
+    "#,
+    "
+function wrapper(a__2) {
+    {
+        var a__2;
+    }
+}    
+    "
+);
+
+to_ts!(
+    function_scope_4,
+    r#"
+function wrapper(a) {
+    let a;
+}
+    "#,
+    "
+function wrapper(a__2) {
+    let a__2;
+}    
+    "
+);
+
+to_ts!(
+    ts_resolver_deno_undef_001,
+    r#"
+    const directiveHandlers: DirectiveHandlers = {
+        TAG(state, _name, ...args: string[]): void {
+          const handle = args[0];
+          if (!PATTERN_TAG_HANDLE.test(handle)) {
+          }
+        },
+      };
+    "#,
+    r#"
+    const directiveHandlers: DirectiveHandlers = {
+        TAG (state__2, _name__2, ...args__2: string[]): void {
+            const handle__2 = args__2[0];
+            if (!PATTERN_TAG_HANDLE.test(handle__2)) {
+            }
+        }
+    };
+    "#
 );

@@ -1,6 +1,9 @@
-use crate::{complete_output, JsCompiler};
+use crate::{
+    complete_output, get_compiler,
+    util::{CtxtExt, MapErr},
+};
 use anyhow::{Context as _, Error};
-use neon::prelude::*;
+use napi::{CallContext, Env, JsBoolean, JsObject, JsString, Task};
 use path_clean::clean;
 use std::{
     path::{Path, PathBuf},
@@ -29,95 +32,75 @@ pub struct TransformTask {
 
 impl Task for TransformTask {
     type Output = TransformOutput;
-    type Error = Error;
-    type JsEvent = JsValue;
+    type JsValue = JsObject;
 
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
-        self.c.run(|| match self.input {
-            Input::Program(ref s) => {
-                let program: Program =
-                    serde_json::from_str(&s).expect("failed to deserialize Program");
-                // TODO: Source map
-                self.c.process_js(program, &self.options)
-            }
+    fn compute(&mut self) -> napi::Result<Self::Output> {
+        self.c
+            .run(|| match self.input {
+                Input::Program(ref s) => {
+                    let program: Program =
+                        serde_json::from_str(&s).expect("failed to deserialize Program");
+                    // TODO: Source map
+                    self.c.process_js(program, &self.options)
+                }
 
-            Input::File(ref path) => {
-                let fm = self.c.cm.load_file(path).context("failed to read module")?;
-                self.c.process_js_file(fm, &self.options)
-            }
+                Input::File(ref path) => {
+                    let fm = self.c.cm.load_file(path).context("failed to read module")?;
+                    self.c.process_js_file(fm, &self.options)
+                }
 
-            Input::Source(ref s) => self.c.process_js_file(s.clone(), &self.options),
-        })
+                Input::Source(ref s) => self.c.process_js_file(s.clone(), &self.options),
+            })
+            .convert_err()
     }
 
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_output(cx, result)
+    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_output(env, result)
     }
 }
 
 /// returns `compiler, (src / path), options, plugin, callback`
-pub fn schedule_transform<F>(mut cx: MethodContext<JsCompiler>, op: F) -> JsResult<JsValue>
+pub fn schedule_transform<F>(cx: CallContext, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Arc<Compiler>, String, bool, Options) -> TransformTask,
 {
-    let c;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        c = this.borrow(&guard).clone();
-    };
+    let c = get_compiler(&cx);
 
-    let s = cx.argument::<JsString>(0)?.value();
-    let is_module = cx.argument::<JsBoolean>(1)?;
-    let options_arg = cx.argument::<JsValue>(2)?;
+    let s = cx.get::<JsString>(0)?.as_str()?.to_string();
+    let is_module = cx.get::<JsBoolean>(1)?;
+    let options: Options = cx.get_deserialized(2)?;
 
-    let options: Options = neon_serde::from_value(&mut cx, options_arg)?;
-    let callback = cx.argument::<JsFunction>(3)?;
+    let task = op(&c, s, is_module.get_value()?, options);
 
-    let task = op(&c, s, is_module.value(), options);
-    task.schedule(callback);
-
-    Ok(cx.undefined().upcast())
+    cx.env.spawn(task)
 }
 
-pub fn exec_transform<F>(mut cx: MethodContext<JsCompiler>, op: F) -> JsResult<JsValue>
+pub fn exec_transform<F>(cx: CallContext, op: F) -> napi::Result<JsObject>
 where
     F: FnOnce(&Compiler, String, &Options) -> Result<Arc<SourceFile>, Error>,
 {
-    let s = cx.argument::<JsString>(0)?;
-    let is_module = cx.argument::<JsBoolean>(1)?;
-    let options: Options = match cx.argument_opt(2) {
-        Some(v) => neon_serde::from_value(&mut cx, v)?,
-        None => {
-            let obj = cx.empty_object().upcast();
-            neon_serde::from_value(&mut cx, obj)?
+    let c = get_compiler(&cx);
+
+    let s = cx.get::<JsString>(0)?;
+    let is_module = cx.get::<JsBoolean>(1)?;
+    let options: Options = cx.get_deserialized(2)?;
+
+    let output = c.run(|| -> napi::Result<_> {
+        if is_module.get_value()? {
+            let program: Program =
+                serde_json::from_str(s.as_str()?).expect("failed to deserialize Program");
+            c.process_js(program, &options).convert_err()
+        } else {
+            let fm = op(&c, s.as_str()?.to_string(), &options).expect("failed to create fm");
+            c.process_js_file(fm, &options).convert_err()
         }
-    };
+    })?;
 
-    let this = cx.this();
-    let output = {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-        c.run(|| {
-            if is_module.value() {
-                let program: Program =
-                    serde_json::from_str(&s.value()).expect("failed to deserialize Program");
-                c.process_js(program, &options)
-            } else {
-                let fm = op(&c, s.value(), &options).expect("failed to create fm");
-                c.process_js_file(fm, &options)
-            }
-        })
-    };
-
-    complete_output(cx, output)
+    complete_output(cx.env, output)
 }
 
-pub fn transform(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+#[js_function(4)]
+pub fn transform(cx: CallContext) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, src, is_module, options| {
         let input = if is_module {
             Input::Program(src)
@@ -140,7 +123,8 @@ pub fn transform(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn transform_sync(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+#[js_function(4)]
+pub fn transform_sync(cx: CallContext) -> napi::Result<JsObject> {
     exec_transform(cx, |c, src, options| {
         Ok(c.cm.new_source_file(
             if options.filename.is_empty() {
@@ -153,7 +137,8 @@ pub fn transform_sync(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn transform_file(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+#[js_function(4)]
+pub fn transform_file(cx: CallContext) -> napi::Result<JsObject> {
     schedule_transform(cx, |c, path, _, options| {
         let path = clean(&path);
 
@@ -165,7 +150,8 @@ pub fn transform_file(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     })
 }
 
-pub fn transform_file_sync(cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
+#[js_function(4)]
+pub fn transform_file_sync(cx: CallContext) -> napi::Result<JsObject> {
     exec_transform(cx, |c, path, _| {
         Ok(c.cm
             .load_file(Path::new(&path))

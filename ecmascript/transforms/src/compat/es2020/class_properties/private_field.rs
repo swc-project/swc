@@ -6,7 +6,7 @@ use std::{collections::HashSet, iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
@@ -15,8 +15,6 @@ pub(super) struct FieldAccessFolder<'a> {
     pub statics: &'a HashSet<JsWord>,
     pub in_assign_pat: bool,
 }
-
-noop_fold_type!(FieldAccessFolder<'_>);
 
 macro_rules! take_vars {
     ($name:ident, $T:tt) => {
@@ -47,6 +45,8 @@ macro_rules! take_vars {
 }
 
 impl<'a> Fold for FieldAccessFolder<'a> {
+    noop_fold_type!();
+
     take_vars!(fold_function, Function);
     take_vars!(fold_constructor, Constructor);
 

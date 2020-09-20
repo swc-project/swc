@@ -9,7 +9,7 @@ use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::HANDLER;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,
@@ -76,14 +76,14 @@ struct ConstModules {
     scope: Scope,
 }
 
-noop_fold_type!(ConstModules);
-
 #[derive(Default)]
 struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
 impl Fold for ConstModules {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         items.move_flat_map(|item| match item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {

@@ -1,0 +1,937 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                125,
+            ),
+            hi: BytePos(
+                125,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    125,
+                ),
+                hi: BytePos(
+                    157,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set the user's first name.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        125,
+                    ),
+                    hi: BytePos(
+                        130,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            125,
+                        ),
+                        hi: BytePos(
+                            130,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                125,
+                            ),
+                            hi: BytePos(
+                                130,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        125,
+                                    ),
+                                    hi: BytePos(
+                                        133,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    125,
+                                ),
+                                hi: BytePos(
+                                    159,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('firstName - The user's first name.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                268,
+            ),
+            hi: BytePos(
+                268,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    268,
+                ),
+                hi: BytePos(
+                    299,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set the user's last name.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        268,
+                    ),
+                    hi: BytePos(
+                        273,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            268,
+                        ),
+                        hi: BytePos(
+                            273,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                268,
+                            ),
+                            hi: BytePos(
+                                273,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        268,
+                                    ),
+                                    hi: BytePos(
+                                        276,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    268,
+                                ),
+                                hi: BytePos(
+                                    308,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('[lastName=Braun] - The user's last name.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                413,
+            ),
+            hi: BytePos(
+                413,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    413,
+                ),
+                hi: BytePos(
+                    464,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set the user's first, middle, and last names.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        413,
+                    ),
+                    hi: BytePos(
+                        418,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            413,
+                        ),
+                        hi: BytePos(
+                            418,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                413,
+                            ),
+                            hi: BytePos(
+                                418,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        413,
+                                    ),
+                                    hi: BytePos(
+                                        421,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    413,
+                                ),
+                                hi: BytePos(
+                                    447,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('firstName - The user's first name.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        413,
+                    ),
+                    hi: BytePos(
+                        418,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            413,
+                        ),
+                        hi: BytePos(
+                            418,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                413,
+                            ),
+                            hi: BytePos(
+                                418,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        413,
+                                    ),
+                                    hi: BytePos(
+                                        421,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    413,
+                                ),
+                                hi: BytePos(
+                                    449,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('middleName - The user's middle name.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        413,
+                    ),
+                    hi: BytePos(
+                        418,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            413,
+                        ),
+                        hi: BytePos(
+                            418,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                413,
+                            ),
+                            hi: BytePos(
+                                418,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        413,
+                                    ),
+                                    hi: BytePos(
+                                        421,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    413,
+                                ),
+                                hi: BytePos(
+                                    445,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('lastName - The user's last name.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                711,
+            ),
+            hi: BytePos(
+                711,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    711,
+                ),
+                hi: BytePos(
+                    740,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set the user's manager.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        711,
+                    ),
+                    hi: BytePos(
+                        716,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            711,
+                        ),
+                        hi: BytePos(
+                            716,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                711,
+                            ),
+                            hi: BytePos(
+                                716,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        711,
+                                    ),
+                                    hi: BytePos(
+                                        720,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{Manager}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    711,
+                                ),
+                                hi: BytePos(
+                                    733,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('manager - The manager.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                830,
+            ),
+            hi: BytePos(
+                830,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    830,
+                ),
+                hi: BytePos(
+                    877,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set whether the user is currently active.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        830,
+                    ),
+                    hi: BytePos(
+                        835,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            830,
+                        ),
+                        hi: BytePos(
+                            835,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                830,
+                            ),
+                            hi: BytePos(
+                                835,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        830,
+                                    ),
+                                    hi: BytePos(
+                                        839,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{boolean}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    830,
+                                ),
+                                hi: BytePos(
+                                    885,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('isActive - Set to `true` if active; otherwise, `false`.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                1002,
+            ),
+            hi: BytePos(
+                1002,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    1002,
+                ),
+                hi: BytePos(
+                    1049,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set the year in which the employee was born.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        1002,
+                    ),
+                    hi: BytePos(
+                        1007,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            1002,
+                        ),
+                        hi: BytePos(
+                            1007,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                1002,
+                            ),
+                            hi: BytePos(
+                                1007,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        1002,
+                                    ),
+                                    hi: BytePos(
+                                        1010,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    1002,
+                                ),
+                                hi: BytePos(
+                                    1035,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('year - The four-digit birth year.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                1150,
+            ),
+            hi: BytePos(
+                1150,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    1150,
+                ),
+                hi: BytePos(
+                    1228,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set the name of the user's dog. At this time, only one dog is supported.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        1150,
+                    ),
+                    hi: BytePos(
+                        1155,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            1150,
+                        ),
+                        hi: BytePos(
+                            1155,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                1150,
+                            ),
+                            hi: BytePos(
+                                1155,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        1150,
+                                    ),
+                                    hi: BytePos(
+                                        1158,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    1150,
+                                ),
+                                hi: BytePos(
+                                    1187,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('dogName - The name of the user's dog.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                1332,
+            ),
+            hi: BytePos(
+                1332,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    1332,
+                ),
+                hi: BytePos(
+                    1377,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set the user's favorite pizza toppings.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        1332,
+                    ),
+                    hi: BytePos(
+                        1337,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            1332,
+                        ),
+                        hi: BytePos(
+                            1337,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                1332,
+                            ),
+                            hi: BytePos(
+                                1337,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        1332,
+                                    ),
+                                    hi: BytePos(
+                                        1347,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{PizzaToppings}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    1332,
+                                ),
+                                hi: BytePos(
+                                    1372,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('toppings - The user's favorite toppings.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                1518,
+            ),
+            hi: BytePos(
+                1518,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    1518,
+                ),
+                hi: BytePos(
+                    1556,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Set whether the user is a ninja.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        1518,
+                    ),
+                    hi: BytePos(
+                        1523,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            1518,
+                        ),
+                        hi: BytePos(
+                            1523,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                1518,
+                            ),
+                            hi: BytePos(
+                                1523,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        1518,
+                                    ),
+                                    hi: BytePos(
+                                        1527,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{boolean}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    1518,
+                                ),
+                                hi: BytePos(
+                                    1585,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('isNinja - Set to `true` if the user is a ninja; otherwise, `false`.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

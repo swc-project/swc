@@ -1,6 +1,6 @@
-error: Unterminated JSX contents
- --> $DIR/tests/jsx/errors/unclosed-tag/input.js:1:6
+error: Unexpected eof
+ --> $DIR/tests/jsx/errors/unclosed-tag/input.js:1:10
   |
 1 | <foo>yes
-  |      ^^^^
+  |          ^
 

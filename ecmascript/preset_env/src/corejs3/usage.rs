@@ -15,7 +15,7 @@ use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
@@ -145,6 +145,8 @@ impl UsageVisitor {
 }
 
 impl Visit for UsageVisitor {
+    noop_visit_type!();
+
     /// `[a, b] = c`
     fn visit_array_pat(&mut self, p: &ArrayPat, _: &dyn Node) {
         p.visit_children_with(self);

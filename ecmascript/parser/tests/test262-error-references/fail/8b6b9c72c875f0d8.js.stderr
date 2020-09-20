@@ -1,4 +1,4 @@
-error: TS1094
+error: A `set` accessor must have a corresponding `get` accessor
  --> $DIR/tests/test262-parser/fail/8b6b9c72c875f0d8.js:1:8
   |
 1 | ({ set prop(x, y) {} })

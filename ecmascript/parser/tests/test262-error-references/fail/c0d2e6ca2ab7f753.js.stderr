@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(Num(42.0))
+error: Expected {, got numeric literal
  --> $DIR/tests/test262-parser/fail/c0d2e6ca2ab7f753.js:1:20
   |
 1 | x = { get method() 42 }

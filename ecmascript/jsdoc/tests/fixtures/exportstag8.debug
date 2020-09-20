@@ -1,0 +1,75 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                31,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    15,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        15,
+                    ),
+                    hi: BytePos(
+                        22,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            15,
+                        ),
+                        hi: BytePos(
+                            22,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exports' type=inline),
+                },
+                tag: Exports(
+                    ExportsTag {
+                        span: Span {
+                            lo: BytePos(
+                                15,
+                            ),
+                            hi: BytePos(
+                                22,
+                            ),
+                            ctxt: #0,
+                        },
+                        module_name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

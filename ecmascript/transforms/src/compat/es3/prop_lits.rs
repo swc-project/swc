@@ -1,6 +1,6 @@
 use crate::util::is_valid_ident;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `transform-property-literals`
 ///
@@ -29,12 +29,15 @@ use swc_ecma_visit::{Fold, FoldWith};
 ///   foo: 1
 /// };
 /// ```
-#[derive(Default, Clone, Copy)]
-pub struct PropertyLiteral;
+pub fn property_literals() -> impl Fold {
+    PropertyLiteral
+}
 
-noop_fold_type!(PropertyLiteral);
+struct PropertyLiteral;
 
 impl Fold for PropertyLiteral {
+    noop_fold_type!();
+
     fn fold_prop_name(&mut self, n: PropName) -> PropName {
         let n = validate!(n.fold_children_with(self));
 

@@ -1,8 +1,8 @@
 use super::*;
 use crate::{
     compat::{
-        es2015::{arrow, Classes},
-        es3::PropertyLiteral,
+        es2015::{arrow, classes},
+        es3::property_literals,
     },
     modules::common_js::common_js,
     react::display_name,
@@ -12,9 +12,9 @@ use swc_common::{chain, Mark};
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(
-        jsx(t.cm.clone(), options),
+        jsx(t.cm.clone(), Some(t.comments.clone()), options),
         display_name(),
-        Classes::default(),
+        classes(),
         arrow(),
     )
 }
@@ -288,7 +288,6 @@ test!(
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -313,7 +312,6 @@ var profile = dom("div", null, dom("img", {
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -462,7 +460,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(tr(t, Default::default()), PropertyLiteral),
+    |t| chain!(tr(t, Default::default()), property_literals()),
     react_should_add_quotes_es3,
     r#"var es3 = <F aaa new const var default foo-bar/>;"#,
     r#"
@@ -564,7 +562,6 @@ React.createElement("div", null, React.createElement(
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -583,7 +580,6 @@ dom("div", null, "no fragment is used");
 );
 
 test!(
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -915,7 +911,6 @@ test!(
 
 test!(
     // Comments are currently stripped out
-    ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()

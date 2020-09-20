@@ -1,12 +1,10 @@
-const { config } = require('@swc/core/spack')
 
 
-module.exports = config({
+module.exports = {
     entry: {
-        'web': __dirname + '/src/index.ts',
+        'web': __dirname + '/src/index.tsx',
     },
     output: {
         path: __dirname + '/lib'
     },
-    module: {},
-});
+};

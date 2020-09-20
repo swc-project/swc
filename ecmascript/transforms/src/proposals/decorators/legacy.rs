@@ -8,7 +8,7 @@ use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod metadata;
 
@@ -29,9 +29,9 @@ pub(super) fn new(metadata: bool) -> Legacy {
     }
 }
 
-noop_fold_type!(Legacy);
-
 impl Fold for Legacy {
+    noop_fold_type!();
+
     fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl: Decl = decl.fold_children_with(self);
 
@@ -467,32 +467,38 @@ impl Legacy {
                         // }
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("initializer").into(),
-                            value: Box::new(Expr::Fn(FnExpr {
-                                ident: None,
-                                function: Function {
-                                    decorators: Default::default(),
-                                    is_generator: false,
-                                    is_async: false,
-                                    span: DUMMY_SP,
-                                    params: vec![],
-
-                                    body: Some(BlockStmt {
+                            value: if value.is_some() && value.as_ref().unwrap().is_some() {
+                                Box::new(Expr::Fn(FnExpr {
+                                    ident: None,
+                                    function: Function {
+                                        decorators: Default::default(),
+                                        is_generator: false,
+                                        is_async: false,
                                         span: DUMMY_SP,
-                                        stmts: vec![ReturnStmt {
-                                            span: DUMMY_SP,
-                                            arg: if p.is_static {
-                                                Some(Box::new(Expr::Ident(init.clone())))
-                                            } else {
-                                                value.take().unwrap()
-                                            },
-                                        }
-                                        .into()],
-                                    }),
+                                        params: vec![],
 
-                                    type_params: Default::default(),
-                                    return_type: Default::default(),
-                                },
-                            })),
+                                        body: Some(BlockStmt {
+                                            span: DUMMY_SP,
+                                            stmts: vec![ReturnStmt {
+                                                span: DUMMY_SP,
+                                                arg: if p.is_static {
+                                                    Some(Box::new(Expr::Ident(init.clone())))
+                                                } else {
+                                                    value.take().unwrap()
+                                                },
+                                            }
+                                            .into()],
+                                        }),
+
+                                        type_params: Default::default(),
+                                        return_type: Default::default(),
+                                    },
+                                }))
+                            } else {
+                                undefined(DUMMY_SP)
+                                // Box::new(Expr::Lit(Lit::Null(Null { span:
+                                // DUMMY_SP })))
+                            },
                         }))),
                     ],
                 });
@@ -535,7 +541,7 @@ impl Legacy {
                 //     configurable: true,
                 //     enumerable: true,
                 //     writable: true,
-                //     initializer: function () {
+                //     `: function () {
                 //         return 2;
                 //     }
                 // }))
@@ -754,9 +760,9 @@ struct ClassFieldAccessConverter {
     alias: Ident,
 }
 
-noop_fold_type!(ClassFieldAccessConverter);
-
 impl Fold for ClassFieldAccessConverter {
+    noop_fold_type!();
+
     fn fold_ident(&mut self, node: Ident) -> Ident {
         if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
             return self.alias.clone();

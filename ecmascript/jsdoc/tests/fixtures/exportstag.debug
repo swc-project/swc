@@ -1,0 +1,234 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                24,
+            ),
+            hi: BytePos(
+                24,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    24,
+                ),
+                hi: BytePos(
+                    54,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('A module representing a shirt.' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        24,
+                    ),
+                    hi: BytePos(
+                        31,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            24,
+                        ),
+                        hi: BytePos(
+                            31,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exports' type=inline),
+                },
+                tag: Exports(
+                    ExportsTag {
+                        span: Span {
+                            lo: BytePos(
+                                24,
+                            ),
+                            hi: BytePos(
+                                31,
+                            ),
+                            ctxt: #0,
+                        },
+                        module_name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    24,
+                                ),
+                                hi: BytePos(
+                                    32,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('my/shirt' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        24,
+                    ),
+                    hi: BytePos(
+                        31,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            24,
+                        ),
+                        hi: BytePos(
+                            31,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('version' type=inline),
+                },
+                tag: Version(
+                    VersionTag {
+                        span: Span {
+                            lo: BytePos(
+                                24,
+                            ),
+                            hi: BytePos(
+                                31,
+                            ),
+                            ctxt: #0,
+                        },
+                        value: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    24,
+                                ),
+                                hi: BytePos(
+                                    27,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('1.0' type=inline),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                149,
+            ),
+            hi: BytePos(
+                149,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    149,
+                ),
+                hi: BytePos(
+                    174,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('A property of the module.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                215,
+            ),
+            hi: BytePos(
+                215,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    215,
+                ),
+                hi: BytePos(
+                    215,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        215,
+                    ),
+                    hi: BytePos(
+                        226,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            215,
+                        ),
+                        hi: BytePos(
+                            226,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                215,
+                            ),
+                            hi: BytePos(
+                                226,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                284,
+            ),
+            hi: BytePos(
+                284,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    284,
+                ),
+                hi: BytePos(
+                    308,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('A property of the class.' type=dynamic),
+        },
+        tags: [],
+    },
+]

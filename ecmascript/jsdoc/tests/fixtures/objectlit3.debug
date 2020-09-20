@@ -1,0 +1,98 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    37,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Tokens that can appear in the stream.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                61,
+            ),
+            hi: BytePos(
+                61,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    61,
+                ),
+                hi: BytePos(
+                    78,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Open parenthesis.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                96,
+            ),
+            hi: BytePos(
+                96,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    96,
+                ),
+                hi: BytePos(
+                    135,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Executed before the token is processed.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                175,
+            ),
+            hi: BytePos(
+                175,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    175,
+                ),
+                hi: BytePos(
+                    213,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Executed after the token is processed.' type=dynamic),
+        },
+        tags: [],
+    },
+]

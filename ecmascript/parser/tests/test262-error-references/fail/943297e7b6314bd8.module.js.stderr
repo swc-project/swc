@@ -1,4 +1,4 @@
-error: Expected Word(as), got Some(Word(As))
+error: Expected as, got As
  --> $DIR/tests/test262-parser/fail/943297e7b6314bd8.module.js:1:10
   |
 1 | import * As a from 'a'

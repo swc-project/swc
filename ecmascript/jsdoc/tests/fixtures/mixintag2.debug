@@ -1,0 +1,630 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('module' type=static),
+                },
+                tag: Module(
+                    ModuleTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                        ty: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    4,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('mixy' type=inline),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                35,
+            ),
+            hi: BytePos(
+                35,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    35,
+                ),
+                hi: BytePos(
+                    47,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Object A.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        35,
+                    ),
+                    hi: BytePos(
+                        40,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            35,
+                        ),
+                        hi: BytePos(
+                            40,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('mixin' type=inline),
+                },
+                tag: Mixin(
+                    MixinTag {
+                        span: Span {
+                            lo: BytePos(
+                                35,
+                            ),
+                            hi: BytePos(
+                                40,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                90,
+            ),
+            hi: BytePos(
+                90,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    90,
+                ),
+                hi: BytePos(
+                    102,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Some method.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                140,
+            ),
+            hi: BytePos(
+                140,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    140,
+                ),
+                hi: BytePos(
+                    168,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Object B. Mixes Object A.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        140,
+                    ),
+                    hi: BytePos(
+                        145,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            140,
+                        ),
+                        hi: BytePos(
+                            145,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('mixin' type=inline),
+                },
+                tag: Mixin(
+                    MixinTag {
+                        span: Span {
+                            lo: BytePos(
+                                140,
+                            ),
+                            hi: BytePos(
+                                145,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    140,
+                                ),
+                                hi: BytePos(
+                                    168,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('* @mixes module:mixy.ObjectA' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                240,
+            ),
+            hi: BytePos(
+                240,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    240,
+                ),
+                hi: BytePos(
+                    292,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Object C. Mixes Object B and adds its own method.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        240,
+                    ),
+                    hi: BytePos(
+                        245,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            240,
+                        ),
+                        hi: BytePos(
+                            245,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('mixin' type=inline),
+                },
+                tag: Mixin(
+                    MixinTag {
+                        span: Span {
+                            lo: BytePos(
+                                240,
+                            ),
+                            hi: BytePos(
+                                245,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    240,
+                                ),
+                                hi: BytePos(
+                                    268,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('* @mixes module:mixy.ObjectB' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                365,
+            ),
+            hi: BytePos(
+                365,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    365,
+                ),
+                hi: BytePos(
+                    450,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Super-sweet method that's named in the comment, making this a virtual comment.
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        365,
+                    ),
+                    hi: BytePos(
+                        373,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            365,
+                        ),
+                        hi: BytePos(
+                            373,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('function' type=static),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                365,
+                            ),
+                            hi: BytePos(
+                                373,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        365,
+                                    ),
+                                    hi: BytePos(
+                                        395,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('module:mixy.ObjectC.superSweet' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                545,
+            ),
+            hi: BytePos(
+                545,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    545,
+                ),
+                hi: BytePos(
+                    584,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Class that mixes Object A, so it gets {' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        545,
+                    ),
+                    hi: BytePos(
+                        549,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            545,
+                        ),
+                        hi: BytePos(
+                            549,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('link' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                545,
+                            ),
+                            hi: BytePos(
+                                549,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    545,
+                                ),
+                                hi: BytePos(
+                                    572,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('module:mixy.ClassA#method}.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        545,
+                    ),
+                    hi: BytePos(
+                        550,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            545,
+                        ),
+                        hi: BytePos(
+                            550,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                545,
+                            ),
+                            hi: BytePos(
+                                550,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        545,
+                                    ),
+                                    hi: BytePos(
+                                        573,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @mixes module:mixy.ObjectA' type=dynamic),
+                            },
+                        ),
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                702,
+            ),
+            hi: BytePos(
+                702,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    702,
+                ),
+                hi: BytePos(
+                    713,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Do a thing.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                776,
+            ),
+            hi: BytePos(
+                856,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    776,
+                ),
+                hi: BytePos(
+                    815,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Class that mixes Object C, so it gets {' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        776,
+                    ),
+                    hi: BytePos(
+                        780,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            776,
+                        ),
+                        hi: BytePos(
+                            780,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('link' type=inline),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                776,
+                            ),
+                            hi: BytePos(
+                                780,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    776,
+                                ),
+                                hi: BytePos(
+                                    806,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('module:mixy.ClassB#method} and' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

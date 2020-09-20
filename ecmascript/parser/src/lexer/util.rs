@@ -62,17 +62,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.bump()
     }
 
-    pub(super) fn is(&mut self, c: char) -> bool {
-        self.cur() == Some(c)
+    pub(super) fn is(&mut self, c: u8) -> bool {
+        self.input.is_byte(c)
     }
 
-    pub(super) fn eat(&mut self, c: char) -> bool {
-        if self.is(c) {
-            self.bump();
-            true
-        } else {
-            false
-        }
+    pub(super) fn eat(&mut self, c: u8) -> bool {
+        self.input.eat_byte(c)
     }
 
     pub(super) fn cur(&mut self) -> Option<char> {
@@ -94,12 +89,14 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
     #[cold]
+    #[inline(never)]
     pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
         let span = self.span(start);
         self.error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
     #[cold]
+    #[inline(never)]
     pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
         Err(Error {
             error: Box::new((span, kind)),
@@ -107,12 +104,14 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     #[cold]
+    #[inline(never)]
     pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
         self.emit_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
     #[cold]
+    #[inline(never)]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
         let err = Error {
             error: Box::new((span, kind)),
@@ -127,12 +126,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         while let Some(c) = self.cur() {
             match c {
                 // white spaces
-                _ if c.is_ws() => {}
-
+                '\u{0009}' | '\u{000b}' | '\u{000c}' | '\u{0020}' | '\u{00a0}' | '\u{feff}' => {}
                 // line breaks
-                _ if c.is_line_break() => {
+                '\r' | '\n' | '\u{2028}' | '\u{2029}' => {
                     self.state.had_line_break = true;
                 }
+
                 '/' => {
                     if self.peek() == Some('/') {
                         self.skip_line_comment(2);
@@ -143,6 +142,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                     break;
                 }
+
+                _ if c.is_whitespace() => {}
 
                 _ => break,
             }
@@ -279,30 +280,41 @@ pub trait CharExt: Copy {
     /// Test whether a given character code starts an identifier.
     ///
     /// https://tc39.github.io/ecma262/#prod-IdentifierStart
+    #[inline]
     fn is_ident_start(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
             None => return false,
         };
         // TODO: Use Unicode ID instead of XID.
-        c == '$' || c == '_' || c.is_ascii_alphabetic() || UnicodeXID::is_xid_start(c)
+        c == '$' || c == '_' || c.is_ascii_alphabetic() || {
+            if c.is_ascii() {
+                false
+            } else {
+                UnicodeXID::is_xid_start(c)
+            }
+        }
     }
 
     /// Test whether a given character is part of an identifier.
+    #[inline]
     fn is_ident_part(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
             None => return false,
         };
         // TODO: Use Unicode ID instead of XID.
-        c == '$'
-            || c == '\u{200c}'
-            || c == '\u{200d}'
-            || c.is_ascii_alphanumeric()
-            || UnicodeXID::is_xid_continue(c)
+        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
+            if c.is_ascii() {
+                false
+            } else {
+                UnicodeXID::is_xid_continue(c)
+            }
+        }
     }
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators
+    #[inline]
     fn is_line_break(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -315,6 +327,7 @@ pub trait CharExt: Copy {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-white-space
+    #[inline]
     fn is_ws(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,

@@ -1,6 +1,7 @@
 use crate::builder::PassBuilder;
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
+use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -15,15 +16,18 @@ use swc_atoms::JsWord;
 pub use swc_common::chain;
 use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
+use swc_ecma_ext_transforms::jest;
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    compat::es2020::typescript_class_properties,
     const_modules, modules,
-    optimization::{simplifier, InlineGlobals, JsonParse},
+    optimization::{inline_globals, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export},
     react, resolver_with_mark, typescript,
 };
+use swc_ecma_visit::Fold;
 
 #[cfg(test)]
 mod tests;
@@ -192,19 +196,14 @@ impl Options {
             let config = transform.const_modules.unwrap_or_default();
 
             let globals = config.globals;
-
             Optional::new(const_modules(cm.clone(), globals), enabled)
         };
 
         let json_parse_pass = {
             if let Some(ref cfg) = optimizer.as_ref().and_then(|v| v.jsonify) {
-                JsonParse {
-                    min_cost: cfg.min_cost,
-                }
+                Either::Left(json_parse(cfg.min_cost))
             } else {
-                JsonParse {
-                    min_cost: usize::MAX,
-                }
+                Either::Right(noop())
             }
         };
 
@@ -225,7 +224,10 @@ impl Options {
 
         let pass = chain!(
             // handle jsx
-            Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
+            Optional::new(
+                react::react(cm.clone(), comments, transform.react),
+                syntax.jsx()
+            ),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -234,6 +236,7 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
+            Optional::new(typescript_class_properties(), syntax.typescript()),
             Optional::new(typescript::strip(), syntax.typescript()),
             resolver_with_mark(root_mark),
             const_modules,
@@ -251,7 +254,9 @@ impl Options {
             .hygiene(!self.disable_hygiene)
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
-            .finalize(root_mark, syntax, config.module, comments);
+            .finalize(syntax, config.module, comments);
+
+        let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
         BuiltConfig {
             minify: config.minify.unwrap_or(false),
@@ -575,6 +580,16 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub decorator_metadata: bool,
+
+    #[serde(default)]
+    pub hidden: HiddenTransformConfig,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct HiddenTransformConfig {
+    #[serde(default)]
+    pub jest: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -622,7 +637,7 @@ fn default_envs() -> HashSet<String> {
 }
 
 impl GlobalPassOption {
-    pub fn build(self, cm: &SourceMap, handler: &Handler) -> InlineGlobals {
+    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
@@ -674,10 +689,8 @@ impl GlobalPassOption {
         }
 
         let envs = self.envs;
-        InlineGlobals {
-            globals: mk_map(cm, handler, self.vars.into_iter(), false),
-
-            envs: if cfg!(target_arch = "wasm32") {
+        inline_globals(
+            if cfg!(target_arch = "wasm32") {
                 mk_map(cm, handler, vec![].into_iter(), true)
             } else {
                 mk_map(
@@ -687,7 +700,8 @@ impl GlobalPassOption {
                     true,
                 )
             },
-        }
+            mk_map(cm, handler, self.vars.into_iter(), false),
+        )
     }
 }
 

@@ -1,7 +1,5 @@
 /**
  * @type {number}
- */
-var a = 1, /**
+ */ var a = 1, /**
      * @type {number}
-     */
-b = 2;
+     */ b = 2;

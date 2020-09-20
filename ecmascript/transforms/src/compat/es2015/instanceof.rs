@@ -1,7 +1,7 @@
 use crate::util::ExprFactory;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-instanceof`
 ///
@@ -28,18 +28,22 @@ use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 ///
 /// _instanceof(foo, Bar);
 /// ```
-#[derive(Clone)]
-pub struct InstanceOf;
-
-noop_fold_type!(InstanceOf);
+pub fn instance_of() -> impl Fold {
+    InstanceOf
+}
+struct InstanceOf;
 
 impl Fold for InstanceOf {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         fn should_work(node: &Expr) -> bool {
             struct Visitor {
                 found: bool,
             }
             impl Visit for Visitor {
+                noop_visit_type!();
+
                 fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
                     if e.op == op!("instanceof") {
                         self.found = true

@@ -1,10 +1,14 @@
-use crate::util::{
-    alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
+use crate::{
+    perf::Check,
+    util::{
+        alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
+    },
 };
 use std::{iter, mem};
 use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Fold {
@@ -12,8 +16,6 @@ pub fn object_rest_spread() -> impl Fold {
 }
 
 struct ObjectRest;
-
-noop_fold_type!(ObjectRest);
 
 #[allow(clippy::vec_box)]
 struct RestFolder {
@@ -24,8 +26,6 @@ struct RestFolder {
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
 }
-
-noop_fold_type!(RestFolder);
 
 macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
@@ -143,6 +143,8 @@ macro_rules! impl_for_for_stmt {
 }
 
 impl Fold for RestFolder {
+    noop_fold_type!();
+
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
     impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
     impl_fold_fn!();
@@ -381,6 +383,8 @@ struct RestVisitor {
 }
 
 impl Visit for RestVisitor {
+    noop_visit_type!();
+
     fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
@@ -399,6 +403,7 @@ where
 }
 
 impl Fold for ObjectRest {
+    noop_fold_type!();
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -1016,6 +1021,8 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
 fn simplify_pat(pat: Pat) -> Pat {
     struct PatSimplifier;
     impl Fold for PatSimplifier {
+        noop_fold_type!();
+
         fn fold_pat(&mut self, pat: Pat) -> Pat {
             let pat = pat.fold_children_with(self);
 
@@ -1055,15 +1062,11 @@ fn simplify_pat(pat: Pat) -> Pat {
 
 struct ObjectSpread;
 
-noop_fold_type!(ObjectSpread);
-
+#[fast_path(SpreadVisitor)]
 impl Fold for ObjectSpread {
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        // fast-path
-        if !contains_spread(&expr) {
-            return expr;
-        }
+    noop_fold_type!();
 
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -1125,19 +1128,21 @@ impl Fold for ObjectSpread {
         }
     }
 }
+#[derive(Default)]
+struct SpreadVisitor {
+    found: bool,
+}
 
-fn contains_spread(expr: &Expr) -> bool {
-    struct Visitor {
-        found: bool,
+impl Visit for SpreadVisitor {
+    noop_visit_type!();
+
+    fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
+        self.found = true;
     }
+}
 
-    impl Visit for Visitor {
-        fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
-            self.found = true;
-        }
+impl Check for SpreadVisitor {
+    fn should_handle(&self) -> bool {
+        self.found
     }
-
-    let mut v = Visitor { found: false };
-    expr.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
 }

@@ -6,7 +6,7 @@ use serde::Deserialize;
 use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-destructuring`
 ///
@@ -36,8 +36,6 @@ pub fn destructuring(c: Config) -> impl Fold {
 struct Destructuring {
     c: Config,
 }
-
-noop_fold_type!(Destructuring);
 
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct Config {
@@ -448,6 +446,8 @@ impl AssignFolder {
 }
 
 impl Fold for Destructuring {
+    noop_fold_type!();
+
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
     impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
 
@@ -519,6 +519,8 @@ struct AssignFolder {
 }
 
 impl Fold for AssignFolder {
+    noop_fold_type!();
+
     fn fold_export_decl(&mut self, decl: ExportDecl) -> ExportDecl {
         let old = self.exporting;
         self.exporting = true;
@@ -1101,6 +1103,8 @@ struct DestructuringVisitor {
 }
 
 impl Visit for DestructuringVisitor {
+    noop_visit_type!();
+
     fn visit_pat(&mut self, node: &Pat, _: &dyn Node) {
         node.visit_children_with(self);
         match *node {

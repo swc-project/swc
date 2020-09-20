@@ -1,0 +1,157 @@
+name: Publish (node)
+
+on:
+  create:
+    tags:
+      - v*
+
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+  DEBUG: "napi:*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    name: Build - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+        shell: bash
+
+      - name: Install llvm
+        if: matrix.os == 'windows-latest'
+        run: choco install -y llvm
+
+      - name: Set llvm path
+        if: matrix.os == 'windows-latest'
+        uses: allenevans/set-env@v1.0.0
+        with:
+          LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Build
+        if: matrix.os != 'macos-latest'
+        shell: bash
+        run: npm run build
+
+      - name: Build
+        if: matrix.os == 'macos-latest'
+        shell: bash
+        run: npm run build
+        env:
+          MACOSX_DEPLOYMENT_TARGET: "10.13"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.${{ env.PLATFORM_NAME }}.node
+
+      - name: List packages
+        run: ls -R ./scripts/npm/
+        shell: bash
+
+      - name: Test bindings
+        run: npm test
+
+  build_musl:
+    name: stable - linux-musl - node@12
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to registry
+        run: |
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+        env:
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_USERNAME: ${{ github.actor }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull docker image
+        run: |
+          docker pull docker.pkg.github.com/napi-rs/napi-rs/rust-nodejs-alpine:lts
+          docker tag docker.pkg.github.com/napi-rs/napi-rs/rust-nodejs-alpine:lts builder
+      - name: "Install dependencies"
+        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org
+
+      - name: "Build"
+        run: |
+          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "cargo build -p node --release"
+          docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs builder sh -c "./node_modules/.bin/napi build --platform --cargo-name node --musl --release -c ./package.json ./scripts/npm"
+
+      - name: List packages
+        run: ls -R ./scripts/npm/
+        shell: bash
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: scripts/npm/swc.linux-musl.node
+  publish:
+    name: npm
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - build_musl
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Set release name
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+
+      # Do not cache node_modules, or yarn workspace links broken
+      - name: Install dependencies
+        run: npm i
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+
+      - name: List binaries
+        run: ls -R artifacts
+        shell: bash
+
+      - name: Move binaries
+        shell: bash
+        run: npm run artifacts
+
+      - name: Publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          npm publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

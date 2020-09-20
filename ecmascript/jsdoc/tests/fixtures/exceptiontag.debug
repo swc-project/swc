@@ -1,0 +1,296 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('throws' type=inline),
+                },
+                tag: Throw(
+                    ThrowTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    26,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{InvalidArgumentException}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                68,
+            ),
+            hi: BytePos(
+                68,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    68,
+                ),
+                hi: BytePos(
+                    68,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        68,
+                    ),
+                    hi: BytePos(
+                        77,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            68,
+                        ),
+                        hi: BytePos(
+                            77,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exception' type=dynamic),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                68,
+                            ),
+                            hi: BytePos(
+                                77,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    68,
+                                ),
+                                hi: BytePos(
+                                    108,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('Will throw an error if argument is null.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                153,
+            ),
+            hi: BytePos(
+                153,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    153,
+                ),
+                hi: BytePos(
+                    153,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        153,
+                    ),
+                    hi: BytePos(
+                        162,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            153,
+                        ),
+                        hi: BytePos(
+                            162,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exception' type=dynamic),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                153,
+                            ),
+                            hi: BytePos(
+                                162,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    153,
+                                ),
+                                hi: BytePos(
+                                    196,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{DivideByZero} Argument x must be non-zero.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                241,
+            ),
+            hi: BytePos(
+                241,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    241,
+                ),
+                hi: BytePos(
+                    277,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('A description of the function.
+             *
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        241,
+                    ),
+                    hi: BytePos(
+                        250,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            241,
+                        ),
+                        hi: BytePos(
+                            250,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exception' type=dynamic),
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: Span {
+                            lo: BytePos(
+                                241,
+                            ),
+                            hi: BytePos(
+                                250,
+                            ),
+                            ctxt: #0,
+                        },
+                        extras: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    241,
+                                ),
+                                hi: BytePos(
+                                    281,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{Object} A description of the exception.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

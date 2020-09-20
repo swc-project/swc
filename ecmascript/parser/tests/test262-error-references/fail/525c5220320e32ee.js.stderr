@@ -1,4 +1,4 @@
-error: TS1005
+error: Expected a semicolon
  --> $DIR/tests/test262-parser/fail/525c5220320e32ee.js:1:8
   |
 1 | try { }

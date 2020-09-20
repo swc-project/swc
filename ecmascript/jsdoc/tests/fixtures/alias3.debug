@@ -1,0 +1,115 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                35,
+            ),
+            hi: BytePos(
+                35,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    35,
+                ),
+                hi: BytePos(
+                    35,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        35,
+                    ),
+                    hi: BytePos(
+                        40,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            35,
+                        ),
+                        hi: BytePos(
+                            40,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                35,
+                            ),
+                            hi: BytePos(
+                                40,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        35,
+                                    ),
+                                    hi: BytePos(
+                                        62,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('@alias trackr.CookieManager' type=dynamic),
+                            },
+                        ),
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        35,
+                                    ),
+                                    hi: BytePos(
+                                        53,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('@param {object} kv' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                143,
+            ),
+            hi: BytePos(
+                143,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    143,
+                ),
+                hi: BytePos(
+                    154,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('document me' type=dynamic),
+        },
+        tags: [],
+    },
+]

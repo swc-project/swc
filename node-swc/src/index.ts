@@ -8,10 +8,10 @@ import {
   Program,
 } from "./types";
 export * from "./types";
-import { wrapNativeSuper } from "./util";
 import { BundleInput, compileBundleOptions } from "./spack";
+import { loadBinding } from "@node-rs/helper";
 
-const native = require("./native");
+const bindings = loadBinding(__dirname, "swc", "@swc/core")
 
 /**
  * Version of the swc binding.
@@ -28,26 +28,18 @@ export function plugins(ps: Plugin[]): Plugin {
   };
 }
 
-export class Compiler extends wrapNativeSuper(native.Compiler) {
-  public constructor() {
-    super();
-  }
-
+export class Compiler {
   parse(
     src: string,
     options: ParseOptions & { isModule: false }
   ): Promise<Script>;
   parse(src: string, options?: ParseOptions): Promise<Module>;
-  parse(src: string, options?: ParseOptions): Promise<Program> {
+  async parse(src: string, options?: ParseOptions): Promise<Program> {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    return new Promise((resolve, reject) => {
-      super.parse(src, options, (err: any, value: string) => {
-        if (!!err) return reject(err);
-        resolve(JSON.parse(value));
-      });
-    });
+    const res = await bindings.parse(src, toBuffer(options));
+    return JSON.parse(res);
   }
 
   parseSync(src: string, options: ParseOptions & { isModule: false }): Script;
@@ -55,7 +47,8 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   parseSync(src: string, options?: ParseOptions): Program {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
-    return JSON.parse(super.parseSync(src, options));
+
+    return JSON.parse(bindings.parseSync(src, toBuffer(options)));
   }
 
   parseFile(
@@ -67,12 +60,9 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    return new Promise((resolve, reject) => {
-      super.parseFile(path, options, (err: any, value: string) => {
-        if (!!err) return reject(err);
-        resolve(JSON.parse(value));
-      });
-    });
+    const res = bindings.parseFile(path, toBuffer(options));
+
+    return JSON.parse(res);
   }
 
   parseFileSync(
@@ -83,22 +73,18 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   parseFileSync(path: string, options?: ParseOptions): Program {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
-    return JSON.parse(super.parseFileSync(path, options));
+
+    return JSON.parse(bindings.parseFileSync(path, toBuffer(options)));
   }
 
   /**
    * Note: this method should be invoked on the compiler instance used
    *  for `parse()` / `parseSync()`.
    */
-  print(m: Program, options?: Options): Promise<Output> {
+  async print(m: Program, options?: Options): Promise<Output> {
     options = options || {};
 
-    return new Promise((resolve, reject) => {
-      super.print(JSON.stringify(m), options, (err: any, value: Output) => {
-        if (!!err) return reject(err);
-        resolve(value);
-      });
-    });
+    return bindings.print(JSON.stringify(m), toBuffer(options))
   }
 
   /**
@@ -108,7 +94,7 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   printSync(m: Program, options?: Options): Output {
     options = options || {};
 
-    return super.printSync(JSON.stringify(m), options);
+    return bindings.printSync(JSON.stringify(m), toBuffer(options));
   }
 
   async transform(src: string | Program, options?: Options): Promise<Output> {
@@ -131,17 +117,7 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
       return this.transform(plugin(m), options);
     }
 
-    return new Promise((resolve, reject) => {
-      super.transform(
-        isModule ? JSON.stringify(src) : src,
-        isModule,
-        options,
-        (err: any, value: Output) => {
-          if (!!err) return reject(err);
-          resolve(value);
-        }
-      );
-    });
+    return bindings.transform(isModule ? JSON.stringify(src) : src, isModule, toBuffer(options))
   }
 
   transformSync(src: string | Program, options?: Options): Output {
@@ -162,11 +138,11 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
       return this.transformSync(plugin(m), options);
     }
 
-    return super.transformSync(
+    return bindings.transformSync(
       isModule ? JSON.stringify(src) : src,
       isModule,
-      options
-    );
+      toBuffer(options),
+    )
   }
 
   async transformFile(path: string, options?: Options): Promise<Output> {
@@ -185,17 +161,7 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
       return this.transform(plugin(m), options);
     }
 
-    return new Promise((resolve, reject) => {
-      super.transformFile(
-        path,
-        /* isModule */ false,
-        options,
-        (err: any, value: Output) => {
-          if (!!err) return reject(err);
-          resolve(value);
-        }
-      );
-    });
+    return bindings.transformFile(path, false, toBuffer(options))
   }
 
   transformFileSync(path: string, options?: Options): Output {
@@ -206,15 +172,15 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
     }
 
 
-    const plugin = options.plugin;
-    delete options.plugin;
+    const plugin = options?.plugin;
+    delete options?.plugin;
 
     if (plugin) {
       const m = this.parseFileSync(path, options?.jsc?.parser);
       return this.transformSync(plugin(m), options);
     }
 
-    return super.transformFileSync(path, /* isModule */ false, options);
+    return bindings.transformFileSync(path, /* isModule */ false, toBuffer(options));
   }
 
 
@@ -235,14 +201,9 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
       return obj;
     }
 
-    return new Promise((resolve, reject) => {
-      super.bundle({
-        ...opts,
-      }, (err: any, value: any) => {
-        if (err) return reject(err);
-        resolve(value)
-      })
-    });
+    return bindings.bundle(toBuffer({
+      ...opts,
+    }));
   }
 }
 
@@ -338,3 +299,7 @@ export const DEFAULT_EXTENSIONS = Object.freeze([
   ".ts",
   ".tsx"
 ]);
+
+function toBuffer(t: any): Buffer {
+  return Buffer.from(JSON.stringify(t))
+}

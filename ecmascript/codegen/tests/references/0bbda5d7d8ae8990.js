@@ -1,5 +1,5 @@
 function a() {
     while(true){
-    } /* bar */
+    } /* bar */ 
     var b;
 }

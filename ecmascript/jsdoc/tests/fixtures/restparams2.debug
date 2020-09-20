@@ -1,0 +1,116 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    43,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Class representing a widget.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                70,
+            ),
+            hi: BytePos(
+                70,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    70,
+                ),
+                hi: BytePos(
+                    120,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Add users who can access the widget.
+                 *
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        70,
+                    ),
+                    hi: BytePos(
+                        75,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            70,
+                        ),
+                        hi: BytePos(
+                            75,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                70,
+                            ),
+                            hi: BytePos(
+                                75,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        70,
+                                    ),
+                                    hi: BytePos(
+                                        76,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{User}' type=inline),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    70,
+                                ),
+                                hi: BytePos(
+                                    114,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('users - The users who can access the widget.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

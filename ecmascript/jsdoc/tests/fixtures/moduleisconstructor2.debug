@@ -1,0 +1,314 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    28,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Describe the module here.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        6,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            6,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('module' type=static),
+                },
+                tag: Module(
+                    ModuleTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                6,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    6,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('config' type=inline),
+                        },
+                        ty: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    8,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('mymodule' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                65,
+            ),
+            hi: BytePos(
+                65,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    65,
+                ),
+                hi: BytePos(
+                    89,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Describe the class here.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                131,
+            ),
+            hi: BytePos(
+                131,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    131,
+                ),
+                hi: BytePos(
+                    165,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Create a new configuration.
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        131,
+                    ),
+                    hi: BytePos(
+                        136,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            131,
+                        ),
+                        hi: BytePos(
+                            136,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                131,
+                            ),
+                            hi: BytePos(
+                                136,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        131,
+                                    ),
+                                    hi: BytePos(
+                                        139,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    131,
+                                ),
+                                hi: BytePos(
+                                    133,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('id' type=inline),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                234,
+            ),
+            hi: BytePos(
+                234,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    234,
+                ),
+                hi: BytePos(
+                    246,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Document me.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                287,
+            ),
+            hi: BytePos(
+                287,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    287,
+                ),
+                hi: BytePos(
+                    326,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Get the configuration ID.
+                 *
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        287,
+                    ),
+                    hi: BytePos(
+                        293,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            287,
+                        ),
+                        hi: BytePos(
+                            293,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('return' type=static),
+                },
+                tag: Return(
+                    ReturnTag {
+                        span: Span {
+                            lo: BytePos(
+                                287,
+                            ),
+                            hi: BytePos(
+                                293,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        287,
+                                    ),
+                                    hi: BytePos(
+                                        295,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        description: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    287,
+                                ),
+                                hi: BytePos(
+                                    308,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('The configuration ID.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

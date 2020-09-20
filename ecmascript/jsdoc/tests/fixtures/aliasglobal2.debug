@@ -1,0 +1,199 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                19,
+            ),
+            hi: BytePos(
+                19,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    19,
+                ),
+                hi: BytePos(
+                    52,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Creates a new test object.
+                 *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        19,
+                    ),
+                    hi: BytePos(
+                        24,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            19,
+                        ),
+                        hi: BytePos(
+                            24,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('alias' type=inline),
+                },
+                tag: Alias(
+                    AliasTag {
+                        span: Span {
+                            lo: BytePos(
+                                19,
+                            ),
+                            hi: BytePos(
+                                24,
+                            ),
+                            ctxt: #0,
+                        },
+                        name_path: NamePath {
+                            span: Span {
+                                lo: BytePos(
+                                    19,
+                                ),
+                                hi: BytePos(
+                                    44,
+                                ),
+                                ctxt: #0,
+                            },
+                            components: [
+                                Text {
+                                    span: Span {
+                                        lo: BytePos(
+                                            19,
+                                        ),
+                                        hi: BytePos(
+                                            23,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    value: Atom('Test' type=inline),
+                                },
+                            ],
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        19,
+                    ),
+                    hi: BytePos(
+                        30,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            19,
+                        ),
+                        hi: BytePos(
+                            30,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('constructor' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                19,
+                            ),
+                            hi: BytePos(
+                                30,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                148,
+            ),
+            hi: BytePos(
+                148,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    148,
+                ),
+                hi: BytePos(
+                    160,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Document me.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                209,
+            ),
+            hi: BytePos(
+                209,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    209,
+                ),
+                hi: BytePos(
+                    221,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Document me.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                286,
+            ),
+            hi: BytePos(
+                286,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    286,
+                ),
+                hi: BytePos(
+                    298,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Document me.' type=dynamic),
+        },
+        tags: [],
+    },
+]

@@ -203,6 +203,14 @@ export type Swcrc = Config | Config[];
  * .swcrc
  */
 export interface Config {
+  /**
+   * Note: The type is string beacuse it follow rust's regex syntax.
+   */
+  test?: string | string[];
+  /**
+   * Note: The type is string beacuse it follow rust's regex syntax.
+   */
+  exclude?: string | string[];
   env?: EnvConfig;
   jsc?: JscConfig;
   module?: ModuleConfig;
@@ -295,9 +303,11 @@ export interface EsParserConfig {
   /**
    * Defaults to false.
    */
-  jsc?: boolean;
+  jsx?: boolean;
   /**
-   * Defaults to `false`. This is not implemented yet.
+   * Defaults to `false`.
+   * 
+   * @deprecated Always true because it's in ecmascript spec.
    */
   numericSeparator?: boolean;
   /**
@@ -306,6 +316,8 @@ export interface EsParserConfig {
   classPrivateProperty?: boolean;
   /**
    * Defaults to `false`
+   * 
+   * @deprecated Always true because it's in ecmascript spec.
    */
   privateMethod?: boolean;
   /**
@@ -330,8 +342,22 @@ export interface EsParserConfig {
   dynamicImport?: boolean;
   /**
    * Defaults to `false`
+   * 
+   * @deprecated Always true because it's in ecmascript spec.
    */
   nullishCoalescing?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  exportDefaultFrom?: boolean,
+  /**
+   * Defaults to `false`
+   */
+  exportNamespaceFrom?: boolean,
+  /**
+   * Defaults to `false`
+   */
+  importMeta?: boolean,
 }
 
 /**
@@ -349,6 +375,16 @@ export interface TransformConfig {
    * Defaults to null, which skips optimizer pass.
    */
   optimizer?: OptimizerConfig;
+
+  /**
+   * https://swc-project.github.io/docs/configuring-swc.html#jsctransformlegacydecorator
+   */
+  legacyDecorator?: boolean
+
+  /**
+   * https://swc-project.github.io/docs/configuring-swc.html#jsctransformdecoratormetadata
+   */
+  decoratorMetadata?: boolean
 }
 
 export interface ReactConfig {
@@ -400,8 +436,12 @@ export interface ConstModulesConfig {
   };
 }
 
+/// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerjsonify
 export interface OptimizerConfig {
+  /// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerglobals
   globals?: GlobalPassOption;
+  /// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerjsonify
+  jsonify?: { minCost: number }
 }
 
 /**

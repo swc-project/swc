@@ -3,7 +3,7 @@ use std::ops::DerefMut;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -17,9 +17,9 @@ pub fn display_name() -> impl Fold {
 
 struct DisplayName;
 
-noop_fold_type!(DisplayName);
-
 impl Fold for DisplayName {
+    noop_fold_type!();
+
     fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
         let expr = expr.fold_children_with(self);
 
@@ -123,6 +123,8 @@ struct Folder {
 }
 
 impl Fold for Folder {
+    noop_fold_type!();
+
     /// Don't recurse into array.
     fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
         node

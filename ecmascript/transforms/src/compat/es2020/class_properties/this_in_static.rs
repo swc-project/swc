@@ -1,13 +1,13 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
 }
 
-noop_fold_type!(ThisInStaticFolder);
-
 impl Fold for ThisInStaticFolder {
+    noop_fold_type!();
+
     fn fold_class(&mut self, n: Class) -> Class {
         n
     }

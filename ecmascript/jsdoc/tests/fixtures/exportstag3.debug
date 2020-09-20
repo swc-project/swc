@@ -1,0 +1,123 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                12,
+            ),
+            hi: BytePos(
+                12,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    12,
+                ),
+                hi: BytePos(
+                    64,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Utility functions to ease working with DOM elements.' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        12,
+                    ),
+                    hi: BytePos(
+                        19,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            12,
+                        ),
+                        hi: BytePos(
+                            19,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('exports' type=inline),
+                },
+                tag: Exports(
+                    ExportsTag {
+                        span: Span {
+                            lo: BytePos(
+                                12,
+                            ),
+                            hi: BytePos(
+                                19,
+                            ),
+                            ctxt: #0,
+                        },
+                        module_name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    12,
+                                ),
+                                hi: BytePos(
+                                    22,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('html/utils' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                168,
+            ),
+            hi: BytePos(
+                168,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    168,
+                ),
+                hi: BytePos(
+                    210,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Get the value of a property on an element.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                339,
+            ),
+            hi: BytePos(
+                339,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    339,
+                ),
+                hi: BytePos(
+                    387,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Determine if an element is in the document head.' type=dynamic),
+        },
+        tags: [],
+    },
+]

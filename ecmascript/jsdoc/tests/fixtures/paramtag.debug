@@ -1,0 +1,907 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        5,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            5,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                5,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        25,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{ String | Array<String>}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    50,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('targetName    The name (or names) of what to find.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                126,
+            ),
+            hi: BytePos(
+                126,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    126,
+                ),
+                hi: BytePos(
+                    126,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        126,
+                    ),
+                    hi: BytePos(
+                        131,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            126,
+                        ),
+                        hi: BytePos(
+                            131,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                126,
+                            ),
+                            hi: BytePos(
+                                131,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        126,
+                                    ),
+                                    hi: BytePos(
+                                        136,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{function}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    126,
+                                ),
+                                hi: BytePos(
+                                    134,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('callback' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                192,
+            ),
+            hi: BytePos(
+                192,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    192,
+                ),
+                hi: BytePos(
+                    192,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        192,
+                    ),
+                    hi: BytePos(
+                        197,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            192,
+                        ),
+                        hi: BytePos(
+                            197,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                192,
+                            ),
+                            hi: BytePos(
+                                197,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        192,
+                                    ),
+                                    hi: BytePos(
+                                        202,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{function}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    0,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('' type=static),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                251,
+            ),
+            hi: BytePos(
+                251,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    251,
+                ),
+                hi: BytePos(
+                    251,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        251,
+                    ),
+                    hi: BytePos(
+                        256,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            251,
+                        ),
+                        hi: BytePos(
+                            256,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                251,
+                            ),
+                            hi: BytePos(
+                                256,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        251,
+                                    ),
+                                    hi: BytePos(
+                                        254,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('The' type=inline),
+                            },
+                        ),
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        251,
+                                    ),
+                                    hi: BytePos(
+                                        253,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('id' type=inline),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    251,
+                                ),
+                                hi: BytePos(
+                                    269,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('id of the element.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                323,
+            ),
+            hi: BytePos(
+                323,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    323,
+                ),
+                hi: BytePos(
+                    323,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        323,
+                    ),
+                    hi: BytePos(
+                        328,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            323,
+                        ),
+                        hi: BytePos(
+                            328,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                323,
+                            ),
+                            hi: BytePos(
+                                328,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: None,
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    323,
+                                ),
+                                hi: BytePos(
+                                    346,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('. Two or more elements.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                390,
+            ),
+            hi: BytePos(
+                390,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    390,
+                ),
+                hi: BytePos(
+                    390,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        390,
+                    ),
+                    hi: BytePos(
+                        395,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            390,
+                        ),
+                        hi: BytePos(
+                            395,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                390,
+                            ),
+                            hi: BytePos(
+                                395,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        390,
+                                    ),
+                                    hi: BytePos(
+                                        399,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('delimiter' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    390,
+                                ),
+                                hi: BytePos(
+                                    407,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('What to split on.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                468,
+            ),
+            hi: BytePos(
+                468,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    468,
+                ),
+                hi: BytePos(
+                    468,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        468,
+                    ),
+                    hi: BytePos(
+                        473,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            468,
+                        ),
+                        hi: BytePos(
+                            473,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                468,
+                            ),
+                            hi: BytePos(
+                                473,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: None,
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    468,
+                                ),
+                                hi: BytePos(
+                                    499,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('If true make the commit atomic.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                548,
+            ),
+            hi: BytePos(
+                548,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    548,
+                ),
+                hi: BytePos(
+                    548,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        548,
+                    ),
+                    hi: BytePos(
+                        553,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            548,
+                        ),
+                        hi: BytePos(
+                            553,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                548,
+                            ),
+                            hi: BytePos(
+                                553,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        548,
+                                    ),
+                                    hi: BytePos(
+                                        553,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('async' type=static),
+                            },
+                        ),
+                        ty: None,
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    548,
+                                ),
+                                hi: BytePos(
+                                    582,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('true] - whether to be asynchronous' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                637,
+            ),
+            hi: BytePos(
+                637,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    637,
+                ),
+                hi: BytePos(
+                    637,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        637,
+                    ),
+                    hi: BytePos(
+                        642,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            637,
+                        ),
+                        hi: BytePos(
+                            642,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                637,
+                            ),
+                            hi: BytePos(
+                                642,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: None,
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                674,
+            ),
+            hi: BytePos(
+                674,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    674,
+                ),
+                hi: BytePos(
+                    674,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        674,
+                    ),
+                    hi: BytePos(
+                        679,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            674,
+                        ),
+                        hi: BytePos(
+                            679,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                674,
+                            ),
+                            hi: BytePos(
+                                679,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        674,
+                                    ),
+                                    hi: BytePos(
+                                        682,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{string}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    674,
+                                ),
+                                hi: BytePos(
+                                    685,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('- Hostname.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        674,
+                    ),
+                    hi: BytePos(
+                        679,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            674,
+                        ),
+                        hi: BytePos(
+                            679,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('param' type=inline),
+                },
+                tag: Parameter(
+                    ParameterTag {
+                        span: Span {
+                            lo: BytePos(
+                                674,
+                            ),
+                            hi: BytePos(
+                                679,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        674,
+                                    ),
+                                    hi: BytePos(
+                                        682,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('{number}' type=dynamic),
+                            },
+                        ),
+                        desc: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    674,
+                                ),
+                                hi: BytePos(
+                                    688,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('- Port number.' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

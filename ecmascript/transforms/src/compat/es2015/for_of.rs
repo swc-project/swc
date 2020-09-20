@@ -3,7 +3,7 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -52,8 +52,6 @@ pub struct Config {
 struct ForOf {
     c: Config,
 }
-
-noop_fold_type!(ForOf);
 
 /// Real folder.
 struct Actual {
@@ -395,6 +393,8 @@ impl Actual {
 }
 
 impl Fold for Actual {
+    noop_fold_type!();
+
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         match stmt {
             Stmt::Labeled(LabeledStmt { span, label, body }) => {
@@ -498,6 +498,8 @@ fn make_finally_block(
 }
 
 impl Fold for ForOf {
+    noop_fold_type!();
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -565,6 +567,8 @@ struct ForOfFinder {
 }
 
 impl Visit for ForOfFinder {
+    noop_visit_type!();
+
     fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {
         self.found = true;
     }

@@ -1,6 +1,6 @@
-error: Expected RBracket, got None
- --> $DIR/tests/test262-parser/fail/245843abef9e72e7.js:1:1
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/245843abef9e72e7.js:1:2
   |
 1 | [
-  | ^
+  |  ^
 

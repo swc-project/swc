@@ -1,8 +1,13 @@
-use crate::util::{prepend, undefined, ExprFactory, StmtLike};
+use crate::{
+    perf::Check,
+    util::{prepend, undefined, ExprFactory, StmtLike},
+};
 use std::{fmt::Debug, iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_utils::alias_if_required;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 
 pub fn optional_chaining() -> impl Fold {
     OptChaining::default()
@@ -13,9 +18,10 @@ struct OptChaining {
     vars: Vec<VarDeclarator>,
 }
 
-noop_fold_type!(OptChaining);
-
+#[fast_path(ShouldWork)]
 impl Fold for OptChaining {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
@@ -325,9 +331,8 @@ impl OptChaining {
                 type_args,
                 ..
             }) => {
-                let obj = *obj;
                 let obj_span = obj.span();
-                let is_super_access = match obj {
+                let is_super_access = match *obj {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(..),
                         ..
@@ -335,9 +340,35 @@ impl OptChaining {
                     _ => false,
                 };
 
-                let (left, right, alt) = match obj {
-                    Expr::Ident(..) => (Box::new(obj.clone()), Box::new(obj), e.expr),
+                let (left, right, alt) = match *obj {
+                    Expr::Ident(..) => (obj.clone(), obj, e.expr),
                     _ => {
+                        let this_as_super;
+                        let (this_obj, aliased) = alias_if_required(
+                            match &*obj {
+                                Expr::Member(m) => match &m.obj {
+                                    ExprOrSuper::Super(s) => {
+                                        this_as_super = Expr::This(ThisExpr { span: s.span });
+                                        &this_as_super
+                                    }
+                                    ExprOrSuper::Expr(obj) => &**obj,
+                                },
+                                _ => &*obj,
+                            },
+                            "_obj",
+                        );
+                        let obj = if !is_super_access && aliased {
+                            self.vars.push(VarDeclarator {
+                                span: obj_span,
+                                definite: false,
+                                name: Pat::Ident(this_obj.clone()),
+                                init: Some(obj),
+                            });
+
+                            Box::new(Expr::Ident(this_obj.clone()))
+                        } else {
+                            obj
+                        };
                         let i = private_ident!(obj_span, "ref");
                         self.vars.push(VarDeclarator {
                             span: obj_span,
@@ -351,7 +382,7 @@ impl OptChaining {
                                 span: DUMMY_SP,
                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
                                 op: op!("="),
-                                right: Box::new(obj),
+                                right: obj,
                             })),
                             Box::new(Expr::Ident(i.clone())),
                             Box::new(Expr::Call(CallExpr {
@@ -362,11 +393,10 @@ impl OptChaining {
                                     prop: Box::new(Expr::Ident(Ident::new("call".into(), span))),
                                     computed: false,
                                 }))),
-                                // TODO;
                                 args: once(if is_super_access {
                                     ThisExpr { span }.as_arg()
                                 } else {
-                                    i.as_arg()
+                                    this_obj.as_arg()
                                 })
                                 .chain(args)
                                 .collect(),
@@ -402,5 +432,24 @@ impl OptChaining {
             }
             _ => unreachable!("TsOptChain.expr = {:?}", e.expr),
         }
+    }
+}
+#[derive(Default)]
+struct ShouldWork {
+    /// Found optional chaining?
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _: &dyn Node) {
+        self.found = true;
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }

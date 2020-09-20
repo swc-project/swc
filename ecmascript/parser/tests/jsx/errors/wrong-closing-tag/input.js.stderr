@@ -1,6 +1,6 @@
-error: Expected corresponding JSX closing tag for <Foo>
- --> $DIR/tests/jsx/errors/wrong-closing-tag/input.js:1:6
+error: Unexpected eof
+ --> $DIR/tests/jsx/errors/wrong-closing-tag/input.js:1:12
   |
 1 | <Foo></Bar>
-  |      ^^^^^^
+  |            ^
 

@@ -4,10 +4,10 @@ pub use self::{
     output::OutputConfig,
     resolve::{AliasConfig, ResolveConfig},
 };
-use fxhash::FxHashMap;
 use serde::Deserialize;
-use std::{fmt, marker::PhantomData, path::PathBuf};
+use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
+use swc_common::FileName;
 
 mod module;
 mod optimization;
@@ -56,12 +56,42 @@ impl Default for Mode {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 #[serde(untagged, rename = "Entry")]
 pub enum EntryConfig {
     File(String),
     Multiple(Vec<String>),
-    Files(FxHashMap<String, PathBuf>),
+    Files(HashMap<String, PathBuf>),
+}
+
+impl From<EntryConfig> for HashMap<String, FileName> {
+    fn from(c: EntryConfig) -> Self {
+        let mut m = HashMap::default();
+
+        match c {
+            EntryConfig::File(f) => {
+                let path = PathBuf::from(f);
+                let file_name = path
+                    .file_name()
+                    .expect("entry must be a file, instead of a directory");
+                m.insert(file_name.to_string_lossy().into(), FileName::Real(path));
+            }
+            EntryConfig::Multiple(files) => {
+                for f in files {
+                    let path = PathBuf::from(f);
+                    let file_name = path
+                        .file_name()
+                        .expect("entry must be a file, instead of a directory");
+                    m.insert(file_name.to_string_lossy().into(), FileName::Real(path));
+                }
+            }
+            EntryConfig::Files(f) => {
+                return f.into_iter().map(|(k, v)| (k, FileName::Real(v))).collect()
+            }
+        }
+
+        m
+    }
 }
 
 pub struct JsCallback<T, Ret> {

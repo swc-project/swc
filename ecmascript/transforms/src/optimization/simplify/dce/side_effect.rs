@@ -10,9 +10,9 @@ pub(super) struct ImportDetector {
     found: bool,
 }
 
-noop_visit_type!(ImportDetector);
-
 impl Visit for ImportDetector {
+    noop_visit_type!();
+
     fn visit_import_decl(&mut self, _: &ImportDecl, _: &dyn Node) {
         self.found = true;
     }
@@ -58,8 +58,6 @@ impl SideEffectVisitor<'_> {
     }
 }
 
-noop_visit_type!(SideEffectVisitor<'_>);
-
 pub(super) struct SideEffectVisitor<'a> {
     included: &'a mut FxHashSet<Id>,
     exports: Option<&'a [Id]>,
@@ -84,8 +82,10 @@ impl SideEffectVisitor<'_> {
 }
 
 impl Visit for SideEffectVisitor<'_> {
+    noop_visit_type!();
+
     fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
-        log::debug!("Visit<Expr>");
+        log::trace!("Visit<Expr>");
 
         if self.found || node.is_pure_callee() {
             return;
@@ -142,6 +142,10 @@ impl Visit for SideEffectVisitor<'_> {
 
     fn visit_export_decl(&mut self, _: &ExportDecl, _: &dyn Node) {
         self.found = true
+    }
+
+    fn visit_export_all(&mut self, _: &ExportAll, _: &dyn Node) {
+        self.found = true;
     }
 
     fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl, _: &dyn Node) {

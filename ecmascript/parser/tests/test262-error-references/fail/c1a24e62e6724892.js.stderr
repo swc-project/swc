@@ -1,4 +1,4 @@
-error: Expected Comma, got Some(Dot)
+error: Expected ,, got .
  --> $DIR/tests/test262-parser/fail/c1a24e62e6724892.js:1:11
   |
 1 | ({*a({e: a.b}){}})

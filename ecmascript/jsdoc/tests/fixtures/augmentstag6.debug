@@ -1,0 +1,187 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                15,
+            ),
+            hi: BytePos(
+                15,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    15,
+                ),
+                hi: BytePos(
+                    15,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        15,
+                    ),
+                    hi: BytePos(
+                        24,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            15,
+                        ),
+                        hi: BytePos(
+                            24,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('interface' type=static),
+                },
+                tag: Interface(
+                    InterfaceTag {
+                        span: Span {
+                            lo: BytePos(
+                                15,
+                            ),
+                            hi: BytePos(
+                                24,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: None,
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                60,
+            ),
+            hi: BytePos(
+                60,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    80,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Open the connection.' type=dynamic),
+        },
+        tags: [],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                133,
+            ),
+            hi: BytePos(
+                133,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    133,
+                ),
+                hi: BytePos(
+                    133,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        133,
+                    ),
+                    hi: BytePos(
+                        142,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            133,
+                        ),
+                        hi: BytePos(
+                            142,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('interface' type=static),
+                },
+                tag: Interface(
+                    InterfaceTag {
+                        span: Span {
+                            lo: BytePos(
+                                133,
+                            ),
+                            hi: BytePos(
+                                142,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        133,
+                                    ),
+                                    hi: BytePos(
+                                        157,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('* @extends {IConnection}' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                216,
+            ),
+            hi: BytePos(
+                216,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    216,
+                ),
+                hi: BytePos(
+                    237,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Close the connection.' type=dynamic),
+        },
+        tags: [],
+    },
+]

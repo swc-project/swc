@@ -1,12 +1,16 @@
 use crate::util::undefined;
 use smallvec::SmallVec;
-use std::mem::replace;
-use swc_common::{util::map::Map, Spanned, DUMMY_SP};
+use std::{collections::HashMap, mem::replace};
+use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike,
+    contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id,
+    StmtLike,
 };
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_mut_type, Fold, FoldWith, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 
 ///
 ///
@@ -39,6 +43,8 @@ enum ScopeKind {
         args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
+        /// Map of original identifer to modified syntax context
+        mutated: HashMap<Id, SyntaxContext>,
     },
     Fn,
     Block,
@@ -49,8 +55,6 @@ struct BlockScoping {
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
 }
-
-noop_fold_type!(BlockScoping);
 
 impl BlockScoping {
     /// This methods remove [ScopeKind::Loop] and [ScopeKind::Fn], but not
@@ -113,15 +117,70 @@ impl BlockScoping {
             }
 
             //
-            if let Some(ScopeKind::ForLetLoop { args, used, .. }) = self.scope.pop() {
+            if let Some(ScopeKind::ForLetLoop {
+                args,
+                used,
+                mutated,
+                ..
+            }) = self.scope.pop()
+            {
                 if used.is_empty() {
                     return body;
                 }
+                let this = if contains_this_expr(&body) {
+                    let ident = private_ident!("_this");
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(ident.clone()),
+                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                        definite: false,
+                    });
+                    Some(ident)
+                } else {
+                    None
+                };
+
                 let mut flow_helper = FlowHelper {
+                    all: &args,
                     has_continue: false,
                     has_break: false,
                     has_return: false,
+                    mutated,
                 };
+
+                let mut body = match body.fold_with(&mut flow_helper) {
+                    Stmt::Block(bs) => bs,
+                    body => BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![body],
+                    },
+                };
+
+                if !flow_helper.mutated.is_empty() || this.is_some() {
+                    let no_modification = flow_helper.mutated.is_empty();
+                    let mut v = MutationHandler {
+                        map: &mut flow_helper.mutated,
+                        in_function: false,
+                        this,
+                    };
+
+                    // Modifies identifiers, and add reassignments to break / continue / return
+                    body.visit_mut_with(&mut v);
+
+                    if !no_modification {
+                        if body
+                            .stmts
+                            .last()
+                            .map(|s| match s {
+                                Stmt::Return(..) => false,
+                                _ => true,
+                            })
+                            .unwrap_or(true)
+                        {
+                            body.stmts.push(v.make_reassignemnt(None).into_stmt());
+                        }
+                    }
+                }
 
                 let var_name = private_ident!("_loop");
 
@@ -135,23 +194,22 @@ impl BlockScoping {
                                 span: DUMMY_SP,
                                 params: args
                                     .iter()
-                                    .map(|i| Param {
-                                        span: DUMMY_SP,
-                                        decorators: Default::default(),
-                                        pat: Pat::Ident(Ident::new(
-                                            i.0.clone(),
-                                            DUMMY_SP.with_ctxt(i.1),
-                                        )),
+                                    .map(|i| {
+                                        let ctxt =
+                                            flow_helper.mutated.get(i).copied().unwrap_or(i.1);
+
+                                        Param {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            pat: Pat::Ident(Ident::new(
+                                                i.0.clone(),
+                                                DUMMY_SP.with_ctxt(ctxt),
+                                            )),
+                                        }
                                     })
                                     .collect(),
                                 decorators: Default::default(),
-                                body: Some(match body.fold_with(&mut flow_helper) {
-                                    Stmt::Block(bs) => bs,
-                                    body => BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: vec![body],
-                                    },
-                                }),
+                                body: Some(body),
                                 is_generator: false,
                                 is_async: false,
                                 type_params: None,
@@ -167,7 +225,8 @@ impl BlockScoping {
                     span: DUMMY_SP,
                     callee: var_name.as_callee(),
                     args: args
-                        .into_iter()
+                        .iter()
+                        .cloned()
                         .map(|i| ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)))),
@@ -341,6 +400,8 @@ impl BlockScoping {
 }
 
 impl Fold for BlockScoping {
+    noop_fold_type!();
+
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         ArrowExpr {
             params: f.params.fold_with(self),
@@ -382,6 +443,7 @@ impl Fold for BlockScoping {
                 all: vars,
                 args,
                 used: vec![],
+                mutated: Default::default(),
             }
         };
         let body = self.fold_with_scope(kind, node.body);
@@ -411,6 +473,7 @@ impl Fold for BlockScoping {
                 all: vars,
                 args,
                 used: vec![],
+                mutated: Default::default(),
             }
         };
         let body = self.fold_with_scope(kind, node.body);
@@ -442,6 +505,7 @@ impl Fold for BlockScoping {
                 all: vars,
                 args,
                 used: vec![],
+                mutated: Default::default(),
             }
         };
         let body = self.fold_with_scope(kind, node.body);
@@ -592,9 +656,9 @@ struct InfectionFinder<'a> {
     found: bool,
 }
 
-noop_visit_type!(InfectionFinder<'_>);
-
 impl Visit for InfectionFinder<'_> {
+    noop_visit_type!();
+
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         let old = self.found;
         self.found = false;
@@ -650,22 +714,65 @@ impl Visit for InfectionFinder<'_> {
 }
 
 #[derive(Debug)]
-struct FlowHelper {
+struct FlowHelper<'a> {
     has_continue: bool,
     has_break: bool,
     has_return: bool,
+    all: &'a Vec<Id>,
+    mutated: HashMap<Id, SyntaxContext>,
 }
 
-noop_fold_type!(FlowHelper);
+impl<'a> FlowHelper<'a> {
+    fn check(&mut self, i: Id) {
+        if self.all.contains(&i) {
+            self.mutated.insert(
+                i,
+                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+            );
+        }
+    }
+}
 
-/// noop
-impl Fold for FlowHelper {
+impl Fold for FlowHelper<'_> {
+    noop_fold_type!();
+
+    /// noop
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         f
     }
 
+    /// noop
     fn fold_function(&mut self, f: Function) -> Function {
         f
+    }
+
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        match *n.arg {
+            Expr::Ident(ref i) => self.check(i.to_id()),
+            _ => {}
+        }
+
+        n.fold_children_with(self)
+    }
+
+    fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
+        match &n.left {
+            PatOrExpr::Expr(e) => match &**e {
+                Expr::Ident(i) => {
+                    self.check(i.to_id());
+                }
+                _ => {}
+            },
+            PatOrExpr::Pat(p) => {
+                let ids: Vec<Id> = find_ids(p);
+
+                for id in ids {
+                    self.check(id);
+                }
+            }
+        }
+
+        n.fold_children_with(self)
     }
 
     fn fold_stmt(&mut self, node: Stmt) -> Stmt {
@@ -723,14 +830,105 @@ impl Fold for FlowHelper {
     }
 }
 
+struct MutationHandler<'a> {
+    map: &'a mut HashMap<Id, SyntaxContext>,
+    in_function: bool,
+    this: Option<Ident>,
+}
+
+impl MutationHandler<'_> {
+    fn make_reassignemnt(&self, orig: Option<Box<Expr>>) -> Expr {
+        if self.map.is_empty() {
+            return *orig.unwrap_or_else(|| undefined(DUMMY_SP));
+        }
+
+        let mut exprs = Vec::with_capacity(self.map.len() + 1);
+
+        for (id, ctxt) in &*self.map {
+            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new(
+                    id.0.clone(),
+                    DUMMY_SP.with_ctxt(id.1),
+                )))),
+                op: op!("="),
+                right: Box::new(Expr::Ident(Ident::new(
+                    id.0.clone(),
+                    DUMMY_SP.with_ctxt(*ctxt),
+                ))),
+            })));
+        }
+        exprs.push(orig.unwrap_or(undefined(DUMMY_SP)));
+
+        Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs,
+        })
+    }
+}
+
+impl VisitMut for MutationHandler<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if let Some(&ctxt) = self.map.get(&n.to_id()) {
+            n.span = n.span.with_ctxt(ctxt)
+        }
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Expr::This(this) => {
+                if let Some(remapped) = &self.this {
+                    *n = Expr::Ident(Ident::new(
+                        remapped.sym.clone(),
+                        this.span.with_ctxt(remapped.span.ctxt),
+                    ))
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        let old = self.in_function;
+        self.in_function = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_function = old;
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old = self.in_function;
+        self.in_function = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_function = old;
+    }
+
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        if self.in_function || self.map.is_empty() {
+            return;
+        }
+
+        let val = n.arg.take();
+
+        n.arg = Some(Box::new(self.make_reassignemnt(val)))
+    }
+}
+
 #[derive(Debug)]
 struct FunctionFinder {
     found: bool,
 }
 
-noop_visit_type!(FunctionFinder);
-
 impl Visit for FunctionFinder {
+    noop_visit_type!();
+
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {
         self.found = true
     }
@@ -741,6 +939,7 @@ mod tests {
     use super::block_scoping;
     use crate::compat::{es2015, es2015::for_of::for_of};
     use swc_common::{chain, Mark};
+    use swc_ecma_parser::Syntax;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -938,8 +1137,8 @@ foo();"
     return vars;
   };",
         "module.exports = function(values) {
-    var _loop = function(i) {
-        elem = this.elements[i];
+    var _this = this, _loop = function(i) {
+        elem = _this.elements[i];
         name = elem.name;
         if (!name) return 'continue';
         val = values[name];
@@ -1033,5 +1232,148 @@ expect(foo()).toBe(false);
 }
 expect(foo()).toBe(false);
 "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1022_1,
+        "
+        for (let i = 0; i < 5; i++) {
+            console.log(i++, [2].every(x => x != i))
+        }
+        ",
+        r#"
+        var _loop = function(i1) {
+            console.log(i1++, [
+                2
+            ].every(function(x) {
+                return x != i;
+            }));
+            i = i1, void 0;
+        };
+        for(var i = 0; i < 5; i++)_loop(i);        
+        "#
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1022_2,
+        "
+        for (let i = 0; i < 5; i++) {
+            console.log(i++, [2].every(x => x != i))
+            if (i % 2 === 0) continue
+        }
+        ",
+        r#"
+        var _loop = function(i1) {
+            console.log(i1++, [
+                2
+            ].every(function(x) {
+                return x != i;
+            }));
+            if (i1 % 2 === 0) return (i = i1, "continue");
+            i = i1, void 0;
+        };
+        for(var i = 0; i < 5; i++){
+            var _ret = _loop(i);
+            if (_ret === "continue") continue;
+        }        
+        "#
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1022_3,
+        "
+        for (let i = 0; i < 5; i++) {
+            console.log(i++, [2].every(x => x != i))
+            if (i % 2 === 0) break
+        }
+        ",
+        r#"
+        var _loop = function(i1) {
+            console.log(i1++, [
+                2
+            ].every(function(x) {
+                return x != i;
+            }));
+            if (i1 % 2 === 0) return (i = i1, "break");
+            i = i1, void 0;
+        };
+        for(var i = 0; i < 5; i++){
+            var _ret = _loop(i);
+            if (_ret === "break") break;
+        }
+        "#
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1021_1,
+        "
+        class C {
+            m() {
+                for (let x = 0; x < 10; x++) console.log(this, y => y != x)
+            }
+        }
+        ",
+        r#"
+        var C = function() {
+            "use strict";
+            function C() {
+                _classCallCheck(this, C);
+            }
+            _createClass(C, [
+                {
+                    key: "m",
+                    value: function m() {
+                        var _this = this, _loop = function(x) {
+                            console.log(_this, function(y) {
+                                return y != x;
+                            });
+                        };
+                        for(var x = 0; x < 10; x++)_loop(x);
+                    }
+                }
+            ]);
+            return C;
+        }();
+        "#
     );
 }

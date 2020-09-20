@@ -1,0 +1,26 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                33,
+            ),
+            hi: BytePos(
+                33,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    33,
+                ),
+                hi: BytePos(
+                    44,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('document me' type=dynamic),
+        },
+        tags: [],
+    },
+]

@@ -1,4 +1,4 @@
-error: Expected LBrace, got Some(BinOp(Div))
+error: Expected {, got /
  --> $DIR/tests/test262-parser/fail/45db351b2b07663a.module.js:1:8
   |
 1 | export / from a

@@ -1,4 +1,4 @@
-error: Unexpected token Some(Comma)
+error: Unexpected token `,`. Expected identifier, string literal, numeric literal or [ for the computed key
  --> $DIR/tests/test262-parser/fail/d82c20dfe6ce915a.js:1:5
   |
 1 | ({a,,a} = 0)

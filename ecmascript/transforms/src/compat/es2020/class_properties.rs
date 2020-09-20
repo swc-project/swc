@@ -6,16 +6,18 @@ use self::{
 };
 use crate::{
     compat::es2015::classes::SuperFieldAccessFolder,
+    perf::Check,
     util::{
         alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
         undefined, ExprFactory, ModuleItemLike, StmtLike,
     },
 };
-use std::collections::HashSet;
+use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod class_name_tdz;
 mod private_field;
@@ -30,15 +32,49 @@ mod used_name;
 ///
 /// We use custom helper to handle export defaul class
 pub fn class_properties() -> impl Fold {
-    ClassProperties { mark: Mark::root() }
+    ClassProperties {
+        typescript: false,
+        mark: Mark::root(),
+    }
+}
+
+/// Class properties pass for the typescript.
+pub fn typescript_class_properties() -> impl Fold {
+    ClassProperties {
+        typescript: true,
+        mark: Mark::root(),
+    }
 }
 
 #[derive(Clone)]
 struct ClassProperties {
+    typescript: bool,
     mark: Mark,
 }
 
+#[fast_path(ShouldWork)]
 impl Fold for ClassProperties {
+    noop_fold_type!();
+
+    fn fold_ident(&mut self, i: Ident) -> Ident {
+        Ident {
+            optional: false,
+            ..i
+        }
+    }
+    fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
+        ArrayPat {
+            optional: false,
+            ..p.fold_children_with(self)
+        }
+    }
+    fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
+        ObjectPat {
+            optional: false,
+            ..p.fold_children_with(self)
+        }
+    }
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -269,6 +305,8 @@ impl ClassProperties {
 
         let has_super = class.super_class.is_some();
 
+        let mut typescript_constructor_properties = vec![];
+
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
         let mut used_names = vec![];
@@ -329,77 +367,137 @@ impl ClassProperties {
                         );
                     }
 
-                    let key = match *prop.key {
-                        Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym.clone(),
-                            has_escape: false,
-                        })
-                        .as_arg(),
-                        Expr::Lit(ref lit) if !prop.computed => lit.clone().as_arg(),
+                    let key = if self.typescript {
+                        // `b` in
+                        //
+                        // class A {
+                        //     b = 'foo';
+                        // }
+                        prop.key
+                    } else {
+                        match *prop.key {
+                            Expr::Ident(ref i) if !prop.computed => {
+                                Box::new(Expr::from(Lit::Str(Str {
+                                    span: i.span,
+                                    value: i.sym.clone(),
+                                    has_escape: false,
+                                })))
+                            }
+                            Expr::Lit(ref lit) if !prop.computed => {
+                                Box::new(Expr::from(lit.clone()))
+                            }
 
-                        _ => {
-                            let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
-                                if used_key_names.contains(&i.sym) {
-                                    (alias_ident_for(&prop.key, "_ref"), true)
+                            _ => {
+                                let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
+                                    if used_key_names.contains(&i.sym) {
+                                        (alias_ident_for(&prop.key, "_ref"), true)
+                                    } else {
+                                        alias_if_required(&prop.key, "_ref")
+                                    }
                                 } else {
                                     alias_if_required(&prop.key, "_ref")
+                                };
+                                // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
+                                if aliased {
+                                    // Handle computed property
+                                    vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(ident.clone()),
+                                        init: Some(prop.key),
+                                        definite: false,
+                                    });
                                 }
-                            } else {
-                                alias_if_required(&prop.key, "_ref")
-                            };
-                            // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
-                            if aliased {
-                                // Handle computed property
-                                vars.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone()),
-                                    init: Some(prop.key),
-                                    definite: false,
-                                });
+                                Box::new(Expr::from(ident))
                             }
-                            ident.as_arg()
                         }
                     };
 
-                    let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
+                    let assigned_value = prop.value.is_some();
 
-                    let callee = helper!(define_property, "defineProperty");
+                    let value = prop.value.unwrap_or_else(|| undefined(prop_span));
+                    let value = if prop.is_static {
+                        value
+                            .fold_with(&mut SuperFieldAccessFolder {
+                                class_name: &ident,
+                                vars: &mut vars,
+                                constructor_this_mark: None,
+                                is_static: true,
+                                folding_constructor: false,
+                                in_injected_define_property_call: false,
+                                in_nested_scope: false,
+                                this_alias_mark: None,
+                            })
+                            .fold_with(&mut ThisInStaticFolder {
+                                ident: ident.clone(),
+                            })
+                    } else {
+                        value
+                    };
 
-                    if prop.is_static {
-                        extra_stmts.push(
-                            CallExpr {
+                    if self.typescript {
+                        if prop.is_static {
+                            extra_stmts.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(Box::new(
+                                        MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: ident.clone().as_obj(),
+                                            computed: false,
+                                            prop: key,
+                                        }
+                                        .into(),
+                                    )),
+                                    op: op!("="),
+                                    right: value,
+                                }
+                                .into_stmt(),
+                            );
+                        } else if assigned_value {
+                            constructor_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: (PatOrExpr::Expr(Box::new(
+                                    MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
+                                        computed: false,
+                                        prop: key,
+                                    }
+                                    .into(),
+                                ))),
+                                op: op!("="),
+                                right: value,
+                            })));
+                        }
+                    } else {
+                        let callee = helper!(define_property, "defineProperty");
+
+                        if prop.is_static {
+                            extra_stmts.push(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee,
+                                    args: vec![
+                                        ident.clone().as_arg(),
+                                        key.as_arg(),
+                                        value.as_arg(),
+                                    ],
+                                    type_args: Default::default(),
+                                }
+                                .into_stmt(),
+                            )
+                        } else {
+                            constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee,
                                 args: vec![
-                                    ident.clone().as_arg(),
-                                    key,
-                                    value
-                                        .fold_with(&mut SuperFieldAccessFolder {
-                                            class_name: &ident,
-                                            vars: &mut vars,
-                                            constructor_this_mark: None,
-                                            is_static: true,
-                                            folding_constructor: false,
-                                            in_injected_define_property_call: false,
-                                            in_nested_scope: false,
-                                            this_alias_mark: None,
-                                        })
-                                        .fold_with(&mut ThisInStaticFolder {
-                                            ident: ident.clone(),
-                                        }),
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    key.as_arg(),
+                                    value.as_arg(),
                                 ],
                                 type_args: Default::default(),
-                            }
-                            .into_stmt(),
-                        )
-                    } else {
-                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee,
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), key, value],
-                            type_args: Default::default(),
-                        })));
+                            })));
+                        }
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
@@ -492,9 +590,71 @@ impl ClassProperties {
                     })));
                 }
 
-                ClassMember::Constructor(c) => constructor = Some(c),
+                ClassMember::Constructor(mut c) => {
+                    if self.typescript {
+                        let store = |i: &Ident| {
+                            Box::new(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
+                                        computed: false,
+                                        prop: Box::new(i.clone().into()),
+                                    }))),
+                                    op: op!("="),
+                                    right: Box::new(i.clone().into()),
+                                }
+                                .into(),
+                            )
+                        };
+
+                        c.params = c.params.move_map(|mut param| match &mut param {
+                            ParamOrTsParamProp::TsParamProp(p) => match &p.param {
+                                TsParamPropParam::Ident(i) => {
+                                    typescript_constructor_properties.push(store(&Ident {
+                                        type_ann: None,
+                                        ..i.clone()
+                                    }));
+                                    ParamOrTsParamProp::Param(Param {
+                                        span: p.span,
+                                        decorators: take(&mut p.decorators),
+                                        pat: Pat::Ident(i.clone()),
+                                    })
+                                }
+                                TsParamPropParam::Assign(pat) => match &*pat.left {
+                                    Pat::Ident(i) => {
+                                        typescript_constructor_properties.push(store(&Ident {
+                                            type_ann: None,
+                                            ..i.clone()
+                                        }));
+                                        ParamOrTsParamProp::Param(Param {
+                                            span: p.span,
+                                            decorators: take(&mut p.decorators),
+                                            pat: Pat::Assign(AssignPat {
+                                                span: DUMMY_SP,
+                                                left: pat.left.clone(),
+                                                right: pat.right.clone(),
+                                                type_ann: None,
+                                            }),
+                                        })
+                                    }
+                                    _ => param,
+                                },
+                            },
+                            ParamOrTsParamProp::Param(_) => param,
+                        });
+                    }
+
+                    constructor = Some(c);
+                }
             }
         }
+
+        let constructor_exprs = {
+            typescript_constructor_properties.extend(constructor_exprs);
+            typescript_constructor_properties
+        };
 
         let constructor =
             self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
@@ -524,6 +684,35 @@ impl ClassProperties {
         )
     }
 
+    /// # Legacy support.
+    ///
+    /// ## Why is this required?
+    ///
+    /// Hygiene data of
+    ///
+    ///```ts
+    /// class A {
+    ///     b = this.a;
+    ///     constructor(a){
+    ///         this.a = a;
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// is
+    ///
+    ///```ts
+    /// class A0 {
+    ///     constructor(a1){
+    ///         this.a0 = a0;
+    ///         this.b0 = this.a0;
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// which is valid only for es2020 properties.
+    ///
+    /// Legacy proposal which is used by typescript requires different hygiene.
     #[allow(clippy::vec_box)]
     fn process_constructor(
         &mut self,
@@ -534,28 +723,32 @@ impl ClassProperties {
     ) -> Option<Constructor> {
         let constructor = constructor
             .map(|c| {
-                let mut folder = UsedNameRenamer {
-                    mark: Mark::fresh(Mark::root()),
-                    used_names,
-                };
+                if self.typescript {
+                    c
+                } else {
+                    let mut folder = UsedNameRenamer {
+                        mark: Mark::fresh(Mark::root()),
+                        used_names,
+                    };
 
-                // Handle collisions like
-                //
-                // var foo = "bar";
-                //
-                // class Foo {
-                //     bar = foo;
-                //     static bar = baz;
-                //
-                //     constructor() {
-                //     var foo = "foo";
-                //     var baz = "baz";
-                //     }
-                // }
-                let body = c.body.fold_with(&mut folder);
+                    // Handle collisions like
+                    //
+                    // var foo = "bar";
+                    //
+                    // class Foo {
+                    //     bar = foo;
+                    //     static bar = baz;
+                    //
+                    //     constructor() {
+                    //     var foo = "foo";
+                    //     var baz = "baz";
+                    //     }
+                    // }
+                    let body = c.body.fold_with(&mut folder);
 
-                let params = c.params.fold_with(&mut folder);
-                Constructor { body, params, ..c }
+                    let params = c.params.fold_with(&mut folder);
+                    Constructor { body, params, ..c }
+                }
             })
             .or_else(|| {
                 if constructor_exprs.is_empty() {
@@ -566,9 +759,59 @@ impl ClassProperties {
             });
 
         if let Some(c) = constructor {
+            // Prepend properties
             Some(inject_after_super(c, constructor_exprs))
         } else {
             None
         }
+    }
+}
+
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_array_pat(&mut self, n: &ArrayPat, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_object_pat(&mut self, n: &ObjectPat, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_class_method(&mut self, _: &ClassMethod, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_class_prop(&mut self, _: &ClassProp, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_private_prop(&mut self, _: &PrivateProp, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {
+        self.found = true;
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }

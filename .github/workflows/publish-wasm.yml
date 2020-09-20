@@ -1,0 +1,47 @@
+name: Publish (wasm)
+
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build:
+    name: Build - wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build
+        run: (cd wasm && wasm-pack build  --release --scope=swc --target nodejs)
+
+      - name: Publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          (cd wasm/pkg && npm publish)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

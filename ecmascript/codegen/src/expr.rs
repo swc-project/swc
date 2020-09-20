@@ -17,6 +17,11 @@ mod tests {
     }
 
     #[test]
+    fn bin_expr() {
+        assert_min("1+2+3+4+5", "1+2+3+4+5;");
+    }
+
+    #[test]
     fn template_expression() {
         assert_min("``", "``;");
         assert_min("foo``", "foo``;");

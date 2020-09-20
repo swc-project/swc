@@ -1,15 +1,15 @@
 use crate::util::ExprFactory;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,
 }
 
-noop_fold_type!(ClassNameTdzFolder<'_>);
-
 impl<'a> Fold for ClassNameTdzFolder<'a> {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match expr {
             Expr::Ident(i) => {

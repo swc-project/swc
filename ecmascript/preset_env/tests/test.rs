@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
-use swc_ecma_transforms::util::DropSpan;
+use swc_ecma_transforms::util::drop_span;
 use swc_ecma_visit::FoldWith;
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
@@ -203,7 +203,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let print = |m: &Module| {
                 let mut buf = vec![];
                 {
-                    let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify: false },
                         comments: None,
@@ -214,7 +213,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                             &mut buf,
                             None,
                         )),
-                        handlers,
                     };
 
                     emitter.emit_module(m).expect("failed to emit module");
@@ -306,11 +304,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let actual_src = print(&actual);
             let expected_src = print(&expected);
 
-            if actual.fold_with(&mut DropSpan {
-                preserve_ctxt: false,
-            }) == expected.fold_with(&mut DropSpan {
-                preserve_ctxt: false,
-            }) {
+            if drop_span(actual) == drop_span(expected) {
                 return Ok(());
             }
 
@@ -344,7 +338,3 @@ fn fixtures() {
     let args: Vec<_> = env::args().collect();
     test_main(&args, tests, Some(test::Options::new()));
 }
-
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}

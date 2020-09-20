@@ -1,6 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Invalid;
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub(super) fn is_required<T: VisitWith<RegeneratorVisitor>>(node: &T) -> bool {
     let mut v = RegeneratorVisitor { found: false };
@@ -13,4 +13,6 @@ pub(super) struct RegeneratorVisitor {
 }
 
 /// TODO
-impl Visit for RegeneratorVisitor {}
+impl Visit for RegeneratorVisitor {
+    noop_visit_type!();
+}

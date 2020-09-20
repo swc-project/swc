@@ -1,11 +1,22 @@
 use swc_common::pass::CompilerPass;
 pub use swc_common::pass::{Optional, Repeated};
+use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::Fold;
 
 pub fn noop() -> impl Fold {
-    struct Noop;
-    impl Fold for Noop {}
     Noop
+}
+
+struct Noop;
+impl Fold for Noop {
+    #[inline(always)]
+    fn fold_module(&mut self, m: Module) -> Module {
+        m
+    }
+    #[inline(always)]
+    fn fold_script(&mut self, s: Script) -> Script {
+        s
+    }
 }
 
 pub trait JsPass: CompilerPass + Fold {}

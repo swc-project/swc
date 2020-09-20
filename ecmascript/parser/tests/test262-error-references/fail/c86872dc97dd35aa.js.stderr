@@ -1,4 +1,4 @@
-error: TS1009
+error: Trailing comma is not allowed
  --> $DIR/tests/test262-parser/fail/c86872dc97dd35aa.js:1:4
   |
 1 | var

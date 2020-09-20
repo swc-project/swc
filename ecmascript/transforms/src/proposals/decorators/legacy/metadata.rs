@@ -1,12 +1,14 @@
 use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprFactory};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;
 
 impl Fold for ParamMetadata {
+    noop_fold_type!();
+
     fn fold_class(&mut self, mut cls: Class) -> Class {
         cls = cls.fold_children_with(self);
         let mut decorators = cls.decorators;
@@ -120,6 +122,8 @@ pub(super) struct Metadata<'a> {
 }
 
 impl Fold for Metadata<'_> {
+    noop_fold_type!();
+
     fn fold_class(&mut self, mut c: Class) -> Class {
         c = c.fold_children_with(self);
 
@@ -229,20 +233,56 @@ impl Metadata<'_> {
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Call(CallExpr {
+            expr: Box::new(Expr::Bin(BinExpr {
                 span: DUMMY_SP,
-                callee: member_expr!(DUMMY_SP, Reflect.metadata).as_callee(),
-                args: vec![
-                    Str {
+                left: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
-                        value: design.into(),
-                        has_escape: false,
-                    }
-                    .as_arg(),
-                    type_arg,
-                ],
+                        left: Box::new(Expr::Unary(UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!("typeof"),
+                            arg: Box::new(Expr::Ident(quote_ident!("Reflect"))),
+                        })),
+                        op: op!("!=="),
+                        right: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: "undefined".into(),
+                            has_escape: false,
+                        }))),
+                    })),
+                    op: op!("&&"),
+                    right: Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: Box::new(Expr::Unary(UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!("typeof"),
+                            arg: member_expr!(DUMMY_SP, Reflect.metadata),
+                        })),
+                        op: op!("==="),
+                        right: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: "function".into(),
+                            has_escape: false,
+                        }))),
+                    })),
+                })),
+                op: op!("&&"),
+                right: Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: member_expr!(DUMMY_SP, Reflect.metadata).as_callee(),
+                    args: vec![
+                        Str {
+                            span: DUMMY_SP,
+                            value: design.into(),
+                            has_escape: false,
+                        }
+                        .as_arg(),
+                        type_arg,
+                    ],
 
-                type_args: Default::default(),
+                    type_args: Default::default(),
+                })),
             })),
         }
     }
@@ -261,6 +301,50 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
         let member_expr = ts_entity_to_member_expr(&ty.type_name);
 
+        fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
+            match *expr {
+                Expr::Member(ref member_expr) => {
+                    let obj_expr = match member_expr.obj {
+                        ExprOrSuper::Expr(ref exp) => exp.clone(),
+                        ExprOrSuper::Super(_) => panic!("Unreachable code path"),
+                    };
+                    Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: check_object_existed(obj_expr),
+                        op: op!("||"),
+                        right: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: Box::new(Expr::Unary(UnaryExpr {
+                                span: DUMMY_SP,
+                                op: op!("typeof"),
+                                arg: expr.clone(),
+                            })),
+                            op: op!("==="),
+                            right: Box::new(Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: "undefined".into(),
+                                has_escape: false,
+                            }))),
+                        })),
+                    }))
+                }
+                _ => Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(Expr::Unary(UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("typeof"),
+                        arg: expr.clone(),
+                    })),
+                    op: op!("==="),
+                    right: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: "undefined".into(),
+                        has_escape: false,
+                    }))),
+                })),
+            }
+        }
+
         // We don't know if type is just a type (interface, etc.) or a concrete value
         // (class, etc.)
         //
@@ -269,20 +353,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
         Expr::Cond(CondExpr {
             span: DUMMY_SP,
-            test: Box::new(Expr::Bin(BinExpr {
-                span: DUMMY_SP,
-                left: Box::new(Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("typeof"),
-                    arg: Box::new(member_expr.clone()),
-                })),
-                op: op!("==="),
-                right: Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    value: "undefined".into(),
-                    has_escape: false,
-                }))),
-            })),
+            test: check_object_existed(Box::new(member_expr.clone())),
             cons: Box::new(quote_ident!("Object").into()),
             alt: Box::new(member_expr),
         })

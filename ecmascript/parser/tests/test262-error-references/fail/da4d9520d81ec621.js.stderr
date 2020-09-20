@@ -1,4 +1,4 @@
-error: Expected LBrace, got None
+error: Expected {, got <eof>
  --> $DIR/tests/test262-parser/fail/da4d9520d81ec621.js:1:7
   |
 1 | class A

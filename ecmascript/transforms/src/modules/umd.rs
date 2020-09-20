@@ -9,7 +9,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod config;
 
@@ -34,9 +34,9 @@ struct Umd {
     exports: Exports,
 }
 
-noop_fold_type!(Umd);
-
 impl Fold for Umd {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let exports = self.exports.0.clone();
         let top_level = self.in_top_level;
@@ -758,5 +758,17 @@ impl ModulePass for Umd {
 
     fn scope_mut(&mut self) -> &mut Scope {
         &mut self.scope
+    }
+
+    /// ```js
+    ///  exports === undefined ? (try_amd) : (try_common_js)
+    /// ```
+    fn make_dynamic_import(&mut self, span: swc_common::Span, args: Vec<ExprOrSpread>) -> Expr {
+        Expr::Cond(CondExpr {
+            span,
+            test: Box::new(quote_ident!("exports").make_eq(quote_ident!("undefined"))),
+            cons: Box::new(super::amd::handle_dynamic_import(span, args.clone())),
+            alt: Box::new(super::common_js::handle_dynamic_import(span, args)),
+        })
     }
 }

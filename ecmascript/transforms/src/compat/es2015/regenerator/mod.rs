@@ -4,7 +4,7 @@ use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod case;
 mod hoist;
@@ -29,8 +29,6 @@ struct Regenerator {
     /// mark
     top_level_vars: Vec<VarDeclarator>,
 }
-
-noop_fold_type!(Regenerator);
 
 fn rt(global_mark: Mark, rt: Ident) -> Stmt {
     Stmt::Decl(Decl::Var(VarDecl {
@@ -86,6 +84,8 @@ impl Regenerator {
 }
 
 impl Fold for Regenerator {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         if !Finder::find(&e) {
             return e;
@@ -485,6 +485,8 @@ struct FnSentVisitor {
 }
 
 impl Fold for FnSentVisitor {
+    noop_fold_type!();
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
@@ -516,6 +518,8 @@ impl Finder {
 }
 
 impl Visit for Finder {
+    noop_visit_type!();
+
     fn visit_function(&mut self, node: &Function, _: &dyn Node) {
         if node.is_generator {
             self.found = true;

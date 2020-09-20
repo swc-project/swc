@@ -1,5 +1,6 @@
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
+#![deny(unused)]
 
 #[macro_use]
 extern crate swc_ecma_utils;
@@ -31,6 +32,7 @@ mod fixer;
 pub mod modules;
 pub mod optimization;
 pub mod pass;
+mod perf;
 pub mod proposals;
 pub mod react;
 pub mod resolver;

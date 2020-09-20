@@ -1,0 +1,148 @@
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        3,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            3,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('see' type=inline),
+                },
+                tag: See(
+                    SeeTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                3,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    11,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{@link bar}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                47,
+            ),
+            hi: BytePos(
+                47,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    47,
+                ),
+                hi: BytePos(
+                    47,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        47,
+                    ),
+                    hi: BytePos(
+                        50,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            47,
+                        ),
+                        hi: BytePos(
+                            50,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('see' type=inline),
+                },
+                tag: See(
+                    SeeTag {
+                        span: Span {
+                            lo: BytePos(
+                                47,
+                            ),
+                            hi: BytePos(
+                                50,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    47,
+                                ),
+                                hi: BytePos(
+                                    73,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('http://example.com/someref' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]

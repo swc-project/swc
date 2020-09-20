@@ -1,4 +1,4 @@
-error: Expected LParen, got Some(Colon)
+error: Expected (, got :
  --> $DIR/tests/test262-parser/fail/8e93bcbd389c6bf6.js:1:8
   |
 1 | ({ *[0]: 0 })
