@@ -72,6 +72,7 @@ impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
                             TsLit::Tpl(v) => {
                                 Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
                             }
+                            TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),
                         }
                     })
                     .or_else(|err| match &m.init {
