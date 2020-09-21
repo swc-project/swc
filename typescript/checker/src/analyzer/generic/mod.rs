@@ -444,6 +444,7 @@ impl Analyzer<'_, '_> {
                     inferred
                         .type_params
                         .insert(arg.name.clone(), box Type::Ref(param.clone()));
+                    return Ok(());
                 }
                 _ => {
                     let param =
