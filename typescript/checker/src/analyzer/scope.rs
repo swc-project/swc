@@ -5,14 +5,13 @@ use crate::{
     name::Name,
     ty::{
         self, Alias, EnumVariant, IndexSignature, Interface, PropertySignature, QueryExpr,
-        QueryType, Ref, Tuple, Type, TypeElement, TypeLit, Union,
+        QueryType, Ref, Tuple, Type, TypeElement, TypeExt, TypeLit, Union,
     },
     type_facts::TypeFacts,
     util::TypeEq,
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use either::Either;
 use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
 use smallvec::SmallVec;
@@ -26,8 +25,7 @@ use std::{
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ts_types::{FoldWith as _, Id};
-use ty::TypeExt;
+use swc_ts_types::{FoldWith as _, Id, TupleElement, VisitWith};
 
 #[derive(Debug, Clone, Copy)]
 pub(super) struct Config {
@@ -766,15 +764,24 @@ impl Analyzer<'_, '_> {
                             return Err(Error::UnionError { span, errors });
                         }
 
-                        for (elem, types) in elems
-                            .into_iter()
-                            .zip(buf.into_iter().chain(repeat(&vec![Type::undefined(span)])))
+                        for (elem, tuple_elements) in
+                            elems.into_iter().zip(buf.into_iter().chain(repeat(&vec![
+                                TupleElement {
+                                    span: DUMMY_SP,
+                                    label: None,
+                                    ty: Type::undefined(span),
+                                },
+                            ])))
                         {
                             match *elem {
                                 Some(ref elem) => {
                                     let ty = box Union {
                                         span,
-                                        types: types.into_iter().cloned().collect(),
+                                        types: tuple_elements
+                                            .into_iter()
+                                            .map(|element| &element.ty)
+                                            .cloned()
+                                            .collect(),
                                     }
                                     .into();
                                     self.declare_complex_vars(kind, elem, ty)?;
@@ -1067,7 +1074,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
 
         if !self.expand_union {
             let mut finder = UnionFinder { found: false };
-            ty.visit_with(&mut finder);
+            ty.visit_with(&ty, &mut finder);
             if finder.found {
                 return ty;
             }
@@ -1120,7 +1127,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                 for t in types {
                                     if !self.expand_union {
                                         let mut finder = UnionFinder { found: false };
-                                        t.visit_with(&mut finder);
+                                        t.visit_with(&t, &mut finder);
                                         if finder.found {
                                             return ty;
                                         }
@@ -1157,7 +1164,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                                     &[],
                                                     &[],
                                                 )?;
-                                                return self
+                                                return *self
                                                     .analyzer
                                                     .expand_type_params(&inferred, ty)?;
                                             }
@@ -1260,7 +1267,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                     .into();
                 }
 
-                ty => ty,
+                ty => box ty,
             }
         };
 
