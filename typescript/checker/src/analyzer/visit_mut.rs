@@ -47,4 +47,5 @@ impl VisitMut for Analyzer<'_, '_> {
     forward!(visit_mut_ts_interface_decl, TsInterfaceDecl);
     forward!(visit_mut_ts_type_element, TsTypeElement);
     forward!(visit_mut_prop_name, PropName);
+    forward!(visit_mut_computed_prop_name, ComputedPropName);
 }
