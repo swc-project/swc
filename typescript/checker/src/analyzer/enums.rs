@@ -261,6 +261,7 @@ fn compute(
                     TsLit::Str(_) => {}
                     TsLit::Bool(_) => {}
                     TsLit::Tpl(_) => {}
+                    TsLit::BigInt(_) => unimplemented!("BigInt in enum"),
                 }
             }
 
