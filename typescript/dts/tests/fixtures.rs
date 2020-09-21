@@ -383,7 +383,7 @@ fn get_correct_dts(path: &Path) -> (Arc<String>, Module) {
 
         let m = p
             .parse_typescript_module()
-            .map_err(|mut e| e.into_diagnostic(&handler).emit())?;
+            .map_err(|e| e.into_diagnostic(&handler).emit())?;
 
         Ok((fm.src.clone(), m))
     })
