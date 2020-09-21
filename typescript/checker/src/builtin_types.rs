@@ -181,30 +181,27 @@ fn merge(ls: &[Lib]) -> &'static Merged {
 
                                 // Merge interface
                                 Stmt::Decl(Decl::TsInterface(ref i)) => {
+                                    let body = analyzer
+                                        .validate(&mut i.clone())
+                                        .expect("builtin: failed to parse interface body");
+
                                     match merged.types.entry(i.id.clone().into()) {
                                         Entry::Occupied(mut e) => match &mut **e.get_mut() {
                                             ty::Type::Interface(ref mut v) => {
-                                                v.body.extend(
-                                                    analyzer
-                                                        .validate(&mut i.body.body.clone())
-                                                        .expect(
-                                                            "builtin: failed to parse interface \
-                                                             body",
-                                                        ),
-                                                );
+                                                v.body.extend(body.body);
                                             }
                                             _ => unreachable!(
                                                 "cannot merge interface with other type"
                                             ),
                                         },
                                         Entry::Vacant(e) => {
-                                            e.insert(
-                                                box i
-                                                    .clone()
-                                                    .validate_with(&mut analyzer)
-                                                    .expect("builtin: failed to parse interface")
-                                                    .into(),
-                                            );
+                                            let ty = box i
+                                                .clone()
+                                                .validate_with(&mut analyzer)
+                                                .expect("builtin: failed to parse interface")
+                                                .into();
+
+                                            e.insert(ty);
                                         }
                                     }
                                 }
