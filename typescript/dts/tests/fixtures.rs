@@ -49,7 +49,7 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
         .git_exclude(false)
         .git_global(false)
         .git_ignore(false)
-        .hidden(true)
+        .hidden(false)
         .build()
     {
         let entry = entry.context("entry?")?;
@@ -87,7 +87,7 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
         let test_name = file_name.replace("/", "::");
 
         // Prevent regression
-        let ignore = test_name.contains("::.");
+        let ignore = test_name.contains("::.") || test_name.starts_with(".");
 
         let name = format!("{}", test_name);
 
