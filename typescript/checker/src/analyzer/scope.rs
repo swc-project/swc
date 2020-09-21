@@ -1,6 +1,7 @@
 use super::{control_flow::CondFacts, Analyzer};
 use crate::{
     builtin_types,
+    debug::print_backtrace,
     errors::Error,
     name::Name,
     ty::{
@@ -604,6 +605,7 @@ impl Analyzer<'_, '_> {
         match self.scope.vars.entry(name.clone()) {
             Entry::Occupied(e) => {
                 if !allow_multiple {
+                    print_backtrace();
                     panic!(
                         "{}: {:?}",
                         self.path.display(),
