@@ -19,7 +19,9 @@ use smallvec::SmallVec;
 use std::{
     borrow::Cow,
     collections::hash_map::Entry,
+    iter,
     iter::{once, repeat},
+    slice,
 };
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -562,19 +564,22 @@ impl Analyzer<'_, '_> {
     #[inline(never)]
     pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         #[allow(dead_code)]
-        static ANY: Box<Type> = Type::any(DUMMY_SP);
+        static ANY: Type = Type::Keyword(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+        });
 
         if self.errored_imports.get(name).is_some() {
-            return Some(ItemRef::Single(&ANY));
+            return Some(ItemRef::Single(iter::once(&ANY)));
         }
 
         if let Some(ty) = self.resolved_import_types.get(name) {
-            return Some(ItemRef::Multi(ty));
+            return Some(ItemRef::Multi(ty.iter()));
         }
 
         if !self.is_builtin {
             if let Ok(box Type::Static(s)) = builtin_types::get_type(self.libs, DUMMY_SP, name) {
-                return Some(ItemRef::Single(s.ty));
+                return Some(ItemRef::Single(once(s.ty)));
             }
         }
 
@@ -978,17 +983,17 @@ impl<'a> Scope<'a> {
     fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         if let Some(ty) = self.facts.types.get(name) {
             // println!("({}) find_type({}): Found (cond facts)", self.depth(), name);
-            return Some(ItemRef::Single(&ty));
+            return Some(ItemRef::Single(iter::once(&ty)));
         }
 
         if let Some(ty) = self.types.get(name) {
             // println!("({}) find_type({}): Found", self.depth(), name);
 
-            return Some(ItemRef::Multi(&ty));
+            return Some(ItemRef::Multi(ty.iter()));
         }
 
         if let Some(v) = self.get_var(name) {
-            return v.ty.as_ref().map(ItemRef::Single);
+            return v.ty.as_ref().map(|v| ItemRef::Boxed(once(v)));
         }
 
         match self.parent {
@@ -998,22 +1003,21 @@ impl<'a> Scope<'a> {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub enum ItemRef<'a, T> {
-    Single(&'a T),
-    Boxed(&'a Box<T>),
-    Multi(&'a [T]),
+    Single(iter::Once<&'a T>),
+    Boxed(iter::Once<&'a Box<T>>),
+    Multi(slice::Iter<'a, Box<T>>),
 }
 
-impl<'a, T> IntoIterator for ItemRef<'a, T> {
+impl<'a, T> Iterator for ItemRef<'a, T> {
     type Item = &'a T;
-    type IntoIter = Either<std::iter::Once<&'a T>, std::slice::Iter<'a, T>>;
 
-    fn into_iter(self) -> Self::IntoIter {
+    fn next(&mut self) -> Option<Self::Item> {
         match self {
-            ItemRef::Single(s) => Either::Left(once(s)),
-            ItemRef::Multi(s) => Either::Right(s.into_iter()),
-            ItemRef::Boxed(s) => Either::Left(once(&**s)),
+            ItemRef::Single(v) => v.next(),
+            ItemRef::Boxed(v) => v.next().map(|v| &**v),
+            ItemRef::Multi(v) => v.next().map(|v| &**v),
         }
     }
 }
