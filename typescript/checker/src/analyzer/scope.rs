@@ -562,6 +562,8 @@ impl Analyzer<'_, '_> {
 
     #[inline(never)]
     pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
+        log::debug!("Scope.find_type('{}')", name);
+
         #[allow(dead_code)]
         static ANY: Type = Type::Keyword(TsKeywordType {
             span: DUMMY_SP,
@@ -994,6 +996,8 @@ impl<'a> Scope<'a> {
 
     /// This method does **not** handle imported types.
     fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
+        log::debug!("Analyzer.find_type('{}')", name);
+
         if let Some(ty) = self.facts.types.get(name) {
             // println!("({}) find_type({}): Found (cond facts)", self.depth(), name);
             return Some(ItemRef::Single(iter::once(&ty)));
