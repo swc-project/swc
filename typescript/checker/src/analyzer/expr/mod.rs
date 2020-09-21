@@ -854,22 +854,24 @@ impl Analyzer<'_, '_> {
             Type::Array(Array { elem_type, .. }) => {
                 let array_ty =
                     builtin_types::get_type(self.libs, span, &Id::word(js_word!("Array")))
-                        .expect("Array should be loaded");
+                        .expect("Array should exist in builtin");
 
-                match prop.validate_with(self) {
-                    Ok(ty) => match ty.normalize() {
-                        Type::Keyword(TsKeywordType {
-                            kind: TsKeywordTypeKind::TsNumberKeyword,
-                            ..
-                        })
-                        | Type::Lit(TsLitType {
-                            lit: TsLit::Number(..),
-                            ..
-                        }) => return Ok(elem_type.clone()),
+                if computed {
+                    match prop.validate_with(self) {
+                        Ok(ty) => match ty.normalize() {
+                            Type::Keyword(TsKeywordType {
+                                kind: TsKeywordTypeKind::TsNumberKeyword,
+                                ..
+                            })
+                            | Type::Lit(TsLitType {
+                                lit: TsLit::Number(..),
+                                ..
+                            }) => return Ok(elem_type.clone()),
 
+                            _ => {}
+                        },
                         _ => {}
-                    },
-                    _ => {}
+                    }
                 }
 
                 return self.access_property(span, array_ty, prop, computed, type_mode);
