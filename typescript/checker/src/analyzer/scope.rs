@@ -1166,7 +1166,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                                 )?;
                                                 return *self
                                                     .analyzer
-                                                    .expand_type_params(&inferred, ty)?;
+                                                    .expand_type_params(&inferred, box ty)?;
                                             }
 
                                             return t.clone().fold_with(self);
@@ -1191,7 +1191,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                             ref right,
                         }) => {
                             if left.sym == js_word!("void") {
-                                return Type::any(span);
+                                return *Type::any(span);
                             }
 
                             if let Some(types) = self.analyzer.find_type(&left.into()) {
@@ -1230,7 +1230,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                 Type::Query(QueryType {
                     expr: QueryExpr::TsEntityName(ref name),
                     ..
-                }) => return self.analyzer.type_of_ts_entity_name(span, name, None)?,
+                }) => return *self.analyzer.type_of_ts_entity_name(span, name, None)?,
 
                 _ => {}
             }
@@ -1247,7 +1247,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                 }
 
                 Type::Union(Union { span, types }) => {
-                    return Type::union(types);
+                    return *Type::union(types);
                 }
 
                 Type::Function(ty::Function {
@@ -1256,7 +1256,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                     params,
                     ret_ty,
                 }) => {
-                    let ret_ty = box self.analyzer.rename_type_params(span, *ret_ty, None)?;
+                    let ret_ty = self.analyzer.rename_type_params(span, ret_ty, None)?;
 
                     return ty::Function {
                         span,
