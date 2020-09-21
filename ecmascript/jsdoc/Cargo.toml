@@ -1,24 +1,24 @@
 [package]
-name = "jsdoc"
-version = "0.5.1"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "JsDoc parser writen in rust"
+documentation = "https://swc.rs/rustdoc/jsdoc/"
 edition = "2018"
 license = "Apache-2.0/MIT"
-documentation = "https://swc-project.github.io/rustdoc/jsdoc/"
-description = "JsDoc parser writen in rust"
+name = "jsdoc"
+version = "0.5.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_atoms = { version = "0.2", path = "../../atoms" }
-swc_common = { version = "0.10.0", path = "../../common" }
 nom = "5.1.2"
-serde = { version = "1", features = ["derive"] }
+serde = {version = "1", features = ["derive"]}
+swc_atoms = {version = "0.2", path = "../../atoms"}
+swc_common = {version = "0.10.0", path = "../../common"}
 
 [dev-dependencies]
-swc_ecma_ast = { version = "0.31.0", path = "../ast" }
-swc_ecma_parser = { version = "0.37.0", path = "../parser" }
-testing = { version = "0.10.0", path = "../../testing" }
 anyhow = "1"
 dashmap = "3"
+swc_ecma_ast = {version = "0.31.0", path = "../ast"}
+swc_ecma_parser = {version = "0.37.0", path = "../parser"}
+testing = {version = "0.10.0", path = "../../testing"}
 walkdir = "2"

@@ -4,7 +4,7 @@ This document gives a high level overview of swc internals. You may find it usef
 
 ## Macros
 
-See [blog post about swc macros](https://swc-project.github.io/blog/2020/01/04/pmutil#macros-built-with-pmutil).
+See [blog post about swc macros](https://swc.rs/blog/2020/01/04/pmutil#macros-built-with-pmutil).
 
 swc uses proc macro extensively to reduce work. Please see links below to know what each macro do.
 
@@ -143,9 +143,9 @@ Parser tests ensures that parsed result of test262/pass is identical with test26
 
 Codegen tests ensures that generated code is equivalent to goldened reference files located at [tests/references](ecmascript/codegen/tests/references).
 
-[enum_kind]: https://swc-project.github.io/rustdoc/enum_kind/derive.Kind.html
-[string_enum]: https://swc-project.github.io/rustdoc/string_enum/derive.StringEnum.html
-[ast_node]: https://swc-project.github.io/rustdoc/ast_node/index.html
-[parser_macros]: https://swc-project.github.io/rustdoc/swc_ecma_parser_macros/index.html
-[codegen_macros]: https://swc-project.github.io/rustdoc/swc_ecma_codegen_macros/index.html
+[enum_kind]: https://swc.rs/rustdoc/enum_kind/derive.Kind.html
+[string_enum]: https://swc.rs/rustdoc/string_enum/derive.StringEnum.html
+[ast_node]: https://swc.rs/rustdoc/ast_node/index.html
+[parser_macros]: https://swc.rs/rustdoc/swc_ecma_parser_macros/index.html
+[codegen_macros]: https://swc.rs/rustdoc/swc_ecma_codegen_macros/index.html
 [test262]: https://github.com/tc39/test262

@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://swc-project.github.io/">
+  <a href="https://swc.rs/">
     <img alt="babel" src="https://raw.githubusercontent.com/swc-project/logo/master/swc.png" width="546">
   </a>
 </p>
@@ -29,11 +29,11 @@ swc is a super-fast typescript / javascript compiler written in rust.
 
 # Documentation
 
-Check out the documentation [in the website](https://swc-project.github.io/docs/installation).
+Check out the documentation [in the website](https://swc.rs/docs/installation).
 
 # Features
 
-Please see [comparison with babel](https://swc-project.github.io/docs/comparison-babel).
+Please see [comparison with babel](https://swc.rs/docs/comparison-babel).
 
 # Performance
 
@@ -43,12 +43,11 @@ The lower bound of the speedup compared to babel is **18**. The benchmarks were 
 | ------------------ | :------------------------------------: |
 | swc (es3)          |  761 ops/sec ±0.23% (89 runs sampled)  |
 | swc (es2015)       |  800 ops/sec ±1.02% (87 runs sampled)  |
-| swc (es2016)       | 2123 ops/sec ±0.84% (88 runs sampled) |
-| swc (es2017)       | 2131 ops/sec ±1.13% (90 runs sampled) |
-| swc (es2018)       | 2981 ops/sec ±0.25% (90 runs sampled) |
+| swc (es2016)       | 2123 ops/sec ±0.84% (88 runs sampled)  |
+| swc (es2017)       | 2131 ops/sec ±1.13% (90 runs sampled)  |
+| swc (es2018)       | 2981 ops/sec ±0.25% (90 runs sampled)  |
 | swc-optimize (es3) |  712 ops/sec ±0.21% (86 runs sampled)  |
 | babel              | 41.75 ops/sec ±8.07% (56 runs sampled) |
-
 
 <h2 align="center">Supporting swc</h2>
 
@@ -69,9 +68,9 @@ The lower bound of the speedup compared to babel is **18**. The benchmarks were 
 
 swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
- - Giving developer time on the project. (Message us on [Slack](https://swc-org.slack.com/) for guidance!)
- -  [Slackin for swc](https://swc-slackin.herokuapp.com)
- - Giving funds by becoming a sponsor (see below)!
+- Giving developer time on the project. (Message us on [Slack](https://swc-org.slack.com/) for guidance!)
+- [Slackin for swc](https://swc-slackin.herokuapp.com)
+- Giving funds by becoming a sponsor (see below)!
 
 ## Open Collective Sponsors
 
@@ -87,12 +86,10 @@ Become a sponsor and get your logo on our README on Github with a link to your s
     <img src="https://opencollective.com/swc/tiers/silver-sponsers.svg?avatarHeight=64">
 </a>
 
-
 <h2 id="bronze-sponsers" align="center">Bronze Sponsors</h2>
 <a href="https://opencollective.com/swc">
     <img src="https://opencollective.com/swc/tiers/bronze-sponsers.svg?avatarHeight=64">
 </a>
-
 
 <h2 id="backers" align="center">Backers</h2>
 <a href="https://opencollective.com/swc">

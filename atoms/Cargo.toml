@@ -1,13 +1,13 @@
 [package]
-name = "swc_atoms"
-build = "build.rs"
-version = "0.2.2"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/swc_atoms/"
+build = "build.rs"
 description = "Atoms for the swc project."
+documentation = "https://swc.rs/rustdoc/swc_atoms/"
 edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_atoms"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.2.2"
 
 [dependencies]
 string_cache = "0.8"

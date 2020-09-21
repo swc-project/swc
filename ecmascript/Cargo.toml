@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Ecmascript"
-documentation = "https://swc-project.github.io/rustdoc/swc_ecmascript/"
+documentation = "https://swc.rs/rustdoc/swc_ecmascript/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecmascript"

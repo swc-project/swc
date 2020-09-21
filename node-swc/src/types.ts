@@ -377,12 +377,12 @@ export interface TransformConfig {
   optimizer?: OptimizerConfig;
 
   /**
-   * https://swc-project.github.io/docs/configuring-swc.html#jsctransformlegacydecorator
+   * https://swc.rs/docs/configuring-swc.html#jsctransformlegacydecorator
    */
   legacyDecorator?: boolean
 
   /**
-   * https://swc-project.github.io/docs/configuring-swc.html#jsctransformdecoratormetadata
+   * https://swc.rs/docs/configuring-swc.html#jsctransformdecoratormetadata
    */
   decoratorMetadata?: boolean
 }
@@ -436,11 +436,11 @@ export interface ConstModulesConfig {
   };
 }
 
-/// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerjsonify
+/// https://swc.rs/docs/configuring-swc.html#jsctransformoptimizerjsonify
 export interface OptimizerConfig {
-  /// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerglobals
+  /// https://swc.rs/docs/configuring-swc.html#jsctransformoptimizerglobals
   globals?: GlobalPassOption;
-  /// https://swc-project.github.io/docs/configuring-swc.html#jsctransformoptimizerjsonify
+  /// https://swc.rs/docs/configuring-swc.html#jsctransformoptimizerjsonify
   jsonify?: { minCost: number }
 }
 

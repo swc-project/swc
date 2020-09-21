@@ -1,30 +1,30 @@
 [package]
-name = "swc_ecma_preset_env"
-version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
+name = "swc_ecma_preset_env"
 publish = false
+version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_atoms = { path = "../../atoms" }
-swc_common = { path = "../../common" }
-swc_ecma_ast = { path = "../ast" }
-swc_ecma_transforms = { path = "../transforms" }
-swc_ecma_visit = { path = "../visit" }
-string_enum = { path = "../../macros/string_enum" }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-walkdir = "2"
-semver = { version = "0.9.0", features = ["serde"] }
-once_cell = "1.2.0"
-st-map = "0.1.2"
-fxhash = "0.2.1"
 dashmap = "3"
+fxhash = "0.2.1"
+once_cell = "1.2.0"
+semver = {version = "0.9.0", features = ["serde"]}
+serde = {version = "1", features = ["derive"]}
+serde_json = "1"
+st-map = "0.1.2"
+string_enum = {path = "../../macros/string_enum"}
+swc_atoms = {path = "../../atoms"}
+swc_common = {path = "../../common"}
+swc_ecma_ast = {path = "../ast"}
+swc_ecma_transforms = {path = "../transforms"}
+swc_ecma_visit = {path = "../visit"}
+walkdir = "2"
 
 [dev-dependencies]
-swc_ecma_codegen = { path = "../codegen" }
-swc_ecma_parser = { path = "../parser" }
-testing = { path = "../../testing" }
 pretty_assertions = "0.6"
+swc_ecma_codegen = {path = "../codegen"}
+swc_ecma_parser = {path = "../parser"}
+testing = {path = "../../testing"}
