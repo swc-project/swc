@@ -3,7 +3,6 @@ use crate::{
     util::{prepend_stmts, var::VarCollector, ExprFactory},
 };
 use fxhash::FxHashMap;
-use serde::{Deserialize, Serialize};
 use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -14,45 +13,13 @@ use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, Visit
 /// Value does not contain TsLit::Bool
 type EnumValues = FxHashMap<Id, TsLit>;
 
-#[derive(Debug, Serialize, Deserialize)]
-#[non_exhaustive]
-pub enum ImportNotUsedAsValues {
-    #[serde(rename = "remove")]
-    Remove,
-    #[serde(rename = "preserve")]
-    Preserve,
-}
-
-/// This value defaults to `Preserve`
-impl Default for ImportNotUsedAsValues {
-    fn default() -> Self {
-        Self::Preserve
-    }
-}
-
-#[derive(Debug, Default, Serialize, Deserialize)]
-#[non_exhaustive]
-pub struct Config {
-    pub import_not_used_as_values: ImportNotUsedAsValues,
-}
-
-pub fn strip_with_config(config: Config) -> impl Fold {
-    as_folder(Strip {
-        config,
-        non_top_level: Default::default(),
-        scope: Default::default(),
-        was_side_effect_import: Default::default(),
-    })
-}
-
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
-    strip_with_config(Default::default())
+    as_folder(Strip::default())
 }
 
 #[derive(Default)]
 struct Strip {
-    config: Config,
     non_top_level: bool,
     scope: Scope,
 
@@ -713,22 +680,12 @@ impl VisitMut for Strip {
                     .scope
                     .imported_idents
                     .get(&(local.sym.clone(), local.span.ctxt()));
-                match self.config.import_not_used_as_values {
-                    ImportNotUsedAsValues::Remove => match entry {
-                        Some(&DeclInfo {
-                            has_concrete: false,
-                            ..
-                        }) => false,
-                        _ => true,
-                    },
-                    ImportNotUsedAsValues::Preserve => match entry {
-                        Some(&DeclInfo {
-                            has_type: true,
-                            has_concrete: false,
-                            ..
-                        }) => false,
-                        _ => true,
-                    },
+                match entry {
+                    Some(&DeclInfo {
+                        has_concrete: false,
+                        ..
+                    }) => false,
+                    _ => true,
                 }
             }
             _ => true,
