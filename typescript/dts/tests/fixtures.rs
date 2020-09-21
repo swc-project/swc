@@ -115,11 +115,7 @@ fn add_conformance_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
             .to_string();
 
         let test_name = format!("conformance::{}", file_name.replace("/", "::"));
-        let ignore = file_name.contains("ambientAccessors.ts")
-            || file_name.contains("declarationEmitWorkWithInlineComments.ts")
-            || env::var("TEST")
-                .map(|s| !file_name.replace("/", "::").contains(&s))
-                .unwrap_or(false);
+        let ignore = file_name.starts_with("pat");
 
         let name = test_name.to_string();
         add_test(tests, name, ignore, move || {
@@ -190,39 +186,9 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
         };
 
         let test_name = file_name.replace("/", "::");
-        let ignore = env::var("TEST")
-            .map(|s| !file_name.replace("/", "::").contains(&s))
-            .unwrap_or(false);
 
         // Prevent regression
-        let ignore = ignore
-            && !file_name.contains("custom/")
-            && !file_name.contains("classes/property")
-            && !file_name.contains("destructuring")
-            && !file_name.contains("enums")
-            && !file_name.contains("key-of/for-in")
-            && !file_name.contains("interface/used")
-            && !file_name.contains("types/never")
-            && !file_name.contains("types/conditional")
-            && !file_name.contains("types/constraint")
-            && !file_name.contains("types/literal")
-            && !file_name.contains("types/generic")
-            && !file_name.contains("types/string/operator")
-            && !file_name.contains("types/string/tuple")
-            && !file_name.contains("types/symbol/dts")
-            && !file_name.contains("types/relationship/comparable")
-            && !file_name.contains("types/union")
-            && !file_name.contains("var-decl");
-
-        let ignore = ignore
-            || file_name.contains("enums/tpl-lit")
-            // crazy
-            || file_name.contains("types/string/overload/conformance-1")
-            // crazy
-            || file_name.contains("types/string/overload/conformance-2")
-            // our output is better than it of tsc
-            || file_name.contains("types/string/overload/conformance-3")
-            || file_name.contains("custom/tsc-bug");
+        let ignore = test_name.contains("::.");
 
         let name = format!("{}", test_name);
 
