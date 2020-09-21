@@ -146,7 +146,6 @@ impl OptChaining {
                 .into();
             }
             ExprOrSuper::Expr(callee) if callee.is_member() => {
-                dbg!(&callee);
                 let callee = callee.member().unwrap();
                 let callee = self.handle_member(callee);
 
@@ -175,23 +174,27 @@ impl OptChaining {
             ExprOrSuper::Expr(obj) if obj.is_member() => {
                 let obj = obj.member().unwrap();
                 let obj = self.handle_member(obj).map(Expr::Cond);
-                let obj = match obj {
-                    Ok(v) => v,
-                    Err(v) => v,
+                let (obj, handled) = match obj {
+                    Ok(v) => (v, true),
+                    Err(v) => (v, false),
                 };
 
                 match obj {
                     Expr::Cond(obj) => {
-                        //
-                        return Err(CondExpr {
+                        let cond_expr = CondExpr {
                             span: DUMMY_SP,
                             alt: Box::new(Expr::Member(MemberExpr {
                                 obj: ExprOrSuper::Expr(obj.alt),
                                 ..e
                             })),
                             ..obj
-                        }
-                        .into());
+                        };
+                        //
+                        return if handled {
+                            Ok(cond_expr)
+                        } else {
+                            Err(Expr::Cond(cond_expr))
+                        };
                     }
                     _ => ExprOrSuper::Expr(Box::new(obj)),
                 }
