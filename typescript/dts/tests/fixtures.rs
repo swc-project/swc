@@ -2,13 +2,11 @@
 #![feature(vec_remove_item)]
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
 
 use anyhow::{Context, Error};
-use pretty_assertions::assert_eq;
 use std::{
     cmp::Ordering::Equal,
     env,
@@ -18,14 +16,16 @@ use std::{
     process::Command,
     sync::Arc,
 };
-use swc_common::{FileName, Fold, FoldWith};
+use swc_common::{input::SourceFileInput, FileName};
 use swc_ecma_ast::{Module, TsKeywordTypeKind, TsLit, TsLitType, TsType, TsUnionType};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig};
-use swc_ts_checker::{ty::Type, Lib};
+use swc_ecma_parser::{JscTarget, Parser, Syntax, TsConfig};
+use swc_ecma_utils::drop_span;
+use swc_ecma_visit::FoldWith;
+use swc_ts_checker::Lib;
 use swc_ts_dts::generate_dts;
 use test::{test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType};
-use testing::{DropSpan, NormalizedOutput, StdErr};
+use testing::{NormalizedOutput, StdErr};
 
 #[test]
 #[ignore] // Copies of all tests live in the fixtures directory.
@@ -239,7 +239,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
     let file_name = canonicalize(file_name).unwrap();
     let fname = file_name.display().to_string();
     let (expected_code, expected) = get_correct_dts(&file_name);
-    let expected = expected.fold_with(&mut Normalizer).fold_with(&mut DropSpan);
+    let expected = drop_span(expected.fold_with(&mut Normalizer));
     println!("---------- Expected ----------\n{}", expected_code);
 
     testing::Tester::new()
@@ -265,13 +265,11 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
             let expected = {
                 let mut buf = vec![];
                 {
-                    let handlers = box MyHandlers;
                     let mut emitter = Emitter {
                         cfg: Default::default(),
                         comments: None,
                         cm: cm.clone(),
                         wr: box JsWriter::new(cm.clone(), "\n", &mut buf, None),
-                        handlers,
                     };
 
                     emitter
@@ -287,13 +285,11 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
             let generated = {
                 let mut buf = vec![];
                 {
-                    let handlers = box MyHandlers;
                     let mut emitter = Emitter {
                         cfg: Default::default(),
                         comments: None,
                         cm: cm.clone(),
                         wr: box JsWriter::new(cm.clone(), "\n", &mut buf, None),
-                        handlers,
                     };
 
                     emitter
@@ -374,7 +370,6 @@ fn get_correct_dts(path: &Path) -> (Arc<String>, Module) {
         let fm = cm.new_source_file(FileName::Real(dts_file), content);
 
         let mut p = Parser::new(
-            Session { handler: &handler },
             Syntax::Typescript(TsConfig {
                 tsx: true,
                 decorators: true,
@@ -386,7 +381,9 @@ fn get_correct_dts(path: &Path) -> (Arc<String>, Module) {
             None,
         );
 
-        let m = p.parse_typescript_module().map_err(|mut e| e.emit())?;
+        let m = p
+            .parse_typescript_module()
+            .map_err(|mut e| e.into_diagnostic(&handler).emit())?;
 
         Ok((fm.src.clone(), m))
     })
@@ -411,15 +408,11 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
-
 struct Normalizer;
 
 /// Sorts the type.
-impl Fold<Vec<Box<TsType>>> for Normalizer {
-    fn fold(&mut self, mut types: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
+impl swc_ecma_visit::Fold for Normalizer {
+    fn fold_ts_types(&mut self, mut types: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
         fn kwd_rank(kind: TsKeywordTypeKind) -> u8 {
             match kind {
                 TsKeywordTypeKind::TsNumberKeyword => 0,

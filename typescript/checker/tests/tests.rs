@@ -321,7 +321,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                 let mut target = JscTarget::default();
 
                 let module = parser.parse_module().map_err(|mut e| {
-                    e.emit();
+                    e.into_diagnostic(&handler).emit();
                     ()
                 })?;
                 let module = if mode == Mode::Conformance {
@@ -335,7 +335,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                 let ts_config = TsConfig::default();
 
                 let span = module.span;
-                let cmts = comments.leading_comments(span.lo());
+                let cmts = comments.leading.get(&span.lo());
                 match cmts {
                     Some(ref cmts) => {
                         for cmt in cmts.iter() {
@@ -648,7 +648,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-fn make_test(c: &Comments, module: Module) -> Module {
+fn make_test(c: &SwcComments, module: Module) -> Module {
     let mut m = TestMaker {
         c,
         stmts: Default::default(),
@@ -658,7 +658,7 @@ fn make_test(c: &Comments, module: Module) -> Module {
 }
 
 struct TestMaker<'a> {
-    c: &'a dyn Comments,
+    c: &'a SwcComments,
     stmts: Vec<Stmt>,
 }
 
@@ -686,7 +686,7 @@ impl Fold for TestMaker<'_> {
     }
 
     fn fold_ts_type_alias_decl(&mut self, decl: TsTypeAliasDecl) -> TsTypeAliasDecl {
-        let cmts = self.c.trailing_comments(decl.span.hi());
+        let cmts = self.c.trailing.get(&decl.span.hi());
 
         match cmts {
             Some(cmts) => {
