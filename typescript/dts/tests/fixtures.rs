@@ -319,7 +319,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
                 return Err(());
             }
 
-            panic!()
+            Ok(())
         })
         .expect("failed to check");
 
