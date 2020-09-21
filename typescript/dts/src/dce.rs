@@ -1,9 +1,8 @@
 //! Dead code elimination for types.
 
 use fxhash::FxHashSet;
-use swc_common::{Visit, VisitWith};
-use swc_ecma_ast::Ident;
-use swc_ts_checker::{id::Id, ModuleTypeInfo};
+use swc_ts_checker::{Id, ModuleTypeInfo};
+use swc_ts_types::TypeNode;
 
 pub fn get_used(info: &ModuleTypeInfo) -> FxHashSet<Id> {
     let mut used = FxHashSet::default();
@@ -25,10 +24,10 @@ pub fn get_used(info: &ModuleTypeInfo) -> FxHashSet<Id> {
 
 fn track<T>(used: &mut FxHashSet<Id>, node: &T)
 where
-    T: for<'any> VisitWith<Tracker<'any>>,
+    T: for<'any> swc_ts_types::VisitWith<Tracker<'any>>,
 {
     let mut v = Tracker { used };
-    node.visit_with(&mut v);
+    node.visit_with(&node, &mut v);
 }
 
 #[derive(Debug)]
@@ -36,14 +35,8 @@ struct Tracker<'a> {
     used: &'a mut FxHashSet<Id>,
 }
 
-impl Visit<Id> for Tracker<'_> {
-    fn visit(&mut self, node: &Id) {
+impl swc_ts_types::Visit for Tracker<'_> {
+    fn visit_id(&mut self, node: &Id, _: &dyn TypeNode) {
         self.used.insert(node.clone());
-    }
-}
-
-impl Visit<Ident> for Tracker<'_> {
-    fn visit(&mut self, node: &Ident) {
-        self.used.insert(node.into());
     }
 }

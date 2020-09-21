@@ -1,5 +1,6 @@
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Handles
 ///
@@ -14,9 +15,9 @@ pub(crate) struct RealImplRemover {
     last_ambient_fn_name: Option<Ident>,
 }
 
-impl Fold<Stmt> for RealImplRemover {
-    fn fold(&mut self, mut node: Stmt) -> Stmt {
-        node = node.fold_children(self);
+impl Fold for RealImplRemover {
+    fn fold_stmt(&mut self, mut node: Stmt) -> Stmt {
+        node = node.fold_children_with(self);
 
         match node {
             Stmt::Decl(Decl::Fn(ref decl)) => {
@@ -36,10 +37,8 @@ impl Fold<Stmt> for RealImplRemover {
 
         node
     }
-}
 
-impl Fold<Vec<ClassMember>> for RealImplRemover {
-    fn fold(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
+    fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
         let mut last_ambient = None;
 
         members.move_flat_map(|member| match member {
@@ -62,11 +61,9 @@ impl Fold<Vec<ClassMember>> for RealImplRemover {
             _ => Some(member),
         })
     }
-}
 
-impl Fold<TsModuleDecl> for RealImplRemover {
-    #[inline(always)]
-    fn fold(&mut self, node: TsModuleDecl) -> TsModuleDecl {
+    #[inline]
+    fn fold_ts_module_decl(&mut self, node: TsModuleDecl) -> TsModuleDecl {
         node
     }
 }

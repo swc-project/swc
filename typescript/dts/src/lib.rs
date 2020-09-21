@@ -1,6 +1,5 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 
 use crate::{ambient::RealImplRemover, dce::get_used};
 use fxhash::FxHashSet;
@@ -13,16 +12,16 @@ use std::{
     sync::Arc,
 };
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prop_name_to_expr, StmtLike};
+use swc_ecma_visit::{Fold, FoldWith};
 use swc_ts_checker::{
-    id::Id,
     ty,
-    ty::Type,
     util::{PatExt, TypeEq},
-    ModuleTypeInfo,
+    Id,
 };
+use swc_ts_types::{ModuleTypeInfo, Type};
 
 mod ambient;
 mod dce;
@@ -45,7 +44,7 @@ pub fn generate_dts(module: Module, info: ModuleTypeInfo) -> Module {
 struct TypeResolver {
     info: ModuleTypeInfo,
     used: FxHashSet<Id>,
-    current_class: Option<ty::Class>,
+    current_class: Option<swc_ts_types::Class>,
 
     in_declare: bool,
     top_level: bool,
@@ -65,7 +64,7 @@ impl TypeResolver {
 
             let pos = types.iter().position(|ty| pred(ty.normalize()));
             if let Some(pos) = pos {
-                return Some(match types.remove(pos) {
+                return Some(match *types.remove(pos) {
                     Type::Arc(ty) => ty,
                     _ => unreachable!(),
                 });
@@ -90,7 +89,7 @@ impl TypeResolver {
         }
     }
 
-    fn fold_stmts<T>(&mut self, nodes: Vec<T>) -> Vec<T>
+    fn fold_stmt_like<T>(&mut self, nodes: Vec<T>) -> Vec<T>
     where
         T: StmtLike + FoldWith<Self>,
     {
@@ -98,34 +97,30 @@ impl TypeResolver {
     }
 }
 
-impl Fold<BlockStmt> for TypeResolver {
-    fn fold(&mut self, mut node: BlockStmt) -> BlockStmt {
+impl Fold for TypeResolver {
+    fn fold_block_stmt(&mut self, mut node: BlockStmt) -> BlockStmt {
         let old = self.top_level;
         self.top_level = false;
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
         self.top_level = old;
 
         node
     }
-}
 
-impl Fold<Function> for TypeResolver {
-    fn fold(&mut self, mut node: Function) -> Function {
+    fn fold_function(&mut self, mut node: Function) -> Function {
         node.is_generator = false;
         node.is_async = false;
 
         let old = self.top_level;
         self.top_level = false;
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
         self.top_level = old;
 
         node
     }
-}
 
-impl Fold<VarDecl> for TypeResolver {
-    fn fold(&mut self, node: VarDecl) -> VarDecl {
-        let mut node: VarDecl = node.fold_children(self);
+    fn fold_var_decl(&mut self, node: VarDecl) -> VarDecl {
+        let mut node: VarDecl = node.fold_children_with(self);
 
         node.decls.retain(|v| match v.name {
             Pat::Invalid(..) => false,
@@ -151,10 +146,8 @@ impl Fold<VarDecl> for TypeResolver {
             ..node
         }
     }
-}
 
-impl Fold<VarDeclarator> for TypeResolver {
-    fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
+    fn fold_var_declarator(&mut self, mut node: VarDeclarator) -> VarDeclarator {
         if match &node.name {
             Pat::Array(arr) => arr.elems.is_empty(),
             Pat::Object(obj) => obj.props.is_empty(),
@@ -214,31 +207,27 @@ impl Fold<VarDeclarator> for TypeResolver {
 
         node
     }
-}
 
-impl Fold<Pat> for TypeResolver {
-    fn fold(&mut self, mut node: Pat) -> Pat {
-        node = node.fold_children(self);
+    fn fold_pat(&mut self, mut node: Pat) -> Pat {
+        node = node.fold_children_with(self);
 
         match node {
             Pat::Assign(a) => *a.left,
             _ => node,
         }
     }
-}
 
-impl Fold<FnDecl> for TypeResolver {
-    fn fold(&mut self, mut node: FnDecl) -> FnDecl {
+    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
         node.declare = !self.in_declare;
 
-        let node: FnDecl = node.fold_children(self);
+        let node: FnDecl = node.fold_children_with(self);
 
         if node.function.return_type.is_some() {
             return node;
         }
 
         let return_type = self.get_mapped(&node.ident.clone().into(), |ty| match ty {
-            Type::Function(ty::Function { ref ret_ty, .. }) => {
+            Type::Function(swc_ts_types::Function { ref ret_ty, .. }) => {
                 Some(TsTypeAnn::from((**ret_ty).clone()))
             }
             _ => None,
@@ -252,10 +241,8 @@ impl Fold<FnDecl> for TypeResolver {
             ..node
         }
     }
-}
 
-impl Fold<TsModuleDecl> for TypeResolver {
-    fn fold(&mut self, node: TsModuleDecl) -> TsModuleDecl {
+    fn fold_ts_module_decl(&mut self, node: TsModuleDecl) -> TsModuleDecl {
         self.prevent_empty_export = true;
 
         let old_in_declare = self.in_declare;
@@ -266,7 +253,7 @@ impl Fold<TsModuleDecl> for TypeResolver {
 
         let node = TsModuleDecl {
             declare: true,
-            ..node.fold_children(self)
+            ..node.fold_children_with(self)
         };
 
         self.top_level = old_top_level;
@@ -274,10 +261,8 @@ impl Fold<TsModuleDecl> for TypeResolver {
 
         node
     }
-}
 
-impl Fold<TsEnumDecl> for TypeResolver {
-    fn fold(&mut self, node: TsEnumDecl) -> TsEnumDecl {
+    fn fold_ts_enum_decl(&mut self, node: TsEnumDecl) -> TsEnumDecl {
         let mut is_all_lit = true;
         let mut should_init_only_first = true;
         let has_no_init = node.members.iter().all(|v| v.init.is_none());
@@ -341,26 +326,20 @@ impl Fold<TsEnumDecl> for TypeResolver {
             ..node
         }
     }
-}
 
-impl Fold<TsTypeAliasDecl> for TypeResolver {
-    fn fold(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
+    fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
         TsTypeAliasDecl {
             declare: !self.in_declare,
-            ..node.fold_children(self)
+            ..node.fold_children_with(self)
         }
     }
-}
 
-impl Fold<Option<BlockStmt>> for TypeResolver {
     #[inline]
-    fn fold(&mut self, _: Option<BlockStmt>) -> Option<BlockStmt> {
+    fn fold_opt_block_stmt(&mut self, _: Option<BlockStmt>) -> Option<BlockStmt> {
         None
     }
-}
 
-impl Fold<ClassMember> for TypeResolver {
-    fn fold(&mut self, node: ClassMember) -> ClassMember {
+    fn fold_class_member(&mut self, node: ClassMember) -> ClassMember {
         match node {
             ClassMember::Method(ClassMethod {
                 span,
@@ -394,12 +373,10 @@ impl Fold<ClassMember> for TypeResolver {
             _ => {}
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
-}
 
-impl Fold<ClassDecl> for TypeResolver {
-    fn fold(&mut self, mut node: ClassDecl) -> ClassDecl {
+    fn fold_class_decl(&mut self, mut node: ClassDecl) -> ClassDecl {
         node.declare = !self.in_declare;
 
         let old_class = self.current_class.take();
@@ -411,16 +388,14 @@ impl Fold<ClassDecl> for TypeResolver {
             self.current_class = Some(class);
         }
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         self.current_class = old_class;
 
         node
     }
-}
 
-impl Fold<ClassProp> for TypeResolver {
-    fn fold(&mut self, mut node: ClassProp) -> ClassProp {
+    fn fold_class_prop(&mut self, mut node: ClassProp) -> ClassProp {
         node.value = None;
 
         if node.accessibility == Some(Accessibility::Private) {
@@ -431,13 +406,11 @@ impl Fold<ClassProp> for TypeResolver {
             return node;
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
-}
 
-impl Fold<ClassMethod> for TypeResolver {
-    fn fold(&mut self, mut node: ClassMethod) -> ClassMethod {
-        node = node.fold_children(self);
+    fn fold_class_method(&mut self, mut node: ClassMethod) -> ClassMethod {
+        node = node.fold_children_with(self);
 
         if node.function.return_type.is_some() {
             return node;
@@ -445,11 +418,9 @@ impl Fold<ClassMethod> for TypeResolver {
 
         node
     }
-}
 
-impl Fold<Vec<ClassMember>> for TypeResolver {
-    fn fold(&mut self, mut members: Vec<ClassMember>) -> Vec<ClassMember> {
-        members = members.fold_children(self);
+    fn fold_class_members(&mut self, mut members: Vec<ClassMember>) -> Vec<ClassMember> {
+        members = members.fold_children_with(self);
 
         let mut props = Vec::with_capacity(members.len() + 6);
         let mut buf = Vec::with_capacity(members.len());
@@ -518,11 +489,9 @@ impl Fold<Vec<ClassMember>> for TypeResolver {
 
         props
     }
-}
 
-impl Fold<Stmt> for TypeResolver {
-    fn fold(&mut self, v: Stmt) -> Stmt {
-        let v = v.fold_children(self);
+    fn fold_stmt(&mut self, v: Stmt) -> Stmt {
+        let v = v.fold_children_with(self);
         match v {
             Stmt::Decl(Decl::Class(ref i)) if !self.used.contains((&i.ident.clone().into())) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
@@ -547,29 +516,27 @@ impl Fold<Stmt> for TypeResolver {
             _ => v,
         }
     }
-}
 
-impl Fold<Vec<Stmt>> for TypeResolver {
-    fn fold(&mut self, mut stmts: Vec<Stmt>) -> Vec<Stmt> {
+    fn fold_stmts(&mut self, mut stmts: Vec<Stmt>) -> Vec<Stmt> {
         if !self.top_level {
             return vec![];
         }
 
-        stmts = stmts.fold_children(self);
+        stmts = stmts.fold_children_with(self);
 
-        self.fold_stmts(stmts)
+        self.fold_stmt_like(stmts)
     }
-}
 
-impl Fold<Vec<ModuleItem>> for TypeResolver {
-    fn fold(&mut self, mut items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        items = items.fold_children(self).move_flat_map(|item| match item {
-            ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..))) if self.in_declare => None,
+    fn fold_module_items(&mut self, mut items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        items = items
+            .fold_children_with(self)
+            .move_flat_map(|item| match item {
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..))) if self.in_declare => None,
 
-            ModuleItem::ModuleDecl(_) | ModuleItem::Stmt(Stmt::Decl(..)) => Some(item),
+                ModuleItem::ModuleDecl(_) | ModuleItem::Stmt(Stmt::Decl(..)) => Some(item),
 
-            _ => None,
-        });
+                _ => None,
+            });
 
         if self.top_level && self.forced_module && !self.prevent_empty_export {
             // items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -582,13 +549,11 @@ impl Fold<Vec<ModuleItem>> for TypeResolver {
             // )));
         }
 
-        self.fold_stmts(items)
+        self.fold_stmt_like(items)
     }
-}
 
-impl Fold<ModuleItem> for TypeResolver {
-    fn fold(&mut self, mut node: ModuleItem) -> ModuleItem {
-        node = node.fold_children(self);
+    fn fold_module_item(&mut self, mut node: ModuleItem) -> ModuleItem {
+        node = node.fold_children_with(self);
         let span = node.span();
 
         match node {
@@ -608,11 +573,9 @@ impl Fold<ModuleItem> for TypeResolver {
 
         node
     }
-}
 
-impl Fold<TsIndexSignature> for TypeResolver {
-    fn fold(&mut self, sig: TsIndexSignature) -> TsIndexSignature {
-        let sig = sig.fold_children(self);
+    fn fold_ts_index_signature(&mut self, sig: TsIndexSignature) -> TsIndexSignature {
+        let sig = sig.fold_children_with(self);
 
         if sig.type_ann.is_none() {
             return TsIndexSignature {

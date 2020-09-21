@@ -7,6 +7,7 @@
 
 extern crate test;
 
+use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use std::{
@@ -18,10 +19,14 @@ use std::{
     sync::Arc,
 };
 use swc_common::{
-    comments::Comments, errors::DiagnosticBuilder, FileName, Fold, FoldWith, Span, Spanned,
+    comments::{Comment, Comments},
+    errors::DiagnosticBuilder,
+    input::SourceFileInput,
+    BytePos, FileName, Span, Spanned,
 };
 use swc_ecma_ast::{Module, *};
-use swc_ecma_parser::{JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig};
+use swc_ecma_parser::{JscTarget, Parser, Syntax, TsConfig};
+use swc_ecma_visit::{Fold, FoldWith};
 use swc_ts_checker::{Lib, Rule};
 use test::{test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType};
 use testing::{StdErr, Tester};
@@ -302,13 +307,10 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                 // We parse files twice. At first, we read comments and detect
                 // configurations for following parse.
 
-                let session = Session { handler: &handler };
-
-                let comments = Comments::default();
+                let comments = SwcComments::default();
 
                 let fm = fm.clone().unwrap().clone();
                 let mut parser = Parser::new(
-                    session,
                     Syntax::Typescript(TsConfig {
                         tsx: fname.contains("tsx"),
                         ..Default::default()
@@ -364,6 +366,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                                     JscTarget::Es2017 => Lib::load("es2017"),
                                     JscTarget::Es2018 => Lib::load("es2018"),
                                     JscTarget::Es2019 => Lib::load("es2019"),
+                                    JscTarget::Es2020 => Lib::load("es2020"),
                                 };
                             } else if s.starts_with("strict:") {
                                 let strict = s["strict:".len()..].trim().parse().unwrap();
@@ -655,12 +658,12 @@ fn make_test(c: &Comments, module: Module) -> Module {
 }
 
 struct TestMaker<'a> {
-    c: &'a Comments,
+    c: &'a dyn Comments,
     stmts: Vec<Stmt>,
 }
 
-impl Fold<Vec<ModuleItem>> for TestMaker<'_> {
-    fn fold(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold for TestMaker<'_> {
+    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut ss = vec![];
         for stmt in stmts {
             let stmt = stmt.fold_with(self);
@@ -670,10 +673,8 @@ impl Fold<Vec<ModuleItem>> for TestMaker<'_> {
 
         ss
     }
-}
 
-impl Fold<Vec<Stmt>> for TestMaker<'_> {
-    fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
         let mut ss = vec![];
         for stmt in stmts {
             let stmt = stmt.fold_with(self);
@@ -683,10 +684,8 @@ impl Fold<Vec<Stmt>> for TestMaker<'_> {
 
         ss
     }
-}
 
-impl Fold<TsTypeAliasDecl> for TestMaker<'_> {
-    fn fold(&mut self, decl: TsTypeAliasDecl) -> TsTypeAliasDecl {
+    fn fold_ts_type_alias_decl(&mut self, decl: TsTypeAliasDecl) -> TsTypeAliasDecl {
         let cmts = self.c.trailing_comments(decl.span.hi());
 
         match cmts {
@@ -759,12 +758,9 @@ fn parse_type(span: Span, s: &str) -> Option<TsType> {
     }
 
     let ty = ::testing::run_test(true, |cm, handler| {
-        let session = Session { handler: &handler };
-
         let fm = cm.new_source_file(FileName::Anon, s.into());
 
         let mut parser = Parser::new(
-            session,
             Syntax::Typescript(Default::default()),
             SourceFileInput::from(&*fm),
             None,
@@ -785,8 +781,67 @@ struct Spanner {
     span: Span,
 }
 
-impl Fold<Span> for Spanner {
-    fn fold(&mut self, _: Span) -> Span {
+impl Fold for Spanner {
+    fn fold_span(&mut self, _: Span) -> Span {
         self.span
+    }
+}
+
+type CommentMap = Arc<DashMap<BytePos, Vec<Comment>>>;
+
+/// Multi-threaded implementation of [Comments]
+#[derive(Clone, Default)]
+pub struct SwcComments {
+    leading: CommentMap,
+    trailing: CommentMap,
+}
+
+impl Comments for SwcComments {
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        self.leading.entry(pos).or_default().push(cmt);
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.leading.entry(pos).or_default().extend(comments);
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        self.leading.contains_key(&pos)
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        let cmt = self.leading.remove(&from);
+
+        if let Some(cmt) = cmt {
+            self.leading.entry(to).or_default().extend(cmt.1);
+        }
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.remove(&pos).map(|v| v.1)
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        self.trailing.entry(pos).or_default().push(cmt)
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.trailing.entry(pos).or_default().extend(comments)
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        self.trailing.contains_key(&pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        let cmt = self.trailing.remove(&from);
+
+        if let Some(cmt) = cmt {
+            self.trailing.entry(to).or_default().extend(cmt.1);
+        }
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.remove(&pos).map(|v| v.1)
     }
 }

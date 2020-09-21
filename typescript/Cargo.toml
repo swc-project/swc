@@ -1,10 +1,10 @@
 [package]
-name = "swc_typescript"
-version = "0.1.0"
-authors = ["강동윤 <kdy1997l.dev@gmail.com>"]
+authors = ["강동윤 <kdy1@dudy.kr>"]
 edition = "2018"
+name = "swc_typescript"
 publish = false
+version = "0.1.0"
 
 [dependencies]
-swc_ts_checker = { path = "./checker" }
-swc_ts_dts = { path = "./dts" }
+swc_ts_checker = {path = "./checker"}
+swc_ts_dts = {path = "./dts"}

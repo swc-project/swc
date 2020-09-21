@@ -9,9 +9,6 @@
 #![feature(option_expect_none)]
 #![recursion_limit = "1024"]
 
-#[macro_use]
-extern crate swc_common;
-
 pub use self::builtin_types::Lib;
 use crate::{
     analyzer::{Analyzer, Info},
@@ -27,7 +24,7 @@ use swc_common::{errors::Handler, Globals, SourceMap, Span};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith as _;
-use swc_ts_types::Id;
+pub use swc_ts_types::{Id, ModuleTypeInfo};
 
 #[macro_use]
 mod debug;
