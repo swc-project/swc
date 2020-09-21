@@ -440,6 +440,11 @@ impl Analyzer<'_, '_> {
                     }
                     return Ok(());
                 }
+                Type::Param(arg) => {
+                    inferred
+                        .type_params
+                        .insert(arg.name.clone(), box Type::Ref(param.clone()));
+                }
                 _ => {
                     let param =
                         self.expand_fully(param.span(), box Type::Ref(param.clone()), true)?;
