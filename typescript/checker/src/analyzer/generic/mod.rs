@@ -440,12 +440,15 @@ impl Analyzer<'_, '_> {
                     }
                     return Ok(());
                 }
-                Type::Param(arg) => {
-                    inferred
-                        .type_params
-                        .insert(arg.name.clone(), box Type::Ref(param.clone()));
-                    return Ok(());
-                }
+                Type::Param(arg) => match &param.type_name {
+                    TsEntityName::TsQualifiedName(_) => {}
+                    TsEntityName::Ident(param) => {
+                        inferred
+                            .type_params
+                            .insert(param.clone().into(), box Type::Param(arg.clone()));
+                        return Ok(());
+                    }
+                },
                 _ => {
                     let param =
                         self.expand_fully(param.span(), box Type::Ref(param.clone()), true)?;
