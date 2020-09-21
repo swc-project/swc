@@ -23,7 +23,6 @@ use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Globals, Mark, SourceMap, Span};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::resolver::ts_resolver;
 use swc_ecma_visit::FoldWith as _;
 pub use swc_ts_types::{Id, ModuleTypeInfo};
 
@@ -168,7 +167,7 @@ impl Checker {
             );
             let mut parser = Parser::new_from(lexer);
 
-            let mut module = parser
+            let module = parser
                 .parse_typescript_module()
                 .map_err(|mut e| {
                     e.into_diagnostic(&self.handler).emit();
@@ -183,8 +182,6 @@ impl Checker {
                         shebang: None,
                     }
                 });
-
-            module = module.fold_with(&mut ts_resolver(Mark::fresh(Mark::root())));
 
             module
         });

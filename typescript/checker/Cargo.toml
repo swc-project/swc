@@ -12,7 +12,6 @@ swc_atoms = {path = "../../atoms"}
 swc_common = {path = "../../common", features = ["concurrent"]}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
 swc_ecma_parser = {path = "../../ecmascript/parser"}
-swc_ecma_transforms = {path = "../../ecmascript/transforms"}
 swc_ecma_utils = {path = "../../ecmascript/utils"}
 swc_ecma_visit = {path = "../../ecmascript/visit"}
 swc_ts_builtin_types = {path = "./builtin"}
