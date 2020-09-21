@@ -583,5 +583,5 @@ test!(
     |_| tr(()),
     issue_1092,
     "a?.b.c()",
-    "a === null || a === void 0 ? void 0 : _a.b.c();"
+    "a === null || a === void 0 ? void 0 : a.b.c();"
 );
