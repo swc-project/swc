@@ -49,4 +49,6 @@ impl VisitMut for Analyzer<'_, '_> {
     forward!(visit_mut_prop_name, PropName);
     forward!(visit_mut_computed_prop_name, ComputedPropName);
     forward!(visit_mut_class_method, ClassMethod);
+    forward!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
+    forward!(visit_mut_ts_module_decl, TsModuleDecl);
 }
