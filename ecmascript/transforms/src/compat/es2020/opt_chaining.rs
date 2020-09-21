@@ -26,7 +26,10 @@ impl Fold for OptChaining {
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
             Expr::Unary(e) => validate!(self.handle_unary(e)),
-            Expr::Member(e) => validate!(self.handle_member(e)),
+            Expr::Member(e) => match self.handle_member(e).map(Expr::Cond) {
+                Ok(v) => v,
+                Err(v) => v,
+            },
             Expr::Call(e) => validate!(self.handle_call(e)),
             _ => e,
         };
@@ -142,23 +145,45 @@ impl OptChaining {
                 }
                 .into();
             }
+            ExprOrSuper::Expr(callee) if callee.is_member() => {
+                dbg!(&callee);
+                let callee = callee.member().unwrap();
+                let callee = self.handle_member(callee);
+
+                return match callee {
+                    Ok(expr) => Expr::Cond(CondExpr {
+                        alt: Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: expr.alt.as_callee(),
+                            args: e.args,
+                            type_args: e.type_args,
+                        })),
+                        ..expr
+                    }),
+                    Err(e) => e,
+                };
+            }
             _ => {}
         }
 
         Expr::Call(e)
     }
 
-    /// Only called from `[Fold].
-    fn handle_member(&mut self, e: MemberExpr) -> Expr {
+    /// Returns `Ok` if it handled optional chaining.
+    fn handle_member(&mut self, e: MemberExpr) -> Result<CondExpr, Expr> {
         let mut obj = match e.obj {
             ExprOrSuper::Expr(obj) if obj.is_member() => {
                 let obj = obj.member().unwrap();
-                let obj = self.handle_member(obj);
+                let obj = self.handle_member(obj).map(Expr::Cond);
+                let obj = match obj {
+                    Ok(v) => v,
+                    Err(v) => v,
+                };
 
                 match obj {
                     Expr::Cond(obj) => {
                         //
-                        return CondExpr {
+                        return Err(CondExpr {
                             span: DUMMY_SP,
                             alt: Box::new(Expr::Member(MemberExpr {
                                 obj: ExprOrSuper::Expr(obj.alt),
@@ -166,7 +191,7 @@ impl OptChaining {
                             })),
                             ..obj
                         }
-                        .into();
+                        .into());
                     }
                     _ => ExprOrSuper::Expr(Box::new(obj)),
                 }
@@ -178,20 +203,19 @@ impl OptChaining {
             if let Expr::OptChain(obj) = *expr {
                 let expr = self.unwrap(obj);
 
-                return CondExpr {
+                return Ok(CondExpr {
                     span: DUMMY_SP,
                     alt: Box::new(Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(expr.alt),
                         ..e
                     })),
                     ..expr
-                }
-                .into();
+                });
             }
             obj = ExprOrSuper::Expr(expr);
         }
 
-        Expr::Member(MemberExpr { obj, ..e })
+        Err(Expr::Member(MemberExpr { obj, ..e }))
     }
 
     fn unwrap(&mut self, e: OptChainExpr) -> CondExpr {
