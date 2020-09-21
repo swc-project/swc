@@ -218,19 +218,21 @@ impl Validate<TsMethodSignature> for Analyzer<'_, '_> {
     type Output = ValidationResult<MethodSignature>;
 
     fn validate(&mut self, d: &mut TsMethodSignature) -> Self::Output {
-        if d.computed {
-            self.validate_computed_prop_key(d.span(), &mut d.key);
-        }
+        self.with_child(ScopeKind::Fn, Default::default(), |child| {
+            if d.computed {
+                child.validate_computed_prop_key(d.span(), &mut d.key);
+            }
 
-        Ok(MethodSignature {
-            span: d.span,
-            readonly: d.readonly,
-            key: d.key.clone(),
-            computed: d.computed,
-            optional: d.optional,
-            params: self.validate(&mut d.params)?,
-            ret_ty: try_opt!(self.validate(&mut d.type_ann)),
-            type_params: try_opt!(self.validate(&mut d.type_params)),
+            Ok(MethodSignature {
+                span: d.span,
+                readonly: d.readonly,
+                key: d.key.clone(),
+                computed: d.computed,
+                optional: d.optional,
+                params: child.validate(&mut d.params)?,
+                ret_ty: try_opt!(child.validate(&mut d.type_ann)),
+                type_params: try_opt!(child.validate(&mut d.type_params)),
+            })
         })
     }
 }
