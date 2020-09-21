@@ -42,4 +42,6 @@ impl VisitMut for Analyzer<'_, '_> {
     forward!(visit_mut_param, Param);
     forward!(visit_mut_fn_decl, FnDecl);
     forward!(visit_mut_fn_expr, FnExpr);
+    forward!(visit_mut_var_decl, VarDecl);
+    forward!(visit_mut_var_declarator, VarDeclarator);
 }
