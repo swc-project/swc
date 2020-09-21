@@ -1172,6 +1172,16 @@ impl VisitMut for Hoister<'_, '_> {
                 kind: VarDeclKind::Const,
                 ..
             }) => {}
+            // Hoister should not handle lhs of for in statement below
+            //
+            // const b = [];
+            // {
+            //   let a;
+            //   for (a in b) {
+            //     console.log(a);
+            //   }
+            // }
+            VarDeclOrPat::Pat(..) => {}
             _ => {
                 n.visit_mut_children_with(self);
             }
