@@ -182,11 +182,12 @@ pub(crate) fn validating(
     )) as Box<_>
 }
 
+/// No-op. Will be removed in future release.
 #[cfg(test)]
 #[allow(unused_macros)]
 macro_rules! validating {
     ($folder:expr) => {{
-        crate::macros::validating(stringify!($folder), $folder)
+        $folder
     }};
 }
 
