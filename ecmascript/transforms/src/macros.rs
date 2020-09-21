@@ -190,14 +190,9 @@ macro_rules! validating {
     }};
 }
 
+/// No-op. Will be removed in future release.
 macro_rules! validate {
     ($e:expr) => {{
-        if cfg!(debug_assertions) {
-            $e.fold_with(&mut $crate::debug::validator::Validator {
-                name: concat!(file!(), ':', line!(), ':', column!()),
-            })
-        } else {
-            $e
-        }
+        $e
     }};
 }
