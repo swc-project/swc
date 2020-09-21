@@ -264,51 +264,6 @@ impl swc_ecma_visit::Visit for StmtDependencyFinder<'_> {
         node.visit_children_with(self);
     }
 }
-
-impl Analyzer<'_, '_> {
-    pub(super) fn reorder_type_params(
-        &mut self,
-        params: &[TsTypeParam],
-    ) -> ValidationResult<Vec<usize>> {
-        use swc_ecma_visit::VisitWith;
-
-        let mut graph = DiGraphMap::<usize, usize>::with_capacity(params.len(), params.len() * 2);
-        for i in 0..params.len() {
-            graph.add_node(i);
-        }
-
-        for (idx, node) in params.iter().enumerate() {
-            let mut deps = FxHashSet::<Id>::default();
-
-            {
-                let mut v = TypeParamDepFinder {
-                    id: &node.name.clone().into(),
-                    deps: &mut deps,
-                };
-
-                for p in params {
-                    p.constraint.visit_with(p, &mut v);
-                    p.default.visit_with(p, &mut v);
-                }
-
-                for dep in &deps {
-                    if let Some(pos) = params.iter().position(|v| *dep == v.name) {
-                        //
-                        graph.add_edge(idx, pos, 1);
-                        break;
-                    }
-                }
-
-                // log::trace!("Reorder: {} <-- {:?}", node.name.sym, deps);
-            }
-        }
-
-        let sorted = toposort(&graph.into_graph::<usize>(), None)
-            .expect("cycle in type parameter is not supported");
-        Ok(sorted.into_iter().map(|i| i.index()).collect())
-    }
-}
-
 #[derive(Debug)]
 struct TypeParamDepFinder<'a> {
     id: &'a Id,
