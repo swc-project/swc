@@ -122,23 +122,32 @@ impl Validate<TsInterfaceDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<Interface>;
 
     fn validate(&mut self, d: &mut TsInterfaceDecl) -> Self::Output {
-        self.with_child(ScopeKind::Flow, Default::default(), |child| {
-            let ty = Interface {
-                span: d.span,
-                name: d.id.clone().into(),
-                type_params: try_opt!(child.validate(&mut d.type_params)),
-                extends: child.validate(&mut d.extends)?,
-                body: child.validate(&mut d.body)?,
-            };
+        let ty: Interface = self.with_child(
+            ScopeKind::Flow,
+            Default::default(),
+            |child| -> ValidationResult<_> {
+                let ty = Interface {
+                    span: d.span,
+                    name: d.id.clone().into(),
+                    type_params: try_opt!(child.validate(&mut d.type_params)),
+                    extends: child.validate(&mut d.extends)?,
+                    body: child.validate(&mut d.body)?,
+                };
 
-            child
-                .register_type(d.id.clone().into(), box ty.clone().into())
-                .store(&mut child.info.errors);
+                child
+                    .register_type(d.id.clone().into(), box ty.clone().into())
+                    .store(&mut child.info.errors);
 
-            child.resolve_parent_interfaces(&mut d.extends);
+                child.resolve_parent_interfaces(&mut d.extends);
 
-            Ok(ty)
-        })
+                Ok(ty)
+            },
+        )?;
+
+        // TODO: Recover
+        self.register_type(d.id.clone().into(), box ty.clone().into())?;
+
+        Ok(ty)
     }
 }
 
