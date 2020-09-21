@@ -19,12 +19,12 @@ use smallvec::SmallVec;
 use std::{
     borrow::Cow,
     collections::hash_map::Entry,
-    iter::{empty, once, repeat},
+    iter::{once, repeat},
 };
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ts_types::{FoldWith as _, Id, TupleElement, VisitWith as _};
+use swc_ts_types::{FoldWith as _, Id};
 use ty::TypeExt;
 
 #[derive(Debug, Clone, Copy)]
@@ -560,26 +560,26 @@ impl Analyzer<'_, '_> {
     }
 
     #[inline(never)]
-    pub(super) fn find_type(&self, name: &Id) -> Option<impl Iterator<Item = &Type>> {
+    pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         #[allow(dead_code)]
         static ANY: Box<Type> = Type::any(DUMMY_SP);
 
         if self.errored_imports.get(name).is_some() {
-            return Some(Either::Left(Either::Left(once(&*ANY))));
+            return Some(ItemRef::Single(&ANY));
         }
 
         if let Some(ty) = self.resolved_import_types.get(name) {
-            return Some(Either::Left(Either::Right(ty.iter().map(|ty| &**ty))));
+            return Some(ItemRef::Multi(ty));
         }
 
         if !self.is_builtin {
             if let Ok(box Type::Static(s)) = builtin_types::get_type(self.libs, DUMMY_SP, name) {
-                return Some(Either::Left(Either::Left(once(s.ty))));
+                return Some(ItemRef::Single(s.ty));
             }
         }
 
         if let Some(ty) = self.scope.find_type(name) {
-            return Some(Either::Right(ty));
+            return Some(ty);
         }
 
         if !self.is_builtin {
@@ -761,24 +761,15 @@ impl Analyzer<'_, '_> {
                             return Err(Error::UnionError { span, errors });
                         }
 
-                        for (elem, types) in
-                            elems.into_iter().zip(buf.into_iter().chain(repeat(&vec![
-                                TupleElement {
-                                    span: DUMMY_SP,
-                                    label: None,
-                                    ty: Type::undefined(span),
-                                },
-                            ])))
+                        for (elem, types) in elems
+                            .into_iter()
+                            .zip(buf.into_iter().chain(repeat(&vec![Type::undefined(span)])))
                         {
                             match *elem {
                                 Some(ref elem) => {
                                     let ty = box Union {
                                         span,
-                                        types: types
-                                            .into_iter()
-                                            .map(|element| &element.ty)
-                                            .cloned()
-                                            .collect(),
+                                        types: types.into_iter().cloned().collect(),
                                     }
                                     .into();
                                     self.declare_complex_vars(kind, elem, ty)?;
@@ -984,31 +975,45 @@ impl<'a> Scope<'a> {
     }
 
     /// This method does **not** handle imported types.
-    fn find_type(&self, name: &Id) -> Option<impl Iterator<Item = &Type>> {
+    fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         if let Some(ty) = self.facts.types.get(name) {
             // println!("({}) find_type({}): Found (cond facts)", self.depth(), name);
-            return Some(Either::Left(Either::Left(once(&**ty))));
+            return Some(ItemRef::Single(&ty));
         }
 
         if let Some(ty) = self.types.get(name) {
             // println!("({}) find_type({}): Found", self.depth(), name);
-            return Some(Either::Left(Either::Right(ty.iter().map(|ty| &**ty))));
+
+            return Some(ItemRef::Multi(&ty));
         }
 
         if let Some(v) = self.get_var(name) {
-            match &v.ty {
-                Some(ty) => {
-                    return Some(Either::Left(Either::Left(once(&**ty))));
-                }
-                None => return None,
-            }
+            return v.ty.as_ref().map(ItemRef::Single);
         }
 
         match self.parent {
-            Some(ref parent) => Some(Either::Right(
-                Box::new(parent.find_type(name)?) as Box<dyn Iterator<Item = &Type>>
-            )),
+            Some(ref parent) => parent.find_type(name),
             None => None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum ItemRef<'a, T> {
+    Single(&'a T),
+    Boxed(&'a Box<T>),
+    Multi(&'a [T]),
+}
+
+impl<'a, T> IntoIterator for ItemRef<'a, T> {
+    type Item = &'a T;
+    type IntoIter = Either<std::iter::Once<&'a T>, std::slice::Iter<'a, T>>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        match self {
+            ItemRef::Single(s) => Either::Left(once(s)),
+            ItemRef::Multi(s) => Either::Right(s.into_iter()),
+            ItemRef::Boxed(s) => Either::Left(once(&**s)),
         }
     }
 }
@@ -1058,7 +1063,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
 
         if !self.expand_union {
             let mut finder = UnionFinder { found: false };
-            ty.visit_with(&ty, &mut finder);
+            ty.visit_with(&mut finder);
             if finder.found {
                 return ty;
             }
@@ -1103,10 +1108,15 @@ impl ty::Fold for Expander<'_, '_, '_> {
                             );
 
                             if let Some(types) = self.analyzer.find_type(&i.into()) {
+                                log::info!(
+                                    "expand: expanding using analyzer: {}",
+                                    types.clone().into_iter().count()
+                                );
+
                                 for t in types {
                                     if !self.expand_union {
                                         let mut finder = UnionFinder { found: false };
-                                        t.visit_with(t, &mut finder);
+                                        t.visit_with(&mut finder);
                                         if finder.found {
                                             return ty;
                                         }
@@ -1135,7 +1145,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                         | Type::Class(ty::Class { type_params, .. }) => {
                                             if let Some(type_params) = type_params.clone() {
                                                 log::info!("expand: expanding type parameters");
-                                                let ty = box t.clone();
+                                                let ty = t.clone();
                                                 let inferred = self.analyzer.infer_arg_types(
                                                     self.span,
                                                     type_args.as_ref(),
@@ -1143,7 +1153,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                                     &[],
                                                     &[],
                                                 )?;
-                                                return *self
+                                                return self
                                                     .analyzer
                                                     .expand_type_params(&inferred, ty)?;
                                             }
@@ -1170,7 +1180,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                             ref right,
                         }) => {
                             if left.sym == js_word!("void") {
-                                return *Type::any(span);
+                                return Type::any(span);
                             }
 
                             if let Some(types) = self.analyzer.find_type(&left.into()) {
@@ -1209,7 +1219,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                 Type::Query(QueryType {
                     expr: QueryExpr::TsEntityName(ref name),
                     ..
-                }) => return *self.analyzer.type_of_ts_entity_name(span, name, None)?,
+                }) => return self.analyzer.type_of_ts_entity_name(span, name, None)?,
 
                 _ => {}
             }
@@ -1226,7 +1236,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                 }
 
                 Type::Union(Union { span, types }) => {
-                    return *Type::union(types);
+                    return Type::union(types);
                 }
 
                 Type::Function(ty::Function {
@@ -1235,7 +1245,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                     params,
                     ret_ty,
                 }) => {
-                    let ret_ty = self.analyzer.rename_type_params(span, *ret_ty, None)?;
+                    let ret_ty = box self.analyzer.rename_type_params(span, *ret_ty, None)?;
 
                     return ty::Function {
                         span,
@@ -1246,7 +1256,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                     .into();
                 }
 
-                ty => box ty,
+                ty => ty,
             }
         };
 
