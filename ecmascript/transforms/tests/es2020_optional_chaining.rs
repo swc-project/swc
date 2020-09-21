@@ -581,7 +581,15 @@ test!(
 test!(
     syntax(),
     |_| tr(()),
-    issue_1092,
+    issue_1092_1,
     "a?.b.c()",
     "a === null || a === void 0 ? void 0 : a.b.c();"
+);
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1092_2,
+    "a?.b.c.d.e.f.g.h()",
+    "a === null || a === void 0 ? void 0 : a.b.c.d.e.f.g.h();"
 );
