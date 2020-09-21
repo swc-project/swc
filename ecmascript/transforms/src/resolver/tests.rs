@@ -1657,3 +1657,25 @@ to_ts!(
     };
     "#
 );
+
+to!(
+    issue_1086,
+    "
+    const b = [];
+    {
+      let a;
+      for (a in b) {
+        console.log(a);
+      }
+    }
+    ",
+    "
+    var b = [];
+    {
+      var a;
+      for (a in b) {
+        console.log(a);
+      }
+    }
+    "
+);
