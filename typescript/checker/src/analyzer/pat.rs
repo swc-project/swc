@@ -1,4 +1,4 @@
-use super::Analyzer;
+use super::{Analyzer, Ctx};
 use crate::{
     analyzer::util::{ResultExt, VarVisitor},
     errors::Error,
@@ -28,7 +28,11 @@ impl Validate<Param> for Analyzer<'_, '_> {
 
     fn validate(&mut self, node: &mut Param) -> Self::Output {
         node.decorators.visit_mut_with(self);
-        node.pat.validate_with(self)
+        let ctx = Ctx {
+            pat_mode: PatMode::Decl,
+            ..self.ctx
+        };
+        node.pat.validate_with(&mut *self.with_ctx(ctx))
     }
 }
 
