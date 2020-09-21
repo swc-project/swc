@@ -41,7 +41,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
         log::info!("Loading builtins: {:?}", key);
 
         let mut merged = box Merged::default();
-        let mut analyzer = Analyzer::for_builtin();
+        let mut analyzer = Analyzer::for_builtin(&format!("{:?}", key));
         let modules = load(ls);
 
         for (i, mut module) in modules.into_iter().enumerate() {
@@ -139,7 +139,10 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         _ => unreachable!(),
                                     };
 
-                                    let mut analyzer = Analyzer::for_builtin();
+                                    let mut analyzer = Analyzer::for_builtin(&format!(
+                                        "{:?} -> inner module {}",
+                                        key, id
+                                    ));
 
                                     m.body.clone().visit_mut_with(&mut analyzer);
 

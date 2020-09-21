@@ -236,9 +236,9 @@ impl<'a, 'b> Analyzer<'a, 'b> {
         )
     }
 
-    pub(crate) fn for_builtin() -> Self {
+    pub(crate) fn for_builtin(name: &str) -> Self {
         Self::new_inner(
-            Arc::new(PathBuf::from("")),
+            Arc::new(PathBuf::from(name)),
             &[],
             Default::default(),
             &NoopLoader,
