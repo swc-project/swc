@@ -577,3 +577,11 @@ test!(
     "var ref;
     (ref = a.focus) === null || ref === void 0 ? void 0 : ref.call(a);"
 );
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1092,
+    "a?.b.c()",
+    "a === null || a === void 0 ? void 0 : _a.b.c();"
+);
