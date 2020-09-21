@@ -44,7 +44,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
         let mut analyzer = Analyzer::for_builtin(&format!("{:?}", key));
         let modules = load(ls);
 
-        for (i, mut module) in modules.into_iter().enumerate() {
+        for (_i, module) in modules.into_iter().enumerate() {
             match *module.body {
                 TsNamespaceBody::TsModuleBlock(TsModuleBlock { ref body, .. }) => {
                     for item in body.iter() {
