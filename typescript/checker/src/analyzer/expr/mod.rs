@@ -1274,6 +1274,8 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
+                log::warn!("Creating Type::Ref: {:?}", i);
+
                 Ok(box Type::Ref(Ref {
                     span,
                     type_name: TsEntityName::Ident(i.clone()),

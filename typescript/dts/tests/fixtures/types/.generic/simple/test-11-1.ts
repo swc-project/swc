@@ -1,1 +1,0 @@
-const arrayMap = <A, B>(f: (x: A) => B) => (a: A[]) => a.map(f);

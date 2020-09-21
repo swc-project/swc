@@ -258,18 +258,14 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
                     }
                 }
 
-                let ctx = Ctx {
-                    pat_mode: PatMode::Decl,
-                    ..child.ctx
-                };
-                let params = c.function.params.validate_with(&mut *child.with_ctx(ctx))?;
-
                 let type_params = try_opt!(c.function.type_params.validate_with(child));
                 if (c.kind == MethodKind::Getter || c.kind == MethodKind::Setter)
                     && type_params.is_some()
                 {
                     child.info.errors.push(Error::TS1094 { span: key_span })
                 }
+
+                let params = c.function.params.validate_with(child)?;
 
                 c.key.visit_mut_with(child);
                 // c.function.visit_children_with(child);
