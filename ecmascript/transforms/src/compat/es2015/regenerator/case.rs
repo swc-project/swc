@@ -1418,6 +1418,11 @@ macro_rules! leap {
 impl Visit for LeapFinder {
     noop_visit_type!();
 
+    /// Ignored
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    /// Ignored
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+
     leap!(visit_yield_expr, YieldExpr);
     leap!(visit_break_stmt, BreakStmt);
     leap!(visit_continue_stmt, ContinueStmt);

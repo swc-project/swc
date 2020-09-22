@@ -937,7 +937,7 @@ impl Visit for FunctionFinder {
 #[cfg(test)]
 mod tests {
     use super::block_scoping;
-    use crate::compat::{es2015, es2015::for_of::for_of};
+    use crate::compat::{es2015, es2015::for_of::for_of, es2017::async_to_generator};
     use swc_common::{chain, Mark};
     use swc_ecma_parser::Syntax;
 
@@ -1375,5 +1375,145 @@ expect(foo()).toBe(false);
             return C;
         }();
         "#
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1036_1,
+        "
+        async function foo() {
+            await Promise.all([[1], [2], [3]].map(
+                async ([a]) => Promise.resolve().then(() => a * 2))
+            )
+        }
+        ",
+        "
+        async function foo() {
+            await Promise.all([
+                [
+                    1
+                ],
+                [
+                    2
+                ],
+                [
+                    3
+                ]
+            ].map(async function(param) {
+                var _param = _slicedToArray(param, 1), a = _param[0];
+                return Promise.resolve().then(function() {
+                    return a * 2;
+                });
+            }));
+        }
+        "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            chain!(
+                async_to_generator(),
+                es2015::es2015(
+                    mark,
+                    es2015::Config {
+                        ..Default::default()
+                    },
+                )
+            )
+        },
+        issue_1036_2,
+        "
+        async function foo() {
+            await Promise.all([[1], [2], [3]].map(
+                async ([a]) => Promise.resolve().then(() => a * 2))
+            )
+        }
+        ",
+        r#"
+        var regeneratorRuntime = require("regenerator-runtime");
+        var _marked = regeneratorRuntime.mark(_foo);
+        function _foo() {
+            _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                    while(1)switch(_ctx.prev = _ctx.next){
+                        case 0:
+                            _ctx.next = 2;
+                            return Promise.all([
+                                [
+                                    1
+                                ],
+                                [
+                                    2
+                                ],
+                                [
+                                    3
+                                ]
+                            ].map(_asyncToGenerator(regeneratorRuntime.mark(function _callee1(param) {
+                                var _param = _slicedToArray(param, 1), a = _param[0];
+                                return regeneratorRuntime.wrap(function _callee$1(_ctx1) {
+                                    while(1)switch(_ctx1.prev = _ctx1.next){
+                                        case 0:
+                                            return _ctx1.abrupt("return", Promise.resolve().then(function() {
+                                                return a * 2;
+                                            }));
+                                        case 1:
+                                        case "end":
+                                            return _ctx1.stop();
+                                    }
+                                }, _callee1);
+                            }))));
+                        case 2:
+                            _ctx.sent;
+                        case 3:
+                        case "end":
+                            return _ctx.stop();
+                    }
+                }, _callee);
+            }));
+            return _foo.apply(this, arguments);
+        }
+        function foo() {
+            return _foo.apply(this, arguments);
+        }
+
+        "#
+    );
+
+    test_exec!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            chain!(
+                async_to_generator(),
+                es2015::es2015(
+                    mark,
+                    es2015::Config {
+                        ..Default::default()
+                    },
+                )
+            )
+        },
+        issue_1036_3,
+        "
+        const x = async function() {
+            return await Promise.all([[1], [2], [3]].map(
+                async ([a]) => Promise.resolve().then(() => a * 2))
+            )
+        };
+        return x().then(x => {
+            expect(x).toEqual([2, 4, 6])
+        })
+        "
     );
 }

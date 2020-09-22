@@ -48,11 +48,13 @@ pub fn es2015(global_mark: Mark, c: Config) -> impl Fold {
         spread(c.spread),
         function_name(),
         exprs(),
-        parameters(),
         for_of(c.for_of),
+        // Should come before parameters
+        // See: https://github.com/swc-project/swc/issues/1036
+        regenerator(global_mark),
+        parameters(),
         computed_properties(),
         destructuring(c.destructuring),
-        regenerator(global_mark),
         block_scoping(),
     )
 }

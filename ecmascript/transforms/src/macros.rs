@@ -182,22 +182,18 @@ pub(crate) fn validating(
     )) as Box<_>
 }
 
+/// No-op. Will be removed in future release.
 #[cfg(test)]
 #[allow(unused_macros)]
 macro_rules! validating {
     ($folder:expr) => {{
-        crate::macros::validating(stringify!($folder), $folder)
+        $folder
     }};
 }
 
+/// No-op. Will be removed in future release.
 macro_rules! validate {
     ($e:expr) => {{
-        if cfg!(debug_assertions) {
-            $e.fold_with(&mut $crate::debug::validator::Validator {
-                name: concat!(file!(), ':', line!(), ':', column!()),
-            })
-        } else {
-            $e
-        }
+        $e
     }};
 }

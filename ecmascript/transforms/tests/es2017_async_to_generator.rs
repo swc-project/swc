@@ -2113,18 +2113,73 @@ test!(
     issue_600,
     r#"
 async function foo() {
-	for (let a of b) {
-	}
+for (let a of b) {
+}
 }
 "#,
     "function _foo() {
-    _foo = _asyncToGenerator(function*() {
-        for (let a of b){
-        }
-    });
-    return _foo.apply(this, arguments);
+  _foo = _asyncToGenerator(function*() {
+      for (let a of b){
+      }
+  });
+  return _foo.apply(this, arguments);
 }
 function foo() {
-    return _foo.apply(this, arguments);
+  return _foo.apply(this, arguments);
 }"
+);
+
+test!(
+    syntax(),
+    |_| async_to_generator(),
+    issue_1036_1,
+    "
+    const x = async function() {
+      console.log(
+          await Promise.all([[1], [2], [3]].map(
+              async ([a]) => Promise.resolve().then(() => a * 2))
+          )
+      );
+    }
+    ",
+    "
+    const x = function() {
+      var _ref = _asyncToGenerator(function*() {
+          console.log((yield Promise.all([
+              [
+                  1
+              ],
+              [
+                  2
+              ],
+              [
+                  3
+              ]
+          ].map(_asyncToGenerator(function*([a]) {
+              return Promise.resolve().then(function() {
+                  return a * 2;
+              });
+          })))));
+      });
+      return function() {
+          return _ref.apply(this, arguments);
+      };
+    }();
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| async_to_generator(),
+    issue_1036_2,
+    "
+    const x = async function() {
+      return await Promise.all([[1], [2], [3]].map(
+          async ([a]) => Promise.resolve().then(() => a * 2))
+      )
+    };
+    return x().then(x => {
+      expect(x).toEqual([2, 4, 6])
+    })
+  "
 );

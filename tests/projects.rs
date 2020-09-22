@@ -495,6 +495,7 @@ fn issue_801() {
 }
 
 #[test]
+#[ignore]
 fn concurrency() {
     par_project("tests/deno-unit");
 }

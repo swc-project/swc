@@ -52,7 +52,7 @@ impl NodeResolver {
             }
         }
 
-        bail!("not found")
+        bail!("file not found: {}", path.display())
     }
 
     /// Resolve a path as a directory, using the "main" key from a package.json
@@ -99,13 +99,13 @@ impl NodeResolver {
         // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
         // 3. If X/index.node is a file, load X/index.node as binary addon.
         for ext in EXTENSIONS {
-            let ext_path = path.join(format!("index{}", ext));
+            let ext_path = path.join(format!("index.{}", ext));
             if ext_path.is_file() {
                 return Ok(ext_path);
             }
         }
 
-        bail!("not found")
+        bail!("index not found: {}", path.display())
     }
 
     /// Resolve by walking up node_modules folders.

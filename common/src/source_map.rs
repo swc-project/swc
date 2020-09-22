@@ -1062,6 +1062,9 @@ impl SourceMap {
                 if let Some(token) = orig.lookup_token(line, col) {
                     line = token.get_src_line() + 1;
                     col = token.get_src_col();
+                    if let Some(src) = token.get_source() {
+                        src_id = builder.add_source(src);
+                    }
                 }
             }
 

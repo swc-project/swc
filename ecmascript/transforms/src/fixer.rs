@@ -90,7 +90,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            ExprOrSuper::Expr(e) if e.is_cond() => {
+            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() => {
                 self.wrap(&mut **e);
             }
             _ => {}
@@ -968,4 +968,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     }));
 "
     );
+
+    identical!(issue_1093, "const x = (fnA || fnB)();");
 }
