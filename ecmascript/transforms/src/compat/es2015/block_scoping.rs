@@ -1379,25 +1379,25 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| block_scoping(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
         issue_1036_1,
         "
         async function foo() {
-            console.log(
-                await Promise.all([[1], [2], [3]].map(
-                    async ([a]) => Promise.resolve().then(() => a * 2))
-                )
-            );
+            await Promise.all([[1], [2], [3]].map(
+                async ([a]) => Promise.resolve().then(() => a * 2))
+            )
         }
         ",
         "
-        async function foo() {
-            console.log(
-                await Promise.all([[1], [2], [3]].map(
-                    async ([a]) => Promise.resolve().then(() => a * 2))
-                )
-            );
-        }
+        
         "
     );
 }
