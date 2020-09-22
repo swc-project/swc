@@ -44,7 +44,7 @@ impl Analyzer<'_, '_> {
         ty: Box<Type>,
         fully: bool,
     ) -> ValidationResult {
-        let mut ty = ty.fold_with(&mut GenericExpander {
+        let ty = ty.fold_with(&mut GenericExpander {
             params,
             fully,
             dejavu: Default::default(),
@@ -83,7 +83,7 @@ struct GenericExpander<'a> {
 }
 
 impl ty::Fold for GenericExpander<'_> {
-    fn fold_type(&mut self, mut ty: Type) -> Type {
+    fn fold_type(&mut self, ty: Type) -> Type {
         let old_fully = self.fully;
         self.fully |= match ty {
             Type::Mapped(..) => true,
@@ -322,6 +322,8 @@ impl ty::Fold for GenericExpander<'_> {
                         _ => {}
                     }
                 }
+
+                dbg!(&m);
 
                 return Type::Mapped(m);
             }
