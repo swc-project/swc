@@ -28,7 +28,8 @@ impl Analyzer<'_, '_> {
     where
         T: AsModuleDecl + for<'any> swc_ecma_visit::VisitWith<StmtDependencyFinder<'any>>,
     {
-        if nodes.len() <= 1 {
+        // Temporarily disable hoisting. Maybe I can find a better solution.
+        if nodes.len() <= 1 || true {
             return (0..nodes.len()).collect();
         }
 
