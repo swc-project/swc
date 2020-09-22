@@ -1444,4 +1444,31 @@ expect(foo()).toBe(false);
         
         "
     );
+
+    test_exec!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            chain!(
+                async_to_generator(),
+                es2015::es2015(
+                    mark,
+                    es2015::Config {
+                        ..Default::default()
+                    },
+                )
+            )
+        },
+        issue_1036_3,
+        "
+        const x = async function() {
+            return await Promise.all([[1], [2], [3]].map(
+                async ([a]) => Promise.resolve().then(() => a * 2))
+            )
+        };
+        return x().then(x => {
+            expect(x).toEqual([2, 4, 6])
+        })
+        "
+    );
 }
