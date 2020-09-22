@@ -1397,6 +1397,49 @@ expect(foo()).toBe(false);
         }
         ",
         "
+        async function foo() {
+            await Promise.all([
+                [
+                    1
+                ],
+                [
+                    2
+                ],
+                [
+                    3
+                ]
+            ].map(async function(param) {
+                var _param = _slicedToArray(param, 1), a = _param[0];
+                return Promise.resolve().then(function() {
+                    return a * 2;
+                });
+            }));
+        }
+        "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_1036_2,
+        "
+        const x = async function() {
+            console.log(
+                await Promise.all([[1], [2], [3]].map(
+                    async ([a]) => Promise.resolve().then(() => a * 2))
+                )
+            );
+        }
+        ",
+        "
         
         "
     );
