@@ -638,6 +638,15 @@ impl Analyzer<'_, '_> {
                         return Ok(());
                     }
                     // Handled by generic expander, so let's return it as-is.
+                    Type::Ref(..) => {
+                        inferred
+                            .type_params
+                            .insert(name.clone(), box arg.clone())
+                            .expect_none(
+                                "TODO: Check if stored type is same as given type.
+TODO: Make this error instead of panic",
+                            );
+                    }
                     _ => {}
                 }
             }
