@@ -493,14 +493,10 @@ impl Validate<TsTypeRef> for Analyzer<'_, '_> {
     fn validate(&mut self, t: &mut TsTypeRef) -> Self::Output {
         self.record(t);
 
-        dbg!(&t.type_name);
-
         let type_args = try_opt!(t.type_params.validate_with(self));
 
         match t.type_name {
             TsEntityName::Ident(ref i) if i.sym == js_word!("Array") && type_args.is_some() => {
-                dbg!(&*i.sym);
-
                 if type_args.as_ref().unwrap().params.len() == 1 {
                     return Ok(box Type::Array(Array {
                         span: t.span,
