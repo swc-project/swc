@@ -418,6 +418,19 @@ fn issue_915_4() {
     test_identical(r#"`\\r\\n--${this.boundary}`;"#);
 }
 
+#[test]
+fn jsx_1() {
+    test_from_to_custom_config(
+        "<Foo title=\"name\" desc=\"<empty>\" bool it>foo</Foo>;",
+        "<Foo title = \"name\" desc = \"<empty>\" bool it>foo</Foo>;",
+        Default::default(),
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {

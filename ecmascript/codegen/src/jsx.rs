@@ -23,6 +23,8 @@ impl<'a> Emitter<'a> {
         punct!("<");
         emit!(node.name);
 
+        space!();
+
         self.emit_list(
             node.span(),
             Some(&node.attrs),
@@ -49,7 +51,10 @@ impl<'a> Emitter<'a> {
         emit!(node.name);
 
         if let Some(ref value) = node.value {
-            punct!(" ");
+            space!();
+            punct!("=");
+            space!();
+
             emit!(value);
         }
     }
