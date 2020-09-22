@@ -572,68 +572,68 @@ impl Analyzer<'_, '_> {
                 //
                 match arg {
                     Type::TypeLit(arg) => {
-                        if let Some(param_ty) = &param.ty {
-                            let mut new_members =
-                                Vec::<TypeElement>::with_capacity(arg.members.len());
-                            for member in &arg.members {
-                                match member {
-                                    TypeElement::Property(p) => {
-                                        //
-                                        let old = take(&mut inferred.type_elements);
-                                        let type_ann: Option<_> = if let Some(pt) = &p.type_ann {
+                        let mut new_members = Vec::<TypeElement>::with_capacity(arg.members.len());
+                        for member in &arg.members {
+                            match member {
+                                TypeElement::Property(p) => {
+                                    //
+                                    let old = take(&mut inferred.type_elements);
+                                    let type_ann: Option<_> = if let Some(pt) = &p.type_ann {
+                                        if let Some(param_ty) = &param.ty {
                                             self.infer_type(inferred, param_ty, pt)?;
+                                        }
 
-                                            inferred.type_elements.get(&name).cloned()
-                                        } else {
-                                            None
-                                        };
-                                        let type_ann = type_ann.or_else(|| p.type_ann.clone());
+                                        inferred.type_elements.get(&name).cloned()
+                                    } else {
+                                        None
+                                    };
+                                    let type_ann = type_ann.or_else(|| p.type_ann.clone());
 
-                                        new_members.push(TypeElement::Property(
-                                            PropertySignature {
-                                                type_ann,
-                                                ..p.clone()
-                                            },
-                                        ));
+                                    new_members.push(TypeElement::Property(PropertySignature {
+                                        type_ann,
+                                        ..p.clone()
+                                    }));
 
-                                        inferred.type_elements = old;
-                                    }
-                                    TypeElement::Index(i) => {
-                                        let old = take(&mut inferred.type_elements);
-
-                                        let type_ann = if let Some(pt) = &i.type_ann {
-                                            self.infer_type(inferred, param_ty, pt)?;
-                                            // inferred.type_elements.remove(&name)
-                                            None
-                                        } else {
-                                            Some(Type::any(i.span))
-                                        };
-                                        new_members.push(TypeElement::Index(IndexSignature {
-                                            type_ann,
-                                            ..i.clone()
-                                        }));
-
-                                        inferred.type_elements = old;
-                                    }
-
-                                    _ => unimplemented!(
-                                        "infer_type: Mapped <- Assign: TypeElement({:#?})",
-                                        member
-                                    ),
+                                    inferred.type_elements = old;
                                 }
-                            }
+                                TypeElement::Index(i) => {
+                                    let old = take(&mut inferred.type_elements);
 
-                            assert_eq!(
-                                inferred.type_params.insert(
-                                    name,
-                                    box Type::TypeLit(TypeLit {
-                                        span: arg.span,
-                                        members: new_members
-                                    })
+                                    let type_ann = if let Some(pt) = &i.type_ann {
+                                        if let Some(param_ty) = &param.ty {
+                                            self.infer_type(inferred, param_ty, pt)?;
+                                        }
+
+                                        // inferred.type_elements.remove(&name)
+                                        None
+                                    } else {
+                                        Some(Type::any(i.span))
+                                    };
+                                    new_members.push(TypeElement::Index(IndexSignature {
+                                        type_ann,
+                                        ..i.clone()
+                                    }));
+
+                                    inferred.type_elements = old;
+                                }
+
+                                _ => unimplemented!(
+                                    "infer_type: Mapped <- Assign: TypeElement({:#?})",
+                                    member
                                 ),
-                                None
-                            );
+                            }
                         }
+
+                        assert_eq!(
+                            inferred.type_params.insert(
+                                name,
+                                box Type::TypeLit(TypeLit {
+                                    span: arg.span,
+                                    members: new_members
+                                })
+                            ),
+                            None
+                        );
 
                         return Ok(());
                     }
