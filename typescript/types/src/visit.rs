@@ -364,4 +364,15 @@ define!({
         pub spread: Option<Span>,
         pub ty: Box<Type>,
     }
+
+    // Required for TypeEq to work correctly.
+
+    pub struct TsKeywordType {
+        pub span: Span,
+        pub kind: TsKeywordTypeKind,
+    }
+
+    pub struct TsThisType {
+        pub span: Span,
+    }
 });
