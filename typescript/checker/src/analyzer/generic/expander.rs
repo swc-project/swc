@@ -323,8 +323,6 @@ impl ty::Fold for GenericExpander<'_> {
                     }
                 }
 
-                dbg!(&m);
-
                 return Type::Mapped(m);
             }
 
