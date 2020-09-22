@@ -86,8 +86,7 @@ impl<T> Comparator<T>
 where
     T: Copy,
 {
-    /// TODO: Rename to take_if_any
-    pub fn take<F, R>(&self, mut op: F) -> Option<R>
+    pub fn take_if_any_matches<F, R>(&self, mut op: F) -> Option<R>
     where
         F: FnMut(T, T) -> Option<R>,
     {

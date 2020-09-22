@@ -76,7 +76,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     right: (&**right, &rt),
                 };
 
-                if let Some(()) = c.take(|(_, lt), (_, _)| match **lt {
+                if let Some(()) = c.take_if_any_matches(|(_, lt), (_, _)| match **lt {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsUnknownKeyword,
                         ..
@@ -114,7 +114,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     _ => {}
                 }
 
-                if let Some(()) = c.take(|(_, lt), (_, _)| match **lt {
+                if let Some(()) = c.take_if_any_matches(|(_, lt), (_, _)| match **lt {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsStringKeyword,
                         ..
@@ -135,7 +135,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                 // Rule:
                 //  - any + string is string
                 //  - any + other is any
-                if let Some(kind) = c.take(|(_, lt), (_, rt)| {
+                if let Some(kind) = c.take_if_any_matches(|(_, lt), (_, rt)| {
                     if lt.is_any() {
                         if rt.is_str() {
                             return Some(TsKeywordTypeKind::TsStringKeyword);
@@ -173,7 +173,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     return Err(Error::TS2365 { span });
                 }
 
-                if let Some(()) = c.take(|(_, lt), (_, rt)| match lt.normalize() {
+                if let Some(()) = c.take_if_any_matches(|(_, lt), (_, rt)| match lt.normalize() {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsBooleanKeyword,
                         ..
@@ -361,7 +361,7 @@ impl Analyzer<'_, '_> {
                         };
 
                         // Check if type overlaps.
-                        c.take(|l, r| {
+                        c.take_if_any_matches(|l, r| {
                             // Returns Some(()) if r may be assignable to l
                             match l {
                                 Type::Lit(ref l_lit) => {

@@ -667,7 +667,7 @@ impl Analyzer<'_, '_> {
 
                         // Check typeof a === 'string'
                         {
-                            match c.take(|l, r| match l {
+                            match c.take_if_any_matches(|l, r| match l {
                                 Expr::Unary(UnaryExpr {
                                     op: op!("typeof"),
                                     ref arg,
@@ -713,7 +713,7 @@ impl Analyzer<'_, '_> {
                             right: (&**right, &r_ty),
                         };
 
-                        match c.take(|(l, l_ty), (_, r_ty)| match **l_ty {
+                        match c.take_if_any_matches(|(l, l_ty), (_, r_ty)| match **l_ty {
                             Type::Keyword(TsKeywordType {
                                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                                 ..
