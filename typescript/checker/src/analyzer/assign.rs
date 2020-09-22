@@ -71,7 +71,7 @@ impl Analyzer<'_, '_> {
     }
 
     fn assign_inner(&self, to: &Type, rhs: &Type, span: Span) -> Result<(), Error> {
-        debug_assert!(!span.is_dummy(), "\n\t{:?}\n<-\n\t{:?}", to, rhs);
+        // debug_assert!(!span.is_dummy(), "\n\t{:?}\n<-\n\t{:?}", to, rhs);
 
         macro_rules! fail {
             () => {{
