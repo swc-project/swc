@@ -2132,7 +2132,7 @@ function foo() {
 test!(
     syntax(),
     |_| async_to_generator(),
-    issue_1036,
+    issue_1036_1,
     "
     const x = async function() {
       console.log(
@@ -2142,5 +2142,22 @@ test!(
       );
     }
     ",
-    ""
+    "
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| async_to_generator(),
+    issue_1036_2,
+    "
+    const x = async function() {
+      return await Promise.all([[1], [2], [3]].map(
+          async ([a]) => Promise.resolve().then(() => a * 2))
+      )
+    };
+    return x().then(x => {
+      expect(x).toEqual([2, 4, 6])
+    })
+  "
 );
