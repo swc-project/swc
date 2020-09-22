@@ -141,6 +141,24 @@ impl Scope<'_> {
 
     /// Add a type to the scope.
     fn register_type(&mut self, name: Id, ty: Box<Type>) {
+        match *ty {
+            Type::Param(..) => {
+                // Override type parameter.
+                // As if store type parameter two time, this is required.
+
+                let v = self.types.entry(name).or_default();
+                if let Some(index) = v.iter().position(|v| match &**v {
+                    Type::Param(..) => true,
+                    _ => false,
+                }) {
+                    v.remove(index);
+                }
+                v.push(ty);
+
+                return;
+            }
+            _ => {}
+        }
         self.types.entry(name).or_default().push(ty);
     }
 

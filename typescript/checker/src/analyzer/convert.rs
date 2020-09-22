@@ -18,7 +18,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
 use swc_ecma_visit::VisitMutWith;
-use swc_ts_types::TupleElement;
+use swc_ts_types::{Id, TupleElement};
 
 /// We analyze dependencies between type parameters, and fold parameter in
 /// topological order.
@@ -35,22 +35,24 @@ impl Validate<TsTypeParamDecl> for Analyzer<'_, '_> {
                 params: decl.params.validate_with(self)?,
             })
         } else {
-            let mut params = (0..decl.params.len())
-                .into_iter()
-                .map(|_| None)
-                .collect::<Vec<_>>();
-
-            let order = self.reorder_type_params(&*decl.params)?;
-            assert_eq!(order.len(), decl.params.len());
-
-            for idx in order {
-                let param = decl.params[idx].validate_with(self)?;
-                params[idx] = Some(param);
+            for param in &decl.params {
+                let name: Id = param.name.clone().into();
+                self.register_type(
+                    name.clone(),
+                    box Type::Param(TypeParam {
+                        span: param.span,
+                        name,
+                        constraint: None,
+                        default: None,
+                    }),
+                )?;
             }
+
+            let params = decl.params.validate_with(self)?;
 
             Ok(TypeParamDecl {
                 span: decl.span,
-                params: params.into_iter().map(|v| v.unwrap()).collect(),
+                params,
             })
         }
     }
