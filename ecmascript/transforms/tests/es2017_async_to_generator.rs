@@ -2143,6 +2143,28 @@ test!(
     }
     ",
     "
+    const x = function() {
+      var _ref = _asyncToGenerator(function*() {
+          console.log((yield Promise.all([
+              [
+                  1
+              ],
+              [
+                  2
+              ],
+              [
+                  3
+              ]
+          ].map(_asyncToGenerator(function*([a]) {
+              return Promise.resolve().then(function() {
+                  return a * 2;
+              });
+          })))));
+      });
+      return function() {
+          return _ref.apply(this, arguments);
+      };
+    }();
     "
 );
 
