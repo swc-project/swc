@@ -142,7 +142,7 @@ impl Analyzer<'_, '_> {
         }
 
         // TODO: Handle optional parameters
-        // TODO: Convert this to error.
+        // TODO: Handle varargs.
         assert!(args.len() <= params.len());
 
         for (p, arg) in params.iter().zip(args) {
