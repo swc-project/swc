@@ -562,6 +562,9 @@ impl Analyzer<'_, '_> {
                     ..
                 },
             ) => {
+                // TODO: Fix this
+                let optional = param.optional.is_some();
+
                 let name = match param.type_param.constraint {
                     Some(box Type::Operator(Operator {
                         ty: box Type::Param(TypeParam { ref name, .. }),
@@ -624,26 +627,28 @@ impl Analyzer<'_, '_> {
                             }
                         }
 
-                        if let Some(previous) = inferred.type_params.get(&name) {
-                            let new = Type::TypeLit(TypeLit {
-                                span: arg.span,
-                                members: new_members,
-                            });
-                            assert!(
-                                new.type_eq(&**previous),
-                                "TODO: Change this to error instead of panic.\nPrevious: \
-                                 {:?}\nNew: {:?}",
-                                previous,
-                                new
-                            );
-                        } else {
-                            inferred.type_params.insert(
-                                name,
-                                box Type::TypeLit(TypeLit {
+                        if !optional {
+                            if let Some(previous) = inferred.type_params.get(&name) {
+                                let new = Type::TypeLit(TypeLit {
                                     span: arg.span,
                                     members: new_members,
-                                }),
-                            );
+                                });
+                                assert!(
+                                    new.type_eq(&**previous),
+                                    "TODO: Change this to error instead of panic.\nPrevious: \
+                                     {:?}\nNew: {:?}",
+                                    previous,
+                                    new
+                                );
+                            } else {
+                                inferred.type_params.insert(
+                                    name,
+                                    box Type::TypeLit(TypeLit {
+                                        span: arg.span,
+                                        members: new_members,
+                                    }),
+                                );
+                            }
                         }
 
                         return Ok(());
@@ -679,7 +684,6 @@ TODO: Make this error instead of panic",
                     _ => unreachable!(),
                 };
                 //
-                dbg!(&name);
 
                 match arg {
                     Type::TypeLit(arg) => {
