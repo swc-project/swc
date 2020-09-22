@@ -624,16 +624,27 @@ impl Analyzer<'_, '_> {
                             }
                         }
 
-                        assert_eq!(
+                        if let Some(previous) = inferred.type_params.get(&name) {
+                            let new = Type::TypeLit(TypeLit {
+                                span: arg.span,
+                                members: new_members,
+                            });
+                            assert!(
+                                new.type_eq(&**previous),
+                                "TODO: Change this to error instead of panic.\nPrevious: \
+                                 {:?}\nNew: {:?}",
+                                previous,
+                                new
+                            );
+                        } else {
                             inferred.type_params.insert(
                                 name,
                                 box Type::TypeLit(TypeLit {
                                     span: arg.span,
-                                    members: new_members
-                                })
-                            ),
-                            None
-                        );
+                                    members: new_members,
+                                }),
+                            );
+                        }
 
                         return Ok(());
                     }
