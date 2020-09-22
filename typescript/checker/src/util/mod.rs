@@ -109,6 +109,18 @@ impl ty::Fold for TypeEqHelper {
         p.pat = Pat::Invalid(Invalid { span: DUMMY_SP });
         p
     }
+
+    fn fold_expr(&mut self, node: Expr) -> Expr {
+        use swc_ecma_visit::FoldWith;
+
+        node.fold_with(self)
+    }
+
+    fn fold_ident(&mut self, node: Ident) -> Ident {
+        use swc_ecma_visit::FoldWith;
+
+        node.fold_with(self)
+    }
 }
 
 impl swc_ecma_visit::Fold for TypeEqHelper {
