@@ -1136,3 +1136,19 @@ const v = gen();
 expect(v.next()).toEqual({ done: false, value: 'Error'});
 "
 );
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    issue_1036_1,
+    "
+    const x = async function() {
+        return await Promise.all([[1], [2], [3]].map(
+            async ([a]) => Promise.resolve().then(() => a * 2))
+        )
+    };
+    return x().then(x => {
+        expect(x).toEqual([2, 4, 6])
+    })
+    "
+);
