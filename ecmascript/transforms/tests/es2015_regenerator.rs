@@ -1152,3 +1152,70 @@ test_exec!(
     })
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1036_2,
+    "
+    const x = function*() {
+        return Promise.all([[1], [2], [3]].map(
+            function*([a]) {
+                Promise.resolve().then(() => a * 2)
+            })
+        )
+    }
+    ",
+    r#"
+    var regeneratorRuntime = require("regenerator-runtime");
+    const x = regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", Promise.all([
+                        [
+                            1
+                        ],
+                        [
+                            2
+                        ],
+                        [
+                            3
+                        ]
+                    ].map(regeneratorRuntime.mark(function _callee1([a]) {
+                        return regeneratorRuntime.wrap(function _callee$1(_ctx1) {
+                            while(1)switch(_ctx1.prev = _ctx1.next){
+                                case 0:
+                                    Promise.resolve().then(()=>a * 2);
+                                case 1:
+                                case "end":
+                                    return _ctx1.stop();
+                            }
+                        }, _callee1);
+                    }))));
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    });
+    "#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1036_3,
+    "
+    const x = function*() {
+        yield* [[1], [2], [3]].map(function([a]) {
+            return a * 2
+        })
+    }
+    const v = x();
+    expect(v.next()).toEqual({ value: 2, done: false})
+    expect(v.next()).toEqual({ value: 4, done: false})
+    expect(v.next()).toEqual({ value: 6, done: false})
+    expect(v.next()).toEqual({ done: true})
+    "
+);
