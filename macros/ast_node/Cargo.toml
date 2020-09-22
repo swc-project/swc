@@ -1,24 +1,23 @@
 [package]
-name = "ast_node"
-version = "0.7.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-license = "Apache-2.0/MIT"
-repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/ast_node/"
 description = "Macros for ast nodes."
+documentation = "https://swc.rs/rustdoc/ast_node/"
 edition = "2018"
+license = "Apache-2.0/MIT"
+name = "ast_node"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.7.0"
 
 [lib]
 proc-macro = true
 
 [dependencies]
-swc_macros_common = { version = "0.3", path = "../common" }
+darling = "0.10"
 pmutil = "0.5.1"
 proc-macro2 = "1"
 quote = "1"
-darling = "0.10"
+swc_macros_common = {version = "0.3", path = "../common"}
 
 [dependencies.syn]
-version = "1"
 features = ["derive", "fold", "parsing", "printing"]
-
+version = "1"

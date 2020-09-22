@@ -4,7 +4,7 @@ members = ["ecmascript", "ecmascript/jsdoc", "native", "spack", "wasm"]
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Speedy web compiler"
-documentation = "https://swc-project.github.io/rustdoc/swc/"
+documentation = "https://swc.rs/rustdoc/swc/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc"

@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "rust port of babel and closure compiler."
-documentation = "https://swc-project.github.io/rustdoc/swc_ecma_transforms/"
+documentation = "https://swc.rs/rustdoc/swc_ecma_transforms/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms"
