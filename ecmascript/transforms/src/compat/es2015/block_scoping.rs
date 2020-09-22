@@ -937,7 +937,7 @@ impl Visit for FunctionFinder {
 #[cfg(test)]
 mod tests {
     use super::block_scoping;
-    use crate::compat::{es2015, es2015::for_of::for_of};
+    use crate::compat::{es2015, es2015::for_of::for_of, es2017::async_to_generator};
     use swc_common::{chain, Mark};
     use swc_ecma_parser::Syntax;
 
@@ -1422,21 +1422,22 @@ expect(foo()).toBe(false);
         Syntax::default(),
         |_| {
             let mark = Mark::fresh(Mark::root());
-            es2015::es2015(
-                mark,
-                es2015::Config {
-                    ..Default::default()
-                },
+            chain!(
+                async_to_generator(),
+                es2015::es2015(
+                    mark,
+                    es2015::Config {
+                        ..Default::default()
+                    },
+                )
             )
         },
         issue_1036_2,
         "
-        const x = async function() {
-            console.log(
-                await Promise.all([[1], [2], [3]].map(
-                    async ([a]) => Promise.resolve().then(() => a * 2))
-                )
-            );
+        async function foo() {
+            await Promise.all([[1], [2], [3]].map(
+                async ([a]) => Promise.resolve().then(() => a * 2))
+            )
         }
         ",
         "
