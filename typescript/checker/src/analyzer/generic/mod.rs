@@ -123,7 +123,7 @@ impl Analyzer<'_, '_> {
         params: &[FnParam],
         args: &[TypeOrSpread],
     ) -> ValidationResult<FxHashMap<Id, Box<Type>>> {
-        log::debug!(
+        log::warn!(
             "infer_arg_types: {:?}",
             type_params
                 .iter()
@@ -230,6 +230,7 @@ impl Analyzer<'_, '_> {
         Ok(inferred.type_params)
     }
 
+    /// Infer types, so that `param` has same type as `arg`.
     fn infer_type(
         &mut self,
         inferred: &mut InferData,
@@ -387,6 +388,62 @@ impl Analyzer<'_, '_> {
 
             Type::TypeLit(param) => match arg {
                 Type::TypeLit(arg) => return self.infer_type_lit(inferred, param, arg),
+                Type::IndexedAccessType(arg_iat) => {
+                    let arg_obj_ty =
+                        self.expand_fully(arg_iat.span, arg_iat.obj_type.clone(), true)?;
+                    match *arg_obj_ty {
+                        Type::Mapped(arg_obj_ty) => match &arg_obj_ty.type_param {
+                            TypeParam {
+                                constraint:
+                                    Some(box Type::Operator(Operator {
+                                        op: TsTypeOperatorOp::KeyOf,
+                                        ty: box Type::Param(param_ty),
+                                        ..
+                                    })),
+                                ..
+                            } => {
+                                let mut new_lit = TypeLit {
+                                    span: arg_iat.span,
+                                    members: vec![],
+                                };
+                                for member in &param.members {
+                                    match member {
+                                        TypeElement::Property(p) => {
+                                            let mut p = p.clone();
+                                            if let Some(type_ann) = &p.type_ann {
+                                                // TODO: Change p.ty
+
+                                                self.infer_type(inferred, &type_ann, arg)?;
+                                            }
+
+                                            new_lit.members.push(TypeElement::Property(p));
+                                        }
+                                        // TODO: Handle IndexSignature
+                                        _ => unimplemented!(
+                                            "calculating IndexAccessType for member other than \
+                                             property: member = {:?}",
+                                            member
+                                        ),
+                                    }
+                                }
+                                inferred
+                                    .type_params
+                                    .insert(param_ty.name.clone(), box Type::TypeLit(new_lit))
+                                    .expect_none(
+                                        "A type parameter has multiple (or same type with multi \
+                                         usage) type. This is a type error, but swc currently \
+                                         does not handle it.",
+                                    );
+
+                                return Ok(());
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
                 _ => {
                     dbg!();
                 }
