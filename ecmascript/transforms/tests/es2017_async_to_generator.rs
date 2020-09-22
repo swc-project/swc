@@ -2113,18 +2113,34 @@ test!(
     issue_600,
     r#"
 async function foo() {
-	for (let a of b) {
-	}
+for (let a of b) {
+}
 }
 "#,
     "function _foo() {
-    _foo = _asyncToGenerator(function*() {
-        for (let a of b){
-        }
-    });
-    return _foo.apply(this, arguments);
+  _foo = _asyncToGenerator(function*() {
+      for (let a of b){
+      }
+  });
+  return _foo.apply(this, arguments);
 }
 function foo() {
-    return _foo.apply(this, arguments);
+  return _foo.apply(this, arguments);
 }"
+);
+
+test!(
+    syntax(),
+    |_| async_to_generator(),
+    issue_1036,
+    "
+    const x = async function() {
+      console.log(
+          await Promise.all([[1], [2], [3]].map(
+              async ([a]) => Promise.resolve().then(() => a * 2))
+          )
+      );
+    }
+    ",
+    ""
 );
