@@ -1,5 +1,5 @@
 use self::remover::TypeParamRemover;
-use super::Analyzer;
+use super::{util::Comparator, Analyzer};
 use crate::{
     debug::print_backtrace,
     ty::{
@@ -212,7 +212,7 @@ impl Analyzer<'_, '_> {
                 continue;
             }
 
-            log::warn!(
+            log::error!(
                 "infer: A type parameter {} defaults to {{}}",
                 type_param.name
             );
@@ -758,6 +758,7 @@ impl Analyzer<'_, '_> {
         Ok(())
     }
 
+    /// Compare fields.
     fn infer_type_lit(
         &mut self,
         inferred: &mut InferData,
