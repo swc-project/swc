@@ -277,6 +277,7 @@ where
                             specifiers: vec![],
                             src,
                             type_only: false,
+                            asserts: None,
                         },
                         true,
                         false,

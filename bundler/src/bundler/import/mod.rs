@@ -455,6 +455,7 @@ where
                             specifiers: vec![],
                             src: src.clone(),
                             type_only: false,
+                            asserts: None,
                         };
 
                         if self.top_level {
@@ -553,6 +554,7 @@ where
                             .collect(),
                         src,
                         type_only: false,
+                        asserts: None,
                     };
 
                     // if self.top_level {
