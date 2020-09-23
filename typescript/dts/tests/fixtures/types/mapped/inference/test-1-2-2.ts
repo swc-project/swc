@@ -14,12 +14,10 @@ declare function box<T>(x: T): Box<T>;
 
 declare function unboxify<T>(obj: Boxified<T>): T;
 
-function f2() {
-    let b = {
-        a: box(42),
-        b: box("hello"),
-        c: box(true)
-    };
-    let v = unboxify(b);
-    let x: number = v.a;
-}
+let b = {
+    a: box(42),
+    b: box("hello"),
+    c: box(true)
+};
+let v = unboxify(b);
+let x: number = v.a;

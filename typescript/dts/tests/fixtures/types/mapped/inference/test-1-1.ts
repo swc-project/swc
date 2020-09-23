@@ -11,7 +11,7 @@ type Boxified<T> = {
 }
 
 function box<T>(x: T): Box<T> {
-    return {value: x};
+    return { value: x };
 }
 
 function unbox<T>(x: Box<T>): T {
@@ -40,12 +40,10 @@ function assignBoxified<T>(obj: Boxified<T>, values: T) {
     }
 }
 
-function f4() {
-    let b = {
-        a: box(42),
-        b: box("hello"),
-        c: box(true)
-    };
-    b = boxify(unboxify(b));
-    b = unboxify(boxify(b));
-}
+let v = {
+    a: 42,
+    b: "hello",
+    c: true
+};
+let b = boxify(v);
+let x: number = b.a.value;

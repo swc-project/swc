@@ -18,12 +18,10 @@ declare function makeDictionary<T>(obj: {
 }): {
     [x: string]: T;
 };
-function f6(s: string) {
-    let b = makeDictionary({
-        a: box(42),
-        b: box("hello"),
-        c: box(true)
-    });
-    let v = unboxify(b);
-    let x: string | number | boolean = v[s];
-}
+let b = makeDictionary({
+    a: box(42),
+    b: box("hello"),
+    c: box(true)
+});
+let v = unboxify(b);
+let x: string | number | boolean = v[s];

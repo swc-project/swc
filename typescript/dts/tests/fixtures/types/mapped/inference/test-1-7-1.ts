@@ -25,8 +25,6 @@ type Foo = {
     readonly b: string;
 }
 
-function f10(foo: Foo) {
-    let x = validate(foo);  // { a: number, readonly b: string }
-    let y = clone(foo);  // { a?: number, b: string }
-    let z = validateAndClone(foo);  // { a: number, b: string }
-}
+let x = validate(foo);  // { a: number, readonly b: string }
+let y = clone(foo);  // { a?: number, b: string }
+let z = validateAndClone(foo);  // { a: number, b: string }

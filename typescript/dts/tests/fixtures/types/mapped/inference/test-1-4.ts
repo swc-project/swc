@@ -11,7 +11,7 @@ type Boxified<T> = {
 }
 
 function box<T>(x: T): Box<T> {
-    return {value: x};
+    return { value: x };
 }
 
 function unbox<T>(x: Box<T>): T {
@@ -40,16 +40,10 @@ function assignBoxified<T>(obj: Boxified<T>, values: T) {
     }
 }
 
-function makeRecord<T, K extends string>(obj: { [P in K]: T }) {
-    return obj;
-}
-
-function f5(s: string) {
-    let b = makeRecord({
-        a: box(42),
-        b: box("hello"),
-        c: box(true)
-    });
-    let v = unboxify(b);
-    let x: string | number | boolean = v.a;
-}
+let b = {
+    a: box(42),
+    b: box("hello"),
+    c: box(true)
+};
+b = boxify(unboxify(b));
+b = unboxify(boxify(b));
