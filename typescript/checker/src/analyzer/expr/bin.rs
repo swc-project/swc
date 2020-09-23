@@ -13,7 +13,6 @@ use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
-#[validator]
 impl Validate<BinExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult;
 

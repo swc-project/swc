@@ -11,7 +11,6 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ts_types::FoldWith as _;
 
-#[validator]
 impl Validate<Function> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Function>;
 
@@ -242,7 +241,6 @@ impl Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<FnDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -263,7 +261,6 @@ impl Validate<FnDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<FnExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

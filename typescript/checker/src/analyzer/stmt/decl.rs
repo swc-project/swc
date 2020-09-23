@@ -14,7 +14,6 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ts_types::{FoldWith, Id};
 use ty::TypeExt;
 
-#[validator]
 impl Validate<VarDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -77,7 +76,6 @@ impl Validate<VarDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<VarDeclarator> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

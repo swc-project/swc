@@ -27,7 +27,6 @@ type EnumValues = FxHashMap<Id, TsLit>;
 ///            g = a << 2 >>> 1,
 ///            h = a | b
 ///        }
-#[validator]
 impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<Enum>;
     #[inline(never)]

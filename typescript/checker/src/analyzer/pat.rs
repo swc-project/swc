@@ -21,7 +21,6 @@ pub(super) enum PatMode {
     Decl,
 }
 
-#[validator]
 impl Validate<Param> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::FnParam>;
 
@@ -35,7 +34,6 @@ impl Validate<Param> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<Pat> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::FnParam>;
 
@@ -99,7 +97,6 @@ impl Validate<Pat> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<RestPat> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -145,7 +142,6 @@ impl Validate<RestPat> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<AssignPat> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

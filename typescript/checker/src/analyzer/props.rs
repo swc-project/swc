@@ -22,7 +22,6 @@ pub(super) enum ComputedPropMode {
     Interface,
 }
 
-#[validator]
 impl Validate<PropName> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -37,7 +36,6 @@ impl Validate<PropName> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ComputedPropName> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -160,7 +158,6 @@ impl Validate<ComputedPropName> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<Prop> for Analyzer<'_, '_> {
     type Output = ValidationResult<TypeElement>;
 
@@ -306,7 +303,6 @@ impl Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<GetterProp> for Analyzer<'_, '_> {
     type Output = ValidationResult<TypeElement>;
 

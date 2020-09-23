@@ -21,7 +21,6 @@ use swc_ts_types::{Id, TupleElement};
 
 /// We analyze dependencies between type parameters, and fold parameter in
 /// topological order.
-#[validator]
 impl Validate<TsTypeParamDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<TypeParamDecl>;
 
@@ -57,7 +56,6 @@ impl Validate<TsTypeParamDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeParam> for Analyzer<'_, '_> {
     type Output = ValidationResult<TypeParam>;
 
@@ -76,7 +74,6 @@ impl Validate<TsTypeParam> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeAnn> for Analyzer<'_, '_> {
     type Output = ValidationResult;
 
@@ -88,7 +85,6 @@ impl Validate<TsTypeAnn> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeAliasDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<Alias>;
 
@@ -118,7 +114,6 @@ impl Validate<TsTypeAliasDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsInterfaceDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<Interface>;
 
@@ -152,7 +147,6 @@ impl Validate<TsInterfaceDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsInterfaceBody> for Analyzer<'_, '_> {
     type Output = ValidationResult<Vec<TypeElement>>;
 
@@ -166,7 +160,6 @@ impl Validate<TsInterfaceBody> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeLit> for Analyzer<'_, '_> {
     type Output = ValidationResult<TypeLit>;
 
@@ -178,7 +171,6 @@ impl Validate<TsTypeLit> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeElement> for Analyzer<'_, '_> {
     type Output = ValidationResult<TypeElement>;
 
@@ -195,7 +187,6 @@ impl Validate<TsTypeElement> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsConstructSignatureDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<ConstructorSignature>;
 
@@ -209,7 +200,6 @@ impl Validate<TsConstructSignatureDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsCallSignatureDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<CallSignature>;
 
@@ -223,7 +213,6 @@ impl Validate<TsCallSignatureDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsMethodSignature> for Analyzer<'_, '_> {
     type Output = ValidationResult<MethodSignature>;
 
@@ -247,7 +236,6 @@ impl Validate<TsMethodSignature> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsIndexSignature> for Analyzer<'_, '_> {
     type Output = ValidationResult<IndexSignature>;
 
@@ -261,7 +249,6 @@ impl Validate<TsIndexSignature> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsPropertySignature> for Analyzer<'_, '_> {
     type Output = ValidationResult<PropertySignature>;
 
@@ -305,7 +292,6 @@ impl Validate<TsPropertySignature> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsExprWithTypeArgs> for Analyzer<'_, '_> {
     type Output = ValidationResult<TsExpr>;
 
@@ -318,7 +304,6 @@ impl Validate<TsExprWithTypeArgs> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeParamInstantiation> for Analyzer<'_, '_> {
     type Output = ValidationResult<TypeParamInstantiation>;
 
@@ -330,7 +315,6 @@ impl Validate<TsTypeParamInstantiation> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTupleType> for Analyzer<'_, '_> {
     type Output = ValidationResult<Tuple>;
 
@@ -368,7 +352,6 @@ impl Validate<TsConditionalType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsMappedType> for Analyzer<'_, '_> {
     type Output = ValidationResult<Mapped>;
 
@@ -383,7 +366,6 @@ impl Validate<TsMappedType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeOperator> for Analyzer<'_, '_> {
     type Output = ValidationResult<Operator>;
 
@@ -396,7 +378,6 @@ impl Validate<TsTypeOperator> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsArrayType> for Analyzer<'_, '_> {
     type Output = ValidationResult<Array>;
 
@@ -408,7 +389,6 @@ impl Validate<TsArrayType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsUnionType> for Analyzer<'_, '_> {
     type Output = ValidationResult<Union>;
 
@@ -420,7 +400,6 @@ impl Validate<TsUnionType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsIntersectionType> for Analyzer<'_, '_> {
     type Output = ValidationResult<Intersection>;
 
@@ -432,7 +411,6 @@ impl Validate<TsIntersectionType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsFnType> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Function>;
 
@@ -456,7 +434,6 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsConstructorType> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Constructor>;
 
@@ -476,7 +453,6 @@ impl Validate<TsConstructorType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsParenthesizedType> for Analyzer<'_, '_> {
     type Output = ValidationResult;
 
@@ -485,7 +461,6 @@ impl Validate<TsParenthesizedType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeRef> for Analyzer<'_, '_> {
     type Output = ValidationResult;
 
@@ -529,7 +504,6 @@ impl Validate<TsTypeRef> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsInferType> for Analyzer<'_, '_> {
     type Output = ValidationResult<InferType>;
 
@@ -543,7 +517,6 @@ impl Validate<TsInferType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsImportType> for Analyzer<'_, '_> {
     type Output = ValidationResult<ImportType>;
 
@@ -559,7 +532,6 @@ impl Validate<TsImportType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeQueryExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult<QueryExpr>;
 
@@ -575,7 +547,6 @@ impl Validate<TsTypeQueryExpr> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypeQuery> for Analyzer<'_, '_> {
     type Output = ValidationResult<QueryType>;
 
@@ -589,7 +560,6 @@ impl Validate<TsTypeQuery> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsTypePredicate> for Analyzer<'_, '_> {
     type Output = ValidationResult<Predicate>;
 
@@ -605,7 +575,6 @@ impl Validate<TsTypePredicate> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsIndexedAccessType> for Analyzer<'_, '_> {
     type Output = ValidationResult<IndexedAccessType>;
 
@@ -621,7 +590,6 @@ impl Validate<TsIndexedAccessType> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsType> for Analyzer<'_, '_> {
     type Output = ValidationResult;
 

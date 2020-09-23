@@ -15,7 +15,7 @@ use syn::{ExprTryBlock, ImplItemMethod, Item, ItemImpl, ReturnType};
 /// ```ignore
 /// 
 /// impl Foo {
-///     #[validator]
+///     #[validator_method]
 ///     fn validate_foo(&mut self, arg: Arg1) -> Result<Ret, ()> {
 ///         // body
 ///         Err(err)?;

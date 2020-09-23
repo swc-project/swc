@@ -6,7 +6,7 @@ use crate::{
     validator::Validate,
     ValidationResult,
 };
-use macros::{validator, validator_method};
+use macros::validator_method;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
@@ -86,7 +86,6 @@ impl Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ForInStmt> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -97,7 +96,6 @@ impl Validate<ForInStmt> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ForOfStmt> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

@@ -14,7 +14,6 @@ mod loops;
 mod return_type;
 
 /// NOTE: We does **not** dig into with statements.
-#[validator]
 impl Validate<WithStmt> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -25,7 +24,6 @@ impl Validate<WithStmt> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<BlockStmt> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

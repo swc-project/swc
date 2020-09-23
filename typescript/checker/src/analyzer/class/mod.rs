@@ -26,7 +26,6 @@ use ty::TypeExt;
 
 mod order;
 
-#[validator]
 impl Validate<ClassProp> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::ClassProperty>;
 
@@ -66,7 +65,6 @@ impl Validate<ClassProp> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<Constructor> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::ConstructorSignature>;
 
@@ -173,7 +171,6 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsFnParam> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::FnParam>;
 
@@ -218,7 +215,6 @@ impl Validate<TsFnParam> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ClassMethod> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Method>;
 
@@ -337,7 +333,6 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ClassMember> for Analyzer<'_, '_> {
     type Output = ValidationResult<Option<ty::ClassMember>>;
 
@@ -624,7 +619,6 @@ impl Analyzer<'_, '_> {
 /// 1. TsParamProp in constructors.
 /// 2. Properties from top to bottom.
 /// 3. Others, using dependency graph.
-#[validator]
 impl Validate<Class> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Class>;
 
@@ -1022,7 +1016,6 @@ impl Validate<Class> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ClassExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -1073,7 +1066,6 @@ impl Validate<ClassExpr> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ClassDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

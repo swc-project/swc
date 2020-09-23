@@ -199,7 +199,6 @@ fn make_module_ty(span: Span, exports: ModuleTypeInfo) -> ty::Module {
 //    }
 //}
 
-#[validator]
 impl Validate<Script> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Module>;
 
@@ -398,7 +397,6 @@ impl Load for NoopLoader {
     }
 }
 
-#[validator]
 impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -527,7 +525,6 @@ impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<Vec<Stmt>> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -564,7 +561,6 @@ impl Validate<Vec<Stmt>> for Analyzer<'_, '_> {
 }
 
 /// Done
-#[validator]
 impl Validate<Decorator> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -575,7 +571,6 @@ impl Validate<Decorator> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsImportEqualsDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -596,7 +591,6 @@ impl Validate<TsImportEqualsDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<TsModuleDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

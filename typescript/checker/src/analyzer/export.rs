@@ -6,7 +6,7 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use macros::{validator, validator_method};
+use macros::validator_method;
 use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned, DUMMY_SP};
@@ -122,7 +122,6 @@ impl Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ExportDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -186,7 +185,6 @@ impl Validate<ExportDecl> for Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -280,7 +278,6 @@ impl Analyzer<'_, '_> {
 }
 
 /// Done
-#[validator]
 impl Validate<TsExportAssignment> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -292,7 +289,6 @@ impl Validate<TsExportAssignment> for Analyzer<'_, '_> {
 }
 
 /// Done
-#[validator]
 impl Validate<ExportDefaultExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 

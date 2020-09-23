@@ -198,7 +198,6 @@ impl BitOr for CondFacts {
     }
 }
 
-#[validator]
 impl Validate<IfStmt> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -244,7 +243,6 @@ impl Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<SwitchStmt> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
@@ -773,7 +771,6 @@ impl Analyzer<'_, '_> {
     }
 }
 
-#[validator]
 impl Validate<CondExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult;
 

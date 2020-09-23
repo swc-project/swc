@@ -10,7 +10,6 @@ use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
-#[validator]
 impl Validate<UnaryExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult;
 
