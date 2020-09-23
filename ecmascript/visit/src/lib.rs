@@ -926,6 +926,7 @@ define!({
         pub specifiers: Vec<ImportSpecifier>,
         pub src: Str,
         pub type_only: bool,
+        pub asserts: Option<ObjectLit>,
     }
     pub struct ExportAll {
         pub span: Span,
