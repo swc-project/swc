@@ -9,7 +9,6 @@ use crate::{
     validator::Validate,
     ValidationResult,
 };
-use macros::validator;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};

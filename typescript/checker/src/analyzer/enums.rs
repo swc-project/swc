@@ -7,7 +7,6 @@ use crate::{
     ValidationResult,
 };
 use fxhash::FxHashMap;
-use macros::validator;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Node, Visit, VisitWith};

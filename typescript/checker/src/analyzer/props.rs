@@ -6,7 +6,6 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use macros::validator;
 use swc_atoms::js_word;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;

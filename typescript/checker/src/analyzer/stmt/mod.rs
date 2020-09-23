@@ -5,7 +5,6 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use macros::validator;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
 

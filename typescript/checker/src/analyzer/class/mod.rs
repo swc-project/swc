@@ -14,7 +14,7 @@ use crate::{
 };
 use bitflags::_core::mem::take;
 use fxhash::FxHashSet;
-use macros::{validator, validator_method};
+use macros::validator_method;
 use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};

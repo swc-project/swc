@@ -7,7 +7,6 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use macros::validator;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ts_types::FoldWith as _;

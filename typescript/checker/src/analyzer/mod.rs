@@ -19,7 +19,6 @@ use crate::{
 };
 use bitflags::_core::mem::{replace, take};
 use fxhash::{FxHashMap, FxHashSet};
-use macros::validator;
 use rayon::prelude::*;
 use std::{
     fmt::Debug,

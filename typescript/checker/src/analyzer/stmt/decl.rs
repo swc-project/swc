@@ -7,7 +7,6 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use macros::validator;
 use std::mem::take;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
