@@ -1175,15 +1175,11 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                 return ty;
                             }
                             self.dejavu.insert(i.into());
-                            log::error!(
-                                "({}): expand_fully: failed to find {}",
-                                self.analyzer.scope.depth(),
-                                Id::from(i)
-                            );
 
                             if let Some(types) = self.analyzer.find_type(&i.into()) {
                                 log::info!(
-                                    "expand: expanding using analyzer: {}",
+                                    "expand: expanding `{}` using analyzer: {}",
+                                    Id::from(i),
                                     types.clone().into_iter().count()
                                 );
 
