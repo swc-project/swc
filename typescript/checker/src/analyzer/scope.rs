@@ -91,6 +91,17 @@ impl Scope<'_> {
         self.parent.is_none()
     }
 
+    pub fn class_members(&self) -> &[(usize, ty::ClassMember)] {
+        if let ScopeKind::Class = self.kind {
+            return &self.this_class_members;
+        }
+
+        match self.parent {
+            Some(parent) => parent.class_members(),
+            None => &[],
+        }
+    }
+
     pub fn remove_parent(self) -> Scope<'static> {
         Scope {
             parent: None,

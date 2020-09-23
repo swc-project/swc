@@ -609,13 +609,10 @@ impl Analyzer<'_, '_> {
             debug_assert!(!span.is_dummy());
         }
 
-        dbg!(self.scope.is_this_ref_to_class());
-        dbg!(&obj);
-
         match *obj {
             Type::This(..) if self.scope.is_this_ref_to_class() => {
                 // We are currently declaring a class.
-                for (_, member) in &self.scope.this_class_members {
+                for (_, member) in self.scope.class_members() {
                     match member {
                         // No-op, as constructor parameter properties are handled by
                         // Validate<Class>.
