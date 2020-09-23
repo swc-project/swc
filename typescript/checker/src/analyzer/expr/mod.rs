@@ -1407,7 +1407,11 @@ impl Analyzer<'_, '_> {
                         }
                     }
                 } else {
-                    let obj_ty = self.expand_fully(span, obj_ty, true)?;
+                    let ctx = Ctx {
+                        preserve_ref: false,
+                        ..self.ctx
+                    };
+                    let obj_ty = self.with_ctx(ctx).expand_fully(span, obj_ty, true)?;
                     match self.access_property(span, obj_ty, prop, computed, type_mode) {
                         Ok(v) => return Ok(v),
                         Err(err) => {
