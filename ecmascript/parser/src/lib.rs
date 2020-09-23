@@ -123,14 +123,14 @@ impl Default for Syntax {
 }
 
 impl Syntax {
-    pub fn import_assertion(self) -> bool {
+    pub fn import_assertions(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
-                import_assertios, ..
+                import_assertions, ..
             })
             | Syntax::Typescript(TsConfig {
-                import_assertios, ..
-            }) => import_assertios,
+                import_assertions, ..
+            }) => import_assertions,
         }
     }
 
@@ -306,7 +306,7 @@ pub struct TsConfig {
 
     /// Stage 3.
     #[serde(default)]
-    pub import_assertios: bool,
+    pub import_assertions: bool,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]
@@ -400,7 +400,7 @@ pub struct EsConfig {
 
     /// Stage 3.
     #[serde(default)]
-    pub import_assertios: bool,
+    pub import_assertions: bool,
 }
 
 /// Syntactic context.

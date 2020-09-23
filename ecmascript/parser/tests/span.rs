@@ -77,9 +77,8 @@ fn load_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     Syntax::Typescript(TsConfig {
                         tsx: true,
                         decorators: true,
-                        dynamic_import: false,
-                        dts: false,
                         no_early_errors: true,
+                        ..Default::default()
                     }),
                     Default::default(),
                     (&*src).into(),
