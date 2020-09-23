@@ -1,1 +1,1 @@
-foo(import('./lazy', { assert: { type: "json" } ))
+foo(import('./lazy', { assert: { type: "json" } }))
