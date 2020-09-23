@@ -921,6 +921,18 @@ impl Validate<Class> for Analyzer<'_, '_> {
                         }
                     }
 
+                    // Handle user-declared method signatures.
+                    for member in &mut c.body {}
+
+                    // Handle body of methods and a constructor
+                    // (in try mode - we ignores error if it's not related to the type of return
+                    // value)
+                    //
+                    // This is to infer return types of methods
+                    for member in &mut c.body {}
+
+                    // Actaully check types of method / constructors.
+
                     let orders = child.calc_order_of_class_methods(&c.body);
 
                     for index in orders {

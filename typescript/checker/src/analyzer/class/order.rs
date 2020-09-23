@@ -10,8 +10,22 @@ impl Analyzer<'_, '_> {
     pub(super) fn calc_order_of_class_methods(&mut self, members: &[ClassMember]) -> Vec<usize> {
         let mut order = vec![];
 
-        for member in members.iter().enumerate() {}
+        for (index, member) in members.iter().enumerate() {
+            match member {
+                ClassMember::Constructor(_) => {}
+                ClassMember::Method(_) => {}
+                ClassMember::PrivateMethod(_) => {}
+
+                ClassMember::TsIndexSignature(_) => {}
+
+                ClassMember::ClassProp(_) | ClassMember::PrivateProp(_) | ClassMember::Empty(_) => {
+                    continue
+                }
+            }
+        }
 
         order
     }
 }
+
+struct DependencyFinder {}
