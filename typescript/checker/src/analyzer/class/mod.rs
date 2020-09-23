@@ -909,7 +909,9 @@ impl Validate<Class> for Analyzer<'_, '_> {
                             ClassMember::ClassProp(..) | ClassMember::PrivateProp(..) => {
                                 //
                                 let ty = member.validate_with(child)?;
-                                body.push((index, ty.unwrap()));
+                                if let Some(ty) = ty {
+                                    body.push((index, ty));
+                                }
                             }
                             _ => {}
                         }
@@ -931,7 +933,9 @@ impl Validate<Class> for Analyzer<'_, '_> {
 
                     for index in orders {
                         let ty = c.body[index].validate_with(child)?;
-                        body.push((index, ty.unwrap()));
+                        if let Some(ty) = ty {
+                            body.push((index, ty));
+                        }
                     }
 
                     body
