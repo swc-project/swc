@@ -1187,6 +1187,8 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                     types.clone().into_iter().count()
                                 );
 
+                                let mut stored_ref = None;
+
                                 for t in types {
                                     if !self.expand_union {
                                         let mut finder = UnionFinder { found: false };
@@ -1235,11 +1237,12 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                             return t.clone().fold_with(self);
                                         }
 
-                                        _ => unimplemented!(
-                                            "Handling result of find_type() -> {:#?}",
-                                            ty
-                                        ),
+                                        _ => stored_ref = Some(t),
                                     }
+                                }
+
+                                if let Some(t) = stored_ref {
+                                    return t.clone();
                                 }
                             } else {
                                 println!("Failed to find type: {}", i.sym)
