@@ -4,13 +4,13 @@ class Box<P> {
     value: P;
 }
 
-type Boxified<T> = {
-    [K in keyof T]: Box<T[K]>;
+type Boxified<BoxT> = {
+    [BoxKey in keyof BoxT]: Box<BoxT[BoxKey]>;
 }
 
-declare function boxify<T>(obj: T): Boxified<T>;
+declare function boxify<BO>(obj: BO): Boxified<BO>;
 
-declare function unboxify<T>(obj: Boxified<T>): T;
+declare function unboxify<UB>(obj: Boxified<UB>): UB;
 
 interface Bacon {
     isPerfect: boolean;
