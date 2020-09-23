@@ -1225,9 +1225,12 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                                     &[],
                                                     &[],
                                                 )?;
-                                                return *self
+                                                let ty = *self
                                                     .analyzer
                                                     .expand_type_params(&inferred, box ty)?;
+
+                                                let ty = ty.fold_with(self);
+                                                return ty;
                                             }
 
                                             return t.clone().fold_with(self);
