@@ -1253,6 +1253,7 @@ impl Analyzer<'_, '_> {
             self.scope.depth(),
             i.sym
         );
+        print_backtrace();
 
         Ok(box Type::Ref(Ref {
             span,
