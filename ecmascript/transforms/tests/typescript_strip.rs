@@ -473,7 +473,7 @@ to!(
     issue_791_1,
     "import { IPerson } from '../types/types'
 
-     export interface IEmployee extends IPerson { 
+     export interface IEmployee extends IPerson {
      }
 
      export function createPerson(person: IPerson) {
@@ -488,13 +488,13 @@ to!(
     issue_791_2,
     "import { IPerson } from '../types/types'
 
-     export class Employee implements IPerson { 
+     export class Employee implements IPerson {
      }
 
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
      }",
-    "export class Employee { 
+    "export class Employee {
      }
      export function createPerson(person) {
        const a = {}
@@ -518,11 +518,11 @@ to!(
 to!(
     issue_791_4,
     "import { A, B } from '../types/types'
-     
-     export class Child extends A implements B { 
+
+     export class Child extends A implements B {
      }",
     "import { A } from '../types/types'
-    
+
     export class Child extends A {
     }
     "
@@ -613,7 +613,7 @@ to!(
     #level: LogLevels;
     #handlers: BaseHandler[];
     readonly #loggerName: string;
-    
+
     constructor(
         loggerName: string,
         levelName: LevelName,
@@ -747,7 +747,7 @@ test!(
     typescript_001,
     "class A {
         foo = new Subject()
-      
+
         constructor() {
           this.foo.subscribe()
         }
@@ -770,7 +770,7 @@ test!(
 
             declare1
             declare2!: string
-          
+
             constructor(private readonly a: string, readonly c, private d: number = 1) {
                 super()
                 this.foo.subscribe()
@@ -827,10 +827,10 @@ test!(
           this.action = new Subject()
         }
       }
-      
+
       class Child extends Base {
         @DefineAction() action: Observable<void>
-       
+
         callApi() {
           console.log(this.action) // undefined
         }
@@ -888,18 +888,18 @@ test_exec!(
         this.action = 1
       }
     }
-    
+
     class Child extends Base {
       @DefineAction() action: number
-     
+
       callApi() {
         console.log(this.action) // undefined
         return this.action
       }
     }
-    
+
     const c = new Child()
-    
+
     c.callApi()
     expect(c.callApi()).not.toBe(undefined)
     expect(c.action).toBe(1);
@@ -1980,9 +1980,9 @@ export default (identifier: string, level = 0, b = "", m = false) => {
         newline as newlineFormatter,
         breakpoint as breakpointFormatter,
     } from "./format.ts";
-    
+
     const proseTypes = new Map();
-    
+
     // deno-lint-ignore ban-types
     const prose = (l, i, nl, bp): string => {
         return i(l) + bp + "prose {" + nl +
@@ -2273,9 +2273,9 @@ export default (identifier: string, level = 0, b = "", m = false) => {
             i(l + 1) + "color: #161e2e;" + nl +
             i(l) + "}" + nl;
     };
-    
+
     proseTypes.set("prose", prose);
-    
+
     // deno-lint-ignore ban-types
     const proseSm = (l, i, nl, bp): string => {
         return i(l) + bp + "prose-sm {" + nl +
@@ -2461,9 +2461,9 @@ export default (identifier: string, level = 0, b = "", m = false) => {
             i(l + 1) + "margin-bottom: 0;" + nl +
             i(l) + "}" + nl;
     };
-    
+
     proseTypes.set("prose-sm", proseSm);
-    
+
     // deno-lint-ignore ban-types
     const proseLg = (l, i, nl, bp): string => {
         return i(l) + bp + "prose-lg {" + nl +
@@ -2649,9 +2649,9 @@ export default (identifier: string, level = 0, b = "", m = false) => {
             i(l + 1) + "margin-bottom: 0;" + nl +
             i(l) + "}" + nl;
     };
-    
+
     proseTypes.set("prose-lg", proseLg);
-    
+
     // deno-lint-ignore ban-types
     const proseXl = (l, i, nl, bp): string => {
         return i(l) + bp + "prose-xl {" + nl +
@@ -2837,9 +2837,9 @@ export default (identifier: string, level = 0, b = "", m = false) => {
             i(l + 1) + "margin-bottom: 0;" + nl +
             i(l) + "}" + nl;
     };
-    
+
     proseTypes.set("prose-xl", proseXl);
-    
+
     // deno-lint-ignore ban-types
     const prose2xl = (l, i, nl, bp) => {
         return i(l) + bp + "prose-2xl {" + nl +
@@ -3025,18 +3025,18 @@ export default (identifier: string, level = 0, b = "", m = false) => {
             i(l + 1) + "margin-bottom: 0;" + nl +
             i(l) + "}" + nl;
     };
-    
+
     proseTypes.set("prose-2xl", prose2xl);
-    
+
     export default ((identifier, level = 0, b = "", m = false) => {
         const i = indentFormatter(m);
         const nl = newlineFormatter(m)();
         const bp = breakpointFormatter(b);
-    
+
         if (proseTypes.has(identifier)) {
             return proseTypes.get(identifier)(level, i, nl, bp);
         }
-    
+
         return;
     });
     "#,
@@ -3050,11 +3050,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| {
-        let mut config = strip::Config::default();
-        config.import_not_used_as_values = strip::ImportNotUsedAsValues::Remove;
-        strip_with_config(config)
-    },
+    |_| strip(),
     deno_7413_1,
     "
     import { a } from './foo';
@@ -3069,16 +3065,33 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| {
-        let mut config = strip::Config::default();
-        config.import_not_used_as_values = strip::ImportNotUsedAsValues::Remove;
-        strip_with_config(config)
-    },
+    |_| strip(),
     deno_7413_2,
     "
     import './foo';
     ",
     "
     import './foo';
+    "
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        let mut config = strip::Config::default();
+        config.import_not_used_as_values = strip::ImportNotUsedAsValues::Preserve;
+        strip_with_config(config)
+    },
+    deno_7413_3,
+    "
+    import { a } from './foo';
+    import { Type } from './types';
+    ",
+    "
+    import './foo';
+    import './types';
     "
 );

@@ -16,6 +16,8 @@ type EnumValues = FxHashMap<Id, TsLit>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
+// TODO(nayeemrmn): The name should be `ImportsNotUsedAsValues`. Rename as a
+// breaking change.
 pub enum ImportNotUsedAsValues {
     #[serde(rename = "remove")]
     Remove,
@@ -23,10 +25,10 @@ pub enum ImportNotUsedAsValues {
     Preserve,
 }
 
-/// This value defaults to `Preserve`
+/// This value defaults to `Remove`
 impl Default for ImportNotUsedAsValues {
     fn default() -> Self {
-        Self::Preserve
+        Self::Remove
     }
 }
 
@@ -41,7 +43,7 @@ pub fn strip_with_config(config: Config) -> impl Fold {
         config,
         non_top_level: Default::default(),
         scope: Default::default(),
-        was_side_effect_import: Default::default(),
+        is_side_effect_import: Default::default(),
     })
 }
 
@@ -55,8 +57,7 @@ struct Strip {
     config: Config,
     non_top_level: bool,
     scope: Scope,
-
-    was_side_effect_import: bool,
+    is_side_effect_import: bool,
 }
 
 #[derive(Default)]
@@ -704,7 +705,7 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
-        self.was_side_effect_import = import.specifiers.is_empty();
+        self.is_side_effect_import = import.specifiers.is_empty();
 
         import.specifiers.retain(|s| match *s {
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
@@ -713,26 +714,23 @@ impl VisitMut for Strip {
                     .scope
                     .imported_idents
                     .get(&(local.sym.clone(), local.span.ctxt()));
-                match self.config.import_not_used_as_values {
-                    ImportNotUsedAsValues::Remove => match entry {
-                        Some(&DeclInfo {
-                            has_concrete: false,
-                            ..
-                        }) => false,
-                        _ => true,
-                    },
-                    ImportNotUsedAsValues::Preserve => match entry {
-                        Some(&DeclInfo {
-                            has_type: true,
-                            has_concrete: false,
-                            ..
-                        }) => false,
-                        _ => true,
-                    },
+                match entry {
+                    Some(&DeclInfo {
+                        has_concrete: false,
+                        ..
+                    }) => false,
+                    _ => true,
                 }
             }
             _ => true,
         });
+
+        if import.specifiers.is_empty() && !self.is_side_effect_import {
+            self.is_side_effect_import = match self.config.import_not_used_as_values {
+                ImportNotUsedAsValues::Remove => false,
+                ImportNotUsedAsValues::Preserve => true,
+            };
+        }
     }
 
     fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
@@ -776,7 +774,7 @@ impl VisitMut for Strip {
         // Second pass
         let mut stmts = Vec::with_capacity(orig.len());
         for mut item in take(orig) {
-            self.was_side_effect_import = false;
+            self.is_side_effect_import = false;
             match item {
                 Stmt::Empty(..) => continue,
 
@@ -880,7 +878,7 @@ impl VisitMut for Strip {
 
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in take(items) {
-            self.was_side_effect_import = false;
+            self.is_side_effect_import = false;
             match item {
                 // Strip out ts-only extensions
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
@@ -953,7 +951,7 @@ impl VisitMut for Strip {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
                     i.visit_mut_with(self);
 
-                    if self.was_side_effect_import || !i.specifiers.is_empty() {
+                    if self.is_side_effect_import || !i.specifiers.is_empty() {
                         stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
                     }
                 }
