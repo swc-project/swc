@@ -91,7 +91,7 @@ impl ty::Fold for GenericExpander<'_> {
         };
         let span = ty.span();
 
-        log::info!("generic_expand: {:?}", &ty);
+        log::debug!("generic_expand: {:?}", &ty);
 
         match ty {
             Type::Ref(Ref {
