@@ -246,6 +246,7 @@ impl InjectHelpers {
                     })],
                     src: quote_str!("@swc/helpers"),
                     type_only: false,
+                    asserts: None,
                 }))]
             } else {
                 vec![]

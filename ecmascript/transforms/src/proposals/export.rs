@@ -50,6 +50,7 @@ impl Fold for ExportDefaultFrom {
                                     .clone()
                                     .expect("`export default from` requires source"),
                                 type_only: false,
+                                asserts: None,
                             })));
                             extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                 NamedExport {
@@ -82,6 +83,7 @@ impl Fold for ExportDefaultFrom {
                                     .clone()
                                     .expect("`export default from` requires source"),
                                 type_only: false,
+                                asserts: None,
                             })));
                             extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                 NamedExport {
