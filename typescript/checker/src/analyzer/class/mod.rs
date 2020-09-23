@@ -21,8 +21,10 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{VisitMutWith, VisitWith};
-use swc_ts_types::Id;
+use swc_ts_types::{Id, Type};
 use ty::TypeExt;
+
+mod order;
 
 #[validator]
 impl Validate<ClassProp> for Analyzer<'_, '_> {
@@ -617,6 +619,11 @@ impl Analyzer<'_, '_> {
     }
 }
 
+/// Order:
+///
+/// 1. TsParamProp in constructors.
+/// 2. Properties from top to bottom.
+/// 3. Others, using dependency graph.
 #[validator]
 impl Validate<Class> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Class>;
@@ -847,15 +854,82 @@ impl Validate<Class> for Analyzer<'_, '_> {
                     });
                 }
 
-                let mut body: Vec<(_, ty::ClassMember)> = c
-                    .body
-                    .iter_mut()
-                    .filter_map(|m| match child.validate(m) {
-                        Ok(None) => None,
-                        Ok(Some(v)) => Some(Ok((m, v))),
-                        Err(err) => Some(Err(err)),
-                    })
-                    .collect::<Result<_, _>>()?;
+                // Handle nodes in order described above
+                let mut body = {
+                    let mut body = vec![];
+
+                    // Handle ts parameter properties
+                    for (index, member) in c.body.iter_mut().enumerate() {
+                        match member {
+                            ClassMember::Constructor(constructor) => {
+                                for param in &mut constructor.params {
+                                    match param {
+                                        ParamOrTsParamProp::TsParamProp(p) => {
+                                            let (i, mut ty) = match &mut p.param {
+                                                TsParamPropParam::Ident(i) => {
+                                                    let ty = i.type_ann.take();
+                                                    (i, ty)
+                                                }
+                                                TsParamPropParam::Assign(AssignPat {
+                                                    left: box Pat::Ident(i),
+                                                    type_ann,
+                                                    ..
+                                                }) => {
+                                                    let ty = i.type_ann.take();
+                                                    (i, ty)
+                                                }
+                                                _ => unreachable!(),
+                                            };
+
+                                            let key = box Expr::Ident(i.clone());
+                                            let ty = try_opt!(ty.validate_with(child));
+                                            // Register a class property.
+
+                                            body.push((
+                                                index,
+                                                ty::ClassMember::Property(ty::ClassProperty {
+                                                    span: p.span,
+                                                    key,
+                                                    value: ty,
+                                                    is_static: false,
+                                                    computed: false,
+                                                    accessibility: p.accessibility,
+                                                    is_abstract: false,
+                                                    is_optional: i.optional,
+                                                    readonly: p.readonly,
+                                                    definite: false,
+                                                }),
+                                            ));
+                                        }
+                                        ParamOrTsParamProp::Param(..) => {}
+                                    }
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    // Handle properties
+                    for (index, member) in c.body.iter_mut().enumerate() {
+                        match member {
+                            ClassMember::ClassProp(..) | ClassMember::PrivateProp(..) => {
+                                //
+                                let ty = member.validate_with(child)?;
+                                body.push((index, ty.unwrap()));
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    let orders = child.calc_order_of_class_methods(&c.body);
+
+                    for index in orders {
+                        let ty = c.body[index].validate_with(child)?;
+                        body.push((index, ty.unwrap()));
+                    }
+
+                    body
+                };
 
                 {
                     // Change types of getter and setter
@@ -878,7 +952,8 @@ impl Validate<Class> for Analyzer<'_, '_> {
                         }
                     }
 
-                    for (orig, m) in &mut body {
+                    for (index, m) in &mut body {
+                        let orig = &mut c.body[*index];
                         match m {
                             ty::ClassMember::IndexSignature(_)
                             | ty::ClassMember::Constructor(_) => continue,
