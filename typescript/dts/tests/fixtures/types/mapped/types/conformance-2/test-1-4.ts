@@ -62,7 +62,5 @@ interface ReadonlyShape {
 }
 
 
-function f4() {
-    const rec = { foo: "hello", bar: "world", baz: "bye" };
-    const lengths = mapObject(rec, s => s.length);  // { foo: number, bar: number, baz: number }
-}
+const rec = { foo: "hello", bar: "world", baz: "bye" };
+const lengths = mapObject(rec, s => s.length);  // { foo: number, bar: number, baz: number }
