@@ -130,6 +130,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         // compat
         let compat_pass = if let Some(env) = self.env {
             Either::Left(chain!(
+                import_assertions(),
                 Optional::new(typescript::strip(), syntax.typescript()),
                 swc_ecma_preset_env::preset_env(self.global_mark, env)
             ))
