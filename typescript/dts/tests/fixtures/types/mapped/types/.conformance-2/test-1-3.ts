@@ -62,6 +62,4 @@ interface ReadonlyShape {
 }
 
 
-function f3(shape: Shape) {
-    const x = pick(shape, "name", "location");  // { name: string, location: Point }
-}
+const x = pick(shape, "name", "location");  // { name: string, location: Point }

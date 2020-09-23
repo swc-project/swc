@@ -61,8 +61,6 @@ interface ReadonlyShape {
     readonly location: Point;
 }
 
-function f6(shape: DeepReadonly<Shape>) {
-    let name = shape.name;  // string
-    let location = shape.location;  // DeepReadonly<Point>
-    let x = location.x;  // number
-}
+let name = shape.name;  // string
+let location = shape.location;  // DeepReadonly<Point>
+let x = location.x;  // number
