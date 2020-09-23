@@ -45,7 +45,8 @@
         "value": "foo",
         "hasEscape": false
       },
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     },
     {
       "type": "ImportDeclaration",
@@ -65,7 +66,8 @@
         "value": "foo",
         "hasEscape": false
       },
-      "typeOnly": true
+      "typeOnly": true,
+      "asserts": null
     }
   ],
   "interpreter": null
