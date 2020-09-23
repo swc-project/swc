@@ -121,7 +121,6 @@ impl<'a, I: Tokens> Parser<I> {
                 },
                 _ => unexpected!("a string literal"),
             };
-            expect!(';');
             src
         };
 
@@ -133,6 +132,8 @@ impl<'a, I: Tokens> Parser<I> {
         } else {
             None
         };
+
+        expect!(';');
 
         Ok(ModuleDecl::Import(ImportDecl {
             span: span!(start),
