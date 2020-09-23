@@ -3,24 +3,12 @@
 
 use crate::{ambient::RealImplRemover, dce::get_used};
 use fxhash::FxHashSet;
-use std::{
-    cmp::{
-        Ordering,
-        Ordering::{Equal, Greater},
-    },
-    collections::hash_map::Entry,
-    sync::Arc,
-};
-use swc_atoms::JsWord;
+use std::sync::Arc;
 use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prop_name_to_expr, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith};
-use swc_ts_checker::{
-    ty,
-    util::{PatExt, TypeEq},
-    Id,
-};
+use swc_ts_checker::{util::PatExt, Id};
 use swc_ts_types::{ModuleTypeInfo, Type};
 
 mod ambient;
@@ -344,8 +332,8 @@ impl Fold for TypeResolver {
             ClassMember::Method(ClassMethod {
                 span,
                 key,
-                function,
-                kind,
+                function: _,
+                kind: _,
                 is_static,
                 accessibility: Some(Accessibility::Private),
                 is_abstract,
@@ -493,20 +481,20 @@ impl Fold for TypeResolver {
     fn fold_stmt(&mut self, v: Stmt) -> Stmt {
         let v = v.fold_children_with(self);
         match v {
-            Stmt::Decl(Decl::Class(ref i)) if !self.used.contains((&i.ident.clone().into())) => {
+            Stmt::Decl(Decl::Class(ref i)) if !self.used.contains(&i.ident.clone().into()) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
-            Stmt::Decl(Decl::Fn(ref i)) if !self.used.contains((&i.ident.clone().into())) => {
+            Stmt::Decl(Decl::Fn(ref i)) if !self.used.contains(&i.ident.clone().into()) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
 
-            Stmt::Decl(Decl::TsTypeAlias(ref i)) if !self.used.contains((&i.id.clone().into())) => {
+            Stmt::Decl(Decl::TsTypeAlias(ref i)) if !self.used.contains(&i.id.clone().into()) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
-            Stmt::Decl(Decl::TsInterface(ref i)) if !self.used.contains((&i.id.clone().into())) => {
+            Stmt::Decl(Decl::TsInterface(ref i)) if !self.used.contains(&i.id.clone().into()) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
-            Stmt::Decl(Decl::TsEnum(ref i)) if !self.used.contains((&i.id.clone().into())) => {
+            Stmt::Decl(Decl::TsEnum(ref i)) if !self.used.contains(&i.id.clone().into()) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
 
