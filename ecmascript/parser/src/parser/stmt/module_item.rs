@@ -125,7 +125,7 @@ impl<'a, I: Tokens> Parser<I> {
             src
         };
 
-        let asserts = if self.input.syntax().import_assertions() && eat!("asserts") {
+        let asserts = if self.input.syntax().import_assertions() && eat!("assert") {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(v),
                 _ => unreachable!(),

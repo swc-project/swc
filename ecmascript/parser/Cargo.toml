@@ -20,7 +20,7 @@ log = "0.4"
 num-bigint = "0.2"
 serde = {version = "1", features = ["derive"]}
 smallvec = "1"
-swc_atoms = {version = "0.2", path = "../../atoms"}
+swc_atoms = {version = "0.2.3", path = "../../atoms"}
 swc_common = {version = "0.10.0", path = "../../common"}
 swc_ecma_ast = {version = "0.32.0", path = "../ast"}
 swc_ecma_parser_macros = {version = "0.4.1", path = "./macros"}
