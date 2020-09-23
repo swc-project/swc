@@ -25,10 +25,10 @@ pub enum ImportNotUsedAsValues {
     Preserve,
 }
 
-/// This value defaults to `Preserve`
+/// This value defaults to `Remove`
 impl Default for ImportNotUsedAsValues {
     fn default() -> Self {
-        Self::Preserve
+        Self::Remove
     }
 }
 
