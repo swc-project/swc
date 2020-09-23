@@ -6,7 +6,6 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/*.bk": true,
-    "**/*.d.ts": true,
     "**/node_modules": true,
     "**/target": true
   },
