@@ -946,6 +946,8 @@ impl Analyzer<'_, '_> {
                     return Ok(v);
                 }
 
+                print_backtrace();
+
                 if computed {
                     let prop_ty = Some(prop.validate_with(self)?);
                     return Err(Error::NoSuchProperty {
@@ -1406,6 +1408,17 @@ impl Analyzer<'_, '_> {
                         ..self.ctx
                     };
                     let obj_ty = self.with_ctx(ctx).expand_fully(span, obj_ty, true)?;
+                    match &*obj_ty {
+                        Type::Ref(..) => {
+                            print_backtrace();
+                            unreachable!(
+                                "expand_fully should not return ref when computed is false\nRef: \
+                                 {:#?}",
+                                obj_ty
+                            )
+                        }
+                        _ => {}
+                    }
                     match self.access_property(span, obj_ty, prop, computed, type_mode) {
                         Ok(v) => return Ok(v),
                         Err(err) => {
