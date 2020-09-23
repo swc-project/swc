@@ -66,7 +66,7 @@ pub(crate) struct Scope<'a> {
     pub(super) declaring_prop: Option<Id>,
 
     pub(super) this: Option<Id>,
-    pub(super) this_class_name: Option<Id>,
+    pub(super) this_class_members: Option<Vec<ty::ClassMember>>,
 }
 
 impl Scope<'_> {

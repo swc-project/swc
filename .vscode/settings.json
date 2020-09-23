@@ -21,5 +21,7 @@
   "rust-client.revealOutputChannelOn": "warn",
   "rust-client.logToFile": true,
   "editor.formatOnSave": true,
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "rust-analyzer.procMacro.enable": true,
+  "rust-analyzer.cargo.loadOutDirsFromCheck": true
 }
