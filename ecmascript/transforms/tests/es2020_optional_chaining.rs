@@ -593,3 +593,24 @@ test!(
     "a?.b.c.d.e.f.g.h()",
     "a === null || a === void 0 ? void 0 : a.b.c.d.e.f.g.h();"
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(()),
+    swc_node_95,
+    "
+  const obj = {
+    a: {
+      b: {
+        c: function () {
+          return this.foo
+        },
+        foo: 2,
+      },
+      foo: 1,
+    },
+  }
+
+  expect(obj?.a?.b?.c()).toBe(2)
+  "
+);
