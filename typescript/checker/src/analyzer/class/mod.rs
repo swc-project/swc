@@ -933,9 +933,13 @@ impl Validate<Class> for Analyzer<'_, '_> {
 
                     // Actaully check types of method / constructors.
 
-                    let orders = child.calc_order_of_class_methods(&c.body);
+                    for (index, member) in c.body.iter_mut().enumerate() {
+                        if body.iter().any(|(idx, _)| *idx == index) {
+                            continue;
+                        }
 
-                    for index in orders {
+                        // TODO: Reorder
+
                         let ty = c.body[index].validate_with(child)?;
                         if let Some(ty) = ty {
                             body.push((index, ty));
