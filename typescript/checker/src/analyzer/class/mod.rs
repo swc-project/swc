@@ -852,8 +852,6 @@ impl Validate<Class> for Analyzer<'_, '_> {
 
                 // Handle nodes in order described above
                 let mut body = {
-                    let mut body = vec![];
-
                     // TODO: Handle static first
 
                     // Handle ts parameter properties
@@ -883,7 +881,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                             let ty = try_opt!(ty.validate_with(child));
                                             // Register a class property.
 
-                                            body.push((
+                                            child.scope.this_class_members.push((
                                                 index,
                                                 ty::ClassMember::Property(ty::ClassProperty {
                                                     span: p.span,
@@ -914,7 +912,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                 //
                                 let ty = member.validate_with(child)?;
                                 if let Some(ty) = ty {
-                                    body.push((index, ty));
+                                    child.scope.this_class_members.push((index, ty));
                                 }
                             }
                             _ => {}
@@ -934,19 +932,24 @@ impl Validate<Class> for Analyzer<'_, '_> {
                     // Actaully check types of method / constructors.
 
                     for (index, member) in c.body.iter_mut().enumerate() {
-                        if body.iter().any(|(idx, _)| *idx == index) {
+                        if child
+                            .scope
+                            .this_class_members
+                            .iter()
+                            .any(|(idx, _)| *idx == index)
+                        {
                             continue;
                         }
 
                         // TODO: Reorder
 
-                        let ty = c.body[index].validate_with(child)?;
+                        let ty = member.validate_with(child)?;
                         if let Some(ty) = ty {
-                            body.push((index, ty));
+                            child.scope.this_class_members.push((index, ty));
                         }
                     }
 
-                    body
+                    take(&mut child.scope.this_class_members)
                 };
 
                 {
@@ -970,7 +973,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                         }
                     }
 
-                    for (index, m) in &mut body {
+                    for (index, m) in body.iter_mut() {
                         let orig = &mut c.body[*index];
                         match m {
                             ty::ClassMember::IndexSignature(_)

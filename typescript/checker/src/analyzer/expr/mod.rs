@@ -609,6 +609,50 @@ impl Analyzer<'_, '_> {
             debug_assert!(!span.is_dummy());
         }
 
+        match *obj {
+            Type::This(..) if self.scope.kind() == ScopeKind::Class => {
+                // We are currently declaring a class.
+                for (_, member) in &self.scope.this_class_members {
+                    match member {
+                        // No-op, as constructor parameter properties are handled by
+                        // Validate<Class>.
+                        ty::ClassMember::Constructor(_) => {}
+
+                        ty::ClassMember::Method(member) => match &member.key {
+                            PropName::Ident(key) => {}
+                            PropName::Str(_) => {}
+                            PropName::Num(_) => {}
+                            PropName::Computed(key) => {
+                                if (*key.expr).type_eq(&*prop) {
+                                    return Ok(box Type::Function(ty::Function {
+                                        span: member.span,
+                                        type_params: member.type_params.clone(),
+                                        params: member.params.clone(),
+                                        ret_ty: member.ret_ty.clone(),
+                                    }));
+                                }
+                            }
+                        },
+                        ty::ClassMember::Property(member) => {
+                            if (*member.key).type_eq(&*prop) {
+                                return Ok(member.value.clone().unwrap_or_else(|| Type::any(span)));
+                            }
+                        }
+                        ty::ClassMember::IndexSignature(_) => {
+                            unimplemented!("class -> this.foo where an `IndexSignature` exists")
+                        }
+                    }
+                }
+
+                return Err(Error::NoSuchProperty {
+                    span,
+                    prop: Some(prop.clone()),
+                    prop_ty: None,
+                });
+            }
+            _ => {}
+        }
+
         let obj: Box<Type> = box self.expand(span, obj)?.generalize_lit().into_owned();
 
         match obj.normalize() {

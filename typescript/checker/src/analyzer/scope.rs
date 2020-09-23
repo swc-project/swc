@@ -66,7 +66,13 @@ pub(crate) struct Scope<'a> {
     pub(super) declaring_prop: Option<Id>,
 
     pub(super) this: Option<Id>,
-    pub(super) this_class_members: Option<Vec<ty::ClassMember>>,
+    /// Required to handle static properies.
+    pub(super) this_class_name: Option<Id>,
+    /// Only contains instance members.
+    ///
+    /// The value of usze should be ignored by methods except
+    /// `Validate<Class>`
+    pub(super) this_class_members: Vec<(usize, ty::ClassMember)>,
 }
 
 impl Scope<'_> {
@@ -96,6 +102,7 @@ impl Scope<'_> {
             declaring_fn: self.declaring_fn,
             declaring_prop: self.declaring_prop,
             this: self.this,
+            this_class_members: self.this_class_members,
             this_class_name: self.this_class_name,
         }
     }
@@ -1001,7 +1008,8 @@ impl<'a> Scope<'a> {
             this: None,
             declaring_prop: None,
             declaring_fn: None,
-            this_class_name: None,
+            this_class_members: Default::default(),
+            this_class_name: Default::default(),
         }
     }
 
