@@ -26,7 +26,9 @@ use std::{
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ts_types::{FoldWith as _, Id, TupleElement, VisitWith};
+use swc_ts_types::{
+    FoldWith as _, Id, IndexedAccessType, Operator, TupleElement, TypeParam, VisitWith,
+};
 
 #[derive(Debug, Clone, Copy)]
 pub(super) struct Config {
@@ -1132,6 +1134,22 @@ impl ty::Fold for Expander<'_, '_, '_> {
             Type::Param(..) => return ty.fold_children_with(self),
             Type::Ref(..) if !self.full => return ty.fold_children_with(self),
             Type::Interface(..) | Type::Class(..) if !self.full => return ty,
+            Type::IndexedAccessType(IndexedAccessType {
+                obj_type: box Type::TypeLit(lit),
+                index_type:
+                    box Type::Param(TypeParam {
+                        constraint:
+                            Some(box Type::Operator(Operator {
+                                op: TsTypeOperatorOp::KeyOf,
+                                ty: box Type::TypeLit(key_lits),
+                                ..
+                            })),
+                        ..
+                    }),
+                readonly: false,
+                ..
+            }) if lit == key_lits => return Type::TypeLit(lit.fold_with(self)),
+
             _ => {}
         }
 
