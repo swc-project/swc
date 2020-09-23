@@ -57,4 +57,6 @@ impl VisitMut for Analyzer<'_, '_> {
     forward!(visit_mut_stmts, Vec<Stmt>);
     forward!(visit_mut_module_items, Vec<ModuleItem>);
     forward!(visit_mut_class, Class);
+    forward!(visit_mut_class_decl, ClassDecl);
+    forward!(visit_mut_class_expr, ClassExpr);
 }
