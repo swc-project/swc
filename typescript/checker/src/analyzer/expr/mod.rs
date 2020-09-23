@@ -610,7 +610,7 @@ impl Analyzer<'_, '_> {
         }
 
         match *obj {
-            Type::This(..) if self.scope.kind() == ScopeKind::Class => {
+            Type::This(..) if self.scope.is_this_ref_to_class() => {
                 // We are currently declaring a class.
                 for (_, member) in &self.scope.this_class_members {
                     match member {

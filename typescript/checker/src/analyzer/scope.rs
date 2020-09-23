@@ -988,6 +988,21 @@ impl<'a> Scope<'a> {
         self.kind
     }
 
+    /// Returns true if `this` (from javascript) is a reference to class.
+    pub fn is_this_ref_to_class(&self) -> bool {
+        match self.kind {
+            ScopeKind::Fn | ScopeKind::ArrowFn => return false,
+            ScopeKind::Class => return true,
+            ScopeKind::Flow => {}
+            ScopeKind::Block => {}
+        }
+
+        match self.parent {
+            Some(parent) => parent.is_this_ref_to_class(),
+            None => false,
+        }
+    }
+
     pub fn new(parent: &'a Scope<'a>, kind: ScopeKind, facts: CondFacts) -> Self {
         Self::new_inner(Some(parent), kind, facts)
     }
