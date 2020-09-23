@@ -73,7 +73,7 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
 
         let c_span = c.span();
 
-        self.with_child(ScopeKind::Fn, Default::default(), |child| {
+        self.with_child(ScopeKind::Method, Default::default(), |child| {
             let Constructor { ref mut params, .. } = *c;
 
             {
@@ -225,7 +225,7 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
         let key_span = c.key.span();
 
         let (params, type_params, declared_ret_ty, inferred_ret_ty) = self.with_child(
-            ScopeKind::Fn,
+            ScopeKind::Method,
             Default::default(),
             |child| -> ValidationResult<_> {
                 {

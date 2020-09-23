@@ -110,7 +110,7 @@ impl Scope<'_> {
     pub fn copy_hoisted_vars_from(&mut self, from: &mut Scope) {
         match from.kind {
             // We don't copy variable information from nested function.
-            ScopeKind::Fn | ScopeKind::ArrowFn => return,
+            ScopeKind::Method | ScopeKind::Fn | ScopeKind::ArrowFn => return,
             _ => {}
         }
 
@@ -993,8 +993,7 @@ impl<'a> Scope<'a> {
         match self.kind {
             ScopeKind::Fn | ScopeKind::ArrowFn => return false,
             ScopeKind::Class => return true,
-            ScopeKind::Flow => {}
-            ScopeKind::Block => {}
+            ScopeKind::Method | ScopeKind::Flow | ScopeKind::Block => {}
         }
 
         match self.parent {
@@ -1084,6 +1083,8 @@ impl<'a, T> Iterator for ItemRef<'a, T> {
 pub(crate) enum ScopeKind {
     Block,
     Fn,
+    /// This does not affect `this`.
+    Method,
     ArrowFn,
     Class,
     /// If statement, conditional expression, switch case

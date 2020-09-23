@@ -609,6 +609,9 @@ impl Analyzer<'_, '_> {
             debug_assert!(!span.is_dummy());
         }
 
+        dbg!(self.scope.is_this_ref_to_class());
+        dbg!(&obj);
+
         match *obj {
             Type::This(..) if self.scope.is_this_ref_to_class() => {
                 // We are currently declaring a class.

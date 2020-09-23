@@ -247,7 +247,7 @@ impl Analyzer<'_, '_> {
                 let parma_span = p.param.span();
                 let mut param = &mut p.param;
 
-                self.with_child(ScopeKind::Fn, Default::default(), {
+                self.with_child(ScopeKind::Method, Default::default(), {
                     |child| -> ValidationResult<_> {
                         Ok(PropertySignature {
                             span,
@@ -315,7 +315,7 @@ impl Validate<GetterProp> for Analyzer<'_, '_> {
         };
 
         let type_ann = self
-            .with_child(ScopeKind::Fn, Default::default(), |child| {
+            .with_child(ScopeKind::Method, Default::default(), |child| {
                 n.key.visit_mut_with(child);
 
                 if let Some(body) = &mut n.body {
