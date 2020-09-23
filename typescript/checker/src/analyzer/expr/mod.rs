@@ -1350,15 +1350,29 @@ impl Analyzer<'_, '_> {
         let mut errors = vec![];
         match *obj {
             ExprOrSuper::Expr(ref mut obj) => {
-                let obj_ty = match obj.validate_with(self) {
-                    Ok(ty) => ty,
-                    Err(err) => {
-                        // Recover error if possible.
-                        if computed {
-                            errors.push(err);
-                            Type::any(span)
-                        } else {
-                            return Err(err);
+                let obj_ty = match &mut **obj {
+                    Expr::Member(obj_member) => {
+                        let obj_ty = self.type_of_member_expr(obj_member, type_mode)?;
+                        self.access_property(
+                            span,
+                            obj_ty,
+                            &mut obj_member.prop,
+                            obj_member.computed,
+                            type_mode,
+                        )?
+                    }
+                    _ => {
+                        match obj.validate_with(self) {
+                            Ok(ty) => ty,
+                            Err(err) => {
+                                // Recover error if possible.
+                                if computed {
+                                    errors.push(err);
+                                    Type::any(span)
+                                } else {
+                                    return Err(err);
+                                }
+                            }
                         }
                     }
                 };
