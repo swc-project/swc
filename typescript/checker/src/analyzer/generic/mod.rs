@@ -31,6 +31,26 @@ struct InferData {
     type_elements: FxHashMap<Id, Box<Type>>,
 }
 
+impl InferData {
+    pub fn insert(&mut self, name: Id, ty: Box<Type>) -> ValidationResult<()> {
+        if let Some(previous) = self.type_params.get(&name) {
+            // TODO: Change this to Err
+            assert!(
+                (*ty).type_eq(&**previous),
+                "A type parameter (`{}`) has multiple (or same type with multi usage) type. This \
+                 is a type error, but swc currently does not handle it.\nPrevious: {:?}\nNew: {:?}",
+                name,
+                previous,
+                ty
+            );
+        } else {
+            self.type_params.insert(name, ty);
+        }
+
+        Ok(())
+    }
+}
+
 /// Type inference for arguments.
 impl Analyzer<'_, '_> {
     /// Create [TypeParamInstantiation] from inferred type information.
@@ -301,10 +321,7 @@ impl Analyzer<'_, '_> {
                     }
                 {
                     log::info!("infer from constraint: {} = {:?}", name, constraint);
-                    inferred
-                        .type_params
-                        .insert(name.clone(), constraint.clone().unwrap())
-                        .expect_none("Cannot override");
+                    inferred.insert(name.clone(), constraint.clone().unwrap())?;
                     return Ok(());
                 }
 
@@ -441,13 +458,7 @@ impl Analyzer<'_, '_> {
                                     }
                                 }
                                 inferred
-                                    .type_params
-                                    .insert(param_ty.name.clone(), box Type::TypeLit(new_lit))
-                                    .expect_none(
-                                        "A type parameter has multiple (or same type with multi \
-                                         usage) type. This is a type error, but swc currently \
-                                         does not handle it.",
-                                    );
+                                    .insert(param_ty.name.clone(), box Type::TypeLit(new_lit))?;
 
                                 return Ok(());
                             }
@@ -642,40 +653,20 @@ impl Analyzer<'_, '_> {
                         }
 
                         if !optional {
-                            if let Some(previous) = inferred.type_params.get(&name) {
-                                let new = Type::TypeLit(TypeLit {
+                            inferred.insert(
+                                name,
+                                box Type::TypeLit(TypeLit {
                                     span: arg.span,
                                     members: new_members,
-                                });
-                                assert!(
-                                    new.type_eq(&**previous),
-                                    "TODO: Change this to error instead of panic.\nPrevious: \
-                                     {:?}\nNew: {:?}",
-                                    previous,
-                                    new
-                                );
-                            } else {
-                                inferred.type_params.insert(
-                                    name,
-                                    box Type::TypeLit(TypeLit {
-                                        span: arg.span,
-                                        members: new_members,
-                                    }),
-                                );
-                            }
+                                }),
+                            )?;
                         }
 
                         return Ok(());
                     }
                     // Handled by generic expander, so let's return it as-is.
                     Type::Ref(..) => {
-                        inferred
-                            .type_params
-                            .insert(name.clone(), box arg.clone())
-                            .expect_none(
-                                "TODO: Check if stored type is same as given type.
-TODO: Make this error instead of panic",
-                            );
+                        inferred.insert(name.clone(), box arg.clone())?;
                     }
                     _ => {}
                 }
@@ -730,10 +721,7 @@ TODO: Make this error instead of panic",
                                 members,
                             });
 
-                            inferred
-                                .type_params
-                                .insert(name.clone(), box list_ty)
-                                .expect_none("Cannot override");
+                            inferred.insert(name.clone(), box list_ty)?;
                         }
 
                         return Ok(());
@@ -810,10 +798,7 @@ TODO: Make this error instead of panic",
                                 members,
                             });
 
-                            inferred
-                                .type_params
-                                .insert(name.clone(), box list_ty)
-                                .expect_none("Cannot override");
+                            inferred.insert(name.clone(), box list_ty)?;
                             return Ok(());
                         }
 
