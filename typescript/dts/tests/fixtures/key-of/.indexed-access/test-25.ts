@@ -17,5 +17,5 @@ let c1 = new Component1({
     }
 });
 
-c1.get("hello");
+const c2 = c1.get("hello");
 

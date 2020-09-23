@@ -18,10 +18,9 @@ type Thing = {
 };
 
 
-function f1(thing: Thing) {
-    let x1 = path(thing, 'a');  // { x: number, y: string }
-    let x2 = path(thing, 'a', 'y');  // string
-    let x3 = path(thing, 'b');  // boolean
-    let x4 = path(thing, ...['a', 'x']);  // any
-}
+declare var thing: Thing;
+let x1 = path(thing, 'a');  // { x: number, y: string }
+let x2 = path(thing, 'a', 'y');  // string
+let x3 = path(thing, 'b');  // boolean
+let x4 = path(thing, ...['a', 'x']);  // any
 
