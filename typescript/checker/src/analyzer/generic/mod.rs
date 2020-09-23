@@ -142,17 +142,31 @@ impl Analyzer<'_, '_> {
         }
 
         // TODO: Handle optional parameters
-        // TODO: Handle varargs.
-        assert!(args.len() <= params.len());
 
-        for (p, arg) in params.iter().zip(args) {
+        for arg in args {
             assert_eq!(
                 arg.spread, None,
-                "argument inference for spread argument in a function / method call is not \
-                 implemented yet"
+                "The inference of type parameters for spread argument in a function / method call \
+                 is not implemented yet"
             );
+        }
 
-            self.infer_type(&mut inferred, &p.ty, &arg.ty)?;
+        for (idx, p) in params.iter().enumerate() {
+            let is_rest = match &p.pat {
+                Pat::Rest(_) => true,
+                _ => false,
+            };
+
+            if !is_rest {
+                if let Some(arg) = args.get(idx) {
+                    self.infer_type(&mut inferred, &p.ty, &arg.ty)?;
+                }
+            } else {
+                // Handle varargs
+                for arg in &args[idx..] {
+                    self.infer_type(&mut inferred, &p.ty, &arg.ty)?;
+                }
+            }
         }
 
         for type_param in type_params {
