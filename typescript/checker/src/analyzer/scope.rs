@@ -1131,6 +1131,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
         }
 
         match ty {
+            Type::Keyword(..) => return ty,
             Type::Param(..) => return ty.fold_children_with(self),
             Type::Ref(..) if !self.full => return ty.fold_children_with(self),
             Type::Interface(..) | Type::Class(..) if !self.full => return ty,
@@ -1190,6 +1191,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                     match *type_name {
                         TsEntityName::Ident(ref i) => {
                             if self.dejavu.contains(&i.into()) {
+                                log::error!("Devaju: {}{:?}", &i.sym, i.span.ctxt);
                                 return ty;
                             }
                             self.dejavu.insert(i.into());
@@ -1340,14 +1342,14 @@ impl ty::Fold for Expander<'_, '_, '_> {
                     ret_ty,
                 }) => {
                     let ret_ty = self.analyzer.rename_type_params(span, ret_ty, None)?;
+                    let ret_ty = ret_ty.fold_with(self);
 
-                    return ty::Function {
+                    return Type::Function(ty::Function {
                         span,
                         type_params,
                         params,
                         ret_ty,
-                    }
-                    .into();
+                    });
                 }
 
                 ty => box ty,
