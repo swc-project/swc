@@ -1126,7 +1126,8 @@ impl ty::Fold for Expander<'_, '_, '_> {
         };
 
         let ty = ty.into_owned();
-        if self.analyzer.is_expansion_prevented(&ty) {
+        if !self.analyzer.ctx.ignore_expand_prevention && self.analyzer.is_expansion_prevented(&ty)
+        {
             return ty;
         }
 

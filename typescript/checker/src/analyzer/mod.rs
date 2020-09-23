@@ -71,6 +71,10 @@ pub(crate) struct Ctx {
     in_argument: bool,
     preserve_ref: bool,
     generalize_ret_ty: bool,
+
+    /// Used before calling `access_property`, which does not accept `Ref` as an
+    /// input.
+    ignore_expand_prevention: bool,
 }
 
 /// Note: All methods named `validate_*` return [Err] iff it's not recoverable.
@@ -294,6 +298,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
                 in_argument: false,
                 preserve_ref: false,
                 generalize_ret_ty: false,
+                ignore_expand_prevention: false,
             },
             loader,
             is_builtin,
