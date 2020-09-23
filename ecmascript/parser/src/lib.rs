@@ -123,6 +123,17 @@ impl Default for Syntax {
 }
 
 impl Syntax {
+    pub fn import_assertion(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                import_assertios, ..
+            })
+            | Syntax::Typescript(TsConfig {
+                import_assertios, ..
+            }) => import_assertios,
+        }
+    }
+
     /// Should we parse jsx?
     pub fn jsx(self) -> bool {
         match self {
@@ -292,6 +303,10 @@ pub struct TsConfig {
 
     #[serde(skip, default)]
     pub no_early_errors: bool,
+
+    /// Stage 3.
+    #[serde(default)]
+    pub import_assertios: bool,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]
@@ -382,6 +397,10 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default)]
     pub top_level_await: bool,
+
+    /// Stage 3.
+    #[serde(default)]
+    pub import_assertios: bool,
 }
 
 /// Syntactic context.
