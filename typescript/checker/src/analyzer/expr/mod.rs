@@ -569,8 +569,7 @@ impl Analyzer<'_, '_> {
                                 }
 
                                 if let Some(ref type_ann) = p.type_ann {
-                                    candidates.push(type_ann.clone());
-                                    continue;
+                                    return Ok(Some(type_ann.clone()));
                                 }
 
                                 // TODO: no implicit any?
