@@ -1111,14 +1111,23 @@ impl Analyzer<'_, '_> {
             }
 
             Type::Ref(..) => {
-                let index_type = prop.validate_with(self)?;
-                // Return something like SimpleDBRecord<Flag>[Flag];
-                return Ok(box Type::IndexedAccessType(IndexedAccessType {
-                    span,
-                    readonly: false,
-                    obj_type: obj,
-                    index_type,
-                }));
+                if computed {
+                    let index_type = prop.validate_with(self)?;
+                    // Return something like SimpleDBRecord<Flag>[Flag];
+                    return Ok(box Type::IndexedAccessType(IndexedAccessType {
+                        span,
+                        readonly: false,
+                        obj_type: obj,
+                        index_type,
+                    }));
+                } else {
+                    print_backtrace();
+                    unreachable!(
+                        "access_property: object type should be expanded before calling \
+                         this\n:Object: {:#?}\nProperty: {:#?}",
+                        obj, prop
+                    )
+                }
             }
 
             Type::IndexedAccessType(obj) => {
