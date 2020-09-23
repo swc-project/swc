@@ -35,13 +35,15 @@ impl InferData {
     pub fn insert(&mut self, name: Id, ty: Box<Type>) -> ValidationResult<()> {
         if let Some(previous) = self.type_params.get(&name) {
             // TODO: Change this to Err
-            assert!(
-                (*ty).type_eq(&**previous),
+            if (*ty).type_eq(&**previous) {
+                return Ok(());
+            }
+
+            print_backtrace();
+            panic!(
                 "A type parameter (`{}`) has multiple (or same type with multi usage) type. This \
                  is a type error, but swc currently does not handle it.\nPrevious: {:?}\nNew: {:?}",
-                name,
-                previous,
-                ty
+                name, previous, ty
             );
         } else {
             self.type_params.insert(name, ty);
