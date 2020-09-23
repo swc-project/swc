@@ -33,13 +33,13 @@ struct InferData {
 
 impl InferData {
     pub fn insert(&mut self, name: Id, ty: Box<Type>) -> ValidationResult<()> {
+        print_backtrace();
         if let Some(previous) = self.type_params.get(&name) {
             // TODO: Change this to Err
             if (*ty).type_eq(&**previous) {
                 return Ok(());
             }
 
-            print_backtrace();
             panic!(
                 "A type parameter (`{}`) has multiple (or same type with multi usage) type. This \
                  is a type error, but swc currently does not handle it.\nPrevious: {:?}\nNew: {:?}",
@@ -157,6 +157,11 @@ impl Analyzer<'_, '_> {
 
         if let Some(base) = base {
             for (param, type_param) in base.params.iter().zip(type_params) {
+                log::info!(
+                    "User provided `{:?} = {:?}`",
+                    type_param.name,
+                    param.clone()
+                );
                 inferred
                     .type_params
                     .insert(type_param.name.clone(), param.clone());
@@ -275,6 +280,8 @@ impl Analyzer<'_, '_> {
     ) -> ValidationResult<()> {
         let param = param.normalize();
         let arg = arg.normalize();
+        let p = param;
+        let a = arg;
 
         match arg {
             Type::Union(arg) => {
@@ -668,7 +675,11 @@ impl Analyzer<'_, '_> {
                     }
                     // Handled by generic expander, so let's return it as-is.
                     Type::Ref(..) => {
-                        inferred.insert(name.clone(), box arg.clone())?;
+                        if let Some(previous) = inferred.type_params.get(&name) {
+                            self.infer_type(inferred, arg, p)?;
+                        } else {
+                            inferred.insert(name.clone(), box arg.clone())?;
+                        }
                     }
                     _ => {}
                 }
