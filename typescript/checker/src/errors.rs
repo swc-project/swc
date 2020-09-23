@@ -579,6 +579,7 @@ impl Errors {
     #[inline]
     pub fn push(&mut self, err: Error) {
         self.validate(&err);
+        print_backtrace();
 
         self.0.push(err);
     }
