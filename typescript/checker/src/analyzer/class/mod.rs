@@ -616,9 +616,11 @@ impl Analyzer<'_, '_> {
 
 /// Order:
 ///
-/// 1. TsParamProp in constructors.
-/// 2. Properties from top to bottom.
-/// 3. Others, using dependency graph.
+/// 1. static properties
+/// 2. static methods, using dependency graph.
+/// 3. TsParamProp in constructors.
+/// 4. Properties from top to bottom.
+/// 5. Others, using dependency graph.
 impl Validate<Class> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Class>;
 
@@ -851,6 +853,8 @@ impl Validate<Class> for Analyzer<'_, '_> {
                 // Handle nodes in order described above
                 let mut body = {
                     let mut body = vec![];
+
+                    // TODO: Handle static first
 
                     // Handle ts parameter properties
                     for (index, member) in c.body.iter_mut().enumerate() {
