@@ -1,0 +1,140 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 51,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 51,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 0,
+          "end": 51,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 0,
+            "end": 3,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 4,
+                "end": 50,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 4,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "value": "import",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 11,
+                      "end": 19,
+                      "ctxt": 0
+                    },
+                    "value": "./lazy",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "ObjectExpression",
+                    "span": {
+                      "start": 21,
+                      "end": 49,
+                      "ctxt": 0
+                    },
+                    "properties": [
+                      {
+                        "type": "KeyValueProperty",
+                        "key": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 23,
+                            "end": 29,
+                            "ctxt": 0
+                          },
+                          "value": "assert",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "value": {
+                          "type": "ObjectExpression",
+                          "span": {
+                            "start": 31,
+                            "end": 47,
+                            "ctxt": 0
+                          },
+                          "properties": [
+                            {
+                              "type": "KeyValueProperty",
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 33,
+                                  "end": 37,
+                                  "ctxt": 0
+                                },
+                                "value": "type",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "value": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 39,
+                                  "end": 45,
+                                  "ctxt": 0
+                                },
+                                "value": "json",
+                                "hasEscape": false
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

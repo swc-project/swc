@@ -356,6 +356,9 @@ macro_rules! tok {
     ("type") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("type")))
     };
+    ("assert") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("assert")))
+    };
 }
 
 macro_rules! token_including_semi {

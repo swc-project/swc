@@ -577,6 +577,7 @@ any
 apply
 arguments
 as
+assert
 asserts
 async
 await

@@ -5,7 +5,8 @@ use swc_atoms::JsWord;
 use swc_common::{chain, comments::Comments, errors::Handler, Mark, SourceMap};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional, typescript,
+    compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional,
+    proposals::import_assertions, typescript,
 };
 
 /// Builder is used to create a high performance `Compiler`.
@@ -129,11 +130,13 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         // compat
         let compat_pass = if let Some(env) = self.env {
             Either::Left(chain!(
+                import_assertions(),
                 Optional::new(typescript::strip(), syntax.typescript()),
                 swc_ecma_preset_env::preset_env(self.global_mark, env)
             ))
         } else {
             Either::Right(chain!(
+                import_assertions(),
                 Optional::new(
                     compat::es2020::nullish_coalescing(),
                     self.target < JscTarget::Es2020

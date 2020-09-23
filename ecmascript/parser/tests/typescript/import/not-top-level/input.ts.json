@@ -71,7 +71,8 @@
               "value": "a",
               "hasEscape": false
             },
-            "typeOnly": false
+            "typeOnly": false,
+            "asserts": null
           }
         ]
       }

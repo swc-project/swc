@@ -56,6 +56,7 @@ impl<'a, I: Tokens> Parser<I> {
                 src,
                 specifiers: vec![],
                 type_only: false,
+                asserts: None,
             }))
             .map(ModuleItem::from);
         }
@@ -106,13 +107,40 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let src = self.parse_from_clause_and_semi()?;
+        let src = {
+            expect!("from");
+            let str_start = cur_pos!();
+            let src = match *cur!(true)? {
+                Token::Str { .. } => match bump!() {
+                    Token::Str { value, has_escape } => Str {
+                        value,
+                        has_escape,
+                        span: span!(str_start),
+                    },
+                    _ => unreachable!(),
+                },
+                _ => unexpected!("a string literal"),
+            };
+            src
+        };
+
+        let asserts = if self.input.syntax().import_assertions() && eat!("assert") {
+            match *self.parse_object::<Box<Expr>>()? {
+                Expr::Object(v) => Some(v),
+                _ => unreachable!(),
+            }
+        } else {
+            None
+        };
+
+        expect!(';');
 
         Ok(ModuleDecl::Import(ImportDecl {
             span: span!(start),
             specifiers,
             src,
             type_only,
+            asserts,
         }))
         .map(ModuleItem::from)
     }

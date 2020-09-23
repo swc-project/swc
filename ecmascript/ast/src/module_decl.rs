@@ -4,6 +4,7 @@ use crate::{
     ident::Ident,
     lit::Str,
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
+    ObjectLit,
 };
 use is_macro::Is;
 use swc_common::{ast_node, Span};
@@ -70,6 +71,9 @@ pub struct ImportDecl {
 
     #[serde(rename = "typeOnly")]
     pub type_only: bool,
+
+    #[serde(default)]
+    pub asserts: Option<ObjectLit>,
 }
 
 /// `export * from 'mod'`

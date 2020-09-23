@@ -286,6 +286,7 @@ impl Fold for Polyfills {
                             has_escape: false,
                         },
                         type_only: false,
+                        asserts: None,
                     }))
                 }),
             );
@@ -302,6 +303,7 @@ impl Fold for Polyfills {
                             has_escape: false,
                         },
                         type_only: false,
+                        asserts: None,
                     }))
                 }),
             );

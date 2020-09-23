@@ -229,6 +229,7 @@ where
                 tsx: fname.contains("tsx"),
                 dynamic_import: true,
                 decorators: true,
+                import_assertions: true,
                 no_early_errors,
                 ..Default::default()
             }),

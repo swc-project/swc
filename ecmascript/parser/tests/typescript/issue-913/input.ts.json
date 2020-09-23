@@ -45,7 +45,8 @@
         "value": "../../deps.ts",
         "hasEscape": false
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ImportDeclaration",
@@ -85,7 +86,8 @@
         "value": "../../members.ts",
         "hasEscape": false
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ImportDeclaration",
@@ -126,7 +128,8 @@
         "value": "../../../mod.ts",
         "hasEscape": false
       },
-      "typeOnly": false
+      "typeOnly": false,
+      "asserts": null
     },
     {
       "type": "ExpressionStatement",
