@@ -1,4 +1,4 @@
-use crate::OptionalType;
+use crate::{OptionalType, RestType};
 
 use super::{TupleElement, Type};
 use swc_common::{Spanned, DUMMY_SP};
@@ -48,6 +48,22 @@ impl From<Type> for TsType {
             Type::Static(t) => (*t.ty).clone().into(),
             Type::Arc(t) => (*t).clone().into(),
             Type::Optional(t) => t.into(),
+            Type::Rest(t) => t.into(),
+        }
+    }
+}
+
+impl From<RestType> for TsType {
+    fn from(ty: RestType) -> Self {
+        TsType::TsRestType(TsRestType::from(ty))
+    }
+}
+
+impl From<RestType> for TsRestType {
+    fn from(ty: RestType) -> Self {
+        TsRestType {
+            span: ty.span,
+            type_ann: ty.ty.into(),
         }
     }
 }

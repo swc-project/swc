@@ -65,6 +65,13 @@ define!({
         Arc(Arc<Type>),
 
         Optional(OptionalType),
+
+        Rest(RestType),
+    }
+
+    pub struct RestType {
+        pub span: Span,
+        pub ty: Box<Type>,
     }
 
     pub struct OptionalType {

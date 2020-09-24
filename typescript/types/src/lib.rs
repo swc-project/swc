@@ -111,7 +111,15 @@ pub enum Type {
 
     Arc(Arc<Type>),
 
+    Rest(RestType),
+
     Optional(OptionalType),
+}
+
+#[derive(Debug, Clone, PartialEq, Spanned)]
+pub struct RestType {
+    pub span: Span,
+    pub ty: Box<Type>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
@@ -692,6 +700,8 @@ impl Type {
             Type::IndexedAccessType(ty) => ty.span = span,
 
             Type::Optional(ty) => ty.span = span,
+
+            Type::Rest(ty) => ty.span = span,
         }
     }
 }
