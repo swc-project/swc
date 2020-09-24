@@ -509,39 +509,6 @@ impl Analyzer<'_, '_> {
 
             let mut candidates = vec![];
             for el in members.iter() {
-                match el {
-                    TypeElement::Index(IndexSignature {
-                        ref params,
-                        ref type_ann,
-                        ..
-                    }) => {
-                        if params.len() != 1 {
-                            unimplemented!("Index signature with multiple parameters")
-                        }
-
-                        let index_ty = &params[0].ty;
-                        if index_ty.type_eq(&prop_ty) {
-                            if let Some(ref type_ann) = type_ann {
-                                candidates.push(type_ann.clone());
-                                continue;
-                            }
-                            candidates.push(Type::any(span));
-                            continue;
-                        }
-
-                        match prop_ty.normalize() {
-                            // TODO: Only string or number
-                            Type::EnumVariant(..) => {
-                                candidates.extend(type_ann.clone());
-                                continue;
-                            }
-
-                            _ => {}
-                        }
-                    }
-                    _ => {}
-                }
-
                 if let Some(key) = el.key() {
                     let is_el_computed = match *el {
                         TypeElement::Property(ref p) => p.computed,
@@ -590,6 +557,43 @@ impl Analyzer<'_, '_> {
 
                             _ => unimplemented!("TypeElement {:?}", el),
                         }
+                    }
+                }
+            }
+
+            for el in members.iter() {
+                if computed {
+                    match el {
+                        TypeElement::Index(IndexSignature {
+                            ref params,
+                            ref type_ann,
+                            ..
+                        }) => {
+                            if params.len() != 1 {
+                                unimplemented!("Index signature with multiple parameters")
+                            }
+
+                            let index_ty = &params[0].ty;
+
+                            if index_ty.type_eq(&prop_ty) {
+                                if let Some(ref type_ann) = type_ann {
+                                    return Ok(Some(type_ann.clone()));
+                                }
+                                candidates.push(Type::any(span));
+                                continue;
+                            }
+
+                            match prop_ty.normalize() {
+                                // TODO: Only string or number
+                                Type::EnumVariant(..) => {
+                                    candidates.extend(type_ann.clone());
+                                    continue;
+                                }
+
+                                _ => {}
+                            }
+                        }
+                        _ => {}
                     }
                 }
             }
