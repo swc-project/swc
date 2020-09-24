@@ -1,6 +1,6 @@
-use crate::{OptionalType, RestType};
-
 use super::{TupleElement, Type};
+use crate::{OptionalType, RestType, Symbol};
+use swc_atoms::js_word;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
@@ -49,13 +49,24 @@ impl From<Type> for TsType {
             Type::Arc(t) => (*t).clone().into(),
             Type::Optional(t) => t.into(),
             Type::Rest(t) => t.into(),
+            Type::Symbol(t) => t.into(),
         }
+    }
+}
+
+impl From<Symbol> for TsType {
+    fn from(ty: Symbol) -> Self {
+        TsType::TsTypeRef(TsTypeRef {
+            span: ty.span,
+            type_name: TsEntityName::Ident(Ident::new(js_word!("Symbol"), ty.span)),
+            type_params: Default::default(),
+        })
     }
 }
 
 impl From<RestType> for TsType {
     fn from(ty: RestType) -> Self {
-        TsType::TsRestType(TsRestType::from(ty))
+        TsType::from(TsRestType::from(ty))
     }
 }
 

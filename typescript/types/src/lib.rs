@@ -12,7 +12,15 @@ use fxhash::FxHashMap;
 use is_macro::Is;
 use num_bigint::BigInt;
 use num_traits::Zero;
-use std::{fmt::Debug, iter::FusedIterator, mem::transmute, sync::Arc};
+use std::{
+    fmt::Debug,
+    iter::FusedIterator,
+    mem::transmute,
+    sync::{
+        atomic::{AtomicUsize, Ordering::SeqCst},
+        Arc,
+    },
+};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FromVariant, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
@@ -114,6 +122,33 @@ pub enum Type {
     Rest(RestType),
 
     Optional(OptionalType),
+
+    Symbol(Symbol),
+}
+
+#[derive(Debug, Clone)]
+pub struct SymbolIdGenerator {
+    inner: Arc<AtomicUsize>,
+}
+
+impl SymbolIdGenerator {
+    /// Creates a new symbol id.
+    ///
+    /// Do **not** mix with symbol ids from other generator.
+    pub fn generate(&self) -> SymbolId {
+        let id = self.inner.fetch_add(1, SeqCst);
+
+        SymbolId(id)
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct SymbolId(usize);
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Spanned)]
+pub struct Symbol {
+    pub span: Span,
+    pub value: SymbolId,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
@@ -702,6 +737,8 @@ impl Type {
             Type::Optional(ty) => ty.span = span,
 
             Type::Rest(ty) => ty.span = span,
+
+            Type::Symbol(ty) => ty.span = span,
         }
     }
 }

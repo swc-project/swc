@@ -67,6 +67,13 @@ define!({
         Optional(OptionalType),
 
         Rest(RestType),
+
+        Symbol(Symbol),
+    }
+
+    pub struct Symbol {
+        pub span: Span,
+        pub value: SymbolId,
     }
 
     pub struct RestType {
