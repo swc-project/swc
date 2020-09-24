@@ -63,6 +63,13 @@ define!({
 
         Static(Static),
         Arc(Arc<Type>),
+
+        Optional(OptionalType),
+    }
+
+    pub struct OptionalType {
+        pub span: Span,
+        pub ty: Box<Type>,
     }
 
     pub struct IndexedAccessType {

@@ -17,7 +17,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
 use swc_ecma_visit::VisitMutWith;
-use swc_ts_types::{Id, TupleElement};
+use swc_ts_types::{Id, OptionalType, TupleElement};
 
 /// We analyze dependencies between type parameters, and fold parameter in
 /// topological order.
@@ -547,6 +547,19 @@ impl Validate<TsTypeQueryExpr> for Analyzer<'_, '_> {
     }
 }
 
+impl Validate<TsOptionalType> for Analyzer<'_, '_> {
+    type Output = ValidationResult<OptionalType>;
+
+    fn validate(&mut self, t: &mut TsOptionalType) -> Self::Output {
+        self.record(t);
+
+        Ok(OptionalType {
+            span: t.span,
+            ty: t.type_ann.validate_with(self)?,
+        })
+    }
+}
+
 impl Validate<TsTypeQuery> for Analyzer<'_, '_> {
     type Output = ValidationResult<QueryType>;
 
@@ -625,7 +638,7 @@ impl Validate<TsType> for Analyzer<'_, '_> {
             TsType::TsParenthesizedType(ty) => return self.validate(ty),
             TsType::TsTypeRef(ty) => return self.validate(ty),
             TsType::TsTypeQuery(ty) => Type::Query(ty.validate_with(self)?),
-            TsType::TsOptionalType(ty) => unimplemented!("{:?}", ty),
+            TsType::TsOptionalType(ty) => Type::Optional(ty.validate_with(self)?),
             TsType::TsRestType(ty) => unimplemented!("{:?}", ty),
             TsType::TsInferType(ty) => Type::Infer(ty.validate_with(self)?),
             TsType::TsIndexedAccessType(ty) => Type::IndexedAccessType(ty.validate_with(self)?),

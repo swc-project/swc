@@ -110,6 +110,14 @@ pub enum Type {
     Static(Static),
 
     Arc(Arc<Type>),
+
+    Optional(OptionalType),
+}
+
+#[derive(Debug, Clone, PartialEq, Spanned)]
+pub struct OptionalType {
+    pub span: Span,
+    pub ty: Box<Type>,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
@@ -682,6 +690,8 @@ impl Type {
             Type::Predicate(ty) => ty.span = span,
 
             Type::IndexedAccessType(ty) => ty.span = span,
+
+            Type::Optional(ty) => ty.span = span,
         }
     }
 }

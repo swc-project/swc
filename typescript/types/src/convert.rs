@@ -1,3 +1,5 @@
+use crate::OptionalType;
+
 use super::{TupleElement, Type};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -45,6 +47,22 @@ impl From<Type> for TsType {
             Type::ClassInstance(t) => t.into(),
             Type::Static(t) => (*t.ty).clone().into(),
             Type::Arc(t) => (*t).clone().into(),
+            Type::Optional(t) => t.into(),
+        }
+    }
+}
+
+impl From<OptionalType> for TsType {
+    fn from(ty: OptionalType) -> Self {
+        TsType::TsOptionalType(TsOptionalType::from(ty))
+    }
+}
+
+impl From<OptionalType> for TsOptionalType {
+    fn from(ty: OptionalType) -> Self {
+        TsOptionalType {
+            span: ty.span,
+            type_ann: ty.ty.into(),
         }
     }
 }
