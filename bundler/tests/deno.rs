@@ -14,6 +14,7 @@ use swc_ecma_visit::FoldWith;
 use url::Url;
 
 #[test]
+#[ignore = "Too slow"]
 fn oak_6_2_0_application() {
     bundle("https://deno.land/x/oak@v6.2.0/mod.ts");
 }
