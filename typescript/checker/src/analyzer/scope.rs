@@ -1165,7 +1165,10 @@ impl ty::Fold for Expander<'_, '_, '_> {
 
         let span = self.span;
 
-        let ty = ty.fold_children_with(self);
+        let ty = match ty {
+            Type::Ref(..) => ty,
+            _ => ty.fold_children_with(self),
+        };
 
         let res: ValidationResult = try {
             macro_rules! verify {
