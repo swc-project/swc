@@ -759,6 +759,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
 
                 child.check_ambient_methods(c, false)?;
 
+                child.scope.super_class = super_class;
                 {
                     // Validate constructors
                     let mut constructor_spans = vec![];
@@ -1016,7 +1017,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                     span: c.span,
                     name,
                     is_abstract: c.is_abstract,
-                    super_class,
+                    super_class: child.scope.super_class.take(),
                     type_params,
                     body: body.into_iter().map(|v| v.1).collect(),
                 };

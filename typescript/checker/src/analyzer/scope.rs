@@ -75,6 +75,8 @@ pub(crate) struct Scope<'a> {
     /// The value of usze should be ignored by methods except
     /// `Validate<Class>`
     pub(super) this_class_members: Vec<(usize, ty::ClassMember)>,
+
+    pub(super) super_class: Option<Box<Type>>,
 }
 
 impl Scope<'_> {
@@ -121,6 +123,7 @@ impl Scope<'_> {
             this: self.this,
             this_class_members: self.this_class_members,
             this_class_name: self.this_class_name,
+            super_class: self.super_class,
         }
     }
 
@@ -1041,6 +1044,7 @@ impl<'a> Scope<'a> {
             declaring_fn: None,
             this_class_members: Default::default(),
             this_class_name: Default::default(),
+            super_class: None,
         }
     }
 
