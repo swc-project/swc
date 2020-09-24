@@ -31,54 +31,24 @@ declare type WIDTH_OR_HEIGHT = "width" | "height";
 declare let cond: boolean;
 declare function getProperty<T, K extends keyof T>(obj: T, key: K): T[K];
 declare function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]): void;
-
-class Component<PropType> {
+declare class Component<PropType> {
     props: PropType;
-
-    getProperty<K extends keyof PropType>(key: K) {
-        return this.props[key];
-    }
-
-    setProperty<K extends keyof PropType>(key: K, value: PropType[K]) {
-        this.props[key] = value;
-    }
+    getProperty<K extends keyof PropType>(key: K): PropType[K];
+    setProperty<K extends keyof PropType>(key: K, value: PropType[K]): void;
 }
-
-function pluck<T, K extends keyof T>(array: T[], key: K) {
-    return array.map(x => x[key]);
-}
-
-
-class C {
-    public x: string;
+declare function pluck<T, K extends keyof T>(array: T[], key: K): T[K][];
+declare class C {
+    x: string;
     protected y: string;
-    private z: string;
+    private z;
 }
-
-class C1 {
+declare class C1 {
     x: number;
-
-    get<K extends keyof this>(key: K) {
-        return this[key];
-    }
-
-    set<K extends keyof this>(key: K, value: this[K]) {
-        this[key] = value;
-    }
-
-    foo() {
-        let x1 = this.x;  // number
-        let x2 = this["x"];  // number
-        let x3 = this.get("x");  // this["x"]
-        let x4 = getProperty(this, "x"); // this["x"]
-        this.x = 42;
-        this["x"] = 42;
-        this.set("x", 42);
-        setProperty(this, "x", 42);
-    }
+    get<K extends keyof this>(key: K): this[K];
+    set<K extends keyof this>(key: K, value: this[K]): void;
+    foo(): void;
 }
-
-type S2 = {
+declare type S2 = {
     a: string;
     b: string;
 };
