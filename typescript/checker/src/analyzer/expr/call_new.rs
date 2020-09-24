@@ -23,7 +23,7 @@ use crate::{
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ts_types::{FoldWith as _, Id};
+use swc_ts_types::{FoldWith as _, Id, Symbol};
 use ty::TypeExt;
 
 impl Validate<ExprOrSpread> for Analyzer<'_, '_> {
@@ -161,6 +161,24 @@ impl Analyzer<'_, '_> {
             .collect();
 
         match *callee {
+            Expr::Ident(Ident {
+                sym: js_word!("Symbol"),
+                ..
+            }) => {
+                // Symbol uses special type
+                if !args.is_empty() {
+                    unimplemented!(
+                        "Error reporting for calling `Symbol` with arguments is not implemented \
+                         yet"
+                    )
+                }
+
+                return Ok(box Type::Symbol(Symbol {
+                    span,
+                    id: self.symbols.generate(),
+                }));
+            }
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref mut obj),
                 ref mut prop,
