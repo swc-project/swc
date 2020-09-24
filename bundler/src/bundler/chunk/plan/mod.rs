@@ -446,7 +446,9 @@ where
             .map(|v| &v.0)
             .chain(m.exports.reexports.iter().map(|v| &v.0))
         {
-            log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
+            if !builder.direct_deps.contains_edge(module_id, src.module_id) {
+                log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
+            }
 
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
 
