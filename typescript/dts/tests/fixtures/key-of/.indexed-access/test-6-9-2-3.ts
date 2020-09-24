@@ -55,12 +55,8 @@ class C {
     private z: string;
 }
 
-// Indexed access expressions have always permitted access to private and protected members.
-// For consistency we also permit such access in indexed access types.
-declare c: C;
-type X = C["x"];
-type Y = C["y"];
-type Z = C["z"];
-let x: X = c["x"];
-let y: Y = c["y"];
-let z: Z = c["z"];
+function f52<T>(obj: { [x: string]: boolean }, k: Exclude<keyof T, symbol>, s: string, n: number) {
+    const x1 = obj[s];
+    const x2 = obj[n];
+    const x3 = obj[k];
+}
