@@ -17,7 +17,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_to_expr;
 use swc_ecma_visit::VisitMutWith;
-use swc_ts_types::{Id, OptionalType, TupleElement};
+use swc_ts_types::{Id, OptionalType, RestType, TupleElement};
 
 /// We analyze dependencies between type parameters, and fold parameter in
 /// topological order.
@@ -543,6 +543,19 @@ impl Validate<TsTypeQueryExpr> for Analyzer<'_, '_> {
         Ok(match t {
             TsTypeQueryExpr::TsEntityName(t) => t.clone().into(),
             TsTypeQueryExpr::Import(i) => i.validate_with(self)?.into(),
+        })
+    }
+}
+
+impl Validate<TsRestType> for Analyzer<'_, '_> {
+    type Output = ValidationResult<RestType>;
+
+    fn validate(&mut self, t: &mut TsRestType) -> Self::Output {
+        self.record(t);
+
+        Ok(RestType {
+            span: t.span,
+            ty: t.type_ann.validate_with(self)?,
         })
     }
 }
