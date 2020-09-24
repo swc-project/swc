@@ -73,7 +73,7 @@ define!({
 
     pub struct Symbol {
         pub span: Span,
-        pub value: SymbolId,
+        pub id: SymbolId,
     }
 
     pub struct RestType {

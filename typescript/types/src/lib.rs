@@ -148,7 +148,7 @@ pub struct SymbolId(usize);
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Spanned)]
 pub struct Symbol {
     pub span: Span,
-    pub value: SymbolId,
+    pub id: SymbolId,
 }
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
