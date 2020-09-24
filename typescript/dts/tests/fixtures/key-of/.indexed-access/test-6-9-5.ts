@@ -62,6 +62,8 @@ function f81<T extends { a: { x: any } }>(obj: T) {
 function f82() {
     let x1 = f81({ a: { x: "hello" } });  // string
     let x2 = f81({ a: { x: 42 } });  // number
+
+    return { x1, x2 }
 }
 
 function f83<T extends { [x: string]: { x: any } }, K extends keyof T>(obj: T, key: K) {
@@ -71,4 +73,6 @@ function f83<T extends { [x: string]: { x: any } }, K extends keyof T>(obj: T, k
 function f84() {
     let x1 = f83({ foo: { x: "hello" } }, "foo");  // string
     let x2 = f83({ bar: { x: 42 } }, "bar");  // number
+
+    return { x1, x2 }
 }
