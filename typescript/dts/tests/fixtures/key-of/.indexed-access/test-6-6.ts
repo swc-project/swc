@@ -44,11 +44,10 @@ class Component<PropType> {
     }
 }
 
-function f20(component: Component<Shape>) {
-    let name = component.getProperty("name");  // string
-    let widthOrHeight = component.getProperty(cond ? "width" : "height");  // number
-    let nameOrVisible = component.getProperty(cond ? "name" : "visible");  // string | boolean
-    component.setProperty("name", "rectangle");
-    component.setProperty(cond ? "width" : "height", 10);
-    component.setProperty(cond ? "name" : "visible", true);  // Technically not safe
-}
+declare var component: Component<Shape>;
+let name = component.getProperty("name");  // string
+let widthOrHeight = component.getProperty(cond ? "width" : "height");  // number
+let nameOrVisible = component.getProperty(cond ? "name" : "visible");  // string | boolean
+component.setProperty("name", "rectangle");
+component.setProperty(cond ? "width" : "height", 10);
+component.setProperty(cond ? "name" : "visible", true);  // Technically not safe

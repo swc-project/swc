@@ -48,8 +48,7 @@ function pluck<T, K extends keyof T>(array: T[], key: K) {
     return array.map(x => x[key]);
 }
 
-function f30(shapes: Shape[]) {
-    let names = pluck(shapes, "name");    // string[]
-    let widths = pluck(shapes, "width");  // number[]
-    let nameOrVisibles = pluck(shapes, cond ? "name" : "visible");  // (string | boolean)[]
-}
+declare var shapes: Shape[];
+let names = pluck(shapes, "name");    // string[]
+let widths = pluck(shapes, "width");  // number[]
+let nameOrVisibles = pluck(shapes, cond ? "name" : "visible");  // (string | boolean)[]
