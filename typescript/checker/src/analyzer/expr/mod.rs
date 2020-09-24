@@ -923,6 +923,8 @@ impl Analyzer<'_, '_> {
 
                 // TODO: Check parent interfaces
 
+                print_backtrace();
+
                 if computed {
                     let prop_ty = Some(prop.validate_with(self)?);
                     return Err(Error::NoSuchProperty {
