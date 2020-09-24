@@ -51,5 +51,5 @@ function pluck<T, K extends keyof T>(array: T[], key: K) {
 function f33<S extends Shape, K extends keyof S>(shape: S, key: K) {
     let name = getProperty(shape, "name");
     let prop = getProperty(shape, key);
-    return prop;
+    return [name, prop];
 }
