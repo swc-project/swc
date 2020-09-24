@@ -247,7 +247,12 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                                 }
                             }
                             if !should_remove_value {
-                                v.name.set_ty(Some(ty.clone().into()));
+                                let ty = ty.clone();
+                                let ty = match *ty {
+                                    Type::ClassInstance(c) => box Type::Class(c.cls),
+                                    _ => ty,
+                                };
+                                v.name.set_ty(Some(ty.into()));
                             }
                         }
                         ty = self.expand(span, ty)?;
