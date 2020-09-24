@@ -20,11 +20,6 @@ declare type Dictionary<T> = {
 declare type NumericallyIndexed<T> = {
     [x: number]: T;
 };
-declare const enum E {
-    A = 0,
-    B = 1,
-    C = 2
-}
 declare type KeyOf<T> = keyof T;
 declare type NAME = "name";
 declare type WIDTH_OR_HEIGHT = "width" | "height";
