@@ -630,45 +630,61 @@ impl Analyzer<'_, '_> {
         }
 
         match *obj {
-            Type::This(..) if self.scope.is_this_ref_to_class() => {
-                // We are currently declaring a class.
-                for (_, member) in self.scope.class_members() {
-                    match member {
-                        // No-op, as constructor parameter properties are handled by
-                        // Validate<Class>.
-                        ty::ClassMember::Constructor(_) => {}
+            Type::This(this) if self.scope.is_this_ref_to_class() => {
+                if !computed {
+                    // We are currently declaring a class.
+                    for (_, member) in self.scope.class_members() {
+                        match member {
+                            // No-op, as constructor parameter properties are handled by
+                            // Validate<Class>.
+                            ty::ClassMember::Constructor(_) => {}
 
-                        ty::ClassMember::Method(member) => match &member.key {
-                            PropName::Ident(key) => {}
-                            PropName::Str(_) => {}
-                            PropName::Num(_) => {}
-                            PropName::Computed(key) => {
-                                if (*key.expr).type_eq(&*prop) {
-                                    return Ok(box Type::Function(ty::Function {
-                                        span: member.span,
-                                        type_params: member.type_params.clone(),
-                                        params: member.params.clone(),
-                                        ret_ty: member.ret_ty.clone(),
-                                    }));
+                            ty::ClassMember::Method(member) => match &member.key {
+                                PropName::Ident(key) => {}
+                                PropName::Str(_) => {}
+                                PropName::Num(_) => {}
+                                PropName::Computed(key) => {
+                                    if (*key.expr).type_eq(&*prop) {
+                                        return Ok(box Type::Function(ty::Function {
+                                            span: member.span,
+                                            type_params: member.type_params.clone(),
+                                            params: member.params.clone(),
+                                            ret_ty: member.ret_ty.clone(),
+                                        }));
+                                    }
+                                }
+                            },
+                            ty::ClassMember::Property(member) => {
+                                if (*member.key).type_eq(&*prop) {
+                                    return Ok(member
+                                        .value
+                                        .clone()
+                                        .unwrap_or_else(|| Type::any(span)));
                                 }
                             }
-                        },
-                        ty::ClassMember::Property(member) => {
-                            if (*member.key).type_eq(&*prop) {
-                                return Ok(member.value.clone().unwrap_or_else(|| Type::any(span)));
+                            ty::ClassMember::IndexSignature(_) => {
+                                unimplemented!("class -> this.foo where an `IndexSignature` exists")
                             }
                         }
-                        ty::ClassMember::IndexSignature(_) => {
-                            unimplemented!("class -> this.foo where an `IndexSignature` exists")
-                        }
                     }
+
+                    return Err(Error::NoSuchProperty {
+                        span,
+                        prop: Some(prop.clone()),
+                        prop_ty: None,
+                    });
                 }
 
-                return Err(Error::NoSuchProperty {
+                let prop_ty = prop.validate_with(self)?;
+                // TODO: Handle string literals like
+                //
+                // `this['props']`
+                return Ok(box Type::IndexedAccessType(IndexedAccessType {
                     span,
-                    prop: Some(prop.clone()),
-                    prop_ty: None,
-                });
+                    readonly: false,
+                    obj_type: box Type::This(this),
+                    index_type: prop_ty,
+                }));
             }
             _ => {}
         }
