@@ -48,6 +48,12 @@ function pluck<T, K extends keyof T>(array: T[], key: K) {
     return array.map(x => x[key]);
 }
 
+function f33<S extends Shape, K extends keyof S>(shape: S, key: K) {
+    let name = getProperty(shape, "name");
+    let prop = getProperty(shape, key);
+    return prop;
+}
+
 declare var ts: TaggedShape;
 let tag1 = f33(ts, "tag");
 let tag2 = getProperty(ts, "tag");
