@@ -360,6 +360,10 @@ impl Validate<ClassMember> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     fn check_ambient_methods(&mut self, c: &mut Class, declare: bool) -> ValidationResult<()> {
+        if self.ctx.in_declare {
+            return Ok(());
+        }
+
         fn is_prop_name_eq_include_computed(l: &PropName, r: &PropName) -> bool {
             match l {
                 PropName::Computed(l) => match r {
@@ -1087,7 +1091,10 @@ impl Validate<ClassDecl> for Analyzer<'_, '_> {
     fn validate(&mut self, c: &mut ClassDecl) -> Self::Output {
         self.record(c);
 
-        let ctx = Ctx { ..self.ctx };
+        let ctx = Ctx {
+            in_declare: self.ctx.in_declare || c.declare,
+            ..self.ctx
+        };
         self.with_ctx(ctx).visit_class_decl(c);
 
         Ok(())
