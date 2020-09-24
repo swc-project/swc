@@ -62,7 +62,7 @@ interface ReadonlyShape {
 }
 
 
-
+declare var shape: Shape;
 const p = proxify(shape);
 let name = p.name.get();
 p.width.set(42);
