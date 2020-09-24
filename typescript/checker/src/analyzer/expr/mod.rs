@@ -1047,8 +1047,8 @@ impl Analyzer<'_, '_> {
 
                         ty::ClassMember::Method(ref m) => {
                             // TODO: normalized string / ident
-                            match m.key {
-                                PropName::Computed(ComputedPropName { ref expr, .. }) => {
+                            match &m.key {
+                                PropName::Computed(ComputedPropName { expr, .. }) => {
                                     if (&**expr).eq_ignore_span(&prop) {
                                         return Ok(box Type::Function(ty::Function {
                                             span,
@@ -1058,6 +1058,22 @@ impl Analyzer<'_, '_> {
                                         }));
                                     }
                                 }
+                                // TODO: Merge code
+                                PropName::Ident(method_key) => match &*prop {
+                                    Expr::Ident(prop) => {
+                                        if prop.sym == method_key.sym
+                                            && prop.span.ctxt == method_key.span.ctxt
+                                        {
+                                            return Ok(box Type::Function(ty::Function {
+                                                span,
+                                                type_params: m.type_params.clone(),
+                                                params: m.params.clone(),
+                                                ret_ty: m.ret_ty.clone(),
+                                            }));
+                                        }
+                                    }
+                                    _ => {}
+                                },
 
                                 _ => {}
                             }
@@ -1065,6 +1081,11 @@ impl Analyzer<'_, '_> {
                         _ => {}
                     }
                 }
+
+                unimplemented!(
+                    "error reporting for no proerty found in class\nProperty: {:#?}",
+                    prop
+                )
             }
 
             Type::Module(ty::Module { ref exports, .. }) => {
