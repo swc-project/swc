@@ -168,7 +168,33 @@ impl Analyzer<'_, '_> {
             }
         }
 
-        // TODO: Handle optional parameters
+        // We allocate a new vertor only if required.
+        let mut actual_args;
+        let args = if args.iter().any(|arg| arg.spread.is_some()) {
+            actual_args = vec![];
+            for arg in args {
+                if arg.spread.is_some() {
+                    match arg.ty.normalize() {
+                        Type::Tuple(Tuple { elems, .. }) => {
+                            actual_args.extend(elems.iter().map(|elem| TypeOrSpread {
+                                span: arg.spread.unwrap(),
+                                spread: None,
+                                ty: elem.ty.clone(),
+                            }));
+                        }
+                        _ => unimplemented!(
+                            "spread argument typed other than tuple.\nType: {:#?}",
+                            arg.ty
+                        ),
+                    }
+                } else {
+                    actual_args.push(arg.clone());
+                }
+            }
+            &*actual_args
+        } else {
+            args
+        };
 
         for arg in args {
             assert_eq!(
