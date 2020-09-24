@@ -614,3 +614,23 @@ test_exec!(
   expect(obj?.a?.b?.c()).toBe(2)
   "
 );
+
+test!(
+    syntax(),
+    |_| tr(()),
+    swc_node_95_2,
+    "
+obj?.a?.b?.c()
+",
+    ""
+);
+
+test!(
+    syntax(),
+    |_| tr(()),
+    swc_node_95_3,
+    "
+expect(obj?.a?.b?.c()).toBe(2)
+",
+    ""
+);
