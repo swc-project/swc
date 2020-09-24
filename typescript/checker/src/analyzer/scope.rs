@@ -93,6 +93,10 @@ impl Scope<'_> {
         self.parent.is_none()
     }
 
+    /// Get members of current class, iff `this` is a pointer to the class.
+    ///
+    /// In other words, if you are in a function in a method, this method will
+    /// return an empty array.
     pub fn class_members(&self) -> &[(usize, ty::ClassMember)] {
         if let ScopeKind::Class = self.kind {
             return &self.this_class_members;
