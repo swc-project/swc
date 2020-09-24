@@ -639,7 +639,7 @@ impl Validate<TsType> for Analyzer<'_, '_> {
             TsType::TsTypeRef(ty) => return self.validate(ty),
             TsType::TsTypeQuery(ty) => Type::Query(ty.validate_with(self)?),
             TsType::TsOptionalType(ty) => Type::Optional(ty.validate_with(self)?),
-            TsType::TsRestType(ty) => unimplemented!("{:?}", ty),
+            TsType::TsRestType(ty) => Type::Rest(ty.validate_with(self)?),
             TsType::TsInferType(ty) => Type::Infer(ty.validate_with(self)?),
             TsType::TsIndexedAccessType(ty) => Type::IndexedAccessType(ty.validate_with(self)?),
             TsType::TsTypePredicate(ty) => Type::Predicate(ty.validate_with(self)?),
