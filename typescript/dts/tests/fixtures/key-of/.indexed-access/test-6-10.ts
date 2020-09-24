@@ -48,23 +48,63 @@ function pluck<T, K extends keyof T>(array: T[], key: K) {
     return array.map(x => x[key]);
 }
 
-function f31<K extends keyof Shape>(key: K) {
-    const shape: Shape = { name: "foo", width: 5, height: 10, visible: true };
-    return shape[key];  // Shape[K]
+
+class C {
+    public x: string;
+    protected y: string;
+    private z: string;
 }
 
-function f32<K extends "width" | "height">(key: K) {
-    const shape: Shape = { name: "foo", width: 5, height: 10, visible: true };
-    return shape[key];  // Shape[K]
+class C1 {
+    x: number;
+
+    get<K extends keyof this>(key: K) {
+        return this[key];
+    }
+
+    set<K extends keyof this>(key: K, value: this[K]) {
+        this[key] = value;
+    }
+
+    foo() {
+        let x1 = this.x;  // number
+        let x2 = this["x"];  // number
+        let x3 = this.get("x");  // this["x"]
+        let x4 = getProperty(this, "x"); // this["x"]
+        this.x = 42;
+        this["x"] = 42;
+        this.set("x", 42);
+        setProperty(this, "x", 42);
+    }
 }
 
-function f33<S extends Shape, K extends keyof S>(shape: S, key: K) {
-    let name = getProperty(shape, "name");
-    let prop = getProperty(shape, key);
-    return prop;
+type S2 = {
+    a: string;
+    b: string;
+};
+
+function f90<T extends S2, K extends keyof S2>(x1: S2[keyof S2], x2: T[keyof S2], x3: S2[K]) {
+    x1 = x2;
+    x1 = x3;
+    x2 = x1;
+    x2 = x3;
+    x3 = x1;
+    x3 = x2;
+    x1.length;
+    x2.length;
+    x3.length;
 }
 
-function f34(ts: TaggedShape) {
-    let tag1 = f33(ts, "tag");
-    let tag2 = getProperty(ts, "tag");
+function f91<T, K extends keyof T>(x: T, y: T[keyof T], z: T[K]) {
+    let a: {};
+    a = x;
+    a = y;
+    a = z;
+}
+
+function f92<T, K extends keyof T>(x: T, y: T[keyof T], z: T[K]) {
+    let a: {} | null | undefined;
+    a = x;
+    a = y;
+    a = z;
 }
