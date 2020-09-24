@@ -32,11 +32,7 @@ declare let cond: boolean;
 declare function getProperty<T, K extends keyof T>(obj: T, key: K): T[K];
 declare function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]): void;
 
-declare var shape: Shape;
-
-let name = getProperty(shape, "name");  // string
-let widthOrHeight = getProperty(shape, cond ? "width" : "height");  // number
-let nameOrVisible = getProperty(shape, cond ? "name" : "visible");  // string | boolean
-setProperty(shape, "name", "rectangle");
-setProperty(shape, cond ? "width" : "height", 10);
-setProperty(shape, cond ? "name" : "visible", true);  // Technically not safe
+declare var t: [Shape, boolean];
+let len = getProperty(t, "length");
+let s2 = getProperty(t, "0");  // Shape
+let b2 = getProperty(t, "1");  // boolean
