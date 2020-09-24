@@ -361,6 +361,12 @@ impl Analyzer<'_, '_> {
                     _ => {}
                 }
 
+                let ctx = Ctx {
+                    preserve_ref: false,
+                    ..self.ctx
+                };
+                let obj_type = self.with_ctx(ctx).expand_fully(span, obj_type, true)?;
+
                 let callee =
                     self.access_property(span, obj_type, prop, computed, TypeOfMode::RValue)?;
 
