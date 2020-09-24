@@ -1138,6 +1138,9 @@ impl ty::Fold for Expander<'_, '_, '_> {
         match ty {
             Type::Keyword(..) => return ty,
             Type::Param(..) => return ty.fold_children_with(self),
+
+            Type::Alias(alias) => return *alias.ty.fold_with(self),
+
             Type::Ref(..) if !self.full => return ty.fold_children_with(self),
             Type::Interface(..) | Type::Class(..) if !self.full => return ty,
             Type::IndexedAccessType(IndexedAccessType {
