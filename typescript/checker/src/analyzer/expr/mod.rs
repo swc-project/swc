@@ -1317,6 +1317,7 @@ impl Analyzer<'_, '_> {
                             | Type::Function(_)
                             | Type::TypeLit(_)
                             | Type::Keyword(_)
+                            | Type::Optional(_)
                             | Type::Lit(_) => {
                                 let mut ty = box ty.clone();
                                 ty.respan(span);

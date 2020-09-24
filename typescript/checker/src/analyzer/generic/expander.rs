@@ -349,6 +349,7 @@ impl ty::Fold for GenericExpander<'_> {
             | Type::Namespace(..)
             | Type::Module(..)
             | Type::ClassInstance(..)
+            | Type::Optional(..)
             | Type::Mapped(..) => return ty.fold_children_with(self),
 
             Type::Static(s) => return s.ty.clone().fold_with(self),
