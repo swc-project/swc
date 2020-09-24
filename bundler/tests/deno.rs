@@ -3,13 +3,14 @@
 //! This module exists because this is way easier than using copying requires
 //! files.
 
-use std::collections::HashMap;
-
 use anyhow::{Context, Error};
+use std::collections::HashMap;
 use swc_bundler::{Bundler, Load, Resolve};
-use swc_common::{sync::Lrc, FileName, Globals, SourceFile, SourceMap, GLOBALS};
+use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms::typescript::strip;
+use swc_ecma_visit::FoldWith;
 use url::Url;
 
 #[test]
@@ -20,7 +21,7 @@ fn oak_6_2_0_application() {
 fn bundle(url: &str) -> Module {
     let result = testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
-            let mut bundler = Bundler::new(
+            let bundler = Bundler::new(
                 globals,
                 cm.clone(),
                 Loader { cm: cm.clone() },
@@ -80,6 +81,7 @@ impl Load for Loader {
 
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_typescript_module().unwrap();
+        let module = module.fold_with(&mut strip());
 
         Ok((fm, module))
     }
