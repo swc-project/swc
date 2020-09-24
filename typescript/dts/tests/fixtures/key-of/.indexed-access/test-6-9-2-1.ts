@@ -58,4 +58,6 @@ class C {
 function f50<T>(k: keyof T, s: string) {
     const x1 = s as keyof T;
     const x2 = k as string;
+
+    return [x1, x2]
 }

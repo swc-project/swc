@@ -59,4 +59,6 @@ function f53<T, K extends Exclude<keyof T, symbol>>(obj: { [x: string]: boolean 
     const x1 = obj[s];
     const x2 = obj[n];
     const x3 = obj[k];
+
+    return [x1, x2, x3]
 }

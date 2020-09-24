@@ -58,4 +58,6 @@ class C {
 function f51<T, K extends keyof T>(k: K, s: string) {
     const x1 = s as keyof T;
     const x2 = k as string;
+
+    return [x1, x2]
 }
