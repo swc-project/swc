@@ -361,19 +361,15 @@ impl Analyzer<'_, '_> {
                     _ => {}
                 }
 
-                if computed {
-                    unimplemented!("typeof(CallExpr): {:?}[{:?}]()", obj, prop)
-                } else {
-                    let callee =
-                        self.access_property(span, obj_type, prop, computed, TypeOfMode::RValue)?;
+                let callee =
+                    self.access_property(span, obj_type, prop, computed, TypeOfMode::RValue)?;
 
-                    let type_args = match type_args {
-                        None => None,
-                        Some(v) => Some(v.validate_with(self)?),
-                    };
+                let type_args = match type_args {
+                    None => None,
+                    Some(v) => Some(v.validate_with(self)?),
+                };
 
-                    self.get_best_return_type(span, callee, kind, type_args, &mut args)
-                }
+                self.get_best_return_type(span, callee, kind, type_args, &mut args)
             }
             _ => {
                 let ctx = Ctx {
