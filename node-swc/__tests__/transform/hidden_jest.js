@@ -18,3 +18,30 @@ it("should hoist methods", () => {
 console.log(\"Hello\");
 console.log(\"World\");`);
 });
+
+
+it("should preserve calls", () => {
+    const src = `class Foo {
+        method() {
+            super.foo()
+        }
+    }`;
+
+    expect(
+        swc.transformSync(src, {
+            jsc: {
+                transform: {
+                    hidden: {
+                        jest: true
+                    }
+                },
+                target: 'es2019'
+            }
+        })
+            .code.trim()
+    ).toBe(`class Foo {
+    method() {
+        super.foo();
+    }
+}`);
+});
