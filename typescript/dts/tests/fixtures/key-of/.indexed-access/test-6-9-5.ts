@@ -44,11 +44,6 @@ class Component<PropType> {
     }
 }
 
-function pluck<T, K extends keyof T>(array: T[], key: K) {
-    return array.map(x => x[key]);
-}
-
-
 class C {
     public x: string;
     protected y: string;
