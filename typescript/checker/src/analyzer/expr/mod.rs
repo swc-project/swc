@@ -567,6 +567,7 @@ impl Analyzer<'_, '_> {
                         TypeElement::Index(IndexSignature {
                             ref params,
                             ref type_ann,
+                            readonly,
                             ..
                         }) => {
                             if params.len() != 1 {
@@ -600,15 +601,23 @@ impl Analyzer<'_, '_> {
 
                                 _ => {}
                             }
+
+                            return Ok(Some(box Type::IndexedAccessType(IndexedAccessType {
+                                span,
+                                obj_type: index_ty.clone(),
+                                index_type: prop_ty,
+                                readonly: *readonly,
+                            })));
                         }
                         _ => {}
                     }
                 }
             }
 
-            if candidates.is_empty() {
+            if candidates.len() == 0 {
                 return Ok(None);
             }
+
             if candidates.len() == 1 {
                 return Ok(candidates.pop());
             }
