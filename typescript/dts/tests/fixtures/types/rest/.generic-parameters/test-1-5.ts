@@ -1,3 +1,8 @@
+declare const t1: [number, string, ...boolean[]];
+declare const t2: [string, ...boolean[]];
+declare const t3: [...boolean[]];
+declare const t4: [];
+
 declare const f20: <T extends unknown[]>(...args: T) => T;
 
 const e1 = f20(...t1);
