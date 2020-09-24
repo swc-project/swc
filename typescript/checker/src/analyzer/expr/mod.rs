@@ -1332,7 +1332,7 @@ impl Analyzer<'_, '_> {
         }))
     }
 
-    pub fn type_of_ts_entity_name(
+    pub(crate) fn type_of_ts_entity_name(
         &mut self,
         span: Span,
         n: &TsEntityName,
@@ -1397,6 +1397,13 @@ impl Analyzer<'_, '_> {
             }
             TsEntityName::TsQualifiedName(ref qname) => {
                 let obj_ty = self.type_of_ts_entity_name(span, &qname.left, None)?;
+
+                let ctx = Ctx {
+                    preserve_ref: false,
+                    ignore_expand_prevention: true,
+                    ..self.ctx
+                };
+                let obj_ty = self.with_ctx(ctx).expand_fully(span, obj_ty, true)?;
 
                 self.access_property(
                     span,

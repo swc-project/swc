@@ -1269,7 +1269,7 @@ impl ty::Fold for Expander<'_, '_, '_> {
                                 }
 
                                 if let Some(t) = stored_ref {
-                                    return t.clone();
+                                    return t.clone().fold_with(self);
                                 }
                             } else {
                                 println!("Failed to find type: {}", i.sym)
