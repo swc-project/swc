@@ -1361,6 +1361,8 @@ impl Analyzer<'_, '_> {
                                 ty.respan(span);
                                 return Ok(ty);
                             }
+
+                            Type::Symbol(_) => {}
                             Type::Query(_) => {}
                             Type::Infer(_) => {}
                             Type::Import(_) => {}

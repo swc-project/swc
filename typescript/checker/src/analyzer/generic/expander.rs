@@ -94,6 +94,7 @@ impl ty::Fold for GenericExpander<'_> {
         log::debug!("generic_expand: {:?}", &ty);
 
         match ty {
+            Type::Symbol(..) => return ty,
             Type::Ref(Ref {
                 span,
                 type_name: TsEntityName::Ident(ref i),
