@@ -30,7 +30,7 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_visit::{VisitMutWith, VisitWith};
 use swc_ts_builtin_types::Lib;
-use swc_ts_types::{Id, ModuleTypeInfo};
+use swc_ts_types::{Id, ModuleTypeInfo, SymbolIdGenerator};
 
 macro_rules! try_opt {
     ($e:expr) => {{
@@ -148,6 +148,8 @@ pub struct Analyzer<'a, 'b> {
 
     generalizer: generalize::Config,
     expander: scope::Config,
+
+    symbols: Arc<SymbolIdGenerator>,
 }
 
 /// TODO
@@ -235,6 +237,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             false,
             Default::default(),
             Default::default(),
+            Default::default(),
         )
     }
 
@@ -246,6 +249,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             &NoopLoader,
             Scope::root(),
             true,
+            Default::default(),
             Default::default(),
             Default::default(),
         )
@@ -261,6 +265,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             self.is_builtin,
             self.generalizer.clone(),
             self.expander.clone(),
+            self.symbols.clone(),
         )
     }
 
@@ -273,6 +278,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
         is_builtin: bool,
         generalizer: generalize::Config,
         expander: scope::Config,
+        symbols: Arc<SymbolIdGenerator>,
     ) -> Self {
         Self {
             info: Default::default(),
@@ -306,6 +312,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             facts_buf: None,
             generalizer,
             expander,
+            symbols,
         }
     }
 

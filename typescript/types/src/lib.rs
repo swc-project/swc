@@ -126,9 +126,9 @@ pub enum Type {
     Symbol(Symbol),
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Default)]
 pub struct SymbolIdGenerator {
-    inner: Arc<AtomicUsize>,
+    inner: AtomicUsize,
 }
 
 impl SymbolIdGenerator {
