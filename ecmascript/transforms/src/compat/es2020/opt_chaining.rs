@@ -159,7 +159,10 @@ impl OptChaining {
                         })),
                         ..expr
                     }),
-                    Err(e) => e,
+                    Err(callee) => Expr::Call(CallExpr {
+                        callee: callee.as_callee(),
+                        ..e
+                    }),
                 };
             }
             _ => {}

@@ -614,3 +614,30 @@ test_exec!(
   expect(obj?.a?.b?.c()).toBe(2)
   "
 );
+
+test!(
+    syntax(),
+    |_| tr(()),
+    swc_node_95_2,
+    "
+obj?.a?.b?.c()
+",
+    "
+    var ref, ref1;
+obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
+     (ref1 = ref.b) === null || ref1 === void 0 ? void 0 : ref1.c();"
+);
+
+test!(
+    syntax(),
+    |_| tr(()),
+    swc_node_95_3,
+    "
+expect(obj?.a?.b?.c()).toBe(2)
+",
+    "
+    var ref, ref1;
+expect(obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 \
+     : (ref1 = ref.b) === null || ref1 === void 0 ? void 0 : ref1.c()).toBe(2);
+"
+);
