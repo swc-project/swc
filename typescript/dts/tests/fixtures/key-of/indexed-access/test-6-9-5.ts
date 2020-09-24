@@ -20,11 +20,7 @@ declare type Dictionary<T> = {
 declare type NumericallyIndexed<T> = {
     [x: number]: T;
 };
-declare const enum E {
-    A = 0,
-    B = 1,
-    C = 2
-}
+
 declare type KeyOf<T> = keyof T;
 declare type NAME = "name";
 declare type WIDTH_OR_HEIGHT = "width" | "height";
@@ -60,7 +56,7 @@ function f80<T extends { a: { x: any } }>(obj: T) {
 }
 
 function f81<T extends { a: { x: any } }>(obj: T) {
-    return obj['a']['x'] as T['a']['x'];
+    return obj["a"]["x"] as T["a"]["x"];
 }
 
 function f82() {
@@ -69,7 +65,7 @@ function f82() {
 }
 
 function f83<T extends { [x: string]: { x: any } }, K extends keyof T>(obj: T, key: K) {
-    return obj[key]['x'] as T[K]['x'];
+    return obj[key]["x"] as T[K]["x"];
 }
 
 function f84() {
