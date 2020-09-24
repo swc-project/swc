@@ -575,12 +575,20 @@ impl Analyzer<'_, '_> {
 
                             let index_ty = &params[0].ty;
 
-                            if index_ty.type_eq(&prop_ty) {
+                            // Don't know exact reason, but you can index `{ [x: string]: boolean }`
+                            // with number type.
+                            //
+                            // I guess it's because javascript work in that way.
+                            let indexed = (index_ty.is_kwd(TsKeywordTypeKind::TsStringKeyword)
+                                && prop_ty.is_kwd(TsKeywordTypeKind::TsNumberKeyword))
+                                || index_ty.type_eq(&prop_ty);
+
+                            if indexed {
                                 if let Some(ref type_ann) = type_ann {
                                     return Ok(Some(type_ann.clone()));
                                 }
-                                candidates.push(Type::any(span));
-                                continue;
+
+                                return Ok(Some(Type::any(span)));
                             }
 
                             match prop_ty.normalize() {
