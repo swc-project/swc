@@ -249,10 +249,31 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                             if !should_remove_value {
                                 let ty = ty.clone();
                                 let ty = match *ty {
-                                    Type::ClassInstance(c) => box Type::Class(c.cls),
-                                    _ => ty,
+                                    Type::ClassInstance(c) => box c.cls.into(),
+                                    Type::Symbol(symbol) => match self.ctx.var_kind {
+                                        VarDeclKind::Var | VarDeclKind::Let => {
+                                            box TsType::TsKeywordType(TsKeywordType {
+                                                span: symbol.span,
+                                                kind: TsKeywordTypeKind::TsSymbolKeyword,
+                                            })
+                                        }
+                                        // It's `uniqute symbol`
+                                        VarDeclKind::Const => {
+                                            box TsType::TsTypeOperator(TsTypeOperator {
+                                                span: symbol.span,
+                                                op: TsTypeOperatorOp::Unique,
+                                                type_ann: box TsType::TsKeywordType(
+                                                    TsKeywordType {
+                                                        span: symbol.span,
+                                                        kind: TsKeywordTypeKind::TsSymbolKeyword,
+                                                    },
+                                                ),
+                                            })
+                                        }
+                                    },
+                                    _ => ty.into(),
                                 };
-                                v.name.set_ty(Some(ty.into()));
+                                v.name.set_ty(Some(ty));
                             }
                         }
                         ty = self.expand(span, ty)?;
