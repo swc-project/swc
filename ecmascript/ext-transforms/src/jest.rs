@@ -46,7 +46,7 @@ impl Jest {
                                     computed: false, ..
                                 },
                             ) => match &callee.obj {
-                                ExprOrSuper::Super(_) => {}
+                                ExprOrSuper::Super(_) => new.push(T::from_stmt(stmt)),
                                 ExprOrSuper::Expr(callee_obj) => match &**callee_obj {
                                     Expr::Ident(i) if i.sym == *"jest" => match &*callee.prop {
                                         Expr::Ident(prop) if HOIST_METHODS.contains(&*prop.sym) => {
