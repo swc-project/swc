@@ -668,11 +668,27 @@ impl Analyzer<'_, '_> {
                         }
                     }
 
+                    if let Some(super_class) = self.scope.get_super_class() {
+                        let super_class = super_class.clone();
+
+                        return self.access_property(span, super_class, prop, computed, type_mode);
+                    }
+
                     return Err(Error::NoSuchProperty {
                         span,
                         prop: Some(prop.clone()),
                         prop_ty: None,
                     });
+                }
+
+                if let Some(super_class) = self.scope.get_super_class() {
+                    let super_class = super_class.clone();
+
+                    if let Ok(v) =
+                        self.access_property(span, super_class, prop, computed, type_mode)
+                    {
+                        return Ok(v);
+                    }
                 }
 
                 let prop_ty = prop.validate_with(self)?;

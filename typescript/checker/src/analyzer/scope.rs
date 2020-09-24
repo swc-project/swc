@@ -110,6 +110,14 @@ impl Scope<'_> {
         }
     }
 
+    pub fn get_super_class(&self) -> Option<&Box<Type>> {
+        if let ScopeKind::Class = self.kind {
+            return self.super_class.as_ref();
+        }
+
+        self.parent?.get_super_class()
+    }
+
     pub fn remove_parent(self) -> Scope<'static> {
         Scope {
             parent: None,
