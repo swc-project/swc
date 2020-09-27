@@ -521,3 +521,30 @@ let X = ((_class = class X {
 }), _class);
 export { X as default };"
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        resolver(),
+        typescript::strip(),
+        decorators(decorators::Config {
+            legacy: true,
+            emit_metadata: false
+        }),
+        dce(Default::default())
+    ),
+    issue_1111,
+    "
+    const a = 1;
+    export const d = { a };
+    ",
+    "
+    const a = 1;
+    export const d = {
+        a
+    };
+    "
+);
