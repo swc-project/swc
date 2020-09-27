@@ -1271,7 +1271,10 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }
 
         Expr::TaggedTpl(TaggedTpl {
-            span, tag, tpl: Tpl { exprs, .. }, ..
+            span,
+            tag,
+            tpl: Tpl { exprs, .. },
+            ..
         }) if tag.is_pure_callee() => {
             ignore_result(preserve_effects(span, *undefined(span), exprs))
         }

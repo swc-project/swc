@@ -754,9 +754,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     #[allow(clippy::vec_box)]
-    fn parse_tpl_elements(
-        &mut self,
-    ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
+    fn parse_tpl_elements(&mut self) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
         trace_cur!(parse_tpl_elements);
 
         let mut exprs = vec![];
