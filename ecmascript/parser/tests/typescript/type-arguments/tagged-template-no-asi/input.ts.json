@@ -38,38 +38,6 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "expressions": [],
-          "quasis": [
-            {
-              "type": "TemplateElement",
-              "span": {
-                "start": 10,
-                "end": 10,
-                "ctxt": 0
-              },
-              "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 10,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 10,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false
-              }
-            }
-          ],
           "typeParameters": {
             "type": "TsTypeParameterInstantiation",
             "span": {
@@ -97,6 +65,46 @@
                   "optional": false
                 },
                 "typeParams": null
+              }
+            ]
+          },
+          "template": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 9,
+              "end": 11,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 10,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 10,
+                    "end": 10,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 10,
+                    "end": 10,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "hasEscape": false
+                }
               }
             ]
           }

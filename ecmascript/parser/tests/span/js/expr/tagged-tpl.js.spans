@@ -46,6 +46,12 @@ warning: Ident
 1 | tag`foo`
   | ^^^
 
+warning: Tpl
+ --> $DIR/tests/span/js/expr/tagged-tpl.js:1:4
+  |
+1 | tag`foo`
+  |    ^^^^^
+
 warning: TplElement
  --> $DIR/tests/span/js/expr/tagged-tpl.js:1:5
   |

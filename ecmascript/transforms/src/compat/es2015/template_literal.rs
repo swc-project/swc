@@ -187,7 +187,7 @@ impl Fold for TemplateLiteral {
             }
 
             Expr::TaggedTpl(TaggedTpl {
-                tag, exprs, quasis, ..
+                tag, tpl: Tpl { exprs, quasis, .. }, ..
             }) => {
                 assert_eq!(quasis.len(), exprs.len() + 1);
 

@@ -418,12 +418,11 @@ pub struct TaggedTpl {
 
     pub tag: Box<Expr>,
 
-    #[serde(rename = "expressions")]
-    pub exprs: Vec<Box<Expr>>,
-    pub quasis: Vec<TplElement>,
-
     #[serde(default, rename = "typeParameters")]
     pub type_params: Option<TsTypeParamInstantiation>,
+
+    #[serde(rename = "template")]
+    pub tpl: Tpl,
 }
 
 #[ast_node("TemplateElement")]

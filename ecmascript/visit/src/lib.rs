@@ -687,9 +687,8 @@ define!({
     pub struct TaggedTpl {
         pub span: Span,
         pub tag: Box<Expr>,
-        pub exprs: Vec<Box<Expr>>,
-        pub quasis: Vec<TplElement>,
         pub type_params: Option<TsTypeParamInstantiation>,
+        pub tpl: Tpl,
     }
     pub struct TplElement {
         pub span: Span,
