@@ -223,12 +223,16 @@ where
                         })
                         .unwrap_or_else(Vec::new);
 
-                    let new_import = ImportDecl {
-                        specifiers,
-                        ..import
-                    };
+                    if !specifiers.is_empty() {
+                        let new_import = ImportDecl {
+                            specifiers,
+                            ..import
+                        };
 
-                    return new_import;
+                        return new_import;
+                    }
+
+                    self.info.forced_ns.insert(import.src.value.clone());
                 }
 
                 _ => {}
