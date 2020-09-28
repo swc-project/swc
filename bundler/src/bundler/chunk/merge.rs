@@ -178,8 +178,7 @@ where
                                             );
                                         }
 
-                                        // print_hygiene("dep: remarking
-                                        // exports", &self.cm, &dep);
+                                        print_hygiene("dep: remarking exports", &self.cm, &dep);
                                     }
                                     // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
@@ -197,7 +196,7 @@ where
                                     //         extras: vec![],
                                     //     });
                                     // }
-                                    // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
+                                    print_hygiene("dep:after:export-renamer", &self.cm, &dep);
 
                                     dep = dep.fold_with(&mut Unexporter);
                                 }
@@ -259,10 +258,10 @@ where
                     }
                 }
 
-                // print_hygiene("dep: before injection", &self.cm, &dep);
+                print_hygiene("dep: before injection", &self.cm, &dep);
 
                 if dep_info.is_es6 {
-                    // print_hygiene("entry: before injection", &self.cm, &entry);
+                    print_hygiene("entry: before injection", &self.cm, &entry);
 
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
@@ -275,7 +274,11 @@ where
                         // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         log::debug!("Merged {} as an es module", info.fm.name);
-                        print_hygiene("ES6", &self.cm, &entry);
+                        print_hygiene(
+                            &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
+                            &self.cm,
+                            &entry,
+                        );
                         continue;
                     }
 

@@ -145,6 +145,7 @@ where
                     let dep = self.scope.get_module(src.module_id).unwrap();
 
                     specifiers = dep.exports.items.clone();
+                    continue;
                 }
 
                 for specifier in specifiers {
@@ -235,11 +236,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            // print_hygiene(
-            //     &format!("entry:injection {:?} <- {:?}", info.ctxt(), src.ctxt,),
-            //     &self.cm,
-            //     &entry,
-            // );
+            print_hygiene(
+                &format!(
+                    "entry:reexport injection {:?} <- {:?}",
+                    info.ctxt(),
+                    src.ctxt,
+                ),
+                &self.cm,
+                &entry,
+            );
             assert_eq!(injector.imported, vec![]);
         }
 

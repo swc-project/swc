@@ -1,5 +1,3 @@
-#![deny(unused)]
-
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config},
     id::ModuleId,
