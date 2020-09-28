@@ -1,6 +1,7 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Imports, Specifier},
+    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -274,14 +275,14 @@ where
                         // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         log::debug!("Merged {} as an es module", info.fm.name);
-                        // print_hygiene("ES6", &self.cm, &entry);
+                        print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
 
                     if !is_direct {
                         prepend_stmts(&mut entry.body, injector.imported.into_iter());
 
-                        // print_hygiene("ES6", &self.cm, &entry);
+                        print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
 
