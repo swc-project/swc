@@ -552,10 +552,15 @@ struct ImportMetaHandler<'a, 'b> {
     file: &'a FileName,
     hook: &'a Box<dyn 'b + Hook>,
     is_entry: bool,
+    err: Option<Error>,
 }
 
 impl VisitMut for ImportMetaHandler<'_, '_> {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        if self.err.is_some() {
+            return;
+        }
+
         if e.computed {
             e.obj.visit_mut_with(self);
         }
@@ -566,38 +571,33 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
             match &e.obj {
                 ExprOrSuper::Super(_) => {}
                 ExprOrSuper::Expr(obj) => match &**obj {
-                    Expr::Member(
-                        me
-                        @
-                        MemberExpr {
-                            computed: false, ..
-                        },
-                    ) => match &me.obj {
-                        ExprOrSuper::Super(_) => {}
-                        ExprOrSuper::Expr(me_obj) => match &**me_obj {
-                            Expr::Ident(Ident {
+                    Expr::MetaProp(MetaPropExpr {
+                        meta:
+                            Ident {
                                 sym: js_word!("import"),
                                 ..
-                            }) => match &*me.prop {
-                                Expr::Ident(Ident {
-                                    sym: js_word!("meta"),
-                                    ..
-                                }) => match &*e.prop {
-                                    Expr::Ident(Ident {
-                                        sym: js_word!("url"),
-                                        ..
-                                    }) => {}
-                                    Expr::Ident(Ident {
-                                        sym: js_word!("main"),
-                                        ..
-                                    }) => {}
-                                    _ => {}
-                                },
-
-                                _ => {}
                             },
-                            _ => {}
-                        },
+                        prop:
+                            Ident {
+                                sym: js_word!("meta"),
+                                ..
+                            },
+                        ..
+                    }) => match &*e.prop {
+                        Expr::Ident(Ident {
+                            sym: js_word!("url"),
+                            ..
+                        }) => {
+                            let res = self.hook.get_import_meta_url(e.span, self.file);
+                            match res {
+                                Ok(v) => {}
+                                Err(err) => self.err = Some(err),
+                            }
+                        }
+                        Expr::Ident(Ident {
+                            sym: js_word!("main"),
+                            ..
+                        }) => {}
                         _ => {}
                     },
 
