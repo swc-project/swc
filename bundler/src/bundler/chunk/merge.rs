@@ -66,6 +66,7 @@ where
                 file: &info.fm.name,
                 hook: &self.hook,
                 is_entry,
+                err: None,
             });
 
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
@@ -566,45 +567,65 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
         }
 
         e.prop.visit_mut_with(self);
+    }
 
-        if !e.computed {
-            match &e.obj {
-                ExprOrSuper::Super(_) => {}
-                ExprOrSuper::Expr(obj) => match &**obj {
-                    Expr::MetaProp(MetaPropExpr {
-                        meta:
-                            Ident {
-                                sym: js_word!("import"),
-                                ..
-                            },
-                        prop:
-                            Ident {
-                                sym: js_word!("meta"),
-                                ..
-                            },
-                        ..
-                    }) => match &*e.prop {
-                        Expr::Ident(Ident {
-                            sym: js_word!("url"),
-                            ..
-                        }) => {
-                            let res = self.hook.get_import_meta_url(e.span, self.file);
-                            match res {
-                                Ok(v) => {}
-                                Err(err) => self.err = Some(err),
-                            }
-                        }
-                        Expr::Ident(Ident {
-                            sym: js_word!("main"),
-                            ..
-                        }) => {}
-                        _ => {}
-                    },
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
-                    _ => {}
-                },
-                _ => {}
+        match e {
+            Expr::Member(me) => {
+                if !me.computed {
+                    match &me.obj {
+                        ExprOrSuper::Super(_) => {}
+                        ExprOrSuper::Expr(obj) => match &**obj {
+                            Expr::MetaProp(MetaPropExpr {
+                                meta:
+                                    Ident {
+                                        sym: js_word!("import"),
+                                        ..
+                                    },
+                                prop:
+                                    Ident {
+                                        sym: js_word!("meta"),
+                                        ..
+                                    },
+                                ..
+                            }) => match &*me.prop {
+                                Expr::Ident(Ident {
+                                    sym: js_word!("url"),
+                                    ..
+                                }) => {
+                                    let res = self.hook.get_import_meta_url(me.span, self.file);
+                                    match res {
+                                        Ok(v) => match v {
+                                            Some(expr) => {
+                                                *e = expr;
+                                                return;
+                                            }
+                                            None => {}
+                                        },
+                                        Err(err) => self.err = Some(err),
+                                    }
+                                }
+                                Expr::Ident(Ident {
+                                    sym: js_word!("main"),
+                                    ..
+                                }) if !self.is_entry => {
+                                    *e = Expr::Lit(Lit::Bool(Bool {
+                                        span: me.span,
+                                        value: false,
+                                    }));
+                                    return;
+                                }
+                                _ => {}
+                            },
+
+                            _ => {}
+                        },
+                    }
+                }
             }
+            _ => {}
         }
     }
 }
