@@ -163,7 +163,19 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         }
 
         "example" => {
-            let (text, input) = take_while(|c| c != '@')(i)?;
+            let mut was_star = false;
+            let (text, input) = take_while(|c| {
+                if c == '@' {
+                    was_star = false;
+                    return false;
+                }
+                if was_star && c == '/' {
+                    return false;
+                }
+                was_star = c == '*';
+
+                true
+            })(i)?;
             i = input;
             Tag::Example(ExampleTag {
                 span,
