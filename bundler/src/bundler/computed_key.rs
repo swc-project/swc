@@ -114,13 +114,22 @@ impl Fold for ExportToReturn {
         let stmt = match decl {
             ModuleDecl::Import(_) => None,
             ModuleDecl::ExportDecl(export) => {
-                let ids: Vec<Ident> = find_ids(&export.decl);
-                self.exports.extend(
-                    ids.into_iter()
-                        .map(Prop::Shorthand)
-                        .map(Box::new)
-                        .map(PropOrSpread::Prop),
-                );
+                match &export.decl {
+                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                        self.exports
+                            .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(ident.clone()))));
+                    }
+                    Decl::Var(decl) => {
+                        let ids: Vec<Ident> = find_ids(decl);
+                        self.exports.extend(
+                            ids.into_iter()
+                                .map(Prop::Shorthand)
+                                .map(Box::new)
+                                .map(PropOrSpread::Prop),
+                        );
+                    }
+                    _ => unreachable!(),
+                }
 
                 Some(Stmt::Decl(export.decl))
             }
