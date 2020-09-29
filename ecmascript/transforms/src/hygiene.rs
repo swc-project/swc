@@ -702,6 +702,8 @@ impl<'a> VisitMut for Hygiene<'a> {
         self.visit_mut_fn(node.ident.clone(), &mut node.function);
     }
 
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
