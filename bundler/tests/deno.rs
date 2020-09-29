@@ -6,8 +6,8 @@
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_bundler::{Bundler, Load, Resolve};
-use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
-use swc_ecma_ast::Module;
+use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
+use swc_ecma_ast::{Expr, Lit, Module, Str};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::typescript::strip;
 use swc_ecma_visit::FoldWith;
@@ -32,6 +32,7 @@ fn bundle(url: &str) -> Module {
                     disable_inliner: true,
                     ..Default::default()
                 },
+                Box::new(Hook),
             );
             let mut entries = HashMap::new();
             entries.insert("main".to_string(), FileName::Custom(url.to_string()));
@@ -106,5 +107,17 @@ impl Resolve for Resolver {
             .with_context(|| format!("failed to resolve `{}`", module_specifier))?;
 
         return Ok(FileName::Custom(url.to_string()));
+    }
+}
+
+struct Hook;
+
+impl swc_bundler::Hook for Hook {
+    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Expr, Error> {
+        Ok(Expr::Lit(Lit::Str(Str {
+            span,
+            value: file.to_string().into(),
+            has_escape: false,
+        })))
     }
 }
