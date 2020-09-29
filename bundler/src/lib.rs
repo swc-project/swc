@@ -1,5 +1,6 @@
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config},
+    hook::Hook,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -8,6 +9,7 @@ pub use self::{
 mod bundler;
 mod debug;
 mod hash;
+mod hook;
 mod id;
 mod load;
 mod resolve;
