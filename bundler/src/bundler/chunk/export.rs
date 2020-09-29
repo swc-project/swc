@@ -1,7 +1,6 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Specifier, TransformedModule},
-    debug::print_hygiene,
     util::{CHashSet, IntoParallelIterator},
     Bundler, Load, ModuleId, Resolve,
 };
@@ -100,11 +99,11 @@ where
                         )
                     })?;
 
-                print_hygiene(&format!("dep: start"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: start"), &self.cm, &dep);
 
                 dep = self.remark_exports(dep, src.ctxt, None, false);
 
-                print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
                 if !specifiers.is_empty() {
                     dep.visit_mut_with(&mut UnexportAsVar {
@@ -113,13 +112,13 @@ where
                         _exports: &specifiers,
                     });
 
-                    print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
+                    // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
 
                     dep = dep.fold_with(&mut DepUnexporter {
                         exports: &specifiers,
                     });
 
-                    print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                    // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
                 }
 
                 Ok(Some((src, dep)))
@@ -216,15 +215,15 @@ where
             };
             let (src, dep) = dep;
 
-            print_hygiene(
-                &format!(
-                    "entry: before reexport injection {:?} <- {:?}",
-                    info.ctxt(),
-                    src.ctxt,
-                ),
-                &self.cm,
-                &entry,
-            );
+            // print_hygiene(
+            //     &format!(
+            //         "entry: before reexport injection {:?} <- {:?}",
+            //         info.ctxt(),
+            //         src.ctxt,
+            //     ),
+            //     &self.cm,
+            //     &entry,
+            // );
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
@@ -233,15 +232,15 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
-            print_hygiene(
-                &format!(
-                    "entry:reexport injection {:?} <- {:?}",
-                    info.ctxt(),
-                    src.ctxt,
-                ),
-                &self.cm,
-                &entry,
-            );
+            // print_hygiene(
+            //     &format!(
+            //         "entry:reexport injection {:?} <- {:?}",
+            //         info.ctxt(),
+            //         src.ctxt,
+            //     ),
+            //     &self.cm,
+            //     &entry,
+            // );
             assert_eq!(injector.imported, vec![]);
         }
 
