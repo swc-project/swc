@@ -6,7 +6,7 @@ use crate::{
     load::Load,
     resolve::Resolve,
     util::{self, IntoParallelIterator},
-    Bundler,
+    Bundler, Hook,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
@@ -14,7 +14,7 @@ use rayon::iter::ParallelIterator;
 use retain_mut::RetainMut;
 use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
@@ -62,6 +62,11 @@ where
             };
 
             let mut entry: Module = (*info.module).clone();
+            entry.visit_mut_with(&mut ImportMetaHandler {
+                file: &info.fm.name,
+                hook: &self.hook,
+                is_entry,
+            });
 
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
@@ -539,6 +544,67 @@ impl VisitMut for DefaultRenamer {
 
         if n.computed {
             n.prop.visit_mut_with(self)
+        }
+    }
+}
+
+struct ImportMetaHandler<'a, 'b> {
+    file: &'a FileName,
+    hook: &'a Box<dyn 'b + Hook>,
+    is_entry: bool,
+}
+
+impl VisitMut for ImportMetaHandler<'_, '_> {
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        if e.computed {
+            e.obj.visit_mut_with(self);
+        }
+
+        e.prop.visit_mut_with(self);
+
+        if !e.computed {
+            match &e.obj {
+                ExprOrSuper::Super(_) => {}
+                ExprOrSuper::Expr(obj) => match &**obj {
+                    Expr::Member(
+                        me
+                        @
+                        MemberExpr {
+                            computed: false, ..
+                        },
+                    ) => match &me.obj {
+                        ExprOrSuper::Super(_) => {}
+                        ExprOrSuper::Expr(me_obj) => match &**me_obj {
+                            Expr::Ident(Ident {
+                                sym: js_word!("import"),
+                                ..
+                            }) => match &*me.prop {
+                                Expr::Ident(Ident {
+                                    sym: js_word!("meta"),
+                                    ..
+                                }) => match &*e.prop {
+                                    Expr::Ident(Ident {
+                                        sym: js_word!("url"),
+                                        ..
+                                    }) => {}
+                                    Expr::Ident(Ident {
+                                        sym: js_word!("main"),
+                                        ..
+                                    }) => {}
+                                    _ => {}
+                                },
+
+                                _ => {}
+                            },
+                            _ => {}
+                        },
+                        _ => {}
+                    },
+
+                    _ => {}
+                },
+                _ => {}
+            }
         }
     }
 }

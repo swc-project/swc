@@ -151,7 +151,7 @@ impl TestBuilder {
 struct Hook;
 
 impl crate::Hook for Hook {
-    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Expr, Error> {
+    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Option<Expr>, Error> {
         unreachable!()
     }
 }

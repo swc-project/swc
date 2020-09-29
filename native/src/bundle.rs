@@ -189,11 +189,11 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
 struct Hook;
 
 impl swc_bundler::Hook for Hook {
-    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Expr, Error> {
-        Ok(Expr::Lit(Lit::Str(Str {
+    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
+        Ok(Some(Expr::Lit(Lit::Str(Str {
             span,
             value: file.to_string().into(),
             has_escape: false,
-        })))
+        }))))
     }
 }
