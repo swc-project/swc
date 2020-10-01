@@ -51,9 +51,7 @@ impl<'a> Emitter<'a> {
         emit!(node.name);
 
         if let Some(ref value) = node.value {
-            space!();
             punct!("=");
-            space!();
 
             emit!(value);
         }
