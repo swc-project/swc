@@ -626,6 +626,7 @@ key
 keyof
 length
 let
+main
 meta
 module
 namespace
@@ -660,6 +661,7 @@ typeof
 undefined
 unique
 unknown
+url
 var
 void
 while

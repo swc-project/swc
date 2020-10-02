@@ -3,7 +3,7 @@ use super::{load::TransformedModule, Bundler, Config};
 use crate::{util::HygieneRemover, Load, ModuleId, Resolve};
 use anyhow::Error;
 use std::{collections::HashMap, path::PathBuf};
-use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, GLOBALS};
+use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
 use swc_ecma_utils::drop_span;
@@ -131,6 +131,7 @@ impl TestBuilder {
                         disable_inliner: true,
                         external_modules: vec![],
                     },
+                    Box::new(Hook),
                 );
 
                 let mut t = Tester {
@@ -144,5 +145,13 @@ impl TestBuilder {
             })
         })
         .expect("WTF?");
+    }
+}
+
+struct Hook;
+
+impl crate::Hook for Hook {
+    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Option<Expr>, Error> {
+        unreachable!()
     }
 }

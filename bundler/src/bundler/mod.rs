@@ -1,5 +1,5 @@
 use self::scope::Scope;
-use crate::{Load, ModuleId, Resolve};
+use crate::{Hook, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
@@ -69,6 +69,8 @@ where
     _helper_ctxt: SyntaxContext,
 
     scope: Scope,
+
+    hook: Box<dyn 'a + Hook>,
 }
 
 impl<'a, L, R> Bundler<'a, L, R>
@@ -82,6 +84,7 @@ where
         loader: L,
         resolver: R,
         config: Config,
+        hook: Box<dyn 'a + Hook>,
     ) -> Self {
         GLOBALS.set(&globals, || {
             let used_mark = Mark::fresh(Mark::root());
@@ -98,6 +101,7 @@ where
                 used_mark,
                 _helper_ctxt: helper_ctxt,
                 scope: Default::default(),
+                hook,
             }
         })
     }

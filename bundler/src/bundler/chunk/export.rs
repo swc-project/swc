@@ -128,7 +128,11 @@ where
         {
             let mut normal_reexports = vec![];
             let mut star_reexports = vec![];
-            for (src, mut specifiers) in additional_modules {
+            for (src, specifiers) in additional_modules {
+                if specifiers.is_empty() {
+                    continue;
+                }
+
                 // If a dependency is indirect, we need to export items from it manually.
                 let is_indirect = !nomral_plan.chunks.contains(&src.module_id);
 
@@ -139,12 +143,6 @@ where
                 } else {
                     &mut normal_reexports
                 };
-                if specifiers.is_empty() {
-                    //
-                    let dep = self.scope.get_module(src.module_id).unwrap();
-
-                    specifiers = dep.exports.items.clone();
-                }
 
                 for specifier in specifiers {
                     let (imported, exported) = match specifier {
@@ -235,7 +233,11 @@ where
             entry.body.visit_mut_with(&mut injector);
 
             // print_hygiene(
-            //     &format!("entry:injection {:?} <- {:?}", info.ctxt(), src.ctxt,),
+            //     &format!(
+            //         "entry:reexport injection {:?} <- {:?}",
+            //         info.ctxt(),
+            //         src.ctxt,
+            //     ),
             //     &self.cm,
             //     &entry,
             // );

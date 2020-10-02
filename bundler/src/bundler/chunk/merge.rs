@@ -5,7 +5,7 @@ use crate::{
     load::Load,
     resolve::Resolve,
     util::{self, IntoParallelIterator},
-    Bundler,
+    Bundler, Hook,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
@@ -13,7 +13,7 @@ use rayon::iter::ParallelIterator;
 use retain_mut::RetainMut;
 use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
@@ -61,6 +61,12 @@ where
             };
 
             let mut entry: Module = (*info.module).clone();
+            entry.visit_mut_with(&mut ImportMetaHandler {
+                file: &info.fm.name,
+                hook: &self.hook,
+                is_entry,
+                err: None,
+            });
 
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
@@ -274,7 +280,11 @@ where
                         // print_hygiene("entry:after:injection", &self.cm, &entry);
 
                         log::debug!("Merged {} as an es module", info.fm.name);
-                        // print_hygiene("ES6", &self.cm, &entry);
+                        // print_hygiene(
+                        //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
+                        //     &self.cm,
+                        //     &entry,
+                        // );
                         continue;
                     }
 
@@ -535,6 +545,87 @@ impl VisitMut for DefaultRenamer {
 
         if n.computed {
             n.prop.visit_mut_with(self)
+        }
+    }
+}
+
+struct ImportMetaHandler<'a, 'b> {
+    file: &'a FileName,
+    hook: &'a Box<dyn 'b + Hook>,
+    is_entry: bool,
+    err: Option<Error>,
+}
+
+impl VisitMut for ImportMetaHandler<'_, '_> {
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        if self.err.is_some() {
+            return;
+        }
+
+        if e.computed {
+            e.obj.visit_mut_with(self);
+        }
+
+        e.prop.visit_mut_with(self);
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Member(me) => {
+                if !me.computed {
+                    match &me.obj {
+                        ExprOrSuper::Super(_) => {}
+                        ExprOrSuper::Expr(obj) => match &**obj {
+                            Expr::MetaProp(MetaPropExpr {
+                                meta:
+                                    Ident {
+                                        sym: js_word!("import"),
+                                        ..
+                                    },
+                                prop:
+                                    Ident {
+                                        sym: js_word!("meta"),
+                                        ..
+                                    },
+                                ..
+                            }) => match &*me.prop {
+                                Expr::Ident(Ident {
+                                    sym: js_word!("url"),
+                                    ..
+                                }) => {
+                                    let res = self.hook.get_import_meta_url(me.span, self.file);
+                                    match res {
+                                        Ok(v) => match v {
+                                            Some(expr) => {
+                                                *e = expr;
+                                                return;
+                                            }
+                                            None => {}
+                                        },
+                                        Err(err) => self.err = Some(err),
+                                    }
+                                }
+                                Expr::Ident(Ident {
+                                    sym: js_word!("main"),
+                                    ..
+                                }) if !self.is_entry => {
+                                    *e = Expr::Lit(Lit::Bool(Bool {
+                                        span: me.span,
+                                        value: false,
+                                    }));
+                                    return;
+                                }
+                                _ => {}
+                            },
+
+                            _ => {}
+                        },
+                    }
+                }
+            }
+            _ => {}
         }
     }
 }

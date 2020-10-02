@@ -1,7 +1,8 @@
 use anyhow::Error;
 use std::{collections::HashMap, io::stdout};
-use swc_bundler::{BundleKind, Bundler, Config, Load, Resolve};
-use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap};
+use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, Resolve};
+use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
+use swc_ecma_ast::Expr;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
@@ -22,6 +23,7 @@ fn main() {
             external_modules,
             ..Default::default()
         },
+        Box::new(Noop),
     );
     let mut entries = HashMap::default();
     entries.insert("main".to_string(), FileName::Real("assets/main.js".into()));
@@ -102,5 +104,13 @@ impl Resolve for PathResolver {
                 .join(module_specifier)
                 .with_extension("js"),
         ))
+    }
+}
+
+struct Noop;
+
+impl Hook for Noop {
+    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Option<Expr>, Error> {
+        unimplemented!()
     }
 }

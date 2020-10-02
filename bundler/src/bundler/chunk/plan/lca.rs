@@ -48,12 +48,22 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
         });
 }
 
-fn check_itself<I>(li: I, ri: &[ModuleId]) -> Option<ModuleId>
+fn check_itself<I>(g: &ModuleGraph, li: I, ri: &[ModuleId]) -> Option<ModuleId>
 where
     I: IntoIterator<Item = ModuleId>,
 {
     for l in li {
+        // Root
+        if g.neighbors_directed(l, Incoming).count() == 0 {
+            return Some(l);
+        }
+
         for &r in ri {
+            // Root
+            if g.neighbors_directed(r, Incoming).count() == 0 {
+                return Some(l);
+            }
+
             if l == r {
                 return Some(l);
             }
@@ -64,32 +74,40 @@ where
 }
 
 fn check_itself_and_parent(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId> {
-    if let Some(id) = check_itself(li.iter().copied(), ri) {
+    if let Some(id) = check_itself(g, li.iter().copied(), ri) {
         return Some(id);
     }
 
     for &l in li {
-        if let Some(id) = check_itself(g.neighbors_directed(l, Incoming), ri) {
+        if let Some(id) = check_itself_and_parent(
+            g,
+            &g.neighbors_directed(l, Incoming).collect::<Vec<_>>(),
+            ri,
+        ) {
             return Some(id);
         }
     }
 
     for &r in ri {
-        if let Some(id) = check_itself(g.neighbors_directed(r, Incoming), li) {
+        if let Some(id) = check_itself_and_parent(
+            g,
+            &g.neighbors_directed(r, Incoming).collect::<Vec<_>>(),
+            li,
+        ) {
             return Some(id);
         }
     }
 
-    for &l in li {
-        for &r in ri {
-            let lv = g.neighbors_directed(l, Incoming).collect::<Vec<_>>();
-            let rv = g.neighbors_directed(r, Incoming).collect::<Vec<_>>();
+    // for &l in li {
+    //     for &r in ri {
+    //         let lv = g.neighbors_directed(l, Incoming).collect::<Vec<_>>();
+    //         let rv = g.neighbors_directed(r, Incoming).collect::<Vec<_>>();
 
-            if let Some(id) = check_itself_and_parent(g, &lv, &rv) {
-                return Some(id);
-            }
-        }
-    }
+    //         if let Some(id) = check_itself_and_parent(g, &lv, &rv) {
+    //             return Some(id);
+    //         }
+    //     }
+    // }
 
     None
 }
