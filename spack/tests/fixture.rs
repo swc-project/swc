@@ -2,6 +2,7 @@
 
 extern crate test;
 
+use anyhow::Error;
 use spack::{loaders::swc::SwcLoader, resolvers::NodeResolver};
 use std::{
     collections::HashMap,
@@ -13,7 +14,8 @@ use std::{
 };
 use swc::config::SourceMapsConfig;
 use swc_bundler::{BundleKind, Bundler, Config};
-use swc_common::{FileName, GLOBALS};
+use swc_common::{FileName, Span, GLOBALS};
+use swc_ecma_ast::{Expr, Lit, Str};
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use test::{
@@ -176,6 +178,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                             .map(From::from)
                             .collect(),
                         },
+                        Box::new(Hook),
                     );
 
                     let modules = bundler
@@ -252,4 +255,16 @@ fn errors() {
     let mut tests = Vec::new();
     reference_tests(&mut tests, true).unwrap();
     test_main(&args, tests, Some(Options::new()));
+}
+
+struct Hook;
+
+impl swc_bundler::Hook for Hook {
+    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
+        Ok(Some(Expr::Lit(Lit::Str(Str {
+            span,
+            value: file.to_string().into(),
+            has_escape: false,
+        }))))
+    }
 }

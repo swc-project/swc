@@ -2,7 +2,7 @@ use crate::{
     get_compiler,
     util::{CtxtExt, MapErr},
 };
-use anyhow::bail;
+use anyhow::{bail, Error};
 use fxhash::FxHashMap;
 use napi::{CallContext, Env, JsObject, Status, Task};
 use serde::Deserialize;
@@ -13,6 +13,8 @@ use std::{
 };
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
 use swc_bundler::{BundleKind, Bundler, Load, Resolve};
+use swc_common::{FileName, Span};
+use swc_ecma_ast::{Expr, Lit, Str};
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -87,6 +89,7 @@ impl Task for BundleTask {
                     .collect(),
                     ..Default::default()
                 },
+                Box::new(Hook),
             );
 
             let result = bundler
@@ -181,4 +184,16 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             static_items,
         },
     })
+}
+
+struct Hook;
+
+impl swc_bundler::Hook for Hook {
+    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
+        Ok(Some(Expr::Lit(Lit::Str(Str {
+            span,
+            value: file.to_string().into(),
+            has_escape: false,
+        }))))
+    }
 }

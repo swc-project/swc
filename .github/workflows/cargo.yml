@@ -14,6 +14,8 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
+  # To make spack tests reliable
+  RAYON_NUM_THREADS: 1
   CI: "1"
 
 jobs:

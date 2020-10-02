@@ -144,7 +144,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('url' type=inline),
+                            value: Atom('url' type=static),
                         },
                     },
                 ),
