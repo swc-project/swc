@@ -3095,3 +3095,18 @@ test!(
     import './types';
     "
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| strip(),
+    issue_1124,
+    "
+    import { Type } from './types';
+    export type { Type };
+    ",
+    "
+    "
+);
