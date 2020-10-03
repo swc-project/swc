@@ -91,6 +91,12 @@ impl MapWithMut for ObjectPatProp {
     }
 }
 
+impl MapWithMut for PatOrExpr {
+    fn dummy() -> Self {
+        PatOrExpr::Pat(Box::new(Pat::Ident(Ident::dummy())))
+    }
+}
+
 pub(crate) trait PatOrExprExt: AsOptExpr {
     fn as_ref(&self) -> &PatOrExpr;
     fn as_mut(&mut self) -> &mut PatOrExpr;
