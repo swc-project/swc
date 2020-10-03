@@ -41,9 +41,7 @@ pub struct Config {
 pub fn strip_with_config(config: Config) -> impl Fold {
     as_folder(Strip {
         config,
-        non_top_level: Default::default(),
-        scope: Default::default(),
-        is_side_effect_import: Default::default(),
+        ..Default::default()
     })
 }
 
@@ -58,6 +56,7 @@ struct Strip {
     non_top_level: bool,
     scope: Scope,
     is_side_effect_import: bool,
+    is_type_only_export: bool,
 }
 
 #[derive(Default)]
@@ -500,10 +499,11 @@ impl Strip {
 
 impl Visit for Strip {
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        let is_type_only_export = self.is_type_only_export;
         self.scope
             .imported_idents
             .entry((n.sym.clone(), n.span.ctxt()))
-            .and_modify(|v| v.has_concrete = true);
+            .and_modify(|v| v.has_concrete = !is_type_only_export);
 
         n.visit_children_with(self);
     }
@@ -528,8 +528,13 @@ impl Visit for Strip {
     fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
         let old = self.non_top_level;
         self.non_top_level = false;
-        n.iter()
-            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        n.iter().for_each(|n| {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = n {
+                self.is_type_only_export = export.type_only;
+            }
+            n.visit_with(&Invalid { span: DUMMY_SP }, self);
+            self.is_type_only_export = false;
+        });
         self.non_top_level = old;
     }
 
@@ -1050,6 +1055,9 @@ impl VisitMut for Strip {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
 
+                    if export.type_only {
+                        export.specifiers.clear();
+                    }
                     export.specifiers.retain(|s| match *s {
                         ExportSpecifier::Named(ExportNamedSpecifier { ref orig, .. }) => {
                             if let Some(e) =
