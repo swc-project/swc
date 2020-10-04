@@ -133,8 +133,6 @@ impl OptChaining {
 
     /// Only called from [Fold].
     fn handle_call(&mut self, e: CallExpr) -> Result<CondExpr, Expr> {
-        dbg!("Call");
-
         match e.callee {
             ExprOrSuper::Expr(callee) if callee.is_opt_chain() => {
                 let callee = callee.opt_chain().unwrap();
@@ -152,8 +150,6 @@ impl OptChaining {
             ExprOrSuper::Expr(callee) if callee.is_member() => {
                 let callee = callee.member().unwrap();
                 let callee = self.handle_member(callee);
-
-                dbg!(&callee);
 
                 return match callee {
                     Ok(expr) => Ok(CondExpr {
@@ -261,7 +257,6 @@ impl OptChaining {
     }
 
     fn unwrap(&mut self, e: OptChainExpr) -> CondExpr {
-        dbg!("unwrap()");
         let span = e.span;
         let cons = undefined(span);
 
