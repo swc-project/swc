@@ -636,8 +636,34 @@ test!(
 expect(obj?.a?.b?.c()).toBe(2)
 ",
     "
-    var ref, ref1;
+  var ref, ref1;
 expect(obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 \
      : (ref1 = ref.b) === null || ref1 === void 0 ? void 0 : ref1.c()).toBe(2);
 "
+);
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1130_1,
+    "
+const result = data?.filter(item => Math.random() > 0.5).map(item => JSON.stringify(item));
+    ",
+    "
+const result = data === null || data === void 0 ? void 0 : data.filter(item => Math.random() > \
+     0.5).map(item => JSON.stringify(item));
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1130_2,
+    "
+const r = d?.filter(i => Math.random() > 0.5).map(i => JSON.stringify(i));
+  ",
+    "
+const r = d === null || d === void 0 ? void 0 : d.filter(i => Math.random() > 0.5).map(i => \
+     JSON.stringify(i));
+  "
 );

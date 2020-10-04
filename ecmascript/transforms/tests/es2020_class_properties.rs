@@ -6,7 +6,7 @@ use swc_ecma_transforms::{
         es2015::{arrow, block_scoping, classes, function_name},
         es2016::exponentation,
         es2017::async_to_generator,
-        es2020::class_properties,
+        es2020::{class_properties, typescript_class_properties},
         es3::reserved_words,
     },
     proposals::decorators,
@@ -4857,4 +4857,108 @@ expect(foo.x).toBe(1);
 expect(foo.y).toBe('bar');
 
 "#
+);
+
+test!(
+    syntax(),
+    |_| typescript_class_properties(),
+    issue_1122_1,
+    "
+const identifier = 'bar';
+
+class Foo {
+  [identifier] = 5;
+}
+
+
+",
+    "
+const identifier = \"bar\";
+class Foo {
+    constructor(){
+        this[identifier] = 5;
+    }
+}
+    "
+);
+
+test!(
+    syntax(),
+    |_| typescript_class_properties(),
+    issue_1122_2,
+    "
+const identifier = 'bar';
+
+class Foo {
+  identifier = 5;
+}
+",
+    "
+    const identifier = \"bar\";
+    class Foo {
+        constructor(){
+            this.identifier = 5;
+        }
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| typescript_class_properties(),
+    issue_1122_3,
+    "
+const identifier = 'bar';
+
+class Foo {
+  ['identifier'] = 5;
+}
+    ",
+    "
+const identifier = \"bar\";
+class Foo {
+    constructor(){
+        this[\"identifier\"] = 5;
+    }
+}
+    "
+);
+
+test!(
+    syntax(),
+    |_| typescript_class_properties(),
+    issue_1122_4,
+    "
+const identifier = 'bar';
+
+class Foo {
+  static [identifier] = 5;
+}
+  ",
+    "
+const identifier = \"bar\";
+class Foo {
+}
+Foo[identifier] = 5;
+
+    "
+);
+
+test!(
+    syntax(),
+    |_| typescript_class_properties(),
+    issue_1122_5,
+    "
+const identifier = 'bar';
+
+class Foo {
+  static identifier = 5;
+}
+  ",
+    "
+const identifier = \"bar\";
+class Foo {
+}
+Foo.identifier = 5;
+  "
 );

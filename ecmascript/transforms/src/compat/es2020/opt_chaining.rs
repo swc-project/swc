@@ -30,7 +30,10 @@ impl Fold for OptChaining {
                 Ok(v) => v,
                 Err(v) => v,
             },
-            Expr::Call(e) => validate!(self.handle_call(e)),
+            Expr::Call(e) => match self.handle_call(e).map(Expr::Cond) {
+                Ok(v) => v,
+                Err(v) => v,
+            },
             _ => e,
         };
 
@@ -129,28 +132,28 @@ impl OptChaining {
     }
 
     /// Only called from [Fold].
-    fn handle_call(&mut self, e: CallExpr) -> Expr {
+    fn handle_call(&mut self, e: CallExpr) -> Result<CondExpr, Expr> {
         match e.callee {
             ExprOrSuper::Expr(callee) if callee.is_opt_chain() => {
                 let callee = callee.opt_chain().unwrap();
                 let expr = self.unwrap(callee);
 
-                return CondExpr {
+                return Ok(CondExpr {
                     span: DUMMY_SP,
                     alt: Box::new(Expr::Call(CallExpr {
                         callee: ExprOrSuper::Expr(expr.alt),
                         ..e
                     })),
                     ..expr
-                }
-                .into();
+                });
             }
             ExprOrSuper::Expr(callee) if callee.is_member() => {
                 let callee = callee.member().unwrap();
                 let callee = self.handle_member(callee);
 
                 return match callee {
-                    Ok(expr) => Expr::Cond(CondExpr {
+                    Ok(expr) => Ok(CondExpr {
+                        span: e.span,
                         alt: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: expr.alt.as_callee(),
@@ -159,16 +162,16 @@ impl OptChaining {
                         })),
                         ..expr
                     }),
-                    Err(callee) => Expr::Call(CallExpr {
+                    Err(callee) => Err(Expr::Call(CallExpr {
                         callee: callee.as_callee(),
                         ..e
-                    }),
+                    })),
                 };
             }
             _ => {}
         }
 
-        Expr::Call(e)
+        Err(Expr::Call(e))
     }
 
     /// Returns `Ok` if it handled optional chaining.
@@ -177,6 +180,35 @@ impl OptChaining {
             ExprOrSuper::Expr(obj) if obj.is_member() => {
                 let obj = obj.member().unwrap();
                 let obj = self.handle_member(obj).map(Expr::Cond);
+                let (obj, handled) = match obj {
+                    Ok(v) => (v, true),
+                    Err(v) => (v, false),
+                };
+
+                match obj {
+                    Expr::Cond(obj) => {
+                        let cond_expr = CondExpr {
+                            span: DUMMY_SP,
+                            alt: Box::new(Expr::Member(MemberExpr {
+                                obj: ExprOrSuper::Expr(obj.alt),
+                                ..e
+                            })),
+                            ..obj
+                        };
+                        //
+                        return if handled {
+                            Ok(cond_expr)
+                        } else {
+                            Err(Expr::Cond(cond_expr))
+                        };
+                    }
+                    _ => ExprOrSuper::Expr(Box::new(obj)),
+                }
+            }
+
+            ExprOrSuper::Expr(obj) if obj.is_call() => {
+                let obj = obj.call().unwrap();
+                let obj = self.handle_call(obj).map(Expr::Cond);
                 let (obj, handled) = match obj {
                     Ok(v) => (v, true),
                     Err(v) => (v, false),
