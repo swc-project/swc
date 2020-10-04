@@ -1,5 +1,7 @@
 use super::*;
-use swc_ecma_parser::{EsConfig, Syntax};
+use crate::typescript::strip;
+use swc_common::chain;
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 
 fn tr(_: ()) -> impl Fold {
     nullish_coalescing()
@@ -105,4 +107,55 @@ function foo() {
 }
 
 "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        ..Default::default()
+    }),
+    |_| chain!(strip(), tr(())),
+    issue_1123_1,
+    r#"
+    interface SuperSubmission {
+        [key: string]: any;
+    }
+      
+    const normalizedQuestionSet: any = {};
+      
+    const submissions: SuperSubmission[] = (
+        normalizedQuestionSet.submissionIds ?? []
+    ).map(
+        (id, index): SuperSubmission => {
+          const submission = normalizedQuestionSet.submissions?.[id];
+      
+          const submissionAnswers = (submission.answers ?? []).map(
+            (answerId) => normalizedQuestionSet.answers?.[answerId]
+          );
+      
+          console.log(id, index);
+      
+          return {
+            type: "super-submission",
+          };
+        }
+      );
+      
+      console.log(submissions);
+    "#,
+    r#"
+    const normalizedQuestionSet = {
+    };
+    var _submissionIds;
+    const submissions = ((_submissionIds = normalizedQuestionSet.submissionIds) !== null && _submissionIds !== void 0 ? _submissionIds : []).map((id, index)=>{
+        const submission = normalizedQuestionSet.submissions?.[id];
+        var _answers;
+        const submissionAnswers = ((_answers = submission.answers) !== null && _answers !== void 0 ? _answers : []).map((answerId)=>normalizedQuestionSet.answers?.[answerId]
+        );
+        console.log(id, index);
+        return {
+            type: "super-submission"
+        };
+    });
+    console.log(submissions);
+    "#
 );
