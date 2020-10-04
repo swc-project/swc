@@ -498,17 +498,17 @@ impl Fold for DepUnexporter<'_> {
                     match &mut export.decl {
                         Decl::Class(c) => {
                             if self.is_exported(&c.ident.to_id()) {
-                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
                             }
                         }
                         Decl::Fn(f) => {
                             if self.is_exported(&f.ident.to_id()) {
-                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
                             }
                         }
                         Decl::Var(..) => {
                             if self.exports.is_empty() {
-                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
                             }
                         }
                         _ => {}
