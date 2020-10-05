@@ -299,7 +299,6 @@ impl Fold for ExportRenamer<'_> {
                                                 (s.orig.sym.clone(), self.dep_ctxt),
                                                 s.orig.to_id(),
                                             );
-                                            dbg!(&id.0, ctxt, &s.orig.sym, self.dep_ctxt);
 
                                             Some((id.0, self.dep_ctxt))
                                         }
@@ -355,7 +354,6 @@ impl Fold for ExportRenamer<'_> {
                                 self.aliased_import(&js_word!("default"))
                             }
                             ExportSpecifier::Named(s) => {
-                                dbg!(s);
                                 if let Some(exported) = &s.exported {
                                     // We need remarking
 
