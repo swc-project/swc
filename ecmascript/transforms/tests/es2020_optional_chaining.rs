@@ -667,3 +667,16 @@ const r = d === null || d === void 0 ? void 0 : d.filter(i => Math.random() > 0.
      JSON.stringify(i));
   "
 );
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1133_1,
+    "
+async function foo() {
+  const item = await data?.foo();
+}
+    ",
+    "
+    "
+);
