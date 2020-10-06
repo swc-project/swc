@@ -694,5 +694,11 @@ test!(
     const ident = 'foo';
     const patch = PATCHES.get(ident)?.();
     ",
-    ""
+    "
+    var ref;
+    const PATCHES = new Map();
+    const ident = \"foo\";
+    var _obj = PATCHES.get(ident);
+    const patch = (ref = _obj) === null || ref === void 0 ? void 0 : ref.call(_obj);
+    "
 );

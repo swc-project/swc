@@ -2,7 +2,7 @@ use crate::{
     perf::Check,
     util::{prepend, undefined, ExprFactory, StmtLike},
 };
-use std::{fmt::Debug, iter::once, mem};
+use std::{iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_macros::fast_path;
@@ -13,9 +13,10 @@ pub fn optional_chaining() -> impl Fold {
     OptChaining::default()
 }
 
-#[derive(Debug, Default)]
+#[derive(Default)]
 struct OptChaining {
-    vars: Vec<VarDeclarator>,
+    vars_without_init: Vec<VarDeclarator>,
+    vars_with_init: Vec<VarDeclarator>,
 }
 
 #[fast_path(ShouldWork)]
@@ -56,24 +57,39 @@ impl OptChaining {
         Vec<T>: FoldWith<Self>,
     {
         // This is to support nested block statements
-        let old = mem::replace(&mut self.vars, vec![]);
+        let old_no_init = mem::replace(&mut self.vars_without_init, vec![]);
+        let old_init = mem::replace(&mut self.vars_with_init, vec![]);
 
-        let mut stmts = stmts.fold_children_with(self);
+        let mut new: Vec<T> = vec![];
 
-        if !self.vars.is_empty() {
+        for stmt in stmts {
+            let stmt = stmt.fold_with(self);
+            if !self.vars_with_init.is_empty() {
+                new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    kind: VarDeclKind::Var,
+                    decls: mem::replace(&mut self.vars_with_init, vec![]),
+                }))));
+            }
+            new.push(stmt);
+        }
+
+        if !self.vars_without_init.is_empty() {
             prepend(
-                &mut stmts,
+                &mut new,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars, vec![]),
+                    decls: mem::replace(&mut self.vars_without_init, vec![]),
                 }))),
             );
         }
 
-        self.vars = old;
-        stmts
+        self.vars_without_init = old_no_init;
+        self.vars_with_init = old_init;
+        new
     }
 }
 
@@ -335,7 +351,7 @@ impl OptChaining {
                     Expr::Ident(..) => (Box::new(obj.clone()), Box::new(obj), e.expr),
                     _ => {
                         let i = private_ident!(obj_span, "ref");
-                        self.vars.push(VarDeclarator {
+                        self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
                             name: Pat::Ident(i.clone()),
@@ -420,7 +436,7 @@ impl OptChaining {
                             "_obj",
                         );
                         let obj = if !is_super_access && aliased {
-                            self.vars.push(VarDeclarator {
+                            self.vars_with_init.push(VarDeclarator {
                                 span: obj_span,
                                 definite: false,
                                 name: Pat::Ident(this_obj.clone()),
@@ -432,7 +448,7 @@ impl OptChaining {
                             obj
                         };
                         let i = private_ident!(obj_span, "ref");
-                        self.vars.push(VarDeclarator {
+                        self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
                             name: Pat::Ident(i.clone()),
