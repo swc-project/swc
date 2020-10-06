@@ -386,9 +386,7 @@ impl VisitMut for UnexportAsVar<'_> {
                 let mut decls = vec![];
                 for s in &export.specifiers {
                     match s {
-                        ExportSpecifier::Namespace(ns) => {
-                            dbg!(ns);
-                        }
+                        ExportSpecifier::Namespace(_) => {}
                         ExportSpecifier::Default(_) => {}
                         ExportSpecifier::Named(n) => match &n.exported {
                             Some(exported) => {
