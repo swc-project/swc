@@ -1,6 +1,7 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Imports, Specifier},
+    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -175,6 +176,12 @@ where
                                             .find(|(s, _)| s.module_id == dep_info.id)
                                             .map(|v| &v.1)
                                         {
+                                            print_hygiene(
+                                                "dep: before remarking exports",
+                                                &self.cm,
+                                                &dep,
+                                            );
+
                                             dep = self.remark_exports(
                                                 dep,
                                                 dep_info.ctxt(),
@@ -183,8 +190,11 @@ where
                                             );
                                         }
 
-                                        // print_hygiene("dep: remarking
-                                        // exports", &self.cm, &dep);
+                                        print_hygiene(
+                                            "dep: after remarking exports",
+                                            &self.cm,
+                                            &dep,
+                                        );
                                     }
                                     // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
@@ -264,10 +274,10 @@ where
                     }
                 }
 
-                // print_hygiene("dep: before injection", &self.cm, &dep);
+                print_hygiene("dep: before injection", &self.cm, &dep);
 
                 if dep_info.is_es6 {
-                    // print_hygiene("entry: before injection", &self.cm, &entry);
+                    print_hygiene("entry: before injection", &self.cm, &entry);
 
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
