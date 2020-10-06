@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.24.4"
+version = "0.25.0"
 
 [features]
 const-modules = ["dashmap"]

@@ -232,17 +232,12 @@ impl Syntax {
         }
     }
 
+    /// `true`
     pub fn export_namespace_from(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                export_namespace_from: true,
-                ..
-            })
-            | Syntax::Typescript(..) => true,
-            _ => false,
-        }
+        true
     }
 
+    /// `true`
     pub fn nullish_coalescing(self) -> bool {
         true
     }
