@@ -299,6 +299,8 @@ impl Fold for ExportRenamer<'_> {
                                                 (s.orig.sym.clone(), self.dep_ctxt),
                                                 s.orig.to_id(),
                                             );
+                                            self.remark_map
+                                                .insert((id.0.clone(), ctxt), self.dep_ctxt);
 
                                             Some((id.0, ctxt))
                                         }

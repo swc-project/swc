@@ -107,7 +107,12 @@ pub(super) struct Plan {
 
 impl Plan {
     pub fn entry_as_circular(&self, entry: ModuleId) -> Option<&CircularPlan> {
-        self.circular.get(&entry)
+        let plan = self.circular.get(&entry)?;
+        if plan.chunks.is_empty() {
+            return None;
+        }
+
+        Some(plan)
     }
 }
 
