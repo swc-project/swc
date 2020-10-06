@@ -370,7 +370,8 @@ where
                                         match s {
                                             ImportSpecifier::Namespace(n) => {
                                                 return i.sym == n.local.sym
-                                                    && i.span.ctxt() == self.module_ctxt
+                                                    && (i.span.ctxt == self.module_ctxt
+                                                        || i.span.ctxt == n.local.span.ctxt)
                                             }
                                             _ => {}
                                         }
