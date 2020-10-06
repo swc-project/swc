@@ -683,3 +683,16 @@ async function foo() {
     }
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1136_1,
+    "
+    const PATCHES = new Map();
+
+    const ident = 'foo';
+    const patch = PATCHES.get(ident)?.();
+    ",
+    ""
+);
