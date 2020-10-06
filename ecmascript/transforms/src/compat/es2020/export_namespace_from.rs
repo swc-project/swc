@@ -21,9 +21,9 @@ impl Fold for ExportNamespaceFrom {
         for item in items {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
-                    // Skip if it does not have neither default export and namespace export
+                    // Skip if it does not have namespace export
                     if export.specifiers.iter().all(|s| match *s {
-                        ExportSpecifier::Named(..) => true,
+                        ExportSpecifier::Named(..) | ExportSpecifier::Default(..) => true,
                         _ => false,
                     }) {
                         extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
