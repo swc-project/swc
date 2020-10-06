@@ -175,6 +175,12 @@ where
                                             .find(|(s, _)| s.module_id == dep_info.id)
                                             .map(|v| &v.1)
                                         {
+                                            // print_hygiene(
+                                            //     "dep: before remarking exports",
+                                            //     &self.cm,
+                                            //     &dep,
+                                            // );
+
                                             dep = self.remark_exports(
                                                 dep,
                                                 dep_info.ctxt(),
@@ -183,8 +189,11 @@ where
                                             );
                                         }
 
-                                        // print_hygiene("dep: remarking
-                                        // exports", &self.cm, &dep);
+                                        // print_hygiene(
+                                        //     "dep: after remarking exports",
+                                        //     &self.cm,
+                                        //     &dep,
+                                        // );
                                     }
                                     // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 

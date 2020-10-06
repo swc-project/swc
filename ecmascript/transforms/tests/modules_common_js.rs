@@ -13,7 +13,7 @@ use swc_ecma_transforms::{
         util::Lazy,
     },
     optimization::simplifier,
-    proposals::{decorators, export},
+    proposals::decorators,
     resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
@@ -125,7 +125,6 @@ test!(
         typescript::strip(),
         decorators(Default::default()),
         class_properties(),
-        export(),
         simplifier(Default::default()),
         compat::es2018(),
         compat::es2017(),
