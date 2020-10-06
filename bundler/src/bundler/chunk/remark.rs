@@ -295,11 +295,14 @@ impl Fold for ExportRenamer<'_> {
                                 } else {
                                     match self.aliased_import(&s.orig.sym) {
                                         Some(id) => {
-                                            let _ = self.mark_as_remarking_required(
+                                            let ctxt = self.mark_as_remarking_required(
                                                 (s.orig.sym.clone(), self.dep_ctxt),
                                                 s.orig.to_id(),
                                             );
-                                            Some((id.0, self.dep_ctxt))
+                                            self.remark_map
+                                                .insert((id.0.clone(), ctxt), self.dep_ctxt);
+
+                                            Some((id.0, ctxt))
                                         }
                                         None => None,
                                     }
