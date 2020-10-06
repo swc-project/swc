@@ -1,6 +1,6 @@
 #![feature(test)]
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms::proposals::export;
+use swc_ecma_transforms::proposals::export_default_from;
 use swc_ecma_visit::Fold;
 
 #[macro_use]
@@ -20,7 +20,7 @@ fn syntax_namespace() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    export()
+    export_default_from()
 }
 
 test!(

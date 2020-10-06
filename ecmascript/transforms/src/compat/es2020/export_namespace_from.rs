@@ -3,14 +3,13 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
-/// `@babel/plugin-proposal-export-default-from`
-pub fn export_default_from() -> impl Fold {
-    ExportDefaultFrom
+pub fn export_namespace_from() -> impl Fold {
+    ExportNamespaceFrom
 }
 
-struct ExportDefaultFrom;
+struct ExportNamespaceFrom;
 
-impl Fold for ExportDefaultFrom {
+impl Fold for ExportNamespaceFrom {
     noop_fold_type!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -32,13 +31,13 @@ impl Fold for ExportDefaultFrom {
                     }
 
                     match export.specifiers.remove(0) {
-                        ExportSpecifier::Default(ExportDefaultSpecifier { exported: default }) => {
-                            let local = default.prefix("_").private();
+                        ExportSpecifier::Namespace(ns) => {
+                            let local = ns.name.prefix("_").private();
 
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                                 span: DUMMY_SP,
-                                specifiers: vec![ImportSpecifier::Default(
-                                    ImportDefaultSpecifier {
+                                specifiers: vec![ImportSpecifier::Namespace(
+                                    ImportStarAsSpecifier {
                                         span: DUMMY_SP,
                                         local: local.clone(),
                                     },
@@ -57,7 +56,7 @@ impl Fold for ExportDefaultFrom {
                                         ExportNamedSpecifier {
                                             span: DUMMY_SP,
                                             orig: local,
-                                            exported: Some(default),
+                                            exported: Some(ns.name),
                                         },
                                     )],
                                     src: None,
