@@ -105,7 +105,7 @@ where
                 let id_of_export_namespace_from = specifiers.iter().find_map(|s| match s {
                     Specifier::Namespace { local, all: true } => Some(Ident::new(
                         local.sym().clone(),
-                        DUMMY_SP.with_ctxt(src.ctxt),
+                        DUMMY_SP.with_ctxt(info.ctxt()),
                     )),
                     _ => None,
                 });
