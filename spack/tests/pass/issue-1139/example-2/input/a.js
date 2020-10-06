@@ -1,4 +1,4 @@
-import * as circular2 from "./a";
+import * as circular2 from "./b";
 
 export function f1() {
     console.log("f1");

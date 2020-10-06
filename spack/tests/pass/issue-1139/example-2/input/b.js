@@ -1,4 +1,4 @@
-import * as circular1 from "./entry";
+import * as circular1 from "./a";
 
 export function f2() {
     console.log("f2");
