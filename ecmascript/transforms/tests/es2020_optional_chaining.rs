@@ -667,3 +667,38 @@ const r = d === null || d === void 0 ? void 0 : d.filter(i => Math.random() > 0.
      JSON.stringify(i));
   "
 );
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1133_1,
+    "
+async function foo() {
+  const item = await data?.foo();
+}
+    ",
+    "
+    async function foo() {
+      const item = await (data === null || data === void 0 ? void 0 : data.foo());
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1136_1,
+    "
+    const PATCHES = new Map();
+
+    const ident = 'foo';
+    const patch = PATCHES.get(ident)?.();
+    ",
+    "
+    var ref;
+    const PATCHES = new Map();
+    const ident = \"foo\";
+    var _obj = PATCHES.get(ident);
+    const patch = (ref = _obj) === null || ref === void 0 ? void 0 : ref.call(_obj);
+    "
+);

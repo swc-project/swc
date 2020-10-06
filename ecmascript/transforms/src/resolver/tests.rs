@@ -1679,3 +1679,38 @@ to!(
     }
     "
 );
+
+to!(
+    issue_1140,
+    r#"
+    const categories = [{ key: "apple" }, { key: "banana" }, { key: "strawberry" }];
+
+    const item = "some item";
+
+    const catNames = categories.reduce((a, item) => {
+    return { ...a, [item.key.toString()]: item };
+    }, {});
+    "#,
+    r#"
+    var categories = [
+        {
+            key: "apple"
+        },
+        {
+            key: "banana"
+        },
+        {
+            key: "strawberry"
+        }
+    ];
+    var item = "some item";
+    var catNames = categories.reduce((a, item1)=>{
+        return {
+            ...a,
+            [item1.key.toString()]: item1
+        };
+    }, {
+    });
+
+    "#
+);

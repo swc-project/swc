@@ -80,6 +80,18 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_await_expr(&mut self, expr: &mut AwaitExpr) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        expr.arg.visit_mut_with(self);
+        self.ctx = old;
+
+        match &*expr.arg {
+            Expr::Cond(..) => self.wrap(&mut expr.arg),
+            _ => {}
+        }
+    }
+
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: false };
@@ -970,4 +982,11 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     identical!(issue_1093, "const x = (fnA || fnB)();");
+
+    identical!(
+        issue_1133,
+        "async function foo() {
+            const item = await (data === null || data === void 0 ? void 0 : data.foo());
+        }"
+    );
 }
