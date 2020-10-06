@@ -678,5 +678,8 @@ async function foo() {
 }
     ",
     "
+    async function foo() {
+      const item = await (data === null || data === void 0 ? void 0 : data.foo());
+    }
     "
 );
