@@ -477,17 +477,22 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
-        let key = self.parse_class_prop_name()?;
+        let mut key = self.parse_class_prop_name()?;
+        let is_optional = self.input.syntax().typescript() && eat!('?');
 
         let is_private = match key {
             Either::Left(PrivateName { .. }) => true,
             _ => false,
         };
-        let is_simple = match key {
-            Either::Right(PropName::Ident(..)) => true,
-            _ => false,
+        let is_simple = {
+            match &mut key {
+                Either::Right(PropName::Ident(i)) => {
+                    i.optional = is_optional;
+                    true
+                }
+                _ => false,
+            }
         };
-        let is_optional = self.input.syntax().typescript() && eat!('?');
 
         if self.is_class_method()? {
             // handle a(){} / get(){} / set(){} / async(){}
