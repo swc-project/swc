@@ -51,7 +51,8 @@ class MuxAsyncIterator {
         this.signal = deferred();
     }
 }
-const MuxAsyncIterator1 = MuxAsyncIterator, deferred1 = deferred;
+const MuxAsyncIterator1 = MuxAsyncIterator;
+const deferred1 = deferred;
 class ServerRequest {
     /**
      * Value of Content-Length header.

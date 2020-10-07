@@ -223,12 +223,16 @@ where
                         })
                         .unwrap_or_else(Vec::new);
 
-                    let new_import = ImportDecl {
-                        specifiers,
-                        ..import
-                    };
+                    if !specifiers.is_empty() {
+                        let new_import = ImportDecl {
+                            specifiers,
+                            ..import
+                        };
 
-                    return new_import;
+                        return new_import;
+                    }
+
+                    self.info.forced_ns.insert(import.src.value.clone());
                 }
 
                 _ => {}
@@ -304,6 +308,28 @@ where
         s
     }
 
+    fn fold_prop(&mut self, mut prop: Prop) -> Prop {
+        prop = prop.fold_children_with(self);
+
+        match prop {
+            Prop::Shorthand(mut i) => {
+                if let Some(&ctxt) = self.imported_idents.get(&i.to_id()) {
+                    let local = i.clone();
+
+                    i.span = i.span.with_ctxt(ctxt);
+
+                    return Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(local),
+                        value: Box::new(Expr::Ident(i)),
+                    });
+                }
+
+                Prop::Shorthand(i)
+            }
+            _ => prop,
+        }
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Ident(mut i) if self.deglob_phase => {
@@ -344,7 +370,8 @@ where
                                         match s {
                                             ImportSpecifier::Namespace(n) => {
                                                 return i.sym == n.local.sym
-                                                    && i.span.ctxt() == self.module_ctxt
+                                                    && (i.span.ctxt == self.module_ctxt
+                                                        || i.span.ctxt == n.local.span.ctxt)
                                             }
                                             _ => {}
                                         }

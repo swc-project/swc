@@ -2,9 +2,10 @@ use super::load::TransformedModule;
 use crate::{Bundler, Load, Resolve};
 use anyhow::Error;
 use std::mem::take;
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ExprFactory};
+use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -113,13 +114,22 @@ impl Fold for ExportToReturn {
         let stmt = match decl {
             ModuleDecl::Import(_) => None,
             ModuleDecl::ExportDecl(export) => {
-                let ids: Vec<Ident> = find_ids(&export.decl);
-                self.exports.extend(
-                    ids.into_iter()
-                        .map(Prop::Shorthand)
-                        .map(Box::new)
-                        .map(PropOrSpread::Prop),
-                );
+                match &export.decl {
+                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                        self.exports
+                            .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(ident.clone()))));
+                    }
+                    Decl::Var(decl) => {
+                        let ids: Vec<Ident> = find_ids(decl);
+                        self.exports.extend(
+                            ids.into_iter()
+                                .map(Prop::Shorthand)
+                                .map(Box::new)
+                                .map(PropOrSpread::Prop),
+                        );
+                    }
+                    _ => unreachable!(),
+                }
 
                 Some(Stmt::Decl(export.decl))
             }
@@ -138,7 +148,41 @@ impl Fold for ExportToReturn {
 
                 None
             }
-            ModuleDecl::ExportDefaultDecl(_) => None,
+            ModuleDecl::ExportDefaultDecl(export) => match export.decl {
+                DefaultDecl::Class(expr) => {
+                    let ident = expr.ident;
+                    let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
+
+                    self.exports
+                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(Ident::new(js_word!("default"), export.span)),
+                            value: Box::new(Expr::Ident(ident.clone())),
+                        }))));
+
+                    Some(Stmt::Decl(Decl::Class(ClassDecl {
+                        ident,
+                        class: expr.class,
+                        declare: false,
+                    })))
+                }
+                DefaultDecl::Fn(expr) => {
+                    let ident = expr.ident;
+                    let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
+
+                    self.exports
+                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(Ident::new(js_word!("default"), export.span)),
+                            value: Box::new(Expr::Ident(ident.clone())),
+                        }))));
+
+                    Some(Stmt::Decl(Decl::Fn(FnDecl {
+                        ident,
+                        function: expr.function,
+                        declare: false,
+                    })))
+                }
+                DefaultDecl::TsInterfaceDecl(_) => None,
+            },
             ModuleDecl::ExportDefaultExpr(_) => None,
             ModuleDecl::ExportAll(_) => {
                 unimplemented!("export * from 'foo' inside a module loaded with computed key")

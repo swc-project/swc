@@ -24,7 +24,7 @@ use swc_ecma_transforms::{
     const_modules, modules,
     optimization::{inline_globals, json_parse, simplifier},
     pass::{noop, Optional},
-    proposals::{decorators, export},
+    proposals::{decorators, export_default_from},
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
@@ -241,10 +241,7 @@ impl Options {
             resolver_with_mark(root_mark),
             const_modules,
             optimization,
-            Optional::new(
-                export(),
-                syntax.export_default_from() || syntax.export_namespace_from()
-            ),
+            Optional::new(export_default_from(), syntax.export_default_from()),
             Optional::new(simplifier(Default::default()), enable_optimizer),
             json_parse_pass
         );

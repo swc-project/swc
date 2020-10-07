@@ -204,6 +204,7 @@ impl<'a> VisitMut for Operator<'a> {
     }
 
     fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
+        p.key.visit_mut_with(self);
         p.value.visit_mut_with(self);
     }
 

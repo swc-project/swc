@@ -1908,7 +1908,7 @@ test!(
   })(this, function() {
       \"use strict\";
       async function foo() {
-          await exports === undefined ? new Promise(function(resolve, reject) {
+          await (exports === undefined ? new Promise(function(resolve, reject) {
               require([
                   \"foo\"
               ], function(dep) {
@@ -1918,7 +1918,7 @@ test!(
               });
           }) : Promise.resolve().then(function() {
               return require(\"foo\");
-          });
+          }));
       }
   });      
     ",

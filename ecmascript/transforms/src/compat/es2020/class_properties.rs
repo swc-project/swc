@@ -443,7 +443,7 @@ impl ClassProperties {
                                         MemberExpr {
                                             span: DUMMY_SP,
                                             obj: ident.clone().as_obj(),
-                                            computed: false,
+                                            computed: prop.computed,
                                             prop: key,
                                         }
                                         .into(),
@@ -460,7 +460,7 @@ impl ClassProperties {
                                     MemberExpr {
                                         span: DUMMY_SP,
                                         obj: ThisExpr { span: DUMMY_SP }.as_obj(),
-                                        computed: false,
+                                        computed: prop.computed,
                                         prop: key,
                                     }
                                     .into(),

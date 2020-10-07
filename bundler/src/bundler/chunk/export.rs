@@ -101,7 +101,19 @@ where
 
                 // print_hygiene(&format!("dep: start"), &self.cm, &dep);
 
-                dep = self.remark_exports(dep, src.ctxt, None, false);
+                let id_of_export_namespace_from = specifiers.iter().find_map(|s| match s {
+                    Specifier::Namespace { local, all: true } => Some(Ident::new(
+                        local.sym().clone(),
+                        DUMMY_SP.with_ctxt(info.ctxt()),
+                    )),
+                    _ => None,
+                });
+
+                if let Some(id) = id_of_export_namespace_from {
+                    dep = self.wrap_esm_as_a_var(info, dep, id)?;
+                } else {
+                    dep = self.remark_exports(dep, src.ctxt, None, false);
+                }
 
                 // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
@@ -128,7 +140,11 @@ where
         {
             let mut normal_reexports = vec![];
             let mut star_reexports = vec![];
-            for (src, mut specifiers) in additional_modules {
+            for (src, specifiers) in additional_modules {
+                if specifiers.is_empty() {
+                    continue;
+                }
+
                 // If a dependency is indirect, we need to export items from it manually.
                 let is_indirect = !nomral_plan.chunks.contains(&src.module_id);
 
@@ -139,12 +155,6 @@ where
                 } else {
                     &mut normal_reexports
                 };
-                if specifiers.is_empty() {
-                    //
-                    let dep = self.scope.get_module(src.module_id).unwrap();
-
-                    specifiers = dep.exports.items.clone();
-                }
 
                 for specifier in specifiers {
                     let (imported, exported) = match specifier {
@@ -235,7 +245,11 @@ where
             entry.body.visit_mut_with(&mut injector);
 
             // print_hygiene(
-            //     &format!("entry:injection {:?} <- {:?}", info.ctxt(), src.ctxt,),
+            //     &format!(
+            //         "entry:reexport injection {:?} <- {:?}",
+            //         info.ctxt(),
+            //         src.ctxt,
+            //     ),
             //     &self.cm,
             //     &entry,
             // );
@@ -272,14 +286,39 @@ impl VisitMut for ExportInjector {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                     export @ NamedExport { src: Some(..), .. },
                 )) if export.src.as_ref().unwrap().value == self.src.value => {
+                    let namespace_name = export
+                        .specifiers
+                        .iter()
+                        .filter_map(|specifier| match specifier {
+                            ExportSpecifier::Namespace(ns) => Some(ns.name.clone()),
+                            ExportSpecifier::Default(_) => None,
+                            ExportSpecifier::Named(_) => None,
+                        })
+                        .next();
+
                     buf.extend(take(&mut self.imported));
 
-                    buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport {
-                            src: None,
-                            ..export
-                        },
-                    )));
+                    if let Some(ns_name) = namespace_name {
+                        buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span: export.span,
+                                src: None,
+                                specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ns_name,
+                                    exported: None,
+                                })],
+                                type_only: false,
+                            },
+                        )));
+                    } else {
+                        buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                src: None,
+                                ..export
+                            },
+                        )));
+                    }
                 }
 
                 _ => buf.push(item),
@@ -496,17 +535,17 @@ impl Fold for DepUnexporter<'_> {
                     match &mut export.decl {
                         Decl::Class(c) => {
                             if self.is_exported(&c.ident.to_id()) {
-                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
                             }
                         }
                         Decl::Fn(f) => {
                             if self.is_exported(&f.ident.to_id()) {
-                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
                             }
                         }
                         Decl::Var(..) => {
                             if self.exports.is_empty() {
-                                return ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export));
+                                return ModuleItem::Stmt(Stmt::Decl(export.decl));
                             }
                         }
                         _ => {}

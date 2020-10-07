@@ -50,6 +50,16 @@ impl NullishCoalescing {
 impl Fold for NullishCoalescing {
     noop_fold_type!();
 
+    /// Prevents #1123
+    fn fold_block_stmt(&mut self, s: BlockStmt) -> BlockStmt {
+        s.fold_children_with(&mut NullishCoalescing::default())
+    }
+
+    /// Prevents #1123
+    fn fold_switch_case(&mut self, s: SwitchCase) -> SwitchCase {
+        s.fold_children_with(&mut NullishCoalescing::default())
+    }
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

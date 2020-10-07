@@ -107,7 +107,12 @@ pub(super) struct Plan {
 
 impl Plan {
     pub fn entry_as_circular(&self, entry: ModuleId) -> Option<&CircularPlan> {
-        self.circular.get(&entry)
+        let plan = self.circular.get(&entry)?;
+        if plan.chunks.is_empty() {
+            return None;
+        }
+
+        Some(plan)
     }
 }
 
@@ -446,7 +451,9 @@ where
             .map(|v| &v.0)
             .chain(m.exports.reexports.iter().map(|v| &v.0))
         {
-            log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
+            if !builder.direct_deps.contains_edge(module_id, src.module_id) {
+                log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
+            }
 
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
 

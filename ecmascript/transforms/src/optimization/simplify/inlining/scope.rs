@@ -35,11 +35,11 @@ impl Default for ScopeKind {
 }
 
 impl Inlining<'_> {
-    pub(super) fn with_child<F, T>(&mut self, kind: ScopeKind, node: T, op: F) -> T
+    pub(super) fn with_child<F>(&mut self, kind: ScopeKind, op: F)
     where
-        F: for<'any> FnOnce(&mut Inlining<'any>, T) -> T,
+        F: for<'any> FnOnce(&mut Inlining<'any>),
     {
-        let (node, unresolved_usages, bindings) = {
+        let (unresolved_usages, bindings) = {
             let mut child = Inlining {
                 phase: self.phase,
                 is_first_run: self.is_first_run,
@@ -50,11 +50,11 @@ impl Inlining<'_> {
                 pat_mode: self.pat_mode,
             };
 
-            let node = op(&mut child, node);
+            op(&mut child);
 
             self.changed |= child.changed;
 
-            (node, child.scope.unresolved_usages, child.scope.bindings)
+            (child.scope.unresolved_usages, child.scope.bindings)
         };
 
         log::trace!("propagating variables");
@@ -89,8 +89,6 @@ impl Inlining<'_> {
                 self.scope.bindings.insert(id, v);
             }
         }
-
-        node
     }
 
     /// Note: this method stores the value only if init is [Cow::Owned] or it's

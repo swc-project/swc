@@ -543,8 +543,8 @@ fn cjs_004() {
             assert_eq!(p.circular.len(), 0);
             // As both of a and b depend on `common`, it should be merged into a parent
             // module.
-            assert_normal(t, &p, "main", &["entry"]);
-            assert_normal_transitive(t, &p, "entry", &["a", "b"], &["common"]);
+            assert_normal_transitive(t, &p, "main", &["entry"], &["common"]);
+            assert_normal_transitive(t, &p, "entry", &["a", "b"], &[]);
             assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
 
@@ -645,7 +645,7 @@ fn deno_001() {
 
             dbg!(&p);
 
-            assert_normal(t, &p, "main", &["http-server"]);
+            assert_normal_transitive(t, &p, "main", &["http-server"], &["io-bufio"]);
             assert_normal(t, &p, "io-bufio", &[]);
 
             assert_circular(t, &p, "http-server", &["_io"]);
@@ -702,6 +702,7 @@ fn circular_002() {
 }
 
 #[test]
+#[ignore = "Not deterministic yet"]
 fn deno_002() {
     suite()
         .file(
@@ -907,6 +908,7 @@ fn circular_root_entry_2() {
 }
 
 #[test]
+#[ignore = "Not deterministic yet"]
 fn deno_003() {
     suite()
         .file(
