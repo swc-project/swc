@@ -150,6 +150,8 @@ impl<'a> VisitMut for Operator<'a> {
 
     /// Preserve key of properties.
     fn visit_mut_assign_pat_prop(&mut self, p: &mut AssignPatProp) {
+        p.key.visit_mut_with(self);
+
         match &mut p.value {
             Some(value) => {
                 value.visit_mut_children_with(self);
@@ -214,27 +216,6 @@ impl<'a> VisitMut for Operator<'a> {
 
         if expr.computed {
             expr.prop.visit_mut_with(self)
-        }
-    }
-
-    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            ObjectPatProp::Assign(p) => {
-                let mut renamed = p.key.clone();
-                match self.rename_ident(&mut renamed) {
-                    Ok(..) => {
-                        *n = KeyValuePatProp {
-                            key: PropName::Ident(p.key.take()),
-                            value: Box::new(Pat::Ident(renamed)),
-                        }
-                        .into();
-                    }
-                    Err(_) => {}
-                }
-            }
-            _ => {}
         }
     }
 
