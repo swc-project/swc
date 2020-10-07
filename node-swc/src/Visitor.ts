@@ -722,7 +722,7 @@ export default class Visitor {
 
   visitTsEnumDeclaration(n: TsEnumDeclaration): Declaration {
     n.id = this.visitIdentifier(n.id);
-    n.member = this.visitTsEnumMembers(n.member);
+    n.members = this.visitTsEnumMembers(n.members);
     return n;
   }
 
@@ -1656,7 +1656,7 @@ export default class Visitor {
   }
 
   visitObjectPattern(n: ObjectPattern): Pattern {
-    n.props = this.visitObjectPatternProperties(n.props);
+    n.properties = this.visitObjectPatternProperties(n.properties);
     n.typeAnnotation = this.visitTsTypeAnnotation(n.typeAnnotation);
     return n;
   }
