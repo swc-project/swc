@@ -82,7 +82,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_constructor_signature_decl")
+        keyword!("constructor");
+
+        punct!("(");
+        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
+        punct!(")");
     }
 
     #[emitter]
