@@ -548,6 +548,10 @@ impl Fold for ActualMarker<'_> {
         }
     }
 
+    fn fold_private_name(&mut self, i: PrivateName) -> PrivateName {
+        i
+    }
+
     fn fold_export_named_specifier(&mut self, s: ExportNamedSpecifier) -> ExportNamedSpecifier {
         if let Some(..) = s.exported {
             ExportNamedSpecifier {
@@ -596,4 +600,6 @@ impl VisitMut for RemarkIdents<'_> {
             log::debug!("Remark: {:?} -> {:?}", id, ctxt)
         }
     }
+
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 }
