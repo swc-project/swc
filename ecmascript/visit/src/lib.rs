@@ -1525,6 +1525,7 @@ define!({
         pub span: Span,
         pub readonly: Option<TruePlusMinus>,
         pub type_param: TsTypeParam,
+        pub name_type: Option<Box<TsType>>,
         pub optional: Option<TruePlusMinus>,
         pub type_ann: Option<Box<TsType>>,
     }
