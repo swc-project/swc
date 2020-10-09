@@ -15,7 +15,7 @@ use swc_bundler::{BundleKind, Bundler, Config, Load, Resolve};
 use swc_common::{sync::Lrc, FileName, Globals, SourceFile, SourceMap, Span};
 use swc_ecma_ast::{Expr, Lit, Module, Str};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use test::{
@@ -46,7 +46,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
     let root = {
         let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
         root.push("tests");
-        root.push(if errors { "error" } else { "pass" });
+        root.push(if errors { "error" } else { "fixture" });
         root
     };
 
@@ -270,7 +270,10 @@ impl Load for Loader {
         })?;
 
         let lexer = Lexer::new(
-            Default::default(),
+            Syntax::Typescript(TsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
             JscTarget::Es2020,
             StringInput::from(&*fm),
             None,
