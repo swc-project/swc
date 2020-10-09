@@ -1,7 +1,6 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Imports, Specifier},
-    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -85,7 +84,7 @@ where
             self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
 
-            print_hygiene("after: merge_reexports", &self.cm, &entry);
+            // print_hygiene("after: merge_reexports", &self.cm, &entry);
 
             let to_merge: Vec<_> = info
                 .imports
@@ -176,11 +175,11 @@ where
                                             .find(|(s, _)| s.module_id == dep_info.id)
                                             .map(|v| &v.1)
                                         {
-                                            print_hygiene(
-                                                "dep: before remarking exports",
-                                                &self.cm,
-                                                &dep,
-                                            );
+                                            // print_hygiene(
+                                            //     "dep: before remarking exports",
+                                            //     &self.cm,
+                                            //     &dep,
+                                            // );
 
                                             dep = self.remark_exports(
                                                 dep,
@@ -190,11 +189,11 @@ where
                                             );
                                         }
 
-                                        print_hygiene(
-                                            "dep: after remarking exports",
-                                            &self.cm,
-                                            &dep,
-                                        );
+                                        // print_hygiene(
+                                        //     "dep: after remarking exports",
+                                        //     &self.cm,
+                                        //     &dep,
+                                        // );
                                     }
                                     // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
@@ -212,11 +211,11 @@ where
                                     //         extras: vec![],
                                     //     });
                                     // }
-                                    print_hygiene("dep:after:export-renamer", &self.cm, &dep);
+                                    // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
 
                                     dep = dep.fold_with(&mut Unexporter);
                                 }
-                                print_hygiene("dep:before-injection", &self.cm, &dep);
+                                // print_hygiene("dep:before-injection", &self.cm, &dep);
 
                                 Ok(Some((dep, dep_info)))
                             })
@@ -236,7 +235,7 @@ where
                             let dep_info = self.scope.get_module(id).unwrap();
                             let mut dep = self.merge_modules(plan, id, false, true, merged)?;
 
-                            print_hygiene("transitive dep", &self.cm, &dep);
+                            // print_hygiene("transitive dep", &self.cm, &dep);
 
                             dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
                             dep = dep.fold_with(&mut Unexporter);
@@ -303,7 +302,7 @@ where
                     if !is_direct {
                         prepend_stmts(&mut entry.body, injector.imported.into_iter());
 
-                        print_hygiene("ES6", &self.cm, &entry);
+                        // print_hygiene("ES6", &self.cm, &entry);
                         continue;
                     }
 
@@ -357,7 +356,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
-        print_hygiene("done", &self.cm, &entry);
+        // print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
