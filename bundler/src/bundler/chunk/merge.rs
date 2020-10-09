@@ -235,6 +235,8 @@ where
                             let dep_info = self.scope.get_module(id).unwrap();
                             let mut dep = self.merge_modules(plan, id, false, true, merged)?;
 
+                            // print_hygiene("transitive dep", &self.cm, &dep);
+
                             dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
                             dep = dep.fold_with(&mut Unexporter);
 
@@ -354,6 +356,8 @@ where
     }
 
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
+        // print_hygiene("done", &self.cm, &entry);
+
         entry.body.retain_mut(|item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
