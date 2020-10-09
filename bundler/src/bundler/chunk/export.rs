@@ -1,6 +1,7 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
-    bundler::load::{Specifier, TransformedModule},
+    bundler::load::{Source, Specifier, TransformedModule},
+    debug::print_hygiene,
     util::{CHashSet, IntoParallelIterator},
     Bundler, Load, ModuleId, Resolve,
 };
@@ -99,7 +100,7 @@ where
                         )
                     })?;
 
-                // print_hygiene(&format!("dep: start"), &self.cm, &dep);
+                print_hygiene(&format!("dep: start"), &self.cm, &dep);
 
                 let id_of_export_namespace_from = specifiers.iter().find_map(|s| match s {
                     Specifier::Namespace { local, all: true } => Some(Ident::new(
@@ -115,7 +116,7 @@ where
                     dep = self.remark_exports(dep, src.ctxt, None, false);
                 }
 
-                // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
+                print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
                 if !specifiers.is_empty() {
                     dep.visit_mut_with(&mut UnexportAsVar {
@@ -124,13 +125,13 @@ where
                         _exports: &specifiers,
                     });
 
-                    // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
+                    print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
 
                     dep = dep.fold_with(&mut DepUnexporter {
                         exports: &specifiers,
                     });
 
-                    // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                    print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
                 }
 
                 Ok(Some((src, dep)))
@@ -227,20 +228,20 @@ where
             };
             let (src, dep) = dep;
 
-            // print_hygiene(
-            //     &format!(
-            //         "entry: before reexport injection {:?} <- {:?}",
-            //         info.ctxt(),
-            //         src.ctxt,
-            //     ),
-            //     &self.cm,
-            //     &entry,
-            // );
+            print_hygiene(
+                &format!(
+                    "entry: before reexport injection {:?} <- {:?}",
+                    info.ctxt(),
+                    src.ctxt,
+                ),
+                &self.cm,
+                &entry,
+            );
 
             // Replace import statement / require with module body
             let mut injector = ExportInjector {
                 imported: dep.body,
-                src: src.src.clone(),
+                source: src.clone(),
             };
             entry.body.visit_mut_with(&mut injector);
 
@@ -262,7 +263,7 @@ where
 
 struct ExportInjector {
     imported: Vec<ModuleItem>,
-    src: Str,
+    source: Source,
 }
 
 impl VisitMut for ExportInjector {
@@ -277,15 +278,60 @@ impl VisitMut for ExportInjector {
             match item {
                 ModuleItem::Stmt(Stmt::Empty(..)) => continue,
 
+                // If the case of importing and exporting from same module, we firstly
+                // handle it using export.rs
+                //
+                // This works for the most time, but if the import has an alias, export
+                // handler cannot handle this. So we inject some variables to connnect them.
+                //
+                // See: https://github.com/swc-project/swc/issues/1150
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ref import))
+                    if import.src.value == self.source.src.value =>
+                {
+                    buf.extend(take(&mut self.imported));
+
+                    let decls = import
+                        .specifiers
+                        .iter()
+                        .filter_map(|specifier| match specifier {
+                            ImportSpecifier::Named(ImportNamedSpecifier {
+                                local,
+                                imported: Some(imported),
+                                ..
+                            }) => {
+                                let mut imported = imported.clone();
+                                imported.span = imported.span.with_ctxt(self.source.ctxt);
+
+                                Some(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(local.clone()),
+                                    init: Some(Box::new(Expr::Ident(imported))),
+                                    definite: false,
+                                })
+                            }
+                            _ => None,
+                        })
+                        .collect::<Vec<_>>();
+
+                    if !decls.is_empty() {
+                        buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls,
+                        }))));
+                    }
+                }
+
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
-                    if export.src.value == self.src.value =>
+                    if export.src.value == self.source.src.value =>
                 {
                     buf.extend(take(&mut self.imported));
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                     export @ NamedExport { src: Some(..), .. },
-                )) if export.src.as_ref().unwrap().value == self.src.value => {
+                )) if export.src.as_ref().unwrap().value == self.source.src.value => {
                     let namespace_name = export
                         .specifiers
                         .iter()
