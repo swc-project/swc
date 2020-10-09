@@ -15,6 +15,6 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "@swc/helpers": "^0.2.1"
+    "@swc/helpers": "^0.2.2"
   }
 }
