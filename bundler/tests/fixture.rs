@@ -16,7 +16,7 @@ use swc_common::{sync::Lrc, FileName, Globals, SourceFile, SourceMap, Span};
 use swc_ecma_ast::{Expr, Lit, Module, Str};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::fixer;
+use swc_ecma_transforms::{fixer, typescript::strip};
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -281,6 +281,8 @@ impl Load for Loader {
 
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_module().unwrap();
+
+        module.fold_with(&mut strip());
 
         Ok((fm, module))
     }
