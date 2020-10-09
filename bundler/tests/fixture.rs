@@ -282,7 +282,7 @@ impl Load for Loader {
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_module().unwrap();
 
-        module.fold_with(&mut strip());
+        let module = module.fold_with(&mut strip());
 
         Ok((fm, module))
     }
