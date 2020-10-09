@@ -548,3 +548,50 @@ test!(
     };
     "
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(resolver(), dce(Default::default())),
+    issue_1150_1,
+    "
+class A {
+    constructor(o: AOptions = {}) {
+        const {
+            a = defaultA,
+            c,
+            } = o;
+        this.#a = a;
+        this.#c = c;
+    }
+
+    a() {
+        this.#a();
+    }
+
+    c() {
+        console.log(this.#c);
+    }
+}
+new A();
+    ",
+    "
+    class A {
+        constructor(o: AOptions = {
+        }){
+            const { a = defaultA , c  } = o;
+            this.#a = a;
+            this.#c = c;
+        }
+        a() {
+            this.#a();
+        }
+        c() {
+            console.log(this.#c);
+        }
+    }
+    new A();
+    "
+);
