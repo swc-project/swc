@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 180,
+    "end": 226,
     "ctxt": 0
   },
   "body": [
@@ -75,6 +75,7 @@
                   },
                   "default": null
                 },
+                "nameType": null,
                 "optional": null,
                 "typeAnnotation": {
                   "type": "TsKeywordType",
@@ -163,6 +164,7 @@
                   },
                   "default": null
                 },
+                "nameType": null,
                 "optional": true,
                 "typeAnnotation": {
                   "type": "TsKeywordType",
@@ -251,6 +253,7 @@
                   },
                   "default": null
                 },
+                "nameType": null,
                 "optional": "+",
                 "typeAnnotation": {
                   "type": "TsKeywordType",
@@ -339,6 +342,7 @@
                   },
                   "default": null
                 },
+                "nameType": null,
                 "optional": "-",
                 "typeAnnotation": {
                   "type": "TsKeywordType",
