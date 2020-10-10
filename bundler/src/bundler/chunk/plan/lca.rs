@@ -83,25 +83,38 @@ fn check_itself_and_parent(b: &PlanBuilder, li: &[ModuleId], ri: &[ModuleId]) ->
     }
 
     for &l in li {
-        if let Some(id) = check_itself_and_parent(
-            b,
-            &g.neighbors_directed(l, Incoming)
-                .filter(|&id| !b.is_circular(id))
-                .collect::<Vec<_>>(),
-            ri,
-        ) {
+        let mut l_dependants = g.neighbors_directed(l, Incoming).collect::<Vec<_>>();
+        for &l_dependant in &l_dependants {
+            if g.neighbors_directed(l_dependant, Incoming).count() == 0 {
+                return Some(l_dependant);
+            }
+        }
+
+        l_dependants.retain(|&id| !b.is_circular(id));
+        if l_dependants.is_empty() {
+            return Some(l);
+        }
+
+        if let Some(id) = check_itself_and_parent(b, &l_dependants, ri) {
             return Some(id);
         }
     }
 
     for &r in ri {
-        if let Some(id) = check_itself_and_parent(
-            b,
-            &g.neighbors_directed(r, Incoming)
-                .filter(|&id| !b.is_circular(id))
-                .collect::<Vec<_>>(),
-            li,
-        ) {
+        let mut r_dependants = g.neighbors_directed(r, Incoming).collect::<Vec<_>>();
+        for &r_dependant in &r_dependants {
+            if g.neighbors_directed(r_dependant, Incoming).count() == 0 {
+                return Some(r_dependant);
+            }
+        }
+
+        r_dependants.retain(|&id| !b.is_circular(id));
+
+        if r_dependants.is_empty() {
+            return Some(r);
+        }
+
+        if let Some(id) = check_itself_and_parent(b, &r_dependants, li) {
             return Some(id);
         }
     }
