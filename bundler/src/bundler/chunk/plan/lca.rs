@@ -1,9 +1,9 @@
-use super::ModuleGraph;
+use super::PlanBuilder;
 use crate::ModuleId;
 use petgraph::EdgeDirection::Incoming;
 
 // TODO: Optimize with cache.
-pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) -> ModuleId {
+pub(super) fn least_common_ancestor(b: &PlanBuilder, module_ids: &[ModuleId]) -> ModuleId {
     assert_ne!(
         module_ids,
         &[],
@@ -12,6 +12,7 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
     if module_ids.len() == 1 {
         return module_ids[0];
     }
+    let g = &b.direct_deps;
 
     // Check for roots
     for &mid in module_ids {
@@ -28,7 +29,7 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
             return first;
         }
 
-        if let Some(id) = check_itself_and_parent(g, &[first], &[second]) {
+        if let Some(id) = check_itself_and_parent(b, &[first], &[second]) {
             log::debug!("Found lca: {:?}", id);
             return id;
         }
@@ -43,15 +44,16 @@ pub(super) fn least_common_ancestor(g: &ModuleGraph, module_ids: &[ModuleId]) ->
         .iter()
         .skip(2)
         .cloned()
-        .fold(least_common_ancestor(g, &[first, second]), |prev, item| {
-            least_common_ancestor(g, &[prev, item])
+        .fold(least_common_ancestor(b, &[first, second]), |prev, item| {
+            least_common_ancestor(b, &[prev, item])
         });
 }
 
-fn check_itself<I>(g: &ModuleGraph, li: I, ri: &[ModuleId]) -> Option<ModuleId>
+fn check_itself<I>(b: &PlanBuilder, li: I, ri: &[ModuleId]) -> Option<ModuleId>
 where
     I: IntoIterator<Item = ModuleId>,
 {
+    let g = &b.direct_deps;
     for l in li {
         // Root
         if g.neighbors_directed(l, Incoming).count() == 0 {
@@ -73,15 +75,19 @@ where
     None
 }
 
-fn check_itself_and_parent(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId> {
-    if let Some(id) = check_itself(g, li.iter().copied(), ri) {
+fn check_itself_and_parent(b: &PlanBuilder, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId> {
+    let g = &b.direct_deps;
+
+    if let Some(id) = check_itself(b, li.iter().copied(), ri) {
         return Some(id);
     }
 
     for &l in li {
         if let Some(id) = check_itself_and_parent(
-            g,
-            &g.neighbors_directed(l, Incoming).collect::<Vec<_>>(),
+            b,
+            &g.neighbors_directed(l, Incoming)
+                .filter(|&id| !b.is_circular(id))
+                .collect::<Vec<_>>(),
             ri,
         ) {
             return Some(id);
@@ -90,8 +96,10 @@ fn check_itself_and_parent(g: &ModuleGraph, li: &[ModuleId], ri: &[ModuleId]) ->
 
     for &r in ri {
         if let Some(id) = check_itself_and_parent(
-            g,
-            &g.neighbors_directed(r, Incoming).collect::<Vec<_>>(),
+            b,
+            &g.neighbors_directed(r, Incoming)
+                .filter(|&id| !b.is_circular(id))
+                .collect::<Vec<_>>(),
             li,
         ) {
             return Some(id);
