@@ -2,7 +2,15 @@
 
 #![feature(test)]
 use swc_common::chain;
-use swc_ecma_transforms::{optimization::simplifier, resolver};
+use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms::{
+    optimization::{
+        simplifier,
+        simplify::{dce::dce, inlining::inlining},
+    },
+    resolver,
+    typescript::strip,
+};
 
 #[macro_use]
 mod common;
@@ -443,3 +451,46 @@ fn test_template_strings_known_methods() {
     test("x = parseInt(`123`)", "x = 123");
     test("x = parseFloat(`1.23`)", "x = 1.23");
 }
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        strip(),
+        resolver(),
+        dce(Default::default()),
+        inlining(Default::default())
+    ),
+    issue_1156_1,
+    "
+    interface D {
+        resolve: any;
+        reject: any;
+    }
+    
+    function d(): D {
+        let methods;
+        const promise = new Promise((resolve, reject) => {
+          methods = { resolve, reject };
+        });
+        return Object.assign(promise, methods);
+    }
+
+    class A {
+        private s: D = d();
+      
+        a() {
+            this.s.resolve();
+        }
+      
+        b() {
+            this.s = d();
+        }
+    }
+      
+    new A();
+    ",
+    ""
+);

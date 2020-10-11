@@ -631,3 +631,96 @@ test!(
     }
     "
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    issue_1156_2,
+    "
+    interface D {
+        resolve: any;
+        reject: any;
+    }
+    
+    function d(): D {
+        let methods;
+        const promise = new Promise((resolve, reject) => {
+          methods = { resolve, reject };
+        });
+        return Object.assign(promise, methods);
+    }
+
+    class A {
+        private s: D = d();
+      
+        a() {
+            this.s.resolve();
+        }
+      
+        b() {
+            this.s = d();
+        }
+    }
+      
+    new A();
+    ",
+    ""
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    issue_1156_3,
+    "
+    function d() {
+        let methods;
+        const promise = new Promise((resolve, reject) => {
+          methods = { resolve, reject };
+        });
+        return Object.assign(promise, methods);
+    }
+
+    d()
+    ",
+    ""
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    issue_1156_4,
+    "
+    interface D {
+        resolve: any;
+        reject: any;
+    }
+    
+    function d(): D {
+        let methods;
+        const promise = new Promise((resolve, reject) => {
+          methods = { resolve, reject };
+        });
+        return Object.assign(promise, methods);
+    }
+
+    class A {
+        private s: D = d();
+      
+        a() {
+            this.s.resolve();
+        }
+    }
+      
+    new A();
+    ",
+    ""
+);
