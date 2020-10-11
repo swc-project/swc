@@ -158,7 +158,7 @@ impl VisitMut for Dce<'_> {
 
         if self.marking_phase || self.included.contains(&node.ident.to_id()) {
             node.class.span = node.class.span.apply_mark(self.config.used_mark);
-            self.mark(&mut node.class.super_class);
+            self.mark(&mut node.class);
         }
 
         node.visit_mut_children_with(self)
