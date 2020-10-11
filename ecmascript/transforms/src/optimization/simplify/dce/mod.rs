@@ -542,6 +542,19 @@ impl VisitMut for Dce<'_> {
         self.mark(&mut node.arg);
     }
 
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        if self.is_marked(d.span) {
+            return;
+        }
+
+        if d.init.is_none() {
+            d.span = d.span.apply_mark(self.config.used_mark);
+            self.mark(&mut d.name);
+        }
+
+        d.visit_mut_children_with(self);
+    }
+
     fn visit_mut_var_decl(&mut self, mut var: &mut VarDecl) {
         if self.is_marked(var.span) {
             return;
