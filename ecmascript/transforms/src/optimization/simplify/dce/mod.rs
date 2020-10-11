@@ -2,7 +2,7 @@ use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
-use std::{any::type_name, borrow::Cow, mem::take};
+use std::{any::type_name, borrow::Cow, fmt::Debug, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -614,7 +614,7 @@ impl VisitMut for Dce<'_> {
 impl Dce<'_> {
     fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
-        T: StmtLike + VisitMutWith<Self> + Spanned + std::fmt::Debug,
+        T: Debug + StmtLike + VisitMutWith<Self> + Spanned + std::fmt::Debug,
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
         Vec<T>: VisitMutWith<Self>,
     {
@@ -673,6 +673,7 @@ impl Dce<'_> {
                 };
 
                 if !preserved.contains(&idx) {
+                    log::trace!("Dropping {}: {:?}", idx, item);
                     self.dropped = true;
                     idx += 1;
                     return None;
