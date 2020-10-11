@@ -2,7 +2,10 @@
 
 #![feature(test)]
 use swc_common::chain;
-use swc_ecma_transforms::{optimization::simplify::inlining::inlining, resolver};
+use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms::{
+    optimization::simplify::inlining::inlining, resolver, typescript::strip,
+};
 
 #[macro_use]
 mod common;
@@ -2132,3 +2135,38 @@ fn test_tagged_template_literals() {
         ),
     );
 }
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    issue_1156_1,
+    "
+    export interface D {
+        resolve: any;
+        reject: any;
+    }
+      
+    export function d(): D {
+        let methods;
+        const promise = new Promise((resolve, reject) => {
+            methods = { resolve, reject };
+        });
+        return Object.assign(promise, methods);
+    }
+    ",
+    "
+    export function d() {
+        let methods;
+        const promise = new Promise((resolve, reject)=>{
+            methods = {
+                resolve,
+                reject
+            };
+        });
+        return Object.assign(promise, methods);
+    }
+    "
+);
