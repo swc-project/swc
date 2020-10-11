@@ -2,7 +2,7 @@ use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
-use std::{any::type_name, borrow::Cow, mem::take};
+use std::{any::type_name, borrow::Cow, fmt::Debug, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -158,7 +158,7 @@ impl VisitMut for Dce<'_> {
 
         if self.marking_phase || self.included.contains(&node.ident.to_id()) {
             node.class.span = node.class.span.apply_mark(self.config.used_mark);
-            self.mark(&mut node.class.super_class);
+            self.mark(&mut node.class);
         }
 
         node.visit_mut_children_with(self)
@@ -542,6 +542,14 @@ impl VisitMut for Dce<'_> {
         self.mark(&mut node.arg);
     }
 
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        if self.is_marked(d.span) {
+            return;
+        }
+
+        d.visit_mut_children_with(self);
+    }
+
     fn visit_mut_var_decl(&mut self, mut var: &mut VarDecl) {
         if self.is_marked(var.span) {
             return;
@@ -594,6 +602,10 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        if !self.decl_dropping_phase {
+            n.visit_mut_children_with(self);
+            return;
+        }
         self.visit_mut_stmt_like(n)
     }
 }
@@ -601,7 +613,7 @@ impl VisitMut for Dce<'_> {
 impl Dce<'_> {
     fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
-        T: StmtLike + VisitMutWith<Self> + Spanned + std::fmt::Debug,
+        T: Debug + StmtLike + VisitMutWith<Self> + Spanned + std::fmt::Debug,
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
         Vec<T>: VisitMutWith<Self>,
     {
@@ -660,6 +672,7 @@ impl Dce<'_> {
                 };
 
                 if !preserved.contains(&idx) {
+                    log::trace!("Dropping {}: {:?}", idx, item);
                     self.dropped = true;
                     idx += 1;
                     return None;

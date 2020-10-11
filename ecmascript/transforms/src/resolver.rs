@@ -768,10 +768,12 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
         p.decorators.visit_mut_with(self);
 
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        p.key.visit_mut_with(self);
-        self.ident_type = old;
+        if p.computed {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            p.key.visit_mut_with(self);
+            self.ident_type = old;
+        }
 
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;

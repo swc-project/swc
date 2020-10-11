@@ -100,6 +100,19 @@ impl Visit for SideEffectVisitor<'_> {
         node.visit_children_with(self)
     }
 
+    fn visit_var_declarator(&mut self, n: &VarDeclarator, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        if n.init.is_none() {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         if self.found {
             return;
