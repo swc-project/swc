@@ -547,11 +547,6 @@ impl VisitMut for Dce<'_> {
             return;
         }
 
-        if d.init.is_none() {
-            d.span = d.span.apply_mark(self.config.used_mark);
-            self.mark(&mut d.name);
-        }
-
         d.visit_mut_children_with(self);
     }
 
@@ -607,6 +602,10 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        if !self.decl_dropping_phase {
+            n.visit_mut_children_with(self);
+            return;
+        }
         self.visit_mut_stmt_like(n)
     }
 }
