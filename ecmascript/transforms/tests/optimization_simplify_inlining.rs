@@ -2170,3 +2170,62 @@ test!(
     }
     "
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    issue_1156_2,
+    "
+    interface D {
+        resolve: any;
+        reject: any;
+    }
+    
+    function d(): D {
+        let methods;
+        const promise = new Promise((resolve, reject) => {
+          methods = { resolve, reject };
+        });
+        return Object.assign(promise, methods);
+    }
+
+    class A {
+        private s: D = d();
+      
+        a() {
+            this.s.resolve();
+        }
+      
+        b() {
+            this.s = d();
+        }
+    }
+      
+    new A();
+    ",
+    "
+    function d() {
+        let methods;
+        const promise = new Promise((resolve, reject)=>{
+            methods = {
+                resolve,
+                reject
+            };
+        });
+        return Object.assign(promise, methods);
+    }
+    class A {
+        s = d();
+        a() {
+            this.s.resolve();
+        }
+        b() {
+            this.s = d();
+        }
+    }
+    new A();
+    "
+);
