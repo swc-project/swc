@@ -23,7 +23,7 @@ serde_json = "1"
 string_enum = {version = "0.3", path = "../macros/string_enum"}
 swc = {path = "../"}
 swc_atoms = {path = "../atoms"}
-swc_bundler = {path = "../bundler"}
+swc_bundler = {path = "../bundler", features = ["concurrent"]}
 swc_common = {path = "../common"}
 swc_ecma_ast = {path = "../ecmascript/ast"}
 swc_ecma_codegen = {path = "../ecmascript/codegen"}
