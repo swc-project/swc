@@ -16,6 +16,7 @@ use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
@@ -77,6 +78,8 @@ where
 
             // We handle this kind of modules specially.
             if self.scope.should_be_wrapped_with_a_fn(info.id) {
+                dbg!(&info.exports);
+                dbg!(&info.imports);
                 return Ok(entry);
             }
 
@@ -151,10 +154,7 @@ where
                                     // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
 
                                     let is_acccessed_with_computed_key =
-                                        specifiers.iter().any(|s| match s {
-                                            Specifier::Namespace { all: true, .. } => true,
-                                            _ => false,
-                                        });
+                                        self.scope.should_be_wrapped_with_a_fn(dep_info.id);
 
                                     // If an import with a computed key exists, we can't shake tree
                                     if is_acccessed_with_computed_key {
@@ -417,6 +417,15 @@ where
         });
 
         entry.visit_mut_with(&mut DefaultRenamer);
+
+        print_hygiene(
+            "done-clean",
+            &self.cm,
+            &entry
+                .clone()
+                .fold_with(&mut hygiene())
+                .fold_with(&mut fixer(None)),
+        );
     }
 }
 

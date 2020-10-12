@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use std::io::{stderr, Write};
-use swc_common::{sync::Lrc, SourceMap};
+use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::{Ident, Module};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
@@ -30,6 +30,9 @@ impl Fold for HygieneVisualizer {
     noop_fold_type!();
 
     fn fold_ident(&mut self, node: Ident) -> Ident {
+        if node.span.ctxt == SyntaxContext::empty() {
+            return node;
+        }
         Ident {
             sym: format!("{}{:?}", node.sym, node.span.ctxt()).into(),
             ..node
