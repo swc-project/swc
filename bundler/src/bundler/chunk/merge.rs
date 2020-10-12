@@ -184,8 +184,11 @@ where
                                         .unwrap();
 
                                     dep = self.wrap_esm_as_a_var(
-                                        &dep_info,
+                                        plan,
+                                        module_plan,
                                         dep,
+                                        &dep_info,
+                                        merged,
                                         id.clone().replace_mark(dep_info.mark()).into_ident(),
                                     )?;
                                 } else {
