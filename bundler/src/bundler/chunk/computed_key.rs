@@ -1,4 +1,8 @@
-use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
+use super::plan::Plan;
+use crate::{
+    bundler::load::TransformedModule, debug::print_hygiene, util::CHashSet, Bundler, Load,
+    ModuleId, Resolve,
+};
 use anyhow::Error;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -6,8 +10,6 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
-
-use super::plan::{NormalPlan, Plan};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -33,7 +35,6 @@ where
     pub(super) fn wrap_esm_as_a_var(
         &self,
         plan: &Plan,
-        module_plan: &NormalPlan,
         module: Module,
         info: &TransformedModule,
         merged: &CHashSet<ModuleId>,
@@ -102,7 +103,17 @@ where
             body: module_items,
         };
 
+        let module_plan;
+        let module_plan = match plan.normal.get(&info.id) {
+            Some(v) => v,
+            None => {
+                module_plan = Default::default();
+                &module_plan
+            }
+        };
         let module = self.merge_imports(&plan, module_plan, module, info, merged, false)?;
+
+        print_hygiene("Imports", &self.cm, &module);
 
         Ok(module)
     }

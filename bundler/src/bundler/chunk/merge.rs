@@ -76,11 +76,6 @@ where
                 return Ok(entry);
             }
 
-            // We handle this kind of modules specially.
-            // if self.scope.should_be_wrapped_with_a_fn(info.id) {
-            //     return Ok(entry);
-            // }
-
             log::debug!(
                 "Merge: ({}) {} <= {:?}",
                 info.id,
@@ -90,6 +85,11 @@ where
 
             self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
+
+            // We handle this kind of modules specially.
+            if self.scope.should_be_wrapped_with_a_fn(info.id) {
+                return Ok(entry);
+            }
 
             // print_hygiene("after: merge_reexports", &self.cm, &entry);
 
@@ -185,7 +185,6 @@ where
 
                                     dep = self.wrap_esm_as_a_var(
                                         plan,
-                                        module_plan,
                                         dep,
                                         &dep_info,
                                         merged,

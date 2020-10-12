@@ -110,7 +110,7 @@ where
                 });
 
                 if let Some(id) = id_of_export_namespace_from {
-                    dep = self.wrap_esm_as_a_var(plan, nomral_plan, dep, info, merged, id)?;
+                    dep = self.wrap_esm_as_a_var(plan, dep, &imported, merged, id)?;
                 } else {
                     dep = self.remark_exports(dep, src.ctxt, None, false);
                 }
