@@ -127,7 +127,7 @@ where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
+    fn ctxt_for(&self, src: &JsWord) -> Option<SyntaxContext> {
         // Don't apply mark if it's a core module.
         if self
             .bundler

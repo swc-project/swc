@@ -4,7 +4,7 @@ use super::{
 };
 use crate::{id::Id, load::Load, resolve::Resolve};
 use std::collections::HashMap;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -63,7 +63,7 @@ where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
+    fn ctxt_for(&self, src: &JsWord) -> Option<SyntaxContext> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -178,7 +178,7 @@ where
                 let ctxt = named
                     .src
                     .as_ref()
-                    .map(|s| &*s.value)
+                    .map(|s| &s.value)
                     .and_then(|src| self.ctxt_for(src));
 
                 let v = self.info.items.entry(named.src.clone()).or_default();
