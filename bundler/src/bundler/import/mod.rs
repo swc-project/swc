@@ -1,5 +1,5 @@
 use super::Bundler;
-use crate::{load::Load, resolve::Resolve, ModuleId};
+use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use std::{
     collections::{HashMap, HashSet},
@@ -26,14 +26,12 @@ where
         &self,
         path: &FileName,
         module: &mut Module,
-        module_id: ModuleId,
         module_mark: Mark,
     ) -> RawImports {
         self.run(|| {
             let body = replace(&mut module.body, vec![]);
 
             let mut v = ImportHandler {
-                module_id,
                 module_ctxt: SyntaxContext::empty().apply_mark(module_mark),
                 path,
                 bundler: self,
@@ -107,7 +105,6 @@ where
     L: Load,
     R: Resolve,
 {
-    module_id: ModuleId,
     /// The [SyntaxContext] for the top level module items.
     //// The top level module items includes imported bindings.
     module_ctxt: SyntaxContext,
@@ -146,6 +143,27 @@ where
         let ctxt = SyntaxContext::empty();
 
         Some(ctxt.apply_mark(mark))
+    }
+
+    fn mark_as_wrapping_required(&self, src: &JsWord) {
+        // Don't apply mark if it's a core module.
+        if self
+            .bundler
+            .config
+            .external_modules
+            .iter()
+            .any(|v| v == src)
+        {
+            return;
+        }
+        let path = self.bundler.resolve(self.path, src);
+        let path = match path {
+            Ok(v) => v,
+            Err(_) => return,
+        };
+        let (id, _) = self.bundler.scope.module_id_gen.gen(&path);
+
+        self.bundler.scope.mark_as_wrapping_required(id);
     }
 }
 
@@ -271,11 +289,12 @@ where
         });
 
         if self.deglob_phase {
+            let mut wrapping_required = vec![];
             for import in self.info.imports.iter_mut() {
                 let use_ns = self.info.forced_ns.contains(&import.src.value);
 
                 if use_ns {
-                    self.bundler.scope.mark_as_wrapping_required(self.module_id);
+                    wrapping_required.push(import.src.value.clone());
 
                     import.specifiers.retain(|s| match s {
                         ImportSpecifier::Namespace(_) => true,
@@ -294,6 +313,10 @@ where
                         _ => true,
                     });
                 }
+            }
+
+            for id in wrapping_required {
+                self.mark_as_wrapping_required(&id);
             }
         }
 
