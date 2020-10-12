@@ -1,5 +1,5 @@
 use super::Bundler;
-use crate::{load::Load, resolve::Resolve};
+use crate::{load::Load, resolve::Resolve, ModuleId};
 use anyhow::{Context, Error};
 use std::{
     collections::{HashMap, HashSet},
@@ -26,12 +26,14 @@ where
         &self,
         path: &FileName,
         module: &mut Module,
+        module_id: ModuleId,
         module_mark: Mark,
     ) -> RawImports {
         self.run(|| {
             let body = replace(&mut module.body, vec![]);
 
             let mut v = ImportHandler {
+                module_id,
                 module_ctxt: SyntaxContext::empty().apply_mark(module_mark),
                 path,
                 bundler: self,
@@ -105,6 +107,7 @@ where
     L: Load,
     R: Resolve,
 {
+    module_id: ModuleId,
     /// The [SyntaxContext] for the top level module items.
     //// The top level module items includes imported bindings.
     module_ctxt: SyntaxContext,
@@ -272,6 +275,8 @@ where
                 let use_ns = self.info.forced_ns.contains(&import.src.value);
 
                 if use_ns {
+                    self.bundler.scope.mark_as_wrapping_required(self.module_id);
+
                     import.specifiers.retain(|s| match s {
                         ImportSpecifier::Namespace(_) => true,
                         _ => false,

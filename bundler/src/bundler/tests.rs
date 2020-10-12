@@ -70,6 +70,7 @@ impl<'a> Tester<'a> {
             .unwrap_or_else(|| panic!("failed to find module named {}", name))
     }
 
+    #[allow(dead_code)]
     pub fn parse(&self, s: &str) -> Module {
         let fm = self
             .cm
@@ -85,6 +86,7 @@ impl<'a> Tester<'a> {
         parser.parse_module().unwrap()
     }
 
+    #[allow(dead_code)]
     pub fn assert_eq(&self, m: &Module, expected: &str) {
         let expected = self.parse(expected);
 

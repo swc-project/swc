@@ -1,5 +1,3 @@
-use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
-
 use super::{export::Exports, helpers::Helpers, Bundler};
 use crate::{
     bundler::{export::RawExports, import::RawImports},
@@ -36,8 +34,6 @@ pub(super) struct TransformedModule {
     pub helpers: Lrc<Helpers>,
 
     mark: Mark,
-
-    accessed_with_computed_key: Lrc<AtomicBool>,
 }
 
 impl TransformedModule {
@@ -48,15 +44,6 @@ impl TransformedModule {
 
     pub fn ctxt(&self) -> SyntaxContext {
         SyntaxContext::empty().apply_mark(self.mark)
-    }
-
-    /// Set the module as
-    pub fn mark_as_wrapped(&self) {
-        self.accessed_with_computed_key.store(true, SeqCst);
-    }
-
-    pub fn should_be_wrapped(&self) -> bool {
-        self.accessed_with_computed_key.load(SeqCst)
     }
 }
 
@@ -150,7 +137,7 @@ where
             //     println!("Resolved:\n{}\n\n", code);
             // }
 
-            let imports = self.extract_import_info(file_name, &mut module, mark);
+            let imports = self.extract_import_info(file_name, &mut module, id, mark);
 
             // {
             //     let code = self

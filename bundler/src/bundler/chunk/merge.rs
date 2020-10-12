@@ -1,6 +1,7 @@
 use super::plan::Plan;
 use crate::{
     bundler::load::{Imports, Specifier},
+    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -71,6 +72,11 @@ where
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
             if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
+                return Ok(entry);
+            }
+
+            // We handle this kind of modules specially.
+            if self.scope.should_be_wrapped_with_a_fn(info.id) {
                 return Ok(entry);
             }
 
@@ -348,7 +354,6 @@ where
             // }
 
             if is_entry {
-                // print_hygiene("done", &self.cm, &entry);
                 self.finalize_merging_of_entry(plan, &mut entry);
             }
 
@@ -357,7 +362,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
