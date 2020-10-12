@@ -1,8 +1,5 @@
 use super::plan::Plan;
-use crate::{
-    bundler::load::TransformedModule, debug::print_hygiene, util::CHashSet, Bundler, Load,
-    ModuleId, Resolve,
-};
+use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
 use anyhow::Error;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -112,8 +109,7 @@ where
             }
         };
         let module = self.merge_imports(&plan, module_plan, module, info, merged, false)?;
-
-        print_hygiene("Imports", &self.cm, &module);
+        // print_hygiene("Imports", &self.cm, &module);
 
         Ok(module)
     }
