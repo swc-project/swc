@@ -23,7 +23,7 @@
 //             deglob_phase: false,
 //             imported_idents: Default::default(),
 //             module_ctxt:
-// SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),             
+// SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
 // idents_to_deglob: Default::default(),         };
 //         let m = m.fold_with(&mut v);
 //         assert!(v.info.forced_ns.is_empty());
@@ -55,7 +55,7 @@
 //             deglob_phase: false,
 //             imported_idents: Default::default(),
 //             module_ctxt:
-// SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),             
+// SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
 // idents_to_deglob: Default::default(),         };
 //         let m = m.fold_with(&mut v);
 //         assert!(v.info.forced_ns.is_empty());
