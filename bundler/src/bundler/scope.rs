@@ -48,6 +48,7 @@ impl Scope {
     pub fn mark_as_wrapping_required(&self, id: ModuleId) {
         if let Some(v) = self.accessed_with_computed_key.get(&id) {
             v.store(true, Ordering::SeqCst);
+            return;
         }
 
         self.accessed_with_computed_key
