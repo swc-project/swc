@@ -26,7 +26,10 @@ struct PlanBuilder {
     /// This contains all dependencies, including transitive ones. For example,
     /// if `a` dependes on `b` and `b` depdends on `c`, all of
     ///  `(a, b)`, `(a, c)`,`(b, c)` will be inserted.
-    all_deps: HashSet<(ModuleId, ModuleId)>,
+    ///
+    /// `bool` is `true` if it's connected only with exports.
+    /// If at least one relation is created by import, it will be `false`.
+    all_deps: HashMap<(ModuleId, ModuleId), bool>,
 
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
@@ -168,7 +171,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, &mut vec![]);
+            self.add_to_graph(&mut builder, module.id, &mut vec![], true);
         }
 
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
@@ -314,8 +317,17 @@ where
                             };
 
                             if dependants.len() == 2 && dependants.contains(&higher_module) {
-                                let mut entry =
-                                    *dependants.iter().find(|&&v| v != higher_module).unwrap();
+                                let is_reexport = builder
+                                    .all_deps
+                                    .get(&(higher_module, dep))
+                                    .copied()
+                                    .unwrap_or(false);
+
+                                let mut entry = if is_reexport {
+                                    higher_module
+                                } else {
+                                    *dependants.iter().find(|&&v| v != higher_module).unwrap()
+                                };
 
                                 // We choose higher node if import is circular
                                 if builder.is_circular(entry) {
@@ -436,6 +448,7 @@ where
         builder: &mut PlanBuilder,
         module_id: ModuleId,
         path: &mut Vec<ModuleId>,
+        is_in_reexports: bool,
     ) {
         builder.direct_deps.add_node(module_id);
 
@@ -444,12 +457,12 @@ where
             .get_module(module_id)
             .expect("failed to get module");
 
-        for src in m
+        for (src, is_export) in m
             .imports
             .specifiers
             .iter()
-            .map(|v| &v.0)
-            .chain(m.exports.reexports.iter().map(|v| &v.0))
+            .map(|v| (&v.0, false))
+            .chain(m.exports.reexports.iter().map(|v| (&v.0, true)))
         {
             if !builder.direct_deps.contains_edge(module_id, src.module_id) {
                 log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
@@ -458,20 +471,24 @@ where
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
 
             for &id in &*path {
-                builder.all_deps.insert((id, src.module_id));
+                builder
+                    .all_deps
+                    .insert((id, src.module_id), is_in_reexports && is_export);
             }
-            builder.all_deps.insert((module_id, src.module_id));
+            builder
+                .all_deps
+                .insert((module_id, src.module_id), is_in_reexports && is_export);
 
-            if !builder.all_deps.contains(&(src.module_id, module_id)) {
+            if !builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 path.push(module_id);
-                self.add_to_graph(builder, src.module_id, path);
+                self.add_to_graph(builder, src.module_id, path, is_in_reexports && is_export);
                 assert_eq!(path.pop(), Some(module_id));
             }
         }
 
         // Prevent dejavu
         for (src, _) in &m.imports.specifiers {
-            if builder.all_deps.contains(&(src.module_id, module_id)) {
+            if builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 log::debug!("Circular dep: {:?} => {:?}", module_id, src.module_id);
 
                 builder.mark_as_circular(module_id, src.module_id);
