@@ -27,8 +27,7 @@ struct PlanBuilder {
     /// if `a` dependes on `b` and `b` depdends on `c`, all of
     ///  `(a, b)`, `(a, c)`,`(b, c)` will be inserted.
     ///
-    /// `bool` is `true` if it's connected only with exports.
-    /// If at least one relation is created by import, it will be `false`.
+    /// `bool` is `true` if it's connected with exports.
     all_deps: HashMap<(ModuleId, ModuleId), bool>,
 
     /// Graph to compute direct dependencies (direct means it will be merged
@@ -255,6 +254,12 @@ where
                     if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                         log::debug!("{:?} depends on {:?}", entry, dep);
 
+                        let is_reexport = builder
+                            .all_deps
+                            .get(&(entry, dep))
+                            .copied()
+                            .unwrap_or(false);
+
                         // Common js support.
                         if !is_es6 {
                             // Dependancy of
@@ -317,12 +322,6 @@ where
                             };
 
                             if dependants.len() == 2 && dependants.contains(&higher_module) {
-                                let is_reexport = builder
-                                    .all_deps
-                                    .get(&(higher_module, dep))
-                                    .copied()
-                                    .unwrap_or(false);
-
                                 let mut entry = if is_reexport {
                                     higher_module
                                 } else {
@@ -465,7 +464,13 @@ where
             .chain(m.exports.reexports.iter().map(|v| (&v.0, true)))
         {
             if !builder.direct_deps.contains_edge(module_id, src.module_id) {
-                log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
+                log::debug!(
+                    "Dependency: {:?} => {:?}; in export = {:?}; export = {:?}",
+                    module_id,
+                    src.module_id,
+                    is_in_reexports,
+                    is_export
+                );
             }
 
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
@@ -477,7 +482,7 @@ where
             }
             builder
                 .all_deps
-                .insert((module_id, src.module_id), is_in_reexports);
+                .insert((module_id, src.module_id), is_export);
 
             if !builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 path.push(module_id);
