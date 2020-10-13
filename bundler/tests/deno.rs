@@ -25,6 +25,11 @@ fn oak_6_3_1_mod() {
     bundle("https://deno.land/x/oak@v6.3.1/mod.ts");
 }
 
+#[test]
+fn std_0_74_9_http_server() {
+    bundle("https://deno.land/std@0.74.0/http/server.ts");
+}
+
 fn bundle(url: &str) -> Module {
     let result = testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
