@@ -34,17 +34,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - uses: actions/setup-node@v2-beta
         with:
           node-version: "12"
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Install node dependencies
         run: |
@@ -75,8 +70,10 @@ jobs:
         run: cargo check --color always --all --all-targets
 
       - name: Download typescript parser test suite
-        run: |
-          git clone --depth 1 https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc
+        uses: actions/checkout@v2
+        with:
+          repository: swc-project/ts-parser-test-ref
+          path: ecmascript/parser/tests/typescript/tsc
 
       - name: Run fast cargo test
         run: |
