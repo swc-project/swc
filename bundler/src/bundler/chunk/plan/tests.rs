@@ -908,7 +908,6 @@ fn circular_root_entry_2() {
 }
 
 #[test]
-#[ignore = "Not deterministic yet"]
 fn deno_003() {
     suite()
         .file(
