@@ -660,6 +660,8 @@ pub struct TsMappedType {
     #[serde(default)]
     pub readonly: Option<TruePlusMinus>,
     pub type_param: TsTypeParam,
+    #[serde(default, rename = "nameType")]
+    pub name_type: Option<Box<TsType>>,
     #[serde(default)]
     pub optional: Option<TruePlusMinus>,
     #[serde(default, rename = "typeAnnotation")]

@@ -1405,6 +1405,11 @@ impl<I: Tokens> Parser<I> {
 
         expect!('[');
         let type_param = self.parse_ts_mapped_type_param()?;
+        let name_type = if eat!("as") {
+            Some(self.parse_ts_type()?)
+        } else {
+            None
+        };
         expect!(']');
 
         let mut optional = None;
@@ -1429,6 +1434,7 @@ impl<I: Tokens> Parser<I> {
             readonly,
             optional,
             type_param,
+            name_type,
             type_ann,
         })
     }
