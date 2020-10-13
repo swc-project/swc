@@ -473,15 +473,15 @@ where
             for &id in &*path {
                 builder
                     .all_deps
-                    .insert((id, src.module_id), is_in_reexports && is_export);
+                    .insert((id, src.module_id), is_in_reexports);
             }
             builder
                 .all_deps
-                .insert((module_id, src.module_id), is_in_reexports && is_export);
+                .insert((module_id, src.module_id), is_in_reexports);
 
             if !builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 path.push(module_id);
-                self.add_to_graph(builder, src.module_id, path, is_in_reexports && is_export);
+                self.add_to_graph(builder, src.module_id, path, is_export);
                 assert_eq!(path.pop(), Some(module_id));
             }
         }
