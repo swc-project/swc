@@ -279,7 +279,7 @@ where
                             //
                             // a <- b
                             // a <- c
-                            let module = least_common_ancestor(&builder.direct_deps, &dependants);
+                            let module = least_common_ancestor(&builder, &dependants);
 
                             let normal_plan = plans.normal.entry(module).or_default();
 
@@ -310,7 +310,7 @@ where
                             {
                                 dependants[1]
                             } else {
-                                least_common_ancestor(&builder.direct_deps, &dependants)
+                                least_common_ancestor(&builder, &dependants)
                             };
 
                             if dependants.len() == 2 && dependants.contains(&higher_module) {

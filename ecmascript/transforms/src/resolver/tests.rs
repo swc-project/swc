@@ -1450,7 +1450,7 @@ new A();
     "
 );
 
-identical_ts!(
+to_ts!(
     ts_resolver_nested_type_ref,
     "
 import { Nullable } from 'nullable';
@@ -1458,6 +1458,15 @@ import { SomeOther } from 'some';
 import { Another } from 'some';
 class A extends Nullable {
     other: Nullable<Another>;
+}
+new A();
+    ",
+    "
+import { Nullable } from 'nullable';
+import { SomeOther } from 'some';
+import { Another } from 'some';
+class A extends Nullable {
+    other__0: Nullable<Another>;
 }
 new A();
     "

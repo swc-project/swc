@@ -227,7 +227,15 @@ impl<'a> VisitMut for Operator<'a> {
                     Ok(..) => {
                         *n = KeyValuePatProp {
                             key: PropName::Ident(p.key.take()),
-                            value: Box::new(Pat::Ident(renamed)),
+                            value: match p.value.take() {
+                                Some(default_expr) => Box::new(Pat::Assign(AssignPat {
+                                    span: p.span,
+                                    left: Box::new(Pat::Ident(renamed)),
+                                    right: default_expr,
+                                    type_ann: None,
+                                })),
+                                None => Box::new(Pat::Ident(renamed)),
+                            },
                         }
                         .into();
                     }

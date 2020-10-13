@@ -235,6 +235,8 @@ where
                             let dep_info = self.scope.get_module(id).unwrap();
                             let mut dep = self.merge_modules(plan, id, false, true, merged)?;
 
+                            // print_hygiene("transitive dep", &self.cm, &dep);
+
                             dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
                             dep = dep.fold_with(&mut Unexporter);
 
@@ -282,6 +284,7 @@ where
                     let mut injector = Es6ModuleInjector {
                         imported: take(&mut dep.body),
                         ctxt: dep_info.ctxt(),
+                        is_direct,
                     };
                     entry.body.visit_mut_with(&mut injector);
 
@@ -354,6 +357,8 @@ where
     }
 
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
+        // print_hygiene("done", &self.cm, &entry);
+
         entry.body.retain_mut(|item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
@@ -491,6 +496,7 @@ impl Fold for Unexporter {
 struct Es6ModuleInjector {
     imported: Vec<ModuleItem>,
     ctxt: SyntaxContext,
+    is_direct: bool,
 }
 
 impl VisitMut for Es6ModuleInjector {
@@ -503,10 +509,43 @@ impl VisitMut for Es6ModuleInjector {
         for item in items {
             //
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { span, .. }))
-                    if span.ctxt == self.ctxt =>
-                {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    span, specifiers, ..
+                })) if span.ctxt == self.ctxt => {
                     buf.extend(take(&mut self.imported));
+
+                    if !self.is_direct {
+                        let decls = specifiers
+                            .iter()
+                            .filter_map(|specifier| match specifier {
+                                ImportSpecifier::Named(ImportNamedSpecifier {
+                                    local,
+                                    imported: Some(imported),
+                                    ..
+                                }) => {
+                                    let mut imported = imported.clone();
+                                    imported.span = imported.span.with_ctxt(self.ctxt);
+
+                                    Some(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(local.clone()),
+                                        init: Some(Box::new(Expr::Ident(imported))),
+                                        definite: false,
+                                    })
+                                }
+                                _ => None,
+                            })
+                            .collect::<Vec<_>>();
+
+                        if !decls.is_empty() {
+                            buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Const,
+                                declare: false,
+                                decls,
+                            }))));
+                        }
+                    }
                 }
 
                 _ => buf.push(item),

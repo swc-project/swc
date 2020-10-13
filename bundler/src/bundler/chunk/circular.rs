@@ -101,7 +101,7 @@ where
             dep = dep.fold_with(&mut Unexporter);
 
             // Merge code
-            entry.body = merge_respecting_order(entry.body, dep.body);
+            entry.body = merge_respecting_order(dep.body, entry.body);
 
             // print_hygiene(
             //     "[circular] END :merge_two_circular_modules",
@@ -114,50 +114,50 @@ where
 }
 
 /// Originally, this method should create a dependency graph, but
-fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) -> Vec<ModuleItem> {
-    let mut new = Vec::with_capacity(entry.len() + dep.len());
+fn merge_respecting_order(mut dep: Vec<ModuleItem>, mut entry: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    let mut new = Vec::with_capacity(dep.len() + entry.len());
 
     // While looping over items from entry, we check for dependency.
     loop {
-        if entry.is_empty() {
-            log::trace!("entry is empty");
-            break;
-        }
-        let item = entry.drain(..=0).next().unwrap();
-
-        // Everything from  dep is injected
         if dep.is_empty() {
             log::trace!("dep is empty");
+            break;
+        }
+        let item = dep.drain(..=0).next().unwrap();
+
+        // Everything from  dep is injected
+        if entry.is_empty() {
+            log::trace!("dep is empty");
             new.push(item);
-            new.append(&mut entry);
+            new.append(&mut dep);
             break;
         }
 
         // If the code of entry depends on dependency, we insert dependency source code
         // at the position.
-        if let Some(pos) = dependency_index(&item, &dep) {
+        if let Some(pos) = dependency_index(&item, &entry) {
             log::trace!("Found depndency: {}", pos);
 
-            new.extend(dep.drain(..=pos));
+            new.extend(entry.drain(..=pos));
             new.push(item);
             continue;
         }
 
         // We checked the length of `dep`
-        if let Some(pos) = dependency_index(&dep[0], &[&item]) {
+        if let Some(pos) = dependency_index(&entry[0], &[&item]) {
             log::trace!("Found reverse depndency (index[0]): {}", pos);
 
             new.push(item);
-            new.extend(dep.drain(..=0));
+            new.extend(entry.drain(..=0));
             continue;
         }
 
-        if let Some(pos) = dependency_index(&dep[0], &entry) {
+        if let Some(pos) = dependency_index(&entry[0], &dep) {
             log::trace!("Found reverse depndency: {}", pos);
 
             new.push(item);
-            new.extend(entry.drain(..=pos));
-            new.extend(dep.drain(..=0));
+            new.extend(dep.drain(..=pos));
+            new.extend(entry.drain(..=0));
             continue;
         }
 
@@ -166,10 +166,10 @@ fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) 
         new.push(item);
     }
 
-    new.extend(entry);
+    new.extend(dep);
 
     // Append remaining statements.
-    new.extend(dep);
+    new.extend(entry);
 
     new
 }
