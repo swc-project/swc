@@ -224,6 +224,8 @@ where
             let root_entry = *root_entry;
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
+            let mut done = HashSet::new();
+
             while let Some(entry) = bfs.next(&builder.direct_deps) {
                 let deps: Vec<_> = builder
                     .direct_deps
@@ -231,6 +233,10 @@ where
                     .collect();
 
                 for &dep in &deps {
+                    if done.contains(&dep) {
+                        continue;
+                    }
+
                     if let Some(circular_members) = builder.circular.get(entry) {
                         if circular_members.contains(&dep) {
                             log::debug!(
@@ -239,6 +245,7 @@ where
                                 entry
                             );
                             if entry != root_entry && dep != root_entry {
+                                done.insert(dep);
                                 plans.normal.entry(entry).or_default().chunks.push(dep);
                             }
                             continue;
@@ -309,6 +316,17 @@ where
                             continue;
                         }
 
+                        if is_reexport {
+                            let normal_plan = plans.normal.entry(entry).or_default();
+                            if !normal_plan.chunks.contains(&dep) {
+                                done.insert(dep);
+
+                                log::trace!("Normal: {:?} => {:?}", entry, dep);
+                                normal_plan.chunks.push(dep);
+                            }
+                            continue;
+                        }
+
                         if 2 <= dependants.len() {
                             // Should be merged as a transitive dependency.
                             let higher_module = if plans.entries.contains(&dependants[0]) {
@@ -336,6 +354,7 @@ where
                                 let normal_plan = plans.normal.entry(entry).or_default();
                                 if !normal_plan.chunks.contains(&dep) {
                                     log::trace!("Normal: {:?} => {:?}", entry, dep);
+                                    done.insert(dep);
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
@@ -346,12 +365,14 @@ where
                                     .transitive_chunks;
                                 if !t.contains(&dep) {
                                     log::trace!("Transitive: {:?} => {:?}", entry, dep);
+                                    done.insert(dep);
                                     t.push(dep)
                                 }
                             }
                         } else {
                             // Direct dependency.
                             log::trace!("Normal: {:?} => {:?}", entry, dep);
+                            done.insert(dep);
                             plans.normal.entry(entry).or_default().chunks.push(dep);
                         }
 
