@@ -143,7 +143,45 @@ where
                         exports: &specifiers,
                     });
 
-                    // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                } else {
+                    // export * from './foo';
+                    let decls = imported
+                        .exports
+                        .items
+                        .iter()
+                        .chain(imported.exports.reexports.iter().map(|v| &*v.1).flatten())
+                        .map(|specifier| match specifier {
+                            Specifier::Specific { local, alias } => VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(
+                                    local.clone().replace_mark(info.mark()).into_ident(),
+                                ),
+                                init: Some(Box::new(Expr::Ident(
+                                    alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
+                                ))),
+                                definite: false,
+                            },
+                            Specifier::Namespace { local, .. } => VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(
+                                    local.clone().replace_mark(info.mark()).into_ident(),
+                                ),
+                                init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
+                                definite: false,
+                            },
+                        })
+                        .collect::<Vec<_>>();
+
+                    if !decls.is_empty() {
+                        dep.body
+                            .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Const,
+                                declare: false,
+                                decls,
+                            }))));
+                    }
                 }
 
                 Ok(Some((src, dep)))
