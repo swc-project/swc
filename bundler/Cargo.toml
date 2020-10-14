@@ -36,6 +36,7 @@ swc_ecma_visit = {version = "0.19.0", path = "../ecmascript/visit"}
 
 [dev-dependencies]
 reqwest = {version = "0.10.8", features = ["blocking"]}
+tempfile = "3.1.0"
 testing = {version = "0.10.0", path = "../testing"}
 url = "2.1.1"
 walkdir = "2"
