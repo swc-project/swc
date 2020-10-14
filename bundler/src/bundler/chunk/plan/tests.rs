@@ -944,9 +944,14 @@ fn deno_003() {
 
             assert_normal(t, &p, "main", &["async-mod"]);
 
-            assert_normal(t, &p, "async-mod", &["async-mux_async_iterator"]);
+            assert_normal(
+                t,
+                &p,
+                "async-mod",
+                &["async-deferred", "async-mux_async_iterator"],
+            );
 
-            assert_normal(t, &p, "async-mux_async_iterator", &["async-deferred"]);
+            assert_normal(t, &p, "async-mux_async_iterator", &[]);
 
             Ok(())
         });
