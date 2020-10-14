@@ -234,10 +234,6 @@ where
                 deps.sort();
 
                 for &dep in &deps {
-                    if done.contains(&dep) {
-                        continue;
-                    }
-
                     if let Some(circular_members) = builder.circular.get(entry) {
                         if circular_members.contains(&dep) {
                             log::debug!(
@@ -251,6 +247,10 @@ where
                             }
                             continue;
                         }
+                    }
+
+                    if done.contains(&dep) {
+                        continue;
                     }
 
                     let is_es6 = self.scope.get_module(entry).unwrap().is_es6;
