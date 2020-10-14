@@ -70,7 +70,7 @@ fn bundle(url: &str) -> String {
                 Resolver,
                 swc_bundler::Config {
                     require: false,
-                    disable_inliner: true,
+                    disable_inliner: false,
                     ..Default::default()
                 },
                 Box::new(Hook),
