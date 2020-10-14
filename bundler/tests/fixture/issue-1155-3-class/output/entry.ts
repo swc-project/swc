@@ -1,6 +1,7 @@
 class a {
 }
+const a1 = a;
 function b() {
-    return new a();
+    return new a1();
 }
 b();
