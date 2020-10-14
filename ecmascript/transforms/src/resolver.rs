@@ -8,7 +8,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
@@ -447,8 +447,11 @@ impl<'a> VisitMut for Resolver<'a> {
         }
         self.in_type = true;
         param.name.visit_mut_with(self);
+
+        let ident_type = self.ident_type;
         param.default.visit_mut_with(self);
         param.constraint.visit_mut_with(self);
+        self.ident_type = ident_type;
     }
 
     fn visit_mut_ts_construct_signature_decl(&mut self, decl: &mut TsConstructSignatureDecl) {
