@@ -1,6 +1,7 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Imports, Specifier, TransformedModule},
+    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -15,6 +16,7 @@ use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
@@ -130,8 +132,6 @@ where
             })
             .collect();
 
-        dbg!(&to_merge);
-
         let (deps, transitive_deps) = util::join(
             || {
                 to_merge
@@ -211,12 +211,6 @@ where
                                             true,
                                         );
                                     }
-
-                                    // print_hygiene(
-                                    //     "dep: after remarking exports",
-                                    //     &self.cm,
-                                    //     &dep,
-                                    // );
                                 }
                                 // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
 
@@ -314,7 +308,11 @@ where
                 if injector.imported.is_empty() {
                     // print_hygiene("entry:after:injection", &self.cm, &entry);
 
-                    log::debug!("Merged {} as an es module", info.fm.name);
+                    log::debug!(
+                        "Merged {} into {} as an es module",
+                        dep_info.fm.name,
+                        info.fm.name,
+                    );
                     // print_hygiene(
                     //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
                     //     &self.cm,
@@ -378,7 +376,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
@@ -434,14 +432,14 @@ where
 
         entry.visit_mut_with(&mut DefaultRenamer);
 
-        // print_hygiene(
-        //     "done-clean",
-        //     &self.cm,
-        //     &entry
-        //         .clone()
-        //         .fold_with(&mut hygiene())
-        //         .fold_with(&mut fixer(None)),
-        // );
+        print_hygiene(
+            "done-clean",
+            &self.cm,
+            &entry
+                .clone()
+                .fold_with(&mut hygiene())
+                .fold_with(&mut fixer(None)),
+        );
     }
 }
 
