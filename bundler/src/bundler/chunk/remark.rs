@@ -442,7 +442,7 @@ impl Fold for ExportRenamer<'_> {
                 }
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) => {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(mut decl)) => {
                 //
                 return match decl.decl {
                     Decl::TsInterface(_)
@@ -450,15 +450,12 @@ impl Fold for ExportRenamer<'_> {
                     | Decl::TsEnum(_)
                     | Decl::TsModule(_) => ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)),
 
-                    Decl::Class(c) => {
-                        c.ident.visit_with(
-                            &Invalid { span: DUMMY_SP },
-                            &mut ActualMarker {
-                                dep_ctxt: self.dep_ctxt,
-                                imports: self.imports,
-                                remarks: &mut self.remark_map,
-                            },
-                        );
+                    Decl::Class(mut c) => {
+                        c.ident.visit_mut_with(&mut ActualMarker {
+                            dep_ctxt: self.dep_ctxt,
+                            imports: self.imports,
+                            remarks: &mut self.remark_map,
+                        });
 
                         if self.unexport {
                             Stmt::Decl(Decl::Class(c)).into()
@@ -469,15 +466,12 @@ impl Fold for ExportRenamer<'_> {
                             }))
                         }
                     }
-                    Decl::Fn(f) => {
-                        f.ident.visit_with(
-                            &Invalid { span: DUMMY_SP },
-                            &mut ActualMarker {
-                                dep_ctxt: self.dep_ctxt,
-                                imports: self.imports,
-                                remarks: &mut self.remark_map,
-                            },
-                        );
+                    Decl::Fn(mut f) => {
+                        f.ident.visit_mut_with(&mut ActualMarker {
+                            dep_ctxt: self.dep_ctxt,
+                            imports: self.imports,
+                            remarks: &mut self.remark_map,
+                        });
                         if self.unexport {
                             Stmt::Decl(Decl::Fn(f)).into()
                         } else {
@@ -487,15 +481,12 @@ impl Fold for ExportRenamer<'_> {
                             }))
                         }
                     }
-                    Decl::Var(ref v) => {
-                        v.decls.visit_with(
-                            &Invalid { span: DUMMY_SP },
-                            &mut ActualMarker {
-                                dep_ctxt: self.dep_ctxt,
-                                imports: self.imports,
-                                remarks: &mut self.remark_map,
-                            },
-                        );
+                    Decl::Var(ref mut v) => {
+                        v.decls.visit_mut_with(&mut ActualMarker {
+                            dep_ctxt: self.dep_ctxt,
+                            imports: self.imports,
+                            remarks: &mut self.remark_map,
+                        });
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl))
                     }
@@ -527,12 +518,12 @@ struct ActualMarker<'a, 'b> {
 }
 
 impl ActualMarker<'_, '_> {
-    fn rename(&mut self, ident: &Ident) {
+    fn rename(&mut self, ident: &mut Ident) {
         if self.imports.is_none() {
             return;
         }
 
-        if let Some(ident) = self.imports.as_ref().unwrap().iter().find_map(|s| match s {
+        if let Some(id) = self.imports.as_ref().unwrap().iter().find_map(|s| match s {
             Specifier::Specific {
                 alias: Some(alias),
                 local,
@@ -542,28 +533,25 @@ impl ActualMarker<'_, '_> {
             }
             _ => None,
         }) {
-            self.remarks.insert(ident.to_id(), self.dep_ctxt);
+            ident.sym = id.0.clone();
+            self.remarks.insert(id, self.dep_ctxt);
         }
     }
 }
 
-impl Visit for ActualMarker<'_, '_> {
-    noop_visit_type!();
+impl VisitMut for ActualMarker<'_, '_> {
+    noop_visit_mut_type!();
 
-    fn visit_expr(&mut self, _: &Expr, _: &dyn Node) {}
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
-    fn visit_ident(&mut self, ident: &Ident, _: &dyn Node) {
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
         self.rename(ident)
     }
 
-    fn visit_private_name(&mut self, _: &PrivateName, _: &dyn Node) {}
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 
-    fn visit_export_named_specifier(&mut self, s: &ExportNamedSpecifier, _: &dyn Node) {
-        if let Some(..) = s.exported {
-            s.orig.visit_with(s, self);
-        } else {
-            self.rename(&s.orig)
-        }
+    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
+        s.orig.visit_mut_with(self);
     }
 }
 
