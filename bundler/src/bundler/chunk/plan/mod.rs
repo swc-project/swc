@@ -227,10 +227,11 @@ where
             let mut done = HashSet::new();
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {
-                let deps: Vec<_> = builder
+                let mut deps: Vec<_> = builder
                     .direct_deps
                     .neighbors_directed(entry, Outgoing)
                     .collect();
+                deps.sort();
 
                 for &dep in &deps {
                     if done.contains(&dep) {
@@ -295,7 +296,6 @@ where
                             // a <- b
                             // a <- c
                             let module = least_common_ancestor(&builder, &dependants);
-
                             let normal_plan = plans.normal.entry(module).or_default();
 
                             for &dep in &deps {
