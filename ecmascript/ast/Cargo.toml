@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.32.0"
+version = "0.33.0"
 
 [dependencies]
 enum_kind = {version = "0.2", path = "../../macros/enum_kind"}
