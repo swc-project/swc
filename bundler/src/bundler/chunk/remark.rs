@@ -4,7 +4,10 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
+    VisitMutWith, VisitWith,
+};
 
 pub(super) type RemarkMap = HashMap<Id, SyntaxContext>;
 
@@ -132,11 +135,6 @@ impl Fold for ExportRenamer<'_> {
     }
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
-        let mut actual = ActualMarker {
-            dep_ctxt: self.dep_ctxt,
-            imports: self.imports,
-        };
-
         let span = item.span();
         let item: ModuleItem = item.fold_children_with(self);
 
@@ -452,8 +450,15 @@ impl Fold for ExportRenamer<'_> {
                     | Decl::TsEnum(_)
                     | Decl::TsModule(_) => ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)),
 
-                    Decl::Class(mut c) => {
-                        c.ident = c.ident.fold_with(&mut actual);
+                    Decl::Class(c) => {
+                        c.ident.visit_with(
+                            &Invalid { span: DUMMY_SP },
+                            &mut ActualMarker {
+                                dep_ctxt: self.dep_ctxt,
+                                imports: self.imports,
+                                remarks: &mut self.remark_map,
+                            },
+                        );
 
                         if self.unexport {
                             Stmt::Decl(Decl::Class(c)).into()
@@ -464,8 +469,15 @@ impl Fold for ExportRenamer<'_> {
                             }))
                         }
                     }
-                    Decl::Fn(mut f) => {
-                        f.ident = f.ident.fold_with(&mut actual);
+                    Decl::Fn(f) => {
+                        f.ident.visit_with(
+                            &Invalid { span: DUMMY_SP },
+                            &mut ActualMarker {
+                                dep_ctxt: self.dep_ctxt,
+                                imports: self.imports,
+                                remarks: &mut self.remark_map,
+                            },
+                        );
                         if self.unexport {
                             Stmt::Decl(Decl::Fn(f)).into()
                         } else {
@@ -475,8 +487,17 @@ impl Fold for ExportRenamer<'_> {
                             }))
                         }
                     }
-                    Decl::Var(..) => {
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl.fold_with(&mut actual)))
+                    Decl::Var(ref v) => {
+                        v.decls.visit_with(
+                            &Invalid { span: DUMMY_SP },
+                            &mut ActualMarker {
+                                dep_ctxt: self.dep_ctxt,
+                                imports: self.imports,
+                                remarks: &mut self.remark_map,
+                            },
+                        );
+
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl))
                     }
                 };
             }
@@ -496,90 +517,54 @@ impl Fold for ExportRenamer<'_> {
     }
 }
 
-struct ActualMarker<'a> {
+struct ActualMarker<'a, 'b> {
     dep_ctxt: SyntaxContext,
 
     /// Dependant module's import
     imports: Option<&'a [Specifier]>,
+
+    remarks: &'b mut RemarkMap,
 }
 
-impl ActualMarker<'_> {
-    fn rename(&self, ident: Ident, only_if_aliased: bool) -> Result<Ident, Ident> {
+impl ActualMarker<'_, '_> {
+    fn rename(&mut self, ident: &Ident) {
         if self.imports.is_none() {
-            return Err(ident);
+            return;
         }
 
-        if let Some(mut ident) = self.imports.as_ref().unwrap().iter().find_map(|s| match s {
+        if let Some(ident) = self.imports.as_ref().unwrap().iter().find_map(|s| match s {
             Specifier::Specific {
                 alias: Some(alias),
                 local,
-            } if *alias == ident.sym => Some(Ident::new(local.sym().clone(), ident.span)),
-            Specifier::Specific { alias: None, local }
-                if !only_if_aliased && *local == ident.sym =>
-            {
-                Some(local.clone().into_ident())
+            } if *alias == ident.sym => Some((local.sym().clone(), ident.span.ctxt)),
+            Specifier::Specific { alias: None, local } if *local == ident.sym => {
+                Some(local.to_id())
             }
             _ => None,
         }) {
-            ident.span = ident.span.with_ctxt(self.dep_ctxt);
-
-            return Ok(ident);
+            self.remarks.insert(ident.to_id(), self.dep_ctxt);
         }
-
-        Err(ident)
     }
 }
 
-impl Fold for ActualMarker<'_> {
-    noop_fold_type!();
+impl Visit for ActualMarker<'_, '_> {
+    noop_visit_type!();
 
-    fn fold_expr(&mut self, node: Expr) -> Expr {
-        node
+    fn visit_expr(&mut self, _: &Expr, _: &dyn Node) {}
+
+    fn visit_ident(&mut self, ident: &Ident, _: &dyn Node) {
+        self.rename(ident)
     }
 
-    fn fold_ident(&mut self, ident: Ident) -> Ident {
-        match self.rename(ident, false) {
-            Ok(v) => v,
-            Err(v) => v,
-        }
-    }
+    fn visit_private_name(&mut self, _: &PrivateName, _: &dyn Node) {}
 
-    fn fold_private_name(&mut self, i: PrivateName) -> PrivateName {
-        i
-    }
-
-    fn fold_export_named_specifier(&mut self, s: ExportNamedSpecifier) -> ExportNamedSpecifier {
+    fn visit_export_named_specifier(&mut self, s: &ExportNamedSpecifier, _: &dyn Node) {
         if let Some(..) = s.exported {
-            ExportNamedSpecifier {
-                orig: self.fold_ident(s.orig),
-                ..s
-            }
+            s.orig.visit_with(s, self);
         } else {
-            match self.rename(s.orig.clone(), false) {
-                Ok(exported) => ExportNamedSpecifier {
-                    orig: s.orig,
-                    exported: Some(exported),
-                    ..s
-                },
-                Err(orig) => ExportNamedSpecifier { orig, ..s },
-            }
+            self.rename(&s.orig)
         }
     }
-
-    fn fold_prop(&mut self, p: Prop) -> Prop {
-        match p {
-            Prop::Shorthand(i) => match self.rename(i.clone(), false) {
-                Ok(renamed) => Prop::KeyValue(KeyValueProp {
-                    key: i.into(),
-                    value: Box::new(renamed.into()),
-                }),
-                Err(orig) => Prop::Shorthand(orig),
-            },
-            _ => p.fold_with(self),
-        }
-    }
-
-    // TODO: shorthand, etc
 }
 
 struct RemarkIdents<'a> {
