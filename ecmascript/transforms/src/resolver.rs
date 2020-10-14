@@ -663,6 +663,8 @@ impl<'a> VisitMut for Resolver<'a> {
             self.handle_types,
         );
 
+        e.type_params.visit_mut_with(& mut folder);
+        
         let old_hoist = self.hoist;
         let old = folder.ident_type;
         folder.ident_type = IdentType::Binding;

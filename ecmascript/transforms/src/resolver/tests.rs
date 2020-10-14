@@ -32,11 +32,6 @@ impl VisitMut for TsHygiene {
         }
     }
 
-    fn visit_mut_ts_enum_member_id(&mut self, _: &mut TsEnumMemberId) {}
-
-    /// TODO: Handle tyep parameter correctly
-    fn visit_mut_ts_type_param(&mut self, _: &mut TsTypeParam) {}
-
     fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
 }
 
@@ -1352,13 +1347,13 @@ const bar = {} as Foo;
 ",
     "
     enum Foo {
-        name,
-        string
+        name__0,
+        string__0
     }
     function foo() {
         enum Foo__2 {
-            name,
-            string
+            name__0,
+            string__0
         }
         const foo__2 = {
         } as Foo__2;
@@ -1768,6 +1763,14 @@ to!(
 
     function isAbsolute() {}
     "#
+to_ts!(
+    type_checker_01,
+    "
+    const assign = <T, K1 extends keyof T, K2 extends keyof T[K1]>(object: T, key1: K1, key2: K2) \
+     => (value: T[K1][K2]) => object[key1][key2] = value;
+    ",
+    "const assign = <T__2, K1__2 extends keyof T__2, K2__2 extends keyof T__2[K1__2]>(object__2: \
+     T, key1__2: K1, key2__2: K2)=>(value__3: T[K1][K2])=>object__2[key1__2][key2__2] = value__3"
 );
 
 to_ts!(
