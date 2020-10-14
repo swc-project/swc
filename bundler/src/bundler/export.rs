@@ -4,7 +4,7 @@ use super::{
 };
 use crate::{id::Id, load::Load, resolve::Resolve};
 use std::collections::HashMap;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -63,7 +63,7 @@ where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
+    fn ctxt_for(&self, src: &JsWord) -> Option<SyntaxContext> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -79,6 +79,27 @@ where
         let ctxt = SyntaxContext::empty();
 
         Some(ctxt.apply_mark(mark))
+    }
+
+    fn mark_as_wrapping_required(&self, src: &JsWord) {
+        // Don't apply mark if it's a core module.
+        if self
+            .bundler
+            .config
+            .external_modules
+            .iter()
+            .any(|v| v == src)
+        {
+            return;
+        }
+        let path = self.bundler.resolve(self.file_name, src);
+        let path = match path {
+            Ok(v) => v,
+            _ => return,
+        };
+        let (id, _) = self.bundler.scope.module_id_gen.gen(&path);
+
+        self.bundler.scope.mark_as_wrapping_required(id);
     }
 }
 
@@ -178,16 +199,20 @@ where
                 let ctxt = named
                     .src
                     .as_ref()
-                    .map(|s| &*s.value)
+                    .map(|s| &s.value)
                     .and_then(|src| self.ctxt_for(src));
+                let mut need_wrapping = false;
 
                 let v = self.info.items.entry(named.src.clone()).or_default();
                 for s in &mut named.specifiers {
                     match s {
-                        ExportSpecifier::Namespace(n) => v.push(Specifier::Namespace {
-                            local: n.name.clone().into(),
-                            all: true,
-                        }),
+                        ExportSpecifier::Namespace(n) => {
+                            need_wrapping = true;
+                            v.push(Specifier::Namespace {
+                                local: n.name.clone().into(),
+                                all: true,
+                            })
+                        }
                         ExportSpecifier::Default(d) => {
                             v.push(Specifier::Specific {
                                 local: d.exported.clone().into(),
@@ -213,6 +238,11 @@ where
                         }
                     }
                 }
+
+                if need_wrapping {
+                    self.mark_as_wrapping_required(&named.src.as_ref().unwrap().value);
+                }
+
                 return;
             }
 

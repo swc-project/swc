@@ -1,5 +1,6 @@
 const a = 'a';
+const a1 = a;
 function b() {
-    return a;
+    return a1;
 }
 b();

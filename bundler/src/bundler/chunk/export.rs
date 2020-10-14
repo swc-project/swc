@@ -62,6 +62,7 @@ where
         // Transitive dependencies
         let mut additional_modules = vec![];
         let mut reexports = vec![];
+        let mut decls_for_reexport = vec![];
 
         // Remove transitive dependencies which is merged by parent moudle.
         for v in info.exports.reexports.clone() {
@@ -74,6 +75,41 @@ where
             } else {
                 additional_modules.push(v);
             }
+        }
+
+        for (src, specifiers) in info.exports.reexports.iter() {
+            let imported = self.scope.get_module(src.module_id).unwrap();
+
+            // export * from './foo';
+            if specifiers.is_empty() {
+                decls_for_reexport.extend(
+                    imported
+                        .exports
+                        .items
+                        .iter()
+                        .chain(imported.exports.reexports.iter().map(|v| &*v.1).flatten())
+                        .map(|specifier| match specifier {
+                            Specifier::Specific { local, alias } => VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(
+                                    local.clone().replace_mark(info.mark()).into_ident(),
+                                ),
+                                init: Some(Box::new(Expr::Ident(
+                                    alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
+                                ))),
+                                definite: false,
+                            },
+                            Specifier::Namespace { local, .. } => VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(
+                                    local.clone().replace_mark(info.mark()).into_ident(),
+                                ),
+                                init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
+                                definite: false,
+                            },
+                        }),
+                );
+            };
         }
 
         let deps = reexports
@@ -110,7 +146,20 @@ where
                 });
 
                 if let Some(id) = id_of_export_namespace_from {
-                    dep = self.wrap_esm_as_a_var(info, dep, id)?;
+                    dep = self.wrap_esm_as_a_var(plan, dep, &imported, merged, id)?;
+
+                    let module_plan;
+                    let module_plan = match plan.normal.get(&info.id) {
+                        Some(v) => v,
+                        None => {
+                            module_plan = Default::default();
+                            &module_plan
+                        }
+                    };
+
+                    dep = self
+                        .merge_imports(plan, &module_plan, dep, &info, merged, false)
+                        .context("failed to merge imports")?;
                 } else {
                     dep = self.remark_exports(dep, src.ctxt, None, false);
                 }
@@ -256,6 +305,16 @@ where
             assert_eq!(injector.imported, vec![]);
         }
 
+        if !decls_for_reexport.is_empty() {
+            entry
+                .body
+                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: decls_for_reexport,
+                }))));
+        }
         Ok(())
     }
 }

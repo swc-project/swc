@@ -3,7 +3,8 @@ use crate::{
     id::{ModuleId, ModuleIdGenerator},
     util::CloneMap,
 };
-use swc_common::FileName;
+use std::sync::atomic::{AtomicBool, Ordering};
+use swc_common::{sync::Lrc, FileName};
 
 #[derive(Debug, Default)]
 pub(super) struct Metadata {
@@ -18,6 +19,8 @@ pub(super) struct Scope {
 
     /// Cached after applying basical transformations.
     transformed_modules: CloneMap<ModuleId, TransformedModule>,
+
+    accessed_with_computed_key: CloneMap<ModuleId, Lrc<AtomicBool>>,
 }
 
 impl Scope {
@@ -39,5 +42,24 @@ impl Scope {
 
     pub fn get_module(&self, id: ModuleId) -> Option<TransformedModule> {
         Some(self.transformed_modules.get(&id)?.clone())
+    }
+
+    /// Set the module as
+    pub fn mark_as_wrapping_required(&self, id: ModuleId) {
+        if let Some(v) = self.accessed_with_computed_key.get(&id) {
+            v.store(true, Ordering::SeqCst);
+            return;
+        }
+
+        self.accessed_with_computed_key
+            .insert(id, Lrc::new(AtomicBool::from(true)));
+    }
+
+    pub fn should_be_wrapped_with_a_fn(&self, id: ModuleId) -> bool {
+        if let Some(v) = self.accessed_with_computed_key.get(&id) {
+            v.load(Ordering::SeqCst)
+        } else {
+            false
+        }
     }
 }

@@ -1,5 +1,5 @@
-use super::load::TransformedModule;
-use crate::{Bundler, Load, Resolve};
+use super::plan::Plan;
+use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
 use anyhow::Error;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -31,20 +31,27 @@ where
     /// ```
     pub(super) fn wrap_esm_as_a_var(
         &self,
-        _info: &TransformedModule,
+        plan: &Plan,
         module: Module,
+        info: &TransformedModule,
+        merged: &CHashSet<ModuleId>,
         id: Ident,
     ) -> Result<Module, Error> {
         let span = module.span;
+
+        let mut module_items = vec![];
 
         let stmts = {
             let mut module = module.fold_with(&mut ExportToReturn::default());
 
             take(&mut module.body)
                 .into_iter()
-                .map(|v| match v {
-                    ModuleItem::ModuleDecl(_) => unreachable!(),
-                    ModuleItem::Stmt(s) => s,
+                .filter_map(|v| match v {
+                    ModuleItem::Stmt(s) => Some(s),
+                    _ => {
+                        module_items.push(v);
+                        None
+                    }
                 })
                 .collect()
         };
@@ -85,11 +92,26 @@ where
             }],
         };
 
-        Ok(Module {
+        module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
+
+        let module = Module {
             span: DUMMY_SP,
             shebang: None,
-            body: vec![ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl)))],
-        })
+            body: module_items,
+        };
+
+        let module_plan;
+        let module_plan = match plan.normal.get(&info.id) {
+            Some(v) => v,
+            None => {
+                module_plan = Default::default();
+                &module_plan
+            }
+        };
+        let module = self.merge_imports(&plan, module_plan, module, info, merged, false)?;
+        // print_hygiene("Imports", &self.cm, &module);
+
+        Ok(module)
     }
 }
 
@@ -112,7 +134,7 @@ impl Fold for ExportToReturn {
         };
 
         let stmt = match decl {
-            ModuleDecl::Import(_) => None,
+            ModuleDecl::Import(_) => return ModuleItem::ModuleDecl(decl),
             ModuleDecl::ExportDecl(export) => {
                 match &export.decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {

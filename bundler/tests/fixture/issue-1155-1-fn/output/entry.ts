@@ -1,7 +1,8 @@
 function a() {
     console.log("a");
 }
+const a1 = a;
 function b() {
-    a();
+    a1();
 }
 b();

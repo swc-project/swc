@@ -127,7 +127,7 @@ where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &str) -> Option<SyntaxContext> {
+    fn ctxt_for(&self, src: &JsWord) -> Option<SyntaxContext> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -143,6 +143,27 @@ where
         let ctxt = SyntaxContext::empty();
 
         Some(ctxt.apply_mark(mark))
+    }
+
+    fn mark_as_wrapping_required(&self, src: &JsWord) {
+        // Don't apply mark if it's a core module.
+        if self
+            .bundler
+            .config
+            .external_modules
+            .iter()
+            .any(|v| v == src)
+        {
+            return;
+        }
+        let path = self.bundler.resolve(self.path, src);
+        let path = match path {
+            Ok(v) => v,
+            Err(_) => return,
+        };
+        let (id, _) = self.bundler.scope.module_id_gen.gen(&path);
+
+        self.bundler.scope.mark_as_wrapping_required(id);
     }
 }
 
@@ -268,10 +289,13 @@ where
         });
 
         if self.deglob_phase {
+            let mut wrapping_required = vec![];
             for import in self.info.imports.iter_mut() {
                 let use_ns = self.info.forced_ns.contains(&import.src.value);
 
                 if use_ns {
+                    wrapping_required.push(import.src.value.clone());
+
                     import.specifiers.retain(|s| match s {
                         ImportSpecifier::Namespace(_) => true,
                         _ => false,
@@ -289,6 +313,10 @@ where
                         _ => true,
                     });
                 }
+            }
+
+            for id in wrapping_required {
+                self.mark_as_wrapping_required(&id);
             }
         }
 

@@ -2,12 +2,16 @@
 //!
 //! This module exists because this is way easier than using copying requires
 //! files.
-
 use anyhow::{Context, Error};
-use std::collections::HashMap;
+use std::{
+    collections::HashMap,
+    fs::write,
+    process::{Command, Stdio},
+};
 use swc_bundler::{Bundler, Load, Resolve};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::{Expr, Lit, Module, Str};
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::typescript::strip;
 use swc_ecma_visit::FoldWith;
@@ -15,11 +19,53 @@ use url::Url;
 
 #[test]
 #[ignore = "Too slow"]
-fn oak_6_2_0_application() {
-    bundle("https://deno.land/x/oak@v6.2.0/application.ts");
+fn oak_6_3_1_application() {
+    run("https://deno.land/x/oak@v6.3.1/application.ts");
 }
 
-fn bundle(url: &str) -> Module {
+#[test]
+#[ignore = "Too slow"]
+fn oak_6_3_1_mod() {
+    run("https://deno.land/x/oak@v6.3.1/mod.ts");
+}
+
+#[test]
+#[ignore = "Too slow"]
+fn std_0_74_9_http_server() {
+    run("https://deno.land/std@0.74.0/http/server.ts");
+}
+
+#[test]
+#[ignore = "Too slow"]
+fn oak_6_3_1_example() {
+    run("https://deno.land/x/oak@v6.3.1/examples/server.ts");
+}
+
+fn run(url: &str) {
+    let dir = tempfile::tempdir().expect("failed to crate temp file");
+    let path = dir.path().join("main.js");
+    println!("{}", path.display());
+
+    let src = bundle(url);
+    write(&path, &src).unwrap();
+
+    let output = Command::new("deno")
+        .arg("run")
+        .arg("--allow-all")
+        .arg("--no-check")
+        .arg(&path)
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .status()
+        .unwrap();
+
+    std::mem::forget(dir);
+
+    dbg!(output);
+    assert!(output.success());
+}
+
+fn bundle(url: &str) -> String {
     let result = testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
             let bundler = Bundler::new(
@@ -29,7 +75,7 @@ fn bundle(url: &str) -> Module {
                 Resolver,
                 swc_bundler::Config {
                     require: false,
-                    disable_inliner: true,
+                    disable_inliner: false,
                     ..Default::default()
                 },
                 Box::new(Hook),
@@ -37,8 +83,21 @@ fn bundle(url: &str) -> Module {
             let mut entries = HashMap::new();
             entries.insert("main".to_string(), FileName::Custom(url.to_string()));
             let output = bundler.bundle(entries).unwrap();
+            let module = output.into_iter().next().unwrap().module;
 
-            Ok(output.into_iter().next().unwrap().module)
+            let mut buf = vec![];
+            {
+                Emitter {
+                    cfg: swc_ecma_codegen::Config { minify: false },
+                    cm: cm.clone(),
+                    comments: None,
+                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                }
+                .emit_module(&module)
+                .unwrap();
+            }
+
+            Ok(String::from_utf8_lossy(&buf).to_string())
         })
     })
     .unwrap();

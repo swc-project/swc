@@ -9,6 +9,7 @@ use swc_ecma_visit::FoldWith;
 
 mod circular;
 mod cjs;
+mod computed_key;
 mod export;
 mod merge;
 mod plan;

@@ -26,7 +26,9 @@ struct PlanBuilder {
     /// This contains all dependencies, including transitive ones. For example,
     /// if `a` dependes on `b` and `b` depdends on `c`, all of
     ///  `(a, b)`, `(a, c)`,`(b, c)` will be inserted.
-    all_deps: HashSet<(ModuleId, ModuleId)>,
+    ///
+    /// `bool` is `true` if it's connected with exports.
+    all_deps: HashMap<(ModuleId, ModuleId), bool>,
 
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
@@ -168,7 +170,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, &mut vec![]);
+            self.add_to_graph(&mut builder, module.id, &mut vec![], true);
         }
 
         let mut metadata = HashMap::<ModuleId, Metadata>::default();
@@ -222,11 +224,14 @@ where
             let root_entry = *root_entry;
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
+            let mut done = HashSet::new();
+
             while let Some(entry) = bfs.next(&builder.direct_deps) {
-                let deps: Vec<_> = builder
+                let mut deps: Vec<_> = builder
                     .direct_deps
                     .neighbors_directed(entry, Outgoing)
                     .collect();
+                deps.sort();
 
                 for &dep in &deps {
                     if let Some(circular_members) = builder.circular.get(entry) {
@@ -237,20 +242,32 @@ where
                                 entry
                             );
                             if entry != root_entry && dep != root_entry {
+                                done.insert(dep);
                                 plans.normal.entry(entry).or_default().chunks.push(dep);
                             }
                             continue;
                         }
                     }
 
+                    if done.contains(&dep) {
+                        continue;
+                    }
+
                     let is_es6 = self.scope.get_module(entry).unwrap().is_es6;
-                    let dependants = builder
+                    let mut dependants = builder
                         .direct_deps
                         .neighbors_directed(dep, Incoming)
                         .collect::<Vec<_>>();
+                    dependants.sort();
 
                     if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                         log::debug!("{:?} depends on {:?}", entry, dep);
+
+                        let is_reexport = builder
+                            .all_deps
+                            .get(&(entry, dep))
+                            .copied()
+                            .unwrap_or(false);
 
                         // Common js support.
                         if !is_es6 {
@@ -280,7 +297,6 @@ where
                             // a <- b
                             // a <- c
                             let module = least_common_ancestor(&builder, &dependants);
-
                             let normal_plan = plans.normal.entry(module).or_default();
 
                             for &dep in &deps {
@@ -301,6 +317,17 @@ where
                             continue;
                         }
 
+                        if is_reexport {
+                            let normal_plan = plans.normal.entry(entry).or_default();
+                            if !normal_plan.chunks.contains(&dep) {
+                                done.insert(dep);
+
+                                log::trace!("Normal: {:?} => {:?}", entry, dep);
+                                normal_plan.chunks.push(dep);
+                            }
+                            continue;
+                        }
+
                         if 2 <= dependants.len() {
                             // Should be merged as a transitive dependency.
                             let higher_module = if plans.entries.contains(&dependants[0]) {
@@ -314,8 +341,11 @@ where
                             };
 
                             if dependants.len() == 2 && dependants.contains(&higher_module) {
-                                let mut entry =
-                                    *dependants.iter().find(|&&v| v != higher_module).unwrap();
+                                let mut entry = if is_reexport {
+                                    higher_module
+                                } else {
+                                    *dependants.iter().find(|&&v| v != higher_module).unwrap()
+                                };
 
                                 // We choose higher node if import is circular
                                 if builder.is_circular(entry) {
@@ -325,6 +355,7 @@ where
                                 let normal_plan = plans.normal.entry(entry).or_default();
                                 if !normal_plan.chunks.contains(&dep) {
                                     log::trace!("Normal: {:?} => {:?}", entry, dep);
+                                    done.insert(dep);
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
@@ -335,12 +366,14 @@ where
                                     .transitive_chunks;
                                 if !t.contains(&dep) {
                                     log::trace!("Transitive: {:?} => {:?}", entry, dep);
+                                    done.insert(dep);
                                     t.push(dep)
                                 }
                             }
                         } else {
                             // Direct dependency.
                             log::trace!("Normal: {:?} => {:?}", entry, dep);
+                            done.insert(dep);
                             plans.normal.entry(entry).or_default().chunks.push(dep);
                         }
 
@@ -436,6 +469,7 @@ where
         builder: &mut PlanBuilder,
         module_id: ModuleId,
         path: &mut Vec<ModuleId>,
+        is_in_reexports: bool,
     ) {
         builder.direct_deps.add_node(module_id);
 
@@ -444,34 +478,44 @@ where
             .get_module(module_id)
             .expect("failed to get module");
 
-        for src in m
+        for (src, is_export) in m
             .imports
             .specifiers
             .iter()
-            .map(|v| &v.0)
-            .chain(m.exports.reexports.iter().map(|v| &v.0))
+            .map(|v| (&v.0, false))
+            .chain(m.exports.reexports.iter().map(|v| (&v.0, true)))
         {
             if !builder.direct_deps.contains_edge(module_id, src.module_id) {
-                log::debug!("Dependency: {:?} => {:?}", module_id, src.module_id);
+                log::debug!(
+                    "Dependency: {:?} => {:?}; in export = {:?}; export = {:?}",
+                    module_id,
+                    src.module_id,
+                    is_in_reexports,
+                    is_export
+                );
             }
 
             builder.direct_deps.add_edge(module_id, src.module_id, 0);
 
             for &id in &*path {
-                builder.all_deps.insert((id, src.module_id));
+                builder
+                    .all_deps
+                    .insert((id, src.module_id), is_in_reexports);
             }
-            builder.all_deps.insert((module_id, src.module_id));
+            builder
+                .all_deps
+                .insert((module_id, src.module_id), is_export);
 
-            if !builder.all_deps.contains(&(src.module_id, module_id)) {
+            if !builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 path.push(module_id);
-                self.add_to_graph(builder, src.module_id, path);
+                self.add_to_graph(builder, src.module_id, path, is_export);
                 assert_eq!(path.pop(), Some(module_id));
             }
         }
 
         // Prevent dejavu
         for (src, _) in &m.imports.specifiers {
-            if builder.all_deps.contains(&(src.module_id, module_id)) {
+            if builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 log::debug!("Circular dep: {:?} => {:?}", module_id, src.module_id);
 
                 builder.mark_as_circular(module_id, src.module_id);
