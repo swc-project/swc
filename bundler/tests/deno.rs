@@ -19,11 +19,12 @@ use url::Url;
 
 #[test]
 #[ignore = "Too slow"]
-fn oak_6_2_0_application() {
-    run("https://deno.land/x/oak@v6.2.0/application.ts");
+fn oak_6_3_1_application() {
+    run("https://deno.land/x/oak@v6.3.1/application.ts");
 }
 
 #[test]
+#[ignore = "Too slow"]
 fn oak_6_3_1_mod() {
     run("https://deno.land/x/oak@v6.3.1/mod.ts");
 }
@@ -32,6 +33,11 @@ fn oak_6_3_1_mod() {
 #[ignore = "Too slow"]
 fn std_0_74_9_http_server() {
     run("https://deno.land/std@0.74.0/http/server.ts");
+}
+
+#[test]
+fn oak_6_3_1() {
+    run("https://deno.land/x/oak@v6.3.1/examples/server.ts");
 }
 
 fn run(url: &str) {
