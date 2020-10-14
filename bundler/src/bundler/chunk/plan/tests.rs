@@ -109,8 +109,8 @@ fn concurrency_001() {
 
             assert_eq!(p.circular.len(), 0);
 
-            assert_normal(t, &p, "main", &["a"]);
-            assert_normal(t, &p, "a", &["b"]);
+            assert_normal(t, &p, "main", &["a", "b"]);
+            assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
 
             Ok(())
@@ -153,8 +153,8 @@ fn concurrency_002() {
 
             assert_eq!(p.circular.len(), 0);
 
-            assert_normal(t, &p, "main", &["a"]);
-            assert_normal(t, &p, "a", &["b"]);
+            assert_normal(t, &p, "main", &["a", "b"]);
+            assert_normal(t, &p, "a", &[]);
             assert_normal(t, &p, "b", &[]);
 
             Ok(())
@@ -908,7 +908,6 @@ fn circular_root_entry_2() {
 }
 
 #[test]
-#[ignore = "Not deterministic yet"]
 fn deno_003() {
     suite()
         .file(
