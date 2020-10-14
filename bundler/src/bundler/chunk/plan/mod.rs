@@ -254,10 +254,11 @@ where
                     }
 
                     let is_es6 = self.scope.get_module(entry).unwrap().is_es6;
-                    let dependants = builder
+                    let mut dependants = builder
                         .direct_deps
                         .neighbors_directed(dep, Incoming)
                         .collect::<Vec<_>>();
+                    dependants.sort();
 
                     if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
                         log::debug!("{:?} depends on {:?}", entry, dep);
