@@ -36,14 +36,17 @@ fn std_0_74_9_http_server() {
 }
 
 #[test]
+#[ignore = "Too slow"]
 fn oak_6_3_1() {
     run("https://deno.land/x/oak@v6.3.1/examples/server.ts");
 }
 
 fn run(url: &str) {
-    let src = bundle(url);
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
+    println!("{}", path.display());
+
+    let src = bundle(url);
     write(&path, &src).unwrap();
 
     let output = Command::new("deno")
@@ -55,6 +58,8 @@ fn run(url: &str) {
         .stderr(Stdio::piped())
         .status()
         .unwrap();
+
+    // std::mem::forget(dir);
 
     dbg!(output);
     assert!(output.success());
