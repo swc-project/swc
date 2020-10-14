@@ -702,7 +702,6 @@ fn circular_002() {
 }
 
 #[test]
-#[ignore = "Not deterministic yet"]
 fn deno_002() {
     suite()
         .file(
@@ -799,7 +798,13 @@ fn deno_002() {
 
             dbg!(&p);
 
-            assert_normal(t, &p, "main", &["http-server"]);
+            assert_normal_transitive(
+                t,
+                &p,
+                "main",
+                &["http-server"],
+                &["encoding-utf8", "io-bufio", "_util-assert"],
+            );
 
             assert_normal_transitive(t, &p, "http-server", &["async-mod"], &[]);
             assert_circular(t, &p, "http-server", &["http-_io"]);
@@ -810,24 +815,21 @@ fn deno_002() {
 
             assert_normal(t, &p, "_util-assert", &[]);
 
-            assert_normal_transitive(
-                t,
-                &p,
-                "http-_io",
-                &["textproto-mod", "http-http_status"],
-                &["encoding-utf8", "io-bufio", "_util-assert"],
-            );
+            assert_normal(t, &p, "http-_io", &["textproto-mod", "http-http_status"]);
             assert_circular(t, &p, "http-_io", &["http-server"]);
 
             assert_normal(t, &p, "textproto-mod", &[]);
 
             assert_normal(t, &p, "_util-assert", &[]);
 
-            assert_normal(t, &p, "async-mod", &["async-mux_async_iterator"]);
+            assert_normal(
+                t,
+                &p,
+                "async-mod",
+                &["async-mux_async_iterator", "async-deferred"],
+            );
 
             assert_normal(t, &p, "bytes-mod", &[]);
-
-            assert_normal(t, &p, "async-mux_async_iterator", &["async-deferred"]);
 
             Ok(())
         });
