@@ -62,6 +62,7 @@ where
         // Transitive dependencies
         let mut additional_modules = vec![];
         let mut reexports = vec![];
+        let mut decls_for_reexport = vec![];
 
         // Remove transitive dependencies which is merged by parent moudle.
         for v in info.exports.reexports.clone() {
@@ -74,6 +75,41 @@ where
             } else {
                 additional_modules.push(v);
             }
+        }
+
+        for (src, specifiers) in info.exports.reexports.iter() {
+            let imported = self.scope.get_module(src.module_id).unwrap();
+
+            // export * from './foo';
+            if specifiers.is_empty() {
+                decls_for_reexport.extend(
+                    imported
+                        .exports
+                        .items
+                        .iter()
+                        .chain(imported.exports.reexports.iter().map(|v| &*v.1).flatten())
+                        .map(|specifier| match specifier {
+                            Specifier::Specific { local, alias } => VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(
+                                    local.clone().replace_mark(info.mark()).into_ident(),
+                                ),
+                                init: Some(Box::new(Expr::Ident(
+                                    alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
+                                ))),
+                                definite: false,
+                            },
+                            Specifier::Namespace { local, .. } => VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(
+                                    local.clone().replace_mark(info.mark()).into_ident(),
+                                ),
+                                init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
+                                definite: false,
+                            },
+                        }),
+                );
+            };
         }
 
         let deps = reexports
@@ -143,45 +179,7 @@ where
                         exports: &specifiers,
                     });
 
-                // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
-                } else {
-                    // export * from './foo';
-                    let decls = imported
-                        .exports
-                        .items
-                        .iter()
-                        .chain(imported.exports.reexports.iter().map(|v| &*v.1).flatten())
-                        .map(|specifier| match specifier {
-                            Specifier::Specific { local, alias } => VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(
-                                    local.clone().replace_mark(info.mark()).into_ident(),
-                                ),
-                                init: Some(Box::new(Expr::Ident(
-                                    alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
-                                ))),
-                                definite: false,
-                            },
-                            Specifier::Namespace { local, .. } => VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(
-                                    local.clone().replace_mark(info.mark()).into_ident(),
-                                ),
-                                init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
-                                definite: false,
-                            },
-                        })
-                        .collect::<Vec<_>>();
-
-                    if !decls.is_empty() {
-                        dep.body
-                            .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Const,
-                                declare: false,
-                                decls,
-                            }))));
-                    }
+                    // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
                 }
 
                 Ok(Some((src, dep)))
@@ -307,6 +305,16 @@ where
             assert_eq!(injector.imported, vec![]);
         }
 
+        if !decls_for_reexport.is_empty() {
+            entry
+                .body
+                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: decls_for_reexport,
+                }))));
+        }
         Ok(())
     }
 }
