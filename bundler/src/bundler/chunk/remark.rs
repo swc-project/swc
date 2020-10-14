@@ -121,10 +121,12 @@ impl ExportRenamer<'_> {
 impl Fold for ExportRenamer<'_> {
     noop_fold_type!();
 
+    /// no-op, as imports or exports are only related to top level nodes.
     fn fold_class(&mut self, node: Class) -> Class {
         node
     }
 
+    /// no-op, as imports or exports are only related to top level nodes.
     fn fold_function(&mut self, node: Function) -> Function {
         node
     }
