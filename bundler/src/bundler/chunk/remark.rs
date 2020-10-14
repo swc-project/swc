@@ -4,10 +4,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
-    VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 pub(super) type RemarkMap = HashMap<Id, SyntaxContext>;
 
