@@ -20,34 +20,40 @@ use url::Url;
 #[test]
 #[ignore = "Too slow"]
 fn oak_6_3_1_application() {
-    run("https://deno.land/x/oak@v6.3.1/application.ts");
+    run("https://deno.land/x/oak@v6.3.1/application.ts", None);
 }
 
 #[test]
 #[ignore = "Too slow"]
 fn oak_6_3_1_mod() {
-    run("https://deno.land/x/oak@v6.3.1/mod.ts");
+    run("https://deno.land/x/oak@v6.3.1/mod.ts", None);
 }
 
 #[test]
 #[ignore = "Too slow"]
 fn std_0_74_9_http_server() {
-    run("https://deno.land/std@0.74.0/http/server.ts");
+    run("https://deno.land/std@0.74.0/http/server.ts", None);
 }
 
 #[test]
 #[ignore = "Too slow"]
 fn oak_6_3_1_example() {
-    run("https://deno.land/x/oak@v6.3.1/examples/server.ts");
+    run(
+        "https://deno.land/x/oak@v6.3.1/examples/server.ts",
+        Some(398523),
+    );
 }
 
-fn run(url: &str) {
+fn run(url: &str, expeceted_bytes: Option<usize>) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
     println!("{}", path.display());
 
     let src = bundle(url);
     write(&path, &src).unwrap();
+    if let Some(expected) = expeceted_bytes {
+        assert_eq!(src.len(), expected);
+    }
 
     let output = Command::new("deno")
         .arg("run")
