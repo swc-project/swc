@@ -3,6 +3,7 @@ use string_enum::StringEnum;
 
 #[derive(Kind, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 #[kind(function(precedence = "u8"))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum BinaryOp {
     /// `==`
     #[kind(precedence = "6")]
@@ -89,6 +90,7 @@ pub enum BinaryOp {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum AssignOp {
     /// `=`
     Assign,
@@ -129,6 +131,7 @@ pub enum AssignOp {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum UpdateOp {
     /// `++`
     PlusPlus,
@@ -137,6 +140,7 @@ pub enum UpdateOp {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum UnaryOp {
     /// `-`
     Minus,

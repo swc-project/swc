@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.10.3"
+version = "0.10.4"
 
 [features]
 concurrent = ["parking_lot"]
@@ -14,6 +14,7 @@ default = []
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
+arbitrary = {version = "0.4.7", optional = true, features = ["derive"]}
 ast_node = {version = "0.7", path = "../macros/ast_node"}
 atty = {version = "0.2", optional = true}
 cfg-if = "0.1.2"

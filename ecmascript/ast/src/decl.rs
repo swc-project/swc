@@ -12,6 +12,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Decl {
     #[tag("ClassDeclaration")]
     Class(ClassDecl),
@@ -32,6 +33,7 @@ pub enum Decl {
 
 #[ast_node("FunctionDeclaration")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct FnDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
@@ -46,6 +48,7 @@ pub struct FnDecl {
 
 #[ast_node("ClassDeclaration")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
@@ -60,6 +63,7 @@ pub struct ClassDecl {
 
 #[ast_node("VariableDeclaration")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct VarDecl {
     pub span: Span,
 
@@ -73,6 +77,7 @@ pub struct VarDecl {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclKind {
     /// `var`
     Var,
@@ -84,6 +89,7 @@ pub enum VarDeclKind {
 
 #[ast_node("VariableDeclarator")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct VarDeclarator {
     pub span: Span,
     #[serde(rename = "id")]

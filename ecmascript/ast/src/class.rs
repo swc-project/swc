@@ -16,6 +16,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Class {
     pub span: Span,
 
@@ -44,6 +45,7 @@ pub struct Class {
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ClassMember {
     #[tag("Constructor")]
     Constructor(Constructor),
@@ -65,6 +67,7 @@ pub enum ClassMember {
 
 #[ast_node("ClassProperty")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassProp {
     #[serde(default)]
     pub span: Span,
@@ -109,6 +112,7 @@ pub struct ClassProp {
 
 #[ast_node("PrivateProperty")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateProp {
     #[serde(default)]
     pub span: Span,
@@ -152,6 +156,7 @@ macro_rules! method {
     ($name:ident, $ty:literal, $KEY:ty) => {
         #[ast_node($ty)]
         #[derive(Eq, Hash)]
+        #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
         pub struct $name {
             #[serde(default)]
             pub span: Span,
@@ -184,6 +189,7 @@ method!(PrivateMethod, "PrivateMethod", PrivateName);
 
 #[ast_node("Constructor")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Constructor {
     pub span: Span,
 
@@ -203,6 +209,7 @@ pub struct Constructor {
 
 #[ast_node("Decorator")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Decorator {
     pub span: Span,
 
@@ -211,6 +218,7 @@ pub struct Decorator {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum MethodKind {
     #[serde(rename = "method")]
     Method,

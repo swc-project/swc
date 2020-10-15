@@ -86,6 +86,7 @@ mod typescript;
 /// Represents a invalid node.
 #[ast_node("Invalid")]
 #[derive(Eq, Hash, Copy)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Invalid {
     pub span: Span,
 }

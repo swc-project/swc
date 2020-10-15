@@ -5,6 +5,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Program {
     #[tag("Module")]
     Module(Module),
@@ -23,6 +24,19 @@ pub struct Module {
     pub shebang: Option<JsWord>,
 }
 
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Module {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self {
+            span,
+            body,
+            shebang: None,
+        })
+    }
+}
+
 #[ast_node("Script")]
 #[derive(Eq, Hash)]
 pub struct Script {
@@ -34,8 +48,22 @@ pub struct Script {
     pub shebang: Option<JsWord>,
 }
 
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Script {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self {
+            span,
+            body,
+            shebang: None,
+        })
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ModuleItem {
     #[tag("ImportDeclaration")]
     #[tag("ExportDeclaration")]
