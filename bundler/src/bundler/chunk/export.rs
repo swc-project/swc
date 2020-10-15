@@ -7,7 +7,10 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::mem::{replace, take};
+use std::{
+    collections::HashMap,
+    mem::{replace, take},
+};
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
@@ -62,7 +65,7 @@ where
         // Transitive dependencies
         let mut additional_modules = vec![];
         let mut reexports = vec![];
-        let mut decls_for_reexport = vec![];
+        let mut decls_for_reexport: HashMap<_, Vec<VarDeclarator>> = HashMap::new();
 
         // Remove transitive dependencies which is merged by parent moudle.
         for v in info.exports.reexports.clone() {
@@ -82,7 +85,7 @@ where
 
             // export * from './foo';
             if specifiers.is_empty() {
-                decls_for_reexport.extend(
+                decls_for_reexport.entry(src.module_id).or_default().extend(
                     imported
                         .exports
                         .items
@@ -293,6 +296,18 @@ where
             };
             entry.body.visit_mut_with(&mut injector);
 
+            // Inject variables
+            if let Some(decls) = decls_for_reexport.remove(&src.module_id) {
+                entry
+                    .body
+                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls,
+                    }))));
+            }
+
             // print_hygiene(
             //     &format!(
             //         "entry:reexport injection {:?} <- {:?}",
@@ -304,6 +319,12 @@ where
             // );
             assert_eq!(injector.imported, vec![]);
         }
+
+        let decls_for_reexport: Vec<_> = decls_for_reexport
+            .into_iter()
+            .map(|(_, decls)| decls)
+            .flatten()
+            .collect();
 
         if !decls_for_reexport.is_empty() {
             entry
