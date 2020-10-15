@@ -49,12 +49,9 @@ pub(super) fn least_common_ancestor(b: &PlanBuilder, module_ids: &[ModuleId]) ->
         });
 }
 
-fn check_itself<I>(b: &PlanBuilder, li: I, ri: &[ModuleId]) -> Option<ModuleId>
-where
-    I: IntoIterator<Item = ModuleId>,
-{
+fn check_itself(b: &PlanBuilder, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId> {
     let g = &b.direct_deps;
-    for l in li {
+    for &l in li {
         // Root
         if g.neighbors_directed(l, Incoming).count() == 0 {
             return Some(l);
@@ -78,12 +75,13 @@ where
 fn check_itself_and_parent(b: &PlanBuilder, li: &[ModuleId], ri: &[ModuleId]) -> Option<ModuleId> {
     let g = &b.direct_deps;
 
-    if let Some(id) = check_itself(b, li.iter().copied(), ri) {
+    if let Some(id) = check_itself(b, li, ri) {
         return Some(id);
     }
 
     for &l in li {
         let mut l_dependants = g.neighbors_directed(l, Incoming).collect::<Vec<_>>();
+        l_dependants.sort();
         for &l_dependant in &l_dependants {
             if g.neighbors_directed(l_dependant, Incoming).count() == 0 {
                 return Some(l_dependant);
@@ -102,6 +100,7 @@ fn check_itself_and_parent(b: &PlanBuilder, li: &[ModuleId], ri: &[ModuleId]) ->
 
     for &r in ri {
         let mut r_dependants = g.neighbors_directed(r, Incoming).collect::<Vec<_>>();
+        r_dependants.sort();
         for &r_dependant in &r_dependants {
             if g.neighbors_directed(r_dependant, Incoming).count() == 0 {
                 return Some(r_dependant);
