@@ -22,7 +22,6 @@ pub mod hygiene;
 /// assume that the length of the span = hi - lo; there may be space in the
 /// BytePos range between files.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Span {
     #[serde(rename = "start")]
     pub lo: BytePos,
@@ -31,6 +30,16 @@ pub struct Span {
     /// Information about where the macro came from, if this piece of
     /// code was created by a macro expansion.
     pub ctxt: SyntaxContext,
+}
+
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Span {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let lo = u.arbitrary::<BytePos>()?;
+        let hi = u.arbitrary::<BytePos>()?;
+
+        Ok(Self::new(lo, hi, Default::default()))
+    }
 }
 
 /// Dummy span, both position and length are zero, syntax context is zero as
