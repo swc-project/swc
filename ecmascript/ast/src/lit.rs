@@ -10,6 +10,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Lit {
     #[tag("StringLiteral")]
     Str(Str),
@@ -35,6 +36,7 @@ pub enum Lit {
 
 #[ast_node("BigIntLiteral")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BigInt {
     pub span: Span,
     pub value: BigIntValue,
@@ -42,6 +44,7 @@ pub struct BigInt {
 
 #[ast_node("StringLiteral")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Str {
     pub span: Span,
 
@@ -60,6 +63,7 @@ impl Str {
 
 #[ast_node("BooleanLiteral")]
 #[derive(Copy, Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
@@ -67,6 +71,7 @@ pub struct Bool {
 
 #[ast_node("NullLiteral")]
 #[derive(Copy, Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Null {
     pub span: Span,
 }
@@ -85,6 +90,7 @@ pub struct Regex {
 
 #[ast_node("NumericLiteral")]
 #[derive(Copy)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Number {
     pub span: Span,
     /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.

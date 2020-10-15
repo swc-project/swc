@@ -5,6 +5,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Program {
     #[tag("Module")]
     Module(Module),
@@ -14,6 +15,7 @@ pub enum Program {
 
 #[ast_node("Module")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Module {
     pub span: Span,
 
@@ -25,6 +27,7 @@ pub struct Module {
 
 #[ast_node("Script")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Script {
     pub span: Span,
 
@@ -36,6 +39,7 @@ pub struct Script {
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ModuleItem {
     #[tag("ImportDeclaration")]
     #[tag("ExportDeclaration")]

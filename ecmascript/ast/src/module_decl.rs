@@ -11,6 +11,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
     Import(ImportDecl),
@@ -42,6 +43,7 @@ pub enum ModuleDecl {
 
 #[ast_node("ExportDefaultExpression")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportDefaultExpr {
     pub span: Span,
 
@@ -51,6 +53,7 @@ pub struct ExportDefaultExpr {
 
 #[ast_node("ExportDeclaration")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportDecl {
     pub span: Span,
 
@@ -60,6 +63,7 @@ pub struct ExportDecl {
 
 #[ast_node("ImportDeclaration")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ImportDecl {
     pub span: Span,
 
@@ -79,6 +83,7 @@ pub struct ImportDecl {
 /// `export * from 'mod'`
 #[ast_node("ExportAllDeclaration")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportAll {
     pub span: Span,
 
@@ -90,6 +95,7 @@ pub struct ExportAll {
 /// `export { foo as bar } from 'mod'`
 #[ast_node("ExportNamedDeclaration")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct NamedExport {
     pub span: Span,
 
