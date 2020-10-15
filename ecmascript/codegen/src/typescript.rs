@@ -176,7 +176,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_export_assignment(&mut self, n: &TsExportAssignment) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_export_assignment")
+        keyword!("export");
+        formatting_space!();
+        punct!("=");
+        formatting_space!();
+        emit!(n.expr);
     }
 
     #[emitter]
