@@ -21,9 +21,10 @@ impl arbitrary::Arbitrary for Ident {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let sym = u.arbitrary::<String>()?;
-        if v.is_empty() {
+        if sym.is_empty() {
             return Err(arbitrary::Error::NotEnoughData);
         }
+        let sym = sym.into();
 
         let type_ann = u.arbitrary()?;
         let optional = u.arbitrary()?;
