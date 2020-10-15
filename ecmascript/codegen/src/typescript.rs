@@ -582,7 +582,8 @@ impl<'a> Emitter<'a> {
     fn emit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_non_null_expr")
+        emit!(n.expr);
+        punct!("!")
     }
 
     #[emitter]
