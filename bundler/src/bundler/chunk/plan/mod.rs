@@ -178,7 +178,7 @@ where
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
-            let mut bfs = Bfs::new(&builder.direct_deps, *id);
+            let mut bfs = SortedBfs::new(&builder.direct_deps, *id);
 
             while let Some(dep) = bfs.next(&builder.direct_deps) {
                 if dep == *id {
@@ -386,7 +386,7 @@ where
 
         // Handle circular imports
         for (root_entry, _) in builder.kinds.iter() {
-            let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
+            let mut bfs = SortedBfs::new(&builder.direct_deps, *root_entry);
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {
                 let deps: Vec<_> = builder
@@ -461,7 +461,7 @@ where
             plans.normal.entry(entry).or_default();
         }
 
-        // dbg!(&plans);
+        dbg!(&plans);
         plans
     }
 
