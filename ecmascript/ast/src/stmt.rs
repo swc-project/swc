@@ -10,6 +10,7 @@ use swc_common::{ast_node, Span};
 /// Use when only block statements are allowed.
 #[ast_node("BlockStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BlockStmt {
     /// Span including the braces.
     pub span: Span,
@@ -19,6 +20,7 @@ pub struct BlockStmt {
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Stmt {
     #[tag("BlockStatement")]
     Block(BlockStmt),
@@ -94,6 +96,7 @@ pub enum Stmt {
 
 #[ast_node("ExpressionStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExprStmt {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -102,6 +105,7 @@ pub struct ExprStmt {
 
 #[ast_node("EmptyStatement")]
 #[derive(Eq, Hash, Copy)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct EmptyStmt {
     /// Span of semicolon.
     pub span: Span,
@@ -109,12 +113,14 @@ pub struct EmptyStmt {
 
 #[ast_node("DebuggerStatement")]
 #[derive(Eq, Hash, Copy)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct DebuggerStmt {
     pub span: Span,
 }
 
 #[ast_node("WithStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct WithStmt {
     pub span: Span,
     #[serde(rename = "object")]
@@ -124,6 +130,7 @@ pub struct WithStmt {
 
 #[ast_node("ReturnStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ReturnStmt {
     pub span: Span,
     #[serde(default, rename = "argument")]
@@ -132,6 +139,7 @@ pub struct ReturnStmt {
 
 #[ast_node("LabeledStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct LabeledStmt {
     pub span: Span,
     pub label: Ident,
@@ -140,6 +148,7 @@ pub struct LabeledStmt {
 
 #[ast_node("BreakStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BreakStmt {
     pub span: Span,
     #[serde(default)]
@@ -148,6 +157,7 @@ pub struct BreakStmt {
 
 #[ast_node("ContinueStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ContinueStmt {
     pub span: Span,
     #[serde(default)]
@@ -156,6 +166,7 @@ pub struct ContinueStmt {
 
 #[ast_node("IfStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct IfStmt {
     pub span: Span,
     pub test: Box<Expr>,
@@ -169,6 +180,7 @@ pub struct IfStmt {
 
 #[ast_node("SwitchStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SwitchStmt {
     pub span: Span,
     pub discriminant: Box<Expr>,
@@ -177,6 +189,7 @@ pub struct SwitchStmt {
 
 #[ast_node("ThrowStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ThrowStmt {
     pub span: Span,
     #[serde(rename = "argument")]
@@ -185,6 +198,7 @@ pub struct ThrowStmt {
 
 #[ast_node("TryStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TryStmt {
     pub span: Span,
 
@@ -199,6 +213,7 @@ pub struct TryStmt {
 
 #[ast_node("WhileStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct WhileStmt {
     pub span: Span,
     pub test: Box<Expr>,
@@ -207,6 +222,7 @@ pub struct WhileStmt {
 
 #[ast_node("DoWhileStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct DoWhileStmt {
     pub span: Span,
     pub test: Box<Expr>,
@@ -215,6 +231,7 @@ pub struct DoWhileStmt {
 
 #[ast_node("ForStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForStmt {
     pub span: Span,
 
@@ -232,6 +249,7 @@ pub struct ForStmt {
 
 #[ast_node("ForInStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForInStmt {
     pub span: Span,
     pub left: VarDeclOrPat,
@@ -241,6 +259,7 @@ pub struct ForInStmt {
 
 #[ast_node("ForOfStatement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForOfStmt {
     pub span: Span,
     /// Span of the await token.
@@ -257,6 +276,7 @@ pub struct ForOfStmt {
 
 #[ast_node("SwitchCase")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SwitchCase {
     pub span: Span,
 
@@ -270,6 +290,7 @@ pub struct SwitchCase {
 
 #[ast_node("CatchClause")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct CatchClause {
     pub span: Span,
     /// es2019
@@ -284,6 +305,7 @@ pub struct CatchClause {
 
 #[ast_node]
 #[derive(Eq, Hash, Is)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclOrPat {
     #[tag("VariableDeclaration")]
     VarDecl(VarDecl),
@@ -295,6 +317,7 @@ pub enum VarDeclOrPat {
 #[ast_node]
 #[derive(Eq, Hash, Is)]
 #[allow(variant_size_differences)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclOrExpr {
     #[tag("VariableDeclaration")]
     VarDecl(VarDecl),

@@ -32,6 +32,16 @@ pub struct Span {
     pub ctxt: SyntaxContext,
 }
 
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Span {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let lo = u.arbitrary::<BytePos>()?;
+        let hi = u.arbitrary::<BytePos>()?;
+
+        Ok(Self::new(lo, hi, Default::default()))
+    }
+}
+
 /// Dummy span, both position and length are zero, syntax context is zero as
 /// well.
 pub const DUMMY_SP: Span = Span {
@@ -728,6 +738,7 @@ pub trait Pos {
 /// a lot of them.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BytePos(pub u32);
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset

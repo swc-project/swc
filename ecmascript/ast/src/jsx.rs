@@ -12,6 +12,7 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 #[derive(Eq, Hash, Is)]
 #[allow(variant_size_differences)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXObject {
     #[tag("JSXMemberExpression")]
     JSXMemberExpr(Box<JSXMemberExpr>),
@@ -21,6 +22,7 @@ pub enum JSXObject {
 
 #[ast_node("JSXMemberExpression")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXMemberExpr {
     #[serde(rename = "object")]
     #[span(lo)]
@@ -34,6 +36,7 @@ pub struct JSXMemberExpr {
 /// XML-based namespace syntax:
 #[ast_node("JSXNamespacedName")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXNamespacedName {
     #[serde(rename = "namespace")]
     #[span(lo)]
@@ -44,12 +47,14 @@ pub struct JSXNamespacedName {
 
 #[ast_node("JSXEmptyExpression")]
 #[derive(Eq, Hash, Copy)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXEmptyExpr {
     pub span: Span,
 }
 
 #[ast_node("JSXExpressionContainer")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXExprContainer {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -59,6 +64,7 @@ pub struct JSXExprContainer {
 #[ast_node]
 #[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXExpr {
     #[tag("JSXEmptyExpression")]
     JSXEmptyExpr(JSXEmptyExpr),
@@ -68,6 +74,7 @@ pub enum JSXExpr {
 
 #[ast_node("JSXSpreadChild")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXSpreadChild {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -76,6 +83,7 @@ pub struct JSXSpreadChild {
 
 #[ast_node]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXElementName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -87,6 +95,7 @@ pub enum JSXElementName {
 
 #[ast_node("JSXOpeningElement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXOpeningElement {
     pub name: JSXElementName,
 
@@ -107,6 +116,7 @@ pub struct JSXOpeningElement {
 #[ast_node]
 #[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrOrSpread {
     #[tag("JSXAttribute")]
     JSXAttr(JSXAttr),
@@ -116,6 +126,7 @@ pub enum JSXAttrOrSpread {
 
 #[ast_node("JSXClosingElement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXClosingElement {
     pub span: Span,
     pub name: JSXElementName,
@@ -123,6 +134,7 @@ pub struct JSXClosingElement {
 
 #[ast_node("JSXAttribute")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
@@ -132,6 +144,7 @@ pub struct JSXAttr {
 
 #[ast_node]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -141,6 +154,7 @@ pub enum JSXAttrName {
 
 #[ast_node]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrValue {
     #[tag("StringLiteral")]
     #[tag("BooleanLiteral")]
@@ -168,8 +182,20 @@ pub struct JSXText {
     pub raw: JsWord,
 }
 
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for JSXText {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let value = u.arbitrary::<String>()?.into();
+        let raw = u.arbitrary::<String>()?.into();
+
+        Ok(Self { span, value, raw })
+    }
+}
+
 #[ast_node("JSXElement")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXElement {
     pub span: Span,
     pub opening: JSXOpeningElement,
@@ -179,6 +205,7 @@ pub struct JSXElement {
 
 #[ast_node]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXElementChild {
     #[tag("JSXText")]
     JSXText(JSXText),
@@ -198,6 +225,7 @@ pub enum JSXElementChild {
 
 #[ast_node("JSXFragment")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXFragment {
     pub span: Span,
 
@@ -211,12 +239,14 @@ pub struct JSXFragment {
 
 #[ast_node("JSXOpeningFragment")]
 #[derive(Eq, Hash, Copy)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXOpeningFragment {
     pub span: Span,
 }
 
 #[ast_node("JSXClosingFragment")]
 #[derive(Eq, Hash, Copy)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXClosingFragment {
     pub span: Span,
 }
