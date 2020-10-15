@@ -15,7 +15,6 @@ pub enum Program {
 
 #[ast_node("Module")]
 #[derive(Eq, Hash)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Module {
     pub span: Span,
 
@@ -25,9 +24,21 @@ pub struct Module {
     pub shebang: Option<JsWord>,
 }
 
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Module {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self {
+            span,
+            body,
+            shebang: None,
+        })
+    }
+}
+
 #[ast_node("Script")]
 #[derive(Eq, Hash)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Script {
     pub span: Span,
 
@@ -35,6 +46,19 @@ pub struct Script {
 
     #[serde(default, rename = "interpreter")]
     pub shebang: Option<JsWord>,
+}
+
+#[cfg(feature = "arbitrary")]
+impl arbitrary::Arbitrary for Script {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let body = u.arbitrary()?;
+        Ok(Self {
+            span,
+            body,
+            shebang: None,
+        })
+    }
 }
 
 #[ast_node]

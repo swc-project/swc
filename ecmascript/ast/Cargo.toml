@@ -9,8 +9,8 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.33.1"
 
 [features]
-default = ["fuzzing"]
-fuzzing = ["swc_common/arbitrary"]
+default = []
+fuzzing = ["arbitrary", "swc_common/arbitrary"]
 
 [dependencies]
 arbitrary = {version = "0.4.7", optional = true, features = ["derive"]}

@@ -579,6 +579,7 @@ pub struct TsIntersectionType {
 
 #[ast_node("TsConditionalType")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsConditionalType {
     pub span: Span,
     pub check_type: Box<TsType>,
