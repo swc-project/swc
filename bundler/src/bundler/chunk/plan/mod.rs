@@ -1,4 +1,4 @@
-use self::lca::least_common_ancestor;
+use self::{lca::least_common_ancestor, sorted_bfs::SortedBfs};
 use crate::{
     bundler::{load::TransformedModule, scope::Metadata},
     BundleKind, Bundler, Load, ModuleId, Resolve,
@@ -16,6 +16,7 @@ use std::{
 };
 
 mod lca;
+mod sorted_bfs;
 #[cfg(test)]
 mod tests;
 
@@ -222,7 +223,7 @@ where
         // Convert graph to plan
         for (root_entry, _) in &builder.kinds {
             let root_entry = *root_entry;
-            let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
+            let mut bfs = SortedBfs::new(&builder.direct_deps, root_entry);
 
             let mut done = HashSet::new();
 
