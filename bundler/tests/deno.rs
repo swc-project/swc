@@ -118,6 +118,8 @@ struct Loader {
 
 impl Load for Loader {
     fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
+        eprintln!("{}", file);
+
         let url = match file {
             FileName::Custom(v) => v,
             _ => unreachable!("this test only uses url"),
