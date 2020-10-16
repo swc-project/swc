@@ -4,8 +4,6 @@ use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use std::collections::{HashMap, HashSet};
-use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
-use swc_ecma_visit::FoldWith;
 
 mod circular;
 mod cjs;
