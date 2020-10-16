@@ -38,7 +38,10 @@ fn std_0_74_9_http_server() {
 #[test]
 #[ignore = "Too slow"]
 fn oak_6_3_1_example() {
-    run("https://deno.land/x/oak@v6.3.1/examples/server.ts", None);
+    run(
+        "https://deno.land/x/oak@v6.3.1/examples/server.ts",
+        Some(398121),
+    );
 }
 
 fn run(url: &str, expeceted_bytes: Option<usize>) {
