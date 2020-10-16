@@ -10,7 +10,7 @@ version = "0.11.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
-concurrent = ["swc_common/concurrent", "dashmap", "rayon"]
+concurrent = ["swc_common/concurrent", "dashmap", "rayon", "indexmap/rayon"]
 default = []
 
 [dependencies]
