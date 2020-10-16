@@ -7,7 +7,6 @@ use anyhow::{bail, Error};
 use petgraph::{
     algo::all_simple_paths,
     graphmap::DiGraphMap,
-    visit::Bfs,
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::{
