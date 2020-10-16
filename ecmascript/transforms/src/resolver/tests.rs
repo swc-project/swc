@@ -1723,3 +1723,26 @@ to!(
 
     "#
 );
+
+// https://github.com/swc-project/swc/pull/1171
+to!(
+    pr_1171_1,
+    r#"
+    function isAbsolute() {}
+
+    function parse(path) {
+        const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        if (isAbsolute) {
+        }
+    }
+    "#,
+    r#"
+    function isAbsolute() {}
+
+    function parse(path) {
+        const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        if (isAbsolute) {
+        }
+    }
+    "#
+);
