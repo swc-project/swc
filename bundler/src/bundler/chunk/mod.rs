@@ -64,10 +64,6 @@ where
                         .context("failed to merge module")
                         .unwrap(); // TODO
 
-                    let module = module
-                        .fold_with(&mut dce::dce(Default::default()))
-                        .fold_with(&mut hygiene());
-
                     Bundle {
                         kind,
                         id: entry,
