@@ -3,7 +3,7 @@ use super::{
     Bundler,
 };
 use crate::{id::Id, load::Load, resolve::Resolve};
-use std::collections::HashMap;
+use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
@@ -39,7 +39,7 @@ where
 #[derive(Debug, Default)]
 pub(super) struct RawExports {
     /// Key is None if it's exported from the module itself.
-    pub items: HashMap<Option<Str>, Vec<Specifier>>,
+    pub items: IndexMap<Option<Str>, Vec<Specifier>>,
 }
 
 #[derive(Debug, Default)]

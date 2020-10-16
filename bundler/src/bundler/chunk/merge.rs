@@ -70,6 +70,9 @@ where
 
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
+            self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
+                .context("failed to merge reepxorts")?;
+
             if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
                 return Ok(entry);
             }
@@ -80,9 +83,6 @@ where
                 info.fm.name,
                 plan.normal.get(&info.id)
             );
-
-            self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
-                .context("failed to merge reepxorts")?;
 
             // We handle this kind of modules specially.
             if self.scope.should_be_wrapped_with_a_fn(info.id) {

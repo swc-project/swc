@@ -242,7 +242,7 @@ where
                                 entry
                             );
                             if entry != root_entry && dep != root_entry {
-                                done.insert(dep);
+                                // done.insert(dep);
                                 plans.normal.entry(entry).or_default().chunks.push(dep);
                             }
                             continue;
