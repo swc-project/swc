@@ -224,8 +224,6 @@ where
                 }
             }
 
-            dbg!(&normal_reexports, &star_reexports, &decls_for_reexport);
-
             if !normal_reexports.is_empty() {
                 entry
                     .body
@@ -395,7 +393,6 @@ impl VisitMut for ExportInjector {
                         .collect::<Vec<_>>();
 
                     if !decls.is_empty() {
-                        dbg!(&decls);
                         buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Const,
@@ -551,8 +548,6 @@ impl VisitMut for UnexportAsVar<'_> {
                         },
                     }
                 }
-
-                dbg!(&decls);
 
                 if decls.is_empty() {
                     *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
