@@ -1,4 +1,4 @@
-use self::{lca::least_common_ancestor, sorted_bfs::SortedBfs};
+use self::lca::least_common_ancestor;
 use crate::{
     bundler::{load::TransformedModule, scope::Metadata},
     BundleKind, Bundler, Load, ModuleId, Resolve,
@@ -7,6 +7,7 @@ use anyhow::{bail, Error};
 use petgraph::{
     algo::all_simple_paths,
     graphmap::DiGraphMap,
+    visit::Bfs,
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::{
@@ -177,7 +178,7 @@ where
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
-            let mut bfs = SortedBfs::new(&builder.direct_deps, *id);
+            let mut bfs = Bfs::new(&builder.direct_deps, *id);
 
             while let Some(dep) = bfs.next(&builder.direct_deps) {
                 if dep == *id {
@@ -222,7 +223,7 @@ where
         // Convert graph to plan
         for (root_entry, _) in &builder.kinds {
             let root_entry = *root_entry;
-            let mut bfs = SortedBfs::new(&builder.direct_deps, root_entry);
+            let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
             let mut done = HashSet::new();
 
@@ -242,7 +243,7 @@ where
                                 entry
                             );
                             if entry != root_entry && dep != root_entry {
-                                done.insert(dep);
+                                // done.insert(dep);
                                 plans.normal.entry(entry).or_default().chunks.push(dep);
                             }
                             continue;
@@ -385,7 +386,7 @@ where
 
         // Handle circular imports
         for (root_entry, _) in builder.kinds.iter() {
-            let mut bfs = SortedBfs::new(&builder.direct_deps, *root_entry);
+            let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {
                 let deps: Vec<_> = builder

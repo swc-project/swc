@@ -13,7 +13,7 @@ use std::{
 };
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -224,6 +224,8 @@ where
                 }
             }
 
+            dbg!(&normal_reexports, &star_reexports, &decls_for_reexport);
+
             if !normal_reexports.is_empty() {
                 entry
                     .body
@@ -393,6 +395,7 @@ impl VisitMut for ExportInjector {
                         .collect::<Vec<_>>();
 
                     if !decls.is_empty() {
+                        dbg!(&decls);
                         buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Const,
@@ -507,7 +510,9 @@ impl VisitMut for UnexportAsVar<'_> {
                     }],
                 })));
             }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(ref export)) => {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                ref export @ NamedExport { src: None, .. },
+            )) => {
                 let mut decls = vec![];
                 for s in &export.specifiers {
                     match s {
@@ -547,6 +552,8 @@ impl VisitMut for UnexportAsVar<'_> {
                     }
                 }
 
+                dbg!(&decls);
+
                 if decls.is_empty() {
                     *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                 } else {
@@ -558,74 +565,6 @@ impl VisitMut for UnexportAsVar<'_> {
                     })))
                 }
             }
-            _ => {}
-        }
-    }
-
-    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
-}
-
-struct AliasExports {
-    /// Syntax context of the importer.
-    importer_ctxt: SyntaxContext,
-    decls: Vec<VarDeclarator>,
-}
-
-impl VisitMut for AliasExports {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        for item in items.iter_mut() {
-            item.visit_mut_with(self);
-        }
-
-        if !self.decls.is_empty() {
-            items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Const,
-                decls: take(&mut self.decls),
-                declare: false,
-            }))))
-        }
-    }
-
-    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
-        match decl {
-            ModuleDecl::ExportDecl(ref export) => match &export.decl {
-                Decl::Class(c) => self.decls.push(VarDeclarator {
-                    span: c.class.span,
-                    name: Pat::Ident(c.ident.clone()),
-                    init: Some(Box::new(Expr::Ident(Ident::new(
-                        c.ident.sym.clone(),
-                        c.ident.span.with_ctxt(self.importer_ctxt),
-                    )))),
-                    definite: false,
-                }),
-                Decl::Fn(f) => self.decls.push(VarDeclarator {
-                    span: f.function.span,
-                    name: Pat::Ident(Ident::new(
-                        f.ident.sym.clone(),
-                        f.ident.span.with_ctxt(self.importer_ctxt),
-                    )),
-                    init: Some(Box::new(Expr::Ident(f.ident.clone()))),
-                    definite: false,
-                }),
-                Decl::Var(var) => {
-                    let ids = find_ids::<_, Ident>(&var.decls);
-                    for ident in ids {
-                        self.decls.push(VarDeclarator {
-                            span: ident.span,
-                            name: Pat::Ident(Ident::new(
-                                ident.sym.clone(),
-                                ident.span.with_ctxt(self.importer_ctxt),
-                            )),
-                            init: Some(Box::new(Expr::Ident(ident))),
-                            definite: false,
-                        })
-                    }
-                }
-                _ => {}
-            },
             _ => {}
         }
     }
