@@ -16,7 +16,6 @@ use std::{
 };
 
 mod lca;
-mod sorted_bfs;
 #[cfg(test)]
 mod tests;
 
