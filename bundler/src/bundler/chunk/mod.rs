@@ -4,8 +4,6 @@ use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use std::collections::{HashMap, HashSet};
-use swc_ecma_transforms::{hygiene, optimization::simplify::dce};
-use swc_ecma_visit::FoldWith;
 
 mod circular;
 mod cjs;
@@ -63,10 +61,6 @@ where
                         .merge_modules(&plan, entry, true, false, &merged)
                         .context("failed to merge module")
                         .unwrap(); // TODO
-
-                    let module = module
-                        .fold_with(&mut dce::dce(Default::default()))
-                        .fold_with(&mut hygiene());
 
                     Bundle {
                         kind,

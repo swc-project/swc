@@ -7,7 +7,7 @@ use std::{
 };
 use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::{ImportDecl, Str};
-use swc_ecma_transforms::fixer;
+use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -27,6 +27,8 @@ where
 
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
+                bundle.module = bundle.module.fold_with(&mut hygiene());
+
                 bundle.module = bundle.module.fold_with(&mut fixer(None));
                 match bundle.kind {
                     BundleKind::Named { .. } => {

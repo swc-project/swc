@@ -1723,3 +1723,49 @@ to!(
 
     "#
 );
+
+// https://github.com/swc-project/swc/pull/1171
+to!(
+    pr_1171_1,
+    r#"
+    function isAbsolute() {}
+
+    function parse(path) {
+        const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        if (isAbsolute) {
+        }
+    }
+    "#,
+    r#"
+    function isAbsolute() {}
+
+    function parse(path) {
+        var isAbsolute1 = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        if (isAbsolute1) {
+        }
+    }
+    "#
+);
+
+// https://github.com/swc-project/swc/pull/1171
+to!(
+    pr_1171_2,
+    r#"
+    function parse(path) {
+        const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        if (isAbsolute) {
+        }
+    }
+
+    function isAbsolute() {}
+    "#,
+    r#"
+    function parse(path) {
+        var isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        if (isAbsolute) {
+        }
+    }
+
+    function isAbsolute() {}
+    "#
+);
