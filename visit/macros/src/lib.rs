@@ -61,10 +61,10 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    // q.push_tokens(&make(Mode::Fold, &block.stmts));
+    q.push_tokens(&make(Mode::Fold, &block.stmts));
     q.push_tokens(&make(Mode::Visit, &block.stmts));
     q.push_tokens(&make(Mode::VisitAll, &block.stmts));
-    // q.push_tokens(&make(Mode::VisitMut, &block.stmts));
+    q.push_tokens(&make(Mode::VisitMut, &block.stmts));
 
     proc_macro2::TokenStream::from(q).into()
 }
