@@ -835,7 +835,7 @@ impl<'a, I: Tokens> Parser<I> {
                         value: raw,
                         has_escape,
                     },
-                    Some(Str {
+                    cooked.map(|cooked| Str {
                         span: span!(start),
                         value: cooked,
                         has_escape,

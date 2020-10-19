@@ -636,7 +636,8 @@ pub enum TokenContext {
 
 #[cfg(test)]
 pub(crate) fn with_lexer<F, Ret>(
-    syntax: crate::Syntax,
+    syntax: Syntax,
+    target: JscTarget,
     s: &str,
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
@@ -644,7 +645,7 @@ where
     F: FnOnce(&mut Lexer<'_, crate::lexer::input::StringInput<'_>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |_, fm| {
-        let mut l = Lexer::new(syntax, Default::default(), fm, None);
+        let mut l = Lexer::new(syntax, target, fm, None);
         let res = f(&mut l);
 
         let c = vec![TokenContext::BraceStmt];
@@ -656,13 +657,13 @@ where
 
 #[cfg(test)]
 pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, s, |l| Ok(l.collect())).unwrap()
+    with_lexer(syntax, Default::default(), s, |l| Ok(l.collect())).unwrap()
 }
 
 /// lex `s` within module context.
 #[cfg(test)]
 pub(crate) fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, s, |l| {
+    with_lexer(syntax, Default::default(), s, |l| {
         l.ctx.strict = true;
         l.ctx.module = true;
 
@@ -673,5 +674,17 @@ pub(crate) fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
 
 #[cfg(test)]
 pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
-    with_lexer(syntax, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
+    with_lexer(syntax, Default::default(), s, |l| {
+        Ok(l.map(|ts| ts.token).collect())
+    })
+    .unwrap()
+}
+
+#[cfg(test)]
+pub(crate) fn lex_tokens_with_target(
+    syntax: Syntax,
+    target: JscTarget,
+    s: &'static str,
+) -> Vec<Token> {
+    with_lexer(syntax, target, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
 }

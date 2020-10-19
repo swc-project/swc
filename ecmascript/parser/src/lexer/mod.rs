@@ -971,7 +971,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // TODO: Optimize
         let mut has_escape = false;
-        let mut cooked = String::new();
+        let mut cooked = Some(String::new());
         let mut raw = String::new();
 
         while let Some(c) = self.cur() {
@@ -989,7 +989,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // TODO: Handle error
                 return Ok(Template {
-                    cooked: cooked.into(),
+                    cooked: cooked.map(|cooked| cooked.into()),
                     raw: raw.into(),
                     has_escape,
                 });
@@ -999,11 +999,22 @@ impl<'a, I: Input> Lexer<'a, I> {
                 has_escape = true;
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
-                let ch = self.read_escaped_char(&mut wrapped)?;
-                raw = wrapped.0.unwrap();
-                if let Some(s) = ch {
-                    cooked.extend(s);
+                match self.read_escaped_char(&mut wrapped) {
+                    Ok(Some(s)) => {
+                        if let Some(ref mut cooked) = cooked {
+                            cooked.extend(s);
+                        }
+                    }
+                    Ok(None) => {}
+                    Err(error) => {
+                        if self.target < JscTarget::Es2018 {
+                            return Err(error);
+                        } else {
+                            cooked = None;
+                        }
+                    }
                 }
+                raw = wrapped.0.unwrap();
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
@@ -1021,10 +1032,14 @@ impl<'a, I: Input> Lexer<'a, I> {
                     c
                 };
                 self.bump();
-                cooked.push(c);
+                if let Some(ref mut cooked) = cooked {
+                    cooked.push(c);
+                }
             } else {
                 self.bump();
-                cooked.push(c);
+                if let Some(ref mut cooked) = cooked {
+                    cooked.push(c);
+                }
                 raw.push(c);
             }
         }

@@ -1,7 +1,7 @@
 extern crate test;
 
 use super::{
-    state::{lex, lex_module, lex_tokens, with_lexer},
+    state::{lex, lex_module, lex_tokens, lex_tokens_with_target, with_lexer},
     *,
 };
 use crate::error::{Error, SyntaxError};
@@ -233,7 +233,7 @@ multiline`"
         vec![
             tok!('`'),
             Token::Template {
-                cooked: "this\nis\nmultiline".into(),
+                cooked: Some("this\nis\nmultiline".into()),
                 raw: "this\nis\nmultiline".into(),
                 has_escape: false
             },
@@ -249,13 +249,44 @@ fn tpl_raw_unicode_escape() {
         vec![
             tok!('`'),
             Token::Template {
-                cooked: format!("{}", '\u{0010}').into(),
+                cooked: Some(format!("{}", '\u{0010}').into()),
                 raw: "\\u{0010}".into(),
                 has_escape: true
             },
             tok!('`'),
         ]
     );
+}
+
+#[test]
+fn tpl_invalid_unicode_escape() {
+    assert_eq!(
+        lex_tokens_with_target(Syntax::default(), JscTarget::Es2018, r"`\unicode`"),
+        vec![
+            tok!('`'),
+            Token::Template {
+                cooked: None,
+                raw: "\\unicode".into(),
+                has_escape: true
+            },
+            tok!('`'),
+        ]
+    );
+    assert_eq!(
+        lex_tokens_with_target(Syntax::default(), JscTarget::Es2017, r"`\unicode`"),
+        vec![
+            tok!('`'),
+            Token::Error(Error {
+                error: Box::new((sp(1..3), SyntaxError::ExpectedHexChars { count: 4 })),
+            }),
+            Token::Template {
+                cooked: Some("nicode".into()),
+                raw: "nicode".into(),
+                has_escape: false,
+            },
+            tok!('`')
+        ]
+    )
 }
 
 #[test]
@@ -658,7 +689,7 @@ fn tpl_empty() {
             tok!('`'),
             Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false
             },
             tok!('`')
@@ -674,7 +705,7 @@ fn tpl() {
             tok!('`'),
             Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false
             },
             tok!("${"),
@@ -682,7 +713,7 @@ fn tpl() {
             tok!('}'),
             Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false
             },
             tok!('`'),
@@ -851,7 +882,7 @@ fn issue_191() {
             tok!('`'),
             Token::Template {
                 raw: "".into(),
-                cooked: "".into(),
+                cooked: Some("".into()),
                 has_escape: false,
             },
             tok!("${"),
@@ -859,7 +890,7 @@ fn issue_191() {
             tok!('}'),
             Token::Template {
                 raw: "<bar>".into(),
-                cooked: "<bar>".into(),
+                cooked: Some("<bar>".into()),
                 has_escape: false,
             },
             tok!('`')
@@ -1079,6 +1110,7 @@ fn lex_colors_js(b: &mut Bencher) {
     b.iter(|| {
         let _ = with_lexer(
             Syntax::default(),
+            Default::default(),
             include_str!("../../colors.js"),
             |lexer| {
                 for t in lexer {
@@ -1097,6 +1129,7 @@ fn lex_colors_ts(b: &mut Bencher) {
     b.iter(|| {
         let _ = with_lexer(
             Syntax::Typescript(Default::default()),
+            Default::default(),
             include_str!("../../colors.js"),
             |lexer| {
                 for t in lexer {
@@ -1118,7 +1151,7 @@ fn bench(b: &mut Bencher, syntax: Syntax, s: &str) {
     b.bytes = s.len() as _;
 
     b.iter(|| {
-        let _ = with_lexer(syntax, s, |lexer| {
+        let _ = with_lexer(syntax, Default::default(), s, |lexer| {
             for t in lexer {
                 black_box(t);
             }
