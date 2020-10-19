@@ -215,7 +215,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     '{' => LBrace,
                     '}' => RBrace,
                     '@' => At,
-                    '?' => QuestionMark,
                     _ => unreachable!(),
                 }));
             }
