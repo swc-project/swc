@@ -679,3 +679,12 @@ pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
     })
     .unwrap()
 }
+
+#[cfg(test)]
+pub(crate) fn lex_tokens_with_target(
+    syntax: Syntax,
+    target: JscTarget,
+    s: &'static str,
+) -> Vec<Token> {
+    with_lexer(syntax, target, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
+}

@@ -70,7 +70,7 @@ pub enum Token {
     BackQuote,
     Template {
         raw: JsWord,
-        cooked: JsWord,
+        cooked: Option<JsWord>,
         has_escape: bool,
     },
     /// ':'
