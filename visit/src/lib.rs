@@ -3,12 +3,6 @@ pub use swc_visit_macros::define;
 
 pub mod util;
 
-/// Visit all children nodes
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct All<V> {
-    pub visitor: V,
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Optional<V> {
     pub enabled: bool,
