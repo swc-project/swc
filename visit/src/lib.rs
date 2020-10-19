@@ -3,6 +3,13 @@ pub use swc_visit_macros::define;
 
 pub mod util;
 
+/// Visit all children nodes. This converts `VisitAll` to `Visit`. The type
+/// parameter `V` should implement `VisitAll` and `All<V>` implements `Visit`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct All<V> {
+    pub visitor: V,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Optional<V> {
     pub enabled: bool,
