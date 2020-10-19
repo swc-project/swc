@@ -63,10 +63,10 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    q.push_tokens(&make(Mode::Fold, &block.stmts));
+    // q.push_tokens(&make(Mode::Fold, &block.stmts));
     q.push_tokens(&make(Mode::Visit, &block.stmts));
     q.push_tokens(&make(Mode::VisitAll, &block.stmts));
-    q.push_tokens(&make(Mode::VisitMut, &block.stmts));
+    // q.push_tokens(&make(Mode::VisitMut, &block.stmts));
 
     proc_macro2::TokenStream::from(q).into()
 }
@@ -498,7 +498,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
 
             match mode {
-                Mode::Visit | Mode::VisitAll => {
+                Mode::Visit => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -525,6 +525,44 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                                 fn visit_children_with(&self, _visitor: &mut V) {
                                     let _parent = self as &dyn Node;
+                                    default_body
+                                }
+                            }
+                        }
+                    ));
+                }
+
+                Mode::VisitAll => {
+                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                        q!(
+                            Vars {
+                                expr,
+                                method_name: &method_name
+                            },
+                            { method_name(_visitor, expr, _parent) }
+                        )
+                        .parse()
+                    });
+
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            method_name,
+                            Type: ty,
+                            expr,
+                            default_body,
+                        },
+                        {
+                            impl<V: VisitAll> VisitAllWith<V> for Type {
+                                fn visit_all_with(&self, _parent: &dyn Node, v: &mut V) {
+                                    let mut all = ::swc_visit::All { visitor: v };
+                                    let mut v = &mut all;
+                                    expr
+                                }
+
+                                fn visit_all_children_with(&self, _visitor: &mut V) {
+                                    let _parent = self as &dyn Node;
+                                    let mut all = ::swc_visit::All { visitor: v };
+                                    let mut v = &mut all;
                                     default_body
                                 }
                             }
