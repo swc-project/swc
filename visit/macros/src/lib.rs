@@ -398,6 +398,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             .extend(visit_all_methods.into_iter().map(ImplItem::Method));
 
         tokens.push_tokens(&item);
+        tokens.push_tokens(&q!({
+            pub use swc_visit::All;
+        }));
     }
 
     {
