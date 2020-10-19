@@ -13,7 +13,7 @@ use syn::{
     Visibility,
 };
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Mode {
     Visit,
     VisitAll,
@@ -45,6 +45,8 @@ enum MethodMode {
     Normal,
     Optional,
     Either,
+    /// Implements Visit for swc_visit::All<V> where V: VisitAll
+    All,
 }
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -53,11 +55,7 @@ enum MethodMode {
 ///
 ///  - highly extensible and used to create Visitor for any types
 ///
-/// If there's a need, I'll publish the macro with generic name.
-///
-///  - will be extended to create `VisitMut` and `Fold` in future
-///
-/// (If there's a request)
+///  - create `Visit`, `VisitAll`, `VisitMut`, `Fold`
 #[proc_macro]
 pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
@@ -77,6 +75,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     let mut ref_methods = vec![];
     let mut optional_methods = vec![];
     let mut either_methods = vec![];
+    let mut visit_all_methods = vec![];
 
     for stmts in stmts {
         let item = match stmts {
@@ -140,6 +139,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             let mtd = make_method(mode, item, &mut types, MethodMode::Either).unwrap();
 
             either_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: Signature { ..mtd.sig },
+                block: mtd.default.unwrap(),
+            });
+        }
+
+        {
+            // Visit <-> VisitAll using swc_visit::All
+
+            let mtd = make_method(mode, item, &mut types, MethodMode::All).unwrap();
+
+            visit_all_methods.push(ImplItemMethod {
                 attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
@@ -369,6 +382,24 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         tokens.push_tokens(&item);
     }
 
+    // impl Visit for swc_visit::All<V> where V: VisitAll
+    if mode == Mode::VisitAll {
+        let mut item = q!(
+            Vars {
+                Trait: Ident::new(mode.trait_name(), call_site()),
+            },
+            {
+                impl<V> Visit for ::swc_visit::All<V> where V: VisitAll {}
+            }
+        )
+        .parse::<ItemImpl>();
+
+        item.items
+            .extend(visit_all_methods.into_iter().map(ImplItem::Method));
+
+        tokens.push_tokens(&item);
+    }
+
     {
         // Add FoldWith, VisitWith
 
@@ -561,8 +592,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                                 fn visit_all_children_with(&self, _visitor: &mut V) {
                                     let _parent = self as &dyn Node;
-                                    let mut all = ::swc_visit::All { visitor: v };
-                                    let mut v = &mut all;
+                                    let mut all = ::swc_visit::All { visitor: _visitor };
+                                    let mut _visitor = &mut all;
                                     default_body
                                 }
                             }
@@ -943,6 +974,25 @@ fn make_method(
         }
     }
 
+    fn wrap_visit_all(mode: Mode, ty: &Ident) -> Block {
+        assert_eq!(mode, Mode::VisitAll);
+
+        let ty = Type::Path(TypePath {
+            qself: None,
+            path: Path::from(ty.clone()),
+        });
+        let ident = method_name(mode, &ty);
+
+        q!(
+            Vars { visit: &ident },
+            ({
+                self.visitor.visit(n, _parent);
+                n.visit_children_with(self);
+            })
+        )
+        .parse()
+    }
+
     Some(match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
@@ -976,6 +1026,8 @@ fn make_method(
                 block = wrap_optional(mode, &s.ident);
             } else if method_mode == MethodMode::Either {
                 block = wrap_either(mode, &s.ident);
+            } else if method_mode == MethodMode::All && mode == Mode::VisitAll {
+                block = wrap_visit_all(mode, &s.ident);
             }
 
             let sig = method_sig_from_ident(mode, type_name);
@@ -1045,6 +1097,8 @@ fn make_method(
                 block = wrap_optional(mode, &e.ident);
             } else if method_mode == MethodMode::Either {
                 block = wrap_either(mode, &e.ident);
+            } else if method_mode == MethodMode::All && mode == Mode::VisitAll {
+                block = wrap_visit_all(mode, &e.ident);
             }
 
             TraitItemMethod {
