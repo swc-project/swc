@@ -16,6 +16,7 @@ use syn::{
 #[derive(Debug, Clone, Copy)]
 enum Mode {
     Visit,
+    VisitAll,
     VisitMut,
     Fold,
 }
@@ -24,6 +25,7 @@ impl Mode {
     fn trait_name(self) -> &'static str {
         match self {
             Mode::Fold => "Fold",
+            Mode::VisitAll => "VisitAll",
             Mode::Visit => "Visit",
             Mode::VisitMut => "VisitMut",
         }
@@ -32,7 +34,7 @@ impl Mode {
     fn prefix(self) -> &'static str {
         match self {
             Mode::Fold => "fold",
-            Mode::Visit => "visit",
+            Mode::Visit | Mode::VisitAll => "visit",
             Mode::VisitMut => "visit_mut",
         }
     }
@@ -63,6 +65,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let mut q = Quote::new_call_site();
     q.push_tokens(&make(Mode::Fold, &block.stmts));
     q.push_tokens(&make(Mode::Visit, &block.stmts));
+    q.push_tokens(&make(Mode::VisitAll, &block.stmts));
     q.push_tokens(&make(Mode::VisitMut, &block.stmts));
 
     proc_macro2::TokenStream::from(q).into()
@@ -92,7 +95,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         {
             // &'_ mut V, Box<V>
             let block = match mode {
-                Mode::Visit => q!(
+                Mode::Visit | Mode::VisitAll => q!(
                     Vars {
                         visit: &mtd.sig.ident,
                     },
@@ -200,6 +203,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 })
                 .parse(),
+                Mode::VisitAll => Block {
+                    brace_token: def_site(),
+                    stmts: Default::default(),
+                },
             }),
         )
         .clone();
@@ -265,6 +272,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             )),
+
+            Mode::VisitAll => {}
         }
     });
 
@@ -388,6 +397,30 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
+            Mode::VisitAll => q!({
+                pub trait VisitAllWith<V: VisitAll> {
+                    fn visit_all_with(&self, _parent: &dyn Node, v: &mut V);
+
+                    /// Visit children nodes of self with `v`
+                    fn visit_all_children_with(&self, v: &mut V);
+                }
+
+                impl<V, T> VisitAllWith<V> for Box<T>
+                where
+                    V: VisitAll,
+                    T: 'static + VisitAllWith<V>,
+                {
+                    fn visit_all_with(&self, _parent: &dyn Node, v: &mut V) {
+                        (**self).visit_all_with(_parent, v)
+                    }
+
+                    /// Visit children nodes of self with `v`
+                    fn visit_all_children_with(&self, v: &mut V) {
+                        let _parent = self as &dyn Node;
+                        (**self).visit_all_children_with(v)
+                    }
+                }
+            }),
             Mode::Fold => q!({
                 pub trait FoldWith<V: Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
@@ -465,7 +498,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
 
             match mode {
-                Mode::Visit => {
+                Mode::Visit | Mode::VisitAll => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -498,6 +531,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         }
                     ));
                 }
+
                 Mode::VisitMut => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
@@ -566,20 +600,22 @@ where
             match mode {
                 Mode::Fold => expr,
                 Mode::VisitMut => expr,
-                Mode::Visit => q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse(),
+                Mode::Visit | Mode::VisitAll => {
+                    q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse()
+                }
             }
         } else {
             match mode {
                 Mode::Fold => expr,
                 Mode::VisitMut => expr,
-                Mode::Visit => q!(Vars { expr }, { expr.as_ref() }).parse(),
+                Mode::Visit | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         };
     }
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visit => expr,
+            Mode::Visit | Mode::VisitAll => expr,
             Mode::VisitMut => {
                 // TODO
                 expr
@@ -592,7 +628,7 @@ where
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visit => expr,
+            Mode::Visit | Mode::VisitAll => expr,
             Mode::VisitMut => {
                 // TODO
                 expr
@@ -622,7 +658,7 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
         )
         .parse(),
 
-        Mode::Visit => q!(
+        Mode::Visit | Mode::VisitAll => q!(
             Vars {
                 visitor,
                 expr,
@@ -657,7 +693,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
 
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr);
             stmts.push(match mode {
-                Mode::Visit | Mode::VisitMut => Stmt::Semi(expr, call_site()),
+                Mode::VisitAll | Mode::Visit | Mode::VisitMut => Stmt::Semi(expr, call_site()),
                 Mode::Fold => q!(
                     Vars {
                         name: &binding_ident,
@@ -711,7 +747,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                 .parse(),
             )
         }
-        Mode::Visit | Mode::VisitMut => {}
+        Mode::VisitAll | Mode::Visit | Mode::VisitMut => {}
     }
 
     let block = Block {
@@ -756,7 +792,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
                     p.push_value(q!(Vars { Type: ty }, { n: &mut Type }).parse());
                 }
 
-                Mode::Visit => {
+                Mode::Visit | Mode::VisitAll => {
                     p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
                 }
             }
@@ -765,7 +801,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
                     // We can not provide parent node because it's child node is
                     // part of the parent ndoe.
                 }
-                Mode::Visit => {
+                Mode::Visit | Mode::VisitAll => {
                     p.push_punct(def_site());
                     p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
                 }
@@ -806,7 +842,7 @@ fn make_method(
         let ident = method_name(mode, &ty);
 
         match mode {
-            Mode::Visit => q!(
+            Mode::VisitAll | Mode::Visit => q!(
                 Vars { visit: &ident },
                 ({
                     if self.enabled {
@@ -846,7 +882,7 @@ fn make_method(
         let ident = method_name(mode, &ty);
 
         match mode {
-            Mode::Visit => q!(
+            Mode::Visit | Mode::VisitAll => q!(
                 Vars { visit: &ident },
                 ({
                     match self {
@@ -1014,7 +1050,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
                 match mode {
                     Mode::Fold | Mode::VisitMut => {}
-                    Mode::Visit => {
+                    Mode::Visit | Mode::VisitAll => {
                         p.push_punct(def_site());
                         p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
                     }
@@ -1070,7 +1106,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                             return mk_ref(mode, ident, &arg, true);
                         }
 
-                        Mode::Visit => {
+                        Mode::Visit | Mode::VisitAll => {
                             return mk_ref(mode, ident, &arg, false);
                         }
                     }
@@ -1108,7 +1144,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                                         .parse(),
                                                 );
                                             }
-                                            Mode::Visit => {
+                                            Mode::Visit | Mode::VisitAll => {
                                                 return mk_exact(
                                                     mode,
                                                     ident,
@@ -1133,7 +1169,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                                 &q!(Vars { arg }, { &mut Option<arg> }).parse(),
                                             );
                                         }
-                                        Mode::Visit => {
+                                        Mode::Visit | Mode::VisitAll => {
                                             return mk_exact(
                                                 mode,
                                                 ident,
@@ -1189,7 +1225,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                                 true,
                                             );
                                         }
-                                        Mode::Visit => {
+                                        Mode::Visit | Mode::VisitAll => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
@@ -1212,7 +1248,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 Mode::VisitMut => {
                     return mk_ref(mode, ident, ty, true);
                 }
-                Mode::Visit => {
+                Mode::Visit | Mode::VisitAll => {
                     return mk_ref(mode, ident, ty, false);
                 }
             }
@@ -1254,7 +1290,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse();
                         }
-                        Mode::Visit | Mode::VisitMut => {
+                        Mode::VisitAll | Mode::Visit | Mode::VisitMut => {
                             return create_method_body(mode, arg);
                         }
                     }
@@ -1315,7 +1351,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         )
                                         .parse(),
 
-                                        Mode::Visit => q!(
+                                        Mode::Visit | Mode::VisitAll => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
@@ -1358,7 +1394,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 .parse();
                                             }
                                         }
-                                        Mode::Visit => {}
+                                        Mode::Visit | Mode::VisitAll => {}
                                         Mode::VisitMut => {}
                                     }
 
@@ -1379,7 +1415,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
                                             )
                                             .parse(),
-                                            Mode::Visit => q!(
+                                            Mode::Visit | Mode::VisitAll => q!(
                                                 Vars { ident },
                                                 ({
                                                     n.iter().for_each(|v| {
@@ -1408,7 +1444,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             )
                                             .parse(),
 
-                                            Mode::Visit => q!(
+                                            Mode::Visit | Mode::VisitAll => q!(
                                                 Vars { ident },
                                                 ({
                                                     n.iter()
@@ -1429,7 +1465,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
             match mode {
                 Mode::Fold => q!(({ return n })).parse(),
-                Mode::Visit | Mode::VisitMut => q!(({})).parse(),
+                Mode::VisitAll | Mode::Visit | Mode::VisitMut => q!(({})).parse(),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
