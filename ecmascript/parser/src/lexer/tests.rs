@@ -1079,6 +1079,7 @@ fn lex_colors_js(b: &mut Bencher) {
     b.iter(|| {
         let _ = with_lexer(
             Syntax::default(),
+            Default::default(),
             include_str!("../../colors.js"),
             |lexer| {
                 for t in lexer {
@@ -1097,6 +1098,7 @@ fn lex_colors_ts(b: &mut Bencher) {
     b.iter(|| {
         let _ = with_lexer(
             Syntax::Typescript(Default::default()),
+            Default::default(),
             include_str!("../../colors.js"),
             |lexer| {
                 for t in lexer {
@@ -1118,7 +1120,7 @@ fn bench(b: &mut Bencher, syntax: Syntax, s: &str) {
     b.bytes = s.len() as _;
 
     b.iter(|| {
-        let _ = with_lexer(syntax, s, |lexer| {
+        let _ = with_lexer(syntax, Default::default(), s, |lexer| {
             for t in lexer {
                 black_box(t);
             }
