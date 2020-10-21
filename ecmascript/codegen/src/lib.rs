@@ -1615,15 +1615,19 @@ impl<'a> Emitter<'a> {
 
             // Write a trailing comma, if requested.
             let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
-                match self.cm.span_to_snippet(parent_node) {
-                    Ok(snippet) => {
-                        if snippet.len() < 3 {
-                            false
-                        } else {
-                            snippet[..snippet.len() - 1].trim().ends_with(',')
+                if parent_node.is_dummy() {
+                    false
+                } else {
+                    match self.cm.span_to_snippet(parent_node) {
+                        Ok(snippet) => {
+                            if snippet.len() < 3 {
+                                false
+                            } else {
+                                snippet[..snippet.len() - 1].trim().ends_with(',')
+                            }
                         }
+                        _ => false,
                     }
-                    _ => false,
                 }
             };
 
