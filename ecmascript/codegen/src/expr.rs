@@ -204,7 +204,7 @@ mod tests {
         assert_min("function* f(){ yield x => x}", "function* f(){yield x=>x\n;}");
         assert_min(
             "function* f(){ yield ({x}) => x}",
-            "function* f(){yield({x })=>x\n;}",
+            "function* f(){yield({x})=>x\n;}",
         );
     }
 }

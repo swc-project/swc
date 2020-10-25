@@ -1819,7 +1819,7 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         emit!(node.key);
-        space!();
+        formatting_space!();
         if let Some(ref value) = node.value {
             punct!("=");
             emit!(node.value);
