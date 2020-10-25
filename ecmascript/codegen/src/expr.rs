@@ -198,4 +198,13 @@ mod tests {
             "function* foo(){yield getServiceHosts();}",
         );
     }
+
+    #[test]
+    fn single_argument_arrow_expression() {
+        assert_min("function* f(){ yield x => x}", "function* f(){yield x=>x\n;}");
+        assert_min(
+            "function* f(){ yield ({x}) => x}",
+            "function* f(){yield({x })=>x\n;}",
+        );
+    }
 }
