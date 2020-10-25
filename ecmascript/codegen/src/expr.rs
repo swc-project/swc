@@ -188,23 +188,4 @@ mod tests {
     fn regression_increments() {
         assert_min("x++ + ++y", "x++ + ++y;");
     }
-
-    #[test]
-    fn issue_275() {
-        assert_min(
-            "function* foo(){
-            yield getServiceHosts()
-        }",
-            "function*foo(){yield getServiceHosts();}",
-        );
-    }
-
-    #[test]
-    fn single_argument_arrow_expression() {
-        assert_min("function* f(){ yield x => x}", "function*f(){yield x=>x;}");
-        assert_min(
-            "function* f(){ yield ({x}) => x}",
-            "function*f(){yield({x})=>x;}",
-        );
-    }
 }
