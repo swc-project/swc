@@ -1125,7 +1125,9 @@ impl<'a> Emitter<'a> {
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
             }
         }
     }

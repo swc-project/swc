@@ -201,10 +201,10 @@ mod tests {
 
     #[test]
     fn single_argument_arrow_expression() {
-        assert_min("function* f(){ yield x => x}", "function* f(){yield x=>x\n;}");
+        assert_min("function* f(){ yield x => x}", "function* f(){yield x=>x;}");
         assert_min(
             "function* f(){ yield ({x}) => x}",
-            "function* f(){yield({x})=>x\n;}",
+            "function* f(){yield({x})=>x;}",
         );
     }
 }
