@@ -59,9 +59,11 @@ impl<'a> Emitter<'a> {
         keyword!("function");
         if node.function.is_generator {
             punct!("*");
+            formatting_space!();
+        } else {
+            space!();
         }
 
-        space!();
         emit!(node.ident);
 
         self.emit_fn_trailing(&node.function)?;

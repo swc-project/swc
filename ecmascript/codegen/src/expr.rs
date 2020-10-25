@@ -195,16 +195,16 @@ mod tests {
             "function* foo(){
             yield getServiceHosts()
         }",
-            "function* foo(){yield getServiceHosts();}",
+            "function*foo(){yield getServiceHosts();}",
         );
     }
 
     #[test]
     fn single_argument_arrow_expression() {
-        assert_min("function* f(){ yield x => x}", "function* f(){yield x=>x;}");
+        assert_min("function* f(){ yield x => x}", "function*f(){yield x=>x;}");
         assert_min(
             "function* f(){ yield ({x}) => x}",
-            "function* f(){yield({x})=>x;}",
+            "function*f(){yield({x})=>x;}",
         );
     }
 }
