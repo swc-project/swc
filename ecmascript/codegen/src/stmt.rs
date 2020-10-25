@@ -50,6 +50,8 @@ mod tests {
         );
         assert_min("if (true) foo; else { bar; }", "if(true)foo;else{bar;}");
         assert_min("if (true) { foo; } else bar;", "if(true){foo;}else bar;");
+        assert_min("if (true) y(); else x++;", "if(true)y();else x++;");
+        assert_min("if (true) y(); else x--;", "if(true)y();else x--;");
     }
 
     #[test]

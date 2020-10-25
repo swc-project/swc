@@ -202,9 +202,15 @@ impl StartsWithAlphaNum for Expr {
                 _ => false,
             },
 
-            Expr::Tpl(_) | Expr::Update(_) | Expr::Array(_) | Expr::Object(_) | Expr::Paren(_) => {
-                false
+            Expr::Update(ref expr) => {
+                if expr.prefix {
+                    false
+                } else {
+                    expr.arg.starts_with_alpha_num()
+                }
             }
+
+            Expr::Tpl(_) | Expr::Array(_) | Expr::Object(_) | Expr::Paren(_) => false,
 
             Expr::TaggedTpl(TaggedTpl { ref tag, .. }) => tag.starts_with_alpha_num(),
 
