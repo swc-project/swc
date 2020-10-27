@@ -121,7 +121,11 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    /// Returns [Module] if it'a module
+    /// Returns [Module] if it'a module and returns [Script] if it's not a
+    /// module.
+    ///
+    /// Note: This is not perfect yet. It means, some strict mode violations may
+    /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = cur_pos!();
         let shebang = self.parse_shebang()?;
