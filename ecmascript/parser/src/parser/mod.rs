@@ -29,6 +29,8 @@ mod jsx;
 mod object;
 mod pat;
 mod stmt;
+#[cfg(test)]
+mod tests;
 mod typescript;
 mod util;
 
