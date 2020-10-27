@@ -9,7 +9,7 @@ use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{fixer, hygiene};
-use swc_ecma_utils::{find_ids, private_ident};
+use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -293,9 +293,16 @@ where
             return_type: Default::default(),
         };
 
-        let iife = Box::new(Expr::Fn(FnExpr {
+        let invoked_fn_expr = FnExpr {
             ident: None,
             function: f,
+        };
+
+        let iife = Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: invoked_fn_expr.as_callee(),
+            args: Default::default(),
+            type_args: Default::default(),
         }));
 
         Module {
