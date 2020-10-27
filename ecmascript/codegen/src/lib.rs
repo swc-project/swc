@@ -644,9 +644,20 @@ impl<'a> Emitter<'a> {
         if node.is_generator {
             punct!("*")
         }
-        punct!("(");
+
+        let parens = !self.cfg.minify
+            || match node.params.as_slice() {
+                [Pat::Ident(_)] => false,
+                _ => true,
+            };
+
+        if parens {
+            punct!("(");
+        }
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(")");
+        if parens {
+            punct!(")");
+        }
 
         punct!("=>");
         emit!(node.body);
@@ -1114,7 +1125,9 @@ impl<'a> Emitter<'a> {
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
             }
         }
     }
@@ -1808,7 +1821,7 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         emit!(node.key);
-        space!();
+        formatting_space!();
         if let Some(ref value) = node.value {
             punct!("=");
             emit!(node.value);

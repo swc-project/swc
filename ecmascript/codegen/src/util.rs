@@ -197,8 +197,10 @@ impl StartsWithAlphaNum for Expr {
                 _ => false,
             },
 
-            // TODO(kdy1): Support `v => {}`
-            Expr::Arrow(ArrowExpr { .. }) => false,
+            Expr::Arrow(ref expr) => match expr.params.as_slice() {
+                [p] => p.starts_with_alpha_num(),
+                _ => false,
+            },
 
             Expr::Update(ref expr) => {
                 if expr.prefix {

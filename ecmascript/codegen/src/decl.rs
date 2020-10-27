@@ -59,9 +59,11 @@ impl<'a> Emitter<'a> {
         keyword!("function");
         if node.function.is_generator {
             punct!("*");
+            formatting_space!();
+        } else {
+            space!();
         }
 
-        space!();
         emit!(node.ident);
 
         self.emit_fn_trailing(&node.function)?;
@@ -98,5 +100,29 @@ impl<'a> Emitter<'a> {
             formatting_space!();
             emit!(init);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::tests::assert_min;
+
+    #[test]
+    fn issue_275() {
+        assert_min(
+            "function* foo(){
+            yield getServiceHosts()
+        }",
+            "function*foo(){yield getServiceHosts();}",
+        );
+    }
+
+    #[test]
+    fn single_argument_arrow_expression() {
+        assert_min("function* f(){ yield x => x}", "function*f(){yield x=>x;}");
+        assert_min(
+            "function* f(){ yield ({x}) => x}",
+            "function*f(){yield({x})=>x;}",
+        );
     }
 }
