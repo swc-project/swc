@@ -62,9 +62,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                         // if it contains '8' or '9', it's decimal.
                         if d.clone().any(|v| v == 8 || v == 9) {
-                            self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                             // Continue parsing
-                            return Ok(Either::Left(val));
+                            self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
                             let val = u64::from_str_radix(&val.to_string(), 8)
