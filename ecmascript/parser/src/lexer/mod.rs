@@ -108,6 +108,7 @@ pub struct Lexer<'a, I: Input> {
     pub(crate) target: JscTarget,
 
     errors: Rc<RefCell<Vec<Error>>>,
+    module_errors: Rc<RefCell<Vec<Error>>>,
 
     buf: String,
 }
@@ -122,19 +123,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         Lexer {
+            comments,
             leading_comments_buffer: if comments.is_some() {
                 Some(Default::default())
             } else {
                 None
             },
-            comments,
+            ctx: Default::default(),
             input,
             last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
-            ctx: Default::default(),
             syntax,
             target,
             errors: Default::default(),
+            module_errors: Default::default(),
             buf: String::with_capacity(16),
         }
     }

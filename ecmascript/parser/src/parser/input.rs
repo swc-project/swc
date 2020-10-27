@@ -27,6 +27,14 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     /// It is required because parser should backtrack while parsing typescript
     /// code.
     fn add_error(&self, error: Error);
+
+    // Add an error which is valid syntax in script mode.
+    ///
+    /// Implementor should check for if [Context].module, and buffer errors if
+    /// module is false. Also, implementors should move errors to the error
+    /// buffer on set_ctx if the parser mode become module mode.
+    fn add_module_mode_errors(&self, error: Error);
+
     fn take_errors(&mut self) -> Vec<Error>;
 }
 
@@ -38,6 +46,7 @@ pub struct TokensInput {
     target: JscTarget,
     token_ctx: TokenContexts,
     errors: Rc<RefCell<Vec<Error>>>,
+    module_errors: Rc<RefCell<Vec<Error>>>,
 }
 
 impl TokensInput {
@@ -49,6 +58,7 @@ impl TokensInput {
             target,
             token_ctx: Default::default(),
             errors: Default::default(),
+            module_errors: Default::default(),
         }
     }
 }
@@ -63,6 +73,10 @@ impl Iterator for TokensInput {
 
 impl Tokens for TokensInput {
     fn set_ctx(&mut self, ctx: Context) {
+        if ctx.module && !self.module_errors.borrow().is_empty() {
+            let mut module_errors = self.module_errors.borrow_mut();
+            self.errors.borrow_mut().append(&mut *module_errors);
+        }
         self.ctx = ctx;
     }
 
@@ -97,6 +111,14 @@ impl Tokens for TokensInput {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    fn add_module_mode_errors(&self, error: Error) {
+        if self.ctx.module {
+            self.add_error(error);
+            return;
+        }
+        self.module_errors.borrow_mut().push(error);
     }
 }
 
@@ -195,6 +217,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
+    }
+
+    fn add_module_mode_errors(&self, error: Error) {
+        self.inner.add_module_mode_errors(error)
     }
 }
 

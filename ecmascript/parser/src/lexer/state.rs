@@ -101,6 +101,10 @@ impl<'a> From<&'a Token> for TokenType {
 
 impl<I: Input> Tokens for Lexer<'_, I> {
     fn set_ctx(&mut self, ctx: Context) {
+        if ctx.module && !self.module_errors.borrow().is_empty() {
+            let mut module_errors = self.module_errors.borrow_mut();
+            self.errors.borrow_mut().append(&mut *module_errors);
+        }
         self.ctx = ctx
     }
 
@@ -136,6 +140,14 @@ impl<I: Input> Tokens for Lexer<'_, I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    fn add_module_mode_errors(&self, error: Error) {
+        if self.ctx.module {
+            self.add_error(error);
+            return;
+        }
+        self.module_errors.borrow_mut().push(error);
     }
 }
 

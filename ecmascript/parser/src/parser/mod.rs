@@ -62,8 +62,8 @@ impl<I: Tokens> Parser<I> {
     pub fn new_from(input: I) -> Self {
         Parser {
             emit_err: true,
-            input: Buffer::new(input),
             state: Default::default(),
+            input: Buffer::new(input),
         }
     }
 
