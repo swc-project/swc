@@ -35,7 +35,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     /// Implementor should check for if [Context].module, and buffer errors if
     /// module is false. Also, implementors should move errors to the error
     /// buffer on set_ctx if the parser mode become module mode.
-    fn add_module_mode_errors(&self, error: Error);
+    fn add_module_mode_error(&self, error: Error);
 
     fn take_errors(&mut self) -> Vec<Error>;
 }
@@ -115,7 +115,7 @@ impl Tokens for TokensInput {
         take(&mut self.errors.borrow_mut())
     }
 
-    fn add_module_mode_errors(&self, error: Error) {
+    fn add_module_mode_error(&self, error: Error) {
         if self.ctx.module {
             self.add_error(error);
             return;
@@ -221,8 +221,8 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.take_errors()
     }
 
-    fn add_module_mode_errors(&self, error: Error) {
-        self.inner.add_module_mode_errors(error)
+    fn add_module_mode_error(&self, error: Error) {
+        self.inner.add_module_mode_error(error)
     }
 }
 

@@ -142,7 +142,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
         take(&mut self.errors.borrow_mut())
     }
 
-    fn add_module_mode_errors(&self, error: Error) {
+    fn add_module_mode_error(&self, error: Error) {
         if self.ctx.module {
             self.add_error(error);
             return;
