@@ -119,8 +119,49 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    /// Returns [Module] if it'a module
+    pub fn parse_program(&mut self) -> PResult<Program> {
+        let start = cur_pos!();
+        let shebang = self.parse_shebang()?;
+
+        let body: Vec<ModuleItem> = self.parse_block_body(true, true, None)?;
+        let has_module_item = body.iter().any(|item| match item {
+            ModuleItem::ModuleDecl(..) => true,
+            _ => false,
+        });
+        if has_module_item && !self.ctx().module {
+            let ctx = Context {
+                module: true,
+                strict: true,
+                ..self.ctx()
+            };
+            // Emit buffered strict mode / module code violations
+            self.input.set_ctx(ctx);
+        }
+
+        Ok(if has_module_item {
+            Program::Module(Module {
+                span: span!(start),
+                body,
+                shebang,
+            })
+        } else {
+            let body = body
+                .into_iter()
+                .map(|item| match item {
+                    ModuleItem::ModuleDecl(_) => unreachable!("Module is handled above"),
+                    ModuleItem::Stmt(stmt) => stmt,
+                })
+                .collect();
+            Program::Script(Script {
+                span: span!(start),
+                body,
+                shebang,
+            })
+        })
+    }
+
     pub fn parse_module(&mut self) -> PResult<Module> {
-        //TODO: parse() -> PResult<Program>
         let ctx = Context {
             module: true,
             strict: true,
