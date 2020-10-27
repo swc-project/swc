@@ -1,4 +1,4 @@
-use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, Resolve};
+use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
 use anyhow::Error;
 use relative_path::RelativePath;
 use std::{
@@ -121,6 +121,10 @@ where
     }
 
     fn may_wrap_with_iife(&self, module: Module) -> Module {
+        if self.config.module != ModuleType::Iife {
+            return module;
+        }
+
         let mut top_level_await_finder = TopLevelAwaitFinder::default();
         module.visit_with(&Invalid { span: DUMMY_SP }, &mut top_level_await_finder);
 

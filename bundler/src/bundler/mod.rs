@@ -35,7 +35,7 @@ pub struct Config {
     pub module: ModuleType,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub enum ModuleType {
     Es,
     Iife,
