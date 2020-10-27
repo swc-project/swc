@@ -73,7 +73,6 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!();
 
         let word = self.parse_with(|p| {
-            let strict = p.ctx().strict;
             let w = match cur!(true) {
                 Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
@@ -98,10 +97,8 @@ impl<'a, I: Tokens> Parser<I> {
                 | Word::Ident(js_word!("package"))
                 | Word::Ident(js_word!("private"))
                 | Word::Ident(js_word!("protected"))
-                | Word::Ident(js_word!("public"))
-                    if strict =>
-                {
-                    p.emit_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
+                | Word::Ident(js_word!("public")) => {
+                    p.emit_strict_mode_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
                 }
                 _ => {}
             }
