@@ -1352,7 +1352,13 @@ impl<'a, I: Tokens> Parser<I> {
                         *type_ann = new_type_ann;
                     }
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
-                    Pat::Invalid(ref i) => unreachable!("invalid pattern: {:?}", i.span),
+                    Pat::Invalid(ref i) => {
+                        // We don't have to panic here.
+                        // See: https://github.com/swc-project/swc/issues/1170
+                        //
+                        // Also, as an exact error is added to the errors while creating `Invalid`, we don't have to emit a new error.
+
+                    }
                 }
 
                 if eat!('=') {
