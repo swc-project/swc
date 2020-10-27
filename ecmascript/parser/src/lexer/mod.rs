@@ -558,9 +558,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.error(start, SyntaxError::LegacyOctal)?
                 }
 
-                if self.ctx.strict {
-                    self.error(start, SyntaxError::LegacyOctal)?
-                }
+                self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {

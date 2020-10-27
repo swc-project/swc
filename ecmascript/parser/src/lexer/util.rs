@@ -148,7 +148,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[inline(never)]
     pub(super) fn emit_module_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
-        self.emit_strict_mode_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.emit_module_mode_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
     /// Some codes are valid in a strict mode script  but invalid in module
