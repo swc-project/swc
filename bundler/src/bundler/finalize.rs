@@ -5,10 +5,12 @@ use std::{
     collections::HashMap,
     path::{Path, PathBuf},
 };
-use swc_common::{util::move_map::MoveMap, FileName};
-use swc_ecma_ast::{ImportDecl, Str};
+use swc_atoms::js_word;
+use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_transforms::{fixer, hygiene};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_utils::{find_ids, private_ident};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -27,9 +29,12 @@ where
 
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
+                bundle.module = self.may_wrap_with_iife(bundle.module);
+
                 bundle.module = bundle.module.fold_with(&mut hygiene());
 
                 bundle.module = bundle.module.fold_with(&mut fixer(None));
+
                 match bundle.kind {
                     BundleKind::Named { .. } => {
                         // Inject helpers
@@ -113,6 +118,209 @@ where
 
             Ok(new)
         })
+    }
+
+    fn may_wrap_with_iife(&self, module: Module) -> Module {
+        let mut top_level_await_finder = TopLevelAwaitFinder::default();
+        module.visit_with(&Invalid { span: DUMMY_SP }, &mut top_level_await_finder);
+
+        let is_async = top_level_await_finder.found;
+
+        // Properties of returned object
+        let mut props = vec![];
+
+        let body = BlockStmt {
+            span: module.span,
+            stmts: module
+                .body
+                .into_iter()
+                .filter_map(|item| {
+                    let decl = match item {
+                        ModuleItem::ModuleDecl(v) => v,
+                        ModuleItem::Stmt(stmt) => return Some(stmt),
+                    };
+
+                    match decl {
+                        ModuleDecl::ExportNamed(NamedExport { src: Some(..), .. })
+                        | ModuleDecl::TsImportEquals(_)
+                        | ModuleDecl::TsExportAssignment(_)
+                        | ModuleDecl::TsNamespaceExport(_)
+                        | ModuleDecl::Import(_) => None,
+
+                        ModuleDecl::ExportDecl(export) => {
+                            match &export.decl {
+                                Decl::Class(ClassDecl { ident, .. })
+                                | Decl::Fn(FnDecl { ident, .. }) => {
+                                    props.push(PropOrSpread::Prop(Box::new(Prop::Shorthand(
+                                        ident.clone(),
+                                    ))));
+                                }
+                                Decl::Var(decl) => {
+                                    let ids: Vec<Ident> = find_ids(decl);
+                                    props.extend(
+                                        ids.into_iter()
+                                            .map(Prop::Shorthand)
+                                            .map(Box::new)
+                                            .map(PropOrSpread::Prop),
+                                    );
+                                }
+                                _ => unreachable!(),
+                            }
+
+                            Some(Stmt::Decl(export.decl))
+                        }
+
+                        ModuleDecl::ExportNamed(NamedExport {
+                            specifiers,
+                            src: None,
+                            ..
+                        }) => {
+                            for s in specifiers {
+                                match s {
+                                    ExportSpecifier::Namespace(..) => {
+                                        // unreachable
+                                    }
+                                    ExportSpecifier::Default(s) => {
+                                        props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(Ident::new(
+                                                    js_word!("default"),
+                                                    DUMMY_SP,
+                                                )),
+                                                value: Box::new(Expr::Ident(s.exported)),
+                                            },
+                                        ))));
+                                    }
+                                    ExportSpecifier::Named(s) => match s.exported {
+                                        Some(exported) => {
+                                            props.push(PropOrSpread::Prop(Box::new(
+                                                Prop::KeyValue(KeyValueProp {
+                                                    key: PropName::Ident(exported),
+                                                    value: Box::new(Expr::Ident(s.orig)),
+                                                }),
+                                            )));
+                                        }
+                                        None => {
+                                            props.push(PropOrSpread::Prop(Box::new(
+                                                Prop::Shorthand(s.orig),
+                                            )));
+                                        }
+                                    },
+                                }
+                            }
+
+                            None
+                        }
+
+                        ModuleDecl::ExportDefaultDecl(export) => match export.decl {
+                            DefaultDecl::Class(expr) => {
+                                let ident = expr.ident;
+                                let ident =
+                                    ident.unwrap_or_else(|| private_ident!("_default_decl"));
+
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(Ident::new(
+                                            js_word!("default"),
+                                            export.span,
+                                        )),
+                                        value: Box::new(Expr::Ident(ident.clone())),
+                                    },
+                                ))));
+
+                                Some(Stmt::Decl(Decl::Class(ClassDecl {
+                                    ident,
+                                    class: expr.class,
+                                    declare: false,
+                                })))
+                            }
+                            DefaultDecl::Fn(expr) => {
+                                let ident = expr.ident;
+                                let ident =
+                                    ident.unwrap_or_else(|| private_ident!("_default_decl"));
+
+                                props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(Ident::new(
+                                            js_word!("default"),
+                                            export.span,
+                                        )),
+                                        value: Box::new(Expr::Ident(ident.clone())),
+                                    },
+                                ))));
+
+                                Some(Stmt::Decl(Decl::Fn(FnDecl {
+                                    ident,
+                                    function: expr.function,
+                                    declare: false,
+                                })))
+                            }
+                            DefaultDecl::TsInterfaceDecl(_) => None,
+                        },
+                        ModuleDecl::ExportDefaultExpr(export) => {
+                            let default_var = private_ident!("default");
+                            props.push(PropOrSpread::Prop(Box::new(Prop::Shorthand(
+                                default_var.clone(),
+                            ))));
+                            let var = VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(default_var),
+                                init: Some(export.expr),
+                                definite: false,
+                            };
+                            Some(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Const,
+                                declare: false,
+                                decls: vec![var],
+                            })))
+                        }
+
+                        ModuleDecl::ExportAll(_) => None,
+                    }
+                })
+                .collect(),
+        };
+
+        let f = Function {
+            is_generator: false,
+            is_async,
+            params: Default::default(),
+            decorators: Default::default(),
+            span: DUMMY_SP,
+            body: Some(body),
+            type_params: Default::default(),
+            return_type: Default::default(),
+        };
+
+        let iife = Box::new(Expr::Fn(FnExpr {
+            ident: None,
+            function: f,
+        }));
+
+        Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body: vec![ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: iife,
+            }))],
+        }
+    }
+}
+
+#[derive(Default)]
+struct TopLevelAwaitFinder {
+    found: bool,
+}
+
+impl Visit for TopLevelAwaitFinder {
+    noop_visit_type!();
+
+    fn visit_stmts(&mut self, _: &[Stmt], _: &dyn Node) {}
+
+    fn visit_await_expr(&mut self, _: &AwaitExpr, _: &dyn Node) {
+        self.found = true;
     }
 }
 
