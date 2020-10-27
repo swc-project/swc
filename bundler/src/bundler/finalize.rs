@@ -129,7 +129,7 @@ where
         // Properties of returned object
         let mut props = vec![];
 
-        let body = BlockStmt {
+        let mut body = BlockStmt {
             span: module.span,
             stmts: module
                 .body
@@ -281,6 +281,13 @@ where
                 })
                 .collect(),
         };
+        body.stmts.push(Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(Expr::Object(ObjectLit {
+                span: DUMMY_SP,
+                props,
+            }))),
+        }));
 
         let f = Function {
             is_generator: false,
