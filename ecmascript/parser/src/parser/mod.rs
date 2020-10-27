@@ -197,7 +197,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cold]
-    #[inline(never)]
     fn emit_err(&self, span: Span, error: SyntaxError) {
         if !self.emit_err || !self.syntax().early_errors() {
             return;
@@ -209,13 +208,20 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cold]
-    #[inline(never)]
     fn emit_error(&self, error: Error) {
         if !self.emit_err || !self.syntax().early_errors() {
             return;
         }
 
         self.input_ref().add_error(error);
+    }
+
+    #[cold]
+    fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
+        let error = Error {
+            error: Box::new((span, error)),
+        };
+        self.input_ref().add_module_mode_error(error);
     }
 }
 

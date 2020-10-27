@@ -149,9 +149,8 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                         _ => false,
                     };
-                    if self.input.syntax().typescript() && self.ctx().strict && is_eval_or_arguments
-                    {
-                        self.emit_err(cond.span(), SyntaxError::TS1100);
+                    if self.input.syntax().typescript() && is_eval_or_arguments {
+                        self.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
                     }
 
                     // TODO
@@ -322,24 +321,25 @@ impl<'a, I: Tokens> Parser<I> {
         if is!("let") || (self.input.syntax().typescript() && is!(IdentName)) || is!(IdentRef) {
             // TODO: Handle [Yield, Await]
             let id = self.parse_ident_name()?;
-            if self.ctx().strict {
-                match id.sym {
-                    //                    js_word!("eval") | js_word!("arguments") => {
-                    //                        self.emit_err(id.span,
-                    // SyntaxError::EvalAndArgumentsInStrict)
-                    // }
-                    js_word!("yield")
-                    | js_word!("static")
-                    | js_word!("implements")
-                    | js_word!("let")
-                    | js_word!("package")
-                    | js_word!("private")
-                    | js_word!("protected")
-                    | js_word!("public") => {
-                        self.emit_err(self.input.prev_span(), SyntaxError::InvalidIdentInStrict);
-                    }
-                    _ => {}
+            match id.sym {
+                //                    js_word!("eval") | js_word!("arguments") => {
+                //                        self.emit_err(id.span,
+                // SyntaxError::EvalAndArgumentsInStrict)
+                // }
+                js_word!("yield")
+                | js_word!("static")
+                | js_word!("implements")
+                | js_word!("let")
+                | js_word!("package")
+                | js_word!("private")
+                | js_word!("protected")
+                | js_word!("public") => {
+                    self.emit_strict_mode_err(
+                        self.input.prev_span(),
+                        SyntaxError::InvalidIdentInStrict,
+                    );
                 }
+                _ => {}
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
@@ -1560,8 +1560,8 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => false,
             };
 
-            if self.ctx().strict && is_eval_or_arguments {
-                self.emit_err(expr.span(), SyntaxError::TS1100);
+            if is_eval_or_arguments {
+                self.emit_strict_mode_err(expr.span(), SyntaxError::TS1100);
             }
 
             fn should_deny(e: &Expr, deny_call: bool) -> bool {
