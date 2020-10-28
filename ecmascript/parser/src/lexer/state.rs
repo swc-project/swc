@@ -674,12 +674,12 @@ pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
 
 /// lex `s` within module context.
 #[cfg(test)]
-pub(crate) fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
+pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
     with_lexer(syntax, Default::default(), s, |l| {
         l.ctx.strict = true;
         l.ctx.module = true;
 
-        Ok(l.collect())
+        Ok(l.take_errors())
     })
     .unwrap()
 }
