@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_bundler"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.12.0"
+version = "0.13.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
@@ -29,9 +29,9 @@ retain_mut = "=0.1.1"
 swc_atoms = {version = "0.2.4", path = "../atoms"}
 swc_common = {version = "0.10.0", path = "../common"}
 swc_ecma_ast = {version = "0.33.0", path = "../ecmascript/ast"}
-swc_ecma_codegen = {version = "0.38.0", path = "../ecmascript/codegen"}
-swc_ecma_parser = {version = "0.40.0", path = "../ecmascript/parser"}
-swc_ecma_transforms = {version = "0.27.0", path = "../ecmascript/transforms"}
+swc_ecma_codegen = {version = "0.39.0", path = "../ecmascript/codegen"}
+swc_ecma_parser = {version = "0.41.0", path = "../ecmascript/parser"}
+swc_ecma_transforms = {version = "0.28.0", path = "../ecmascript/transforms"}
 swc_ecma_utils = {version = "0.23.0", path = "../ecmascript/utils"}
 swc_ecma_visit = {version = "0.19.0", path = "../ecmascript/visit"}
 

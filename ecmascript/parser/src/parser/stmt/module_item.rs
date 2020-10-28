@@ -30,6 +30,18 @@ impl<'a, I: Tokens> Parser<I> {
             .into());
         }
 
+        // It's now import statement
+
+        if !self.ctx().module {
+            // Switch to module mode
+            let ctx = Context {
+                module: true,
+                strict: true,
+                ..self.ctx()
+            };
+            self.set_ctx(ctx);
+        }
+
         expect!("import");
 
         if self.input.syntax().typescript() && is!(IdentRef) && peeked_is!('=') {
@@ -195,6 +207,16 @@ impl<'a, I: Tokens> Parser<I> {
 
     #[allow(clippy::cognitive_complexity)]
     fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
+        if !self.ctx().module {
+            // Switch to module mode
+            let ctx = Context {
+                module: true,
+                strict: true,
+                ..self.ctx()
+            };
+            self.set_ctx(ctx);
+        }
+
         let start = cur_pos!();
         assert_and_bump!("export");
         let _ = cur!(true);

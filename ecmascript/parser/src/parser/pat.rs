@@ -25,8 +25,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
-        if self.ctx().strict && (&*ident.sym == "arguments" || &*ident.sym == "eval") {
-            self.emit_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
+        if ident.sym == js_word!("arguments") || ident.sym == js_word!("eval") {
+            self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
         if self.ctx().in_async && ident.sym == js_word!("await") {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);

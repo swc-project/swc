@@ -159,12 +159,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 }
             } else {
                 with_parser(is_backtrace_enabled(), &path, !errors, |p| {
-                    let module = p.parse_typescript_module()?.fold_with(&mut Normalizer {
+                    let program = p.parse_program()?.fold_with(&mut Normalizer {
                         drop_span: false,
                         is_test262: false,
                     });
 
-                    let json = serde_json::to_string_pretty(&module)
+                    let json = serde_json::to_string_pretty(&program)
                         .expect("failed to serialize module as json");
 
                     if StdErr::from(json.clone())
@@ -174,12 +174,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         panic!()
                     }
 
-                    let module = module.fold_with(&mut Normalizer {
+                    let program = program.fold_with(&mut Normalizer {
                         drop_span: true,
                         is_test262: false,
                     });
 
-                    let deser = match serde_json::from_str::<Module>(&json) {
+                    let deser = match serde_json::from_str::<Program>(&json) {
                         Ok(v) => v.fold_with(&mut Normalizer {
                             drop_span: true,
                             is_test262: false,
@@ -196,7 +196,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         }
                     };
 
-                    assert_eq!(module, deser, "JSON:\n{}", json);
+                    assert_eq!(program, deser, "JSON:\n{}", json);
 
                     Ok(())
                 })

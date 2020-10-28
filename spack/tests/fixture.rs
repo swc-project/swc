@@ -139,6 +139,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         Config {
                             require: true,
                             disable_inliner: true,
+                            module: Default::default(),
                             external_modules: vec![
                                 "assert",
                                 "buffer",
