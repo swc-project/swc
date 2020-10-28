@@ -679,6 +679,8 @@ pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
         l.ctx.strict = true;
         l.ctx.module = true;
 
+        let _: Vec<_> = l.collect();
+
         Ok(l.take_errors())
     })
     .unwrap()
