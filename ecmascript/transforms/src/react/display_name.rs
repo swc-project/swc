@@ -91,6 +91,7 @@ impl Fold for DisplayName {
                         }))),
                         PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
                         PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
+                        PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
                         PropName::Computed(ref c) => c.expr.clone(),
                     }),
                 });
@@ -218,6 +219,7 @@ fn is_key_display_name(prop: &PropOrSpread) -> bool {
                 PropName::Ident(ref i) => i.sym == js_word!("displayName"),
                 PropName::Str(ref s) => s.value == js_word!("displayName"),
                 PropName::Num(..) => false,
+                PropName::BigInt(..) => false,
                 PropName::Computed(..) => false,
             },
             Prop::Assign(..) => unreachable!("invalid syntax"),

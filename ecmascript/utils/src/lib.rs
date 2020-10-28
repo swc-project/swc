@@ -1281,6 +1281,7 @@ impl Visit for LiteralVisitor {
                     self.is_lit = false
                 }
             }
+            PropName::BigInt(_) => self.is_lit = false,
             PropName::Computed(..) => self.is_lit = false,
         }
     }
@@ -1351,6 +1352,7 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Ident(i) => Expr::Ident(i),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
         PropName::Computed(c) => *c.expr,
     }
 }
@@ -1366,6 +1368,7 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
         })),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
         PropName::Computed(c) => *c.expr,
     }
 }
@@ -1807,6 +1810,7 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
         PropName::Ident(i) => i.sym == *key,
         PropName::Str(s) => s.value == *key,
         PropName::Num(_) => false,
+        PropName::BigInt(_) => false,
         PropName::Computed(e) => match &*e.expr {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,
             _ => false,

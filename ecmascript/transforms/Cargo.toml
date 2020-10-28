@@ -23,6 +23,7 @@ indexmap = "1"
 is-macro = "0.1"
 jsdoc = {version = "0.9.0", path = "../jsdoc"}
 log = "0.4.8"
+num-bigint = {version = "0.2", features = ["serde"]}
 once_cell = "1"
 ordered-float = "1.0.1"
 phf = {version = "0.8.0", features = ["macros"]}
