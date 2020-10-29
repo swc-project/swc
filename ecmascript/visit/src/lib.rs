@@ -1394,6 +1394,7 @@ define!({
         TsUndefinedKeyword,
         TsNullKeyword,
         TsNeverKeyword,
+        TsIntrinsicKeyword,
     }
     pub struct TsThisType {
         pub span: Span,

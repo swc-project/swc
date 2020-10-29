@@ -323,6 +323,9 @@ macro_rules! tok {
     ("bigint") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("bigint")))
     };
+    ("intrinsic") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("intrinsic")))
+    };
     ("never") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("never")))
     };

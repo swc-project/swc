@@ -881,7 +881,8 @@ impl<I: Tokens> Parser<I> {
             | js_word!("bigint")
             | js_word!("symbol")
             | js_word!("void")
-            | js_word!("never") => {
+            | js_word!("never")
+            | js_word!("intrinsic") => {
                 self.emit_err(id.span, SyntaxError::TS2427);
             }
             _ => {}
@@ -1736,6 +1737,8 @@ impl<I: Tokens> Parser<I> {
                     Some(TsKeywordTypeKind::TsUnknownKeyword)
                 } else if is!("undefined") {
                     Some(TsKeywordTypeKind::TsUndefinedKeyword)
+                } else if is!("intrinsic") {
+                    Some(TsKeywordTypeKind::TsIntrinsicKeyword)
                 } else {
                     None
                 };
