@@ -47,6 +47,12 @@ fn oak_6_3_1_example_sse_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", None);
 }
 
+#[test]
+#[ignore = "Too slow"]
+fn std_0_75_0_http_server() {
+    run("https://deno.land/std@0.75.0/http/server.ts", None);
+}
+
 fn run(url: &str, expeceted_bytes: Option<usize>) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
