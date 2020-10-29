@@ -168,6 +168,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         .into_iter()
                         .map(From::from)
                         .collect(),
+                        module: Default::default(),
                     },
                     Box::new(Hook),
                 );

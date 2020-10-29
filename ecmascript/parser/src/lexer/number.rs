@@ -62,9 +62,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                         // if it contains '8' or '9', it's decimal.
                         if d.clone().any(|v| v == 8 || v == 9) {
-                            if self.ctx.strict {
-                                self.error(start, SyntaxError::LegacyDecimal)?
-                            }
+                            // Continue parsing
+                            self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
                             let val = u64::from_str_radix(&val.to_string(), 8)
@@ -385,9 +384,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         if self.syntax.typescript() && self.target >= JscTarget::Es5 {
             self.emit_error(start, SyntaxError::TS1085);
         }
-        if self.ctx.strict {
-            self.emit_error(start, SyntaxError::LegacyOctal);
-        }
+        self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
         return Ok(val);
     }

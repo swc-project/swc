@@ -132,6 +132,7 @@ impl TestBuilder {
                         require: true,
                         disable_inliner: true,
                         external_modules: vec![],
+                        module: Default::default(),
                     },
                     Box::new(Hook),
                 );

@@ -282,12 +282,10 @@ impl<'a, I: Tokens> Parser<I> {
             };
             let span = Span::new(start, arg.span().hi(), Default::default());
 
-            if self.ctx().strict {
-                if op == op!("delete") {
-                    match *arg {
-                        Expr::Ident(ref i) => self.emit_err(i.span, SyntaxError::TS1102),
-                        _ => {}
-                    }
+            if op == op!("delete") {
+                match *arg {
+                    Expr::Ident(ref i) => self.emit_strict_mode_err(i.span, SyntaxError::TS1102),
+                    _ => {}
                 }
             }
 

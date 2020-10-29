@@ -108,6 +108,7 @@ pub struct Lexer<'a, I: Input> {
     pub(crate) target: JscTarget,
 
     errors: Rc<RefCell<Vec<Error>>>,
+    module_errors: Rc<RefCell<Vec<Error>>>,
 
     buf: String,
 }
@@ -122,19 +123,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         Lexer {
+            comments,
             leading_comments_buffer: if comments.is_some() {
                 Some(Default::default())
             } else {
                 None
             },
-            comments,
+            ctx: Default::default(),
             input,
             last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
-            ctx: Default::default(),
             syntax,
             target,
             errors: Default::default(),
+            module_errors: Default::default(),
             buf: String::with_capacity(16),
         }
     }
@@ -372,9 +374,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                     // Handle -->
                     if self.state.had_line_break && c == '-' && self.eat(b'>') {
-                        if self.ctx.module {
-                            return self.error(start, SyntaxError::LegacyCommentInModule)?;
-                        }
+                        self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                         self.skip_line_comment(0);
                         self.skip_space()?;
                         return self.read_token();
@@ -558,9 +558,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.error(start, SyntaxError::LegacyOctal)?
                 }
 
-                if self.ctx.strict {
-                    self.error(start, SyntaxError::LegacyOctal)?
-                }
+                self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {
@@ -631,9 +629,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
             self.skip_space()?;
-            if self.ctx.module {
-                self.error(start, SyntaxError::LegacyCommentInModule)?;
-            }
+            self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
+
             return self.read_token();
         }
 

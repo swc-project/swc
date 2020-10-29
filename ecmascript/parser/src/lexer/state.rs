@@ -101,6 +101,10 @@ impl<'a> From<&'a Token> for TokenType {
 
 impl<I: Input> Tokens for Lexer<'_, I> {
     fn set_ctx(&mut self, ctx: Context) {
+        if ctx.module && !self.module_errors.borrow().is_empty() {
+            let mut module_errors = self.module_errors.borrow_mut();
+            self.errors.borrow_mut().append(&mut *module_errors);
+        }
         self.ctx = ctx
     }
 
@@ -136,6 +140,14 @@ impl<I: Input> Tokens for Lexer<'_, I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    fn add_module_mode_error(&self, error: Error) {
+        if self.ctx.module {
+            self.add_error(error);
+            return;
+        }
+        self.module_errors.borrow_mut().push(error);
     }
 }
 
@@ -662,12 +674,14 @@ pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
 
 /// lex `s` within module context.
 #[cfg(test)]
-pub(crate) fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
+pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
     with_lexer(syntax, Default::default(), s, |l| {
         l.ctx.strict = true;
         l.ctx.module = true;
 
-        Ok(l.collect())
+        let _: Vec<_> = l.collect();
+
+        Ok(l.take_errors())
     })
     .unwrap()
 }
