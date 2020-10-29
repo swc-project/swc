@@ -30,6 +30,21 @@ pub struct Config {
 
     /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
+
+    /// Type of emiited module
+    pub module: ModuleType,
+}
+
+#[derive(Debug, PartialEq, Eq, Hash)]
+pub enum ModuleType {
+    Es,
+    Iife,
+}
+
+impl Default for ModuleType {
+    fn default() -> Self {
+        ModuleType::Es
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

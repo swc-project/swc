@@ -75,12 +75,6 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             .unwrap()
             .to_string();
 
-        let input = {
-            let mut buf = String::new();
-            File::open(entry.path())?.read_to_string(&mut buf)?;
-            buf
-        };
-
         // Ignore some useless tests
         let ignore = file_name.contains("tsc/es6/functionDeclarations/FunctionDeclaration7_es6")
             || file_name
@@ -141,10 +135,21 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             file_name
         );
         add_test(tests, name, ignore, move || {
-            eprintln!(
-                "\n\n========== Running reference test {}\nSource:\n{}\n",
-                file_name, input
-            );
+            if env::var("CI").is_err() {
+                let input = {
+                    let mut buf = String::new();
+                    File::open(entry.path())
+                        .unwrap()
+                        .read_to_string(&mut buf)
+                        .unwrap();
+                    buf
+                };
+
+                eprintln!(
+                    "\n\n========== Running reference test {}\nSource:\n{}\n",
+                    file_name, input
+                );
+            }
 
             let path = dir.join(&file_name);
             if errors {
@@ -159,12 +164,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 }
             } else {
                 with_parser(is_backtrace_enabled(), &path, !errors, |p| {
-                    let module = p.parse_typescript_module()?.fold_with(&mut Normalizer {
+                    let program = p.parse_program()?.fold_with(&mut Normalizer {
                         drop_span: false,
                         is_test262: false,
                     });
 
-                    let json = serde_json::to_string_pretty(&module)
+                    let json = serde_json::to_string_pretty(&program)
                         .expect("failed to serialize module as json");
 
                     if StdErr::from(json.clone())
@@ -174,12 +179,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         panic!()
                     }
 
-                    let module = module.fold_with(&mut Normalizer {
+                    let program = program.fold_with(&mut Normalizer {
                         drop_span: true,
                         is_test262: false,
                     });
 
-                    let deser = match serde_json::from_str::<Module>(&json) {
+                    let deser = match serde_json::from_str::<Program>(&json) {
                         Ok(v) => v.fold_with(&mut Normalizer {
                             drop_span: true,
                             is_test262: false,
@@ -196,7 +201,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         }
                     };
 
-                    assert_eq!(module, deser, "JSON:\n{}", json);
+                    assert_eq!(program, deser, "JSON:\n{}", json);
 
                     Ok(())
                 })

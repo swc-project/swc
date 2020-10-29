@@ -1,7 +1,7 @@
 extern crate test;
 
 use super::{
-    state::{lex, lex_module, lex_tokens, lex_tokens_with_target, with_lexer},
+    state::{lex, lex_module_errors, lex_tokens, lex_tokens_with_target, with_lexer},
     *,
 };
 use crate::error::{Error, SyntaxError};
@@ -123,36 +123,30 @@ impl WithSpan for AssignOpToken {
 #[test]
 fn module_legacy_decimal() {
     assert_eq!(
-        lex_module(Syntax::default(), "08"),
-        vec![Token::Error(Error {
+        lex_module_errors(Syntax::default(), "08"),
+        vec![Error {
             error: Box::new((sp(0..2), SyntaxError::LegacyDecimal)),
-        })
-        .span(0..2)
-        .lb(),]
+        }]
     );
 }
 
 #[test]
 fn module_legacy_comment_1() {
     assert_eq!(
-        lex_module(Syntax::default(), "<!-- foo oo"),
-        vec![Token::Error(Error {
+        lex_module_errors(Syntax::default(), "<!-- foo oo"),
+        vec![Error {
             error: Box::new((sp(0..11), SyntaxError::LegacyCommentInModule)),
-        })
-        .span(0..11)
-        .lb(),]
+        }]
     )
 }
 
 #[test]
 fn module_legacy_comment_2() {
     assert_eq!(
-        lex_module(Syntax::default(), "-->"),
-        vec![Token::Error(Error {
+        lex_module_errors(Syntax::default(), "-->"),
+        vec![Error {
             error: Box::new((sp(0..3), SyntaxError::LegacyCommentInModule)),
-        })
-        .span(0..3)
-        .lb(),]
+        }]
     )
 }
 

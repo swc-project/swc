@@ -84,6 +84,7 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
+#[track_caller]
 fn test_from_to(from: &str, expected: &str) {
     let out = parse_then_emit(from, Default::default(), Syntax::default());
 
@@ -166,10 +167,10 @@ fn no_octal_escape() {
 '\x000';
 '\x001';
 '\x009'"#,
-        r#"'\0a';
-'\x000';
-'\x001';
-'\x009';"#,
+        r#"'\u{0}a';
+'\u{0}0';
+'\u{0}1';
+'\u{0}9';"#,
     );
 }
 

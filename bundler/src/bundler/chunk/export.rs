@@ -215,9 +215,7 @@ where
                             let local = local.replace_mark(info.mark());
                             (local.into_ident(), alias.into_ident())
                         }
-                        Specifier::Namespace { local, all } => {
-                            unimplemented!("namespaced re-export: local={:?}, all={}", local, all)
-                        }
+                        Specifier::Namespace { .. } => continue,
                     };
 
                     add_to.push((imported, exported));

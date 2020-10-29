@@ -304,11 +304,8 @@ impl<'a, I: Tokens> Parser<I> {
             _ => self.verify_expr(expr)?,
         };
         if let Expr::Ident(ref ident) = *expr {
-            if *ident.sym == js_word!("interface")
-                && self.input.had_line_break_before_cur()
-                && self.ctx().strict
-            {
-                self.emit_err(ident.span, SyntaxError::InvalidIdentInStrict);
+            if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
+                self.emit_strict_mode_err(ident.span, SyntaxError::InvalidIdentInStrict);
 
                 eat!(';');
 
@@ -325,16 +322,14 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if self.ctx().strict {
-            match *expr {
-                Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
-                    js_word!("enum") | js_word!("interface") => {
-                        self.emit_err(span, SyntaxError::InvalidIdentInStrict);
-                    }
-                    _ => {}
-                },
+        match *expr {
+            Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
+                js_word!("enum") | js_word!("interface") => {
+                    self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict);
+                }
                 _ => {}
-            }
+            },
+            _ => {}
         }
 
         if self.syntax().typescript() {
@@ -842,9 +837,9 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(span, SyntaxError::TS2410);
         }
 
-        if self.ctx().strict {
+        {
             let span = self.input.cur_span();
-            self.emit_err(span, SyntaxError::WithInStrict);
+            self.emit_strict_mode_err(span, SyntaxError::WithInStrict);
         }
 
         let start = cur_pos!();

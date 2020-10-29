@@ -397,13 +397,11 @@ impl<'a> Emitter<'a> {
 
         if single_quote {
             punct!("'");
-            self.wr
-                .write_str_lit(node.span, &value.replace("'", "\\'"))?;
+            self.wr.write_str_lit(node.span, &value)?;
             punct!("'");
         } else {
             punct!("\"");
-            self.wr
-                .write_str_lit(node.span, &value.replace("\"", "\\\""))?;
+            self.wr.write_str_lit(node.span, &value)?;
             punct!("\"");
         }
     }
@@ -2441,26 +2439,7 @@ fn escape(s: &str) -> Cow<str> {
     // let ac = AhoCorasick::new(patterns);
     //
     // Cow::Owned(ac.replace_all(s, replace_with))
-    Cow::Owned(
-        s.replace("\\", "\\\\")
-            .replace('\u{0008}', "\\b")
-            .replace('\u{000C}', "\\f")
-            .replace("\n", "\\n")
-            .replace("\r", "\\r")
-            .replace("\t", "\\t")
-            .replace('\u{000B}', "\\v")
-            .replace("\00", "\\x000")
-            .replace("\01", "\\x001")
-            .replace("\02", "\\x002")
-            .replace("\03", "\\x003")
-            .replace("\04", "\\x004")
-            .replace("\05", "\\x005")
-            .replace("\06", "\\x006")
-            .replace("\07", "\\x007")
-            .replace("\08", "\\x008")
-            .replace("\09", "\\x009")
-            .replace("\0", "\\0"),
-    )
+    Cow::Owned(s.escape_default().to_string())
 }
 
 #[cold]
