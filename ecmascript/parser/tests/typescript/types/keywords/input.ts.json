@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 184,
+    "end": 202,
     "ctxt": 0
   },
   "body": [
@@ -585,6 +585,55 @@
                   "ctxt": 0
                 },
                 "kind": "bigint"
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 185,
+        "end": 202,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 189,
+            "end": 201,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 189,
+              "end": 190,
+              "ctxt": 0
+            },
+            "value": "i",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 190,
+                "end": 201,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 192,
+                  "end": 201,
+                  "ctxt": 0
+                },
+                "kind": "intrinsic"
               }
             },
             "optional": false

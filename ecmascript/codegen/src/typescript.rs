@@ -347,6 +347,7 @@ impl<'a> Emitter<'a> {
             TsKeywordTypeKind::TsUndefinedKeyword => keyword!(n.span, "undefined"),
             TsKeywordTypeKind::TsNullKeyword => keyword!(n.span, "null"),
             TsKeywordTypeKind::TsNeverKeyword => keyword!(n.span, "never"),
+            TsKeywordTypeKind::TsIntrinsicKeyword => keyword!(n.span, "intrinsic"),
         }
     }
 

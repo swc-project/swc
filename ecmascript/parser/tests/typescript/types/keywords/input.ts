@@ -10,3 +10,4 @@ let sy: symbol;
 let u: undefined;
 let v: void;
 let n: bigint;
+let i: intrinsic;

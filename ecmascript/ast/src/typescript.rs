@@ -382,6 +382,9 @@ pub enum TsKeywordTypeKind {
 
     #[serde(rename = "never")]
     TsNeverKeyword,
+
+    #[serde(rename = "intrinsic")]
+    TsIntrinsicKeyword,
 }
 
 #[ast_node("TsThisType")]
