@@ -397,13 +397,11 @@ impl<'a> Emitter<'a> {
 
         if single_quote {
             punct!("'");
-            self.wr
-                .write_str_lit(node.span, &value.replace("'", "\\'"))?;
+            self.wr.write_str_lit(node.span, &value)?;
             punct!("'");
         } else {
             punct!("\"");
-            self.wr
-                .write_str_lit(node.span, &value.replace("\"", "\\\""))?;
+            self.wr.write_str_lit(node.span, &value)?;
             punct!("\"");
         }
     }
