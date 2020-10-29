@@ -1,6 +1,0 @@
-error: type expected
- --> $DIR/tests/typescript-errors/types/tpl-with-expression/input.ts:1:15
-  |
-1 | type MyType = `text${test}`;
-  |               ^^^^^^^^^^^^^
-
