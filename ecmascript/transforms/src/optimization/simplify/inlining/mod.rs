@@ -41,6 +41,7 @@ pub fn inlining(_: Config) -> impl RepeatedJsPass + 'static {
         scope: Default::default(),
         var_decl_kind: VarDeclKind::Var,
         ident_type: IdentType::Ref,
+        in_test: false,
         pat_mode: PatFoldingMode::VarDecl,
     })
 }
@@ -75,6 +76,7 @@ struct Inlining<'a> {
     scope: Scope<'a>,
     var_decl_kind: VarDeclKind,
     ident_type: IdentType,
+    in_test: bool,
     pat_mode: PatFoldingMode,
 }
 
@@ -99,6 +101,16 @@ impl Inlining<'_> {
 
 impl VisitMut for Inlining<'_> {
     noop_visit_mut_type!();
+
+    fn visit_mut_if_stmt(&mut self, stmt: &mut IfStmt) {
+        let old_in_test = self.in_test;
+        self.in_test = true;
+        stmt.test.visit_mut_with(self);
+        self.in_test = old_in_test;
+
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.cons);
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
+    }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)
@@ -289,6 +301,16 @@ impl VisitMut for Inlining<'_> {
 
                 match self.phase {
                     Phase::Analysis => {
+                        if self.in_test {
+                            if let Some(var) = self.scope.find_binding(&id) {
+                                match &*var.value.borrow() {
+                                    Some(Expr::Ident(..)) | Some(Expr::Lit(..)) => {}
+                                    _ => {
+                                        self.scope.prevent_inline(&id);
+                                    }
+                                }
+                            }
+                        }
                         self.scope.add_read(&id);
                     }
                     Phase::Inlining => {
@@ -460,13 +482,6 @@ impl VisitMut for Inlining<'_> {
                 Some(v) => Some(v.visit_mut_children_with(child)),
             };
         })
-    }
-
-    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        node.test.visit_mut_with(self);
-
-        self.visit_with_child(ScopeKind::Cond, &mut node.cons);
-        self.visit_with_child(ScopeKind::Cond, &mut node.alt);
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {

@@ -48,6 +48,7 @@ impl Inlining<'_> {
                 var_decl_kind: VarDeclKind::Var,
                 ident_type: self.ident_type,
                 pat_mode: self.pat_mode,
+                in_test: self.in_test,
             };
 
             op(&mut child);
