@@ -2229,3 +2229,31 @@ test!(
     new A();
     "
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    pr_1191_1,
+    r#"
+    var Status;
+(function (Status) {
+    Status[Status["Continue"] = 100] = "Continue";
+    Status[Status["SwitchingProtocols"] = 101] = "SwitchingProtocols";
+})(Status || (Status = {}));
+const STATUS_TEXT = new Map([
+    [
+        Status.Continue,
+        "Continue"
+    ],
+    [
+        Status.SwitchingProtocols,
+        "Switching Protocols"
+    ] 
+]);
+    "#,
+    "
+    "
+);
