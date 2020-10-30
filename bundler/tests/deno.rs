@@ -20,16 +20,19 @@ use swc_ecma_visit::FoldWith;
 use url::Url;
 
 #[test]
+#[ignore = "deno is not installed"]
 fn oak_6_3_1_application() {
     run("https://deno.land/x/oak@v6.3.1/application.ts", None);
 }
 
 #[test]
+#[ignore = "deno is not installed"]
 fn oak_6_3_1_mod() {
     run("https://deno.land/x/oak@v6.3.1/mod.ts", None);
 }
 
 #[test]
+#[ignore = "deno is not installed"]
 fn std_0_74_9_http_server() {
     run("https://deno.land/std@0.74.0/http/server.ts", None);
 }
@@ -47,11 +50,13 @@ fn oak_6_3_1_example_sse_server() {
 }
 
 #[test]
+#[ignore = "deno is not installed"]
 fn std_0_75_0_http_server() {
     run("https://deno.land/std@0.75.0/http/server.ts", None);
 }
 
 #[test]
+#[ignore = "deno is not installed"]
 fn deno_8188() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
@@ -60,6 +65,7 @@ fn deno_8188() {
 }
 
 #[test]
+#[ignore = "deno is not installed"]
 fn deno_8189() {
     run("https://deno.land/x/lz4/mod.ts", None);
 }
