@@ -1766,6 +1766,8 @@ to!(
 
     function isAbsolute() {}
     "#
+);
+
 to_ts!(
     type_checker_001,
     "
@@ -1781,7 +1783,6 @@ to_ts!(
     type_checker_002,
     "
     export declare function foo<T>(obj: T): T extends () => infer P ? P : never;
-
     export function bar<T>(obj: T) {
         return foo(obj);
     }
@@ -1850,4 +1851,5 @@ to_ts!(
         }
     }
     "
+);
 );
