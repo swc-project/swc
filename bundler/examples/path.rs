@@ -2,7 +2,7 @@ use anyhow::Error;
 use std::{collections::HashMap, io::stdout};
 use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
-use swc_ecma_ast::Expr;
+use swc_ecma_ast::KeyValueProp;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
