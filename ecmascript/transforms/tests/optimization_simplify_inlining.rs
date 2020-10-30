@@ -2236,7 +2236,7 @@ test!(
         ..Default::default()
     }),
     |_| chain!(strip(), resolver(), inlining(Default::default())),
-    pr_1191_1,
+    deno_8180_1,
     r#"
     var Status;
 (function (Status) {
@@ -2272,4 +2272,22 @@ const STATUS_TEXT = new Map([
         ]
     ]);    
     "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    deno_8189_1,
+    "
+    let A, I = null;
+    function g() {
+        return null !== I && I.buffer === A.memory.buffer || (I = new \
+     Uint8Array(A.memory.buffer)), I
+    }
+    ",
+    "
+    "
 );
