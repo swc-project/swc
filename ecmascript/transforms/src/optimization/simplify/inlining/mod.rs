@@ -41,6 +41,7 @@ pub fn inlining(_: Config) -> impl RepeatedJsPass + 'static {
         scope: Default::default(),
         var_decl_kind: VarDeclKind::Var,
         ident_type: IdentType::Ref,
+        in_test: false,
         pat_mode: PatFoldingMode::VarDecl,
     })
 }
@@ -75,6 +76,7 @@ struct Inlining<'a> {
     scope: Scope<'a>,
     var_decl_kind: VarDeclKind,
     ident_type: IdentType,
+    in_test: bool,
     pat_mode: PatFoldingMode,
 }
 
@@ -99,6 +101,16 @@ impl Inlining<'_> {
 
 impl VisitMut for Inlining<'_> {
     noop_visit_mut_type!();
+
+    fn visit_mut_if_stmt(&mut self, stmt: &mut IfStmt) {
+        let old_in_test = self.in_test;
+        self.in_test = true;
+        stmt.test.visit_mut_with(self);
+        self.in_test = old_in_test;
+
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.cons);
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
+    }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)
@@ -176,15 +188,6 @@ impl VisitMut for Inlining<'_> {
         }
     }
 
-    fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
-        match node.op {
-            op!("&&") | op!("||") => {
-                node.left.visit_mut_with(self);
-            }
-            _ => node.visit_mut_children_with(self),
-        }
-    }
-
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         self.visit_with_child(ScopeKind::Block, node)
     }
@@ -201,6 +204,11 @@ impl VisitMut for Inlining<'_> {
                 _ => {}
             }
         }
+
+        // args should not be inlined
+        node.args.visit_children_with(&mut WriteVisitor {
+            scope: &mut self.scope,
+        });
 
         node.args.visit_mut_with(self);
 
@@ -293,6 +301,16 @@ impl VisitMut for Inlining<'_> {
 
                 match self.phase {
                     Phase::Analysis => {
+                        if self.in_test {
+                            if let Some(var) = self.scope.find_binding(&id) {
+                                match &*var.value.borrow() {
+                                    Some(Expr::Ident(..)) | Some(Expr::Lit(..)) => {}
+                                    _ => {
+                                        self.scope.prevent_inline(&id);
+                                    }
+                                }
+                            }
+                        }
                         self.scope.add_read(&id);
                     }
                     Phase::Inlining => {
@@ -464,13 +482,6 @@ impl VisitMut for Inlining<'_> {
                 Some(v) => Some(v.visit_mut_children_with(child)),
             };
         })
-    }
-
-    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        node.test.visit_mut_with(self);
-
-        self.visit_with_child(ScopeKind::Cond, &mut node.cons);
-        self.visit_with_child(ScopeKind::Cond, &mut node.alt);
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -775,6 +786,27 @@ impl Visit for IdentListVisitor<'_, '_> {
 
     fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         self.scope.add_write(&node.to_id(), true);
+    }
+
+    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
+        node.obj.visit_with(node as _, self);
+
+        if node.computed {
+            node.prop.visit_with(node as _, self);
+        }
+    }
+}
+
+/// Mark idents as `written`.
+struct WriteVisitor<'a, 'b> {
+    scope: &'a mut Scope<'b>,
+}
+
+impl Visit for WriteVisitor<'_, '_> {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+        self.scope.add_write(&node.to_id(), false);
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
