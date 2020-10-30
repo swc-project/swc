@@ -85,23 +85,54 @@ where
 
             // export * from './foo';
             if specifiers.is_empty() {
-                decls_for_reexport.entry(src.module_id).or_default().extend(
-                    imported
-                        .exports
-                        .items
-                        .iter()
-                        .chain(imported.exports.reexports.iter().map(|v| &*v.1).flatten())
-                        .map(|specifier| match specifier {
-                            Specifier::Specific { local, alias } => VarDeclarator {
+                let vars = decls_for_reexport.entry(src.module_id).or_default();
+
+                for specifier in imported.exports.items.iter() {
+                    let var = match specifier {
+                        Specifier::Specific { local, alias } => {
+                            let init = Some(Box::new(Expr::Ident(
+                                alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
+                            )));
+
+                            VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(
                                     local.clone().replace_mark(info.mark()).into_ident(),
                                 ),
-                                init: Some(Box::new(Expr::Ident(
-                                    alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
-                                ))),
+                                init,
                                 definite: false,
-                            },
+                            }
+                        }
+                        Specifier::Namespace { local, .. } => VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(local.clone().replace_mark(info.mark()).into_ident()),
+                            init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
+                            definite: false,
+                        },
+                    };
+                    vars.push(var)
+                }
+
+                for (_, specifiers) in imported.exports.reexports.iter() {
+                    for specifier in specifiers {
+                        let var = match specifier {
+                            Specifier::Specific { local, alias } => {
+                                let init = match alias {
+                                    Some(alias) => {
+                                        Some(Box::new(Expr::Ident(alias.clone().into_ident())))
+                                    }
+                                    None => continue,
+                                };
+
+                                VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(
+                                        local.clone().replace_mark(info.mark()).into_ident(),
+                                    ),
+                                    init,
+                                    definite: false,
+                                }
+                            }
                             Specifier::Namespace { local, .. } => VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(
@@ -110,8 +141,10 @@ where
                                 init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
                                 definite: false,
                             },
-                        }),
-                );
+                        };
+                        vars.push(var)
+                    }
+                }
             };
         }
 
@@ -296,14 +329,16 @@ where
 
             // Inject variables
             if let Some(decls) = decls_for_reexport.remove(&src.module_id) {
-                entry
-                    .body
-                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls,
-                    }))));
+                if !decls.is_empty() {
+                    entry
+                        .body
+                        .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls,
+                        }))));
+                }
             }
 
             // print_hygiene(
