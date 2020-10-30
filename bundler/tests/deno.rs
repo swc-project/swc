@@ -53,6 +53,15 @@ fn std_0_75_0_http_server() {
     run("https://deno.land/std@0.75.0/http/server.ts", None);
 }
 
+#[test]
+#[ignore = "Too slow"]
+fn deno_8188() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
+        None,
+    );
+}
+
 fn run(url: &str, expeceted_bytes: Option<usize>) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
