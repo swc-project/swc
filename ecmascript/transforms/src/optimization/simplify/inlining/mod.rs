@@ -10,7 +10,7 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, Id};
+use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -202,6 +202,11 @@ impl VisitMut for Inlining<'_> {
             }
         }
 
+        // args should not be inlined
+        node.args.visit_children_with(&mut ArgVisitor {
+            scope: &mut self.scope,
+        });
+
         node.args.visit_mut_with(self);
 
         self.scope.store_inline_barrier(self.phase);
@@ -310,6 +315,7 @@ impl VisitMut for Inlining<'_> {
                                     Some(expr.clone())
                                 } else {
                                     if var.is_undefined.get() {
+                                        *node = *undefined(i.span);
                                         return;
                                     } else {
                                         log::trace!("Not a cheap expression");
@@ -774,6 +780,26 @@ impl Visit for IdentListVisitor<'_, '_> {
 
     fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         self.scope.add_write(&node.to_id(), true);
+    }
+
+    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
+        node.obj.visit_with(node as _, self);
+
+        if node.computed {
+            node.prop.visit_with(node as _, self);
+        }
+    }
+}
+
+struct ArgVisitor<'a, 'b> {
+    scope: &'a mut Scope<'b>,
+}
+
+impl Visit for ArgVisitor<'_, '_> {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+        self.scope.add_write(&node.to_id(), false);
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {

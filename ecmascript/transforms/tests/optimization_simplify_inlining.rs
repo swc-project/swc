@@ -2254,6 +2254,22 @@ const STATUS_TEXT = new Map([
     ] 
 ]);
     "#,
-    "
-    "
+    r#"
+    var Status;
+    (function(Status1) {
+        Status1[Status1["Continue"] = 100] = "Continue";
+        Status1[Status1["SwitchingProtocols"] = 101] = "SwitchingProtocols";
+    })(Status || (Status = {
+    }));
+    const STATUS_TEXT = new Map([
+        [
+            Status.Continue,
+            "Continue"
+        ],
+        [
+            Status.SwitchingProtocols,
+            "Switching Protocols"
+        ]
+    ]);    
+    "#
 );
