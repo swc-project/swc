@@ -10,7 +10,7 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
+use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -310,7 +310,6 @@ impl VisitMut for Inlining<'_> {
                                     Some(expr.clone())
                                 } else {
                                     if var.is_undefined.get() {
-                                        *node = *undefined(i.span);
                                         return;
                                     } else {
                                         log::trace!("Not a cheap expression");
