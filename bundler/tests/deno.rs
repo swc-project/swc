@@ -35,11 +35,13 @@ fn std_0_74_9_http_server() {
 }
 
 #[test]
+#[ignore]
 fn oak_6_3_1_example_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/server.ts", None);
 }
 
 #[test]
+#[ignore]
 fn oak_6_3_1_example_sse_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", None);
 }
@@ -55,6 +57,11 @@ fn deno_8188() {
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
         None,
     );
+}
+
+#[test]
+fn deno_8189() {
+    run("https://deno.land/x/lz4/mod.ts", None);
 }
 
 fn run(url: &str, expeceted_bytes: Option<usize>) {
