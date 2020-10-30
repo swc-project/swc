@@ -154,7 +154,7 @@ impl TestBuilder {
 struct Hook;
 
 impl crate::Hook for Hook {
-    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Option<Expr>, Error> {
+    fn get_import_meta_props(&self, _: Span, _: &FileName) -> Result<Vec<KeyValueProp>, Error> {
         unreachable!()
     }
 }

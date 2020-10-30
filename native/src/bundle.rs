@@ -8,13 +8,17 @@ use napi::{CallContext, Env, JsObject, Status, Task};
 use serde::Deserialize;
 use spack::resolvers::NodeResolver;
 use std::{
+    collections::HashMap,
     panic::{catch_unwind, AssertUnwindSafe},
     sync::Arc,
 };
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
+use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Load, Resolve};
 use swc_common::{FileName, Span};
-use swc_ecma_ast::{Expr, Lit, Str};
+use swc_ecma_ast::{
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+};
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -42,6 +46,8 @@ impl Task for BundleTask {
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let res = catch_unwind(AssertUnwindSafe(|| {
+            let entries: HashMap<String, FileName> =
+                self.config.static_items.config.entry.clone().into();
             let bundler = Bundler::new(
                 self.swc.globals(),
                 self.swc.cm.clone(),
@@ -89,12 +95,12 @@ impl Task for BundleTask {
                     .collect(),
                     ..Default::default()
                 },
-                Box::new(Hook),
+                Box::new(Hook {
+                    entries: entries.values().cloned().map(|f| f.to_string()).collect(),
+                }),
             );
 
-            let result = bundler
-                .bundle(self.config.static_items.config.entry.clone().into())
-                .convert_err()?;
+            let result = bundler.bundle(entries).convert_err()?;
 
             let result = result
                 .into_iter()
@@ -186,14 +192,41 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
     })
 }
 
-struct Hook;
+struct Hook {
+    entries: Vec<String>,
+}
 
 impl swc_bundler::Hook for Hook {
-    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
-        Ok(Some(Expr::Lit(Lit::Str(Str {
-            span,
-            value: file.to_string().into(),
-            has_escape: false,
-        }))))
+    fn get_import_meta_props(
+        &self,
+        span: Span,
+        file: &FileName,
+    ) -> Result<Vec<KeyValueProp>, Error> {
+        Ok(vec![
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                value: Box::new(Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: file.to_string().into(),
+                    has_escape: false,
+                }))),
+            },
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                value: Box::new(if self.entries.contains(&file.to_string()) {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
+                            meta: Ident::new(js_word!("import"), span),
+                            prop: Ident::new(js_word!("meta"), span),
+                        }))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
+                        computed: false,
+                    })
+                } else {
+                    Expr::Lit(Lit::Bool(Bool { span, value: false }))
+                }),
+            },
+        ])
     }
 }

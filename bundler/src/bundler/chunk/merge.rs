@@ -64,7 +64,6 @@ where
             entry.visit_mut_with(&mut ImportMetaHandler {
                 file: &info.fm.name,
                 hook: &self.hook,
-                is_entry,
                 err: None,
             });
 
@@ -626,7 +625,6 @@ impl VisitMut for DefaultRenamer {
 struct ImportMetaHandler<'a, 'b> {
     file: &'a FileName,
     hook: &'a Box<dyn 'b + Hook>,
-    is_entry: bool,
     err: Option<Error>,
 }
 
@@ -664,36 +662,24 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                         ..
                                     },
                                 ..
-                            }) => match &*me.prop {
-                                Expr::Ident(Ident {
-                                    sym: js_word!("url"),
-                                    ..
-                                }) => {
-                                    let res = self.hook.get_import_meta_url(me.span, self.file);
-                                    match res {
-                                        Ok(v) => match v {
-                                            Some(expr) => {
-                                                *e = expr;
-                                                return;
-                                            }
-                                            None => {}
-                                        },
-                                        Err(err) => self.err = Some(err),
-                                    }
-                                }
-                                Expr::Ident(Ident {
-                                    sym: js_word!("main"),
-                                    ..
-                                }) if !self.is_entry => {
-                                    *e = Expr::Lit(Lit::Bool(Bool {
+                            }) => match self.hook.get_import_meta_props(me.span, self.file) {
+                                // TODO(nayeemrmn): This substitutes any `import.meta` reference
+                                // with a complete re-instantiated object. Support mutating
+                                // `import.meta` using pre-declared a variable like `import_meta_1`.
+                                Ok(key_value_props) => {
+                                    me.obj = ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit {
                                         span: me.span,
-                                        value: false,
-                                    }));
-                                    return;
+                                        props: key_value_props
+                                            .iter()
+                                            .cloned()
+                                            .map(|kv| {
+                                                PropOrSpread::Prop(Box::new(Prop::KeyValue(kv)))
+                                            })
+                                            .collect(),
+                                    })));
                                 }
-                                _ => {}
+                                Err(err) => self.err = Some(err),
                             },
-
                             _ => {}
                         },
                     }

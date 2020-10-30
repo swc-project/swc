@@ -10,9 +10,13 @@ use std::{
     path::PathBuf,
     process::{Command, Stdio},
 };
+use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, Resolve};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
-use swc_ecma_ast::{Expr, Lit, Module, Str};
+use swc_ecma_ast::{
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, Module, PropName,
+    Str,
+};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{proposals::decorators, typescript::strip};
@@ -110,7 +114,7 @@ fn bundle(url: &str) -> String {
                     disable_inliner: false,
                     ..Default::default()
                 },
-                Box::new(Hook),
+                Box::new(Hook { main_url: url }),
             );
             let mut entries = HashMap::new();
             entries.insert("main".to_string(), FileName::Custom(url.to_string()));
@@ -235,14 +239,41 @@ impl Resolve for Resolver {
     }
 }
 
-struct Hook;
+struct Hook<'a> {
+    main_url: &'a str,
+}
 
-impl swc_bundler::Hook for Hook {
-    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
-        Ok(Some(Expr::Lit(Lit::Str(Str {
-            span,
-            value: file.to_string().into(),
-            has_escape: false,
-        }))))
+impl<'a> swc_bundler::Hook for Hook<'a> {
+    fn get_import_meta_props(
+        &self,
+        span: Span,
+        file: &FileName,
+    ) -> Result<Vec<KeyValueProp>, Error> {
+        Ok(vec![
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                value: Box::new(Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: file.to_string().into(),
+                    has_escape: false,
+                }))),
+            },
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                value: Box::new(if file.to_string() == self.main_url {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
+                            meta: Ident::new(js_word!("import"), span),
+                            prop: Ident::new(js_word!("meta"), span),
+                        }))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
+                        computed: false,
+                    })
+                } else {
+                    Expr::Lit(Lit::Bool(Bool { span, value: false }))
+                }),
+            },
+        ])
     }
 }

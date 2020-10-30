@@ -110,7 +110,7 @@ impl Resolve for PathResolver {
 struct Noop;
 
 impl Hook for Noop {
-    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Option<Expr>, Error> {
+    fn get_import_meta_props(&self, _: Span, _: &FileName) -> Result<Vec<KeyValueProp>, Error> {
         unimplemented!()
     }
 }

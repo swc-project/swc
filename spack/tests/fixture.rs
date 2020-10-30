@@ -13,9 +13,12 @@ use std::{
     sync::Arc,
 };
 use swc::config::SourceMapsConfig;
+use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config};
 use swc_common::{FileName, Span, GLOBALS};
-use swc_ecma_ast::{Expr, Lit, Str};
+use swc_ecma_ast::{
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+};
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use test::{
@@ -179,7 +182,9 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                             .map(From::from)
                             .collect(),
                         },
-                        Box::new(Hook),
+                        Box::new(Hook {
+                            entries: entries.values().cloned().map(|f| f.to_string()).collect(),
+                        }),
                     );
 
                     let modules = bundler
@@ -258,14 +263,41 @@ fn errors() {
     test_main(&args, tests, Some(Options::new()));
 }
 
-struct Hook;
+struct Hook {
+    entries: Vec<String>,
+}
 
 impl swc_bundler::Hook for Hook {
-    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
-        Ok(Some(Expr::Lit(Lit::Str(Str {
-            span,
-            value: file.to_string().into(),
-            has_escape: false,
-        }))))
+    fn get_import_meta_props(
+        &self,
+        span: Span,
+        file: &FileName,
+    ) -> Result<Vec<KeyValueProp>, Error> {
+        Ok(vec![
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                value: Box::new(Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: file.to_string().into(),
+                    has_escape: false,
+                }))),
+            },
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                value: Box::new(if self.entries.contains(&file.to_string()) {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
+                            meta: Ident::new(js_word!("import"), span),
+                            prop: Ident::new(js_word!("meta"), span),
+                        }))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
+                        computed: false,
+                    })
+                } else {
+                    Expr::Lit(Lit::Bool(Bool { span, value: false }))
+                }),
+            },
+        ])
     }
 }
