@@ -3,9 +3,11 @@
 //! This module exists because this is way easier than using copying requires
 //! files.
 use anyhow::{Context, Error};
+use sha1::{Digest, Sha1};
 use std::{
     collections::HashMap,
-    fs::write,
+    fs::{create_dir_all, read_to_string, write},
+    path::PathBuf,
     process::{Command, Stdio},
 };
 use swc_bundler::{Bundler, Load, Resolve};
@@ -18,43 +20,36 @@ use swc_ecma_visit::FoldWith;
 use url::Url;
 
 #[test]
-#[ignore = "Too slow"]
 fn oak_6_3_1_application() {
     run("https://deno.land/x/oak@v6.3.1/application.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn oak_6_3_1_mod() {
     run("https://deno.land/x/oak@v6.3.1/mod.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn std_0_74_9_http_server() {
     run("https://deno.land/std@0.74.0/http/server.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn oak_6_3_1_example_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/server.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn oak_6_3_1_example_sse_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn std_0_75_0_http_server() {
     run("https://deno.land/std@0.75.0/http/server.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn deno_8188() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
@@ -134,6 +129,40 @@ struct Loader {
     cm: Lrc<SourceMap>,
 }
 
+fn cacl_hash(s: &str) -> String {
+    let mut hasher = Sha1::new();
+    hasher.update(s.as_bytes());
+    let sum = hasher.finalize();
+
+    hex::encode(sum)
+}
+
+/// Load url. This method does caching.
+fn load_url(url: Url) -> Result<String, Error> {
+    let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
+    create_dir_all(&cache_dir).context("failed to create cache dir")?;
+
+    let hash = cacl_hash(&url.to_string());
+
+    let cache_path = cache_dir.join(&hash);
+
+    match read_to_string(&cache_path) {
+        Ok(v) => return Ok(v),
+        _ => {}
+    }
+
+    let resp = reqwest::blocking::get(url.clone())
+        .with_context(|| format!("failed to fetch `{}`", url))?;
+
+    let bytes = resp
+        .bytes()
+        .with_context(|| format!("failed to read data from `{}`", url))?;
+
+    write(&cache_path, &bytes)?;
+
+    return Ok(String::from_utf8_lossy(&bytes).to_string());
+}
+
 impl Load for Loader {
     fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
         eprintln!("{}", file);
@@ -144,14 +173,8 @@ impl Load for Loader {
         };
 
         let url = Url::parse(&url).context("failed to parse url")?;
-        let resp = reqwest::blocking::get(url.clone())
-            .with_context(|| format!("failed to fetch `{}`", url))?;
 
-        let bytes = resp
-            .bytes()
-            .with_context(|| format!("failed to read data from `{}`", url))?;
-
-        let src = String::from_utf8_lossy(&bytes);
+        let src = load_url(url.clone())?;
         let fm = self
             .cm
             .new_source_file(FileName::Custom(url.to_string()), src.to_string());
