@@ -73,8 +73,8 @@ fn run(url: &str, expeceted_bytes: Option<usize>) {
         .arg("--allow-all")
         .arg("--no-check")
         .arg(&path)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
         .status()
         .unwrap();
 
