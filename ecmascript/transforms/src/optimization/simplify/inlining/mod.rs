@@ -176,15 +176,6 @@ impl VisitMut for Inlining<'_> {
         }
     }
 
-    fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
-        match node.op {
-            op!("&&") | op!("||") => {
-                node.left.visit_mut_with(self);
-            }
-            _ => node.visit_mut_children_with(self),
-        }
-    }
-
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         self.visit_with_child(ScopeKind::Block, node)
     }
@@ -203,7 +194,7 @@ impl VisitMut for Inlining<'_> {
         }
 
         // args should not be inlined
-        node.args.visit_children_with(&mut ArgVisitor {
+        node.args.visit_children_with(&mut WriteVisitor {
             scope: &mut self.scope,
         });
 
@@ -791,11 +782,12 @@ impl Visit for IdentListVisitor<'_, '_> {
     }
 }
 
-struct ArgVisitor<'a, 'b> {
+/// Mark idents as `written`.
+struct WriteVisitor<'a, 'b> {
     scope: &'a mut Scope<'b>,
 }
 
-impl Visit for ArgVisitor<'_, '_> {
+impl Visit for WriteVisitor<'_, '_> {
     noop_visit_type!();
 
     fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
