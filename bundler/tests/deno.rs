@@ -13,7 +13,7 @@ use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::{Expr, Lit, Module, Str};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::typescript::strip;
+use swc_ecma_transforms::{proposals::decorators, typescript::strip};
 use swc_ecma_visit::FoldWith;
 use url::Url;
 
@@ -159,6 +159,10 @@ impl Load for Loader {
 
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_typescript_module().unwrap();
+        let module = module.fold_with(&mut decorators::decorators(decorators::Config {
+            legacy: true,
+            emit_metadata: false,
+        }));
         let module = module.fold_with(&mut strip());
 
         Ok((fm, module))
