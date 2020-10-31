@@ -11,7 +11,7 @@ use std::{
     process::{Command, Stdio},
 };
 use swc_atoms::js_word;
-use swc_bundler::{Bundler, Load, Resolve};
+use swc_bundler::{Bundler, Load, ModuleRecord, Resolve};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, Module, PropName,
@@ -114,7 +114,7 @@ fn bundle(url: &str) -> String {
                     disable_inliner: false,
                     ..Default::default()
                 },
-                Box::new(Hook { main_url: url }),
+                Box::new(Hook),
             );
             let mut entries = HashMap::new();
             entries.insert("main".to_string(), FileName::Custom(url.to_string()));
@@ -239,28 +239,26 @@ impl Resolve for Resolver {
     }
 }
 
-struct Hook<'a> {
-    main_url: &'a str,
-}
+struct Hook;
 
-impl<'a> swc_bundler::Hook for Hook<'a> {
+impl swc_bundler::Hook for Hook {
     fn get_import_meta_props(
         &self,
         span: Span,
-        file: &FileName,
+        module_record: &ModuleRecord,
     ) -> Result<Vec<KeyValueProp>, Error> {
         Ok(vec![
             KeyValueProp {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    value: file.to_string().into(),
+                    value: module_record.file_name.to_string().into(),
                     has_escape: false,
                 }))),
             },
             KeyValueProp {
                 key: PropName::Ident(Ident::new(js_word!("main"), span)),
-                value: Box::new(if file.to_string() == self.main_url {
+                value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
                         obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {

@@ -1,6 +1,6 @@
 use anyhow::Error;
 use std::{collections::HashMap, io::stdout};
-use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, Resolve};
+use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleRecord, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -110,7 +110,7 @@ impl Resolve for PathResolver {
 struct Noop;
 
 impl Hook for Noop {
-    fn get_import_meta_props(&self, _: Span, _: &FileName) -> Result<Vec<KeyValueProp>, Error> {
+    fn get_import_meta_props(&self, _: Span, _: &ModuleRecord) -> Result<Vec<KeyValueProp>, Error> {
         unimplemented!()
     }
 }

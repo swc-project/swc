@@ -5,7 +5,7 @@ use crate::{
     load::Load,
     resolve::Resolve,
     util::{self, IntoParallelIterator},
-    Bundler, Hook,
+    Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
@@ -64,6 +64,7 @@ where
             entry.visit_mut_with(&mut ImportMetaHandler {
                 file: &info.fm.name,
                 hook: &self.hook,
+                is_entry,
                 err: None,
             });
 
@@ -625,6 +626,7 @@ impl VisitMut for DefaultRenamer {
 struct ImportMetaHandler<'a, 'b> {
     file: &'a FileName,
     hook: &'a Box<dyn 'b + Hook>,
+    is_entry: bool,
     err: Option<Error>,
 }
 
@@ -662,7 +664,13 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                         ..
                                     },
                                 ..
-                            }) => match self.hook.get_import_meta_props(me.span, self.file) {
+                            }) => match self.hook.get_import_meta_props(
+                                me.span,
+                                &ModuleRecord {
+                                    file_name: self.file.to_owned(),
+                                    is_entry: self.is_entry,
+                                },
+                            ) {
                                 // TODO(nayeemrmn): This substitutes any `import.meta` reference
                                 // with a complete re-instantiated object. Support mutating
                                 // `import.meta` using pre-declared a variable like `import_meta_1`.
