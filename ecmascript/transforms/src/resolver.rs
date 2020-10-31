@@ -690,6 +690,8 @@ impl<'a> VisitMut for Resolver<'a> {
 
         e.body.visit_mut_with(&mut folder);
 
+        e.return_type.visit_mut_with(&mut folder);
+
         self.cur_defining = folder.cur_defining;
     }
 
