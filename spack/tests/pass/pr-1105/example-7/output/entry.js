@@ -7,10 +7,7 @@ const modUrl = {
     main: false
 }.url;
 console.log(isMain, modUrl);
-console.log(({
+console.log({
     url: "$DIR/tests/pass/pr-1105/example-7/input/entry.js",
     main: import.meta.main
-}).main, ({
-    url: "$DIR/tests/pass/pr-1105/example-7/input/entry.js",
-    main: import.meta.main
-}).url);
+});
