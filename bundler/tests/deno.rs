@@ -65,6 +65,11 @@ fn deno_8189() {
     run("https://deno.land/x/lz4/mod.ts", None);
 }
 
+#[test]
+fn deno_8211() {
+    run("https://unpkg.com/luxon@1.25.0/src/luxon.js", None);
+}
+
 fn run(url: &str, expeceted_bytes: Option<usize>) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
