@@ -457,6 +457,14 @@ impl SourceMap {
         }
         assert!(hi.line >= lo.line);
 
+        // Empty file contains no lines
+        if lo.file.src.is_empty() {
+            return Ok(FileLines {
+                file: lo.file,
+                lines: vec![],
+            });
+        }
+
         let mut lines = Vec::with_capacity(hi.line - lo.line + 1);
 
         // The span starts partway through the first line,
@@ -1311,6 +1319,18 @@ mod tests {
         let sstr = sm.span_to_string(span);
 
         assert_eq!(sstr, "blork.rs:2:1: 2:12");
+    }
+
+    #[test]
+    fn t10() {
+        // Test span_to_lines for a span of empty file
+        let sm = SourceMap::new(FilePathMapping::empty());
+        sm.new_source_file(PathBuf::from("blork.rs").into(), "".to_string());
+        let span = Span::new(BytePos(0), BytePos(0), NO_EXPANSION);
+        let file_lines = sm.span_to_lines(span).unwrap();
+
+        assert_eq!(file_lines.file.name, PathBuf::from("blork.rs").into());
+        assert_eq!(file_lines.lines.len(), 0);
     }
 
     /// Test failing to merge two spans on different lines
