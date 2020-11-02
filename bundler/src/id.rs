@@ -8,12 +8,19 @@ use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Ident;
 use swc_ecma_utils::ident::IdentLike;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ModuleId(u32);
 
 impl fmt::Display for ModuleId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(&self.0, f)
+    }
+}
+
+impl fmt::Debug for ModuleId {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "ModuleId({})", self.0)?;
+        Ok(())
     }
 }
 

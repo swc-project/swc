@@ -11,6 +11,7 @@ use petgraph::{
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::{
+    cmp::Ordering,
     collections::{hash_map::Entry, HashMap, HashSet},
     ops::{Deref, DerefMut},
 };
@@ -383,6 +384,13 @@ where
             }
         }
 
+        // Sort transitive chunks topologically.
+        for (_, normal_plan) in &mut plans.normal {
+            normal_plan
+                .transitive_chunks
+                .sort_by(|a, b| toposort(&builder, *a, *b));
+        }
+
         // Handle circular imports
         for (root_entry, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
@@ -461,6 +469,7 @@ where
         }
 
         // dbg!(&plans);
+
         plans
     }
 
@@ -536,5 +545,19 @@ where
                 }
             }
         }
+    }
+}
+
+/// Compare topology of `i` and `k`.
+fn toposort(b: &PlanBuilder, i: ModuleId, j: ModuleId) -> Ordering {
+    //
+    let higher = least_common_ancestor(b, &[i, j]);
+
+    if higher == i {
+        Ordering::Greater
+    } else if higher == j {
+        Ordering::Less
+    } else {
+        Ordering::Equal
     }
 }

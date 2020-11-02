@@ -322,6 +322,12 @@ where
                 if !is_direct {
                     prepend_stmts(&mut entry.body, injector.imported.into_iter());
 
+                    log::debug!(
+                        "Merged {} into {} as a transitive es module",
+                        dep_info.fm.name,
+                        info.fm.name,
+                    );
+
                     // print_hygiene("ES6", &self.cm, &entry);
                     continue;
                 }

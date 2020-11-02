@@ -29,6 +29,13 @@ pub(super) fn least_common_ancestor(b: &PlanBuilder, module_ids: &[ModuleId]) ->
             return first;
         }
 
+        if b.direct_deps.contains_edge(first, second) {
+            return second;
+        }
+        if b.direct_deps.contains_edge(second, first) {
+            return first;
+        }
+
         if let Some(id) = check_itself_and_parent(b, &[first], &[second]) {
             log::debug!("Found lca: {:?}", id);
             return id;
