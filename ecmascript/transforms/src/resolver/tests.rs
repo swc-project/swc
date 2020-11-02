@@ -1791,7 +1791,7 @@ to_ts!(
 );
 
 to_ts!(
-    deno_lint_463,
+    deno_lint_463_1,
     "(() => {
     function foo() {
         return new Bar();
@@ -1806,5 +1806,24 @@ to_ts!(
         class Bar__1 {
         }
     })();
+    "
+);
+
+to_ts!(
+    deno_lint_463_2,
+    "function wrapper() {
+        function foo() {
+            return new Bar();
+        }
+        class Bar {}
+    }",
+    "
+    function wrapper() {
+        function foo__2() {
+            return new Bar__2();
+        }
+        class Bar__2 {
+        }
+    }
     "
 );
