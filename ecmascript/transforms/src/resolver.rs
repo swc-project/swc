@@ -22,13 +22,20 @@ pub fn resolver() -> impl 'static + Fold {
 ///
 /// # What does it do
 ///
-/// It makes binding identifiers unique **with respect to symbol and syntax
-/// context**.
+/// Firstly all scopes (fn, block) has it's own SyntaxContext.
+/// Resolver visits all identifiers in module, and look for binding identifies
+/// in the scope. Those identifiers now have the SyntaxContext of scope (fn,
+/// block). While doing so, resolver tries to resolve normal identifiers (no
+/// hygiene info) as a reference to identifier of scope. If the resolver find
+/// suitable variable, the identifier reference will have same context as the
+/// variable.
 ///
 ///
 /// # Panics
 ///
 /// `top_level_mark` should not be root.
+///
+///
 pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
     assert_ne!(
         top_level_mark,
