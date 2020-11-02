@@ -460,7 +460,10 @@ where
             plans.normal.entry(entry).or_default();
         }
 
-        // dbg!(&plans);
+        dbg!(&plans);
+
+        // TODO: Sort transitive chunks topologically.
+
         plans
     }
 
