@@ -1,6 +1,6 @@
 //! Utilities for testing.
 use super::{load::TransformedModule, Bundler, Config};
-use crate::{util::HygieneRemover, Load, ModuleId, Resolve};
+use crate::{util::HygieneRemover, Load, ModuleId, ModuleRecord, Resolve};
 use anyhow::Error;
 use std::{collections::HashMap, path::PathBuf};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
@@ -154,7 +154,7 @@ impl TestBuilder {
 struct Hook;
 
 impl crate::Hook for Hook {
-    fn get_import_meta_url(&self, _: Span, _: &FileName) -> Result<Option<Expr>, Error> {
+    fn get_import_meta_props(&self, _: Span, _: &ModuleRecord) -> Result<Vec<KeyValueProp>, Error> {
         unreachable!()
     }
 }

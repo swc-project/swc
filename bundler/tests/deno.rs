@@ -11,9 +11,13 @@ use std::{
     path::PathBuf,
     process::{Command, Stdio},
 };
-use swc_bundler::{Bundler, Load, Resolve};
+use swc_atoms::js_word;
+use swc_bundler::{Bundler, Load, ModuleRecord, Resolve};
 use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
-use swc_ecma_ast::{Expr, Lit, Module, Str};
+use swc_ecma_ast::{
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, Module, PropName,
+    Str,
+};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{proposals::decorators, typescript::strip};
@@ -242,11 +246,36 @@ impl Resolve for Resolver {
 struct Hook;
 
 impl swc_bundler::Hook for Hook {
-    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
-        Ok(Some(Expr::Lit(Lit::Str(Str {
-            span,
-            value: file.to_string().into(),
-            has_escape: false,
-        }))))
+    fn get_import_meta_props(
+        &self,
+        span: Span,
+        module_record: &ModuleRecord,
+    ) -> Result<Vec<KeyValueProp>, Error> {
+        Ok(vec![
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                value: Box::new(Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: module_record.file_name.to_string().into(),
+                    has_escape: false,
+                }))),
+            },
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                value: Box::new(if module_record.is_entry {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
+                            meta: Ident::new(js_word!("import"), span),
+                            prop: Ident::new(js_word!("meta"), span),
+                        }))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
+                        computed: false,
+                    })
+                } else {
+                    Expr::Lit(Lit::Bool(Bool { span, value: false }))
+                }),
+            },
+        ])
     }
 }

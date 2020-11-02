@@ -5,7 +5,7 @@ use crate::{
     load::Load,
     resolve::Resolve,
     util::{self, IntoParallelIterator},
-    Bundler, Hook,
+    Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
@@ -637,74 +637,46 @@ struct ImportMetaHandler<'a, 'b> {
 }
 
 impl VisitMut for ImportMetaHandler<'_, '_> {
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        if self.err.is_some() {
-            return;
-        }
-
-        if e.computed {
-            e.obj.visit_mut_with(self);
-        }
-
-        e.prop.visit_mut_with(self);
-    }
-
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
         match e {
-            Expr::Member(me) => {
-                if !me.computed {
-                    match &me.obj {
-                        ExprOrSuper::Super(_) => {}
-                        ExprOrSuper::Expr(obj) => match &**obj {
-                            Expr::MetaProp(MetaPropExpr {
-                                meta:
-                                    Ident {
-                                        sym: js_word!("import"),
-                                        ..
-                                    },
-                                prop:
-                                    Ident {
-                                        sym: js_word!("meta"),
-                                        ..
-                                    },
-                                ..
-                            }) => match &*me.prop {
-                                Expr::Ident(Ident {
-                                    sym: js_word!("url"),
-                                    ..
-                                }) => {
-                                    let res = self.hook.get_import_meta_url(me.span, self.file);
-                                    match res {
-                                        Ok(v) => match v {
-                                            Some(expr) => {
-                                                *e = expr;
-                                                return;
-                                            }
-                                            None => {}
-                                        },
-                                        Err(err) => self.err = Some(err),
-                                    }
-                                }
-                                Expr::Ident(Ident {
-                                    sym: js_word!("main"),
-                                    ..
-                                }) if !self.is_entry => {
-                                    *e = Expr::Lit(Lit::Bool(Bool {
-                                        span: me.span,
-                                        value: false,
-                                    }));
-                                    return;
-                                }
-                                _ => {}
-                            },
-
-                            _ => {}
-                        },
-                    }
+            Expr::MetaProp(MetaPropExpr {
+                meta:
+                    Ident {
+                        sym: js_word!("import"),
+                        span,
+                        ..
+                    },
+                prop:
+                    Ident {
+                        sym: js_word!("meta"),
+                        ..
+                    },
+                ..
+            }) => match self.hook.get_import_meta_props(
+                *span,
+                &ModuleRecord {
+                    file_name: self.file.to_owned(),
+                    is_entry: self.is_entry,
+                },
+            ) {
+                // TODO(nayeemrmn): This substitutes any `import.meta` reference with a complete
+                // re-instantiated object. Support mutating `import.meta` using pre-declared a
+                // variable like `import_meta_1`.
+                Ok(key_value_props) => {
+                    dbg!(&key_value_props);
+                    *e = Expr::Object(ObjectLit {
+                        span: *span,
+                        props: key_value_props
+                            .iter()
+                            .cloned()
+                            .map(|kv| PropOrSpread::Prop(Box::new(Prop::KeyValue(kv))))
+                            .collect(),
+                    });
                 }
-            }
+                Err(err) => self.err = Some(err),
+            },
             _ => {}
         }
     }
