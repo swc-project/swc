@@ -22,13 +22,45 @@ pub fn resolver() -> impl 'static + Fold {
 ///
 /// # What does it do
 ///
-/// It makes binding identifiers unique **with respect to symbol and syntax
-/// context**.
+/// Firstly all scopes (fn, block) has it's own SyntaxContext.
+/// Resolver visits all identifiers in module, and look for binding identifies
+/// in the scope. Those identifiers now have the SyntaxContext of scope (fn,
+/// block). While doing so, resolver tries to resolve normal identifiers (no
+/// hygiene info) as a reference to identifier of scope. If the resolver find
+/// suitable variable, the identifier reference will have same context as the
+/// variable.
 ///
 ///
 /// # Panics
 ///
 /// `top_level_mark` should not be root.
+///
+/// # Exmaple
+///
+/// ```js
+/// let a = 1;
+/// {
+///     let a = 2;
+///     use(a);
+/// }
+/// use(a)
+/// ```
+///
+/// resolver does
+///
+/// 1.  Define `a` with top level context.
+///
+/// 2.  Found a block, so visit block with a new syntax context.
+///
+/// 3. Defined `a` with syntax context of the block statement.
+////
+/// 4. Found usage of `a`, and determines that it's reference to `a` in the
+/// block. So the reference to `a` will have same syntax context as `a` in the
+/// block.
+///
+/// 5. Found usage of `a` (last line), and determines that it's a
+/// reference to top-level `a`, and change syntax context of `a` on last line to
+/// top-level syntax context.
 pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
     assert_ne!(
         top_level_mark,
@@ -1136,6 +1168,12 @@ impl VisitMut for Hoister<'_, '_> {
             Pat::Ident(i) => self.resolver.visit_mut_binding_ident(i, self.kind),
             _ => node.visit_mut_children_with(self),
         }
+    }
+
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        self.resolver.in_type = false;
+        self.resolver
+            .visit_mut_binding_ident(&mut node.ident, Some(VarDeclKind::Let));
     }
 
     #[inline]
