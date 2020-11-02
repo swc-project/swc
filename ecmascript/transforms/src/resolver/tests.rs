@@ -1769,3 +1769,42 @@ to!(
     function isAbsolute() {}
     "#
 );
+
+to_ts!(
+    deno_lint_486,
+    "
+    function foo() {
+        target++;
+        {
+            var target = 0;
+        }
+    }
+    ",
+    "
+    function foo() {
+        target__2++;
+        {
+            var target__2 = 0;
+        }
+    }
+    "
+);
+
+to_ts!(
+    deno_lint_463,
+    "(() => {
+    function foo() {
+        return new Bar();
+    }
+    class Bar {}
+    })();",
+    "
+    (()=>{
+        function foo__1() {
+            return new Bar__1();
+        }
+        class Bar__1 {
+        }
+    })();
+    "
+);
