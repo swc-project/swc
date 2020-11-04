@@ -61,6 +61,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
             changed: false,
             marking_phase: false,
             decl_dropping_phase: false,
+            cur_defining: Default::default()
         }),
         as_folder(UsedMarkRemover { used_mark })
     )
@@ -112,6 +113,12 @@ struct Dce<'a> {
     decl_dropping_phase: bool,
 
     dropped: bool,
+
+    /// Functions that we are currently defining.
+    ///
+    /// Reference to function itself in a function should not make function
+    /// preserved.
+    cur_defining: FxHashSet<Id>,
 }
 
 impl CompilerPass for Dce<'_> {
@@ -288,7 +295,12 @@ impl VisitMut for Dce<'_> {
             return;
         }
 
-        f.visit_mut_children_with(self)
+        let id = f.ident.to_id();
+        self.cur_defining.insert(id.clone());
+
+        f.visit_mut_children_with(self);
+
+        self.cur_defining.remove(&id);
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
@@ -361,7 +373,13 @@ impl VisitMut for Dce<'_> {
         }
 
         if self.marking_phase {
-            if self.included.insert(i.to_id()) {
+            let id = i.to_id();
+            // This is required to drop recursive functions.
+            if self.cur_defining.contains(&id) {
+                return;
+            }
+
+            if self.included.insert(id) {
                 log::debug!("{} is used", i.sym);
                 self.changed = true;
             }
