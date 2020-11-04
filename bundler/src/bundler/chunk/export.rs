@@ -151,16 +151,17 @@ where
         let deps = reexports
             .into_par_iter()
             .map(|(src, specifiers)| -> Result<_, Error> {
+                let imported = self.scope.get_module(src.module_id).unwrap();
+                assert!(imported.is_es6, "Reexports are es6 only");
+
+                info.helpers.extend(&imported.helpers);
+                info.swc_helpers.extend_from(&imported.helpers);
+
                 if !merged.insert(src.module_id) {
                     return Ok(None);
                 }
 
                 log::debug!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
-
-                let imported = self.scope.get_module(src.module_id).unwrap();
-                assert!(imported.is_es6, "Reexports are es6 only");
-
-                info.helpers.extend(&imported.helpers);
 
                 let mut dep = self
                     .merge_modules(plan, src.module_id, false, false, merged)

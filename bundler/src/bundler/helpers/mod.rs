@@ -59,7 +59,7 @@ impl Helpers {
         }
     }
 
-    pub fn append_to(&self, to: &mut Vec<ModuleItem>) {
+    pub fn add_to(&self, to: &mut Vec<ModuleItem>) {
         let mut buf = vec![];
 
         if self.require.load(SeqCst) {

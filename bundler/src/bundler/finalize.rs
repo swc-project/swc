@@ -29,11 +29,12 @@ where
 
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
-                bundle.module = self.may_wrap_with_iife(bundle.module);
 
                 bundle.module = bundle.module.fold_with(&mut hygiene());
 
                 bundle.module = bundle.module.fold_with(&mut fixer(None));
+
+                bundle.module = self.may_wrap_with_iife(bundle.module);
 
                 match bundle.kind {
                     BundleKind::Named { .. } => {
@@ -44,7 +45,7 @@ where
                             .expect("module should exist at this point")
                             .helpers;
 
-                        helpers.append_to(&mut bundle.module.body);
+                        helpers.add_to(&mut bundle.module.body);
 
                         new.push(Bundle { ..bundle });
                     }

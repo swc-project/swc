@@ -78,6 +78,11 @@ impl Helpers {
             inner: Default::default(),
         }
     }
+
+    pub fn extend_from(&self, from: &Self) {
+        // TODO
+    }
+
     pub(crate) const fn mark(&self) -> Mark {
         self.mark.0
     }
