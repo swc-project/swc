@@ -100,6 +100,7 @@ impl Load for SwcLoader {
                             None
                         }
                     },
+                    skip_helper_injection: true,
                     disable_hygiene: false,
                     disable_fixer: true,
                     global_mark: self.options.global_mark,
