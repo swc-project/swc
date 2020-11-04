@@ -8,7 +8,11 @@ use std::{
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::{fixer, hygiene};
+use swc_ecma_transforms::{
+    fixer,
+    helpers::{inject_helpers, HELPERS},
+    hygiene,
+};
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
@@ -33,6 +37,20 @@ where
                 bundle.module = bundle.module.fold_with(&mut hygiene());
 
                 bundle.module = bundle.module.fold_with(&mut fixer(None));
+
+                {
+                    // Inject swc helpers
+                    let swc_helpers = self
+                        .scope
+                        .get_module(bundle.id)
+                        .expect("module should exist at this point")
+                        .swc_helpers;
+
+                    let module = bundle.module;
+
+                    bundle.module =
+                        HELPERS.set(&swc_helpers, || module.fold_with(&mut inject_helpers()));
+                }
 
                 bundle.module = self.may_wrap_with_iife(bundle.module);
 
