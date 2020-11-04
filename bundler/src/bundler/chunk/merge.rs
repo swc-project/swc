@@ -15,7 +15,7 @@ use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, private_ident};
+use swc_ecma_utils::{prepend, prepend_stmts, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
@@ -653,9 +653,9 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 },
             ) {
                 Ok(key_value_props) => {
-                    prepend_stmts(
+                    prepend(
                         &mut n.body,
-                        vec![ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: n.span,
                             kind: VarDeclKind::Const,
                             declare: false,
@@ -672,8 +672,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                 }))),
                                 definite: false,
                             }],
-                        })))]
-                        .into_iter(),
+                        }))),
                     );
                 }
                 Err(err) => self.err = Some(err),
