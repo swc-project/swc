@@ -155,7 +155,7 @@ where
                 assert!(imported.is_es6, "Reexports are es6 only");
 
                 info.helpers.extend(&imported.helpers);
-                info.swc_helpers.extend_from(&imported.helpers);
+                info.swc_helpers.extend_from(&imported.swc_helpers);
 
                 if !merged.insert(src.module_id) {
                     return Ok(None);

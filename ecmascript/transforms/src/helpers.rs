@@ -79,10 +79,6 @@ impl Helpers {
         }
     }
 
-    pub fn extend_from(&self, from: &Self) {
-        // TODO
-    }
-
     pub(crate) const fn mark(&self) -> Mark {
         self.mark.0
     }
@@ -120,6 +116,16 @@ macro_rules! define_helpers {
                     )*
                 }
             )*
+        }
+
+        impl Helpers {
+            pub fn extend_from(&self, other: &Self) {
+                $(
+                    if other.inner.$name.load(Ordering::SeqCst) {
+                        self.inner.$name.store(true, Ordering::Relaxed);
+                    }
+                )*
+            }
         }
 
         impl InjectHelpers {
