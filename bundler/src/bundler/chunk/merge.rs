@@ -653,9 +653,9 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 },
             ) {
                 Ok(key_value_props) => {
-                    n.body.insert(
-                        0,
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    prepend_stmts(
+                        &mut n.body,
+                        vec![ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: n.span,
                             kind: VarDeclKind::Const,
                             declare: false,
@@ -672,7 +672,8 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                 }))),
                                 definite: false,
                             }],
-                        }))),
+                        })))]
+                        .into_iter(),
                     );
                 }
                 Err(err) => self.err = Some(err),
