@@ -12,11 +12,10 @@ use std::{
     process::{Command, Stdio},
 };
 use swc_atoms::js_word;
-use swc_bundler::{Bundler, Load, ModuleRecord, Resolve};
-use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
+use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
+use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::{
-    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, Module, PropName,
-    Str,
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
@@ -185,7 +184,7 @@ fn load_url(url: Url) -> Result<String, Error> {
 }
 
 impl Load for Loader {
-    fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
+    fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         eprintln!("{}", file);
 
         let url = match file {
@@ -218,7 +217,11 @@ impl Load for Loader {
         }));
         let module = module.fold_with(&mut strip());
 
-        Ok((fm, module))
+        Ok(ModuleData {
+            fm,
+            module,
+            helpers: Default::default(),
+        })
     }
 }
 
