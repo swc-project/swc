@@ -15,7 +15,7 @@ use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::{prepend, prepend_stmts, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
@@ -65,6 +65,8 @@ where
                 file: &info.fm.name,
                 hook: &self.hook,
                 is_entry,
+                inline_ident: private_ident!("importMeta"),
+                occurred: false,
                 err: None,
             });
 
@@ -633,10 +635,51 @@ struct ImportMetaHandler<'a, 'b> {
     file: &'a FileName,
     hook: &'a Box<dyn 'b + Hook>,
     is_entry: bool,
+    inline_ident: Ident,
+    occurred: bool,
     err: Option<Error>,
 }
 
 impl VisitMut for ImportMetaHandler<'_, '_> {
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        n.visit_mut_children_with(self);
+
+        if self.occurred {
+            match self.hook.get_import_meta_props(
+                n.span,
+                &ModuleRecord {
+                    file_name: self.file.to_owned(),
+                    is_entry: self.is_entry,
+                },
+            ) {
+                Ok(key_value_props) => {
+                    prepend(
+                        &mut n.body,
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: n.span,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: n.span,
+                                name: Pat::Ident(self.inline_ident.clone()),
+                                init: Some(Box::new(Expr::Object(ObjectLit {
+                                    span: n.span,
+                                    props: key_value_props
+                                        .iter()
+                                        .cloned()
+                                        .map(|kv| PropOrSpread::Prop(Box::new(Prop::KeyValue(kv))))
+                                        .collect(),
+                                }))),
+                                definite: false,
+                            }],
+                        }))),
+                    );
+                }
+                Err(err) => self.err = Some(err),
+            }
+        }
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -645,7 +688,6 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 meta:
                     Ident {
                         sym: js_word!("import"),
-                        span,
                         ..
                     },
                 prop:
@@ -654,29 +696,10 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                         ..
                     },
                 ..
-            }) => match self.hook.get_import_meta_props(
-                *span,
-                &ModuleRecord {
-                    file_name: self.file.to_owned(),
-                    is_entry: self.is_entry,
-                },
-            ) {
-                // TODO(nayeemrmn): This substitutes any `import.meta` reference with a complete
-                // re-instantiated object. Support mutating `import.meta` using pre-declared a
-                // variable like `import_meta_1`.
-                Ok(key_value_props) => {
-                    dbg!(&key_value_props);
-                    *e = Expr::Object(ObjectLit {
-                        span: *span,
-                        props: key_value_props
-                            .iter()
-                            .cloned()
-                            .map(|kv| PropOrSpread::Prop(Box::new(Prop::KeyValue(kv))))
-                            .collect(),
-                    });
-                }
-                Err(err) => self.err = Some(err),
-            },
+            }) => {
+                *e = Expr::Ident(self.inline_ident.clone());
+                self.occurred = true;
+            }
             _ => {}
         }
     }
