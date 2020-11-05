@@ -73,6 +73,11 @@ fn deno_8211() {
     run("https://unpkg.com/luxon@1.25.0/src/luxon.js", None);
 }
 
+#[test]
+fn deno_8246() {
+    run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",None);
+}
+
 fn run(url: &str, expeceted_bytes: Option<usize>) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
