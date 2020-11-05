@@ -523,7 +523,12 @@ where
         }
 
         // Prevent dejavu
-        for (src, _) in &m.imports.specifiers {
+        for (src, _) in m
+            .imports
+            .specifiers
+            .iter()
+            .chain(m.exports.reexports.iter())
+        {
             if builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 log::debug!("Circular dep: {:?} => {:?}", module_id, src.module_id);
 
