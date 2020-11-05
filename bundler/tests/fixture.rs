@@ -12,11 +12,10 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_atoms::js_word;
-use swc_bundler::{BundleKind, Bundler, Config, Load, ModuleRecord, Resolve};
-use swc_common::{sync::Lrc, FileName, Globals, SourceFile, SourceMap, Span};
+use swc_bundler::{BundleKind, Bundler, Config, Load, ModuleData, ModuleRecord, Resolve};
+use swc_common::{sync::Lrc, FileName, Globals, SourceMap, Span};
 use swc_ecma_ast::{
-    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, Module, PropName,
-    Str,
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
@@ -291,7 +290,7 @@ pub struct Loader {
 }
 
 impl Load for Loader {
-    fn load(&self, f: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
+    fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
         eprintln!("load: {}", f);
 
         let fm = self.cm.load_file(match f {
@@ -314,7 +313,11 @@ impl Load for Loader {
 
         let module = module.fold_with(&mut strip());
 
-        Ok((fm, module))
+        Ok(ModuleData {
+            fm,
+            module,
+            helpers: Default::default(),
+        })
     }
 }
 

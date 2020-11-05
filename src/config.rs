@@ -58,6 +58,9 @@ pub struct Options {
     #[serde(flatten, default)]
     pub config: Option<Config>,
 
+    #[serde(skip_deserializing, default)]
+    pub skip_helper_injection: bool,
+
     #[cfg(not(target_arch = "wasm32"))]
     #[serde(skip_deserializing, default)]
     pub disable_hygiene: bool,
@@ -248,6 +251,7 @@ impl Options {
 
         let pass = PassBuilder::new(&cm, &handler, loose, root_mark, pass)
             .target(target)
+            .skip_helper_injection(self.skip_helper_injection)
             .hygiene(!self.disable_hygiene)
             .fixer(!self.disable_fixer)
             .preset_env(config.env)

@@ -63,7 +63,7 @@ macro_rules! add_to {
 scoped_thread_local!(pub static HELPERS: Helpers);
 
 /// Tracks used helper methods. (e.g. __extends)
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Helpers {
     external: bool,
     mark: HelperMark,
@@ -78,6 +78,7 @@ impl Helpers {
             inner: Default::default(),
         }
     }
+
     pub(crate) const fn mark(&self) -> Mark {
         self.mark.0
     }
@@ -86,7 +87,7 @@ impl Helpers {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 struct HelperMark(Mark);
 impl Default for HelperMark {
     fn default() -> Self {
@@ -100,7 +101,7 @@ macro_rules! define_helpers {
             $( $name:ident : ( $( $dep:ident ),* ), )*
         }
     ) => {
-        #[derive(Default)]
+        #[derive(Debug,Default)]
         struct Inner {
             $( $name: AtomicBool, )*
         }
@@ -115,6 +116,16 @@ macro_rules! define_helpers {
                     )*
                 }
             )*
+        }
+
+        impl Helpers {
+            pub fn extend_from(&self, other: &Self) {
+                $(
+                    if other.inner.$name.load(Ordering::SeqCst) {
+                        self.inner.$name.store(true, Ordering::Relaxed);
+                    }
+                )*
+            }
         }
 
         impl InjectHelpers {

@@ -8,6 +8,9 @@ macro_rules! external_name {
     ("throw") => {
         "_throw"
     };
+    ("extends") => {
+        "_extends"
+    };
     ($s:literal) => {
         $s
     };

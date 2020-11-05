@@ -20,6 +20,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     loose: bool,
     hygiene: bool,
     fixer: bool,
+    inject_helpers: bool,
 }
 
 impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
@@ -40,6 +41,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             hygiene: true,
             env: None,
             fixer: true,
+            inject_helpers: true,
         }
     }
 
@@ -58,7 +60,13 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: self.env,
             global_mark: self.global_mark,
             fixer: self.fixer,
+            inject_helpers: self.inject_helpers,
         }
+    }
+
+    pub fn skip_helper_injection(mut self, skip: bool) -> Self {
+        self.inject_helpers = !skip;
+        self
     }
 
     /// Note: fixer is enabled by default.
@@ -173,7 +181,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 modules::import_analysis::import_analyzer(),
                 need_interop_analysis
             ),
-            helpers::inject_helpers(),
+            Optional::new(helpers::inject_helpers(), self.inject_helpers),
             ModuleConfig::build(self.cm.clone(), self.global_mark, module),
             Optional::new(hygiene(), self.hygiene),
             Optional::new(fixer(comments), self.fixer),

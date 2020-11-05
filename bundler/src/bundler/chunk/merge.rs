@@ -138,6 +138,10 @@ where
                     .into_par_iter()
                     .map(|(src, specifiers)| -> Result<Option<_>, Error> {
                         self.run(|| {
+                            let dep_info = self.scope.get_module(src.module_id).unwrap();
+                            info.helpers.extend(&dep_info.helpers);
+                            info.swc_helpers.extend_from(&dep_info.swc_helpers);
+
                             if !merged.insert(src.module_id) {
                                 log::debug!("Skipping: {} <= {}", info.fm.name, src.src.value);
                                 return Ok(None);
@@ -145,8 +149,6 @@ where
 
                             log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                            let dep_info = self.scope.get_module(src.module_id).unwrap();
-                            info.helpers.extend(&dep_info.helpers);
                             // In the case of
                             //
                             //  a <- b

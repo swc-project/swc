@@ -1,6 +1,6 @@
 use anyhow::Error;
 use std::{collections::HashMap, io::stdout};
-use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleRecord, Resolve};
+use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -59,10 +59,7 @@ struct PathLoader {
 }
 
 impl Load for PathLoader {
-    fn load(
-        &self,
-        file: &FileName,
-    ) -> Result<(Lrc<swc_common::SourceFile>, swc_ecma_ast::Module), Error> {
+    fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         let file = match file {
             FileName::Real(v) => v,
             _ => unreachable!(),
@@ -81,7 +78,11 @@ impl Load for PathLoader {
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_module().expect("This should not happen");
 
-        Ok((fm, module))
+        Ok(ModuleData {
+            fm,
+            module,
+            helpers: Default::default(),
+        })
     }
 }
 struct PathResolver;
