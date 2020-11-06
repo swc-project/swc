@@ -566,7 +566,6 @@ fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {
                 continue;
             }
             let res = topo_compare(b, mi, mj);
-            dbg!(mi, mj, res);
             match res {
                 Ordering::Less => {}
                 Ordering::Equal => {}
