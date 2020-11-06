@@ -565,7 +565,7 @@ fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {
                 continue;
             }
 
-            if b.direct_deps.contains_edge(mi, mj) {
+            if b.direct_deps.contains_edge(mj, mi) {
                 module_ids.swap(i, j);
             }
         }
