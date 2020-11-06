@@ -194,9 +194,10 @@ where
                         }
                     };
 
-                    dep = self
-                        .merge_imports(plan, &module_plan, dep, &info, merged, false)
-                        .context("failed to merge imports")?;
+                // dep = self
+                //     .merge_imports(plan, &module_plan, dep, &info, merged,
+                // false)     .context("failed to merge
+                // imports")?;
                 } else {
                     dep = self.remark_exports(dep, src.ctxt, None, false);
                 }
