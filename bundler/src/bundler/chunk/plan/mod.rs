@@ -388,7 +388,7 @@ where
         for (_, normal_plan) in &mut plans.normal {
             normal_plan
                 .transitive_chunks
-                .sort_by(|a, b| toposort(&builder, *a, *b));
+                .sort_by(|a, b| topo_compare(&builder, *a, *b));
         }
 
         // Handle circular imports
@@ -553,8 +553,10 @@ where
     }
 }
 
+fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {}
+
 /// Compare topology of `i` and `k`.
-fn toposort(b: &PlanBuilder, i: ModuleId, j: ModuleId) -> Ordering {
+fn topo_compare(b: &PlanBuilder, i: ModuleId, j: ModuleId) -> Ordering {
     //
     let higher = least_common_ancestor(b, &[i, j]);
 
