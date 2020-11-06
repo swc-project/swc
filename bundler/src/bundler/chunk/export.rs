@@ -184,20 +184,6 @@ where
 
                 if let Some(id) = id_of_export_namespace_from {
                     dep = self.wrap_esm_as_a_var(plan, dep, &imported, merged, id)?;
-
-                    let module_plan;
-                    let module_plan = match plan.normal.get(&info.id) {
-                        Some(v) => v,
-                        None => {
-                            module_plan = Default::default();
-                            &module_plan
-                        }
-                    };
-
-                // dep = self
-                //     .merge_imports(plan, &module_plan, dep, &info, merged,
-                // false)     .context("failed to merge
-                // imports")?;
                 } else {
                     dep = self.remark_exports(dep, src.ctxt, None, false);
                 }
