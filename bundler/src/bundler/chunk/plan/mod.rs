@@ -386,9 +386,7 @@ where
 
         // Sort transitive chunks topologically.
         for (_, normal_plan) in &mut plans.normal {
-            normal_plan
-                .transitive_chunks
-                .sort_by(|a, b| topo_compare(&builder, *a, *b));
+            toposort(&builder, &mut normal_plan.transitive_chunks);
         }
 
         // Handle circular imports
@@ -553,7 +551,32 @@ where
     }
 }
 
-fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {}
+fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {
+    let len = module_ids.len();
+
+    if module_ids.len() <= 1 {
+        return;
+    }
+
+    for i in 0..len {
+        for j in i..len {
+            let mi = module_ids[i];
+            let mj = module_ids[j];
+            if mi == mj {
+                continue;
+            }
+            let res = topo_compare(b, mi, mj);
+            dbg!(mi, mj, res);
+            match res {
+                Ordering::Less => {}
+                Ordering::Equal => {}
+                Ordering::Greater => {
+                    module_ids.swap(i, j);
+                }
+            }
+        }
+    }
+}
 
 /// Compare topology of `i` and `k`.
 fn topo_compare(b: &PlanBuilder, i: ModuleId, j: ModuleId) -> Ordering {
