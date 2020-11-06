@@ -11,7 +11,6 @@ use petgraph::{
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::{
-    cmp::Ordering,
     collections::{hash_map::Entry, HashMap, HashSet},
     ops::{Deref, DerefMut},
 };
@@ -565,28 +564,10 @@ fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {
             if mi == mj {
                 continue;
             }
-            let res = topo_compare(b, mi, mj);
-            match res {
-                Ordering::Less => {}
-                Ordering::Equal => {}
-                Ordering::Greater => {
-                    module_ids.swap(i, j);
-                }
+
+            if b.direct_deps.contains_edge(mi, mj) {
+                module_ids.swap(i, j);
             }
         }
-    }
-}
-
-/// Compare topology of `i` and `k`.
-fn topo_compare(b: &PlanBuilder, i: ModuleId, j: ModuleId) -> Ordering {
-    //
-    let higher = least_common_ancestor(b, &[i, j]);
-
-    if higher == i {
-        Ordering::Greater
-    } else if higher == j {
-        Ordering::Less
-    } else {
-        Ordering::Equal
     }
 }
