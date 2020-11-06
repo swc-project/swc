@@ -1,6 +1,7 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::load::{Imports, Specifier, TransformedModule},
+    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -299,6 +300,19 @@ where
             if dep_info.is_es6 {
                 // print_hygiene("entry: before injection", &self.cm, &entry);
 
+                if !is_direct {
+                    prepend_stmts(&mut entry.body, take(&mut dep.body).into_iter());
+
+                    log::debug!(
+                        "Merged {} into {} as a transitive es module",
+                        dep_info.fm.name,
+                        info.fm.name,
+                    );
+
+                    // print_hygiene("ES6", &self.cm, &entry);
+                    continue;
+                }
+
                 // Replace import statement / require with module body
                 let mut injector = Es6ModuleInjector {
                     imported: take(&mut dep.body),
@@ -320,19 +334,6 @@ where
                     //     &self.cm,
                     //     &entry,
                     // );
-                    continue;
-                }
-
-                if !is_direct {
-                    prepend_stmts(&mut entry.body, injector.imported.into_iter());
-
-                    log::debug!(
-                        "Merged {} into {} as a transitive es module",
-                        dep_info.fm.name,
-                        info.fm.name,
-                    );
-
-                    // print_hygiene("ES6", &self.cm, &entry);
                     continue;
                 }
 
@@ -384,7 +385,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
