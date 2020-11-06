@@ -67,7 +67,7 @@ fn check_itself(b: &PlanBuilder, li: &[ModuleId], ri: &[ModuleId]) -> Option<Mod
         for &r in ri {
             // Root
             if g.neighbors_directed(r, Incoming).count() == 0 {
-                return Some(l);
+                return Some(r);
             }
 
             if l == r {

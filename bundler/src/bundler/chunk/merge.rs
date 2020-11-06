@@ -299,6 +299,19 @@ where
             if dep_info.is_es6 {
                 // print_hygiene("entry: before injection", &self.cm, &entry);
 
+                if !is_direct {
+                    prepend_stmts(&mut entry.body, take(&mut dep.body).into_iter());
+
+                    log::debug!(
+                        "Merged {} into {} as a transitive es module",
+                        dep_info.fm.name,
+                        info.fm.name,
+                    );
+
+                    // print_hygiene("ES6", &self.cm, &entry);
+                    continue;
+                }
+
                 // Replace import statement / require with module body
                 let mut injector = Es6ModuleInjector {
                     imported: take(&mut dep.body),
@@ -320,19 +333,6 @@ where
                     //     &self.cm,
                     //     &entry,
                     // );
-                    continue;
-                }
-
-                if !is_direct {
-                    prepend_stmts(&mut entry.body, injector.imported.into_iter());
-
-                    log::debug!(
-                        "Merged {} into {} as a transitive es module",
-                        dep_info.fm.name,
-                        info.fm.name,
-                    );
-
-                    // print_hygiene("ES6", &self.cm, &entry);
                     continue;
                 }
 
