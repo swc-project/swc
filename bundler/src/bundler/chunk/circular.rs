@@ -7,7 +7,7 @@ use anyhow::{Context, Error};
 use std::borrow::Borrow;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id, UsageFinder};
+use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
 #[cfg(test)]
