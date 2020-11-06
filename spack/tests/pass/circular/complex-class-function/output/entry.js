@@ -1,11 +1,11 @@
-function a() {
-    return new A();
-}
 function getC() {
     return C;
 }
-class A extends getC() {
-}
 class C {
+}
+function a() {
+    return new A();
+}
+class A extends getC() {
 }
 console.log(a, a());

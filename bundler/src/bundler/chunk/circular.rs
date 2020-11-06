@@ -114,7 +114,8 @@ where
     }
 }
 
-fn merge_respecting_order(mut entry: Vec<ModuleItem>, mut dep: Vec<ModuleItem>) -> Vec<ModuleItem> {
+/// Originally, this method should create a dependency graph, but
+fn merge_respecting_order(mut dep: Vec<ModuleItem>, mut entry: Vec<ModuleItem>) -> Vec<ModuleItem> {
     let mut new = Vec::with_capacity(dep.len() + entry.len());
 
     // While looping over items from entry, we check for dependency.
