@@ -269,9 +269,9 @@ fn issue_528() {
 [
 //foo
 a,
-//baz
 //bar
-b
+(//baz
+b)
 ];"
     );
 }
@@ -557,7 +557,6 @@ fn issue_1052() {
 
     assert!(!f.contains("_new"))
 }
-
 
 #[test]
 fn issue_1203() {
