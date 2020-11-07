@@ -557,3 +557,12 @@ fn issue_1052() {
 
     assert!(!f.contains("_new"))
 }
+
+
+#[test]
+fn issue_1203() {
+    let f = file("tests/projects/issue-1203/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("_new"))
+}
