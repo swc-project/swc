@@ -269,9 +269,9 @@ fn issue_528() {
 [
 //foo
 a,
-//baz
 //bar
-b
+(//baz
+b)
 ];"
     );
 }
@@ -556,4 +556,12 @@ fn issue_1052() {
     println!("{}", f);
 
     assert!(!f.contains("_new"))
+}
+
+#[test]
+fn issue_1203() {
+    let f = file("tests/projects/issue-1203/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("return //"))
 }
