@@ -32,6 +32,8 @@ pub enum SyntaxError {
     Eof,
     DeclNotAllowed,
 
+    PrivateNameInInterface,
+
     InvalidSuperCall,
     InvalidSuper,
 
@@ -218,6 +220,9 @@ impl SyntaxError {
     #[inline(never)]
     pub fn msg(&self) -> Cow<'static, str> {
         match self {
+            SyntaxError::PrivateNameInInterface => {
+                "private names are now allowed in interface".into()
+            }
             SyntaxError::TopLevelAwait => "top level await requires target to es2017 or higher \
                                            and topLevelAwait:true for ecmascript"
                 .into(),
