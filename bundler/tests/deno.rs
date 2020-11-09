@@ -220,6 +220,7 @@ impl Load for Loader {
         let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
                 decorators: true,
+                tsx: true,
                 ..Default::default()
             }),
             JscTarget::Es2020,
@@ -228,7 +229,7 @@ impl Load for Loader {
         );
 
         let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_typescript_module().unwrap();
+        let module = parser.parse_module().unwrap();
         let module = module.fold_with(&mut decorators::decorators(decorators::Config {
             legacy: true,
             emit_metadata: false,
@@ -248,6 +249,11 @@ struct Resolver;
 
 impl Resolve for Resolver {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+        match Url::parse(module_specifier) {
+            Ok(v) => return Ok(FileName::Custom(v.to_string())),
+            Err(_) => {}
+        }
+
         let base_url = match base {
             FileName::Custom(v) => v,
             _ => unreachable!("this test only uses url"),
