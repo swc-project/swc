@@ -78,6 +78,11 @@ fn deno_8246() {
     run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",None);
 }
 
+#[test]
+fn deno_6802() {
+    run("tests/deno/issue-6802/input.tsx", None);
+}
+
 fn run(url: &str, expeceted_bytes: Option<usize>) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
@@ -125,7 +130,14 @@ fn bundle(url: &str) -> String {
                 Box::new(Hook),
             );
             let mut entries = HashMap::new();
-            entries.insert("main".to_string(), FileName::Custom(url.to_string()));
+            entries.insert(
+                "main".to_string(),
+                if url.starts_with("http") {
+                    FileName::Custom(url.to_string())
+                } else {
+                    FileName::Real(url.to_string().into())
+                },
+            );
             let output = bundler.bundle(entries).unwrap();
             let module = output.into_iter().next().unwrap().module;
 
@@ -192,17 +204,18 @@ impl Load for Loader {
     fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         eprintln!("{}", file);
 
-        let url = match file {
-            FileName::Custom(v) => v,
+        let fm = match file {
+            FileName::Real(path) => self.cm.load_file(path)?,
+            FileName::Custom(url) => {
+                let url = Url::parse(&url).context("failed to parse url")?;
+
+                let src = load_url(url.clone())?;
+
+                self.cm
+                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
+            }
             _ => unreachable!("this test only uses url"),
         };
-
-        let url = Url::parse(&url).context("failed to parse url")?;
-
-        let src = load_url(url.clone())?;
-        let fm = self
-            .cm
-            .new_source_file(FileName::Custom(url.to_string()), src.to_string());
 
         let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
