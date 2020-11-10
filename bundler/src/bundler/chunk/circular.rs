@@ -80,11 +80,11 @@ where
         }
 
         let mut entry =
-            self.merge_exports_and_imports(plan, entry, &entry_module, merged, false)?;
+            self.merge_exports_and_imports(plan, entry, &entry_module, merged, false, true)?;
 
         for &dep in &deps {
             let dep_info = self.scope.get_module(dep).unwrap();
-            entry = self.merge_exports_and_imports(plan, entry, &dep_info, merged, false)?;
+            entry = self.merge_exports_and_imports(plan, entry, &dep_info, merged, false, true)?;
         }
 
         Ok(entry)
