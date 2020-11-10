@@ -1,4 +1,4 @@
-use super::plan::{DepType, NormalPlan, Plan};
+use super::plan::{DepType, Plan};
 use crate::{
     bundler::{
         chunk::plan::{NormalPlan2, Plan2},
@@ -14,7 +14,7 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use retain_mut::RetainMut;
-use std::{borrow::Cow, mem::take};
+use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
