@@ -304,11 +304,15 @@ where
                                     && !normal_plan.transitive_chunks.contains(&dep)
                                 {
                                     if dependants.contains(&module) {
-                                        log::trace!("Normal: {:?} => {:?}", module, dep);
+                                        log::trace!("Normal (non-es6): {:?} => {:?}", module, dep);
                                         // `entry` depends on `module` directly
                                         normal_plan.chunks.push(dep);
                                     } else {
-                                        log::trace!("Transitive: {:?} => {:?}", module, dep);
+                                        log::trace!(
+                                            "Transitive (non-es6): {:?} => {:?}",
+                                            module,
+                                            dep
+                                        );
                                         normal_plan.transitive_chunks.push(dep);
                                     }
                                 }
@@ -359,12 +363,11 @@ where
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
-                                let normal_entry =
-                                    &mut plans.normal.entry(higher_module).or_default();
-
                                 if self.scope.should_be_wrapped_with_a_fn(dep)
-                                    && dependants.contains(&higher_module)
+                                    || builder.is_circular(entry)
                                 {
+                                    let normal_entry = &mut plans.normal.entry(entry).or_default();
+
                                     let t = &mut normal_entry.chunks;
                                     if !t.contains(&dep) {
                                         log::info!("Normal, esm: {:?} => {:?}", entry, dep);
@@ -372,6 +375,9 @@ where
                                         t.push(dep)
                                     }
                                 } else {
+                                    let normal_entry =
+                                        &mut plans.normal.entry(higher_module).or_default();
+
                                     let t = &mut normal_entry.transitive_chunks;
                                     if !t.contains(&dep) {
                                         log::trace!("Transitive: {:?} => {:?}", entry, dep);
