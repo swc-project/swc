@@ -143,13 +143,13 @@ pub(super) enum DepType {
     Transitive,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub(super) struct Dependancy {
     pub ty: DepType,
     pub id: ModuleId,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 pub(super) struct NormalPlan2 {
     pub chunks: Vec<Dependancy>,
 }

@@ -177,8 +177,20 @@ where
                 })
                 .collect();
 
+            let mut targets = plan.chunks.clone();
+
             for dep in deps {
                 let (dep, dep_module) = dep?;
+
+                if let Some(idx) = targets.iter().position(|v| *v == dep.id) {
+                    targets.remove(idx);
+                    if let Some(v) = ctx.plan.normal.get(&dep.id) {
+                        targets.retain(|&dep| !v.chunks.contains(&dep.id));
+                    }
+                    if let Some(v) = ctx.plan.circular.get(&dep.id) {
+                        targets.retain(|&id| !v.chunks.contains(&id));
+                    }
+                }
             }
 
             unimplemented!("merge_deps")
@@ -290,120 +302,6 @@ where
                 module_plan.chunks.contains(&src.module_id)
             })
             .collect();
-
-        let (deps, transitive_deps) = util::join(
-            || {
-                to_merge
-                    .into_par_iter()
-                    .map(|(src, specifiers)| -> Result<Option<_>, Error> {
-                        self.run(|| {
-                            let dep_info = self.scope.get_module(src.module_id).unwrap();
-
-                            // In the case of
-                            //
-                            //  a <- b
-                            //  b <- c
-                            //
-                            // we change it to
-                            //
-                            // a <- b + chunk(c)
-                            //
-                            let mut dep = self
-                                .merge_modules(plan, src.module_id, false, false, merged)
-                                .with_context(|| {
-                                    format!(
-                                        "failed to merge: ({}):{} <= ({}):{}",
-                                        info.id, info.fm.name, src.module_id, src.src.value
-                                    )
-                                })?;
-
-                            if dep_info.is_es6 {
-                                // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
-
-                                let is_acccessed_with_computed_key =
-                                    self.scope.should_be_wrapped_with_a_fn(dep_info.id);
-
-                                // If an import with a computed key exists, we can't shake tree
-                                if is_acccessed_with_computed_key {
-                                    let id = specifiers
-                                        .iter()
-                                        .find_map(|s| match s {
-                                            Specifier::Namespace { local, all: true } => {
-                                                Some(local)
-                                            }
-                                            _ => None,
-                                        })
-                                        .unwrap();
-
-                                    dep = self.wrap_esm_as_a_var(
-                                        plan,
-                                        dep,
-                                        &dep_info,
-                                        merged,
-                                        id.clone().replace_mark(dep_info.mark()).into_ident(),
-                                    )?;
-                                } else {
-                                    if let Some(imports) = info
-                                        .imports
-                                        .specifiers
-                                        .iter()
-                                        .find(|(s, _)| s.module_id == dep_info.id)
-                                        .map(|v| &v.1)
-                                    {
-                                        // print_hygiene(
-                                        //     "dep: before remarking exports",
-                                        //     &self.cm,
-                                        //     &dep,
-                                        // );
-
-                                        dep = self.remark_exports(
-                                            dep,
-                                            dep_info.ctxt(),
-                                            Some(&imports),
-                                            true,
-                                        );
-                                    }
-                                }
-                                // print_hygiene("dep:after:tree-shaking",
-                                // &self.cm, &dep);
-
-                                // DONE
-                                // dep = dep.fold_with(&mut Unexporter);
-                            }
-                            // print_hygiene("dep:before-injection", &self.cm, &dep);
-
-                            Ok(Some((dep, dep_info)))
-                        })
-                    })
-                    .collect::<Vec<_>>()
-            },
-            || {
-                let deps = module_plan
-                    .transitive_chunks
-                    .clone()
-                    .into_par_iter()
-                    .map(|id| -> Result<_, Error> {
-                        if !merged.insert(id) {
-                            return Ok(None);
-                        }
-
-                        let dep_info = self.scope.get_module(id).unwrap();
-                        let mut dep = self.merge_modules(plan, id, false, true, merged)?;
-
-                        // print_hygiene("transitive dep", &self.cm, &dep);
-
-                        dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
-                        dep = dep.fold_with(&mut Unexporter);
-
-                        // As transitive deps can have no direct relation with entry,
-                        // remark_exports is not enough.
-                        Ok(Some((dep, dep_info)))
-                    })
-                    .collect::<Vec<_>>();
-
-                deps
-            },
-        );
 
         let mut targets = module_plan.chunks.clone();
 
