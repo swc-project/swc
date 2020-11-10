@@ -25,75 +25,227 @@ use url::Url;
 
 #[test]
 fn oak_6_3_1_application() {
-    run("https://deno.land/x/oak@v6.3.1/application.ts", None);
+    run(
+        "https://deno.land/x/oak@v6.3.1/application.ts",
+        &[
+            "ApplicationErrorEvent",
+            "ApplicationListenEvent",
+            "Application",
+        ],
+    );
 }
 
 #[test]
 fn oak_6_3_1_mod() {
-    run("https://deno.land/x/oak@v6.3.1/mod.ts", None);
+    run(
+        "https://deno.land/x/oak@v6.3.1/mod.ts",
+        &[
+            "Application",
+            "Context",
+            "helpers",
+            "Cookies",
+            "HttpError",
+            "httpErrors",
+            "isHttpError",
+            "composeMiddleware",
+            "FormDataReader",
+            "Request",
+            "REDIRECT_BACK",
+            "Response",
+            "Router",
+            "send",
+            "ServerSentEvent",
+            "ServerSentEventTarget",
+            "isErrorStatus",
+            "isRedirectStatus",
+            "Status",
+            "STATUS_TEXT",
+        ],
+    );
 }
 
 #[test]
-fn std_0_74_9_http_server() {
-    run("https://deno.land/std@0.74.0/http/server.ts", None);
+fn std_0_74_0_http_server() {
+    run(
+        "https://deno.land/std@0.74.0/http/server.ts",
+        &[
+            "ServerRequest",
+            "Server",
+            "_parseAddrFromStr",
+            "serve",
+            "listenAndServe",
+            "serveTLS",
+            "listenAndServeTLS",
+        ],
+    );
 }
 
 #[test]
 #[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_server() {
-    run("https://deno.land/x/oak@v6.3.1/examples/server.ts", None);
+    run("https://deno.land/x/oak@v6.3.1/examples/server.ts", &[]);
 }
 
 #[test]
 #[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_sse_server() {
-    run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", None);
-}
-
-#[test]
-fn std_0_75_0_http_server() {
-    run("https://deno.land/std@0.75.0/http/server.ts", None);
+    run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", &[]);
 }
 
 #[test]
 fn deno_8188() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
-        None,
+        &[
+            "connect",
+            "NatsConnectionImpl",
+            "Nuid",
+            "nuid",
+            "ErrorCode",
+            "NatsError",
+            "DebugEvents",
+            "Empty",
+            "Events",
+            "MsgImpl",
+            "SubscriptionImpl",
+            "Subscriptions",
+            "setTransportFactory",
+            "setUrlParseFn",
+            "Connect",
+            "createInbox",
+            "INFO",
+            "ProtocolHandler",
+            "deferred",
+            "delay",
+            "extractProtocolMessage",
+            "render",
+            "timeout",
+            "headers",
+            "MsgHdrsImpl",
+            "Heartbeat",
+            "MuxSubscription",
+            "DataBuffer",
+            "checkOptions",
+            "Request",
+            "credsAuthenticator,
+            jwtAuthenticator,
+            nkeyAuthenticator",
+            "JSONCodec",
+            "StringCodec",
+            "QueuedIterator",
+            "Kind",
+            "Parser",
+            "State",
+            "DenoBuffer",
+            "MAX_SIZE",
+            "readAll",
+            "writeAll",
+            "Bench",
+            "Metric",
+            "TD",
+            "TE",
+            "isIP",
+            "parseIP",
+        ],
     );
 }
 
 #[test]
 fn deno_8189() {
-    run("https://deno.land/x/lz4/mod.ts", None);
+    run(
+        "https://deno.land/x/lz4/mod.ts",
+        &["compress", "decompress"],
+    );
 }
 
 #[test]
 fn deno_8211() {
-    run("https://unpkg.com/luxon@1.25.0/src/luxon.js", None);
+    run(
+        "https://unpkg.com/luxon@1.25.0/src/luxon.js",
+        &[
+            "DateTime",
+            "Duration",
+            "Interval",
+            "Info",
+            "Zone",
+            "FixedOffsetZone",
+            "IANAZone",
+            "InvalidZone",
+            "LocalZone",
+            "Settings",
+        ],
+    );
 }
 
 #[test]
 fn deno_8246() {
-    run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",None);
+    run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",&[
+        "NatsConnectionImpl",
+        "Nuid",
+        "nuid",
+        "ErrorCode",
+        "NatsError",
+        "DebugEvents",
+        "Empty",
+        "Events",
+        "MsgImpl",
+        "SubscriptionImpl",
+        "Subscriptions",
+        "setTransportFactory",
+        "setUrlParseFn",
+        "Connect",
+        "createInbox",
+        "INFO",
+        "ProtocolHandler",
+        "deferred",
+        "delay",
+        "extractProtocolMessage",
+        "render",
+        "timeout",
+        "headers",
+        "MsgHdrsImpl",
+        "Heartbeat",
+        "MuxSubscription",
+        "DataBuffer",
+        "checkOptions",
+        "Request",
+        "credsAuthenticator,
+        jwtAuthenticator,
+        nkeyAuthenticator",
+        "JSONCodec",
+        "StringCodec",
+        "QueuedIterator",
+        "Kind",
+        "Parser",
+        "State",
+        "DenoBuffer",
+        "MAX_SIZE",
+        "readAll",
+        "writeAll",
+        "Bench",
+        "Metric",
+        "TD",
+        "TE",
+        "isIP",
+        "parseIP",
+    ]);
 }
 
 #[test]
 #[ignore = "document is not defined when I use deno run"]
 fn deno_6802() {
-    run("tests/deno/issue-6802/input.tsx", None);
+    run("tests/deno/issue-6802/input.tsx", &[]);
 }
 
-fn run(url: &str, expeceted_bytes: Option<usize>) {
+fn run(url: &str, exports: &[&str]) {
+    let tsx = url.ends_with(".tsx");
+
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
     println!("{}", path.display());
 
     let src = bundle(url);
     write(&path, &src).unwrap();
-    if let Some(expected) = expeceted_bytes {
-        assert_eq!(src.len(), expected);
-    }
 
     if env::var("CI").is_ok() {
         return;
@@ -205,9 +357,16 @@ impl Load for Loader {
     fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         eprintln!("{}", file);
 
+        let mut tsx = false;
+
         let fm = match file {
-            FileName::Real(path) => self.cm.load_file(path)?,
+            FileName::Real(path) => {
+                tsx = path.to_string_lossy().ends_with(".tsx");
+                self.cm.load_file(path)?
+            }
             FileName::Custom(url) => {
+                tsx = url.ends_with(".tsx");
+
                 let url = Url::parse(&url).context("failed to parse url")?;
 
                 let src = load_url(url.clone())?;
@@ -221,7 +380,7 @@ impl Load for Loader {
         let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
                 decorators: true,
-                tsx: true,
+                tsx,
                 ..Default::default()
             }),
             JscTarget::Es2020,
