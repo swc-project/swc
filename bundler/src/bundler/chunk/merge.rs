@@ -1,7 +1,7 @@
 use super::plan::{DepType, NormalPlan, Plan};
 use crate::{
     bundler::{
-        chunk::plan::Plan2,
+        chunk::plan::{NormalPlan2, Plan2},
         load::{Imports, Specifier, TransformedModule},
     },
     id::ModuleId,
@@ -43,15 +43,19 @@ where
         self.run(|| {
             if allow_circular {
                 if let Some(plan) = ctx.plan.circular.get(&module_id) {
-                    return Ok(self.merge_circular2(ctx, plan).with_context(|| {
+                    let module = self.merge_circular2(ctx, plan).with_context(|| {
                         format!("failed to merge {:?} (circular import)", module_id)
-                    })?);
+                    })?;
+                    if is_entry {
+                        // TODO: finalize
+                    }
+                    return Ok(module);
                 }
             }
 
             let info = self.scope.get_module(module_id).unwrap();
 
-            let mut module = self
+            let module = self
                 .get_module_for_merging2(module_id, is_entry)
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
@@ -60,50 +64,8 @@ where
                 Some(plan) => plan,
                 None => return Ok(module),
             };
-            if plan.chunks.is_empty() {
-                return Ok(module);
-            }
 
-            let deps: Vec<_> = (&plan.chunks)
-                .into_par_iter()
-                .map(|dep| -> Result<_, Error> {
-                    let reexport = info
-                        .exports
-                        .reexports
-                        .iter()
-                        .find(|(src, _)| src.module_id == dep.id);
-                    let wrapped = self.scope.should_be_wrapped_with_a_fn(dep.id);
-
-                    match reexport {
-                        Some((_, specifiers)) => {
-                            let dep_module = self.merge2_export(ctx, dep.id, &specifiers)?;
-                            return Ok((dep, dep_module));
-                        }
-                        None => {}
-                    }
-
-                    let dep_module = match dep.ty {
-                        DepType::Direct => {
-                            let (_, specifiers) = info
-                                .imports
-                                .specifiers
-                                .iter()
-                                .find(|(src, _)| src.module_id == dep.id)
-                                .expect("it is direct dependency");
-
-                            self.merge2_direct_import(ctx, dep.id, &specifiers)?
-                        }
-                        DepType::Transitive => {
-                            debug_assert!(!wrapped, "Transitive dependency cannot be wrapped");
-                            self.merge2_transitive_import(ctx, dep.id)?
-                        }
-                    };
-
-                    Ok((dep, dep_module))
-                })
-                .collect();
-
-            unimplemented!("merge")
+            self.merge_deps(ctx, module, plan, &info)
         })
     }
 
@@ -111,9 +73,34 @@ where
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,
-        specifiers: &[Specifier],
+        _specifiers: &[Specifier],
     ) -> Result<Module, Error> {
-        let module = self.merge2(ctx, dep_id, false, true)?;
+        let dep_info = self.scope.get_module(dep_id).unwrap();
+        let wrapped = self.scope.should_be_wrapped_with_a_fn(dep_id);
+
+        // Now we handle imports
+        let module = if wrapped {
+            let mut module = self.get_module_for_merging2(dep_id, false)?;
+            // TODO: Store private ident in the scope.
+            module = self.wrap_esm(module, private_ident!("module"))?;
+
+            let plan = ctx.plan.normal.get(&dep_id);
+            let plan = match plan {
+                Some(plan) => plan,
+                None => return Ok(module),
+            };
+
+            module = self
+                .merge_deps(ctx, module, plan, &dep_info)
+                .context("failed to merge dependencies")?;
+
+            module
+        } else {
+            let module = self.merge2(ctx, dep_id, false, true)?;
+            module
+        };
+
+        let module = module.fold_with(&mut Unexporter);
 
         Ok(module)
     }
@@ -122,6 +109,80 @@ where
         let module = self.merge2(ctx, dep_id, false, true)?;
 
         Ok(module)
+    }
+
+    fn merge_deps(
+        &self,
+        ctx: &Ctx,
+        module: Module,
+        plan: &NormalPlan2,
+        info: &TransformedModule,
+    ) -> Result<Module, Error> {
+        self.run(|| -> Result<_, Error> {
+            log::debug!(
+                "Normal merging: ({}) {} <= {:?}",
+                info.id,
+                info.fm.name,
+                plan
+            );
+            if plan.chunks.is_empty() {
+                return Ok(module);
+            }
+
+            let deps: Vec<_> = (&plan.chunks)
+                .into_par_iter()
+                .map(|dep| -> Result<_, Error> {
+                    self.run(|| {
+                        let dep_info = self.scope.get_module(dep.id).unwrap();
+
+                        info.helpers.extend(&dep_info.helpers);
+                        info.swc_helpers.extend_from(&dep_info.swc_helpers);
+
+                        log::debug!("Merging: {} <= {}", info.fm.name, dep_info.fm.name);
+
+                        let reexport = info
+                            .exports
+                            .reexports
+                            .iter()
+                            .find(|(src, _)| src.module_id == dep.id);
+                        let wrapped = self.scope.should_be_wrapped_with_a_fn(dep.id);
+
+                        match reexport {
+                            Some((_, specifiers)) => {
+                                let dep_module = self.merge2_export(ctx, dep.id, &specifiers)?;
+                                return Ok((dep, dep_module));
+                            }
+                            None => {}
+                        }
+
+                        let dep_module = match dep.ty {
+                            DepType::Direct => {
+                                let (_, specifiers) = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|(src, _)| src.module_id == dep.id)
+                                    .expect("it is direct dependency");
+
+                                self.merge2_direct_import(ctx, dep.id, &specifiers)?
+                            }
+                            DepType::Transitive => {
+                                debug_assert!(!wrapped, "Transitive dependency cannot be wrapped");
+                                self.merge2_transitive_import(ctx, dep.id)?
+                            }
+                        };
+
+                        Ok((dep, dep_module))
+                    })
+                })
+                .collect();
+
+            for dep in deps {
+                let (dep, dep_module) = dep?;
+            }
+
+            unimplemented!("merge_deps")
+        })
     }
 
     pub(super) fn get_module_for_merging2(
@@ -149,73 +210,22 @@ where
     /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,
-        plan: &Plan,
-        entry: ModuleId,
-        is_entry: bool,
-        force_not_cyclic: bool,
-        merged: &CHashSet<ModuleId>,
+        _plan: &Plan,
+        _entry: ModuleId,
+        _is_entry: bool,
+        _force_not_cyclic: bool,
+        _merged: &CHashSet<ModuleId>,
     ) -> Result<Module, Error> {
-        self.run(|| {
-            merged.insert(entry);
-
-            let info = self.scope.get_module(entry).unwrap();
-
-            if !force_not_cyclic {
-                // Handle circular imports
-                if let Some(circular_plan) = plan.entry_as_circular(info.id) {
-                    log::debug!("Circular dependency detected: ({})", info.fm.name);
-                    let mut module =
-                        self.merge_circular_modules(plan, circular_plan, entry, merged)?;
-                    if is_entry {
-                        self.finalize_merging_of_entry(plan, &mut module);
-                    }
-                    return Ok(module);
-                }
-            }
-
-            let normal_plan;
-            let module_plan = match plan.normal.get(&entry) {
-                Some(v) => v,
-                None => {
-                    normal_plan = Default::default();
-                    &normal_plan
-                }
-            };
-
-            let entry = self.get_module_for_merging(info.id, is_entry, merged)?;
-
-            // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
-
-            let entry =
-                self.merge_exports_and_imports(plan, module_plan, entry, &info, merged, is_entry)?;
-
-            Ok(entry)
-        })
+        unimplemented!("Migrated")
     }
 
     pub(super) fn get_module_for_merging(
         &self,
-        entry: ModuleId,
-        is_entry: bool,
-        merged: &CHashSet<ModuleId>,
+        _entry: ModuleId,
+        _is_entry: bool,
+        _merged: &CHashSet<ModuleId>,
     ) -> Result<Module, Error> {
-        self.run(|| {
-            merged.insert(entry);
-
-            let info = self.scope.get_module(entry).unwrap();
-
-            let mut entry: Module = (*info.module).clone();
-            entry.visit_mut_with(&mut ImportMetaHandler {
-                file: &info.fm.name,
-                hook: &self.hook,
-                is_entry,
-                inline_ident: private_ident!("importMeta"),
-                occurred: false,
-                err: None,
-            });
-
-            Ok(entry)
-        })
+        unimplemented!("Migrated")
     }
 
     pub(super) fn merge_exports_and_imports(
@@ -234,13 +244,6 @@ where
             if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
                 return Ok(entry);
             }
-
-            log::debug!(
-                "Merge: ({}) {} <= {:?}",
-                info.id,
-                info.fm.name,
-                plan.normal.get(&info.id)
-            );
 
             // We handle this kind of modules specially.
             if self.scope.should_be_wrapped_with_a_fn(info.id) {
@@ -295,15 +298,6 @@ where
                     .map(|(src, specifiers)| -> Result<Option<_>, Error> {
                         self.run(|| {
                             let dep_info = self.scope.get_module(src.module_id).unwrap();
-                            info.helpers.extend(&dep_info.helpers);
-                            info.swc_helpers.extend_from(&dep_info.swc_helpers);
-
-                            if !merged.insert(src.module_id) {
-                                log::debug!("Skipping: {} <= {}", info.fm.name, src.src.value);
-                                return Ok(None);
-                            }
-
-                            log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
                             // In the case of
                             //
@@ -370,25 +364,11 @@ where
                                         );
                                     }
                                 }
-                                // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
+                                // print_hygiene("dep:after:tree-shaking",
+                                // &self.cm, &dep);
 
-                                // if let Some(imports) = info
-                                //     .imports
-                                //     .specifiers
-                                //     .iter()
-                                //     .find(|(s, _)| s.module_id == dep_info.id)
-                                //     .map(|v| &v.1)
-                                // {
-                                //     dep = dep.fold_with(&mut ExportRenamer {
-                                //         mark: dep_info.mark(),
-                                //         _exports: &dep_info.exports,
-                                //         imports: &imports,
-                                //         extras: vec![],
-                                //     });
-                                // }
-                                // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
-
-                                dep = dep.fold_with(&mut Unexporter);
+                                // DONE
+                                // dep = dep.fold_with(&mut Unexporter);
                             }
                             // print_hygiene("dep:before-injection", &self.cm, &dep);
 

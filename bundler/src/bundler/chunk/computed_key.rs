@@ -1,5 +1,9 @@
 use super::plan::Plan;
-use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::{chunk::merge::Ctx, load::TransformedModule},
+    util::CHashSet,
+    Bundler, Load, ModuleId, Resolve,
+};
 use anyhow::Error;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -13,6 +17,87 @@ where
     L: Load,
     R: Resolve,
 {
+    //  Converts
+    ///
+    /// ```ts
+    /// export const arr = [1, 2, 3];
+    /// ```
+    ///
+    /// to
+    ///
+    /// ```ts
+    /// const _mod = (function(){
+    ///     const arr = [1, 2, 3];
+    ///     return {
+    ///         arr,
+    ///     };
+    /// })();
+    /// ```
+    pub(super) fn wrap_esm(&self, module: Module, id: Ident) -> Result<Module, Error> {
+        let span = module.span;
+
+        let mut module_items = vec![];
+
+        let stmts = {
+            let mut module = module.fold_with(&mut ExportToReturn::default());
+
+            take(&mut module.body)
+                .into_iter()
+                .filter_map(|v| match v {
+                    ModuleItem::Stmt(s) => Some(s),
+                    _ => {
+                        module_items.push(v);
+                        None
+                    }
+                })
+                .collect()
+        };
+
+        let module_fn = Expr::Fn(FnExpr {
+            function: Function {
+                params: Default::default(),
+                decorators: Default::default(),
+                span: DUMMY_SP,
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                }),
+                is_generator: false,
+                is_async: false,
+                type_params: Default::default(),
+                return_type: Default::default(),
+            },
+            ident: None,
+        });
+
+        let module_expr = Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: module_fn.as_callee(),
+            type_args: Default::default(),
+            args: Default::default(),
+        });
+
+        let var_decl = VarDecl {
+            span,
+            declare: false,
+            kind: VarDeclKind::Const,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                definite: false,
+                name: Pat::Ident(id.clone()),
+                init: Some(Box::new(module_expr)),
+            }],
+        };
+
+        module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
+
+        Ok(Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body: module_items,
+        })
+    }
+
     //  Converts
     ///
     /// ```ts
