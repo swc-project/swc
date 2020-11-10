@@ -114,7 +114,7 @@ where
     fn merge_deps(
         &self,
         ctx: &Ctx,
-        module: Module,
+        mut module: Module,
         plan: &NormalPlan2,
         info: &TransformedModule,
     ) -> Result<Module, Error> {
@@ -181,19 +181,83 @@ where
 
             for dep in deps {
                 let (dep, dep_module) = dep?;
+                let dep_info = self.scope.get_module(dep.id).unwrap();
 
-                if let Some(idx) = targets.iter().position(|v| *v == dep.id) {
+                if let Some(idx) = targets.iter().position(|v| *v == *dep) {
                     targets.remove(idx);
                     if let Some(v) = ctx.plan.normal.get(&dep.id) {
-                        targets.retain(|&dep| !v.chunks.contains(&dep.id));
+                        targets.retain(|&dep| !v.chunks.contains(&dep));
                     }
                     if let Some(v) = ctx.plan.circular.get(&dep.id) {
-                        targets.retain(|&id| !v.chunks.contains(&id));
+                        targets.retain(|&dep| !v.chunks.contains(&dep.id));
                     }
                 }
+
+                if dep_info.is_es6 {
+                    // print_hygiene("entry: before injection", &self.cm, &entry);
+
+                    match dep.ty {
+                        DepType::Direct => {}
+                        DepType::Transitive => {
+                            prepend_stmts(&mut module.body, take(&mut module.body).into_iter());
+
+                            log::debug!(
+                                "Merged {} into {} as a transitive es module",
+                                dep_info.fm.name,
+                                info.fm.name,
+                            );
+
+                            // print_hygiene("ES6", &self.cm, &entry);
+                            continue;
+                        }
+                    }
+
+                    // Replace import statement / require with module body
+                    let mut injector = Es6ModuleInjector {
+                        imported: take(&mut module.body),
+                        ctxt: dep_info.ctxt(),
+                        is_direct: match dep.ty {
+                            DepType::Direct => true,
+                            _ => false,
+                        },
+                    };
+                    module.body.visit_mut_with(&mut injector);
+
+                    if injector.imported.is_empty() {
+                        // print_hygiene("entry:after:injection", &self.cm, &entry);
+
+                        log::debug!(
+                            "Merged {} into {} as an es module",
+                            dep_info.fm.name,
+                            info.fm.name,
+                        );
+                        // print_hygiene(
+                        //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
+                        //     &self.cm,
+                        //     &entry,
+                        // );
+                        continue;
+                    }
+
+                    // print_hygiene("entry: failed to inject", &self.cm, &entry);
+
+                    module.body = take(&mut injector.imported);
+                }
+
+                // if self.config.require {
+                //     self.merge_cjs(
+                //         plan,
+                //         is_entry,
+                //         &mut entry,
+                //         &info,
+                //         Cow::Owned(dep),
+                //         &dep_info,
+                //         &mut targets,
+                //     )?;
+                // }
             }
 
-            unimplemented!("merge_deps")
+            Ok(module)
         })
     }
 
@@ -217,204 +281,6 @@ where
 
             Ok(entry)
         })
-    }
-
-    /// Merge `targets` into `entry`.
-    pub(super) fn merge_modules(
-        &self,
-        _plan: &Plan,
-        _entry: ModuleId,
-        _is_entry: bool,
-        _force_not_cyclic: bool,
-        _merged: &CHashSet<ModuleId>,
-    ) -> Result<Module, Error> {
-        unimplemented!("Migrated")
-    }
-
-    pub(super) fn get_module_for_merging(
-        &self,
-        _entry: ModuleId,
-        _is_entry: bool,
-        _merged: &CHashSet<ModuleId>,
-    ) -> Result<Module, Error> {
-        unimplemented!("Migrated")
-    }
-
-    pub(super) fn merge_exports_and_imports(
-        &self,
-        plan: &Plan,
-        module_plan: &NormalPlan,
-        mut entry: Module,
-        info: &TransformedModule,
-        merged: &CHashSet<ModuleId>,
-        is_entry: bool,
-    ) -> Result<Module, Error> {
-        self.run(|| {
-            self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
-                .context("failed to merge reepxorts")?;
-
-            if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
-                return Ok(entry);
-            }
-
-            // We handle this kind of modules specially.
-            if self.scope.should_be_wrapped_with_a_fn(info.id) {
-                return Ok(entry);
-            }
-
-            // print_hygiene("after: merge_reexports", &self.cm, &entry);
-
-            entry = self
-                .merge_imports(plan, module_plan, entry, &info, merged, is_entry)
-                .context("failed to merge imports")?;
-
-            Ok(entry)
-        })
-    }
-
-    pub(super) fn merge_imports(
-        &self,
-        plan: &Plan,
-        module_plan: &NormalPlan,
-        mut entry: Module,
-        info: &TransformedModule,
-        merged: &CHashSet<ModuleId>,
-        is_entry: bool,
-    ) -> Result<Module, Error> {
-        let to_merge: Vec<_> = info
-            .imports
-            .specifiers
-            .iter()
-            .filter(|(src, _)| {
-                log::trace!("Checking: {} <= {}", info.fm.name, src.src.value);
-
-                // Import and export from same file. We use export to merge it.
-                if info
-                    .exports
-                    .reexports
-                    .iter()
-                    .any(|(es, _)| es.module_id == src.module_id)
-                {
-                    return true;
-                }
-
-                // Skip if a dependency is going to be merged by other dependency
-                module_plan.chunks.contains(&src.module_id)
-            })
-            .collect();
-
-        let mut targets = module_plan.chunks.clone();
-
-        for (dep, is_direct) in deps
-            .into_iter()
-            .map(|v| (v, true))
-            .chain(transitive_deps.into_iter().map(|v| (v, false)))
-        {
-            let dep = dep?;
-            let dep = match dep {
-                Some(v) => v,
-                None => continue,
-            };
-
-            let (mut dep, dep_info) = dep;
-
-            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
-                targets.remove(idx);
-                if let Some(v) = plan.normal.get(&dep_info.id) {
-                    targets.retain(|&id| !v.chunks.contains(&id));
-                }
-                if let Some(v) = plan.circular.get(&dep_info.id) {
-                    targets.retain(|&id| !v.chunks.contains(&id));
-                }
-            }
-
-            // print_hygiene("dep: before injection", &self.cm, &dep);
-
-            if dep_info.is_es6 {
-                // print_hygiene("entry: before injection", &self.cm, &entry);
-
-                if !is_direct {
-                    prepend_stmts(&mut entry.body, take(&mut dep.body).into_iter());
-
-                    log::debug!(
-                        "Merged {} into {} as a transitive es module",
-                        dep_info.fm.name,
-                        info.fm.name,
-                    );
-
-                    // print_hygiene("ES6", &self.cm, &entry);
-                    continue;
-                }
-
-                // Replace import statement / require with module body
-                let mut injector = Es6ModuleInjector {
-                    imported: take(&mut dep.body),
-                    ctxt: dep_info.ctxt(),
-                    is_direct,
-                };
-                entry.body.visit_mut_with(&mut injector);
-
-                if injector.imported.is_empty() {
-                    // print_hygiene("entry:after:injection", &self.cm, &entry);
-
-                    log::debug!(
-                        "Merged {} into {} as an es module",
-                        dep_info.fm.name,
-                        info.fm.name,
-                    );
-                    // print_hygiene(
-                    //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
-                    //     &self.cm,
-                    //     &entry,
-                    // );
-                    continue;
-                }
-
-                // print_hygiene("entry: failed to inject", &self.cm, &entry);
-
-                dep.body = take(&mut injector.imported);
-            }
-
-            if self.config.require {
-                self.merge_cjs(
-                    plan,
-                    is_entry,
-                    &mut entry,
-                    &info,
-                    Cow::Owned(dep),
-                    &dep_info,
-                    &mut targets,
-                )?;
-            }
-        }
-
-        // if is_entry && self.config.require && !targets.is_empty() {
-        //     log::info!("Injectng remaining: {:?}", targets);
-
-        //     // Handle transitive dependencies
-        //     for target in targets.drain(..) {
-        //         log::trace!(
-        //             "Remaining: {}",
-        //             self.scope.get_module(target).unwrap().fm.name
-        //         );
-
-        //         let dep_info = self.scope.get_module(target).unwrap();
-        //         self.merge_cjs(
-        //             plan,
-        //             &mut entry,
-        //             &info,
-        //             Cow::Borrowed(&dep_info.module),
-        //             &dep_info,
-        //             &mut targets,
-        //         )?;
-        //     }
-        // }
-
-        if is_entry {
-            self.finalize_merging_of_entry(plan, &mut entry);
-        }
-
-        Ok(entry)
     }
 
     fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {

@@ -130,7 +130,7 @@ impl Plan {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub(super) enum DepType {
     /// Direct dependencies
     Direct,
@@ -143,7 +143,7 @@ pub(super) enum DepType {
     Transitive,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) struct Dependancy {
     pub ty: DepType,
     pub id: ModuleId,
