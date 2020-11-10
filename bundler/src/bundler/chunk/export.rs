@@ -69,7 +69,9 @@ where
 
         // Remove transitive dependencies which is merged by parent moudle.
         for v in info.exports.reexports.clone() {
-            if nomral_plan.chunks.contains(&v.0.module_id) {
+            if nomral_plan.chunks.contains(&v.0.module_id)
+                || nomral_plan.transitive_chunks.contains(&v.0.module_id)
+            {
                 if v.1.is_empty() {
                     additional_modules.push(v.clone());
                 }
