@@ -359,15 +359,25 @@ where
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
-                                let t = &mut plans
-                                    .normal
-                                    .entry(higher_module)
-                                    .or_default()
-                                    .transitive_chunks;
-                                if !t.contains(&dep) {
-                                    log::trace!("Transitive: {:?} => {:?}", entry, dep);
-                                    done.insert(dep);
-                                    t.push(dep)
+                                let normal_entry =
+                                    &mut plans.normal.entry(higher_module).or_default();
+
+                                if self.scope.should_be_wrapped_with_a_fn(dep)
+                                    && dependants.contains(&higher_module)
+                                {
+                                    let t = &mut normal_entry.chunks;
+                                    if !t.contains(&dep) {
+                                        log::info!("Normal, esm: {:?} => {:?}", entry, dep);
+                                        done.insert(dep);
+                                        t.push(dep)
+                                    }
+                                } else {
+                                    let t = &mut normal_entry.transitive_chunks;
+                                    if !t.contains(&dep) {
+                                        log::trace!("Transitive: {:?} => {:?}", entry, dep);
+                                        done.insert(dep);
+                                        t.push(dep)
+                                    }
                                 }
                             }
                         } else {
