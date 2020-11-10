@@ -1,6 +1,9 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
-    bundler::load::{Source, Specifier, TransformedModule},
+    bundler::{
+        chunk::merge::Ctx,
+        load::{Source, Specifier, TransformedModule},
+    },
     util::{CHashSet, IntoParallelIterator},
     Bundler, Load, ModuleId, Resolve,
 };
@@ -21,6 +24,21 @@ where
     L: Load,
     R: Resolve,
 {
+    pub(super) fn merge2_export(
+        &self,
+        ctx: &Ctx,
+        specifiers: &[Specifier],
+        dep_id: ModuleId,
+    ) -> Result<Module, Error> {
+        self.run(|| {
+            let dep = self
+                .get_module_for_merging2(dep_id, false)
+                .context("failed to get module for merging")?;
+
+            unimplemented!("merge2_export")
+        })
+    }
+
     /// This methods injects varaibles to connect two modules.
     ///
     /// (_n) denotes hygiene. Actual name is `bar`, not `bar_1`.

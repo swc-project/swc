@@ -96,6 +96,18 @@ impl PlanBuilder {
 }
 
 #[derive(Debug, Default)]
+pub(super) struct Plan2 {
+    pub entries: Vec<ModuleId>,
+
+    /// key is entry
+    pub normal: HashMap<ModuleId, NormalPlan2>,
+    /// key is entry
+    pub circular: HashMap<ModuleId, CircularPlan>,
+
+    pub bundle_kinds: HashMap<ModuleId, BundleKind>,
+}
+
+#[derive(Debug, Default)]
 pub(super) struct Plan {
     pub entries: Vec<ModuleId>,
 
@@ -116,6 +128,30 @@ impl Plan {
 
         Some(plan)
     }
+}
+
+#[derive(Debug)]
+pub(super) enum DepType {
+    /// Direct dependencies
+    Direct,
+    /// Used to handle
+    ///
+    /// - a -> b
+    /// - a -> c
+    /// - b -> d
+    /// - c -> d
+    Transitive,
+}
+
+#[derive(Debug)]
+pub(super) struct Dependancy {
+    pub ty: DepType,
+    pub id: ModuleId,
+}
+
+#[derive(Debug, Default)]
+pub(super) struct NormalPlan2 {
+    pub chunks: Vec<Dependancy>,
 }
 
 #[derive(Debug, Default)]
@@ -150,15 +186,8 @@ where
         entries: HashMap<String, TransformedModule>,
     ) -> Result<Plan, Error> {
         let plan = self.calculate_plan(entries)?;
-        let plan = self.handle_duplicates(plan);
 
         Ok(plan)
-    }
-
-    /// 1. For entry -> a -> b -> a, entry -> a->c, entry -> b -> c,
-    ///     we change c as transitive dependancy of entry.
-    fn handle_duplicates(&self, plan: Plan) -> Plan {
-        plan
     }
 
     fn calculate_plan(&self, entries: HashMap<String, TransformedModule>) -> Result<Plan, Error> {

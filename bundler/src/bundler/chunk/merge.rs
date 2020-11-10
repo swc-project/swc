@@ -1,6 +1,9 @@
 use super::plan::{NormalPlan, Plan};
 use crate::{
-    bundler::load::{Imports, Specifier, TransformedModule},
+    bundler::{
+        chunk::plan::Plan2,
+        load::{Imports, Specifier, TransformedModule},
+    },
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -19,11 +22,97 @@ use swc_ecma_utils::{prepend, prepend_stmts, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
+pub(super) struct Ctx {
+    pub plan: Plan2,
+    pub merged: CHashSet<ModuleId>,
+}
+
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,
 {
+    /// Merge
+    pub(super) fn merge2(
+        &self,
+        ctx: &Ctx,
+        module_id: ModuleId,
+        is_entry: bool,
+        allow_circular: bool,
+    ) -> Result<Module, Error> {
+        self.run(|| {
+            if allow_circular {
+                if let Some(plan) = ctx.plan.circular.get(&module_id) {
+                    return Ok(self.merge_circular2(ctx, plan).with_context(|| {
+                        format!("failed to merge {:?} (circular import)", module_id)
+                    })?);
+                }
+            }
+
+            let info = self.scope.get_module(module_id).unwrap();
+
+            let mut module = self
+                .get_module_for_merging2(module_id, is_entry)
+                .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
+
+            let plan = ctx.plan.normal.get(&module_id);
+            let plan = match plan {
+                Some(plan) => plan,
+                None => return Ok(module),
+            };
+
+            let deps: Vec<_> = (&plan.chunks)
+                .into_par_iter()
+                .map(|dep| {
+                    let reexport = info
+                        .exports
+                        .reexports
+                        .iter()
+                        .find(|(src, _)| src.module_id == dep.id);
+                    let wrapped = self.scope.should_be_wrapped_with_a_fn(dep.id);
+
+                    match reexport {
+                        Some((_, specifiers)) => {
+                            return self.merge2_export(ctx, &specifiers, dep.id);
+                        }
+                        None => {}
+                    }
+
+                    match dep.ty {
+                        super::plan::DepType::Direct => {}
+                        super::plan::DepType::Transitive => {}
+                    }
+
+                    //
+                })
+                .collect();
+
+            unimplemented!("merge")
+        })
+    }
+
+    pub(super) fn get_module_for_merging2(
+        &self,
+        module_id: ModuleId,
+        is_entry: bool,
+    ) -> Result<Module, Error> {
+        self.run(|| {
+            let info = self.scope.get_module(module_id).unwrap();
+
+            let mut entry: Module = (*info.module).clone();
+            entry.visit_mut_with(&mut ImportMetaHandler {
+                file: &info.fm.name,
+                hook: &self.hook,
+                is_entry,
+                inline_ident: private_ident!("importMeta"),
+                occurred: false,
+                err: None,
+            });
+
+            Ok(entry)
+        })
+    }
+
     /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,

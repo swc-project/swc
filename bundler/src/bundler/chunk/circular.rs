@@ -2,7 +2,11 @@ use super::{
     merge::{ImportDropper, Unexporter},
     plan::{CircularPlan, Plan},
 };
-use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::{chunk::merge::Ctx, load::TransformedModule},
+    util::CHashSet,
+    Bundler, Load, ModuleId, Resolve,
+};
 use anyhow::{Context, Error};
 use std::borrow::Borrow;
 use swc_common::DUMMY_SP;
@@ -20,6 +24,10 @@ where
     L: Load,
     R: Resolve,
 {
+    pub(super) fn merge_circular2(&self, ctx: &Ctx, plan: &CircularPlan) -> Result<Module, Error> {
+        unimplemented!("merge_circular2")
+    }
+
     pub(super) fn merge_circular_modules(
         &self,
         plan: &Plan,
