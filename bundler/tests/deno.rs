@@ -149,6 +149,7 @@ fn deno_8188() {
             "TE",
             "isIP",
             "parseIP",
+            "nkeys",
         ],
     );
 }
@@ -231,6 +232,7 @@ fn deno_8246() {
         "TE",
         "isIP",
         "parseIP",
+        "nkeys",
     ]);
 }
 
