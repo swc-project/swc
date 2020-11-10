@@ -24,21 +24,6 @@ where
     L: Load,
     R: Resolve,
 {
-    pub(super) fn merge2_export(
-        &self,
-        ctx: &Ctx,
-        dep_id: ModuleId,
-        specifiers: &[Specifier],
-    ) -> Result<Module, Error> {
-        self.run(|| {
-            let dep = self
-                .get_module_for_merging2(dep_id, false)
-                .context("failed to get module for merging")?;
-
-            unimplemented!("merge2_export")
-        })
-    }
-
     /// This methods injects varaibles to connect two modules.
     ///
     /// (_n) denotes hygiene. Actual name is `bar`, not `bar_1`.
@@ -70,314 +55,41 @@ where
     ///
     /// console.log(bar, baz);
     /// ```
-    pub(super) fn merge_reexports(
+    pub(super) fn merge2_export(
         &self,
-        plan: &Plan,
-        nomral_plan: &NormalPlan,
-        entry: &mut Module,
-        info: &TransformedModule,
-        merged: &CHashSet<ModuleId>,
-    ) -> Result<(), Error> {
-        log::trace!("merge_reexports: {}", info.fm.name);
+        ctx: &Ctx,
+        dep_id: ModuleId,
+        specifiers: &[Specifier],
+    ) -> Result<Module, Error> {
+        self.run(|| {
+            let dep_info = self.scope.get_module(dep_id).unwrap();
+            let dep = self
+                .merge2(ctx, dep_id, false, true)
+                .context("failed to get module for merging")?;
 
-        // Transitive dependencies
-        let mut additional_modules = vec![];
-        let mut reexports = vec![];
-        let mut decls_for_reexport: HashMap<_, Vec<VarDeclarator>> = HashMap::new();
+            dep = self.remark_exports(dep, dep_info.ctxt(), None, false);
 
-        // Remove transitive dependencies which is merged by parent moudle.
-        for v in info.exports.reexports.clone() {
-            if nomral_plan.chunks.contains(&v.0.module_id)
-                || nomral_plan.transitive_chunks.contains(&v.0.module_id)
-            {
-                if v.1.is_empty() {
-                    additional_modules.push(v.clone());
-                }
+            // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
-                reexports.push(v);
-            } else {
-                additional_modules.push(v);
-            }
-        }
-
-        for (src, specifiers) in info.exports.reexports.iter() {
-            let imported = self.scope.get_module(src.module_id).unwrap();
-
-            // export * from './foo';
-            if specifiers.is_empty() {
-                let vars = decls_for_reexport.entry(src.module_id).or_default();
-
-                for specifier in imported.exports.items.iter() {
-                    let var = match specifier {
-                        Specifier::Specific { local, alias } => {
-                            let init = Some(Box::new(Expr::Ident(
-                                alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
-                            )));
-
-                            VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(
-                                    local.clone().replace_mark(info.mark()).into_ident(),
-                                ),
-                                init,
-                                definite: false,
-                            }
-                        }
-                        Specifier::Namespace { local, .. } => VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(local.clone().replace_mark(info.mark()).into_ident()),
-                            init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
-                            definite: false,
-                        },
-                    };
-                    vars.push(var)
-                }
-
-                for (_, specifiers) in imported.exports.reexports.iter() {
-                    for specifier in specifiers {
-                        let var = match specifier {
-                            Specifier::Specific { local, alias } => {
-                                let init = match alias {
-                                    Some(alias) => {
-                                        Some(Box::new(Expr::Ident(alias.clone().into_ident())))
-                                    }
-                                    None => continue,
-                                };
-
-                                VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(
-                                        local.clone().replace_mark(info.mark()).into_ident(),
-                                    ),
-                                    init,
-                                    definite: false,
-                                }
-                            }
-                            Specifier::Namespace { local, .. } => VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(
-                                    local.clone().replace_mark(info.mark()).into_ident(),
-                                ),
-                                init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
-                                definite: false,
-                            },
-                        };
-                        vars.push(var)
-                    }
-                }
-            };
-        }
-
-        let deps = reexports
-            .into_par_iter()
-            .map(|(src, specifiers)| -> Result<_, Error> {
-                let imported = self.scope.get_module(src.module_id).unwrap();
-                assert!(imported.is_es6, "Reexports are es6 only");
-
-                info.helpers.extend(&imported.helpers);
-                info.swc_helpers.extend_from(&imported.swc_helpers);
-
-                if !merged.insert(src.module_id) {
-                    return Ok(None);
-                }
-
-                log::debug!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
-
-                let mut dep = self
-                    .merge_modules(plan, src.module_id, false, false, merged)
-                    .with_context(|| {
-                        format!(
-                            "failed to merge for reexport: ({}):{} <= ({}):{}",
-                            info.id, info.fm.name, src.module_id, src.src.value
-                        )
-                    })?;
-
-                // print_hygiene(&format!("dep: start"), &self.cm, &dep);
-
-                let id_of_export_namespace_from = specifiers.iter().find_map(|s| match s {
-                    Specifier::Namespace { local, all: true } => Some(Ident::new(
-                        local.sym().clone(),
-                        DUMMY_SP.with_ctxt(info.ctxt()),
-                    )),
-                    _ => None,
+            if !specifiers.is_empty() {
+                dep.visit_mut_with(&mut UnexportAsVar {
+                    dep_ctxt: dep_info.ctxt(),
+                    specifiers: &specifiers,
                 });
 
-                if let Some(id) = id_of_export_namespace_from {
-                    dep = self.wrap_esm_as_a_var(plan, dep, &imported, merged, id)?;
-                } else {
-                    dep = self.remark_exports(dep, src.ctxt, None, false);
-                }
+                // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
 
-                // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
+                dep = dep.fold_with(&mut DepUnexporter {
+                    exports: &specifiers,
+                });
 
-                if !specifiers.is_empty() {
-                    dep.visit_mut_with(&mut UnexportAsVar {
-                        dep_ctxt: src.ctxt,
-                        _entry_ctxt: info.ctxt(),
-                        _exports: &specifiers,
-                    });
-
-                    // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
-
-                    dep = dep.fold_with(&mut DepUnexporter {
-                        exports: &specifiers,
-                    });
-
-                    // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
-                }
-
-                Ok(Some((src, dep)))
-            })
-            .collect::<Vec<_>>();
-
-        {
-            let mut normal_reexports = vec![];
-            let mut star_reexports = vec![];
-            for (src, specifiers) in additional_modules {
-                if specifiers.is_empty() {
-                    continue;
-                }
-
-                // If a dependency is indirect, we need to export items from it manually.
-                let is_indirect = !nomral_plan.chunks.contains(&src.module_id);
-
-                let add_to = if specifiers.is_empty() && is_indirect {
-                    // User provided code like `export * from './foo';`, but planner decide to merge
-                    // it within dependency module. So we reexport them using a named export.
-                    &mut star_reexports
-                } else {
-                    &mut normal_reexports
-                };
-
-                for specifier in specifiers {
-                    let (imported, exported) = match specifier {
-                        Specifier::Specific { local, alias } => {
-                            let alias = alias.unwrap_or_else(|| local.clone());
-                            let local = local.replace_mark(info.mark());
-                            (local.into_ident(), alias.into_ident())
-                        }
-                        Specifier::Namespace { .. } => continue,
-                    };
-
-                    add_to.push((imported, exported));
-                }
+                // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
             }
 
-            if !normal_reexports.is_empty() {
-                entry
-                    .body
-                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls: normal_reexports
-                            .into_iter()
-                            .map(|(imported, exported)| {
-                                let var = VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(imported),
-                                    init: Some(Box::new(Expr::Ident(exported))),
-                                    definite: false,
-                                };
+            // TODO: Add varaible based on specifers
 
-                                var
-                            })
-                            .collect(),
-                    }))));
-            }
-
-            if !star_reexports.is_empty() {
-                entry
-                    .body
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport {
-                            span: DUMMY_SP,
-                            specifiers: star_reexports
-                                .into_iter()
-                                .map(|(imported, exported)| {
-                                    ExportNamedSpecifier {
-                                        span: DUMMY_SP,
-                                        orig: exported.clone(),
-                                        exported: Some(imported.clone()),
-                                    }
-                                    .into()
-                                })
-                                .collect(),
-                            src: None,
-                            type_only: false,
-                        },
-                    )));
-            }
-        }
-
-        for dep in deps {
-            let dep = dep?;
-            let dep = match dep {
-                Some(v) => v,
-                None => continue,
-            };
-            let (src, dep) = dep;
-
-            // print_hygiene(
-            //     &format!(
-            //         "entry: before reexport injection {:?} <- {:?}",
-            //         info.ctxt(),
-            //         src.ctxt,
-            //     ),
-            //     &self.cm,
-            //     &entry,
-            // );
-
-            // Replace import statement / require with module body
-            let mut injector = ExportInjector {
-                imported: dep.body,
-                source: src.clone(),
-            };
-            entry.body.visit_mut_with(&mut injector);
-
-            // Inject variables
-            if let Some(decls) = decls_for_reexport.remove(&src.module_id) {
-                if !decls.is_empty() {
-                    entry
-                        .body
-                        .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Const,
-                            declare: false,
-                            decls,
-                        }))));
-                }
-            }
-
-            // print_hygiene(
-            //     &format!(
-            //         "entry:reexport injection {:?} <- {:?}",
-            //         info.ctxt(),
-            //         src.ctxt,
-            //     ),
-            //     &self.cm,
-            //     &entry,
-            // );
-            assert_eq!(injector.imported, vec![]);
-        }
-
-        let decls_for_reexport: Vec<_> = decls_for_reexport
-            .into_iter()
-            .map(|(_, decls)| decls)
-            .flatten()
-            .collect();
-
-        if !decls_for_reexport.is_empty() {
-            entry
-                .body
-                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: decls_for_reexport,
-                }))));
-        }
-        Ok(())
+            Ok(dep)
+        })
     }
 }
 
@@ -514,10 +226,8 @@ struct UnexportAsVar<'a> {
     /// Syntax context for the generated variables.
     dep_ctxt: SyntaxContext,
 
-    _entry_ctxt: SyntaxContext,
-
     /// Exports to preserve
-    _exports: &'a [Specifier],
+    specifiers: &'a [Specifier],
 }
 
 impl VisitMut for UnexportAsVar<'_> {

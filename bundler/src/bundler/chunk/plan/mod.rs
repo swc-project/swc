@@ -130,7 +130,7 @@ impl Plan {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum DepType {
     /// Direct dependencies
     Direct,
@@ -184,13 +184,13 @@ where
     pub(super) fn determine_entries(
         &self,
         entries: HashMap<String, TransformedModule>,
-    ) -> Result<Plan, Error> {
+    ) -> Result<Plan2, Error> {
         let plan = self.calculate_plan(entries)?;
 
         Ok(plan)
     }
 
-    fn calculate_plan(&self, entries: HashMap<String, TransformedModule>) -> Result<Plan, Error> {
+    fn calculate_plan(&self, entries: HashMap<String, TransformedModule>) -> Result<Plan2, Error> {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {
