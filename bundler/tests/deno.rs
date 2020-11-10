@@ -242,6 +242,11 @@ fn deno_6802() {
     run("tests/deno/issue-6802/input.tsx", &[]);
 }
 
+#[test]
+fn deno_8302() {
+    run("tests/deno/issue-8302/input.ts", &["DB", "Empty", "Status"]);
+}
+
 fn run(url: &str, exports: &[&str]) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
