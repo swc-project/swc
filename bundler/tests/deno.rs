@@ -15,13 +15,14 @@ use swc_atoms::{js_word, JsWord};
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::{
-    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, Module, PropName,
-    Str,
+    Bool, ClassDecl, ExportDecl, ExportSpecifier, Expr, ExprOrSuper, FnDecl, Ident, KeyValueProp,
+    Lit, MemberExpr, MetaPropExpr, Module, PropName, Str,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{proposals::decorators, react, typescript::strip};
-use swc_ecma_visit::{FoldWith, Visit, VisitWith};
+use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use testing::assert_eq;
 use url::Url;
 
@@ -502,4 +503,31 @@ struct ExportCollector {
     exports: HashSet<JsWord>,
 }
 
-impl Visit for ExportCollector {}
+impl Visit for ExportCollector {
+    fn visit_export_specifier(&mut self, s: &ExportSpecifier, _: &dyn Node) {
+        match s {
+            ExportSpecifier::Namespace(ns) => {
+                self.exports.insert(ns.name.sym.clone());
+            }
+            ExportSpecifier::Default(_) => {}
+            ExportSpecifier::Named(named) => {
+                self.exports
+                    .insert(named.exported.as_ref().unwrap_or(&named.orig).sym.clone());
+            }
+        }
+    }
+
+    fn visit_export_decl(&mut self, export: &ExportDecl, _: &dyn Node) {
+        match &export.decl {
+            swc_ecma_ast::Decl::Class(ClassDecl { ident, .. })
+            | swc_ecma_ast::Decl::Fn(FnDecl { ident, .. }) => {
+                self.exports.insert(ident.sym.clone());
+            }
+            swc_ecma_ast::Decl::Var(var) => {
+                let ids: Vec<Id> = find_ids(var);
+                self.exports.extend(ids.into_iter().map(|v| v.0));
+            }
+            _ => {}
+        }
+    }
+}
