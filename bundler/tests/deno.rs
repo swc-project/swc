@@ -253,11 +253,13 @@ fn run(url: &str, exports: &[&str]) {
         let loader = Loader { cm: cm.clone() };
         let module = loader.load(&fm.name).unwrap().module;
 
-        let actual_exports = collect_exports(&module);
-        let expected_exports = exports
+        let mut actual_exports = collect_exports(&module).into_iter().collect::<Vec<_>>();
+        actual_exports.sort();
+        let mut expected_exports = exports
             .into_iter()
             .map(|s| s.to_string())
-            .collect::<HashSet<_>>();
+            .collect::<Vec<_>>();
+        expected_exports.sort();
 
         assert_eq!(expected_exports, actual_exports);
 
