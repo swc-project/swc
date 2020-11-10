@@ -238,8 +238,6 @@ fn deno_6802() {
 }
 
 fn run(url: &str, exports: &[&str]) {
-    let tsx = url.ends_with(".tsx");
-
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
     println!("{}", path.display());
