@@ -363,9 +363,7 @@ where
                                     normal_plan.chunks.push(dep);
                                 }
                             } else {
-                                if self.scope.should_be_wrapped_with_a_fn(dep)
-                                    || builder.is_circular(entry)
-                                {
+                                if self.scope.should_be_wrapped_with_a_fn(dep) {
                                     let normal_entry = &mut plans.normal.entry(entry).or_default();
 
                                     let t = &mut normal_entry.chunks;
