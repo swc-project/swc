@@ -1,4 +1,4 @@
 import * as b from './b';
-import * as lib from './lib';
+import { A } from './lib';
 
-console.log(b, lib);
+console.log(b, A);
