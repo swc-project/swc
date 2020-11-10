@@ -48,8 +48,8 @@ where
             .collect::<Vec<_>>();
         merged.insert(entry_id);
         let mut entry = self
-            .get_module_for_merging(entry_id, false, merged)
-            .context("failed to load circular entry module")?;
+            .merge_modules(plan, entry_id, false, true, merged)
+            .context("failed to merge dependency of a cyclic module")?;
 
         entry.visit_mut_with(&mut ImportDropper {
             imports: &entry_module.imports,
@@ -58,7 +58,7 @@ where
         let mut deps = circular_plan.chunks.clone();
         deps.sort_by_key(|&dep| (!direct_deps.contains(&dep), dep));
 
-        for &dep in deps.iter() {
+        for dep in deps {
             if dep == entry_id {
                 continue;
             }
@@ -79,21 +79,13 @@ where
             // );
         }
 
-        let mut entry =
-            self.merge_exports_and_imports(plan, entry, &entry_module, merged, false)?;
-
-        for &dep in &deps {
-            let dep_info = self.scope.get_module(dep).unwrap();
-            entry = self.merge_exports_and_imports(plan, entry, &dep_info, merged, false)?;
-        }
-
         Ok(entry)
     }
 
     /// Merges `a` and `b` into one module.
     fn merge_two_circular_modules(
         &self,
-        _plan: &Plan,
+        plan: &Plan,
         _circular_modules: &[TransformedModule],
         mut entry: Module,
         dep: ModuleId,
@@ -101,8 +93,8 @@ where
     ) -> Result<Module, Error> {
         self.run(|| {
             let mut dep = self
-                .get_module_for_merging(dep, false, merged)
-                .context("failed to load dependency of a cyclic module")?;
+                .merge_modules(plan, dep, false, true, merged)
+                .context("failed to merge dependency of a cyclic module")?;
 
             // print_hygiene("[circular] dep:init", &self.cm, &dep);
 

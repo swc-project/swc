@@ -51,11 +51,21 @@ where
                 }
             }
 
+            let normal_plan;
+            let module_plan = match plan.normal.get(&entry) {
+                Some(v) => v,
+                None => {
+                    normal_plan = Default::default();
+                    &normal_plan
+                }
+            };
+
             let entry = self.get_module_for_merging(info.id, is_entry, merged)?;
 
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
-            let entry = self.merge_exports_and_imports(plan, entry, &info, merged, is_entry)?;
+            let entry =
+                self.merge_exports_and_imports(plan, module_plan, entry, &info, merged, is_entry)?;
 
             Ok(entry)
         })
@@ -89,21 +99,13 @@ where
     pub(super) fn merge_exports_and_imports(
         &self,
         plan: &Plan,
+        module_plan: &NormalPlan,
         mut entry: Module,
         info: &TransformedModule,
         merged: &CHashSet<ModuleId>,
         is_entry: bool,
     ) -> Result<Module, Error> {
         self.run(|| {
-            let normal_plan;
-            let module_plan = match plan.normal.get(&info.id) {
-                Some(v) => v,
-                None => {
-                    normal_plan = Default::default();
-                    &normal_plan
-                }
-            };
-
             self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
 
