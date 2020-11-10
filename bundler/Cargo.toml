@@ -41,6 +41,7 @@ swc_ecma_visit = {version = "0.21.0", path = "../ecmascript/visit"}
 hex = "0.4"
 reqwest = {version = "0.10.8", features = ["blocking"]}
 sha-1 = "0.9"
+swc_ecma_transforms = {version = "0.29.4", path = "../ecmascript/transforms", features = ["react"]}
 tempfile = "3.1.0"
 testing = {version = "0.10.0", path = "../testing"}
 url = "2.1.1"

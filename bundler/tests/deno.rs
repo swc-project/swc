@@ -13,13 +13,13 @@ use std::{
 };
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
-use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{proposals::decorators, typescript::strip};
+use swc_ecma_transforms::{proposals::decorators, react, typescript::strip};
 use swc_ecma_visit::FoldWith;
 use url::Url;
 
@@ -79,6 +79,7 @@ fn deno_8246() {
 }
 
 #[test]
+#[ignore = "document is not defined when I use deno run"]
 fn deno_6802() {
     run("tests/deno/issue-6802/input.tsx", None);
 }
@@ -230,11 +231,17 @@ impl Load for Loader {
 
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_module().unwrap();
-        let module = module.fold_with(&mut decorators::decorators(decorators::Config {
-            legacy: true,
-            emit_metadata: false,
-        }));
-        let module = module.fold_with(&mut strip());
+        let module = module
+            .fold_with(&mut decorators::decorators(decorators::Config {
+                legacy: true,
+                emit_metadata: false,
+            }))
+            .fold_with(&mut react::react::<SingleThreadedComments>(
+                self.cm.clone(),
+                None,
+                Default::default(),
+            ))
+            .fold_with(&mut strip());
 
         Ok(ModuleData {
             fm,
