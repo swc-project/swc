@@ -55,8 +55,7 @@ where
 
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
-            let entry =
-                self.merge_exports_and_imports(plan, entry, &info, merged, is_entry, false)?;
+            let entry = self.merge_exports_and_imports(plan, entry, &info, merged, is_entry)?;
 
             Ok(entry)
         })
@@ -94,7 +93,6 @@ where
         info: &TransformedModule,
         merged: &CHashSet<ModuleId>,
         is_entry: bool,
-        called_from_circular: bool,
     ) -> Result<Module, Error> {
         self.run(|| {
             let normal_plan;
@@ -120,11 +118,9 @@ where
                 plan.normal.get(&info.id)
             );
 
-            if !called_from_circular {
-                // We handle this kind of modules specially.
-                if self.scope.should_be_wrapped_with_a_fn(info.id) {
-                    return Ok(entry);
-                }
+            // We handle this kind of modules specially.
+            if self.scope.should_be_wrapped_with_a_fn(info.id) {
+                return Ok(entry);
             }
 
             // print_hygiene("after: merge_reexports", &self.cm, &entry);
