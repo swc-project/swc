@@ -60,6 +60,28 @@ where
                 }
             };
 
+            let entry = self.get_module_for_merging(info.id, is_entry, merged)?;
+
+            // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
+
+            let entry =
+                self.merge_exports_and_imports(plan, module_plan, entry, &info, merged, is_entry)?;
+
+            Ok(entry)
+        })
+    }
+
+    pub(super) fn get_module_for_merging(
+        &self,
+        entry: ModuleId,
+        is_entry: bool,
+        merged: &CHashSet<ModuleId>,
+    ) -> Result<Module, Error> {
+        self.run(|| {
+            merged.insert(entry);
+
+            let info = self.scope.get_module(entry).unwrap();
+
             let mut entry: Module = (*info.module).clone();
             entry.visit_mut_with(&mut ImportMetaHandler {
                 file: &info.fm.name,
@@ -69,11 +91,6 @@ where
                 occurred: false,
                 err: None,
             });
-
-            // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
-
-            let entry =
-                self.merge_exports_and_imports(plan, module_plan, entry, &info, merged, is_entry)?;
 
             Ok(entry)
         })
