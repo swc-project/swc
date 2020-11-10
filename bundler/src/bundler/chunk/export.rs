@@ -27,8 +27,8 @@ where
     pub(super) fn merge2_export(
         &self,
         ctx: &Ctx,
-        specifiers: &[Specifier],
         dep_id: ModuleId,
+        specifiers: &[Specifier],
     ) -> Result<Module, Error> {
         self.run(|| {
             let dep = self

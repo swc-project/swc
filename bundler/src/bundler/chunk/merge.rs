@@ -1,4 +1,4 @@
-use super::plan::{NormalPlan, Plan};
+use super::plan::{DepType, NormalPlan, Plan};
 use crate::{
     bundler::{
         chunk::plan::Plan2,
@@ -60,10 +60,13 @@ where
                 Some(plan) => plan,
                 None => return Ok(module),
             };
+            if plan.chunks.is_empty() {
+                return Ok(module);
+            }
 
             let deps: Vec<_> = (&plan.chunks)
                 .into_par_iter()
-                .map(|dep| {
+                .map(|dep| -> Result<_, Error> {
                     let reexport = info
                         .exports
                         .reexports
@@ -73,22 +76,52 @@ where
 
                     match reexport {
                         Some((_, specifiers)) => {
-                            return self.merge2_export(ctx, &specifiers, dep.id);
+                            let dep_module = self.merge2_export(ctx, dep.id, &specifiers)?;
+                            return Ok((dep, dep_module));
                         }
                         None => {}
                     }
 
-                    match dep.ty {
-                        super::plan::DepType::Direct => {}
-                        super::plan::DepType::Transitive => {}
-                    }
+                    let dep_module = match dep.ty {
+                        DepType::Direct => {
+                            let (_, specifiers) = info
+                                .imports
+                                .specifiers
+                                .iter()
+                                .find(|(src, _)| src.module_id == dep.id)
+                                .expect("it is direct dependency");
 
-                    //
+                            self.merge2_direct_import(ctx, dep.id, &specifiers)?
+                        }
+                        DepType::Transitive => {
+                            debug_assert!(!wrapped, "Transitive dependency cannot be wrapped");
+                            self.merge2_transitive_import(ctx, dep.id)?
+                        }
+                    };
+
+                    Ok((dep, dep_module))
                 })
                 .collect();
 
             unimplemented!("merge")
         })
+    }
+
+    fn merge2_direct_import(
+        &self,
+        ctx: &Ctx,
+        dep_id: ModuleId,
+        specifiers: &[Specifier],
+    ) -> Result<Module, Error> {
+        let module = self.merge2(ctx, dep_id, false, true)?;
+
+        Ok(module)
+    }
+
+    fn merge2_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
+        let module = self.merge2(ctx, dep_id, false, true)?;
+
+        Ok(module)
     }
 
     pub(super) fn get_module_for_merging2(
