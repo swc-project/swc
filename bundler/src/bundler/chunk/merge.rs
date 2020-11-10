@@ -72,6 +72,23 @@ where
 
             // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
 
+            let entry =
+                self.merge_exports_and_imports(plan, module_plan, entry, &info, merged, is_entry)?;
+
+            Ok(entry)
+        })
+    }
+
+    pub(super) fn merge_exports_and_imports(
+        &self,
+        plan: &Plan,
+        module_plan: &NormalPlan,
+        mut entry: Module,
+        info: &TransformedModule,
+        merged: &CHashSet<ModuleId>,
+        is_entry: bool,
+    ) -> Result<Module, Error> {
+        self.run(|| {
             self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
                 .context("failed to merge reepxorts")?;
 
