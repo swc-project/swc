@@ -5,22 +5,24 @@
 use anyhow::{Context, Error};
 use sha1::{Digest, Sha1};
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     env,
     fs::{create_dir_all, read_to_string, write},
     path::PathBuf,
     process::{Command, Stdio},
 };
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::{
-    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, Module, PropName,
+    Str,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{proposals::decorators, react, typescript::strip};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{FoldWith, Visit, VisitWith};
+use testing::assert_eq;
 use url::Url;
 
 #[test]
@@ -245,6 +247,23 @@ fn run(url: &str, exports: &[&str]) {
     let src = bundle(url);
     write(&path, &src).unwrap();
 
+    ::testing::run_test2(false, |cm, _| {
+        let fm = cm.load_file(&path).unwrap();
+        let loader = Loader { cm: cm.clone() };
+        let module = loader.load(&fm.name).unwrap().module;
+
+        let actual_exports = collect_exports(&module);
+        let expected_exports = exports
+            .into_iter()
+            .map(|s| JsWord::from(*s))
+            .collect::<HashSet<_>>();
+
+        assert_eq!(expected_exports, actual_exports);
+
+        Ok(())
+    })
+    .unwrap();
+
     if env::var("CI").is_ok() {
         return;
     }
@@ -355,7 +374,7 @@ impl Load for Loader {
     fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         eprintln!("{}", file);
 
-        let mut tsx = false;
+        let tsx;
 
         let fm = match file {
             FileName::Real(path) => {
@@ -470,3 +489,17 @@ impl swc_bundler::Hook for Hook {
         ])
     }
 }
+
+fn collect_exports(module: &Module) -> HashSet<JsWord> {
+    let mut v = ExportCollector::default();
+    module.visit_with(module, &mut v);
+
+    v.exports
+}
+
+#[derive(Default)]
+struct ExportCollector {
+    exports: HashSet<JsWord>,
+}
+
+impl Visit for ExportCollector {}
