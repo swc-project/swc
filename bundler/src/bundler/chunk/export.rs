@@ -118,13 +118,13 @@ where
                     specifiers: &specifiers,
                 });
 
-                // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
+                print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
 
                 dep = dep.fold_with(&mut DepUnexporter {
                     exports: &specifiers,
                 });
 
-                // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
             }
 
             // TODO: Add varaible based on specifers
@@ -299,6 +299,9 @@ impl VisitMut for UnexportAsVar<'_> {
                     }],
                 })));
             }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                remark_binding_idents(&mut export.decl, self.dep_export_ctxt);
+            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 ref export @ NamedExport { src: None, .. },
             )) => {
@@ -357,6 +360,33 @@ impl VisitMut for UnexportAsVar<'_> {
     }
 
     fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
+}
+
+fn remark_binding_idents<T>(node: &mut T, to: SyntaxContext)
+where
+    T: VisitMutWith<RemarkBindingIdent>,
+{
+    node.visit_mut_with(&mut RemarkBindingIdent { to });
+}
+
+struct RemarkBindingIdent {
+    to: SyntaxContext,
+}
+
+impl VisitMut for RemarkBindingIdent {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.span.ctxt = self.to;
+    }
+
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
+    fn visit_mut_class_member(&mut self, _: &mut ClassMember) {}
+
+    fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
 
 struct DepUnexporter<'a> {
