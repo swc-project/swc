@@ -55,7 +55,7 @@ where
 
             let info = self.scope.get_module(module_id).unwrap();
 
-            let module = self
+            let mut module = self
                 .get_module_for_merging2(module_id, is_entry)
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
@@ -65,7 +65,13 @@ where
                 None => return Ok(module),
             };
 
-            self.merge_deps(ctx, module, plan, &info)
+            module = self.merge_deps(ctx, module, plan, &info)?;
+
+            if is_entry {
+                self.finalize_merging_of_entry(ctx, &mut module);
+            }
+
+            Ok(module)
         })
     }
 
@@ -73,13 +79,13 @@ where
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,
-        _specifiers: &[Specifier],
+        specifiers: &[Specifier],
     ) -> Result<Module, Error> {
         let dep_info = self.scope.get_module(dep_id).unwrap();
         let wrapped = self.scope.should_be_wrapped_with_a_fn(dep_id);
 
         // Now we handle imports
-        let module = if wrapped {
+        let mut module = if wrapped {
             let mut module = self.get_module_for_merging2(dep_id, false)?;
             // TODO: Store private ident in the scope.
             module = self.wrap_esm(module, private_ident!("module"))?;
@@ -104,7 +110,37 @@ where
             module
         };
 
-        let module = module.fold_with(&mut Unexporter);
+        module = module.fold_with(&mut Unexporter);
+
+        // Handle aliased imports
+        let var_decls = specifiers
+            .iter()
+            .filter_map(|specifier| match specifier {
+                Specifier::Specific {
+                    local,
+                    alias: Some(alias),
+                } => Some(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(local.clone().into_ident()),
+                    init: Some(Box::new(Expr::Ident(alias.clone().into_ident()))),
+                    definite: false,
+                }),
+                // TODO
+                Specifier::Namespace { .. } => None,
+                _ => None,
+            })
+            .collect::<Vec<_>>();
+
+        if !var_decls.is_empty() {
+            module
+                .body
+                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: var_decls,
+                }))));
+        }
 
         Ok(module)
     }
@@ -287,7 +323,7 @@ where
         })
     }
 
-    fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
+    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
         // print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
@@ -299,7 +335,7 @@ where
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    for (id, p) in &plan.normal {
+                    for (id, p) in &ctx.plan.normal {
                         if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
                             log::debug!("Dropping import");
                             return false;
@@ -313,7 +349,7 @@ where
                         }
                     }
 
-                    for (id, p) in &plan.circular {
+                    for (id, p) in &ctx.plan.circular {
                         // Drop if it's one of circular import
                         if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
                             log::debug!("Dropping circular import");
