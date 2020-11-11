@@ -1,5 +1,6 @@
-const b = 'c';
+const c = 'c';
 console.log('c');
+const c1 = c, b = c1;
 const __default = b;
 console.log('b');
 const b1 = __default;

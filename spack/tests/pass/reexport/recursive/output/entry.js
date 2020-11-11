@@ -1,9 +1,11 @@
-const d = 'e';
+const e = 'e';
 console.log('e');
+const e1 = e, d = e1;
 const d1 = d;
 console.log('d');
-const b = d1;
 console.log('c');
+const c = d1;
+const b = c;
 const __default = b;
 console.log('b');
 const b1 = __default;
