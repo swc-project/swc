@@ -47,8 +47,8 @@ where
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
             is_entry,
-            ctxt: dep_info.ctxt(),
-            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.ctxt())),
+            ctxt: dep_info.export_ctxt(),
+            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.export_ctxt())),
             replaced: false,
         };
         entry.body.visit_mut_with(&mut v);
@@ -70,7 +70,7 @@ where
                     &mut entry.body,
                     ModuleItem::Stmt(wrap_module(
                         SyntaxContext::empty(),
-                        dep_info.mark(),
+                        dep_info.local_ctxt(),
                         load_var,
                         dep,
                     )),
@@ -105,7 +105,7 @@ where
 
 fn wrap_module(
     helper_ctxt: SyntaxContext,
-    top_level_mark: Mark,
+    local_ctxt: SyntaxContext,
     load_var: Ident,
     dep: Module,
 ) -> Stmt {
@@ -118,19 +118,13 @@ fn wrap_module(
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new(
-                        "module".into(),
-                        DUMMY_SP.apply_mark(top_level_mark),
-                    )),
+                    pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP.with_ctxt(local_ctxt))),
                 },
                 // exports
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new(
-                        "exports".into(),
-                        DUMMY_SP.apply_mark(top_level_mark),
-                    )),
+                    pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP.with_ctxt(local_ctxt))),
                 },
             ],
             decorators: vec![],

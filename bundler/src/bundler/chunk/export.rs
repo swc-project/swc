@@ -62,13 +62,13 @@ where
                 .merge_modules(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 
-            dep = self.remark_exports(dep, dep_info.ctxt(), None, false);
+            // dep = self.remark_exports(dep, dep_info.ctxt(), None, false);
 
             // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
 
             if !specifiers.is_empty() {
                 dep.visit_mut_with(&mut UnexportAsVar {
-                    dep_ctxt: dep_info.ctxt(),
+                    dep_export_ctxt: dep_info.export_ctxt(),
                     specifiers: &specifiers,
                 });
 
@@ -219,7 +219,7 @@ impl VisitMut for ExportInjector {
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
 struct UnexportAsVar<'a> {
     /// Syntax context for the generated variables.
-    dep_ctxt: SyntaxContext,
+    dep_export_ctxt: SyntaxContext,
 
     /// Exports to preserve
     specifiers: &'a [Specifier],
@@ -246,7 +246,7 @@ impl VisitMut for UnexportAsVar<'_> {
                         span: DUMMY_SP,
                         name: Pat::Ident(Ident::new(
                             "__default".into(),
-                            expr.span().with_ctxt(self.dep_ctxt),
+                            expr.span().with_ctxt(self.dep_export_ctxt),
                         )),
                         init: Some(expr),
                         definite: false,
@@ -279,13 +279,13 @@ impl VisitMut for UnexportAsVar<'_> {
                                 }
                             }
                             None => {
-                                log::trace!("Alias: {:?} -> {:?}", n.orig, self.dep_ctxt);
+                                log::trace!("Alias: {:?} -> {:?}", n.orig, self.dep_export_ctxt);
 
                                 decls.push(VarDeclarator {
                                     span: n.span,
                                     name: Pat::Ident(Ident::new(
                                         n.orig.sym.clone(),
-                                        n.orig.span.with_ctxt(self.dep_ctxt),
+                                        n.orig.span.with_ctxt(self.dep_export_ctxt),
                                     )),
                                     init: Some(Box::new(Expr::Ident(n.orig.clone()))),
                                     definite: false,

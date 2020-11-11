@@ -27,20 +27,23 @@ impl fmt::Debug for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU32,
-    cache: Lock<HashMap<FileName, (ModuleId, Mark)>>,
+    /// `(module_id, local_mark, export_mark)`
+    cache: Lock<HashMap<FileName, (ModuleId, Mark, Mark)>>,
 }
 
 impl ModuleIdGenerator {
-    pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark) {
+    pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark, Mark) {
         let mut w = self.cache.lock();
         if let Some(v) = w.get(file_name) {
             return v.clone();
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
-        let mark = Mark::fresh(Mark::root());
-        w.insert(file_name.clone(), (id, mark));
-        (id, mark)
+        let local_mark = Mark::fresh(Mark::root());
+        let export_mark = Mark::fresh(Mark::root());
+        let v = (id, local_mark, export_mark);
+        w.insert(file_name.clone(), v);
+        (id, local_mark, export_mark)
     }
 }
 

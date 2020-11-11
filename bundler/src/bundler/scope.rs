@@ -36,7 +36,7 @@ impl Scope {
     }
 
     pub fn get_module_by_path(&self, file_name: &FileName) -> Option<TransformedModule> {
-        let (id, _) = self.module_id_gen.gen(file_name);
+        let (id, _, _) = self.module_id_gen.gen(file_name);
         self.get_module(id)
     }
 

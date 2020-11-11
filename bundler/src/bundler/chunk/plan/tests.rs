@@ -1,6 +1,6 @@
 use super::Plan;
 use crate::bundler::{
-    chunk::plan::{DepType, Dependancy},
+    chunk::plan::DepType,
     tests::{suite, Tester},
 };
 use std::collections::{HashMap, HashSet};

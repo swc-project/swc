@@ -36,17 +36,19 @@ pub(super) struct TransformedModule {
 
     pub swc_helpers: Lrc<swc_ecma_transforms::helpers::Helpers>,
 
-    mark: Mark,
+    local_ctxt: SyntaxContext,
+    export_ctxt: SyntaxContext,
 }
 
 impl TransformedModule {
-    /// THe marker for the module's top-level identifiers.
-    pub fn mark(&self) -> Mark {
-        self.mark
+    /// [SyntaxContext] for exported items.
+    pub fn export_ctxt(&self) -> SyntaxContext {
+        self.export_ctxt
     }
 
-    pub fn ctxt(&self) -> SyntaxContext {
-        SyntaxContext::empty().apply_mark(self.mark)
+    /// Top level contexts.
+    pub fn local_ctxt(&self) -> SyntaxContext {
+        self.local_ctxt
     }
 }
 
@@ -78,7 +80,13 @@ where
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
-            log::debug!("({}, {:?}) Storing module: {}", v.id, v.ctxt(), file_name);
+            log::debug!(
+                "({:?}, {:?}, {:?}) Storing module: {}",
+                v.id,
+                v.local_ctxt(),
+                v.export_ctxt(),
+                file_name
+            );
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in the `Scope`
@@ -101,7 +109,7 @@ where
 
     fn load(&self, file_name: &FileName) -> Result<(ModuleId, ModuleData), Error> {
         self.run(|| {
-            let (module_id, _) = self.scope.module_id_gen.gen(file_name);
+            let (module_id, _, _) = self.scope.module_id_gen.gen(file_name);
 
             let data = self
                 .loader
@@ -120,9 +128,9 @@ where
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             log::trace!("transform_module({})", data.fm.name);
-            let (id, mark) = self.scope.module_id_gen.gen(file_name);
+            let (id, local_mark, export_mark) = self.scope.module_id_gen.gen(file_name);
 
-            let mut module = data.module.fold_with(&mut resolver_with_mark(mark));
+            let mut module = data.module.fold_with(&mut resolver_with_mark(local_mark));
 
             // {
             //     let code = self
@@ -139,7 +147,7 @@ where
             //     println!("Resolved:\n{}\n\n", code);
             // }
 
-            let imports = self.extract_import_info(file_name, &mut module, mark);
+            let imports = self.extract_import_info(file_name, &mut module, export_mark);
 
             // {
             //     let code = self
@@ -188,8 +196,9 @@ where
                     exports: Lrc::new(exports),
                     is_es6,
                     helpers: Default::default(),
-                    mark,
                     swc_helpers: Lrc::new(data.helpers),
+                    local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                    export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
                 },
                 import_files,
             ))

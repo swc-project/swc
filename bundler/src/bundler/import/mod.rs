@@ -139,10 +139,10 @@ where
             return None;
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
-        let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
+        let (_, _local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
         let ctxt = SyntaxContext::empty();
 
-        Some(ctxt.apply_mark(mark))
+        Some(ctxt.apply_mark(export_mark))
     }
 
     fn mark_as_wrapping_required(&self, src: &JsWord) {
@@ -161,7 +161,7 @@ where
             Ok(v) => v,
             Err(_) => return,
         };
-        let (id, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
 
         self.bundler.scope.mark_as_wrapping_required(id);
     }

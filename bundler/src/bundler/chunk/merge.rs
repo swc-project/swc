@@ -87,7 +87,7 @@ where
                                     let expr = expr.take();
                                     let export_name = Pat::Ident(Ident::new(
                                         js_word!("default"),
-                                        export.span.with_ctxt(info.ctxt()),
+                                        export.span.with_ctxt(info.export_ctxt()),
                                     ));
 
                                     let init = match expr.ident {
@@ -122,7 +122,7 @@ where
                                     let expr = expr.take();
                                     let export_name = Pat::Ident(Ident::new(
                                         js_word!("default"),
-                                        export.span.with_ctxt(info.ctxt()),
+                                        export.span.with_ctxt(info.export_ctxt()),
                                     ));
 
                                     let init = match expr.ident {
@@ -161,7 +161,7 @@ where
                                     span: DUMMY_SP,
                                     name: Pat::Ident(Ident::new(
                                         js_word!("default"),
-                                        DUMMY_SP.with_ctxt(info.ctxt()),
+                                        DUMMY_SP.with_ctxt(info.export_ctxt()),
                                     )),
                                     init: Some(export.expr.take()),
                                     definite: false,
@@ -251,7 +251,7 @@ where
                     span: DUMMY_SP,
                     name: Pat::Ident(local.clone().into_ident()),
                     init: Some(Box::new(Expr::Ident(
-                        alias.clone().with_ctxt(dep_info.ctxt()).into_ident(),
+                        alias.clone().with_ctxt(dep_info.export_ctxt()).into_ident(),
                     ))),
                     definite: false,
                 }),
@@ -385,7 +385,7 @@ where
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
                         imported: take(&mut dep_module.body),
-                        ctxt: dep_info.ctxt(),
+                        dep_export_ctxt: dep_info.export_ctxt(),
                         is_direct: match dep.ty {
                             DepType::Direct => true,
                             _ => false,
@@ -466,13 +466,15 @@ where
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     for (id, p) in &ctx.plan.normal {
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping import");
                             return false;
                         }
 
                         for &dep in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(dep.id).unwrap().ctxt() {
+                            if import.span.ctxt
+                                == self.scope.get_module(dep.id).unwrap().export_ctxt()
+                            {
                                 log::debug!("Dropping direct import");
                                 return false;
                             }
@@ -481,13 +483,14 @@ where
 
                     for (id, p) in &ctx.plan.circular {
                         // Drop if it's one of circular import
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping circular import");
                             return false;
                         }
 
                         for &mid in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
+                            if import.span.ctxt == self.scope.get_module(mid).unwrap().export_ctxt()
+                            {
                                 log::debug!("Dropping circular import");
                                 return false;
                             }
@@ -594,7 +597,8 @@ impl Fold for Unexporter {
 
 struct Es6ModuleInjector {
     imported: Vec<ModuleItem>,
-    ctxt: SyntaxContext,
+    /// Export context of the dependency module.
+    dep_export_ctxt: SyntaxContext,
     is_direct: bool,
 }
 
@@ -610,7 +614,7 @@ impl VisitMut for Es6ModuleInjector {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span, specifiers, ..
-                })) if span.ctxt == self.ctxt => {
+                })) if span.ctxt == self.dep_export_ctxt => {
                     buf.extend(take(&mut self.imported));
 
                     if !self.is_direct {
@@ -623,7 +627,7 @@ impl VisitMut for Es6ModuleInjector {
                                     ..
                                 }) => {
                                     let mut imported = imported.clone();
-                                    imported.span = imported.span.with_ctxt(self.ctxt);
+                                    imported.span = imported.span.with_ctxt(self.dep_export_ctxt);
 
                                     Some(VarDeclarator {
                                         span: DUMMY_SP,
