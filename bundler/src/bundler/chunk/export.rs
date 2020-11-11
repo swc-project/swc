@@ -1,9 +1,10 @@
 use crate::{
     bundler::{
         chunk::merge::Ctx,
-        load::{Source, Specifier},
+        load::{Source, Specifier, TransformedModule},
     },
     debug::print_hygiene,
+    util::MapWithMut,
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
@@ -12,7 +13,7 @@ use rayon::iter::ParallelIterator;
 use std::mem::{replace, take};
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -74,48 +75,49 @@ where
                 &dep,
             );
 
-            for stmt in &mut dep.body {
-                let decl = match stmt {
-                    ModuleItem::ModuleDecl(decl) => decl,
-                    ModuleItem::Stmt(_) => continue,
-                };
+            handle_reexport(&dep_info, &mut dep);
+            // for stmt in &mut dep.body {
+            //     let decl = match stmt {
+            //         ModuleItem::ModuleDecl(decl) => decl,
+            //         ModuleItem::Stmt(_) => continue,
+            //     };
 
-                match decl {
-                    ModuleDecl::ExportDecl(_) => {}
-                    ModuleDecl::ExportNamed(export) => {
-                        for specifier in &mut export.specifiers {
-                            match specifier {
-                                ExportSpecifier::Namespace(ns) => {}
-                                ExportSpecifier::Default(default) => {}
-                                ExportSpecifier::Named(named) => match &mut named.exported {
-                                    Some(exported) => {
-                                        if exported.span.ctxt != dep_info.local_ctxt() {
-                                            continue;
-                                        }
+            //     match decl {
+            //         ModuleDecl::ExportDecl(_) => {}
+            //         ModuleDecl::ExportNamed(export) => {
+            //             for specifier in &mut export.specifiers {
+            //                 match specifier {
+            //                     ExportSpecifier::Namespace(ns) => {}
+            //                     ExportSpecifier::Default(default) => {}
+            //                     ExportSpecifier::Named(named) => match &mut
+            // named.exported {                         Some(exported) => {
+            //                             if exported.span.ctxt != dep_info.local_ctxt() {
+            //                                 continue;
+            //                             }
 
-                                        exported.span =
-                                            exported.span.with_ctxt(dep_info.export_ctxt());
-                                    }
-                                    None => {
-                                        if named.orig.span.ctxt != dep_info.local_ctxt() {
-                                            continue;
-                                        }
+            //                             exported.span =
+            //
+            // exported.span.with_ctxt(dep_info.export_ctxt());
+            // }                         None => {
+            //                             if named.orig.span.ctxt != dep_info.local_ctxt()
+            // {                                 continue;
+            //                             }
 
-                                        named.exported = Some(Ident::new(
-                                            named.orig.sym.clone(),
-                                            named.orig.span.with_ctxt(dep_info.export_ctxt()),
-                                        ));
-                                    }
-                                },
-                            }
-                        }
-                    }
-                    ModuleDecl::ExportDefaultDecl(_) => {}
-                    ModuleDecl::ExportDefaultExpr(_) => {}
-                    ModuleDecl::ExportAll(_) => {}
-                    _ => {}
-                }
-            }
+            //                             named.exported = Some(Ident::new(
+            //                                 named.orig.sym.clone(),
+            //
+            // named.orig.span.with_ctxt(dep_info.export_ctxt()),
+            // ));                         }
+            //                     },
+            //                 }
+            //             }
+            //         }
+            //         ModuleDecl::ExportDefaultDecl(_) => {}
+            //         ModuleDecl::ExportDefaultExpr(_) => {}
+            //         ModuleDecl::ExportAll(_) => {}
+            //         _ => {}
+            //     }
+            // }
 
             if !specifiers.is_empty() {
                 dep.visit_mut_with(&mut UnexportAsVar {
@@ -137,6 +139,84 @@ where
             Ok(dep)
         })
     }
+}
+
+/// # ExportDecl
+///
+/// For exported declarations, We should inject named exports.
+///
+/// ```ts
+/// export const b__9 = 1;
+/// console.log(b__9);
+/// ```
+///
+/// ```ts
+/// const b__9 = 1;
+/// export { b__9 as b__10 };
+/// console.log(b__9);
+/// ```
+fn handle_reexport(info: &TransformedModule, module: &mut Module) {
+    let mut new_body = Vec::with_capacity(module.body.len() + 20);
+    let mut export_named_specifiers = vec![];
+
+    for stmt in &mut module.body {
+        match stmt.take() {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                let id = match &export.decl {
+                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                        let mut exported = ident.clone();
+                        exported.span.ctxt = info.export_ctxt();
+
+                        export_named_specifiers.push(
+                            ExportNamedSpecifier {
+                                span: ident.span,
+                                orig: ident.clone(),
+                                exported: Some(exported),
+                            }
+                            .into(),
+                        );
+                    }
+                    Decl::Var(var) => {
+                        //
+                        let ids: Vec<Ident> = find_ids(&var.decls);
+
+                        export_named_specifiers.extend(
+                            ids.into_iter()
+                                .map(|i| {
+                                    let mut exported = i.clone();
+                                    exported.span.ctxt = info.export_ctxt();
+
+                                    ExportNamedSpecifier {
+                                        span: i.span,
+                                        orig: i,
+                                        exported: Some(exported),
+                                    }
+                                })
+                                .map(From::from),
+                        );
+                    }
+                    _ => continue,
+                };
+            }
+            item => {
+                new_body.push(item);
+                continue;
+            }
+        }
+    }
+
+    if !export_named_specifiers.is_empty() {
+        new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            NamedExport {
+                span: DUMMY_SP,
+                specifiers: export_named_specifiers,
+                src: None,
+                type_only: false,
+            },
+        )))
+    }
+
+    module.body = new_body;
 }
 
 pub(super) struct ExportInjector {
@@ -304,9 +384,6 @@ impl VisitMut for UnexportAsVar<'_> {
                     }],
                 })));
             }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
-                remark_binding_idents(&mut export.decl, self.dep_export_ctxt);
-            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 ref export @ NamedExport { src: None, .. },
             )) => {
@@ -365,33 +442,6 @@ impl VisitMut for UnexportAsVar<'_> {
     }
 
     fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
-}
-
-fn remark_binding_idents<T>(node: &mut T, to: SyntaxContext)
-where
-    T: VisitMutWith<RemarkBindingIdent>,
-{
-    node.visit_mut_with(&mut RemarkBindingIdent { to });
-}
-
-struct RemarkBindingIdent {
-    to: SyntaxContext,
-}
-
-impl VisitMut for RemarkBindingIdent {
-    noop_visit_mut_type!();
-
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span.ctxt = self.to;
-    }
-
-    fn visit_mut_expr(&mut self, _: &mut Expr) {}
-
-    fn visit_mut_class_member(&mut self, _: &mut ClassMember) {}
-
-    fn visit_mut_class(&mut self, _: &mut Class) {}
-
-    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
 
 struct DepUnexporter<'a> {
