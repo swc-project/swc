@@ -1,5 +1,6 @@
 const a = "a";
-const a1 = a, defaultA = a1;
+const a1 = a;
+const defaultA = a1;
 const o = {
 };
 const { a: a2 = defaultA  } = o;
