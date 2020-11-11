@@ -82,7 +82,80 @@ where
                     match stmt {
                         ModuleItem::ModuleDecl(decl) => match decl {
                             ModuleDecl::ExportNamed(export) => {}
-                            ModuleDecl::ExportDefaultDecl(export) => {}
+                            ModuleDecl::ExportDefaultDecl(export) => match &mut export.decl {
+                                DefaultDecl::Class(expr) => {
+                                    let expr = expr.take();
+                                    let export_name = Pat::Ident(Ident::new(
+                                        js_word!("default"),
+                                        export.span.with_ctxt(info.ctxt()),
+                                    ));
+
+                                    let init = match expr.ident {
+                                        Some(name) => {
+                                            *stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Class(
+                                                ClassDecl {
+                                                    ident: name.clone(),
+                                                    declare: false,
+                                                    class: expr.class,
+                                                },
+                                            )));
+
+                                            Expr::Ident(name)
+                                        }
+                                        None => {
+                                            *stmt = ModuleItem::Stmt(Stmt::Empty(EmptyStmt {
+                                                span: DUMMY_SP,
+                                            }));
+
+                                            Expr::Class(expr)
+                                        }
+                                    };
+
+                                    var_decls.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: export_name,
+                                        init: Some(Box::new(init)),
+                                        definite: false,
+                                    });
+                                }
+                                DefaultDecl::Fn(expr) => {
+                                    let expr = expr.take();
+                                    let export_name = Pat::Ident(Ident::new(
+                                        js_word!("default"),
+                                        export.span.with_ctxt(info.ctxt()),
+                                    ));
+
+                                    let init = match expr.ident {
+                                        Some(name) => {
+                                            *stmt =
+                                                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                                                    ident: name.clone(),
+                                                    declare: false,
+                                                    function: expr.function,
+                                                })));
+
+                                            Expr::Ident(name)
+                                        }
+                                        None => {
+                                            *stmt = ModuleItem::Stmt(Stmt::Empty(EmptyStmt {
+                                                span: DUMMY_SP,
+                                            }));
+
+                                            Expr::Fn(expr)
+                                        }
+                                    };
+
+                                    var_decls.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: export_name,
+                                        init: Some(Box::new(init)),
+                                        definite: false,
+                                    });
+                                    *stmt =
+                                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                                }
+                                DefaultDecl::TsInterfaceDecl(_) => continue,
+                            },
                             ModuleDecl::ExportDefaultExpr(export) => {
                                 var_decls.push(VarDeclarator {
                                     span: DUMMY_SP,
@@ -93,8 +166,7 @@ where
                                     init: Some(export.expr.take()),
                                     definite: false,
                                 });
-                                // *stmt = ModuleItem::Stmt(Stmt::
-                                // Empty(EmptyStmt { span: DUMMY_SP }));
+                                *stmt = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
                             }
                             _ => {}
                         },

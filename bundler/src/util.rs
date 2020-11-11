@@ -98,6 +98,54 @@ impl MapWithMut for PatOrExpr {
     }
 }
 
+impl MapWithMut for ClassExpr {
+    fn dummy() -> Self {
+        ClassExpr {
+            ident: None,
+            class: MapWithMut::dummy(),
+        }
+    }
+}
+
+impl MapWithMut for FnExpr {
+    fn dummy() -> Self {
+        FnExpr {
+            ident: None,
+            function: MapWithMut::dummy(),
+        }
+    }
+}
+
+impl MapWithMut for Class {
+    fn dummy() -> Self {
+        Class {
+            span: Default::default(),
+            decorators: Default::default(),
+            body: Default::default(),
+            super_class: Default::default(),
+            is_abstract: Default::default(),
+            type_params: Default::default(),
+            super_type_params: Default::default(),
+            implements: Default::default(),
+        }
+    }
+}
+
+impl MapWithMut for Function {
+    fn dummy() -> Self {
+        Function {
+            params: Default::default(),
+            decorators: Default::default(),
+            span: Default::default(),
+            body: Default::default(),
+            is_generator: Default::default(),
+            is_async: Default::default(),
+            type_params: Default::default(),
+            return_type: Default::default(),
+        }
+    }
+}
+
 #[derive(Debug)]
 pub(crate) struct CHashSet<V>
 where
