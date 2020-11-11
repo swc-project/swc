@@ -63,6 +63,44 @@ where
                 .merge_modules(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 
+            for stmt in &mut dep.body {
+                let decl = match stmt {
+                    ModuleItem::ModuleDecl(decl) => decl,
+                    ModuleItem::Stmt(_) => continue,
+                };
+
+                match decl {
+                    ModuleDecl::ExportDecl(_) => {}
+                    ModuleDecl::ExportNamed(export) => {
+                        for specifier in &mut export.specifiers {
+                            match specifier {
+                                ExportSpecifier::Namespace(ns) => {}
+                                ExportSpecifier::Default(default) => {}
+                                ExportSpecifier::Named(named) => {
+                                    if named.orig.span.ctxt != dep_info.local_ctxt() {
+                                        continue;
+                                    }
+
+                                    match &mut named.exported {
+                                        Some(exported) => {}
+                                        None => {
+                                            named.exported = Some(Ident::new(
+                                                named.orig.sym.clone(),
+                                                named.orig.span.with_ctxt(dep_info.export_ctxt()),
+                                            ));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ModuleDecl::ExportDefaultDecl(_) => {}
+                    ModuleDecl::ExportDefaultExpr(_) => {}
+                    ModuleDecl::ExportAll(_) => {}
+                    _ => {}
+                }
+            }
+
             print_hygiene(
                 &format!(
                     "reexport: load dep: {} ({:?}, {:?})",
