@@ -58,7 +58,7 @@ where
     ) -> Result<Module, Error> {
         self.run(|| {
             let dep_info = self.scope.get_module(dep_id).unwrap();
-            let dep = self
+            let mut dep = self
                 .merge2(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 

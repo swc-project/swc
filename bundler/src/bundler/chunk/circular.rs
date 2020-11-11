@@ -1,10 +1,9 @@
 use super::{
     merge::{ImportDropper, Unexporter},
-    plan::{CircularPlan, Plan},
+    plan::CircularPlan,
 };
 use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
-    util::CHashSet,
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};

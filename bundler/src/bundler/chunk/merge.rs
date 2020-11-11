@@ -180,7 +180,7 @@ where
             let mut targets = plan.chunks.clone();
 
             for dep in deps {
-                let (dep, dep_module) = dep?;
+                let (dep, mut dep_module) = dep?;
                 let dep_info = self.scope.get_module(dep.id).unwrap();
 
                 if let Some(idx) = targets.iter().position(|v| *v == *dep) {
@@ -199,7 +199,7 @@ where
                     match dep.ty {
                         DepType::Direct => {}
                         DepType::Transitive => {
-                            prepend_stmts(&mut module.body, take(&mut module.body).into_iter());
+                            prepend_stmts(&mut module.body, take(&mut dep_module.body).into_iter());
 
                             log::debug!(
                                 "Merged {} into {} as a transitive es module",

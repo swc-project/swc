@@ -51,11 +51,12 @@ where
             merged: Default::default(),
         };
 
-        Ok((&*plan.entries)
+        Ok((&*ctx.plan.entries)
             .into_par_iter()
             .map(|&entry| {
                 self.run(|| {
-                    let kind = plan
+                    let kind = ctx
+                        .plan
                         .bundle_kinds
                         .get(&entry)
                         .unwrap_or_else(|| {

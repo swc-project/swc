@@ -35,7 +35,6 @@ fn assert_normal_transitive(
             _ => false,
         })
         .map(|dep| dep.id)
-        .cloned()
         .collect::<HashSet<_>>();
 
     assert_eq!(
@@ -50,9 +49,13 @@ fn assert_normal_transitive(
 
     assert_eq!(
         p.normal[&t.id(&format!("{}.js", entry))]
-            .transitive_chunks
+            .chunks
             .iter()
-            .cloned()
+            .filter(|dep| match dep.ty {
+                DepType::Transitive => true,
+                _ => false,
+            })
+            .map(|dep| dep.id)
             .collect::<HashSet<_>>(),
         transitive_deps
             .into_iter()
