@@ -69,7 +69,7 @@ where
         })
     }
 
-    fn merge2_direct_import(
+    fn merge_direct_import(
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,
@@ -109,7 +109,7 @@ where
         Ok(module)
     }
 
-    fn merge2_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
+    fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
         let module = self.merge_modules(ctx, dep_id, false, true)?;
 
         Ok(module)
@@ -168,11 +168,11 @@ where
                                     .find(|(src, _)| src.module_id == dep.id)
                                     .expect("it is direct dependency");
 
-                                self.merge2_direct_import(ctx, dep.id, &specifiers)?
+                                self.merge_direct_import(ctx, dep.id, &specifiers)?
                             }
                             DepType::Transitive => {
                                 debug_assert!(!wrapped, "Transitive dependency cannot be wrapped");
-                                self.merge2_transitive_import(ctx, dep.id)?
+                                self.merge_transitive_import(ctx, dep.id)?
                             }
                         };
 
