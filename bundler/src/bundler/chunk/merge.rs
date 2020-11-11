@@ -206,8 +206,17 @@ where
         // Now we handle imports
         let mut module = if wrapped {
             let mut module = self.get_module_for_merging2(dep_id, false)?;
+            let module_ident = specifiers
+                .iter()
+                .find_map(|specifier| match specifier {
+                    Specifier::Namespace {
+                        local, all: true, ..
+                    } => Some(local.clone()),
+                    _ => None,
+                })
+                .unwrap();
             // TODO: Store private ident in the scope.
-            module = self.wrap_esm(module, private_ident!("module"))?;
+            module = self.wrap_esm(module, module_ident.into_ident())?;
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
