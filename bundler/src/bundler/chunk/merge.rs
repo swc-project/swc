@@ -81,7 +81,23 @@ where
                 for stmt in module.body.iter_mut() {
                     match stmt {
                         ModuleItem::ModuleDecl(decl) => match decl {
-                            ModuleDecl::ExportNamed(export) => {}
+                            ModuleDecl::ExportNamed(export) => {
+                                //
+                                for specifier in &export.specifiers {
+                                    match specifier {
+                                        ExportSpecifier::Namespace(ns) => {}
+                                        ExportSpecifier::Default(default) => {}
+                                        ExportSpecifier::Named(named) => match &named.exported {
+                                            Some(exported) => {
+                                                let mut lhs = exported.clone();
+                                                lhs.span = lhs.span.with_ctxt(info.local_ctxt());
+                                                var_decls.push(named.orig.clone().assign_to(lhs));
+                                            }
+                                            None => {}
+                                        },
+                                    }
+                                }
+                            }
                             ModuleDecl::ExportDefaultDecl(export) => match &mut export.decl {
                                 DefaultDecl::Class(expr) => {
                                     let expr = expr.take();
@@ -94,6 +110,7 @@ where
                                         Some(name) => {
                                             *stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Class(
                                                 ClassDecl {
+                                                    // Context of the span is local.
                                                     ident: name.clone(),
                                                     declare: false,
                                                     class: expr.class,
