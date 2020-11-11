@@ -385,7 +385,7 @@ where
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
                         imported: take(&mut dep_module.body),
-                        dep_export_ctxt: dep_info.export_ctxt(),
+                        dep_local_ctxt: dep_info.local_ctxt(),
                         is_direct: match dep.ty {
                             DepType::Direct => true,
                             _ => false,
@@ -598,7 +598,7 @@ impl Fold for Unexporter {
 struct Es6ModuleInjector {
     imported: Vec<ModuleItem>,
     /// Export context of the dependency module.
-    dep_export_ctxt: SyntaxContext,
+    dep_local_ctxt: SyntaxContext,
     is_direct: bool,
 }
 
@@ -614,7 +614,7 @@ impl VisitMut for Es6ModuleInjector {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span, specifiers, ..
-                })) if span.ctxt == self.dep_export_ctxt => {
+                })) if span.ctxt == self.dep_local_ctxt => {
                     buf.extend(take(&mut self.imported));
 
                     if !self.is_direct {
@@ -627,7 +627,7 @@ impl VisitMut for Es6ModuleInjector {
                                     ..
                                 }) => {
                                     let mut imported = imported.clone();
-                                    imported.span = imported.span.with_ctxt(self.dep_export_ctxt);
+                                    imported.span = imported.span.with_ctxt(self.dep_local_ctxt);
 
                                     Some(VarDeclarator {
                                         span: DUMMY_SP,
