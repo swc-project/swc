@@ -62,9 +62,11 @@ where
                 .merge_modules(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 
-            // dep = self.remark_exports(dep, dep_info.ctxt(), None, false);
-
-            // print_hygiene(&format!("dep: remark exports"), &self.cm, &dep);
+            // print_hygiene(
+            //     &format!("reexport: load dep: {}", dep_info.fm.name),
+            //     &self.cm,
+            //     &dep,
+            // );
 
             if !specifiers.is_empty() {
                 dep.visit_mut_with(&mut UnexportAsVar {
