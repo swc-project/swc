@@ -5,10 +5,10 @@ use crate::{
         load::{Imports, Specifier, TransformedModule},
     },
     debug::print_hygiene,
-    id::ModuleId,
+    id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
-    util::{self, IntoParallelIterator, MapWithMut},
+    util::{self, ExprExt, IntoParallelIterator, MapWithMut},
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
@@ -19,7 +19,7 @@ use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, prepend_stmts, private_ident};
+use swc_ecma_utils::{find_ids, prepend, prepend_stmts, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
@@ -276,7 +276,97 @@ where
     }
 
     fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
-        let module = self.merge_modules(ctx, dep_id, false, true)?;
+        let dep_info = self.scope.get_module(dep_id).unwrap();
+        let mut module = self.merge_modules(ctx, dep_id, false, true)?;
+
+        let var_decls = {
+            // Convert all exports into variables in form of
+            //
+            // A__export = A__local
+
+            let mut vars = vec![];
+
+            for item in &module.body {
+                let item = match item {
+                    ModuleItem::ModuleDecl(item) => item,
+                    ModuleItem::Stmt(_) => continue,
+                };
+
+                match item {
+                    ModuleDecl::ExportDecl(export) => match &export.decl {
+                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                            let exported_name = Ident::new(
+                                ident.sym.clone(),
+                                ident.span.with_ctxt(dep_info.export_ctxt()),
+                            );
+
+                            vars.push(ident.clone().assign_to(exported_name));
+                        }
+                        Decl::Var(var) => {
+                            let ids: Vec<Id> = find_ids(var);
+
+                            for id in ids {
+                                let exported = Ident::new(
+                                    id.sym().clone(),
+                                    DUMMY_SP.with_ctxt(dep_info.export_ctxt()),
+                                );
+
+                                vars.push(id.assign_to(exported))
+                            }
+                        }
+                        Decl::TsInterface(_) => {}
+                        Decl::TsTypeAlias(_) => {}
+                        Decl::TsEnum(_) => {}
+                        Decl::TsModule(_) => {}
+                    },
+                    ModuleDecl::ExportNamed(export) => for specifier in &export.specifiers {},
+                    ModuleDecl::ExportDefaultDecl(export) => {
+                        let export_name = Ident::new(
+                            js_word!("default"),
+                            export.span.with_ctxt(dep_info.export_ctxt()),
+                        );
+
+                        vars.push(
+                            Ident::new(
+                                js_word!("default"),
+                                export.span.with_ctxt(dep_info.local_ctxt()),
+                            )
+                            .assign_to(export_name),
+                        );
+                    }
+                    ModuleDecl::ExportDefaultExpr(export) => {
+                        let export_name = Ident::new(
+                            js_word!("default"),
+                            export.span.with_ctxt(dep_info.export_ctxt()),
+                        );
+
+                        vars.push(
+                            Ident::new(
+                                js_word!("default"),
+                                export.span.with_ctxt(dep_info.local_ctxt()),
+                            )
+                            .assign_to(export_name),
+                        );
+                    }
+                    _ => {}
+                }
+            }
+
+            vars
+        };
+
+        module = module.fold_with(&mut Unexporter);
+
+        if !var_decls.is_empty() {
+            module
+                .body
+                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: var_decls,
+                }))));
+        }
 
         Ok(module)
     }

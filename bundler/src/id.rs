@@ -5,7 +5,7 @@ use std::{
 };
 use swc_atoms::JsWord;
 use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::Ident;
+use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_utils::ident::IdentLike;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -110,5 +110,19 @@ impl PartialEq<Ident> for Id {
 impl PartialEq<JsWord> for Id {
     fn eq(&self, other: &JsWord) -> bool {
         self.0 == *other
+    }
+}
+
+impl From<Id> for Ident {
+    #[inline]
+    fn from(id: Id) -> Self {
+        id.into_ident()
+    }
+}
+
+impl From<Id> for Expr {
+    #[inline]
+    fn from(id: Id) -> Self {
+        Expr::Ident(id.into_ident())
     }
 }
