@@ -434,8 +434,8 @@ where
     }
 }
 
+/// If a dependency aliased exports, we handle them at here.
 fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
-    // If we have aliased exports, we handle them at here.
     let mut vars = vec![];
 
     for stmt in module.body.iter_mut() {
@@ -504,10 +504,10 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                     }
                     DefaultDecl::Fn(expr) => {
                         let expr = expr.take();
-                        let export_name = Pat::Ident(Ident::new(
+                        let export_name = Ident::new(
                             js_word!("default"),
                             export.span.with_ctxt(info.export_ctxt()),
-                        ));
+                        );
 
                         let init = match expr.ident {
                             Some(name) => {
@@ -526,12 +526,7 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                             }
                         };
 
-                        vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: export_name,
-                            init: Some(Box::new(init)),
-                            definite: false,
-                        });
+                        vars.push(init.assign_to(export_name));
                         *stmt = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
                     }
                     DefaultDecl::TsInterfaceDecl(_) => continue,
