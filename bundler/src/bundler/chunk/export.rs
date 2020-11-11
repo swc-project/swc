@@ -50,7 +50,7 @@ where
     ///
     /// console.log(bar, baz);
     /// ```
-    pub(super) fn merge2_export(
+    pub(super) fn merge_export(
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,

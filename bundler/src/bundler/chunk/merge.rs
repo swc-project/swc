@@ -351,7 +351,7 @@ where
 
                         match reexport {
                             Some((_, specifiers)) => {
-                                let dep_module = self.merge2_export(ctx, dep.id, &specifiers)?;
+                                let dep_module = self.merge_export(ctx, dep.id, &specifiers)?;
                                 return Ok((dep, dep_module));
                             }
                             None => {}
