@@ -3,6 +3,7 @@ use crate::{
         chunk::merge::Ctx,
         load::{Source, Specifier},
     },
+    debug::print_hygiene,
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
@@ -62,11 +63,16 @@ where
                 .merge_modules(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 
-            // print_hygiene(
-            //     &format!("reexport: load dep: {}", dep_info.fm.name),
-            //     &self.cm,
-            //     &dep,
-            // );
+            print_hygiene(
+                &format!(
+                    "reexport: load dep: {} ({:?}, {:?})",
+                    dep_info.fm.name,
+                    dep_info.local_ctxt(),
+                    dep_info.export_ctxt()
+                ),
+                &self.cm,
+                &dep,
+            );
 
             if !specifiers.is_empty() {
                 dep.visit_mut_with(&mut UnexportAsVar {
