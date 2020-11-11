@@ -1,7 +1,7 @@
 use super::plan::{DepType, Plan};
 use crate::{
     bundler::{
-        chunk::plan::NormalPlan,
+        chunk::{export::ExportInjector, plan::NormalPlan},
         load::{Imports, Specifier, TransformedModule},
     },
     debug::print_hygiene,
@@ -350,9 +350,9 @@ where
                         let wrapped = self.scope.should_be_wrapped_with_a_fn(dep.id);
 
                         match reexport {
-                            Some((_, specifiers)) => {
+                            Some((src, specifiers)) => {
                                 let dep_module = self.merge_export(ctx, dep.id, &specifiers)?;
-                                return Ok((dep, dep_module));
+                                return Ok((true, Some(src), dep, dep_module));
                             }
                             None => {}
                         }
@@ -374,7 +374,7 @@ where
                             }
                         };
 
-                        Ok((dep, dep_module))
+                        Ok((false, None, dep, dep_module))
                     })
                 })
                 .collect();
@@ -382,7 +382,7 @@ where
             let mut targets = plan.chunks.clone();
 
             for dep in deps {
-                let (dep, mut dep_module) = dep?;
+                let (is_export, source, dep, mut dep_module) = dep?;
                 let dep_info = self.scope.get_module(dep.id).unwrap();
 
                 if let Some(idx) = targets.iter().position(|v| *v == *dep) {
@@ -393,6 +393,17 @@ where
                     if let Some(v) = ctx.plan.circular.get(&dep.id) {
                         targets.retain(|&dep| !v.chunks.contains(&dep.id));
                     }
+                }
+
+                if is_export {
+                    assert!(dep_info.is_es6, "export statements are es6-only");
+                    let mut injector = ExportInjector {
+                        imported: take(&mut dep_module.body),
+                        source: source.unwrap().clone(),
+                    };
+                    module.body.visit_mut_with(&mut injector);
+
+                    continue;
                 }
 
                 if dep_info.is_es6 {

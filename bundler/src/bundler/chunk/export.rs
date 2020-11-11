@@ -88,9 +88,9 @@ where
     }
 }
 
-struct ExportInjector {
-    imported: Vec<ModuleItem>,
-    source: Source,
+pub(super) struct ExportInjector {
+    pub imported: Vec<ModuleItem>,
+    pub source: Source,
 }
 
 impl VisitMut for ExportInjector {
