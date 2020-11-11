@@ -1,5 +1,7 @@
 function a() {
 }
+const a1 = a;
 function b() {
 }
-console.log(a, b);
+const b1 = b;
+console.log(a1, b1);
