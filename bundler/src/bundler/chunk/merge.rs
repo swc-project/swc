@@ -196,7 +196,7 @@ where
     ) -> Result<Module, Error> {
         self.run(|| -> Result<_, Error> {
             log::debug!(
-                "Normal merging: ({}) {} <= {:?}",
+                "Normal merging: ({:?}) {} <= {:?}",
                 info.id,
                 info.fm.name,
                 plan
