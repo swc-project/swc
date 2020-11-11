@@ -223,8 +223,8 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
-                            if let Some((_, export_ctxt)) = ctxt {
-                                n.orig.span = n.orig.span.with_ctxt(export_ctxt);
+                            if let Some((local_ctxt, _)) = ctxt {
+                                n.orig.span = n.orig.span.with_ctxt(local_ctxt);
                             }
 
                             if let Some(exported) = &n.exported {
