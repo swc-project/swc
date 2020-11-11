@@ -53,7 +53,7 @@ where
             .map(|&id| self.scope.get_module(id).unwrap())
             .collect::<Vec<_>>();
         let mut entry = self
-            .merge2(ctx, entry_id, false, false)
+            .merge_modules(ctx, entry_id, false, false)
             .context("failed to merge dependency of a cyclic module")?;
 
         entry.visit_mut_with(&mut ImportDropper {
@@ -94,7 +94,7 @@ where
     ) -> Result<Module, Error> {
         self.run(|| {
             let mut dep = self
-                .merge2(ctx, dep, false, false)
+                .merge_modules(ctx, dep, false, false)
                 .context("failed to merge dependency of a cyclic module")?;
 
             // print_hygiene("[circular] dep:init", &self.cm, &dep);

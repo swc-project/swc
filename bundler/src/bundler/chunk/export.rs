@@ -59,7 +59,7 @@ where
         self.run(|| {
             let dep_info = self.scope.get_module(dep_id).unwrap();
             let mut dep = self
-                .merge2(ctx, dep_id, false, true)
+                .merge_modules(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 
             dep = self.remark_exports(dep, dep_info.ctxt(), None, false);

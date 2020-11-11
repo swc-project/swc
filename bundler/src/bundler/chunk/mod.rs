@@ -65,7 +65,7 @@ where
                         .clone();
 
                     let module = self
-                        .merge2(&ctx, entry, true, true)
+                        .merge_modules(&ctx, entry, true, true)
                         .context("failed to merge module")
                         .unwrap(); // TODO
 

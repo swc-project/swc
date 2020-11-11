@@ -33,7 +33,7 @@ where
     R: Resolve,
 {
     /// Merge
-    pub(super) fn merge2(
+    pub(super) fn merge_modules(
         &self,
         ctx: &Ctx,
         module_id: ModuleId,
@@ -85,9 +85,13 @@ where
             module = self.wrap_esm(module, private_ident!("module"))?;
 
             let plan = ctx.plan.normal.get(&dep_id);
+            let default_plan;
             let plan = match plan {
                 Some(plan) => plan,
-                None => return Ok(module),
+                None => {
+                    default_plan = Default::default();
+                    &default_plan
+                }
             };
 
             module = self
@@ -96,7 +100,7 @@ where
 
             module
         } else {
-            let module = self.merge2(ctx, dep_id, false, true)?;
+            let module = self.merge_modules(ctx, dep_id, false, true)?;
             module
         };
 
@@ -106,7 +110,7 @@ where
     }
 
     fn merge2_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
-        let module = self.merge2(ctx, dep_id, false, true)?;
+        let module = self.merge_modules(ctx, dep_id, false, true)?;
 
         Ok(module)
     }
@@ -197,7 +201,6 @@ where
                     // print_hygiene("entry: before injection", &self.cm, &entry);
 
                     match dep.ty {
-                        DepType::Direct => {}
                         DepType::Transitive => {
                             prepend_stmts(&mut module.body, take(&mut dep_module.body).into_iter());
 
@@ -210,11 +213,12 @@ where
                             // print_hygiene("ES6", &self.cm, &entry);
                             continue;
                         }
+                        _ => {}
                     }
 
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
-                        imported: take(&mut module.body),
+                        imported: take(&mut dep_module.body),
                         ctxt: dep_info.ctxt(),
                         is_direct: match dep.ty {
                             DepType::Direct => true,
@@ -241,7 +245,7 @@ where
 
                     // print_hygiene("entry: failed to inject", &self.cm, &entry);
 
-                    module.body = take(&mut injector.imported);
+                    dep_module.body = take(&mut injector.imported);
                 }
 
                 // if self.config.require {
