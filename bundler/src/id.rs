@@ -66,8 +66,8 @@ impl Id {
         Ident::new(self.0, DUMMY_SP.with_ctxt(self.1))
     }
 
-    pub fn replace_mark(mut self, mark: Mark) -> Self {
-        self.1 = SyntaxContext::empty().apply_mark(mark);
+    pub fn with_ctxt(mut self, ctxt: SyntaxContext) -> Self {
+        self.1 = ctxt;
         self
     }
 }

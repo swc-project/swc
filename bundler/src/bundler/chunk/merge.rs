@@ -8,7 +8,7 @@ use crate::{
     id::ModuleId,
     load::Load,
     resolve::Resolve,
-    util::{self, IntoParallelIterator},
+    util::{self, IntoParallelIterator, MapWithMut},
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
@@ -60,13 +60,59 @@ where
                 .get_module_for_merging2(module_id, is_entry)
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
-            let plan = ctx.plan.normal.get(&module_id);
-            let plan = match plan {
-                Some(plan) => plan,
-                None => return Ok(module),
-            };
+            {
+                let plan = ctx.plan.normal.get(&module_id);
+                let default_plan;
+                let plan = match plan {
+                    Some(plan) => plan,
+                    None => {
+                        default_plan = Default::default();
+                        &default_plan
+                    }
+                };
 
-            module = self.merge_deps(ctx, module, plan, &info)?;
+                module = self.merge_deps(ctx, module, plan, &info)?;
+            }
+
+            if !is_entry {
+                // If we have aliased exports, we handle them at here.
+                let mut var_decls = vec![];
+
+                for stmt in module.body.iter_mut() {
+                    match stmt {
+                        ModuleItem::ModuleDecl(decl) => match decl {
+                            ModuleDecl::ExportNamed(export) => {}
+                            ModuleDecl::ExportDefaultDecl(export) => {}
+                            ModuleDecl::ExportDefaultExpr(export) => {
+                                var_decls.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(Ident::new(
+                                        js_word!("default"),
+                                        DUMMY_SP.with_ctxt(info.ctxt()),
+                                    )),
+                                    init: Some(export.expr.take()),
+                                    definite: false,
+                                });
+                                // *stmt = ModuleItem::Stmt(Stmt::
+                                // Empty(EmptyStmt { span: DUMMY_SP }));
+                            }
+                            _ => {}
+                        },
+                        ModuleItem::Stmt(_) => {}
+                    }
+                }
+
+                if !var_decls.is_empty() {
+                    module
+                        .body
+                        .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: var_decls,
+                        }))))
+                }
+            }
 
             if is_entry {
                 self.finalize_merging_of_entry(ctx, &mut module);
@@ -123,7 +169,9 @@ where
                 } => Some(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(local.clone().into_ident()),
-                    init: Some(Box::new(Expr::Ident(alias.clone().into_ident()))),
+                    init: Some(Box::new(Expr::Ident(
+                        alias.clone().with_ctxt(dep_info.ctxt()).into_ident(),
+                    ))),
                     definite: false,
                 }),
                 // TODO
