@@ -87,21 +87,26 @@ where
                             match specifier {
                                 ExportSpecifier::Namespace(ns) => {}
                                 ExportSpecifier::Default(default) => {}
-                                ExportSpecifier::Named(named) => {
-                                    if named.orig.span.ctxt != dep_info.local_ctxt() {
-                                        continue;
-                                    }
-
-                                    match &mut named.exported {
-                                        Some(exported) => {}
-                                        None => {
-                                            named.exported = Some(Ident::new(
-                                                named.orig.sym.clone(),
-                                                named.orig.span.with_ctxt(dep_info.export_ctxt()),
-                                            ));
+                                ExportSpecifier::Named(named) => match &mut named.exported {
+                                    Some(exported) => {
+                                        if exported.span.ctxt != dep_info.local_ctxt() {
+                                            continue;
                                         }
+
+                                        exported.span =
+                                            exported.span.with_ctxt(dep_info.export_ctxt());
                                     }
-                                }
+                                    None => {
+                                        if named.orig.span.ctxt != dep_info.local_ctxt() {
+                                            continue;
+                                        }
+
+                                        named.exported = Some(Ident::new(
+                                            named.orig.sym.clone(),
+                                            named.orig.span.with_ctxt(dep_info.export_ctxt()),
+                                        ));
+                                    }
+                                },
                             }
                         }
                     }
