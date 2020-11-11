@@ -63,7 +63,8 @@ where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &JsWord) -> Option<SyntaxContext> {
+    /// Returns `(local, export)`.
+    fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -75,10 +76,12 @@ where
             return None;
         }
         let path = self.bundler.resolve(self.file_name, src).ok()?;
-        let (_, local_mark, _) = self.bundler.scope.module_id_gen.gen(&path);
-        let ctxt = SyntaxContext::empty();
+        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
 
-        Some(ctxt.apply_mark(local_mark))
+        Some((
+            SyntaxContext::empty().apply_mark(local_mark),
+            SyntaxContext::empty().apply_mark(export_mark),
+        ))
     }
 
     fn mark_as_wrapping_required(&self, src: &JsWord) {
@@ -220,8 +223,8 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
-                            if let Some(ctxt) = ctxt {
-                                n.orig.span = n.orig.span.with_ctxt(ctxt);
+                            if let Some((_local_ctxt, export_ctxt)) = ctxt {
+                                n.orig.span = n.orig.span.with_ctxt(export_ctxt);
                             }
 
                             if let Some(exported) = &n.exported {
