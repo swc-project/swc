@@ -4,6 +4,7 @@ use crate::{
         chunk::plan::NormalPlan,
         load::{Imports, Specifier, TransformedModule},
     },
+    debug::print_hygiene,
     id::ModuleId,
     load::Load,
     resolve::Resolve,
@@ -324,7 +325,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
