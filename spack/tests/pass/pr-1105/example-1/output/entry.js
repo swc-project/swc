@@ -1,7 +1,7 @@
 const a = function() {
-    const a = "a";
+    const a1 = "a";
     return {
-        a
+        a: a1
     };
 }();
 console.log(a); // { a: "a" }

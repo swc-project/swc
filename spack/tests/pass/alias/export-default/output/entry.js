@@ -1,3 +1,4 @@
 const foo = 1;
-const a = foo;
+const __default = foo;
+const a = __default;
 console.log(a);
