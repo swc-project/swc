@@ -385,7 +385,7 @@ where
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
                         imported: take(&mut dep_module.body),
-                        dep_local_ctxt: dep_info.local_ctxt(),
+                        dep_export_ctxt: dep_info.export_ctxt(),
                         is_direct: match dep.ty {
                             DepType::Direct => true,
                             _ => false,
@@ -466,14 +466,14 @@ where
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     for (id, p) in &ctx.plan.normal {
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().local_ctxt() {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping import");
                             return false;
                         }
 
                         for &dep in &p.chunks {
                             if import.span.ctxt
-                                == self.scope.get_module(dep.id).unwrap().local_ctxt()
+                                == self.scope.get_module(dep.id).unwrap().export_ctxt()
                             {
                                 log::debug!("Dropping direct import");
                                 return false;
@@ -483,13 +483,13 @@ where
 
                     for (id, p) in &ctx.plan.circular {
                         // Drop if it's one of circular import
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().local_ctxt() {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping circular import");
                             return false;
                         }
 
                         for &mid in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().local_ctxt()
+                            if import.span.ctxt == self.scope.get_module(mid).unwrap().export_ctxt()
                             {
                                 log::debug!("Dropping circular import");
                                 return false;
@@ -598,7 +598,7 @@ impl Fold for Unexporter {
 struct Es6ModuleInjector {
     imported: Vec<ModuleItem>,
     /// Export context of the dependency module.
-    dep_local_ctxt: SyntaxContext,
+    dep_export_ctxt: SyntaxContext,
     is_direct: bool,
 }
 
@@ -614,7 +614,7 @@ impl VisitMut for Es6ModuleInjector {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span, specifiers, ..
-                })) if span.ctxt == self.dep_local_ctxt => {
+                })) if span.ctxt == self.dep_export_ctxt => {
                     buf.extend(take(&mut self.imported));
 
                     if !self.is_direct {
@@ -627,7 +627,7 @@ impl VisitMut for Es6ModuleInjector {
                                     ..
                                 }) => {
                                     let mut imported = imported.clone();
-                                    imported.span = imported.span.with_ctxt(self.dep_local_ctxt);
+                                    imported.span = imported.span.with_ctxt(self.dep_export_ctxt);
 
                                     Some(VarDeclarator {
                                         span: DUMMY_SP,
