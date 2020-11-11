@@ -466,14 +466,14 @@ where
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     for (id, p) in &ctx.plan.normal {
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().local_ctxt() {
                             log::debug!("Dropping import");
                             return false;
                         }
 
                         for &dep in &p.chunks {
                             if import.span.ctxt
-                                == self.scope.get_module(dep.id).unwrap().export_ctxt()
+                                == self.scope.get_module(dep.id).unwrap().local_ctxt()
                             {
                                 log::debug!("Dropping direct import");
                                 return false;
@@ -483,13 +483,13 @@ where
 
                     for (id, p) in &ctx.plan.circular {
                         // Drop if it's one of circular import
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().local_ctxt() {
                             log::debug!("Dropping circular import");
                             return false;
                         }
 
                         for &mid in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().export_ctxt()
+                            if import.span.ctxt == self.scope.get_module(mid).unwrap().local_ctxt()
                             {
                                 log::debug!("Dropping circular import");
                                 return false;

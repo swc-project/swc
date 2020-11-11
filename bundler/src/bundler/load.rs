@@ -225,8 +225,9 @@ where
                         let info = match src {
                             Some(src) => {
                                 let name = self.resolve(base, &src.value)?;
-                                let (id, mark) = self.scope.module_id_gen.gen(&name);
-                                Some((id, mark, name, src))
+                                let (id, local_mark, export_mark) =
+                                    self.scope.module_id_gen.gen(&name);
+                                Some((id, local_mark, export_mark, name, src))
                             }
                             None => None,
                         };
@@ -241,13 +242,14 @@ where
 
                 match info {
                     None => exports.items.extend(specifiers),
-                    Some((id, mark, name, src)) => {
+                    Some((id, local_mark, export_mark, name, src)) => {
                         //
                         let src = Source {
                             is_loaded_synchronously: true,
                             is_unconditional: false,
                             module_id: id,
-                            ctxt: SyntaxContext::empty().apply_mark(mark),
+                            local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                            export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
                             src,
                         };
                         exports.reexports.push((src.clone(), specifiers));
@@ -299,22 +301,33 @@ where
                     self.run(|| {
                         //
                         let file_name = self.resolve(base, &decl.src.value)?;
-                        let (id, mark) = self.scope.module_id_gen.gen(&file_name);
+                        let (id, local_mark, export_mark) =
+                            self.scope.module_id_gen.gen(&file_name);
 
-                        Ok((id, mark, file_name, decl, dynamic, unconditional))
+                        Ok((
+                            id,
+                            local_mark,
+                            export_mark,
+                            file_name,
+                            decl,
+                            dynamic,
+                            unconditional,
+                        ))
                     })
                 })
                 .collect::<Vec<_>>();
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let (id, mark, file_name, decl, is_dynamic, is_unconditional) = res?;
+                let (id, local_mark, export_mark, file_name, decl, is_dynamic, is_unconditional) =
+                    res?;
 
                 let src = Source {
                     is_loaded_synchronously: !is_dynamic,
                     is_unconditional,
                     module_id: id,
-                    ctxt: SyntaxContext::empty().apply_mark(mark),
+                    local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                    export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
                     src: decl.src,
                 };
                 files.push((src.clone(), file_name));
@@ -374,7 +387,8 @@ pub(super) struct Source {
     pub is_unconditional: bool,
 
     pub module_id: ModuleId,
-    pub ctxt: SyntaxContext,
+    pub local_ctxt: SyntaxContext,
+    pub export_ctxt: SyntaxContext,
 
     // Clone is relatively cheap, thanks to string_cache.
     pub src: Str,

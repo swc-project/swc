@@ -139,10 +139,10 @@ where
             return None;
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
-        let (_, _local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
+        let (_, local_mark, _) = self.bundler.scope.module_id_gen.gen(&path);
         let ctxt = SyntaxContext::empty();
 
-        Some(ctxt.apply_mark(export_mark))
+        Some(ctxt.apply_mark(local_mark))
     }
 
     fn mark_as_wrapping_required(&self, src: &JsWord) {
