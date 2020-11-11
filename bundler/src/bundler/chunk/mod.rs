@@ -1,5 +1,8 @@
 use super::{load::TransformedModule, Bundler};
-use crate::{id::ModuleId, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle};
+use crate::{
+    bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
+    util::IntoParallelIterator, Bundle,
+};
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
@@ -43,7 +46,10 @@ where
         entries: HashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         let plan = self.determine_entries(entries).context("failed to plan")?;
-        let merged = Default::default();
+        let ctx = Ctx {
+            plan,
+            merged: Default::default(),
+        };
 
         Ok((&*plan.entries)
             .into_par_iter()
@@ -58,7 +64,7 @@ where
                         .clone();
 
                     let module = self
-                        .merge2(&plan, entry, true, false, &merged)
+                        .merge2(&ctx, entry, true, true)
                         .context("failed to merge module")
                         .unwrap(); // TODO
 

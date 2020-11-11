@@ -1,19 +1,14 @@
-use super::plan::{NormalPlan, Plan};
 use crate::{
     bundler::{
         chunk::merge::Ctx,
-        load::{Source, Specifier, TransformedModule},
+        load::{Source, Specifier},
     },
-    util::{CHashSet, IntoParallelIterator},
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::{
-    collections::HashMap,
-    mem::{replace, take},
-};
+use std::mem::{replace, take};
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};

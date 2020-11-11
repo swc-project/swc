@@ -1,7 +1,7 @@
 use super::plan::{DepType, Plan};
 use crate::{
     bundler::{
-        chunk::plan::{NormalPlan2, Plan2},
+        chunk::plan::NormalPlan,
         load::{Imports, Specifier, TransformedModule},
     },
     id::ModuleId,
@@ -23,7 +23,7 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitM
 use util::CHashSet;
 
 pub(super) struct Ctx {
-    pub plan: Plan2,
+    pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
 }
 
@@ -115,7 +115,7 @@ where
         &self,
         ctx: &Ctx,
         mut module: Module,
-        plan: &NormalPlan2,
+        plan: &NormalPlan,
         info: &TransformedModule,
     ) -> Result<Module, Error> {
         self.run(|| -> Result<_, Error> {
@@ -301,16 +301,9 @@ where
                             return false;
                         }
 
-                        for &mid in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
+                        for &dep in &p.chunks {
+                            if import.span.ctxt == self.scope.get_module(dep.id).unwrap().ctxt() {
                                 log::debug!("Dropping direct import");
-                                return false;
-                            }
-                        }
-
-                        for &mid in &p.transitive_chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
-                                log::debug!("Dropping transitive import");
                                 return false;
                             }
                         }

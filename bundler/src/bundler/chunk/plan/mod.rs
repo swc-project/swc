@@ -96,18 +96,6 @@ impl PlanBuilder {
 }
 
 #[derive(Debug, Default)]
-pub(super) struct Plan2 {
-    pub entries: Vec<ModuleId>,
-
-    /// key is entry
-    pub normal: HashMap<ModuleId, NormalPlan2>,
-    /// key is entry
-    pub circular: HashMap<ModuleId, CircularPlan>,
-
-    pub bundle_kinds: HashMap<ModuleId, BundleKind>,
-}
-
-#[derive(Debug, Default)]
 pub(super) struct Plan {
     pub entries: Vec<ModuleId>,
 
@@ -150,22 +138,9 @@ pub(super) struct Dependancy {
 }
 
 #[derive(Debug, Clone, Default)]
-pub(super) struct NormalPlan2 {
-    pub chunks: Vec<Dependancy>,
-}
-
-#[derive(Debug, Default)]
+#[cfg_attr(test, derive(PartialEq, Eq))]
 pub(super) struct NormalPlan {
-    /// Direct dependencies
-    pub chunks: Vec<ModuleId>,
-
-    /// Used to handle
-    ///
-    /// - a -> b
-    /// - a -> c
-    /// - b -> d
-    /// - c -> d
-    pub transitive_chunks: Vec<ModuleId>,
+    pub chunks: Vec<Dependancy>,
 }
 
 #[derive(Debug, Default)]
@@ -184,13 +159,13 @@ where
     pub(super) fn determine_entries(
         &self,
         entries: HashMap<String, TransformedModule>,
-    ) -> Result<Plan2, Error> {
+    ) -> Result<Plan, Error> {
         let plan = self.calculate_plan(entries)?;
 
         Ok(plan)
     }
 
-    fn calculate_plan(&self, entries: HashMap<String, TransformedModule>) -> Result<Plan2, Error> {
+    fn calculate_plan(&self, entries: HashMap<String, TransformedModule>) -> Result<Plan, Error> {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {
@@ -272,7 +247,15 @@ where
                             );
                             if entry != root_entry && dep != root_entry {
                                 // done.insert(dep);
-                                plans.normal.entry(entry).or_default().chunks.push(dep);
+                                plans
+                                    .normal
+                                    .entry(entry)
+                                    .or_default()
+                                    .chunks
+                                    .push(Dependancy {
+                                        id: dep,
+                                        ty: DepType::Direct,
+                                    });
                             }
                             continue;
                         }
@@ -311,7 +294,15 @@ where
                             // b <- c
                             //
                             if dependants.len() <= 1 {
-                                plans.normal.entry(entry).or_default().chunks.push(dep);
+                                plans
+                                    .normal
+                                    .entry(entry)
+                                    .or_default()
+                                    .chunks
+                                    .push(Dependancy {
+                                        id: dep,
+                                        ty: DepType::Direct,
+                                    });
                                 continue;
                             }
 
@@ -329,20 +320,26 @@ where
                             let normal_plan = plans.normal.entry(module).or_default();
 
                             for &dep in &deps {
-                                if !normal_plan.chunks.contains(&dep)
-                                    && !normal_plan.transitive_chunks.contains(&dep)
-                                {
+                                let contains = normal_plan.chunks.iter().any(|d| d.id == dep);
+
+                                if !contains {
                                     if dependants.contains(&module) {
                                         log::trace!("Normal (non-es6): {:?} => {:?}", module, dep);
                                         // `entry` depends on `module` directly
-                                        normal_plan.chunks.push(dep);
+                                        normal_plan.chunks.push(Dependancy {
+                                            id: dep,
+                                            ty: DepType::Direct,
+                                        });
                                     } else {
                                         log::trace!(
                                             "Transitive (non-es6): {:?} => {:?}",
                                             module,
                                             dep
                                         );
-                                        normal_plan.transitive_chunks.push(dep);
+                                        normal_plan.chunks.push(Dependancy {
+                                            id: dep,
+                                            ty: DepType::Transitive,
+                                        });
                                     }
                                 }
                             }
@@ -352,11 +349,18 @@ where
 
                         if is_reexport {
                             let normal_plan = plans.normal.entry(entry).or_default();
-                            if !normal_plan.chunks.contains(&dep) {
+                            if normal_plan
+                                .chunks
+                                .iter()
+                                .all(|dependancy| dependancy.id != dep)
+                            {
                                 done.insert(dep);
 
                                 log::trace!("Normal: {:?} => {:?}", entry, dep);
-                                normal_plan.chunks.push(dep);
+                                normal_plan.chunks.push(Dependancy {
+                                    id: dep,
+                                    ty: DepType::Direct,
+                                });
                             }
                             continue;
                         }
@@ -386,30 +390,43 @@ where
                                 }
 
                                 let normal_plan = plans.normal.entry(entry).or_default();
-                                if !normal_plan.chunks.contains(&dep) {
+                                if normal_plan
+                                    .chunks
+                                    .iter()
+                                    .all(|dependancy| dependancy.id != dep)
+                                {
                                     log::trace!("Normal: {:?} => {:?}", entry, dep);
                                     done.insert(dep);
-                                    normal_plan.chunks.push(dep);
+                                    normal_plan.chunks.push(Dependancy {
+                                        id: dep,
+                                        ty: DepType::Direct,
+                                    });
                                 }
                             } else {
                                 if self.scope.should_be_wrapped_with_a_fn(dep) {
                                     let normal_entry = &mut plans.normal.entry(entry).or_default();
 
                                     let t = &mut normal_entry.chunks;
-                                    if !t.contains(&dep) {
+                                    if t.iter().all(|dependancy| dependancy.id != dep) {
                                         log::info!("Normal, esm: {:?} => {:?}", entry, dep);
                                         done.insert(dep);
-                                        t.push(dep)
+                                        t.push(Dependancy {
+                                            id: dep,
+                                            ty: DepType::Direct,
+                                        })
                                     }
                                 } else {
                                     let normal_entry =
                                         &mut plans.normal.entry(higher_module).or_default();
 
-                                    let t = &mut normal_entry.transitive_chunks;
-                                    if !t.contains(&dep) {
+                                    let t = &mut normal_entry.chunks;
+                                    if t.iter().all(|dependancy| dependancy.id != dep) {
                                         log::trace!("Transitive: {:?} => {:?}", entry, dep);
                                         done.insert(dep);
-                                        t.push(dep)
+                                        t.push(Dependancy {
+                                            id: dep,
+                                            ty: DepType::Transitive,
+                                        })
                                     }
                                 }
                             }
@@ -417,7 +434,15 @@ where
                             // Direct dependency.
                             log::trace!("Normal: {:?} => {:?}", entry, dep);
                             done.insert(dep);
-                            plans.normal.entry(entry).or_default().chunks.push(dep);
+                            plans
+                                .normal
+                                .entry(entry)
+                                .or_default()
+                                .chunks
+                                .push(Dependancy {
+                                    id: dep,
+                                    ty: DepType::Direct,
+                                });
                         }
 
                         continue;
@@ -428,7 +453,7 @@ where
 
         // Sort transitive chunks topologically.
         for (_, normal_plan) in &mut plans.normal {
-            toposort(&builder, &mut normal_plan.transitive_chunks);
+            toposort(&builder, &mut normal_plan.chunks);
         }
 
         // Handle circular imports
@@ -459,7 +484,8 @@ where
 
                                 {
                                     let c = &mut plans.normal.entry(dep).or_default().chunks;
-                                    if let Some(pos) = c.iter().position(|&v| v == circular_member)
+                                    if let Some(pos) =
+                                        c.iter().position(|&v| v.id == circular_member)
                                     {
                                         c.remove(pos);
                                     }
@@ -471,7 +497,7 @@ where
                                         .entry(circular_member)
                                         .or_default()
                                         .chunks;
-                                    if let Some(pos) = c.iter().position(|&v| v == dep) {
+                                    if let Some(pos) = c.iter().position(|&v| v.id == dep) {
                                         c.remove(pos);
                                     }
                                 }
@@ -593,7 +619,7 @@ where
     }
 }
 
-fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {
+fn toposort(b: &PlanBuilder, module_ids: &mut Vec<Dependancy>) {
     let len = module_ids.len();
 
     if module_ids.len() <= 1 {
@@ -602,8 +628,8 @@ fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {
 
     for i in 0..len {
         for j in i..len {
-            let mi = module_ids[i];
-            let mj = module_ids[j];
+            let mi = module_ids[i].id;
+            let mj = module_ids[j].id;
             if mi == mj {
                 continue;
             }

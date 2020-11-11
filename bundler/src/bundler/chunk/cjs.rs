@@ -80,7 +80,7 @@ where
             }
 
             if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
-                for &dep_id in &normal_plan.chunks {
+                for dep_id in normal_plan.chunks.iter().map(|v| v.id) {
                     if !targets.contains(&dep_id) {
                         continue;
                     }

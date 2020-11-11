@@ -1,5 +1,8 @@
 use super::Plan;
-use crate::bundler::tests::{suite, Tester};
+use crate::bundler::{
+    chunk::plan::{DepType, Dependancy},
+    tests::{suite, Tester},
+};
 use std::collections::{HashMap, HashSet};
 use swc_common::FileName;
 
@@ -24,12 +27,19 @@ fn assert_normal_transitive(
         return;
     }
 
+    let actual = p.normal[&t.id(&format!("{}.js", entry))]
+        .chunks
+        .iter()
+        .filter(|dep| match dep.ty {
+            DepType::Direct => true,
+            _ => false,
+        })
+        .map(|dep| dep.id)
+        .cloned()
+        .collect::<HashSet<_>>();
+
     assert_eq!(
-        p.normal[&t.id(&format!("{}.js", entry))]
-            .chunks
-            .iter()
-            .cloned()
-            .collect::<HashSet<_>>(),
+        actual,
         deps.into_iter()
             .map(|s| format!("{}.js", s))
             .map(|s| t.id(&s))
