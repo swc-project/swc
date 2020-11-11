@@ -574,7 +574,30 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Module) -> Vec<VarDe
             },
             ModuleDecl::ExportNamed(export) => {
                 for specifier in &export.specifiers {
-                    // TODO
+                    match specifier {
+                        ExportSpecifier::Namespace(ns) => {
+                            let mut lhs = ns.name.clone();
+                            lhs.span = lhs.span.with_ctxt(dep_info.export_ctxt());
+                            vars.push(ns.name.clone().assign_to(lhs));
+                        }
+                        ExportSpecifier::Default(default) => {
+                            let mut lhs = default.exported.clone();
+                            lhs.span = lhs.span.with_ctxt(dep_info.export_ctxt());
+                            vars.push(default.exported.clone().assign_to(lhs));
+                        }
+                        ExportSpecifier::Named(named) => match &named.exported {
+                            Some(exported) => {
+                                let mut lhs = exported.clone();
+                                lhs.span = lhs.span.with_ctxt(dep_info.export_ctxt());
+                                vars.push(exported.clone().assign_to(lhs));
+                            }
+                            None => {
+                                let mut lhs = named.orig.clone();
+                                lhs.span = lhs.span.with_ctxt(dep_info.export_ctxt());
+                                vars.push(named.orig.clone().assign_to(lhs));
+                            }
+                        },
+                    }
                 }
             }
             ModuleDecl::ExportDefaultDecl(export) => {
