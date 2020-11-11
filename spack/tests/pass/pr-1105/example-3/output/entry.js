@@ -1,5 +1,7 @@
 const a = "a";
+const a1 = a;
 const d = {
-    a: a
+    a: a1
 };
-console.log(d);
+const d1 = d;
+console.log(d1);

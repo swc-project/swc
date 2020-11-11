@@ -8,5 +8,6 @@ const importMeta1 = {
 };
 const isMain = importMeta1.main;
 const modUrl = importMeta1.url;
-console.log(isMain, modUrl);
+const isMain1 = isMain, modUrl1 = modUrl;
+console.log(isMain1, modUrl1);
 console.log(importMeta);

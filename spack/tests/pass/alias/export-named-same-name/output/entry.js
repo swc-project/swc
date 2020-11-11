@@ -1,6 +1,4 @@
-const foo = 1;
 const bar = 2;
-const bar1 = foo;
-const baz = bar;
+const bar1 = bar, baz1 = baz;
 console.log(bar1);
-console.log(baz);
+console.log(baz1);
