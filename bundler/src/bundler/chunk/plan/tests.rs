@@ -21,7 +21,16 @@ fn assert_normal_transitive(
 ) {
     if deps.is_empty() {
         if let Some(v) = p.normal.get(&t.id(&format!("{}.js", entry))) {
-            assert_eq!(v.chunks, vec![], "Should be empty");
+            let actual = v
+                .chunks
+                .iter()
+                .filter(|dep| match dep.ty {
+                    DepType::Direct => true,
+                    _ => false,
+                })
+                .copied()
+                .collect::<Vec<_>>();
+            assert_eq!(actual, vec![], "Should be empty");
         }
 
         return;
@@ -1017,8 +1026,8 @@ fn deno_8302_3() {
 
             assert_normal(t, &p, "main", &["a"]);
 
+            assert_normal(t, &p, "a", &["lib"]);
             assert_circular(t, &p, "a", &["b", "c"]);
-            assert_normal(t, &p, "c", &["lib"]);
 
             Ok(())
         });
