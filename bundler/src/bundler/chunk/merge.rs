@@ -2,7 +2,7 @@ use super::plan::{DepType, Plan};
 use crate::{
     bundler::{
         chunk::{export::ExportInjector, plan::NormalPlan},
-        load::{Imports, Specifier, TransformedModule},
+        load::{Imports, Source, Specifier, TransformedModule},
     },
     debug::print_hygiene,
     id::{Id, ModuleId},
@@ -187,6 +187,51 @@ where
         Ok(module)
     }
 
+    /// Even after one instance of module is merged into main enrry, code like
+    ///
+    /// ```ts
+    /// export { foo#12, baz#12 } from './common';
+    /// ```
+    ///
+    /// can remain. (`./common` is already merged, but ast nodes were not
+    /// modified because it's not a direct dependancy.)
+    ///
+    /// This method
+    fn transform_indirect_reexports(
+        &self,
+        _ctx: &Ctx,
+        module: &mut Module,
+        deps: Vec<Source>,
+    ) -> Result<(), Error> {
+        self.run(|| {
+            //
+            for stmt in &mut module.body {
+                let decl = match stmt {
+                    ModuleItem::ModuleDecl(decl) => decl,
+                    ModuleItem::Stmt(_) => continue,
+                };
+
+                for source in &deps {
+                    match decl {
+                        ModuleDecl::ExportNamed(export @ NamedExport { src: Some(..), .. }) => {
+                            if export.src.as_ref().unwrap().value == source.src.value {
+                                export.src = None;
+                                break;
+                            }
+                        }
+                        ModuleDecl::ExportAll(export) => {
+                            // TODO
+                            if export.src.value == source.src.value {}
+                        }
+                        _ => continue,
+                    }
+                }
+            }
+
+            Ok(())
+        })
+    }
+
     fn merge_deps(
         &self,
         ctx: &Ctx,
@@ -201,6 +246,16 @@ where
                 info.fm.name,
                 plan
             );
+
+            let deps = info
+                .exports
+                .reexports
+                .iter()
+                .map(|v| &v.0)
+                .cloned()
+                .filter(|source| plan.chunks.iter().all(|chunk| chunk.id != source.module_id))
+                .collect();
+            self.transform_indirect_reexports(ctx, &mut module, deps)?;
             if plan.chunks.is_empty() {
                 return Ok(module);
             }
