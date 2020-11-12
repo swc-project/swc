@@ -137,14 +137,20 @@ where
             Specifier::Specific {
                 local,
                 alias: Some(alias),
-            } => Some(VarDeclarator {
-                span: DUMMY_SP,
-                name: Pat::Ident(local.clone().into_ident()),
-                init: Some(Box::new(Expr::Ident(
-                    alias.clone().with_ctxt(dep_info.export_ctxt()).into_ident(),
-                ))),
-                definite: false,
-            }),
+            } => {
+                if *alias.sym() == js_word!("default") {
+                    return None;
+                }
+
+                Some(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(local.clone().into_ident()),
+                    init: Some(Box::new(Expr::Ident(
+                        alias.clone().with_ctxt(dep_info.export_ctxt()).into_ident(),
+                    ))),
+                    definite: false,
+                })
+            }
             // TODO
             Specifier::Namespace { .. } => None,
             _ => None,
