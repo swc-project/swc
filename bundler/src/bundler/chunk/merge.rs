@@ -137,14 +137,17 @@ where
             Specifier::Specific {
                 local,
                 alias: Some(alias),
-            } => Some(VarDeclarator {
-                span: DUMMY_SP,
-                name: Pat::Ident(local.clone().into_ident()),
-                init: Some(Box::new(Expr::Ident(
-                    alias.clone().with_ctxt(dep_info.local_ctxt()).into_ident(),
-                ))),
-                definite: false,
-            }),
+            } => {
+                let local = local.clone().into_ident();
+                let alias = alias.clone().with_ctxt(dep_info.local_ctxt()).into_ident();
+
+                Some(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(local),
+                    init: Some(Box::new(Expr::Ident(alias))),
+                    definite: false,
+                })
+            }
             // TODO
             Specifier::Namespace { .. } => None,
             _ => None,
