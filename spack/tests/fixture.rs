@@ -10,6 +10,7 @@ use std::{
     fs::{create_dir_all, read_dir},
     io::{self},
     path::{Path, PathBuf},
+    process::{Command, Stdio},
     sync::Arc,
 };
 use swc::config::SourceMapsConfig;
@@ -214,6 +215,17 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                             entry.path().join("output").join(name.file_name().unwrap());
 
                         println!("Printing {}", output_path.display());
+
+                        {
+                            let status = Command::new("node")
+                                .arg(&output_path)
+                                .stdout(Stdio::inherit())
+                                .stderr(Stdio::inherit())
+                                .status()
+                                .unwrap();
+
+                            assert!(status.success());
+                        }
 
                         let s = NormalizedOutput::from(code);
 
