@@ -26,13 +26,13 @@ where
         &self,
         path: &FileName,
         module: &mut Module,
-        module_mark: Mark,
+        module_local_mark: Mark,
     ) -> RawImports {
         self.run(|| {
             let body = replace(&mut module.body, vec![]);
 
             let mut v = ImportHandler {
-                module_ctxt: SyntaxContext::empty().apply_mark(module_mark),
+                module_ctxt: SyntaxContext::empty().apply_mark(module_local_mark),
                 path,
                 bundler: self,
                 top_level: false,

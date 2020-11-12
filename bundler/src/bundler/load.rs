@@ -147,7 +147,7 @@ where
             //     println!("Resolved:\n{}\n\n", code);
             // }
 
-            let imports = self.extract_import_info(file_name, &mut module, export_mark);
+            let imports = self.extract_import_info(file_name, &mut module, local_mark);
 
             // {
             //     let code = self
