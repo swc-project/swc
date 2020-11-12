@@ -137,20 +137,14 @@ where
             Specifier::Specific {
                 local,
                 alias: Some(alias),
-            } => {
-                if *alias.sym() == js_word!("default") {
-                    return None;
-                }
-
-                Some(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(local.clone().into_ident()),
-                    init: Some(Box::new(Expr::Ident(
-                        alias.clone().with_ctxt(dep_info.export_ctxt()).into_ident(),
-                    ))),
-                    definite: false,
-                })
-            }
+            } => Some(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(local.clone().into_ident()),
+                init: Some(Box::new(Expr::Ident(
+                    alias.clone().with_ctxt(dep_info.local_ctxt()).into_ident(),
+                ))),
+                definite: false,
+            }),
             // TODO
             Specifier::Namespace { .. } => None,
             _ => None,
@@ -535,7 +529,7 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                         let expr = expr.take();
                         let export_name = Pat::Ident(Ident::new(
                             js_word!("default"),
-                            export.span.with_ctxt(info.export_ctxt()),
+                            export.span.with_ctxt(info.local_ctxt()),
                         ));
 
                         let init = match expr.ident {
@@ -567,7 +561,7 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                         let expr = expr.take();
                         let export_name = Ident::new(
                             js_word!("default"),
-                            export.span.with_ctxt(info.export_ctxt()),
+                            export.span.with_ctxt(info.local_ctxt()),
                         );
 
                         let init = match expr.ident {
@@ -597,7 +591,7 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                         span: DUMMY_SP,
                         name: Pat::Ident(Ident::new(
                             js_word!("default"),
-                            DUMMY_SP.with_ctxt(info.export_ctxt()),
+                            DUMMY_SP.with_ctxt(info.local_ctxt()),
                         )),
                         init: Some(export.expr.take()),
                         definite: false,

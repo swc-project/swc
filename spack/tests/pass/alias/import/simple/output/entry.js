@@ -1,7 +1,7 @@
 function a() {
     console.log("a()");
 }
-const a1 = a, foo = a1;
-function a2() {
+const foo = a;
+function a1() {
 }
-console.log(a2(), foo());
+console.log(a1(), foo());
