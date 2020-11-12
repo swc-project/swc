@@ -211,8 +211,11 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                             BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
                         };
 
-                        let output_path =
-                            entry.path().join("output").join(name.file_name().unwrap());
+                        let output_path = entry
+                            .path()
+                            .join("output")
+                            .join(name.file_name().unwrap())
+                            .with_extension("js");
 
                         println!("Printing {}", output_path.display());
 
