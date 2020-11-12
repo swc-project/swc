@@ -1,7 +1,8 @@
-function b2() {
-    console.log(b2);
+function b() {
+    console.log(b);
 }
-console.log('b', b2);
+console.log('b', b);
 const b1 = b;
+const b2 = b1;
 console.log('a');
-export { b1 as a };
+export { b2 as a };
