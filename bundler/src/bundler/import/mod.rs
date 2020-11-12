@@ -192,12 +192,14 @@ where
                     match specifier {
                         ImportSpecifier::Named(n) => {
                             self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
                         }
                         ImportSpecifier::Default(n) => {
                             self.imported_idents.insert(n.local.to_id(), ctxt);
                         }
                         ImportSpecifier::Namespace(n) => {
                             self.imported_idents.insert(n.local.to_id(), ctxt);
+                            n.local.span = n.local.span.with_ctxt(ctxt);
                         }
                     }
                 }
@@ -325,8 +327,45 @@ where
         items.fold_children_with(self)
     }
 
+    fn fold_export_named_specifier(&mut self, mut s: ExportNamedSpecifier) -> ExportNamedSpecifier {
+        if let Some(&ctxt) = self.imported_idents.get(&s.orig.to_id()) {
+            s.orig.span = s.orig.span.with_ctxt(ctxt);
+        }
+
+        s
+    }
+
+    fn fold_prop(&mut self, mut prop: Prop) -> Prop {
+        prop = prop.fold_children_with(self);
+
+        match prop {
+            Prop::Shorthand(mut i) => {
+                if let Some(&ctxt) = self.imported_idents.get(&i.to_id()) {
+                    let local = i.clone();
+
+                    i.span = i.span.with_ctxt(ctxt);
+
+                    return Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(local),
+                        value: Box::new(Expr::Ident(i)),
+                    });
+                }
+
+                Prop::Shorthand(i)
+            }
+            _ => prop,
+        }
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
+            Expr::Ident(mut i) if self.deglob_phase => {
+                if let Some(&ctxt) = self.imported_idents.get(&i.to_id()) {
+                    i.span = i.span.with_ctxt(ctxt);
+                }
+                return Expr::Ident(i);
+            }
+
             Expr::Member(mut e) => {
                 e.obj = e.obj.fold_with(self);
 
@@ -342,7 +381,10 @@ where
                                 if self.deglob_phase && self.idents_to_deglob.contains(&i.to_id()) {
                                     match *e.prop {
                                         Expr::Ident(prop) => {
-                                            return Expr::Ident(Ident::new(prop.sym, prop.span))
+                                            return Expr::Ident(Ident::new(
+                                                prop.sym,
+                                                prop.span.with_ctxt(i.span.ctxt),
+                                            ))
                                         }
                                         _ => {}
                                     }
@@ -376,7 +418,11 @@ where
                                         }
 
                                         let i = match &*e.prop {
-                                            Expr::Ident(i) => i.clone(),
+                                            Expr::Ident(i) => {
+                                                let mut i = i.clone();
+                                                i.span = i.span.with_ctxt(ctxt);
+                                                i
+                                            }
                                             _ => unreachable!(
                                                 "Non-computed member expression with property \
                                                  other than ident is invalid"
@@ -390,7 +436,8 @@ where
                                         } else {
                                             let i = match &*e.prop {
                                                 Expr::Ident(i) => {
-                                                    let i = i.clone();
+                                                    let mut i = i.clone();
+                                                    i.span = i.span.with_ctxt(ctxt);
                                                     i
                                                 }
                                                 _ => unreachable!(
@@ -534,6 +581,15 @@ where
                     // Ignore core modules.
                     if self.bundler.config.external_modules.contains(&src.value) {
                         return node;
+                    }
+
+                    match &mut **callee {
+                        Expr::Ident(i) => {
+                            if let Some(mark) = self.ctxt_for(&src.value) {
+                                i.span = i.span.with_ctxt(mark);
+                            }
+                        }
+                        _ => {}
                     }
 
                     let ids: Vec<Ident> = find_ids(&node.name);

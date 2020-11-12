@@ -134,19 +134,6 @@ where
 
         // Handle aliased imports
         var_decls.extend(specifiers.iter().filter_map(|specifier| match specifier {
-            Specifier::Specific { local, alias: None } => {
-                //
-
-                let alias = local.clone().with_ctxt(dep_info.export_ctxt()).into_ident();
-                let local = local.clone().into_ident();
-
-                Some(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(local),
-                    init: Some(Box::new(Expr::Ident(alias))),
-                    definite: false,
-                })
-            }
             Specifier::Specific {
                 local,
                 alias: Some(alias),
