@@ -71,6 +71,8 @@ where
                     }
                 };
 
+                print_hygiene("before merging desp", &self.cm, &module);
+
                 module = self.merge_deps(ctx, module, plan, &info)?;
             }
 
@@ -124,7 +126,9 @@ where
         } else {
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
+            print_hygiene("import: After meging deps of a dep", &self.cm, &module);
             handle_import_deps(&dep_info, &mut module);
+            print_hygiene("import: After handle_import_deps", &self.cm, &module);
             module
         };
 
@@ -139,7 +143,7 @@ where
                 alias: Some(alias),
             } => {
                 let local = local.clone().into_ident();
-                let alias = alias.clone().with_ctxt(dep_info.local_ctxt()).into_ident();
+                let alias = alias.clone().with_ctxt(dep_info.export_ctxt()).into_ident();
 
                 Some(VarDeclarator {
                     span: DUMMY_SP,
