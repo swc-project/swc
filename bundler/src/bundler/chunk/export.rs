@@ -189,7 +189,7 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                                 .map(From::from),
                         );
                     }
-                    _ => continue,
+                    _ => {}
                 };
             }
 
@@ -208,7 +208,7 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                 }
             }
 
-            _ => continue,
+            _ => {}
         }
 
         new_body.push(stmt);
