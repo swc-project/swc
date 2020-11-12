@@ -44,7 +44,7 @@ where
         self.run(|| {
             if allow_circular {
                 if let Some(plan) = ctx.plan.circular.get(&module_id) {
-                    let module = self.merge_circular2(ctx, plan).with_context(|| {
+                    let module = self.merge_circular(ctx, plan, module_id).with_context(|| {
                         format!("failed to merge {:?} (circular import)", module_id)
                     })?;
                     if is_entry {

@@ -23,20 +23,16 @@ where
     L: Load,
     R: Resolve,
 {
-    pub(super) fn merge_circular2(&self, ctx: &Ctx, plan: &CircularPlan) -> Result<Module, Error> {
-        unimplemented!("merge_circular2")
-    }
-
-    pub(super) fn merge_circular_modules(
+    pub(super) fn merge_circular(
         &self,
         ctx: &Ctx,
-        circular_plan: &CircularPlan,
+        plan: &CircularPlan,
         entry_id: ModuleId,
     ) -> Result<Module, Error> {
         assert!(
-            circular_plan.chunks.len() >= 1,
+            plan.chunks.len() >= 1,
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
-            circular_plan
+            plan
         );
         let entry_module = self.scope.get_module(entry_id).unwrap();
         let direct_deps = entry_module
@@ -47,7 +43,7 @@ where
             .chain(entry_module.exports.reexports.iter().map(|v| v.0.module_id))
             .collect::<Vec<_>>();
 
-        let modules = circular_plan
+        let modules = plan
             .chunks
             .iter()
             .map(|&id| self.scope.get_module(id).unwrap())
@@ -60,7 +56,7 @@ where
             imports: &entry_module.imports,
         });
         // print_hygiene("entry:drop_imports", &self.cm, &entry);
-        let mut deps = circular_plan.chunks.clone();
+        let mut deps = plan.chunks.clone();
         deps.sort_by_key(|&dep| (!direct_deps.contains(&dep), dep));
 
         for dep in deps {
