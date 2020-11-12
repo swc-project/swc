@@ -1,3 +1,4 @@
 const foo = 1;
 const bar = foo;
-console.log(bar);
+const bar1 = bar;
+console.log(bar1);
