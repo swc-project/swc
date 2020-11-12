@@ -5,4 +5,5 @@ function MuxAsyncIterator() {
 }
 const MuxAsyncIterator1 = MuxAsyncIterator;
 const deferred2 = deferred1, MuxAsyncIterator2 = MuxAsyncIterator1;
-console.log(deferred2, MuxAsyncIterator2);
+const deferred3 = deferred2, MuxAsyncIterator3 = MuxAsyncIterator2;
+console.log(deferred3, MuxAsyncIterator3);
