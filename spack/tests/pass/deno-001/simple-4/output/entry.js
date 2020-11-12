@@ -1,12 +1,11 @@
-function deferred2() {
+function deferred() {
 }
-const deferred1 = deferred2;
+const deferred1 = deferred;
 class MuxAsyncIterator {
     constructor(){
-        this.signal = deferred();
+        this.signal = deferred1();
     }
 }
 const MuxAsyncIterator1 = MuxAsyncIterator;
-const deferred3 = deferred1, MuxAsyncIterator2 = MuxAsyncIterator1;
-const deferred4 = deferred3, MuxAsyncIterator3 = MuxAsyncIterator2;
-console.log(deferred4, MuxAsyncIterator3);
+const deferred2 = deferred1, MuxAsyncIterator2 = MuxAsyncIterator1;
+console.log(deferred2, MuxAsyncIterator2);
