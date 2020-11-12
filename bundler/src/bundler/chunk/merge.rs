@@ -57,7 +57,7 @@ where
             let info = self.scope.get_module(module_id).unwrap();
 
             let mut module = self
-                .get_module_for_merging2(module_id, is_entry)
+                .get_module_for_merging(module_id, is_entry)
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
             {
@@ -93,7 +93,7 @@ where
 
         // Now we handle imports
         let mut module = if wrapped {
-            let mut module = self.get_module_for_merging2(dep_id, false)?;
+            let mut module = self.get_module_for_merging(dep_id, false)?;
             let module_ident = specifiers
                 .iter()
                 .find_map(|specifier| match specifier {
@@ -403,7 +403,7 @@ where
         })
     }
 
-    pub(super) fn get_module_for_merging2(
+    pub(super) fn get_module_for_merging(
         &self,
         module_id: ModuleId,
         is_entry: bool,
