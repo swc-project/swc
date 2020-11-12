@@ -160,9 +160,10 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
     let mut export_named_specifiers = vec![];
 
     for stmt in &mut module.body {
-        match stmt.take() {
+        let stmt = stmt.take();
+        match &stmt {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
-                let id = match &export.decl {
+                match &export.decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
                         let mut exported = ident.clone();
                         exported.span.ctxt = info.export_ctxt();
@@ -175,6 +176,8 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                             }
                             .into(),
                         );
+
+                        new_body.push(stmt);
                     }
                     Decl::Var(var) => {
                         //
@@ -194,12 +197,17 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                                 })
                                 .map(From::from),
                         );
+
+                        new_body.push(stmt);
                     }
-                    _ => continue,
+                    _ => {
+                        new_body.push(stmt);
+                        continue;
+                    }
                 };
             }
-            item => {
-                new_body.push(item);
+            _ => {
+                new_body.push(stmt);
                 continue;
             }
         }
