@@ -4,7 +4,7 @@ use crate::{
         load::{Source, Specifier, TransformedModule},
     },
     debug::print_hygiene,
-    util::MapWithMut,
+    util::{ExprExt, MapWithMut},
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
@@ -160,10 +160,11 @@ where
 /// ```
 fn handle_reexport(info: &TransformedModule, module: &mut Module) {
     let mut new_body = Vec::with_capacity(module.body.len() + 20);
-    let mut export_named_specifiers = vec![];
 
     for stmt in &mut module.body {
+        let mut vars = vec![];
         let mut stmt = stmt.take();
+
         match &mut stmt {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
                 match &export.decl {
@@ -171,42 +172,24 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                         let mut exported = ident.clone();
                         exported.span.ctxt = info.export_ctxt();
 
-                        export_named_specifiers.push(
-                            ExportNamedSpecifier {
-                                span: ident.span,
-                                orig: ident.clone(),
-                                exported: Some(exported),
-                            }
-                            .into(),
-                        );
-
-                        new_body.push(stmt);
+                        vars.push(ident.clone().assign_to(exported));
                     }
                     Decl::Var(var) => {
                         //
                         let ids: Vec<Ident> = find_ids(&var.decls);
 
-                        export_named_specifiers.extend(
+                        vars.extend(
                             ids.into_iter()
                                 .map(|i| {
                                     let mut exported = i.clone();
                                     exported.span.ctxt = info.export_ctxt();
 
-                                    ExportNamedSpecifier {
-                                        span: i.span,
-                                        orig: i,
-                                        exported: Some(exported),
-                                    }
+                                    i.assign_to(exported)
                                 })
                                 .map(From::from),
                         );
-
-                        new_body.push(stmt);
                     }
-                    _ => {
-                        new_body.push(stmt);
-                        continue;
-                    }
+                    _ => continue,
                 };
             }
 
@@ -223,26 +206,20 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                         },
                     }
                 }
-
-                new_body.push(stmt);
             }
 
-            _ => {
-                new_body.push(stmt);
-                continue;
-            }
+            _ => continue,
         }
-    }
 
-    if !export_named_specifiers.is_empty() {
-        new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-            NamedExport {
+        new_body.push(stmt);
+        if !vars.is_empty() {
+            new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
-                specifiers: export_named_specifiers,
-                src: None,
-                type_only: false,
-            },
-        )))
+                kind: VarDeclKind::Const,
+                declare: false,
+                decls: vars,
+            }))))
+        }
     }
 
     module.body = new_body;
