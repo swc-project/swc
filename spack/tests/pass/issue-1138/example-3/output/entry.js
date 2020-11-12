@@ -1,8 +1,5 @@
-const a = "a";
-const a1 = a;
-const a2 = a1;
-const defaultA = a2;
+const defaultA = a;
 const o = {
 };
-const { a: a3 = defaultA  } = o;
-console.log(a3);
+const { a =defaultA  } = o;
+console.log(a);
