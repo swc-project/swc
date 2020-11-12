@@ -16,4 +16,5 @@ const _j = function() {
 }();
 const k = globalThis.value ? _i : _j;
 const { a ,  } = k;
-export { a, b };
+const a1 = a;
+export { a1 as a, b };

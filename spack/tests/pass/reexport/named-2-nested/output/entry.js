@@ -1,6 +1,6 @@
 const c = 1;
-console.log('c', c);
 const c1 = c;
+console.log('c', c);
 const b = c1;
 console.log('b');
 const b1 = b;
