@@ -76,6 +76,9 @@ where
             );
 
             handle_reexport(&dep_info, &mut dep);
+
+            print_hygiene(&format!("dep: handle reexport"), &self.cm, &dep);
+
             // for stmt in &mut dep.body {
             //     let decl = match stmt {
             //         ModuleItem::ModuleDecl(decl) => decl,
@@ -160,8 +163,8 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
     let mut export_named_specifiers = vec![];
 
     for stmt in &mut module.body {
-        let stmt = stmt.take();
-        match &stmt {
+        let mut stmt = stmt.take();
+        match &mut stmt {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
                 match &export.decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
@@ -206,6 +209,24 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                     }
                 };
             }
+
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                for specifier in &mut export.specifiers {
+                    match specifier {
+                        ExportSpecifier::Namespace(ns) => {}
+                        ExportSpecifier::Default(default) => {}
+                        ExportSpecifier::Named(named) => match &mut named.exported {
+                            Some(exported) => {
+                                exported.span.ctxt = info.export_ctxt();
+                            }
+                            None => {}
+                        },
+                    }
+                }
+
+                new_body.push(stmt);
+            }
+
             _ => {
                 new_body.push(stmt);
                 continue;
