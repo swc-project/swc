@@ -195,7 +195,8 @@ where
                             n.local.span = n.local.span.with_ctxt(ctxt);
                         }
                         ImportSpecifier::Default(n) => {
-                            self.imported_idents.insert(n.local.to_id(), ctxt);
+                            self.imported_idents
+                                .insert(n.local.to_id(), n.local.span.ctxt);
                         }
                         ImportSpecifier::Namespace(n) => {
                             self.imported_idents.insert(n.local.to_id(), ctxt);
