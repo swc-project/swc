@@ -536,7 +536,7 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                         let expr = expr.take();
                         let export_name = Pat::Ident(Ident::new(
                             js_word!("default"),
-                            export.span.with_ctxt(info.local_ctxt()),
+                            export.span.with_ctxt(info.export_ctxt()),
                         ));
 
                         let init = match expr.ident {
@@ -568,7 +568,7 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                         let expr = expr.take();
                         let export_name = Ident::new(
                             js_word!("default"),
-                            export.span.with_ctxt(info.local_ctxt()),
+                            export.span.with_ctxt(info.export_ctxt()),
                         );
 
                         let init = match expr.ident {
@@ -598,7 +598,7 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
                         span: DUMMY_SP,
                         name: Pat::Ident(Ident::new(
                             js_word!("default"),
-                            DUMMY_SP.with_ctxt(info.local_ctxt()),
+                            DUMMY_SP.with_ctxt(info.export_ctxt()),
                         )),
                         init: Some(export.expr.take()),
                         definite: false,
