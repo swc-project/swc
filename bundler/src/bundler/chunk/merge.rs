@@ -79,6 +79,12 @@ where
                 );
 
                 module = self.merge_deps(ctx, module, plan, &info)?;
+
+                print_hygiene(
+                    &format!("after merging deps: {}", info.fm.name),
+                    &self.cm,
+                    &module,
+                );
             }
 
             if is_entry {
@@ -365,7 +371,7 @@ where
                 }
 
                 if dep_info.is_es6 {
-                    // print_hygiene("entry: before injection", &self.cm, &entry);
+                    print_hygiene("entry: before injection", &self.cm, &module);
 
                     match dep.ty {
                         DepType::Transitive => {
