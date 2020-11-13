@@ -75,7 +75,7 @@ where
                 &dep,
             );
 
-            handle_reexport(&dep_info, &mut dep);
+            self.handle_reexport(&dep_info, &mut dep);
 
             print_hygiene(&format!("dep: handle reexport"), &self.cm, &dep);
 
@@ -146,87 +146,87 @@ where
             Ok(dep)
         })
     }
-}
 
-/// # ExportDecl
-///
-/// For exported declarations, We should inject named exports.
-///
-/// ```ts
-/// export const b__9 = 1;
-/// console.log(b__9);
-/// ```
-///
-/// ```ts
-/// const b__9 = 1;
-/// export { b__9 as b__10 };
-/// console.log(b__9);
-/// ```
-fn handle_reexport(info: &TransformedModule, module: &mut Module) {
-    let mut new_body = Vec::with_capacity(module.body.len() + 20);
+    /// # ExportDecl
+    ///
+    /// For exported declarations, We should inject named exports.
+    ///
+    /// ```ts
+    /// export const b__9 = 1;
+    /// console.log(b__9);
+    /// ```
+    ///
+    /// ```ts
+    /// const b__9 = 1;
+    /// export { b__9 as b__10 };
+    /// console.log(b__9);
+    /// ```
+    fn handle_reexport(&self, info: &TransformedModule, module: &mut Module) {
+        let mut new_body = Vec::with_capacity(module.body.len() + 20);
 
-    for stmt in &mut module.body {
-        let mut vars = vec![];
-        let mut stmt = stmt.take();
+        for stmt in &mut module.body {
+            let mut vars = vec![];
+            let mut stmt = stmt.take();
 
-        match &mut stmt {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                for specifier in &import.specifiers {
-                    match specifier {
-                        ImportSpecifier::Named(named) => match &named.imported {
-                            Some(imported) => {
-                                vars.push(imported.clone().assign_to(named.local.clone()));
-                            }
-                            None => {}
-                        },
-                        _ => {}
+            match &mut stmt {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    for specifier in &import.specifiers {
+                        match specifier {
+                            ImportSpecifier::Named(named) => match &named.imported {
+                                Some(imported) => {
+                                    vars.push(imported.clone().assign_to(named.local.clone()));
+                                }
+                                None => {}
+                            },
+                            _ => {}
+                        }
                     }
+                    import.specifiers.clear();
                 }
-                import.specifiers.clear();
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                    match &export.decl {
+                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                            let mut exported = ident.clone();
+                            exported.span.ctxt = info.export_ctxt();
+
+                            vars.push(ident.clone().assign_to(exported));
+                        }
+                        Decl::Var(var) => {
+                            //
+                            let ids: Vec<Ident> = find_ids(&var.decls);
+
+                            vars.extend(
+                                ids.into_iter()
+                                    .map(|i| {
+                                        let mut exported = i.clone();
+                                        exported.span.ctxt = info.export_ctxt();
+
+                                        i.assign_to(exported)
+                                    })
+                                    .map(From::from),
+                            );
+                        }
+                        _ => {}
+                    };
+                }
+
+                _ => {}
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
-                match &export.decl {
-                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                        let mut exported = ident.clone();
-                        exported.span.ctxt = info.export_ctxt();
-
-                        vars.push(ident.clone().assign_to(exported));
-                    }
-                    Decl::Var(var) => {
-                        //
-                        let ids: Vec<Ident> = find_ids(&var.decls);
-
-                        vars.extend(
-                            ids.into_iter()
-                                .map(|i| {
-                                    let mut exported = i.clone();
-                                    exported.span.ctxt = info.export_ctxt();
-
-                                    i.assign_to(exported)
-                                })
-                                .map(From::from),
-                        );
-                    }
-                    _ => {}
-                };
+            new_body.push(stmt);
+            if !vars.is_empty() {
+                new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vars,
+                }))))
             }
-
-            _ => {}
         }
 
-        new_body.push(stmt);
-        if !vars.is_empty() {
-            new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Const,
-                declare: false,
-                decls: vars,
-            }))))
-        }
+        module.body = new_body;
     }
-
-    module.body = new_body;
 }
 
 pub(super) struct ExportInjector {
