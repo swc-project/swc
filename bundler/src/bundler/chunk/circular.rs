@@ -117,7 +117,7 @@ where
 
             print_hygiene("[circular] dep:init 1", &self.cm, &dep);
 
-            handle_import_deps(&dep_info, &mut dep);
+            handle_import_deps(&dep_info, &mut dep, true);
 
             print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 

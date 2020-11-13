@@ -155,7 +155,7 @@ where
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
             print_hygiene("import: After meging deps of a dep", &self.cm, &module);
-            handle_import_deps(&dep_info, &mut module);
+            handle_import_deps(&dep_info, &mut module, false);
             print_hygiene("import: After handle_import_deps", &self.cm, &module);
             module
         };
@@ -202,7 +202,7 @@ where
     fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
         let dep_info = self.scope.get_module(dep_id).unwrap();
         let mut module = self.merge_modules(ctx, dep_id, false, true)?;
-        handle_import_deps(&dep_info, &mut module);
+        handle_import_deps(&dep_info, &mut module, false);
 
         let var_decls = vars_from_exports(&dep_info, &module);
 
@@ -525,7 +525,14 @@ where
 }
 
 /// If a dependency aliased exports, we handle them at here.
-pub(super) fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
+///
+/// This function accepts `for_circular` because position of replaced import
+/// statement differs.
+pub(super) fn handle_import_deps(
+    info: &TransformedModule,
+    module: &mut Module,
+    for_circular: bool,
+) {
     let mut vars = vec![];
 
     for orig_stmt in module.body.iter_mut() {
@@ -533,27 +540,36 @@ pub(super) fn handle_import_deps(info: &TransformedModule, module: &mut Module) 
 
         match stmt {
             ModuleItem::ModuleDecl(ModuleDecl::Import(ref mut import)) => {
-                let mut vars = vec![];
+                let mut local_vars = vec![];
+
+                let target = if for_circular {
+                    &mut vars
+                } else {
+                    &mut local_vars
+                };
+
                 for specifier in &import.specifiers {
                     match specifier {
                         ImportSpecifier::Named(named) => match &named.imported {
                             Some(imported) => {
-                                vars.push(imported.clone().assign_to(named.local.clone()));
+                                target.push(imported.clone().assign_to(named.local.clone()));
                             }
                             None => {}
                         },
                         _ => {}
                     }
                 }
-                if vars.is_empty() {
-                    stmt.take();
-                } else {
-                    stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls: vars,
-                    })))
+                if !for_circular {
+                    if local_vars.is_empty() {
+                        stmt.take();
+                    } else {
+                        stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: local_vars,
+                        })))
+                    }
                 }
             }
 
