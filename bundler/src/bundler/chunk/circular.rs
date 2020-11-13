@@ -54,6 +54,15 @@ where
             .merge_modules(ctx, entry_id, false, false)
             .context("failed to merge dependency of a cyclic module")?;
 
+        if !ctx.merged.insert(entry_id) {
+            log::debug!("[circular] skip: {:?}", entry_id);
+            return Ok(Module {
+                span: DUMMY_SP,
+                body: Default::default(),
+                shebang: Default::default(),
+            });
+        }
+
         print_hygiene("[circular] entry:init", &self.cm, &entry);
 
         // entry.visit_mut_with(&mut ImportDropper {
@@ -65,6 +74,11 @@ where
 
         for dep in deps {
             if dep == entry_id {
+                continue;
+            }
+
+            if !ctx.merged.insert(dep) {
+                log::debug!("[circular] skip: {:?}", dep);
                 continue;
             }
 
