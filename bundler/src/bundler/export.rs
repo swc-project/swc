@@ -21,12 +21,14 @@ where
         &self,
         file_name: &FileName,
         module: &mut Module,
+        export_ctxt: SyntaxContext,
     ) -> RawExports {
         self.run(|| {
             let mut v = ExportFinder {
                 info: Default::default(),
                 file_name,
                 bundler: self,
+                export_ctxt,
             };
 
             module.visit_mut_with(&mut v);
@@ -56,6 +58,7 @@ where
     info: RawExports,
     file_name: &'a FileName,
     bundler: &'a Bundler<'b, L, R>,
+    export_ctxt: SyntaxContext,
 }
 
 impl<L, R> ExportFinder<'_, '_, L, R>
@@ -224,7 +227,18 @@ where
                         }
                         ExportSpecifier::Named(n) => {
                             if let Some((_, export_ctxt)) = ctxt {
-                                n.orig.span = n.orig.span.with_ctxt(export_ctxt);
+                                n.orig.span.ctxt = export_ctxt;
+                            }
+
+                            match &mut n.exported {
+                                Some(exported) => {
+                                    exported.span.ctxt = self.export_ctxt;
+                                }
+                                None => {
+                                    let mut exported: Ident = n.orig.clone();
+                                    exported.span.ctxt = self.export_ctxt;
+                                    n.exported = Some(exported);
+                                }
                             }
 
                             if let Some(exported) = &n.exported {
