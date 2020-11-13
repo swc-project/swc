@@ -13,6 +13,15 @@ pub(crate) trait ExprExt: Into<Expr> {
         let init = self.into();
         let lhs = lhs.into_id();
 
+        if cfg!(debug_assertions) {
+            match &init {
+                Expr::Ident(rhs) => {
+                    debug_assert_ne!(lhs, rhs.to_id());
+                }
+                _ => {}
+            }
+        }
+
         VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP.with_ctxt(lhs.1))),
