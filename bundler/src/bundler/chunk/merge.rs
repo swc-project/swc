@@ -61,31 +61,6 @@ where
                 .get_module_for_merging(module_id, is_entry)
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
-            // If we already merged the module, we just preserves import / exports
-            if !allow_circular && !ctx.merged.insert(module_id) {
-                module.body.retain(|item| match item {
-                    ModuleItem::ModuleDecl(decl) => {
-                        match decl {
-                            ModuleDecl::Import(_) => {}
-                            ModuleDecl::ExportDecl(_) => return false,
-                            ModuleDecl::ExportNamed(_) => {}
-                            ModuleDecl::ExportDefaultDecl(_) => {}
-                            ModuleDecl::ExportDefaultExpr(_) => {}
-                            ModuleDecl::ExportAll(_) => {}
-
-                            ModuleDecl::TsImportEquals(_)
-                            | ModuleDecl::TsExportAssignment(_)
-                            | ModuleDecl::TsNamespaceExport(_) => return false,
-                        }
-
-                        true
-                    }
-                    ModuleItem::Stmt(_) => false,
-                });
-
-                return Ok(module);
-            }
-
             {
                 let plan = ctx.plan.normal.get(&module_id);
                 let default_plan;

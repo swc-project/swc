@@ -4,6 +4,7 @@ use super::{
 };
 use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
+    debug::print_hygiene,
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
@@ -35,6 +36,7 @@ where
             plan
         );
         let entry_module = self.scope.get_module(entry_id).unwrap();
+
         let direct_deps = entry_module
             .imports
             .specifiers
@@ -52,9 +54,11 @@ where
             .merge_modules(ctx, entry_id, false, false)
             .context("failed to merge dependency of a cyclic module")?;
 
-        entry.visit_mut_with(&mut ImportDropper {
-            imports: &entry_module.imports,
-        });
+        print_hygiene("[circular] entry:init", &self.cm, &entry);
+
+        // entry.visit_mut_with(&mut ImportDropper {
+        //     imports: &entry_module.imports,
+        // });
         // print_hygiene("entry:drop_imports", &self.cm, &entry);
         let mut deps = plan.chunks.clone();
         deps.sort_by_key(|&dep| (!direct_deps.contains(&dep), dep));
@@ -70,11 +74,11 @@ where
 
             entry = new_module;
 
-            // print_hygiene(
-            //     "[circular] entry:merge_two_circular_modules",
-            //     &self.cm,
-            //     &entry,
-            // );
+            print_hygiene(
+                "[circular] entry:merge_two_circular_modules",
+                &self.cm,
+                &entry,
+            );
         }
 
         Ok(entry)
@@ -93,9 +97,9 @@ where
                 .merge_modules(ctx, dep, false, false)
                 .context("failed to merge dependency of a cyclic module")?;
 
-            // print_hygiene("[circular] dep:init", &self.cm, &dep);
+            print_hygiene("[circular] dep:init", &self.cm, &dep);
 
-            dep = dep.fold_with(&mut Unexporter);
+            // dep = dep.fold_with(&mut Unexporter);
 
             // Merge code
             entry.body = merge_respecting_order(dep.body, entry.body);
