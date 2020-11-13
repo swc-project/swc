@@ -62,7 +62,7 @@ where
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
             // If we already merged the module, we just preserves import / exports
-            if !ctx.merged.insert(module_id) {
+            if !allow_circular && !ctx.merged.insert(module_id) {
                 module.body.retain(|item| match item {
                     ModuleItem::ModuleDecl(decl) => {
                         match decl {
