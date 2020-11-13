@@ -1,11 +1,13 @@
 function a() {
     console.log("a()");
 }
-const a1 = a, foo = a1;
+const a1 = a;
+const foo = a1;
 function b() {
     console.log("a()");
 }
-const b1 = b, bar = b1;
+const b1 = b;
+const bar = b1;
 function a2() {
 }
 function b2() {
