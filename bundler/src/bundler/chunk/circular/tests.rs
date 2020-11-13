@@ -81,3 +81,40 @@ fn dep_index_class() {
 fn dep_index_export_class() {
     assert_dependency_index("class A extends B {}", "export class B {}", 0);
 }
+
+#[test]
+fn many_vars_1() {
+    assert_merge_respecting_order(
+        &[
+            "
+            const A6 = A5;
+            class B6 extends A6 {
+            }
+            const B7 = B6;
+
+            ",
+            "
+            const B4 = B7;
+            class A4 {
+                method() {
+                    return new B4();
+                }
+            }
+            const A5 = A4;
+            ",
+        ],
+        "
+        class A4 {
+            method() {
+                return new B4();
+            }
+        }
+        const A5 = A4;
+        const A6 = A5;
+        class B6 extends A6 {
+        }
+        const B7 = B6;
+        const B4 = B7;
+        ",
+    );
+}
