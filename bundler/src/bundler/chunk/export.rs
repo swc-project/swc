@@ -171,7 +171,6 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
 
         match &mut stmt {
             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                let mut vars = vec![];
                 for specifier in &import.specifiers {
                     match specifier {
                         ImportSpecifier::Named(named) => match &named.imported {
@@ -183,14 +182,7 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                         _ => {}
                     }
                 }
-                if !vars.is_empty() {
-                    stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls: vars,
-                    })));
-                }
+                import.specifiers.clear();
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
