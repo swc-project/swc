@@ -122,6 +122,10 @@ where
             //     }
             // }
 
+            if let Some(module_name) = self.scope.wrapped_esm_id(dep_info.id) {
+                dep = self.wrap_esm(dep_info.id, dep)?;
+            }
+
             if !specifiers.is_empty() {
                 dep.visit_mut_with(&mut UnexportAsVar {
                     dep_export_ctxt: dep_info.export_ctxt(),

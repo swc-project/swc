@@ -96,17 +96,34 @@ where
         // Now we handle imports
         let mut module = if wrapped {
             let mut module = self.get_module_for_merging(dep_id, false)?;
-            let module_ident = specifiers
-                .iter()
-                .find_map(|specifier| match specifier {
-                    Specifier::Namespace {
-                        local, all: true, ..
-                    } => Some(local.clone()),
-                    _ => None,
-                })
-                .unwrap();
-            // TODO: Store private ident in the scope.
-            module = self.wrap_esm(module, module_ident.into_ident())?;
+            module = self.wrap_esm(dep_id, module)?;
+
+            {
+                // Inject local_name = wrapped_esm_module_name
+
+                let module_ident = specifiers
+                    .iter()
+                    .find_map(|specifier| match specifier {
+                        Specifier::Namespace {
+                            local, all: true, ..
+                        } => Some(local.clone()),
+                        _ => None,
+                    })
+                    .unwrap();
+
+                module
+                    .body
+                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vec![self
+                            .scope
+                            .wrapped_esm_id(dep_id)
+                            .unwrap()
+                            .assign_to(module_ident)],
+                    }))));
+            }
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;

@@ -1,5 +1,5 @@
-use crate::{Bundler, Load, Resolve};
-use anyhow::Error;
+use crate::{Bundler, Load, ModuleId, Resolve};
+use anyhow::{bail, Error};
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -28,8 +28,12 @@ where
     ///     };
     /// })();
     /// ```
-    pub(super) fn wrap_esm(&self, module: Module, id: Ident) -> Result<Module, Error> {
+    pub(super) fn wrap_esm(&self, id: ModuleId, module: Module) -> Result<Module, Error> {
         let span = module.span;
+        let var_name = match self.scope.wrapped_esm_id(id) {
+            Some(v) => v,
+            None => bail!("{:?} should not be wrapped with a function", id),
+        };
 
         let mut module_items = vec![];
 
@@ -79,7 +83,7 @@ where
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 definite: false,
-                name: Pat::Ident(id.clone()),
+                name: Pat::Ident(var_name.into_ident()),
                 init: Some(Box::new(module_expr)),
             }],
         };
