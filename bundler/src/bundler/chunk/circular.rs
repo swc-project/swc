@@ -3,7 +3,10 @@ use super::{
     plan::CircularPlan,
 };
 use crate::{
-    bundler::{chunk::merge::Ctx, load::TransformedModule},
+    bundler::{
+        chunk::merge::{handle_import_deps, Ctx},
+        load::TransformedModule,
+    },
     debug::print_hygiene,
     Bundler, Load, ModuleId, Resolve,
 };
@@ -107,11 +110,16 @@ where
         dep: ModuleId,
     ) -> Result<Module, Error> {
         self.run(|| {
+            let dep_info = self.scope.get_module(dep).unwrap();
             let mut dep = self
                 .merge_modules(ctx, dep, false, false)
                 .context("failed to merge dependency of a cyclic module")?;
 
-            print_hygiene("[circular] dep:init", &self.cm, &dep);
+            print_hygiene("[circular] dep:init 1", &self.cm, &dep);
+
+            handle_import_deps(&dep_info, &mut dep);
+
+            print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
             // dep = dep.fold_with(&mut Unexporter);
 
