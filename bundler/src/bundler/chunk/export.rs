@@ -212,21 +212,6 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
                 };
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
-                for specifier in &mut export.specifiers {
-                    match specifier {
-                        ExportSpecifier::Namespace(ns) => {}
-                        ExportSpecifier::Default(default) => {}
-                        ExportSpecifier::Named(named) => match &mut named.exported {
-                            Some(exported) => {
-                                exported.span.ctxt = info.export_ctxt();
-                            }
-                            None => {}
-                        },
-                    }
-                }
-            }
-
             _ => {}
         }
 
