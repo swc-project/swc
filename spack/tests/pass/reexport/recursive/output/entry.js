@@ -1,6 +1,7 @@
 const e = 'e';
 console.log('e');
-const e1 = e, d = e1;
+const e1 = e;
+const d = e1;
 const d1 = d;
 console.log('d');
 console.log('c');
