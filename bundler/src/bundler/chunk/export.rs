@@ -170,6 +170,29 @@ fn handle_reexport(info: &TransformedModule, module: &mut Module) {
         let mut stmt = stmt.take();
 
         match &mut stmt {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                let mut vars = vec![];
+                for specifier in &import.specifiers {
+                    match specifier {
+                        ImportSpecifier::Named(named) => match &named.imported {
+                            Some(imported) => {
+                                vars.push(imported.clone().assign_to(named.local.clone()));
+                            }
+                            None => {}
+                        },
+                        _ => {}
+                    }
+                }
+                if !vars.is_empty() {
+                    stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vars,
+                    })));
+                }
+            }
+
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
                 match &export.decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
