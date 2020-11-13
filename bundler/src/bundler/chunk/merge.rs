@@ -557,11 +557,18 @@ pub(super) fn handle_import_deps(
                             None => {}
                         },
                         ImportSpecifier::Default(default) => {
-                            let imported = Ident::new(
-                                js_word!("default"),
-                                DUMMY_SP.with_ctxt(info.export_ctxt()),
-                            );
-                            target.push(imported.assign_to(default.local.clone()));
+                            if let Some((src, _)) = info
+                                .imports
+                                .specifiers
+                                .iter()
+                                .find(|s| s.0.src.value == import.src.value)
+                            {
+                                let imported = Ident::new(
+                                    js_word!("default"),
+                                    DUMMY_SP.with_ctxt(src.export_ctxt),
+                                );
+                                target.push(imported.assign_to(default.local.clone()));
+                            }
                         }
                         ImportSpecifier::Namespace(_) => {}
                     }
