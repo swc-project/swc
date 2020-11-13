@@ -124,6 +124,26 @@ where
 
             if let Some(module_name) = self.scope.wrapped_esm_id(dep_info.id) {
                 dep = self.wrap_esm(dep_info.id, dep)?;
+
+                for specifier in specifiers {
+                    match specifier {
+                        Specifier::Namespace { local, .. } => {
+                            dep.body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                                ExportDecl {
+                                    span: DUMMY_SP,
+                                    decl: Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Const,
+                                        declare: false,
+                                        decls: vec![module_name.assign_to(local.clone())],
+                                    }),
+                                },
+                            )));
+                            break;
+                        }
+                        _ => {}
+                    }
+                }
             }
 
             if !specifiers.is_empty() {
