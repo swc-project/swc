@@ -1,7 +1,8 @@
-const a = function() {
-    const a1 = "a";
+const mod = function() {
+    const a = "a";
     return {
-        a: a1
+        a
     };
 }();
+const a = mod;
 console.log(a); // { a: "a" }
