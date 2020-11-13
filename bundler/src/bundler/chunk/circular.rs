@@ -60,6 +60,8 @@ where
             });
         }
 
+        self.replace_import_specifiers(&entry_module, &mut entry);
+
         print_hygiene("[circular] entry:init", &self.cm, &entry);
 
         // entry.visit_mut_with(&mut ImportDropper {

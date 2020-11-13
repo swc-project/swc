@@ -523,30 +523,13 @@ where
         // );
     }
 
-    /// If a dependency aliased exports, we handle them at here.
-    ///
-    /// This function accepts `for_circular` because position of replaced import
-    /// statement differs.
-    pub(super) fn handle_import_deps(
-        &self,
-        info: &TransformedModule,
-        module: &mut Module,
-        for_circular: bool,
-    ) {
-        let mut vars = vec![];
-
-        for orig_stmt in module.body.iter_mut() {
-            let mut stmt = orig_stmt.take();
-
+    pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Module) {
+        for stmt in &mut module.body {
             match stmt {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ref mut import)) => {
-                    let mut local_vars = vec![];
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    let mut vars = vec![];
 
-                    let target = if for_circular {
-                        &mut vars
-                    } else {
-                        &mut local_vars
-                    };
+                    let target = &mut vars;
 
                     for specifier in &import.specifiers {
                         match specifier {
@@ -573,20 +556,37 @@ where
                             ImportSpecifier::Namespace(_) => {}
                         }
                     }
-                    if !for_circular {
-                        if local_vars.is_empty() {
-                            stmt.take();
-                        } else {
-                            stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Const,
-                                declare: false,
-                                decls: local_vars,
-                            })))
-                        }
+                    if vars.is_empty() {
+                        stmt.take();
+                    } else {
+                        *stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: vars,
+                        })))
                     }
                 }
+                _ => {}
+            }
+        }
+    }
 
+    /// If a dependency aliased exports, we handle them at here.
+    pub(super) fn handle_import_deps(
+        &self,
+        info: &TransformedModule,
+        module: &mut Module,
+        for_circular: bool,
+    ) {
+        self.replace_import_specifiers(info, module);
+
+        let mut vars = vec![];
+
+        for orig_stmt in module.body.iter_mut() {
+            let mut stmt = orig_stmt.take();
+
+            match stmt {
                 ModuleItem::ModuleDecl(mut decl) => {
                     stmt = match decl {
                         ModuleDecl::ExportNamed(export) => {
