@@ -333,6 +333,20 @@ where
             s.orig.span = s.orig.span.with_ctxt(ctxt);
         }
 
+        match &s.exported {
+            Some(exported) => {
+                debug_assert_eq!(
+                    exported.span.ctxt, self.module_ctxt,
+                    "Exported names should have same (local) context as top-level module items"
+                );
+            }
+            None => {
+                let exported =
+                    Ident::new(s.orig.sym.clone(), s.orig.span.with_ctxt(self.module_ctxt));
+                s.exported = Some(exported);
+            }
+        }
+
         s
     }
 

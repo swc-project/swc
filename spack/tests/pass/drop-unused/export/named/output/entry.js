@@ -1,2 +1,2 @@
 const foo = "a";
-export { foo };
+export { foo as foo };
