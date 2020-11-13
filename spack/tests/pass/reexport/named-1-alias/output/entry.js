@@ -1,6 +1,6 @@
 const b = 1;
 const b1 = b;
 console.log('b', b);
-const a = b1;
+const a1 = b1;
 console.log('a');
-export { a };
+export { a1 as a };
