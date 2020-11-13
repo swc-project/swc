@@ -1,14 +1,14 @@
-function getC2() {
+function getC() {
     return C;
 }
 class C {
 }
-const getC1 = getC3;
-const getC3 = getC2;
+const getC1 = getC;
+const getC2 = getC1;
 function a() {
     return new A();
 }
-class A extends getC1() {
+class A extends getC2() {
 }
 const a1 = a;
 const a2 = a1;
