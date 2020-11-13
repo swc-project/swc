@@ -520,6 +520,31 @@ fn handle_import_deps(info: &TransformedModule, module: &mut Module) {
 
     for stmt in module.body.iter_mut() {
         match stmt {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                let mut vars = vec![];
+                for specifier in &import.specifiers {
+                    match specifier {
+                        ImportSpecifier::Named(named) => match &named.imported {
+                            Some(imported) => {
+                                vars.push(imported.clone().assign_to(named.local.clone()));
+                            }
+                            None => {}
+                        },
+                        _ => {}
+                    }
+                }
+                if vars.is_empty() {
+                    stmt.take();
+                } else {
+                    *stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vars,
+                    })))
+                }
+            }
+
             ModuleItem::ModuleDecl(decl) => match decl {
                 ModuleDecl::ExportNamed(export) => {
                     for specifier in &export.specifiers {
