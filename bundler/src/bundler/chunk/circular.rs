@@ -64,11 +64,6 @@ where
                 continue;
             }
 
-            if !ctx.merged.insert(dep) {
-                log::debug!("[Circular merge] Already merged: {:?}", dep);
-                continue;
-            }
-
             log::debug!("Circular merge: {:?}", dep);
 
             let new_module = self.merge_two_circular_modules(ctx, &modules, entry, dep)?;
