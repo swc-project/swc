@@ -44,11 +44,12 @@ where
         self.run(|| {
             if allow_circular {
                 if let Some(plan) = ctx.plan.circular.get(&module_id) {
-                    let module = self.merge_circular(ctx, plan, module_id).with_context(|| {
-                        format!("failed to merge {:?} (circular import)", module_id)
-                    })?;
+                    let mut module =
+                        self.merge_circular(ctx, plan, module_id).with_context(|| {
+                            format!("failed to merge {:?} (circular import)", module_id)
+                        })?;
                     if is_entry {
-                        // TODO: finalize
+                        self.finalize_merging_of_entry(ctx, &mut module);
                     }
                     return Ok(module);
                 }
