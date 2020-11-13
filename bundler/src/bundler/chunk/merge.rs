@@ -155,7 +155,7 @@ where
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
             print_hygiene("import: After meging deps of a dep", &self.cm, &module);
-            handle_import_deps(&dep_info, &mut module, false);
+            self.handle_import_deps(&dep_info, &mut module, false);
             print_hygiene("import: After handle_import_deps", &self.cm, &module);
             module
         };
@@ -202,7 +202,7 @@ where
     fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
         let dep_info = self.scope.get_module(dep_id).unwrap();
         let mut module = self.merge_modules(ctx, dep_id, false, true)?;
-        handle_import_deps(&dep_info, &mut module, false);
+        self.handle_import_deps(&dep_info, &mut module, false);
 
         let var_decls = vars_from_exports(&dep_info, &module);
 
@@ -522,219 +522,220 @@ where
         //         .fold_with(&mut fixer(None)),
         // );
     }
-}
 
-/// If a dependency aliased exports, we handle them at here.
-///
-/// This function accepts `for_circular` because position of replaced import
-/// statement differs.
-pub(super) fn handle_import_deps(
-    info: &TransformedModule,
-    module: &mut Module,
-    for_circular: bool,
-) {
-    let mut vars = vec![];
+    /// If a dependency aliased exports, we handle them at here.
+    ///
+    /// This function accepts `for_circular` because position of replaced import
+    /// statement differs.
+    pub(super) fn handle_import_deps(
+        &self,
+        info: &TransformedModule,
+        module: &mut Module,
+        for_circular: bool,
+    ) {
+        let mut vars = vec![];
 
-    for orig_stmt in module.body.iter_mut() {
-        let mut stmt = orig_stmt.take();
+        for orig_stmt in module.body.iter_mut() {
+            let mut stmt = orig_stmt.take();
 
-        match stmt {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ref mut import)) => {
-                let mut local_vars = vec![];
+            match stmt {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ref mut import)) => {
+                    let mut local_vars = vec![];
 
-                let target = if for_circular {
-                    &mut vars
-                } else {
-                    &mut local_vars
-                };
-
-                for specifier in &import.specifiers {
-                    match specifier {
-                        ImportSpecifier::Named(named) => match &named.imported {
-                            Some(imported) => {
-                                target.push(imported.clone().assign_to(named.local.clone()));
-                            }
-                            None => {}
-                        },
-                        ImportSpecifier::Default(default) => {
-                            if let Some((src, _)) = info
-                                .imports
-                                .specifiers
-                                .iter()
-                                .find(|s| s.0.src.value == import.src.value)
-                            {
-                                let imported = Ident::new(
-                                    js_word!("default"),
-                                    DUMMY_SP.with_ctxt(src.export_ctxt),
-                                );
-                                target.push(imported.assign_to(default.local.clone()));
-                            }
-                        }
-                        ImportSpecifier::Namespace(_) => {}
-                    }
-                }
-                if !for_circular {
-                    if local_vars.is_empty() {
-                        stmt.take();
+                    let target = if for_circular {
+                        &mut vars
                     } else {
-                        stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Const,
-                            declare: false,
-                            decls: local_vars,
-                        })))
+                        &mut local_vars
+                    };
+
+                    for specifier in &import.specifiers {
+                        match specifier {
+                            ImportSpecifier::Named(named) => match &named.imported {
+                                Some(imported) => {
+                                    target.push(imported.clone().assign_to(named.local.clone()));
+                                }
+                                None => {}
+                            },
+                            ImportSpecifier::Default(default) => {
+                                if let Some((src, _)) = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|s| s.0.src.value == import.src.value)
+                                {
+                                    let imported = Ident::new(
+                                        js_word!("default"),
+                                        DUMMY_SP.with_ctxt(src.export_ctxt),
+                                    );
+                                    target.push(imported.assign_to(default.local.clone()));
+                                }
+                            }
+                            ImportSpecifier::Namespace(_) => {}
+                        }
+                    }
+                    if !for_circular {
+                        if local_vars.is_empty() {
+                            stmt.take();
+                        } else {
+                            stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Const,
+                                declare: false,
+                                decls: local_vars,
+                            })))
+                        }
                     }
                 }
-            }
 
-            ModuleItem::ModuleDecl(mut decl) => {
-                stmt = match decl {
-                    ModuleDecl::ExportNamed(export) => {
-                        for specifier in &export.specifiers {
-                            match specifier {
-                                ExportSpecifier::Namespace(ns) => {
-                                    let mut lhs = ns.name.clone();
-                                    lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                    vars.push(ns.name.clone().assign_to(lhs));
-                                }
-                                ExportSpecifier::Default(default) => {
-                                    let mut lhs = default.exported.clone();
-                                    lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                    vars.push(default.exported.clone().assign_to(lhs));
-                                }
-                                ExportSpecifier::Named(named) => match &named.exported {
-                                    Some(exported) => {
-                                        let mut lhs = exported.clone();
+                ModuleItem::ModuleDecl(mut decl) => {
+                    stmt = match decl {
+                        ModuleDecl::ExportNamed(export) => {
+                            for specifier in &export.specifiers {
+                                match specifier {
+                                    ExportSpecifier::Namespace(ns) => {
+                                        let mut lhs = ns.name.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(named.orig.clone().assign_to(lhs));
+                                        vars.push(ns.name.clone().assign_to(lhs));
                                     }
-                                    None => {
-                                        let mut lhs = named.orig.clone();
+                                    ExportSpecifier::Default(default) => {
+                                        let mut lhs = default.exported.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(named.orig.clone().assign_to(lhs));
+                                        vars.push(default.exported.clone().assign_to(lhs));
                                     }
-                                },
+                                    ExportSpecifier::Named(named) => match &named.exported {
+                                        Some(exported) => {
+                                            let mut lhs = exported.clone();
+                                            lhs.span = lhs.span.with_ctxt(info.export_ctxt());
+                                            vars.push(named.orig.clone().assign_to(lhs));
+                                        }
+                                        None => {
+                                            let mut lhs = named.orig.clone();
+                                            lhs.span = lhs.span.with_ctxt(info.export_ctxt());
+                                            vars.push(named.orig.clone().assign_to(lhs));
+                                        }
+                                    },
+                                }
                             }
+
+                            ModuleItem::dummy()
                         }
+                        ModuleDecl::ExportDefaultDecl(ref mut export) => match &mut export.decl {
+                            DefaultDecl::Class(expr) => {
+                                let expr = expr.take();
+                                let export_name = Pat::Ident(Ident::new(
+                                    js_word!("default"),
+                                    export.span.with_ctxt(info.export_ctxt()),
+                                ));
 
-                        ModuleItem::dummy()
-                    }
-                    ModuleDecl::ExportDefaultDecl(ref mut export) => match &mut export.decl {
-                        DefaultDecl::Class(expr) => {
-                            let expr = expr.take();
-                            let export_name = Pat::Ident(Ident::new(
-                                js_word!("default"),
-                                export.span.with_ctxt(info.export_ctxt()),
-                            ));
+                                let (init, s) = match expr.ident {
+                                    Some(name) => {
+                                        (
+                                            Expr::Ident(name.clone()),
+                                            ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                                                // Context of the span is local.
+                                                ident: name,
+                                                declare: false,
+                                                class: expr.class,
+                                            }))),
+                                        )
+                                    }
+                                    None => (
+                                        Expr::Class(expr),
+                                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+                                    ),
+                                };
 
-                            let (init, s) = match expr.ident {
-                                Some(name) => {
-                                    (
+                                vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: export_name,
+                                    init: Some(Box::new(init)),
+                                    definite: false,
+                                });
+
+                                s
+                            }
+                            DefaultDecl::Fn(expr) => {
+                                let expr = expr.take();
+                                let export_name = Ident::new(
+                                    js_word!("default"),
+                                    export.span.with_ctxt(info.export_ctxt()),
+                                );
+
+                                let (init, s) = match expr.ident {
+                                    Some(name) => (
                                         Expr::Ident(name.clone()),
-                                        ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
-                                            // Context of the span is local.
+                                        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
                                             ident: name,
                                             declare: false,
-                                            class: expr.class,
+                                            function: expr.function,
                                         }))),
-                                    )
-                                }
-                                None => (
-                                    Expr::Class(expr),
-                                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
-                                ),
-                            };
+                                    ),
+                                    None => (
+                                        Expr::Fn(expr),
+                                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+                                    ),
+                                };
 
+                                vars.push(init.assign_to(export_name));
+                                s
+                            }
+                            DefaultDecl::TsInterfaceDecl(_) => {
+                                ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                            }
+                        },
+                        ModuleDecl::ExportDecl(export) => {
+                            match &export.decl {
+                                Decl::Class(ClassDecl { ident, .. })
+                                | Decl::Fn(FnDecl { ident, .. }) => {
+                                    let mut exported = ident.clone();
+                                    exported.span.ctxt = info.export_ctxt();
+                                    vars.push(ident.clone().assign_to(exported));
+                                }
+                                Decl::Var(var) => {
+                                    let ids: Vec<Ident> = find_ids(var);
+
+                                    for id in ids {
+                                        let mut exported = id.clone();
+                                        exported.span.ctxt = info.export_ctxt();
+                                        vars.push(id.assign_to(exported));
+                                    }
+                                }
+                                _ => {}
+                            }
+
+                            ModuleItem::Stmt(Stmt::Decl(export.decl))
+                        }
+                        ModuleDecl::ExportDefaultExpr(mut export) => {
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: export_name,
-                                init: Some(Box::new(init)),
+                                name: Pat::Ident(Ident::new(
+                                    js_word!("default"),
+                                    DUMMY_SP.with_ctxt(info.export_ctxt()),
+                                )),
+                                init: Some(export.expr.take()),
                                 definite: false,
                             });
-
-                            s
-                        }
-                        DefaultDecl::Fn(expr) => {
-                            let expr = expr.take();
-                            let export_name = Ident::new(
-                                js_word!("default"),
-                                export.span.with_ctxt(info.export_ctxt()),
-                            );
-
-                            let (init, s) = match expr.ident {
-                                Some(name) => (
-                                    Expr::Ident(name.clone()),
-                                    ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                        ident: name,
-                                        declare: false,
-                                        function: expr.function,
-                                    }))),
-                                ),
-                                None => (
-                                    Expr::Fn(expr),
-                                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
-                                ),
-                            };
-
-                            vars.push(init.assign_to(export_name));
-                            s
-                        }
-                        DefaultDecl::TsInterfaceDecl(_) => {
                             ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                         }
-                    },
-                    ModuleDecl::ExportDecl(export) => {
-                        match &export.decl {
-                            Decl::Class(ClassDecl { ident, .. })
-                            | Decl::Fn(FnDecl { ident, .. }) => {
-                                let mut exported = ident.clone();
-                                exported.span.ctxt = info.export_ctxt();
-                                vars.push(ident.clone().assign_to(exported));
-                            }
-                            Decl::Var(var) => {
-                                let ids: Vec<Ident> = find_ids(var);
-
-                                for id in ids {
-                                    let mut exported = id.clone();
-                                    exported.span.ctxt = info.export_ctxt();
-                                    vars.push(id.assign_to(exported));
-                                }
-                            }
-                            _ => {}
-                        }
-
-                        ModuleItem::Stmt(Stmt::Decl(export.decl))
+                        _ => ModuleItem::ModuleDecl(decl),
                     }
-                    ModuleDecl::ExportDefaultExpr(mut export) => {
-                        vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(Ident::new(
-                                js_word!("default"),
-                                DUMMY_SP.with_ctxt(info.export_ctxt()),
-                            )),
-                            init: Some(export.expr.take()),
-                            definite: false,
-                        });
-                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-                    }
-                    _ => ModuleItem::ModuleDecl(decl),
                 }
+                ModuleItem::Stmt(_) => {}
             }
-            ModuleItem::Stmt(_) => {}
+
+            *orig_stmt = stmt;
         }
 
-        *orig_stmt = stmt;
-    }
-
-    if !vars.is_empty() {
-        module
-            .body
-            .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Const,
-                declare: false,
-                decls: vars,
-            }))))
+        if !vars.is_empty() {
+            module
+                .body
+                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vars,
+                }))))
+        }
     }
 }
 

@@ -1,12 +1,6 @@
-use super::{
-    merge::{ImportDropper, Unexporter},
-    plan::CircularPlan,
-};
+use super::plan::CircularPlan;
 use crate::{
-    bundler::{
-        chunk::merge::{handle_import_deps, Ctx},
-        load::TransformedModule,
-    },
+    bundler::{chunk::merge::Ctx, load::TransformedModule},
     debug::print_hygiene,
     Bundler, Load, ModuleId, Resolve,
 };
@@ -117,7 +111,7 @@ where
 
             print_hygiene("[circular] dep:init 1", &self.cm, &dep);
 
-            handle_import_deps(&dep_info, &mut dep, true);
+            self.handle_import_deps(&dep_info, &mut dep, true);
 
             print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
