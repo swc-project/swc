@@ -188,7 +188,7 @@ where
             {
                 return import;
             }
-            if let Some((local_ctxt, export_ctxt)) = self.ctxt_for(&import.src.value) {
+            if let Some((_, export_ctxt)) = self.ctxt_for(&import.src.value) {
                 import.span = import.span.with_ctxt(export_ctxt);
 
                 for specifier in &mut import.specifiers {
@@ -196,10 +196,12 @@ where
                         ImportSpecifier::Named(n) => {
                             self.imported_idents.insert(n.local.to_id(), export_ctxt);
                             match &mut n.imported {
-                                Some(imported) => {}
+                                Some(imported) => {
+                                    imported.span.ctxt = export_ctxt;
+                                }
                                 None => {
                                     let mut imported: Ident = n.local.clone();
-                                    imported.span.ctxt = local_ctxt;
+                                    imported.span.ctxt = export_ctxt;
                                     n.imported = Some(imported);
                                 }
                             }
