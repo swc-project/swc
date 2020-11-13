@@ -72,7 +72,11 @@ where
                     }
                 };
 
-                print_hygiene("before merging deps", &self.cm, &module);
+                print_hygiene(
+                    &format!("before merging deps: {}", info.fm.name),
+                    &self.cm,
+                    &module,
+                );
 
                 module = self.merge_deps(ctx, module, plan, &info)?;
             }
