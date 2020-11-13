@@ -556,7 +556,14 @@ pub(super) fn handle_import_deps(
                             }
                             None => {}
                         },
-                        _ => {}
+                        ImportSpecifier::Default(default) => {
+                            let imported = Ident::new(
+                                js_word!("default"),
+                                DUMMY_SP.with_ctxt(info.export_ctxt()),
+                            );
+                            target.push(imported.assign_to(default.local.clone()));
+                        }
+                        ImportSpecifier::Namespace(_) => {}
                     }
                 }
                 if !for_circular {
