@@ -1,7 +1,9 @@
 class Root {
 }
 const Root1 = Root;
-export class A extends Root1 {
+const Root2 = Root1;
+export class A extends Root2 {
 }
-export class B extends Root1 {
+const Root3 = Root1;
+export class B extends Root3 {
 }

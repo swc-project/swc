@@ -1,7 +1,7 @@
 function deferred() {
 }
 const deferred1 = deferred;
-const deferred2 = deferred;
+const deferred2 = deferred1;
 class MuxAsyncIterator {
     constructor(){
         this.signal = deferred2();
