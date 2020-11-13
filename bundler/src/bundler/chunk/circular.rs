@@ -2,12 +2,14 @@ use super::plan::CircularPlan;
 use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
     debug::print_hygiene,
+    id::Id,
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
 use std::borrow::Borrow;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitMutWith, VisitWith};
 
 #[cfg(test)]
@@ -60,7 +62,7 @@ where
             });
         }
 
-        self.replace_import_specifiers(&entry_module, &mut entry);
+        self.handle_import_deps(&entry_module, &mut entry, true);
 
         print_hygiene("[circular] entry:init", &self.cm, &entry);
 
@@ -235,7 +237,7 @@ where
                 }))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
                     log::trace!(
-                        "Decl (from dep) = {}{:?}, Ident = {}{:?}",
+                        "Class decl (from dep) = {}{:?}, Ident = {}{:?}",
                         decl.ident.sym,
                         decl.ident.span.ctxt,
                         i.sym,
@@ -245,6 +247,22 @@ where
                         self.idx = Some(idx);
                         log::debug!("Index is {}", idx);
                         break;
+                    }
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(decl),
+                    ..
+                }))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                    let ids: Vec<Id> = find_ids(decl);
+
+                    for id in ids {
+                        if id == *i {
+                            self.idx = Some(idx);
+                            log::debug!("Index is {}", idx);
+                            break;
+                        }
                     }
                 }
 
