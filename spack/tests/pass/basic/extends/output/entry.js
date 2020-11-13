@@ -1,7 +1,7 @@
-class B {
+class B3 {
 }
-const B1 = B;
-class A extends B1 {
+const B1 = B3, B2 = B1;
+class A extends B2 {
 }
-const A1 = A;
-console.log(A1, B1);
+const A1 = A, A2 = A1;
+console.log(A2, B);
