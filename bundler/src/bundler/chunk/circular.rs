@@ -3,10 +3,16 @@ use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
     debug::print_hygiene,
     id::Id,
+    util::graph::NodeId,
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
-use std::borrow::Borrow;
+use indexmap::IndexSet;
+use petgraph::graphmap::DiGraphMap;
+use std::{
+    borrow::Borrow,
+    collections::{HashMap, HashSet},
+};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -134,65 +140,114 @@ where
     }
 }
 
+type StmtDepGraph = DiGraphMap<usize, ()>;
+
 /// Originally, this method should create a dependency graph, but
-fn merge_respecting_order(mut dep: Vec<ModuleItem>, mut entry: Vec<ModuleItem>) -> Vec<ModuleItem> {
+///
+/// TODO: Merge all module at once
+fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<ModuleItem> {
     let mut new = Vec::with_capacity(dep.len() + entry.len());
 
-    // While looping over items from entry, we check for dependency.
-    loop {
-        if dep.is_empty() {
-            log::trace!("dep is empty");
-            break;
-        }
-        let item = dep.drain(..=0).next().unwrap();
-
-        // Everything from  dep is injected
-        if entry.is_empty() {
-            log::trace!("dep is empty");
-            new.push(item);
-            new.append(&mut dep);
-            break;
-        }
-
-        // If the code of entry depends on dependency, we insert dependency source code
-        // at the position.
-        if let Some(pos) = dependency_index(&item, &entry) {
-            log::trace!("Found depndency: {}", pos);
-
-            new.extend(entry.drain(..=pos));
-            new.push(item);
-            continue;
-        }
-
-        // We checked the length of `dep`
-        if let Some(pos) = dependency_index(&entry[0], &[&item]) {
-            log::trace!("Found reverse depndency (index[0]): {}", pos);
-
-            new.push(item);
-            new.extend(entry.drain(..=0));
-            continue;
-        }
-
-        if let Some(pos) = dependency_index(&entry[0], &dep) {
-            log::trace!("Found reverse depndency: {}", pos);
-
-            new.push(item);
-            new.extend(dep.drain(..=pos));
-            new.extend(entry.drain(..=0));
-            continue;
-        }
-
-        log::trace!("No dependency");
-
-        new.push(item);
-    }
-
+    new.extend(entry);
     new.extend(dep);
 
-    // Append remaining statements.
-    new.extend(entry);
+    let mut graph = StmtDepGraph::default();
+    let mut declared_by = HashMap::<Id, usize>::default();
+
+    for (idx, item) in new.iter().enumerate() {
+        {
+            graph.add_node(idx);
+
+            // We start by calculating ids created by statements. Note that we don't need to
+            // analyze bodies of functions nor members of classes, because it's not
+            // evaludated until they are called.
+
+            match item {
+                // We only check declarations because ids are created by declarations.
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+                | ModuleItem::Stmt(Stmt::Decl(decl)) => {
+                    //
+                    match decl {
+                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                            declared_by.insert(Id::from(ident), idx);
+                        }
+                        Decl::Var(vars) => {
+                            let ids: Vec<Id> = find_ids(&vars.decls);
+
+                            for id in ids {
+                                declared_by.insert(id, idx);
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        {
+            // We then calculate which ids a statement require to be executed.
+            // Again, we don't need to analyze non-top-level idents because they
+            // are not evaluated while lpoading module.
+        }
+    }
 
     new
+}
+
+/// We do not care about variables created by current statement.
+/// But we care about modifications.
+struct RequirementCalculartor {
+    required_ids: IndexSet<Id>,
+    in_var_decl: bool,
+}
+
+impl Visit for RequirementCalculartor {
+    noop_visit_type!();
+
+    fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
+        match pat {
+            Pat::Ident(i) => {
+                // We do not care about variables created by current statement.
+                if self.in_var_decl {
+                    return;
+                }
+                self.required_ids.insert(i.into());
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_var_declarator(&mut self, var: &VarDeclarator, _: &dyn Node) {
+        let in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+
+        var.visit_children_with(self);
+
+        self.in_var_decl = in_var_decl;
+    }
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
+        match expr {
+            Expr::Ident(i) => {
+                self.required_ids.insert(i.into());
+            }
+            _ => {
+                expr.visit_children_with(self);
+            }
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e as _, self);
+
+        if e.computed {
+            e.prop.visit_with(e as _, self);
+        }
+    }
 }
 
 /// Searches for top level declaration which provides requirements for `deps`.
@@ -266,11 +321,7 @@ where
                     }
                 }
 
-                dep => {
-                    if DepUsageFinder::find(i, dep) {
-                        self.last_usage_idx = Some(idx);
-                    }
-                }
+                dep => {}
             }
         }
     }
@@ -298,68 +349,4 @@ where
     /// We only search for top-level binding
     #[inline]
     fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
-}
-
-/// Finds usage of `ident`
-struct DepUsageFinder<'a> {
-    ident: &'a Ident,
-    found: bool,
-}
-
-impl<'a> Visit for DepUsageFinder<'a> {
-    noop_visit_type!();
-
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
-        if self.found {
-            return;
-        }
-
-        match &e.callee {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(..) => {}
-                _ => {
-                    callee.visit_with(e, self);
-                }
-            },
-        }
-
-        e.args.visit_with(e, self);
-    }
-
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if self.found {
-            return;
-        }
-
-        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
-            self.found = true;
-        }
-    }
-
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        if self.found {
-            return;
-        }
-
-        e.obj.visit_with(e as _, self);
-
-        if e.computed {
-            e.prop.visit_with(e as _, self);
-        }
-    }
-}
-
-impl<'a> DepUsageFinder<'a> {
-    pub fn find<N>(ident: &'a Ident, node: &N) -> bool
-    where
-        N: VisitWith<Self>,
-    {
-        let mut v = DepUsageFinder {
-            ident,
-            found: false,
-        };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-        v.found
-    }
 }
