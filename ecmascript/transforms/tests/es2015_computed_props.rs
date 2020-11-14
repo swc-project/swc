@@ -31,6 +31,19 @@ export const c = _defineProperty({
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(),
+    big_int,
+    "
+const b = {1n: 1, [x]: 'x', 2n: 2}
+",
+    "var _obj;
+const b = (_obj = {
+    1n: 1
+}, _defineProperty(_obj, x, 'x'), _defineProperty(_obj, 2n, 2), _obj);"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| computed_properties(),
     accessors,
     r#"var obj = {
   get [foobar]() {
@@ -133,7 +146,7 @@ test!(
 };"#,
     r#"var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), 
+var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"),
 _defineProperty(_obj, "y" + bar, "noo"), _obj);"#
 );
 
