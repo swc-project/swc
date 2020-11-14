@@ -881,7 +881,8 @@ impl<I: Tokens> Parser<I> {
             | js_word!("bigint")
             | js_word!("symbol")
             | js_word!("void")
-            | js_word!("never") => {
+            | js_word!("never")
+            | js_word!("intrinsic") => {
                 self.emit_err(id.span, SyntaxError::TS2427);
             }
             _ => {}
@@ -1607,12 +1608,8 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!();
 
         let lit = if is!('`') {
-            let tpl = self.parse_tpl()?;
-            if !tpl.exprs.is_empty() {
-                // template literals with expressions are not
-                // allowed in a type
-                self.emit_err(span!(start), SyntaxError::TS1110);
-            }
+            let tpl = self.parse_ts_tpl_lit_type()?;
+
             TsLit::Tpl(tpl)
         } else {
             match self.parse_lit()? {
@@ -1628,6 +1625,47 @@ impl<I: Tokens> Parser<I> {
             span: span!(start),
             lit,
         })
+    }
+
+    /// `tsParseTemplateLiteralType`
+    fn parse_ts_tpl_lit_type(&mut self) -> PResult<TsTplLitType> {
+        debug_assert!(self.input.syntax().typescript());
+
+        let start = cur_pos!();
+
+        assert_and_bump!('`');
+
+        let (types, quasis) = self.parse_ts_tpl_type_elements()?;
+
+        expect!('`');
+
+        Ok(TsTplLitType {
+            span: span!(start),
+            types,
+            quasis,
+        })
+    }
+
+    #[allow(clippy::vec_box)]
+    fn parse_ts_tpl_type_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
+        trace_cur!(parse_tpl_elements);
+
+        let mut types = vec![];
+
+        let cur_elem = self.parse_tpl_element(false)?;
+        let mut is_tail = cur_elem.tail;
+        let mut quasis = vec![cur_elem];
+
+        while !is_tail {
+            expect!("${");
+            types.push(self.parse_ts_type()?);
+            expect!('}');
+            let elem = self.parse_tpl_element(false)?;
+            is_tail = elem.tail;
+            quasis.push(elem);
+        }
+
+        Ok((types, quasis))
     }
 
     /// `tsParseBindingListForSignature`
@@ -1736,6 +1774,8 @@ impl<I: Tokens> Parser<I> {
                     Some(TsKeywordTypeKind::TsUnknownKeyword)
                 } else if is!("undefined") {
                     Some(TsKeywordTypeKind::TsUndefinedKeyword)
+                } else if is!("intrinsic") {
+                    Some(TsKeywordTypeKind::TsIntrinsicKeyword)
                 } else {
                     None
                 };

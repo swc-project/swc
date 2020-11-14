@@ -1,8 +1,8 @@
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config, ModuleType},
-    hook::Hook,
+    hook::{Hook, ModuleRecord},
     id::ModuleId,
-    load::Load,
+    load::{Load, ModuleData},
     resolve::Resolve,
 };
 

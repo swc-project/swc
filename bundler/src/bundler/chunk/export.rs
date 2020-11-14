@@ -85,23 +85,54 @@ where
 
             // export * from './foo';
             if specifiers.is_empty() {
-                decls_for_reexport.entry(src.module_id).or_default().extend(
-                    imported
-                        .exports
-                        .items
-                        .iter()
-                        .chain(imported.exports.reexports.iter().map(|v| &*v.1).flatten())
-                        .map(|specifier| match specifier {
-                            Specifier::Specific { local, alias } => VarDeclarator {
+                let vars = decls_for_reexport.entry(src.module_id).or_default();
+
+                for specifier in imported.exports.items.iter() {
+                    let var = match specifier {
+                        Specifier::Specific { local, alias } => {
+                            let init = Some(Box::new(Expr::Ident(
+                                alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
+                            )));
+
+                            VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(
                                     local.clone().replace_mark(info.mark()).into_ident(),
                                 ),
-                                init: Some(Box::new(Expr::Ident(
-                                    alias.clone().unwrap_or_else(|| local.clone()).into_ident(),
-                                ))),
+                                init,
                                 definite: false,
-                            },
+                            }
+                        }
+                        Specifier::Namespace { local, .. } => VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(local.clone().replace_mark(info.mark()).into_ident()),
+                            init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
+                            definite: false,
+                        },
+                    };
+                    vars.push(var)
+                }
+
+                for (_, specifiers) in imported.exports.reexports.iter() {
+                    for specifier in specifiers {
+                        let var = match specifier {
+                            Specifier::Specific { local, alias } => {
+                                let init = match alias {
+                                    Some(alias) => {
+                                        Some(Box::new(Expr::Ident(alias.clone().into_ident())))
+                                    }
+                                    None => continue,
+                                };
+
+                                VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(
+                                        local.clone().replace_mark(info.mark()).into_ident(),
+                                    ),
+                                    init,
+                                    definite: false,
+                                }
+                            }
                             Specifier::Namespace { local, .. } => VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(
@@ -110,24 +141,27 @@ where
                                 init: Some(Box::new(Expr::Ident(local.clone().into_ident()))),
                                 definite: false,
                             },
-                        }),
-                );
+                        };
+                        vars.push(var)
+                    }
+                }
             };
         }
 
         let deps = reexports
             .into_par_iter()
             .map(|(src, specifiers)| -> Result<_, Error> {
+                let imported = self.scope.get_module(src.module_id).unwrap();
+                assert!(imported.is_es6, "Reexports are es6 only");
+
+                info.helpers.extend(&imported.helpers);
+                info.swc_helpers.extend_from(&imported.swc_helpers);
+
                 if !merged.insert(src.module_id) {
                     return Ok(None);
                 }
 
                 log::debug!("Merging exports: {}  <- {}", info.fm.name, src.src.value);
-
-                let imported = self.scope.get_module(src.module_id).unwrap();
-                assert!(imported.is_es6, "Reexports are es6 only");
-
-                info.helpers.extend(&imported.helpers);
 
                 let mut dep = self
                     .merge_modules(plan, src.module_id, false, false, merged)
@@ -150,19 +184,6 @@ where
 
                 if let Some(id) = id_of_export_namespace_from {
                     dep = self.wrap_esm_as_a_var(plan, dep, &imported, merged, id)?;
-
-                    let module_plan;
-                    let module_plan = match plan.normal.get(&info.id) {
-                        Some(v) => v,
-                        None => {
-                            module_plan = Default::default();
-                            &module_plan
-                        }
-                    };
-
-                    dep = self
-                        .merge_imports(plan, &module_plan, dep, &info, merged, false)
-                        .context("failed to merge imports")?;
                 } else {
                     dep = self.remark_exports(dep, src.ctxt, None, false);
                 }
@@ -215,9 +236,7 @@ where
                             let local = local.replace_mark(info.mark());
                             (local.into_ident(), alias.into_ident())
                         }
-                        Specifier::Namespace { local, all } => {
-                            unimplemented!("namespaced re-export: local={:?}, all={}", local, all)
-                        }
+                        Specifier::Namespace { .. } => continue,
                     };
 
                     add_to.push((imported, exported));
@@ -298,14 +317,16 @@ where
 
             // Inject variables
             if let Some(decls) = decls_for_reexport.remove(&src.module_id) {
-                entry
-                    .body
-                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls,
-                    }))));
+                if !decls.is_empty() {
+                    entry
+                        .body
+                        .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls,
+                        }))));
+                }
             }
 
             // print_hygiene(

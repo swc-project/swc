@@ -75,12 +75,6 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             .unwrap()
             .to_string();
 
-        let input = {
-            let mut buf = String::new();
-            File::open(entry.path())?.read_to_string(&mut buf)?;
-            buf
-        };
-
         // Ignore some useless tests
         let ignore = file_name.contains("tsc/es6/functionDeclarations/FunctionDeclaration7_es6")
             || file_name
@@ -141,10 +135,21 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             file_name
         );
         add_test(tests, name, ignore, move || {
-            eprintln!(
-                "\n\n========== Running reference test {}\nSource:\n{}\n",
-                file_name, input
-            );
+            if env::var("CI").is_err() {
+                let input = {
+                    let mut buf = String::new();
+                    File::open(entry.path())
+                        .unwrap()
+                        .read_to_string(&mut buf)
+                        .unwrap();
+                    buf
+                };
+
+                eprintln!(
+                    "\n\n========== Running reference test {}\nSource:\n{}\n",
+                    file_name, input
+                );
+            }
 
             let path = dir.join(&file_name);
             if errors {

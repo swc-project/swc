@@ -2,6 +2,7 @@ use super::{export::Exports, helpers::Helpers, Bundler};
 use crate::{
     bundler::{export::RawExports, import::RawImports},
     id::{Id, ModuleId},
+    load::ModuleData,
     util,
     util::IntoParallelIterator,
     Load, Resolve,
@@ -32,6 +33,8 @@ pub(super) struct TransformedModule {
 
     /// Used helpers
     pub helpers: Lrc<Helpers>,
+
+    pub swc_helpers: Lrc<swc_ecma_transforms::helpers::Helpers>,
 
     mark: Mark,
 }
@@ -69,9 +72,9 @@ where
                 return Ok(Some(cached));
             }
 
-            let (_, fm, module) = self.load(&file_name).context("Bundler.load() failed")?;
+            let (_, data) = self.load(&file_name).context("Bundler.load() failed")?;
             let (v, mut files) = self
-                .analyze(&file_name, fm.clone(), module)
+                .analyze(&file_name, data)
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
@@ -96,16 +99,16 @@ where
         })
     }
 
-    fn load(&self, file_name: &FileName) -> Result<(ModuleId, Lrc<SourceFile>, Module), Error> {
+    fn load(&self, file_name: &FileName) -> Result<(ModuleId, ModuleData), Error> {
         self.run(|| {
             let (module_id, _) = self.scope.module_id_gen.gen(file_name);
 
-            let (fm, module) = self
+            let data = self
                 .loader
                 .load(&file_name)
                 .with_context(|| format!("Bundler.loader.load({}) failed", file_name))?;
             self.scope.mark_as_loaded(module_id);
-            Ok((module_id, fm, module))
+            Ok((module_id, data))
         })
     }
 
@@ -113,14 +116,13 @@ where
     fn analyze(
         &self,
         file_name: &FileName,
-        fm: Lrc<SourceFile>,
-        mut module: Module,
+        data: ModuleData,
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            log::trace!("transform_module({})", fm.name);
+            log::trace!("transform_module({})", data.fm.name);
             let (id, mark) = self.scope.module_id_gen.gen(file_name);
 
-            module = module.fold_with(&mut resolver_with_mark(mark));
+            let mut module = data.module.fold_with(&mut resolver_with_mark(mark));
 
             // {
             //     let code = self
@@ -180,13 +182,14 @@ where
             Ok((
                 TransformedModule {
                     id,
-                    fm,
+                    fm: data.fm,
                     module,
                     imports: Lrc::new(imports),
                     exports: Lrc::new(exports),
                     is_es6,
                     helpers: Default::default(),
                     mark,
+                    swc_helpers: Lrc::new(data.helpers),
                 },
                 import_files,
             ))

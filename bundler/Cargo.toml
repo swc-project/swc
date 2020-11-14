@@ -1,12 +1,14 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+# OUT_DIR is required for testing
+build = "build.rs"
 description = "Very fast ecmascript bundler"
 documentation = "https://swc.rs/rustdoc/swc_bundler/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_bundler"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.13.0"
+version = "0.16.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
@@ -28,15 +30,17 @@ relative-path = "1.2"
 retain_mut = "=0.1.1"
 swc_atoms = {version = "0.2.4", path = "../atoms"}
 swc_common = {version = "0.10.0", path = "../common"}
-swc_ecma_ast = {version = "0.33.0", path = "../ecmascript/ast"}
-swc_ecma_codegen = {version = "0.39.0", path = "../ecmascript/codegen"}
-swc_ecma_parser = {version = "0.41.0", path = "../ecmascript/parser"}
-swc_ecma_transforms = {version = "0.28.0", path = "../ecmascript/transforms"}
-swc_ecma_utils = {version = "0.23.0", path = "../ecmascript/utils"}
-swc_ecma_visit = {version = "0.19.0", path = "../ecmascript/visit"}
+swc_ecma_ast = {version = "0.34.0", path = "../ecmascript/ast"}
+swc_ecma_codegen = {version = "0.40.0", path = "../ecmascript/codegen"}
+swc_ecma_parser = {version = "0.42.0", path = "../ecmascript/parser"}
+swc_ecma_transforms = {version = "0.29.3", path = "../ecmascript/transforms"}
+swc_ecma_utils = {version = "0.24.0", path = "../ecmascript/utils"}
+swc_ecma_visit = {version = "0.20.0", path = "../ecmascript/visit"}
 
 [dev-dependencies]
+hex = "0.4"
 reqwest = {version = "0.10.8", features = ["blocking"]}
+sha-1 = "0.9"
 tempfile = "3.1.0"
 testing = {version = "0.10.0", path = "../testing"}
 url = "2.1.1"

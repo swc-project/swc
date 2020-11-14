@@ -3,48 +3,79 @@
 //! This module exists because this is way easier than using copying requires
 //! files.
 use anyhow::{Context, Error};
+use sha1::{Digest, Sha1};
 use std::{
     collections::HashMap,
-    fs::write,
+    env,
+    fs::{create_dir_all, read_to_string, write},
+    path::PathBuf,
     process::{Command, Stdio},
 };
-use swc_bundler::{Bundler, Load, Resolve};
-use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap, Span, GLOBALS};
-use swc_ecma_ast::{Expr, Lit, Module, Str};
+use swc_atoms::js_word;
+use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
+use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_ecma_ast::{
+    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::typescript::strip;
+use swc_ecma_transforms::{proposals::decorators, typescript::strip};
 use swc_ecma_visit::FoldWith;
 use url::Url;
 
 #[test]
-#[ignore = "Too slow"]
 fn oak_6_3_1_application() {
     run("https://deno.land/x/oak@v6.3.1/application.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn oak_6_3_1_mod() {
     run("https://deno.land/x/oak@v6.3.1/mod.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
 fn std_0_74_9_http_server() {
     run("https://deno.land/std@0.74.0/http/server.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
+#[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/server.ts", None);
 }
 
 #[test]
-#[ignore = "Too slow"]
+#[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_sse_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", None);
+}
+
+#[test]
+fn std_0_75_0_http_server() {
+    run("https://deno.land/std@0.75.0/http/server.ts", None);
+}
+
+#[test]
+fn deno_8188() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
+        None,
+    );
+}
+
+#[test]
+fn deno_8189() {
+    run("https://deno.land/x/lz4/mod.ts", None);
+}
+
+#[test]
+fn deno_8211() {
+    run("https://unpkg.com/luxon@1.25.0/src/luxon.js", None);
+}
+
+#[test]
+fn deno_8246() {
+    run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",None);
 }
 
 fn run(url: &str, expeceted_bytes: Option<usize>) {
@@ -58,13 +89,17 @@ fn run(url: &str, expeceted_bytes: Option<usize>) {
         assert_eq!(src.len(), expected);
     }
 
+    if env::var("CI").is_ok() {
+        return;
+    }
+
     let output = Command::new("deno")
         .arg("run")
         .arg("--allow-all")
         .arg("--no-check")
         .arg(&path)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
         .status()
         .unwrap();
 
@@ -119,8 +154,42 @@ struct Loader {
     cm: Lrc<SourceMap>,
 }
 
+fn cacl_hash(s: &str) -> String {
+    let mut hasher = Sha1::new();
+    hasher.update(s.as_bytes());
+    let sum = hasher.finalize();
+
+    hex::encode(sum)
+}
+
+/// Load url. This method does caching.
+fn load_url(url: Url) -> Result<String, Error> {
+    let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
+    create_dir_all(&cache_dir).context("failed to create cache dir")?;
+
+    let hash = cacl_hash(&url.to_string());
+
+    let cache_path = cache_dir.join(&hash);
+
+    match read_to_string(&cache_path) {
+        Ok(v) => return Ok(v),
+        _ => {}
+    }
+
+    let resp = reqwest::blocking::get(url.clone())
+        .with_context(|| format!("failed to fetch `{}`", url))?;
+
+    let bytes = resp
+        .bytes()
+        .with_context(|| format!("failed to read data from `{}`", url))?;
+
+    write(&cache_path, &bytes)?;
+
+    return Ok(String::from_utf8_lossy(&bytes).to_string());
+}
+
 impl Load for Loader {
-    fn load(&self, file: &FileName) -> Result<(Lrc<SourceFile>, Module), Error> {
+    fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         eprintln!("{}", file);
 
         let url = match file {
@@ -129,14 +198,8 @@ impl Load for Loader {
         };
 
         let url = Url::parse(&url).context("failed to parse url")?;
-        let resp = reqwest::blocking::get(url.clone())
-            .with_context(|| format!("failed to fetch `{}`", url))?;
 
-        let bytes = resp
-            .bytes()
-            .with_context(|| format!("failed to read data from `{}`", url))?;
-
-        let src = String::from_utf8_lossy(&bytes);
+        let src = load_url(url.clone())?;
         let fm = self
             .cm
             .new_source_file(FileName::Custom(url.to_string()), src.to_string());
@@ -153,9 +216,17 @@ impl Load for Loader {
 
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_typescript_module().unwrap();
+        let module = module.fold_with(&mut decorators::decorators(decorators::Config {
+            legacy: true,
+            emit_metadata: false,
+        }));
         let module = module.fold_with(&mut strip());
 
-        Ok((fm, module))
+        Ok(ModuleData {
+            fm,
+            module,
+            helpers: Default::default(),
+        })
     }
 }
 
@@ -183,11 +254,36 @@ impl Resolve for Resolver {
 struct Hook;
 
 impl swc_bundler::Hook for Hook {
-    fn get_import_meta_url(&self, span: Span, file: &FileName) -> Result<Option<Expr>, Error> {
-        Ok(Some(Expr::Lit(Lit::Str(Str {
-            span,
-            value: file.to_string().into(),
-            has_escape: false,
-        }))))
+    fn get_import_meta_props(
+        &self,
+        span: Span,
+        module_record: &ModuleRecord,
+    ) -> Result<Vec<KeyValueProp>, Error> {
+        Ok(vec![
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                value: Box::new(Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: module_record.file_name.to_string().into(),
+                    has_escape: false,
+                }))),
+            },
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                value: Box::new(if module_record.is_entry {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
+                            meta: Ident::new(js_word!("import"), span),
+                            prop: Ident::new(js_word!("meta"), span),
+                        }))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
+                        computed: false,
+                    })
+                } else {
+                    Expr::Lit(Lit::Bool(Bool { span, value: false }))
+                }),
+            },
+        ])
     }
 }

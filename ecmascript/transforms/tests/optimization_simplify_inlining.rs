@@ -2229,3 +2229,70 @@ test!(
     new A();
     "
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    deno_8180_1,
+    r#"
+    var Status;
+(function (Status) {
+    Status[Status["Continue"] = 100] = "Continue";
+    Status[Status["SwitchingProtocols"] = 101] = "SwitchingProtocols";
+})(Status || (Status = {}));
+const STATUS_TEXT = new Map([
+    [
+        Status.Continue,
+        "Continue"
+    ],
+    [
+        Status.SwitchingProtocols,
+        "Switching Protocols"
+    ] 
+]);
+    "#,
+    r#"
+    var Status;
+    (function(Status1) {
+        Status1[Status1["Continue"] = 100] = "Continue";
+        Status1[Status1["SwitchingProtocols"] = 101] = "SwitchingProtocols";
+    })(Status || (Status = {
+    }));
+    const STATUS_TEXT = new Map([
+        [
+            Status.Continue,
+            "Continue"
+        ],
+        [
+            Status.SwitchingProtocols,
+            "Switching Protocols"
+        ]
+    ]);    
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    deno_8189_1,
+    "
+    let A, I = null;
+    function g() {
+        return null !== I && I.buffer === A.memory.buffer || (I = new \
+     Uint8Array(A.memory.buffer)), I
+    }
+    ",
+    "
+    let A, I = null;
+    function g() {
+        return null !== I && I.buffer === A.memory.buffer || (I = new \
+     Uint8Array(A.memory.buffer)), I;
+    }
+    "
+);

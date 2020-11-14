@@ -5,7 +5,7 @@ use crate::{
     load::Load,
     resolve::Resolve,
     util::{self, IntoParallelIterator},
-    Bundler, Hook,
+    Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
@@ -15,7 +15,7 @@ use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::{prepend, prepend_stmts, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
@@ -65,6 +65,8 @@ where
                 file: &info.fm.name,
                 hook: &self.hook,
                 is_entry,
+                inline_ident: private_ident!("importMeta"),
+                occurred: false,
                 err: None,
             });
 
@@ -136,6 +138,10 @@ where
                     .into_par_iter()
                     .map(|(src, specifiers)| -> Result<Option<_>, Error> {
                         self.run(|| {
+                            let dep_info = self.scope.get_module(src.module_id).unwrap();
+                            info.helpers.extend(&dep_info.helpers);
+                            info.swc_helpers.extend_from(&dep_info.swc_helpers);
+
                             if !merged.insert(src.module_id) {
                                 log::debug!("Skipping: {} <= {}", info.fm.name, src.src.value);
                                 return Ok(None);
@@ -143,8 +149,6 @@ where
 
                             log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
-                            let dep_info = self.scope.get_module(src.module_id).unwrap();
-                            info.helpers.extend(&dep_info.helpers);
                             // In the case of
                             //
                             //  a <- b
@@ -295,6 +299,19 @@ where
             if dep_info.is_es6 {
                 // print_hygiene("entry: before injection", &self.cm, &entry);
 
+                if !is_direct {
+                    prepend_stmts(&mut entry.body, take(&mut dep.body).into_iter());
+
+                    log::debug!(
+                        "Merged {} into {} as a transitive es module",
+                        dep_info.fm.name,
+                        info.fm.name,
+                    );
+
+                    // print_hygiene("ES6", &self.cm, &entry);
+                    continue;
+                }
+
                 // Replace import statement / require with module body
                 let mut injector = Es6ModuleInjector {
                     imported: take(&mut dep.body),
@@ -316,13 +333,6 @@ where
                     //     &self.cm,
                     //     &entry,
                     // );
-                    continue;
-                }
-
-                if !is_direct {
-                    prepend_stmts(&mut entry.body, injector.imported.into_iter());
-
-                    // print_hygiene("ES6", &self.cm, &entry);
                     continue;
                 }
 
@@ -627,77 +637,70 @@ struct ImportMetaHandler<'a, 'b> {
     file: &'a FileName,
     hook: &'a Box<dyn 'b + Hook>,
     is_entry: bool,
+    inline_ident: Ident,
+    occurred: bool,
     err: Option<Error>,
 }
 
 impl VisitMut for ImportMetaHandler<'_, '_> {
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        if self.err.is_some() {
-            return;
-        }
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        n.visit_mut_children_with(self);
 
-        if e.computed {
-            e.obj.visit_mut_with(self);
+        if self.occurred {
+            match self.hook.get_import_meta_props(
+                n.span,
+                &ModuleRecord {
+                    file_name: self.file.to_owned(),
+                    is_entry: self.is_entry,
+                },
+            ) {
+                Ok(key_value_props) => {
+                    prepend(
+                        &mut n.body,
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: n.span,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: n.span,
+                                name: Pat::Ident(self.inline_ident.clone()),
+                                init: Some(Box::new(Expr::Object(ObjectLit {
+                                    span: n.span,
+                                    props: key_value_props
+                                        .iter()
+                                        .cloned()
+                                        .map(|kv| PropOrSpread::Prop(Box::new(Prop::KeyValue(kv))))
+                                        .collect(),
+                                }))),
+                                definite: false,
+                            }],
+                        }))),
+                    );
+                }
+                Err(err) => self.err = Some(err),
+            }
         }
-
-        e.prop.visit_mut_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
         match e {
-            Expr::Member(me) => {
-                if !me.computed {
-                    match &me.obj {
-                        ExprOrSuper::Super(_) => {}
-                        ExprOrSuper::Expr(obj) => match &**obj {
-                            Expr::MetaProp(MetaPropExpr {
-                                meta:
-                                    Ident {
-                                        sym: js_word!("import"),
-                                        ..
-                                    },
-                                prop:
-                                    Ident {
-                                        sym: js_word!("meta"),
-                                        ..
-                                    },
-                                ..
-                            }) => match &*me.prop {
-                                Expr::Ident(Ident {
-                                    sym: js_word!("url"),
-                                    ..
-                                }) => {
-                                    let res = self.hook.get_import_meta_url(me.span, self.file);
-                                    match res {
-                                        Ok(v) => match v {
-                                            Some(expr) => {
-                                                *e = expr;
-                                                return;
-                                            }
-                                            None => {}
-                                        },
-                                        Err(err) => self.err = Some(err),
-                                    }
-                                }
-                                Expr::Ident(Ident {
-                                    sym: js_word!("main"),
-                                    ..
-                                }) if !self.is_entry => {
-                                    *e = Expr::Lit(Lit::Bool(Bool {
-                                        span: me.span,
-                                        value: false,
-                                    }));
-                                    return;
-                                }
-                                _ => {}
-                            },
-
-                            _ => {}
-                        },
-                    }
-                }
+            Expr::MetaProp(MetaPropExpr {
+                meta:
+                    Ident {
+                        sym: js_word!("import"),
+                        ..
+                    },
+                prop:
+                    Ident {
+                        sym: js_word!("meta"),
+                        ..
+                    },
+                ..
+            }) => {
+                *e = Expr::Ident(self.inline_ident.clone());
+                self.occurred = true;
             }
             _ => {}
         }

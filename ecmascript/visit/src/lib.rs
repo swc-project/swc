@@ -1395,6 +1395,7 @@ define!({
         TsUndefinedKeyword,
         TsNullKeyword,
         TsNeverKeyword,
+        TsIntrinsicKeyword,
     }
     pub struct TsThisType {
         pub span: Span,
@@ -1539,7 +1540,12 @@ define!({
         Number(Number),
         Str(Str),
         Bool(Bool),
-        Tpl(Tpl),
+        Tpl(TsTplLitType),
+    }
+    pub struct TsTplLitType {
+        pub span: Span,
+        pub types: Vec<Box<TsType>>,
+        pub quasis: Vec<TplElement>,
     }
     pub struct TsInterfaceDecl {
         pub span: Span,

@@ -179,9 +179,13 @@ fn dependency_index<T>(item: &ModuleItem, deps: &[T]) -> Option<usize>
 where
     T: Borrow<ModuleItem>,
 {
-    let mut v = DepFinder { deps, idx: None };
+    let mut v = DepFinder {
+        deps,
+        idx: None,
+        last_usage_idx: None,
+    };
     item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-    v.idx
+    v.idx.or(v.last_usage_idx)
 }
 
 struct DepFinder<'a, T>
@@ -189,6 +193,7 @@ where
     T: Borrow<ModuleItem>,
 {
     deps: &'a [T],
+    last_usage_idx: Option<usize>,
     idx: Option<usize>,
 }
 
@@ -224,7 +229,11 @@ where
                     }
                 }
 
-                _ => {}
+                dep => {
+                    if DepUsageFinder::find(i, dep) {
+                        self.last_usage_idx = Some(idx);
+                    }
+                }
             }
         }
     }
@@ -252,4 +261,68 @@ where
     /// We only search for top-level binding
     #[inline]
     fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
+}
+
+/// Finds usage of `ident`
+struct DepUsageFinder<'a> {
+    ident: &'a Ident,
+    found: bool,
+}
+
+impl<'a> Visit for DepUsageFinder<'a> {
+    noop_visit_type!();
+
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        match &e.callee {
+            ExprOrSuper::Super(_) => {}
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Ident(..) => {}
+                _ => {
+                    callee.visit_with(e, self);
+                }
+            },
+        }
+
+        e.args.visit_with(e, self);
+    }
+
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
+            self.found = true;
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        e.obj.visit_with(e as _, self);
+
+        if e.computed {
+            e.prop.visit_with(e as _, self);
+        }
+    }
+}
+
+impl<'a> DepUsageFinder<'a> {
+    pub fn find<N>(ident: &'a Ident, node: &N) -> bool
+    where
+        N: VisitWith<Self>,
+    {
+        let mut v = DepUsageFinder {
+            ident,
+            found: false,
+        };
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        v.found
+    }
 }

@@ -775,3 +775,23 @@ test!(
     new A();
     "
 );
+
+optimized_out!(
+    self_referential_function_01,
+    "
+    function foo() {
+        if (Math.random() > 0.5) {
+            foo()
+        }
+    }
+    "
+);
+
+optimized_out!(
+    pr_1199_01,
+    "
+    function _nonIterableSpread() {
+        throw new TypeError('Invalid attempt to spread non-iterable instance');
+    }
+    "
+);

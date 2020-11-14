@@ -2,12 +2,12 @@
 #![allow(missing_copy_implementations)]
 use crate::{
     class::Decorator,
-    expr::{Expr, Tpl},
+    expr::Expr,
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
-    BigInt,
+    BigInt, TplElement,
 };
 use is_macro::Is;
 use serde::{
@@ -382,6 +382,9 @@ pub enum TsKeywordTypeKind {
 
     #[serde(rename = "never")]
     TsNeverKeyword,
+
+    #[serde(rename = "intrinsic")]
+    TsIntrinsicKeyword,
 }
 
 #[ast_node("TsThisType")]
@@ -741,7 +744,18 @@ pub enum TsLit {
     BigInt(BigInt),
 
     #[tag("TemplateLiteral")]
-    Tpl(Tpl),
+    Tpl(TsTplLitType),
+}
+
+#[ast_node("TemplateLiteral")]
+#[derive(Eq, Hash)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct TsTplLitType {
+    pub span: Span,
+
+    pub types: Vec<Box<TsType>>,
+
+    pub quasis: Vec<TplElement>,
 }
 
 // // ================

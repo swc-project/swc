@@ -383,6 +383,11 @@ where
             }
         }
 
+        // Sort transitive chunks topologically.
+        for (_, normal_plan) in &mut plans.normal {
+            toposort(&builder, &mut normal_plan.transitive_chunks);
+        }
+
         // Handle circular imports
         for (root_entry, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
@@ -461,6 +466,7 @@ where
         }
 
         // dbg!(&plans);
+
         plans
     }
 
@@ -514,7 +520,12 @@ where
         }
 
         // Prevent dejavu
-        for (src, _) in &m.imports.specifiers {
+        for (src, _) in m
+            .imports
+            .specifiers
+            .iter()
+            .chain(m.exports.reexports.iter())
+        {
             if builder.all_deps.contains_key(&(src.module_id, module_id)) {
                 log::debug!("Circular dep: {:?} => {:?}", module_id, src.module_id);
 
@@ -534,6 +545,28 @@ where
                         builder.mark_as_circular(module_id, dep)
                     }
                 }
+            }
+        }
+    }
+}
+
+fn toposort(b: &PlanBuilder, module_ids: &mut Vec<ModuleId>) {
+    let len = module_ids.len();
+
+    if module_ids.len() <= 1 {
+        return;
+    }
+
+    for i in 0..len {
+        for j in i..len {
+            let mi = module_ids[i];
+            let mj = module_ids[j];
+            if mi == mj {
+                continue;
+            }
+
+            if b.direct_deps.contains_edge(mj, mi) {
+                module_ids.swap(i, j);
             }
         }
     }

@@ -3,9 +3,9 @@ use helpers::Helpers;
 use std::{collections::HashMap, env, sync::Arc};
 use swc::config::{InputSourceMap, JscConfig, TransformConfig};
 use swc_atoms::JsWord;
-use swc_bundler::Load;
-use swc_common::{FileName, SourceFile, DUMMY_SP};
-use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
+use swc_bundler::{Load, ModuleData};
+use swc_common::{FileName, DUMMY_SP};
+use swc_ecma_ast::{Expr, Lit, Program, Str};
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::{
     helpers,
@@ -33,8 +33,9 @@ impl SwcLoader {
 }
 
 impl Load for SwcLoader {
-    fn load(&self, name: &FileName) -> Result<(Arc<SourceFile>, Module), Error> {
+    fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
         log::debug!("JsLoader.load({})", name);
+        let helpers = Helpers::new(false);
 
         let fm = self
             .compiler
@@ -55,7 +56,7 @@ impl Load for SwcLoader {
                 true,
                 true,
             )?;
-            let program = helpers::HELPERS.set(&Helpers::new(true), || {
+            let program = helpers::HELPERS.set(&helpers, || {
                 swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
                     let program =
                         program.fold_with(&mut inline_globals(env_map(), Default::default()));
@@ -99,6 +100,7 @@ impl Load for SwcLoader {
                             None
                         }
                     },
+                    skip_helper_injection: true,
                     disable_hygiene: false,
                     disable_fixer: true,
                     global_mark: self.options.global_mark,
@@ -135,7 +137,7 @@ impl Load for SwcLoader {
             log::trace!("JsLoader.load: parsed");
 
             // Fold module
-            let program = helpers::HELPERS.set(&Helpers::new(true), || {
+            let program = helpers::HELPERS.set(&helpers, || {
                 swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
                     let program =
                         program.fold_with(&mut inline_globals(env_map(), Default::default()));
@@ -154,7 +156,11 @@ impl Load for SwcLoader {
         };
 
         match program {
-            Program::Module(module) => Ok((fm, module)),
+            Program::Module(module) => Ok(ModuleData {
+                fm,
+                module,
+                helpers,
+            }),
             _ => unreachable!(),
         }
     }

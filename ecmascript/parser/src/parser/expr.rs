@@ -820,7 +820,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
+    pub(super) fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
         let start = cur_pos!();
 
         let (raw, cooked) = match *cur!(true)? {

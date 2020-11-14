@@ -347,6 +347,7 @@ impl<'a> Emitter<'a> {
             TsKeywordTypeKind::TsUndefinedKeyword => keyword!(n.span, "undefined"),
             TsKeywordTypeKind::TsNullKeyword => keyword!(n.span, "null"),
             TsKeywordTypeKind::TsNeverKeyword => keyword!(n.span, "never"),
+            TsKeywordTypeKind::TsIntrinsicKeyword => keyword!(n.span, "intrinsic"),
         }
     }
 
@@ -359,6 +360,28 @@ impl<'a> Emitter<'a> {
             TsLit::Bool(n) => emit!(n),
             TsLit::Tpl(n) => emit!(n),
         }
+    }
+
+    #[emitter]
+    fn emit_ts_tpl_lit(&mut self, node: &TsTplLitType) -> Result {
+        debug_assert!(node.quasis.len() == node.types.len() + 1);
+
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
+        punct!("`");
+        let i = 0;
+
+        for i in 0..(node.quasis.len() + node.types.len()) {
+            if i % 2 == 0 {
+                emit!(node.quasis[i / 2]);
+            } else {
+                punct!("${");
+                emit!(node.types[i / 2]);
+                punct!("}");
+            }
+        }
+
+        punct!("`");
     }
 
     #[emitter]
