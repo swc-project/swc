@@ -185,10 +185,39 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
             }
         }
 
+        dbg!(&declared_by);
+
         {
             // We then calculate which ids a statement require to be executed.
             // Again, we don't need to analyze non-top-level idents because they
             // are not evaluated while lpoading module.
+            let mut visitor = RequirementCalculartor::default();
+            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+            // dbg!(&item, &visitor.required_ids);
+
+            for id in visitor.required_ids {
+                if let Some(&declarator_idx) = declared_by.get(&id) {
+                    // eprintln!("{} depends on {}", idx, declarator_idx);
+                    if declarator_idx != idx {
+                        graph.add_edge(idx, declarator_idx, ());
+                    }
+                }
+            }
+        }
+    }
+
+    // Now graph contains enough information to sort statements.
+    let len = new.len();
+
+    for i in 0..len {
+        for j in 0..len {
+            if j <= i {
+                continue;
+            }
+
+            if graph.contains_edge(j, i) && !graph.contains_edge(i, j) {
+                new.swap(i, j);
+            }
         }
     }
 
@@ -197,6 +226,7 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
 
 /// We do not care about variables created by current statement.
 /// But we care about modifications.
+#[derive(Default)]
 struct RequirementCalculartor {
     required_ids: IndexSet<Id>,
     in_var_decl: bool,
@@ -229,8 +259,14 @@ impl Visit for RequirementCalculartor {
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_class_method(&mut self, _: &ClassMethod, _: &dyn Node) {}
+    fn visit_private_method(&mut self, _: &PrivateMethod, _: &dyn Node) {}
+    fn visit_method_prop(&mut self, _: &MethodProp, _: &dyn Node) {}
 
     fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
+        let in_var_decl = self.in_var_decl;
+        self.in_var_decl = false;
+
         match expr {
             Expr::Ident(i) => {
                 self.required_ids.insert(i.into());
@@ -238,6 +274,17 @@ impl Visit for RequirementCalculartor {
             _ => {
                 expr.visit_children_with(self);
             }
+        }
+
+        self.in_var_decl = in_var_decl;
+    }
+
+    fn visit_prop(&mut self, prop: &Prop, _: &dyn Node) {
+        match prop {
+            Prop::Shorthand(i) => {
+                self.required_ids.insert(i.into());
+            }
+            _ => prop.visit_children_with(self),
         }
     }
 
@@ -248,105 +295,4 @@ impl Visit for RequirementCalculartor {
             e.prop.visit_with(e as _, self);
         }
     }
-}
-
-/// Searches for top level declaration which provides requirements for `deps`.
-fn dependency_index<T>(item: &ModuleItem, deps: &[T]) -> Option<usize>
-where
-    T: Borrow<ModuleItem>,
-{
-    let mut v = DepFinder {
-        deps,
-        idx: None,
-        last_usage_idx: None,
-    };
-    item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-    v.idx.or(v.last_usage_idx)
-}
-
-struct DepFinder<'a, T>
-where
-    T: Borrow<ModuleItem>,
-{
-    deps: &'a [T],
-    last_usage_idx: Option<usize>,
-    idx: Option<usize>,
-}
-
-impl<T> Visit for DepFinder<'_, T>
-where
-    T: Borrow<ModuleItem>,
-{
-    noop_visit_type!();
-
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if self.idx.is_some() {
-            return;
-        }
-
-        for (idx, dep) in self.deps.iter().enumerate() {
-            match dep.borrow() {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Class(decl),
-                    ..
-                }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(decl))) => {
-                    log::trace!(
-                        "Class decl (from dep) = {}{:?}, Ident = {}{:?}",
-                        decl.ident.sym,
-                        decl.ident.span.ctxt,
-                        i.sym,
-                        i.span.ctxt
-                    );
-                    if decl.ident.sym == i.sym && decl.ident.span.ctxt == i.span.ctxt {
-                        self.idx = Some(idx);
-                        log::debug!("Index is {}", idx);
-                        break;
-                    }
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(decl),
-                    ..
-                }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
-                    let ids: Vec<Id> = find_ids(decl);
-
-                    for id in ids {
-                        if id == *i {
-                            self.idx = Some(idx);
-                            log::debug!("Index is {}", idx);
-                            break;
-                        }
-                    }
-                }
-
-                dep => {}
-            }
-        }
-    }
-
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e as _, self);
-
-        if e.computed {
-            e.prop.visit_with(e as _, self)
-        }
-    }
-
-    #[inline]
-    fn visit_import_decl(&mut self, _: &ImportDecl, _: &dyn Node) {}
-    #[inline]
-    fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
-    #[inline]
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    #[inline]
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
-
-    /// We only search for top-level binding
-    #[inline]
-    fn visit_stmts(&mut self, _: &[Stmt], _: &dyn Node) {}
-    /// We only search for top-level binding
-    #[inline]
-    fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
 }

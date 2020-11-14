@@ -24,7 +24,7 @@ fn assert_merge_respecting_order(modules: &[&str], output: &str) {
     for i in 0..modules.len() {
         log::info!("[{}] Testing", i);
         ::testing::run_test2(false, |cm, _handler| {
-            let mut entry = parse(cm.clone(), &format!("entry-{}", i), modules[i]).body;
+            let mut entry = parse(cm.clone(), &format!("entry-{}", i), modules[i]);
 
             for j in 0..modules.len() {
                 if i == j {
@@ -32,11 +32,17 @@ fn assert_merge_respecting_order(modules: &[&str], output: &str) {
                 }
 
                 let dep = parse(cm.clone(), &format!("deps-{}-{}", i, j), modules[j]);
-                entry = merge_respecting_order(entry, dep.body);
+                entry.body = merge_respecting_order(entry.body, dep.body);
             }
 
+            print_hygiene("merge", &cm, &entry);
+
             let output = parse(cm.clone(), "output", output);
-            assert_eq!(entry, output.body, "[{}]", i);
+            if entry.body != output.body {
+                panic!()
+            }
+            // The below is too verbose.
+            // assert_eq!(entry.body, output.body, "[{}]", i);
 
             log::info!("[{}] Success", i);
 
@@ -55,31 +61,6 @@ fn simple_two() {
         export class B extends A {}
         ",
     );
-}
-
-#[track_caller]
-fn assert_dependency_index(entry: &str, dep: &str, expected: usize) {
-    ::testing::run_test2(false, |cm, _handler| {
-        let entry = parse(cm.clone(), "entry", entry);
-        let dep = parse(cm.clone(), "dep", dep);
-
-        let calculated = dependency_index(&entry.body[0], &dep.body);
-
-        assert_eq!(calculated, Some(expected));
-
-        Ok(())
-    })
-    .unwrap();
-}
-
-#[test]
-fn dep_index_class() {
-    assert_dependency_index("class A extends B {}", "class B {}", 0);
-}
-
-#[test]
-fn dep_index_export_class() {
-    assert_dependency_index("class A extends B {}", "export class B {}", 0);
 }
 
 #[test]
