@@ -46,7 +46,7 @@ impl NodeResolver {
         }
 
         for ext in EXTENSIONS {
-            let ext_path = path.with_extension(ext);
+            let ext_path = PathBuf::from(format!("{}.{}", path.to_str().unwrap(), ext));
             if ext_path.is_file() {
                 return Ok(ext_path);
             }
