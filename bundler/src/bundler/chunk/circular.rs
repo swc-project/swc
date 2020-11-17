@@ -208,6 +208,15 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
     let len = new.len();
     let mut orders: Vec<usize> = vec![];
 
+    // Add nodes which does not have any dependencies.
+    for i in 0..len {
+        if graph.neighbors_directed(i, Incoming).count() != 0 {
+            continue;
+        }
+
+        orders.push(i);
+    }
+
     for i in 0..len {
         if graph.neighbors_directed(i, Incoming).count() != 0 {
             continue;
@@ -217,7 +226,7 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
 
         while let Some(node) = dfs.next(&graph) {
             if orders.contains(&node) {
-                break;
+                continue;
             }
             orders.push(node);
         }
