@@ -2431,11 +2431,8 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
         return Cow::Owned(s.escape_default().to_string());
     }
 
-    let mut orig = &orig[1..orig.len() - 1];
+    let orig = &orig[1..orig.len() - 1];
 
-    if orig.starts_with("\"") {
-        orig = &orig[1..orig.len() - 1];
-    }
     dbg!(orig);
 
     let mut buf = String::with_capacity(s.len());
@@ -2443,12 +2440,13 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
     let mut s_iter = s.chars();
 
     while let Some(orig_c) = orig_iter.next() {
+        dbg!(orig_c);
         if orig_c == '\\' {
             buf.push('\\');
             match orig_iter.next() {
                 Some('\\') => {
-                    orig_iter.next();
-                    dbg!("two \\\\");
+                    buf.push('\\');
+                    s_iter.next();
                     continue;
                 }
                 Some(escaper) => {
@@ -2479,7 +2477,6 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
                             None => break,
                         },
                         'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0' => {
-                            buf.push(escaper);
                             s_iter.next();
                         }
 
@@ -2493,15 +2490,17 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
 
                         _ => {
                             buf.extend(s_iter.next());
-                            continue;
                         }
                     }
+
+                    continue;
                 }
-                None => {}
+                _ => {}
             }
-        } else {
-            buf.push(orig_c);
         }
+
+        s_iter.next();
+        buf.push(orig_c);
     }
 
     buf.extend(s_iter);
