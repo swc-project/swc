@@ -440,6 +440,24 @@ fn deno_8162() {
     );
 }
 
+#[test]
+fn integration_01() {
+    test_from_to(
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. ` +
+    `Expected to find one of the known reducer keys instead: ` +
+    `"${reducerKeys.join('", "')}". Unexpected keys will be ignored.`
+    "#,
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. ` +
+    `Expected to find one of the known reducer keys instead: ` +
+    `"${reducerKeys.join('", "')}". Unexpected keys will be ignored.`
+        "#,
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
