@@ -7,7 +7,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{borrow::Cow, fmt::Write, io, sync::Arc};
+use std::{borrow::Cow, char::EscapeUnicode, fmt::Write, io, str::Chars, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -392,7 +392,7 @@ impl<'a> Emitter<'a> {
         //     self.wr.write_str_lit(node.span, &s)?;
         //     return Ok(());
         // }
-        let value = escape(&node.value);
+        let value = escape(&self.cm, node.span, &node.value, single_quote);
         // let value = node.value.replace("\n", "\\n");
 
         if single_quote {
@@ -2413,33 +2413,100 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape(s: &str) -> Cow<str> {
-    // let patterns = &[
-    //     "\\", "\u{0008}", "\u{000C}", "\n", "\r", "\t", "\u{000B}", "\00", "\01",
-    // "\02", "\03",     "\04", "\05", "\06", "\07", "\08", "\09", "\0",
-    // ];
-    // let replace_with = &[
-    //     "\\\\", "\\b", "\\f", "\\n", "\\r", "\\t", "\\v", "\\x000", "\\x001",
-    // "\\x002", "\\x003",     "\\x004", "\\x005", "\\x006", "\\x007", "\\x008",
-    // "\\x009", "\\0", ];
+fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow<'s, str> {
+    if span.is_dummy() {
+        return Cow::Owned(s.escape_default().to_string());
+    }
+
     //
-    // {
-    //     let mut found = false;
-    //     for pat in patterns {
-    //         if s.contains(pat) {
-    //             found = true;
-    //             break;
-    //         }
-    //     }
-    //     if !found {
-    //         return Cow::Borrowed(s);
-    //     }
-    // }
-    //
-    // let ac = AhoCorasick::new(patterns);
-    //
-    // Cow::Owned(ac.replace_all(s, replace_with))
-    Cow::Owned(s.escape_default().to_string())
+    let orig = cm.span_to_snippet(span);
+    let orig = match orig {
+        Ok(orig) => orig,
+        Err(v) => {
+            return Cow::Owned(s.escape_default().to_string());
+        }
+    };
+
+    if orig.len() <= 2 {
+        return Cow::Owned(s.escape_default().to_string());
+    }
+
+    let mut orig = &orig[1..orig.len() - 1];
+
+    if orig.starts_with("\"") {
+        orig = &orig[1..orig.len() - 1];
+    }
+    dbg!(orig);
+
+    let mut buf = String::with_capacity(s.len());
+    let mut orig_iter = orig.chars().peekable();
+    let mut s_iter = s.chars();
+
+    while let Some(orig_c) = orig_iter.next() {
+        if orig_c == '\\' {
+            buf.push('\\');
+            match orig_iter.next() {
+                Some('\\') => {
+                    orig_iter.next();
+                    dbg!("two \\\\");
+                    continue;
+                }
+                Some(escaper) => {
+                    dbg!(escaper);
+                    buf.push(escaper);
+                    match escaper {
+                        'x' => {
+                            buf.extend(orig_iter.next());
+                            buf.extend(orig_iter.next());
+                            s_iter.next();
+                        }
+                        'u' => match orig_iter.next() {
+                            Some('{') => {
+                                loop {
+                                    if orig_iter.next() == Some('}') {
+                                        break;
+                                    }
+                                }
+                                s_iter.next();
+                            }
+                            Some(ch) => {
+                                buf.push(ch);
+                                buf.extend(orig_iter.next());
+                                buf.extend(orig_iter.next());
+                                buf.extend(orig_iter.next());
+                                s_iter.next();
+                            }
+                            None => break,
+                        },
+                        'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0' => {
+                            buf.push(escaper);
+                            s_iter.next();
+                        }
+
+                        '\'' if single_quote => {
+                            s_iter.next();
+                        }
+
+                        '"' if !single_quote => {
+                            s_iter.next();
+                        }
+
+                        _ => {
+                            buf.extend(s_iter.next());
+                            continue;
+                        }
+                    }
+                }
+                None => {}
+            }
+        } else {
+            buf.push(orig_c);
+        }
+    }
+
+    buf.extend(s_iter);
+
+    Cow::Owned(buf)
 }
 
 #[cold]
