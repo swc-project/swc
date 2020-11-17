@@ -28,7 +28,7 @@ jobs:
       - name: Set platform name
         run: |
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "::set-env name=PLATFORM_NAME::$NODE_PLATFORM_NAME"
+          echo "name=PLATFORM_NAME::$NODE_PLATFORM_NAME" >> $GITHUB_ENv
         shell: bash
 
       - name: Prepare
@@ -55,7 +55,6 @@ jobs:
           # swc integration-tests/three-js/repo/test/unit/**/*.js -d integration-tests/three-js/repo/test/unit/build/
 
           (cd integration-tests/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
-
 
         # terser: contains with statement in test
         # Rome.js: I forgot the cause, but it didn't work.
