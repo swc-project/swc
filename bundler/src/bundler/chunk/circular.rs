@@ -133,11 +133,12 @@ where
             // Merge code
             entry.body = merge_respecting_order(dep.body, entry.body);
 
-            // print_hygiene(
-            //     "[circular] END :merge_two_circular_modules",
-            //     &self.cm,
-            //     &entry,
-            // );
+            print_hygiene(
+                "[circular] END :merge_two_circular_modules",
+                &self.cm,
+                &entry,
+            );
+
             Ok(entry)
         })
     }
@@ -221,6 +222,8 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
             orders.push(node);
         }
     }
+
+    dbg!(&orders);
 
     let mut buf = Vec::with_capacity(new.len());
     for order in orders {
