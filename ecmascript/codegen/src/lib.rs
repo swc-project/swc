@@ -2431,7 +2431,13 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
         return Cow::Owned(s.escape_default().to_string());
     }
 
-    let orig = &orig[1..orig.len() - 1];
+    let mut orig = &*orig;
+
+    if (single_quote && orig.starts_with('\'')) || (!single_quote && orig.starts_with('"')) {
+        orig = &orig[1..orig.len() - 1];
+    }
+
+    eprintln!("ORIG: {}", orig);
 
     let mut buf = String::with_capacity(s.len());
     let mut orig_iter = orig.chars().peekable();
