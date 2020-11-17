@@ -2433,7 +2433,6 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
 
     let orig = &orig[1..orig.len() - 1];
 
-
     let mut buf = String::with_capacity(s.len());
     let mut orig_iter = orig.chars().peekable();
     let mut s_iter = s.chars();
