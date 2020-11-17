@@ -99,3 +99,23 @@ fn many_vars_1() {
         ",
     );
 }
+
+#[test]
+fn no_dep_first_01() {
+    assert_merge_respecting_order(
+        &[
+            "
+            const b1 = b2;
+            ",
+            "
+            const b2 = 2;
+            const b3 = b1;
+            ",
+        ],
+        "
+        const b2 = 2;
+        const b1 = b2;
+        const b3 = b1;
+",
+    );
+}
