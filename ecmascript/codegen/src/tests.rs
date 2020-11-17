@@ -432,6 +432,14 @@ fn jsx_1() {
     );
 }
 
+#[test]
+fn deno_8162() {
+    test_from_to(
+        r#""\x00\r\n\x85\u2028\u2029""#,
+        r#""\x00\r\n\x85\u2028\u2029""#,
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
