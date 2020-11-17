@@ -184,9 +184,9 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
                 _ => {}
             }
         }
+    }
 
-        dbg!(&declared_by);
-
+    for (idx, item) in new.iter().enumerate() {
         {
             // We then calculate which ids a statement require to be executed.
             // Again, we don't need to analyze non-top-level idents because they
@@ -215,7 +215,7 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
                 continue;
             }
 
-            if graph.contains_edge(j, i) && !graph.contains_edge(i, j) {
+            if graph.contains_edge(i, j) && !graph.contains_edge(j, i) {
                 new.swap(i, j);
             }
         }

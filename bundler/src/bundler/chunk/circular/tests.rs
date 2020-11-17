@@ -22,7 +22,6 @@ fn parse(cm: Lrc<SourceMap>, name: &str, src: &str) -> Module {
 #[track_caller]
 fn assert_merge_respecting_order(modules: &[&str], output: &str) {
     for i in 0..modules.len() {
-        log::info!("[{}] Testing", i);
         ::testing::run_test2(false, |cm, _handler| {
             let mut entry = parse(cm.clone(), &format!("entry-{}", i), modules[i]);
 
@@ -30,6 +29,7 @@ fn assert_merge_respecting_order(modules: &[&str], output: &str) {
                 if i == j {
                     continue;
                 }
+                eprintln!("[{}, {}] Testing", i, j);
 
                 let dep = parse(cm.clone(), &format!("deps-{}-{}", i, j), modules[j]);
                 entry.body = merge_respecting_order(entry.body, dep.body);
