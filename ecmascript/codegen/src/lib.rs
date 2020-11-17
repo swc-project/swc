@@ -7,7 +7,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{borrow::Cow, char::EscapeUnicode, fmt::Write, io, str::Chars, sync::Arc};
+use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
