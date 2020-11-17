@@ -3,15 +3,18 @@ use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
     debug::print_hygiene,
     id::Id,
-    util::graph::{Inliner, NodeId},
+    util::{
+        graph::{Inliner, NodeId},
+        MapWithMut,
+    },
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
 use indexmap::IndexSet;
-use petgraph::graphmap::DiGraphMap;
+use petgraph::{graphmap::DiGraphMap, visit::Dfs, EdgeDirection::Incoming};
 use std::{
     borrow::Borrow,
-    collections::{HashMap, HashSet},
+    collections::{HashMap, HashSet, VecDeque},
 };
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -190,14 +193,11 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
         // are not evaluated while lpoading module.
         let mut visitor = RequirementCalculartor::default();
         item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-        // dbg!(&item, &visitor.required_ids);
 
         for id in visitor.required_ids {
             if let Some(&declarator_idx) = declared_by.get(&id) {
-                // eprintln!("{} depends on {}", idx, declarator_idx);
                 if declarator_idx != idx {
-                    graph.add_edge(idx, declarator_idx, ());
-                    println!("{} => {}", idx, declarator_idx);
+                    graph.add_edge(declarator_idx, idx, ());
                 }
             }
         }
@@ -205,23 +205,30 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
 
     // Now graph contains enough information to sort statements.
     let len = new.len();
-    let mut orders: Vec<_> = (0..len).collect();
+    let mut orders: Vec<usize> = vec![];
 
     for i in 0..len {
-        for j in 0..len {
-            if j == i {
-                continue;
-            }
+        if graph.neighbors_directed(i, Incoming).count() != 0 {
+            continue;
+        }
 
-            if graph.contains_edge(i, j) && !graph.contains_edge(j, i) {
-                new.swap(i, j);
-                orders.swap(i, j);
-                println!("Swap: {} <=> {}; {:?}", i, j, orders);
+        let mut dfs = Dfs::new(&graph, i);
+
+        while let Some(node) = dfs.next(&graph) {
+            if orders.contains(&node) {
+                break;
             }
+            orders.push(node);
         }
     }
 
-    new
+    let mut buf = Vec::with_capacity(new.len());
+    for order in orders {
+        let stmt = new[order].take();
+        buf.push(stmt)
+    }
+
+    buf
 }
 
 /// We do not care about variables created by current statement.
