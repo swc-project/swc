@@ -2433,14 +2433,12 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
 
     let orig = &orig[1..orig.len() - 1];
 
-    dbg!(orig);
 
     let mut buf = String::with_capacity(s.len());
     let mut orig_iter = orig.chars().peekable();
     let mut s_iter = s.chars();
 
     while let Some(orig_c) = orig_iter.next() {
-        dbg!(orig_c);
         if orig_c == '\\' {
             buf.push('\\');
             match orig_iter.next() {
@@ -2450,7 +2448,6 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
                     continue;
                 }
                 Some(escaper) => {
-                    dbg!(escaper);
                     buf.push(escaper);
                     match escaper {
                         'x' => {
