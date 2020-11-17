@@ -3,7 +3,7 @@ use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
     debug::print_hygiene,
     id::Id,
-    util::graph::NodeId,
+    util::graph::{Inliner, NodeId},
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
@@ -155,52 +155,51 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
     let mut declared_by = HashMap::<Id, usize>::default();
 
     for (idx, item) in new.iter().enumerate() {
-        {
-            graph.add_node(idx);
+        graph.add_node(idx);
 
-            // We start by calculating ids created by statements. Note that we don't need to
-            // analyze bodies of functions nor members of classes, because it's not
-            // evaludated until they are called.
+        // We start by calculating ids created by statements. Note that we don't need to
+        // analyze bodies of functions nor members of classes, because it's not
+        // evaludated until they are called.
 
-            match item {
-                // We only check declarations because ids are created by declarations.
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-                | ModuleItem::Stmt(Stmt::Decl(decl)) => {
-                    //
-                    match decl {
-                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                            declared_by.insert(Id::from(ident), idx);
-                        }
-                        Decl::Var(vars) => {
-                            let ids: Vec<Id> = find_ids(&vars.decls);
-
-                            for id in ids {
-                                declared_by.insert(id, idx);
-                            }
-                        }
-                        _ => {}
+        match item {
+            // We only check declarations because ids are created by declarations.
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+            | ModuleItem::Stmt(Stmt::Decl(decl)) => {
+                //
+                match decl {
+                    Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                        declared_by.insert(Id::from(ident), idx);
                     }
+                    Decl::Var(vars) => {
+                        let ids: Vec<Id> = find_ids(&vars.decls);
+
+                        for id in ids {
+                            declared_by.insert(id, idx);
+                        }
+                    }
+                    _ => {}
                 }
-                _ => {}
             }
+            _ => {}
         }
     }
 
-    for (idx, item) in new.iter().enumerate() {
-        {
-            // We then calculate which ids a statement require to be executed.
-            // Again, we don't need to analyze non-top-level idents because they
-            // are not evaluated while lpoading module.
-            let mut visitor = RequirementCalculartor::default();
-            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-            // dbg!(&item, &visitor.required_ids);
+    dbg!(&declared_by);
 
-            for id in visitor.required_ids {
-                if let Some(&declarator_idx) = declared_by.get(&id) {
-                    // eprintln!("{} depends on {}", idx, declarator_idx);
-                    if declarator_idx != idx {
-                        graph.add_edge(idx, declarator_idx, ());
-                    }
+    for (idx, item) in new.iter().enumerate() {
+        // We then calculate which ids a statement require to be executed.
+        // Again, we don't need to analyze non-top-level idents because they
+        // are not evaluated while lpoading module.
+        let mut visitor = RequirementCalculartor::default();
+        item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+        // dbg!(&item, &visitor.required_ids);
+
+        for id in visitor.required_ids {
+            if let Some(&declarator_idx) = declared_by.get(&id) {
+                // eprintln!("{} depends on {}", idx, declarator_idx);
+                if declarator_idx != idx {
+                    graph.add_edge(idx, declarator_idx, ());
+                    println!("{} => {}", idx, declarator_idx);
                 }
             }
         }
@@ -211,12 +210,13 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
 
     for i in 0..len {
         for j in 0..len {
-            if j <= i {
+            if j == i {
                 continue;
             }
 
             if graph.contains_edge(i, j) && !graph.contains_edge(j, i) {
                 new.swap(i, j);
+                println!("Swap: {} <=> {}", i, j)
             }
         }
     }
