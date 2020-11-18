@@ -1,7 +1,7 @@
 use super::plan::{DepType, Plan};
 use crate::{
     bundler::{
-        chunk::{export::ExportInjector, plan::NormalPlan},
+        chunk::{circular::sort, export::ExportInjector, plan::NormalPlan},
         load::{Imports, Source, Specifier, TransformedModule},
     },
     debug::print_hygiene,
@@ -482,6 +482,8 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
+        sort(&mut entry.body);
+
         print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
