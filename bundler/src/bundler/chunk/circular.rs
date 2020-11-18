@@ -121,11 +121,11 @@ where
             }
         }
 
-        print_hygiene("[circular] entry:init", &self.cm, &entry);
+        // print_hygiene("[circular] entry:init", &self.cm, &entry);
 
         self.handle_import_deps(&entry_module, &mut entry, true);
 
-        print_hygiene("[circular] entry:reexport", &self.cm, &entry);
+        // print_hygiene("[circular] entry:reexport", &self.cm, &entry);
 
         // self.handle_import_deps(&entry_module, &mut entry, true);
 
@@ -167,7 +167,7 @@ where
                 )));
         }
 
-        print_hygiene("[circular] done", &self.cm, &entry);
+        // print_hygiene("[circular] done", &self.cm, &entry);
 
         Ok(entry)
     }
