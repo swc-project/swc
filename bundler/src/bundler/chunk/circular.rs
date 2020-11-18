@@ -276,20 +276,16 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
         }
 
         if !did_work {
-            // We gave up.
-            for i in 0..len {
-                let mut dfs = Dfs::new(&graph, i);
-
-                while let Some(node) = dfs.next(&graph) {
-                    if orders.contains(&node) {
-                        continue;
-                    }
-                    orders.push(node);
-                }
-            }
-
             break;
         }
+    }
+
+    // Now all dependencies are merged.
+    for i in 0..len {
+        if orders.contains(&i) {
+            continue;
+        }
+        orders.push(i);
     }
 
     let mut buf = Vec::with_capacity(new.len());
