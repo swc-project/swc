@@ -1,5 +1,11 @@
 use super::{merge::Unexporter, plan::Plan};
-use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::{
+        chunk::{merge::Ctx, plan::Dependancy},
+        load::TransformedModule,
+    },
+    Bundler, Load, ModuleId, Resolve,
+};
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
@@ -35,13 +41,13 @@ where
     /// modules.
     pub(super) fn merge_cjs(
         &self,
-        plan: &Plan,
+        ctx: &Ctx,
         is_entry: bool,
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
         dep_info: &TransformedModule,
-        targets: &mut Vec<ModuleId>,
+        targets: &mut Vec<Dependancy>,
     ) -> Result<(), Error> {
         log::debug!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
@@ -54,7 +60,7 @@ where
         entry.body.visit_mut_with(&mut v);
 
         if v.replaced {
-            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
+            if let Some(idx) = targets.iter().position(|v| v.id == dep_info.id) {
                 targets.remove(idx);
             }
 
@@ -79,15 +85,15 @@ where
                 log::warn!("Injecting load");
             }
 
-            if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
-                for dep_id in normal_plan.chunks.iter().map(|v| v.id) {
-                    if !targets.contains(&dep_id) {
+            if let Some(normal_plan) = ctx.plan.normal.get(&dep_info.id) {
+                for dep in normal_plan.chunks.iter() {
+                    if !targets.contains(&dep) {
                         continue;
                     }
 
-                    let dep_info = self.scope.get_module(dep_id).unwrap();
+                    let dep_info = self.scope.get_module(dep.id).unwrap();
                     self.merge_cjs(
-                        plan,
+                        ctx,
                         false,
                         entry,
                         info,

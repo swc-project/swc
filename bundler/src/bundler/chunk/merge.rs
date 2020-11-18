@@ -15,7 +15,7 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use retain_mut::RetainMut;
-use std::mem::take;
+use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -58,7 +58,7 @@ where
             let info = self.scope.get_module(module_id).unwrap();
 
             let mut module = self
-                .get_module_for_merging(module_id, is_entry)
+                .get_module_for_merging(ctx, module_id, is_entry)
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
             {
@@ -78,7 +78,7 @@ where
                     &module,
                 );
 
-                module = self.merge_deps(ctx, module, plan, &info)?;
+                module = self.merge_deps(ctx, is_entry, module, plan, &info)?;
 
                 print_hygiene(
                     &format!("after merging deps: {}", info.fm.name),
@@ -106,7 +106,7 @@ where
 
         // Now we handle imports
         let mut module = if wrapped {
-            let mut module = self.get_module_for_merging(dep_id, false)?;
+            let mut module = self.get_module_for_merging(ctx, dep_id, false)?;
             module = self.wrap_esm(dep_id, module)?;
 
             {
@@ -147,7 +147,7 @@ where
             };
 
             module = self
-                .merge_deps(ctx, module, plan, &dep_info)
+                .merge_deps(ctx, false, module, plan, &dep_info)
                 .context("failed to merge dependencies")?;
 
             module
@@ -270,6 +270,7 @@ where
     fn merge_deps(
         &self,
         ctx: &Ctx,
+        is_entry: bool,
         mut module: Module,
         plan: &NormalPlan,
         info: &TransformedModule,
@@ -349,7 +350,7 @@ where
                 let (is_export, source, dep, mut dep_module) = dep?;
                 let dep_info = self.scope.get_module(dep.id).unwrap();
 
-                if let Some(idx) = targets.iter().position(|v| *v == *dep) {
+                if let Some(idx) = targets.iter().position(|v| v.id == dep.id) {
                     targets.remove(idx);
                     if let Some(v) = ctx.plan.normal.get(&dep.id) {
                         targets.retain(|&dep| !v.chunks.contains(&dep));
@@ -419,8 +420,17 @@ where
                     // print_hygiene("entry: failed to inject", &self.cm, &entry);
 
                     dep_module.body = take(&mut injector.imported);
+                } else if self.config.require {
+                    self.merge_cjs(
+                        ctx,
+                        is_entry,
+                        &mut module,
+                        &info,
+                        Cow::Owned(dep_module),
+                        &dep_info,
+                        &mut targets,
+                    )?;
                 }
-
                 // if self.config.require {
                 //     self.merge_cjs(
                 //         plan,
@@ -440,6 +450,7 @@ where
 
     pub(super) fn get_module_for_merging(
         &self,
+        ctx: &Ctx,
         module_id: ModuleId,
         is_entry: bool,
     ) -> Result<Module, Error> {
