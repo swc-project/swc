@@ -246,6 +246,13 @@ fn deno_6802() {
 fn deno_8302() {
     run("tests/deno/issue-8302/input.ts", &["DB", "Empty", "Status"]);
 }
+#[test]
+fn merging_order_1() {
+    run(
+        "https://deno.land/x/oak@v6.3.1/multipart.ts",
+        &["FormDataReader"],
+    );
+}
 
 fn run(url: &str, exports: &[&str]) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
