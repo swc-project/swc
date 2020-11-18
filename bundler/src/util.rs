@@ -7,6 +7,19 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 pub(crate) mod graph;
 
+pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
+    fn into_module_item(self) -> ModuleItem {
+        ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: vec![self.into()],
+        })))
+    }
+}
+
+impl<T> VarDeclaratorExt for T where T: Into<VarDeclarator> {}
+
 pub(crate) trait ExprExt: Into<Expr> {
     fn assign_to<T>(self, lhs: T) -> VarDeclarator
     where
