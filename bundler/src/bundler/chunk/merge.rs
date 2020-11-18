@@ -420,7 +420,9 @@ where
                     // print_hygiene("entry: failed to inject", &self.cm, &entry);
 
                     dep_module.body = take(&mut injector.imported);
-                } else if self.config.require {
+                }
+
+                if self.config.require {
                     self.merge_cjs(
                         ctx,
                         is_entry,

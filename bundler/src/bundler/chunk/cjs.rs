@@ -50,7 +50,7 @@ where
         dep_info: &TransformedModule,
         targets: &mut Vec<Dependancy>,
     ) -> Result<(), Error> {
-        if dep_info.is_es6 {
+        if info.is_es6 && dep_info.is_es6 {
             return Ok(());
         }
 
