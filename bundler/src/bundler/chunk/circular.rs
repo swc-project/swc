@@ -71,6 +71,34 @@ where
             });
         }
 
+        let mut exports = vec![];
+        for item in entry.body.iter_mut() {
+            match item {
+                ModuleItem::ModuleDecl(decl) => match decl {
+                    ModuleDecl::ExportDecl(export) => match &export.decl {
+                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                            let mut exported = ident.clone();
+                            exported.span.ctxt = entry_module.export_ctxt();
+
+                            exports.push(ExportSpecifier::Named(ExportNamedSpecifier {
+                                span: export.span,
+                                orig: exported,
+                                exported: None,
+                            }));
+                        }
+                        Decl::Var(var) => {}
+                        _ => {}
+                    },
+                    ModuleDecl::ExportNamed(_) => {}
+                    ModuleDecl::ExportDefaultDecl(_) => {}
+                    ModuleDecl::ExportDefaultExpr(_) => {}
+                    ModuleDecl::ExportAll(_) => {}
+                    _ => {}
+                },
+                ModuleItem::Stmt(_) => {}
+            }
+        }
+
         self.handle_import_deps(&entry_module, &mut entry, true);
 
         print_hygiene("[circular] entry:init", &self.cm, &entry);
@@ -104,6 +132,21 @@ where
                 &entry,
             );
         }
+
+        if !exports.is_empty() {
+            entry
+                .body
+                .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    NamedExport {
+                        span: DUMMY_SP,
+                        specifiers: exports,
+                        src: None,
+                        type_only: false,
+                    },
+                )));
+        }
+
+        print_hygiene("[circular] done", &self.cm, &entry);
 
         Ok(entry)
     }

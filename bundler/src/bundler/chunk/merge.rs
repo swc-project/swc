@@ -608,11 +608,7 @@ where
                                             lhs.span = lhs.span.with_ctxt(info.export_ctxt());
                                             vars.push(named.orig.clone().assign_to(lhs));
                                         }
-                                        None => {
-                                            let mut lhs = named.orig.clone();
-                                            lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                            vars.push(named.orig.clone().assign_to(lhs));
-                                        }
+                                        None => {}
                                     },
                                 }
                             }
