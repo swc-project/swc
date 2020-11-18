@@ -96,7 +96,7 @@ fn oak_6_3_1_example_sse_server() {
 }
 
 #[test]
-fn deno_8188() {
+fn deno_8188_full() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
         &[
@@ -151,6 +151,14 @@ fn deno_8188() {
             "parseIP",
             "nkeys",
         ],
+    );
+}
+
+#[test]
+fn deno_8188_01() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-12/nats-base-client/nkeys.ts",
+        &["nkeys"],
     );
 }
 
