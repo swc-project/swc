@@ -394,11 +394,11 @@ where
                         _ => {}
                     }
 
-                    print_hygiene(
-                        &format!("entry: before injection of `{}`", dep_info.fm.name),
-                        &self.cm,
-                        &module,
-                    );
+                    // print_hygiene(
+                    //     &format!("entry: before injection of `{}`", dep_info.fm.name),
+                    //     &self.cm,
+                    //     &module,
+                    // );
 
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {

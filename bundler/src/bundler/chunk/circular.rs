@@ -131,7 +131,7 @@ where
                 )));
         }
 
-        print_hygiene("[circular] done", &self.cm, &entry);
+        // print_hygiene("[circular] done", &self.cm, &entry);
 
         Ok(entry)
     }
