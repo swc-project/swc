@@ -1,7 +1,7 @@
 use super::plan::{DepType, Plan};
 use crate::{
     bundler::{
-        chunk::{circular::sort, export::ExportInjector, plan::NormalPlan},
+        chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
     },
     debug::print_hygiene,
