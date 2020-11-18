@@ -1,3 +1,4 @@
+console.log('c');
 class A {
     method() {
         return new B2();
@@ -5,7 +6,6 @@ class A {
 }
 const A1 = A;
 const A2 = A1;
-console.log('c');
 class B extends A2 {
 }
 const B1 = B;

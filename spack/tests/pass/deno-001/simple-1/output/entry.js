@@ -11,6 +11,127 @@ function deferred() {
 const deferred1 = deferred;
 const deferred2 = deferred1;
 var tmp = Symbol.asyncIterator;
+const deferred3 = deferred;
+const deferred4 = deferred3;
+var tmp1 = Symbol.asyncIterator;
+function _parseAddrFromStr(addr) {
+    let url;
+    try {
+        const host = addr.startsWith(":") ? `0.0.0.0${addr}` : addr;
+        url = new URL(`http://${host}`);
+    } catch  {
+        throw new TypeError("Invalid address.");
+    }
+    if (url.username || url.password || url.pathname != "/" || url.search || url.hash) throw new TypeError("Invalid address.");
+    return {
+        hostname: url.hostname,
+        port: url.port === "" ? 80 : Number(url.port)
+    };
+}
+function emptyReader() {
+    return {
+        read (_) {
+            return Promise.resolve(null);
+        }
+    };
+}
+function bodyReader(contentLength, r) {
+    let totalRead = 0;
+    let finished = false;
+    async function read(buf) {
+        if (finished) return null;
+        let result;
+        const remaining = contentLength - totalRead;
+        if (remaining >= buf.byteLength) result = await r.read(buf);
+        else {
+            const readBuf = buf.subarray(0, remaining);
+            result = await r.read(readBuf);
+        }
+        if (result !== null) totalRead += result;
+        finished = totalRead === contentLength;
+        return result;
+    }
+    return {
+        read
+    };
+}
+function isProhibidedForTrailer(key) {
+    const s = new Set([
+        "transfer-encoding",
+        "content-length",
+        "trailer"
+    ]);
+    return s.has(key.toLowerCase());
+}
+async function writeChunkedBody(w, r) {
+    const writer = BufWriter.create(w);
+    for await (const chunk of Deno.iter(r)){
+        if (chunk.byteLength <= 0) continue;
+        const start = encoder.encode(`${chunk.byteLength.toString(16)}\r\n`);
+        const end = encoder.encode("\r\n");
+        await writer.write(start);
+        await writer.write(chunk);
+        await writer.write(end);
+    }
+    const endChunk = encoder.encode("0\r\n\r\n");
+    await writer.write(endChunk);
+}
+function parseHTTPVersion(vers) {
+    switch(vers){
+        case "HTTP/1.1":
+            return [
+                1,
+                1
+            ];
+        case "HTTP/1.0":
+            return [
+                1,
+                0
+            ];
+        default:
+            {
+                const Big = 1000000; // arbitrary upper bound
+                if (!vers.startsWith("HTTP/")) break;
+                const dot = vers.indexOf(".");
+                if (dot < 0) break;
+                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
+                const major = Number(majorStr);
+                if (!Number.isInteger(major) || major < 0 || major > Big) break;
+                const minorStr = vers.substring(dot + 1);
+                const minor = Number(minorStr);
+                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
+                return [
+                    major,
+                    minor
+                ];
+            }
+    }
+    throw new Error(`malformed HTTP version ${vers}`);
+}
+function fixLength(req) {
+    const contentLength = req.headers.get("Content-Length");
+    if (contentLength) {
+        const arrClen = contentLength.split(",");
+        if (arrClen.length > 1) {
+            const distinct = [
+                ...new Set(arrClen.map((e)=>e.trim()
+                ))
+            ];
+            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
+            else req.headers.set("Content-Length", distinct[0]);
+        }
+        const c = req.headers.get("Content-Length");
+        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
+        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
+        // that contains a Transfer-Encoding header field.
+        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
+        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+    }
+}
+const emptyReader1 = emptyReader;
+const bodyReader1 = bodyReader;
+const bodyReader2 = bodyReader1;
+const emptyReader2 = emptyReader1;
 class MuxAsyncIterator {
     add(iterator) {
         ++this.iteratorCount;
@@ -58,9 +179,7 @@ class MuxAsyncIterator {
         this.signal = deferred2();
     }
 }
-const deferred3 = deferred;
 const MuxAsyncIterator1 = MuxAsyncIterator;
-const deferred4 = deferred3;
 const MuxAsyncIterator2 = MuxAsyncIterator1;
 class ServerRequest {
     /**
@@ -133,7 +252,6 @@ class ServerRequest {
         this.finalized = false;
     }
 }
-var tmp1 = Symbol.asyncIterator;
 class Server {
     close() {
         this.closing = true;
@@ -221,20 +339,6 @@ class Server {
         this.connections = [];
     }
 }
-function _parseAddrFromStr(addr) {
-    let url;
-    try {
-        const host = addr.startsWith(":") ? `0.0.0.0${addr}` : addr;
-        url = new URL(`http://${host}`);
-    } catch  {
-        throw new TypeError("Invalid address.");
-    }
-    if (url.username || url.password || url.pathname != "/" || url.search || url.hash) throw new TypeError("Invalid address.");
-    return {
-        hostname: url.hostname,
-        port: url.port === "" ? 80 : Number(url.port)
-    };
-}
 function serve(addr) {
     if (typeof addr === "string") addr = _parseAddrFromStr(addr);
     const listener1 = Deno.listen(addr);
@@ -255,33 +359,6 @@ function serveTLS(options) {
 const ServerRequest1 = ServerRequest;
 const listenAndServe1 = listenAndServe;
 const ServerRequest2 = ServerRequest1;
-function emptyReader() {
-    return {
-        read (_) {
-            return Promise.resolve(null);
-        }
-    };
-}
-function bodyReader(contentLength, r) {
-    let totalRead = 0;
-    let finished = false;
-    async function read(buf) {
-        if (finished) return null;
-        let result;
-        const remaining = contentLength - totalRead;
-        if (remaining >= buf.byteLength) result = await r.read(buf);
-        else {
-            const readBuf = buf.subarray(0, remaining);
-            result = await r.read(readBuf);
-        }
-        if (result !== null) totalRead += result;
-        finished = totalRead === contentLength;
-        return result;
-    }
-    return {
-        read
-    };
-}
 function chunkedBodyReader(h, r) {
     // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
     const tp = new TextProtoReader(r);
@@ -341,14 +418,6 @@ function chunkedBodyReader(h, r) {
         read
     };
 }
-function isProhibidedForTrailer(key) {
-    const s = new Set([
-        "transfer-encoding",
-        "content-length",
-        "trailer"
-    ]);
-    return s.has(key.toLowerCase());
-}
 async function readTrailers(headers, r) {
     const trailers = parseTrailer(headers.get("trailer"));
     if (trailers == null) return;
@@ -382,19 +451,6 @@ function parseTrailer(field) {
             ""
         ]
     ));
-}
-async function writeChunkedBody(w, r) {
-    const writer = BufWriter.create(w);
-    for await (const chunk of Deno.iter(r)){
-        if (chunk.byteLength <= 0) continue;
-        const start = encoder.encode(`${chunk.byteLength.toString(16)}\r\n`);
-        const end = encoder.encode("\r\n");
-        await writer.write(start);
-        await writer.write(chunk);
-        await writer.write(end);
-    }
-    const endChunk = encoder.encode("0\r\n\r\n");
-    await writer.write(endChunk);
 }
 async function writeTrailers(w, headers, trailers) {
     const trailer = headers.get("trailer");
@@ -452,38 +508,6 @@ async function writeResponse(w, r) {
     }
     await writer.flush();
 }
-function parseHTTPVersion(vers) {
-    switch(vers){
-        case "HTTP/1.1":
-            return [
-                1,
-                1
-            ];
-        case "HTTP/1.0":
-            return [
-                1,
-                0
-            ];
-        default:
-            {
-                const Big = 1000000; // arbitrary upper bound
-                if (!vers.startsWith("HTTP/")) break;
-                const dot = vers.indexOf(".");
-                if (dot < 0) break;
-                const majorStr = vers.substring(vers.indexOf("/") + 1, dot);
-                const major = Number(majorStr);
-                if (!Number.isInteger(major) || major < 0 || major > Big) break;
-                const minorStr = vers.substring(dot + 1);
-                const minor = Number(minorStr);
-                if (!Number.isInteger(minor) || minor < 0 || minor > Big) break;
-                return [
-                    major,
-                    minor
-                ];
-            }
-    }
-    throw new Error(`malformed HTTP version ${vers}`);
-}
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
     const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
@@ -499,34 +523,10 @@ async function readRequest(conn, bufr) {
     fixLength(req);
     return req;
 }
-function fixLength(req) {
-    const contentLength = req.headers.get("Content-Length");
-    if (contentLength) {
-        const arrClen = contentLength.split(",");
-        if (arrClen.length > 1) {
-            const distinct = [
-                ...new Set(arrClen.map((e)=>e.trim()
-                ))
-            ];
-            if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
-            else req.headers.set("Content-Length", distinct[0]);
-        }
-        const c = req.headers.get("Content-Length");
-        if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
-    }
-}
-const emptyReader1 = emptyReader;
-const bodyReader1 = bodyReader;
 const chunkedBodyReader1 = chunkedBodyReader;
 const writeResponse1 = writeResponse;
 const readRequest1 = readRequest;
-const bodyReader2 = bodyReader1;
 const chunkedBodyReader2 = chunkedBodyReader1;
-const emptyReader2 = emptyReader1;
 const writeResponse2 = writeResponse1;
 const readRequest2 = readRequest1;
 const listenAndServe2 = listenAndServe1;

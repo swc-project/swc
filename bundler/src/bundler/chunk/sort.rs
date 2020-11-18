@@ -110,6 +110,37 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
     let len = new.len();
     let mut orders: Vec<usize> = vec![];
 
+    // No dependencies
+    loop {
+        if graph.all_edges().count() == 0 {
+            break;
+        }
+
+        let mut did_work = false;
+        // Add nodes which does not have any dependencies.
+        for i in 0..len {
+            if orders.contains(&i) {
+                continue;
+            }
+
+            let dependants = graph.neighbors_directed(i, Incoming);
+
+            if dependants.count() != 0 {
+                continue;
+            }
+
+            did_work = true;
+            orders.push(i);
+
+            // Remove dependencies to other node.
+            graph.remove_node(i);
+        }
+
+        if !did_work {
+            break;
+        }
+    }
+
     // Strong dependencies
     loop {
         if graph.all_edges().count() == 0 {
