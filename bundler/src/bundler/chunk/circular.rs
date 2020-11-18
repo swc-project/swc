@@ -108,30 +108,30 @@ where
         // });
         // print_hygiene("entry:drop_imports", &self.cm, &entry);
         let mut deps = plan.chunks.clone();
-        deps.sort_by_key(|&dep| (!direct_deps.contains(&dep), dep));
-
-        for dep in deps {
+        deps.retain(|&dep| {
             if dep == entry_id {
-                continue;
+                return false;
             }
 
             if !ctx.merged.insert(dep) {
                 log::debug!("[circular] skip: {:?}", dep);
-                continue;
+                return false;
             }
 
             log::debug!("Circular merge: {:?}", dep);
 
-            let new_module = self.merge_two_circular_modules(ctx, &modules, entry, dep)?;
+            true
+        });
 
-            entry = new_module;
+        let new_module = self.merge_circular_modules(ctx, &modules, entry, deps)?;
 
-            print_hygiene(
-                "[circular] entry:merge_two_circular_modules",
-                &self.cm,
-                &entry,
-            );
-        }
+        entry = new_module;
+
+        print_hygiene(
+            "[circular] entry:merge_two_circular_modules",
+            &self.cm,
+            &entry,
+        );
 
         if !exports.is_empty() {
             entry
@@ -152,29 +152,35 @@ where
     }
 
     /// Merges `a` and `b` into one module.
-    fn merge_two_circular_modules(
+    fn merge_circular_modules(
         &self,
         ctx: &Ctx,
         _circular_modules: &[TransformedModule],
         mut entry: Module,
-        dep: ModuleId,
+        deps: Vec<ModuleId>,
     ) -> Result<Module, Error> {
         self.run(|| {
-            let dep_info = self.scope.get_module(dep).unwrap();
-            let mut dep = self
-                .merge_modules(ctx, dep, false, false)
-                .context("failed to merge dependency of a cyclic module")?;
+            let mut dep_body = vec![];
 
-            print_hygiene("[circular] dep:init 1", &self.cm, &dep);
+            for dep in deps {
+                let dep_info = self.scope.get_module(dep).unwrap();
+                let mut dep = self
+                    .merge_modules(ctx, dep, false, false)
+                    .context("failed to merge dependency of a cyclic module")?;
 
-            self.handle_import_deps(&dep_info, &mut dep, true);
+                print_hygiene("[circular] dep:init 1", &self.cm, &dep);
 
-            print_hygiene("[circular] dep:init 2", &self.cm, &dep);
+                self.handle_import_deps(&dep_info, &mut dep, true);
+
+                print_hygiene("[circular] dep:init 2", &self.cm, &dep);
+
+                dep_body.extend(dep.body);
+            }
 
             // dep = dep.fold_with(&mut Unexporter);
 
             // Merge code
-            entry.body = merge_respecting_order(dep.body, entry.body);
+            entry.body = merge_respecting_order(dep_body, entry.body);
 
             print_hygiene(
                 "[circular] END :merge_two_circular_modules",
