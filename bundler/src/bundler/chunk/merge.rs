@@ -103,6 +103,8 @@ where
         dep_id: ModuleId,
         specifiers: &[Specifier],
     ) -> Result<Module, Error> {
+        log::debug!("Merging {:?} directly", dep_id);
+
         let dep_info = self.scope.get_module(dep_id).unwrap();
         let wrapped = self.scope.should_be_wrapped_with_a_fn(dep_id);
 
@@ -207,6 +209,8 @@ where
     }
 
     fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
+        log::debug!("Merging {:?} transitively", dep_id);
+
         let dep_info = self.scope.get_module(dep_id).unwrap();
         let mut module = self.merge_modules(ctx, dep_id, false, true)?;
         self.handle_import_deps(&dep_info, &mut module, false);

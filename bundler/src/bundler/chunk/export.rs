@@ -59,6 +59,7 @@ where
         specifiers: &[Specifier],
     ) -> Result<Module, Error> {
         self.run(|| {
+            log::debug!("Reexporting {:?}", dep_id);
             let dep_info = self.scope.get_module(dep_id).unwrap();
             let mut dep = self
                 .merge_modules(ctx, dep_id, false, true)
