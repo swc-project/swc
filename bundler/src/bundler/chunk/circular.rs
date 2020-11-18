@@ -257,31 +257,40 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
     let len = new.len();
     let mut orders: Vec<usize> = vec![];
 
-    // Add nodes which does not have any dependencies.
-    for i in 0..len {
-        if graph.neighbors_directed(i, Incoming).count() != 0 {
-            continue;
+    loop {
+        if graph.all_edges().count() == 0 {
+            break;
         }
 
-        orders.push(i);
-    }
-
-    for i in 0..len {
-        if graph.neighbors_directed(i, Incoming).count() != 0 {
-            continue;
-        }
-
-        let mut dfs = Dfs::new(&graph, i);
-
-        while let Some(node) = dfs.next(&graph) {
-            if orders.contains(&node) {
+        let mut did_work = false;
+        // Add nodes which does not have any dependencies.
+        for i in 0..len {
+            if graph.neighbors_directed(i, Incoming).count() != 0 {
                 continue;
             }
-            orders.push(node);
+
+            did_work = true;
+            orders.push(i);
+            // Remove dependency
+            graph.remove_node(i);
+        }
+
+        if !did_work {
+            // We gave up.
+            for i in 0..len {
+                let mut dfs = Dfs::new(&graph, i);
+
+                while let Some(node) = dfs.next(&graph) {
+                    if orders.contains(&node) {
+                        continue;
+                    }
+                    orders.push(node);
+                }
+            }
+
+            break;
         }
     }
-
-    dbg!(&orders);
 
     let mut buf = Vec::with_capacity(new.len());
     for order in orders {

@@ -1,12 +1,12 @@
 function a() {
     return new A();
 }
+const a1 = a;
 function getC() {
     return C;
 }
 class C {
 }
-const a1 = a;
 const getC1 = getC;
 const getC2 = getC1;
 class A extends getC2() {
