@@ -126,18 +126,13 @@ where
                     })
                     .unwrap();
 
-                module
-                    .body
-                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
-                        declare: false,
-                        decls: vec![self
-                            .scope
-                            .wrapped_esm_id(dep_id)
-                            .unwrap()
-                            .assign_to(module_ident)],
-                    }))));
+                module.body.push(
+                    self.scope
+                        .wrapped_esm_id(dep_id)
+                        .unwrap()
+                        .assign_to(module_ident)
+                        .into_module_item("merge_direct_import"),
+                );
             }
 
             let plan = ctx.plan.normal.get(&dep_id);
@@ -202,7 +197,9 @@ where
         }));
 
         for var in var_decls {
-            module.body.push(var.into_module_item());
+            module
+                .body
+                .push(var.into_module_item("from_merge_direct_import"));
         }
 
         Ok(module)
@@ -220,7 +217,9 @@ where
         module = module.fold_with(&mut Unexporter);
 
         for var in var_decls {
-            module.body.push(var.into_module_item());
+            module
+                .body
+                .push(var.into_module_item("from_merge_transitive_import"));
         }
 
         Ok(module)
@@ -579,7 +578,7 @@ where
                                         imported
                                             .clone()
                                             .assign_to(named.local.clone())
-                                            .into_module_item(),
+                                            .into_module_item("from_replace_import_specifiers"),
                                     );
                                     continue;
                                 }
@@ -599,7 +598,7 @@ where
                                     new.push(
                                         imported
                                             .assign_to(default.local.clone())
-                                            .into_module_item(),
+                                            .into_module_item("from_replace_import_specifiers"),
                                     );
                                     continue;
                                 }
@@ -777,7 +776,7 @@ where
         }
 
         for var in vars {
-            module.body.push(var.into_module_item())
+            module.body.push(var.into_module_item("handle_import_deps"))
         }
     }
 }
@@ -982,7 +981,7 @@ impl VisitMut for Es6ModuleInjector {
                             .collect::<Vec<_>>();
 
                         for var in decls {
-                            buf.push(var.into_module_item());
+                            buf.push(var.into_module_item("Es6ModuleInjector"));
                         }
                     }
                 }

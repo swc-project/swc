@@ -129,17 +129,11 @@ where
                 for specifier in specifiers {
                     match specifier {
                         Specifier::Namespace { local, .. } => {
-                            dep.body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                                ExportDecl {
-                                    span: DUMMY_SP,
-                                    decl: Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Const,
-                                        declare: false,
-                                        decls: vec![module_name.assign_to(local.clone())],
-                                    }),
-                                },
-                            )));
+                            dep.body.push(
+                                module_name
+                                    .assign_to(local.clone())
+                                    .into_module_item("merge_export"),
+                            );
                             break;
                         }
                         _ => {}
@@ -237,7 +231,7 @@ where
 
             new_body.push(stmt);
             for var in vars {
-                new_body.push(var.into_module_item())
+                new_body.push(var.into_module_item("from_export_rs"))
             }
         }
 
@@ -298,7 +292,7 @@ impl VisitMut for ExportInjector {
                         .collect::<Vec<_>>();
 
                     for var in decls {
-                        buf.push(var.into_module_item());
+                        buf.push(var.into_module_item("ExportInjector"));
                     }
                 }
 
@@ -390,20 +384,16 @@ impl VisitMut for UnexportAsVar<'_> {
                     Box::new(Expr::Invalid(Invalid { span: DUMMY_SP })),
                 );
 
-                *n = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: export.span,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new(
-                            "__default".into(),
-                            expr.span().with_ctxt(self.dep_export_ctxt),
-                        )),
-                        init: Some(expr),
-                        definite: false,
-                    }],
-                })));
+                *n = VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(Ident::new(
+                        "__default".into(),
+                        expr.span().with_ctxt(self.dep_export_ctxt),
+                    )),
+                    init: Some(expr),
+                    definite: false,
+                }
+                .into_module_item("UnexportAsVar");
             }
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 ref export @ NamedExport { src: None, .. },
@@ -431,17 +421,23 @@ impl VisitMut for UnexportAsVar<'_> {
                                 }
                             }
                             None => {
-                                log::trace!("Alias: {:?} -> {:?}", n.orig, self.dep_export_ctxt);
+                                if n.orig.span.ctxt != self.dep_export_ctxt {
+                                    log::trace!(
+                                        "Alias: {:?} -> {:?}",
+                                        n.orig,
+                                        self.dep_export_ctxt
+                                    );
 
-                                decls.push(VarDeclarator {
-                                    span: n.span,
-                                    name: Pat::Ident(Ident::new(
-                                        n.orig.sym.clone(),
-                                        n.orig.span.with_ctxt(self.dep_export_ctxt),
-                                    )),
-                                    init: Some(Box::new(Expr::Ident(n.orig.clone()))),
-                                    definite: false,
-                                })
+                                    decls.push(VarDeclarator {
+                                        span: n.span,
+                                        name: Pat::Ident(Ident::new(
+                                            n.orig.sym.clone(),
+                                            n.orig.span.with_ctxt(self.dep_export_ctxt),
+                                        )),
+                                        init: Some(Box::new(Expr::Ident(n.orig.clone()))),
+                                        definite: false,
+                                    })
+                                }
                             }
                         },
                     }

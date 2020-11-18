@@ -8,12 +8,16 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 pub(crate) mod graph;
 
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
-    fn into_module_item(self) -> ModuleItem {
+    fn into_module_item(self, name: &'static str) -> ModuleItem {
         ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Const,
             declare: false,
-            decls: vec![self.into()],
+            decls: vec![
+                self.into(),
+                /* Ident::new(name.into(), DUMMY_SP)
+                 *     .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)), */
+            ],
         })))
     }
 }

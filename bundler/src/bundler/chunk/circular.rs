@@ -5,11 +5,13 @@ use crate::{
         load::TransformedModule,
     },
     debug::print_hygiene,
+    id::Id,
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 
 #[cfg(test)]
 mod tests;
@@ -76,10 +78,31 @@ where
                                 exported: None,
                             }));
                         }
-                        Decl::Var(var) => {}
+                        Decl::Var(var) => {
+                            let ids: Vec<Id> = find_ids(var);
+
+                            for ident in ids {
+                                let mut exported = ident.into_ident();
+                                exported.span.ctxt = entry_module.export_ctxt();
+
+                                exports.push(ExportSpecifier::Named(ExportNamedSpecifier {
+                                    span: export.span,
+                                    orig: exported,
+                                    exported: None,
+                                }));
+                            }
+                        }
                         _ => {}
                     },
-                    ModuleDecl::ExportNamed(_) => {}
+                    ModuleDecl::ExportNamed(export) => {
+                        for specifier in &mut export.specifiers {
+                            match specifier {
+                                ExportSpecifier::Namespace(_) => {}
+                                ExportSpecifier::Default(_) => {}
+                                ExportSpecifier::Named(named) => {}
+                            }
+                        }
+                    }
                     ModuleDecl::ExportDefaultDecl(_) => {}
                     ModuleDecl::ExportDefaultExpr(_) => {}
                     ModuleDecl::ExportAll(_) => {}
@@ -89,9 +112,13 @@ where
             }
         }
 
+        print_hygiene("[circular] entry:init", &self.cm, &entry);
+
         self.handle_import_deps(&entry_module, &mut entry, true);
 
-        // print_hygiene("[circular] entry:init", &self.cm, &entry);
+        print_hygiene("[circular] entry:reexport", &self.cm, &entry);
+
+        // self.handle_import_deps(&entry_module, &mut entry, true);
 
         // entry.visit_mut_with(&mut ImportDropper {
         //     imports: &entry_module.imports,
@@ -131,7 +158,7 @@ where
                 )));
         }
 
-        // print_hygiene("[circular] done", &self.cm, &entry);
+        print_hygiene("[circular] done", &self.cm, &entry);
 
         Ok(entry)
     }
