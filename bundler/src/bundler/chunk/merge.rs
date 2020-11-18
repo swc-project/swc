@@ -376,6 +376,12 @@ where
                     };
                     module.body.visit_mut_with(&mut injector);
 
+                    log::debug!(
+                        "Merged {} into {} as a reexport",
+                        dep_info.fm.name,
+                        info.fm.name,
+                    );
+
                     continue;
                 }
 
@@ -384,7 +390,7 @@ where
 
                     match dep.ty {
                         DepType::Transitive => {
-                            prepend_stmts(&mut module.body, take(&mut dep_module.body).into_iter());
+                            module.body.extend(dep_module.body);
 
                             log::debug!(
                                 "Merged {} into {} as a transitive es module",
@@ -429,9 +435,14 @@ where
                         continue;
                     }
 
-                    // print_hygiene("entry: failed to inject", &self.cm, &entry);
-
-                    dep_module.body = take(&mut injector.imported);
+                    // dep_module.body = take(&mut injector.imported);
+                    module.body.extend(injector.imported);
+                    continue;
+                    // print_hygiene(
+                    //     &format!("entry: failed to inject: {}; {:?}",
+                    // dep_info.fm.name, dep),     &self.cm,
+                    //     &dep_module,
+                    // );
                 }
 
                 if self.config.require {
