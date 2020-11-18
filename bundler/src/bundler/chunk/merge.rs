@@ -394,6 +394,12 @@ where
                         _ => {}
                     }
 
+                    print_hygiene(
+                        &format!("entry: before injection of `{}`", dep_info.fm.name),
+                        &self.cm,
+                        &module,
+                    );
+
                     // Replace import statement / require with module body
                     let mut injector = Es6ModuleInjector {
                         imported: take(&mut dep_module.body),
@@ -406,8 +412,6 @@ where
                     module.body.visit_mut_with(&mut injector);
 
                     if injector.imported.is_empty() {
-                        // print_hygiene("entry:after:injection", &self.cm, &entry);
-
                         log::debug!(
                             "Merged {} into {} as an es module",
                             dep_info.fm.name,
