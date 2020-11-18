@@ -213,6 +213,10 @@ where
                 for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => {
+                            if let Some((_, export_ctxt)) = ctxt {
+                                n.name.span.ctxt = export_ctxt;
+                            }
+
                             need_wrapping = true;
                             v.push(Specifier::Namespace {
                                 local: n.name.clone().into(),

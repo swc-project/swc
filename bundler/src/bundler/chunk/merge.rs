@@ -625,7 +625,13 @@ where
                                             lhs.span = lhs.span.with_ctxt(info.export_ctxt());
                                             vars.push(named.orig.clone().assign_to(lhs));
                                         }
-                                        None => {}
+                                        None => {
+                                            if info.export_ctxt() != named.orig.span.ctxt {
+                                                let mut lhs: Ident = named.orig.clone();
+                                                lhs.span.ctxt = info.export_ctxt();
+                                                vars.push(named.orig.clone().assign_to(lhs));
+                                            }
+                                        }
                                     },
                                 }
                             }
