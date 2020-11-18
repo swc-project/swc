@@ -7,6 +7,7 @@ class MuxAsyncIterator {
         this.signal = deferred2();
     }
 }
-const deferred3 = deferred, MuxAsyncIterator1 = MuxAsyncIterator;
+const deferred3 = deferred;
+const MuxAsyncIterator1 = MuxAsyncIterator;
 const deferred4 = deferred3, MuxAsyncIterator2 = MuxAsyncIterator1;
 console.log(deferred4, MuxAsyncIterator2);
