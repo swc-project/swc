@@ -196,6 +196,11 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
 }
 
 pub(super) fn sort(new: &mut Vec<ModuleItem>) {
+    new.retain(|item| match item {
+        ModuleItem::Stmt(Stmt::Empty(..)) => false,
+        _ => true,
+    });
+
     let mut graph = StmtDepGraph::default();
     let mut declared_by = HashMap::<Id, usize>::default();
 
