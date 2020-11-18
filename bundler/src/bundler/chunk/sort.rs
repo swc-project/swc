@@ -4,7 +4,7 @@ use petgraph::{
     graphmap::DiGraphMap,
     EdgeDirection::{Incoming, Outgoing},
 };
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -29,7 +29,8 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
     });
 
     let mut graph = StmtDepGraph::default();
-    let mut declared_by = HashMap::<Id, usize>::default();
+    let mut declared_by = HashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = HashSet::<Id>::new();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);
@@ -45,13 +46,13 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
                 //
                 match decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                        declared_by.insert(Id::from(ident), idx);
+                        declared_by.entry(Id::from(ident)).or_default().push(idx);
                     }
                     Decl::Var(vars) => {
                         let ids: Vec<Id> = find_ids(&vars.decls);
 
                         for id in ids {
-                            declared_by.insert(id, idx);
+                            declared_by.entry(id).or_default().push(idx);
                         }
                     }
                     _ => {}
@@ -61,6 +62,13 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
         }
     }
 
+    // TODO: Handle uninitialized variables
+    //
+    // Compiled typescript enum is not initialized by declaration
+    //
+    // var Status;
+    // (function(Status){})(Status)
+
     for (idx, item) in new.iter().enumerate() {
         // We then calculate which ids a statement require to be executed.
         // Again, we don't need to analyze non-top-level idents because they
@@ -69,9 +77,11 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
         item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
         for (id, kind) in visitor.required_ids {
-            if let Some(&declarator_idx) = declared_by.get(&id) {
-                if declarator_idx != idx {
-                    graph.add_edge(declarator_idx, idx, kind);
+            if let Some(declarator_indexes) = declared_by.get(&id) {
+                for &declarator_index in declarator_indexes {
+                    if declarator_index != idx {
+                        graph.add_edge(declarator_index, idx, kind);
+                    }
                 }
             }
         }
