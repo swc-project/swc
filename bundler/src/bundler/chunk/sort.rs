@@ -1,14 +1,26 @@
-use super::plan::CircularPlan;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
-use petgraph::{graphmap::DiGraphMap, EdgeDirection::Incoming};
+use petgraph::{
+    graphmap::DiGraphMap,
+    EdgeDirection::{Incoming, Outgoing},
+};
 use std::collections::HashMap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
-type StmtDepGraph = DiGraphMap<usize, ()>;
+type StmtDepGraph = DiGraphMap<usize, Required>;
+
+/// Is dependancy between nodes hard?
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+enum Required {
+    /// Required to evaluate
+    Always,
+
+    /// Maybe required to evaluate
+    Maybe,
+}
 
 pub(super) fn sort(new: &mut Vec<ModuleItem>) {
     new.retain(|item| match item {
@@ -56,10 +68,10 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
         let mut visitor = RequirementCalculartor::default();
         item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
-        for id in visitor.required_ids {
+        for (id, kind) in visitor.required_ids {
             if let Some(&declarator_idx) = declared_by.get(&id) {
                 if declarator_idx != idx {
-                    graph.add_edge(declarator_idx, idx, ());
+                    graph.add_edge(declarator_idx, idx, kind);
                 }
             }
         }
@@ -69,6 +81,7 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
     let len = new.len();
     let mut orders: Vec<usize> = vec![];
 
+    // Strong dependencies
     loop {
         if graph.all_edges().count() == 0 {
             break;
@@ -77,12 +90,54 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
         let mut did_work = false;
         // Add nodes which does not have any dependencies.
         for i in 0..len {
-            if graph.neighbors_directed(i, Incoming).count() != 0 {
+            if orders.contains(&i) {
+                continue;
+            }
+
+            let dependants = graph
+                .neighbors_directed(i, Incoming)
+                .filter(|&entry| graph.edge_weight(entry, i) == Some(&Required::Always));
+
+            if dependants.count() != 0 {
                 continue;
             }
 
             did_work = true;
             orders.push(i);
+
+            // Remove strong dependency
+            for dependancy in graph
+                .neighbors_directed(i, Outgoing)
+                .filter(|&dep| graph.edge_weight(i, dep) == Some(&Required::Always))
+                .collect::<Vec<_>>()
+            {
+                graph.remove_edge(i, dependancy).unwrap();
+            }
+        }
+
+        if !did_work {
+            break;
+        }
+    }
+
+    // Weak dependencies
+    loop {
+        if graph.all_edges().count() == 0 {
+            break;
+        }
+
+        let mut did_work = false;
+        // Add nodes which does not have any dependencies.
+        for i in 0..len {
+            let dependants = graph.neighbors_directed(i, Incoming);
+
+            if orders.contains(&i) || dependants.count() != 0 {
+                continue;
+            }
+
+            did_work = true;
+            orders.push(i);
+
             // Remove dependency
             graph.remove_node(i);
         }
@@ -113,15 +168,50 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
 /// But we care about modifications.
 #[derive(Default)]
 struct RequirementCalculartor {
-    required_ids: IndexSet<Id>,
-    weak_requirements: IndexSet<Id>,
+    required_ids: IndexSet<(Id, Required)>,
 
     in_weak: bool,
     in_var_decl: bool,
 }
 
+macro_rules! weak {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, f: &$T, _: &dyn Node) {
+            let in_weak = self.in_weak;
+            self.in_weak = true;
+
+            f.visit_children_with(self);
+
+            self.in_weak = in_weak;
+        }
+    };
+}
+
+impl RequirementCalculartor {
+    fn insert(&mut self, i: Id) {
+        self.required_ids.insert((
+            i,
+            if self.in_weak {
+                Required::Maybe
+            } else {
+                Required::Always
+            },
+        ));
+    }
+}
+
 impl Visit for RequirementCalculartor {
     noop_visit_type!();
+
+    weak!(visit_arrow_expr, ArrowExpr);
+    weak!(visit_function, Function);
+    weak!(visit_class_method, ClassMethod);
+    weak!(visit_private_method, PrivateMethod);
+    weak!(visit_method_prop, MethodProp);
+
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+        self.insert(n.orig.clone().into());
+    }
 
     fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
         match pat {
@@ -130,7 +220,7 @@ impl Visit for RequirementCalculartor {
                 if self.in_var_decl {
                     return;
                 }
-                self.required_ids.insert(i.into());
+                self.insert(i.into());
             }
             _ => {}
         }
@@ -145,19 +235,13 @@ impl Visit for RequirementCalculartor {
         self.in_var_decl = in_var_decl;
     }
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_class_method(&mut self, _: &ClassMethod, _: &dyn Node) {}
-    fn visit_private_method(&mut self, _: &PrivateMethod, _: &dyn Node) {}
-    fn visit_method_prop(&mut self, _: &MethodProp, _: &dyn Node) {}
-
     fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
         let in_var_decl = self.in_var_decl;
         self.in_var_decl = false;
 
         match expr {
             Expr::Ident(i) => {
-                self.required_ids.insert(i.into());
+                self.insert(i.into());
             }
             _ => {
                 expr.visit_children_with(self);
@@ -170,7 +254,7 @@ impl Visit for RequirementCalculartor {
     fn visit_prop(&mut self, prop: &Prop, _: &dyn Node) {
         match prop {
             Prop::Shorthand(i) => {
-                self.required_ids.insert(i.into());
+                self.insert(i.into());
             }
             _ => prop.visit_children_with(self),
         }
