@@ -751,15 +751,8 @@ where
             *orig_stmt = stmt;
         }
 
-        if !vars.is_empty() {
-            module
-                .body
-                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: vars,
-                }))))
+        for var in vars {
+            module.body.push(var.into_module_item())
         }
     }
 }

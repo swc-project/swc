@@ -4,7 +4,7 @@ use crate::{
         load::{Source, Specifier, TransformedModule},
     },
     debug::print_hygiene,
-    util::{ExprExt, MapWithMut},
+    util::{ExprExt, MapWithMut, VarDeclaratorExt},
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
@@ -235,13 +235,8 @@ where
             }
 
             new_body.push(stmt);
-            if !vars.is_empty() {
-                new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: vars,
-                }))))
+            for var in vars {
+                new_body.push(var.into_module_item())
             }
         }
 
