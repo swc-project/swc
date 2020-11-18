@@ -163,6 +163,25 @@ fn deno_8188_01() {
 }
 
 #[test]
+fn deno_8188_02() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nkeys.js/v1.0.0-7/modules/esm/mod.ts",
+        &[
+            "NKeysError",
+            "NKeysErrorCode",
+            "createAccount",
+            "createOperator",
+            "createPair",
+            "createUser",
+            "decode",
+            "encode",
+            "fromPublic",
+            "fromSeed",
+        ],
+    );
+}
+
+#[test]
 fn deno_8189() {
     run(
         "https://deno.land/x/lz4/mod.ts",
