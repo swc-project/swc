@@ -324,14 +324,18 @@ where
 
                         let dep_module = match dep.ty {
                             DepType::Direct => {
-                                let (_, specifiers) = info
+                                let res = info
                                     .imports
                                     .specifiers
                                     .iter()
-                                    .find(|(src, _)| src.module_id == dep.id)
-                                    .expect("it is direct dependency");
+                                    .find(|(src, _)| src.module_id == dep.id);
 
-                                self.merge_direct_import(ctx, dep.id, &specifiers)?
+                                if let Some((_, specifiers)) = res {
+                                    self.merge_direct_import(ctx, dep.id, &specifiers)?
+                                } else {
+                                    // Common js requires different planning strategy.
+                                    self.merge_transitive_import(ctx, dep.id)?
+                                }
                             }
                             DepType::Transitive => {
                                 debug_assert!(!wrapped, "Transitive dependency cannot be wrapped");
