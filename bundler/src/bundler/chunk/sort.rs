@@ -4,7 +4,7 @@ use petgraph::{
     graphmap::DiGraphMap,
     EdgeDirection::{Incoming, Outgoing},
 };
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -30,7 +30,7 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
 
     let mut graph = StmtDepGraph::default();
     let mut declared_by = HashMap::<Id, Vec<usize>>::default();
-    let mut uninitialized_ids = HashSet::<Id>::new();
+    let mut uninitialized_ids = HashMap::<Id, usize>::new();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);
@@ -49,10 +49,15 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
                         declared_by.entry(Id::from(ident)).or_default().push(idx);
                     }
                     Decl::Var(vars) => {
-                        let ids: Vec<Id> = find_ids(&vars.decls);
-
-                        for id in ids {
-                            declared_by.entry(id).or_default().push(idx);
+                        for var in &vars.decls {
+                            //
+                            let ids: Vec<Id> = find_ids(&var.name);
+                            for id in ids {
+                                if var.init.is_none() {
+                                    uninitialized_ids.insert(id.clone(), idx);
+                                }
+                                declared_by.entry(id).or_default().push(idx);
+                            }
                         }
                     }
                     _ => {}
@@ -62,12 +67,26 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
         }
     }
 
-    // TODO: Handle uninitialized variables
+    // Handle uninitialized variables
     //
     // Compiled typescript enum is not initialized by declaration
     //
     // var Status;
     // (function(Status){})(Status)
+    for (uninit_id, start_idx) in uninitialized_ids {
+        for (idx, item) in new.iter().enumerate().filter(|(idx, _)| *idx > start_idx) {
+            let mut finder = InitializerFinder {
+                ident: uninit_id.clone(),
+                found: false,
+                in_complex: false,
+            };
+            item.visit_with(&Invalid { span: DUMMY_SP }, &mut finder);
+            if finder.found {
+                declared_by.entry(uninit_id).or_default().push(idx);
+                break;
+            }
+        }
+    }
 
     for (idx, item) in new.iter().enumerate() {
         // We then calculate which ids a statement require to be executed.
@@ -172,6 +191,43 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
     }
 
     *new = buf;
+}
+
+/// Finds usage of `ident`
+struct InitializerFinder {
+    ident: Id,
+    found: bool,
+    in_complex: bool,
+}
+
+impl Visit for InitializerFinder {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if self.in_complex && self.ident == *i {
+            self.found = true;
+        }
+    }
+
+    fn visit_expr_or_spread(&mut self, node: &ExprOrSpread, _: &dyn Node) {
+        let in_complex = self.in_complex;
+        self.in_complex = true;
+        node.visit_children_with(self);
+        self.in_complex = in_complex;
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        {
+            let in_complex = self.in_complex;
+            self.in_complex = true;
+            e.obj.visit_children_with(self);
+            self.in_complex = in_complex;
+        }
+
+        if e.computed {
+            e.prop.visit_with(e as _, self);
+        }
+    }
 }
 
 /// We do not care about variables created by current statement.
