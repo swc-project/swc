@@ -2,7 +2,6 @@ use super::*;
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
 use swc_ecma_utils::drop_span;
-use testing::assert_eq;
 
 fn parse(cm: Lrc<SourceMap>, name: &str, src: &str) -> Module {
     let fm = cm.new_source_file(FileName::Custom(name.into()), src.into());
