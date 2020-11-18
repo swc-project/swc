@@ -247,10 +247,63 @@ fn deno_8302() {
     run("tests/deno/issue-8302/input.ts", &["DB", "Empty", "Status"]);
 }
 #[test]
-fn merging_order_1() {
+fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
         &["FormDataReader"],
+    );
+}
+
+#[test]
+fn reexport_01() {
+    run(
+        "https://raw.githubusercontent.com/aricart/tweetnacl-deno/import-type-fixes/src/nacl.ts",
+        &[
+            "AuthLength",
+            "ByteArray",
+            "HalfArray",
+            "HashLength",
+            "IntArray",
+            "NumArray",
+            "SealedBoxLength",
+            "SignLength",
+            "WordArray",
+            "_hash",
+            "_verify_16",
+            "_verify_32",
+            "auth",
+            "auth_full",
+            "blake2b",
+            "blake2b_final",
+            "blake2b_init",
+            "blake2b_update",
+            "blake2s",
+            "blake2s_final",
+            "blake2s_init",
+            "blake2s_update",
+            "decodeBase64",
+            "decodeHex",
+            "decodeUTF8",
+            "encodeBase64",
+            "encodeHex",
+            "encodeUTF8",
+            "hash",
+            "randomBytes",
+            "scalarbase",
+            "scalarmult",
+            "sealedbox",
+            "sealedbox_open",
+            "sign",
+            "sign_detached",
+            "sign_detached_verify",
+            "sign_keyPair",
+            "sign_keyPair_fromSecretKey",
+            "sign_keyPair_fromSeed",
+            "sign_open",
+            "validateBase64",
+            "validateHex",
+            "verify",
+        ],
     );
 }
 
