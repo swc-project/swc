@@ -435,9 +435,13 @@ where
                         continue;
                     }
 
-                    // dep_module.body = take(&mut injector.imported);
-                    module.body.extend(injector.imported);
-                    continue;
+                    if info.is_es6 && dep_info.is_es6 {
+                        module.body.extend(injector.imported);
+                        continue;
+                    }
+
+                    dep_module.body = take(&mut injector.imported);
+
                     // print_hygiene(
                     //     &format!("entry: failed to inject: {}; {:?}",
                     // dep_info.fm.name, dep),     &self.cm,
