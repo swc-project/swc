@@ -184,6 +184,8 @@ pub(super) fn sort(new: &mut Vec<ModuleItem>) {
         orders.push(i);
     }
 
+    assert_eq!(orders.len(), new.len());
+
     let mut buf = Vec::with_capacity(new.len());
     for order in orders {
         let stmt = new[order].take();
