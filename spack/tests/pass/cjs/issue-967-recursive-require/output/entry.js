@@ -20,9 +20,6 @@ var load1 = __spack_require__.bind(void 0, function(module, exports) {
     console.log('b');
     module.exports = 'b';
 });
-var b = load1();
-load();
-console.log(b);
 var load2 = __spack_require__.bind(void 0, function(module, exports) {
     var load3 = __spack_require__.bind(void 0, function(module1, exports1) {
         console.log('a-b');
@@ -45,3 +42,6 @@ var load2 = __spack_require__.bind(void 0, function(module, exports) {
     };
 });
 load2();
+var b = load1();
+load();
+console.log(b);
