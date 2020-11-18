@@ -184,15 +184,18 @@ where
 
 type StmtDepGraph = DiGraphMap<usize, ()>;
 
-/// Originally, this method should create a dependency graph, but
-///
-/// TODO: Merge all module at once
 fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<ModuleItem> {
     let mut new = Vec::with_capacity(dep.len() + entry.len());
 
     new.extend(entry);
     new.extend(dep);
 
+    sort(&mut new);
+
+    new
+}
+
+pub(super) fn sort(new: &mut Vec<ModuleItem>) {
     let mut graph = StmtDepGraph::default();
     let mut declared_by = HashMap::<Id, usize>::default();
 
@@ -283,7 +286,7 @@ fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<M
         buf.push(stmt)
     }
 
-    buf
+    *new = buf;
 }
 
 /// We do not care about variables created by current statement.
