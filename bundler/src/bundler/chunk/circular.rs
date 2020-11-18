@@ -122,6 +122,7 @@ where
 
             true
         });
+        deps.sort();
 
         let new_module = self.merge_circular_modules(ctx, &modules, entry, deps)?;
 
