@@ -8,9 +8,10 @@ use crate::{
 };
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
+use swc_atoms::js_word;
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
-use swc_ecma_utils::{prepend, undefined, ExprFactory};
+use swc_ecma_utils::{prepend, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -49,6 +50,10 @@ where
         dep_info: &TransformedModule,
         targets: &mut Vec<Dependancy>,
     ) -> Result<(), Error> {
+        if dep_info.is_es6 {
+            return Ok(());
+        }
+
         log::debug!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
@@ -71,6 +76,9 @@ where
 
                 let mut dep = dep.into_owned().fold_with(&mut Unexporter);
                 dep.visit_mut_with(&mut ImportDropper);
+                dep.visit_mut_with(&mut DefaultHandler {
+                    local_ctxt: dep_info.local_ctxt(),
+                });
 
                 prepend(
                     &mut entry.body,
@@ -341,6 +349,44 @@ impl VisitMut for ImportDropper {
                 *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
             }
             ModuleItem::Stmt(_) => {}
+        }
+    }
+}
+
+struct DefaultHandler {
+    local_ctxt: SyntaxContext,
+}
+
+impl VisitMut for DefaultHandler {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                if i.sym == js_word!("default") {
+                    *e = Expr::Member(MemberExpr {
+                        span: i.span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
+                            "module".into(),
+                            DUMMY_SP.with_ctxt(self.local_ctxt),
+                        )))),
+                        prop: Box::new(Expr::Ident(quote_ident!("exports"))),
+                        computed: false,
+                    });
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
         }
     }
 }
