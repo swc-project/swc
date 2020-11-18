@@ -272,168 +272,27 @@ where
                         .collect::<Vec<_>>();
                     dependants.sort();
 
-                    if metadata.get(&dep).map(|md| md.bundle_cnt).unwrap_or(0) == 1 {
-                        log::debug!("{:?} depends on {:?}", entry, dep);
+                    log::debug!("{:?} depends on {:?}", entry, dep);
 
-                        let is_reexport = builder
-                            .all_deps
-                            .get(&(entry, dep))
-                            .copied()
-                            .unwrap_or(false);
+                    let is_reexport = builder
+                        .all_deps
+                        .get(&(entry, dep))
+                        .copied()
+                        .unwrap_or(false);
 
-                        // Common js support.
-                        if !is_es6 {
-                            // Dependancy of
-                            //
-                            // a -> b
-                            // b -> c
-                            //
-                            // results in
-                            //
-                            // a <- b
-                            // b <- c
-                            //
-                            if dependants.len() <= 1 {
-                                plans
-                                    .normal
-                                    .entry(entry)
-                                    .or_default()
-                                    .chunks
-                                    .push(Dependancy {
-                                        id: dep,
-                                        ty: DepType::Direct,
-                                    });
-                                continue;
-                            }
-
-                            // We now have a module depended by multiple modules. Let's say
-                            //
-                            // a -> b
-                            // a -> c
-                            // b -> c
-                            //
-                            // results in
-                            //
-                            // a <- b
-                            // a <- c
-                            let module = least_common_ancestor(&builder, &dependants);
-                            let normal_plan = plans.normal.entry(module).or_default();
-
-                            for &dep in &deps {
-                                let contains = normal_plan.chunks.iter().any(|d| d.id == dep);
-
-                                if !contains {
-                                    if dependants.contains(&module) {
-                                        log::trace!("Normal (non-es6): {:?} => {:?}", module, dep);
-                                        // `entry` depends on `module` directly
-                                        normal_plan.chunks.push(Dependancy {
-                                            id: dep,
-                                            ty: DepType::Direct,
-                                        });
-                                    } else {
-                                        log::trace!(
-                                            "Transitive (non-es6): {:?} => {:?}",
-                                            module,
-                                            dep
-                                        );
-                                        normal_plan.chunks.push(Dependancy {
-                                            id: dep,
-                                            ty: DepType::Transitive,
-                                        });
-                                    }
-                                }
-                            }
-
-                            continue;
-                        }
-
-                        if is_reexport {
-                            let normal_plan = plans.normal.entry(entry).or_default();
-                            if normal_plan
-                                .chunks
-                                .iter()
-                                .all(|dependancy| dependancy.id != dep)
-                            {
-                                done.insert(dep);
-
-                                log::trace!("Normal: {:?} => {:?}", entry, dep);
-                                normal_plan.chunks.push(Dependancy {
-                                    id: dep,
-                                    ty: DepType::Direct,
-                                });
-                            }
-                            continue;
-                        }
-
-                        if 2 <= dependants.len() {
-                            // Should be merged as a transitive dependency.
-                            let higher_module = if plans.entries.contains(&dependants[0]) {
-                                dependants[0]
-                            } else if dependants.len() == 2
-                                && plans.entries.contains(&dependants[1])
-                            {
-                                dependants[1]
-                            } else {
-                                least_common_ancestor(&builder, &dependants)
-                            };
-
-                            if dependants.len() == 2 && dependants.contains(&higher_module) {
-                                let mut entry = if is_reexport {
-                                    higher_module
-                                } else {
-                                    *dependants.iter().find(|&&v| v != higher_module).unwrap()
-                                };
-
-                                // We choose higher node if import is circular
-                                if builder.is_circular(entry) {
-                                    entry = higher_module;
-                                }
-
-                                let normal_plan = plans.normal.entry(entry).or_default();
-                                if normal_plan
-                                    .chunks
-                                    .iter()
-                                    .all(|dependancy| dependancy.id != dep)
-                                {
-                                    log::trace!("Normal: {:?} => {:?}", entry, dep);
-                                    done.insert(dep);
-                                    normal_plan.chunks.push(Dependancy {
-                                        id: dep,
-                                        ty: DepType::Direct,
-                                    });
-                                }
-                            } else {
-                                if self.scope.should_be_wrapped_with_a_fn(dep) {
-                                    let normal_entry = &mut plans.normal.entry(entry).or_default();
-
-                                    let t = &mut normal_entry.chunks;
-                                    if t.iter().all(|dependancy| dependancy.id != dep) {
-                                        log::info!("Normal, esm: {:?} => {:?}", entry, dep);
-                                        done.insert(dep);
-                                        t.push(Dependancy {
-                                            id: dep,
-                                            ty: DepType::Direct,
-                                        })
-                                    }
-                                } else {
-                                    let normal_entry =
-                                        &mut plans.normal.entry(higher_module).or_default();
-
-                                    let t = &mut normal_entry.chunks;
-                                    if t.iter().all(|dependancy| dependancy.id != dep) {
-                                        log::trace!("Transitive: {:?} => {:?}", entry, dep);
-                                        done.insert(dep);
-                                        t.push(Dependancy {
-                                            id: dep,
-                                            ty: DepType::Transitive,
-                                        })
-                                    }
-                                }
-                            }
-                        } else {
-                            // Direct dependency.
-                            log::trace!("Normal: {:?} => {:?}", entry, dep);
-                            done.insert(dep);
+                    // Common js support.
+                    if !is_es6 {
+                        // Dependancy of
+                        //
+                        // a -> b
+                        // b -> c
+                        //
+                        // results in
+                        //
+                        // a <- b
+                        // b <- c
+                        //
+                        if dependants.len() <= 1 {
                             plans
                                 .normal
                                 .entry(entry)
@@ -443,9 +302,140 @@ where
                                     id: dep,
                                     ty: DepType::Direct,
                                 });
+                            continue;
+                        }
+
+                        // We now have a module depended by multiple modules. Let's say
+                        //
+                        // a -> b
+                        // a -> c
+                        // b -> c
+                        //
+                        // results in
+                        //
+                        // a <- b
+                        // a <- c
+                        let module = least_common_ancestor(&builder, &dependants);
+                        let normal_plan = plans.normal.entry(module).or_default();
+
+                        for &dep in &deps {
+                            let contains = normal_plan.chunks.iter().any(|d| d.id == dep);
+
+                            if !contains {
+                                if dependants.contains(&module) {
+                                    log::trace!("Normal (non-es6): {:?} => {:?}", module, dep);
+                                    // `entry` depends on `module` directly
+                                    normal_plan.chunks.push(Dependancy {
+                                        id: dep,
+                                        ty: DepType::Direct,
+                                    });
+                                } else {
+                                    log::trace!("Transitive (non-es6): {:?} => {:?}", module, dep);
+                                    normal_plan.chunks.push(Dependancy {
+                                        id: dep,
+                                        ty: DepType::Transitive,
+                                    });
+                                }
+                            }
                         }
 
                         continue;
+                    }
+
+                    if is_reexport {
+                        let normal_plan = plans.normal.entry(entry).or_default();
+                        if normal_plan
+                            .chunks
+                            .iter()
+                            .all(|dependancy| dependancy.id != dep)
+                        {
+                            done.insert(dep);
+
+                            log::trace!("Normal: {:?} => {:?}", entry, dep);
+                            normal_plan.chunks.push(Dependancy {
+                                id: dep,
+                                ty: DepType::Direct,
+                            });
+                        }
+                        continue;
+                    }
+
+                    if 2 <= dependants.len() {
+                        // Should be merged as a transitive dependency.
+                        let higher_module = if plans.entries.contains(&dependants[0]) {
+                            dependants[0]
+                        } else if dependants.len() == 2 && plans.entries.contains(&dependants[1]) {
+                            dependants[1]
+                        } else {
+                            least_common_ancestor(&builder, &dependants)
+                        };
+
+                        if dependants.len() == 2 && dependants.contains(&higher_module) {
+                            let mut entry = if is_reexport {
+                                higher_module
+                            } else {
+                                *dependants.iter().find(|&&v| v != higher_module).unwrap()
+                            };
+
+                            // We choose higher node if import is circular
+                            if builder.is_circular(entry) {
+                                entry = higher_module;
+                            }
+
+                            let normal_plan = plans.normal.entry(entry).or_default();
+                            if normal_plan
+                                .chunks
+                                .iter()
+                                .all(|dependancy| dependancy.id != dep)
+                            {
+                                log::trace!("Normal: {:?} => {:?}", entry, dep);
+                                done.insert(dep);
+                                normal_plan.chunks.push(Dependancy {
+                                    id: dep,
+                                    ty: DepType::Direct,
+                                });
+                            }
+                        } else {
+                            if self.scope.should_be_wrapped_with_a_fn(dep) {
+                                let normal_entry = &mut plans.normal.entry(entry).or_default();
+
+                                let t = &mut normal_entry.chunks;
+                                if t.iter().all(|dependancy| dependancy.id != dep) {
+                                    log::info!("Normal, esm: {:?} => {:?}", entry, dep);
+                                    done.insert(dep);
+                                    t.push(Dependancy {
+                                        id: dep,
+                                        ty: DepType::Direct,
+                                    })
+                                }
+                            } else {
+                                let normal_entry =
+                                    &mut plans.normal.entry(higher_module).or_default();
+
+                                let t = &mut normal_entry.chunks;
+                                if t.iter().all(|dependancy| dependancy.id != dep) {
+                                    log::trace!("Transitive: {:?} => {:?}", entry, dep);
+                                    done.insert(dep);
+                                    t.push(Dependancy {
+                                        id: dep,
+                                        ty: DepType::Transitive,
+                                    })
+                                }
+                            }
+                        }
+                    } else {
+                        // Direct dependency.
+                        log::trace!("Normal: {:?} => {:?}", entry, dep);
+                        done.insert(dep);
+                        plans
+                            .normal
+                            .entry(entry)
+                            .or_default()
+                            .chunks
+                            .push(Dependancy {
+                                id: dep,
+                                ty: DepType::Direct,
+                            });
                     }
                 }
             }
