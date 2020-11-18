@@ -296,13 +296,8 @@ impl VisitMut for ExportInjector {
                         })
                         .collect::<Vec<_>>();
 
-                    if !decls.is_empty() {
-                        buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Const,
-                            declare: false,
-                            decls,
-                        }))));
+                    for var in decls {
+                        buf.push(var.into_module_item());
                     }
                 }
 

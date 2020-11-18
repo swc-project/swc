@@ -185,15 +185,8 @@ where
             _ => None,
         }));
 
-        if !var_decls.is_empty() {
-            module
-                .body
-                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: var_decls,
-                }))));
+        for var in var_decls {
+            module.body.push(var.into_module_item());
         }
 
         Ok(module)
@@ -208,15 +201,8 @@ where
 
         module = module.fold_with(&mut Unexporter);
 
-        if !var_decls.is_empty() {
-            module
-                .body
-                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: var_decls,
-                }))));
+        for var in var_decls {
+            module.body.push(var.into_module_item());
         }
 
         Ok(module)
@@ -956,13 +942,8 @@ impl VisitMut for Es6ModuleInjector {
                             })
                             .collect::<Vec<_>>();
 
-                        if !decls.is_empty() {
-                            buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Const,
-                                declare: false,
-                                decls,
-                            }))));
+                        for var in decls {
+                            buf.push(var.into_module_item());
                         }
                     }
                 }
