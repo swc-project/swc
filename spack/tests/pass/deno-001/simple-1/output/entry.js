@@ -85,16 +85,16 @@ class ServerRequest {
      *     const buf: Uint8Array = await Deno.readAll(req.body);
      */ get body() {
         if (!this._body) {
-            if (this.contentLength != null) this._body = bodyReader(this.contentLength, this.r);
+            if (this.contentLength != null) this._body = bodyReader2(this.contentLength, this.r);
             else {
                 const transferEncoding = this.headers.get("transfer-encoding");
                 if (transferEncoding != null) {
                     const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
                     );
                     assert(parts.includes("chunked"), 'transfer-encoding must include \"chunked\" if content-length is not set');
-                    this._body = chunkedBodyReader(this.headers, this.r);
+                    this._body = chunkedBodyReader2(this.headers, this.r);
                 } else // Neither content-length nor transfer-encoding: chunked
-                this._body = emptyReader();
+                this._body = emptyReader2();
             }
         }
         return this._body;
@@ -103,7 +103,7 @@ class ServerRequest {
         let err;
         try {
             // Write our response!
-            await writeResponse(this.w, r);
+            await writeResponse2(this.w, r);
         } catch (e) {
             try {
                 // Eagerly close on error.
@@ -152,10 +152,10 @@ class Server {
         while(!this.closing){
             let request;
             try {
-                request = await readRequest(conn, reader);
+                request = await readRequest2(conn, reader);
             } catch (error) {
                 if (error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) // An error was thrown while parsing request headers.
-                await writeResponse(writer, {
+                await writeResponse2(writer, {
                     status: 400,
                     body: encode(`${error.message}\r\n\r\n`)
                 });
@@ -255,6 +255,92 @@ function serveTLS(options) {
 const ServerRequest1 = ServerRequest;
 const listenAndServe1 = listenAndServe;
 const ServerRequest2 = ServerRequest1;
+function emptyReader() {
+    return {
+        read (_) {
+            return Promise.resolve(null);
+        }
+    };
+}
+function bodyReader(contentLength, r) {
+    let totalRead = 0;
+    let finished = false;
+    async function read(buf) {
+        if (finished) return null;
+        let result;
+        const remaining = contentLength - totalRead;
+        if (remaining >= buf.byteLength) result = await r.read(buf);
+        else {
+            const readBuf = buf.subarray(0, remaining);
+            result = await r.read(readBuf);
+        }
+        if (result !== null) totalRead += result;
+        finished = totalRead === contentLength;
+        return result;
+    }
+    return {
+        read
+    };
+}
+function chunkedBodyReader(h, r) {
+    // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
+    const tp = new TextProtoReader(r);
+    let finished = false;
+    const chunks = [];
+    async function read(buf) {
+        if (finished) return null;
+        const [chunk] = chunks;
+        if (chunk) {
+            const chunkRemaining = chunk.data.byteLength - chunk.offset;
+            const readLength = Math.min(chunkRemaining, buf.byteLength);
+            for(let i = 0; i < readLength; i++)buf[i] = chunk.data[chunk.offset + i];
+            chunk.offset += readLength;
+            if (chunk.offset === chunk.data.byteLength) {
+                chunks.shift();
+                // Consume \r\n;
+                if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
+            }
+            return readLength;
+        }
+        const line = await tp.readLine();
+        if (line === null) throw new Deno.errors.UnexpectedEof();
+        // TODO: handle chunk extension
+        const [chunkSizeString] = line.split(";");
+        const chunkSize = parseInt(chunkSizeString, 16);
+        if (Number.isNaN(chunkSize) || chunkSize < 0) throw new Error("Invalid chunk size");
+        if (chunkSize > 0) {
+            if (chunkSize > buf.byteLength) {
+                let eof = await r.readFull(buf);
+                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                const restChunk = new Uint8Array(chunkSize - buf.byteLength);
+                eof = await r.readFull(restChunk);
+                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                else chunks.push({
+                    offset: 0,
+                    data: restChunk
+                });
+                return buf.byteLength;
+            } else {
+                const bufToFill = buf.subarray(0, chunkSize);
+                const eof = await r.readFull(bufToFill);
+                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                // Consume \r\n
+                if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
+                return chunkSize;
+            }
+        } else {
+            assert(chunkSize === 0);
+            // Consume \r\n
+            if (await r.readLine() === null) throw new Deno.errors.UnexpectedEof();
+            await readTrailers(h, r);
+            finished = true;
+            return null;
+        }
+    }
+    return {
+        read
+    };
+}
 function isProhibidedForTrailer(key) {
     const s = new Set([
         "transfer-encoding",
@@ -330,6 +416,42 @@ async function writeTrailers(w, headers, trailers) {
     await writer.write(encoder.encode("\r\n"));
     await writer.flush();
 }
+async function writeResponse(w, r) {
+    const protoMajor = 1;
+    const protoMinor = 1;
+    const statusCode = r.status || 200;
+    const statusText = STATUS_TEXT.get(statusCode);
+    const writer = BufWriter.create(w);
+    if (!statusText) throw new Deno.errors.InvalidData("Bad status code");
+    if (!r.body) r.body = new Uint8Array();
+    if (typeof r.body === "string") r.body = encoder.encode(r.body);
+    let out = `HTTP/${protoMajor}.${protoMinor} ${statusCode} ${statusText}\r\n`;
+    const headers = r.headers ?? new Headers();
+    if (r.body && !headers.get("content-length")) {
+        if (r.body instanceof Uint8Array) out += `content-length: ${r.body.byteLength}\r\n`;
+        else if (!headers.get("transfer-encoding")) out += "transfer-encoding: chunked\r\n";
+    }
+    for (const [key, value] of headers)out += `${key}: ${value}\r\n`;
+    out += `\r\n`;
+    const header = encoder.encode(out);
+    const n = await writer.write(header);
+    assert(n === header.byteLength);
+    if (r.body instanceof Uint8Array) {
+        const n1 = await writer.write(r.body);
+        assert(n1 === r.body.byteLength);
+    } else if (headers.has("content-length")) {
+        const contentLength = headers.get("content-length");
+        assert(contentLength != null);
+        const bodyLength = parseInt(contentLength);
+        const n1 = await Deno.copy(r.body, writer);
+        assert(n1 === bodyLength);
+    } else await writeChunkedBody(writer, r.body);
+    if (r.trailers) {
+        const t = await r.trailers();
+        await writeTrailers(writer, headers, t);
+    }
+    await writer.flush();
+}
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -362,6 +484,21 @@ function parseHTTPVersion(vers) {
     }
     throw new Error(`malformed HTTP version ${vers}`);
 }
+async function readRequest(conn, bufr) {
+    const tp = new TextProtoReader(bufr);
+    const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
+    if (firstLine === null) return null;
+    const headers = await tp.readMIMEHeader();
+    if (headers === null) throw new Deno.errors.UnexpectedEof();
+    const req = new ServerRequest2();
+    req.conn = conn;
+    req.r = bufr;
+    [req.method, req.url, req.proto] = firstLine.split(" ", 3);
+    [req.protoMinor, req.protoMajor] = parseHTTPVersion(req.proto);
+    req.headers = headers;
+    fixLength(req);
+    return req;
+}
 function fixLength(req) {
     const contentLength = req.headers.get("Content-Length");
     if (contentLength) {
@@ -382,6 +519,16 @@ function fixLength(req) {
         throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
     }
 }
+const emptyReader1 = emptyReader;
+const bodyReader1 = bodyReader;
+const chunkedBodyReader1 = chunkedBodyReader;
+const writeResponse1 = writeResponse;
+const readRequest1 = readRequest;
+const bodyReader2 = bodyReader1;
+const chunkedBodyReader2 = chunkedBodyReader1;
+const emptyReader2 = emptyReader1;
+const writeResponse2 = writeResponse1;
+const readRequest2 = readRequest1;
 const listenAndServe2 = listenAndServe1;
 listenAndServe2({
     port: 8080
