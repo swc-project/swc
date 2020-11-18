@@ -73,19 +73,19 @@ where
                     }
                 };
 
-                print_hygiene(
-                    &format!("before merging deps: {}", info.fm.name),
-                    &self.cm,
-                    &module,
-                );
+                // print_hygiene(
+                //     &format!("before merging deps: {}", info.fm.name),
+                //     &self.cm,
+                //     &module,
+                // );
 
                 module = self.merge_deps(ctx, is_entry, module, plan, &info)?;
 
-                print_hygiene(
-                    &format!("after merging deps: {}", info.fm.name),
-                    &self.cm,
-                    &module,
-                );
+                // print_hygiene(
+                //     &format!("after merging deps: {}", info.fm.name),
+                //     &self.cm,
+                //     &module,
+                // );
             }
 
             if is_entry {
@@ -148,7 +148,7 @@ where
                 }
             };
 
-            print_hygiene("wrapped: before deps", &self.cm, &module);
+            // print_hygiene("wrapped: before deps", &self.cm, &module);
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
@@ -162,15 +162,15 @@ where
 
             self.handle_import_deps(&dep_info, &mut module, false);
 
-            print_hygiene("wrapped: after deps", &self.cm, &module);
+            // print_hygiene("wrapped: after deps", &self.cm, &module);
 
             module
         } else {
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
-            print_hygiene("import: After meging deps of a dep", &self.cm, &module);
+            // print_hygiene("import: After meging deps of a dep", &self.cm, &module);
             self.handle_import_deps(&dep_info, &mut module, false);
-            print_hygiene("import: After handle_import_deps", &self.cm, &module);
+            // print_hygiene("import: After handle_import_deps", &self.cm, &module);
             module
         };
 
@@ -376,7 +376,7 @@ where
                 }
 
                 if dep_info.is_es6 {
-                    print_hygiene("entry: before injection", &self.cm, &module);
+                    // print_hygiene("entry: before injection", &self.cm, &module);
 
                     match dep.ty {
                         DepType::Transitive => {

@@ -101,7 +101,7 @@ where
 
         self.handle_import_deps(&entry_module, &mut entry, true);
 
-        print_hygiene("[circular] entry:init", &self.cm, &entry);
+        // print_hygiene("[circular] entry:init", &self.cm, &entry);
 
         // entry.visit_mut_with(&mut ImportDropper {
         //     imports: &entry_module.imports,
@@ -127,12 +127,6 @@ where
         let new_module = self.merge_circular_modules(ctx, &modules, entry, deps)?;
 
         entry = new_module;
-
-        print_hygiene(
-            "[circular] entry:merge_two_circular_modules",
-            &self.cm,
-            &entry,
-        );
 
         if !exports.is_empty() {
             entry
@@ -169,11 +163,11 @@ where
                     .merge_modules(ctx, dep, false, false)
                     .context("failed to merge dependency of a cyclic module")?;
 
-                print_hygiene("[circular] dep:init 1", &self.cm, &dep);
+                // print_hygiene("[circular] dep:init 1", &self.cm, &dep);
 
                 self.handle_import_deps(&dep_info, &mut dep, true);
 
-                print_hygiene("[circular] dep:init 2", &self.cm, &dep);
+                // print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
                 dep_body.extend(dep.body);
             }
@@ -182,12 +176,6 @@ where
 
             // Merge code
             entry.body = merge_respecting_order(dep_body, entry.body);
-
-            print_hygiene(
-                "[circular] END :merge_two_circular_modules",
-                &self.cm,
-                &entry,
-            );
 
             Ok(entry)
         })

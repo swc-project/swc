@@ -64,20 +64,20 @@ where
                 .merge_modules(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 
-            print_hygiene(
-                &format!(
-                    "reexport: load dep: {} ({:?}, {:?})",
-                    dep_info.fm.name,
-                    dep_info.local_ctxt(),
-                    dep_info.export_ctxt()
-                ),
-                &self.cm,
-                &dep,
-            );
+            // print_hygiene(
+            //     &format!(
+            //         "reexport: load dep: {} ({:?}, {:?})",
+            //         dep_info.fm.name,
+            //         dep_info.local_ctxt(),
+            //         dep_info.export_ctxt()
+            //     ),
+            //     &self.cm,
+            //     &dep,
+            // );
 
             self.handle_reexport(&dep_info, &mut dep);
 
-            print_hygiene(&format!("dep: handle reexport"), &self.cm, &dep);
+            // print_hygiene(&format!("dep: handle reexport"), &self.cm, &dep);
 
             // for stmt in &mut dep.body {
             //     let decl = match stmt {
@@ -152,13 +152,13 @@ where
                     specifiers: &specifiers,
                 });
 
-                print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
 
                 dep = dep.fold_with(&mut DepUnexporter {
                     exports: &specifiers,
                 });
 
-                print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
             }
 
             // TODO: Add varaible based on specifers
