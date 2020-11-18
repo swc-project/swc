@@ -42,6 +42,8 @@ where
         allow_circular: bool,
     ) -> Result<Module, Error> {
         self.run(|| {
+            let info = self.scope.get_module(module_id).unwrap();
+
             if allow_circular {
                 if let Some(plan) = ctx.plan.circular.get(&module_id) {
                     let mut module =
@@ -49,13 +51,12 @@ where
                             format!("failed to merge {:?} (circular import)", module_id)
                         })?;
                     if is_entry {
+                        self.replace_import_specifiers(&info, &mut module);
                         self.finalize_merging_of_entry(ctx, &mut module);
                     }
                     return Ok(module);
                 }
             }
-
-            let info = self.scope.get_module(module_id).unwrap();
 
             let mut module = self
                 .get_module_for_merging(ctx, module_id, is_entry)
@@ -88,6 +89,7 @@ where
             }
 
             if is_entry {
+                self.replace_import_specifiers(&info, &mut module);
                 self.finalize_merging_of_entry(ctx, &mut module);
             }
 
