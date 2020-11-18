@@ -651,9 +651,11 @@ where
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
                                         Some(exported) => {
-                                            let mut lhs = exported.clone();
-                                            lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                            vars.push(named.orig.clone().assign_to(lhs));
+                                            if named.orig.span.ctxt != info.export_ctxt() {
+                                                let mut lhs = exported.clone();
+                                                lhs.span = lhs.span.with_ctxt(info.export_ctxt());
+                                                vars.push(named.orig.clone().assign_to(lhs));
+                                            }
                                         }
                                         None => {
                                             if info.export_ctxt() != named.orig.span.ctxt {
