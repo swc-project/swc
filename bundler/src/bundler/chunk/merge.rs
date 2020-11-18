@@ -8,7 +8,7 @@ use crate::{
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
-    util::{self, ExprExt, IntoParallelIterator, MapWithMut},
+    util::{self, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
@@ -541,18 +541,22 @@ where
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Module) {
-        for stmt in &mut module.body {
-            match stmt {
+        let mut new = Vec::with_capacity(module.body.len() + 32);
+
+        for stmt in take(&mut module.body) {
+            match &stmt {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    let mut vars = vec![];
-
-                    let target = &mut vars;
-
                     for specifier in &import.specifiers {
                         match specifier {
                             ImportSpecifier::Named(named) => match &named.imported {
                                 Some(imported) => {
-                                    target.push(imported.clone().assign_to(named.local.clone()));
+                                    new.push(
+                                        imported
+                                            .clone()
+                                            .assign_to(named.local.clone())
+                                            .into_module_item(),
+                                    );
+                                    continue;
                                 }
                                 None => {}
                             },
@@ -567,26 +571,28 @@ where
                                         js_word!("default"),
                                         DUMMY_SP.with_ctxt(src.export_ctxt),
                                     );
-                                    target.push(imported.assign_to(default.local.clone()));
+                                    new.push(
+                                        imported
+                                            .assign_to(default.local.clone())
+                                            .into_module_item(),
+                                    );
+                                    continue;
                                 }
                             }
                             ImportSpecifier::Namespace(_) => {}
                         }
                     }
-                    if vars.is_empty() {
-                        stmt.take();
-                    } else {
-                        *stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Const,
-                            declare: false,
-                            decls: vars,
-                        })))
-                    }
+
+                    // We should remove imports
+                    continue;
                 }
                 _ => {}
             }
+
+            new.push(stmt);
         }
+
+        module.body = new;
     }
 
     /// If a dependency aliased exports, we handle them at here.
