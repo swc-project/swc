@@ -182,6 +182,14 @@ fn deno_8188_02() {
 }
 
 #[test]
+fn deno_8188_03() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nkeys.js/v1.0.0-7/modules/esm/deps.ts",
+        &["denoHelper"],
+    );
+}
+
+#[test]
 fn deno_8189() {
     run(
         "https://deno.land/x/lz4/mod.ts",
