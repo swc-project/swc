@@ -148,9 +148,21 @@ where
                 }
             };
 
+            print_hygiene("wrapped: before deps", &self.cm, &module);
+
+            if let Some(plan) = ctx.plan.circular.get(&dep_id) {
+                module = self
+                    .merge_circular(ctx, plan, dep_id)
+                    .with_context(|| format!("failed to merge {:?} (circular import)", dep_id))?;
+            }
+
             module = self
                 .merge_deps(ctx, false, module, plan, &dep_info)
                 .context("failed to merge dependencies")?;
+
+            self.handle_import_deps(&dep_info, &mut module, false);
+
+            print_hygiene("wrapped: after deps", &self.cm, &module);
 
             module
         } else {
