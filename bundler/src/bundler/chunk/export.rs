@@ -283,7 +283,7 @@ impl VisitMut for ExportInjector {
                                 ..
                             }) => {
                                 let mut imported = imported.clone();
-                                imported.span = imported.span.with_ctxt(self.source.local_ctxt);
+                                imported.span = imported.span.with_ctxt(self.source.export_ctxt);
 
                                 Some(VarDeclarator {
                                     span: DUMMY_SP,
