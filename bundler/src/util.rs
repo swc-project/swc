@@ -25,6 +25,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
 impl<T> VarDeclaratorExt for T where T: Into<VarDeclarator> {}
 
 pub(crate) trait ExprExt: Into<Expr> {
+    #[track_caller]
     fn assign_to<T>(self, lhs: T) -> VarDeclarator
     where
         T: IdentLike,
