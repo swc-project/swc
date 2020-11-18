@@ -18,6 +18,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         module1.exports = 1;
     });
     module.exports = load1();
+    const a = module.exports;
 });
 var { default: a  } = load();
 console.log(a);
