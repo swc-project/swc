@@ -237,6 +237,14 @@ where
                     .collect();
                 deps.sort();
 
+                let should_be_reexport = deps.iter().any(|&dep| {
+                    builder
+                        .all_deps
+                        .get(&(entry, dep))
+                        .copied()
+                        .unwrap_or(false)
+                });
+
                 for &dep in &deps {
                     if let Some(circular_members) = builder.circular.get(entry) {
                         if circular_members.contains(&dep) {
@@ -371,7 +379,7 @@ where
                         };
 
                         if dependants.len() == 2 && dependants.contains(&higher_module) {
-                            let mut entry = if is_reexport {
+                            let mut entry = if should_be_reexport {
                                 higher_module
                             } else {
                                 *dependants.iter().find(|&&v| v != higher_module).unwrap()
@@ -418,7 +426,11 @@ where
                                     done.insert(dep);
                                     t.push(Dependancy {
                                         id: dep,
-                                        ty: DepType::Transitive,
+                                        ty: if should_be_reexport {
+                                            DepType::Direct
+                                        } else {
+                                            DepType::Transitive
+                                        },
                                     })
                                 }
                             }
@@ -610,23 +622,50 @@ where
 }
 
 fn toposort(b: &PlanBuilder, module_ids: &mut Vec<Dependancy>) {
-    let len = module_ids.len();
-
     if module_ids.len() <= 1 {
         return;
     }
 
-    for i in 0..len {
-        for j in i..len {
-            let mi = module_ids[i].id;
-            let mj = module_ids[j].id;
-            if mi == mj {
+    let mut graph = b.direct_deps.clone();
+    let len = module_ids.len();
+    let mut orders: Vec<usize> = vec![];
+
+    loop {
+        if graph.all_edges().count() == 0 {
+            break;
+        }
+
+        let mut did_work = false;
+        // Add nodes which does not have any dependencies.
+        for i in 0..len {
+            let m = module_ids[i].id;
+            if graph.neighbors_directed(m, Incoming).count() != 0 {
                 continue;
             }
 
-            if b.all_deps.contains_key(&(mj, mi)) && !b.all_deps.contains_key(&(mi, mj)) {
-                module_ids.swap(i, j);
-            }
+            did_work = true;
+            orders.push(i);
+            // Remove dependency
+            graph.remove_node(m);
+        }
+
+        if !did_work {
+            break;
         }
     }
+
+    for i in 0..len {
+        if orders.contains(&i) {
+            continue;
+        }
+        orders.push(i);
+    }
+
+    let mut buf = Vec::with_capacity(module_ids.len());
+    for order in orders {
+        let item = module_ids[order];
+        buf.push(item)
+    }
+
+    *module_ids = buf;
 }
