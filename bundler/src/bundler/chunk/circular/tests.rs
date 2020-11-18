@@ -21,35 +21,24 @@ fn parse(cm: Lrc<SourceMap>, name: &str, src: &str) -> Module {
 
 #[track_caller]
 fn assert_merge_respecting_order(modules: &[&str], output: &str) {
-    for i in 0..modules.len() {
-        ::testing::run_test2(false, |cm, _handler| {
-            let mut entry = parse(cm.clone(), &format!("entry-{}", i), modules[i]);
+    ::testing::run_test2(false, |cm, _handler| {
+        let mut entry = parse(cm.clone(), &format!("entry"), modules[0]);
 
-            for j in 0..modules.len() {
-                if i == j {
-                    continue;
-                }
-                eprintln!("[{}, {}] Testing", i, j);
-
-                let dep = parse(cm.clone(), &format!("deps-{}-{}", i, j), modules[j]);
-                entry.body = merge_respecting_order(entry.body, dep.body);
-            }
+        for i in 1..modules.len() {
+            let dep = parse(cm.clone(), &format!("deps-{}", i), modules[i]);
+            entry.body = merge_respecting_order(entry.body, dep.body);
 
             print_hygiene("merge", &cm, &entry);
+        }
 
-            let output = parse(cm.clone(), "output", output);
-            if entry.body != output.body {
-                panic!()
-            }
-            // The below is too verbose.
-            // assert_eq!(entry.body, output.body, "[{}]", i);
+        let output = parse(cm.clone(), "output", output);
+        if entry.body != output.body {
+            panic!()
+        }
 
-            log::info!("[{}] Success", i);
-
-            Ok(())
-        })
-        .unwrap()
-    }
+        Ok(())
+    })
+    .unwrap()
 }
 
 #[test]
