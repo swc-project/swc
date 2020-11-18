@@ -458,6 +458,20 @@ fn integration_01() {
     );
 }
 
+#[test]
+fn integration_01_reduced_01() {
+    test_from_to(
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. `
+    "#,
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. `
+        "#,
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
