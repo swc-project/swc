@@ -15,9 +15,9 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use retain_mut::RetainMut;
-use std::{borrow::Cow, mem::take};
+use std::{borrow::Cow, collections::HashMap, mem::take};
 use swc_atoms::js_word;
-use swc_common::{FileName, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
@@ -27,7 +27,7 @@ pub(super) struct Ctx {
     pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
-    pub export_stars_in_wrapped: CloneMap<ModuleId, Vec<SyntaxContext>>,
+    pub export_stars_in_wrapped: Lock<HashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -534,7 +534,101 @@ where
         }
 
         {
+            let mut map = ctx.export_stars_in_wrapped.lock();
+            let mut additional_props = HashMap::<_, Vec<_>>::new();
             // Handle `export *` for wrapped modules.
+            for (module_id, ctxts) in map.drain() {
+                for stmt in entry.body.iter() {
+                    match stmt {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                            let ids: Vec<Id> = find_ids(decl);
+
+                            for id in ids {
+                                if ctxts.contains(&id.ctxt()) {
+                                    additional_props.entry(module_id).or_default().push(
+                                        PropOrSpread::Prop(Box::new(Prop::Shorthand(
+                                            id.into_ident(),
+                                        ))),
+                                    );
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            for (module_id, props) in additional_props {
+                let id = match self.scope.wrapped_esm_id(module_id) {
+                    Some(v) => v,
+                    None => continue,
+                };
+
+                for stmt in &mut entry.body {
+                    let var = match stmt {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(
+                            var
+                            @
+                            VarDecl {
+                                kind: VarDeclKind::Const,
+                                ..
+                            },
+                        ))) => var,
+                        _ => continue,
+                    };
+
+                    if var.decls.len() != 1 {
+                        continue;
+                    }
+
+                    let var_decl = &mut var.decls[0];
+                    match &var_decl.name {
+                        Pat::Ident(i) if id == *i => {}
+                        _ => continue,
+                    }
+
+                    let callee = match &mut var_decl.init {
+                        Some(init) => match &mut **init {
+                            Expr::Call(CallExpr { callee, .. }) => match callee {
+                                ExprOrSuper::Super(_) => continue,
+                                ExprOrSuper::Expr(v) => v,
+                            },
+                            _ => continue,
+                        },
+                        None => continue,
+                    };
+
+                    let f = match &mut **callee {
+                        Expr::Fn(f) => f,
+                        _ => continue,
+                    };
+
+                    let body = match &mut f.function.body {
+                        Some(body) => body,
+                        None => continue,
+                    };
+
+                    let last_stmt = body.stmts.last_mut();
+
+                    let return_stmt = match last_stmt {
+                        Some(Stmt::Return(s)) => s,
+                        _ => continue,
+                    };
+
+                    let ret_val = match &mut return_stmt.arg {
+                        Some(arg) => arg,
+                        None => continue,
+                    };
+
+                    let obj = match &mut **ret_val {
+                        Expr::Object(obj) => obj,
+                        _ => continue,
+                    };
+
+                    obj.props.extend(props);
+                    break;
+                }
+            }
         }
     }
 
