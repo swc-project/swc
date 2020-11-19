@@ -50,6 +50,7 @@ where
         let ctx = Ctx {
             plan,
             merged: Default::default(),
+            transitive_remap: Default::default(),
         };
 
         Ok((&*ctx.plan.entries)

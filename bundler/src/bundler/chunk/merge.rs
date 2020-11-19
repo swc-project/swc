@@ -8,7 +8,7 @@ use crate::{
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
-    util::{self, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
+    util::{self, CloneMap, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
@@ -26,6 +26,7 @@ use util::CHashSet;
 pub(super) struct Ctx {
     pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
+    pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -499,7 +500,34 @@ where
         })
     }
 
+    fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
+        let mut buf = vec![];
+
+        for stmt in entry.body.iter() {
+            match stmt {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                    let ids: Vec<Id> = find_ids(decl);
+
+                    for id in ids {
+                        if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
+                            let reexported = id.clone().with_ctxt(remapped);
+                            buf.push(
+                                id.assign_to(reexported)
+                                    .into_module_item("export_star_replacer"),
+                            );
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        entry.body.extend(buf);
+    }
+
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
+        self.handle_export_stars(ctx, entry);
+
         sort(&mut entry.body);
 
         print_hygiene("done", &self.cm, &entry);
