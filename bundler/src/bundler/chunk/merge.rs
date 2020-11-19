@@ -671,26 +671,51 @@ where
                                     ExportSpecifier::Namespace(ns) => {
                                         let mut lhs = ns.name.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(ns.name.clone().assign_to(lhs));
+                                        vars.push(
+                                            ns.name
+                                                .clone()
+                                                .assign_to(lhs)
+                                                .into_module_item("import_deps_namespace"),
+                                        );
                                     }
                                     ExportSpecifier::Default(default) => {
                                         let mut lhs = default.exported.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(default.exported.clone().assign_to(lhs));
+                                        vars.push(
+                                            default
+                                                .exported
+                                                .clone()
+                                                .assign_to(lhs)
+                                                .into_module_item("import_deps_default"),
+                                        );
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
                                         Some(exported) => {
                                             if named.orig.span.ctxt != info.export_ctxt() {
                                                 let mut lhs = exported.clone();
                                                 lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                                vars.push(named.orig.clone().assign_to(lhs));
+                                                vars.push(
+                                                    named
+                                                        .orig
+                                                        .clone()
+                                                        .assign_to(lhs)
+                                                        .into_module_item(
+                                                            "import_deps_named_alias",
+                                                        ),
+                                                );
                                             }
                                         }
                                         None => {
                                             if info.export_ctxt() != named.orig.span.ctxt {
                                                 let mut lhs: Ident = named.orig.clone();
                                                 lhs.span.ctxt = info.export_ctxt();
-                                                vars.push(named.orig.clone().assign_to(lhs));
+                                                vars.push(
+                                                    named
+                                                        .orig
+                                                        .clone()
+                                                        .assign_to(lhs)
+                                                        .into_module_item("import_deps_named"),
+                                                );
                                             }
                                         }
                                     },
@@ -725,12 +750,15 @@ where
                                     ),
                                 };
 
-                                vars.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: export_name,
-                                    init: Some(Box::new(init)),
-                                    definite: false,
-                                });
+                                vars.push(
+                                    VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: export_name,
+                                        init: Some(Box::new(init)),
+                                        definite: false,
+                                    }
+                                    .into_module_item("import_deps_export_default_decl"),
+                                );
 
                                 s
                             }
@@ -756,7 +784,10 @@ where
                                     ),
                                 };
 
-                                vars.push(init.assign_to(export_name));
+                                vars.push(
+                                    init.assign_to(export_name)
+                                        .into_module_item("import_deps_export_default_decl_fn"),
+                                );
                                 s
                             }
                             DefaultDecl::TsInterfaceDecl(_) => {
@@ -769,7 +800,12 @@ where
                                 | Decl::Fn(FnDecl { ident, .. }) => {
                                     let mut exported = ident.clone();
                                     exported.span.ctxt = info.export_ctxt();
-                                    vars.push(ident.clone().assign_to(exported));
+                                    vars.push(
+                                        ident
+                                            .clone()
+                                            .assign_to(exported)
+                                            .into_module_item("import_deps_export_decl"),
+                                    );
                                 }
                                 Decl::Var(var) => {
                                     let ids: Vec<Ident> = find_ids(var);
@@ -777,7 +813,10 @@ where
                                     for id in ids {
                                         let mut exported = id.clone();
                                         exported.span.ctxt = info.export_ctxt();
-                                        vars.push(id.assign_to(exported));
+                                        vars.push(
+                                            id.assign_to(exported)
+                                                .into_module_item("import_deps_export_var_decl"),
+                                        );
                                     }
                                 }
                                 _ => {}
@@ -786,15 +825,18 @@ where
                             ModuleItem::Stmt(Stmt::Decl(export.decl))
                         }
                         ModuleDecl::ExportDefaultExpr(mut export) => {
-                            vars.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(Ident::new(
-                                    js_word!("default"),
-                                    DUMMY_SP.with_ctxt(info.export_ctxt()),
-                                )),
-                                init: Some(export.expr.take()),
-                                definite: false,
-                            });
+                            vars.push(
+                                VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(Ident::new(
+                                        js_word!("default"),
+                                        DUMMY_SP.with_ctxt(info.export_ctxt()),
+                                    )),
+                                    init: Some(export.expr.take()),
+                                    definite: false,
+                                }
+                                .into_module_item("import_deps_export_default_expr"),
+                            );
                             ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                         }
 
@@ -815,7 +857,7 @@ where
         }
 
         for var in vars {
-            module.body.push(var.into_module_item("handle_import_deps"))
+            module.body.push(var)
         }
     }
 }
