@@ -290,6 +290,16 @@ fn deno_8302() {
 }
 
 #[test]
+fn deno_8399_1() {
+    run("tests/deno/issue-8399-1/input.ts", &[]);
+}
+
+#[test]
+fn deno_8399_2() {
+    run("tests/deno/issue-8399-2/input.ts", &[]);
+}
+
+#[test]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
