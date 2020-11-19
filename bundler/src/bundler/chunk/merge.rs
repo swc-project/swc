@@ -629,6 +629,7 @@ where
         self.replace_import_specifiers(info, module);
 
         let mut vars = vec![];
+        let mut reexport_all_ctxts = vec![];
 
         for orig_stmt in module.body.iter_mut() {
             let mut stmt = orig_stmt.take();
@@ -768,6 +769,14 @@ where
                             });
                             ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                         }
+
+                        ModuleDecl::ExportAll(ref export) => {
+                            let export_ctxt = export.span.ctxt;
+                            reexport_all_ctxts.push(export_ctxt);
+
+                            ModuleItem::ModuleDecl(decl)
+                        }
+
                         _ => ModuleItem::ModuleDecl(decl),
                     }
                 }

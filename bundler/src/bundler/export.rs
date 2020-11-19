@@ -268,6 +268,11 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
+                let ctxt = self.ctxt_for(&all.src.value);
+                if let Some((_, export_ctxt)) = ctxt {
+                    all.span.ctxt = export_ctxt;
+                }
+
                 self.info.items.entry(Some(all.src.clone())).or_default();
             }
             _ => {}
