@@ -65,6 +65,10 @@ impl Id {
         &self.0
     }
 
+    pub fn ctxt(&self) -> SyntaxContext {
+        self.1
+    }
+
     pub fn into_ident(self) -> Ident {
         Ident::new(self.0, DUMMY_SP.with_ctxt(self.1))
     }
