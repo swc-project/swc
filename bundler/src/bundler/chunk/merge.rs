@@ -501,29 +501,41 @@ where
         })
     }
 
+    /// This should only be called after everything is merged.
+    ///
+    /// This method does not care about orders of statement, and it's expected
+    /// to be collaed before `sort`.
     fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
-        let mut buf = vec![];
+        {
+            // Handle `export *` for non-wrapped modules.
 
-        for stmt in entry.body.iter() {
-            match stmt {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
-                    let ids: Vec<Id> = find_ids(decl);
+            let mut extra_stmts = vec![];
 
-                    for id in ids {
-                        if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
-                            let reexported = id.clone().with_ctxt(remapped);
-                            buf.push(
-                                id.assign_to(reexported)
-                                    .into_module_item("export_star_replacer"),
-                            );
+            for stmt in entry.body.iter() {
+                match stmt {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                        let ids: Vec<Id> = find_ids(decl);
+
+                        for id in ids {
+                            if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
+                                let reexported = id.clone().with_ctxt(remapped);
+                                extra_stmts.push(
+                                    id.assign_to(reexported)
+                                        .into_module_item("export_star_replacer"),
+                                );
+                            }
                         }
                     }
+                    _ => {}
                 }
-                _ => {}
             }
+
+            entry.body.extend(extra_stmts);
         }
 
-        entry.body.extend(buf);
+        {
+            // Handle `export *` for wrapped modules.
+        }
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
