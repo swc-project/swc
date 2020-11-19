@@ -1,1 +1,2 @@
-export const b = 2;
+import { a } from './a';
+export const b = a + 1;
