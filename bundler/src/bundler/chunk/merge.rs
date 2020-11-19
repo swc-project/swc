@@ -19,7 +19,7 @@ use std::{borrow::Cow, mem::take};
 use swc_atoms::js_word;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, prepend_stmts, private_ident};
+use swc_ecma_utils::{find_ids, prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
@@ -27,6 +27,7 @@ pub(super) struct Ctx {
     pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
+    pub export_stars_in_wrapped: CloneMap<ModuleId, Vec<SyntaxContext>>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -112,7 +113,7 @@ where
         // Now we handle imports
         let mut module = if wrapped {
             let mut module = self.get_module_for_merging(ctx, dep_id, false)?;
-            module = self.wrap_esm(dep_id, module)?;
+            module = self.wrap_esm(ctx, dep_id, module)?;
 
             {
                 // Inject local_name = wrapped_esm_module_name
@@ -146,7 +147,7 @@ where
                 }
             };
 
-            // print_hygiene("wrapped: before deps", &self.cm, &module);
+            print_hygiene("wrapped: before deps", &self.cm, &module);
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
@@ -160,7 +161,7 @@ where
 
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
-            // print_hygiene("wrapped: after deps", &self.cm, &module);
+            print_hygiene("wrapped: after deps", &self.cm, &module);
 
             module
         } else {

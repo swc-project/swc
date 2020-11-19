@@ -51,6 +51,7 @@ where
             plan,
             merged: Default::default(),
             transitive_remap: Default::default(),
+            export_stars_in_wrapped: Default::default(),
         };
 
         Ok((&*ctx.plan.entries)

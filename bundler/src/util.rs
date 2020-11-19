@@ -1,4 +1,4 @@
-use std::{hash::Hash, mem::replace};
+use std::{clone::Clone, cmp::Eq, hash::Hash, mem::replace};
 use swc_atoms::js_word;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -278,6 +278,22 @@ where
     #[cfg(not(feature = "concurrent"))]
     pub fn insert(&self, k: K, v: V) -> Option<V> {
         self.inner.borrow_mut().insert(k, v)
+    }
+}
+
+impl<K, V> CloneMap<K, Vec<V>>
+where
+    K: Eq + Hash,
+    V: Clone,
+{
+    #[cfg(feature = "concurrent")]
+    pub fn push(&self, k: K, v: V) {
+        self.inner.entry(k).or_default().push(v);
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    pub fn push(&self, k: K, v: V) {
+        self.inner.borrow_mut().entry(k).or_default().push(v);
     }
 }
 

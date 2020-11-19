@@ -1,4 +1,4 @@
-use crate::{Bundler, Load, ModuleId, Resolve};
+use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
 use anyhow::{bail, Error};
 use std::mem::take;
 use swc_atoms::js_word;
@@ -28,7 +28,12 @@ where
     ///     };
     /// })();
     /// ```
-    pub(super) fn wrap_esm(&self, id: ModuleId, module: Module) -> Result<Module, Error> {
+    pub(super) fn wrap_esm(
+        &self,
+        ctx: &Ctx,
+        id: ModuleId,
+        module: Module,
+    ) -> Result<Module, Error> {
         let span = module.span;
         let var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
@@ -44,6 +49,11 @@ where
                 .into_iter()
                 .filter_map(|v| match v {
                     ModuleItem::Stmt(s) => Some(s),
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                        // We handle this later.
+                        ctx.export_stars_in_wrapped.push(id, export.span.ctxt);
+                        None
+                    }
                     _ => {
                         module_items.push(v);
                         None
@@ -189,8 +199,8 @@ impl Fold for ExportToReturn {
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
-            ModuleDecl::ExportAll(_) => {
-                unimplemented!("export * from 'foo' inside a module loaded with computed key")
+            ModuleDecl::ExportAll(export) => {
+                return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
             }
             ModuleDecl::ExportNamed(named) => {
                 for specifier in &named.specifiers {
