@@ -13,7 +13,7 @@
       <img alt="npm Downloads" src="https://img.shields.io/npm/dw/@swc/core">
    </a>
     <a href="https://crates.io/crates/swc_ecma_parser">
-      <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20dowloads">
+      <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads">
     </a>
 </p>
 <p align="center">
