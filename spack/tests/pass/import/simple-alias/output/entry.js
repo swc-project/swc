@@ -1,3 +1,4 @@
-const a = 1;
-const a1 = a;
-console.log(a1);
+const unnamed = 1;
+const __default = unnamed;
+const a = __default;
+console.log(a);

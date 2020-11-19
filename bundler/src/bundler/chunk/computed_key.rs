@@ -1,6 +1,5 @@
-use super::plan::Plan;
-use crate::{bundler::load::TransformedModule, util::CHashSet, Bundler, Load, ModuleId, Resolve};
-use anyhow::Error;
+use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
+use anyhow::{bail, Error};
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -29,15 +28,17 @@ where
     ///     };
     /// })();
     /// ```
-    pub(super) fn wrap_esm_as_a_var(
+    pub(super) fn wrap_esm(
         &self,
-        plan: &Plan,
+        ctx: &Ctx,
+        id: ModuleId,
         module: Module,
-        info: &TransformedModule,
-        merged: &CHashSet<ModuleId>,
-        id: Ident,
     ) -> Result<Module, Error> {
         let span = module.span;
+        let var_name = match self.scope.wrapped_esm_id(id) {
+            Some(v) => v,
+            None => bail!("{:?} should not be wrapped with a function", id),
+        };
 
         let mut module_items = vec![];
 
@@ -48,6 +49,13 @@ where
                 .into_iter()
                 .filter_map(|v| match v {
                     ModuleItem::Stmt(s) => Some(s),
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
+                        // We handle this later.
+                        let mut map = ctx.export_stars_in_wrapped.lock();
+                        map.entry(id).or_default().push(export.span.ctxt);
+                        module_items.push(v);
+                        None
+                    }
                     _ => {
                         module_items.push(v);
                         None
@@ -87,31 +95,18 @@ where
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 definite: false,
-                name: Pat::Ident(id.clone()),
+                name: Pat::Ident(var_name.into_ident()),
                 init: Some(Box::new(module_expr)),
             }],
         };
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
 
-        let module = Module {
+        Ok(Module {
             span: DUMMY_SP,
             shebang: None,
             body: module_items,
-        };
-
-        let module_plan;
-        let module_plan = match plan.normal.get(&info.id) {
-            Some(v) => v,
-            None => {
-                module_plan = Default::default();
-                &module_plan
-            }
-        };
-        let module = self.merge_imports(&plan, module_plan, module, info, merged, false)?;
-        // print_hygiene("Imports", &self.cm, &module);
-
-        Ok(module)
+        })
     }
 }
 
@@ -206,11 +201,30 @@ impl Fold for ExportToReturn {
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
-            ModuleDecl::ExportAll(_) => {
-                unimplemented!("export * from 'foo' inside a module loaded with computed key")
+            ModuleDecl::ExportAll(export) => {
+                return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
             }
-            ModuleDecl::ExportNamed(_) => {
-                unimplemented!("export {{ a }} from 'foo' inside a module loaded with computed key")
+            ModuleDecl::ExportNamed(named) => {
+                for specifier in &named.specifiers {
+                    match specifier {
+                        ExportSpecifier::Namespace(_) => {}
+                        ExportSpecifier::Default(_) => {}
+                        ExportSpecifier::Named(named) => match &named.exported {
+                            Some(exported) => {
+                                self.exports
+                                    .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                        KeyValueProp {
+                                            key: PropName::Ident(exported.clone()),
+                                            value: Box::new(Expr::Ident(named.orig.clone())),
+                                        },
+                                    ))))
+                            }
+                            None => {}
+                        },
+                    }
+                }
+
+                return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named));
             }
             ModuleDecl::TsImportEquals(_) => None,
             ModuleDecl::TsExportAssignment(_) => None,
@@ -232,15 +246,13 @@ impl Fold for ExportToReturn {
             _ => true,
         });
 
-        if !self.exports.is_empty() {
-            new.push(ModuleItem::Stmt(Stmt::Return(ReturnStmt {
+        new.push(ModuleItem::Stmt(Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
-                arg: Some(Box::new(Expr::Object(ObjectLit {
-                    span: DUMMY_SP,
-                    props: take(&mut self.exports),
-                }))),
-            })));
-        }
+                props: take(&mut self.exports),
+            }))),
+        })));
 
         new
     }

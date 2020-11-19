@@ -1,4 +1,4 @@
-const a = function() {
+const mod = function() {
     const arr = [
         0,
         1,
@@ -9,4 +9,5 @@ const a = function() {
         arr
     };
 }();
+const a = mod;
 console.log(a[foo()]);

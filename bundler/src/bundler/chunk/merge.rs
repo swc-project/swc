@@ -1,64 +1,490 @@
-use super::plan::{NormalPlan, Plan};
+use super::plan::{DepType, Plan};
 use crate::{
-    bundler::load::{Imports, Specifier, TransformedModule},
-    id::ModuleId,
+    bundler::{
+        chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
+        load::{Imports, Source, Specifier, TransformedModule},
+    },
+    id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
-    util::{self, IntoParallelIterator},
+    util::{self, CloneMap, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use retain_mut::RetainMut;
-use std::{borrow::Cow, mem::take};
+use std::{borrow::Cow, collections::HashMap, mem::take};
 use swc_atoms::js_word;
-use swc_common::{FileName, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, prepend_stmts, private_ident};
+use swc_ecma_utils::{find_ids, prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
+
+pub(super) struct Ctx {
+    pub plan: Plan,
+    pub merged: CHashSet<ModuleId>,
+    pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
+    pub export_stars_in_wrapped: Lock<HashMap<ModuleId, Vec<SyntaxContext>>>,
+}
 
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
     R: Resolve,
 {
-    /// Merge `targets` into `entry`.
+    /// Merge
     pub(super) fn merge_modules(
         &self,
-        plan: &Plan,
-        entry: ModuleId,
+        ctx: &Ctx,
+        module_id: ModuleId,
         is_entry: bool,
-        force_not_cyclic: bool,
-        merged: &CHashSet<ModuleId>,
+        allow_circular: bool,
     ) -> Result<Module, Error> {
         self.run(|| {
-            merged.insert(entry);
+            let info = self.scope.get_module(module_id).unwrap();
 
-            let info = self.scope.get_module(entry).unwrap();
-
-            if !force_not_cyclic {
-                // Handle circular imports
-                if let Some(circular_plan) = plan.entry_as_circular(info.id) {
-                    log::debug!("Circular dependency detected: ({})", info.fm.name);
+            if allow_circular {
+                if let Some(plan) = ctx.plan.circular.get(&module_id) {
                     let mut module =
-                        self.merge_circular_modules(plan, circular_plan, entry, merged)?;
+                        self.merge_circular(ctx, plan, module_id).with_context(|| {
+                            format!("failed to merge {:?} (circular import)", module_id)
+                        })?;
                     if is_entry {
-                        self.finalize_merging_of_entry(plan, &mut module);
+                        self.replace_import_specifiers(&info, &mut module);
+                        self.finalize_merging_of_entry(ctx, &mut module);
                     }
                     return Ok(module);
                 }
             }
 
-            let normal_plan;
-            let module_plan = match plan.normal.get(&entry) {
-                Some(v) => v,
+            let mut module = self
+                .get_module_for_merging(ctx, module_id, is_entry)
+                .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
+
+            {
+                let plan = ctx.plan.normal.get(&module_id);
+                let default_plan;
+                let plan = match plan {
+                    Some(plan) => plan,
+                    None => {
+                        default_plan = Default::default();
+                        &default_plan
+                    }
+                };
+
+                // print_hygiene(
+                //     &format!("before merging deps: {}", info.fm.name),
+                //     &self.cm,
+                //     &module,
+                // );
+
+                module = self.merge_deps(ctx, is_entry, module, plan, &info)?;
+
+                // print_hygiene(
+                //     &format!("after merging deps: {}", info.fm.name),
+                //     &self.cm,
+                //     &module,
+                // );
+            }
+
+            if is_entry {
+                self.replace_import_specifiers(&info, &mut module);
+                self.finalize_merging_of_entry(ctx, &mut module);
+            }
+
+            Ok(module)
+        })
+    }
+
+    fn merge_direct_import(
+        &self,
+        ctx: &Ctx,
+        dep_id: ModuleId,
+        specifiers: &[Specifier],
+    ) -> Result<Module, Error> {
+        log::debug!("Merging {:?} directly", dep_id);
+
+        let dep_info = self.scope.get_module(dep_id).unwrap();
+        let wrapped = self.scope.should_be_wrapped_with_a_fn(dep_id);
+
+        // Now we handle imports
+        let mut module = if wrapped {
+            let mut module = self.get_module_for_merging(ctx, dep_id, false)?;
+            module = self.wrap_esm(ctx, dep_id, module)?;
+
+            {
+                // Inject local_name = wrapped_esm_module_name
+
+                let module_ident = specifiers
+                    .iter()
+                    .find_map(|specifier| match specifier {
+                        Specifier::Namespace {
+                            local, all: true, ..
+                        } => Some(local.clone()),
+                        _ => None,
+                    })
+                    .unwrap();
+
+                module.body.push(
+                    self.scope
+                        .wrapped_esm_id(dep_id)
+                        .unwrap()
+                        .assign_to(module_ident)
+                        .into_module_item("merge_direct_import"),
+                );
+            }
+
+            let plan = ctx.plan.normal.get(&dep_id);
+            let default_plan;
+            let plan = match plan {
+                Some(plan) => plan,
                 None => {
-                    normal_plan = Default::default();
-                    &normal_plan
+                    default_plan = Default::default();
+                    &default_plan
                 }
             };
+
+            // print_hygiene("wrapped: before deps", &self.cm, &module);
+
+            if let Some(plan) = ctx.plan.circular.get(&dep_id) {
+                module = self
+                    .merge_circular(ctx, plan, dep_id)
+                    .with_context(|| format!("failed to merge {:?} (circular import)", dep_id))?;
+            }
+
+            module = self
+                .merge_deps(ctx, false, module, plan, &dep_info)
+                .context("failed to merge dependencies")?;
+
+            self.handle_import_deps(ctx, &dep_info, &mut module, false);
+
+            // print_hygiene("wrapped: after deps", &self.cm, &module);
+
+            module
+        } else {
+            let mut module = self.merge_modules(ctx, dep_id, false, true)?;
+
+            // print_hygiene("import: After meging deps of a dep", &self.cm, &module);
+            self.handle_import_deps(ctx, &dep_info, &mut module, false);
+            // print_hygiene("import: After handle_import_deps", &self.cm, &module);
+            module
+        };
+
+        let mut var_decls = vars_from_exports(&dep_info, &module);
+
+        module = module.fold_with(&mut Unexporter);
+
+        // Handle aliased imports
+        var_decls.extend(specifiers.iter().filter_map(|specifier| match specifier {
+            Specifier::Specific {
+                local,
+                alias: Some(alias),
+            } => {
+                let local = local.clone().into_ident();
+                let alias = alias.clone().with_ctxt(dep_info.export_ctxt()).into_ident();
+
+                Some(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(local),
+                    init: Some(Box::new(Expr::Ident(alias))),
+                    definite: false,
+                })
+            }
+            // TODO
+            Specifier::Namespace { .. } => None,
+            _ => None,
+        }));
+
+        for var in var_decls {
+            module
+                .body
+                .push(var.into_module_item("from_merge_direct_import"));
+        }
+
+        Ok(module)
+    }
+
+    fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
+        log::debug!("Merging {:?} transitively", dep_id);
+
+        let dep_info = self.scope.get_module(dep_id).unwrap();
+        let mut module = self.merge_modules(ctx, dep_id, false, true)?;
+        self.handle_import_deps(ctx, &dep_info, &mut module, false);
+
+        let var_decls = vars_from_exports(&dep_info, &module);
+
+        module = module.fold_with(&mut Unexporter);
+
+        for var in var_decls {
+            module
+                .body
+                .push(var.into_module_item("from_merge_transitive_import"));
+        }
+
+        Ok(module)
+    }
+
+    /// Even after one instance of module is merged into main enrry, code like
+    ///
+    /// ```ts
+    /// export { foo#12, baz#12 } from './common';
+    /// ```
+    ///
+    /// can remain. (`./common` is already merged, but ast nodes were not
+    /// modified because it's not a direct dependancy.)
+    ///
+    /// This method
+    fn transform_indirect_reexports(
+        &self,
+        _ctx: &Ctx,
+        module: &mut Module,
+        deps: Vec<Source>,
+    ) -> Result<(), Error> {
+        self.run(|| {
+            //
+            for stmt in &mut module.body {
+                let decl = match stmt {
+                    ModuleItem::ModuleDecl(decl) => decl,
+                    ModuleItem::Stmt(_) => continue,
+                };
+
+                for source in &deps {
+                    match decl {
+                        ModuleDecl::ExportNamed(export @ NamedExport { src: Some(..), .. }) => {
+                            if export.src.as_ref().unwrap().value == source.src.value {
+                                export.src = None;
+                                break;
+                            }
+                        }
+                        ModuleDecl::ExportAll(export) => {
+                            // TODO
+                            if export.src.value == source.src.value {}
+                        }
+                        _ => continue,
+                    }
+                }
+            }
+
+            Ok(())
+        })
+    }
+
+    fn merge_deps(
+        &self,
+        ctx: &Ctx,
+        is_entry: bool,
+        mut module: Module,
+        plan: &NormalPlan,
+        info: &TransformedModule,
+    ) -> Result<Module, Error> {
+        self.run(|| -> Result<_, Error> {
+            log::debug!(
+                "Normal merging: ({:?}) {} <= {:?}",
+                info.id,
+                info.fm.name,
+                plan
+            );
+
+            let deps = info
+                .exports
+                .reexports
+                .iter()
+                .map(|v| &v.0)
+                .cloned()
+                .filter(|source| plan.chunks.iter().all(|chunk| chunk.id != source.module_id))
+                .collect();
+            self.transform_indirect_reexports(ctx, &mut module, deps)?;
+            if plan.chunks.is_empty() {
+                return Ok(module);
+            }
+
+            let deps: Vec<_> = (&plan.chunks)
+                .into_par_iter()
+                .map(|dep| -> Result<_, Error> {
+                    self.run(|| {
+                        let dep_info = self.scope.get_module(dep.id).unwrap();
+
+                        info.helpers.extend(&dep_info.helpers);
+                        info.swc_helpers.extend_from(&dep_info.swc_helpers);
+
+                        log::debug!("Merging: {} <= {}", info.fm.name, dep_info.fm.name);
+
+                        let reexport = info
+                            .exports
+                            .reexports
+                            .iter()
+                            .find(|(src, _)| src.module_id == dep.id);
+                        let wrapped = self.scope.should_be_wrapped_with_a_fn(dep.id);
+
+                        match reexport {
+                            Some((src, specifiers)) => {
+                                let dep_module = self.merge_export(ctx, dep.id, &specifiers)?;
+                                return Ok((true, Some(src), dep, dep_module));
+                            }
+                            None => {}
+                        }
+
+                        let dep_module = match dep.ty {
+                            DepType::Direct => {
+                                let res = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|(src, _)| src.module_id == dep.id);
+
+                                if let Some((_, specifiers)) = res {
+                                    self.merge_direct_import(ctx, dep.id, &specifiers)?
+                                } else {
+                                    // Common js requires different planning strategy.
+                                    self.merge_transitive_import(ctx, dep.id)?
+                                }
+                            }
+                            DepType::Transitive => {
+                                debug_assert!(!wrapped, "Transitive dependency cannot be wrapped");
+                                self.merge_transitive_import(ctx, dep.id)?
+                            }
+                        };
+
+                        Ok((false, None, dep, dep_module))
+                    })
+                })
+                .collect();
+
+            let mut targets = plan.chunks.clone();
+
+            for dep in deps {
+                let (is_export, source, dep, mut dep_module) = dep?;
+                let dep_info = self.scope.get_module(dep.id).unwrap();
+
+                if let Some(idx) = targets.iter().position(|v| v.id == dep.id) {
+                    targets.remove(idx);
+                    if let Some(v) = ctx.plan.normal.get(&dep.id) {
+                        targets.retain(|&dep| !v.chunks.contains(&dep));
+                    }
+                    if let Some(v) = ctx.plan.circular.get(&dep.id) {
+                        targets.retain(|&dep| !v.chunks.contains(&dep.id));
+                    }
+                }
+
+                if is_export {
+                    assert!(dep_info.is_es6, "export statements are es6-only");
+                    let mut injector = ExportInjector {
+                        imported: take(&mut dep_module.body),
+                        source: source.unwrap().clone(),
+                    };
+                    module.body.visit_mut_with(&mut injector);
+
+                    log::debug!(
+                        "Merged {} into {} as a reexport",
+                        dep_info.fm.name,
+                        info.fm.name,
+                    );
+
+                    continue;
+                }
+
+                if dep_info.is_es6 {
+                    // print_hygiene("entry: before injection", &self.cm, &module);
+
+                    match dep.ty {
+                        DepType::Transitive => {
+                            module.body.extend(dep_module.body);
+
+                            log::debug!(
+                                "Merged {} into {} as a transitive es module",
+                                dep_info.fm.name,
+                                info.fm.name,
+                            );
+
+                            // print_hygiene("ES6", &self.cm, &entry);
+                            continue;
+                        }
+                        _ => {}
+                    }
+
+                    // print_hygiene(
+                    //     &format!("entry: before injection of `{}`", dep_info.fm.name),
+                    //     &self.cm,
+                    //     &module,
+                    // );
+
+                    // Replace import statement / require with module body
+                    let mut injector = Es6ModuleInjector {
+                        imported: take(&mut dep_module.body),
+                        dep_export_ctxt: dep_info.export_ctxt(),
+                        is_direct: match dep.ty {
+                            DepType::Direct => true,
+                            _ => false,
+                        },
+                    };
+                    module.body.visit_mut_with(&mut injector);
+
+                    if injector.imported.is_empty() {
+                        log::debug!(
+                            "Merged {} into {} as an es module",
+                            dep_info.fm.name,
+                            info.fm.name,
+                        );
+                        // print_hygiene(
+                        //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
+                        //     &self.cm,
+                        //     &entry,
+                        // );
+                        continue;
+                    }
+
+                    if info.is_es6 && dep_info.is_es6 {
+                        module.body.extend(injector.imported);
+                        continue;
+                    }
+
+                    dep_module.body = take(&mut injector.imported);
+
+                    // print_hygiene(
+                    //     &format!("entry: failed to inject: {}; {:?}",
+                    // dep_info.fm.name, dep),     &self.cm,
+                    //     &dep_module,
+                    // );
+                }
+
+                if self.config.require {
+                    self.merge_cjs(
+                        ctx,
+                        is_entry,
+                        &mut module,
+                        &info,
+                        Cow::Owned(dep_module),
+                        &dep_info,
+                        &mut targets,
+                    )?;
+                }
+                // if self.config.require {
+                //     self.merge_cjs(
+                //         plan,
+                //         is_entry,
+                //         &mut entry,
+                //         &info,
+                //         Cow::Owned(dep),
+                //         &dep_info,
+                //         &mut targets,
+                //     )?;
+                // }
+            }
+
+            Ok(module)
+        })
+    }
+
+    pub(super) fn get_module_for_merging(
+        &self,
+        _ctx: &Ctx,
+        module_id: ModuleId,
+        is_entry: bool,
+    ) -> Result<Module, Error> {
+        self.run(|| {
+            let info = self.scope.get_module(module_id).unwrap();
 
             let mut entry: Module = (*info.module).clone();
             entry.visit_mut_with(&mut ImportMetaHandler {
@@ -70,320 +496,146 @@ where
                 err: None,
             });
 
-            // print_hygiene(&format!("{}", info.fm.name), &self.cm, &entry);
-
-            self.merge_reexports(plan, module_plan, &mut entry, &info, merged)
-                .context("failed to merge reepxorts")?;
-
-            if module_plan.chunks.is_empty() && module_plan.transitive_chunks.is_empty() {
-                return Ok(entry);
-            }
-
-            log::debug!(
-                "Merge: ({}) {} <= {:?}",
-                info.id,
-                info.fm.name,
-                plan.normal.get(&info.id)
-            );
-
-            // We handle this kind of modules specially.
-            if self.scope.should_be_wrapped_with_a_fn(info.id) {
-                return Ok(entry);
-            }
-
-            // print_hygiene("after: merge_reexports", &self.cm, &entry);
-
-            entry = self
-                .merge_imports(plan, module_plan, entry, &info, merged, is_entry)
-                .context("failed to merge imports")?;
-
             Ok(entry)
         })
     }
 
-    pub(super) fn merge_imports(
-        &self,
-        plan: &Plan,
-        module_plan: &NormalPlan,
-        mut entry: Module,
-        info: &TransformedModule,
-        merged: &CHashSet<ModuleId>,
-        is_entry: bool,
-    ) -> Result<Module, Error> {
-        let to_merge: Vec<_> = info
-            .imports
-            .specifiers
-            .iter()
-            .filter(|(src, _)| {
-                log::trace!("Checking: {} <= {}", info.fm.name, src.src.value);
-
-                // Import and export from same file. We use export to merge it.
-                if info
-                    .exports
-                    .reexports
-                    .iter()
-                    .any(|(es, _)| es.module_id == src.module_id)
-                {
-                    return true;
-                }
-
-                // Skip if a dependency is going to be merged by other dependency
-                module_plan.chunks.contains(&src.module_id)
-            })
-            .collect();
-
-        let (deps, transitive_deps) = util::join(
-            || {
-                to_merge
-                    .into_par_iter()
-                    .map(|(src, specifiers)| -> Result<Option<_>, Error> {
-                        self.run(|| {
-                            let dep_info = self.scope.get_module(src.module_id).unwrap();
-                            info.helpers.extend(&dep_info.helpers);
-                            info.swc_helpers.extend_from(&dep_info.swc_helpers);
-
-                            if !merged.insert(src.module_id) {
-                                log::debug!("Skipping: {} <= {}", info.fm.name, src.src.value);
-                                return Ok(None);
-                            }
-
-                            log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
-
-                            // In the case of
-                            //
-                            //  a <- b
-                            //  b <- c
-                            //
-                            // we change it to
-                            //
-                            // a <- b + chunk(c)
-                            //
-                            let mut dep = self
-                                .merge_modules(plan, src.module_id, false, false, merged)
-                                .with_context(|| {
-                                    format!(
-                                        "failed to merge: ({}):{} <= ({}):{}",
-                                        info.id, info.fm.name, src.module_id, src.src.value
-                                    )
-                                })?;
-
-                            if dep_info.is_es6 {
-                                // print_hygiene("dep:before:tree-shaking", &self.cm, &dep);
-
-                                let is_acccessed_with_computed_key =
-                                    self.scope.should_be_wrapped_with_a_fn(dep_info.id);
-
-                                // If an import with a computed key exists, we can't shake tree
-                                if is_acccessed_with_computed_key {
-                                    let id = specifiers
-                                        .iter()
-                                        .find_map(|s| match s {
-                                            Specifier::Namespace { local, all: true } => {
-                                                Some(local)
-                                            }
-                                            _ => None,
-                                        })
-                                        .unwrap();
-
-                                    dep = self.wrap_esm_as_a_var(
-                                        plan,
-                                        dep,
-                                        &dep_info,
-                                        merged,
-                                        id.clone().replace_mark(dep_info.mark()).into_ident(),
-                                    )?;
-                                } else {
-                                    if let Some(imports) = info
-                                        .imports
-                                        .specifiers
-                                        .iter()
-                                        .find(|(s, _)| s.module_id == dep_info.id)
-                                        .map(|v| &v.1)
-                                    {
-                                        // print_hygiene(
-                                        //     "dep: before remarking exports",
-                                        //     &self.cm,
-                                        //     &dep,
-                                        // );
-
-                                        dep = self.remark_exports(
-                                            dep,
-                                            dep_info.ctxt(),
-                                            Some(&imports),
-                                            true,
-                                        );
-                                    }
-                                }
-                                // print_hygiene("dep:after:tree-shaking", &self.cm, &dep);
-
-                                // if let Some(imports) = info
-                                //     .imports
-                                //     .specifiers
-                                //     .iter()
-                                //     .find(|(s, _)| s.module_id == dep_info.id)
-                                //     .map(|v| &v.1)
-                                // {
-                                //     dep = dep.fold_with(&mut ExportRenamer {
-                                //         mark: dep_info.mark(),
-                                //         _exports: &dep_info.exports,
-                                //         imports: &imports,
-                                //         extras: vec![],
-                                //     });
-                                // }
-                                // print_hygiene("dep:after:export-renamer", &self.cm, &dep);
-
-                                dep = dep.fold_with(&mut Unexporter);
-                            }
-                            // print_hygiene("dep:before-injection", &self.cm, &dep);
-
-                            Ok(Some((dep, dep_info)))
-                        })
-                    })
-                    .collect::<Vec<_>>()
-            },
-            || {
-                let deps = module_plan
-                    .transitive_chunks
-                    .clone()
-                    .into_par_iter()
-                    .map(|id| -> Result<_, Error> {
-                        if !merged.insert(id) {
-                            return Ok(None);
-                        }
-
-                        let dep_info = self.scope.get_module(id).unwrap();
-                        let mut dep = self.merge_modules(plan, id, false, true, merged)?;
-
-                        // print_hygiene("transitive dep", &self.cm, &dep);
-
-                        dep = self.remark_exports(dep, dep_info.ctxt(), None, true);
-                        dep = dep.fold_with(&mut Unexporter);
-
-                        // As transitive deps can have no direct relation with entry,
-                        // remark_exports is not enough.
-                        Ok(Some((dep, dep_info)))
-                    })
-                    .collect::<Vec<_>>();
-
-                deps
-            },
-        );
-
-        let mut targets = module_plan.chunks.clone();
-
-        for (dep, is_direct) in deps
-            .into_iter()
-            .map(|v| (v, true))
-            .chain(transitive_deps.into_iter().map(|v| (v, false)))
+    /// This should only be called after everything is merged.
+    ///
+    /// This method does not care about orders of statement, and it's expected
+    /// to be collaed before `sort`.
+    fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
         {
-            let dep = dep?;
-            let dep = match dep {
-                Some(v) => v,
-                None => continue,
-            };
+            // Handle `export *` for non-wrapped modules.
 
-            let (mut dep, dep_info) = dep;
+            let mut extra_stmts = vec![];
 
-            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
-                targets.remove(idx);
-                if let Some(v) = plan.normal.get(&dep_info.id) {
-                    targets.retain(|&id| !v.chunks.contains(&id));
-                }
-                if let Some(v) = plan.circular.get(&dep_info.id) {
-                    targets.retain(|&id| !v.chunks.contains(&id));
+            for stmt in entry.body.iter() {
+                match stmt {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                        let ids: Vec<Id> = find_ids(decl);
+
+                        for id in ids {
+                            if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
+                                let reexported = id.clone().with_ctxt(remapped);
+                                extra_stmts.push(
+                                    id.assign_to(reexported)
+                                        .into_module_item("export_star_replacer"),
+                                );
+                            }
+                        }
+                    }
+                    _ => {}
                 }
             }
 
-            // print_hygiene("dep: before injection", &self.cm, &dep);
+            entry.body.extend(extra_stmts);
+        }
 
-            if dep_info.is_es6 {
-                // print_hygiene("entry: before injection", &self.cm, &entry);
+        {
+            let mut map = ctx.export_stars_in_wrapped.lock();
+            let mut additional_props = HashMap::<_, Vec<_>>::new();
+            // Handle `export *` for wrapped modules.
+            for (module_id, ctxts) in map.drain() {
+                for stmt in entry.body.iter() {
+                    match stmt {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                            let ids: Vec<Id> = find_ids(decl);
 
-                if !is_direct {
-                    prepend_stmts(&mut entry.body, take(&mut dep.body).into_iter());
-
-                    log::debug!(
-                        "Merged {} into {} as a transitive es module",
-                        dep_info.fm.name,
-                        info.fm.name,
-                    );
-
-                    // print_hygiene("ES6", &self.cm, &entry);
-                    continue;
+                            for id in ids {
+                                if ctxts.contains(&id.ctxt()) {
+                                    additional_props.entry(module_id).or_default().push(
+                                        PropOrSpread::Prop(Box::new(Prop::Shorthand(
+                                            id.into_ident(),
+                                        ))),
+                                    );
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
                 }
+            }
 
-                // Replace import statement / require with module body
-                let mut injector = Es6ModuleInjector {
-                    imported: take(&mut dep.body),
-                    ctxt: dep_info.ctxt(),
-                    is_direct,
+            for (module_id, props) in additional_props {
+                let id = match self.scope.wrapped_esm_id(module_id) {
+                    Some(v) => v,
+                    None => continue,
                 };
-                entry.body.visit_mut_with(&mut injector);
 
-                if injector.imported.is_empty() {
-                    // print_hygiene("entry:after:injection", &self.cm, &entry);
+                for stmt in &mut entry.body {
+                    let var = match stmt {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(
+                            var
+                            @
+                            VarDecl {
+                                kind: VarDeclKind::Const,
+                                ..
+                            },
+                        ))) => var,
+                        _ => continue,
+                    };
 
-                    log::debug!(
-                        "Merged {} into {} as an es module",
-                        dep_info.fm.name,
-                        info.fm.name,
-                    );
-                    // print_hygiene(
-                    //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
-                    //     &self.cm,
-                    //     &entry,
-                    // );
-                    continue;
+                    if var.decls.len() != 1 {
+                        continue;
+                    }
+
+                    let var_decl = &mut var.decls[0];
+                    match &var_decl.name {
+                        Pat::Ident(i) if id == *i => {}
+                        _ => continue,
+                    }
+
+                    let callee = match &mut var_decl.init {
+                        Some(init) => match &mut **init {
+                            Expr::Call(CallExpr { callee, .. }) => match callee {
+                                ExprOrSuper::Super(_) => continue,
+                                ExprOrSuper::Expr(v) => v,
+                            },
+                            _ => continue,
+                        },
+                        None => continue,
+                    };
+
+                    let f = match &mut **callee {
+                        Expr::Fn(f) => f,
+                        _ => continue,
+                    };
+
+                    let body = match &mut f.function.body {
+                        Some(body) => body,
+                        None => continue,
+                    };
+
+                    let last_stmt = body.stmts.last_mut();
+
+                    let return_stmt = match last_stmt {
+                        Some(Stmt::Return(s)) => s,
+                        _ => continue,
+                    };
+
+                    let ret_val = match &mut return_stmt.arg {
+                        Some(arg) => arg,
+                        None => continue,
+                    };
+
+                    let obj = match &mut **ret_val {
+                        Expr::Object(obj) => obj,
+                        _ => continue,
+                    };
+
+                    obj.props.extend(props);
+                    break;
                 }
-
-                // print_hygiene("entry: failed to inject", &self.cm, &entry);
-
-                dep.body = take(&mut injector.imported);
-            }
-
-            if self.config.require {
-                self.merge_cjs(
-                    plan,
-                    is_entry,
-                    &mut entry,
-                    &info,
-                    Cow::Owned(dep),
-                    &dep_info,
-                    &mut targets,
-                )?;
             }
         }
-
-        // if is_entry && self.config.require && !targets.is_empty() {
-        //     log::info!("Injectng remaining: {:?}", targets);
-
-        //     // Handle transitive dependencies
-        //     for target in targets.drain(..) {
-        //         log::trace!(
-        //             "Remaining: {}",
-        //             self.scope.get_module(target).unwrap().fm.name
-        //         );
-
-        //         let dep_info = self.scope.get_module(target).unwrap();
-        //         self.merge_cjs(
-        //             plan,
-        //             &mut entry,
-        //             &info,
-        //             Cow::Borrowed(&dep_info.module),
-        //             &dep_info,
-        //             &mut targets,
-        //         )?;
-        //     }
-        // }
-
-        if is_entry {
-            self.finalize_merging_of_entry(plan, &mut entry);
-        }
-
-        Ok(entry)
     }
 
-    fn finalize_merging_of_entry(&self, plan: &Plan, entry: &mut Module) {
+    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
+        self.handle_export_stars(ctx, entry);
+
+        sort(&mut entry.body);
+
         // print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
@@ -395,36 +647,32 @@ where
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    for (id, p) in &plan.normal {
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                    for (id, p) in &ctx.plan.normal {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping import");
                             return false;
                         }
 
-                        for &mid in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
+                        for &dep in &p.chunks {
+                            if import.span.ctxt
+                                == self.scope.get_module(dep.id).unwrap().export_ctxt()
+                            {
                                 log::debug!("Dropping direct import");
-                                return false;
-                            }
-                        }
-
-                        for &mid in &p.transitive_chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
-                                log::debug!("Dropping transitive import");
                                 return false;
                             }
                         }
                     }
 
-                    for (id, p) in &plan.circular {
+                    for (id, p) in &ctx.plan.circular {
                         // Drop if it's one of circular import
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().ctxt() {
+                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
                             log::debug!("Dropping circular import");
                             return false;
                         }
 
                         for &mid in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().ctxt() {
+                            if import.span.ctxt == self.scope.get_module(mid).unwrap().export_ctxt()
+                            {
                                 log::debug!("Dropping circular import");
                                 return false;
                             }
@@ -449,6 +697,351 @@ where
         //         .fold_with(&mut fixer(None)),
         // );
     }
+
+    pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Module) {
+        let mut new = Vec::with_capacity(module.body.len() + 32);
+
+        for stmt in take(&mut module.body) {
+            match &stmt {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    for specifier in &import.specifiers {
+                        match specifier {
+                            ImportSpecifier::Named(named) => match &named.imported {
+                                Some(imported) => {
+                                    new.push(
+                                        imported
+                                            .clone()
+                                            .assign_to(named.local.clone())
+                                            .into_module_item("from_replace_import_specifiers"),
+                                    );
+                                    continue;
+                                }
+                                None => {}
+                            },
+                            ImportSpecifier::Default(default) => {
+                                if let Some((src, _)) = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|s| s.0.src.value == import.src.value)
+                                {
+                                    let imported = Ident::new(
+                                        js_word!("default"),
+                                        DUMMY_SP.with_ctxt(src.export_ctxt),
+                                    );
+                                    new.push(
+                                        imported
+                                            .assign_to(default.local.clone())
+                                            .into_module_item("from_replace_import_specifiers"),
+                                    );
+                                    continue;
+                                }
+                            }
+                            ImportSpecifier::Namespace(_) => {}
+                        }
+                    }
+
+                    // We should remove imports
+                    continue;
+                }
+                _ => {}
+            }
+
+            new.push(stmt);
+        }
+
+        module.body = new;
+    }
+
+    /// If a dependency aliased exports, we handle them at here.
+    pub(super) fn handle_import_deps(
+        &self,
+        ctx: &Ctx,
+        info: &TransformedModule,
+        module: &mut Module,
+        _for_circular: bool,
+    ) {
+        self.replace_import_specifiers(info, module);
+
+        let mut vars = vec![];
+
+        for orig_stmt in module.body.iter_mut() {
+            let mut stmt = orig_stmt.take();
+
+            match stmt {
+                ModuleItem::ModuleDecl(mut decl) => {
+                    stmt = match decl {
+                        ModuleDecl::ExportNamed(export) => {
+                            for specifier in &export.specifiers {
+                                match specifier {
+                                    ExportSpecifier::Namespace(ns) => {
+                                        let mut lhs = ns.name.clone();
+                                        lhs.span = lhs.span.with_ctxt(info.export_ctxt());
+                                        vars.push(
+                                            ns.name
+                                                .clone()
+                                                .assign_to(lhs)
+                                                .into_module_item("import_deps_namespace"),
+                                        );
+                                    }
+                                    ExportSpecifier::Default(default) => {
+                                        let mut lhs = default.exported.clone();
+                                        lhs.span = lhs.span.with_ctxt(info.export_ctxt());
+                                        vars.push(
+                                            default
+                                                .exported
+                                                .clone()
+                                                .assign_to(lhs)
+                                                .into_module_item("import_deps_default"),
+                                        );
+                                    }
+                                    ExportSpecifier::Named(named) => match &named.exported {
+                                        Some(exported) => {
+                                            if named.orig.span.ctxt != info.export_ctxt() {
+                                                let mut lhs = exported.clone();
+                                                lhs.span = lhs.span.with_ctxt(info.export_ctxt());
+                                                vars.push(
+                                                    named
+                                                        .orig
+                                                        .clone()
+                                                        .assign_to(lhs)
+                                                        .into_module_item(
+                                                            "import_deps_named_alias",
+                                                        ),
+                                                );
+                                            }
+                                        }
+                                        None => {
+                                            if info.export_ctxt() != named.orig.span.ctxt {
+                                                let mut lhs: Ident = named.orig.clone();
+                                                lhs.span.ctxt = info.export_ctxt();
+                                                vars.push(
+                                                    named
+                                                        .orig
+                                                        .clone()
+                                                        .assign_to(lhs)
+                                                        .into_module_item("import_deps_named"),
+                                                );
+                                            }
+                                        }
+                                    },
+                                }
+                            }
+
+                            ModuleItem::dummy()
+                        }
+                        ModuleDecl::ExportDefaultDecl(ref mut export) => match &mut export.decl {
+                            DefaultDecl::Class(expr) => {
+                                let expr = expr.take();
+                                let export_name = Pat::Ident(Ident::new(
+                                    js_word!("default"),
+                                    export.span.with_ctxt(info.export_ctxt()),
+                                ));
+
+                                let (init, s) = match expr.ident {
+                                    Some(name) => {
+                                        (
+                                            Expr::Ident(name.clone()),
+                                            ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                                                // Context of the span is local.
+                                                ident: name,
+                                                declare: false,
+                                                class: expr.class,
+                                            }))),
+                                        )
+                                    }
+                                    None => (
+                                        Expr::Class(expr),
+                                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+                                    ),
+                                };
+
+                                vars.push(
+                                    VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: export_name,
+                                        init: Some(Box::new(init)),
+                                        definite: false,
+                                    }
+                                    .into_module_item("import_deps_export_default_decl"),
+                                );
+
+                                s
+                            }
+                            DefaultDecl::Fn(expr) => {
+                                let expr = expr.take();
+                                let export_name = Ident::new(
+                                    js_word!("default"),
+                                    export.span.with_ctxt(info.export_ctxt()),
+                                );
+
+                                let (init, s) = match expr.ident {
+                                    Some(name) => (
+                                        Expr::Ident(name.clone()),
+                                        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                                            ident: name,
+                                            declare: false,
+                                            function: expr.function,
+                                        }))),
+                                    ),
+                                    None => (
+                                        Expr::Fn(expr),
+                                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+                                    ),
+                                };
+
+                                vars.push(
+                                    init.assign_to(export_name)
+                                        .into_module_item("import_deps_export_default_decl_fn"),
+                                );
+                                s
+                            }
+                            DefaultDecl::TsInterfaceDecl(_) => {
+                                ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                            }
+                        },
+                        ModuleDecl::ExportDecl(export) => {
+                            match &export.decl {
+                                Decl::Class(ClassDecl { ident, .. })
+                                | Decl::Fn(FnDecl { ident, .. }) => {
+                                    let mut exported = ident.clone();
+                                    exported.span.ctxt = info.export_ctxt();
+                                    vars.push(
+                                        ident
+                                            .clone()
+                                            .assign_to(exported)
+                                            .into_module_item("import_deps_export_decl"),
+                                    );
+                                }
+                                Decl::Var(var) => {
+                                    let ids: Vec<Ident> = find_ids(var);
+
+                                    for id in ids {
+                                        let mut exported = id.clone();
+                                        exported.span.ctxt = info.export_ctxt();
+                                        vars.push(
+                                            id.assign_to(exported)
+                                                .into_module_item("import_deps_export_var_decl"),
+                                        );
+                                    }
+                                }
+                                _ => {}
+                            }
+
+                            ModuleItem::Stmt(Stmt::Decl(export.decl))
+                        }
+                        ModuleDecl::ExportDefaultExpr(mut export) => {
+                            vars.push(
+                                VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(Ident::new(
+                                        js_word!("default"),
+                                        DUMMY_SP.with_ctxt(info.export_ctxt()),
+                                    )),
+                                    init: Some(export.expr.take()),
+                                    definite: false,
+                                }
+                                .into_module_item("import_deps_export_default_expr"),
+                            );
+                            ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                        }
+
+                        ModuleDecl::ExportAll(ref export) => {
+                            let export_ctxt = export.span.ctxt;
+                            ctx.transitive_remap.insert(export_ctxt, info.export_ctxt());
+
+                            ModuleItem::ModuleDecl(decl)
+                        }
+
+                        _ => ModuleItem::ModuleDecl(decl),
+                    }
+                }
+                ModuleItem::Stmt(_) => {}
+            }
+
+            *orig_stmt = stmt;
+        }
+
+        for var in vars {
+            module.body.push(var)
+        }
+    }
+}
+
+fn vars_from_exports(dep_info: &TransformedModule, module: &Module) -> Vec<VarDeclarator> {
+    // Convert all exports into variables in form of
+    //
+    // A__export = A__local
+
+    let mut vars = vec![];
+
+    for item in &module.body {
+        let item = match item {
+            ModuleItem::ModuleDecl(item) => item,
+            ModuleItem::Stmt(_) => continue,
+        };
+
+        match item {
+            ModuleDecl::ExportDecl(export) => match &export.decl {
+                Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                    let exported_name = Ident::new(
+                        ident.sym.clone(),
+                        ident.span.with_ctxt(dep_info.export_ctxt()),
+                    );
+
+                    vars.push(ident.clone().assign_to(exported_name));
+                }
+                Decl::Var(var) => {
+                    let ids: Vec<Id> = find_ids(var);
+
+                    for id in ids {
+                        let exported = Ident::new(
+                            id.sym().clone(),
+                            DUMMY_SP.with_ctxt(dep_info.export_ctxt()),
+                        );
+
+                        vars.push(id.assign_to(exported))
+                    }
+                }
+                Decl::TsInterface(_) => {}
+                Decl::TsTypeAlias(_) => {}
+                Decl::TsEnum(_) => {}
+                Decl::TsModule(_) => {}
+            },
+            ModuleDecl::ExportNamed(_) => {}
+            ModuleDecl::ExportDefaultDecl(export) => {
+                let export_name = Ident::new(
+                    js_word!("default"),
+                    export.span.with_ctxt(dep_info.export_ctxt()),
+                );
+
+                vars.push(
+                    Ident::new(
+                        js_word!("default"),
+                        export.span.with_ctxt(dep_info.local_ctxt()),
+                    )
+                    .assign_to(export_name),
+                );
+            }
+            ModuleDecl::ExportDefaultExpr(export) => {
+                let export_name = Ident::new(
+                    js_word!("default"),
+                    export.span.with_ctxt(dep_info.export_ctxt()),
+                );
+
+                vars.push(
+                    Ident::new(
+                        js_word!("default"),
+                        export.span.with_ctxt(dep_info.local_ctxt()),
+                    )
+                    .assign_to(export_name),
+                );
+            }
+            _ => {}
+        }
+    }
+
+    vars
 }
 
 pub(super) struct ImportDropper<'a> {
@@ -531,7 +1124,8 @@ impl Fold for Unexporter {
 
 struct Es6ModuleInjector {
     imported: Vec<ModuleItem>,
-    ctxt: SyntaxContext,
+    /// Export context of the dependency module.
+    dep_export_ctxt: SyntaxContext,
     is_direct: bool,
 }
 
@@ -547,7 +1141,7 @@ impl VisitMut for Es6ModuleInjector {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span, specifiers, ..
-                })) if span.ctxt == self.ctxt => {
+                })) if span.ctxt == self.dep_export_ctxt => {
                     buf.extend(take(&mut self.imported));
 
                     if !self.is_direct {
@@ -560,7 +1154,7 @@ impl VisitMut for Es6ModuleInjector {
                                     ..
                                 }) => {
                                     let mut imported = imported.clone();
-                                    imported.span = imported.span.with_ctxt(self.ctxt);
+                                    imported.span = imported.span.with_ctxt(self.dep_export_ctxt);
 
                                     Some(VarDeclarator {
                                         span: DUMMY_SP,
@@ -573,13 +1167,8 @@ impl VisitMut for Es6ModuleInjector {
                             })
                             .collect::<Vec<_>>();
 
-                        if !decls.is_empty() {
-                            buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Const,
-                                declare: false,
-                                decls,
-                            }))));
+                        for var in decls {
+                            buf.push(var.into_module_item("Es6ModuleInjector"));
                         }
                     }
                 }

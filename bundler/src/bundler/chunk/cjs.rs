@@ -1,10 +1,17 @@
-use super::{merge::Unexporter, plan::Plan};
-use crate::{bundler::load::TransformedModule, Bundler, Load, ModuleId, Resolve};
+use super::merge::Unexporter;
+use crate::{
+    bundler::{
+        chunk::{merge::Ctx, plan::Dependancy},
+        load::TransformedModule,
+    },
+    Bundler, Load, Resolve,
+};
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_atoms::js_word;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
-use swc_ecma_utils::{prepend, undefined, ExprFactory};
+use swc_ecma_utils::{prepend, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -35,26 +42,30 @@ where
     /// modules.
     pub(super) fn merge_cjs(
         &self,
-        plan: &Plan,
+        ctx: &Ctx,
         is_entry: bool,
         entry: &mut Module,
         info: &TransformedModule,
         dep: Cow<Module>,
         dep_info: &TransformedModule,
-        targets: &mut Vec<ModuleId>,
+        targets: &mut Vec<Dependancy>,
     ) -> Result<(), Error> {
+        if info.is_es6 && dep_info.is_es6 {
+            return Ok(());
+        }
+
         log::debug!("Merging as a common js module: {}", info.fm.name);
         // If src is none, all requires are transpiled
         let mut v = RequireReplacer {
             is_entry,
-            ctxt: dep_info.ctxt(),
-            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.ctxt())),
+            ctxt: dep_info.export_ctxt(),
+            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.export_ctxt())),
             replaced: false,
         };
         entry.body.visit_mut_with(&mut v);
 
         if v.replaced {
-            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
+            if let Some(idx) = targets.iter().position(|v| v.id == dep_info.id) {
                 targets.remove(idx);
             }
 
@@ -65,12 +76,15 @@ where
 
                 let mut dep = dep.into_owned().fold_with(&mut Unexporter);
                 dep.visit_mut_with(&mut ImportDropper);
+                dep.visit_mut_with(&mut DefaultHandler {
+                    local_ctxt: dep_info.local_ctxt(),
+                });
 
                 prepend(
                     &mut entry.body,
                     ModuleItem::Stmt(wrap_module(
                         SyntaxContext::empty(),
-                        dep_info.mark(),
+                        dep_info.local_ctxt(),
                         load_var,
                         dep,
                     )),
@@ -79,15 +93,15 @@ where
                 log::warn!("Injecting load");
             }
 
-            if let Some(normal_plan) = plan.normal.get(&dep_info.id) {
-                for &dep_id in &normal_plan.chunks {
-                    if !targets.contains(&dep_id) {
+            if let Some(normal_plan) = ctx.plan.normal.get(&dep_info.id) {
+                for dep in normal_plan.chunks.iter() {
+                    if !targets.contains(&dep) {
                         continue;
                     }
 
-                    let dep_info = self.scope.get_module(dep_id).unwrap();
+                    let dep_info = self.scope.get_module(dep.id).unwrap();
                     self.merge_cjs(
-                        plan,
+                        ctx,
                         false,
                         entry,
                         info,
@@ -105,7 +119,7 @@ where
 
 fn wrap_module(
     helper_ctxt: SyntaxContext,
-    top_level_mark: Mark,
+    local_ctxt: SyntaxContext,
     load_var: Ident,
     dep: Module,
 ) -> Stmt {
@@ -118,19 +132,13 @@ fn wrap_module(
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new(
-                        "module".into(),
-                        DUMMY_SP.apply_mark(top_level_mark),
-                    )),
+                    pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP.with_ctxt(local_ctxt))),
                 },
                 // exports
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new(
-                        "exports".into(),
-                        DUMMY_SP.apply_mark(top_level_mark),
-                    )),
+                    pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP.with_ctxt(local_ctxt))),
                 },
             ],
             decorators: vec![],
@@ -341,6 +349,44 @@ impl VisitMut for ImportDropper {
                 *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
             }
             ModuleItem::Stmt(_) => {}
+        }
+    }
+}
+
+struct DefaultHandler {
+    local_ctxt: SyntaxContext,
+}
+
+impl VisitMut for DefaultHandler {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                if i.sym == js_word!("default") {
+                    *e = Expr::Member(MemberExpr {
+                        span: i.span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
+                            "module".into(),
+                            DUMMY_SP.with_ctxt(self.local_ctxt),
+                        )))),
+                        prop: Box::new(Expr::Ident(quote_ident!("exports"))),
+                        computed: false,
+                    });
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
         }
     }
 }

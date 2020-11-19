@@ -1,8 +1,8 @@
 use super::*;
+use crate::debug::print_hygiene;
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
 use swc_ecma_utils::drop_span;
-use testing::assert_eq;
 
 fn parse(cm: Lrc<SourceMap>, name: &str, src: &str) -> Module {
     let fm = cm.new_source_file(FileName::Custom(name.into()), src.into());
@@ -21,29 +21,24 @@ fn parse(cm: Lrc<SourceMap>, name: &str, src: &str) -> Module {
 
 #[track_caller]
 fn assert_merge_respecting_order(modules: &[&str], output: &str) {
-    for i in 0..modules.len() {
-        log::info!("[{}] Testing", i);
-        ::testing::run_test2(false, |cm, _handler| {
-            let mut entry = parse(cm.clone(), &format!("entry-{}", i), modules[i]).body;
+    ::testing::run_test2(false, |cm, _handler| {
+        let mut entry = parse(cm.clone(), &format!("entry"), modules[0]);
 
-            for j in 0..modules.len() {
-                if i == j {
-                    continue;
-                }
+        for i in 1..modules.len() {
+            let dep = parse(cm.clone(), &format!("deps-{}", i), modules[i]);
+            entry.body = merge_respecting_order(entry.body, dep.body);
 
-                let dep = parse(cm.clone(), &format!("deps-{}-{}", i, j), modules[j]);
-                entry = merge_respecting_order(entry, dep.body);
-            }
+            print_hygiene("merge", &cm, &entry);
+        }
 
-            let output = parse(cm.clone(), "output", output);
-            assert_eq!(entry, output.body, "[{}]", i);
+        let output = parse(cm.clone(), "output", output);
+        if entry.body != output.body {
+            panic!()
+        }
 
-            log::info!("[{}] Success", i);
-
-            Ok(())
-        })
-        .unwrap()
-    }
+        Ok(())
+    })
+    .unwrap()
 }
 
 #[test]
@@ -57,27 +52,59 @@ fn simple_two() {
     );
 }
 
-#[track_caller]
-fn assert_dependency_index(entry: &str, dep: &str, expected: usize) {
-    ::testing::run_test2(false, |cm, _handler| {
-        let entry = parse(cm.clone(), "entry", entry);
-        let dep = parse(cm.clone(), "dep", dep);
+#[test]
+fn many_vars_1() {
+    assert_merge_respecting_order(
+        &[
+            "
+            const A6 = A5;
+            class B6 extends A6 {
+            }
+            const B7 = B6;
 
-        let calculated = dependency_index(&entry.body[0], &dep.body);
-
-        assert_eq!(calculated, Some(expected));
-
-        Ok(())
-    })
-    .unwrap();
+            ",
+            "
+            const B4 = B7;
+            class A4 {
+                method() {
+                    return new B4();
+                }
+            }
+            const A5 = A4;
+            ",
+        ],
+        "
+        class A4 {
+            method() {
+                return new B4();
+            }
+        }
+        const A5 = A4;
+        const A6 = A5;
+        class B6 extends A6 {
+        }
+        const B7 = B6;
+        const B4 = B7;
+        ",
+    );
 }
 
 #[test]
-fn dep_index_class() {
-    assert_dependency_index("class A extends B {}", "class B {}", 0);
-}
-
-#[test]
-fn dep_index_export_class() {
-    assert_dependency_index("class A extends B {}", "export class B {}", 0);
+fn no_dep_first_01() {
+    assert_merge_respecting_order(
+        &[
+            "
+            const b1 = b2;
+            ",
+            "
+            const b2 = 2;
+            const b3 = b1;
+            ",
+        ],
+        "
+        const b2 = 2;
+        const b1 = b2;
+        const b3 = b1;
+",
+    );
 }

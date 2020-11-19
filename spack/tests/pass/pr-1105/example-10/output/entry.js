@@ -1,4 +1,4 @@
-const _i = function() {
+const mod = function() {
     function a(...d) {
         return d.join(" ");
     }
@@ -6,7 +6,8 @@ const _i = function() {
         a
     };
 }();
-const _j = function() {
+const _i = mod;
+const mod1 = function() {
     function a(...d) {
         return d.join("/");
     }
@@ -14,6 +15,8 @@ const _j = function() {
         a
     };
 }();
+const _j = mod1;
 const k = globalThis.value ? _i : _j;
-const { a ,  } = k;
-export { a, b };
+const { a: a2 ,  } = k;
+const a1 = a2;
+export { a1 as a, b as b };

@@ -1,5 +1,8 @@
 use super::{load::TransformedModule, Bundler};
-use crate::{id::ModuleId, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle};
+use crate::{
+    bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
+    util::IntoParallelIterator, Bundle,
+};
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
@@ -11,7 +14,7 @@ mod computed_key;
 mod export;
 mod merge;
 mod plan;
-mod remark;
+mod sort;
 
 #[derive(Debug)]
 struct InternalEntry {
@@ -43,13 +46,19 @@ where
         entries: HashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         let plan = self.determine_entries(entries).context("failed to plan")?;
-        let merged = Default::default();
+        let ctx = Ctx {
+            plan,
+            merged: Default::default(),
+            transitive_remap: Default::default(),
+            export_stars_in_wrapped: Default::default(),
+        };
 
-        Ok((&*plan.entries)
+        Ok((&*ctx.plan.entries)
             .into_par_iter()
             .map(|&entry| {
                 self.run(|| {
-                    let kind = plan
+                    let kind = ctx
+                        .plan
                         .bundle_kinds
                         .get(&entry)
                         .unwrap_or_else(|| {
@@ -58,7 +67,7 @@ where
                         .clone();
 
                     let module = self
-                        .merge_modules(&plan, entry, true, false, &merged)
+                        .merge_modules(&ctx, entry, true, true)
                         .context("failed to merge module")
                         .unwrap(); // TODO
 

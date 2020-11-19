@@ -1,3 +1,6 @@
 const common = 1;
-console.log(common, 'a.js');
-console.log(common, 'b.js');
+const common1 = common;
+const common2 = common1;
+console.log(common2, 'a.js');
+const common3 = common1;
+console.log(common3, 'b.js');

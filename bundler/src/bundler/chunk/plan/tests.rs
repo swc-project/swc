@@ -1,5 +1,8 @@
 use super::Plan;
-use crate::bundler::tests::{suite, Tester};
+use crate::bundler::{
+    chunk::plan::DepType,
+    tests::{suite, Tester},
+};
 use std::collections::{HashMap, HashSet};
 use swc_common::FileName;
 
@@ -18,18 +21,33 @@ fn assert_normal_transitive(
 ) {
     if deps.is_empty() {
         if let Some(v) = p.normal.get(&t.id(&format!("{}.js", entry))) {
-            assert_eq!(v.chunks, vec![], "Should be empty");
+            let actual = v
+                .chunks
+                .iter()
+                .filter(|dep| match dep.ty {
+                    DepType::Direct => true,
+                    _ => false,
+                })
+                .copied()
+                .collect::<Vec<_>>();
+            assert_eq!(actual, vec![], "Should be empty");
         }
 
         return;
     }
 
+    let actual = p.normal[&t.id(&format!("{}.js", entry))]
+        .chunks
+        .iter()
+        .filter(|dep| match dep.ty {
+            DepType::Direct => true,
+            _ => false,
+        })
+        .map(|dep| dep.id)
+        .collect::<HashSet<_>>();
+
     assert_eq!(
-        p.normal[&t.id(&format!("{}.js", entry))]
-            .chunks
-            .iter()
-            .cloned()
-            .collect::<HashSet<_>>(),
+        actual,
         deps.into_iter()
             .map(|s| format!("{}.js", s))
             .map(|s| t.id(&s))
@@ -40,9 +58,13 @@ fn assert_normal_transitive(
 
     assert_eq!(
         p.normal[&t.id(&format!("{}.js", entry))]
-            .transitive_chunks
+            .chunks
             .iter()
-            .cloned()
+            .filter(|dep| match dep.ty {
+                DepType::Transitive => true,
+                _ => false,
+            })
+            .map(|dep| dep.id)
             .collect::<HashSet<_>>(),
         transitive_deps
             .into_iter()
@@ -954,6 +976,58 @@ fn deno_003() {
             );
 
             assert_normal(t, &p, "async-mux_async_iterator", &[]);
+
+            Ok(())
+        });
+}
+
+#[test]
+fn deno_8302_3() {
+    suite()
+        .file(
+            "main.js",
+            "
+            import * as a from './a';
+            ",
+        )
+        .file(
+            "a.js",
+            "
+            import * as b from './b';
+            import * as lib from './lib';
+            ",
+        )
+        .file(
+            "b.js",
+            "
+            import * as c from './c';
+            import * as lib from './lib';
+            ",
+        )
+        .file(
+            "c.js",
+            "
+            import * as a from './a';
+            import * as lib from './lib';
+            ",
+        )
+        .file("lib.js", "")
+        .run(|t| {
+            let module = t
+                .bundler
+                .load_transformed(&FileName::Real("main.js".into()))?
+                .unwrap();
+            let mut entries = HashMap::default();
+            entries.insert("main.js".to_string(), module.clone());
+
+            let p = t.bundler.calculate_plan(entries)?;
+
+            dbg!(&p);
+
+            assert_normal(t, &p, "main", &["a"]);
+
+            assert_normal(t, &p, "a", &["lib"]);
+            assert_circular(t, &p, "a", &["b", "c"]);
 
             Ok(())
         });

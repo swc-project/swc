@@ -21,11 +21,13 @@ var load1 = __spack_require__.bind(void 0, function(module, exports) {
     const Common = load();
     module.exports = class B extends Common {
     };
+    const B1 = module.exports;
 });
 var load2 = __spack_require__.bind(void 0, function(module, exports) {
     const Common = load();
     module.exports = class A extends Common {
     };
+    const A1 = module.exports;
 });
 var { default: A  } = load2();
 var { default: B  } = load1();

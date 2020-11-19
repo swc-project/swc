@@ -5,7 +5,7 @@
 use anyhow::{Context, Error};
 use sha1::{Digest, Sha1};
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     env,
     fs::{create_dir_all, read_to_string, write},
     path::PathBuf,
@@ -13,81 +13,379 @@ use std::{
 };
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
-use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
-use swc_ecma_ast::{
-    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
-};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{proposals::decorators, typescript::strip};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_transforms::{proposals::decorators, react, typescript::strip};
+use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
+use testing::assert_eq;
 use url::Url;
 
 #[test]
 fn oak_6_3_1_application() {
-    run("https://deno.land/x/oak@v6.3.1/application.ts", None);
+    run(
+        "https://deno.land/x/oak@v6.3.1/application.ts",
+        &[
+            "ApplicationErrorEvent",
+            "ApplicationListenEvent",
+            "Application",
+        ],
+    );
 }
 
 #[test]
 fn oak_6_3_1_mod() {
-    run("https://deno.land/x/oak@v6.3.1/mod.ts", None);
+    run(
+        "https://deno.land/x/oak@v6.3.1/mod.ts",
+        &[
+            "Application",
+            "Context",
+            "helpers",
+            "Cookies",
+            "HttpError",
+            "httpErrors",
+            "isHttpError",
+            "composeMiddleware",
+            "FormDataReader",
+            "Request",
+            "REDIRECT_BACK",
+            "Response",
+            "Router",
+            "send",
+            "ServerSentEvent",
+            "ServerSentEventTarget",
+            "isErrorStatus",
+            "isRedirectStatus",
+            "Status",
+            "STATUS_TEXT",
+        ],
+    );
 }
 
 #[test]
-fn std_0_74_9_http_server() {
-    run("https://deno.land/std@0.74.0/http/server.ts", None);
+fn std_0_74_0_http_server() {
+    run(
+        "https://deno.land/std@0.74.0/http/server.ts",
+        &[
+            "ServerRequest",
+            "Server",
+            "_parseAddrFromStr",
+            "serve",
+            "listenAndServe",
+            "serveTLS",
+            "listenAndServeTLS",
+        ],
+    );
 }
 
 #[test]
 #[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_server() {
-    run("https://deno.land/x/oak@v6.3.1/examples/server.ts", None);
+    run("https://deno.land/x/oak@v6.3.1/examples/server.ts", &[]);
 }
 
 #[test]
 #[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_sse_server() {
-    run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", None);
+    run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", &[]);
 }
 
 #[test]
-fn std_0_75_0_http_server() {
-    run("https://deno.land/std@0.75.0/http/server.ts", None);
-}
-
-#[test]
-fn deno_8188() {
+fn deno_8188_full() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
-        None,
+        &[
+            "connect",
+            "NatsConnectionImpl",
+            "Nuid",
+            "nuid",
+            "ErrorCode",
+            "NatsError",
+            "DebugEvents",
+            "Empty",
+            "Events",
+            "MsgImpl",
+            "SubscriptionImpl",
+            "Subscriptions",
+            "setTransportFactory",
+            "setUrlParseFn",
+            "Connect",
+            "createInbox",
+            "INFO",
+            "ProtocolHandler",
+            "deferred",
+            "delay",
+            "extractProtocolMessage",
+            "render",
+            "timeout",
+            "headers",
+            "MsgHdrsImpl",
+            "Heartbeat",
+            "MuxSubscription",
+            "DataBuffer",
+            "checkOptions",
+            "Request",
+            "credsAuthenticator",
+            "jwtAuthenticator",
+            "nkeyAuthenticator",
+            "JSONCodec",
+            "StringCodec",
+            "QueuedIterator",
+            "Kind",
+            "Parser",
+            "State",
+            "DenoBuffer",
+            "MAX_SIZE",
+            "readAll",
+            "writeAll",
+            "Bench",
+            "Metric",
+            "TD",
+            "TE",
+            "isIP",
+            "parseIP",
+            "nkeys",
+        ],
+    );
+}
+
+#[test]
+fn deno_8188_01() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-12/nats-base-client/nkeys.ts",
+        &["nkeys"],
+    );
+}
+
+#[test]
+fn deno_8188_02() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nkeys.js/v1.0.0-7/modules/esm/mod.ts",
+        &[
+            "NKeysError",
+            "NKeysErrorCode",
+            "createAccount",
+            "createOperator",
+            "createPair",
+            "createUser",
+            "decode",
+            "encode",
+            "fromPublic",
+            "fromSeed",
+        ],
+    );
+}
+
+#[test]
+fn deno_8188_03() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nkeys.js/v1.0.0-7/modules/esm/deps.ts",
+        &["denoHelper"],
     );
 }
 
 #[test]
 fn deno_8189() {
-    run("https://deno.land/x/lz4/mod.ts", None);
+    run(
+        "https://deno.land/x/lz4/mod.ts",
+        &["compress", "decompress"],
+    );
 }
 
 #[test]
 fn deno_8211() {
-    run("https://unpkg.com/luxon@1.25.0/src/luxon.js", None);
+    run(
+        "https://unpkg.com/luxon@1.25.0/src/luxon.js",
+        &[
+            "DateTime",
+            "Duration",
+            "Interval",
+            "Info",
+            "Zone",
+            "FixedOffsetZone",
+            "IANAZone",
+            "InvalidZone",
+            "LocalZone",
+            "Settings",
+        ],
+    );
 }
 
 #[test]
 fn deno_8246() {
-    run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",None);
+    run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",&[
+        "NatsConnectionImpl",
+        "Nuid",
+        "nuid",
+        "ErrorCode",
+        "NatsError",
+        "DebugEvents",
+        "Empty",
+        "Events",
+        "MsgImpl",
+        "SubscriptionImpl",
+        "Subscriptions",
+        "setTransportFactory",
+        "setUrlParseFn",
+        "Connect",
+        "createInbox",
+        "INFO",
+        "ProtocolHandler",
+        "deferred",
+        "delay",
+        "extractProtocolMessage",
+        "render",
+        "timeout",
+        "headers",
+        "MsgHdrsImpl",
+        "Heartbeat",
+        "MuxSubscription",
+        "DataBuffer",
+        "checkOptions",
+        "Request",
+        "credsAuthenticator",
+        "jwtAuthenticator",
+        "nkeyAuthenticator",
+        "JSONCodec",
+        "StringCodec",
+        "QueuedIterator",
+        "Kind",
+        "Parser",
+        "State",
+        "DenoBuffer",
+        "MAX_SIZE",
+        "readAll",
+        "writeAll",
+        "Bench",
+        "Metric",
+        "TD",
+        "TE",
+        "isIP",
+        "parseIP",
+        "nkeys",
+    ]);
 }
 
-fn run(url: &str, expeceted_bytes: Option<usize>) {
+#[test]
+#[ignore = "document is not defined when I use deno run"]
+fn deno_6802() {
+    run("tests/deno/issue-6802/input.tsx", &[]);
+}
+
+#[test]
+fn deno_8314_1() {
+    run("tests/deno/issue-8314/input.ts", &[]);
+}
+
+#[test]
+fn deno_8314_2() {
+    run("https://dev.jspm.io/ngraph.graph", &["default"]);
+}
+
+#[test]
+fn deno_8302() {
+    run("tests/deno/issue-8302/input.ts", &["DB", "Empty", "Status"]);
+}
+
+#[test]
+fn deno_8399_1() {
+    run("tests/deno/issue-8399-1/input.ts", &[]);
+}
+
+#[test]
+fn deno_8399_2() {
+    run("tests/deno/issue-8399-2/input.ts", &[]);
+}
+
+#[test]
+fn merging_order_01() {
+    run(
+        "https://deno.land/x/oak@v6.3.1/multipart.ts",
+        &["FormDataReader"],
+    );
+}
+
+#[test]
+fn reexport_01() {
+    run(
+        "https://raw.githubusercontent.com/aricart/tweetnacl-deno/import-type-fixes/src/nacl.ts",
+        &[
+            "AuthLength",
+            "ByteArray",
+            "HalfArray",
+            "HashLength",
+            "IntArray",
+            "NumArray",
+            "SealedBoxLength",
+            "SignLength",
+            "WordArray",
+            "_hash",
+            "_verify_16",
+            "_verify_32",
+            "auth",
+            "auth_full",
+            "blake2b",
+            "blake2b_final",
+            "blake2b_init",
+            "blake2b_update",
+            "blake2s",
+            "blake2s_final",
+            "blake2s_init",
+            "blake2s_update",
+            "decodeBase64",
+            "decodeHex",
+            "decodeUTF8",
+            "encodeBase64",
+            "encodeHex",
+            "encodeUTF8",
+            "hash",
+            "randomBytes",
+            "scalarbase",
+            "scalarmult",
+            "sealedbox",
+            "sealedbox_open",
+            "sign",
+            "sign_detached",
+            "sign_detached_verify",
+            "sign_keyPair",
+            "sign_keyPair_fromSecretKey",
+            "sign_keyPair_fromSeed",
+            "sign_open",
+            "validateBase64",
+            "validateHex",
+            "verify",
+        ],
+    );
+}
+
+fn run(url: &str, exports: &[&str]) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
     println!("{}", path.display());
 
     let src = bundle(url);
     write(&path, &src).unwrap();
-    if let Some(expected) = expeceted_bytes {
-        assert_eq!(src.len(), expected);
-    }
+
+    ::testing::run_test2(false, |cm, _| {
+        let fm = cm.load_file(&path).unwrap();
+        let loader = Loader { cm: cm.clone() };
+        let module = loader.load(&fm.name).unwrap().module;
+
+        let mut actual_exports = collect_exports(&module).into_iter().collect::<Vec<_>>();
+        actual_exports.sort();
+        let mut expected_exports = exports
+            .into_iter()
+            .map(|s| s.to_string())
+            .collect::<Vec<_>>();
+        expected_exports.sort();
+
+        assert_eq!(expected_exports, actual_exports);
+
+        Ok(())
+    })
+    .unwrap();
 
     if env::var("CI").is_ok() {
         return;
@@ -125,7 +423,14 @@ fn bundle(url: &str) -> String {
                 Box::new(Hook),
             );
             let mut entries = HashMap::new();
-            entries.insert("main".to_string(), FileName::Custom(url.to_string()));
+            entries.insert(
+                "main".to_string(),
+                if url.starts_with("http") {
+                    FileName::Custom(url.to_string())
+                } else {
+                    FileName::Real(url.to_string().into())
+                },
+            );
             let output = bundler.bundle(entries).unwrap();
             let module = output.into_iter().next().unwrap().module;
 
@@ -192,21 +497,30 @@ impl Load for Loader {
     fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         eprintln!("{}", file);
 
-        let url = match file {
-            FileName::Custom(v) => v,
+        let tsx;
+
+        let fm = match file {
+            FileName::Real(path) => {
+                tsx = path.to_string_lossy().ends_with(".tsx");
+                self.cm.load_file(path)?
+            }
+            FileName::Custom(url) => {
+                tsx = url.ends_with(".tsx");
+
+                let url = Url::parse(&url).context("failed to parse url")?;
+
+                let src = load_url(url.clone())?;
+
+                self.cm
+                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
+            }
             _ => unreachable!("this test only uses url"),
         };
-
-        let url = Url::parse(&url).context("failed to parse url")?;
-
-        let src = load_url(url.clone())?;
-        let fm = self
-            .cm
-            .new_source_file(FileName::Custom(url.to_string()), src.to_string());
 
         let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
                 decorators: true,
+                tsx,
                 ..Default::default()
             }),
             JscTarget::Es2020,
@@ -215,12 +529,18 @@ impl Load for Loader {
         );
 
         let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_typescript_module().unwrap();
-        let module = module.fold_with(&mut decorators::decorators(decorators::Config {
-            legacy: true,
-            emit_metadata: false,
-        }));
-        let module = module.fold_with(&mut strip());
+        let module = parser.parse_module().unwrap();
+        let module = module
+            .fold_with(&mut decorators::decorators(decorators::Config {
+                legacy: true,
+                emit_metadata: false,
+            }))
+            .fold_with(&mut react::react::<SingleThreadedComments>(
+                self.cm.clone(),
+                None,
+                Default::default(),
+            ))
+            .fold_with(&mut strip());
 
         Ok(ModuleData {
             fm,
@@ -235,6 +555,11 @@ struct Resolver;
 
 impl Resolve for Resolver {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+        match Url::parse(module_specifier) {
+            Ok(v) => return Ok(FileName::Custom(v.to_string())),
+            Err(_) => {}
+        }
+
         let base_url = match base {
             FileName::Custom(v) => v,
             _ => unreachable!("this test only uses url"),
@@ -285,5 +610,63 @@ impl swc_bundler::Hook for Hook {
                 }),
             },
         ])
+    }
+}
+
+fn collect_exports(module: &Module) -> HashSet<String> {
+    let mut v = ExportCollector::default();
+    module.visit_with(module, &mut v);
+
+    v.exports
+}
+
+#[derive(Default)]
+struct ExportCollector {
+    exports: HashSet<String>,
+}
+
+impl Visit for ExportCollector {
+    fn visit_export_specifier(&mut self, s: &ExportSpecifier, _: &dyn Node) {
+        match s {
+            ExportSpecifier::Namespace(ns) => {
+                self.exports.insert(ns.name.sym.to_string());
+            }
+            ExportSpecifier::Default(_) => {
+                self.exports.insert("default".into());
+            }
+            ExportSpecifier::Named(named) => {
+                self.exports.insert(
+                    named
+                        .exported
+                        .as_ref()
+                        .unwrap_or(&named.orig)
+                        .sym
+                        .to_string(),
+                );
+            }
+        }
+    }
+
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl, _: &dyn Node) {
+        self.exports.insert("default".into());
+    }
+
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr, _: &dyn Node) {
+        self.exports.insert("default".into());
+    }
+
+    fn visit_export_decl(&mut self, export: &ExportDecl, _: &dyn Node) {
+        match &export.decl {
+            swc_ecma_ast::Decl::Class(ClassDecl { ident, .. })
+            | swc_ecma_ast::Decl::Fn(FnDecl { ident, .. }) => {
+                self.exports.insert(ident.sym.to_string());
+            }
+            swc_ecma_ast::Decl::Var(var) => {
+                let ids: Vec<Id> = find_ids(var);
+                self.exports
+                    .extend(ids.into_iter().map(|v| v.0.to_string()));
+            }
+            _ => {}
+        }
     }
 }
