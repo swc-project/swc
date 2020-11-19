@@ -158,7 +158,7 @@ where
                 .merge_deps(ctx, false, module, plan, &dep_info)
                 .context("failed to merge dependencies")?;
 
-            self.handle_import_deps(&dep_info, &mut module, false);
+            self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
             // print_hygiene("wrapped: after deps", &self.cm, &module);
 
@@ -167,7 +167,7 @@ where
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
             // print_hygiene("import: After meging deps of a dep", &self.cm, &module);
-            self.handle_import_deps(&dep_info, &mut module, false);
+            self.handle_import_deps(ctx, &dep_info, &mut module, false);
             // print_hygiene("import: After handle_import_deps", &self.cm, &module);
             module
         };
@@ -211,7 +211,7 @@ where
 
         let dep_info = self.scope.get_module(dep_id).unwrap();
         let mut module = self.merge_modules(ctx, dep_id, false, true)?;
-        self.handle_import_deps(&dep_info, &mut module, false);
+        self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
         let var_decls = vars_from_exports(&dep_info, &module);
 
@@ -650,6 +650,7 @@ where
     /// If a dependency aliased exports, we handle them at here.
     pub(super) fn handle_import_deps(
         &self,
+        ctx: &Ctx,
         info: &TransformedModule,
         module: &mut Module,
         for_circular: bool,
@@ -657,7 +658,6 @@ where
         self.replace_import_specifiers(info, module);
 
         let mut vars = vec![];
-        let mut reexport_all_ctxts = vec![];
 
         for orig_stmt in module.body.iter_mut() {
             let mut stmt = orig_stmt.take();
@@ -842,7 +842,7 @@ where
 
                         ModuleDecl::ExportAll(ref export) => {
                             let export_ctxt = export.span.ctxt;
-                            reexport_all_ctxts.push(export_ctxt);
+                            ctx.transitive_remap.insert(export_ctxt, info.export_ctxt());
 
                             ModuleItem::ModuleDecl(decl)
                         }
