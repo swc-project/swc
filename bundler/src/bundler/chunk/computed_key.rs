@@ -49,9 +49,10 @@ where
                 .into_iter()
                 .filter_map(|v| match v {
                     ModuleItem::Stmt(s) => Some(s),
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                         // We handle this later.
                         ctx.export_stars_in_wrapped.push(id, export.span.ctxt);
+                        module_items.push(v);
                         None
                     }
                     _ => {
