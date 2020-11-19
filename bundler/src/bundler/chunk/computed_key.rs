@@ -192,8 +192,27 @@ impl Fold for ExportToReturn {
             ModuleDecl::ExportAll(_) => {
                 unimplemented!("export * from 'foo' inside a module loaded with computed key")
             }
-            ModuleDecl::ExportNamed(_) => {
-                unimplemented!("export {{ a }} from 'foo' inside a module loaded with computed key")
+            ModuleDecl::ExportNamed(named) => {
+                for specifier in &named.specifiers {
+                    match specifier {
+                        ExportSpecifier::Namespace(_) => {}
+                        ExportSpecifier::Default(_) => {}
+                        ExportSpecifier::Named(named) => match &named.exported {
+                            Some(exported) => {
+                                self.exports
+                                    .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                        KeyValueProp {
+                                            key: PropName::Ident(exported.clone()),
+                                            value: Box::new(Expr::Ident(named.orig.clone())),
+                                        },
+                                    ))))
+                            }
+                            None => {}
+                        },
+                    }
+                }
+
+                return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named));
             }
             ModuleDecl::TsImportEquals(_) => None,
             ModuleDecl::TsExportAssignment(_) => None,
