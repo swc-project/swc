@@ -87,4 +87,12 @@ impl VisitMut for ConstPropagation<'_> {
 
         e.visit_mut_children_with(self);
     }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+    }
 }
