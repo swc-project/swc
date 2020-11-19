@@ -1,4 +1,5 @@
 use super::*;
+use crate::debug::print_hygiene;
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
 use swc_ecma_utils::drop_span;

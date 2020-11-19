@@ -359,7 +359,7 @@ where
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
-            Expr::Ident(mut i) if self.deglob_phase => {
+            Expr::Ident(i) if self.deglob_phase => {
                 return Expr::Ident(i);
             }
 

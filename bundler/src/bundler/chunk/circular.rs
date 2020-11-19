@@ -4,7 +4,6 @@ use crate::{
         chunk::{merge::Ctx, sort::sort},
         load::TransformedModule,
     },
-    debug::print_hygiene,
     id::Id,
     Bundler, Load, ModuleId, Resolve,
 };
@@ -36,14 +35,6 @@ where
             plan
         );
         let entry_module = self.scope.get_module(entry_id).unwrap();
-
-        let direct_deps = entry_module
-            .imports
-            .specifiers
-            .iter()
-            .map(|v| v.0.module_id)
-            .chain(entry_module.exports.reexports.iter().map(|v| v.0.module_id))
-            .collect::<Vec<_>>();
 
         let modules = plan
             .chunks

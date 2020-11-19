@@ -10,7 +10,6 @@ use std::{
     fs::{create_dir_all, read_dir},
     io::{self},
     path::{Path, PathBuf},
-    process::{Command, Stdio},
     sync::Arc,
 };
 use swc::config::SourceMapsConfig;

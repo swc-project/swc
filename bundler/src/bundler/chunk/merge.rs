@@ -4,7 +4,6 @@ use crate::{
         chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
     },
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -147,7 +146,7 @@ where
                 }
             };
 
-            print_hygiene("wrapped: before deps", &self.cm, &module);
+            // print_hygiene("wrapped: before deps", &self.cm, &module);
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
@@ -161,7 +160,7 @@ where
 
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
-            print_hygiene("wrapped: after deps", &self.cm, &module);
+            // print_hygiene("wrapped: after deps", &self.cm, &module);
 
             module
         } else {
@@ -480,7 +479,7 @@ where
 
     pub(super) fn get_module_for_merging(
         &self,
-        ctx: &Ctx,
+        _ctx: &Ctx,
         module_id: ModuleId,
         is_entry: bool,
     ) -> Result<Module, Error> {
@@ -637,7 +636,7 @@ where
 
         sort(&mut entry.body);
 
-        print_hygiene("done", &self.cm, &entry);
+        // print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
@@ -760,7 +759,7 @@ where
         ctx: &Ctx,
         info: &TransformedModule,
         module: &mut Module,
-        for_circular: bool,
+        _for_circular: bool,
     ) {
         self.replace_import_specifiers(info, module);
 
@@ -1009,7 +1008,7 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Module) -> Vec<VarDe
                 Decl::TsEnum(_) => {}
                 Decl::TsModule(_) => {}
             },
-            ModuleDecl::ExportNamed(export) => {}
+            ModuleDecl::ExportNamed(_) => {}
             ModuleDecl::ExportDefaultDecl(export) => {
                 let export_name = Ident::new(
                     js_word!("default"),

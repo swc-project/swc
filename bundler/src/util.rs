@@ -5,10 +5,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
-pub(crate) mod graph;
-
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
-    fn into_module_item(self, name: &'static str) -> ModuleItem {
+    fn into_module_item(self, _name: &'static str) -> ModuleItem {
         ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Const,
@@ -278,22 +276,6 @@ where
     #[cfg(not(feature = "concurrent"))]
     pub fn insert(&self, k: K, v: V) -> Option<V> {
         self.inner.borrow_mut().insert(k, v)
-    }
-}
-
-impl<K, V> CloneMap<K, Vec<V>>
-where
-    K: Eq + Hash,
-    V: Clone,
-{
-    #[cfg(feature = "concurrent")]
-    pub fn push(&self, k: K, v: V) {
-        self.inner.entry(k).or_default().push(v);
-    }
-
-    #[cfg(not(feature = "concurrent"))]
-    pub fn push(&self, k: K, v: V) {
-        self.inner.borrow_mut().entry(k).or_default().push(v);
     }
 }
 

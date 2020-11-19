@@ -107,17 +107,6 @@ pub(super) struct Plan {
     pub bundle_kinds: HashMap<ModuleId, BundleKind>,
 }
 
-impl Plan {
-    pub fn entry_as_circular(&self, entry: ModuleId) -> Option<&CircularPlan> {
-        let plan = self.circular.get(&entry)?;
-        if plan.chunks.is_empty() {
-            return None;
-        }
-
-        Some(plan)
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum DepType {
     /// Direct dependencies
@@ -215,7 +204,7 @@ where
         Ok(self.build_plan(&metadata, builder))
     }
 
-    fn build_plan(&self, metadata: &HashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
+    fn build_plan(&self, _metadata: &HashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
         let mut plans = Plan::default();
 
         for (id, kind) in builder.kinds.iter() {
@@ -536,7 +525,7 @@ where
             plans.normal.entry(entry).or_default();
         }
 
-        dbg!(&plans);
+        // dbg!(&plans);
 
         plans
     }

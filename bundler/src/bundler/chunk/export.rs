@@ -3,7 +3,6 @@ use crate::{
         chunk::merge::Ctx,
         load::{Source, Specifier, TransformedModule},
     },
-    debug::print_hygiene,
     util::{ExprExt, MapWithMut, VarDeclaratorExt},
     Bundler, Load, ModuleId, Resolve,
 };
@@ -144,7 +143,7 @@ where
             if !specifiers.is_empty() {
                 dep.visit_mut_with(&mut UnexportAsVar {
                     dep_export_ctxt: dep_info.export_ctxt(),
-                    specifiers: &specifiers,
+                    _specifiers: &specifiers,
                 });
 
                 // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
@@ -368,7 +367,7 @@ struct UnexportAsVar<'a> {
     dep_export_ctxt: SyntaxContext,
 
     /// Exports to preserve
-    specifiers: &'a [Specifier],
+    _specifiers: &'a [Specifier],
 }
 
 impl VisitMut for UnexportAsVar<'_> {

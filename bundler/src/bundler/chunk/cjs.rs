@@ -1,15 +1,15 @@
-use super::{merge::Unexporter, plan::Plan};
+use super::merge::Unexporter;
 use crate::{
     bundler::{
         chunk::{merge::Ctx, plan::Dependancy},
         load::TransformedModule,
     },
-    Bundler, Load, ModuleId, Resolve,
+    Bundler, Load, Resolve,
 };
 use anyhow::Error;
 use std::{borrow::Cow, sync::atomic::Ordering};
 use swc_atoms::js_word;
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{prepend, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
