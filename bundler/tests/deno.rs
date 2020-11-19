@@ -14,10 +14,7 @@ use std::{
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
-use swc_ecma_ast::{
-    Bool, ClassDecl, ExportDecl, ExportSpecifier, Expr, ExprOrSuper, FnDecl, Ident, KeyValueProp,
-    Lit, MemberExpr, MetaPropExpr, Module, PropName, Str,
-};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{proposals::decorators, react, typescript::strip};
@@ -278,9 +275,20 @@ fn deno_6802() {
 }
 
 #[test]
+fn deno_8314_1() {
+    run("tests/deno/issue-8314/input.ts", &[]);
+}
+
+#[test]
+fn deno_8314_2() {
+    run("https://dev.jspm.io/ngraph.graph", &["default"]);
+}
+
+#[test]
 fn deno_8302() {
     run("tests/deno/issue-8302/input.ts", &["DB", "Empty", "Status"]);
 }
+
 #[test]
 fn merging_order_01() {
     run(
@@ -613,7 +621,9 @@ impl Visit for ExportCollector {
             ExportSpecifier::Namespace(ns) => {
                 self.exports.insert(ns.name.sym.to_string());
             }
-            ExportSpecifier::Default(_) => {}
+            ExportSpecifier::Default(_) => {
+                self.exports.insert("default".into());
+            }
             ExportSpecifier::Named(named) => {
                 self.exports.insert(
                     named
@@ -625,6 +635,14 @@ impl Visit for ExportCollector {
                 );
             }
         }
+    }
+
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl, _: &dyn Node) {
+        self.exports.insert("default".into());
+    }
+
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr, _: &dyn Node) {
+        self.exports.insert("default".into());
     }
 
     fn visit_export_decl(&mut self, export: &ExportDecl, _: &dyn Node) {
