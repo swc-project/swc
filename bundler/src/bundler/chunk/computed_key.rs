@@ -51,7 +51,8 @@ where
                     ModuleItem::Stmt(s) => Some(s),
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                         // We handle this later.
-                        ctx.export_stars_in_wrapped.push(id, export.span.ctxt);
+                        let mut map = ctx.export_stars_in_wrapped.lock();
+                        map.entry(id).or_default().push(export.span.ctxt);
                         module_items.push(v);
                         None
                     }
@@ -245,15 +246,13 @@ impl Fold for ExportToReturn {
             _ => true,
         });
 
-        if !self.exports.is_empty() {
-            new.push(ModuleItem::Stmt(Stmt::Return(ReturnStmt {
+        new.push(ModuleItem::Stmt(Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
-                arg: Some(Box::new(Expr::Object(ObjectLit {
-                    span: DUMMY_SP,
-                    props: take(&mut self.exports),
-                }))),
-            })));
-        }
+                props: take(&mut self.exports),
+            }))),
+        })));
 
         new
     }
