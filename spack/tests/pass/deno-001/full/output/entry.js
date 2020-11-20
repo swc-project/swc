@@ -1037,7 +1037,7 @@ class ServerRequest {
                 if (transferEncoding != null) {
                     const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
                     );
-                    assert3(parts.includes("chunked"), 'transfer-encoding must include \"chunked\" if content-length is not set');
+                    assert3(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
                     this._body = chunkedBodyReader2(this.headers, this.r);
                 } else // Neither content-length nor transfer-encoding: chunked
                 this._body = emptyReader2();
