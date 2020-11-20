@@ -1255,7 +1255,7 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_auto_import_react_module,
     r#"
     var x = (
       <>
@@ -1476,9 +1476,428 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
-  
+    var foo = function () {
+      return () => <this />;
+    };
+    
+    var bar = function () {
+      return () => <this.foo />;
+    };
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+
+    var foo = function () {
+      var _this = this;
+    
+      return function () {
+        return /*#__PURE__*/_jsx(_this, {});
+      };
+    };
+    
+    var bar = function () {
+      var _this2 = this;
+    
+      return function () {
+        return /*#__PURE__*/_jsx(_this2.foo, {});
+      };
+    };
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_assignment,
+    r#"
+    var div = <Component {...props} foo="bar" />
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+
+    var div = /*#__PURE__*/_jsx(Component, { ...props,
+      foo: "bar"
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_concatenates_adjacent_string_literals,
+    r#"
+    var x =
+    <div>
+      foo
+      {"bar"}
+      baz
+      <div>
+        buz
+        bang
+      </div>
+      qux
+      {null}
+      quack
+    </div>
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+    import { jsxs as _jsxs } from "react/jsx-runtime";
+    
+    var x = /*#__PURE__*/_jsxs("div", {
+      children: ["foo", "bar", "baz", /*#__PURE__*/_jsx("div", {
+        children: "buz bang"
+      }), "qux", null, "quack"]
+    });
+    
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_display_name_assignment,
+    r#"
+    var Component;
+    Component = React.createClass({
+      render: function render() {
+      return null;
+      }
+    });
+    
+   "#,
+    r#"
+    var Component;
+    Component = React.createClass({
+      displayName: "Component",
+      render: function render() {
+        return null;
+      }
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_default_name_export,
+    r#"
+    export default React.createClass({
+      render: function render() {
+        return null;
+      }
+    });
+    "#,
+    r#"
+    export default React.createClass({
+      displayName: "input",
+      render: function render() {
+        return null;
+      }
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_display_name_if_missing,
+    r#"
+    var Whateva = React.createClass({
+      displayName: "Whatever",
+      render: function render() {
+        return null;
+      }
+    });
+    
+    var Bar = React.createClass({
+      "displayName": "Ba",
+      render: function render() {
+        return null;
+      }
+    });
+    
+    "#,
+    r#"
+    var Whateva = React.createClass({
+      displayName: "Whatever",
+      render: function render() {
+        return null;
+      }
+    });
+    var Bar = React.createClass({
+      "displayName": "Ba",
+      render: function render() {
+        return null;
+      }
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_display_name_object_declaration,
+    r#"
+    exports = {
+      Component: React.createClass({
+        render: function render() {
+          return null;
+        }
+      })
+    };
+    "#,
+    r#"
+    exports = {
+      Component: React.createClass({
+        displayName: "Component",
+        render: function render() {
+          return null;
+        }
+      })
+    };
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_display_name_property_assignment,
+    r#"
+    exports.Component = React.createClass({
+      render: function render() {
+      return null;
+      }
+    });
+    "#,
+    r#"
+    exports.Component = React.createClass({
+      displayName: "Component",
+      render: function render() {
+        return null;
+      }
+    });
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+    var Component = React.createClass({
+      render: function render() {
+        return null;
+      }
+    });
+    
+    "#,
+    r#"
+    var Component = React.createClass({
+      displayName: "Component",
+      render: function render() {
+        return null;
+      }
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_dont_coerce_expresssion_contianer,
+    r#"
+    <Text>
+      To get started, edit index.ios.js!!!{"\n"}
+      Press Cmd+R to reload
+    </Text>
+    "#,
+    r#"
+    import { jsxs as _jsxs } from "react/jsx-runtime";
+
+    /*#__PURE__*/
+    _jsxs(Text, {
+      children: ["To get started, edit index.ios.js!!!", "\n", "Press Cmd+R to reload"]
+    });
+    
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_handle_fragments,
+    r#"
+    var x = <><div /></>
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+    import { Fragment as _Fragment } from "react/jsx-runtime";
+    
+    var x = /*#__PURE__*/_jsx(_Fragment, {
+      children: /*#__PURE__*/_jsx("div", {})
+    });
+    
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_handle_fragments_with_key,
+    r#"
+    import * as React from "react";
+
+    var x = <React.Fragment key="foo"></React.Fragment>;
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+    import * as React from "react";
+
+    var x = /*#__PURE__*/_jsx(React.Fragment, {}, "foo");
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_handle_fragments_with_no_children,
+    r#"
+    var x = <></>;
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+    import { Fragment as _Fragment } from "react/jsx-runtime";
+    
+    var x = /*#__PURE__*/_jsx(_Fragment, {});
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
   "#,
     r#"
 
@@ -1497,9 +1916,9 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
-  
+
   "#,
     r#"
 
@@ -1518,9 +1937,9 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
-  
+
   "#,
     r#"
 
@@ -1539,9 +1958,9 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
-  
+
   "#,
     r#"
 
@@ -1560,9 +1979,9 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
-  
+
   "#,
     r#"
 
@@ -1581,9 +2000,9 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
-  
+
   "#,
     r#"
 
@@ -1602,13 +2021,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1623,13 +2042,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1644,13 +2063,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1665,13 +2084,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1686,13 +2105,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1707,13 +2126,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1728,13 +2147,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1749,13 +2168,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1770,13 +2189,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1791,13 +2210,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1812,13 +2231,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1833,13 +2252,13 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
 );
 
 test!(
@@ -1854,11 +2273,868 @@ test!(
             ..Default::default()
         }
     ),
-    next_auto_import_react,
+    next_react,
     r#"
 
-"#,
+  "#,
     r#"
 
-"#
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+  
+    "#,
+    r#"
+
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react,
+    r#"
+
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_handle_nonstatic_children,
+    r#"
+    var x = (
+      <div>
+          {[<span key={'0'} />, <span key={'1'} />]}
+      </div>
+    );
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+
+    var x = /*#__PURE__*/_jsx("div", {
+      children: [/*#__PURE__*/_jsx("span", {}, '0'), /*#__PURE__*/_jsx("span", {}, '1')]
+    });
+      
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_handle_static_children,
+    r#"
+    var x = (
+      <div>
+          <span />
+          {[<span key={'0'} />, <span key={'1'} />]}
+      </div>
+    );
+    "#,
+    r#"
+    import { jsx as _jsx } from "react/jsx-runtime";
+    import { jsxs as _jsxs } from "react/jsx-runtime";
+    
+    var x = /*#__PURE__*/_jsxs("div", {
+      children: [/*#__PURE__*/_jsx("span", {}), [/*#__PURE__*/_jsx("span", {}, '0'), /*#__PURE__*/_jsx("span", {}, '1')]]
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_honor_custom_jsx_comment,
+    r#"
+    <Foo></Foo>;
+
+    var profile = <div>
+      <img src="avatar.png" className="profile" />
+      <h3>{[user.firstName, user.lastName].join(" ")}</h3>
+    </div>;
+    "#,
+    r#"
+    import { jsxs as _jsxs } from "react/jsx-runtime";
+    import { jsx as _jsx } from "react/jsx-runtime";
+
+    /*#__PURE__*/
+    _jsx(Foo, {});
+
+    var profile = /*#__PURE__*/_jsxs("div", {
+      children: [/*#__PURE__*/_jsx("img", {
+        src: "avatar.png",
+        className: "profile"
+      }), /*#__PURE__*/_jsx("h3", {
+        children: [user.firstName, user.lastName].join(" ")
+      })]
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_react_,
+    r#"
+  "#,
+    r#"
+  "#
 );
