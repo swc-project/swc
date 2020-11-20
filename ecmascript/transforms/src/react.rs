@@ -2,7 +2,7 @@
 
 pub use self::{
     display_name::display_name,
-    jsx::{jsx, Options},
+    jsx::{jsx, Options, Runtime},
     jsx_self::jsx_self,
     jsx_src::jsx_src,
 };
@@ -11,7 +11,6 @@ use swc_ecma_visit::Fold;
 
 mod display_name;
 mod jsx;
-pub mod jsx2;
 mod jsx_self;
 mod jsx_src;
 

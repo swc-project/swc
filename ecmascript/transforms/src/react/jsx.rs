@@ -4,6 +4,7 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem};
+use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{CommentKind, Comments},
@@ -13,16 +14,41 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_utils::{prepend, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
 
+/// https://babeljs.io/docs/en/babel-plugin-transform-react-jsx#runtime
+#[derive(StringEnum, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
+pub enum Runtime {
+    /// `automatic`
+    Automatic,
+    /// `classic`
+    Classic,
+}
+
+/// Note: This will changed in v2
+impl Default for Runtime {
+    fn default() -> Self {
+        Runtime::Classic
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Options {
+    #[serde(default)]
+    pub runtime: Runtime,
+
+    /// For automatic runtime
+    #[serde(default = "default_import_source")]
+    pub import_source: String,
+
     #[serde(default = "default_pragma")]
     pub pragma: String,
+
     #[serde(default = "default_pragma_frag")]
     pub pragma_frag: String,
 
@@ -39,6 +65,8 @@ pub struct Options {
 impl Default for Options {
     fn default() -> Self {
         Options {
+            runtime: Default::default(),
+            import_source: default_import_source(),
             pragma: default_pragma(),
             pragma_frag: default_pragma_frag(),
             throw_if_namespace: default_throw_if_namespace(),
@@ -46,6 +74,10 @@ impl Default for Options {
             use_builtins: false,
         }
     }
+}
+
+fn default_import_source() -> String {
+    "react".into()
 }
 
 fn default_pragma() -> String {
@@ -60,7 +92,7 @@ fn default_throw_if_namespace() -> bool {
     true
 }
 
-fn parse_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
+fn parse_classic_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
     static CACHE: Lazy<DashMap<String, Box<Expr>>> = Lazy::new(|| DashMap::with_capacity(2));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
@@ -97,11 +129,16 @@ where
 {
     Jsx {
         cm: cm.clone(),
-        pragma: ExprOrSuper::Expr(parse_option(&cm, "pragma", options.pragma)),
+        runtime: options.runtime,
+        import_source: options.import_source.into(),
+        import_jsx: None,
+        import_jsxs: None,
+
+        pragma: ExprOrSuper::Expr(parse_classic_option(&cm, "pragma", options.pragma)),
         comments,
         pragma_frag: ExprOrSpread {
             spread: None,
-            expr: parse_option(&cm, "pragmaFrag", options.pragma_frag),
+            expr: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag),
         },
         use_builtins: options.use_builtins,
         throw_if_namespace: options.throw_if_namespace,
@@ -113,6 +150,14 @@ where
     C: Comments,
 {
     cm: Lrc<SourceMap>,
+    runtime: Runtime,
+    /// For automatic runtime.
+    import_source: JsWord,
+    /// For automatic runtime.
+    import_jsx: Option<Id>,
+    /// For automatic runtime.
+    import_jsxs: Option<Id>,
+
     pragma: ExprOrSuper,
     comments: Option<C>,
     pragma_frag: ExprOrSpread,
@@ -294,14 +339,17 @@ where
                         if line.trim().starts_with("* @jsxFrag") {
                             let src = line.replace("* @jsxFrag", "").trim().to_string();
                             self.pragma_frag = ExprOrSpread {
-                                expr: parse_option(&self.cm, "module-jsx-pragma-frag", src),
+                                expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
                                 spread: None,
                             };
                         } else {
                             let src = line.replace("* @jsx", "").trim().to_string();
 
-                            self.pragma =
-                                ExprOrSuper::Expr(parse_option(&self.cm, "module-jsx-pragma", src));
+                            self.pragma = ExprOrSuper::Expr(parse_classic_option(
+                                &self.cm,
+                                "module-jsx-pragma",
+                                src,
+                            ));
                         }
                     }
                 }
@@ -312,11 +360,47 @@ where
             None
         };
 
-        let module = module.fold_children_with(self);
+        let mut module = module.fold_children_with(self);
 
         if let Some(leading) = leading {
             if let Some(comments) = &self.comments {
                 comments.add_leading_comments(module.span.lo, leading);
+            }
+        }
+
+        if self.runtime == Runtime::Automatic {
+            let mut imports = vec![];
+            if let Some(local) = self.import_jsx.take() {
+                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local: Ident::new(local.0, DUMMY_SP.with_ctxt(local.1)),
+                    imported: Some(quote_ident!("jsx")),
+                }));
+            }
+
+            if let Some(local) = self.import_jsxs.take() {
+                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local: Ident::new(local.0, DUMMY_SP.with_ctxt(local.1)),
+                    imported: Some(quote_ident!("jsxs")),
+                }));
+            }
+
+            if !imports.is_empty() {
+                prepend(
+                    &mut module.body,
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        span: DUMMY_SP,
+                        specifiers: imports,
+                        src: Str {
+                            span: DUMMY_SP,
+                            value: format!("{}/jsx-runtime", self.import_source).into(),
+                            has_escape: false,
+                        },
+                        type_only: Default::default(),
+                        asserts: Default::default(),
+                    })),
+                );
             }
         }
 
@@ -355,6 +439,13 @@ where
         }
 
         expr
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
     }
 }
 
