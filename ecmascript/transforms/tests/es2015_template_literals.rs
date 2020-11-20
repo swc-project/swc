@@ -806,3 +806,104 @@ test!(
   }
   "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_01,
+    "`\"`",
+    r#""\"""#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_02,
+    "`\"\"`",
+    r#"
+    "\"\""
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_03,
+    "`\"${foo}`",
+    r#"
+    "\"".concat(foo);
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_04,
+    "`\"${foo}\"`",
+    r#"
+    "\"".concat(foo, "\"");
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_05,
+    "`\"\"${foo}\"\"`",
+    r#"
+    "\"\"".concat(foo, "\"\"");
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_06,
+    "\"``\"",
+    "\"``\"",
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_07,
+    r#"`The ${argumentName} has unexpected type of "`"#,
+    r#""The ".concat(argumentName, " has unexpected type of \"");"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_08,
+    r#"`". Expected argument to be an object with the following `"#,
+    r#""\". Expected argument to be an object with the following ";"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_09,
+    r#"`keys: "${reducerKeys.join('", "')}"`"#,
+    r#""keys: \"".concat(reducerKeys.join('\", \"'), "\"");"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_10,
+    r#"`The ${argumentName} has unexpected type of "` +
+    matchType +
+    `". Expected argument to be an object with the following ` +
+    `keys: "${reducerKeys.join('", "')}"`"#,
+    r#""The ".concat(argumentName, " has unexpected type of \"") + matchType + "\". Expected argument to be an object with the following " + "keys: \"".concat(reducerKeys.join('", "'), "\"")"#,
+    ok_if_code_eq
+);

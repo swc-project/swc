@@ -565,3 +565,11 @@ fn issue_1203() {
 
     assert!(!f.contains("return //"))
 }
+
+#[test]
+fn codegen_1() {
+    let f = file("tests/projects/codegen-1/input.js").unwrap();
+    println!("{}", f);
+
+    assert_eq!(f.to_string(), "\"\\\"\";\n");
+}

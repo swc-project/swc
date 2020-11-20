@@ -1,17 +1,23 @@
 use crate::util::{is_literal, prepend_stmts, ExprFactory, StmtLike};
 use std::{iter, mem};
 use swc_atoms::js_word;
-use swc_common::{BytePos, Spanned, DUMMY_SP};
+use swc_common::{BytePos, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn template_literal() -> impl Fold {
-    TemplateLiteral::default()
+    TemplateLiteral {
+        added: Default::default(),
+        str_ctxt: SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+    }
 }
 
-#[derive(Default)]
 struct TemplateLiteral {
     added: Vec<Stmt>,
+    /// Applied to [Str] created by this pass.
+    ///
+    /// This is to workaround codegen issue.
+    str_ctxt: SyntaxContext,
 }
 
 impl Fold for TemplateLiteral {
@@ -63,7 +69,9 @@ impl Fold for TemplateLiteral {
 
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
-                                Box::new(Lit::Str(cooked.unwrap_or_else(|| raw)).into())
+                                let mut s = cooked.unwrap_or_else(|| raw);
+                                s.span.ctxt = self.str_ctxt;
+                                Box::new(Lit::Str(s).into())
                             }
                             _ => unreachable!(),
                         }

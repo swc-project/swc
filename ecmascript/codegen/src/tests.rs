@@ -167,10 +167,10 @@ fn no_octal_escape() {
 '\x000';
 '\x001';
 '\x009'"#,
-        r#"'\u{0}a';
-'\u{0}0';
-'\u{0}1';
-'\u{0}9';"#,
+        r#"'\x00a';
+'\x000';
+'\x001';
+'\x009';"#,
     );
 }
 
@@ -429,6 +429,44 @@ fn jsx_1() {
             jsx: true,
             ..Default::default()
         }),
+    );
+}
+
+#[test]
+fn deno_8162() {
+    test_from_to(
+        r#""\x00\r\n\x85\u2028\u2029";"#,
+        r#""\x00\r\n\x85\u2028\u2029";"#,
+    );
+}
+
+#[test]
+fn integration_01() {
+    test_from_to(
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. ` +
+    `Expected to find one of the known reducer keys instead: ` +
+    `"${reducerKeys.join('", "')}". Unexpected keys will be ignored.`
+    "#,
+        "
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` + `\"${unexpectedKeys.join('\", \
+         \"')}\" found in ${argumentName}. ` + `Expected to find one of the known reducer keys \
+         instead: ` + `\"${reducerKeys.join('\", \"')}\". Unexpected keys will be ignored.`;
+        ",
+    );
+}
+
+#[test]
+fn integration_01_reduced_01() {
+    test_from_to(
+        r#"
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
+    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. `
+    "#,
+        "
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` + `\"${unexpectedKeys.join('\", \
+         \"')}\" found in ${argumentName}. `;",
     );
 }
 

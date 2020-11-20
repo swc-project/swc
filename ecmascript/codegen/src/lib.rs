@@ -382,18 +382,16 @@ impl<'a> Emitter<'a> {
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        let single_quote = if let Ok(s) = self.cm.span_to_snippet(node.span) {
-            s.starts_with("'")
-        } else {
-            true
-        };
+        let single_quote = is_single_quote(&self.cm, node.span);
 
         // if let Some(s) = get_text_of_node(&self.cm, node, false) {
         //     self.wr.write_str_lit(node.span, &s)?;
         //     return Ok(());
         // }
-        let value = escape(&node.value);
+        let value = escape(&self.cm, node.span, &node.value, single_quote);
         // let value = node.value.replace("\n", "\\n");
+
+        let single_quote = single_quote.unwrap_or(false);
 
         if single_quote {
             punct!("'");
@@ -2414,33 +2412,151 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape(s: &str) -> Cow<str> {
-    // let patterns = &[
-    //     "\\", "\u{0008}", "\u{000C}", "\n", "\r", "\t", "\u{000B}", "\00", "\01",
-    // "\02", "\03",     "\04", "\05", "\06", "\07", "\08", "\09", "\0",
-    // ];
-    // let replace_with = &[
-    //     "\\\\", "\\b", "\\f", "\\n", "\\r", "\\t", "\\v", "\\x000", "\\x001",
-    // "\\x002", "\\x003",     "\\x004", "\\x005", "\\x006", "\\x007", "\\x008",
-    // "\\x009", "\\0", ];
+fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>) -> Cow<'s, str> {
+    if span.is_dummy() {
+        return Cow::Owned(s.escape_default().to_string());
+    }
+
     //
-    // {
-    //     let mut found = false;
-    //     for pat in patterns {
-    //         if s.contains(pat) {
-    //             found = true;
-    //             break;
-    //         }
-    //     }
-    //     if !found {
-    //         return Cow::Borrowed(s);
-    //     }
-    // }
-    //
-    // let ac = AhoCorasick::new(patterns);
-    //
-    // Cow::Owned(ac.replace_all(s, replace_with))
-    Cow::Owned(s.escape_default().to_string())
+    let orig = cm.span_to_snippet(span);
+    let orig = match orig {
+        Ok(orig) => orig,
+        Err(v) => {
+            return Cow::Owned(s.escape_default().to_string());
+        }
+    };
+
+    if orig.len() <= 2 {
+        return Cow::Owned(s.escape_default().to_string());
+    }
+
+    let mut orig = &*orig;
+
+    if (single_quote == Some(true) && orig.starts_with('\''))
+        || (single_quote == Some(false) && orig.starts_with('"'))
+    {
+        orig = &orig[1..orig.len() - 1];
+    } else {
+        return Cow::Owned(s.escape_default().to_string());
+    }
+
+    let mut buf = String::with_capacity(s.len());
+    let mut orig_iter = orig.chars().peekable();
+    let mut s_iter = s.chars();
+
+    while let Some(orig_c) = orig_iter.next() {
+        if orig_c == '\\' {
+            buf.push('\\');
+            match orig_iter.next() {
+                Some('\\') => {
+                    buf.push('\\');
+                    s_iter.next();
+                    continue;
+                }
+                Some(escaper) => {
+                    buf.push(escaper);
+                    match escaper {
+                        'x' => {
+                            buf.extend(orig_iter.next());
+                            buf.extend(orig_iter.next());
+                            s_iter.next();
+                        }
+                        'u' => match orig_iter.next() {
+                            Some('{') => {
+                                loop {
+                                    if orig_iter.next() == Some('}') {
+                                        break;
+                                    }
+                                }
+                                s_iter.next();
+                            }
+                            Some(ch) => {
+                                buf.push(ch);
+                                buf.extend(orig_iter.next());
+                                buf.extend(orig_iter.next());
+                                buf.extend(orig_iter.next());
+                                s_iter.next();
+                            }
+                            None => break,
+                        },
+                        'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0' => {
+                            s_iter.next();
+                        }
+
+                        '\'' if single_quote == Some(true) => {
+                            s_iter.next();
+                        }
+
+                        '"' if single_quote == Some(false) => {
+                            s_iter.next();
+                        }
+
+                        _ => {
+                            buf.extend(s_iter.next());
+                        }
+                    }
+
+                    continue;
+                }
+                _ => {}
+            }
+        }
+
+        s_iter.next();
+        buf.push(orig_c);
+    }
+
+    buf.extend(s_iter);
+
+    Cow::Owned(buf)
+}
+
+/// Returns [Some] if the span points to a string literal written by user.
+///
+/// Returns [None] if the span is created from a pass of swc. For example,
+/// spans of string literals created from [TplElement] do not have `starting`
+/// quote.
+fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
+    // This is a workaround for TplElement issue.
+    if span.ctxt != SyntaxContext::empty() {
+        return None;
+    }
+
+    let start = cm.lookup_byte_offset(span.lo);
+    let end = cm.lookup_byte_offset(span.hi);
+
+    if start.sf.start_pos != end.sf.start_pos {
+        return None;
+    }
+
+    // Empty file
+    if start.sf.start_pos == start.sf.end_pos {
+        return None;
+    }
+
+    let start_index = start.pos.0;
+    let end_index = end.pos.0;
+    let source_len = (start.sf.end_pos - start.sf.start_pos).0;
+
+    if start_index > end_index || end_index > source_len {
+        return None;
+    }
+
+    let src = &start.sf.src;
+    let single_quote = match src.as_bytes()[start_index as usize] {
+        b'\'' => true,
+        b'"' => false,
+        _ => return None,
+    };
+    if end_index == 0 {
+        return None;
+    }
+
+    if src.as_bytes()[start_index as usize] != src.as_bytes()[(end_index - 1) as usize] {
+        return None;
+    }
+
+    Some(single_quote)
 }
 
 #[cold]
