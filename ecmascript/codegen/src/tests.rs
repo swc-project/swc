@@ -449,12 +449,11 @@ fn integration_01() {
     `Expected to find one of the known reducer keys instead: ` +
     `"${reducerKeys.join('", "')}". Unexpected keys will be ignored.`
     "#,
-        r#"
-    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
-    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. ` +
-    `Expected to find one of the known reducer keys instead: ` +
-    `"${reducerKeys.join('", "')}". Unexpected keys will be ignored.`
-        "#,
+        "
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` + `\"${unexpectedKeys.join('\", \
+         \"')}\" found in ${argumentName}. ` + `Expected to find one of the known reducer keys \
+         instead: ` + `\"${reducerKeys.join('\", \"')}\". Unexpected keys will be ignored.`;
+        ",
     );
 }
 
@@ -465,10 +464,9 @@ fn integration_01_reduced_01() {
     `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
     `"${unexpectedKeys.join('", "')}" found in ${argumentName}. `
     "#,
-        r#"
-    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
-    `"${unexpectedKeys.join('", "')}" found in ${argumentName}. `
-        "#,
+        "
+    `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` + `\"${unexpectedKeys.join('\", \
+         \"')}\" found in ${argumentName}. `;",
     );
 }
 
