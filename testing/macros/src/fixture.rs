@@ -219,7 +219,10 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
         let test_name = format!(
             "{}_{}",
             callee,
-            path_str.replace("/", "__").replace(".", "_")
+            path_str
+                .replace("/", "__")
+                .replace(".", "_")
+                .replace("-", "_")
         );
         let test_ident = Ident::new(&test_name, Span::call_site());
 
@@ -232,7 +235,7 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
             {
                 #[test]
                 fn test_ident() {
-                    callee(::std::path::PathBuf::from(path_str))
+                    callee(::std::path::PathBuf::from(path_str));
                 }
             }
         )
