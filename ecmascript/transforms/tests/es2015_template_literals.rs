@@ -895,3 +895,15 @@ test!(
     r#""keys: \"".concat(reducerKeys.join('\", \"'), "\"");"#,
     ok_if_code_eq
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_10,
+    r#"`The ${argumentName} has unexpected type of "` +
+    matchType +
+    `". Expected argument to be an object with the following ` +
+    `keys: "${reducerKeys.join('", "')}"`"#,
+    r#""The ".concat(argumentName, " has unexpected type of \"") + matchType + "\". Expected argument to be an object with the following " + "keys: \"".concat(reducerKeys.join('", "'), "\"")"#,
+    ok_if_code_eq
+);
