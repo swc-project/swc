@@ -2529,6 +2529,11 @@ fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
         return None;
     }
 
+    // Empty file
+    if start.sf.start_pos == start.sf.end_pos {
+        return None;
+    }
+
     let start_index = start.pos.0;
     let end_index = end.pos.0;
     let source_len = (start.sf.end_pos - start.sf.start_pos).0;
