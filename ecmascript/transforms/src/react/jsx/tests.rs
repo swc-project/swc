@@ -9,6 +9,7 @@ use crate::{
     tests::Tester,
 };
 use swc_common::{chain, Mark};
+use swc_ecma_parser::{EsConfig, Syntax};
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(
@@ -20,7 +21,7 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
 }
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -39,7 +40,7 @@ React.createElement(Component, _extends({}, props, {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -69,7 +70,7 @@ var bar = function() {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -106,7 +107,7 @@ var x = React.createElement(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -129,7 +130,7 @@ Component = React.createClass({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -153,7 +154,7 @@ export default React.createClass({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -191,7 +192,7 @@ var Bar = React.createClass({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -217,7 +218,7 @@ exports = {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -241,7 +242,7 @@ exports.Component = React.createClass({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -265,7 +266,7 @@ var Component = React.createClass({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -288,7 +289,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -312,7 +313,7 @@ var profile = dom("div", null, dom("img", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -339,7 +340,7 @@ var profile = dom("div", null, dom("img", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -368,7 +369,7 @@ var profile = dom("div", null, dom("img", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -379,7 +380,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -392,7 +393,7 @@ test!(
 test!(
     // Optimization is not implemented yet
     ignore,
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -456,7 +457,7 @@ function (_React$Component) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -476,7 +477,7 @@ var es3 = React.createElement(F, {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -491,7 +492,7 @@ React.createElement(Component, {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -502,7 +503,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -516,7 +517,7 @@ React.createElement("div", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -527,7 +528,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -562,7 +563,7 @@ React.createElement("div", null, React.createElement(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -580,7 +581,7 @@ dom("div", null, "no fragment is used");
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -601,7 +602,7 @@ dom(DomFrag, null);
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -633,7 +634,7 @@ var x = React.createElement(Composite, null, React.createElement(Composite2, nul
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -644,7 +645,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -655,7 +656,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -681,7 +682,7 @@ React.createElement("div", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -712,7 +713,7 @@ React.createElement("div", null, "w < w");
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -730,7 +731,7 @@ React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 test!(
     // FIXME
     ignore,
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -745,7 +746,7 @@ React.createElement("div", null, "this should parse as nbsp: \xA0 ");
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -781,7 +782,7 @@ React.render(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -792,7 +793,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -816,7 +817,7 @@ var x = React.createElement("div", null,
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -851,7 +852,7 @@ var x = React.createElement("div", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -871,7 +872,7 @@ var e = React.createElement(F, {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -886,7 +887,7 @@ React.createElement("button", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -898,7 +899,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -911,7 +912,7 @@ test!(
 
 test!(
     // Comments are currently stripped out
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -942,7 +943,7 @@ var x = React.createElement("div", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -957,7 +958,7 @@ React.createElement("button", {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -977,7 +978,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -988,7 +989,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1007,7 +1008,7 @@ React.createElement(Component, _extends({}, x, {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1023,7 +1024,7 @@ React.createElement(Component, _extends({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1039,7 +1040,7 @@ React.createElement(Component, _extends({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1060,7 +1061,7 @@ var div = React.createElement(Component, Object.assign({}, props, {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1079,7 +1080,7 @@ const b = React.createElement('div', null, 'test');"
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1103,7 +1104,7 @@ _react.default.createElement('div', null);"
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1121,7 +1122,7 @@ test!(
 
 // https://github.com/swc-project/swc/issues/517
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1154,7 +1155,7 @@ fn jsx_text() {
 
 // https://github.com/swc-project/swc/issues/542
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    Syntax::Es(EsConfig {
         jsx: true,
         ..Default::default()
     }),
@@ -1169,4 +1170,695 @@ test!(
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
     "let page = React.createElement('p', null, 'Click ', React.createElement('em', null, 'New \
      melody'), ' listen to a randomly generated melody');"
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Classic,
+            ..Default::default()
+        }
+    ),
+    runtime_classic,
+    "var x = (<div><span /></div>);",
+    "var x = React.createElement(\"div\", null, React.createElement(\"span\", null));"
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Classic,
+            ..Default::default()
+        }
+    ),
+    runtime_defaults_to_classic,
+    "var x = (<div><span /></div>);",
+    "var x = React.createElement(\"div\", null, React.createElement(\"span\", null));"
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    runtime_pragma_runtime_classic,
+    "/** @jsxRuntime classic */
+
+  var x = (<div><span /></div>);",
+    "var x = React.createElement(\"div\", null, React.createElement(\"span\", null));"
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    runtime_automatic,
+    "var x = (<div><span /></div>);
+  ",
+    "var x = React.createElement(\"div\", null, React.createElement(\"span\", null));"
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+    var x = (
+      <>
+      <div>
+          <div key="1" />
+          <div key="2" meow="wolf" />
+          <div key="3" />
+          <div {...props} key="4" />
+      </div>
+      </>
+    );
+    "#,
+    r#"
+    import { createElement as _createElement } from "react";
+    import { jsxs as _jsxs } from "react/jsx-runtime";
+    import { jsx as _jsx } from "react/jsx-runtime";
+    import { Fragment as _Fragment } from "react/jsx-runtime";
+
+    var x = /*#__PURE__*/_jsx(_Fragment, {
+      children: /*#__PURE__*/_jsxs("div", {
+        children: [/*#__PURE__*/_jsx("div", {}, "1"), /*#__PURE__*/_jsx("div", {
+          meow: "wolf"
+        }, "2"), /*#__PURE__*/_jsx("div", {}, "3"), /*#__PURE__*/_createElement("div", { ...props,
+          key: "4"
+        })]
+      })
+    });
+
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+    const Bar = () => {
+      const Foo = () => {
+      const Component = ({thing, ..._react}) => {
+          if (!thing) {
+          var _react2 = "something useless";
+          var b = _react3();
+          var c = _react5();
+          var jsx = 1;
+          var _jsx = 2;
+          return <div />;
+          };
+          return <span />;
+      };
+      }
+    }
+    "#,
+    r#"
+    import { jsx as _jsx2 } from "react/jsx-runtime";
+
+    const Bar = () => {
+      const Foo = () => {
+        const Component = ({
+          thing,
+          ..._react
+        }) => {
+          if (!thing) {
+            var _react2 = "something useless";
+    
+            var b = _react3();
+    
+            var c = _react5();
+    
+            var jsx = 1;
+            var _jsx = 2;
+            return /*#__PURE__*/_jsx2("div", {});
+          }
+    
+          ;
+          return /*#__PURE__*/_jsx2("span", {});
+        };
+      };
+    };
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            import_source: "foo".into(),
+            ..Default::default()
+        }
+    ),
+    next_auto_import_source,
+    r#"
+    var x = (<div><span /></div>);
+    "#,
+    r#"
+    import { jsx as _jsx } from "foo/jsx-runtime";
+
+    var x = _jsx("div", {
+      children: _jsx("span", {})
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_source_pragma,
+    r#"
+    /** @jsxImportSource baz */
+    var x = (<div><span /></div>);
+    "#,
+    r#"
+    import { jsx as _jsx } from "baz/jsx-runtime";
+
+    /** @jsxImportSource baz */
+    var x = _jsx("div", {
+      children: _jsx("span", {})
+    });
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_no_jsx,
+    r#"
+    var foo = "<div></div>";
+    "#,
+    r#"
+    var foo = "<div></div>";
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react_defined,
+    r#"
+    import * as react from "react";
+    var y = react.createElement("div", {foo: 1});
+    var x = (
+        <div>
+            <div key="1" />
+            <div key="2" meow="wolf" />
+            <div key="3" />
+            <div {...props} key="4" />
+        </div>
+    );
+    "#,
+    r#"
+    import { createElement as _createElement } from "react";
+    import { jsx as _jsx } from "react/jsx-runtime";
+    import { jsxs as _jsxs } from "react/jsx-runtime";
+    import * as react from "react";
+    var y = react.createElement("div", {
+      foo: 1
+    });
+    
+    var x = /*#__PURE__*/_jsxs("div", {
+      children: [/*#__PURE__*/_jsx("div", {}, "1"), /*#__PURE__*/_jsx("div", {
+        meow: "wolf"
+      }, "2"), /*#__PURE__*/_jsx("div", {}, "3"), /*#__PURE__*/_createElement("div", { ...props,
+        key: "4"
+      })]
+    });    
+    "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+  
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+  
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+  
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+  
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+  
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+  
+  "#,
+    r#"
+
+  "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(
+        t,
+        Options {
+            runtime: Runtime::Automatic,
+            ..Default::default()
+        }
+    ),
+    next_auto_import_react,
+    r#"
+
+"#,
+    r#"
+
+"#
 );
