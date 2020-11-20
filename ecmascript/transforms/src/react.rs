@@ -11,6 +11,7 @@ use swc_ecma_visit::Fold;
 
 mod display_name;
 mod jsx;
+pub mod jsx2;
 mod jsx_self;
 mod jsx_src;
 
