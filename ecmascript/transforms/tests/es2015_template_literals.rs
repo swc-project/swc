@@ -874,7 +874,8 @@ test!(
     |_| tr(Default::default()),
     codegen_07,
     r#"`The ${argumentName} has unexpected type of "`"#,
-    r#""The ".concat(argumentName, " has unexpected type of \"");"#
+    r#""The ".concat(argumentName, " has unexpected type of \"");"#,
+    ok_if_code_eq
 );
 
 test!(
@@ -882,7 +883,8 @@ test!(
     |_| tr(Default::default()),
     codegen_08,
     r#"`". Expected argument to be an object with the following `"#,
-    r#""\". Expected argument to be an object with the following ";"#
+    r#""\". Expected argument to be an object with the following ";"#,
+    ok_if_code_eq
 );
 
 test!(
@@ -890,5 +892,6 @@ test!(
     |_| tr(Default::default()),
     codegen_09,
     r#"`keys: "${reducerKeys.join('", "')}"`"#,
-    r#""keys: \"".concat(reducerKeys.join('", "');"#
+    r#""keys: \"".concat(reducerKeys.join('", "');"#,
+    ok_if_code_eq
 );
