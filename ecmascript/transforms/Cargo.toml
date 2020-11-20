@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.30.3"
+version = "0.31.0"
 
 [features]
 const-modules = ["dashmap"]
@@ -33,6 +33,7 @@ scoped-tls = "1"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 smallvec = "1"
+string_enum = {version = "0.3", path = "../../macros/string_enum"}
 swc_atoms = {version = "0.2.0", path = "../../atoms"}
 swc_common = {version = "0.10.0", path = "../../common"}
 swc_ecma_ast = {version = "0.35.0", path = "../ast"}
