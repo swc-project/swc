@@ -844,7 +844,7 @@ test!(
     codegen_04,
     "`\"${foo}\"`",
     r#"
-    "\"".concat(foo);
+    "\"".concat(foo, "\"");
     "#,
     ok_if_code_eq
 );
