@@ -69,3 +69,4 @@ pub fn fixture(attr: TokenStream, item: TokenStream) -> TokenStream {
 
     output.into()
 }
+
