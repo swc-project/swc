@@ -177,3 +177,17 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
 
     Ok(test_fns)
 }
+use syn::{
+    parse::{Parse, ParseStream},
+    ItemFn,
+};
+
+pub struct Config {}
+
+impl Parse for Config {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        todo!()
+    }
+}
+
+pub fn expand(callee: ItemFn, attr: Config) -> Vec<ItemFn> {}
