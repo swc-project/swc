@@ -1,4 +1,7 @@
-use crate::util::{drop_span, ExprFactory, HANDLER};
+use crate::{
+    ext::MapWithMut,
+    util::{drop_span, ExprFactory, HANDLER},
+};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -15,7 +18,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_utils::{prepend, Id};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -127,7 +130,7 @@ pub fn jsx<C>(cm: Lrc<SourceMap>, comments: Option<C>, options: Options) -> impl
 where
     C: Comments,
 {
-    Jsx {
+    as_folder(Jsx {
         cm: cm.clone(),
         runtime: options.runtime,
         import_source: options.import_source.into(),
@@ -142,7 +145,7 @@ where
         },
         use_builtins: options.use_builtins,
         throw_if_namespace: options.throw_if_namespace,
-    }
+    })
 }
 
 struct Jsx<C>
@@ -306,7 +309,10 @@ where
                         _ => unreachable!(),
                     })
                     .map(attr_to_prop)
-                    .map(|v| v.fold_with(self))
+                    .map(|mut v| {
+                        v.visit_mut_with(self);
+                        v
+                    })
                     .map(Box::new)
                     .map(PropOrSpread::Prop)
                     .collect(),
@@ -315,13 +321,13 @@ where
     }
 }
 
-impl<C> Fold for Jsx<C>
+impl<C> VisitMut for Jsx<C>
 where
     C: Comments,
 {
-    noop_fold_type!();
+    noop_visit_mut_type!();
 
-    fn fold_module(&mut self, module: Module) -> Module {
+    fn visit_mut_module(&mut self, module: &mut Module) {
         let leading = if let Some(comments) = &self.comments {
             let leading = comments.take_leading(module.span.lo);
 
@@ -360,7 +366,7 @@ where
             None
         };
 
-        let mut module = module.fold_children_with(self);
+        module.visit_mut_children_with(self);
 
         if let Some(leading) = leading {
             if let Some(comments) = &self.comments {
@@ -403,42 +409,42 @@ where
                 );
             }
         }
-
-        module
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let mut expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
-        if let Expr::JSXElement(el) = expr {
-            // <div></div> => React.createElement('div', null);
-            return self.jsx_elem_to_expr(*el);
-        }
-        if let Expr::JSXFragment(frag) = expr {
-            // <></> => React.createElement(React.Fragment, null);
-            return self.jsx_frag_to_expr(frag);
-        }
-
-        if let Expr::Paren(ParenExpr {
-            span,
-            expr: inner_expr,
-            ..
-        }) = expr
-        {
-            if let Expr::JSXElement(el) = *inner_expr {
+        expr.map_with_mut(|expr| {
+            if let Expr::JSXElement(el) = expr {
+                // <div></div> => React.createElement('div', null);
                 return self.jsx_elem_to_expr(*el);
             }
-            if let Expr::JSXFragment(frag) = *inner_expr {
+            if let Expr::JSXFragment(frag) = expr {
                 // <></> => React.createElement(React.Fragment, null);
                 return self.jsx_frag_to_expr(frag);
             }
-            expr = Expr::Paren(ParenExpr {
+
+            if let Expr::Paren(ParenExpr {
                 span,
                 expr: inner_expr,
-            });
-        }
+                ..
+            }) = expr
+            {
+                if let Expr::JSXElement(el) = *inner_expr {
+                    return self.jsx_elem_to_expr(*el);
+                }
+                if let Expr::JSXFragment(frag) = *inner_expr {
+                    // <></> => React.createElement(React.Fragment, null);
+                    return self.jsx_frag_to_expr(frag);
+                }
+                return Expr::Paren(ParenExpr {
+                    span,
+                    expr: inner_expr,
+                });
+            }
 
-        expr
+            expr
+        })
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
