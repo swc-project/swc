@@ -17,7 +17,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_utils::{prepend, Id};
+use swc_ecma_utils::prepend;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
@@ -157,9 +157,9 @@ where
     /// For automatic runtime.
     import_source: JsWord,
     /// For automatic runtime.
-    import_jsx: Option<Id>,
+    import_jsx: Option<Ident>,
     /// For automatic runtime.
-    import_jsxs: Option<Id>,
+    import_jsxs: Option<Ident>,
 
     pragma: ExprOrSuper,
     comments: Option<C>,
@@ -192,28 +192,57 @@ where
         })
     }
 
+    /// # Automatic
+    ///
+    ///
+    ///
+    /// # Classic
+    ///
+    /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let span = el.span();
 
         let name = self.jsx_name(el.opening.name);
 
-        Expr::Call(CallExpr {
-            span,
-            callee: self.pragma.clone(),
-            args: iter::once(name.as_arg())
-                .chain(iter::once({
-                    // Attributes
-                    self.fold_attrs(el.opening.attrs).as_arg()
-                }))
-                .chain({
-                    // Children
-                    el.children
-                        .into_iter()
-                        .filter_map(|c| self.jsx_elem_child_to_expr(c))
+        match self.runtime {
+            Runtime::Automatic => {
+                let jsx = self
+                    .import_jsx
+                    .get_or_insert_with(|| private_ident!("_jsx"))
+                    .clone();
+
+                let props = ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                };
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: jsx.as_callee(),
+                    args: vec![name.as_arg(), props.as_arg()],
+                    type_args: Default::default(),
                 })
-                .collect(),
-            type_args: Default::default(),
-        })
+            }
+            Runtime::Classic => {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: self.pragma.clone(),
+                    args: iter::once(name.as_arg())
+                        .chain(iter::once({
+                            // Attributes
+                            self.fold_attrs(el.opening.attrs).as_arg()
+                        }))
+                        .chain({
+                            // Children
+                            el.children
+                                .into_iter()
+                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
+                        })
+                        .collect(),
+                    type_args: Default::default(),
+                })
+            }
+        }
     }
 
     fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
@@ -379,7 +408,7 @@ where
             if let Some(local) = self.import_jsx.take() {
                 imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
                     span: DUMMY_SP,
-                    local: Ident::new(local.0, DUMMY_SP.with_ctxt(local.1)),
+                    local,
                     imported: Some(quote_ident!("jsx")),
                 }));
             }
@@ -387,7 +416,7 @@ where
             if let Some(local) = self.import_jsxs.take() {
                 imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
                     span: DUMMY_SP,
-                    local: Ident::new(local.0, DUMMY_SP.with_ctxt(local.1)),
+                    local,
                     imported: Some(quote_ident!("jsxs")),
                 }));
             }
@@ -416,7 +445,6 @@ where
 
         expr.map_with_mut(|expr| {
             if let Expr::JSXElement(el) = expr {
-                // <div></div> => React.createElement('div', null);
                 return self.jsx_elem_to_expr(*el);
             }
             if let Expr::JSXFragment(frag) = expr {
