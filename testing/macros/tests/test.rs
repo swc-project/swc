@@ -16,5 +16,9 @@ fn exlucde(_path: PathBuf) {}
 #[fixture("simple/**/*.{ts,tsx}")]
 fn simple(path: PathBuf) {}
 
-#[fixture("ignore/**/*.{ts,tsx}")]
-fn ignored(path: PathBuf) {}
+#[fixture("ignore/**/*.ts")]
+fn ignored(_path: PathBuf) {}
+
+#[fixture("simple/**/*.ts")]
+#[fixture("simple/**/*.tsx")]
+fn multiple(_path: PathBuf) {}

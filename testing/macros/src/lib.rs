@@ -120,4 +120,20 @@ mod fixture;
 #[proc_macro_attribute]
 pub fn fixture(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item: ItemFn = syn::parse(item).expect("failed to parse input as a function item");
+    let config: self::fixture::Config =
+        syn::parse(attr).expect("failed input passed to #[fixture]");
+
+    let file = Span::call_site().source_file();
+
+    let cases = self::fixture::expand(&file, &item.sig.ident, config).unwrap();
+
+    let mut output = proc_macro2::TokenStream::new();
+
+    for case in cases {
+        case.to_tokens(&mut output);
+    }
+
+    item.to_tokens(&mut output);
+
+    output.into()
 }
