@@ -1220,9 +1220,11 @@ impl<I: Tokens> Parser<I> {
                 let key = match *cur!(true)? {
                     Token::Num(..) | Token::Str { .. } => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
-                        Either::Left(_) => unreachable!(
-                            "private name inside parse_ts_property_or_method_signature"
-                        ),
+                        Either::Left(e) => {
+                            p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
+
+                            Box::new(Expr::PrivateName(e))
+                        }
                         Either::Right(e) => Box::new(Expr::Ident(e)),
                     }),
                 };

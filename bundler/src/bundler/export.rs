@@ -21,12 +21,14 @@ where
         &self,
         file_name: &FileName,
         module: &mut Module,
+        export_ctxt: SyntaxContext,
     ) -> RawExports {
         self.run(|| {
             let mut v = ExportFinder {
                 info: Default::default(),
                 file_name,
                 bundler: self,
+                export_ctxt,
             };
 
             module.visit_mut_with(&mut v);
@@ -56,6 +58,7 @@ where
     info: RawExports,
     file_name: &'a FileName,
     bundler: &'a Bundler<'b, L, R>,
+    export_ctxt: SyntaxContext,
 }
 
 impl<L, R> ExportFinder<'_, '_, L, R>
@@ -63,7 +66,8 @@ where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &JsWord) -> Option<SyntaxContext> {
+    /// Returns `(local, export)`.
+    fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -75,10 +79,12 @@ where
             return None;
         }
         let path = self.bundler.resolve(self.file_name, src).ok()?;
-        let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
-        let ctxt = SyntaxContext::empty();
+        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
 
-        Some(ctxt.apply_mark(mark))
+        Some((
+            SyntaxContext::empty().apply_mark(local_mark),
+            SyntaxContext::empty().apply_mark(export_mark),
+        ))
     }
 
     fn mark_as_wrapping_required(&self, src: &JsWord) {
@@ -97,7 +103,7 @@ where
             Ok(v) => v,
             _ => return,
         };
-        let (id, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
 
         self.bundler.scope.mark_as_wrapping_required(id);
     }
@@ -207,6 +213,10 @@ where
                 for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => {
+                            if let Some((_, export_ctxt)) = ctxt {
+                                n.name.span.ctxt = export_ctxt;
+                            }
+
                             need_wrapping = true;
                             v.push(Specifier::Namespace {
                                 local: n.name.clone().into(),
@@ -220,8 +230,19 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
-                            if let Some(ctxt) = ctxt {
-                                n.orig.span = n.orig.span.with_ctxt(ctxt);
+                            if let Some((_, export_ctxt)) = ctxt {
+                                n.orig.span.ctxt = export_ctxt;
+                            }
+
+                            match &mut n.exported {
+                                Some(exported) => {
+                                    exported.span.ctxt = self.export_ctxt;
+                                }
+                                None => {
+                                    let mut exported: Ident = n.orig.clone();
+                                    exported.span.ctxt = self.export_ctxt;
+                                    n.exported = Some(exported);
+                                }
                             }
 
                             if let Some(exported) = &n.exported {
@@ -247,6 +268,11 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
+                let ctxt = self.ctxt_for(&all.src.value);
+                if let Some((_, export_ctxt)) = ctxt {
+                    all.span.ctxt = export_ctxt;
+                }
+
                 self.info.items.entry(Some(all.src.clone())).or_default();
             }
             _ => {}

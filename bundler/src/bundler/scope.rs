@@ -1,6 +1,6 @@
 use super::load::TransformedModule;
 use crate::{
-    id::{ModuleId, ModuleIdGenerator},
+    id::{Id, ModuleId, ModuleIdGenerator},
     util::CloneMap,
 };
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -36,7 +36,7 @@ impl Scope {
     }
 
     pub fn get_module_by_path(&self, file_name: &FileName) -> Option<TransformedModule> {
-        let (id, _) = self.module_id_gen.gen(file_name);
+        let (id, _, _) = self.module_id_gen.gen(file_name);
         self.get_module(id)
     }
 
@@ -61,5 +61,16 @@ impl Scope {
         } else {
             false
         }
+    }
+
+    /// Returns `Some(module_ident)` if the module should be wrapped
+    /// with a function.
+    pub fn wrapped_esm_id(&self, id: ModuleId) -> Option<Id> {
+        if !self.should_be_wrapped_with_a_fn(id) {
+            return None;
+        }
+        let info = self.get_module(id)?;
+
+        Some(Id::new("mod".into(), info.export_ctxt()))
     }
 }

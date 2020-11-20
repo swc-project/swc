@@ -1,10 +1,13 @@
-const d = 'e';
+const e = 'e';
 console.log('e');
+const e1 = e;
+const d = e1;
 const d1 = d;
 console.log('d');
-const b = d1;
 console.log('c');
-const __default = b;
+const c = d1;
+const b2 = c;
+const __default = b2;
 console.log('b');
 const b1 = __default;
 console.log('a.js');

@@ -14,11 +14,11 @@ function __spack_require__(mod) {
     };
 }
 var load = __spack_require__.bind(void 0, function(module, exports) {
-    console.log('b');
-    module.exports = 'b';
+    console.log('c');
 });
 var load1 = __spack_require__.bind(void 0, function(module, exports) {
-    console.log('c');
+    console.log('b');
+    module.exports = 'b';
 });
 var load2 = __spack_require__.bind(void 0, function(module, exports) {
     var load3 = __spack_require__.bind(void 0, function(module1, exports1) {
@@ -35,13 +35,13 @@ var load2 = __spack_require__.bind(void 0, function(module, exports) {
     });
     var aa = load4();
     var bb = load3();
-    load();
+    load1();
     module.exports = {
         aa: aa,
         bb: bb
     };
 });
 load2();
-var b = load();
-load1();
+var b = load1();
+load();
 console.log(b);

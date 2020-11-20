@@ -1,0 +1,13 @@
+const a = 1;
+const a1 = a;
+const a2 = a1;
+const b = a2 + 1;
+const a3 = a1;
+const c = a3 + 2;
+const a4 = a;
+const b1 = b;
+const c1 = c;
+const a5 = a4;
+const b2 = b1;
+const c2 = c1;
+console.log(a5, b2, c2);

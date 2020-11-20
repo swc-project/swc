@@ -1124,6 +1124,7 @@ define!({
         Ident(Ident),
         Str(Str),
         Num(Number),
+        BigInt(BigInt),
         Computed(ComputedPropName),
     }
     pub struct ComputedPropName {

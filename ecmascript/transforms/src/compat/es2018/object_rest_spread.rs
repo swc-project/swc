@@ -21,7 +21,7 @@ struct ObjectRest;
 struct RestFolder {
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
-    /// Variables which should ceclaraed using `var`
+    /// Variables which should be declared using `var`
     mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
@@ -803,6 +803,7 @@ impl RestFolder {
                     let computed = match key {
                         PropName::Computed(..) => true,
                         PropName::Num(..) => true,
+                        PropName::BigInt(..) => true,
                         _ => false,
                     };
 
@@ -825,6 +826,17 @@ impl RestFolder {
                                 has_escape: false,
                             }))),
                         ),
+                        PropName::BigInt(BigInt { span, ref value }) => {
+                            let value = value.clone();
+                            (
+                                key,
+                                Box::new(Expr::Lit(Lit::Str(Str {
+                                    span,
+                                    value: format!("{}", value).into(),
+                                    has_escape: false,
+                                }))),
+                            )
+                        }
                         PropName::Computed(ref c) if is_literal(&c.expr) => {
                             let expr = c.expr.clone();
                             (key, expr)
@@ -996,6 +1008,12 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 .as_arg(),
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
                 PropName::Num(Number { span, value }) => Lit::Str(Str {
+                    span: *span,
+                    value: format!("{}", value).into(),
+                    has_escape: false,
+                })
+                .as_arg(),
+                PropName::BigInt(BigInt { span, value }) => Lit::Str(Str {
                     span: *span,
                     value: format!("{}", value).into(),
                     has_escape: false,

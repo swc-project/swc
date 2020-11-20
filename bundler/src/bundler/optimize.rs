@@ -1,6 +1,6 @@
 use crate::{Bundler, Load, Resolve};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::optimization::simplify::{dce, inlining};
+use swc_ecma_transforms::optimization::simplify::{const_propgation::constant_propagation, dce};
 use swc_ecma_visit::FoldWith;
 
 impl<L, R> Bundler<'_, L, R>
@@ -15,7 +15,7 @@ where
     pub(super) fn optimize(&self, mut node: Module) -> Module {
         self.run(|| {
             if !self.config.disable_inliner {
-                node = node.fold_with(&mut inlining::inlining(inlining::Config {}))
+                node = node.fold_with(&mut constant_propagation())
             }
 
             node = node.fold_with(&mut dce::dce(dce::Config {

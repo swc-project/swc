@@ -795,6 +795,7 @@ impl<'a, I: Tokens> Parser<I> {
                         PropName::Ident(i) => Box::new(Expr::Ident(i)),
                         PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),
                         PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
+                        PropName::BigInt(b) => Box::new(Expr::Lit(Lit::BigInt(b))),
                         PropName::Computed(e) => e.expr,
                     },
                     value,

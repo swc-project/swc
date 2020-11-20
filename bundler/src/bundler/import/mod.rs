@@ -26,13 +26,13 @@ where
         &self,
         path: &FileName,
         module: &mut Module,
-        module_mark: Mark,
+        module_local_mark: Mark,
     ) -> RawImports {
         self.run(|| {
             let body = replace(&mut module.body, vec![]);
 
             let mut v = ImportHandler {
-                module_ctxt: SyntaxContext::empty().apply_mark(module_mark),
+                module_ctxt: SyntaxContext::empty().apply_mark(module_local_mark),
                 path,
                 bundler: self,
                 top_level: false,
@@ -127,7 +127,8 @@ where
     L: Load,
     R: Resolve,
 {
-    fn ctxt_for(&self, src: &JsWord) -> Option<SyntaxContext> {
+    /// Retursn (local, export)
+    fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -139,10 +140,12 @@ where
             return None;
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
-        let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
-        let ctxt = SyntaxContext::empty();
+        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
 
-        Some(ctxt.apply_mark(mark))
+        Some((
+            SyntaxContext::empty().apply_mark(local_mark),
+            SyntaxContext::empty().apply_mark(export_mark),
+        ))
     }
 
     fn mark_as_wrapping_required(&self, src: &JsWord) {
@@ -161,7 +164,7 @@ where
             Ok(v) => v,
             Err(_) => return,
         };
-        let (id, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
 
         self.bundler.scope.mark_as_wrapping_required(id);
     }
@@ -185,22 +188,30 @@ where
             {
                 return import;
             }
-            if let Some(ctxt) = self.ctxt_for(&import.src.value) {
-                import.span = import.span.with_ctxt(ctxt);
+            if let Some((_, export_ctxt)) = self.ctxt_for(&import.src.value) {
+                import.span = import.span.with_ctxt(export_ctxt);
 
                 for specifier in &mut import.specifiers {
                     match specifier {
                         ImportSpecifier::Named(n) => {
-                            self.imported_idents.insert(n.local.to_id(), ctxt);
-                            n.local.span = n.local.span.with_ctxt(ctxt);
+                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
+                            match &mut n.imported {
+                                Some(imported) => {
+                                    imported.span.ctxt = export_ctxt;
+                                }
+                                None => {
+                                    let mut imported: Ident = n.local.clone();
+                                    imported.span.ctxt = export_ctxt;
+                                    n.imported = Some(imported);
+                                }
+                            }
                         }
                         ImportSpecifier::Default(n) => {
-                            self.imported_idents.insert(n.local.to_id(), ctxt);
-                            n.local.span = n.local.span.with_ctxt(ctxt);
+                            self.imported_idents
+                                .insert(n.local.to_id(), n.local.span.ctxt);
                         }
                         ImportSpecifier::Namespace(n) => {
-                            self.imported_idents.insert(n.local.to_id(), ctxt);
-                            n.local.span = n.local.span.with_ctxt(ctxt);
+                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
                         }
                     }
                 }
@@ -329,41 +340,26 @@ where
     }
 
     fn fold_export_named_specifier(&mut self, mut s: ExportNamedSpecifier) -> ExportNamedSpecifier {
-        if let Some(&ctxt) = self.imported_idents.get(&s.orig.to_id()) {
-            s.orig.span = s.orig.span.with_ctxt(ctxt);
+        match &s.exported {
+            Some(exported) => {
+                debug_assert_eq!(
+                    exported.span.ctxt, self.module_ctxt,
+                    "Exported names should have same (local) context as top-level module items"
+                );
+            }
+            None => {
+                let exported =
+                    Ident::new(s.orig.sym.clone(), s.orig.span.with_ctxt(self.module_ctxt));
+                s.exported = Some(exported);
+            }
         }
 
         s
     }
 
-    fn fold_prop(&mut self, mut prop: Prop) -> Prop {
-        prop = prop.fold_children_with(self);
-
-        match prop {
-            Prop::Shorthand(mut i) => {
-                if let Some(&ctxt) = self.imported_idents.get(&i.to_id()) {
-                    let local = i.clone();
-
-                    i.span = i.span.with_ctxt(ctxt);
-
-                    return Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(local),
-                        value: Box::new(Expr::Ident(i)),
-                    });
-                }
-
-                Prop::Shorthand(i)
-            }
-            _ => prop,
-        }
-    }
-
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
-            Expr::Ident(mut i) if self.deglob_phase => {
-                if let Some(&ctxt) = self.imported_idents.get(&i.to_id()) {
-                    i.span = i.span.with_ctxt(ctxt);
-                }
+            Expr::Ident(i) if self.deglob_phase => {
                 return Expr::Ident(i);
             }
 
@@ -408,9 +404,9 @@ where
                                     false
                                 }) {
                                     let mark = self.ctxt_for(&import.src.value);
-                                    let ctxt = match mark {
+                                    let exported_ctxt = match mark {
                                         None => return e.into(),
-                                        Some(mark) => mark,
+                                        Some(ctxts) => ctxts.1,
                                     };
                                     if self.deglob_phase {
                                         if self.info.forced_ns.contains(&import.src.value) {
@@ -421,7 +417,7 @@ where
                                         let i = match &*e.prop {
                                             Expr::Ident(i) => {
                                                 let mut i = i.clone();
-                                                i.span = i.span.with_ctxt(ctxt);
+                                                i.span = i.span.with_ctxt(exported_ctxt);
                                                 i
                                             }
                                             _ => unreachable!(
@@ -438,7 +434,7 @@ where
                                             let i = match &*e.prop {
                                                 Expr::Ident(i) => {
                                                     let mut i = i.clone();
-                                                    i.span = i.span.with_ctxt(ctxt);
+                                                    i.span = i.span.with_ctxt(exported_ctxt);
                                                     i
                                                 }
                                                 _ => unreachable!(
@@ -496,8 +492,8 @@ where
                     {
                         match &mut **callee {
                             Expr::Ident(i) => {
-                                if let Some(ctxt) = self.ctxt_for(&src.value) {
-                                    i.span = i.span.with_ctxt(ctxt);
+                                if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                                    i.span = i.span.with_ctxt(export_ctxt);
                                 }
                             }
                             _ => {}
@@ -586,8 +582,8 @@ where
 
                     match &mut **callee {
                         Expr::Ident(i) => {
-                            if let Some(mark) = self.ctxt_for(&src.value) {
-                                i.span = i.span.with_ctxt(mark);
+                            if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                                i.span = i.span.with_ctxt(export_ctxt);
                             }
                         }
                         _ => {}

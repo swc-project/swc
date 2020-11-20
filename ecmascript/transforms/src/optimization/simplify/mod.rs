@@ -4,6 +4,7 @@ use crate::pass::RepeatedJsPass;
 use swc_common::{chain, pass::Repeat};
 
 mod branch;
+pub mod const_propgation;
 pub mod dce;
 mod expr;
 pub mod inlining;

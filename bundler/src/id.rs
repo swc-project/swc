@@ -5,7 +5,7 @@ use std::{
 };
 use swc_atoms::JsWord;
 use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::Ident;
+use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_utils::ident::IdentLike;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -27,20 +27,23 @@ impl fmt::Debug for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU32,
-    cache: Lock<HashMap<FileName, (ModuleId, Mark)>>,
+    /// `(module_id, local_mark, export_mark)`
+    cache: Lock<HashMap<FileName, (ModuleId, Mark, Mark)>>,
 }
 
 impl ModuleIdGenerator {
-    pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark) {
+    pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark, Mark) {
         let mut w = self.cache.lock();
         if let Some(v) = w.get(file_name) {
             return v.clone();
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
-        let mark = Mark::fresh(Mark::root());
-        w.insert(file_name.clone(), (id, mark));
-        (id, mark)
+        let local_mark = Mark::fresh(Mark::root());
+        let export_mark = Mark::fresh(Mark::root());
+        let v = (id, local_mark, export_mark);
+        w.insert(file_name.clone(), v);
+        (id, local_mark, export_mark)
     }
 }
 
@@ -62,12 +65,16 @@ impl Id {
         &self.0
     }
 
+    pub fn ctxt(&self) -> SyntaxContext {
+        self.1
+    }
+
     pub fn into_ident(self) -> Ident {
         Ident::new(self.0, DUMMY_SP.with_ctxt(self.1))
     }
 
-    pub fn replace_mark(mut self, mark: Mark) -> Self {
-        self.1 = SyntaxContext::empty().apply_mark(mark);
+    pub fn with_ctxt(mut self, ctxt: SyntaxContext) -> Self {
+        self.1 = ctxt;
         self
     }
 }
@@ -107,5 +114,19 @@ impl PartialEq<Ident> for Id {
 impl PartialEq<JsWord> for Id {
     fn eq(&self, other: &JsWord) -> bool {
         self.0 == *other
+    }
+}
+
+impl From<Id> for Ident {
+    #[inline]
+    fn from(id: Id) -> Self {
+        id.into_ident()
+    }
+}
+
+impl From<Id> for Expr {
+    #[inline]
+    fn from(id: Id) -> Self {
+        Expr::Ident(id.into_ident())
     }
 }

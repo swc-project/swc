@@ -1,7 +1,7 @@
 const b = 1;
 const __default = b;
 console.log('b');
-const a = __default;
+const a1 = __default;
 console.log('a.js');
-export { a };
+export { a1 as a };
 console.log('entry');

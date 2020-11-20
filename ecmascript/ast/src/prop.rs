@@ -2,7 +2,7 @@ use crate::{
     expr::Expr,
     function::Function,
     ident::Ident,
-    lit::{Number, Str},
+    lit::{BigInt, Number, Str},
     pat::Pat,
     stmt::BlockStmt,
     typescript::TsTypeAnn,
@@ -103,6 +103,8 @@ pub enum PropName {
     Num(Number),
     #[tag("Computed")]
     Computed(ComputedPropName),
+    #[tag("BigInt")]
+    BigInt(BigInt),
 }
 
 #[ast_node("Computed")]

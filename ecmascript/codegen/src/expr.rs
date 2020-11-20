@@ -188,4 +188,11 @@ mod tests {
     fn regression_increments() {
         assert_min("x++ + ++y", "x++ + ++y;");
     }
+
+    #[test]
+    fn bigint_property_key() {
+        assert_min("({ 1n: 2 });", "({1n:2});");
+        assert_min("(class C { 1n = 1 });", "(class C{1n=1;});");
+        assert_min("(class C { 1n () { } });", "(class C{1n(){}});");
+    }
 }

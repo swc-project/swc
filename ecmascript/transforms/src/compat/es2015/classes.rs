@@ -680,6 +680,7 @@ impl Classes {
                     }
                     PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
                     PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
+                    PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
                     PropName::Computed(ref c) => c.expr.clone(),
                 },
             })
