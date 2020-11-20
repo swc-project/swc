@@ -2549,7 +2549,7 @@ fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
         _ => return None,
     };
 
-    if src.as_bytes()[start_index as usize] != src.as_bytes()[end_index as usize] {
+    if src.as_bytes()[start_index as usize] != src.as_bytes()[(end_index - 1) as usize] {
         return None;
     }
 
