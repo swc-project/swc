@@ -382,17 +382,7 @@ impl<'a> Emitter<'a> {
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        let single_quote = if let Ok(s) = self.cm.span_to_snippet(node.span) {
-            if s.starts_with("'") {
-                Some(true)
-            } else if s.starts_with("\"") {
-                Some(false)
-            } else {
-                None
-            }
-        } else {
-            None
-        };
+        let single_quote = is_single_quote(&self.cm, node.span);
 
         // if let Some(s) = get_text_of_node(&self.cm, node, false) {
         //     self.wr.write_str_lit(node.span, &s)?;
@@ -2519,6 +2509,42 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>
     buf.extend(s_iter);
 
     Cow::Owned(buf)
+}
+
+/// Returns [Some] if the span points to a string literal written by user.
+///
+/// Returns [None] if the span is created from a pass of swc. For example,
+/// spans of string literals created from [TplElement] do not have `starting`
+/// quote.
+fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
+    // This is a workaround for TplElement issue.
+    if span.ctxt != SyntaxContext::empty() {
+        return None;
+    }
+
+    let start = cm.lookup_byte_offset(span.lo);
+    let end = cm.lookup_byte_offset(span.hi);
+
+    if start.sf.start_pos != end.sf.start_pos {
+        return None;
+    }
+
+    let start_index = start.pos.0;
+    let end_index = end.pos.0;
+    let source_len = (start.sf.end_pos - start.sf.start_pos).0;
+
+    if start_index > end_index || end_index > source_len {
+        return None;
+    }
+
+    let src = &start.sf.src;
+    let single_quote = match src.as_bytes()[start_index as usize] {
+        b'\'' => true,
+        b'"' => false,
+        _ => return None,
+    };
+
+    Some(single_quote)
 }
 
 #[cold]
