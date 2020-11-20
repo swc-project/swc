@@ -868,3 +868,27 @@ test!(
     "\"``\"",
     ok_if_code_eq
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_07,
+    r#"`The ${argumentName} has unexpected type of "`"#,
+    r#""The ".concat(argumentName, " has unexpected type of \"");"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_08,
+    r#"`". Expected argument to be an object with the following `"#,
+    r#""\". Expected argument to be an object with the following ";"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_09,
+    r#"`keys: "${reducerKeys.join('", "')}"`"#,
+    r#""keys: \"".concat(reducerKeys.join('", "');"#
+);
