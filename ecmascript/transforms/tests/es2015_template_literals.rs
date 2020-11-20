@@ -892,6 +892,6 @@ test!(
     |_| tr(Default::default()),
     codegen_09,
     r#"`keys: "${reducerKeys.join('", "')}"`"#,
-    r#""keys: \"".concat(reducerKeys.join('", "');"#,
+    r#""keys: \"".concat(reducerKeys.join('\", \"'), "\"");"#,
     ok_if_code_eq
 );
