@@ -383,9 +383,15 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         let single_quote = if let Ok(s) = self.cm.span_to_snippet(node.span) {
-            s.starts_with("'")
+            if s.starts_with("'") {
+                Some(true)
+            } else if s.starts_with("\"") {
+                Some(false)
+            } else {
+                None
+            }
         } else {
-            true
+            None
         };
 
         // if let Some(s) = get_text_of_node(&self.cm, node, false) {
@@ -394,6 +400,8 @@ impl<'a> Emitter<'a> {
         // }
         let value = escape(&self.cm, node.span, &node.value, single_quote);
         // let value = node.value.replace("\n", "\\n");
+
+        let single_quote = single_quote.unwrap_or(false);
 
         if single_quote {
             punct!("'");
@@ -2414,7 +2422,7 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow<'s, str> {
+fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>) -> Cow<'s, str> {
     if span.is_dummy() {
         return Cow::Owned(s.escape_default().to_string());
     }
@@ -2434,7 +2442,9 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
 
     let mut orig = &*orig;
 
-    if (single_quote && orig.starts_with('\'')) || (!single_quote && orig.starts_with('"')) {
+    if (single_quote == Some(true) && orig.starts_with('\''))
+        || (single_quote == Some(false) && orig.starts_with('"'))
+    {
         orig = &orig[1..orig.len() - 1];
     } else {
         return Cow::Owned(s.escape_default().to_string());
@@ -2483,11 +2493,11 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: bool) -> Cow
                             s_iter.next();
                         }
 
-                        '\'' if single_quote => {
+                        '\'' if single_quote == Some(true) => {
                             s_iter.next();
                         }
 
-                        '"' if !single_quote => {
+                        '"' if single_quote == Some(false) => {
                             s_iter.next();
                         }
 
