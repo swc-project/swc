@@ -806,3 +806,65 @@ test!(
   }
   "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_01,
+    "`\"`",
+    r#""\"""#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_02,
+    "`\"\"`",
+    r#"
+    "\"\""
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_03,
+    "`\"${foo}`",
+    r#"
+    "\"".concat(foo);
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_04,
+    "`\"${foo}\"`",
+    r#"
+    "\"".concat(foo);
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_05,
+    "`\"\"${foo}\"\"`",
+    r#"
+    "\"\"".concat(foo, "\"\"");
+    "#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_06,
+    "\"``\"",
+    "\"``\"",
+    ok_if_code_eq
+);
