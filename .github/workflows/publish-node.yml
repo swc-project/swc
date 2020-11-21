@@ -46,7 +46,7 @@ jobs:
 
       - name: Set llvm path
         if: matrix.os == 'windows-latest'
-        uses: allenevans/set-env@v1.0.0
+        uses: allenevans/set-env@v2.0.0
         with:
           LIBCLANG_PATH: 'C:\\Program Files\\LLVM\\bin'
 
