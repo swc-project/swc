@@ -37,7 +37,7 @@ jobs:
       - name: Set platform name
         run: |
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "name=PLATFORM_NAME::$NODE_PLATFORM_NAME" >> $GITHUB_ENV
+          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
         shell: bash
 
       - name: Install llvm
@@ -129,7 +129,7 @@ jobs:
           node-version: 12
 
       - name: Set release name
-        run: echo name=RELEASE_VERSION::${GITHUB_REF#refs/*/} >> $GITHUB_ENV
+        run: echo "RELEASE_VERSION::${GITHUB_REF#refs/*/}"" >> $GITHUB_ENV
 
       # Do not cache node_modules, or yarn workspace links broken
       - name: Install dependencies
