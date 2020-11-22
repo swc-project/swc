@@ -53,7 +53,7 @@ mod fixture;
 pub fn fixture(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item: ItemFn = syn::parse(item).expect("failed to parse input as a function item");
     let config: self::fixture::Config =
-        syn::parse(attr).expect("failed input passed to #[fixture]");
+        syn::parse(attr).expect("failed to parse input passed to #[fixture]");
 
     let file = Span::call_site().source_file();
 

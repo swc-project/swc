@@ -2,22 +2,98 @@ use anyhow::{Context, Error};
 use glob::glob;
 use pmutil::q;
 use proc_macro2::{SourceFile, Span};
+use regex::Regex;
 use relative_path::RelativePath;
 use syn::{
     parse::{Parse, ParseStream},
-    Ident, ItemFn, LitStr,
+    Ident, ItemFn, Lit, LitStr, Meta, NestedMeta, Token,
 };
 
 pub struct Config {
     pattern: String,
+    exclude_patterns: Vec<Regex>,
 }
 
 impl Parse for Config {
     fn parse(input: ParseStream) -> syn::Result<Self> {
+        fn update(c: &mut Config, meta: Meta) {
+            match &meta {
+                Meta::List(list) => {
+                    if list
+                        .path
+                        .get_ident()
+                        .map(|i| i.to_string() == "exclude")
+                        .unwrap_or(false)
+                    {
+                        //
+                        macro_rules! fail {
+                            () => {{
+                                fail!("invalid input to the attribute")
+                            }};
+                            ($inner:expr) => {{
+                                panic!(
+                                    "{}\nnote: exclude() expectes one or more comma-separated \
+             regular expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
+             exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
+                                    $inner
+                                )
+                            }};
+                        }
+
+                        if list.nested.is_empty() {
+                            fail!("empty exlclude()")
+                        }
+
+                        for token in list.nested.iter() {
+                            match token {
+                                NestedMeta::Meta(_) => fail!(),
+                                NestedMeta::Lit(lit) => {
+                                    let lit = match lit {
+                                        Lit::Str(v) => v.value(),
+                                        _ => fail!(),
+                                    };
+                                    c.exclude_patterns.push(Regex::new(&lit).unwrap_or_else(
+                                        |err| {
+                                            fail!(format!(
+                                                "failed to parse regex: {}\n{}",
+                                                lit, err
+                                            ))
+                                        },
+                                    ));
+                                }
+                            }
+                        }
+
+                        return;
+                    }
+                }
+                _ => {}
+            }
+
+            let expected = r#"#[fixture("fixture/**/*.ts", exclude("*\.d\.ts"))]"#;
+
+            unimplemented!(
+                "Exected something like {}\nGot wrong meta tag: {:?}",
+                expected,
+                meta,
+            )
+        }
+
         let pattern: LitStr = input.parse()?;
         let pattern = pattern.value();
 
-        Ok(Self { pattern })
+        let mut config = Self {
+            pattern,
+            exclude_patterns: vec![],
+        };
+
+        let comma: Option<Token![,]> = input.parse()?;
+        if comma.is_some() {
+            let meta: Meta = input.parse()?;
+            update(&mut config, meta);
+        }
+
+        Ok(config)
     }
 }
 
@@ -30,7 +106,7 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
         glob(&pattern).with_context(|| format!("glob failed for whole path: `{}`", pattern))?;
     let mut test_fns = vec![];
 
-    for path in paths {
+    'add: for path in paths {
         let path = path.with_context(|| format!("glob failed for file"))?;
         let path = path.strip_prefix(&base_dir).with_context(|| {
             format!(
@@ -40,6 +116,13 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
             )
         })?;
         let path_str = path.to_string_lossy();
+        // Skip excluded files
+        for pattern in &attr.exclude_patterns {
+            if pattern.is_match(&path_str) {
+                continue 'add;
+            }
+        }
+
         let ignored = path_str.starts_with(".") || path_str.contains("/.");
         let test_name = format!(
             "{}_{}",
