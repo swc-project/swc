@@ -48,7 +48,8 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
                 .replace("/", "__")
                 .replace(".", "_")
                 .replace("-", "_")
-        );
+        )
+        .replace("___", "__");
         let test_ident = Ident::new(&test_name, Span::call_site());
 
         let mut f = q!(
