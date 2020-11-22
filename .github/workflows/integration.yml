@@ -28,7 +28,7 @@ jobs:
       - name: Set platform name
         run: |
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "name=PLATFORM_NAME::$NODE_PLATFORM_NAME" >> $GITHUB_ENV
+          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
         shell: bash
 
       - name: Prepare
