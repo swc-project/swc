@@ -51,7 +51,7 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
         );
         let test_ident = Ident::new(&test_name, Span::call_site());
 
-        let f = q!(
+        let mut f = q!(
             Vars {
                 test_ident,
                 path_str,
@@ -59,6 +59,7 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
             },
             {
                 #[test]
+                #[ignore]
                 fn test_ident() {
                     callee(::std::path::PathBuf::from(path_str));
                 }
@@ -66,7 +67,21 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
         )
         .parse::<ItemFn>();
 
-        if ignored {}
+        if !ignored {
+            f.attrs.retain(|attr| {
+                match attr.path.get_ident() {
+                    Some(name) => {
+                        if name == "ignore" {
+                            return false;
+                        }
+                    }
+                    None => {}
+                }
+
+                true
+            });
+            //
+        }
 
         test_fns.push(f);
     }
