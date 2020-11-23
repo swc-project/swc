@@ -1,5 +1,4 @@
 {
-  "plugins": [
-    ["transform-react-jsx", { "importSource": "foo", "runtime": "automatic" }]
-  ]
+  "importSource": "foo",
+  "runtime": "automatic"
 }
