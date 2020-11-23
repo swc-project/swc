@@ -2183,3 +2183,31 @@ test_exec!(
     })
   "
 );
+
+test!(
+    syntax(),
+    |_| async_to_generator(),
+    issue_1216_1,
+    "
+    const source = Math.random() < 2 ? 'matilda' : 'fred';
+    const details = {
+        _id: '1',
+    };
+    async function request(path) {
+        return `success:${path}`;
+    }
+
+    (async function () {
+        const obj = source === 'matilda'
+            ? details
+            : await request(
+                `/${details._id}?source=${source}`
+            );
+
+        console.log({ obj });
+    })();
+    ",
+    "
+    
+    "
+);
