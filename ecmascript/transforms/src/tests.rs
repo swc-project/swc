@@ -181,6 +181,7 @@ pub(crate) fn test_fixture<P>(
         println!("----- Input -----\n{}", input_str);
 
         let expected = fs::read_to_string(output).unwrap();
+        println!("----- Expected -----\n{}", expected);
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
