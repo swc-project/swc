@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{fs, path::PathBuf};
 
 use super::*;
 use crate::{
@@ -1248,8 +1248,15 @@ test!(
 #[testing::fixture("fixture/**/input.js")]
 fn fixture(input: PathBuf) {
     let mut output = input.with_file_name("output.js");
-    if output.exists() {
+    if !output.exists() {
         output = input.with_file_name("output.mjs");
+    }
+
+    let options_file = input.with_file_name("options.json");
+    let mut options = String::from("{}");
+
+    if let Ok(v) = fs::read_to_string(&options_file) {
+        options = v;
     }
 
     test_fixture(
@@ -1258,13 +1265,8 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         }),
         &|t| {
-            tr(
-                t,
-                Options {
-                    runtime: Runtime::Automatic,
-                    ..Default::default()
-                },
-            )
+            let options = serde_json::from_str(&options).unwrap();
+            tr(t, options)
         },
         &input,
         &output,

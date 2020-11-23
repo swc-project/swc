@@ -46,6 +46,7 @@ unicode-xid = "0.2"
 
 [dev-dependencies]
 pretty_assertions = "0.6"
+serde_json = "1"
 sourcemap = "6"
 swc_ecma_codegen = {version = "0.41.0", path = "../codegen"}
 tempfile = "3"
