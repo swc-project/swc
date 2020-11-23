@@ -5,7 +5,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "wasm"
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.39"
+version = "1.2.40"
 
 [lib]
 crate-type = ["cdylib"]
