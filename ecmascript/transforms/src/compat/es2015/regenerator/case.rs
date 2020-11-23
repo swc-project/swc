@@ -277,8 +277,6 @@ impl CaseHandler<'_> {
     fn explode_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
         let span = e.span();
 
-        eprintln!("ExplodeExpression: {}\n{:?}", self.listing.len(), e);
-
         macro_rules! finish {
             ($e:expr) => {{
                 if ignore_result {
