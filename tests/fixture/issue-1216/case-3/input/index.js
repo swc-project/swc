@@ -6,4 +6,5 @@ function* foo() {
     });
 }
 
-foo()
+const v = foo();
+console.log(v.next());
