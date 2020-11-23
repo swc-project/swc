@@ -207,20 +207,41 @@ where
 
         match self.runtime {
             Runtime::Automatic => {
+                // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
+
                 let jsx = self
                     .import_jsx
                     .get_or_insert_with(|| private_ident!("_jsx"))
                     .clone();
 
-                let props = ObjectLit {
+                let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
                     props: vec![],
                 };
 
+                let children = el
+                    .children
+                    .into_iter()
+                    .filter_map(|child| self.jsx_elem_child_to_expr(child))
+                    .map(Some)
+                    .collect::<Vec<_>>();
+
+                if !children.is_empty() {
+                    props_obj
+                        .props
+                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("children")),
+                            value: Box::new(Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: children,
+                            })),
+                        }))));
+                }
+
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args: vec![name.as_arg(), props.as_arg()],
+                    args: vec![name.as_arg(), props_obj.as_arg()],
                     type_args: Default::default(),
                 })
             }
@@ -231,7 +252,7 @@ where
                     args: iter::once(name.as_arg())
                         .chain(iter::once({
                             // Attributes
-                            self.fold_attrs(el.opening.attrs).as_arg()
+                            self.fold_attrs_for_classic(el.opening.attrs).as_arg()
                         }))
                         .chain({
                             // Children
@@ -277,7 +298,7 @@ where
         })
     }
 
-    fn fold_attrs(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
