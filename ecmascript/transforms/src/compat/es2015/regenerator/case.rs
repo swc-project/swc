@@ -246,6 +246,34 @@ impl CaseHandler<'_> {
         }
     }
 
+    fn explode_expr_via_temp_var(
+        &mut self,
+        temp_var: Option<Expr>,
+        has_leaping_children: bool,
+        child: Expr,
+        ignore_child_result: bool,
+    ) {
+        let result = self.explode_expr(child, ignore_child_result);
+
+        if ignore_child_result {
+            // Side effects already emitted above.
+        } else if temp_var.is_some() || (has_leaping_children && !result.is_lit()) {
+            // If tempVar was provided, then the result will always be assigned
+            // to it, even if the result does not otherwise need to be assigned
+            // to a temporary variable.  When no tempVar is provided, we have
+            // the flexibility to decide whether a temporary variable is really
+            // necessary.  Unfortunately, in general, a temporary variable is
+            // required whenever any child contains a yield expression, since it
+            // is difficult to prove (at all, let alone efficiently) whether
+            // this result would evaluate to the same value before and after the
+            // yield (see #206).  One narrow case where we can prove it doesn't
+            // matter (and thus we do not need a temporary variable) is when the
+            // result in question is a Literal value.
+            let temp_var = temp_var.unwrap_or_else(|| self.make_var());
+            self.emit_assign(temp_var, result);
+        }
+    }
+
     fn explode_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
         let span = e.span();
 
@@ -265,6 +293,8 @@ impl CaseHandler<'_> {
         if !contains_leap(&e) {
             finish!(e)
         }
+
+        let has_leaping_children = does_a_child_contains_leap(&e);
 
         //        // If any child contains a leap (such as a yield or labeled continue
         // or        // break statement), then any sibling subexpressions will
@@ -567,15 +597,25 @@ impl CaseHandler<'_> {
                     Some(self.make_var())
                 };
 
-                self.explode_expr(*e.cons, ignore_result);
+                self.explode_expr_via_temp_var(
+                    result.clone(),
+                    has_leaping_children,
+                    *e.cons,
+                    ignore_result,
+                );
                 self.jump(after);
 
                 self.mark(else_loc);
-                self.explode_expr(*e.alt, ignore_result);
+                self.explode_expr_via_temp_var(
+                    result.clone(),
+                    has_leaping_children,
+                    *e.alt,
+                    ignore_result,
+                );
 
                 self.mark(after);
 
-                result.map(|e| e).unwrap_or_else(|| *undefined(DUMMY_SP))
+                result.unwrap_or_else(|| *undefined(DUMMY_SP))
             }
 
             Expr::Unary(e) => {
@@ -718,7 +758,7 @@ impl CaseHandler<'_> {
                 self.emit(ret);
                 self.mark(after);
 
-                finish!(self.ctx.clone().make_member(quote_ident!("sent")))
+                self.ctx.clone().make_member(quote_ident!("sent"))
             }
         }
     }
@@ -1436,6 +1476,15 @@ where
 {
     let mut v = LeapFinder { found: false };
     node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    v.found
+}
+
+fn does_a_child_contains_leap<T>(node: &T) -> bool
+where
+    T: VisitWith<LeapFinder>,
+{
+    let mut v = LeapFinder { found: false };
+    node.visit_children_with(&mut v);
     v.found
 }
 

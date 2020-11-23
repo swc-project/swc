@@ -2183,3 +2183,50 @@ test_exec!(
     })
   "
 );
+
+test!(
+    syntax(),
+    |_| async_to_generator(),
+    issue_1216_1,
+    "
+    const source = Math.random() < 2 ? 'matilda' : 'fred';
+    const details = {
+        _id: '1',
+    };
+    async function request(path) {
+        return `success:${path}`;
+    }
+
+    (async function () {
+        const obj = source === 'matilda'
+            ? details
+            : await request(
+                `/${details._id}?source=${source}`
+            );
+
+        console.log({ obj });
+    })();
+    ",
+    "
+    const source = Math.random() < 2 ? 'matilda' : 'fred';
+    const details = {
+        _id: '1'
+    };
+    function _request() {
+        _request = _asyncToGenerator(function*(path) {
+            return `success:${path}`;
+        });
+        return _request.apply(this, arguments);
+    }
+    function request(path) {
+        return _request.apply(this, arguments);
+    }
+    _asyncToGenerator(function*() {
+        const obj = source === 'matilda' ? details : yield \
+     request(`/${details._id}?source=${source}`);
+        console.log({
+            obj
+        });
+    });
+    "
+);
