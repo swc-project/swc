@@ -2564,9 +2564,16 @@ test!(
     ),
     next_react_,
     r#"
-  "#,
+    var div = <div>test</div>;
+    "#,
     r#"
-  "#
+    import { jsx as _jsx } from "react/jsx-runtime";
+
+  var div = /*#__PURE__*/_jsx("div", {
+    children: "test"
+  });
+
+    "#
 );
 
 test!(
@@ -2583,9 +2590,19 @@ test!(
     ),
     next_react_,
     r#"
-  "#,
+    const props = {foo: true};
+    var x = (<div {...props} key={undefined}></div>)
+    "#,
     r#"
-  "#
+    import { createElement as _createElement } from "react";
+    const props = {
+      foo: true
+    };
+    
+    var x = /*#__PURE__*/_createElement("div", { ...props,
+      key: undefined
+    });
+    "#
 );
 
 test!(
