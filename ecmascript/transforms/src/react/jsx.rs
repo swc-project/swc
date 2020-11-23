@@ -6,7 +6,7 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::{iter, mem};
+use std::{iter, iter::once, mem};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -219,6 +219,52 @@ where
                     props: vec![],
                 };
 
+                let mut key = None;
+
+                for attr in el.opening.attrs {
+                    match attr {
+                        JSXAttrOrSpread::JSXAttr(attr) => {
+                            //
+                            match attr.name {
+                                JSXAttrName::Ident(i) => {
+                                    //
+                                    if i.sym == js_word!("key") {
+                                        key = attr
+                                            .value
+                                            .map(jsx_attr_value_to_expr)
+                                            .flatten()
+                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                        assert_ne!(
+                                            key, None,
+                                            "value of property 'key' should not be empty"
+                                        );
+                                        continue;
+                                    }
+
+                                    let value = match attr.value {
+                                        Some(v) => jsx_attr_value_to_expr(v)
+                                            .expect("empty expression container?"),
+                                        None => Box::new(Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        }))),
+                                    };
+                                    props_obj.props.push(PropOrSpread::Prop(Box::new(
+                                        Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(i),
+                                            value,
+                                        }),
+                                    )));
+                                }
+                                JSXAttrName::JSXNamespacedName(_) => {
+                                    unimplemented!("automatic runtime: JSXNamespacedName")
+                                }
+                            }
+                        }
+                        JSXAttrOrSpread::SpreadElement(_attr) => {}
+                    }
+                }
+
                 let children = el
                     .children
                     .into_iter()
@@ -241,7 +287,10 @@ where
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args: vec![name.as_arg(), props_obj.as_arg()],
+                    args: once(name.as_arg())
+                        .chain(once(props_obj.as_arg()))
+                        .chain(key)
+                        .collect(),
                     type_args: Default::default(),
                 })
             }
@@ -663,4 +712,16 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
     }
 
     buf.into()
+}
+
+fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
+    Some(match v {
+        JSXAttrValue::Lit(lit) => Box::new(lit.into()),
+        JSXAttrValue::JSXExprContainer(e) => match e.expr {
+            JSXExpr::JSXEmptyExpr(_) => None?,
+            JSXExpr::Expr(e) => e,
+        },
+        JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
+        JSXAttrValue::JSXFragment(f) => Box::new(Expr::JSXFragment(f)),
+    })
 }
