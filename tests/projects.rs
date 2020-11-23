@@ -1,5 +1,6 @@
 use rayon::prelude::*;
 use std::{
+    fs::create_dir_all,
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -580,6 +581,7 @@ fn codegen_1() {
 #[testing::fixture("fixture/**/input/")]
 fn tests(dir: PathBuf) {
     let output = dir.parent().unwrap().join("output");
+    let _ = create_dir_all(&output);
 
     Tester::new()
         .print_errors(|cm, handler| {
