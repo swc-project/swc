@@ -108,7 +108,11 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
 
     'add: for path in paths {
         let path = path.with_context(|| format!("glob failed for file"))?;
-        let path = path.strip_prefix(&base_dir).with_context(|| {
+        let abs_path = path
+            .canonicalize()
+            .with_context(|| format!("failed to canonicalize {}", path.display()))?;
+
+        let path_for_name = path.strip_prefix(&base_dir).with_context(|| {
             format!(
                 "Failed to strip prefix `{}` from `{}`",
                 base_dir.display(),
@@ -127,7 +131,8 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
         let test_name = format!(
             "{}_{}",
             callee,
-            path_str
+            path_for_name
+                .to_string_lossy()
                 .replace("/", "__")
                 .replace(".", "_")
                 .replace("-", "_")
@@ -138,7 +143,7 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
         let mut f = q!(
             Vars {
                 test_ident,
-                path_str,
+                path_str: &abs_path.to_string_lossy(),
                 callee
             },
             {
