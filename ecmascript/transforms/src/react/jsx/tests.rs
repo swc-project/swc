@@ -8,7 +8,7 @@ use crate::{
     },
     modules::common_js::common_js,
     react::display_name,
-    tests::Tester,
+    tests::{test_fixture, Tester},
 };
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
@@ -1246,6 +1246,27 @@ test!(
 );
 
 #[testing::fixture("fixture/**/input.js")]
-fn fixture(path: PathBuf) {
-    println!("{}", path.display());
+fn fixture(input: PathBuf) {
+    let mut output = input.with_file_name("output.js");
+    if output.exists() {
+        output = input.with_file_name("output.mjs");
+    }
+
+    test_fixture(
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        &|t| {
+            tr(
+                t,
+                Options {
+                    runtime: Runtime::Automatic,
+                    ..Default::default()
+                },
+            )
+        },
+        &input,
+        &output,
+    );
 }

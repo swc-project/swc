@@ -1,6 +1,6 @@
 use crate::helpers::{inject_helpers, HELPERS};
 use std::{
-    fmt,
+    fmt, fs,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
     io::{self, Write},
     path::Path,
@@ -16,6 +16,7 @@ use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
+use testing::NormalizedOutput;
 
 pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -165,6 +166,65 @@ macro_rules! test_transform {
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_code_eq:expr) => {{
         crate::tests::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
     }};
+}
+
+pub(crate) fn test_fixture<P>(
+    syntax: Syntax,
+    tr: &dyn Fn(&mut Tester) -> P,
+    input: &Path,
+    output: &Path,
+) where
+    P: Fold,
+{
+    crate::tests::Tester::run(|tester| {
+        let expected = fs::read_to_string(output).unwrap();
+        let expected = tester.apply_transform(
+            as_folder(::swc_ecma_utils::DropSpan {
+                preserve_ctxt: true,
+            }),
+            "output.js",
+            syntax,
+            &expected,
+        )?;
+
+        println!("----- Actual -----");
+
+        let tr = crate::tests::make_tr("actual", tr, tester);
+
+        let actual =
+            tester.apply_transform(tr, "input.js", syntax, &fs::read_to_string(&input).unwrap())?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
+        let actual = actual
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer(None))
+            .fold_with(&mut as_folder(DropSpan {
+                preserve_ctxt: false,
+            }));
+
+        if actual == expected {
+            return Ok(());
+        }
+
+        let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+        if actual_src == expected_src {
+            return Ok(());
+        }
+
+        NormalizedOutput::from(actual_src)
+            .compare_to_file(output)
+            .unwrap();
+
+        Ok(())
+    });
 }
 
 pub(crate) fn test_transform<F, P>(
