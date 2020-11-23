@@ -177,6 +177,9 @@ pub(crate) fn test_fixture<P>(
     P: Fold,
 {
     crate::tests::Tester::run(|tester| {
+        let input_str = fs::read_to_string(input).unwrap();
+        println!("----- Input -----\n{}", input_str);
+
         let expected = fs::read_to_string(output).unwrap();
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
