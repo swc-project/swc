@@ -41,6 +41,7 @@ impl Default for Runtime {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
 pub struct Options {
     #[serde(default)]
     pub runtime: Runtime,
