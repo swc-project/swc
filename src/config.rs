@@ -28,11 +28,12 @@ use swc_ecma_transforms::{
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
+use ts_macros::Interface;
 
 #[cfg(test)]
 mod tests;
 
-#[derive(Default, Clone, Serialize, Deserialize)]
+#[derive(Default, Clone, Serialize, Deserialize, Interface)]
 #[serde(rename_all = "camelCase")]
 pub struct ParseOptions {
     #[serde(default)]
@@ -52,7 +53,7 @@ fn default_as_true() -> bool {
     true
 }
 
-#[derive(Debug, Clone, Default, Deserialize)]
+#[derive(Debug, Clone, Default, Deserialize, Interface)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
     #[serde(flatten, default)]
@@ -125,7 +126,7 @@ fn default_is_module() -> bool {
 }
 
 /// Configuration related to source map generaged by swc.
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Serialize, Deserialize, Debug, Interface)]
 #[serde(untagged)]
 pub enum SourceMapsConfig {
     Bool(bool),

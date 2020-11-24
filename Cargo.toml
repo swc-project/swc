@@ -35,6 +35,7 @@ swc_ecma_preset_env = {path = "./ecmascript/preset_env"}
 swc_ecma_transforms = {path = "./ecmascript/transforms", features = ["const-modules", "react"]}
 swc_ecma_visit = {path = "./ecmascript/visit"}
 swc_visit = {path = "./visit"}
+ts_macros = {path = "./macros/ts"}
 
 [dev-dependencies]
 rayon = "1"

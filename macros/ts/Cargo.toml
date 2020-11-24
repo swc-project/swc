@@ -1,0 +1,19 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Generate typescript interface from rust structs"
+documentation = "https://swc.rs/rustdoc/ts_macros/"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "ts_macros"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+pmutil = "0.5.1"
+proc-macro2 = "1"
+quote = "1"
+swc_macros_common = {version = "0.3", path = "../common"}
+syn = {version = "1", features = ["full", "derive", "parsing", "printing", "extra-traits"]}
