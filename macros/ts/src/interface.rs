@@ -33,7 +33,7 @@ fn print(type_name: &str, fields: &[InterfaceField]) -> Result<String, fmt::Erro
     for field in fields {
         let optional = if field.optional { "?" } else { "" };
 
-        writeln!(b, "    {}{}: {}", field.name, field.optional, field.ty)?;
+        writeln!(b, "    {}{}: {}", field.name, optional, field.ty)?;
     }
     writeln!(b, "}}")?;
 
