@@ -35,7 +35,7 @@ mod tests;
 
 #[derive(Default, Clone, Serialize, Deserialize, Interface)]
 #[serde(rename_all = "camelCase")]
-#[interface(path = "ParseOptions")]
+#[interface(path = "ParseOptions.ts")]
 pub struct ParseOptions {
     #[serde(default)]
     pub comments: bool,
