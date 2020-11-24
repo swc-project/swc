@@ -1,5 +1,3 @@
-use std::{fs, path::PathBuf};
-
 use super::*;
 use crate::{
     compat::{
@@ -10,6 +8,7 @@ use crate::{
     react::display_name,
     tests::{test_fixture, Tester},
 };
+use std::{fs, path::PathBuf};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
 
