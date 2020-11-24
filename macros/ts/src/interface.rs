@@ -22,11 +22,11 @@ pub(super) fn create(input: DeriveInput) {
         Data::Union(_) => panic!("#[derive(Interface)] does not support `union`"),
     };
 
-    let s = print(&type_name, &fields).unwrap();
+    let s = print_interface(&type_name, &fields).unwrap();
     std::fs::write(&path, s.as_bytes()).unwrap();
 }
 
-fn print(type_name: &str, fields: &[InterfaceField]) -> Result<String, fmt::Error> {
+fn print_interface(type_name: &str, fields: &[InterfaceField]) -> Result<String, fmt::Error> {
     let mut b = String::new();
 
     writeln!(b, "export default interface {} {{", type_name)?;
