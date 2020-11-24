@@ -40,12 +40,14 @@ pub struct ParseOptions {
     #[serde(default)]
     pub comments: bool,
     #[serde(flatten)]
+    #[interface(path = "Syntax")]
     pub syntax: Syntax,
 
     #[serde(default = "default_is_module")]
     pub is_module: bool,
 
     #[serde(default)]
+    #[interface(path = "JscTarget")]
     pub target: JscTarget,
 }
 

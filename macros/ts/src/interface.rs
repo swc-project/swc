@@ -1,8 +1,11 @@
-use std::path::PathBuf;
-
+use std::{
+    fmt,
+    fmt::{Display, Write},
+    path::PathBuf,
+};
 use syn::{
-    Attribute, Data, DataStruct, DeriveInput, Field, Fields, GenericArgument, Lit, Meta,
-    NestedMeta, PathArguments, Type,
+    Attribute, Data, DataStruct, DeriveInput, Fields, GenericArgument, Lit, Meta, NestedMeta,
+    PathArguments, Type,
 };
 
 pub(super) fn create(input: DeriveInput) {
@@ -11,11 +14,30 @@ pub(super) fn create(input: DeriveInput) {
         panic!("#[interface(path = \"path/to/file.ts\")] is required")
     }
 
+    let type_name = input.ident.to_string();
+
     let fields = match input.data {
         Data::Struct(s) => parse_struct(s),
         Data::Enum(_) => todo!("#[derive(Interface)] for `enum`"),
         Data::Union(_) => panic!("#[derive(Interface)] does not support `union`"),
     };
+
+    let s = print(&type_name, &fields).unwrap();
+    std::fs::write(&path, s.as_bytes()).unwrap();
+}
+
+fn print(type_name: &str, fields: &[InterfaceField]) -> Result<String, fmt::Error> {
+    let mut b = String::new();
+
+    writeln!(b, "export default {} {{", type_name)?;
+    for field in fields {
+        let optional = if field.optional { "?" } else { "" };
+
+        writeln!(b, "    {}{}: {}", field.name, field.optional, field.ty)?;
+    }
+    writeln!(b, "}}")?;
+
+    Ok(b)
 }
 
 fn parse_type(field_name: &str, attrs: &[Attribute], ty: &Type) -> (bool, FieldType) {
@@ -75,6 +97,26 @@ fn parse_type(field_name: &str, attrs: &[Attribute], ty: &Type) -> (bool, FieldT
                                     match arg {
                                         GenericArgument::Type(ty) => {
                                             return parse_type(field_name, attrs, ty);
+                                        }
+                                        _ => panic!("error reporting non-type argument in Option"),
+                                    }
+                                }
+                            }
+                            PathArguments::Parenthesized(_) => todo!("error reporting?"),
+                        }
+                    }
+                }
+
+                if name == "Vec" {
+                    for seg in &path.path.segments {
+                        match &seg.arguments {
+                            PathArguments::None => todo!("error reporting for empty Box"),
+                            PathArguments::AngleBracketed(seg) => {
+                                for arg in &seg.args {
+                                    match arg {
+                                        GenericArgument::Type(ty) => {
+                                            let (_, ty) = parse_type(field_name, attrs, ty);
+                                            return (false, FieldType::Array(Box::new(ty)));
                                         }
                                         _ => panic!("error reporting non-type argument in Option"),
                                     }
@@ -225,3 +267,13 @@ enum FieldType {
 
 #[derive(Debug)]
 struct InterfaceFieldAttr {}
+
+impl Display for FieldType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            FieldType::Array(ty) => writeln!(f, "({})[]", ty),
+            FieldType::Path(s) => write!(f, "import('./{}').default", s),
+            FieldType::Primitive(s) => write!(f, "{}", s),
+        }
+    }
+}
