@@ -473,46 +473,37 @@ where
                         continue;
                     }
 
-                    if self.next {
-                        for line in leading.text.lines() {
-                            if !line.trim().starts_with("* @jsx") {
-                                continue;
-                            }
-
-                            if line.trim().starts_with("* @jsxRuntime ") {
-                                let src = line.replace("* @jsxRuntime ", "").trim().to_string();
-                                if src == "classic" {
-                                    self.runtime = Runtime::Classic;
-                                } else if src == "automatic" {
-                                    self.runtime = Runtime::Automatic;
-                                }
-                            }
+                    for line in leading.text.lines() {
+                        if !line.trim().starts_with("* @jsx") {
+                            continue;
                         }
-                    } else {
-                        for line in leading.text.lines() {
-                            if !line.trim().starts_with("* @jsx") {
-                                continue;
-                            }
 
-                            if line.trim().starts_with("* @jsxFrag") {
-                                let src = line.replace("* @jsxFrag", "").trim().to_string();
-                                self.pragma_frag = ExprOrSpread {
-                                    expr: parse_classic_option(
-                                        &self.cm,
-                                        "module-jsx-pragma-frag",
-                                        src,
-                                    ),
-                                    spread: None,
-                                };
+                        if line.trim().starts_with("* @jsxRuntime ") {
+                            let src = line.replace("* @jsxRuntime ", "").trim().to_string();
+                            if src == "classic" {
+                                self.runtime = Runtime::Classic;
+                            } else if src == "automatic" {
+                                self.runtime = Runtime::Automatic;
                             } else {
-                                let src = line.replace("* @jsx", "").trim().to_string();
-
-                                self.pragma = ExprOrSuper::Expr(parse_classic_option(
-                                    &self.cm,
-                                    "module-jsx-pragma",
-                                    src,
-                                ));
+                                todo!("proper error reporting for wrong `@jsxRuntime`")
                             }
+                            continue;
+                        }
+
+                        if line.trim().starts_with("* @jsxFrag") {
+                            let src = line.replace("* @jsxFrag", "").trim().to_string();
+                            self.pragma_frag = ExprOrSpread {
+                                expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
+                                spread: None,
+                            };
+                        } else {
+                            let src = line.replace("* @jsx", "").trim().to_string();
+
+                            self.pragma = ExprOrSuper::Expr(parse_classic_option(
+                                &self.cm,
+                                "module-jsx-pragma",
+                                src,
+                            ));
                         }
                     }
                 }
