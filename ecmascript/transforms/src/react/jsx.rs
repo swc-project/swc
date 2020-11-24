@@ -64,6 +64,9 @@ pub struct Options {
 
     #[serde(default)]
     pub use_builtins: bool,
+
+    #[serde(default)]
+    pub use_spread: bool,
 }
 
 impl Default for Options {
@@ -76,6 +79,7 @@ impl Default for Options {
             throw_if_namespace: default_throw_if_namespace(),
             development: false,
             use_builtins: false,
+            use_spread: false,
         }
     }
 }
