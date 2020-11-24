@@ -44,7 +44,7 @@ impl Default for Runtime {
 #[serde(deny_unknown_fields)]
 pub struct Options {
     #[serde(default)]
-    pub runtime: Runtime,
+    pub runtime: Option<Runtime>,
 
     /// For automatic runtime
     #[serde(default = "default_import_source")]
@@ -137,7 +137,8 @@ where
 {
     as_folder(Jsx {
         cm: cm.clone(),
-        runtime: options.runtime,
+        next: options.runtime.is_some(),
+        runtime: options.runtime.unwrap_or_default(),
         import_source: options.import_source.into(),
         import_jsx: None,
         import_jsxs: None,
@@ -158,6 +159,7 @@ where
     C: Comments,
 {
     cm: Lrc<SourceMap>,
+    next: bool,
     runtime: Runtime,
     /// For automatic runtime.
     import_source: JsWord,
@@ -305,7 +307,7 @@ where
                     args: iter::once(name.as_arg())
                         .chain(iter::once({
                             // Attributes
-                            self.fold_attrs_for_classic(el.opening.attrs).as_arg()
+                            self.fold_attrs_for_old_classic(el.opening.attrs).as_arg()
                         }))
                         .chain({
                             // Children
@@ -351,7 +353,7 @@ where
         })
     }
 
-    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+    fn fold_attrs_for_old_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }

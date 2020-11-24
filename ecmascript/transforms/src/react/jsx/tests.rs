@@ -1181,7 +1181,7 @@ test!(
     |t| tr(
         t,
         Options {
-            runtime: Runtime::Classic,
+            runtime: Some(Runtime::Classic),
             ..Default::default()
         }
     ),
@@ -1198,7 +1198,7 @@ test!(
     |t| tr(
         t,
         Options {
-            runtime: Runtime::Classic,
+            runtime: Some(Runtime::Classic),
             ..Default::default()
         }
     ),
@@ -1215,7 +1215,7 @@ test!(
     |t| tr(
         t,
         Options {
-            runtime: Runtime::Automatic,
+            runtime: Some(Runtime::Automatic),
             ..Default::default()
         }
     ),
@@ -1234,7 +1234,7 @@ test!(
     |t| tr(
         t,
         Options {
-            runtime: Runtime::Automatic,
+            runtime: Some(Runtime::Automatic),
             ..Default::default()
         }
     ),
