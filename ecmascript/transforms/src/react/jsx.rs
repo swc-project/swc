@@ -307,7 +307,7 @@ where
                     args: iter::once(name.as_arg())
                         .chain(iter::once({
                             // Attributes
-                            self.fold_attrs_for_old_classic(el.opening.attrs).as_arg()
+                            self.fold_attrs_for_classic(el.opening.attrs).as_arg()
                         }))
                         .chain({
                             // Children
@@ -353,6 +353,36 @@ where
         })
     }
 
+    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+        if self.next {
+            self.fold_attrs_for_next_classic(attrs)
+        } else {
+            self.fold_attrs_for_old_classic(attrs)
+        }
+    }
+
+    /// Runtiem; `classic`
+    fn fold_attrs_for_next_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+        if attrs.is_empty() {
+            return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
+        }
+        let props = attrs
+            .into_iter()
+            .map(|attr| match attr {
+                JSXAttrOrSpread::JSXAttr(attr) => PropOrSpread::Prop(Box::new(attr_to_prop(attr))),
+                JSXAttrOrSpread::SpreadElement(spread) => PropOrSpread::Spread(spread),
+            })
+            .collect();
+
+        let obj = ObjectLit {
+            span: DUMMY_SP,
+            props,
+        };
+
+        Box::new(Expr::Object(obj))
+    }
+
+    /// Runtiem; `automatic`
     fn fold_attrs_for_old_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
@@ -443,48 +473,45 @@ where
                         continue;
                     }
 
-                    match self.runtime {
-                        Runtime::Automatic => {
-                            for line in leading.text.lines() {
-                                if !line.trim().starts_with("* @jsx") {
-                                    continue;
-                                }
+                    if self.next {
+                        for line in leading.text.lines() {
+                            if !line.trim().starts_with("* @jsx") {
+                                continue;
+                            }
 
-                                if line.trim().starts_with("* @jsxRuntime ") {
-                                    let src = line.replace("* @jsxRuntime ", "").trim().to_string();
-                                    if src == "classic" {
-                                        self.runtime = Runtime::Classic;
-                                    } else if src == "automatic" {
-                                        self.runtime = Runtime::Automatic;
-                                    }
+                            if line.trim().starts_with("* @jsxRuntime ") {
+                                let src = line.replace("* @jsxRuntime ", "").trim().to_string();
+                                if src == "classic" {
+                                    self.runtime = Runtime::Classic;
+                                } else if src == "automatic" {
+                                    self.runtime = Runtime::Automatic;
                                 }
                             }
                         }
-                        Runtime::Classic => {
-                            for line in leading.text.lines() {
-                                if !line.trim().starts_with("* @jsx") {
-                                    continue;
-                                }
+                    } else {
+                        for line in leading.text.lines() {
+                            if !line.trim().starts_with("* @jsx") {
+                                continue;
+                            }
 
-                                if line.trim().starts_with("* @jsxFrag") {
-                                    let src = line.replace("* @jsxFrag", "").trim().to_string();
-                                    self.pragma_frag = ExprOrSpread {
-                                        expr: parse_classic_option(
-                                            &self.cm,
-                                            "module-jsx-pragma-frag",
-                                            src,
-                                        ),
-                                        spread: None,
-                                    };
-                                } else {
-                                    let src = line.replace("* @jsx", "").trim().to_string();
-
-                                    self.pragma = ExprOrSuper::Expr(parse_classic_option(
+                            if line.trim().starts_with("* @jsxFrag") {
+                                let src = line.replace("* @jsxFrag", "").trim().to_string();
+                                self.pragma_frag = ExprOrSpread {
+                                    expr: parse_classic_option(
                                         &self.cm,
-                                        "module-jsx-pragma",
+                                        "module-jsx-pragma-frag",
                                         src,
-                                    ));
-                                }
+                                    ),
+                                    spread: None,
+                                };
+                            } else {
+                                let src = line.replace("* @jsx", "").trim().to_string();
+
+                                self.pragma = ExprOrSuper::Expr(parse_classic_option(
+                                    &self.cm,
+                                    "module-jsx-pragma",
+                                    src,
+                                ));
                             }
                         }
                     }
