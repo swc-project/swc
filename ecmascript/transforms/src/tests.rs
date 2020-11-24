@@ -1,7 +1,8 @@
 use crate::helpers::{inject_helpers, HELPERS};
+use serde::de::DeserializeOwned;
 use std::{
     fmt, fs,
-    fs::{create_dir_all, remove_dir_all, OpenOptions},
+    fs::{create_dir_all, read_to_string, remove_dir_all, OpenOptions},
     io::{self, Write},
     path::Path,
     process::Command,
@@ -166,6 +167,30 @@ macro_rules! test_transform {
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_code_eq:expr) => {{
         crate::tests::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
     }};
+}
+
+pub(crate) fn parse_options<T>(dir: &Path) -> T
+where
+    T: DeserializeOwned,
+{
+    let mut s = String::from("{}");
+
+    fn check(dir: &Path) -> Option<String> {
+        let file = dir.join("options.json");
+        match read_to_string(&file) {
+            Ok(v) => return Some(v),
+            Err(_) => {}
+        }
+
+        dir.parent().and_then(check)
+    }
+
+    if let Some(content) = check(dir) {
+        s = content;
+    }
+
+    serde_json::from_str(&s)
+        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}", err))
 }
 
 pub(crate) fn test_fixture<P>(

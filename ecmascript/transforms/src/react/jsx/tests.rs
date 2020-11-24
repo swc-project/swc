@@ -6,9 +6,9 @@ use crate::{
     },
     modules::common_js::common_js,
     react::display_name,
-    tests::{test_fixture, Tester},
+    tests::{parse_options, test_fixture, Tester},
 };
-use std::{fs, path::PathBuf};
+use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -1251,20 +1251,13 @@ fn fixture(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    let options_file = input.with_file_name("options.json");
-    let mut options = String::from("{}");
-
-    if let Ok(v) = fs::read_to_string(&options_file) {
-        options = v;
-    }
-
     test_fixture(
         Syntax::Es(EsConfig {
             jsx: true,
             ..Default::default()
         }),
         &|t| {
-            let options = serde_json::from_str(&options).unwrap();
+            let options = parse_options(input.parent().unwrap());
             tr(t, options)
         },
         &input,
