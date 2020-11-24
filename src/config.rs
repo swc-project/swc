@@ -35,6 +35,7 @@ mod tests;
 
 #[derive(Default, Clone, Serialize, Deserialize, Interface)]
 #[serde(rename_all = "camelCase")]
+#[interface(path = "ParseOptions")]
 pub struct ParseOptions {
     #[serde(default)]
     pub comments: bool,
@@ -53,7 +54,7 @@ fn default_as_true() -> bool {
     true
 }
 
-#[derive(Debug, Clone, Default, Deserialize, Interface)]
+#[derive(Debug, Clone, Default, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
     #[serde(flatten, default)]
@@ -126,7 +127,7 @@ fn default_is_module() -> bool {
 }
 
 /// Configuration related to source map generaged by swc.
-#[derive(Clone, Serialize, Deserialize, Debug, Interface)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(untagged)]
 pub enum SourceMapsConfig {
     Bool(bool),
