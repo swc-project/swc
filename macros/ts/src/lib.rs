@@ -1,7 +1,5 @@
 extern crate proc_macro;
 
-use syn::{self, DeriveInput, *};
-
 mod interface;
 
 /// Creates a typescript interface which is `export default`.
