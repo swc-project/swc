@@ -1,10 +1,9 @@
-/** @jsxRuntime classic */
 var HelloMessage = React.createClass({
-  displayName: "HelloMessage",
-  render: function () {
-    return /*#__PURE__*/React.createElement("div", null, "Hello ", this.props.name);
-  }
+    render: function() {
+        return React.createElement("div", null, "Hello ", this.props.name);
+    },
+    displayName: "HelloMessage"
 });
-React.render( /*#__PURE__*/React.createElement(HelloMessage, {
-  name: /*#__PURE__*/React.createElement("span", null, "Sebastian")
+React.render(React.createElement(HelloMessage, {
+    name: React.createElement("span", null, "Sebastian")
 }), mountNode);
