@@ -399,11 +399,9 @@ where
             JSXElementChild::JSXSpreadChild(child) => {
                 // This is wrong.
                 HANDLER.with(|handler| {
-                    let diagnostic =
-                        handler.struct_err("Spread children are not supported in React");
-                    diagnostic.allow_suggestions(true);
-
-                    diagnostic.emit();
+                    handler
+                        .struct_span_err(child.span, "Spread children are not supported in React")
+                        .emit();
                 });
                 child.expr.as_arg()
             }
