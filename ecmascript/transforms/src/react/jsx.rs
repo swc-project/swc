@@ -523,12 +523,17 @@ where
                     }
 
                     for line in leading.text.lines() {
-                        if !line.trim().starts_with("* @jsx") {
+                        let mut line = line.trim();
+                        if line.starts_with('*') {
+                            line = line[1..].trim();
+                        }
+
+                        if !line.starts_with("@jsx") {
                             continue;
                         }
 
-                        if line.trim().starts_with("* @jsxRuntime ") {
-                            let src = line.replace("* @jsxRuntime ", "").trim().to_string();
+                        if line.starts_with("@jsxRuntime ") {
+                            let src = line.replace("@jsxRuntime ", "").trim().to_string();
                             if src == "classic" {
                                 self.runtime = Runtime::Classic;
                             } else if src == "automatic" {
@@ -539,14 +544,14 @@ where
                             continue;
                         }
 
-                        if line.trim().starts_with("* @jsxFrag") {
-                            let src = line.replace("* @jsxFrag", "").trim().to_string();
+                        if line.trim().starts_with("@jsxFrag") {
+                            let src = line.replace("@jsxFrag", "").trim().to_string();
                             self.pragma_frag = ExprOrSpread {
                                 expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
                                 spread: None,
                             };
                         } else {
-                            let src = line.replace("* @jsx", "").trim().to_string();
+                            let src = line.replace("@jsx", "").trim().to_string();
 
                             self.pragma = ExprOrSuper::Expr(parse_classic_option(
                                 &self.cm,
