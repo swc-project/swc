@@ -14,7 +14,7 @@ use swc_common::{
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_utils::{DropSpan, HANDLER};
+use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
 use testing::NormalizedOutput;
@@ -46,6 +46,23 @@ impl<'a> Tester<'a> {
             Ok(()) => {}
             Err(stderr) => panic!("Stderr:\n{}", stderr),
         }
+    }
+
+    pub fn run_captured<F>(op: F) -> Result<(), NormalizedOutput>
+    where
+        F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
+    {
+        ::testing::Tester::new().print_errors(|cm, handler| {
+            crate::util::HANDLER.set(&handler, || {
+                HELPERS.set(&Default::default(), || {
+                    op(&mut Tester {
+                        cm,
+                        handler: &handler,
+                        comments: Default::default(),
+                    })
+                })
+            })
+        })
     }
 
     pub fn with_parser<F, T>(
@@ -201,13 +218,11 @@ pub(crate) fn test_fixture<P>(
 ) where
     P: Fold,
 {
-    crate::tests::Tester::run(|tester| {
+    let result = crate::tests::Tester::run_captured(|tester| {
         let input_str = fs::read_to_string(input).unwrap();
         println!("----- Input -----\n{}", input_str);
 
-        let tr = HANDLER.set(&tester.handler, || {
-            crate::tests::make_tr("actual", tr, tester)
-        });
+        let tr = crate::tests::make_tr("actual", tr, tester);
 
         let expected = fs::read_to_string(output).unwrap();
         println!("----- Expected -----\n{}", expected);
@@ -222,9 +237,8 @@ pub(crate) fn test_fixture<P>(
 
         println!("----- Actual -----");
 
-        let actual = HANDLER.set(&tester.handler, || {
-            tester.apply_transform(tr, "input.js", syntax, &fs::read_to_string(&input).unwrap())
-        })?;
+        let actual =
+            tester.apply_transform(tr, "input.js", syntax, &fs::read_to_string(&input).unwrap())?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -257,6 +271,14 @@ pub(crate) fn test_fixture<P>(
 
         Ok(())
     });
+
+    match result {
+        Ok(()) => {}
+        Err(err) => {
+            err.compare_to_file(&output.with_extension("stderr"))
+                .unwrap();
+        }
+    }
 }
 
 pub(crate) fn test_transform<F, P>(
