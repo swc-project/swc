@@ -898,6 +898,7 @@ impl Visit for StaticVisitor {
             e.prop.visit_with(e, self);
         }
     }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
@@ -910,5 +911,9 @@ impl Visit for StaticVisitor {
                 self.dynamic = true;
             }
         }
+    }
+
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        self.dynamic = true;
     }
 }
