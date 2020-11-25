@@ -1,8 +1,16 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { jsxs as _jsxs } from "react/jsx-runtime";
-
-var x = /*#__PURE__*/_jsxs("div", {
-  children: ["foo", "bar", "baz", /*#__PURE__*/_jsx("div", {
-    children: "buz bang"
-  }), "qux", null, "quack"]
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+var x = _jsxs("div", {
+    children: [
+        "foo",
+        "bar",
+        "baz",
+        _jsx("div", {
+            children: [
+                "buz bang"
+            ]
+        }),
+        "qux",
+        null,
+        "quack"
+    ]
 });
