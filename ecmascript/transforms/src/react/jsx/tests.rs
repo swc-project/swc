@@ -21,6 +21,14 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
     )
 }
 
+fn fixture_tr(t: &mut Tester, options: Options) -> impl Fold {
+    chain!(
+        jsx(t.cm.clone(), Some(t.comments.clone()), options),
+        display_name(),
+        arrow(),
+    )
+}
+
 test!(
     Syntax::Es(EsConfig {
         jsx: true,
@@ -1258,7 +1266,7 @@ fn fixture(input: PathBuf) {
         }),
         &|t| {
             let options = parse_options(input.parent().unwrap());
-            tr(t, options)
+            fixture_tr(t, options)
         },
         &input,
         &output,
