@@ -396,8 +396,16 @@ where
             }) => return None,
             JSXElementChild::JSXElement(el) => self.jsx_elem_to_expr(*el).as_arg(),
             JSXElementChild::JSXFragment(el) => self.jsx_frag_to_expr(el).as_arg(),
-            JSXElementChild::JSXSpreadChild(JSXSpreadChild { .. }) => {
-                unimplemented!("jsx sperad child")
+            JSXElementChild::JSXSpreadChild(child) => {
+                // This is wrong.
+                HANDLER.with(|handler| {
+                    let diagnostic =
+                        handler.struct_err("Spread children are not supported in React");
+                    diagnostic.allow_suggestions(true);
+
+                    diagnostic.emit();
+                });
+                child.expr.as_arg()
             }
         })
     }
