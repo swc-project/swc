@@ -1,5 +1,4 @@
 {
-  "plugins": [
-    ["transform-react-jsx", { "pragma": "foo.bar", "runtime": "automatic" }]
-  ]
+  "pragma": "foo.bar",
+  "runtime": "automatic"
 }
