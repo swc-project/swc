@@ -48,21 +48,33 @@ impl<'a> Tester<'a> {
         }
     }
 
-    pub fn run_captured<F>(op: F) -> Result<(), NormalizedOutput>
+    pub fn run_captured<F, T>(op: F) -> (Option<T>, NormalizedOutput)
     where
-        F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
+        F: FnOnce(&mut Tester<'_>) -> Result<T, ()>,
     {
-        ::testing::Tester::new().print_errors(|cm, handler| {
+        let mut res = None;
+        let output = ::testing::Tester::new().print_errors(|cm, handler| -> Result<(), _> {
             crate::util::HANDLER.set(&handler, || {
                 HELPERS.set(&Default::default(), || {
-                    op(&mut Tester {
+                    let result = op(&mut Tester {
                         cm,
                         handler: &handler,
                         comments: Default::default(),
-                    })
+                    });
+
+                    res = result.ok();
+
+                    // We need stderr
+                    Err(())
                 })
             })
-        })
+        });
+
+        let output = output
+            .err()
+            .unwrap_or_else(|| NormalizedOutput::from(String::from("")));
+
+        (res, output)
     }
 
     pub fn with_parser<F, T>(
@@ -222,13 +234,16 @@ pub(crate) fn test_fixture<P>(
 ) where
     P: Fold,
 {
-    let result = crate::tests::Tester::run_captured(|tester| {
+    let expected = fs::read_to_string(output);
+    let _is_really_expected = expected.is_ok();
+    let expected = expected.unwrap_or_default();
+
+    let (values, stderr) = crate::tests::Tester::run_captured(|tester| {
         let input_str = fs::read_to_string(input).unwrap();
         println!("----- Input -----\n{}", input_str);
 
         let tr = crate::tests::make_tr("actual", tr, tester);
 
-        let expected = fs::read_to_string(output).unwrap();
         println!("----- Expected -----\n{}", expected);
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
@@ -259,29 +274,24 @@ pub(crate) fn test_fixture<P>(
                 preserve_ctxt: false,
             }));
 
-        if actual == expected {
-            return Ok(());
-        }
-
         let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
 
-        if actual_src == expected_src {
-            return Ok(());
-        }
-
-        NormalizedOutput::from(actual_src)
-            .compare_to_file(output)
-            .unwrap();
-
-        Ok(())
+        Ok((actual_src, expected_src))
     });
 
-    match result {
-        Ok(()) => {}
-        Err(err) => {
-            err.compare_to_file(&output.with_extension("stderr"))
+    if !stderr.is_empty() {
+        NormalizedOutput::from(stderr)
+            .compare_to_file(output.with_extension("stderr"))
+            .unwrap();
+    }
+
+    match values {
+        Some((actual_src, _expected_src)) => {
+            NormalizedOutput::from(actual_src)
+                .compare_to_file(output)
                 .unwrap();
         }
+        _ => {}
     }
 }
 
