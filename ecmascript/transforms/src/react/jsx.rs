@@ -142,6 +142,7 @@ where
         import_source: options.import_source.into(),
         import_jsx: None,
         import_jsxs: None,
+        import_fragment: None,
 
         pragma: ExprOrSuper::Expr(parse_classic_option(&cm, "pragma", options.pragma)),
         comments,
@@ -167,6 +168,8 @@ where
     import_jsx: Option<Ident>,
     /// For automatic runtime.
     import_jsxs: Option<Ident>,
+    /// For automatic runtime.
+    import_fragment: Option<Ident>,
 
     pragma: ExprOrSuper,
     comments: Option<C>,
@@ -182,21 +185,67 @@ where
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
-        Expr::Call(CallExpr {
-            span,
-            callee: self.pragma.clone(),
-            args: iter::once(self.pragma_frag.clone())
-                // attribute: null
-                .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
-                .chain({
-                    // Children
-                    el.children
-                        .into_iter()
-                        .filter_map(|c| self.jsx_elem_child_to_expr(c))
+        match self.runtime {
+            Runtime::Automatic => {
+                let jsx = self
+                    .import_jsx
+                    .get_or_insert_with(|| private_ident!("_jsx"))
+                    .clone();
+
+                let fragment = self
+                    .import_fragment
+                    .get_or_insert_with(|| private_ident!("_Fragment"))
+                    .clone();
+
+                let mut props_obj = ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                };
+
+                let children = el
+                    .children
+                    .into_iter()
+                    .filter_map(|child| self.jsx_elem_child_to_expr(child))
+                    .map(Some)
+                    .collect::<Vec<_>>();
+
+                if !children.is_empty() {
+                    props_obj
+                        .props
+                        .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("children")),
+                            value: Box::new(Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: children,
+                            })),
+                        }))));
+                }
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: jsx.as_callee(),
+                    args: vec![fragment.as_arg(), props_obj.as_arg()],
+                    type_args: None,
                 })
-                .collect(),
-            type_args: None,
-        })
+            }
+            Runtime::Classic => {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: self.pragma.clone(),
+                    args: iter::once(self.pragma_frag.clone())
+                        // attribute: null
+                        .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
+                        .chain({
+                            // Children
+                            el.children
+                                .into_iter()
+                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
+                        })
+                        .collect(),
+                    type_args: None,
+                })
+            }
+        }
     }
 
     /// # Automatic
@@ -537,6 +586,14 @@ where
                     span: DUMMY_SP,
                     local,
                     imported: Some(quote_ident!("jsxs")),
+                }));
+            }
+
+            if let Some(local) = self.import_fragment.take() {
+                imports.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local,
+                    imported: Some(quote_ident!("Fragment")),
                 }));
             }
 
