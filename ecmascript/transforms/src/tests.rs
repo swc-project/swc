@@ -205,6 +205,8 @@ pub(crate) fn test_fixture<P>(
         let input_str = fs::read_to_string(input).unwrap();
         println!("----- Input -----\n{}", input_str);
 
+        let tr = crate::tests::make_tr("actual", tr, tester);
+
         let expected = fs::read_to_string(output).unwrap();
         println!("----- Expected -----\n{}", expected);
         let expected = tester.apply_transform(
@@ -217,8 +219,6 @@ pub(crate) fn test_fixture<P>(
         )?;
 
         println!("----- Actual -----");
-
-        let tr = crate::tests::make_tr("actual", tr, tester);
 
         let actual =
             tester.apply_transform(tr, "input.js", syntax, &fs::read_to_string(&input).unwrap())?;
