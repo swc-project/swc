@@ -913,7 +913,7 @@ impl Visit for StaticVisitor {
         }
     }
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, _: &Ident, _: &dyn Node) {
         self.dynamic = true;
     }
 }
