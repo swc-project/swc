@@ -177,6 +177,7 @@ where
 
     fn check(dir: &Path) -> Option<String> {
         let file = dir.join("options.json");
+        eprintln!("Checking {}", file.display());
         match read_to_string(&file) {
             Ok(v) => return Some(v),
             Err(_) => {}
@@ -205,7 +206,7 @@ pub(crate) fn test_fixture<P>(
         let input_str = fs::read_to_string(input).unwrap();
         println!("----- Input -----\n{}", input_str);
 
-        let expected = fs::read_to_string(output).unwrap();
+        let expected = fs::read_to_string(output).unwrap_or_default();
         println!("----- Expected -----\n{}", expected);
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
