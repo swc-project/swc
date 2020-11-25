@@ -195,7 +195,11 @@ where
     fn check(dir: &Path) -> Option<String> {
         let file = dir.join("options.json");
         match read_to_string(&file) {
-            Ok(v) => return Some(v),
+            Ok(v) => {
+                eprintln!("Using options.json at {}", file.display());
+
+                return Some(v);
+            }
             Err(_) => {}
         }
 
