@@ -1,4 +1,1 @@
-/** @jsxRuntime classic */
-
-/*#__PURE__*/
-React.createElement("div", null, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", null, "Hello"), /*#__PURE__*/React.createElement("span", null, "world")), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", null, "Goodbye"), /*#__PURE__*/React.createElement("span", null, "world"))));
+React.createElement("div", null, React.createElement(React.Fragment, null, React.createElement(React.Fragment, null, React.createElement("span", null, "Hello"), React.createElement("span", null, "world")), React.createElement(React.Fragment, null, React.createElement("span", null, "Goodbye"), React.createElement("span", null, "world"))));
