@@ -907,7 +907,6 @@ impl Visit for StaticVisitor {
                 return
             }
             _ => {
-                dbg!(&e);
                 self.dynamic = true;
             }
         }
