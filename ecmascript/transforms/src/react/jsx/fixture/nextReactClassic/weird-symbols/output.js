@@ -1,7 +1,5 @@
-/** @jsxRuntime classic */
 class MobileHomeActivityTaskPriorityIcon extends React.PureComponent {
-  render() {
-    return /*#__PURE__*/React.createElement(Text, null, "\xA0", this.props.value, "\xA0");
-  }
-
+    render() {
+        return React.createElement(Text, null, "\u{a0}", this.props.value, "\u{a0}");
+    }
 }
