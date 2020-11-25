@@ -279,19 +279,22 @@ pub(crate) fn test_fixture<P>(
         Ok((actual_src, expected_src))
     });
 
+    let mut results = vec![];
+
     if !stderr.is_empty() {
-        NormalizedOutput::from(stderr)
-            .compare_to_file(output.with_extension("stderr"))
-            .unwrap();
+        results
+            .push(NormalizedOutput::from(stderr).compare_to_file(output.with_extension("stderr")));
     }
 
     match values {
         Some((actual_src, _expected_src)) => {
-            NormalizedOutput::from(actual_src)
-                .compare_to_file(output)
-                .unwrap();
+            results.push(NormalizedOutput::from(actual_src).compare_to_file(output));
         }
         _ => {}
+    }
+
+    for result in results {
+        result.unwrap();
     }
 }
 
