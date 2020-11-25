@@ -18,7 +18,10 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_utils::prepend;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 
 #[cfg(test)]
 mod tests;
@@ -152,6 +155,7 @@ where
         },
         use_builtins: options.use_builtins,
         throw_if_namespace: options.throw_if_namespace,
+        top_level_node: true,
     })
 }
 
@@ -170,6 +174,7 @@ where
     import_jsxs: Option<Ident>,
     /// For automatic runtime.
     import_fragment: Option<Ident>,
+    top_level_node: bool,
 
     pragma: ExprOrSuper,
     comments: Option<C>,
@@ -256,7 +261,10 @@ where
     ///
     /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
+        let top_level_node = self.top_level_node;
         let span = el.span();
+        let use_jsxs = self.top_level_node && is_static(&el);
+        self.top_level_node = false;
 
         let name = self.jsx_name(el.opening.name);
 
@@ -264,10 +272,15 @@ where
             Runtime::Automatic => {
                 // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
 
-                let jsx = self
-                    .import_jsx
-                    .get_or_insert_with(|| private_ident!("_jsx"))
-                    .clone();
+                let jsx = if use_jsxs {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
+                } else {
+                    self.import_jsx
+                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .clone()
+                };
 
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
@@ -339,6 +352,8 @@ where
                         }))));
                 }
 
+                self.top_level_node = top_level_node;
+
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
@@ -350,6 +365,8 @@ where
                 })
             }
             Runtime::Classic => {
+                self.top_level_node = top_level_node;
+
                 Expr::Call(CallExpr {
                     span,
                     callee: self.pragma.clone(),
@@ -656,13 +673,15 @@ where
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
-
+        let top_level_node = self.top_level_node;
+        let mut did_work = false;
         expr.map_with_mut(|expr| {
             if let Expr::JSXElement(el) = expr {
+                did_work = true;
                 return self.jsx_elem_to_expr(*el);
             }
             if let Expr::JSXFragment(frag) = expr {
+                did_work = true;
                 // <></> => React.createElement(React.Fragment, null);
                 return self.jsx_frag_to_expr(frag);
             }
@@ -674,9 +693,11 @@ where
             }) = expr
             {
                 if let Expr::JSXElement(el) = *inner_expr {
+                    did_work = true;
                     return self.jsx_elem_to_expr(*el);
                 }
                 if let Expr::JSXFragment(frag) = *inner_expr {
+                    did_work = true;
                     // <></> => React.createElement(React.Fragment, null);
                     return self.jsx_frag_to_expr(frag);
                 }
@@ -687,7 +708,15 @@ where
             }
 
             expr
-        })
+        });
+
+        if did_work {
+            self.top_level_node = false;
+        }
+
+        expr.visit_mut_children_with(self);
+
+        self.top_level_node = top_level_node;
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -842,4 +871,42 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
         JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
         JSXAttrValue::JSXFragment(f) => Box::new(Expr::JSXFragment(f)),
     })
+}
+
+fn is_static<T>(node: &T) -> bool
+where
+    T: VisitWith<StaticVisitor>,
+{
+    let mut v = StaticVisitor::default();
+    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    !v.dynamic
+}
+
+#[derive(Default)]
+struct StaticVisitor {
+    dynamic: bool,
+}
+
+impl Visit for StaticVisitor {
+    noop_visit_type!();
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e, self);
+        if e.computed {
+            e.prop.visit_with(e, self);
+        }
+    }
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match e {
+            Expr::Lit(..) | Expr::JSXElement(..) | Expr::JSXFragment(..) | Expr::Array(..) => {
+                return
+            }
+            _ => {
+                dbg!(&e);
+                self.dynamic = true;
+            }
+        }
+    }
 }
