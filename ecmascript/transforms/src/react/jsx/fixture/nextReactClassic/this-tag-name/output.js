@@ -1,2 +1,1 @@
-/** @jsxRuntime classic */
-var div = /*#__PURE__*/React.createElement(this.foo, null, "test");
+var div = React.createElement(this.foo, null, "test");
