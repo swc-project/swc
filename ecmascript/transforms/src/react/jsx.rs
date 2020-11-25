@@ -442,8 +442,8 @@ where
                     expr: JSXExpr::Expr(e),
                     ..
                 }) => e,
-                JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
-                JSXAttrValue::JSXFragment(e) => Box::new(Expr::JSXFragment(e)),
+                JSXAttrValue::JSXElement(element) => Box::new(self.jsx_elem_to_expr(*element)),
+                JSXAttrValue::JSXFragment(fragment) => Box::new(self.jsx_frag_to_expr(fragment)),
                 JSXAttrValue::Lit(lit) => Box::new(lit.into()),
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     span: _,
