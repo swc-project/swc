@@ -14,7 +14,7 @@ use swc_common::{
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_utils::DropSpan;
+use swc_ecma_utils::{DropSpan, HANDLER};
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
 use testing::NormalizedOutput;
@@ -205,7 +205,9 @@ pub(crate) fn test_fixture<P>(
         let input_str = fs::read_to_string(input).unwrap();
         println!("----- Input -----\n{}", input_str);
 
-        let tr = crate::tests::make_tr("actual", tr, tester);
+        let tr = HANDLER.set(&tester.handler, || {
+            crate::tests::make_tr("actual", tr, tester)
+        });
 
         let expected = fs::read_to_string(output).unwrap();
         println!("----- Expected -----\n{}", expected);
@@ -220,8 +222,9 @@ pub(crate) fn test_fixture<P>(
 
         println!("----- Actual -----");
 
-        let actual =
-            tester.apply_transform(tr, "input.js", syntax, &fs::read_to_string(&input).unwrap())?;
+        let actual = HANDLER.set(&tester.handler, || {
+            tester.apply_transform(tr, "input.js", syntax, &fs::read_to_string(&input).unwrap())
+        })?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
