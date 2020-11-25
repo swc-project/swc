@@ -418,7 +418,9 @@ where
         let props = attrs
             .into_iter()
             .map(|attr| match attr {
-                JSXAttrOrSpread::JSXAttr(attr) => PropOrSpread::Prop(Box::new(attr_to_prop(attr))),
+                JSXAttrOrSpread::JSXAttr(attr) => {
+                    PropOrSpread::Prop(Box::new(self.attr_to_prop(attr)))
+                }
                 JSXAttrOrSpread::SpreadElement(spread) => PropOrSpread::Spread(spread),
             })
             .collect();
@@ -429,6 +431,32 @@ where
         };
 
         Box::new(Expr::Object(obj))
+    }
+
+    fn attr_to_prop(&mut self, a: JSXAttr) -> Prop {
+        let key = to_prop_name(a.name);
+        let value = a
+            .value
+            .map(|v| match v {
+                JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    expr: JSXExpr::Expr(e),
+                    ..
+                }) => e,
+                JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
+                JSXAttrValue::JSXFragment(e) => Box::new(Expr::JSXFragment(e)),
+                JSXAttrValue::Lit(lit) => Box::new(lit.into()),
+                JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    span: _,
+                    expr: JSXExpr::JSXEmptyExpr(_),
+                }) => unreachable!("attr_to_prop(JSXEmptyExpr)"),
+            })
+            .unwrap_or_else(|| {
+                Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: key.span(),
+                    value: true,
+                })))
+            });
+        Prop::KeyValue(KeyValueProp { key, value })
     }
 
     /// Runtiem; `automatic`
@@ -461,7 +489,7 @@ where
             for attr in attrs {
                 match attr {
                     JSXAttrOrSpread::JSXAttr(a) => {
-                        cur_obj_props.push(PropOrSpread::Prop(Box::new(attr_to_prop(a))))
+                        cur_obj_props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(a))))
                     }
                     JSXAttrOrSpread::SpreadElement(e) => {
                         check!();
@@ -493,8 +521,8 @@ where
                         JSXAttrOrSpread::JSXAttr(a) => a,
                         _ => unreachable!(),
                     })
-                    .map(attr_to_prop)
-                    .map(|mut v| {
+                    .map(|attr| {
+                        let mut v = self.attr_to_prop(attr);
                         v.visit_mut_with(self);
                         v
                     })
@@ -741,32 +769,6 @@ where
             }
         }
     }
-}
-
-fn attr_to_prop(a: JSXAttr) -> Prop {
-    let key = to_prop_name(a.name);
-    let value = a
-        .value
-        .map(|v| match v {
-            JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                expr: JSXExpr::Expr(e),
-                ..
-            }) => e,
-            JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
-            JSXAttrValue::JSXFragment(e) => Box::new(Expr::JSXFragment(e)),
-            JSXAttrValue::Lit(lit) => Box::new(lit.into()),
-            JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                span: _,
-                expr: JSXExpr::JSXEmptyExpr(_),
-            }) => unreachable!("attr_to_prop(JSXEmptyExpr)"),
-        })
-        .unwrap_or_else(|| {
-            Box::new(Expr::Lit(Lit::Bool(Bool {
-                span: key.span(),
-                value: true,
-            })))
-        });
-    Prop::KeyValue(KeyValueProp { key, value })
 }
 
 fn to_prop_name(n: JSXAttrName) -> PropName {
