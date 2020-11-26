@@ -915,7 +915,7 @@ impl Visit for StaticVisitor {
     }
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if i.sym == js_word!("this") || i.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+        if i.sym == js_word!("this") {
             self.dynamic = true;
         }
     }
