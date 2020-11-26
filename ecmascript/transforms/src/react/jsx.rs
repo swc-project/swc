@@ -391,6 +391,8 @@ where
     }
 
     fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
+        self.top_level_node = false;
+
         Some(match c {
             JSXElementChild::JSXText(text) => {
                 // TODO(kdy1): Optimize
@@ -912,7 +914,9 @@ impl Visit for StaticVisitor {
         }
     }
 
-    fn visit_ident(&mut self, _: &Ident, _: &dyn Node) {
-        self.dynamic = true;
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if i.sym == js_word!("this") {
+            self.dynamic = true;
+        }
     }
 }
