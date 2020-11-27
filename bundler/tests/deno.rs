@@ -305,6 +305,11 @@ fn deno_8486_1() {
 }
 
 #[test]
+fn deno_7288_1() {
+    run("tests/deno/deno-7288-1/input.ts", &[]);
+}
+
+#[test]
 fn deno_8481_1() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
