@@ -300,6 +300,11 @@ fn deno_8399_2() {
 }
 
 #[test]
+fn deno_8486_1() {
+    run("tests/deno/issue-8486-1/input.ts", &["myCLI"]);
+}
+
+#[test]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
