@@ -151,17 +151,15 @@ where
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
-                    .merge_circular(ctx, plan, dep_id)
+                    .merge_circular_modules(ctx, module, dep_id, plan.chunks.clone())
                     .with_context(|| format!("failed to merge {:?} (circular import)", dep_id))?;
-            } else {
-                module = self
-                    .merge_deps(ctx, false, module, plan, &dep_info, false)
-                    .context("failed to merge dependencies")?;
             }
 
-            self.handle_import_deps(ctx, &dep_info, &mut module, false);
+            module = self
+                .merge_deps(ctx, false, module, plan, &dep_info, false)
+                .context("failed to merge dependencies")?;
 
-            // print_hygiene("wrapped: after deps", &self.cm, &module);
+            self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
             module
         } else {

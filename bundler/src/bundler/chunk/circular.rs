@@ -128,24 +128,8 @@ where
         //     imports: &entry_module.imports,
         // });
         // print_hygiene("entry:drop_imports", &self.cm, &entry);
-        let mut deps = plan.chunks.clone();
-        deps.retain(|&dep| {
-            if dep == entry_id {
-                return false;
-            }
 
-            if !ctx.merged.insert(dep) {
-                log::debug!("[circular] skip: {:?}", dep);
-                return false;
-            }
-
-            log::debug!("Circular merge: {:?}", dep);
-
-            true
-        });
-        deps.sort();
-
-        let new_module = self.merge_circular_modules(ctx, &modules, entry, deps)?;
+        let new_module = self.merge_circular_modules(ctx, entry, entry_id, plan.chunks.clone())?;
 
         entry = new_module;
 
@@ -168,13 +152,28 @@ where
     }
 
     /// Merges `a` and `b` into one module.
-    fn merge_circular_modules(
+    pub(super) fn merge_circular_modules(
         &self,
         ctx: &Ctx,
-        _circular_modules: &[TransformedModule],
         mut entry: Module,
-        deps: Vec<ModuleId>,
+        entry_id: ModuleId,
+        mut deps: Vec<ModuleId>,
     ) -> Result<Module, Error> {
+        deps.retain(|&dep| {
+            if dep == entry_id {
+                return false;
+            }
+
+            if !ctx.merged.insert(dep) {
+                log::debug!("[circular] skip: {:?}", dep);
+                return false;
+            }
+
+            log::debug!("Circular merge: {:?}", dep);
+
+            true
+        });
+
         self.run(|| {
             let mut dep_body = vec![];
 
