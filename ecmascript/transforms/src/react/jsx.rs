@@ -146,6 +146,7 @@ where
         import_jsx: None,
         import_jsxs: None,
         import_fragment: None,
+        import_create_element: None,
 
         pragma: ExprOrSuper::Expr(parse_classic_option(&cm, "pragma", options.pragma)),
         comments,
@@ -172,6 +173,8 @@ where
     import_jsx: Option<Ident>,
     /// For automatic runtime.
     import_jsxs: Option<Ident>,
+    /// For automatic runtime.
+    import_create_element: Option<Ident>,
     /// For automatic runtime.
     import_fragment: Option<Ident>,
     top_level_node: bool,
@@ -263,7 +266,8 @@ where
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let top_level_node = self.top_level_node;
         let span = el.span();
-        let use_jsxs = self.top_level_node && is_static(&el);
+        let use_create_element = should_use_create_element(&el.opening.attrs);
+        let use_jsxs = self.top_level_node && !use_create_element && is_static(&el);
         self.top_level_node = false;
 
         let name = self.jsx_name(el.opening.name);
@@ -275,6 +279,10 @@ where
                 let jsx = if use_jsxs {
                     self.import_jsxs
                         .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
+                } else if use_create_element {
+                    self.import_create_element
+                        .get_or_insert_with(|| private_ident!("_createElement"))
                         .clone()
                 } else {
                     self.import_jsx
@@ -919,4 +927,35 @@ impl Visit for StaticVisitor {
             self.dynamic = true;
         }
     }
+}
+
+/// We want to use React.createElement, even in the case of
+/// jsx, for <div {...props} key={key} /> to distinguish it
+/// from <div key={key} {...props} />. This is an intermediary
+/// step while we deprecate key spread from props. Afterwards,
+/// we will stop using createElement in the transform.
+fn should_use_create_element(attrs: &[JSXAttrOrSpread]) -> bool {
+    let mut seen_prop_spread = false;
+    for attr in attrs {
+        if seen_prop_spread
+            && match attr {
+                JSXAttrOrSpread::JSXAttr(attr) => match &attr.name {
+                    JSXAttrName::Ident(i) => i.sym == js_word!("key"),
+                    JSXAttrName::JSXNamespacedName(_) => false,
+                },
+                _ => false,
+            }
+        {
+            return true;
+        }
+
+        match attr {
+            JSXAttrOrSpread::SpreadElement(_) => {
+                seen_prop_spread = true;
+            }
+            _ => {}
+        }
+    }
+
+    false
 }
