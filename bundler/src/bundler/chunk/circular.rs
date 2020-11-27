@@ -1,9 +1,6 @@
 use super::plan::CircularPlan;
 use crate::{
-    bundler::{
-        chunk::{merge::Ctx, sort::sort},
-        load::TransformedModule,
-    },
+    bundler::chunk::{merge::Ctx, sort::sort},
     id::Id,
     Bundler, Load, ModuleId, Resolve,
 };
@@ -47,12 +44,6 @@ where
         log::debug!("[circular] Stsrting with: {:?}", entry_id);
 
         let entry_module = self.scope.get_module(entry_id).unwrap();
-
-        let modules = plan
-            .chunks
-            .iter()
-            .map(|&id| self.scope.get_module(id).unwrap())
-            .collect::<Vec<_>>();
 
         let mut entry = self
             .merge_modules(ctx, entry_id, false, false)
