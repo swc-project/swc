@@ -4,6 +4,7 @@ use crate::{
         chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -373,6 +374,8 @@ where
                     let mut injector = ExportInjector {
                         imported: take(&mut dep_module.body),
                         source: source.unwrap().clone(),
+                        ctx,
+                        export_ctxt: info.export_ctxt(),
                     };
                     module.body.visit_mut_with(&mut injector);
 
@@ -503,7 +506,7 @@ where
     /// This should only be called after everything is merged.
     ///
     /// This method does not care about orders of statement, and it's expected
-    /// to be collaed before `sort`.
+    /// to be called before `sort`.
     fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
         {
             // Handle `export *` for non-wrapped modules.
@@ -525,6 +528,7 @@ where
                             }
                         }
                     }
+
                     _ => {}
                 }
             }
@@ -636,7 +640,7 @@ where
 
         sort(&mut entry.body);
 
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
