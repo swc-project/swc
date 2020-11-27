@@ -305,6 +305,14 @@ fn deno_8486_1() {
 }
 
 #[test]
+fn deno_8481_1() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
+        &[""],
+    )
+}
+
+#[test]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
