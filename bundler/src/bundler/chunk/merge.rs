@@ -80,7 +80,7 @@ where
                 //     &module,
                 // );
 
-                module = self.merge_deps(ctx, is_entry, module, plan, &info)?;
+                module = self.merge_deps(ctx, is_entry, module, plan, &info, !allow_circular)?;
 
                 // print_hygiene(
                 //     &format!("after merging deps: {}", info.fm.name),
@@ -150,17 +150,15 @@ where
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
-                    .merge_circular(ctx, plan, dep_id)
+                    .merge_circular_modules(ctx, module, dep_id, plan.chunks.clone())
                     .with_context(|| format!("failed to merge {:?} (circular import)", dep_id))?;
             }
 
             module = self
-                .merge_deps(ctx, false, module, plan, &dep_info)
+                .merge_deps(ctx, false, module, plan, &dep_info, false)
                 .context("failed to merge dependencies")?;
 
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
-
-            // print_hygiene("wrapped: after deps", &self.cm, &module);
 
             module
         } else {
@@ -278,6 +276,7 @@ where
         mut module: Module,
         plan: &NormalPlan,
         info: &TransformedModule,
+        from_circular: bool,
     ) -> Result<Module, Error> {
         self.run(|| -> Result<_, Error> {
             log::debug!(
@@ -287,15 +286,18 @@ where
                 plan
             );
 
-            let deps = info
-                .exports
-                .reexports
-                .iter()
-                .map(|v| &v.0)
-                .cloned()
-                .filter(|source| plan.chunks.iter().all(|chunk| chunk.id != source.module_id))
-                .collect();
-            self.transform_indirect_reexports(ctx, &mut module, deps)?;
+            if !from_circular {
+                let deps = info
+                    .exports
+                    .reexports
+                    .iter()
+                    .map(|v| &v.0)
+                    .cloned()
+                    .filter(|source| plan.chunks.iter().all(|chunk| chunk.id != source.module_id))
+                    .collect();
+                self.transform_indirect_reexports(ctx, &mut module, deps)?;
+            }
+
             if plan.chunks.is_empty() {
                 return Ok(module);
             }
@@ -373,6 +375,10 @@ where
                     let mut injector = ExportInjector {
                         imported: take(&mut dep_module.body),
                         source: source.unwrap().clone(),
+                        ctx,
+                        export_ctxt: info.export_ctxt(),
+                        // We use id of the entry
+                        wrapped: self.scope.should_be_wrapped_with_a_fn(info.id),
                     };
                     module.body.visit_mut_with(&mut injector);
 
@@ -503,7 +509,7 @@ where
     /// This should only be called after everything is merged.
     ///
     /// This method does not care about orders of statement, and it's expected
-    /// to be collaed before `sort`.
+    /// to be called before `sort`.
     fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
         {
             // Handle `export *` for non-wrapped modules.
@@ -525,6 +531,7 @@ where
                             }
                         }
                     }
+
                     _ => {}
                 }
             }

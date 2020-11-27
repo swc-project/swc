@@ -1,9 +1,6 @@
 use super::plan::CircularPlan;
 use crate::{
-    bundler::{
-        chunk::{merge::Ctx, sort::sort},
-        load::TransformedModule,
-    },
+    bundler::chunk::{merge::Ctx, sort::sort},
     id::Id,
     Bundler, Load, ModuleId, Resolve,
 };
@@ -34,16 +31,6 @@ where
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
             plan
         );
-        let entry_module = self.scope.get_module(entry_id).unwrap();
-
-        let modules = plan
-            .chunks
-            .iter()
-            .map(|&id| self.scope.get_module(id).unwrap())
-            .collect::<Vec<_>>();
-        let mut entry = self
-            .merge_modules(ctx, entry_id, false, false)
-            .context("failed to merge dependency of a cyclic module")?;
 
         if !ctx.merged.insert(entry_id) {
             log::debug!("[circular] skip: {:?}", entry_id);
@@ -53,6 +40,14 @@ where
                 shebang: Default::default(),
             });
         }
+
+        log::debug!("[circular] Stsrting with: {:?}", entry_id);
+
+        let entry_module = self.scope.get_module(entry_id).unwrap();
+
+        let mut entry = self
+            .merge_modules(ctx, entry_id, false, false)
+            .context("failed to merge dependency of a cyclic module")?;
 
         let mut exports = vec![];
         for item in entry.body.iter_mut() {
@@ -124,24 +119,8 @@ where
         //     imports: &entry_module.imports,
         // });
         // print_hygiene("entry:drop_imports", &self.cm, &entry);
-        let mut deps = plan.chunks.clone();
-        deps.retain(|&dep| {
-            if dep == entry_id {
-                return false;
-            }
 
-            if !ctx.merged.insert(dep) {
-                log::debug!("[circular] skip: {:?}", dep);
-                return false;
-            }
-
-            log::debug!("Circular merge: {:?}", dep);
-
-            true
-        });
-        deps.sort();
-
-        let new_module = self.merge_circular_modules(ctx, &modules, entry, deps)?;
+        let new_module = self.merge_circular_modules(ctx, entry, entry_id, plan.chunks.clone())?;
 
         entry = new_module;
 
@@ -164,13 +143,29 @@ where
     }
 
     /// Merges `a` and `b` into one module.
-    fn merge_circular_modules(
+    pub(super) fn merge_circular_modules(
         &self,
         ctx: &Ctx,
-        _circular_modules: &[TransformedModule],
         mut entry: Module,
-        deps: Vec<ModuleId>,
+        entry_id: ModuleId,
+        mut deps: Vec<ModuleId>,
     ) -> Result<Module, Error> {
+        deps.retain(|&dep| {
+            if dep == entry_id {
+                return false;
+            }
+
+            if !ctx.merged.insert(dep) {
+                log::debug!("[circular] skip: {:?}", dep);
+                return false;
+            }
+
+            log::debug!("Circular merge: {:?}", dep);
+
+            true
+        });
+        deps.sort();
+
         self.run(|| {
             let mut dep_body = vec![];
 

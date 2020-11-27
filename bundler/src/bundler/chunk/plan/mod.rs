@@ -449,6 +449,17 @@ where
 
         // Handle circular imports
         for (root_entry, _) in builder.kinds.iter() {
+            if let Some(members) = builder.circular.get(*root_entry) {
+                plans
+                    .normal
+                    .entry(*root_entry)
+                    .or_default()
+                    .chunks
+                    .retain(|dep| !members.contains(&dep.id));
+            }
+        }
+
+        for (root_entry, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {

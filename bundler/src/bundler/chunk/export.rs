@@ -238,12 +238,15 @@ where
     }
 }
 
-pub(super) struct ExportInjector {
+pub(super) struct ExportInjector<'a> {
+    pub ctx: &'a Ctx,
+    pub export_ctxt: SyntaxContext,
+    pub wrapped: bool,
     pub imported: Vec<ModuleItem>,
     pub source: Source,
 }
 
-impl VisitMut for ExportInjector {
+impl VisitMut for ExportInjector<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
@@ -298,6 +301,13 @@ impl VisitMut for ExportInjector {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
                     if export.src.value == self.source.src.value =>
                 {
+                    if !self.wrapped {
+                        let export_ctxt = export.span.ctxt;
+                        self.ctx
+                            .transitive_remap
+                            .insert(self.export_ctxt, export_ctxt);
+                    }
+
                     buf.extend(take(&mut self.imported));
                 }
 

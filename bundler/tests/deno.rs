@@ -300,6 +300,75 @@ fn deno_8399_2() {
 }
 
 #[test]
+fn deno_8486_1() {
+    run("tests/deno/issue-8486-1/input.ts", &["myCLI"]);
+}
+
+#[test]
+fn deno_7288_1() {
+    run("tests/deno/deno-7288-1/input.ts", &[]);
+}
+
+#[test]
+fn deno_8481_1() {
+    run(
+        "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
+        &[
+            "Bench",
+            "Connect",
+            "DataBuffer",
+            "DebugEvents",
+            "DenoBuffer",
+            "Empty",
+            "ErrorCode",
+            "Events",
+            "Heartbeat",
+            "INFO",
+            "JSONCodec",
+            "Kind",
+            "MAX_SIZE",
+            "Metric",
+            "MsgHdrsImpl",
+            "MsgImpl",
+            "MuxSubscription",
+            "NatsConnectionImpl",
+            "NatsError",
+            "Nuid",
+            "Parser",
+            "ProtocolHandler",
+            "QueuedIterator",
+            "Request",
+            "State",
+            "StringCodec",
+            "SubscriptionImpl",
+            "Subscriptions",
+            "TD",
+            "TE",
+            "checkOptions",
+            "connect",
+            "createInbox",
+            "credsAuthenticator",
+            "deferred",
+            "delay",
+            "extractProtocolMessage",
+            "headers",
+            "isIP",
+            "jwtAuthenticator",
+            "nkeyAuthenticator",
+            "nkeys",
+            "nuid",
+            "parseIP",
+            "readAll",
+            "render",
+            "setTransportFactory",
+            "setUrlParseFn",
+            "timeout",
+            "writeAll",
+        ],
+    )
+}
+
+#[test]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
