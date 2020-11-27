@@ -303,7 +303,7 @@ impl VisitMut for ExportInjector<'_> {
                     let export_ctxt = export.span.ctxt;
                     self.ctx
                         .transitive_remap
-                        .insert(export_ctxt, self.export_ctxt);
+                        .insert(self.export_ctxt, export_ctxt);
 
                     buf.extend(take(&mut self.imported));
                 }
