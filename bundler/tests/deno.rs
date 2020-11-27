@@ -305,7 +305,6 @@ fn deno_8486_1() {
 }
 
 #[test]
-#[ignore]
 fn deno_7288_1() {
     run("tests/deno/deno-7288-1/input.ts", &[]);
 }
