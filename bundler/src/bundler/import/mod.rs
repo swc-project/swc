@@ -364,11 +364,7 @@ where
             }
 
             Expr::Member(mut e) => {
-                e.obj = e.obj.fold_with(self);
-
-                if e.computed {
-                    e.prop = e.prop.fold_with(self);
-                }
+                e = e.fold_with(self);
 
                 match &e.obj {
                     ExprOrSuper::Expr(obj) => {
@@ -377,11 +373,11 @@ where
                                 // Deglob identifier usages.
                                 if self.deglob_phase && self.idents_to_deglob.contains(&i.to_id()) {
                                     match *e.prop {
-                                        Expr::Ident(prop) => {
+                                        Expr::Ident(prop) if prop.sym == i.sym => {
                                             return Expr::Ident(Ident::new(
                                                 prop.sym,
                                                 prop.span.with_ctxt(i.span.ctxt),
-                                            ))
+                                            ));
                                         }
                                         _ => {}
                                     }
