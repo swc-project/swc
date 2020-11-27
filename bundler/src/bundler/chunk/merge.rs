@@ -380,6 +380,8 @@ where
                         source: source.unwrap().clone(),
                         ctx,
                         export_ctxt: info.export_ctxt(),
+                        // We use id of the entry
+                        wrapped: self.scope.should_be_wrapped_with_a_fn(info.id),
                     };
                     module.body.visit_mut_with(&mut injector);
 
