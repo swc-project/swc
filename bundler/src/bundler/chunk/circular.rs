@@ -34,16 +34,6 @@ where
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
             plan
         );
-        let entry_module = self.scope.get_module(entry_id).unwrap();
-
-        let modules = plan
-            .chunks
-            .iter()
-            .map(|&id| self.scope.get_module(id).unwrap())
-            .collect::<Vec<_>>();
-        let mut entry = self
-            .merge_modules(ctx, entry_id, false, false)
-            .context("failed to merge dependency of a cyclic module")?;
 
         if !ctx.merged.insert(entry_id) {
             log::debug!("[circular] skip: {:?}", entry_id);
@@ -53,6 +43,20 @@ where
                 shebang: Default::default(),
             });
         }
+
+        log::debug!("[circular] Stsrting with: {:?}", entry_id);
+
+        let entry_module = self.scope.get_module(entry_id).unwrap();
+
+        let modules = plan
+            .chunks
+            .iter()
+            .map(|&id| self.scope.get_module(id).unwrap())
+            .collect::<Vec<_>>();
+
+        let mut entry = self
+            .merge_modules(ctx, entry_id, false, false)
+            .context("failed to merge dependency of a cyclic module")?;
 
         let mut exports = vec![];
         for item in entry.body.iter_mut() {
