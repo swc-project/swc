@@ -153,11 +153,11 @@ where
                 module = self
                     .merge_circular(ctx, plan, dep_id)
                     .with_context(|| format!("failed to merge {:?} (circular import)", dep_id))?;
+            } else {
+                module = self
+                    .merge_deps(ctx, false, module, plan, &dep_info, false)
+                    .context("failed to merge dependencies")?;
             }
-
-            module = self
-                .merge_deps(ctx, false, module, plan, &dep_info, false)
-                .context("failed to merge dependencies")?;
 
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
