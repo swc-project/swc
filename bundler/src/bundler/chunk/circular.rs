@@ -164,6 +164,7 @@ where
 
             true
         });
+        deps.sort();
 
         self.run(|| {
             let mut dep_body = vec![];
