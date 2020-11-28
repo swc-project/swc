@@ -114,7 +114,7 @@ impl Compiler {
                             ),
                             Some(v) => v,
                         };
-                        let encoded = &s[idx + s.len()..];
+                        let encoded = &fm.src[idx + s.len()..];
 
                         let res = base64::decode(encoded.as_bytes())
                             .context("failed to decode base64-encoded source map")?;
