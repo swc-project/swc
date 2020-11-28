@@ -11,7 +11,7 @@
 //! ## `sourcemap`
 //!
 //! Adds methods to generator web sourcemap.
-// #![deny(unused)]
+#![deny(unused)]
 
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
