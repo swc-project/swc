@@ -7,16 +7,13 @@
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
-#[cfg(feature = "tty-emitter")]
-pub use self::emitter::EmitterWriter;
+
 use self::Level::*;
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
-    emitter::{ColorConfig, Emitter},
+    emitter::{ColorConfig, Emitter, EmitterWriter},
 };
-#[cfg(feature = "tty-emitter")]
-use crate::sync::Lrc;
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell},
