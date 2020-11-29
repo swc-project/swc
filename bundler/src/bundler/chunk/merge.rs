@@ -4,6 +4,7 @@ use crate::{
         chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -18,7 +19,7 @@ use std::{borrow::Cow, collections::HashMap, mem::take};
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, private_ident};
+use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
@@ -114,27 +115,25 @@ where
             let mut module = self.get_module_for_merging(ctx, dep_id, false)?;
             module = self.wrap_esm(ctx, dep_id, module)?;
 
-            {
-                // Inject local_name = wrapped_esm_module_name
+            // Inject local_name = wrapped_esm_module_name
+            let module_ident = specifiers
+                .iter()
+                .find_map(|specifier| match specifier {
+                    Specifier::Namespace {
+                        local, all: true, ..
+                    } => Some(local.clone()),
+                    _ => None,
+                })
+                .unwrap();
 
-                let module_ident = specifiers
-                    .iter()
-                    .find_map(|specifier| match specifier {
-                        Specifier::Namespace {
-                            local, all: true, ..
-                        } => Some(local.clone()),
-                        _ => None,
-                    })
-                    .unwrap();
+            let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
 
-                module.body.push(
-                    self.scope
-                        .wrapped_esm_id(dep_id)
-                        .unwrap()
-                        .assign_to(module_ident)
-                        .into_module_item("merge_direct_import"),
-                );
-            }
+            module.body.push(
+                esm_id
+                    .clone()
+                    .assign_to(module_ident.clone())
+                    .into_module_item("merge_direct_import"),
+            );
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
@@ -158,6 +157,23 @@ where
                 .merge_deps(ctx, false, module, plan, &dep_info, false)
                 .context("failed to merge dependencies")?;
 
+            // Required to handle edge cases liek https://github.com/denoland/deno/issues/8530
+            for specifier in specifiers {
+                match specifier {
+                    Specifier::Specific { local, alias } => {
+                        let from = esm_id
+                            .clone()
+                            .into_ident()
+                            .make_member(alias.clone().unwrap());
+
+                        module.body.push(
+                            from.assign_to(local.clone())
+                                .into_module_item("namespace_with_normal"),
+                        );
+                    }
+                    Specifier::Namespace { .. } => continue,
+                }
+            }
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
             module
@@ -643,7 +659,7 @@ where
 
         sort(&mut entry.body);
 
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {

@@ -47,6 +47,8 @@ where
             let body = body.fold_with(&mut v);
             module.body = body;
 
+            dbg!(&v.info.imports);
+
             v.info
         })
     }
@@ -120,6 +122,22 @@ where
 
     deglob_phase: bool,
     idents_to_deglob: HashSet<Id>,
+}
+
+impl RawImports {
+    fn insert(&mut self, import: &ImportDecl) {
+        for prev in self.imports.iter_mut() {
+            if prev.src.value == import.src.value {
+                dbg!(&prev.specifiers);
+                dbg!(&import.specifiers);
+                prev.specifiers.extend(import.specifiers.clone());
+                dbg!(&prev.specifiers);
+                return;
+            }
+        }
+
+        self.imports.push(import.clone());
+    }
 }
 
 impl<L, R> ImportHandler<'_, '_, L, R>
@@ -217,7 +235,7 @@ where
                 }
             }
 
-            self.info.imports.push(import.clone());
+            self.info.insert(&import);
             return import;
         }
 
@@ -306,11 +324,6 @@ where
 
                 if use_ns {
                     wrapping_required.push(import.src.value.clone());
-
-                    import.specifiers.retain(|s| match s {
-                        ImportSpecifier::Namespace(_) => true,
-                        _ => false,
-                    });
                 } else {
                     // De-glob namespace imports
                     import.specifiers.retain(|s| match s {
@@ -500,7 +513,7 @@ where
                         };
 
                         if self.top_level {
-                            self.info.imports.push(decl);
+                            self.info.insert(&decl);
                             return Expr::Call(e);
                         }
 
