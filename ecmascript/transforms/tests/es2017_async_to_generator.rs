@@ -8,6 +8,7 @@ use swc_ecma_transforms::{
         es2017::async_to_generator,
     },
     fixer, resolver,
+    typescript::strip,
 };
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -35,6 +36,10 @@ impl Fold for ParenRemover {
 
 fn syntax() -> Syntax {
     Syntax::default()
+}
+
+fn ts_syntax() -> Syntax {
+    Syntax::Typescript(Default::default())
 }
 
 fn tr() -> impl Fold {
@@ -2228,5 +2233,21 @@ test!(
             obj
         });
     });
+    "
+);
+
+test!(
+    ts_syntax(),
+    |_| chain!(strip(), async_to_generator()),
+    issue_1235_1,
+    "
+    class Service {
+      async is(a: string): Promise<boolean> {
+          return a.toUpperCase() === a;
+      }
+    }
+    (async() => {  await (new Service()).is('ABC'); })();
+    ",
+    "
     "
 );
