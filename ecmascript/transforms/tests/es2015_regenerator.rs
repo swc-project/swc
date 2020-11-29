@@ -1219,3 +1219,115 @@ test_exec!(
     expect(v.next()).toEqual({ done: true})
     "
 );
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    issue_1125_1,
+    "
+    async function test() {
+        try {
+            await 1
+        } finally {
+            console.log(2)
+        }
+    }
+    test()
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1125_2,
+    "
+    function _test() {
+        _test = _asyncToGenerator(function* () {
+            try {
+            yield 1;
+            } finally {
+            console.log(2);
+            }
+        });
+        return _test.apply(this, arguments);
+    }
+
+    function test() {
+        return _test.apply(this, arguments);
+    }
+    
+    test();
+    ",
+    "
+    function _test() {
+        _test = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return 1;
+      
+                case 3:
+                  _context.prev = 3;
+                  console.log(2);
+                  return _context.finish(3);
+      
+                case 6:
+                case 'end':
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[0,, 3, 6]]);
+        }));
+        return _test.apply(this, arguments);
+      }
+      
+      function test() {
+        return _test.apply(this, arguments);
+      }
+      
+      test();
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1125_3,
+    "
+    function* foo() {
+        try {
+            yield 1;
+        } finally {
+            console.log(2);
+        }
+    }
+    ",
+    "
+    var _marked = regeneratorRuntime.mark(foo);
+
+    function foo() {
+        return regeneratorRuntime.wrap(function foo$(_context) {
+            while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return 1;
+
+                case 3:
+                _context.prev = 3;
+                console.log(2);
+                return _context.finish(3);
+
+                case 6:
+                case 'end':
+                return _context.stop();
+            }
+            }
+        }, _marked, null, [[0,, 3, 6]]);
+    }
+    "
+);
