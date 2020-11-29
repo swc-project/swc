@@ -2463,8 +2463,11 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>
                         }
                         'u' => match orig_iter.next() {
                             Some('{') => {
+                                buf.push('{');
                                 loop {
-                                    if orig_iter.next() == Some('}') {
+                                    let ch = orig_iter.next();
+                                    buf.extend(ch);
+                                    if ch == Some('}') {
                                         break;
                                     }
                                 }
