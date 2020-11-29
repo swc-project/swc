@@ -984,17 +984,8 @@ impl CaseHandler<'_> {
 
             Stmt::With(..) => panic!("WithStatement not supported in generator functions"),
 
-            Stmt::Expr(ExprStmt { span, expr, .. }) => {
-                let expr = expr.map(|expr| self.explode_expr(expr, true));
-                match *expr {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"),
-                        ref arg,
-                        ..
-                    }) if arg.is_lit() => {}
-
-                    _ => self.emit(Stmt::Expr(ExprStmt { span, expr })),
-                }
+            Stmt::Expr(ExprStmt { expr, .. }) => {
+                self.explode_expr(*expr, true);
             }
 
             Stmt::Return(ret) => {
