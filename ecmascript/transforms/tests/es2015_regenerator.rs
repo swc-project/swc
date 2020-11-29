@@ -1331,3 +1331,47 @@ test!(
     }
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1125_4,
+    "
+    function* foo() {
+        try {
+            yield 1;
+        } catch(e) {
+            console.log(2);
+        }
+    }
+    ",
+    "
+    var _marked = regeneratorRuntime.mark(foo);
+
+    function foo() {
+      return regeneratorRuntime.wrap(function foo$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return 1;
+    
+            case 3:
+              _context.next = 8;
+              break;
+    
+            case 5:
+              _context.prev = 5;
+              _context.t0 = _context['catch'](0);
+              console.log(2);
+    
+            case 8:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _marked, null, [[0, 5]]);
+    }
+    "
+);
