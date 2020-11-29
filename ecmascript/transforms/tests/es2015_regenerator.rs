@@ -141,9 +141,8 @@ var _default = function _callee() {
                 return 5;
             case 2:
                 x = _ctx.sent;
-                void 0;
                 return _ctx.abrupt('return', 5);
-            case 5:
+            case 4:
             case 'end': return _ctx.stop();
         }
     }, _callee);
@@ -1070,8 +1069,6 @@ function myGenerator() {
                     3
                 ], _ctx.t0, 1);
             case 1:
-                _ctx.t0;
-            case 2:
             case 'end':
                 return _ctx.stop();
         }
@@ -1103,8 +1100,6 @@ export function myGenerator() {
                     3
                 ], _ctx.t0, 1);
             case 1:
-                _ctx.t0;
-            case 2:
             case 'end':
                 return _ctx.stop();
         }
