@@ -2263,3 +2263,38 @@ test!(
     })();
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1125_1,
+    "
+  async function test() {
+      try {
+          await 1
+      } finally {
+          console.log(2)
+      }
+  }
+  test()
+  ",
+    "
+    function _test() {
+      _test = _asyncToGenerator(function* () {
+        try {
+          yield 1;
+        } finally {
+          console.log(2);
+        }
+      });
+      return _test.apply(this, arguments);
+    }
+
+    function test() {
+      return _test.apply(this, arguments);
+    }
+    
+    
+    test();
+    "
+);
