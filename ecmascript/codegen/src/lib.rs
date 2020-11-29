@@ -2445,6 +2445,14 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>
     let mut s_iter = s.chars();
 
     while let Some(orig_c) = orig_iter.next() {
+        // Javascript literal should not contain newlines
+        if orig_c == '\n' && single_quote.is_some() {
+            s_iter.next();
+            s_iter.next();
+            buf.push_str("\\n");
+            continue;
+        }
+
         if orig_c == '\\' {
             buf.push('\\');
             match orig_iter.next() {
