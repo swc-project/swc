@@ -311,12 +311,6 @@ where
                         ImportSpecifier::Namespace(_) => true,
                         _ => false,
                     });
-
-                    debug_assert_ne!(
-                        import.specifiers,
-                        vec![],
-                        "forced_ns should be modified only if a namespace import specifier exist"
-                    );
                 } else {
                     // De-glob namespace imports
                     import.specifiers.retain(|s| match s {
