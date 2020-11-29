@@ -1,6 +1,7 @@
 #![feature(test)]
+use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::compat::es2020::optional_chaining;
+use swc_ecma_transforms::{compat::es2020::optional_chaining, typescript::strip};
 use swc_ecma_visit::Fold;
 
 #[macro_use]
@@ -700,5 +701,17 @@ test!(
     const ident = \"foo\";
     var _obj = PATCHES.get(ident);
     const patch = (ref = _obj) === null || ref === void 0 ? void 0 : ref.call(_obj);
+    "
+);
+
+test!(
+    syntax(),
+    |_| chain!(strip(), tr(())),
+    issue_1149_1,
+    "
+    const tmp = tt?.map((t: any) => t).join((v: any) => v);
+    ",
+    "
+    const tmp = tt === null || tt === void 0 ? void 0 : tt.map((t) => t).join((v) => v);
     "
 );
