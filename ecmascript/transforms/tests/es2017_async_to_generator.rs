@@ -2249,5 +2249,17 @@ test!(
     (async() => {  await (new Service()).is('ABC'); })();
     ",
     "
+    class Service {
+      is(a) {
+        return _asyncToGenerator(function* () {
+          return a.toUpperCase() === a;
+        })();
+      }
+    
+    }
+    
+    _asyncToGenerator(function* () {
+      yield new Service().is('ABC');
+    })();
     "
 );
