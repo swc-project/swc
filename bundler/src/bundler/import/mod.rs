@@ -47,8 +47,6 @@ where
             let body = body.fold_with(&mut v);
             module.body = body;
 
-            dbg!(&v.info.imports);
-
             v.info
         })
     }
@@ -128,10 +126,7 @@ impl RawImports {
     fn insert(&mut self, import: &ImportDecl) {
         for prev in self.imports.iter_mut() {
             if prev.src.value == import.src.value {
-                dbg!(&prev.specifiers);
-                dbg!(&import.specifiers);
                 prev.specifiers.extend(import.specifiers.clone());
-                dbg!(&prev.specifiers);
                 return;
             }
         }

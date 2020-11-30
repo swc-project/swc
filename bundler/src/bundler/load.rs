@@ -283,7 +283,6 @@ where
                 dynamic_imports,
                 forced_ns,
             } = info;
-            dbg!(&imports);
 
             let loaded = imports
                 .into_par_iter()
@@ -336,7 +335,7 @@ where
                     src: decl.src,
                 };
                 files.push((src.clone(), file_name));
-                dbg!(&decl.specifiers);
+                (&decl.specifiers);
 
                 // TODO: Handle rename
                 let mut specifiers = vec![];
