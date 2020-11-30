@@ -122,6 +122,19 @@ where
     idents_to_deglob: HashSet<Id>,
 }
 
+impl RawImports {
+    fn insert(&mut self, import: &ImportDecl) {
+        for prev in self.imports.iter_mut() {
+            if prev.src.value == import.src.value {
+                prev.specifiers.extend(import.specifiers.clone());
+                return;
+            }
+        }
+
+        self.imports.push(import.clone());
+    }
+}
+
 impl<L, R> ImportHandler<'_, '_, L, R>
 where
     L: Load,
@@ -217,7 +230,7 @@ where
                 }
             }
 
-            self.info.imports.push(import.clone());
+            self.info.insert(&import);
             return import;
         }
 
@@ -306,17 +319,6 @@ where
 
                 if use_ns {
                     wrapping_required.push(import.src.value.clone());
-
-                    import.specifiers.retain(|s| match s {
-                        ImportSpecifier::Namespace(_) => true,
-                        _ => false,
-                    });
-
-                    debug_assert_ne!(
-                        import.specifiers,
-                        vec![],
-                        "forced_ns should be modified only if a namespace import specifier exist"
-                    );
                 } else {
                     // De-glob namespace imports
                     import.specifiers.retain(|s| match s {
@@ -506,7 +508,7 @@ where
                         };
 
                         if self.top_level {
-                            self.info.imports.push(decl);
+                            self.info.insert(&decl);
                             return Expr::Call(e);
                         }
 
