@@ -4,7 +4,6 @@ use crate::{
         chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
     },
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -660,7 +659,7 @@ where
 
         sort(&mut entry.body);
 
-        print_hygiene("done", &self.cm, &entry);
+        // print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
