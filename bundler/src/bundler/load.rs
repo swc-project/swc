@@ -335,7 +335,6 @@ where
                     src: decl.src,
                 };
                 files.push((src.clone(), file_name));
-                (&decl.specifiers);
 
                 // TODO: Handle rename
                 let mut specifiers = vec![];
