@@ -103,6 +103,7 @@ where
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,
+        src: &Source,
         specifiers: &[Specifier],
     ) -> Result<Module, Error> {
         log::debug!("Merging {:?} directly", dep_id);
@@ -161,19 +162,19 @@ where
             for specifier in specifiers {
                 match specifier {
                     Specifier::Specific { local, alias } => {
-                        let from = esm_id
-                            .clone()
-                            .into_ident()
-                            .make_member(alias.clone().unwrap());
+                        let i = alias.clone().unwrap_or_else(|| local.clone());
+
+                        let from = esm_id.clone().into_ident().make_member(i.clone());
 
                         module.body.push(
-                            from.assign_to(local.clone())
+                            from.assign_to(i.with_ctxt(src.export_ctxt))
                                 .into_module_item("namespace_with_normal"),
                         );
                     }
                     Specifier::Namespace { .. } => continue,
                 }
             }
+
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
             module
@@ -352,8 +353,8 @@ where
                                     .iter()
                                     .find(|(src, _)| src.module_id == dep.id);
 
-                                if let Some((_, specifiers)) = res {
-                                    self.merge_direct_import(ctx, dep.id, &specifiers)?
+                                if let Some((src, specifiers)) = res {
+                                    self.merge_direct_import(ctx, dep.id, &src, &specifiers)?
                                 } else {
                                     // Common js requires different planning strategy.
                                     self.merge_transitive_import(ctx, dep.id)?
