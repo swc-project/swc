@@ -2,7 +2,7 @@ use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
 use anyhow::{bail, Error};
 use std::mem::take;
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
@@ -43,7 +43,10 @@ where
         let mut module_items = vec![];
 
         let stmts = {
-            let mut module = module.fold_with(&mut ExportToReturn::default());
+            let mut module = module.fold_with(&mut ExportToReturn {
+                synthesized_ctxt: self.synthesized_ctxt,
+                exports: Default::default(),
+            });
 
             take(&mut module.body)
                 .into_iter()
@@ -110,9 +113,9 @@ where
     }
 }
 
-#[derive(Default)]
 struct ExportToReturn {
     exports: Vec<PropOrSpread>,
+    synthesized_ctxt: SyntaxContext,
 }
 
 impl Fold for ExportToReturn {
@@ -150,11 +153,14 @@ impl Fold for ExportToReturn {
 
                 Some(Stmt::Decl(export.decl))
             }
+
+            // Ignore export {} specified by user.
             ModuleDecl::ExportNamed(NamedExport {
+                span,
                 src: None,
                 specifiers,
                 ..
-            }) => {
+            }) if span.ctxt != self.synthesized_ctxt => {
                 for s in specifiers {
                     match s {
                         ExportSpecifier::Namespace(_s) => {}

@@ -210,10 +210,10 @@ where
                     match &mut export.decl {
                         DefaultDecl::Class(expr) => {
                             let expr = expr.take();
-                            let export_name = Pat::Ident(Ident::new(
+                            let export_name = Ident::new(
                                 js_word!("default"),
                                 export.span.with_ctxt(info.export_ctxt()),
-                            ));
+                            );
 
                             let (init, s) = match expr.ident {
                                 Some(name) => {
@@ -235,10 +235,24 @@ where
 
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: export_name,
+                                name: Pat::Ident(export_name.clone()),
                                 init: Some(Box::new(init)),
                                 definite: false,
                             });
+
+                            let export_specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                                span: DUMMY_SP,
+                                orig: export_name.clone(),
+                                exported: Some(export_name.clone()),
+                            });
+                            new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                                NamedExport {
+                                    span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
+                                    specifiers: vec![export_specifier],
+                                    src: None,
+                                    type_only: false,
+                                },
+                            )));
 
                             stmt = s;
                         }
@@ -264,7 +278,22 @@ where
                                 ),
                             };
 
-                            vars.push(init.assign_to(export_name));
+                            vars.push(init.assign_to(export_name.clone()));
+
+                            let export_specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                                span: DUMMY_SP,
+                                orig: export_name.clone(),
+                                exported: Some(export_name.clone()),
+                            });
+                            new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                                NamedExport {
+                                    span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
+                                    specifiers: vec![export_specifier],
+                                    src: None,
+                                    type_only: false,
+                                },
+                            )));
+
                             stmt = s;
                         }
                         DefaultDecl::TsInterfaceDecl(_) => {}
