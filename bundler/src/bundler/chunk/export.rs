@@ -10,6 +10,7 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use std::mem::{replace, take};
+use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
@@ -192,10 +193,82 @@ where
                                 }
                                 None => {}
                             },
+                            ImportSpecifier::Default(default) => {
+                                let imported = Ident::new(
+                                    js_word!("default"),
+                                    DUMMY_SP.with_ctxt(import.span.ctxt),
+                                );
+                                vars.push(imported.clone().assign_to(default.local.clone()));
+                            }
                             _ => {}
                         }
                     }
                     import.specifiers.clear();
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
+                    match &mut export.decl {
+                        DefaultDecl::Class(expr) => {
+                            let expr = expr.take();
+                            let export_name = Pat::Ident(Ident::new(
+                                js_word!("default"),
+                                export.span.with_ctxt(info.export_ctxt()),
+                            ));
+
+                            let (init, s) = match expr.ident {
+                                Some(name) => {
+                                    (
+                                        Expr::Ident(name.clone()),
+                                        ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                                            // Context of the span is local.
+                                            ident: name,
+                                            declare: false,
+                                            class: expr.class,
+                                        }))),
+                                    )
+                                }
+                                None => (
+                                    Expr::Class(expr),
+                                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+                                ),
+                            };
+
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: export_name,
+                                init: Some(Box::new(init)),
+                                definite: false,
+                            });
+
+                            stmt = s;
+                        }
+                        DefaultDecl::Fn(expr) => {
+                            let expr = expr.take();
+                            let export_name = Ident::new(
+                                js_word!("default"),
+                                export.span.with_ctxt(info.export_ctxt()),
+                            );
+
+                            let (init, s) = match expr.ident {
+                                Some(name) => (
+                                    Expr::Ident(name.clone()),
+                                    ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                                        ident: name,
+                                        declare: false,
+                                        function: expr.function,
+                                    }))),
+                                ),
+                                None => (
+                                    Expr::Fn(expr),
+                                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+                                ),
+                            };
+
+                            vars.push(init.assign_to(export_name));
+                            stmt = s;
+                        }
+                        DefaultDecl::TsInterfaceDecl(_) => {}
+                    }
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
