@@ -3,9 +3,10 @@ const mod = function() {
     const c1 = c;
     class C {
     }
+    const __default = C;
     return {
         c,
-        default: C
+        default: __default
     };
 }();
 const c = mod;
