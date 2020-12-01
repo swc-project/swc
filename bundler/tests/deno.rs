@@ -380,6 +380,7 @@ fn deno_8530() {
 }
 
 #[test]
+#[ignore]
 fn deno_8545() {
     run("tests/deno/deno-8545/input/entry.ts", &[])
 }
