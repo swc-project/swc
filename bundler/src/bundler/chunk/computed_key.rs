@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -38,6 +38,12 @@ where
         let var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
+        };
+
+        let is_async = {
+            let mut v = TopLevelAwaitFinder { found: false };
+            module.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            v.found
         };
 
         let mut module_items = vec![];
@@ -77,19 +83,26 @@ where
                     stmts,
                 }),
                 is_generator: false,
-                is_async: false,
+                is_async,
                 type_params: Default::default(),
                 return_type: Default::default(),
             },
             ident: None,
         });
 
-        let module_expr = Expr::Call(CallExpr {
+        let mut module_expr = Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: module_fn.as_callee(),
             type_args: Default::default(),
             args: Default::default(),
         });
+
+        if is_async {
+            module_expr = Expr::Await(AwaitExpr {
+                span: DUMMY_SP,
+                arg: Box::new(module_expr),
+            });
+        }
 
         let var_decl = VarDecl {
             span,
@@ -110,6 +123,22 @@ where
             shebang: None,
             body: module_items,
         })
+    }
+}
+
+struct TopLevelAwaitFinder {
+    found: bool,
+}
+
+impl Visit for TopLevelAwaitFinder {
+    noop_visit_type!();
+
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
+
+    fn visit_await_expr(&mut self, _: &AwaitExpr, _: &dyn Node) {
+        self.found = true;
     }
 }
 
