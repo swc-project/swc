@@ -3,11 +3,13 @@
 extern crate test;
 
 use anyhow::{bail, Context, Error};
+use reqwest::Url;
+use sha1::{Digest, Sha1};
 use std::{
     self,
     collections::HashMap,
     env,
-    fs::{create_dir_all, read_dir},
+    fs::{create_dir_all, read_dir, read_to_string, write},
     io,
     path::{Path, PathBuf},
 };
@@ -289,18 +291,67 @@ pub struct Loader {
     cm: Lrc<SourceMap>,
 }
 
+fn calc_hash(s: &str) -> String {
+    let mut hasher = Sha1::new();
+    hasher.update(s.as_bytes());
+    let sum = hasher.finalize();
+
+    hex::encode(sum)
+}
+
+/// Load url. This method does caching.
+fn load_url(url: Url) -> Result<String, Error> {
+    let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
+    create_dir_all(&cache_dir).context("failed to create cache dir")?;
+
+    let hash = calc_hash(&url.to_string());
+
+    let cache_path = cache_dir.join(&hash);
+
+    match read_to_string(&cache_path) {
+        Ok(v) => return Ok(v),
+        _ => {}
+    }
+
+    let resp = reqwest::blocking::get(url.clone())
+        .with_context(|| format!("failed to fetch `{}`", url))?;
+
+    let bytes = resp
+        .bytes()
+        .with_context(|| format!("failed to read data from `{}`", url))?;
+
+    write(&cache_path, &bytes)?;
+
+    return Ok(String::from_utf8_lossy(&bytes).to_string());
+}
+
 impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
         eprintln!("load: {}", f);
 
-        let fm = self.cm.load_file(match f {
-            FileName::Real(v) => v,
+        let tsx;
+        let fm = match f {
+            FileName::Real(path) => {
+                tsx = path.to_string_lossy().ends_with(".tsx");
+                self.cm.load_file(&path)?
+            }
+            FileName::Custom(url) => {
+                tsx = url.ends_with(".tsx");
+
+                let url = Url::parse(&url).context("failed to parse url")?;
+
+                let src = load_url(url.clone())?;
+
+                self.cm
+                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
+            }
             _ => unreachable!(),
-        })?;
+        };
 
         let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
                 decorators: true,
+                tsx,
                 ..Default::default()
             }),
             JscTarget::Es2020,
@@ -413,8 +464,24 @@ impl NodeResolver {
 
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
+        match Url::parse(target) {
+            Ok(v) => return Ok(FileName::Custom(v.to_string())),
+            Err(_) => {}
+        }
+
         let base = match base {
             FileName::Real(v) => v,
+            FileName::Custom(base_url) => {
+                let base_url = Url::parse(&base_url).context("failed to parse url")?;
+
+                let options = Url::options();
+                let base_url = options.base_url(Some(&base_url));
+                let url = base_url
+                    .parse(target)
+                    .with_context(|| format!("failed to resolve `{}`", target))?;
+
+                return Ok(FileName::Custom(url.to_string()));
+            }
             _ => bail!("node-resolver supports only files"),
         };
 
