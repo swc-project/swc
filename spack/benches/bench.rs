@@ -29,8 +29,6 @@ use swc_ecma_transforms::typescript::strip;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
-
-
 #[bench]
 fn three_js(b: &mut Bencher) {
     let dir = clone("https://github.com/mrdoob/three.js.git", "r123");
