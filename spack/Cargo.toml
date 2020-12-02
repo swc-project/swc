@@ -1,5 +1,6 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+build = "build.rs"
 description = "Speedy web compiler"
 documentation = "https://swc.rs/rustdoc/swc/"
 edition = "2018"
