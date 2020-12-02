@@ -129,7 +129,7 @@ where
                 .body
                 .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                     NamedExport {
-                        span: DUMMY_SP,
+                        span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
                         specifiers: exports,
                         src: None,
                         type_only: false,
