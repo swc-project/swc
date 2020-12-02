@@ -2,26 +2,26 @@
 //!
 //! This module exists because this is way easier than using copying requires
 //! files.
-use anyhow::{Context, Error};
-use sha1::{Digest, Sha1};
+
+use self::common::*;
+use anyhow::Error;
 use std::{
     collections::{HashMap, HashSet},
     env,
-    fs::{create_dir_all, read_to_string, write},
-    path::PathBuf,
+    fs::write,
     process::{Command, Stdio},
 };
 use swc_atoms::js_word;
-use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_bundler::{Bundler, Load, ModuleRecord};
+use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{proposals::decorators, react, typescript::strip};
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{Node, Visit, VisitWith};
 use testing::assert_eq;
-use url::Url;
+
+#[path = "common/mod.rs"]
+mod common;
 
 #[test]
 fn oak_6_3_1_application() {
@@ -386,6 +386,11 @@ fn deno_8545() {
 }
 
 #[test]
+fn deno_8573() {
+    run("tests/deno/deno-8573/entry.ts", &[])
+}
+
+#[test]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
@@ -500,7 +505,7 @@ fn bundle(url: &str) -> String {
                 globals,
                 cm.clone(),
                 Loader { cm: cm.clone() },
-                Resolver,
+                NodeResolver,
                 swc_bundler::Config {
                     require: false,
                     disable_inliner: false,
@@ -538,128 +543,6 @@ fn bundle(url: &str) -> String {
     .unwrap();
 
     result
-}
-
-#[derive(Clone)]
-struct Loader {
-    cm: Lrc<SourceMap>,
-}
-
-fn cacl_hash(s: &str) -> String {
-    let mut hasher = Sha1::new();
-    hasher.update(s.as_bytes());
-    let sum = hasher.finalize();
-
-    hex::encode(sum)
-}
-
-/// Load url. This method does caching.
-fn load_url(url: Url) -> Result<String, Error> {
-    let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
-    create_dir_all(&cache_dir).context("failed to create cache dir")?;
-
-    let hash = cacl_hash(&url.to_string());
-
-    let cache_path = cache_dir.join(&hash);
-
-    match read_to_string(&cache_path) {
-        Ok(v) => return Ok(v),
-        _ => {}
-    }
-
-    let resp = reqwest::blocking::get(url.clone())
-        .with_context(|| format!("failed to fetch `{}`", url))?;
-
-    let bytes = resp
-        .bytes()
-        .with_context(|| format!("failed to read data from `{}`", url))?;
-
-    write(&cache_path, &bytes)?;
-
-    return Ok(String::from_utf8_lossy(&bytes).to_string());
-}
-
-impl Load for Loader {
-    fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
-        eprintln!("{}", file);
-
-        let tsx;
-
-        let fm = match file {
-            FileName::Real(path) => {
-                tsx = path.to_string_lossy().ends_with(".tsx");
-                self.cm.load_file(path)?
-            }
-            FileName::Custom(url) => {
-                tsx = url.ends_with(".tsx");
-
-                let url = Url::parse(&url).context("failed to parse url")?;
-
-                let src = load_url(url.clone())?;
-
-                self.cm
-                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
-            }
-            _ => unreachable!("this test only uses url"),
-        };
-
-        let lexer = Lexer::new(
-            Syntax::Typescript(TsConfig {
-                decorators: true,
-                tsx,
-                ..Default::default()
-            }),
-            JscTarget::Es2020,
-            StringInput::from(&*fm),
-            None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().unwrap();
-        let module = module
-            .fold_with(&mut decorators::decorators(decorators::Config {
-                legacy: true,
-                emit_metadata: false,
-            }))
-            .fold_with(&mut react::react::<SingleThreadedComments>(
-                self.cm.clone(),
-                None,
-                Default::default(),
-            ))
-            .fold_with(&mut strip());
-
-        Ok(ModuleData {
-            fm,
-            module,
-            helpers: Default::default(),
-        })
-    }
-}
-
-#[derive(Debug, Clone, Copy)]
-struct Resolver;
-
-impl Resolve for Resolver {
-    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
-        match Url::parse(module_specifier) {
-            Ok(v) => return Ok(FileName::Custom(v.to_string())),
-            Err(_) => {}
-        }
-
-        let base_url = match base {
-            FileName::Custom(v) => v,
-            _ => unreachable!("this test only uses url"),
-        };
-        let base_url = Url::parse(&base_url).context("failed to parse url")?;
-
-        let options = Url::options();
-        let base_url = options.base_url(Some(&base_url));
-        let url = base_url
-            .parse(module_specifier)
-            .with_context(|| format!("failed to resolve `{}`", module_specifier))?;
-
-        return Ok(FileName::Custom(url.to_string()));
-    }
 }
 
 struct Hook;

@@ -398,7 +398,7 @@ where
 
                                 let t = &mut normal_entry.chunks;
                                 if t.iter().all(|dependancy| dependancy.id != dep) {
-                                    log::info!("Normal, esm: {:?} => {:?}", entry, dep);
+                                    log::debug!("Normal, esm: {:?} => {:?}", entry, dep);
                                     done.insert(dep);
                                     t.push(Dependancy {
                                         id: dep,
