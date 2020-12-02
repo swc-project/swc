@@ -386,6 +386,11 @@ fn deno_8545() {
 }
 
 #[test]
+fn deno_8573() {
+    run("tests/deno/deno-8573/entry.ts", &[])
+}
+
+#[test]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
