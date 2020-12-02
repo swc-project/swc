@@ -4,6 +4,14 @@
 
 extern crate test;
 
+#[cfg(all(unix, not(target_env = "musl")))]
+#[global_allocator]
+static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
+
+#[cfg(windows)]
+#[global_allocator]
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 use anyhow::Error;
 use spack::resolvers::NodeResolver;
 use std::{
@@ -20,6 +28,8 @@ use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsCo
 use swc_ecma_transforms::typescript::strip;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
+
+
 
 #[bench]
 fn three_js(b: &mut Bencher) {

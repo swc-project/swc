@@ -40,3 +40,9 @@ pretty_env_logger = "0.3"
 tempfile = "3"
 testing = {path = "../testing"}
 walkdir = "2.3.1"
+
+[target.'cfg(all(unix, not(target_env = "musl")))'.dev-dependencies]
+jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
+
+[target.'cfg(windows)'.dev-dependencies]
+mimalloc = {version = "0.1"}
