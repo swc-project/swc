@@ -2,6 +2,7 @@
 //!
 //! This module exists because this is way easier than using copying requires
 //! files.
+
 use anyhow::{Context, Error};
 use sha1::{Digest, Sha1};
 use std::{
@@ -545,7 +546,7 @@ struct Loader {
     cm: Lrc<SourceMap>,
 }
 
-fn cacl_hash(s: &str) -> String {
+fn calc_hash(s: &str) -> String {
     let mut hasher = Sha1::new();
     hasher.update(s.as_bytes());
     let sum = hasher.finalize();
@@ -558,7 +559,7 @@ fn load_url(url: Url) -> Result<String, Error> {
     let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
     create_dir_all(&cache_dir).context("failed to create cache dir")?;
 
-    let hash = cacl_hash(&url.to_string());
+    let hash = calc_hash(&url.to_string());
 
     let cache_path = cache_dir.join(&hash);
 
