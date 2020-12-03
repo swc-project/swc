@@ -5,7 +5,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc::{
-    config::{Options, ParseOptions, SourceMapsConfig},
+    config::{JscTarget, Options, ParseOptions, SourceMapsConfig},
     Compiler,
 };
 use swc_common::{
@@ -50,6 +50,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     let s = c
         .print(
             &program,
+            opts.codegen_target().unwrap_or(JscTarget::Es2020),
             opts.source_maps
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
