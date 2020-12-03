@@ -8,6 +8,7 @@ use serde::Deserialize;
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
 use swc_common::FileName;
+use swc_ecma_parser::JscTarget;
 
 mod module;
 mod optimization;
@@ -38,6 +39,15 @@ pub struct Config {
 
     #[serde(default)]
     pub options: Option<swc::config::Options>,
+}
+
+impl Config {
+    pub fn codegen_target(&self) -> Option<JscTarget> {
+        self.options
+            .as_ref()
+            .map(|options| options.codegen_target())
+            .flatten()
+    }
 }
 
 #[derive(StringEnum)]

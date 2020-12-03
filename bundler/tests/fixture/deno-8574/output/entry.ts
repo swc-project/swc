@@ -372,7 +372,7 @@ function onceStrict(fn) {
     f.called = false;
     return f;
 }
-const VERSION1 = "5.4.11";
+const VERSION1 = "5.4.12";
 function getBufferResponse(response) {
     return response.arrayBuffer();
 }
