@@ -17,8 +17,8 @@ swc_atoms = {version = "0.2", path = "../../atoms"}
 swc_common = {version = "0.10.0", path = "../../common"}
 swc_ecma_ast = {version = "0.35.0", path = "../ast"}
 swc_ecma_codegen_macros = {version = "0.5", path = "./macros"}
+swc_ecma_parser = {version = "0.43.0", path = "../parser"}
 
 [dev-dependencies]
 swc_common = {version = "0.10.0", path = "../../common", features = ["sourcemap"]}
-swc_ecma_parser = {version = "0.43.0", path = "../parser"}
 testing = {version = "0.10.0", path = "../../testing"}
