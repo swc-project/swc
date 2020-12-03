@@ -5129,3 +5129,29 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
 ], Object.getOwnPropertyDescriptor(_class.prototype, "assignments"), _class.prototype), _class)) || _class) || _class) || _class;"##,
     ok_if_code_eq
 );
+
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: true,
+    }),
+    issue_1160_1,
+    "
+    enum MyEnum {
+      x = \"xxx\",
+      y = \"yyy\"
+    }
+    
+    class Xpto {
+      @Decorator()
+      value!: MyEnum;
+    }
+    
+    function Decorator() {
+      return function (...args) {};
+    }
+    ",
+    "",
+    ok_if_code_eq
+);
