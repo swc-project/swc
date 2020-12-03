@@ -1,10 +1,8 @@
-require('reflect-metadata')
-
 "use strict";
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
     var desc = {
     };
-    Object.keys(descriptor).forEach(function (key) {
+    Object.keys(descriptor).forEach(function(key) {
         desc[key] = descriptor[key];
     });
     desc.enumerable = !!desc.enumerable;
@@ -12,7 +10,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     if ("value" in desc || desc.initializer) {
         desc.writable = true;
     }
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    desc = decorators.slice().reverse().reduce(function(desc, decorator) {
         return decorator(target, property, desc) || desc;
     }, desc);
     if (context && desc.initializer !== void 0) {
@@ -36,15 +34,15 @@ function _initializerDefineProperty(target, property, descriptor, context) {
 }
 var _class, _descriptor;
 var MyEnum;
-(function (MyEnum1) {
+(function(MyEnum1) {
     MyEnum1["x"] = "xxx";
     MyEnum1["y"] = "yyy";
 })(MyEnum || (MyEnum = {
 }));
 var _dec = Decorator(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String);
-let Xpto = ((_class = function () {
+let Xpto = ((_class = function() {
     class Xpto1 {
-        constructor() {
+        constructor(){
             _initializerDefineProperty(this, "value", _descriptor, this);
         }
     }
@@ -59,6 +57,6 @@ let Xpto = ((_class = function () {
     initializer: void 0
 }), _class);
 function Decorator() {
-    return function (...args) {
+    return function(...args) {
     };
 }
