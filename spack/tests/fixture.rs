@@ -19,6 +19,7 @@ use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
 };
+use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use test::{
@@ -196,6 +197,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         let code = compiler
                             .print(
                                 &bundled.module.fold_with(&mut fixer(None)),
+                                JscTarget::Es2020,
                                 SourceMapsConfig::Bool(false),
                                 None,
                                 false,
