@@ -4,6 +4,7 @@ use crate::{
         chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -116,24 +117,23 @@ where
             module = self.wrap_esm(ctx, dep_id, module)?;
 
             // Inject local_name = wrapped_esm_module_name
-            let module_ident = specifiers
-                .iter()
-                .find_map(|specifier| match specifier {
-                    Specifier::Namespace {
-                        local, all: true, ..
-                    } => Some(local.clone()),
-                    _ => None,
-                })
-                .unwrap();
+            let module_ident = specifiers.iter().find_map(|specifier| match specifier {
+                Specifier::Namespace {
+                    local, all: true, ..
+                } => Some(local.clone()),
+                _ => None,
+            });
 
             let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
 
-            module.body.push(
-                esm_id
-                    .clone()
-                    .assign_to(module_ident.clone())
-                    .into_module_item("merge_direct_import"),
-            );
+            if let Some(module_ident) = &module_ident {
+                module.body.push(
+                    esm_id
+                        .clone()
+                        .assign_to(module_ident.clone())
+                        .into_module_item("merge_direct_import"),
+                );
+            }
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
@@ -659,7 +659,7 @@ where
 
         sort(&mut entry.body);
 
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
@@ -760,7 +760,26 @@ where
                                     continue;
                                 }
                             }
-                            ImportSpecifier::Namespace(_) => {}
+                            ImportSpecifier::Namespace(s) => {
+                                if let Some((src, _)) = info
+                                    .imports
+                                    .specifiers
+                                    .iter()
+                                    .find(|s| s.0.src.value == import.src.value)
+                                {
+                                    let esm_id = self.scope.wrapped_esm_id(src.module_id).expect(
+                                        "If a namespace impoet specifier is preserved, it means \
+                                         failutre of deblobbing and as a result module should be \
+                                         marked as wrpaped esm",
+                                    );
+                                    new.push(
+                                        esm_id.clone().assign_to(s.local.clone()).into_module_item(
+                                            "from_replace_import_specifiers: namespaced",
+                                        ),
+                                    );
+                                    continue;
+                                }
+                            }
                         }
                     }
 
@@ -828,9 +847,10 @@ where
                                                         .orig
                                                         .clone()
                                                         .assign_to(lhs)
-                                                        .into_module_item(
-                                                            "import_deps_named_alias",
-                                                        ),
+                                                        .into_module_item(&format!(
+                                                            "import_deps_named_alias of {}",
+                                                            info.fm.name
+                                                        )),
                                                 );
                                             }
                                         }
