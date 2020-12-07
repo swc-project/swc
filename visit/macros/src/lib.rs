@@ -1542,6 +1542,11 @@ fn is_opt_vec(ty: &Type) -> bool {
 
 fn method_name_as_str(mode: Mode, ty: &Type) -> String {
     fn suffix(ty: &Type) -> String {
+        // Box<T> has same name as T
+        if let Some(ty) = extract_generic("Box", ty) {
+            return suffix(ty);
+        }
+
         if let Some(ty) = extract_generic("Arc", ty) {
             return format!("arc_{}", suffix(ty));
         }
@@ -1551,6 +1556,9 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
         if let Some(ty) = extract_generic("Vec", ty) {
             if let Some(ty) = extract_generic("Option", ty) {
                 return format!("opt_vec_{}", suffix(ty).to_plural());
+            }
+            if suffix(ty).to_plural() == suffix(ty) {
+                return format!("{}_vec", suffix(ty).to_plural());
             }
             return format!("{}", suffix(ty).to_plural());
         }
