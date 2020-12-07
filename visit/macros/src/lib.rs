@@ -1119,30 +1119,6 @@ fn make_method(
     })
 }
 
-fn method_name_as_str(mode: Mode, ty: &Type) -> String {
-    if let Some(inner_ty) = extract_generic("Arc", ty) {
-        return format!(
-            "{}_arc_{}",
-            mode.prefix(),
-            type_to_name(&inner_ty).to_snake_case()
-        );
-    }
-
-    format!("{}_{}", mode.prefix(), type_to_name(&ty).to_snake_case())
-}
-
-fn method_name(mode: Mode, ty: &Type) -> Ident {
-    let span = ty.span();
-    Ident::new(&method_name_as_str(mode, ty), span)
-}
-
-fn type_to_name(ty: &Type) -> String {
-    match ty {
-        Type::Path(ty) => ty.path.segments.last().unwrap().ident.to_string(),
-        _ => unimplemented!("type_to_name for type other than path: {:?}", ty),
-    }
-}
-
 fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
     fn mk_exact(mode: Mode, ident: Ident, ty: &Type) -> Signature {
         Signature {
@@ -1590,28 +1566,20 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 }
 
 fn add_required(types: &mut Vec<Type>, ty: &Type) {
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
-
-            if !last.arguments.is_empty() {
-                if last.ident == "Option" || last.ident == "Vec" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    types.push(arg.clone());
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
-                        }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
-                    }
-                }
-            }
-        }
-        _ => {}
+    if let Some(ty) = extract_generic("Option", ty) {
+        add_required(types, ty);
+        types.push(ty.clone());
+        return;
+    }
+    if let Some(ty) = extract_generic("Vec", ty) {
+        add_required(types, ty);
+        types.push(ty.clone());
+        return;
+    }
+    if let Some(ty) = extract_generic("Arc", ty) {
+        add_required(types, ty);
+        types.push(ty.clone());
+        return;
     }
 }
 
@@ -1672,6 +1640,29 @@ fn is_opt_vec(ty: &Type) -> bool {
         extract_vec(inner).is_some()
     } else {
         false
+    }
+}
+
+fn method_name_as_str(mode: Mode, ty: &Type) -> String {
+    fn suffix(ty: &Type) -> String {
+        if let Some(ty) = extract_generic("Arc", ty) {
+            return format!("arc_{}", suffix(ty));
+        }
+        type_to_name(&ty).to_snake_case()
+    }
+
+    format!("{}_{}", mode.prefix(), suffix(ty))
+}
+
+fn method_name(mode: Mode, ty: &Type) -> Ident {
+    let span = ty.span();
+    Ident::new(&method_name_as_str(mode, ty), span)
+}
+
+fn type_to_name(ty: &Type) -> String {
+    match ty {
+        Type::Path(ty) => ty.path.segments.last().unwrap().ident.to_string(),
+        _ => unimplemented!("type_to_name for type other than path: {:?}", ty),
     }
 }
 
