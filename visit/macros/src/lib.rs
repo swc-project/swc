@@ -216,7 +216,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     Vars { visit: &name },
                     ({
                         self.visitor.visit(n, _parent);
-                        visit(&mut self, n, _parent);
+                        visit(self, n, _parent);
                     })
                 )
                 .parse(),
