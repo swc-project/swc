@@ -1,7 +1,7 @@
 extern crate proc_macro;
 
 use inflector::Inflector;
-use pmutil::{q, IdentExt, Quote};
+use pmutil::{q, Quote};
 use proc_macro2::Ident;
 use std::{collections::HashSet, mem::replace};
 use swc_macros_common::{call_site, def_site};
@@ -52,10 +52,10 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    // q.push_tokens(&make(Mode::Fold, &block.stmts));
+    q.push_tokens(&make(Mode::Fold, &block.stmts));
     q.push_tokens(&make(Mode::Visit, &block.stmts));
-    // q.push_tokens(&make(Mode::VisitAll, &block.stmts));
-    // q.push_tokens(&make(Mode::VisitMut, &block.stmts));
+    q.push_tokens(&make(Mode::VisitAll, &block.stmts));
+    q.push_tokens(&make(Mode::VisitMut, &block.stmts));
 
     proc_macro2::TokenStream::from(q).into()
 }
@@ -984,7 +984,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
 
             //
 
-            let mut block = {
+            let block = {
                 let mut arms = vec![];
 
                 for variant in &e.variants {
@@ -1176,7 +1176,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(mode, arg);
+                                    let ident = method_name(mode, ty);
 
                                     match mode {
                                         Mode::Fold => {
@@ -1235,6 +1235,18 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 }
 
 fn create_method_body(mode: Mode, ty: &Type) -> Block {
+    if let Some(ty) = extract_generic("Arc", ty) {
+        match mode {
+            Mode::Visit | Mode::VisitAll => return create_method_body(mode, ty),
+            Mode::VisitMut | Mode::Fold => {
+                return Block {
+                    brace_token: def_site(),
+                    stmts: vec![],
+                }
+            }
+        }
+    }
+
     match ty {
         Type::Array(_) => unimplemented!("type: array type"),
         Type::BareFn(_) => unimplemented!("type: fn type"),
