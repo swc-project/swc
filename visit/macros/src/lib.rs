@@ -1238,12 +1238,13 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
     if let Some(ty) = extract_generic("Arc", ty) {
         match mode {
             Mode::Visit | Mode::VisitAll => return create_method_body(mode, ty),
-            Mode::VisitMut | Mode::Fold => {
+            Mode::VisitMut => {
                 return Block {
                     brace_token: def_site(),
                     stmts: vec![],
                 }
             }
+            Mode::Fold => return q!(({ n })).parse(),
         }
     }
 
