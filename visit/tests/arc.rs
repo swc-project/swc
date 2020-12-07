@@ -7,8 +7,8 @@ pub trait Node: Any {}
 impl<T: ?Sized> Node for T where T: Any {}
 
 pub struct Item {
-    pub item: Arc<Item>,
-    pub ref_to_enum: Arc<Enum>,
+    pub item: Option<Arc<Item>>,
+    pub ref_to_enum: Option<Arc<Enum>>,
 }
 pub enum Enum {
     Item(Arc<Item>),
@@ -45,4 +45,5 @@ fn test_panic() {
         item: None,
         ref_to_enum: None,
     }))
+    .visit_children_with(&mut Panic)
 }
