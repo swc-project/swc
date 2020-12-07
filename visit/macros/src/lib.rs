@@ -1550,7 +1550,7 @@ fn method_name_as_str(mode: Mode, ty: &Type) -> String {
         }
         if let Some(ty) = extract_generic("Vec", ty) {
             if let Some(ty) = extract_generic("Option", ty) {
-                return format!("opt_{}", suffix(ty).to_plural());
+                return format!("opt_vec_{}", suffix(ty).to_plural());
             }
             return format!("{}", suffix(ty).to_plural());
         }
