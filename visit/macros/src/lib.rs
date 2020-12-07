@@ -1119,12 +1119,28 @@ fn make_method(
     })
 }
 
-fn prefix_method_name(mode: Mode, v: &str) -> String {
-    format!("{}_{}", mode.prefix(), v.to_snake_case())
+fn method_name_as_str(mode: Mode, ty: &Type) -> String {
+    if let Some(inner_ty) = extract_generic("Arc", ty) {
+        return format!(
+            "{}_arc_{}",
+            mode.prefix(),
+            type_to_name(&inner_ty).to_snake_case()
+        );
+    }
+
+    format!("{}_{}", mode.prefix(), type_to_name(&ty).to_snake_case())
 }
 
-fn method_name(mode: Mode, v: &Type) -> Ident {
-    create_method_sig(mode, v).ident
+fn method_name(mode: Mode, ty: &Type) -> Ident {
+    let span = ty.span();
+    Ident::new(&method_name_as_str(mode, ty), span)
+}
+
+fn type_to_name(ty: &Type) -> String {
+    match ty {
+        Type::Path(ty) => ty.path.segments.last().unwrap().ident.to_string(),
+        _ => unimplemented!("type_to_name for type other than path: {:?}", ty),
+    }
 }
 
 fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
@@ -1185,9 +1201,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
         Type::Paren(ty) => return create_method_sig(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
-            let ident = last
-                .ident
-                .new_ident_with(|name| prefix_method_name(mode, name));
+            let ident = method_name(mode, ty);
 
             if !last.arguments.is_empty() {
                 if let Some(arg) = as_box(&ty) {
