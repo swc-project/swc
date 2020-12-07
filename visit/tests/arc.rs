@@ -19,8 +19,8 @@ pub enum Enum {
 
 define!({
     pub struct Item {
-        pub item: Arc<Item>,
-        pub ref_to_enum: Arc<Enum>,
+        pub item: Option<Arc<Item>>,
+        pub ref_to_enum: Option<Arc<Enum>>,
     }
     pub enum Enum {
         Item(Arc<Item>),
@@ -29,3 +29,20 @@ define!({
         Enums(Arc<Vec<Enum>>),
     }
 });
+
+struct Panic;
+
+impl Visit for Panic {
+    fn visit_item(&mut self, _: &Item, _parent: &dyn Node) {
+        panic!("Success")
+    }
+}
+
+#[test]
+#[should_panic(expected = "Success")]
+fn test_panic() {
+    Enum::Item(Arc::new(Item {
+        item: None,
+        ref_to_enum: None,
+    }))
+}
