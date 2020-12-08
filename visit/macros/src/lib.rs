@@ -759,7 +759,17 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
     match mode {
         Mode::Visit | Mode::VisitAll => {
             if let Some(inner) = extract_generic("Arc", ty) {
-                return visit_expr(mode, inner, visitor, expr);
+                let visit = method_name(mode, inner);
+
+                return q!(
+                    Vars {
+                        visitor,
+                        visit,
+                        expr
+                    },
+                    { visitor.visit(expr, _parent) }
+                )
+                .parse();
             }
         }
         _ => {}
