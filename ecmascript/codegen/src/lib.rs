@@ -384,13 +384,6 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         let single_quote = is_single_quote(&self.cm, node.span);
-        let single_quote = if node.span.is_dummy() {
-            true
-        } else if let Ok(s) = self.cm.span_to_snippet(node.span) {
-            s.starts_with("'")
-        } else {
-            true
-        };
 
         // if let Some(s) = get_text_of_node(&self.cm, node, false) {
         //     self.wr.write_str_lit(node.span, &s)?;
