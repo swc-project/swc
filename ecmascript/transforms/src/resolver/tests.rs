@@ -1827,3 +1827,17 @@ to_ts!(
     }
     "
 );
+
+to!(
+    deno_issue_8620_1,
+    "
+    const b = 1;
+    {
+        const b = 2;
+        const b2 = 3;
+    }
+    ",
+    "
+    
+    "
+);
