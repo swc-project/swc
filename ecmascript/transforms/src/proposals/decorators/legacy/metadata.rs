@@ -1,7 +1,10 @@
+use fxhash::FxHashMap;
 use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprFactory};
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+
+use super::EnumKind;
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;
@@ -118,6 +121,8 @@ impl ParamMetadata {
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
 pub(super) struct Metadata<'a> {
+    pub(super) enums: &'a FxHashMap<Id, EnumKind>,
+
     pub(super) class_name: Option<&'a Ident>,
 }
 
@@ -217,6 +222,35 @@ impl Fold for Metadata<'_> {
 
         if p.type_ann.is_none() {
             return p;
+        }
+
+        if let Some(name) = p
+            .type_ann
+            .as_ref()
+            .map(|ty| &ty.type_ann)
+            .map(|type_ann| match &**type_ann {
+                TsType::TsTypeRef(r) => Some(r),
+                _ => None,
+            })
+            .flatten()
+            .map(|r| match &r.type_name {
+                TsEntityName::TsQualifiedName(_) => None,
+                TsEntityName::Ident(i) => Some(i),
+            })
+            .flatten()
+        {
+            if let Some(kind) = self.enums.get(&name.to_id()) {
+                let dec = self.create_metadata_design_decorator(
+                    "design:type",
+                    match kind {
+                        EnumKind::Mixed => quote_ident!("Object").as_arg(),
+                        EnumKind::Str => quote_ident!("String").as_arg(),
+                        EnumKind::Num => quote_ident!("Number").as_arg(),
+                    },
+                );
+                p.decorators.push(dec);
+                return p;
+            }
         }
 
         let dec = self.create_metadata_design_decorator(

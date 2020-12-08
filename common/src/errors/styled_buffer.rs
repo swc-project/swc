@@ -10,8 +10,6 @@
 
 // Code for creating styled buffers
 
-#![cfg(feature = "tty-emitter")]
-
 use super::snippet::{Style, StyledString};
 
 #[derive(Debug)]

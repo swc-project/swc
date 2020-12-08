@@ -18,7 +18,7 @@ use std::{borrow::Cow, collections::HashMap, mem::take};
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, private_ident};
+use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use util::CHashSet;
 
@@ -80,7 +80,7 @@ where
                 //     &module,
                 // );
 
-                module = self.merge_deps(ctx, is_entry, module, plan, &info)?;
+                module = self.merge_deps(ctx, is_entry, module, plan, &info, !allow_circular)?;
 
                 // print_hygiene(
                 //     &format!("after merging deps: {}", info.fm.name),
@@ -102,6 +102,7 @@ where
         &self,
         ctx: &Ctx,
         dep_id: ModuleId,
+        src: &Source,
         specifiers: &[Specifier],
     ) -> Result<Module, Error> {
         log::debug!("Merging {:?} directly", dep_id);
@@ -114,27 +115,25 @@ where
             let mut module = self.get_module_for_merging(ctx, dep_id, false)?;
             module = self.wrap_esm(ctx, dep_id, module)?;
 
-            {
-                // Inject local_name = wrapped_esm_module_name
+            // Inject local_name = wrapped_esm_module_name
+            let module_ident = specifiers
+                .iter()
+                .find_map(|specifier| match specifier {
+                    Specifier::Namespace {
+                        local, all: true, ..
+                    } => Some(local.clone()),
+                    _ => None,
+                })
+                .unwrap();
 
-                let module_ident = specifiers
-                    .iter()
-                    .find_map(|specifier| match specifier {
-                        Specifier::Namespace {
-                            local, all: true, ..
-                        } => Some(local.clone()),
-                        _ => None,
-                    })
-                    .unwrap();
+            let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
 
-                module.body.push(
-                    self.scope
-                        .wrapped_esm_id(dep_id)
-                        .unwrap()
-                        .assign_to(module_ident)
-                        .into_module_item("merge_direct_import"),
-                );
-            }
+            module.body.push(
+                esm_id
+                    .clone()
+                    .assign_to(module_ident.clone())
+                    .into_module_item("merge_direct_import"),
+            );
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
@@ -150,17 +149,32 @@ where
 
             if let Some(plan) = ctx.plan.circular.get(&dep_id) {
                 module = self
-                    .merge_circular(ctx, plan, dep_id)
+                    .merge_circular_modules(ctx, module, dep_id, plan.chunks.clone())
                     .with_context(|| format!("failed to merge {:?} (circular import)", dep_id))?;
             }
 
             module = self
-                .merge_deps(ctx, false, module, plan, &dep_info)
+                .merge_deps(ctx, false, module, plan, &dep_info, false)
                 .context("failed to merge dependencies")?;
 
-            self.handle_import_deps(ctx, &dep_info, &mut module, false);
+            // Required to handle edge cases liek https://github.com/denoland/deno/issues/8530
+            for specifier in specifiers {
+                match specifier {
+                    Specifier::Specific { local, alias } => {
+                        let i = alias.clone().unwrap_or_else(|| local.clone());
 
-            // print_hygiene("wrapped: after deps", &self.cm, &module);
+                        let from = esm_id.clone().into_ident().make_member(i.clone());
+
+                        module.body.push(
+                            from.assign_to(i.with_ctxt(src.export_ctxt))
+                                .into_module_item("namespace_with_normal"),
+                        );
+                    }
+                    Specifier::Namespace { .. } => continue,
+                }
+            }
+
+            self.handle_import_deps(ctx, &dep_info, &mut module, false);
 
             module
         } else {
@@ -278,6 +292,7 @@ where
         mut module: Module,
         plan: &NormalPlan,
         info: &TransformedModule,
+        from_circular: bool,
     ) -> Result<Module, Error> {
         self.run(|| -> Result<_, Error> {
             log::debug!(
@@ -287,15 +302,18 @@ where
                 plan
             );
 
-            let deps = info
-                .exports
-                .reexports
-                .iter()
-                .map(|v| &v.0)
-                .cloned()
-                .filter(|source| plan.chunks.iter().all(|chunk| chunk.id != source.module_id))
-                .collect();
-            self.transform_indirect_reexports(ctx, &mut module, deps)?;
+            if !from_circular {
+                let deps = info
+                    .exports
+                    .reexports
+                    .iter()
+                    .map(|v| &v.0)
+                    .cloned()
+                    .filter(|source| plan.chunks.iter().all(|chunk| chunk.id != source.module_id))
+                    .collect();
+                self.transform_indirect_reexports(ctx, &mut module, deps)?;
+            }
+
             if plan.chunks.is_empty() {
                 return Ok(module);
             }
@@ -334,8 +352,8 @@ where
                                     .iter()
                                     .find(|(src, _)| src.module_id == dep.id);
 
-                                if let Some((_, specifiers)) = res {
-                                    self.merge_direct_import(ctx, dep.id, &specifiers)?
+                                if let Some((src, specifiers)) = res {
+                                    self.merge_direct_import(ctx, dep.id, &src, &specifiers)?
                                 } else {
                                     // Common js requires different planning strategy.
                                     self.merge_transitive_import(ctx, dep.id)?
@@ -373,6 +391,10 @@ where
                     let mut injector = ExportInjector {
                         imported: take(&mut dep_module.body),
                         source: source.unwrap().clone(),
+                        ctx,
+                        export_ctxt: info.export_ctxt(),
+                        // We use id of the entry
+                        wrapped: self.scope.should_be_wrapped_with_a_fn(info.id),
                     };
                     module.body.visit_mut_with(&mut injector);
 
@@ -503,7 +525,7 @@ where
     /// This should only be called after everything is merged.
     ///
     /// This method does not care about orders of statement, and it's expected
-    /// to be collaed before `sort`.
+    /// to be called before `sort`.
     fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
         {
             // Handle `export *` for non-wrapped modules.
@@ -525,6 +547,7 @@ where
                             }
                         }
                     }
+
                     _ => {}
                 }
             }

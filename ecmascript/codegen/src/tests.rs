@@ -470,6 +470,22 @@ fn integration_01_reduced_01() {
     );
 }
 
+#[test]
+fn dneo_8541_1() {
+    test_from_to(
+        "React.createElement('span', null, '\\u{b7}');",
+        "React.createElement('span', null, '\\u{b7}');",
+    );
+}
+
+#[test]
+fn dneo_8541_2() {
+    test_from_to(
+        "React.createElement('span', null, '\\u00b7');",
+        "React.createElement('span', null, '\\u00b7');",
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {

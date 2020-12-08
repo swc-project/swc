@@ -398,7 +398,7 @@ where
 
                                 let t = &mut normal_entry.chunks;
                                 if t.iter().all(|dependancy| dependancy.id != dep) {
-                                    log::info!("Normal, esm: {:?} => {:?}", entry, dep);
+                                    log::debug!("Normal, esm: {:?} => {:?}", entry, dep);
                                     done.insert(dep);
                                     t.push(Dependancy {
                                         id: dep,
@@ -448,6 +448,17 @@ where
         }
 
         // Handle circular imports
+        for (root_entry, _) in builder.kinds.iter() {
+            if let Some(members) = builder.circular.get(*root_entry) {
+                plans
+                    .normal
+                    .entry(*root_entry)
+                    .or_default()
+                    .chunks
+                    .retain(|dep| !members.contains(&dep.id));
+            }
+        }
+
         for (root_entry, _) in builder.kinds.iter() {
             let mut bfs = Bfs::new(&builder.direct_deps, *root_entry);
 

@@ -2,7 +2,8 @@
 
 extern crate test;
 
-use anyhow::{bail, Context, Error};
+use self::common::*;
+use anyhow::Error;
 use std::{
     self,
     collections::HashMap,
@@ -12,20 +13,22 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_atoms::js_word;
-use swc_bundler::{BundleKind, Bundler, Config, Load, ModuleData, ModuleRecord, Resolve};
-use swc_common::{sync::Lrc, FileName, Globals, SourceMap, Span};
+use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
+use swc_common::{FileName, Globals, Span};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, typescript::strip};
+use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
 use testing::NormalizedOutput;
 use walkdir::WalkDir;
+
+#[path = "common/mod.rs"]
+mod common;
 
 fn add_test<F: FnOnce() + Send + 'static>(
     tests: &mut Vec<TestDescAndFn>,
@@ -129,7 +132,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     &globals,
                     cm.clone(),
                     Loader { cm: cm.clone() },
-                    NodeResolver::new(),
+                    NodeResolver,
                     Config {
                         require: true,
                         disable_inliner: true,
@@ -282,165 +285,5 @@ impl swc_bundler::Hook for Hook {
                 }),
             },
         ])
-    }
-}
-
-pub struct Loader {
-    cm: Lrc<SourceMap>,
-}
-
-impl Load for Loader {
-    fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
-        eprintln!("load: {}", f);
-
-        let fm = self.cm.load_file(match f {
-            FileName::Real(v) => v,
-            _ => unreachable!(),
-        })?;
-
-        let lexer = Lexer::new(
-            Syntax::Typescript(TsConfig {
-                decorators: true,
-                ..Default::default()
-            }),
-            JscTarget::Es2020,
-            StringInput::from(&*fm),
-            None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().unwrap();
-
-        let module = module.fold_with(&mut strip());
-
-        Ok(ModuleData {
-            fm,
-            module,
-            helpers: Default::default(),
-        })
-    }
-}
-
-pub struct NodeResolver;
-
-static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
-
-impl NodeResolver {
-    pub fn new() -> Self {
-        Self
-    }
-
-    fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
-        Ok(FileName::Real(
-            path.canonicalize().context("failaed to canonicalize")?,
-        ))
-    }
-
-    /// Resolve a path as a file. If `path` refers to a file, it is
-    /// returned; otherwise the `path` + each extension is tried.
-    fn resolve_as_file(&self, path: &Path) -> Result<PathBuf, Error> {
-        // 1. If X is a file, load X as JavaScript text.
-        if path.is_file() {
-            return Ok(path.to_path_buf());
-        }
-
-        for ext in EXTENSIONS {
-            let ext_path = path.with_extension(ext);
-            if ext_path.is_file() {
-                return Ok(ext_path);
-            }
-        }
-
-        bail!("file not found: {}", path.display())
-    }
-
-    /// Resolve a path as a directory, using the "main" key from a
-    /// package.json file if it exists, or resolving to the
-    /// index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf) -> Result<PathBuf, Error> {
-        // 1. If X/package.json is a file, use it.
-        let pkg_path = path.join("package.json");
-        if pkg_path.is_file() {
-            let main = self.resolve_package_main(&pkg_path);
-            if main.is_ok() {
-                return main;
-            }
-        }
-
-        // 2. LOAD_INDEX(X)
-        self.resolve_index(path)
-    }
-
-    /// Resolve using the package.json "main" key.
-    fn resolve_package_main(&self, _: &PathBuf) -> Result<PathBuf, Error> {
-        bail!("package.json is not supported")
-    }
-
-    /// Resolve a directory to its index.EXT.
-    fn resolve_index(&self, path: &PathBuf) -> Result<PathBuf, Error> {
-        // 1. If X/index.js is a file, load X/index.js as JavaScript text.
-        // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
-        // 3. If X/index.node is a file, load X/index.node as binary addon.
-        for ext in EXTENSIONS {
-            let ext_path = path.join(format!("index.{}", ext));
-            if ext_path.is_file() {
-                return Ok(ext_path);
-            }
-        }
-
-        bail!("index not found: {}", path.display())
-    }
-
-    /// Resolve by walking up node_modules folders.
-    fn resolve_node_modules(&self, base_dir: &Path, target: &str) -> Result<PathBuf, Error> {
-        let node_modules = base_dir.join("node_modules");
-        if node_modules.is_dir() {
-            let path = node_modules.join(target);
-            let result = self
-                .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path));
-            if result.is_ok() {
-                return result;
-            }
-        }
-
-        match base_dir.parent() {
-            Some(parent) => self.resolve_node_modules(parent, target),
-            None => bail!("not found"),
-        }
-    }
-}
-
-impl Resolve for NodeResolver {
-    fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        let base = match base {
-            FileName::Real(v) => v,
-            _ => bail!("node-resolver supports only files"),
-        };
-
-        // Absolute path
-        if target.starts_with("/") {
-            let base_dir = &Path::new("/");
-
-            let path = base_dir.join(target);
-            return self
-                .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path))
-                .and_then(|p| self.wrap(p));
-        }
-
-        let cwd = &Path::new(".");
-        let base_dir = base.parent().unwrap_or(&cwd);
-
-        if target.starts_with("./") || target.starts_with("../") {
-            let path = base_dir.join(target);
-            return self
-                .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path))
-                .and_then(|p| self.wrap(p));
-        }
-
-        self.resolve_node_modules(base_dir, target)
-            .and_then(|p| self.wrap(p))
     }
 }

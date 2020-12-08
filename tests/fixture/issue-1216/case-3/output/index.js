@@ -19,11 +19,10 @@ function foo() {
                 _ctx.t0 = _ctx.sent;
             case 7:
                 val = _ctx.t0;
-                void 0;
                 console.log({
                     val: val
                 });
-            case 10:
+            case 9:
             case "end":
                 return _ctx.stop();
         }

@@ -124,6 +124,15 @@ pub struct Options {
     pub is_module: bool,
 }
 
+impl Options {
+    pub fn codegen_target(&self) -> Option<JscTarget> {
+        self.config
+            .as_ref()
+            .map(|config| &config.jsc)
+            .map(|jsc| jsc.target)
+    }
+}
+
 fn default_is_module() -> bool {
     true
 }

@@ -1474,8 +1474,6 @@ expect(foo()).toBe(false);
                                 }, _callee1);
                             }))));
                         case 2:
-                            _ctx.sent;
-                        case 3:
                         case "end":
                             return _ctx.stop();
                     }
