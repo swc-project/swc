@@ -92,8 +92,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         types.extend(new);
     }
 
+    // Remove `Box`
+    types.retain(|ty| as_box(ty).is_none());
+    types.dedup_by_key(|ty| method_name_as_str(mode, &ty));
+    types.sort_by_cached_key(|ty| method_name_as_str(mode, &ty));
+
+    let types = types;
+
     methods.dedup_by_key(|v| v.sig.ident.to_string());
-    methods.sort_by_cached_key(|v| v.sig.ident.to_string());
 
     for ty in &types {
         let sig = create_method_sig(mode, ty);
@@ -105,11 +111,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         methods.push(TraitItemMethod {
             attrs: vec![],
-            sig: sig.clone(),
+            sig,
             default: Some(create_method_body(mode, &ty)),
             semi_token: None,
         });
     }
+
+    methods.sort_by_cached_key(|v| v.sig.ident.to_string());
 
     for ty in &types {
         let sig = create_method_sig(mode, ty);
@@ -551,15 +559,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             // Signature of visit_item / fold_item
             let method_sig = method_sig(mode, ty);
             let method_name = method_sig.ident;
-            let node_arg = method_sig
-                .inputs
-                .iter()
-                .nth(1)
-                .expect("visit/fold should accept self as first parameter");
-            let node_type = match node_arg {
-                FnArg::Receiver(_) => unreachable!(),
-                FnArg::Typed(pat) => &pat.ty,
-            };
 
             // Prevent duplicate implementations.
             let s = method_name.to_string();
@@ -679,7 +678,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
-                            Type: node_type,
+                            Type: ty,
                             expr,
                         },
                         {
