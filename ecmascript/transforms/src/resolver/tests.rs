@@ -1834,7 +1834,8 @@ to!(
     const b = 1;
     {
         const b = 2;
-        const b2 = 3;
+        const b1 = 3;
+        const b2 = 4;
     }
     ",
     "
