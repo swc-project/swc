@@ -97,12 +97,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     types.sort_by_cached_key(|ty| method_name_as_str(mode, &ty));
     types.dedup_by_key(|ty| method_name_as_str(mode, &ty));
 
-    let s: Vec<_> = types
-        .iter()
-        .map(|ty| method_name_as_str(mode, &ty))
-        .collect();
-    eprintln!("Names: {:?}", s);
-
     let types = types;
 
     methods.sort_by_cached_key(|v| v.sig.ident.to_string());
@@ -762,6 +756,15 @@ where
 /// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
 /// - `Vec<Expr>` => &*node or
 fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
+    match mode {
+        Mode::Visit | Mode::VisitAll => {
+            if let Some(inner) = extract_generic("Arc", ty) {
+                return visit_expr(mode, inner, visitor, expr);
+            }
+        }
+        _ => {}
+    }
+
     let visit_name = method_name(mode, ty);
 
     adjust_expr(mode, ty, expr, |expr| match mode {
