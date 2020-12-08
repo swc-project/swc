@@ -109,6 +109,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             default: Some(create_method_body(mode, &ty)),
             semi_token: None,
         });
+    }
+
+    for ty in &types {
+        let sig = create_method_sig(mode, ty);
+        let name = sig.ident.clone();
+
         {
             // &'_ mut V, Box<V>
             let block = match mode {
