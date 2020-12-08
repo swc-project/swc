@@ -76,7 +76,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             None => continue,
         };
 
-        methods.push(mtd.clone());
+        methods.push(mtd);
     }
 
     let mut tokens = q!({});
@@ -756,25 +756,6 @@ where
 /// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
 /// - `Vec<Expr>` => &*node or
 fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
-    match mode {
-        Mode::Visit | Mode::VisitAll => {
-            if let Some(inner) = extract_generic("Arc", ty) {
-                let visit = method_name(mode, inner);
-
-                return q!(
-                    Vars {
-                        visitor,
-                        visit,
-                        expr
-                    },
-                    { visitor.visit(expr, _parent) }
-                )
-                .parse();
-            }
-        }
-        _ => {}
-    }
-
     let visit_name = method_name(mode, ty);
 
     adjust_expr(mode, ty, expr, |expr| match mode {
@@ -1262,7 +1243,11 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 fn create_method_body(mode: Mode, ty: &Type) -> Block {
     if let Some(ty) = extract_generic("Arc", ty) {
         match mode {
-            Mode::Visit | Mode::VisitAll => return create_method_body(mode, ty),
+            Mode::Visit | Mode::VisitAll => {
+                let visit = method_name(mode, ty);
+
+                return q!(Vars { visit }, ({ _visitor.visit(n, _parent) })).parse();
+            }
             Mode::VisitMut => {
                 return Block {
                     brace_token: def_site(),
