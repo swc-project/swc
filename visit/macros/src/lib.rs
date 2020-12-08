@@ -94,11 +94,18 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     // Remove `Box`
     types.retain(|ty| as_box(ty).is_none());
-    types.dedup_by_key(|ty| method_name_as_str(mode, &ty));
     types.sort_by_cached_key(|ty| method_name_as_str(mode, &ty));
+    types.dedup_by_key(|ty| method_name_as_str(mode, &ty));
+
+    let s: Vec<_> = types
+        .iter()
+        .map(|ty| method_name_as_str(mode, &ty))
+        .collect();
+    eprintln!("Names: {:?}", s);
 
     let types = types;
 
+    methods.sort_by_cached_key(|v| v.sig.ident.to_string());
     methods.dedup_by_key(|v| v.sig.ident.to_string());
 
     for ty in &types {
