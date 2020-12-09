@@ -196,7 +196,7 @@ fn deno_8189() {
 }
 
 #[test]
-fn deno_8211() {
+fn deno_8211_1() {
     run(
         "https://unpkg.com/luxon@1.25.0/src/luxon.js",
         &[
@@ -216,7 +216,7 @@ fn deno_8211() {
 
 /// https://github.com/denoland/deno/issues/8211#issuecomment-736498065
 #[test]
-fn deno_8211_1() {
+fn deno_8211_2() {
     run("tests/deno/deno-8211-1/input/entry.ts", &[]);
 }
 
@@ -878,7 +878,7 @@ fn deno_8627() {
 }
 
 #[test]
-fn deno_8211_2() {
+fn deno_8211_3() {
     run("tests/deno/deno-8211/input.ts", &[])
 }
 
