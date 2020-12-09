@@ -168,7 +168,7 @@ impl Task for BundleTask {
         ))
     }
 
-    fn resolve(&self, env: &mut Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+    fn resolve(self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
         env.to_js_value(&output)?.coerce_to_object()
     }
 }
@@ -191,14 +191,16 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             }),
     ));
 
-    cx.env.spawn(BundleTask {
-        swc: c.clone(),
-        config: ConfigItem {
-            loader,
-            resolver: Box::new(NodeResolver::new()) as Box<_>,
-            static_items,
-        },
-    })
+    cx.env
+        .spawn(BundleTask {
+            swc: c.clone(),
+            config: ConfigItem {
+                loader,
+                resolver: Box::new(NodeResolver::new()) as Box<_>,
+                static_items,
+            },
+        })
+        .map(|t| t.promise_object())
 }
 
 struct Hook;

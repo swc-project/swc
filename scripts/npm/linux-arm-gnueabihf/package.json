@@ -1,12 +1,15 @@
 {
-  "name": "@swc/core-win32",
-  "version": "1.2.23",
+  "name": "@swc/core-linux-arm-gnueabihf",
+  "version": "1.2.40",
   "os": [
-    "win32"
+    "linux"
   ],
-  "main": "swc.win32.node",
+  "cpu": [
+    "arm"
+  ],
+  "main": "swc.linux-arm-gnueabihf.node",
   "files": [
-    "swc.win32.node"
+    "swc.linux-arm-gnueabihf.node"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [
@@ -21,11 +24,12 @@
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "homepage": "https://swc.rs",
   "license": "MIT",
-  "cpu": [
-    "x64"
-  ],
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "repository": {
     "type": "git",
