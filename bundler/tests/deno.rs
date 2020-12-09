@@ -869,6 +869,11 @@ fn deno_8620() {
 }
 
 #[test]
+fn deno_8627() {
+    run("tests/deno/deno-8627/input.ts", &[])
+}
+
+#[test]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
