@@ -8,6 +8,8 @@ use syn::{
     PathArguments, Type,
 };
 
+use crate::{parse::extract_doc, rename::field_name};
+
 pub(super) fn create(input: DeriveInput) {
     let InterfaceAttr { path } = InterfaceAttr::parse(&input.attrs);
     if path == PathBuf::new() {
@@ -17,18 +19,24 @@ pub(super) fn create(input: DeriveInput) {
     let type_name = input.ident.to_string();
 
     let fields = match input.data {
-        Data::Struct(s) => parse_struct(s),
+        Data::Struct(s) => parse_struct(&input.attrs, s),
         Data::Enum(_) => todo!("#[derive(Interface)] for `enum`"),
         Data::Union(_) => panic!("#[derive(Interface)] does not support `union`"),
     };
 
-    let s = print_interface(&type_name, &fields).unwrap();
+    let s = print_interface(&input.attrs, &type_name, &fields).unwrap();
     std::fs::write(&path, s.as_bytes()).unwrap();
 }
 
-fn print_interface(type_name: &str, fields: &[InterfaceField]) -> Result<String, fmt::Error> {
+fn print_interface(
+    attrs: &[Attribute],
+    type_name: &str,
+    fields: &[InterfaceField],
+) -> Result<String, fmt::Error> {
     let mut b = String::new();
 
+    let doc = extract_doc(&attrs);
+    writeln!(b, "/** {} */", doc)?;
     writeln!(b, "export default interface {} {{", type_name)?;
     for field in fields {
         let optional = if field.optional { "?" } else { "" };
@@ -180,12 +188,12 @@ fn parse_type(field_name: &str, attrs: &[Attribute], ty: &Type) -> (bool, FieldT
     unimplemented!("Unknown type {:?}", ty)
 }
 
-fn parse_struct(s: DataStruct) -> Vec<InterfaceField> {
+fn parse_struct(attrs: &[Attribute], s: DataStruct) -> Vec<InterfaceField> {
     match s.fields {
         Fields::Named(fields) => {
             let mut fs = vec![];
             for field in fields.named {
-                let name = field.ident.unwrap().to_string();
+                let name = field_name(&attrs, &field);
                 let (optional, ty) = parse_type(&name, &field.attrs, &field.ty);
                 fs.push(InterfaceField { name, optional, ty });
             }

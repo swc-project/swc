@@ -1,6 +1,8 @@
 extern crate proc_macro;
 
 mod interface;
+mod parse;
+mod rename;
 
 /// Creates a typescript interface which is `export default`.
 ///
