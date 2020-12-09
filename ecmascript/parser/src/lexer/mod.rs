@@ -225,7 +225,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 Some('?') => {
                     self.input.bump();
                     self.input.bump();
-                    if self.syntax.typescript() && self.input.cur() == Some('=') {
+                    if self.input.cur() == Some('=') {
                         self.input.bump();
                         return Ok(Some(tok!("??=")));
                     }
