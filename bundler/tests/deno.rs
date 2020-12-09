@@ -869,7 +869,6 @@ fn deno_8620() {
 }
 
 #[test]
-#[ignore = "It's a bug of deno run"]
 fn deno_8627() {
     run("tests/deno/deno-8627/input.ts", &[])
 }
