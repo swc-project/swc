@@ -869,6 +869,7 @@ fn deno_8620() {
 }
 
 #[test]
+#[ignore = "Requires newer version of deno"]
 fn deno_8627() {
     run("tests/deno/deno-8627/input.ts", &[])
 }
