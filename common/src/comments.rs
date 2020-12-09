@@ -3,7 +3,11 @@ use crate::{
     syntax_pos::{BytePos, Span},
 };
 use fxhash::FxHashMap;
-use std::{cell::RefCell, rc::Rc, sync::Arc};
+use std::{
+    cell::{Ref, RefCell},
+    rc::Rc,
+    sync::Arc,
+};
 
 /// Stores comment.
 ///
@@ -107,7 +111,8 @@ where
     delegate!();
 }
 
-pub type SingleThreadedCommentsMap = Rc<RefCell<FxHashMap<BytePos, Vec<Comment>>>>;
+pub type SingleThreadedCommentsMapInner = FxHashMap<BytePos, Vec<Comment>>;
+pub type SingleThreadedCommentsMap = Rc<RefCell<SingleThreadedCommentsMapInner>>;
 
 /// Single-threaded storage for comments.
 #[derive(Debug, Clone, Default)]
@@ -184,6 +189,16 @@ impl SingleThreadedComments {
         (self.leading, self.trailing)
     }
 
+    /// Borrows all the comments as (leading, trailing).
+    pub fn borrow_all<'a>(
+        &'a self,
+    ) -> (
+        Ref<'a, SingleThreadedCommentsMapInner>,
+        Ref<'a, SingleThreadedCommentsMapInner>,
+    ) {
+        (self.leading.borrow(), self.trailing.borrow())
+    }
+
     pub fn with_leading<F, Ret>(&self, pos: BytePos, op: F) -> Ret
     where
         F: FnOnce(&[Comment]) -> Ret,
@@ -206,6 +221,7 @@ impl SingleThreadedComments {
         }
     }
 }
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Comment {
     pub kind: CommentKind,
