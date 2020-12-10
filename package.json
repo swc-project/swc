@@ -64,7 +64,7 @@
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.5",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
-    "browserslist": "^4.12.0",
+    "browserslist": "^4.14.7",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
     "napi-rs": "^0.3.1",
