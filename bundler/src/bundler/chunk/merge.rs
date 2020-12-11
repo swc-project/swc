@@ -4,6 +4,7 @@ use crate::{
         chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
     },
+    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -666,7 +667,7 @@ where
 
         sort(&mut entry.body);
 
-        // print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry);
 
         entry.body.retain_mut(|item| {
             match item {
@@ -846,7 +847,9 @@ where
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
                                         Some(exported) => {
-                                            if named.orig.span.ctxt != info.export_ctxt() {
+                                            if named.orig.span.ctxt != info.export_ctxt()
+                                                && exported.sym != js_word!("default")
+                                            {
                                                 let mut lhs = exported.clone();
                                                 lhs.span = lhs.span.with_ctxt(info.export_ctxt());
                                                 vars.push(
