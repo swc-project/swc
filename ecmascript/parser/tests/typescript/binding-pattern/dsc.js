@@ -1,37 +1,89 @@
-// ------- BindingPattern = SELF
+// self - local self
 
+// ArrayBindingPattern -> [Elision? BindingRestElement -> BindingIdentifier]
 
-/* ArrayBindingPattern
+/*
+* ArrayBindingPattern
 * Elision = ,
 * BindingRestElement = ... SELF | ... identifier
 * BindingElementList = ,? BindingElement | self ,? BindingElement
 * BindingElement = identifier = _ | SELF = _
 *
 * */
-
-// ArrayBindingPattern -> [Elision? BindingRestElement -> BindingIdentifier]
-let x = [1, 2, 3, 4, 5, 6]
-let [...tail] = x        //  [ 1, 2, 3, 4, 5, 6 ]
-let [, ...tail_1] = x //  [ 2, 3, 4, 5, 6 ]
-let [,,, ...tail_2] = x //  [ 4, 5, 6 ]
+let simple_array = [1, 2, 3, 4, 5, 6]
+let multi_array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+let multi_array_2 = [[[1, 2, 3, 4], [5, 6, 7, 8, 9]]]
+let obj = {
+    num: 10,
+    null: null,
+    nested: {nested: {val: "val"}, array: simple_array},
+    s_array: simple_array,
+    m_array: multi_array
+}
+// ------- BindingPattern = SELF
+{
+    let [...tail] = simple_array        //  [ 1, 2, 3, 4, 5, 6 ]
+    let [, ...tail_1] = simple_array //  [ 2, 3, 4, 5, 6 ]
+    let [, , , ...tail_2] = simple_array //  [ 4, 5, 6 ]
 
 // ArrayBindingPattern -> [Elision? BindingRestElement -> BindingPattern -> ArrayBindingPattern -> [Elision? BindingRestElement -> BindingIdentifier]]
-let m1 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-let m2 = [[[1, 2, 3, 4],[ 5, 6, 7, 8, 9]]]
-let [...[...tail_3]] = m1 // [[ 1, 2, 3 ],[ 4, 5, 6 ],[ 7, 8, 9 ]]
-let [...[...tail_4]] = m2 // [ [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8, 9 ] ] ]
-let [...[...[...tail_5]]] = m2 // [ [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8, 9 ] ] ]
-let [, ...[,...tail_6]] = m1 // [ [ 7, 8, 9 ] ]
-let [, ...[,...tail_7]] = m2 // []
-let [, ...[,,...tail_8]] = [1,2,3,[4,5,6,7]] // [ [ 4, 5, 6, 7 ] ]
+    let [...[...tail_3]] = multi_array // [[ 1, 2, 3 ],[ 4, 5, 6 ],[ 7, 8, 9 ]]
+    let [...[...tail_4]] = multi_array_2 // [ [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8, 9 ] ] ]
+    let [...[...[...tail_5]]] = multi_array_2 // [ [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8, 9 ] ] ]
+    let [, ...[, ...tail_6]] = multi_array // [ [ 7, 8, 9 ] ]
+    let [, ...[, ...tail_7]] = multi_array_2 // []
+    let [, ...[, , ...tail_8]] = [1, 2, 3, [4, 5, 6, 7]] // [ [ 4, 5, 6, 7 ] ]
 
 // ArrayBindingPattern -> [Elision? BindingRestElement -> BindingPattern -> ObjectBindingPattern ... ]
 
 // ArrayBindingPattern -> [BindingElementList -> BindingElisionElement -> BindingElement -> SingleNameBinding]
-let [a = 10] = x // 1
-let [,ab = 10,,,] = x // 2
-let [,,,ba = ab] = x // 4
+    let [a = 10] = simple_array // 1
+    let [, ab = 10, , ,] = simple_array // 2
+    let [, , , ba = ab] = simple_array // 4
 
 // ArrayBindingPattern -> [BindingElementList -> BindingElisionElement -> BindingElement -> BindingPattern]
 // ArrayBindingPattern -> [BindingElementList,Elision? BindingRestElement]
-let [,v1,,...v_rest] = x // 2 [ 4, 5, 6 ]
+    let [, v1, , ...v_rest] = simple_array // 2 [ 4, 5, 6 ]
+
+    /*
+    * ObjectBindingPattern
+    * {}
+    * {BindingRestProperty} = ... id
+    * {BindingPropertyList} = BindingProperty | self,BindingProperty
+    * {BindingPropertyList,BindingRestProperty }
+    *  BindingProperty = id = _ | PropertyName : id = _ | PropertyName : SELF = _
+    *  PropertyName = ((UnicodeIDStart | $ | _ ) (UnicodeIDContinue | $ | <ZWNJ> <ZWJ> ) | "string" | 'string' | num | [ _ ]
+    * */
+// ObjectBindingPattern -> {}
+    let {} = obj // {}
+// ObjectBindingPattern -> {BindingRestProperty}
+    let {...obj2} = obj // obj
+    var {...obj3} = obj // obj
+
+// ObjectBindingPattern -> {BindingPropertyList}
+    let {simple_prop = 10} = obj // 10
+    let {obj_prop = {value: prop2 = 10}, prop3 = [1]} = obj // obj_prop = {value:10},prop2 = 10
+    let {next_obj = {$: prop2 = 10, 'a': prop_3 = 'a', "aa": prop4 = "a", _: prop4 = "_",}} = obj // obj_prop = {value:10},prop2 = 10
+}
+// ----------------- //
+
+// Spots
+// PrimaryExpression -> (...SELF) | (Expression, ...SELF)
+// LexicalDeclaration[ -> (let | const) SELF
+// Iteration Statements -> for((var | let | const) SELF (in | of) ...)
+// TryStatement -> try{...} catch(SELF){...}
+class MyError extends Error {
+    constructor(name1, name2) {
+        super();
+        this.name1 = name1;
+        this.name2 = name2;
+    }
+}
+
+try {
+    let err = new MyError("name1", "name2")
+    err.code = "code"
+    throw err
+} catch ({name1,name2,code,...rest}){
+    console.log(name1,name2,code,rest)
+}
