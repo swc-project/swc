@@ -537,6 +537,10 @@ where
                         let ids: Vec<Id> = find_ids(decl);
 
                         for id in ids {
+                            if *id.sym() == js_word!("default") {
+                                continue;
+                            }
+
                             if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
                                 let reexported = id.clone().with_ctxt(remapped);
                                 extra_stmts.push(
@@ -565,6 +569,10 @@ where
                             let ids: Vec<Id> = find_ids(decl);
 
                             for id in ids {
+                                if *id.sym() == js_word!("default") {
+                                    continue;
+                                }
+
                                 if ctxts.contains(&id.ctxt()) {
                                     additional_props.entry(module_id).or_default().push(
                                         PropOrSpread::Prop(Box::new(Prop::Shorthand(
