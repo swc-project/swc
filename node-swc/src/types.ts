@@ -306,7 +306,7 @@ export interface EsParserConfig {
   jsx?: boolean;
   /**
    * Defaults to `false`.
-   * 
+   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   numericSeparator?: boolean;
@@ -316,7 +316,7 @@ export interface EsParserConfig {
   classPrivateProperty?: boolean;
   /**
    * Defaults to `false`
-   * 
+   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   privateMethod?: boolean;
@@ -342,22 +342,22 @@ export interface EsParserConfig {
   dynamicImport?: boolean;
   /**
    * Defaults to `false`
-   * 
+   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   nullishCoalescing?: boolean;
   /**
    * Defaults to `false`
    */
-  exportDefaultFrom?: boolean,
+  exportDefaultFrom?: boolean;
   /**
    * Defaults to `false`
    */
-  exportNamespaceFrom?: boolean,
+  exportNamespaceFrom?: boolean;
   /**
    * Defaults to `false`
    */
-  importMeta?: boolean,
+  importMeta?: boolean;
 }
 
 /**
@@ -379,12 +379,12 @@ export interface TransformConfig {
   /**
    * https://swc.rs/docs/configuring-swc.html#jsctransformlegacydecorator
    */
-  legacyDecorator?: boolean
+  legacyDecorator?: boolean;
 
   /**
    * https://swc.rs/docs/configuring-swc.html#jsctransformdecoratormetadata
    */
-  decoratorMetadata?: boolean
+  decoratorMetadata?: boolean;
 }
 
 export interface ReactConfig {
@@ -441,7 +441,7 @@ export interface OptimizerConfig {
   /// https://swc.rs/docs/configuring-swc.html#jsctransformoptimizerglobals
   globals?: GlobalPassOption;
   /// https://swc.rs/docs/configuring-swc.html#jsctransformoptimizerjsonify
-  jsonify?: { minCost: number }
+  jsonify?: { minCost: number };
 }
 
 /**
@@ -558,7 +558,7 @@ export interface Output {
   map?: string;
 }
 
-export interface MatchPattern { }
+export interface MatchPattern {}
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -638,8 +638,8 @@ export interface PrivateProperty extends ClassPropertyBase {
 }
 
 export interface Param extends Node, HasSpan, HasDecorator {
-  type: 'Parameter'
-  pat: Pattern
+  type: "Parameter";
+  pat: Pattern;
 }
 
 export interface Constructor extends Node, HasSpan {
@@ -776,7 +776,7 @@ export type Expression =
   | OptionalChainingExpression
   | Invalid;
 
-interface ExpressionBase extends Node, HasSpan { }
+interface ExpressionBase extends Node, HasSpan {}
 
 export interface OptionalChainingExpression extends ExpressionBase {
   type: "OptionalChainingExpression";
@@ -1202,15 +1202,10 @@ export interface ExportDeclaration extends Node, HasSpan {
 export interface ImportDeclaration extends Node, HasSpan {
   type: "ImportDeclaration";
 
-  specifiers: ImporSpecifier[];
+  specifiers: ImportSpecifier[];
 
   source: StringLiteral;
 }
-
-export type ImporSpecifier =
-  | ImportDefaultSpecifier
-  | NamedImportSpecifier
-  | ImportNamespaceSpecifier;
 
 export interface ExportAllDeclaration extends Node, HasSpan {
   type: "ExportAllDeclaration";
@@ -1985,7 +1980,11 @@ export interface TsLiteralType extends Node, HasSpan {
   literal: TsLiteral;
 }
 
-export type TsLiteral = NumericLiteral | StringLiteral | BooleanLiteral | TemplateLiteral;
+export type TsLiteral =
+  | NumericLiteral
+  | StringLiteral
+  | BooleanLiteral
+  | TemplateLiteral;
 
 // // ================
 // // TypeScript declarations
