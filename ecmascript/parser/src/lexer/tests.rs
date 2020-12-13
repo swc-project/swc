@@ -4,7 +4,10 @@ use super::{
     state::{lex, lex_module_errors, lex_tokens, lex_tokens_with_target, with_lexer},
     *,
 };
-use crate::error::{Error, SyntaxError};
+use crate::{
+    error::{Error, SyntaxError},
+    lexer::state::lex_errors,
+};
 use std::{ops::Range, str};
 use test::{black_box, Bencher};
 
@@ -1275,4 +1278,18 @@ fn lex_semicolons(b: &mut Bencher) {
          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
     );
+}
+
+#[test]
+fn issue_1272_ts() {
+    let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\\u{16}");
+    assert_eq!(tokens, vec![]);
+    assert_ne!(errors, vec![]);
+}
+
+#[test]
+fn issue_1272_js() {
+    let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "\\u{16}");
+    assert_eq!(tokens, vec![]);
+    assert_ne!(errors, vec![]);
 }
