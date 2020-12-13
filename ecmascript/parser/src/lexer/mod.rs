@@ -432,7 +432,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             // unexpected character
-            c => self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?,
+            c => {
+                self.input.bump();
+                self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
+            }
         };
 
         Ok(Some(token))
