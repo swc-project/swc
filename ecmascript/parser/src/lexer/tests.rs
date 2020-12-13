@@ -1281,15 +1281,31 @@ fn lex_semicolons(b: &mut Bencher) {
 }
 
 #[test]
-fn issue_1272_ts() {
+fn issue_1272_1_ts() {
     let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\\u{16}");
-    assert_eq!(tokens, vec![]);
+    assert_eq!(tokens.len(), 1);
     assert_ne!(errors, vec![]);
 }
 
 #[test]
-fn issue_1272_js() {
+fn issue_1272_1_js() {
     let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "\\u{16}");
-    assert_eq!(tokens, vec![]);
+    assert_eq!(tokens.len(), 1);
     assert_ne!(errors, vec![]);
+}
+
+#[test]
+fn issue_1272_2_ts() {
+    // Not recoverable yet
+    let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\u{16}");
+    assert_eq!(tokens.len(), 1);
+    assert_eq!(errors, vec![]);
+}
+
+#[test]
+fn issue_1272_2_js() {
+    // Not recoverable yet
+    let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "\u{16}");
+    assert_eq!(tokens.len(), 1);
+    assert_eq!(errors, vec![]);
 }
