@@ -784,7 +784,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         };
 
                         if !valid {
-                            l.error(start, SyntaxError::InvalidIdentChar)?
+                            l.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
                         buf.extend(c);
                     }
