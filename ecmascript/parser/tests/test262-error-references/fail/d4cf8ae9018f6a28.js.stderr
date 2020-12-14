@@ -4,3 +4,9 @@ error: Invalid character in identifier
 1 | \uD800\uDC00
   | ^^^^^^
 
+error: Invalid character in identifier
+ --> $DIR/tests/test262-parser/fail/d4cf8ae9018f6a28.js:1:7
+  |
+1 | \uD800\uDC00
+  |       ^^^^^^
+
