@@ -1,3 +1,9 @@
+error: Expected 4 hex characters
+ --> $DIR/tests/test262-parser/fail/c3afed3cb0fb92ab.js:1:7
+  |
+1 | \uD800\u
+  |       ^^
+
 error: Invalid character in identifier
  --> $DIR/tests/test262-parser/fail/c3afed3cb0fb92ab.js:1:1
   |
