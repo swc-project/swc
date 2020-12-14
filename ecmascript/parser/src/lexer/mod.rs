@@ -432,7 +432,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             // unexpected character
-            c => self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?,
+            c => {
+                self.input.bump();
+                self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
+            }
         };
 
         Ok(Some(token))
@@ -784,7 +787,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         };
 
                         if !valid {
-                            l.error(start, SyntaxError::InvalidIdentChar)?
+                            l.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
                         buf.extend(c);
                     }
