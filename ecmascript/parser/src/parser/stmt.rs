@@ -13,9 +13,9 @@ impl<'a, I: Tokens> Parser<I> {
         top_level: bool,
         end: Option<&Token>,
     ) -> PResult<Vec<Type>>
-    where
-        Self: StmtLikeParser<'a, Type>,
-        Type: IsDirective + From<Stmt>,
+        where
+            Self: StmtLikeParser<'a, Type>,
+            Type: IsDirective + From<Stmt>,
     {
         trace_cur!(parse_block_body);
 
@@ -70,9 +70,9 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// Parse a statement, declaration or module item.
     fn parse_stmt_like<Type>(&mut self, include_decl: bool, top_level: bool) -> PResult<Type>
-    where
-        Self: StmtLikeParser<'a, Type>,
-        Type: IsDirective + From<Stmt>,
+        where
+            Self: StmtLikeParser<'a, Type>,
+            Type: IsDirective + From<Stmt>,
     {
         trace_cur!(parse_stmt_like);
         let start = cur_pos!();
@@ -364,7 +364,7 @@ impl<'a, I: Tokens> Parser<I> {
                         span: span!(start),
                         expr,
                     }
-                    .into());
+                        .into());
                 }
 
                 _ => {}
@@ -735,20 +735,20 @@ impl<'a, I: Tokens> Parser<I> {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
                 Pat::Array(ArrayPat {
-                    ref mut type_ann, ..
-                })
+                               ref mut type_ann, ..
+                           })
                 | Pat::Assign(AssignPat {
-                    ref mut type_ann, ..
-                })
+                                  ref mut type_ann, ..
+                              })
                 | Pat::Ident(Ident {
-                    ref mut type_ann, ..
-                })
+                                 ref mut type_ann, ..
+                             })
                 | Pat::Object(ObjectPat {
-                    ref mut type_ann, ..
-                })
+                                  ref mut type_ann, ..
+                              })
                 | Pat::Rest(RestPat {
-                    ref mut type_ann, ..
-                }) => {
+                                ref mut type_ann, ..
+                            }) => {
                     *type_ann = type_annotation;
                 }
                 _ => unreachable!("invalid syntax: Pat: {:?}", name),
@@ -890,14 +890,14 @@ impl<'a, I: Tokens> Parser<I> {
                 let f = p.parse_fn_decl(vec![])?;
                 match f {
                     Decl::Fn(FnDecl {
-                        function:
-                            Function {
-                                span,
-                                is_generator: true,
-                                ..
-                            },
-                        ..
-                    }) => syntax_error!(span, SyntaxError::LabelledGenerator),
+                                 function:
+                                 Function {
+                                     span,
+                                     is_generator: true,
+                                     ..
+                                 },
+                                 ..
+                             }) => syntax_error!(span, SyntaxError::LabelledGenerator),
                     _ => {}
                 }
 
@@ -1107,10 +1107,10 @@ pub(super) trait IsDirective {
         match self.as_ref() {
             Some(&Stmt::Expr(ref expr)) => match *expr.expr {
                 Expr::Lit(Lit::Str(Str {
-                    ref value,
-                    has_escape: false,
-                    ..
-                })) => value == "use strict",
+                                       ref value,
+                                       has_escape: false,
+                                       ..
+                                   })) => value == "use strict",
                 _ => false,
             },
             _ => false,
@@ -1145,7 +1145,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
                 span: span!(start),
                 expr,
             }
-            .into());
+                .into());
         }
 
         if self.input.syntax().import_meta() && is!("import") && peeked_is!('.') {
@@ -1157,7 +1157,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
                 span: span!(start),
                 expr,
             }
-            .into());
+                .into());
         }
 
         syntax_error!(SyntaxError::ImportExportInScript);
@@ -1178,6 +1178,7 @@ mod tests {
     fn module_item(s: &'static str) -> ModuleItem {
         test_parser(s, Syntax::default(), |p| p.parse_stmt_like(true, true))
     }
+
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
@@ -1595,8 +1596,7 @@ export default function waitUntil(callback, options = {}) {
     #[test]
     fn issue_411() {
         test_parser(
-            "try {
-} catch {}",
+            "try {} catch {}",
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),

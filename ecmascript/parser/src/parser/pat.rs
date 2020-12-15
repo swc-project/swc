@@ -133,12 +133,12 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
             && match *cur!(false)? {
-                Word(Word::Ident(js_word!("public")))
-                | Word(Word::Ident(js_word!("protected")))
-                | Word(Word::Ident(js_word!("private")))
-                | Word(Word::Ident(js_word!("readonly"))) => true,
-                _ => false,
-            }
+            Word(Word::Ident(js_word!("public")))
+            | Word(Word::Ident(js_word!("protected")))
+            | Word(Word::Ident(js_word!("private")))
+            | Word(Word::Ident(js_word!("readonly"))) => true,
+            _ => false,
+        }
             && (peeked_is!(IdentName) || peeked_is!('{') || peeked_is!('['));
         if has_modifier {
             let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"]);
@@ -163,14 +163,14 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!('?') {
                 match pat {
                     Pat::Ident(Ident {
-                        ref mut optional, ..
-                    })
+                                   ref mut optional, ..
+                               })
                     | Pat::Array(ArrayPat {
-                        ref mut optional, ..
-                    })
+                                     ref mut optional, ..
+                                 })
                     | Pat::Object(ObjectPat {
-                        ref mut optional, ..
-                    }) => {
+                                      ref mut optional, ..
+                                  }) => {
                         *optional = true;
                         opt = true;
                     }
@@ -186,30 +186,30 @@ impl<'a, I: Tokens> Parser<I> {
 
             match pat {
                 Pat::Array(ArrayPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
+                               ref mut type_ann,
+                               ref mut span,
+                               ..
+                           })
                 | Pat::Assign(AssignPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
+                                  ref mut type_ann,
+                                  ref mut span,
+                                  ..
+                              })
                 | Pat::Ident(Ident {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
+                                 ref mut type_ann,
+                                 ref mut span,
+                                 ..
+                             })
                 | Pat::Object(ObjectPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
+                                  ref mut type_ann,
+                                  ref mut span,
+                                  ..
+                              })
                 | Pat::Rest(RestPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                }) => {
+                                ref mut type_ann,
+                                ref mut span,
+                                ..
+                            }) => {
                     let new_type_ann = self.try_parse_ts_type_ann()?;
                     if new_type_ann.is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
@@ -383,7 +383,7 @@ impl<'a, I: Tokens> Parser<I> {
                         right,
                         type_ann: None,
                     }
-                    .into();
+                        .into();
                 }
 
                 let type_ann = if self.input.syntax().typescript() && is!(':') {
@@ -426,6 +426,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_formal_params()
     }
 }
+
 ///
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PatType {
@@ -435,6 +436,7 @@ pub enum PatType {
     AssignPat,
     AssignElement,
 }
+
 impl PatType {
     pub fn element(self) -> Self {
         match self {
@@ -625,8 +627,8 @@ impl<'a, I: Tokens> Parser<I> {
             Expr::Ident(ident) => Ok(ident.into()),
             Expr::Member(..) => Ok(Pat::Expr(expr)),
             Expr::Array(ArrayLit {
-                elems: mut exprs, ..
-            }) => {
+                            elems: mut exprs, ..
+                        }) => {
                 if exprs.is_empty() {
                     return Ok(Pat::Array(ArrayPat {
                         span,
@@ -676,9 +678,9 @@ impl<'a, I: Tokens> Parser<I> {
                     let last = match expr {
                         // Rest
                         Some(ExprOrSpread {
-                            spread: Some(dot3_token),
-                            expr,
-                        }) => {
+                                 spread: Some(dot3_token),
+                                 expr,
+                             }) => {
                             // TODO: is BindingPat correct?
                             let expr_span = expr.span();
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
@@ -745,16 +747,16 @@ impl<'a, I: Tokens> Parser<I> {
         for expr in exprs.drain(..len - 1) {
             match expr {
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                    spread: Some(..), ..
-                })
+                                                    spread: Some(..), ..
+                                                })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
                     if self.syntax().early_errors() {
                         syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                     }
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                    spread: None, expr, ..
-                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                                                    spread: None, expr, ..
+                                                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
                 PatOrExprOrSpread::Pat(pat) => params.push(pat),
             }
         }
@@ -764,9 +766,9 @@ impl<'a, I: Tokens> Parser<I> {
         let last = match expr {
             // Rest
             PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                spread: Some(dot3_token),
-                expr,
-            }) => {
+                                                spread: Some(dot3_token),
+                                                expr,
+                                            }) => {
                 let expr_span = expr.span();
                 self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                     Pat::Rest(RestPat {
@@ -796,6 +798,10 @@ mod tests {
 
     fn array_pat(s: &'static str) -> Pat {
         test_parser(s, Syntax::default(), |p| p.parse_array_binding_pat())
+    }
+
+    fn object_pat(s: &'static str) -> Pat {
+        test_parser(s, Syntax::default(), |p| p.parse_binding_pat_or_ident())
     }
 
     fn ident(s: &str) -> Ident {
@@ -882,6 +888,107 @@ mod tests {
                 ],
                 type_ann: None
             })
+        );
+    }
+
+    #[test]
+    fn array_pat_with_binding_pattern() {
+        let rest = Some(Pat::Rest(RestPat {
+            span,
+            dot3_token: span,
+            type_ann: None,
+            arg: Box::new(Pat::Ident(ident("tail"))),
+        }));
+        assert_eq_ignore_span!(
+            array_pat("[...tail]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![rest.clone()],
+                type_ann: None
+            })
+        );
+        assert_eq_ignore_span!(
+            array_pat("[,a=1,]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![
+                    None,
+                    Some(Pat::Assign(
+                    AssignPat{
+                        type_ann:None,span,
+                        left:Box::new(Pat::Ident(ident("a"))),
+                        right:Box::new(Expr::Lit(Lit::Num(Number{span,value:1.0})))
+                        }))
+                ],
+                type_ann: None
+            })
+        );
+        assert_eq_ignore_span!(
+            array_pat("[,,,...tail]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![None,None,None,rest.clone()],
+                type_ann: None
+            })
+        );
+        assert_eq_ignore_span!(
+            array_pat("[,,,...[...tail]]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![
+                    None,None,None,
+                    Some(Pat::Rest(RestPat {
+                    span,
+                    dot3_token:span,
+                    type_ann: None,
+                    arg:Box::new(Pat::Array(ArrayPat {span,optional: false,elems: vec![rest.clone()],type_ann: None}))
+                    }))
+                ],
+                type_ann: None
+            })
+        );
+    }
+
+    #[test]
+    fn object_pat_with_binding_pattern() {
+        assert_eq_ignore_span!(
+            object_pat("{}"),
+            Pat::Object(ObjectPat{span,type_ann:None,optional:false,props:vec![]})
+        );
+        assert_eq_ignore_span!(
+            object_pat("{...obj}"),
+            Pat::Object(ObjectPat{span,type_ann:None,optional:false,props:vec![
+             ObjectPatProp::Rest(RestPat {
+                    span,
+                    dot3_token:span,
+                    type_ann: None,
+                    arg:Box::new(Pat::Ident(ident("obj")))
+                    })
+           ]})
+        );
+        assert_eq_ignore_span!(
+            object_pat("{prop = 10 }"),
+            Pat::Object(ObjectPat{span,type_ann:None,optional:false,props:vec![
+            ObjectPatProp::Assign(
+                AssignPatProp{
+                    span,key:ident("prop"),
+                    value:Some(Box::new(Expr::Lit(Lit::Num(Number{span,value:10.0}))))
+                    }
+            )]})
+        );
+        assert_eq_ignore_span!(
+            object_pat("{obj_prop = {value: prop2 = 10}, prop3 = [1]}"),
+            Pat::Object(ObjectPat{span,type_ann:None,optional:false,props:vec![
+            ObjectPatProp::Assign(
+                AssignPatProp{
+                    span,key:ident("prop"),
+                    value:Some(Box::new(Expr::Lit(Lit::Num(Number{span,value:10.0}))))
+                    }
+            )]})
         );
     }
 }
