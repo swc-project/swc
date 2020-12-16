@@ -10,25 +10,26 @@ use swc_ecma_visit::VisitMutWith;
 pub struct Modules {
     // We will change this into `Vec<Module>`.
     pub body: Vec<ModuleItem>,
-
-    injected: Vec<ModuleItem>,
+    // injected: Vec<ModuleItem>,
 }
 
 impl Modules {
     pub fn empty() -> Self {
         Self {
             body: Default::default(),
-            injected: Default::default(),
+            // injected: Default::default(),
         }
     }
 
     pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut ModuleItem> {
-        self.body.iter_mut().chain(self.injected.iter_mut())
+        // self.body.iter_mut().chain(self.injected.iter_mut())
+        self.body.iter_mut()
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
     pub fn inject(&mut self, var: ModuleItem) {
-        self.injected.push(var)
+        // self.injected.push(var)
+        self.body.push(var)
     }
 
     pub fn visit_mut_with<V>(&mut self, v: &mut V)
@@ -36,7 +37,7 @@ impl Modules {
         V: VisitMut,
     {
         self.body.visit_mut_with(&mut *v);
-        self.injected.visit_mut_with(&mut *v);
+        // self.injected.visit_mut_with(&mut *v);
     }
 
     pub fn fold_with<V>(mut self, v: &mut V) -> Self
@@ -44,7 +45,7 @@ impl Modules {
         V: Fold,
     {
         self.body = self.body.fold_with(&mut *v);
-        self.injected = self.injected.fold_with(&mut *v);
+        // self.injected = self.injected.fold_with(&mut *v);
 
         self
     }
@@ -54,7 +55,7 @@ impl From<Module> for Modules {
     fn from(module: Module) -> Self {
         Self {
             body: module.body,
-            injected: Default::default(),
+            // injected: Default::default(),
         }
     }
 }

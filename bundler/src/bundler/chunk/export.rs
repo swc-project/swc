@@ -1,3 +1,4 @@
+use crate::bundler::modules::Modules;
 use crate::{
     bundler::{
         chunk::merge::Ctx,
@@ -57,7 +58,7 @@ where
         ctx: &Ctx,
         dep_id: ModuleId,
         specifiers: &[Specifier],
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         self.run(|| {
             log::debug!("Reexporting {:?}", dep_id);
             let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -124,12 +125,12 @@ where
             // }
 
             if let Some(module_name) = self.scope.wrapped_esm_id(dep_info.id) {
-                dep = self.wrap_esm(ctx, dep_info.id, dep)?;
+                dep = self.wrap_esm(ctx, dep_info.id, dep.into())?;
 
                 for specifier in specifiers {
                     match specifier {
                         Specifier::Namespace { local, .. } => {
-                            dep.body.push(
+                            dep.inject(
                                 module_name
                                     .assign_to(local.clone())
                                     .into_module_item("merge_export"),
@@ -176,7 +177,7 @@ where
     /// export { b__9 as b__10 };
     /// console.log(b__9);
     /// ```
-    fn handle_reexport(&self, info: &TransformedModule, module: &mut Module) {
+    fn handle_reexport(&self, info: &TransformedModule, module: &mut Modules) {
         let mut new_body = Vec::with_capacity(module.body.len() + 20);
 
         for stmt in &mut module.body {

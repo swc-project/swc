@@ -1,3 +1,4 @@
+use crate::bundler::modules::Modules;
 use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
 use anyhow::{bail, Error};
 use std::mem::take;
@@ -33,7 +34,7 @@ where
         ctx: &Ctx,
         id: ModuleId,
         module: Module,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         let span = module.span;
         let var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
@@ -122,7 +123,8 @@ where
             span: DUMMY_SP,
             shebang: None,
             body: module_items,
-        })
+        }
+        .into())
     }
 }
 

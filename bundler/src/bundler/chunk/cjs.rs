@@ -1,4 +1,5 @@
 use super::merge::Unexporter;
+use crate::bundler::modules::Modules;
 use crate::{
     bundler::{
         chunk::{merge::Ctx, plan::Dependancy},
@@ -7,12 +8,12 @@ use crate::{
     Bundler, Load, Resolve,
 };
 use anyhow::Error;
-use std::{borrow::Cow, sync::atomic::Ordering};
+use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{prepend, quote_ident, undefined, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -44,9 +45,9 @@ where
         &self,
         ctx: &Ctx,
         is_entry: bool,
-        entry: &mut Module,
+        entry: &mut Modules,
         info: &TransformedModule,
-        dep: Cow<Module>,
+        dep: Modules,
         dep_info: &TransformedModule,
         targets: &mut Vec<Dependancy>,
     ) -> Result<(), Error> {
@@ -74,7 +75,7 @@ where
             {
                 info.helpers.require.store(true, Ordering::SeqCst);
 
-                let mut dep = dep.into_owned().fold_with(&mut Unexporter);
+                let mut dep = dep.fold_with(&mut Unexporter);
                 dep.visit_mut_with(&mut ImportDropper);
                 dep.visit_mut_with(&mut DefaultHandler {
                     local_ctxt: dep_info.local_ctxt(),
@@ -86,7 +87,7 @@ where
                         SyntaxContext::empty(),
                         dep_info.local_ctxt(),
                         load_var,
-                        dep,
+                        dep.into(),
                     )),
                 );
 
@@ -105,7 +106,7 @@ where
                         false,
                         entry,
                         info,
-                        Cow::Borrowed(&dep_info.module),
+                        (*dep_info.module).clone().into(),
                         &dep_info,
                         targets,
                     )?;

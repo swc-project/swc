@@ -1,4 +1,5 @@
 use super::plan::CircularPlan;
+use crate::bundler::modules::Modules;
 use crate::{
     bundler::chunk::{merge::Ctx, sort::sort},
     id::Id,
@@ -25,7 +26,7 @@ where
         ctx: &Ctx,
         plan: &CircularPlan,
         entry_id: ModuleId,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         assert!(
             plan.chunks.len() >= 1,
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
@@ -34,11 +35,7 @@ where
 
         if !ctx.merged.insert(entry_id) {
             log::debug!("[circular] skip: {:?}", entry_id);
-            return Ok(Module {
-                span: DUMMY_SP,
-                body: Default::default(),
-                shebang: Default::default(),
-            });
+            return Ok(Modules::empty());
         }
 
         log::debug!("[circular] Stsrting with: {:?}", entry_id);
@@ -50,7 +47,7 @@ where
             .context("failed to merge dependency of a cyclic module")?;
 
         let mut exports = vec![];
-        for item in entry.body.iter_mut() {
+        for item in entry.iter_mut() {
             match item {
                 ModuleItem::ModuleDecl(decl) => match decl {
                     ModuleDecl::ExportDecl(export) => match &export.decl {
@@ -125,16 +122,14 @@ where
         entry = new_module;
 
         if !exports.is_empty() {
-            entry
-                .body
-                .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                    NamedExport {
-                        span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
-                        specifiers: exports,
-                        src: None,
-                        type_only: false,
-                    },
-                )));
+            entry.inject(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
+                    specifiers: exports,
+                    src: None,
+                    type_only: false,
+                },
+            )));
         }
 
         // print_hygiene("[circular] done", &self.cm, &entry);
@@ -146,10 +141,10 @@ where
     pub(super) fn merge_circular_modules(
         &self,
         ctx: &Ctx,
-        mut entry: Module,
+        mut entry: Modules,
         entry_id: ModuleId,
         mut deps: Vec<ModuleId>,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         deps.retain(|&dep| {
             if dep == entry_id {
                 return false;

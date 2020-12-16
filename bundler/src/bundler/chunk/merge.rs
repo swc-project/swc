@@ -3,6 +3,7 @@ use crate::{
     bundler::{
         chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
+        modules::Modules,
     },
     debug::print_hygiene,
     id::{Id, ModuleId},
@@ -42,7 +43,7 @@ where
         module_id: ModuleId,
         is_entry: bool,
         allow_circular: bool,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         self.run(|| {
             let info = self.scope.get_module(module_id).unwrap();
 
@@ -60,9 +61,10 @@ where
                 }
             }
 
-            let mut module = self
+            let mut module: Modules = self
                 .get_module_for_merging(ctx, module_id, is_entry)
-                .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
+                .with_context(|| format!("Failed to clone {:?} for merging", module_id))?
+                .into();
 
             {
                 let plan = ctx.plan.normal.get(&module_id);
@@ -105,7 +107,7 @@ where
         dep_id: ModuleId,
         src: &Source,
         specifiers: &[Specifier],
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         log::debug!("Merging {:?} directly", dep_id);
 
         let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -113,8 +115,8 @@ where
 
         // Now we handle imports
         let mut module = if wrapped {
-            let mut module = self.get_module_for_merging(ctx, dep_id, false)?;
-            module = self.wrap_esm(ctx, dep_id, module)?;
+            let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?.into();
+            module = self.wrap_esm(ctx, dep_id, module.into())?.into();
 
             // Inject local_name = wrapped_esm_module_name
             let module_ident = specifiers.iter().find_map(|specifier| match specifier {
@@ -220,7 +222,7 @@ where
         Ok(module)
     }
 
-    fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
+    fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Modules, Error> {
         log::debug!("Merging {:?} transitively", dep_id);
 
         let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -253,7 +255,7 @@ where
     fn transform_indirect_reexports(
         &self,
         _ctx: &Ctx,
-        module: &mut Module,
+        module: &mut Modules,
         deps: Vec<Source>,
     ) -> Result<(), Error> {
         self.run(|| {
@@ -289,11 +291,11 @@ where
         &self,
         ctx: &Ctx,
         is_entry: bool,
-        mut module: Module,
+        mut module: Modules,
         plan: &NormalPlan,
         info: &TransformedModule,
         from_circular: bool,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         self.run(|| -> Result<_, Error> {
             log::debug!(
                 "Normal merging: ({:?}) {} <= {:?}",
@@ -477,7 +479,7 @@ where
                         is_entry,
                         &mut module,
                         &info,
-                        Cow::Owned(dep_module),
+                        dep_module,
                         &dep_info,
                         &mut targets,
                     )?;
@@ -526,7 +528,7 @@ where
     ///
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
-    fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
+    fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Modules) {
         {
             // Handle `export *` for non-wrapped modules.
 
@@ -662,12 +664,12 @@ where
         }
     }
 
-    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
+    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
         self.handle_export_stars(ctx, entry);
 
         sort(&mut entry.body);
 
-        print_hygiene("done", &self.cm, &entry);
+        print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.body.retain_mut(|item| {
             match item {
@@ -729,7 +731,7 @@ where
         // );
     }
 
-    pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Module) {
+    pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
         let mut new = Vec::with_capacity(module.body.len() + 32);
 
         for stmt in take(&mut module.body) {
@@ -808,7 +810,7 @@ where
         &self,
         ctx: &Ctx,
         info: &TransformedModule,
-        module: &mut Module,
+        module: &mut Modules,
         _for_circular: bool,
     ) {
         self.replace_import_specifiers(info, module);
@@ -1016,12 +1018,12 @@ where
         }
 
         for var in vars {
-            module.body.push(var)
+            module.inject(var);
         }
     }
 }
 
-fn vars_from_exports(dep_info: &TransformedModule, module: &Module) -> Vec<VarDeclarator> {
+fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarDeclarator> {
     // Convert all exports into variables in form of
     //
     // A__export = A__local
