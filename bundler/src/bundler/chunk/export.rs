@@ -143,10 +143,7 @@ where
             }
 
             if !specifiers.is_empty() {
-                dep.visit_mut_with(&mut UnexportAsVar {
-                    dep_export_ctxt: dep_info.export_ctxt(),
-                    _specifiers: &specifiers,
-                });
+                unexprt_as_var(&mut dep, dep_info.export_ctxt());
 
                 // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
 
@@ -479,20 +476,8 @@ impl VisitMut for ExportInjector<'_> {
 /// export { foo#7 } from './b' where #7 is mark of './b'
 /// =>
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
-struct UnexportAsVar<'a> {
-    /// Syntax context for the generated variables.
-    dep_export_ctxt: SyntaxContext,
-
-    /// Exports to preserve
-    _specifiers: &'a [Specifier],
-}
-
-impl VisitMut for UnexportAsVar<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
-        n.visit_mut_children_with(self);
-
+fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
+    modules.map_items_mut(|n| {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
                 let expr = replace(
@@ -504,7 +489,7 @@ impl VisitMut for UnexportAsVar<'_> {
                     span: DUMMY_SP,
                     name: Pat::Ident(Ident::new(
                         "__default".into(),
-                        expr.span().with_ctxt(self.dep_export_ctxt),
+                        expr.span().with_ctxt(dep_export_ctxt),
                     )),
                     init: Some(expr),
                     definite: false,
@@ -537,18 +522,14 @@ impl VisitMut for UnexportAsVar<'_> {
                                 }
                             }
                             None => {
-                                if n.orig.span.ctxt != self.dep_export_ctxt {
-                                    log::trace!(
-                                        "Alias: {:?} -> {:?}",
-                                        n.orig,
-                                        self.dep_export_ctxt
-                                    );
+                                if n.orig.span.ctxt != dep_export_ctxt {
+                                    log::trace!("Alias: {:?} -> {:?}", n.orig, dep_export_ctxt);
 
                                     decls.push(VarDeclarator {
                                         span: n.span,
                                         name: Pat::Ident(Ident::new(
                                             n.orig.sym.clone(),
-                                            n.orig.span.with_ctxt(self.dep_export_ctxt),
+                                            n.orig.span.with_ctxt(dep_export_ctxt),
                                         )),
                                         init: Some(Box::new(Expr::Ident(n.orig.clone()))),
                                         definite: false,
@@ -572,9 +553,7 @@ impl VisitMut for UnexportAsVar<'_> {
             }
             _ => {}
         }
-    }
-
-    fn visit_mut_stmt(&mut self, _: &mut Stmt) {}
+    })
 }
 
 struct DepUnexporter<'a> {

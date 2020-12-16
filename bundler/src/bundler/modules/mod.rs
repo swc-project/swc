@@ -44,6 +44,15 @@ impl Modules {
         self.body = op(take(&mut self.body));
     }
 
+    pub fn map_items_mut<F>(&mut self, mut op: F)
+    where
+        F: FnMut(&mut ModuleItem),
+    {
+        self.iter_mut().for_each(|item| {
+            op(item);
+        })
+    }
+
     /// Insert a statement which dependency of can be analyzed statically.
     pub fn inject_all(&mut self, items: Vec<ModuleItem>) {
         self.body.extend(items);
