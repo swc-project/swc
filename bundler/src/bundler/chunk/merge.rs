@@ -16,7 +16,7 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::{collections::HashMap, mem::take};
+use std::collections::HashMap;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -437,37 +437,38 @@ where
                     //     &module,
                     // );
 
-                    // Replace import statement / require with module body
-                    let mut injector = Es6ModuleInjector {
-                        imported: take(&mut dep_module.body),
-                        dep_export_ctxt: dep_info.export_ctxt(),
-                        is_direct: match dep.ty {
+                    // Replace import statement with module body
+                    let res = inject_es_module(
+                        &mut module,
+                        dep_module,
+                        dep_info.export_ctxt(),
+                        match dep.ty {
                             DepType::Direct => true,
                             _ => false,
                         },
-                    };
-                    module.visit_mut_with(&mut injector);
+                    );
 
-                    if injector.imported.is_empty() {
-                        log::debug!(
-                            "Merged {} into {} as an es module",
-                            dep_info.fm.name,
-                            info.fm.name,
-                        );
-                        // print_hygiene(
-                        //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
-                        //     &self.cm,
-                        //     &entry,
-                        // );
-                        continue;
-                    }
+                    dep_module = match res {
+                        Ok(()) => {
+                            log::debug!(
+                                "Merged {} into {} as an es module",
+                                dep_info.fm.name,
+                                info.fm.name,
+                            );
+                            // print_hygiene(
+                            //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
+                            //     &self.cm,
+                            //     &entry,
+                            // );
+                            continue;
+                        }
+                        Err(dep) => dep,
+                    };
 
                     if info.is_es6 && dep_info.is_es6 {
-                        module.body.extend(injector.imported);
+                        module.push_all(dep_module);
                         continue;
                     }
-
-                    dep_module.body = take(&mut injector.imported);
 
                     // print_hygiene(
                     //     &format!("entry: failed to inject: {}; {:?}",
@@ -1186,29 +1187,33 @@ impl Fold for Unexporter {
     }
 }
 
-struct Es6ModuleInjector {
-    imported: Vec<ModuleItem>,
-    /// Export context of the dependency module.
+/// Returns `Err(dep)` on error.
+fn inject_es_module(
+    entry: &mut Modules,
+    dep: Modules,
     dep_export_ctxt: SyntaxContext,
     is_direct: bool,
-}
+) -> Result<(), Modules> {
+    let mut dep = Some(dep);
 
-impl VisitMut for Es6ModuleInjector {
-    noop_visit_mut_type!();
+    entry.map(|items| {
+        if dep.is_none() {
+            return items;
+        }
 
-    fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
-        let items = take(orig);
-        let mut buf = Vec::with_capacity(self.imported.len() + items.len());
+        let mut buf = vec![];
 
         for item in items {
             //
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span, specifiers, ..
-                })) if span.ctxt == self.dep_export_ctxt => {
-                    buf.extend(take(&mut self.imported));
+                })) if span.ctxt == dep_export_ctxt => {
+                    if let Some(dep) = dep.take() {
+                        buf.extend(dep.into_items());
+                    }
 
-                    if !self.is_direct {
+                    if !is_direct {
                         let decls = specifiers
                             .iter()
                             .filter_map(|specifier| match specifier {
@@ -1218,7 +1223,7 @@ impl VisitMut for Es6ModuleInjector {
                                     ..
                                 }) => {
                                     let mut imported = imported.clone();
-                                    imported.span = imported.span.with_ctxt(self.dep_export_ctxt);
+                                    imported.span = imported.span.with_ctxt(dep_export_ctxt);
 
                                     Some(VarDeclarator {
                                         span: DUMMY_SP,
@@ -1241,7 +1246,12 @@ impl VisitMut for Es6ModuleInjector {
             }
         }
 
-        *orig = buf;
+        buf
+    });
+
+    match dep {
+        Some(dep) => Err(dep),
+        None => Ok(()),
     }
 }
 
