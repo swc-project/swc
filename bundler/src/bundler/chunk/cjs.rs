@@ -77,7 +77,7 @@ where
                 info.helpers.require.store(true, Ordering::SeqCst);
 
                 let mut dep = dep.fold_with(&mut Unexporter);
-                dep.visit_mut_with(&mut ImportDropper);
+                drop_module_decls(&mut dep);
                 dep.visit_mut_with(&mut DefaultHandler {
                     local_ctxt: dep_info.local_ctxt(),
                 });
@@ -340,19 +340,11 @@ impl VisitMut for RequireReplacer {
     }
 }
 
-struct ImportDropper;
-
-impl VisitMut for ImportDropper {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
-        match i {
-            ModuleItem::ModuleDecl(..) => {
-                *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-            }
-            ModuleItem::Stmt(_) => {}
-        }
-    }
+fn drop_module_decls(modules: &mut Modules) {
+    modules.retain_mut(|i| match i {
+        ModuleItem::ModuleDecl(..) => false,
+        ModuleItem::Stmt(_) => true,
+    })
 }
 
 struct DefaultHandler {
