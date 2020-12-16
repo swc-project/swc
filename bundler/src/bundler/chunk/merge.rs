@@ -1,7 +1,8 @@
 use super::plan::{DepType, Plan};
+use crate::bundler::chunk::export::inject_export;
 use crate::{
     bundler::{
-        chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
+        chunk::{plan::NormalPlan, sort::sort},
         load::{Imports, Source, Specifier, TransformedModule},
         modules::Modules,
     },
@@ -385,15 +386,22 @@ where
 
                 if is_export {
                     assert!(dep_info.is_es6, "export statements are es6-only");
-                    let mut injector = ExportInjector {
-                        imported: take(&mut dep_module.body),
-                        source: source.unwrap().clone(),
+
+                    let res = inject_export(
+                        &mut module,
                         ctx,
-                        export_ctxt: info.export_ctxt(),
-                        // We use id of the entry
-                        wrapped: self.scope.should_be_wrapped_with_a_fn(info.id),
-                    };
-                    module.visit_mut_with(&mut injector);
+                        info.export_ctxt(),
+                        self.scope.should_be_wrapped_with_a_fn(info.id),
+                        dep_module,
+                        source.unwrap().clone(),
+                    );
+
+                    match res {
+                        Ok(()) => {}
+                        Err(..) => {
+                            unreachable!("Merging as export when export statement does not exist?Z")
+                        }
+                    }
 
                     log::debug!(
                         "Merged {} into {} as a reexport",

@@ -10,12 +10,12 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::mem::{replace, take};
+use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_fold_type, Fold};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -342,20 +342,21 @@ where
     }
 }
 
-pub(super) struct ExportInjector<'a> {
-    pub ctx: &'a Ctx,
-    pub export_ctxt: SyntaxContext,
-    pub wrapped: bool,
-    pub imported: Vec<ModuleItem>,
-    pub source: Source,
-}
+pub(super) fn inject_export(
+    entry: &mut Modules,
+    ctx: &Ctx,
+    entry_export_ctxt: SyntaxContext,
+    wrapped: bool,
+    dep: Modules,
+    source: Source,
+) -> Result<(), Modules> {
+    let mut dep = Some(dep);
+    entry.map(|items| {
+        if dep.is_none() {
+            return items;
+        }
 
-impl VisitMut for ExportInjector<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
-        let items = take(orig);
-        let mut buf = Vec::with_capacity(self.imported.len() + items.len());
+        let mut buf = vec![];
 
         for item in items {
             //
@@ -370,9 +371,11 @@ impl VisitMut for ExportInjector<'_> {
                 //
                 // See: https://github.com/swc-project/swc/issues/1150
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ref import))
-                    if import.src.value == self.source.src.value =>
+                    if import.src.value == source.src.value =>
                 {
-                    buf.extend(take(&mut self.imported));
+                    if let Some(dep) = dep.take() {
+                        buf.extend(dep.into_items());
+                    }
 
                     let decls = import
                         .specifiers
@@ -384,7 +387,7 @@ impl VisitMut for ExportInjector<'_> {
                                 ..
                             }) => {
                                 let mut imported = imported.clone();
-                                imported.span = imported.span.with_ctxt(self.source.export_ctxt);
+                                imported.span = imported.span.with_ctxt(source.export_ctxt);
 
                                 Some(VarDeclarator {
                                     span: DUMMY_SP,
@@ -403,21 +406,21 @@ impl VisitMut for ExportInjector<'_> {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
-                    if export.src.value == self.source.src.value =>
+                    if export.src.value == source.src.value =>
                 {
-                    if !self.wrapped {
+                    if !wrapped {
                         let export_ctxt = export.span.ctxt;
-                        self.ctx
-                            .transitive_remap
-                            .insert(self.export_ctxt, export_ctxt);
+                        ctx.transitive_remap.insert(entry_export_ctxt, export_ctxt);
                     }
 
-                    buf.extend(take(&mut self.imported));
+                    if let Some(dep) = dep.take() {
+                        buf.extend(dep.into_items());
+                    }
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                     export @ NamedExport { src: Some(..), .. },
-                )) if export.src.as_ref().unwrap().value == self.source.src.value => {
+                )) if export.src.as_ref().unwrap().value == source.src.value => {
                     let namespace_name = export
                         .specifiers
                         .iter()
@@ -428,7 +431,9 @@ impl VisitMut for ExportInjector<'_> {
                         })
                         .next();
 
-                    buf.extend(take(&mut self.imported));
+                    if let Some(dep) = dep.take() {
+                        buf.extend(dep.into_items());
+                    }
 
                     if let Some(ns_name) = namespace_name {
                         buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -457,7 +462,12 @@ impl VisitMut for ExportInjector<'_> {
             }
         }
 
-        *orig = buf;
+        buf
+    });
+
+    match dep {
+        Some(dep) => Err(dep),
+        None => Ok(()),
     }
 }
 
