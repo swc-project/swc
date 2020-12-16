@@ -1,4 +1,5 @@
 use retain_mut::RetainMut;
+use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Module;
 use swc_ecma_ast::ModuleItem;
@@ -34,6 +35,13 @@ impl Modules {
     pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut ModuleItem> {
         // self.body.iter_mut().chain(self.injected.iter_mut())
         self.body.iter_mut()
+    }
+
+    pub fn map<F>(&mut self, mut op: F)
+    where
+        F: FnMut(Vec<ModuleItem>) -> Vec<ModuleItem>,
+    {
+        self.body = op(take(&mut self.body));
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
