@@ -727,77 +727,83 @@ where
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
-        let mut new = Vec::with_capacity(module.body.len() + 32);
+        module.map(|stmts| {
+            let mut new = Vec::with_capacity(stmts.len() + 32);
 
-        for stmt in take(&mut module.body) {
-            match &stmt {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    for specifier in &import.specifiers {
-                        match specifier {
-                            ImportSpecifier::Named(named) => match &named.imported {
-                                Some(imported) => {
-                                    new.push(
-                                        imported
-                                            .clone()
-                                            .assign_to(named.local.clone())
-                                            .into_module_item("from_replace_import_specifiers"),
-                                    );
-                                    continue;
+            for stmt in stmts {
+                match &stmt {
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                        for specifier in &import.specifiers {
+                            match specifier {
+                                ImportSpecifier::Named(named) => match &named.imported {
+                                    Some(imported) => {
+                                        new.push(
+                                            imported
+                                                .clone()
+                                                .assign_to(named.local.clone())
+                                                .into_module_item("from_replace_import_specifiers"),
+                                        );
+                                        continue;
+                                    }
+                                    None => {}
+                                },
+                                ImportSpecifier::Default(default) => {
+                                    if let Some((src, _)) = info
+                                        .imports
+                                        .specifiers
+                                        .iter()
+                                        .find(|s| s.0.src.value == import.src.value)
+                                    {
+                                        let imported = Ident::new(
+                                            js_word!("default"),
+                                            DUMMY_SP.with_ctxt(src.export_ctxt),
+                                        );
+                                        new.push(
+                                            imported
+                                                .assign_to(default.local.clone())
+                                                .into_module_item("from_replace_import_specifiers"),
+                                        );
+                                        continue;
+                                    }
                                 }
-                                None => {}
-                            },
-                            ImportSpecifier::Default(default) => {
-                                if let Some((src, _)) = info
-                                    .imports
-                                    .specifiers
-                                    .iter()
-                                    .find(|s| s.0.src.value == import.src.value)
-                                {
-                                    let imported = Ident::new(
-                                        js_word!("default"),
-                                        DUMMY_SP.with_ctxt(src.export_ctxt),
-                                    );
-                                    new.push(
-                                        imported
-                                            .assign_to(default.local.clone())
-                                            .into_module_item("from_replace_import_specifiers"),
-                                    );
-                                    continue;
-                                }
-                            }
-                            ImportSpecifier::Namespace(s) => {
-                                if let Some((src, _)) = info
-                                    .imports
-                                    .specifiers
-                                    .iter()
-                                    .find(|s| s.0.src.value == import.src.value)
-                                {
-                                    let esm_id = self.scope.wrapped_esm_id(src.module_id).expect(
-                                        "If a namespace impoet specifier is preserved, it means \
-                                         failutre of deblobbing and as a result module should be \
-                                         marked as wrpaped esm",
-                                    );
-                                    new.push(
-                                        esm_id.clone().assign_to(s.local.clone()).into_module_item(
-                                            "from_replace_import_specifiers: namespaced",
-                                        ),
-                                    );
-                                    continue;
+                                ImportSpecifier::Namespace(s) => {
+                                    if let Some((src, _)) = info
+                                        .imports
+                                        .specifiers
+                                        .iter()
+                                        .find(|s| s.0.src.value == import.src.value)
+                                    {
+                                        let esm_id =
+                                            self.scope.wrapped_esm_id(src.module_id).expect(
+                                                "If a namespace impoet specifier is preserved, it \
+                                                 means failutre of deblobbing and as a result \
+                                                 module should be marked as wrpaped esm",
+                                            );
+                                        new.push(
+                                            esm_id
+                                                .clone()
+                                                .assign_to(s.local.clone())
+                                                .into_module_item(
+                                                    "from_replace_import_specifiers: namespaced",
+                                                ),
+                                        );
+                                        continue;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    // We should remove imports
-                    continue;
+                        // We should remove imports
+                        continue;
+                    }
+                    _ => {}
                 }
-                _ => {}
+
+                new.push(stmt);
             }
 
-            new.push(stmt);
-        }
-
-        module.body = new;
+            new
+        })
     }
 
     /// If a dependency aliased exports, we handle them at here.
