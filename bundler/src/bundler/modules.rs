@@ -1,3 +1,4 @@
+use retain_mut::RetainMut;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Module;
 use swc_ecma_ast::ModuleItem;
@@ -21,9 +22,23 @@ impl Modules {
         }
     }
 
+    pub fn push_all(&mut self, item: Modules) {
+        self.body.extend(item.body);
+    }
+
+    pub fn iter(&self) -> impl Iterator<Item = &ModuleItem> {
+        // self.body.iter_mut().chain(self.injected.iter_mut())
+        self.body.iter()
+    }
+
     pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut ModuleItem> {
         // self.body.iter_mut().chain(self.injected.iter_mut())
         self.body.iter_mut()
+    }
+
+    /// Insert a statement which dependency of can be analyzed statically.
+    pub fn inject_all(&mut self, items: Vec<ModuleItem>) {
+        self.body.extend(items);
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
@@ -48,6 +63,13 @@ impl Modules {
         // self.injected = self.injected.fold_with(&mut *v);
 
         self
+    }
+
+    pub fn retain_mut<F>(&mut self, op: F)
+    where
+        F: FnMut(&mut ModuleItem) -> bool,
+    {
+        self.body.retain_mut(&mut op);
     }
 }
 

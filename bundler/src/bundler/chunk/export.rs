@@ -15,7 +15,7 @@ use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -178,9 +178,9 @@ where
     /// console.log(b__9);
     /// ```
     fn handle_reexport(&self, info: &TransformedModule, module: &mut Modules) {
-        let mut new_body = Vec::with_capacity(module.body.len() + 20);
+        let mut new_body = Vec::new();
 
-        for stmt in &mut module.body {
+        for stmt in module.iter_mut() {
             let mut vars = vec![];
             let mut stmt = stmt.take();
 

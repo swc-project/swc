@@ -162,8 +162,6 @@ where
         deps.sort();
 
         self.run(|| {
-            let mut dep_body = vec![];
-
             for dep in deps {
                 let dep_info = self.scope.get_module(dep).unwrap();
                 let mut dep = self
@@ -176,13 +174,8 @@ where
 
                 // print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
-                dep_body.extend(dep.body);
+                entry.push_all(dep);
             }
-
-            // dep = dep.fold_with(&mut Unexporter);
-
-            // Merge code
-            entry.body = merge_respecting_order(dep_body, entry.body);
 
             Ok(entry)
         })

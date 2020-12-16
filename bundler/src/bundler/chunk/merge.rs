@@ -15,13 +15,12 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use retain_mut::RetainMut;
-use std::{borrow::Cow, collections::HashMap, mem::take};
+use std::{collections::HashMap, mem::take};
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
 
 pub(super) struct Ctx {
@@ -129,7 +128,7 @@ where
             let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
 
             if let Some(module_ident) = &module_ident {
-                module.body.push(
+                module.inject(
                     esm_id
                         .clone()
                         .assign_to(module_ident.clone())
@@ -167,7 +166,7 @@ where
 
                         let from = esm_id.clone().into_ident().make_member(i.clone());
 
-                        module.body.push(
+                        module.inject(
                             from.assign_to(i.with_ctxt(src.export_ctxt))
                                 .into_module_item("namespace_with_normal"),
                         );
@@ -214,9 +213,7 @@ where
         }));
 
         for var in var_decls {
-            module
-                .body
-                .push(var.into_module_item("from_merge_direct_import"));
+            module.inject(var.into_module_item("from_merge_direct_import"));
         }
 
         Ok(module)
@@ -234,9 +231,7 @@ where
         module = module.fold_with(&mut Unexporter);
 
         for var in var_decls {
-            module
-                .body
-                .push(var.into_module_item("from_merge_transitive_import"));
+            module.inject(var.into_module_item("from_merge_transitive_import"));
         }
 
         Ok(module)
@@ -260,7 +255,7 @@ where
     ) -> Result<(), Error> {
         self.run(|| {
             //
-            for stmt in &mut module.body {
+            for stmt in module.iter_mut() {
                 let decl = match stmt {
                     ModuleItem::ModuleDecl(decl) => decl,
                     ModuleItem::Stmt(_) => continue,
@@ -398,7 +393,7 @@ where
                         // We use id of the entry
                         wrapped: self.scope.should_be_wrapped_with_a_fn(info.id),
                     };
-                    module.body.visit_mut_with(&mut injector);
+                    module.visit_mut_with(&mut injector);
 
                     log::debug!(
                         "Merged {} into {} as a reexport",
@@ -414,7 +409,7 @@ where
 
                     match dep.ty {
                         DepType::Transitive => {
-                            module.body.extend(dep_module.body);
+                            module.push_all(dep_module);
 
                             log::debug!(
                                 "Merged {} into {} as a transitive es module",
@@ -443,7 +438,7 @@ where
                             _ => false,
                         },
                     };
-                    module.body.visit_mut_with(&mut injector);
+                    module.visit_mut_with(&mut injector);
 
                     if injector.imported.is_empty() {
                         log::debug!(
@@ -532,9 +527,9 @@ where
         {
             // Handle `export *` for non-wrapped modules.
 
-            let mut extra_stmts = vec![];
+            let mut vars = vec![];
 
-            for stmt in entry.body.iter() {
+            for stmt in entry.iter() {
                 match stmt {
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                         let ids: Vec<Id> = find_ids(decl);
@@ -546,7 +541,7 @@ where
 
                             if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
                                 let reexported = id.clone().with_ctxt(remapped);
-                                extra_stmts.push(
+                                vars.push(
                                     id.assign_to(reexported)
                                         .into_module_item("export_star_replacer"),
                                 );
@@ -558,7 +553,7 @@ where
                 }
             }
 
-            entry.body.extend(extra_stmts);
+            entry.inject_all(vars);
         }
 
         {
@@ -566,7 +561,7 @@ where
             let mut additional_props = HashMap::<_, Vec<_>>::new();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
-                for stmt in entry.body.iter() {
+                for stmt in entry.iter() {
                     match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                             let ids: Vec<Id> = find_ids(decl);
@@ -596,7 +591,7 @@ where
                     None => continue,
                 };
 
-                for stmt in &mut entry.body {
+                for stmt in entry.iter_mut() {
                     let var = match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(
                             var
@@ -671,7 +666,7 @@ where
 
         print_hygiene("done", &self.cm, &entry.clone().into());
 
-        entry.body.retain_mut(|item| {
+        entry.retain_mut(|item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
 
@@ -817,7 +812,7 @@ where
 
         let mut vars = vec![];
 
-        for orig_stmt in module.body.iter_mut() {
+        for orig_stmt in module.iter_mut() {
             let mut stmt = orig_stmt.take();
 
             match stmt {
@@ -1030,7 +1025,7 @@ fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarD
 
     let mut vars = vec![];
 
-    for item in &module.body {
+    for item in module.iter() {
         let item = match item {
             ModuleItem::ModuleDecl(item) => item,
             ModuleItem::Stmt(_) => continue,

@@ -12,7 +12,7 @@ use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
-use swc_ecma_utils::{prepend, quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
@@ -63,7 +63,7 @@ where
             load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.export_ctxt())),
             replaced: false,
         };
-        entry.body.visit_mut_with(&mut v);
+        entry.visit_mut_with(&mut v);
 
         if v.replaced {
             if let Some(idx) = targets.iter().position(|v| v.id == dep_info.id) {
@@ -81,15 +81,12 @@ where
                     local_ctxt: dep_info.local_ctxt(),
                 });
 
-                prepend(
-                    &mut entry.body,
-                    ModuleItem::Stmt(wrap_module(
-                        SyntaxContext::empty(),
-                        dep_info.local_ctxt(),
-                        load_var,
-                        dep.into(),
-                    )),
-                );
+                entry.inject(ModuleItem::Stmt(wrap_module(
+                    SyntaxContext::empty(),
+                    dep_info.local_ctxt(),
+                    load_var,
+                    dep.into(),
+                )));
 
                 log::warn!("Injecting load");
             }
