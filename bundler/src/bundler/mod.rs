@@ -12,6 +12,7 @@ mod finalize;
 mod helpers;
 mod import;
 mod load;
+mod modules;
 mod optimize;
 mod scope;
 #[cfg(test)]
