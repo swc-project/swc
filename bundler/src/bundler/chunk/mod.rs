@@ -74,7 +74,7 @@ where
                     Bundle {
                         kind,
                         id: entry,
-                        module,
+                        module: module.into(),
                     }
                 })
             })
