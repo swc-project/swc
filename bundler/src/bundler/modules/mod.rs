@@ -23,6 +23,10 @@ impl Modules {
         }
     }
 
+    pub fn into_items(self) -> Vec<ModuleItem> {
+        self.body
+    }
+
     pub fn push_all(&mut self, item: Modules) {
         self.body.extend(item.body);
     }
