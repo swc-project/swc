@@ -727,9 +727,9 @@ where
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
-        let mut new = Vec::with_capacity(module.body.len() + 32);
+        let mut new = Vec::with_capacity(32);
 
-        for stmt in take(&mut module.body) {
+        for stmt in module.iter_mut() {
             match &stmt {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     for specifier in &import.specifiers {
@@ -742,6 +742,7 @@ where
                                             .assign_to(named.local.clone())
                                             .into_module_item("from_replace_import_specifiers"),
                                     );
+                                    *stmt = ModuleItem::dummy();
                                     continue;
                                 }
                                 None => {}
@@ -762,6 +763,7 @@ where
                                             .assign_to(default.local.clone())
                                             .into_module_item("from_replace_import_specifiers"),
                                     );
+                                    *stmt = ModuleItem::dummy();
                                     continue;
                                 }
                             }
@@ -782,6 +784,7 @@ where
                                             "from_replace_import_specifiers: namespaced",
                                         ),
                                     );
+                                    *stmt = ModuleItem::dummy();
                                     continue;
                                 }
                             }
@@ -789,15 +792,12 @@ where
                     }
 
                     // We should remove imports
+                    *stmt = ModuleItem::dummy();
                     continue;
                 }
                 _ => {}
             }
-
-            new.push(stmt);
         }
-
-        module.body = new;
     }
 
     /// If a dependency aliased exports, we handle them at here.
