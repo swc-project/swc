@@ -65,7 +65,7 @@ impl Modules {
         self
     }
 
-    pub fn retain_mut<F>(&mut self, op: F)
+    pub fn retain_mut<F>(&mut self, mut op: F)
     where
         F: FnMut(&mut ModuleItem) -> bool,
     {
