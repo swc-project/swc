@@ -12,6 +12,7 @@ use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -81,12 +82,15 @@ where
                     local_ctxt: dep_info.local_ctxt(),
                 });
 
-                entry.inject(ModuleItem::Stmt(wrap_module(
-                    SyntaxContext::empty(),
-                    dep_info.local_ctxt(),
-                    load_var,
-                    dep.into(),
-                )));
+                prepend(
+                    &mut entry.body,
+                    ModuleItem::Stmt(wrap_module(
+                        SyntaxContext::empty(),
+                        dep_info.local_ctxt(),
+                        load_var,
+                        dep.into(),
+                    )),
+                );
 
                 log::warn!("Injecting load");
             }
