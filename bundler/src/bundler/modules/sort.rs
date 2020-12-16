@@ -28,7 +28,9 @@ impl Modules {
         let mut new = vec![];
 
         new.extend(self.prepended.drain(..));
-        new.extend(self.body.drain(..));
+        for module in self.modules.drain(..) {
+            new.extend(module.body)
+        }
         new.extend(self.injected.drain(..));
 
         new.retain(|item| match item {

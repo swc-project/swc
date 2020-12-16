@@ -13,7 +13,7 @@ mod sort;
 #[derive(Debug, Clone)]
 pub struct Modules {
     // We will change this into `Vec<Module>`.
-    body: Vec<ModuleItem>,
+    modules: Vec<Module>,
     prepended: Vec<ModuleItem>,
     injected: Vec<ModuleItem>,
 }
@@ -21,7 +21,7 @@ pub struct Modules {
 impl Modules {
     pub fn empty() -> Self {
         Self {
-            body: Default::default(),
+            modules: Default::default(),
             prepended: Default::default(),
             injected: Default::default(),
         }
@@ -30,28 +30,28 @@ impl Modules {
     pub fn into_items(self) -> Vec<ModuleItem> {
         self.prepended
             .into_iter()
-            .chain(self.body)
+            .chain(self.modules.into_iter().flat_map(|module| module.body))
             .chain(self.injected)
             .collect()
     }
 
     pub fn push_all(&mut self, item: Modules) {
         self.prepended.extend(item.prepended);
-        self.body.extend(item.body);
+        self.modules.extend(item.modules);
         self.injected.extend(item.injected);
     }
 
     pub fn iter(&self) -> impl Iterator<Item = &ModuleItem> {
         self.prepended
             .iter()
-            .chain(self.body.iter())
+            .chain(self.modules.iter().flat_map(|m| m.body.iter()))
             .chain(self.injected.iter())
     }
 
     pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut ModuleItem> {
         self.prepended
             .iter_mut()
-            .chain(self.body.iter_mut())
+            .chain(self.modules.iter_mut().flat_map(|m| m.body.iter_mut()))
             .chain(self.injected.iter_mut())
     }
 
@@ -60,7 +60,14 @@ impl Modules {
         F: FnMut(Vec<ModuleItem>) -> Vec<ModuleItem>,
     {
         self.prepended = op(take(&mut self.prepended));
-        self.body = op(take(&mut self.body));
+        self.modules = take(&mut self.modules)
+            .into_iter()
+            .map(|mut m| {
+                let body = op(take(&mut m.body));
+
+                Module { body, ..m }
+            })
+            .collect();
         self.injected = op(take(&mut self.injected));
     }
 
@@ -91,8 +98,11 @@ impl Modules {
     where
         V: VisitMut,
     {
-        self.body.visit_mut_with(&mut *v);
-        // self.injected.visit_mut_with(&mut *v);
+        self.prepended.visit_mut_with(&mut *v);
+        for module in &mut self.modules {
+            module.visit_mut_with(&mut *v);
+        }
+        self.injected.visit_mut_with(&mut *v);
     }
 
     pub fn fold_with<V>(mut self, v: &mut V) -> Self
@@ -100,7 +110,11 @@ impl Modules {
         V: Fold,
     {
         self.prepended = self.prepended.fold_with(&mut *v);
-        self.body = self.body.fold_with(&mut *v);
+        self.modules = self
+            .modules
+            .into_iter()
+            .map(|m| m.fold_with(&mut *v))
+            .collect();
         self.injected = self.injected.fold_with(&mut *v);
 
         self
@@ -111,7 +125,9 @@ impl Modules {
         F: FnMut(&mut ModuleItem) -> bool,
     {
         self.prepended.retain_mut(&mut op);
-        self.body.retain_mut(&mut op);
+        for module in &mut self.modules {
+            module.body.retain_mut(&mut op);
+        }
         self.injected.retain_mut(&mut op);
     }
 }
@@ -119,7 +135,7 @@ impl Modules {
 impl From<Module> for Modules {
     fn from(module: Module) -> Self {
         Self {
-            body: module.body,
+            modules: vec![module],
             prepended: Default::default(),
             injected: Default::default(),
         }
@@ -131,7 +147,7 @@ impl From<Modules> for Module {
         // TODO
         Self {
             span: DUMMY_SP,
-            body: modules.body,
+            body: modules.into_items(),
             shebang: None,
         }
     }
