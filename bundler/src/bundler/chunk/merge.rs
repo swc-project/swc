@@ -671,7 +671,7 @@ where
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
         self.handle_export_stars(ctx, entry);
 
-        sort(&mut entry.body);
+        entry.sort();
 
         print_hygiene("done", &self.cm, &entry.clone().into());
 

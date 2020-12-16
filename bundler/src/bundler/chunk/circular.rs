@@ -177,7 +177,7 @@ where
                 entry.push_all(dep);
             }
 
-            sort(&mut entry.body);
+            entry.sort();
 
             Ok(entry)
         })
