@@ -74,7 +74,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
         match *node.callee {
-            Expr::Call(..) | Expr::Bin(..) => self.wrap(&mut node.callee),
+            Expr::Call(..) | Expr::Bin(..)| Expr::Assign(..) => self.wrap(&mut node.callee),
             _ => {}
         }
         self.ctx = old;
@@ -1013,4 +1013,11 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     identical!(deno_8722, "console.log((true || false) ?? true);");
+
+    identical!(
+        deno_8597,
+        "
+        biasInitializer = new (_a = class CustomInit extends Initializer {})();
+        "
+    );
 }
