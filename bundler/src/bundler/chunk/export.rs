@@ -355,6 +355,11 @@ pub(super) fn inject_export(
     source: Source,
 ) -> Result<(), Modules> {
     let mut dep = Some(dep);
+    // This is required because `export *` does not exports `default` from the
+    // source.
+    // But as user may specify both of `export *` and `export { default }` from same
+    // module, we have to store it somewhere.
+    let mut export_default_stmt = None;
     entry.map(|items| {
         let mut buf = vec![];
 
@@ -413,7 +418,14 @@ pub(super) fn inject_export(
                         ctx.transitive_remap.insert(entry_export_ctxt, export_ctxt);
                     }
 
-                    if let Some(dep) = dep.take() {
+                    if let Some(mut dep) = dep.take() {
+                        dep.retain_mut(|item| match item {
+                            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
+                                export_default_stmt = Some(item.take());
+                                false
+                            }
+                            _ => true,
+                        });
                         buf.extend(dep.into_items());
                     }
                 }
@@ -433,6 +445,9 @@ pub(super) fn inject_export(
 
                     if let Some(dep) = dep.take() {
                         buf.extend(dep.into_items());
+                    }
+                    if let Some(stmt) = export_default_stmt.take() {
+                        buf.push(stmt);
                     }
 
                     if let Some(ns_name) = namespace_name {
