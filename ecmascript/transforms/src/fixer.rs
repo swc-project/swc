@@ -74,7 +74,9 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
         match *node.callee {
-            Expr::Call(..) | Expr::Bin(..)| Expr::Assign(..) => self.wrap(&mut node.callee),
+            Expr::Call(..) | Expr::Bin(..) | Expr::Assign(..) | Expr::Seq(..) => {
+                self.wrap(&mut node.callee)
+            }
             _ => {}
         }
         self.ctx = old;
