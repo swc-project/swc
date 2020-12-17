@@ -49,3 +49,19 @@ fn sort_002() {
         ",
     )
 }
+
+#[test]
+fn sort_003() {
+    assert_sorted(
+        "
+        class Constraint#10 extends serialization#10.Serializable {
+        }
+        const serialization = {};
+        ",
+        "
+        const serialization = {};
+        class Constraint#10 extends serialization#10.Serializable {
+        }
+        ",
+    );
+}
