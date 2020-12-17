@@ -465,7 +465,7 @@ pub(super) fn inject_export(
                                                 expr: Box::new(Expr::Ident(expr)),
                                             }),
                                         ));
-                                        false
+                                        !specifiers.is_empty()
                                     }
                                     None => true,
                                 }
