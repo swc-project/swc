@@ -1,82 +1,3 @@
-function deferred() {
-    let methods;
-    const promise = new Promise((resolve, reject)=>{
-        methods = {
-            resolve,
-            reject
-        };
-    });
-    return Object.assign(promise, methods);
-}
-const deferred1 = deferred;
-const deferred2 = deferred1;
-var tmp = Symbol.asyncIterator;
-class MuxAsyncIterator {
-    add(iterator) {
-        ++this.iteratorCount;
-        this.callIteratorNext(iterator);
-    }
-    async callIteratorNext(iterator) {
-        try {
-            const { value , done  } = await iterator.next();
-            if (done) --this.iteratorCount;
-            else this.yields.push({
-                iterator,
-                value
-            });
-        } catch (e) {
-            this.throws.push(e);
-        }
-        this.signal.resolve();
-    }
-    async *iterate() {
-        while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
-            await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
-            for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
-                yield value;
-                this.callIteratorNext(iterator);
-            }
-            if (this.throws.length) {
-                for (const e of this.throws)throw e;
-                this.throws.length = 0;
-            }
-            // Clear the `yields` list and reset the `signal` promise.
-            this.yields.length = 0;
-            this.signal = deferred2();
-        }
-    }
-    [tmp]() {
-        return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred2();
-    }
-}
-const deferred3 = deferred;
-const MuxAsyncIterator1 = MuxAsyncIterator;
-const deferred4 = deferred3;
-const MuxAsyncIterator2 = MuxAsyncIterator1;
-var tmp1 = Symbol.asyncIterator;
-function _parseAddrFromStr(addr) {
-    let url;
-    try {
-        const host = addr.startsWith(":") ? `0.0.0.0${addr}` : addr;
-        url = new URL(`http://${host}`);
-    } catch  {
-        throw new TypeError("Invalid address.");
-    }
-    if (url.username || url.password || url.pathname != "/" || url.search || url.hash) throw new TypeError("Invalid address.");
-    return {
-        hostname: url.hostname,
-        port: url.port === "" ? 80 : Number(url.port)
-    };
-}
 const DEFAULT_BUF_SIZE = 4096;
 const MIN_BUF_SIZE = 16;
 const MAX_CONSECUTIVE_EMPTY_READS = 100;
@@ -326,12 +247,89 @@ function fixLength(req) {
         throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
     }
 }
-const emptyReader1 = emptyReader;
-const bodyReader1 = bodyReader;
 const encode2 = encode1;
 const assert3 = assert1;
-const bodyReader2 = bodyReader1;
-const emptyReader2 = emptyReader1;
+function deferred() {
+    let methods;
+    const promise = new Promise((resolve, reject)=>{
+        methods = {
+            resolve,
+            reject
+        };
+    });
+    return Object.assign(promise, methods);
+}
+const deferred1 = deferred;
+const deferred2 = deferred1;
+var tmp = Symbol.asyncIterator;
+class MuxAsyncIterator {
+    add(iterator) {
+        ++this.iteratorCount;
+        this.callIteratorNext(iterator);
+    }
+    async callIteratorNext(iterator) {
+        try {
+            const { value , done  } = await iterator.next();
+            if (done) --this.iteratorCount;
+            else this.yields.push({
+                iterator,
+                value
+            });
+        } catch (e) {
+            this.throws.push(e);
+        }
+        this.signal.resolve();
+    }
+    async *iterate() {
+        while(this.iteratorCount > 0){
+            // Sleep until any of the wrapped iterators yields.
+            await this.signal;
+            // Note that while we're looping over `yields`, new items may be added.
+            for(let i = 0; i < this.yields.length; i++){
+                const { iterator , value  } = this.yields[i];
+                yield value;
+                this.callIteratorNext(iterator);
+            }
+            if (this.throws.length) {
+                for (const e of this.throws)throw e;
+                this.throws.length = 0;
+            }
+            // Clear the `yields` list and reset the `signal` promise.
+            this.yields.length = 0;
+            this.signal = deferred2();
+        }
+    }
+    [tmp]() {
+        return this.iterate();
+    }
+    constructor(){
+        this.iteratorCount = 0;
+        this.yields = [];
+        this.throws = [];
+        this.signal = deferred2();
+    }
+}
+const deferred3 = deferred;
+const MuxAsyncIterator1 = MuxAsyncIterator;
+const deferred4 = deferred3;
+const MuxAsyncIterator2 = MuxAsyncIterator1;
+var tmp1 = Symbol.asyncIterator;
+function _parseAddrFromStr(addr) {
+    let url;
+    try {
+        const host = addr.startsWith(":") ? `0.0.0.0${addr}` : addr;
+        url = new URL(`http://${host}`);
+    } catch  {
+        throw new TypeError("Invalid address.");
+    }
+    if (url.username || url.password || url.pathname != "/" || url.search || url.hash) throw new TypeError("Invalid address.");
+    return {
+        hostname: url.hostname,
+        port: url.port === "" ? 80 : Number(url.port)
+    };
+}
+const emptyReader1 = emptyReader;
+const bodyReader1 = bodyReader;
 const copyBytes2 = copyBytes1;
 const assert4 = assert1;
 class BufReader {
@@ -943,10 +941,11 @@ async function writeResponse(w, r1) {
     }
     await writer.flush();
 }
-const writeResponse1 = writeResponse;
 const BufReader2 = BufReader1;
 const BufWriter3 = BufWriter1;
-const writeResponse2 = writeResponse1;
+const bodyReader2 = bodyReader1;
+const emptyReader2 = emptyReader1;
+const writeResponse1 = writeResponse;
 function chunkedBodyReader(h, r1) {
     // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
     const tp = new TextProtoReader2(r1);
@@ -1006,6 +1005,7 @@ function chunkedBodyReader(h, r1) {
         read
     };
 }
+const writeResponse2 = writeResponse1;
 const chunkedBodyReader1 = chunkedBodyReader;
 const chunkedBodyReader2 = chunkedBodyReader1;
 class ServerRequest {
