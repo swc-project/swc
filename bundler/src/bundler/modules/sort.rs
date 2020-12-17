@@ -143,55 +143,6 @@ impl Modules {
         let len = new.len();
         let mut orders: Vec<usize> = vec![];
 
-        fn insert_orders(
-            graph: &mut StmtDepGraph,
-            orders: &mut Vec<usize>,
-            same_module_ranges: &[Range<usize>],
-            idx: usize,
-        ) {
-            if orders.contains(&idx) {
-                return;
-            }
-
-            dbg!(idx);
-            {
-                let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
-                for dep in deps {
-                    dbg!(dep);
-                    // We jump to another modul.
-                    insert_orders(graph, orders, same_module_ranges, dep);
-                }
-            }
-
-            let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
-                Some(v) => v,
-                None => {
-                    // Free statements, like injected vars.
-                    orders.push(idx);
-                    graph.remove_node(idx);
-                    return;
-                }
-            };
-
-            if idx != range.start && !orders.contains(&range.start) {
-                // We should process module from start to end.
-                dbg!(range.start);
-                insert_orders(graph, orders, same_module_ranges, range.start);
-            }
-
-            orders.push(idx);
-            graph.remove_node(idx);
-
-            let next_idx = idx + 1;
-
-            if !range.contains(&next_idx) {
-                // We successfully processed a module.
-                return;
-            }
-            dbg!(next_idx);
-            insert_orders(graph, orders, same_module_ranges, next_idx)
-        }
-
         for start_idx in module_starts {
             insert_orders(&mut graph, &mut orders, &same_module_ranges, start_idx);
         }
@@ -315,6 +266,55 @@ impl Modules {
             shebang: None,
         });
     }
+}
+
+fn insert_orders(
+    graph: &mut StmtDepGraph,
+    orders: &mut Vec<usize>,
+    same_module_ranges: &[Range<usize>],
+    idx: usize,
+) {
+    if orders.contains(&idx) {
+        return;
+    }
+
+    dbg!(idx);
+    {
+        let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
+        for dep in deps {
+            dbg!(dep);
+            // We jump to another modul.
+            insert_orders(graph, orders, same_module_ranges, dep);
+        }
+    }
+
+    let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
+        Some(v) => v,
+        None => {
+            // Free statements, like injected vars.
+            orders.push(idx);
+            graph.remove_node(idx);
+            return;
+        }
+    };
+
+    if idx != range.start && !orders.contains(&range.start) {
+        // We should process module from start to end.
+        dbg!(range.start);
+        insert_orders(graph, orders, same_module_ranges, range.start);
+    }
+
+    orders.push(idx);
+    graph.remove_node(idx);
+
+    let next_idx = idx + 1;
+
+    if !range.contains(&next_idx) {
+        // We successfully processed a module.
+        return;
+    }
+    dbg!(next_idx);
+    insert_orders(graph, orders, same_module_ranges, next_idx)
 }
 
 /// Finds usage of `ident`
