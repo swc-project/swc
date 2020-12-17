@@ -161,14 +161,16 @@ where
                     .merge_modules(ctx, dep, false, false)
                     .context("failed to merge dependency of a cyclic module")?;
 
-                // print_hygiene("[circular] dep:init 1", &self.cm, &dep);
+                // print_hygiene("[circular] dep:init 1", &self.cm, &dep.clone().into());
 
                 self.handle_import_deps(ctx, &dep_info, &mut dep, true);
 
                 // print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
-                entry.push_all(dep);
+                entry.prepend_all(dep);
             }
+
+            // print_hygiene("before circular sort", &self.cm, &entry.clone().into());
 
             entry.sort();
 

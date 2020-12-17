@@ -35,6 +35,13 @@ impl Modules {
             .collect()
     }
 
+    pub fn prepend_all(&mut self, mut other: Modules) {
+        other.prepended.append(&mut self.prepended);
+        other.modules.append(&mut self.modules);
+        other.injected.append(&mut self.injected);
+        *self = other;
+    }
+
     pub fn push_all(&mut self, item: Modules) {
         self.prepended.extend(item.prepended);
         self.modules.extend(item.modules);
