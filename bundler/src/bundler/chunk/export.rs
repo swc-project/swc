@@ -440,7 +440,7 @@ pub(super) fn inject_export(
                         })
                         .next();
 
-                    if let Some(mut dep) = dep.take() {
+                    if let Some(dep) = dep.take() {
                         buf.extend(dep.into_items());
                     }
                     if let Some(stmt) = export_default_stmt.take() {
