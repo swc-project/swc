@@ -6,10 +6,10 @@ try {
 const common41 = common4;
 const common42 = common41;
 const common3 = 3;
-const common31 = common3;
 const common1 = 1;
-const common11 = common1;
 const common = 2;
+const common31 = common3;
+const common11 = common1;
 const common2 = common;
 const common12 = common11;
 const common21 = common2;
