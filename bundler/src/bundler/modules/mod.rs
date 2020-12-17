@@ -9,7 +9,8 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 mod sort;
-
+#[cfg(test)]
+mod tests;
 #[derive(Debug, Clone)]
 pub struct Modules {
     // We will change this into `Vec<Module>`.
