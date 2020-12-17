@@ -205,6 +205,32 @@ where
                         import.specifiers.clear();
                     }
 
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                        let expr = export.expr.take();
+                        let export_name = Ident::new(
+                            js_word!("default"),
+                            export.span.with_ctxt(info.export_ctxt()),
+                        );
+                        let var_name = Ident::new(
+                            "__default".into(),
+                            export.span.with_ctxt(info.local_ctxt()),
+                        );
+
+                        vars.push(expr.assign_to(var_name.clone()));
+
+                        let export_specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: var_name.clone(),
+                            exported: Some(export_name),
+                        });
+                        stmt = ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                            span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
+                            specifiers: vec![export_specifier],
+                            src: None,
+                            type_only: false,
+                        }));
+                    }
+
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                         match &mut export.decl {
                             DefaultDecl::Class(expr) => {
