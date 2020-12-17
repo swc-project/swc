@@ -31,3 +31,21 @@ fn sort_001() {
         ",
     )
 }
+
+#[test]
+fn sort_002() {
+    assert_sorted(
+        "
+        const mod = (function(){
+            const A = v;
+        }());
+        const v = 5;
+        ",
+        "
+        const v = 5;
+        const mod = (function(){
+            const A = v;
+        }());
+        ",
+    )
+}
