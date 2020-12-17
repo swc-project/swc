@@ -10,6 +10,7 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
+use retain_mut::RetainMut;
 use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
@@ -423,6 +424,51 @@ pub(super) fn inject_export(
                             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
                                 export_default_stmt = Some(item.take());
                                 false
+                            }
+                            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers,
+                                ..
+                            })) => {
+                                //
+                                let mut default_specifer = None;
+                                specifiers.retain_mut(|specifier| {
+                                    match specifier {
+                                        ExportSpecifier::Namespace(_) => {}
+                                        ExportSpecifier::Default(_) => {}
+                                        ExportSpecifier::Named(named) => match &named.exported {
+                                            Some(exported) => {
+                                                //
+                                                if exported.sym == js_word!("default") {
+                                                    default_specifer = Some(named.orig.clone());
+                                                    return false;
+                                                }
+                                            }
+                                            None => {
+                                                //
+                                                if named.orig.sym == js_word!("default") {
+                                                    default_specifer = Some(named.orig.take());
+
+                                                    return false;
+                                                }
+                                            }
+                                        },
+                                    }
+
+                                    true
+                                });
+
+                                match default_specifer {
+                                    Some(expr) => {
+                                        export_default_stmt = Some(ModuleItem::ModuleDecl(
+                                            ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                                                span: export.span,
+                                                expr: Box::new(Expr::Ident(expr)),
+                                            }),
+                                        ));
+                                        false
+                                    }
+                                    None => true,
+                                }
                             }
                             _ => true,
                         });
