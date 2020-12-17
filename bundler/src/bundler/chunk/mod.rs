@@ -14,7 +14,6 @@ mod computed_key;
 mod export;
 mod merge;
 mod plan;
-mod sort;
 
 #[derive(Debug)]
 struct InternalEntry {

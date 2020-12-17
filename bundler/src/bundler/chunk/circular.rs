@@ -1,17 +1,10 @@
 use super::plan::CircularPlan;
 use crate::bundler::modules::Modules;
-use crate::{
-    bundler::chunk::{merge::Ctx, sort::sort},
-    id::Id,
-    Bundler, Load, ModuleId, Resolve,
-};
+use crate::{bundler::chunk::merge::Ctx, id::Id, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-
-#[cfg(test)]
-mod tests;
 
 /// Circular imports are hard to handle.
 ///
@@ -182,15 +175,4 @@ where
             Ok(entry)
         })
     }
-}
-
-fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<ModuleItem> {
-    let mut new = Vec::with_capacity(dep.len() + entry.len());
-
-    new.extend(entry);
-    new.extend(dep);
-
-    sort(&mut new);
-
-    new
 }

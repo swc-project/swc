@@ -2,7 +2,7 @@ use super::plan::{DepType, Plan};
 use crate::bundler::chunk::export::inject_export;
 use crate::{
     bundler::{
-        chunk::{plan::NormalPlan, sort::sort},
+        chunk::plan::NormalPlan,
         load::{Imports, Source, Specifier, TransformedModule},
         modules::Modules,
     },
