@@ -1,20 +1,20 @@
-const a = 1;
-const b = 2;
 const c = 3;
 class A {
 }
-const a1 = a;
-const b1 = b;
+const b = 2;
+const a = 1;
 const A1 = A;
 const c1 = c;
-const b2 = b1;
+const b1 = b;
+const a1 = a;
+const a2 = a1;
 const A2 = A1;
-console.log(b2, A2);
+console.log(a2, A2);
 const c2 = c1;
 const A3 = A1;
 console.log(c2, A3);
-const a2 = a1;
+const b2 = b1;
 const A4 = A1;
-console.log(a2, A4);
+console.log(b2, A4);
 const a3 = a1;
 console.log(a3);
