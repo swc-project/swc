@@ -6,6 +6,7 @@ use petgraph::{
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::collections::HashMap;
+use std::ops::Range;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -33,7 +34,16 @@ impl Modules {
         let mut new = vec![];
 
         new.extend(self.prepended.drain(..));
+        let mut module_starts = vec![];
+        let mut same_module_ranges = vec![];
         for module in self.modules.drain(..) {
+            let start = new.len();
+            let inner_len = module.body.len();
+            let end = start + inner_len;
+
+            module_starts.push(start);
+            same_module_ranges.push(start..end);
+
             new.extend(module.body)
         }
         new.extend(self.injected.drain(..));
@@ -119,6 +129,45 @@ impl Modules {
         // Now graph contains enough information to sort statements.
         let len = new.len();
         let mut orders: Vec<usize> = vec![];
+
+        fn insert_orders(
+            graph: &mut StmtDepGraph,
+            orders: &mut Vec<usize>,
+            same_module_ranges: &[Range<usize>],
+            idx: usize,
+        ) {
+            if !orders.contains(&idx) {
+                orders.push(idx);
+                graph.remove_node(idx);
+            }
+
+            let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
+                Some(v) => v,
+                None => return,
+            };
+
+            if !orders.contains(&range.start) {
+                // We should process module from start to end.
+                insert_orders(graph, orders, same_module_ranges, range.start);
+            }
+
+            let next_idx = idx + 1;
+            if !range.contains(&next_idx) {
+                // We successfully processed a module.
+                return;
+            }
+
+            let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
+            for dep in deps {
+                // We jump to another modul.
+                insert_orders(graph, orders, same_module_ranges, dep);
+            }
+            insert_orders(graph, orders, same_module_ranges, next_idx)
+        }
+
+        for start_idx in module_starts {
+            insert_orders(&mut graph, &mut orders, &same_module_ranges, start_idx);
+        }
 
         // No dependencies
         loop {
