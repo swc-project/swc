@@ -5,6 +5,7 @@
 
 use self::common::*;
 use anyhow::Error;
+use std::path::PathBuf;
 use std::{
     collections::{HashMap, HashSet},
     env,
@@ -1131,4 +1132,32 @@ impl Visit for ExportCollector {
             _ => {}
         }
     }
+}
+
+#[testing::fixture("deno-exec/**/entry.ts")]
+fn exec(input: PathBuf) {
+    let dir = tempfile::tempdir().expect("failed to crate temp file");
+    let path = dir.path().join("main.js");
+    println!("{}", path.display());
+
+    let src = bundle(&input.to_string_lossy());
+    write(&path, &src).unwrap();
+
+    if env::var("CI").is_ok() {
+        return;
+    }
+
+    let output = Command::new("deno")
+        .arg("run")
+        .arg("--allow-all")
+        .arg("--no-check")
+        .arg(&path)
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .status()
+        .unwrap();
+
+    std::mem::forget(dir);
+
+    assert!(output.success());
 }
