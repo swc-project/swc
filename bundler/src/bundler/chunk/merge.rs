@@ -1294,6 +1294,13 @@ impl VisitMut for DefaultRenamer {
             n.prop.visit_mut_with(self)
         }
     }
+
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if n.orig.sym == js_word!("default") {
+            n.orig.sym = "__default".into();
+            return;
+        }
+    }
 }
 
 struct ImportMetaHandler<'a, 'b> {
