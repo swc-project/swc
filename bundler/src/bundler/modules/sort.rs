@@ -298,6 +298,7 @@ struct RequirementCalculartor {
 
     in_weak: bool,
     in_var_decl: bool,
+    in_assign_lhs: bool,
 }
 
 macro_rules! weak {
@@ -339,16 +340,30 @@ impl Visit for RequirementCalculartor {
         self.insert(n.orig.clone().into());
     }
 
+    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+        let old = self.in_assign_lhs;
+
+        self.in_assign_lhs = true;
+        e.left.visit_with(e, self);
+
+        self.in_assign_lhs = false;
+        e.right.visit_with(e, self);
+
+        self.in_assign_lhs = old;
+    }
+
     fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
         match pat {
             Pat::Ident(i) => {
                 // We do not care about variables created by current statement.
-                if self.in_var_decl {
+                if self.in_var_decl && !self.in_assign_lhs {
                     return;
                 }
                 self.insert(i.into());
             }
-            _ => {}
+            _ => {
+                pat.visit_children_with(self);
+            }
         }
     }
 
