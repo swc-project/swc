@@ -54,13 +54,13 @@ fn sort_002() {
 fn sort_003() {
     assert_sorted(
         "
-        class Constraint#10 extends serialization#10.Serializable {
+        class Constraint extends serialization.Serializable {
         }
         const serialization = {};
         ",
         "
         const serialization = {};
-        class Constraint#10 extends serialization#10.Serializable {
+        class Constraint extends serialization.Serializable {
         }
         ",
     );
