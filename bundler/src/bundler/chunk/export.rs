@@ -130,7 +130,7 @@ where
             // }
 
             if let Some(module_name) = self.scope.wrapped_esm_id(dep_info.id) {
-                dep.sort();
+                dep.sort(&self.cm);
                 dep = self.wrap_esm(ctx, dep_info.id, dep.into())?;
 
                 for specifier in specifiers {

@@ -7,7 +7,7 @@ fn assert_sorted(src: &str, res: &str) {
     suite().run(|t| {
         let actual: Module = drop_span(t.parse(src));
         let mut module = Modules::from(actual);
-        module.sort();
+        module.sort(&t.cm);
         let actual: Module = module.into();
 
         let expected = drop_span(t.parse(res));

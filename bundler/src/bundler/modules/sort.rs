@@ -1,4 +1,5 @@
 use super::Modules;
+use crate::debug::print_hygiene;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
 use petgraph::{
@@ -7,6 +8,8 @@ use petgraph::{
 };
 use std::collections::HashMap;
 use std::ops::Range;
+use swc_common::sync::Lrc;
+use swc_common::SourceMap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -25,7 +28,7 @@ enum Required {
 }
 
 impl Modules {
-    pub fn sort(&mut self) {
+    pub fn sort(&mut self, cm: &Lrc<SourceMap>) {
         self.retain_mut(|item| match item {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             _ => true,
@@ -47,6 +50,16 @@ impl Modules {
             new.extend(module.body)
         }
         new.extend(self.injected.drain(..));
+
+        print_hygiene(
+            "sort",
+            &cm,
+            &Module {
+                span: DUMMY_SP,
+                body: new.clone(),
+                shebang: None,
+            },
+        );
 
         let mut graph = StmtDepGraph::default();
         let mut declared_by = HashMap::<Id, Vec<usize>>::default();
@@ -136,6 +149,10 @@ impl Modules {
             same_module_ranges: &[Range<usize>],
             idx: usize,
         ) {
+            if orders.contains(&idx) {
+                return;
+            }
+
             dbg!(idx);
             {
                 let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
@@ -150,10 +167,8 @@ impl Modules {
                 Some(v) => v,
                 None => {
                     // Free statements, like injected vars.
-                    if !orders.contains(&idx) {
-                        orders.push(idx);
-                        graph.remove_node(idx);
-                    }
+                    orders.push(idx);
+                    graph.remove_node(idx);
                     return;
                 }
             };
@@ -164,10 +179,8 @@ impl Modules {
                 insert_orders(graph, orders, same_module_ranges, range.start);
             }
 
-            if !orders.contains(&idx) {
-                orders.push(idx);
-                graph.remove_node(idx);
-            }
+            orders.push(idx);
+            graph.remove_node(idx);
 
             let next_idx = idx + 1;
 
