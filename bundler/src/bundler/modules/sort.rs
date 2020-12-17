@@ -39,7 +39,7 @@ impl Modules {
         for module in self.modules.drain(..) {
             let start = new.len();
             let inner_len = module.body.len();
-            let end = start + inner_len;
+            let end = start + inner_len - 1;
 
             module_starts.push(start);
             same_module_ranges.push(start..end);
@@ -136,32 +136,46 @@ impl Modules {
             same_module_ranges: &[Range<usize>],
             idx: usize,
         ) {
+            dbg!(idx);
+            {
+                let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
+                for dep in deps {
+                    dbg!(dep);
+                    // We jump to another modul.
+                    insert_orders(graph, orders, same_module_ranges, dep);
+                }
+            }
+
+            let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
+                Some(v) => v,
+                None => {
+                    // Free statements, like injected vars.
+                    if !orders.contains(&idx) {
+                        orders.push(idx);
+                        graph.remove_node(idx);
+                    }
+                    return;
+                }
+            };
+
+            if idx != range.start && !orders.contains(&range.start) {
+                // We should process module from start to end.
+                dbg!(range.start);
+                insert_orders(graph, orders, same_module_ranges, range.start);
+            }
+
             if !orders.contains(&idx) {
                 orders.push(idx);
                 graph.remove_node(idx);
             }
 
-            let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
-                Some(v) => v,
-                None => return,
-            };
-
-            if !orders.contains(&range.start) {
-                // We should process module from start to end.
-                insert_orders(graph, orders, same_module_ranges, range.start);
-            }
-
             let next_idx = idx + 1;
+
             if !range.contains(&next_idx) {
                 // We successfully processed a module.
                 return;
             }
-
-            let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
-            for dep in deps {
-                // We jump to another modul.
-                insert_orders(graph, orders, same_module_ranges, dep);
-            }
+            dbg!(next_idx);
             insert_orders(graph, orders, same_module_ranges, next_idx)
         }
 
