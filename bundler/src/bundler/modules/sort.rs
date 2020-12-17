@@ -25,6 +25,11 @@ enum Required {
 
 impl Modules {
     pub fn sort(&mut self) {
+        self.retain_mut(|item| match item {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            _ => true,
+        });
+
         let mut new = vec![];
 
         new.extend(self.prepended.drain(..));
@@ -32,11 +37,6 @@ impl Modules {
             new.extend(module.body)
         }
         new.extend(self.injected.drain(..));
-
-        new.retain(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            _ => true,
-        });
 
         let mut graph = StmtDepGraph::default();
         let mut declared_by = HashMap::<Id, Vec<usize>>::default();
