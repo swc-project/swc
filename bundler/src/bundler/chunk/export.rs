@@ -420,58 +420,9 @@ pub(super) fn inject_export(
                     }
 
                     if let Some(mut dep) = dep.take() {
-                        dep.retain_mut(|item| match item {
-                            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
-                                export_default_stmt = Some(item.take());
-                                false
-                            }
-                            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                                specifiers,
-                                ..
-                            })) => {
-                                //
-                                let mut default_specifer = None;
-                                specifiers.retain_mut(|specifier| {
-                                    match specifier {
-                                        ExportSpecifier::Namespace(_) => {}
-                                        ExportSpecifier::Default(_) => {}
-                                        ExportSpecifier::Named(named) => match &named.exported {
-                                            Some(exported) => {
-                                                //
-                                                if exported.sym == js_word!("default") {
-                                                    default_specifer = Some(named.orig.clone());
-                                                    return false;
-                                                }
-                                            }
-                                            None => {
-                                                //
-                                                if named.orig.sym == js_word!("default") {
-                                                    default_specifer = Some(named.orig.take());
-
-                                                    return false;
-                                                }
-                                            }
-                                        },
-                                    }
-
-                                    true
-                                });
-
-                                match default_specifer {
-                                    Some(expr) => {
-                                        export_default_stmt = Some(ModuleItem::ModuleDecl(
-                                            ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                                                span: export.span,
-                                                expr: Box::new(Expr::Ident(expr)),
-                                            }),
-                                        ));
-                                        !specifiers.is_empty()
-                                    }
-                                    None => true,
-                                }
-                            }
-                            _ => true,
-                        });
+                        if let Some(item) = remove_default_export(&mut dep) {
+                            export_default_stmt = Some(item)
+                        }
                         buf.extend(dep.into_items());
                     }
                 }
@@ -489,7 +440,7 @@ pub(super) fn inject_export(
                         })
                         .next();
 
-                    if let Some(dep) = dep.take() {
+                    if let Some(mut dep) = dep.take() {
                         buf.extend(dep.into_items());
                     }
                     if let Some(stmt) = export_default_stmt.take() {
@@ -530,6 +481,64 @@ pub(super) fn inject_export(
         Some(dep) => Err(dep),
         None => Ok(()),
     }
+}
+
+fn remove_default_export(dep: &mut Modules) -> Option<ModuleItem> {
+    let mut export_default_stmt = None;
+
+    dep.retain_mut(|item| match item {
+        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
+            export_default_stmt = Some(item.take());
+            false
+        }
+        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+            span, specifiers, ..
+        })) => {
+            //
+            let mut default_specifer = None;
+            specifiers.retain_mut(|specifier| {
+                match specifier {
+                    ExportSpecifier::Namespace(_) => {}
+                    ExportSpecifier::Default(_) => {}
+                    ExportSpecifier::Named(named) => match &named.exported {
+                        Some(exported) => {
+                            //
+                            if exported.sym == js_word!("default") {
+                                default_specifer = Some(named.orig.clone());
+                                return false;
+                            }
+                        }
+                        None => {
+                            //
+                            if named.orig.sym == js_word!("default") {
+                                default_specifer = Some(named.orig.take());
+
+                                return false;
+                            }
+                        }
+                    },
+                }
+
+                true
+            });
+
+            match default_specifer {
+                Some(expr) => {
+                    export_default_stmt = Some(ModuleItem::ModuleDecl(
+                        ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                            span: *span,
+                            expr: Box::new(Expr::Ident(expr)),
+                        }),
+                    ));
+                    !specifiers.is_empty()
+                }
+                None => true,
+            }
+        }
+        _ => true,
+    });
+
+    export_default_stmt
 }
 
 /// Converts
