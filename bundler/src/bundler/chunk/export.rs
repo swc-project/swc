@@ -79,7 +79,11 @@ where
 
             self.handle_reexport(&dep_info, &mut dep);
 
-            // print_hygiene(&format!("dep: handle reexport"), &self.cm, &dep);
+            // print_hygiene(
+            //     &format!("dep: handle reexport"),
+            //     &self.cm,
+            //     &dep.clone().into(),
+            // );
 
             // for stmt in &mut dep.body {
             //     let decl = match stmt {
@@ -146,13 +150,12 @@ where
             if !specifiers.is_empty() {
                 unexprt_as_var(&mut dep, dep_info.export_ctxt());
 
-                // print_hygiene(&format!("dep: unexport as var"), &self.cm, &dep);
-
                 dep = dep.fold_with(&mut DepUnexporter {
                     exports: &specifiers,
                 });
 
-                // print_hygiene(&format!("dep: unexport"), &self.cm, &dep);
+                // print_hygiene(&format!("dep: unexport"), &self.cm,
+                // &dep.clone().into());
             }
 
             // TODO: Add varaible based on specifers
@@ -203,32 +206,6 @@ where
                             }
                         }
                         import.specifiers.clear();
-                    }
-
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
-                        let expr = export.expr.take();
-                        let export_name = Ident::new(
-                            js_word!("default"),
-                            export.span.with_ctxt(info.export_ctxt()),
-                        );
-                        let var_name = Ident::new(
-                            "__default".into(),
-                            export.span.with_ctxt(info.local_ctxt()),
-                        );
-
-                        vars.push(expr.assign_to(var_name.clone()));
-
-                        let export_specifier = ExportSpecifier::Named(ExportNamedSpecifier {
-                            span: DUMMY_SP,
-                            orig: var_name.clone(),
-                            exported: Some(export_name),
-                        });
-                        stmt = ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                            span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
-                            specifiers: vec![export_specifier],
-                            src: None,
-                            type_only: false,
-                        }));
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
@@ -365,7 +342,7 @@ where
             }
 
             new_body
-        })
+        });
     }
 }
 
@@ -379,10 +356,6 @@ pub(super) fn inject_export(
 ) -> Result<(), Modules> {
     let mut dep = Some(dep);
     entry.map(|items| {
-        if dep.is_none() {
-            return items;
-        }
-
         let mut buf = vec![];
 
         for item in items {
