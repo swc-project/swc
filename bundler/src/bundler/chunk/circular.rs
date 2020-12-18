@@ -172,7 +172,7 @@ where
 
             // print_hygiene("before circular sort", &self.cm, &entry.clone().into());
 
-            entry.sort(&self.cm);
+            entry.sort();
 
             Ok(entry)
         })

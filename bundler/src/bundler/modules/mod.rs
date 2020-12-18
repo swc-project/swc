@@ -1,5 +1,7 @@
+use crate::util::MapWithMut;
 use retain_mut::RetainMut;
 use std::mem::take;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Module;
 use swc_ecma_ast::ModuleItem;
@@ -28,12 +30,9 @@ impl Modules {
         }
     }
 
-    pub fn into_items(self) -> Vec<ModuleItem> {
-        self.prepended
-            .into_iter()
-            .chain(self.modules.into_iter().flat_map(|module| module.body))
-            .chain(self.injected)
-            .collect()
+    pub fn into_items(mut self) -> Vec<ModuleItem> {
+        self.sort();
+        self.modules.pop().unwrap().body
     }
 
     pub fn prepend_all(&mut self, mut other: Modules) {
@@ -71,7 +70,16 @@ impl Modules {
         self.modules = take(&mut self.modules)
             .into_iter()
             .map(|mut m| {
-                let body = op(take(&mut m.body));
+                let mut body = op(take(&mut m.body));
+
+                body.retain_mut(|item| {
+                    if item.span().is_dummy() {
+                        self.injected.push(item.take());
+                        false
+                    } else {
+                        true
+                    }
+                });
 
                 Module { body, ..m }
             })
@@ -90,15 +98,20 @@ impl Modules {
 
     /// Insert a statement which dependency of can be analyzed statically.
     pub fn inject_all(&mut self, items: Vec<ModuleItem>) {
+        assert!(items.iter().all(|v| v.span().is_dummy()));
         self.injected.extend(items);
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
     pub fn inject(&mut self, var: ModuleItem) {
+        assert!(var.span().is_dummy());
+
         self.injected.push(var)
     }
 
     pub fn prepend(&mut self, item: ModuleItem) {
+        assert!(item.span().is_dummy());
+
         self.prepended.push(item)
     }
 

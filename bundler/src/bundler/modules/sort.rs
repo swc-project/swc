@@ -29,7 +29,7 @@ enum Required {
 }
 
 impl Modules {
-    pub fn sort(&mut self, cm: &Lrc<SourceMap>) {
+    pub fn sort(&mut self) {
         self.retain_mut(|item| match item {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             _ => true,
@@ -53,16 +53,6 @@ impl Modules {
             new.extend(module.body)
         }
         new.extend(self.injected.drain(..));
-
-        print_hygiene(
-            "sort",
-            &cm,
-            &Module {
-                span: DUMMY_SP,
-                body: new.clone(),
-                shebang: None,
-            },
-        );
 
         let mut graph = StmtDepGraph::default();
         let mut declared_by = HashMap::<Id, Vec<usize>>::default();
@@ -294,60 +284,64 @@ fn insert_orders(
         ignore_range_start: bool,
         dejavu: &mut HashSet<usize>,
     ) {
-        if orders.contains(&idx) {
-            return;
-        }
-        dejavu.insert(idx);
+        let mut next = Some(idx);
 
-        dbg!(idx);
-        {
-            let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
-            for dep in deps {
-                if dejavu.contains(&dep) {
-                    continue;
-                }
-                dbg!(dep);
-                // We jump to another modul.
-                insert_inner(
-                    graph,
-                    orders,
-                    same_module_ranges,
-                    dep,
-                    ignore_range_start,
-                    dejavu,
-                );
-            }
-        }
-
-        let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
-            Some(v) => v,
-            None => {
-                // Free statements, like injected vars.
-                orders.push(idx);
-                graph.remove_node(idx);
+        while let Some(idx) = next.take() {
+            if orders.contains(&idx) {
                 return;
             }
-        };
+            dejavu.insert(idx);
 
-        if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
-            // We should process module from start to end.
-            dbg!(range.start);
-            insert_inner(graph, orders, same_module_ranges, range.start, true, dejavu);
+            dbg!(idx);
+            {
+                let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
+                for dep in deps {
+                    if dejavu.contains(&dep) {
+                        continue;
+                    }
+                    dbg!(dep);
+                    // We jump to another modul.
+                    insert_inner(
+                        graph,
+                        orders,
+                        same_module_ranges,
+                        dep,
+                        ignore_range_start,
+                        dejavu,
+                    );
+                }
+            }
+
+            let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
+                Some(v) => v,
+                None => {
+                    // Free statements, like injected vars.
+                    orders.push(idx);
+                    graph.remove_node(idx);
+                    return;
+                }
+            };
+
+            if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
+                // We should process module from start to end.
+                dbg!(range.start);
+                insert_inner(graph, orders, same_module_ranges, range.start, true, dejavu);
+            }
+
+            if !orders.contains(&idx) {
+                orders.push(idx);
+                graph.remove_node(idx);
+            }
+
+            let next_idx = idx + 1;
+
+            if !range.contains(&next_idx) {
+                // We successfully processed a module.
+                return;
+            }
+            dbg!(next_idx);
+            next = Some(next_idx);
         }
-
-        if !orders.contains(&idx) {
-            orders.push(idx);
-            graph.remove_node(idx);
-        }
-
-        let next_idx = idx + 1;
-
-        if !range.contains(&next_idx) {
-            // We successfully processed a module.
-            return;
-        }
-        dbg!(next_idx);
-        insert_inner(graph, orders, same_module_ranges, next_idx, false, dejavu)
     }
 
     let mut dejavu = HashSet::default();
