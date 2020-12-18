@@ -736,7 +736,8 @@ where
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
-        module.map(|stmts| {
+        let mut vars = vec![];
+        module.map_any_items(|stmts| {
             let mut new = Vec::with_capacity(stmts.len() + 32);
 
             for stmt in stmts {
@@ -746,7 +747,7 @@ where
                             match specifier {
                                 ImportSpecifier::Named(named) => match &named.imported {
                                     Some(imported) => {
-                                        new.push(
+                                        vars.push(
                                             imported
                                                 .clone()
                                                 .assign_to(named.local.clone())
@@ -767,7 +768,7 @@ where
                                             js_word!("default"),
                                             DUMMY_SP.with_ctxt(src.export_ctxt),
                                         );
-                                        new.push(
+                                        vars.push(
                                             imported
                                                 .assign_to(default.local.clone())
                                                 .into_module_item("from_replace_import_specifiers"),
@@ -788,7 +789,7 @@ where
                                                  means failutre of deblobbing and as a result \
                                                  module should be marked as wrpaped esm",
                                             );
-                                        new.push(
+                                        vars.push(
                                             esm_id
                                                 .clone()
                                                 .assign_to(s.local.clone())
@@ -812,7 +813,9 @@ where
             }
 
             new
-        })
+        });
+
+        module.inject_all(vars)
     }
 
     /// If a dependency aliased exports, we handle them at here.
@@ -1194,9 +1197,10 @@ fn inject_es_module(
     dep_export_ctxt: SyntaxContext,
     is_direct: bool,
 ) -> Result<(), Modules> {
+    let mut vars = vec![];
     let mut dep = Some(dep);
 
-    entry.map(|items| {
+    entry.map_any_items(|items| {
         if dep.is_none() {
             return items;
         }
@@ -1237,7 +1241,7 @@ fn inject_es_module(
                             .collect::<Vec<_>>();
 
                         for var in decls {
-                            buf.push(var.into_module_item("Es6ModuleInjector"));
+                            vars.push(var.into_module_item("Es6ModuleInjector"));
                         }
                     }
                 }
@@ -1248,6 +1252,8 @@ fn inject_es_module(
 
         buf
     });
+
+    entry.inject_all(vars);
 
     match dep {
         Some(dep) => Err(dep),

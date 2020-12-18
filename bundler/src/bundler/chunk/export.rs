@@ -180,12 +180,12 @@ where
     /// console.log(b__9);
     /// ```
     fn handle_reexport(&self, info: &TransformedModule, module: &mut Modules) {
-        module.map(|stmts| {
+        let mut vars = vec![];
+
+        module.map_any_items(|stmts| {
             let mut new_body = Vec::with_capacity(stmts.len() + 32);
 
             for mut stmt in stmts {
-                let mut vars = vec![];
-
                 match &mut stmt {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                         for specifier in &import.specifiers {
@@ -337,13 +337,13 @@ where
                 }
 
                 new_body.push(stmt);
-                for var in vars {
-                    new_body.push(var.into_module_item("from_export_rs"))
-                }
             }
 
             new_body
         });
+        for var in vars {
+            module.inject(var.into_module_item("from_export_rs"))
+        }
     }
 }
 
@@ -361,7 +361,8 @@ pub(super) fn inject_export(
     // But as user may specify both of `export *` and `export { default }` from same
     // module, we have to store it somewhere.
     let mut export_default_stmt = None;
-    entry.map(|items| {
+    let mut vars = vec![];
+    entry.map_any_items(|items| {
         let mut buf = vec![];
 
         for item in items {
@@ -407,7 +408,7 @@ pub(super) fn inject_export(
                         .collect::<Vec<_>>();
 
                     for var in decls {
-                        buf.push(var.into_module_item("ExportInjector"));
+                        vars.push(var.into_module_item("ExportInjector"));
                     }
                 }
 
@@ -476,6 +477,8 @@ pub(super) fn inject_export(
 
         buf
     });
+
+    entry.inject_all(vars);
 
     match dep {
         Some(dep) => Err(dep),

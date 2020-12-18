@@ -63,7 +63,7 @@ impl Modules {
             .chain(self.injected.iter_mut())
     }
 
-    pub fn map<F>(&mut self, mut op: F)
+    pub fn map_any_items<F>(&mut self, mut op: F)
     where
         F: FnMut(Vec<ModuleItem>) -> Vec<ModuleItem>,
     {
