@@ -1,8 +1,8 @@
 const a = 1;
-const a1 = a;
-const a2 = a1;
 class A {
 }
+const a1 = a;
+const a2 = a1;
 const A1 = A;
 const A2 = A1;
 console.log(a2, A2);

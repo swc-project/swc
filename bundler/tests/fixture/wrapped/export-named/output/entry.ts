@@ -9,6 +9,6 @@ const mod = function() {
         b: b1
     };
 }();
-const foo = mod;
 const b2 = b1;
+const foo = mod;
 console.log(foo);

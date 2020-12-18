@@ -1,6 +1,6 @@
 const c = 'c';
-const c1 = c;
 const a = 'a';
+const c1 = c;
 const a1 = a;
 const a2 = a1;
 const c2 = c1;

@@ -10,6 +10,9 @@ var O3;
     O1[O1["C"] = 2] = "C";
 })(O3 || (O3 = {
 }));
+const O1 = O3;
+const O2 = O1;
+export { O2 as O };
 const defaultA = a2;
 class A {
     #a;
@@ -30,6 +33,3 @@ class A {
 let a4 = new A();
 a4.a();
 a4.c();
-const O1 = O3;
-const O2 = O1;
-export { O2 as O };
