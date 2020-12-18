@@ -7,6 +7,7 @@ use petgraph::{
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::collections::HashMap;
+use std::collections::HashSet;
 use std::ops::Range;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
@@ -144,7 +145,13 @@ impl Modules {
         let mut orders: Vec<usize> = vec![];
 
         for start_idx in module_starts {
-            insert_orders(&mut graph, &mut orders, &same_module_ranges, start_idx);
+            insert_orders(
+                &mut graph,
+                &mut orders,
+                &same_module_ranges,
+                start_idx,
+                false,
+            );
         }
 
         // No dependencies
@@ -268,53 +275,88 @@ impl Modules {
     }
 }
 
+/// Insert orders smartly :)
 fn insert_orders(
     graph: &mut StmtDepGraph,
     orders: &mut Vec<usize>,
     same_module_ranges: &[Range<usize>],
     idx: usize,
+    ignore_range_start: bool,
 ) {
-    if orders.contains(&idx) {
-        return;
-    }
-
-    dbg!(idx);
-    {
-        let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
-        for dep in deps {
-            dbg!(dep);
-            // We jump to another modul.
-            insert_orders(graph, orders, same_module_ranges, dep);
-        }
-    }
-
-    let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
-        Some(v) => v,
-        None => {
-            // Free statements, like injected vars.
-            orders.push(idx);
-            graph.remove_node(idx);
+    /// Insert orders smartly :)
+    fn insert_inner(
+        graph: &mut StmtDepGraph,
+        orders: &mut Vec<usize>,
+        same_module_ranges: &[Range<usize>],
+        idx: usize,
+        ignore_range_start: bool,
+        dejavu: &mut HashSet<usize>,
+    ) {
+        if orders.contains(&idx) {
             return;
         }
-    };
+        dejavu.insert(idx);
 
-    if idx != range.start && !orders.contains(&range.start) {
-        // We should process module from start to end.
-        dbg!(range.start);
-        insert_orders(graph, orders, same_module_ranges, range.start);
+        dbg!(idx);
+        {
+            let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
+            for dep in deps {
+                if dejavu.contains(&dep) {
+                    continue;
+                }
+                dbg!(dep);
+                // We jump to another modul.
+                insert_inner(
+                    graph,
+                    orders,
+                    same_module_ranges,
+                    dep,
+                    ignore_range_start,
+                    dejavu,
+                );
+            }
+        }
+
+        let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
+            Some(v) => v,
+            None => {
+                // Free statements, like injected vars.
+                orders.push(idx);
+                graph.remove_node(idx);
+                return;
+            }
+        };
+
+        if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
+            // We should process module from start to end.
+            dbg!(range.start);
+            insert_inner(graph, orders, same_module_ranges, range.start, true, dejavu);
+        }
+
+        if !orders.contains(&idx) {
+            orders.push(idx);
+            graph.remove_node(idx);
+        }
+
+        let next_idx = idx + 1;
+
+        if !range.contains(&next_idx) {
+            // We successfully processed a module.
+            return;
+        }
+        dbg!(next_idx);
+        insert_inner(graph, orders, same_module_ranges, next_idx, false, dejavu)
     }
 
-    orders.push(idx);
-    graph.remove_node(idx);
-
-    let next_idx = idx + 1;
-
-    if !range.contains(&next_idx) {
-        // We successfully processed a module.
-        return;
-    }
-    dbg!(next_idx);
-    insert_orders(graph, orders, same_module_ranges, next_idx)
+    let mut dejavu = HashSet::default();
+    insert_inner(
+        graph,
+        orders,
+        same_module_ranges,
+        idx,
+        ignore_range_start,
+        &mut dejavu,
+    )
 }
 
 /// Finds usage of `ident`
