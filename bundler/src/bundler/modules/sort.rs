@@ -43,10 +43,12 @@ impl Modules {
         for module in self.modules.drain(..) {
             let start = new.len();
             let inner_len = module.body.len();
-            let end = start + inner_len - 1;
+            if inner_len != 0 {
+                let end = start + inner_len - 1;
 
-            module_starts.push(start);
-            same_module_ranges.push(start..end);
+                module_starts.push(start);
+                same_module_ranges.push(start..end);
+            }
 
             new.extend(module.body)
         }
