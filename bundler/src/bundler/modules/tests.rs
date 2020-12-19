@@ -65,3 +65,17 @@ fn sort_003() {
         ",
     );
 }
+
+#[test]
+fn sort_004() {
+    assert_sorted(
+        "
+        use(global);
+        const global = getGlobal();
+        ",
+        "
+        const global = getGlobal();
+        use(global);
+        ",
+    );
+}
