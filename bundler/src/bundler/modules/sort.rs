@@ -227,12 +227,10 @@ impl Sorter<'_> {
             eprintln!("Emit: `{}`", idx);
 
             match &self._new[idx] {
-                ModuleItem::Stmt(Stmt::Expr(stmt)) => match &*stmt.expr {
-                    Expr::Await(..) => {
-                        dbg!(&self._new[idx]);
-                    }
-                    _ => {}
-                },
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    let ids: Vec<Id> = find_ids(&var.decls);
+                    eprintln!("Declare: `{:?}`", ids);
+                }
                 _ => {}
             }
 
