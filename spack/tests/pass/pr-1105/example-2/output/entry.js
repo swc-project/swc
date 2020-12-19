@@ -1,6 +1,4 @@
 const b = "b";
-const b1 = b;
-console.log(b1); // "b"
 const mod = function() {
     const c = "c";
     class C {
@@ -14,4 +12,6 @@ const mod = function() {
 }();
 const c = mod;
 const c1 = c;
+const b1 = b;
+console.log(b1); // "b"
 console.log(c1); // { c: "c", default: class C }
