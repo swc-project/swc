@@ -5,10 +5,10 @@ const Common1 = __default;
 const Common2 = __default;
 class A extends Common1 {
 }
-class B extends Common2 {
-}
 const __default1 = A;
 const A1 = __default1;
+class B extends Common2 {
+}
 const __default2 = B;
 const B1 = __default2;
 console.log(A1, B1);

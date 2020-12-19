@@ -393,6 +393,9 @@ function isPlainObject(o) {
     }
     return true;
 }
+const isPlainObject1 = isPlainObject;
+const isPlainObject2 = isPlainObject1;
+const isPlainObject3 = isPlainObject1;
 class Deprecation extends Error {
     constructor(message){
         super(message);
@@ -402,6 +405,8 @@ class Deprecation extends Error {
         this.name = "Deprecation";
     }
 }
+const Deprecation1 = Deprecation;
+const Deprecation2 = Deprecation1;
 function wrappy(fn, cb) {
     if (fn && cb) return wrappy(fn)(cb);
     if (typeof fn !== "function") throw new TypeError("need wrapper function");
@@ -425,6 +430,8 @@ function wrappy(fn, cb) {
     }
 }
 var wrappy_1 = wrappy;
+const __default = wrappy_1;
+const wrappy2 = __default;
 function once1(fn) {
     var f = function() {
         if (f.called) return f.value;
@@ -463,14 +470,9 @@ const VERSION1 = "5.4.12";
 function getBufferResponse(response) {
     return response.arrayBuffer();
 }
-const isPlainObject1 = isPlainObject;
-const isPlainObject2 = isPlainObject1;
-const Deprecation1 = Deprecation;
-const Deprecation2 = Deprecation1;
-const __default = wrappy_1;
-const wrappy2 = __default;
-const isPlainObject3 = isPlainObject1;
 var once_1 = wrappy2(once1);
+const __default1 = once_1;
+const once2 = __default1;
 var strict = wrappy2(onceStrict);
 once_1.strict = strict;
 function mergeDeep(defaults, options) {
@@ -529,8 +531,6 @@ function withDefaults(oldDefaults, newDefaults) {
         parse
     });
 }
-const __default1 = once_1;
-const once2 = __default1;
 const logOnce = once2((deprecation2)=>console.warn(deprecation2)
 );
 class RequestError extends Error {
