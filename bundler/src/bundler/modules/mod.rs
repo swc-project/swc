@@ -40,12 +40,9 @@ impl Modules {
         ret
     }
 
-    pub fn into_items(self) -> Vec<ModuleItem> {
-        self.prepended
-            .into_iter()
-            .chain(self.modules.into_iter().flat_map(|module| module.body))
-            .chain(self.injected)
-            .collect()
+    pub fn into_items(mut self) -> Vec<ModuleItem> {
+        self.sort();
+        self.modules.pop().unwrap().body
     }
 
     pub fn prepend_all(&mut self, mut other: Modules) {
