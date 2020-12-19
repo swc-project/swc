@@ -2,6 +2,7 @@ use super::Modules;
 use crate::debug::print_hygiene;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
+use petgraph::algo::all_simple_paths;
 use petgraph::{
     graphmap::DiGraphMap,
     EdgeDirection::{Incoming, Outgoing},
@@ -283,12 +284,13 @@ fn insert_orders(
         idx: usize,
         ignore_range_start: bool,
         dejavu: &mut HashSet<usize>,
+        delayed: &mut HashSet<usize>,
     ) {
         let mut next = Some(idx);
 
         while let Some(idx) = next.take() {
-            if orders.contains(&idx) {
-                return;
+            if orders.contains(&idx) || delayed.contains(&idx) {
+                continue;
             }
             dejavu.insert(idx);
 
@@ -297,6 +299,9 @@ fn insert_orders(
                 let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
                 for dep in deps {
                     if dejavu.contains(&dep) {
+                        for paths in all_simple_paths(&graph, dep, idx, 0, None) {
+                            delayed.extend(paths);
+                        }
                         continue;
                     }
                     dbg!(dep);
@@ -345,6 +350,7 @@ fn insert_orders(
     }
 
     let mut dejavu = HashSet::default();
+    let mut delayed = HashSet::default();
     insert_inner(
         graph,
         orders,
@@ -352,6 +358,7 @@ fn insert_orders(
         idx,
         ignore_range_start,
         &mut dejavu,
+        &mut delayed,
     )
 }
 
