@@ -5,6 +5,10 @@ function emptyReader() {
         }
     };
 }
+const emptyReader1 = emptyReader;
+const emptyReader2 = emptyReader1;
+var tmp = Symbol.asyncIterator;
+var tmp1 = Symbol.asyncIterator;
 function bodyReader(contentLength, r) {
     let totalRead = 0;
     let finished = false;
@@ -25,6 +29,8 @@ function bodyReader(contentLength, r) {
         read
     };
 }
+const bodyReader1 = bodyReader;
+const bodyReader2 = bodyReader1;
 function deferred() {
     let methods;
     const promise = new Promise((resolve, reject)=>{
@@ -35,6 +41,59 @@ function deferred() {
     });
     return Object.assign(promise, methods);
 }
+const deferred1 = deferred;
+const deferred2 = deferred1;
+const deferred3 = deferred;
+const deferred4 = deferred3;
+class MuxAsyncIterator {
+    add(iterator) {
+        ++this.iteratorCount;
+        this.callIteratorNext(iterator);
+    }
+    async callIteratorNext(iterator) {
+        try {
+            const { value , done  } = await iterator.next();
+            if (done) --this.iteratorCount;
+            else this.yields.push({
+                iterator,
+                value
+            });
+        } catch (e) {
+            this.throws.push(e);
+        }
+        this.signal.resolve();
+    }
+    async *iterate() {
+        while(this.iteratorCount > 0){
+            // Sleep until any of the wrapped iterators yields.
+            await this.signal;
+            // Note that while we're looping over `yields`, new items may be added.
+            for(let i = 0; i < this.yields.length; i++){
+                const { iterator , value  } = this.yields[i];
+                yield value;
+                this.callIteratorNext(iterator);
+            }
+            if (this.throws.length) {
+                for (const e of this.throws)throw e;
+                this.throws.length = 0;
+            }
+            // Clear the `yields` list and reset the `signal` promise.
+            this.yields.length = 0;
+            this.signal = deferred4();
+        }
+    }
+    [tmp]() {
+        return this.iterate();
+    }
+    constructor(){
+        this.iteratorCount = 0;
+        this.yields = [];
+        this.throws = [];
+        this.signal = deferred4();
+    }
+}
+const MuxAsyncIterator1 = MuxAsyncIterator;
+const MuxAsyncIterator2 = MuxAsyncIterator1;
 function isProhibidedForTrailer(key) {
     const s = new Set([
         "transfer-encoding",
@@ -126,6 +185,8 @@ async function writeResponse(w, r) {
     }
     await writer.flush();
 }
+const writeResponse1 = writeResponse;
+const writeResponse2 = writeResponse1;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -271,67 +332,8 @@ function chunkedBodyReader(h, r) {
         read
     };
 }
-const emptyReader1 = emptyReader;
-const bodyReader1 = bodyReader;
-const writeResponse1 = writeResponse;
-const deferred1 = deferred;
-var tmp = Symbol.asyncIterator;
-const deferred2 = deferred1;
-const deferred3 = deferred;
-const deferred4 = deferred3;
-var tmp1 = Symbol.asyncIterator;
-const bodyReader2 = bodyReader1;
-const emptyReader2 = emptyReader1;
-const writeResponse2 = writeResponse1;
 const chunkedBodyReader1 = chunkedBodyReader;
 const chunkedBodyReader2 = chunkedBodyReader1;
-class MuxAsyncIterator {
-    add(iterator) {
-        ++this.iteratorCount;
-        this.callIteratorNext(iterator);
-    }
-    async callIteratorNext(iterator) {
-        try {
-            const { value , done  } = await iterator.next();
-            if (done) --this.iteratorCount;
-            else this.yields.push({
-                iterator,
-                value
-            });
-        } catch (e) {
-            this.throws.push(e);
-        }
-        this.signal.resolve();
-    }
-    async *iterate() {
-        while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
-            await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
-            for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
-                yield value;
-                this.callIteratorNext(iterator);
-            }
-            if (this.throws.length) {
-                for (const e of this.throws)throw e;
-                this.throws.length = 0;
-            }
-            // Clear the `yields` list and reset the `signal` promise.
-            this.yields.length = 0;
-            this.signal = deferred2();
-        }
-    }
-    [tmp]() {
-        return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred2();
-    }
-}
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -397,14 +399,12 @@ class ServerRequest {
         this.finalized = true;
     }
     constructor(){
-        this.done = deferred4();
+        this.done = deferred2();
         this._contentLength = undefined;
         this._body = null;
         this.finalized = false;
     }
 }
-const MuxAsyncIterator1 = MuxAsyncIterator;
-const MuxAsyncIterator2 = MuxAsyncIterator1;
 const ServerRequest1 = ServerRequest;
 const ServerRequest2 = ServerRequest1;
 async function readRequest(conn, bufr) {
@@ -520,6 +520,8 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
+const listenAndServe1 = listenAndServe;
+const listenAndServe2 = listenAndServe1;
 function serveTLS(options) {
     const tlsOptions = {
         ...options,
@@ -528,8 +530,6 @@ function serveTLS(options) {
     const listener1 = Deno.listenTls(tlsOptions);
     return new Server(listener1);
 }
-const listenAndServe1 = listenAndServe;
-const listenAndServe2 = listenAndServe1;
 listenAndServe2({
     port: 8080
 }, async (req)=>{

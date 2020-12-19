@@ -1,4 +1,6 @@
 const DEFAULT_BUF_SIZE = 4096;
+var tmp = Symbol.asyncIterator;
+var tmp1 = Symbol.asyncIterator;
 const MIN_BUF_SIZE = 16;
 const MAX_CONSECUTIVE_EMPTY_READS = 100;
 const CR = "\r".charCodeAt(0);
@@ -27,6 +29,69 @@ class AbstractBufBase {
         this.err = null;
     }
 }
+function deferred() {
+    let methods;
+    const promise = new Promise((resolve, reject)=>{
+        methods = {
+            resolve,
+            reject
+        };
+    });
+    return Object.assign(promise, methods);
+}
+const deferred1 = deferred;
+const deferred2 = deferred1;
+const deferred3 = deferred;
+const deferred4 = deferred3;
+class MuxAsyncIterator {
+    add(iterator) {
+        ++this.iteratorCount;
+        this.callIteratorNext(iterator);
+    }
+    async callIteratorNext(iterator) {
+        try {
+            const { value , done  } = await iterator.next();
+            if (done) --this.iteratorCount;
+            else this.yields.push({
+                iterator,
+                value
+            });
+        } catch (e) {
+            this.throws.push(e);
+        }
+        this.signal.resolve();
+    }
+    async *iterate() {
+        while(this.iteratorCount > 0){
+            // Sleep until any of the wrapped iterators yields.
+            await this.signal;
+            // Note that while we're looping over `yields`, new items may be added.
+            for(let i = 0; i < this.yields.length; i++){
+                const { iterator , value  } = this.yields[i];
+                yield value;
+                this.callIteratorNext(iterator);
+            }
+            if (this.throws.length) {
+                for (const e of this.throws)throw e;
+                this.throws.length = 0;
+            }
+            // Clear the `yields` list and reset the `signal` promise.
+            this.yields.length = 0;
+            this.signal = deferred4();
+        }
+    }
+    [tmp]() {
+        return this.iterate();
+    }
+    constructor(){
+        this.iteratorCount = 0;
+        this.yields = [];
+        this.throws = [];
+        this.signal = deferred4();
+    }
+}
+const MuxAsyncIterator1 = MuxAsyncIterator;
+const MuxAsyncIterator2 = MuxAsyncIterator1;
 /** Generate longest proper prefix which is also suffix array. */ function createLPS(pat) {
     const lps = new Uint8Array(pat.length);
     lps[0] = 0;
@@ -92,16 +157,10 @@ async function* readStringDelim(reader, delim) {
 function assert(expr, msg = "") {
     if (!expr) throw new DenoStdInternalError(msg);
 }
-function deferred() {
-    let methods;
-    const promise = new Promise((resolve, reject)=>{
-        methods = {
-            resolve,
-            reject
-        };
-    });
-    return Object.assign(promise, methods);
-}
+const assert1 = assert;
+const assert2 = assert1;
+const assert3 = assert1;
+const assert4 = assert1;
 function findIndex(source, pat) {
     const s = pat[0];
     for(let i = 0; i < source.length; i++){
@@ -124,6 +183,8 @@ function concat(origin, b) {
     output.set(b, origin.length);
     return output;
 }
+const concat1 = concat;
+const concat2 = concat1;
 function copyBytes(src, dst, off = 0) {
     off = Math.max(0, Math.min(off, dst.byteLength));
     const dstBytesAvailable = dst.byteLength - off;
@@ -131,12 +192,18 @@ function copyBytes(src, dst, off = 0) {
     dst.set(src, off);
     return src.byteLength;
 }
+const copyBytes1 = copyBytes;
+const copyBytes2 = copyBytes1;
 // FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
 const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
 const encoder = new TextEncoder();
+const encoder1 = encoder;
+const encoder2 = encoder1;
 function encode(input) {
     return encoder.encode(input);
 }
+const encode1 = encode;
+const encode2 = encode1;
 const decoder = new TextDecoder();
 function charCode(s) {
     return s.charCodeAt(0);
@@ -144,7 +211,11 @@ function charCode(s) {
 function decode(input) {
     return decoder.decode(input);
 }
+const decode1 = decode;
+const decode2 = decode1;
 const STATUS_TEXT = new Map([]);
+const STATUS_TEXT1 = STATUS_TEXT;
+const STATUS_TEXT2 = STATUS_TEXT1;
 function emptyReader() {
     return {
         read (_) {
@@ -152,6 +223,8 @@ function emptyReader() {
         }
     };
 }
+const emptyReader1 = emptyReader;
+const emptyReader2 = emptyReader1;
 function bodyReader(contentLength, r) {
     let totalRead = 0;
     let finished = false;
@@ -172,6 +245,8 @@ function bodyReader(contentLength, r) {
         read
     };
 }
+const bodyReader1 = bodyReader;
+const bodyReader2 = bodyReader1;
 function isProhibidedForTrailer(key) {
     const s = new Set([
         "transfer-encoding",
@@ -260,32 +335,6 @@ function _parseAddrFromStr(addr) {
         port: url.port === "" ? 80 : Number(url.port)
     };
 }
-const assert1 = assert;
-const assert2 = assert1;
-const encoder1 = encoder;
-const encode1 = encode;
-const decode1 = decode;
-const concat1 = concat;
-const copyBytes1 = copyBytes;
-const concat2 = concat1;
-const decode2 = decode1;
-const STATUS_TEXT1 = STATUS_TEXT;
-const STATUS_TEXT2 = STATUS_TEXT1;
-const assert3 = assert1;
-const encoder2 = encoder1;
-const emptyReader1 = emptyReader;
-const bodyReader1 = bodyReader;
-const deferred1 = deferred;
-var tmp = Symbol.asyncIterator;
-const deferred2 = deferred1;
-const deferred3 = deferred;
-const deferred4 = deferred3;
-var tmp1 = Symbol.asyncIterator;
-const encode2 = encode1;
-const assert4 = assert1;
-const bodyReader2 = bodyReader1;
-const emptyReader2 = emptyReader1;
-const copyBytes2 = copyBytes1;
 function str(buf) {
     if (buf == null) return "";
     else return decode2(buf);
@@ -387,51 +436,135 @@ class TextProtoReader {
         this.r = r1;
     }
 }
-class MuxAsyncIterator {
-    add(iterator) {
-        ++this.iteratorCount;
-        this.callIteratorNext(iterator);
+const TextProtoReader1 = TextProtoReader;
+const TextProtoReader2 = TextProtoReader1;
+class BufWriter extends AbstractBufBase {
+    /** return new BufWriter unless writer is BufWriter */ static create(writer, size = DEFAULT_BUF_SIZE) {
+        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
-    async callIteratorNext(iterator) {
+    /** Discards any unflushed buffered data, clears any error, and
+   * resets buffer to write its output to w.
+   */ reset(w) {
+        this.err = null;
+        this.usedBufferBytes = 0;
+        this.writer = w;
+    }
+    /** Flush writes any buffered data to the underlying io.Writer. */ async flush() {
+        if (this.err !== null) throw this.err;
+        if (this.usedBufferBytes === 0) return;
         try {
-            const { value , done  } = await iterator.next();
-            if (done) --this.iteratorCount;
-            else this.yields.push({
-                iterator,
-                value
-            });
+            await Deno.writeAll(this.writer, this.buf.subarray(0, this.usedBufferBytes));
         } catch (e) {
-            this.throws.push(e);
+            this.err = e;
+            throw e;
         }
-        this.signal.resolve();
+        this.buf = new Uint8Array(this.buf.length);
+        this.usedBufferBytes = 0;
     }
-    async *iterate() {
-        while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
-            await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
-            for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
-                yield value;
-                this.callIteratorNext(iterator);
+    /** Writes the contents of `data` into the buffer.  If the contents won't fully
+   * fit into the buffer, those bytes that can are copied into the buffer, the
+   * buffer is the flushed to the writer and the remaining bytes are copied into
+   * the now empty buffer.
+   *
+   * @return the number of bytes written to the buffer.
+   */ async write(data) {
+        if (this.err !== null) throw this.err;
+        if (data.length === 0) return 0;
+        let totalBytesWritten = 0;
+        let numBytesWritten = 0;
+        while(data.byteLength > this.available()){
+            if (this.buffered() === 0) // Large write, empty buffer.
+            // Write directly from data to avoid copy.
+            try {
+                numBytesWritten = await this.writer.write(data);
+            } catch (e) {
+                this.err = e;
+                throw e;
             }
-            if (this.throws.length) {
-                for (const e of this.throws)throw e;
-                this.throws.length = 0;
+            else {
+                numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+                this.usedBufferBytes += numBytesWritten;
+                await this.flush();
             }
-            // Clear the `yields` list and reset the `signal` promise.
-            this.yields.length = 0;
-            this.signal = deferred2();
+            totalBytesWritten += numBytesWritten;
+            data = data.subarray(numBytesWritten);
         }
+        numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+        this.usedBufferBytes += numBytesWritten;
+        totalBytesWritten += numBytesWritten;
+        return totalBytesWritten;
     }
-    [tmp]() {
-        return this.iterate();
+    constructor(writer1, size2 = DEFAULT_BUF_SIZE){
+        super();
+        this.writer = writer1;
+        if (size2 <= 0) size2 = DEFAULT_BUF_SIZE;
+        this.buf = new Uint8Array(size2);
     }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred2();
+}
+const BufWriter1 = BufWriter;
+const BufWriter2 = BufWriter1;
+const BufWriter3 = BufWriter1;
+class BufWriterSync extends AbstractBufBase {
+    /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer, size = DEFAULT_BUF_SIZE) {
+        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
+    }
+    /** Discards any unflushed buffered data, clears any error, and
+   * resets buffer to write its output to w.
+   */ reset(w) {
+        this.err = null;
+        this.usedBufferBytes = 0;
+        this.writer = w;
+    }
+    /** Flush writes any buffered data to the underlying io.WriterSync. */ flush() {
+        if (this.err !== null) throw this.err;
+        if (this.usedBufferBytes === 0) return;
+        try {
+            Deno.writeAllSync(this.writer, this.buf.subarray(0, this.usedBufferBytes));
+        } catch (e) {
+            this.err = e;
+            throw e;
+        }
+        this.buf = new Uint8Array(this.buf.length);
+        this.usedBufferBytes = 0;
+    }
+    /** Writes the contents of `data` into the buffer.  If the contents won't fully
+   * fit into the buffer, those bytes that can are copied into the buffer, the
+   * buffer is the flushed to the writer and the remaining bytes are copied into
+   * the now empty buffer.
+   *
+   * @return the number of bytes written to the buffer.
+   */ writeSync(data) {
+        if (this.err !== null) throw this.err;
+        if (data.length === 0) return 0;
+        let totalBytesWritten = 0;
+        let numBytesWritten = 0;
+        while(data.byteLength > this.available()){
+            if (this.buffered() === 0) // Large write, empty buffer.
+            // Write directly from data to avoid copy.
+            try {
+                numBytesWritten = this.writer.writeSync(data);
+            } catch (e) {
+                this.err = e;
+                throw e;
+            }
+            else {
+                numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+                this.usedBufferBytes += numBytesWritten;
+                this.flush();
+            }
+            totalBytesWritten += numBytesWritten;
+            data = data.subarray(numBytesWritten);
+        }
+        numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
+        this.usedBufferBytes += numBytesWritten;
+        totalBytesWritten += numBytesWritten;
+        return totalBytesWritten;
+    }
+    constructor(writer2, size3 = DEFAULT_BUF_SIZE){
+        super();
+        this.writer = writer2;
+        if (size3 <= 0) size3 = DEFAULT_BUF_SIZE;
+        this.buf = new Uint8Array(size3);
     }
 }
 class BufReader {
@@ -721,141 +854,8 @@ class BufReader {
         this._reset(new Uint8Array(size1), rd);
     }
 }
-class BufWriter extends AbstractBufBase {
-    /** return new BufWriter unless writer is BufWriter */ static create(writer, size = DEFAULT_BUF_SIZE) {
-        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
-    }
-    /** Discards any unflushed buffered data, clears any error, and
-   * resets buffer to write its output to w.
-   */ reset(w) {
-        this.err = null;
-        this.usedBufferBytes = 0;
-        this.writer = w;
-    }
-    /** Flush writes any buffered data to the underlying io.Writer. */ async flush() {
-        if (this.err !== null) throw this.err;
-        if (this.usedBufferBytes === 0) return;
-        try {
-            await Deno.writeAll(this.writer, this.buf.subarray(0, this.usedBufferBytes));
-        } catch (e) {
-            this.err = e;
-            throw e;
-        }
-        this.buf = new Uint8Array(this.buf.length);
-        this.usedBufferBytes = 0;
-    }
-    /** Writes the contents of `data` into the buffer.  If the contents won't fully
-   * fit into the buffer, those bytes that can are copied into the buffer, the
-   * buffer is the flushed to the writer and the remaining bytes are copied into
-   * the now empty buffer.
-   *
-   * @return the number of bytes written to the buffer.
-   */ async write(data) {
-        if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
-        let totalBytesWritten = 0;
-        let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
-            if (this.buffered() === 0) // Large write, empty buffer.
-            // Write directly from data to avoid copy.
-            try {
-                numBytesWritten = await this.writer.write(data);
-            } catch (e) {
-                this.err = e;
-                throw e;
-            }
-            else {
-                numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
-                this.usedBufferBytes += numBytesWritten;
-                await this.flush();
-            }
-            totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
-        }
-        numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
-        this.usedBufferBytes += numBytesWritten;
-        totalBytesWritten += numBytesWritten;
-        return totalBytesWritten;
-    }
-    constructor(writer1, size2 = DEFAULT_BUF_SIZE){
-        super();
-        this.writer = writer1;
-        if (size2 <= 0) size2 = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size2);
-    }
-}
-class BufWriterSync extends AbstractBufBase {
-    /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer, size = DEFAULT_BUF_SIZE) {
-        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
-    }
-    /** Discards any unflushed buffered data, clears any error, and
-   * resets buffer to write its output to w.
-   */ reset(w) {
-        this.err = null;
-        this.usedBufferBytes = 0;
-        this.writer = w;
-    }
-    /** Flush writes any buffered data to the underlying io.WriterSync. */ flush() {
-        if (this.err !== null) throw this.err;
-        if (this.usedBufferBytes === 0) return;
-        try {
-            Deno.writeAllSync(this.writer, this.buf.subarray(0, this.usedBufferBytes));
-        } catch (e) {
-            this.err = e;
-            throw e;
-        }
-        this.buf = new Uint8Array(this.buf.length);
-        this.usedBufferBytes = 0;
-    }
-    /** Writes the contents of `data` into the buffer.  If the contents won't fully
-   * fit into the buffer, those bytes that can are copied into the buffer, the
-   * buffer is the flushed to the writer and the remaining bytes are copied into
-   * the now empty buffer.
-   *
-   * @return the number of bytes written to the buffer.
-   */ writeSync(data) {
-        if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
-        let totalBytesWritten = 0;
-        let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
-            if (this.buffered() === 0) // Large write, empty buffer.
-            // Write directly from data to avoid copy.
-            try {
-                numBytesWritten = this.writer.writeSync(data);
-            } catch (e) {
-                this.err = e;
-                throw e;
-            }
-            else {
-                numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
-                this.usedBufferBytes += numBytesWritten;
-                this.flush();
-            }
-            totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
-        }
-        numBytesWritten = copyBytes2(data, this.buf, this.usedBufferBytes);
-        this.usedBufferBytes += numBytesWritten;
-        totalBytesWritten += numBytesWritten;
-        return totalBytesWritten;
-    }
-    constructor(writer2, size3 = DEFAULT_BUF_SIZE){
-        super();
-        this.writer = writer2;
-        if (size3 <= 0) size3 = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size3);
-    }
-}
-const TextProtoReader1 = TextProtoReader;
-const TextProtoReader2 = TextProtoReader1;
-const MuxAsyncIterator1 = MuxAsyncIterator;
-const MuxAsyncIterator2 = MuxAsyncIterator1;
 const BufReader1 = BufReader;
-const BufWriter1 = BufWriter;
-const BufWriter2 = BufWriter1;
 const BufReader2 = BufReader1;
-const BufWriter3 = BufWriter1;
 async function readTrailers(headers, r2) {
     const trailers = parseTrailer(headers.get("trailer"));
     if (trailers == null) return;
@@ -935,6 +935,8 @@ function chunkedBodyReader(h, r2) {
         read
     };
 }
+const chunkedBodyReader1 = chunkedBodyReader;
+const chunkedBodyReader2 = chunkedBodyReader1;
 async function writeChunkedBody(w, r2) {
     const writer = BufWriter2.create(w);
     for await (const chunk of Deno.iter(r2)){
@@ -1004,9 +1006,7 @@ async function writeResponse(w, r2) {
     }
     await writer.flush();
 }
-const chunkedBodyReader1 = chunkedBodyReader;
 const writeResponse1 = writeResponse;
-const chunkedBodyReader2 = chunkedBodyReader1;
 const writeResponse2 = writeResponse1;
 class ServerRequest {
     /**
@@ -1073,7 +1073,7 @@ class ServerRequest {
         this.finalized = true;
     }
     constructor(){
-        this.done = deferred4();
+        this.done = deferred2();
         this._contentLength = undefined;
         this._body = null;
         this.finalized = false;
@@ -1194,6 +1194,8 @@ async function listenAndServe(addr, handler) {
     const server = serve(addr);
     for await (const request of server)handler(request);
 }
+const listenAndServe1 = listenAndServe;
+const listenAndServe2 = listenAndServe1;
 function serveTLS(options) {
     const tlsOptions = {
         ...options,
@@ -1202,8 +1204,6 @@ function serveTLS(options) {
     const listener1 = Deno.listenTls(tlsOptions);
     return new Server(listener1);
 }
-const listenAndServe1 = listenAndServe;
-const listenAndServe2 = listenAndServe1;
 listenAndServe2({
     port: 8080
 }, async (req)=>{
