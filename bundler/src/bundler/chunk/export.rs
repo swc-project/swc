@@ -139,7 +139,7 @@ where
                             dep.inject(
                                 module_name
                                     .assign_to(local.clone())
-                                    .into_module_item("merge_export"),
+                                    .into_module_item(self.injected_ctxt, "merge_export"),
                             );
                             break;
                         }
@@ -342,7 +342,7 @@ where
             new_body
         });
         for var in vars {
-            module.inject(var.into_module_item("from_export_rs"))
+            module.inject(var.into_module_item(self.injected_ctxt, "from_export_rs"))
         }
     }
 }
@@ -355,6 +355,7 @@ pub(super) fn inject_export(
     dep: Modules,
     source: Source,
 ) -> Result<(), Modules> {
+    let injected_ctxt = entry.injected_ctxt;
     let mut dep = Some(dep);
     // This is required because `export *` does not exports `default` from the
     // source.
@@ -408,7 +409,7 @@ pub(super) fn inject_export(
                         .collect::<Vec<_>>();
 
                     for var in decls {
-                        vars.push(var.into_module_item("ExportInjector"));
+                        vars.push(var.into_module_item(injected_ctxt, "ExportInjector"));
                     }
                 }
 
@@ -560,6 +561,8 @@ fn remove_default_export(dep: &mut Modules) -> Option<ModuleItem> {
 /// =>
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
 fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
+    let injected_ctxt = modules.injected_ctxt;
+
     modules.map_items_mut(|n| {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
@@ -577,7 +580,7 @@ fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
                     init: Some(expr),
                     definite: false,
                 }
-                .into_module_item("UnexportAsVar");
+                .into_module_item(injected_ctxt, "UnexportAsVar");
             }
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 ref export @ NamedExport { src: None, .. },

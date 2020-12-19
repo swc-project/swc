@@ -108,6 +108,8 @@ where
         src: &Source,
         specifiers: &[Specifier],
     ) -> Result<Modules, Error> {
+        let injected_ctxt = self.injected_ctxt;
+
         log::debug!("Merging {:?} directly", dep_id);
 
         let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -135,7 +137,7 @@ where
                     esm_id
                         .clone()
                         .assign_to(module_ident.clone())
-                        .into_module_item("merge_direct_import"),
+                        .into_module_item(injected_ctxt, "merge_direct_import"),
                 );
             }
 
@@ -171,7 +173,7 @@ where
 
                         module.inject(
                             from.assign_to(i.with_ctxt(src.export_ctxt))
-                                .into_module_item("namespace_with_normal"),
+                                .into_module_item(injected_ctxt, "namespace_with_normal"),
                         );
                     }
                     Specifier::Namespace { .. } => continue,
@@ -216,13 +218,15 @@ where
         }));
 
         for var in var_decls {
-            module.inject(var.into_module_item("from_merge_direct_import"));
+            module.inject(var.into_module_item(injected_ctxt, "from_merge_direct_import"));
         }
 
         Ok(module)
     }
 
     fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Modules, Error> {
+        let injected_ctxt = self.injected_ctxt;
+
         log::debug!("Merging {:?} transitively", dep_id);
 
         let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -234,7 +238,7 @@ where
         module = module.fold_with(&mut Unexporter);
 
         for var in var_decls {
-            module.inject(var.into_module_item("from_merge_transitive_import"));
+            module.inject(var.into_module_item(injected_ctxt, "from_merge_transitive_import"));
         }
 
         Ok(module)
@@ -535,6 +539,8 @@ where
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
     fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Modules) {
+        let injected_ctxt = self.injected_ctxt;
+
         {
             // Handle `export *` for non-wrapped modules.
 
@@ -554,7 +560,7 @@ where
                                 let reexported = id.clone().with_ctxt(remapped);
                                 vars.push(
                                     id.assign_to(reexported)
-                                        .into_module_item("export_star_replacer"),
+                                        .into_module_item(injected_ctxt, "export_star_replacer"),
                                 );
                             }
                         }
@@ -738,6 +744,8 @@ where
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
+        let injected_ctxt = self.injected_ctxt;
+
         let mut vars = vec![];
         module.map_any_items(|stmts| {
             let mut new = Vec::with_capacity(stmts.len() + 32);
@@ -753,7 +761,10 @@ where
                                             imported
                                                 .clone()
                                                 .assign_to(named.local.clone())
-                                                .into_module_item("from_replace_import_specifiers"),
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "from_replace_import_specifiers",
+                                                ),
                                         );
                                         continue;
                                     }
@@ -773,7 +784,10 @@ where
                                         vars.push(
                                             imported
                                                 .assign_to(default.local.clone())
-                                                .into_module_item("from_replace_import_specifiers"),
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "from_replace_import_specifiers",
+                                                ),
                                         );
                                         continue;
                                     }
@@ -796,6 +810,7 @@ where
                                                 .clone()
                                                 .assign_to(s.local.clone())
                                                 .into_module_item(
+                                                    injected_ctxt,
                                                     "from_replace_import_specifiers: namespaced",
                                                 ),
                                         );
@@ -828,6 +843,8 @@ where
         module: &mut Modules,
         _for_circular: bool,
     ) {
+        let injected_ctxt = self.injected_ctxt;
+
         self.replace_import_specifiers(info, module);
 
         let mut vars = vec![];
@@ -844,12 +861,10 @@ where
                                     ExportSpecifier::Namespace(ns) => {
                                         let mut lhs = ns.name.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(
-                                            ns.name
-                                                .clone()
-                                                .assign_to(lhs)
-                                                .into_module_item("import_deps_namespace"),
-                                        );
+                                        vars.push(ns.name.clone().assign_to(lhs).into_module_item(
+                                            injected_ctxt,
+                                            "import_deps_namespace",
+                                        ));
                                     }
                                     ExportSpecifier::Default(default) => {
                                         let mut lhs = default.exported.clone();
@@ -859,7 +874,10 @@ where
                                                 .exported
                                                 .clone()
                                                 .assign_to(lhs)
-                                                .into_module_item("import_deps_default"),
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "import_deps_default",
+                                                ),
                                         );
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
@@ -874,10 +892,13 @@ where
                                                         .orig
                                                         .clone()
                                                         .assign_to(lhs)
-                                                        .into_module_item(&format!(
-                                                            "import_deps_named_alias of {}",
-                                                            info.fm.name
-                                                        )),
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            &format!(
+                                                                "import_deps_named_alias of {}",
+                                                                info.fm.name
+                                                            ),
+                                                        ),
                                                 );
                                             }
                                         }
@@ -890,7 +911,10 @@ where
                                                         .orig
                                                         .clone()
                                                         .assign_to(lhs)
-                                                        .into_module_item("import_deps_named"),
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            "import_deps_named",
+                                                        ),
                                                 );
                                             }
                                         }
@@ -933,7 +957,10 @@ where
                                         init: Some(Box::new(init)),
                                         definite: false,
                                     }
-                                    .into_module_item("import_deps_export_default_decl"),
+                                    .into_module_item(
+                                        injected_ctxt,
+                                        "import_deps_export_default_decl",
+                                    ),
                                 );
 
                                 s
@@ -960,10 +987,10 @@ where
                                     ),
                                 };
 
-                                vars.push(
-                                    init.assign_to(export_name)
-                                        .into_module_item("import_deps_export_default_decl_fn"),
-                                );
+                                vars.push(init.assign_to(export_name).into_module_item(
+                                    injected_ctxt,
+                                    "import_deps_export_default_decl_fn",
+                                ));
                                 s
                             }
                             DefaultDecl::TsInterfaceDecl(_) => {
@@ -976,12 +1003,10 @@ where
                                 | Decl::Fn(FnDecl { ident, .. }) => {
                                     let mut exported = ident.clone();
                                     exported.span.ctxt = info.export_ctxt();
-                                    vars.push(
-                                        ident
-                                            .clone()
-                                            .assign_to(exported)
-                                            .into_module_item("import_deps_export_decl"),
-                                    );
+                                    vars.push(ident.clone().assign_to(exported).into_module_item(
+                                        injected_ctxt,
+                                        "import_deps_export_decl",
+                                    ));
                                 }
                                 Decl::Var(var) => {
                                     let ids: Vec<Ident> = find_ids(var);
@@ -989,10 +1014,10 @@ where
                                     for id in ids {
                                         let mut exported = id.clone();
                                         exported.span.ctxt = info.export_ctxt();
-                                        vars.push(
-                                            id.assign_to(exported)
-                                                .into_module_item("import_deps_export_var_decl"),
-                                        );
+                                        vars.push(id.assign_to(exported).into_module_item(
+                                            injected_ctxt,
+                                            "import_deps_export_var_decl",
+                                        ));
                                     }
                                 }
                                 _ => {}
@@ -1011,7 +1036,7 @@ where
                                     init: Some(export.expr.take()),
                                     definite: false,
                                 }
-                                .into_module_item("import_deps_export_default_expr"),
+                                .into_module_item(injected_ctxt, "import_deps_export_default_expr"),
                             );
                             ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                         }
@@ -1199,6 +1224,8 @@ fn inject_es_module(
     dep_export_ctxt: SyntaxContext,
     is_direct: bool,
 ) -> Result<(), Modules> {
+    let injected_ctxt = entry.injected_ctxt;
+
     let mut vars = vec![];
     let mut dep = Some(dep);
 
@@ -1243,7 +1270,7 @@ fn inject_es_module(
                             .collect::<Vec<_>>();
 
                         for var in decls {
-                            vars.push(var.into_module_item("Es6ModuleInjector"));
+                            vars.push(var.into_module_item(injected_ctxt, "Es6ModuleInjector"));
                         }
                     }
                 }
