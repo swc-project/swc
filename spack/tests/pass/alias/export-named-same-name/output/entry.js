@@ -1,8 +1,8 @@
 const foo = 1;
-const bar = 2;
-const bar1 = foo;
-const baz = bar;
-const bar2 = bar1;
+const bar = foo;
+const bar1 = bar;
+const bar2 = 2;
+const baz = bar2;
 const baz1 = baz;
-console.log(bar2);
+console.log(bar1);
 console.log(baz1);

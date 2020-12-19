@@ -11,9 +11,9 @@ var O3;
 }));
 const O1 = O3;
 const a2 = a1;
+const defaultA = a2;
 const O2 = O1;
 export { O2 as O };
-const defaultA = a2;
 class A {
     #a;
     #c;
