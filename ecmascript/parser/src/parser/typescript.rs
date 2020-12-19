@@ -2076,7 +2076,7 @@ impl<I: Tokens> Parser<I> {
                             function: Function {
                                 span: Span {
                                     lo: declare_start,
-                                    ..f.span
+                                    ..f.function.span
                                 },
                                 ..f.function
                             },
@@ -2096,7 +2096,7 @@ impl<I: Tokens> Parser<I> {
                             class: Class {
                                 span: Span {
                                     lo: declare_start,
-                                    ..f.span
+                                    ..c.class.span
                                 },
                                 ..c.class
                             },
