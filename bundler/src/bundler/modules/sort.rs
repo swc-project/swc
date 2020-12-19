@@ -289,7 +289,7 @@ fn insert_orders(
         let mut next = Some(idx);
 
         while let Some(idx) = next.take() {
-            if orders.contains(&idx) || delayed.contains(&idx) {
+            if delayed.contains(&idx) || orders.contains(&idx) {
                 continue;
             }
             dejavu.insert(idx);
@@ -299,7 +299,8 @@ fn insert_orders(
                 let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
                 for dep in deps {
                     if dejavu.contains(&dep) {
-                        for paths in all_simple_paths(&graph, dep, idx, 0, None) {
+                        delayed.insert(idx);
+                        for paths in all_simple_paths::<Vec<_>, _>(&*graph, dep, idx, 0, None) {
                             delayed.extend(paths);
                         }
                         continue;
@@ -313,6 +314,7 @@ fn insert_orders(
                         dep,
                         ignore_range_start,
                         dejavu,
+                        delayed,
                     );
                 }
             }
@@ -320,9 +322,11 @@ fn insert_orders(
             let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
                 Some(v) => v,
                 None => {
-                    // Free statements, like injected vars.
-                    orders.push(idx);
-                    graph.remove_node(idx);
+                    if !delayed.contains(&idx) {
+                        // Free statements, like injected vars.
+                        orders.push(idx);
+                        graph.remove_node(idx);
+                    }
                     return;
                 }
             };
@@ -330,22 +334,32 @@ fn insert_orders(
             if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
                 // We should process module from start to end.
                 dbg!(range.start);
-                insert_inner(graph, orders, same_module_ranges, range.start, true, dejavu);
+                insert_inner(
+                    graph,
+                    orders,
+                    same_module_ranges,
+                    range.start,
+                    true,
+                    dejavu,
+                    delayed,
+                );
             }
 
-            if !orders.contains(&idx) {
-                orders.push(idx);
-                graph.remove_node(idx);
-            }
+            if !delayed.contains(&idx) {
+                if !orders.contains(&idx) {
+                    orders.push(idx);
+                    graph.remove_node(idx);
+                }
 
-            let next_idx = idx + 1;
+                let next_idx = idx + 1;
 
-            if !range.contains(&next_idx) {
-                // We successfully processed a module.
-                return;
+                if !range.contains(&next_idx) {
+                    // We successfully processed a module.
+                    return;
+                }
+                dbg!(next_idx);
+                next = Some(next_idx);
             }
-            dbg!(next_idx);
-            next = Some(next_idx);
         }
     }
 
