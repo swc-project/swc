@@ -56,6 +56,7 @@ impl Modules {
         });
 
         let mut new = vec![];
+        let mut graph = StmtDepGraph::default();
 
         new.extend(self.prepended.drain(..));
         let mut module_starts = vec![];
@@ -70,7 +71,16 @@ impl Modules {
                 same_module_ranges.push(start..end);
             }
 
-            new.extend(module.body)
+            // for (inner_idx, item) in module.body.into_iter().enumerate() {
+            //     let idx = new.len();
+            //     if inner_idx != 0 && inner_idx + 1 != inner_len && !new.is_empty() {
+            //         graph.add_edge(idx - 1, idx, Required::Always);
+            //     }
+
+            //     new.push(item);
+            // }
+
+            new.extend(module.body);
         }
         let free = new.len()..(new.len() + self.injected.len());
         if cfg!(debug_assertions) {
@@ -82,7 +92,6 @@ impl Modules {
         }
         new.extend(self.injected.drain(..));
 
-        let mut graph = StmtDepGraph::default();
         let mut declared_by = HashMap::<Id, Vec<usize>>::default();
         let mut uninitialized_ids = HashMap::<Id, usize>::new();
 
@@ -222,7 +231,7 @@ struct Sorter<'a> {
 
 impl Sorter<'_> {
     // This removes dependencies to other node.
-    fn emit(&mut self, idx: usize) {
+    fn emit(&mut self, idx: usize, emit_dependants: bool) {
         if !self.orders.contains(&idx) {
             eprintln!("Emit: `{}`", idx);
 
@@ -231,30 +240,24 @@ impl Sorter<'_> {
                     let ids: Vec<Id> = find_ids(&var.decls);
                     eprintln!("Declare: `{:?}`", ids);
                 }
-                _ => {}
-            }
-
-            if self._new.len() > idx + 1 {
-                match &self._new[idx + 1] {
-                    ModuleItem::Stmt(Stmt::Expr(stmt)) => match &*stmt.expr {
-                        Expr::Await(..) => {
-                            dbg!(&self._new[idx]);
-                        }
-                        _ => {}
-                    },
-                    _ => {}
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+                    eprintln!("Declare: `{:?}`", Id::from(&cls.ident));
                 }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                    eprintln!("Declare: `{:?}`", Id::from(&f.ident));
+                }
+                _ => {}
             }
 
             self.orders.push(idx);
             self.graph.remove_node(idx);
+
+            if emit_dependants {
+                self.emit_free_items();
+            }
         }
     }
 
-    fn emit_with_deps(&mut self, idx: usize) {
-        self.emit(idx);
-        self.emit_free_items();
-    }
     /// Inject dependency-less free statements.
     fn emit_free_items(&mut self) {
         self.emit_items(self.free.clone())
@@ -280,7 +283,7 @@ impl Sorter<'_> {
                 }
 
                 did_work = true;
-                self.emit(i);
+                self.emit(i, false);
             }
 
             if !did_work {
@@ -423,7 +426,7 @@ impl Sorter<'_> {
                     if !delayed.contains(&idx) {
                         dbg!(idx);
                         // Free statements, like injected vars.
-                        self.emit_with_deps(idx);
+                        self.emit(idx, true);
                     }
                     return;
                 }
@@ -443,7 +446,7 @@ impl Sorter<'_> {
                     }
                 }
 
-                self.emit_with_deps(idx);
+                self.emit(idx, true);
 
                 let next_idx = idx + 1;
 
