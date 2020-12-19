@@ -2,9 +2,9 @@ class Common {
 }
 const Common1 = Common;
 const Common2 = Common1;
+const Common3 = Common1;
 class A extends Common2 {
 }
-const Common3 = Common1;
 class B extends Common3 {
 }
 const __default = A;
