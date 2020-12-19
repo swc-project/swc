@@ -28,7 +28,7 @@ where
 
         if !ctx.merged.insert(entry_id) {
             log::debug!("[circular] skip: {:?}", entry_id);
-            return Ok(Modules::empty());
+            return Ok(Modules::empty(self.injected_ctxt));
         }
 
         log::debug!("[circular] Stsrting with: {:?}", entry_id);

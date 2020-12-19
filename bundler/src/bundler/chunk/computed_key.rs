@@ -119,12 +119,14 @@ where
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
 
-        Ok(Module {
-            span: DUMMY_SP,
-            shebang: None,
-            body: module_items,
-        }
-        .into())
+        Ok(Modules::from(
+            Module {
+                span: DUMMY_SP,
+                shebang: None,
+                body: module_items,
+            },
+            self.injected_ctxt,
+        ))
     }
 }
 

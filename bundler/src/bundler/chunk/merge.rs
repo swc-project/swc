@@ -61,10 +61,10 @@ where
                 }
             }
 
-            let mut module: Modules = self
+            let mut module = self
                 .get_module_for_merging(ctx, module_id, is_entry)
-                .with_context(|| format!("Failed to clone {:?} for merging", module_id))?
-                .into();
+                .map(|module| Modules::from(module, self.injected_ctxt))
+                .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
             {
                 let plan = ctx.plan.normal.get(&module_id);
@@ -115,7 +115,9 @@ where
 
         // Now we handle imports
         let mut module = if wrapped {
-            let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?.into();
+            let mut module: Modules = self
+                .get_module_for_merging(ctx, dep_id, false)
+                .map(|module| Modules::from(module, self.injected_ctxt))?;
             module = self.wrap_esm(ctx, dep_id, module.into())?.into();
 
             // Inject local_name = wrapped_esm_module_name

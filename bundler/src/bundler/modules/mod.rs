@@ -1,7 +1,7 @@
-use crate::util::MapWithMut;
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_common::Spanned;
+use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::Module;
 use swc_ecma_ast::ModuleItem;
@@ -15,6 +15,11 @@ mod sort;
 mod tests;
 #[derive(Debug, Clone)]
 pub struct Modules {
+    /// Indicates that a statement is injected.
+    ///
+    /// Note: This context shoulod be shared for a bundle.
+    pub(crate) injected_ctxt: SyntaxContext,
+
     // We will change this into `Vec<Module>`.
     modules: Vec<Module>,
     prepended: Vec<ModuleItem>,
@@ -22,12 +27,19 @@ pub struct Modules {
 }
 
 impl Modules {
-    pub fn empty() -> Self {
+    pub fn empty(injected_ctxt: SyntaxContext) -> Self {
         Self {
+            injected_ctxt,
             modules: Default::default(),
             prepended: Default::default(),
             injected: Default::default(),
         }
+    }
+
+    pub fn from(module: Module, injected_ctxt: SyntaxContext) -> Self {
+        let mut ret = Self::empty(injected_ctxt);
+        ret.modules.push(module);
+        ret
     }
 
     pub fn into_items(self) -> Vec<ModuleItem> {
@@ -144,16 +156,6 @@ impl Modules {
             module.body.retain_mut(&mut op);
         }
         self.injected.retain_mut(&mut op);
-    }
-}
-
-impl From<Module> for Modules {
-    fn from(module: Module) -> Self {
-        Self {
-            modules: vec![module],
-            prepended: Default::default(),
-            injected: Default::default(),
-        }
     }
 }
 

@@ -6,7 +6,7 @@ use swc_ecma_utils::drop_span;
 fn assert_sorted(src: &str, res: &str) {
     suite().run(|t| {
         let actual: Module = drop_span(t.parse(src));
-        let mut module = Modules::from(actual);
+        let mut module = Modules::from(actual, t.bundler.injected_ctxt);
         module.sort();
         let actual: Module = module.into();
 

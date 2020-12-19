@@ -88,6 +88,9 @@ where
     /// spans.
     synthesized_ctxt: SyntaxContext,
 
+    /// Used to mark a variable declaration as injected.
+    injected_ctxt: SyntaxContext,
+
     scope: Scope,
 
     hook: Box<dyn 'a + Hook>,
@@ -113,6 +116,8 @@ where
             log::debug!("Helper ctxt: {:?}", helper_ctxt);
             let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
             log::debug!("Synthesized ctxt: {:?}", synthesized_ctxt);
+            let injected_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            log::debug!("Injected ctxt: {:?}", injected_ctxt);
 
             Bundler {
                 config,
@@ -123,6 +128,7 @@ where
                 used_mark,
                 _helper_ctxt: helper_ctxt,
                 synthesized_ctxt,
+                injected_ctxt,
                 scope: Default::default(),
                 hook,
             }

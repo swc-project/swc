@@ -103,7 +103,7 @@ where
                         false,
                         entry,
                         info,
-                        (*dep_info.module).clone().into(),
+                        Modules::from((*dep_info.module).clone(), self.injected_ctxt),
                         &dep_info,
                         targets,
                     )?;

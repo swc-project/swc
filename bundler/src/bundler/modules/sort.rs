@@ -34,11 +34,12 @@ enum Required {
 
 impl Modules {
     pub fn sort(&mut self) {
+        let injected_ctxt = self.injected_ctxt;
         {
             let mut modules = take(&mut self.modules);
             for module in &mut modules {
                 module.body.retain_mut(|item| {
-                    if item.span().is_dummy() {
+                    if item.span().ctxt == injected_ctxt {
                         self.injected.push(item.take());
                         false
                     } else {
@@ -283,11 +284,14 @@ impl Modules {
             buf.push(stmt)
         }
 
-        *self = Modules::from(Module {
-            span: DUMMY_SP,
-            body: buf,
-            shebang: None,
-        });
+        *self = Modules::from(
+            Module {
+                span: DUMMY_SP,
+                body: buf,
+                shebang: None,
+            },
+            injected_ctxt,
+        );
     }
 }
 
