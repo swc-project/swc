@@ -2,7 +2,6 @@ function a() {
     console.log("a");
 }
 const a1 = a;
-const a2 = a1;
 var O3;
 (function(O1) {
     O1[O1["A"] = 0] = "A";
@@ -11,6 +10,7 @@ var O3;
 })(O3 || (O3 = {
 }));
 const O1 = O3;
+const a2 = a1;
 const O2 = O1;
 export { O2 as O };
 const defaultA = a2;
