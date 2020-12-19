@@ -53,6 +53,7 @@ impl Modules {
 
             new.extend(module.body)
         }
+        let free = new.len()..(new.len() + self.injected.len());
         new.extend(self.injected.drain(..));
 
         let mut graph = StmtDepGraph::default();
@@ -135,18 +136,20 @@ impl Modules {
 
         // Now graph contains enough information to sort statements.
         let len = new.len();
-        let mut orders: Vec<usize> = vec![];
+        let mut orders = vec![];
         let mut delayed = HashSet::new();
 
-        for start_idx in module_starts {
-            insert_orders(
-                &mut graph,
-                &mut orders,
-                &same_module_ranges,
-                start_idx,
-                false,
-                &mut delayed,
-            );
+        {
+            let mut sorter = Sorter {
+                graph: &mut graph,
+                orders: &mut orders,
+                same_module_ranges: &same_module_ranges,
+                free,
+            };
+
+            for start_idx in module_starts {
+                sorter.insert_orders(start_idx, false, &mut delayed);
+            }
         }
 
         // No dependencies
@@ -270,20 +273,72 @@ impl Modules {
     }
 }
 
-/// Insert orders smartly :)
-fn insert_orders(
-    graph: &mut StmtDepGraph,
-    orders: &mut Vec<usize>,
-    same_module_ranges: &[Range<usize>],
-    idx: usize,
-    ignore_range_start: bool,
-    delayed: &mut HashSet<usize>,
-) {
+struct Sorter<'a> {
+    graph: &'a mut StmtDepGraph,
+    orders: &'a mut Vec<usize>,
+    same_module_ranges: &'a [Range<usize>],
+    /// Range of injected statements.
+    free: Range<usize>,
+}
+
+impl Sorter<'_> {
+    // This removes dependencies to other node.
+    fn emit(&mut self, idx: usize) {
+        if !self.orders.contains(&idx) {
+            self.orders.push(idx);
+            self.graph.remove_node(idx);
+        }
+    }
+
+    fn emit_with_deps(&mut self, idx: usize) {
+        self.emit(idx);
+        self.emit_free_items();
+    }
+
+    /// Inject dependency-less free statements.
+    fn emit_free_items(&mut self) {
+        // No dependencies
+        loop {
+            if self.graph.all_edges().count() == 0 {
+                break;
+            }
+
+            let mut did_work = false;
+            for i in self.free.clone() {
+                if self.orders.contains(&i) {
+                    continue;
+                }
+
+                let dependants = self.graph.neighbors_directed(i, Incoming);
+
+                if dependants.count() != 0 {
+                    continue;
+                }
+
+                did_work = true;
+                self.emit(i);
+            }
+
+            if !did_work {
+                break;
+            }
+        }
+    }
+
+    /// Insert orders smartly :)
+    fn insert_orders(
+        &mut self,
+        idx: usize,
+        ignore_range_start: bool,
+        delayed: &mut HashSet<usize>,
+    ) {
+        let mut dejavu = HashSet::default();
+        self.insert_inner(idx, ignore_range_start, &mut dejavu, delayed)
+    }
+
     /// Insert orders smartly :)
     fn insert_inner(
-        graph: &mut StmtDepGraph,
-        orders: &mut Vec<usize>,
-        same_module_ranges: &[Range<usize>],
+        &mut self,
         idx: usize,
         ignore_range_start: bool,
         dejavu: &mut HashSet<usize>,
@@ -292,17 +347,20 @@ fn insert_orders(
         let mut next = Some(idx);
 
         while let Some(idx) = next.take() {
-            if delayed.contains(&idx) || orders.contains(&idx) {
+            if delayed.contains(&idx) || self.orders.contains(&idx) {
                 continue;
             }
             dejavu.insert(idx);
 
             dbg!(idx);
             {
-                let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
+                let deps = self
+                    .graph
+                    .neighbors_directed(idx, Incoming)
+                    .collect::<Vec<_>>();
                 for dep in deps {
                     let cycles: Vec<Vec<_>> =
-                        all_simple_paths(&*graph, dep, idx, 0, None).collect();
+                        all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
                     if !cycles.is_empty() {
                         delayed.insert(idx);
                         for paths in cycles {
@@ -312,49 +370,34 @@ fn insert_orders(
                     }
                     dbg!(dep);
                     // We jump to another modul.
-                    insert_inner(
-                        graph,
-                        orders,
-                        same_module_ranges,
-                        dep,
-                        ignore_range_start,
-                        dejavu,
-                        delayed,
-                    );
+                    self.insert_inner(dep, ignore_range_start, dejavu, delayed);
                 }
             }
 
-            let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
+            let range = match self
+                .same_module_ranges
+                .iter()
+                .find(|range| range.contains(&idx))
+            {
                 Some(v) => v,
                 None => {
                     if !delayed.contains(&idx) {
                         // Free statements, like injected vars.
-                        orders.push(idx);
-                        graph.remove_node(idx);
+                        self.emit_with_deps(idx);
                     }
                     return;
                 }
             };
 
             if !delayed.contains(&idx) {
-                if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
+                if !ignore_range_start && idx != range.start && !self.orders.contains(&range.start)
+                {
                     // We should process module from start to end.
                     dbg!(range.start);
-                    insert_inner(
-                        graph,
-                        orders,
-                        same_module_ranges,
-                        range.start,
-                        true,
-                        dejavu,
-                        delayed,
-                    );
+                    self.insert_inner(range.start, true, dejavu, delayed);
                 }
 
-                if !orders.contains(&idx) {
-                    orders.push(idx);
-                    graph.remove_node(idx);
-                }
+                self.emit_with_deps(idx);
 
                 let next_idx = idx + 1;
 
@@ -367,17 +410,6 @@ fn insert_orders(
             }
         }
     }
-
-    let mut dejavu = HashSet::default();
-    insert_inner(
-        graph,
-        orders,
-        same_module_ranges,
-        idx,
-        ignore_range_start,
-        &mut dejavu,
-        delayed,
-    )
 }
 
 /// Finds usage of `ident`
