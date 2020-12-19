@@ -2060,7 +2060,7 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(span_of_declare, SyntaxError::TS1038);
         }
 
-        let declare_start = cur_pos!();
+        let declare_start = start;
         let ctx = Context {
             in_declare: true,
             ..self.ctx()
@@ -2116,6 +2116,10 @@ impl<I: Tokens> Parser<I> {
                     .parse_ts_enum_decl(start, /* is_const */ true)
                     .map(|decl| TsEnumDecl {
                         declare: true,
+                        span: Span {
+                            lo: declare_start,
+                            ..decl.span
+                        },
                         ..decl
                     })
                     .map(From::from)
