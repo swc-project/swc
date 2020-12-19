@@ -2060,6 +2060,7 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(span_of_declare, SyntaxError::TS1038);
         }
 
+        let declare_start = cur_pos!();
         let ctx = Context {
             in_declare: true,
             ..self.ctx()
@@ -2070,7 +2071,17 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
-                        Decl::Fn(f) => Decl::Fn(FnDecl { declare: true, ..f }),
+                        Decl::Fn(f) => Decl::Fn(FnDecl {
+                            declare: true,
+                            function: Function {
+                                span: Span {
+                                    lo: declare_start,
+                                    ..f.span
+                                },
+                                ..f.function
+                            },
+                            ..f
+                        }),
                         _ => decl,
                     })
                     .map(Some);
@@ -2080,7 +2091,17 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_class_decl(start, start, decorators)
                     .map(|decl| match decl {
-                        Decl::Class(c) => Decl::Class(ClassDecl { declare: true, ..c }),
+                        Decl::Class(c) => Decl::Class(ClassDecl {
+                            declare: true,
+                            class: Class {
+                                span: Span {
+                                    lo: declare_start,
+                                    ..f.span
+                                },
+                                ..c.class
+                            },
+                            ..c
+                        }),
                         _ => decl,
                     })
                     .map(Some);
@@ -2105,6 +2126,10 @@ impl<I: Tokens> Parser<I> {
                     .parse_var_stmt(false)
                     .map(|decl| VarDecl {
                         declare: true,
+                        span: Span {
+                            lo: declare_start,
+                            ..decl.span
+                        },
                         ..decl
                     })
                     .map(From::from)
