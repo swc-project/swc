@@ -73,6 +73,13 @@ impl Modules {
             new.extend(module.body)
         }
         let free = new.len()..(new.len() + self.injected.len());
+        if cfg!(debug_assertions) {
+            for rng in &same_module_ranges {
+                for idx in rng.clone() {
+                    assert!(!free.contains(&idx));
+                }
+            }
+        }
         new.extend(self.injected.drain(..));
 
         let mut graph = StmtDepGraph::default();
@@ -164,108 +171,15 @@ impl Modules {
                 orders: &mut orders,
                 same_module_ranges: &same_module_ranges,
                 free,
+                _new: &new,
             };
 
             for start_idx in module_starts {
                 sorter.insert_orders(start_idx, false, &mut delayed);
             }
-        }
 
-        // No dependencies
-        loop {
-            if graph.all_edges().count() == 0 {
-                break;
-            }
-
-            let mut did_work = false;
-            // Add nodes which does not have any dependencies.
-            for i in 0..len {
-                if orders.contains(&i) {
-                    continue;
-                }
-
-                let dependants = graph.neighbors_directed(i, Incoming);
-
-                if dependants.count() != 0 {
-                    continue;
-                }
-
-                did_work = true;
-                orders.push(i);
-
-                // Remove dependencies to other node.
-                graph.remove_node(i);
-            }
-
-            if !did_work {
-                break;
-            }
-        }
-
-        // Strong dependencies
-        loop {
-            if graph.all_edges().count() == 0 {
-                break;
-            }
-
-            let mut did_work = false;
-            // Add nodes which does not have any dependencies.
-            for i in 0..len {
-                if orders.contains(&i) {
-                    continue;
-                }
-
-                let dependants = graph
-                    .neighbors_directed(i, Incoming)
-                    .filter(|&entry| graph.edge_weight(entry, i) == Some(&Required::Always));
-
-                if dependants.count() != 0 {
-                    continue;
-                }
-
-                did_work = true;
-                orders.push(i);
-
-                // Remove strong dependency
-                for dependancy in graph
-                    .neighbors_directed(i, Outgoing)
-                    .filter(|&dep| graph.edge_weight(i, dep) == Some(&Required::Always))
-                    .collect::<Vec<_>>()
-                {
-                    graph.remove_edge(i, dependancy).unwrap();
-                }
-            }
-
-            if !did_work {
-                break;
-            }
-        }
-
-        // Weak dependencies
-        loop {
-            if graph.all_edges().count() == 0 {
-                break;
-            }
-
-            let mut did_work = false;
-            // Add nodes which does not have any dependencies.
-            for i in 0..len {
-                let dependants = graph.neighbors_directed(i, Incoming);
-
-                if orders.contains(&i) || dependants.count() != 0 {
-                    continue;
-                }
-
-                did_work = true;
-                orders.push(i);
-
-                // Remove dependency
-                graph.remove_node(i);
-            }
-
-            if !did_work {
-                break;
-            }
+            sorter.emit_free_items();
+            sorter.emit_items(0..len);
         }
 
         // Now all dependencies are merged.
@@ -273,6 +187,8 @@ impl Modules {
             if orders.contains(&i) {
                 continue;
             }
+            dbg!("ignored", i);
+
             orders.push(i);
         }
 
@@ -301,12 +217,25 @@ struct Sorter<'a> {
     same_module_ranges: &'a [Range<usize>],
     /// Range of injected statements.
     free: Range<usize>,
+    _new: &'a [ModuleItem],
 }
 
 impl Sorter<'_> {
     // This removes dependencies to other node.
     fn emit(&mut self, idx: usize) {
         if !self.orders.contains(&idx) {
+            eprintln!("Emit: `{}`", idx);
+
+            match &self._new[idx] {
+                ModuleItem::Stmt(Stmt::Expr(stmt)) => match &*stmt.expr {
+                    Expr::Await(..) => {
+                        dbg!(&self._new[idx]);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+
             self.orders.push(idx);
             self.graph.remove_node(idx);
         }
@@ -316,9 +245,12 @@ impl Sorter<'_> {
         self.emit(idx);
         self.emit_free_items();
     }
-
     /// Inject dependency-less free statements.
     fn emit_free_items(&mut self) {
+        self.emit_items(self.free.clone())
+    }
+
+    fn emit_items(&mut self, range: Range<usize>) {
         // No dependencies
         loop {
             if self.graph.all_edges().count() == 0 {
@@ -326,7 +258,7 @@ impl Sorter<'_> {
             }
 
             let mut did_work = false;
-            for i in self.free.clone() {
+            for i in range.clone() {
                 if self.orders.contains(&i) {
                     continue;
                 }
@@ -339,6 +271,77 @@ impl Sorter<'_> {
 
                 did_work = true;
                 self.emit(i);
+            }
+
+            if !did_work {
+                break;
+            }
+        }
+
+        // Strong dependencies
+        loop {
+            if self.graph.all_edges().count() == 0 {
+                break;
+            }
+
+            let mut did_work = false;
+            // Add nodes which does not have any dependencies.
+            for i in range.clone() {
+                if self.orders.contains(&i) {
+                    continue;
+                }
+
+                let dependants = self
+                    .graph
+                    .neighbors_directed(i, Incoming)
+                    .filter(|&entry| self.graph.edge_weight(entry, i) == Some(&Required::Always));
+
+                if dependants.count() != 0 {
+                    continue;
+                }
+
+                did_work = true;
+                dbg!("dep", i);
+                self.orders.push(i);
+
+                // Remove strong dependency
+                for dependancy in self
+                    .graph
+                    .neighbors_directed(i, Outgoing)
+                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(&Required::Always))
+                    .collect::<Vec<_>>()
+                {
+                    self.graph.remove_edge(i, dependancy).unwrap();
+                }
+            }
+
+            if !did_work {
+                break;
+            }
+        }
+
+        // Weak dependencies
+        loop {
+            if self.graph.all_edges().count() == 0 {
+                break;
+            }
+
+            let mut did_work = false;
+            // Add nodes which does not have any dependencies.
+            for i in range.clone() {
+                let dependants = self.graph.neighbors_directed(i, Incoming);
+
+                if self.orders.contains(&i) || dependants.count() != 0 {
+                    continue;
+                }
+
+                dbg!("weak", i);
+
+                did_work = true;
+                self.orders.push(i);
+
+                // Remove dependency
+                self.graph.remove_node(i);
             }
 
             if !did_work {
@@ -369,12 +372,13 @@ impl Sorter<'_> {
         let mut next = Some(idx);
 
         while let Some(idx) = next.take() {
+            eprintln!("Checking `{}`", idx);
             if delayed.contains(&idx) || self.orders.contains(&idx) {
+                eprintln!("Skipping `{}`", idx);
                 continue;
             }
             dejavu.insert(idx);
 
-            dbg!(idx);
             {
                 let deps = self
                     .graph
@@ -390,8 +394,8 @@ impl Sorter<'_> {
                         }
                         continue;
                     }
-                    dbg!(dep);
-                    // We jump to another modul.
+                    eprintln!("Jumpinbg to `{}`", idx);
+                    // We jump to another module.
                     self.insert_inner(dep, ignore_range_start, dejavu, delayed);
                 }
             }
@@ -404,6 +408,7 @@ impl Sorter<'_> {
                 Some(v) => v,
                 None => {
                     if !delayed.contains(&idx) {
+                        dbg!(idx);
                         // Free statements, like injected vars.
                         self.emit_with_deps(idx);
                     }
@@ -412,11 +417,17 @@ impl Sorter<'_> {
             };
 
             if !delayed.contains(&idx) {
-                if !ignore_range_start && idx != range.start && !self.orders.contains(&range.start)
-                {
-                    // We should process module from start to end.
-                    dbg!(range.start);
-                    self.insert_inner(range.start, true, dejavu, delayed);
+                if !ignore_range_start && idx != range.start {
+                    let goto = range
+                        .clone()
+                        .into_iter()
+                        .find(|idx| !self.orders.contains(idx));
+
+                    if let Some(goto) = goto {
+                        // We should process module from start to end.
+                        dbg!(goto);
+                        self.insert_inner(goto, true, dejavu, delayed);
+                    }
                 }
 
                 self.emit_with_deps(idx);
