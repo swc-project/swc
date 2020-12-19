@@ -70,16 +70,7 @@ impl Modules {
         self.modules = take(&mut self.modules)
             .into_iter()
             .map(|mut m| {
-                let mut body = op(take(&mut m.body));
-
-                body.retain_mut(|item| {
-                    if item.span().is_dummy() {
-                        self.injected.push(item.take());
-                        false
-                    } else {
-                        true
-                    }
-                });
+                let body = op(take(&mut m.body));
 
                 Module { body, ..m }
             })

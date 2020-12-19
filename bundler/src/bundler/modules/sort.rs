@@ -7,11 +7,14 @@ use petgraph::{
     graphmap::DiGraphMap,
     EdgeDirection::{Incoming, Outgoing},
 };
+use retain_mut::RetainMut;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::mem::take;
 use std::ops::Range;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -31,6 +34,21 @@ enum Required {
 
 impl Modules {
     pub fn sort(&mut self) {
+        {
+            let mut modules = take(&mut self.modules);
+            for module in &mut modules {
+                module.body.retain_mut(|item| {
+                    if item.span().is_dummy() {
+                        self.injected.push(item.take());
+                        false
+                    } else {
+                        true
+                    }
+                });
+            }
+            self.modules = modules;
+        }
+
         self.retain_mut(|item| match item {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             _ => true,
