@@ -1,5 +1,4 @@
 use super::Modules;
-use crate::debug::print_hygiene;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
 use petgraph::{
@@ -9,8 +8,6 @@ use petgraph::{
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::ops::Range;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -282,6 +279,7 @@ fn insert_orders(
         same_module_ranges: &[Range<usize>],
         idx: usize,
         ignore_range_start: bool,
+        in_dejavu_mode: bool,
         dejavu: &mut HashSet<usize>,
     ) {
         let mut next = Some(idx);
@@ -293,12 +291,9 @@ fn insert_orders(
             dejavu.insert(idx);
 
             dbg!(idx);
-            {
+            if !in_dejavu_mode {
                 let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
                 for dep in deps {
-                    if dejavu.contains(&dep) {
-                        continue;
-                    }
                     dbg!(dep);
                     // We jump to another modul.
                     insert_inner(
@@ -307,6 +302,7 @@ fn insert_orders(
                         same_module_ranges,
                         dep,
                         ignore_range_start,
+                        in_dejavu_mode || dejavu.contains(&dep),
                         dejavu,
                     );
                 }
@@ -315,20 +311,34 @@ fn insert_orders(
             let range = match same_module_ranges.iter().find(|range| range.contains(&idx)) {
                 Some(v) => v,
                 None => {
-                    // Free statements, like injected vars.
-                    orders.push(idx);
-                    graph.remove_node(idx);
+                    if !in_dejavu_mode {
+                        // Free statements, like injected vars.
+                        orders.push(idx);
+                        graph.remove_node(idx);
+                    }
                     return;
                 }
             };
 
-            if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
+            if !in_dejavu_mode
+                && !ignore_range_start
+                && idx != range.start
+                && !orders.contains(&range.start)
+            {
                 // We should process module from start to end.
                 dbg!(range.start);
-                insert_inner(graph, orders, same_module_ranges, range.start, true, dejavu);
+                insert_inner(
+                    graph,
+                    orders,
+                    same_module_ranges,
+                    range.start,
+                    true,
+                    in_dejavu_mode,
+                    dejavu,
+                );
             }
 
-            if !orders.contains(&idx) {
+            if !in_dejavu_mode && !orders.contains(&idx) {
                 orders.push(idx);
                 graph.remove_node(idx);
             }
@@ -351,6 +361,7 @@ fn insert_orders(
         same_module_ranges,
         idx,
         ignore_range_start,
+        false,
         &mut dejavu,
     )
 }
