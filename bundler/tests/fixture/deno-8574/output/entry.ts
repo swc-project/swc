@@ -9,145 +9,6 @@ function lowercaseKeys(object) {
     }, {
     });
 }
-function isObject(o) {
-    return Object.prototype.toString.call(o) === "[object Object]";
-}
-function isPlainObject(o) {
-    var ctor, prot;
-    if (isObject(o) === false) return false;
-    ctor = o.constructor;
-    if (ctor === void 0) return true;
-    prot = ctor.prototype;
-    if (isObject(prot) === false) return false;
-    if (prot.hasOwnProperty("isPrototypeOf") === false) {
-        return false;
-    }
-    return true;
-}
-class Deprecation extends Error {
-    constructor(message){
-        super(message);
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
-        }
-        this.name = "Deprecation";
-    }
-}
-function wrappy(fn, cb) {
-    if (fn && cb) return wrappy(fn)(cb);
-    if (typeof fn !== "function") throw new TypeError("need wrapper function");
-    Object.keys(fn).forEach(function(k) {
-        wrapper[k] = fn[k];
-    });
-    return wrapper;
-    function wrapper() {
-        var args = new Array(arguments.length);
-        for(var i = 0; i < args.length; i++){
-            args[i] = arguments[i];
-        }
-        var ret = fn.apply(this, args);
-        var cb2 = args[args.length - 1];
-        if (typeof ret === "function" && ret !== cb2) {
-            Object.keys(cb2).forEach(function(k) {
-                ret[k] = cb2[k];
-            });
-        }
-        return ret;
-    }
-}
-var wrappy_1 = wrappy;
-function once(fn) {
-    var f = function() {
-        if (f.called) return f.value;
-        f.called = true;
-        return f.value = fn.apply(this, arguments);
-    };
-    f.called = false;
-    return f;
-}
-function onceStrict(fn) {
-    var f = function() {
-        if (f.called) throw new Error(f.onceError);
-        f.called = true;
-        return f.value = fn.apply(this, arguments);
-    };
-    var name = fn.name || "Function wrapped with `once`";
-    f.onceError = name + " shouldn't be called more than once";
-    f.called = false;
-    return f;
-}
-const __default = wrappy_1;
-const wrappy2 = __default;
-var once_1 = wrappy2(once);
-var strict = wrappy2(onceStrict);
-once.proto = once(function() {
-    Object.defineProperty(Function.prototype, "once", {
-        value: function() {
-            return once(this);
-        },
-        configurable: true
-    });
-    Object.defineProperty(Function.prototype, "onceStrict", {
-        value: function() {
-            return onceStrict(this);
-        },
-        configurable: true
-    });
-});
-once_1.strict = strict;
-const __default1 = once_1;
-const once2 = __default1;
-const logOnce = once2((deprecation2)=>console.warn(deprecation2)
-);
-const Deprecation1 = Deprecation;
-const Deprecation2 = Deprecation1;
-class RequestError extends Error {
-    constructor(message1, statusCode, options){
-        super(message1);
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
-        }
-        this.name = "HttpError";
-        this.status = statusCode;
-        Object.defineProperty(this, "code", {
-            get () {
-                logOnce(new Deprecation2("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
-                return statusCode;
-            }
-        });
-        this.headers = options.headers || {
-        };
-        const requestCopy = Object.assign({
-        }, options.request);
-        if (options.request.headers.authorization) {
-            requestCopy.headers = Object.assign({
-            }, options.request.headers, {
-                authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
-            });
-        }
-        requestCopy.url = requestCopy.url.replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]").replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
-        this.request = requestCopy;
-    }
-}
-const isPlainObject1 = isPlainObject;
-const isPlainObject2 = isPlainObject1;
-function mergeDeep(defaults, options1) {
-    const result = Object.assign({
-    }, defaults);
-    Object.keys(options1).forEach((key)=>{
-        if (isPlainObject2(options1[key])) {
-            if (!(key in defaults)) Object.assign(result, {
-                [key]: options1[key]
-            });
-            else result[key] = mergeDeep(defaults[key], options1[key]);
-        } else {
-            Object.assign(result, {
-                [key]: options1[key]
-            });
-        }
-    });
-    return result;
-}
 function removeUndefinedProperties(obj) {
     for(const key in obj){
         if (obj[key] === void 0) {
@@ -155,32 +16,6 @@ function removeUndefinedProperties(obj) {
         }
     }
     return obj;
-}
-function merge(defaults, route, options1) {
-    if (typeof route === "string") {
-        let [method, url] = route.split(" ");
-        options1 = Object.assign(url ? {
-            method,
-            url
-        } : {
-            url: method
-        }, options1);
-    } else {
-        options1 = Object.assign({
-        }, route);
-    }
-    options1.headers = lowercaseKeys(options1.headers);
-    removeUndefinedProperties(options1);
-    removeUndefinedProperties(options1.headers);
-    const mergedOptions = mergeDeep(defaults || {
-    }, options1);
-    if (defaults && defaults.mediaType.previews.length) {
-        mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)
-        ).concat(mergedOptions.mediaType.previews);
-    }
-    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview)=>preview.replace(/-preview/, "")
-    );
-    return mergedOptions;
 }
 function addQueryParameters(url, parameters) {
     const separator = /\?/.test(url) ? "&" : "?";
@@ -336,18 +171,19 @@ function expand(template, context) {
         }
     });
 }
+const VERSION = "6.0.10";
 function parseUrl(template) {
     return {
         expand: expand.bind(null, template)
     };
 }
-function parse(options1) {
-    let method = options1.method.toUpperCase();
-    let url = (options1.url || "/").replace(/:([a-z]\w+)/g, "{$1}");
+function parse(options) {
+    let method = options.method.toUpperCase();
+    let url = (options.url || "/").replace(/:([a-z]\w+)/g, "{$1}");
     let headers = Object.assign({
-    }, options1.headers);
+    }, options.headers);
     let body;
-    let parameters = omit(options1, [
+    let parameters = omit(options, [
         "method",
         "baseUrl",
         "url",
@@ -358,21 +194,21 @@ function parse(options1) {
     const urlVariableNames = extractUrlVariableNames(url);
     url = parseUrl(url).expand(parameters);
     if (!/^http/.test(url)) {
-        url = options1.baseUrl + url;
+        url = options.baseUrl + url;
     }
-    const omittedParameters = Object.keys(options1).filter((option)=>urlVariableNames.includes(option)
+    const omittedParameters = Object.keys(options).filter((option)=>urlVariableNames.includes(option)
     ).concat("baseUrl");
     const remainingParameters = omit(parameters, omittedParameters);
     const isBinaryRequest = /application\/octet-stream/i.test(headers.accept);
     if (!isBinaryRequest) {
-        if (options1.mediaType.format) {
-            headers.accept = headers.accept.split(/,/).map((preview)=>preview.replace(/application\/vnd(\.\w+)(\.v3)?(\.\w+)?(\+json)?$/, `application/vnd$1$2.${options1.mediaType.format}`)
+        if (options.mediaType.format) {
+            headers.accept = headers.accept.split(/,/).map((preview)=>preview.replace(/application\/vnd(\.\w+)(\.v3)?(\.\w+)?(\+json)?$/, `application/vnd$1$2.${options.mediaType.format}`)
             ).join(",");
         }
-        if (options1.mediaType.previews.length) {
+        if (options.mediaType.previews.length) {
             const previewsFromAcceptHeader = headers.accept.match(/[\w-]+(?=-preview)/g) || [];
-            headers.accept = previewsFromAcceptHeader.concat(options1.mediaType.previews).map((preview)=>{
-                const format = options1.mediaType.format ? `.${options1.mediaType.format}` : "+json";
+            headers.accept = previewsFromAcceptHeader.concat(options.mediaType.previews).map((preview)=>{
+                const format = options.mediaType.format ? `.${options.mediaType.format}` : "+json";
                 return `application/vnd.github.${preview}-preview${format}`;
             }).join(",");
         }
@@ -408,75 +244,9 @@ function parse(options1) {
         headers
     }, typeof body !== "undefined" ? {
         body
-    } : null, options1.request ? {
-        request: options1.request
+    } : null, options.request ? {
+        request: options.request
     } : null);
-}
-function endpointWithDefaults(defaults, route, options1) {
-    return parse(merge(defaults, route, options1));
-}
-function withDefaults(oldDefaults, newDefaults) {
-    const DEFAULTS2 = merge(oldDefaults, newDefaults);
-    const endpoint2 = endpointWithDefaults.bind(null, DEFAULTS2);
-    return Object.assign(endpoint2, {
-        DEFAULTS: DEFAULTS2,
-        defaults: withDefaults.bind(null, DEFAULTS2),
-        merge: merge.bind(null, DEFAULTS2),
-        parse
-    });
-}
-const VERSION = "6.0.10";
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function() {
-    this.fun.apply(null, this.array);
-};
-var title = "browser";
-var platform = "browser";
-var browser = true;
-var argv = [];
-var version = "";
-var versions = {
-};
-var release = {
-};
-var config = {
-};
-function noop() {
-}
-var on = noop;
-var addListener = noop;
-var once1 = noop;
-var off = noop;
-var removeListener = noop;
-var removeAllListeners = noop;
-var emit = noop;
-function binding(name) {
-    throw new Error("process.binding is not supported");
-}
-function cwd() {
-    return "/";
-}
-function chdir(dir) {
-    throw new Error("process.chdir is not supported");
-}
-function umask() {
-    return 0;
-}
-var globalContext;
-if (typeof window !== "undefined") {
-    globalContext = window;
-} else if (typeof self !== "undefined") {
-    globalContext = self;
-} else {
-    globalContext = {
-    };
 }
 function defaultSetTimout() {
     throw new Error("setTimeout has not been defined");
@@ -486,6 +256,15 @@ function defaultClearTimeout() {
 }
 var cachedSetTimeout = defaultSetTimout;
 var cachedClearTimeout = defaultClearTimeout;
+var globalContext;
+if (typeof window !== "undefined") {
+    globalContext = window;
+} else if (typeof self !== "undefined") {
+    globalContext = self;
+} else {
+    globalContext = {
+    };
+}
 if (typeof globalContext.setTimeout === "function") {
     cachedSetTimeout = setTimeout;
 }
@@ -528,23 +307,48 @@ function runClearTimeout(marker) {
         }
     }
 }
-var startTime = new Date();
-function uptime() {
-    var currentTime = new Date();
-    var dif = currentTime - startTime;
-    return dif / 1000;
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
 }
-function nextTick(fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for(var i = 1; i < arguments.length; i++){
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
+Item.prototype.run = function() {
+    this.fun.apply(null, this.array);
+};
+var title = "browser";
+var platform = "browser";
+var browser = true;
+var argv = [];
+var version = "";
+var versions = {
+};
+var release = {
+};
+var config = {
+};
+function noop() {
+}
+var on = noop;
+var addListener = noop;
+var once = noop;
+var off = noop;
+var removeListener = noop;
+var removeAllListeners = noop;
+var emit = noop;
+function binding(name) {
+    throw new Error("process.binding is not supported");
+}
+function cwd() {
+    return "/";
+}
+function chdir(dir) {
+    throw new Error("process.chdir is not supported");
+}
+function umask() {
+    return 0;
 }
 var performance = globalContext.performance || {
 };
@@ -568,66 +372,195 @@ function hrtime(previousTimestamp) {
         nanoseconds
     ];
 }
+var startTime = new Date();
+function uptime() {
+    var currentTime = new Date();
+    var dif = currentTime - startTime;
+    return dif / 1000;
+}
+function isObject(o) {
+    return Object.prototype.toString.call(o) === "[object Object]";
+}
+function isPlainObject(o) {
+    var ctor, prot;
+    if (isObject(o) === false) return false;
+    ctor = o.constructor;
+    if (ctor === void 0) return true;
+    prot = ctor.prototype;
+    if (isObject(prot) === false) return false;
+    if (prot.hasOwnProperty("isPrototypeOf") === false) {
+        return false;
+    }
+    return true;
+}
+class Deprecation extends Error {
+    constructor(message){
+        super(message);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
+        this.name = "Deprecation";
+    }
+}
+function wrappy(fn, cb) {
+    if (fn && cb) return wrappy(fn)(cb);
+    if (typeof fn !== "function") throw new TypeError("need wrapper function");
+    Object.keys(fn).forEach(function(k) {
+        wrapper[k] = fn[k];
+    });
+    return wrapper;
+    function wrapper() {
+        var args = new Array(arguments.length);
+        for(var i = 0; i < args.length; i++){
+            args[i] = arguments[i];
+        }
+        var ret = fn.apply(this, args);
+        var cb2 = args[args.length - 1];
+        if (typeof ret === "function" && ret !== cb2) {
+            Object.keys(cb2).forEach(function(k) {
+                ret[k] = cb2[k];
+            });
+        }
+        return ret;
+    }
+}
+var wrappy_1 = wrappy;
+function once1(fn) {
+    var f = function() {
+        if (f.called) return f.value;
+        f.called = true;
+        return f.value = fn.apply(this, arguments);
+    };
+    f.called = false;
+    return f;
+}
+function onceStrict(fn) {
+    var f = function() {
+        if (f.called) throw new Error(f.onceError);
+        f.called = true;
+        return f.value = fn.apply(this, arguments);
+    };
+    var name = fn.name || "Function wrapped with `once`";
+    f.onceError = name + " shouldn't be called more than once";
+    f.called = false;
+    return f;
+}
+once1.proto = once1(function() {
+    Object.defineProperty(Function.prototype, "once", {
+        value: function() {
+            return once1(this);
+        },
+        configurable: true
+    });
+    Object.defineProperty(Function.prototype, "onceStrict", {
+        value: function() {
+            return onceStrict(this);
+        },
+        configurable: true
+    });
+});
 const VERSION1 = "5.4.12";
 function getBufferResponse(response) {
     return response.arrayBuffer();
 }
-var process = {
-    nextTick,
-    title,
-    browser,
-    env: {
-        NODE_ENV: "production"
-    },
-    argv,
-    version,
-    versions,
-    on,
-    addListener,
-    once: once1,
-    off,
-    removeListener,
-    removeAllListeners,
-    emit,
-    binding,
-    cwd,
-    chdir,
-    umask,
-    hrtime,
-    platform,
-    release,
-    config,
-    uptime
-};
-function getUserAgent() {
-    if (typeof navigator === "object" && "userAgent" in navigator) {
-        return navigator.userAgent;
-    }
-    if (typeof process === "object" && "version" in process) {
-        return `Node.js/${process.version.substr(1)} (${process.platform}; ${process.arch})`;
-    }
-    return "<environment undetectable>";
-}
-const getUserAgent1 = getUserAgent;
-const getUserAgent2 = getUserAgent1;
-const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent2()}`;
-const DEFAULTS = {
-    method: "GET",
-    baseUrl: "https://api.github.com",
-    headers: {
-        accept: "application/vnd.github.v3+json",
-        "user-agent": userAgent
-    },
-    mediaType: {
-        format: "",
-        previews: []
-    }
-};
-const endpoint = withDefaults(null, DEFAULTS);
-const endpoint1 = endpoint;
-const endpoint2 = endpoint1;
-const getUserAgent3 = getUserAgent1;
+const isPlainObject1 = isPlainObject;
+const isPlainObject2 = isPlainObject1;
+const Deprecation1 = Deprecation;
+const Deprecation2 = Deprecation1;
+const __default = wrappy_1;
+const wrappy2 = __default;
 const isPlainObject3 = isPlainObject1;
+var once_1 = wrappy2(once1);
+var strict = wrappy2(onceStrict);
+once_1.strict = strict;
+function mergeDeep(defaults, options) {
+    const result = Object.assign({
+    }, defaults);
+    Object.keys(options).forEach((key)=>{
+        if (isPlainObject3(options[key])) {
+            if (!(key in defaults)) Object.assign(result, {
+                [key]: options[key]
+            });
+            else result[key] = mergeDeep(defaults[key], options[key]);
+        } else {
+            Object.assign(result, {
+                [key]: options[key]
+            });
+        }
+    });
+    return result;
+}
+function merge(defaults, route, options) {
+    if (typeof route === "string") {
+        let [method, url] = route.split(" ");
+        options = Object.assign(url ? {
+            method,
+            url
+        } : {
+            url: method
+        }, options);
+    } else {
+        options = Object.assign({
+        }, route);
+    }
+    options.headers = lowercaseKeys(options.headers);
+    removeUndefinedProperties(options);
+    removeUndefinedProperties(options.headers);
+    const mergedOptions = mergeDeep(defaults || {
+    }, options);
+    if (defaults && defaults.mediaType.previews.length) {
+        mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)
+        ).concat(mergedOptions.mediaType.previews);
+    }
+    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview)=>preview.replace(/-preview/, "")
+    );
+    return mergedOptions;
+}
+function endpointWithDefaults(defaults, route, options) {
+    return parse(merge(defaults, route, options));
+}
+function withDefaults(oldDefaults, newDefaults) {
+    const DEFAULTS2 = merge(oldDefaults, newDefaults);
+    const endpoint2 = endpointWithDefaults.bind(null, DEFAULTS2);
+    return Object.assign(endpoint2, {
+        DEFAULTS: DEFAULTS2,
+        defaults: withDefaults.bind(null, DEFAULTS2),
+        merge: merge.bind(null, DEFAULTS2),
+        parse
+    });
+}
+const __default1 = once_1;
+const once2 = __default1;
+const logOnce = once2((deprecation2)=>console.warn(deprecation2)
+);
+class RequestError extends Error {
+    constructor(message1, statusCode, options){
+        super(message1);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
+        this.name = "HttpError";
+        this.status = statusCode;
+        Object.defineProperty(this, "code", {
+            get () {
+                logOnce(new Deprecation2("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
+                return statusCode;
+            }
+        });
+        this.headers = options.headers || {
+        };
+        const requestCopy = Object.assign({
+        }, options.request);
+        if (options.request.headers.authorization) {
+            requestCopy.headers = Object.assign({
+            }, options.request.headers, {
+                authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
+            });
+        }
+        requestCopy.url = requestCopy.url.replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]").replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
+        this.request = requestCopy;
+    }
+}
 const RequestError1 = RequestError;
 const RequestError2 = RequestError1;
 function cleanUpNextTick() {
@@ -666,6 +599,54 @@ function drainQueue() {
     draining = false;
     runClearTimeout(timeout);
 }
+function nextTick(fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for(var i = 1; i < arguments.length; i++){
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+}
+var process = {
+    nextTick,
+    title,
+    browser,
+    env: {
+        NODE_ENV: "production"
+    },
+    argv,
+    version,
+    versions,
+    on,
+    addListener,
+    once,
+    off,
+    removeListener,
+    removeAllListeners,
+    emit,
+    binding,
+    cwd,
+    chdir,
+    umask,
+    hrtime,
+    platform,
+    release,
+    config,
+    uptime
+};
+function getUserAgent() {
+    if (typeof navigator === "object" && "userAgent" in navigator) {
+        return navigator.userAgent;
+    }
+    if (typeof process === "object" && "version" in process) {
+        return `Node.js/${process.version.substr(1)} (${process.platform}; ${process.arch})`;
+    }
+    return "<environment undetectable>";
+}
 var getGlobal = function() {
     if (typeof self !== "undefined") {
         return self;
@@ -681,7 +662,7 @@ var getGlobal = function() {
 var global = getGlobal();
 var nodeFetch = global.fetch.bind(global);
 function fetchWrapper(requestOptions) {
-    if (isPlainObject3(requestOptions.body) || Array.isArray(requestOptions.body)) {
+    if (isPlainObject2(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
     }
     let headers = {
@@ -780,9 +761,28 @@ function withDefaults1(oldEndpoint, newDefaults) {
         defaults: withDefaults1.bind(null, endpoint3)
     });
 }
+const getUserAgent1 = getUserAgent;
+const getUserAgent2 = getUserAgent1;
+const getUserAgent3 = getUserAgent1;
+const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent3()}`;
+const DEFAULTS = {
+    method: "GET",
+    baseUrl: "https://api.github.com",
+    headers: {
+        accept: "application/vnd.github.v3+json",
+        "user-agent": userAgent
+    },
+    mediaType: {
+        format: "",
+        previews: []
+    }
+};
+const endpoint = withDefaults(null, DEFAULTS);
+const endpoint1 = endpoint;
+const endpoint2 = endpoint1;
 const request = withDefaults1(endpoint2, {
     headers: {
-        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent3()}`
+        "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent2()}`
     }
 });
 const request1 = request;

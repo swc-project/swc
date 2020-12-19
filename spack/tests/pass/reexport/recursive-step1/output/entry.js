@@ -1,10 +1,10 @@
 const c = 'c';
 console.log('c');
 console.log('b');
+console.log('a.js');
+console.log('entry');
 const c1 = c;
 const b2 = c1;
 const __default = b2;
 const b1 = __default;
-console.log('a.js');
 export { b1 as b };
-console.log('entry');
