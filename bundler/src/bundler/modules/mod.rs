@@ -1,10 +1,8 @@
 use retain_mut::RetainMut;
 use std::mem::take;
-use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
-use swc_ecma_ast::Module;
-use swc_ecma_ast::ModuleItem;
+use swc_ecma_ast::*;
 use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMut;
@@ -103,21 +101,22 @@ impl Modules {
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
-    pub fn inject_all(&mut self, items: Vec<ModuleItem>) {
-        assert!(items.iter().all(|v| v.span().is_dummy()));
-        self.injected.extend(items);
+    pub fn inject_all(&mut self, items: impl IntoIterator<Item = ModuleItem>) {
+        let injected_ctxt = self.injected_ctxt;
+        self.injected.extend(items.into_iter().map(|mut item| {
+            mark(&mut item, injected_ctxt);
+            item
+        }));
     }
 
     /// Insert a statement which dependency of can be analyzed statically.
-    pub fn inject(&mut self, var: ModuleItem) {
-        assert!(var.span().is_dummy());
+    pub fn inject(&mut self, mut var: ModuleItem) {
+        mark(&mut var, self.injected_ctxt);
 
         self.injected.push(var)
     }
 
     pub fn prepend(&mut self, item: ModuleItem) {
-        assert!(item.span().is_dummy());
-
         self.prepended.push(item)
     }
 
@@ -167,5 +166,62 @@ impl From<Modules> for Module {
             body: modules.into_items(),
             shebang: None,
         }
+    }
+}
+
+fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
+    match item {
+        ModuleItem::ModuleDecl(item) => match item {
+            ModuleDecl::Import(ImportDecl { span, .. })
+            | ModuleDecl::ExportDecl(ExportDecl { span, .. })
+            | ModuleDecl::ExportNamed(NamedExport { span, .. })
+            | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { span, .. })
+            | ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { span, .. })
+            | ModuleDecl::ExportAll(ExportAll { span, .. })
+            | ModuleDecl::TsImportEquals(TsImportEqualsDecl { span, .. })
+            | ModuleDecl::TsExportAssignment(TsExportAssignment { span, .. })
+            | ModuleDecl::TsNamespaceExport(TsNamespaceExportDecl { span, .. }) => {
+                span.ctxt = ctxt;
+            }
+        },
+        ModuleItem::Stmt(stmt) => match stmt {
+            Stmt::Empty(_) => return,
+            Stmt::Block(BlockStmt { span, .. })
+            | Stmt::Debugger(DebuggerStmt { span, .. })
+            | Stmt::With(WithStmt { span, .. })
+            | Stmt::Return(ReturnStmt { span, .. })
+            | Stmt::Labeled(LabeledStmt { span, .. })
+            | Stmt::Break(BreakStmt { span, .. })
+            | Stmt::Continue(ContinueStmt { span, .. })
+            | Stmt::If(IfStmt { span, .. })
+            | Stmt::Switch(SwitchStmt { span, .. })
+            | Stmt::Throw(ThrowStmt { span, .. })
+            | Stmt::Try(TryStmt { span, .. })
+            | Stmt::While(WhileStmt { span, .. })
+            | Stmt::DoWhile(DoWhileStmt { span, .. })
+            | Stmt::For(ForStmt { span, .. })
+            | Stmt::ForIn(ForInStmt { span, .. })
+            | Stmt::ForOf(ForOfStmt { span, .. })
+            | Stmt::Expr(ExprStmt { span, .. }) => {
+                span.ctxt = ctxt;
+            }
+            Stmt::Decl(decl) => match decl {
+                Decl::Class(ClassDecl {
+                    class: Class { span, .. },
+                    ..
+                }) => {}
+                Decl::Fn(FnDecl {
+                    function: Function { span, .. },
+                    ..
+                }) => {}
+                Decl::Var(VarDecl { span, .. }) => {}
+                Decl::TsInterface(TsInterfaceDecl { span, .. }) => {}
+                Decl::TsTypeAlias(TsTypeAliasDecl { span, .. }) => {}
+                Decl::TsEnum(TsEnumDecl { span, .. }) => {}
+                Decl::TsModule(TsModuleDecl { span, .. }) => {
+                    span.ctxt = ctxt;
+                }
+            },
+        },
     }
 }
