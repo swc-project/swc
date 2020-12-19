@@ -234,6 +234,18 @@ impl Sorter<'_> {
                 _ => {}
             }
 
+            if self._new.len() > idx + 1 {
+                match &self._new[idx + 1] {
+                    ModuleItem::Stmt(Stmt::Expr(stmt)) => match &*stmt.expr {
+                        Expr::Await(..) => {
+                            dbg!(&self._new[idx]);
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+
             self.orders.push(idx);
             self.graph.remove_node(idx);
         }
@@ -356,7 +368,7 @@ impl Sorter<'_> {
         delayed: &mut HashSet<usize>,
     ) {
         let mut dejavu = HashSet::default();
-        self.insert_inner(idx, ignore_range_start, &mut dejavu, delayed)
+        self.insert_inner(idx, ignore_range_start, &mut dejavu, delayed, &[])
     }
 
     /// Insert orders smartly :)
@@ -366,11 +378,13 @@ impl Sorter<'_> {
         ignore_range_start: bool,
         dejavu: &mut HashSet<usize>,
         delayed: &mut HashSet<usize>,
+        excluded_cycles: &[Vec<usize>],
     ) {
         let mut next = Some(idx);
 
         while let Some(idx) = next.take() {
             eprintln!("Checking `{}`", idx);
+
             if delayed.contains(&idx) || self.orders.contains(&idx) {
                 eprintln!("Skipping `{}`", idx);
                 continue;
@@ -383,18 +397,19 @@ impl Sorter<'_> {
                     .neighbors_directed(idx, Incoming)
                     .collect::<Vec<_>>();
                 for dep in deps {
+                    if excluded_cycles.iter().any(|cycle| cycle.contains(&dep)) {
+                        continue;
+                    }
+
                     let cycles: Vec<Vec<_>> =
                         all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
                     if !cycles.is_empty() {
-                        delayed.insert(idx);
-                        for paths in cycles {
-                            delayed.extend(paths);
-                        }
+                        self.insert_inner(dep, ignore_range_start, dejavu, delayed, &cycles);
                         continue;
                     }
                     eprintln!("Jumpinbg to `{}`", idx);
                     // We jump to another module.
-                    self.insert_inner(dep, ignore_range_start, dejavu, delayed);
+                    self.insert_inner(dep, ignore_range_start, dejavu, delayed, excluded_cycles);
                 }
             }
 
@@ -424,7 +439,7 @@ impl Sorter<'_> {
                     if let Some(goto) = goto {
                         // We should process module from start to end.
                         dbg!(goto);
-                        self.insert_inner(goto, true, dejavu, delayed);
+                        self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
                     }
                 }
 
@@ -433,6 +448,7 @@ impl Sorter<'_> {
                 let next_idx = idx + 1;
 
                 if !range.contains(&next_idx) {
+                    eprintln!("Not in range: next = `{}`", next_idx);
                     // We successfully processed a module.
                     return;
                 }
