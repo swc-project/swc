@@ -1,0 +1,60 @@
+warning: Module
+ --> $DIR/tests/span/ts/declare/class.ts:1:1
+  |
+1 | declare class Example { };
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/declare/class.ts:1:1
+  |
+1 | declare class Example { };
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/declare/class.ts:1:1
+  |
+1 | declare class Example { };
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/declare/class.ts:1:1
+  |
+1 | declare class Example { };
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ClassDecl
+ --> $DIR/tests/span/ts/declare/class.ts:1:1
+  |
+1 | declare class Example { };
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/declare/class.ts:1:15
+  |
+1 | declare class Example { };
+  |               ^^^^^^^
+
+warning: Class
+ --> $DIR/tests/span/ts/declare/class.ts:1:1
+  |
+1 | declare class Example { };
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/declare/class.ts:1:26
+  |
+1 | declare class Example { };
+  |                          ^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/declare/class.ts:1:26
+  |
+1 | declare class Example { };
+  |                          ^
+
+warning: EmptyStmt
+ --> $DIR/tests/span/ts/declare/class.ts:1:26
+  |
+1 | declare class Example { };
+  |                          ^
+
