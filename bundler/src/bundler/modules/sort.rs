@@ -136,6 +136,7 @@ impl Modules {
         // Now graph contains enough information to sort statements.
         let len = new.len();
         let mut orders: Vec<usize> = vec![];
+        let mut delayed = HashSet::new();
 
         for start_idx in module_starts {
             insert_orders(
@@ -144,6 +145,7 @@ impl Modules {
                 &same_module_ranges,
                 start_idx,
                 false,
+                &mut delayed,
             );
         }
 
@@ -275,6 +277,7 @@ fn insert_orders(
     same_module_ranges: &[Range<usize>],
     idx: usize,
     ignore_range_start: bool,
+    delayed: &mut HashSet<usize>,
 ) {
     /// Insert orders smartly :)
     fn insert_inner(
@@ -298,9 +301,11 @@ fn insert_orders(
             {
                 let deps = graph.neighbors_directed(idx, Incoming).collect::<Vec<_>>();
                 for dep in deps {
-                    if dejavu.contains(&dep) {
+                    let cycles: Vec<Vec<_>> =
+                        all_simple_paths(&*graph, dep, idx, 0, None).collect();
+                    if !cycles.is_empty() {
                         delayed.insert(idx);
-                        for paths in all_simple_paths::<Vec<_>, _>(&*graph, dep, idx, 0, None) {
+                        for paths in cycles {
                             delayed.extend(paths);
                         }
                         continue;
@@ -331,21 +336,21 @@ fn insert_orders(
                 }
             };
 
-            if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
-                // We should process module from start to end.
-                dbg!(range.start);
-                insert_inner(
-                    graph,
-                    orders,
-                    same_module_ranges,
-                    range.start,
-                    true,
-                    dejavu,
-                    delayed,
-                );
-            }
-
             if !delayed.contains(&idx) {
+                if !ignore_range_start && idx != range.start && !orders.contains(&range.start) {
+                    // We should process module from start to end.
+                    dbg!(range.start);
+                    insert_inner(
+                        graph,
+                        orders,
+                        same_module_ranges,
+                        range.start,
+                        true,
+                        dejavu,
+                        delayed,
+                    );
+                }
+
                 if !orders.contains(&idx) {
                     orders.push(idx);
                     graph.remove_node(idx);
@@ -364,7 +369,6 @@ fn insert_orders(
     }
 
     let mut dejavu = HashSet::default();
-    let mut delayed = HashSet::default();
     insert_inner(
         graph,
         orders,
@@ -372,7 +376,7 @@ fn insert_orders(
         idx,
         ignore_range_start,
         &mut dejavu,
-        &mut delayed,
+        delayed,
     )
 }
 
