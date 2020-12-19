@@ -209,16 +209,16 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
                 Decl::Class(ClassDecl {
                     class: Class { span, .. },
                     ..
-                }) => {}
-                Decl::Fn(FnDecl {
+                })
+                | Decl::Fn(FnDecl {
                     function: Function { span, .. },
                     ..
-                }) => {}
-                Decl::Var(VarDecl { span, .. }) => {}
-                Decl::TsInterface(TsInterfaceDecl { span, .. }) => {}
-                Decl::TsTypeAlias(TsTypeAliasDecl { span, .. }) => {}
-                Decl::TsEnum(TsEnumDecl { span, .. }) => {}
-                Decl::TsModule(TsModuleDecl { span, .. }) => {
+                })
+                | Decl::Var(VarDecl { span, .. })
+                | Decl::TsInterface(TsInterfaceDecl { span, .. })
+                | Decl::TsTypeAlias(TsTypeAliasDecl { span, .. })
+                | Decl::TsEnum(TsEnumDecl { span, .. })
+                | Decl::TsModule(TsModuleDecl { span, .. }) => {
                     span.ctxt = ctxt;
                 }
             },
