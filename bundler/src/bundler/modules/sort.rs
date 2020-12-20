@@ -161,19 +161,6 @@ impl Modules {
 
             let mut visitor = RequirementCalculartor::default();
 
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-                | ModuleItem::Stmt(Stmt::Decl(decl)) => {
-                    //
-                    match decl {
-                        // These declarations does not depend on other nodes.
-                        Decl::Fn(_) | Decl::TsInterface(_) | Decl::TsTypeAlias(_) => continue,
-
-                        _ => {}
-                    }
-                }
-                _ => {}
-            }
             item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
             for (id, kind) in visitor.required_ids {
