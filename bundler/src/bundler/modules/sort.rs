@@ -155,8 +155,31 @@ impl Modules {
             // We then calculate which ids a statement require to be executed.
             // Again, we don't need to analyze non-top-level idents because they
             // are not evaluated while lpoading module.
+
             let mut visitor = RequirementCalculartor::default();
-            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+                | ModuleItem::Stmt(Stmt::Decl(decl)) => {
+                    //
+                    match decl {
+                        // These declarations does not depend on other nodes.
+                        Decl::Fn(_) | Decl::TsInterface(_) | Decl::TsTypeAlias(_) => continue,
+                        Decl::Class(cls) => {
+                            cls.class
+                                .super_class
+                                .visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+                        }
+
+                        _ => {
+                            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+                        }
+                    }
+                }
+                _ => {
+                    item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+                }
+            }
 
             for (id, kind) in visitor.required_ids {
                 if let Some(declarator_indexes) = declared_by.get(&id) {
@@ -181,6 +204,7 @@ impl Modules {
                 same_module_ranges: &same_module_ranges,
                 free,
                 _new: &new,
+                checked_deps: Default::default(),
             };
 
             for start_idx in module_starts {
@@ -223,6 +247,7 @@ impl Modules {
 struct Sorter<'a> {
     graph: &'a mut StmtDepGraph,
     orders: &'a mut Vec<usize>,
+    checked_deps: HashSet<usize>,
     same_module_ranges: &'a [Range<usize>],
     /// Range of injected statements.
     free: Range<usize>,
@@ -232,35 +257,63 @@ struct Sorter<'a> {
 impl Sorter<'_> {
     // This removes dependencies to other node.
     fn emit(&mut self, idx: usize, emit_dependants: bool) {
-        if !self.orders.contains(&idx) {
-            eprintln!("Emit: `{}`", idx);
+        if self.orders.contains(&idx) {
+            return;
+        }
 
-            match &self._new[idx] {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                    let ids: Vec<Id> = find_ids(&var.decls);
-                    eprintln!("Declare: `{:?}`", ids);
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-                    eprintln!("Declare: `{:?}`", Id::from(&cls.ident));
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                    eprintln!("Declare: `{:?}`", Id::from(&f.ident));
-                }
-                _ => {}
+        eprintln!("Emit: `{}`", idx);
+
+        match &self._new[idx] {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                let ids: Vec<Id> = find_ids(&var.decls);
+                eprintln!("Declare: `{:?}`", ids);
             }
-
-            self.orders.push(idx);
-            self.graph.remove_node(idx);
-
-            if emit_dependants {
-                self.emit_free_items();
+            ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+                eprintln!("Declare: `{:?}`", Id::from(&cls.ident));
             }
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                eprintln!("Declare: `{:?}`", Id::from(&f.ident));
+            }
+            _ => {}
+        }
+
+        self.orders.push(idx);
+        self.graph.remove_node(idx);
+
+        if emit_dependants {
+            self.emit_free_items();
         }
     }
 
     /// Inject dependency-less free statements.
     fn emit_free_items(&mut self) {
-        self.emit_items(self.free.clone())
+        let range = self.free.clone();
+        // No dependencies
+        loop {
+            if self.graph.all_edges().count() == 0 {
+                break;
+            }
+
+            let mut did_work = false;
+            for i in range.clone() {
+                if self.orders.contains(&i) {
+                    continue;
+                }
+
+                let deps = self.graph.neighbors_directed(i, Incoming);
+
+                if deps.count() != 0 {
+                    continue;
+                }
+
+                did_work = true;
+                self.emit(i, false);
+            }
+
+            if !did_work {
+                break;
+            }
+        }
     }
 
     fn emit_items(&mut self, range: Range<usize>) {
@@ -276,9 +329,9 @@ impl Sorter<'_> {
                     continue;
                 }
 
-                let dependants = self.graph.neighbors_directed(i, Incoming);
+                let dependancies = self.graph.neighbors_directed(i, Incoming);
 
-                if dependants.count() != 0 {
+                if dependancies.count() != 0 {
                     continue;
                 }
 
@@ -363,6 +416,19 @@ impl Sorter<'_> {
         }
     }
 
+    fn insert_one_of(&mut self, candidates: &[usize]) {
+        let mut delayed = Default::default();
+        for &idx in candidates {
+            let deps = self.graph.neighbors_directed(idx, Incoming);
+
+            if deps.count() != 0 {
+                continue;
+            }
+
+            self.insert_orders(idx, false, &mut delayed);
+        }
+    }
+
     /// Insert orders smartly :)
     fn insert_orders(
         &mut self,
@@ -372,6 +438,60 @@ impl Sorter<'_> {
     ) {
         let mut dejavu = HashSet::default();
         self.insert_inner(idx, ignore_range_start, &mut dejavu, delayed, &[])
+    }
+
+    fn emit_cycles(&mut self, cycles: Vec<Vec<usize>>) {
+        {
+            eprintln!("Cycles: {:?}", cycles);
+            // Emit non-cycle deps.
+
+            let mut delayed = Default::default();
+            for path in &cycles {
+                for &idx in path {
+                    let deps: Vec<_> = self.graph.neighbors_directed(idx, Incoming).collect();
+
+                    for dep in deps {
+                        self.insert_orders(dep, false, &mut delayed);
+                    }
+                }
+            }
+        }
+
+        for path in &cycles {
+            // No dependencies
+            loop {
+                if self.graph.all_edges().count() == 0 {
+                    break;
+                }
+
+                let mut did_work = false;
+                for &i in path {
+                    if self.orders.contains(&i) {
+                        continue;
+                    }
+
+                    let deps = self.graph.neighbors_directed(i, Incoming);
+
+                    if deps.count() != 0 {
+                        continue;
+                    }
+
+                    did_work = true;
+                    self.emit(i, true);
+                }
+
+                if !did_work {
+                    break;
+                }
+            }
+        }
+    }
+
+    fn range_of(&self, idx: usize) -> Option<Range<usize>> {
+        self.same_module_ranges
+            .iter()
+            .find(|range| range.contains(&idx))
+            .cloned()
     }
 
     /// Insert orders smartly :)
@@ -392,7 +512,21 @@ impl Sorter<'_> {
                 eprintln!("Skipping `{}`", idx);
                 continue;
             }
-            dejavu.insert(idx);
+            let range = self.range_of(idx);
+            if let Some(range) = &range {
+                if !ignore_range_start && idx != range.start {
+                    let goto = range
+                        .clone()
+                        .into_iter()
+                        .find(|idx| !self.orders.contains(idx));
+
+                    if let Some(goto) = goto {
+                        // We should process module from start to end.
+                        dbg!(goto);
+                        self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
+                    }
+                }
+            }
 
             {
                 let deps = self
@@ -407,7 +541,10 @@ impl Sorter<'_> {
                     let cycles: Vec<Vec<_>> =
                         all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
                     if !cycles.is_empty() {
-                        self.insert_inner(dep, ignore_range_start, dejavu, delayed, &cycles);
+                        if !self.checked_deps.insert(dep) {
+                            continue;
+                        }
+                        self.emit_cycles(cycles);
                         continue;
                     }
                     eprintln!("Jumpinbg to `{}`", idx);
@@ -416,15 +553,10 @@ impl Sorter<'_> {
                 }
             }
 
-            let range = match self
-                .same_module_ranges
-                .iter()
-                .find(|range| range.contains(&idx))
-            {
+            let range = match range {
                 Some(v) => v,
                 None => {
                     if !delayed.contains(&idx) {
-                        dbg!(idx);
                         // Free statements, like injected vars.
                         self.emit(idx, true);
                     }
@@ -433,19 +565,6 @@ impl Sorter<'_> {
             };
 
             if !delayed.contains(&idx) {
-                if !ignore_range_start && idx != range.start {
-                    let goto = range
-                        .clone()
-                        .into_iter()
-                        .find(|idx| !self.orders.contains(idx));
-
-                    if let Some(goto) = goto {
-                        // We should process module from start to end.
-                        dbg!(goto);
-                        self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
-                    }
-                }
-
                 self.emit(idx, true);
 
                 let next_idx = idx + 1;
