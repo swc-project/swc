@@ -255,27 +255,46 @@ struct Sorter<'a> {
 }
 
 impl Sorter<'_> {
+    fn dump_item(&mut self, idx: usize) {
+        match &self._new[idx] {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                let ids: Vec<Id> = find_ids(&var.decls);
+                eprintln!("({}) Declare: `{:?}`", idx, ids);
+            }
+            ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+                eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
+            }
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
+            }
+            _ => {}
+        }
+    }
+
     // This removes dependencies to other node.
     fn emit(&mut self, idx: usize, emit_dependants: bool) {
         if self.orders.contains(&idx) {
             return;
         }
 
-        eprintln!("Emit: `{}`", idx);
+        // Ensure that we already emitted all non-cyclic deps.
+        if cfg!(debug_assertions) {
+            let deps: Vec<_> = self.graph.neighbors_directed(idx, Incoming).collect();
+            for dep in deps {
+                let cycles: Vec<Vec<_>> =
+                    all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
+                if cycles.is_empty() {
+                    continue;
+                }
 
-        match &self._new[idx] {
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                let ids: Vec<Id> = find_ids(&var.decls);
-                eprintln!("Declare: `{:?}`", ids);
+                if !self.orders.contains(&dep) {
+                    self.dump_item(idx);
+                    self.dump_item(dep);
+                    unreachable!("`{}` depends on `{}`", idx, dep)
+                }
             }
-            ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-                eprintln!("Declare: `{:?}`", Id::from(&cls.ident));
-            }
-            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                eprintln!("Declare: `{:?}`", Id::from(&f.ident));
-            }
-            _ => {}
         }
+        eprintln!("Emit: `{}`", idx);
 
         self.orders.push(idx);
         self.graph.remove_node(idx);
