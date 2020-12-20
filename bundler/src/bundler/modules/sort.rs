@@ -277,6 +277,7 @@ impl Sorter<'_> {
             return;
         }
         eprintln!("Emit: `{}`", idx);
+        self.dump_item(idx);
 
         // Ensure that we already emitted all non-cyclic deps.
         if cfg!(debug_assertions) {
@@ -289,7 +290,6 @@ impl Sorter<'_> {
                 }
 
                 if !self.orders.contains(&dep) {
-                    self.dump_item(idx);
                     self.dump_item(dep);
                     unreachable!("`{}` depends on `{}`", idx, dep)
                 }
@@ -470,7 +470,7 @@ impl Sorter<'_> {
                     let deps: Vec<_> = self.graph.neighbors_directed(idx, Incoming).collect();
 
                     for dep in deps {
-                        self.insert_orders(dep, false, &mut delayed);
+                        self.insert_orders(dep, true, &mut delayed);
                     }
                 }
             }
@@ -560,9 +560,6 @@ impl Sorter<'_> {
                     let cycles: Vec<Vec<_>> =
                         all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
                     if !cycles.is_empty() {
-                        if !self.checked_deps.insert(dep) {
-                            continue;
-                        }
                         self.emit_cycles(cycles);
                         continue;
                     }
