@@ -4,6 +4,7 @@ use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
 use petgraph::algo::all_simple_paths;
 use petgraph::graphmap::DiGraphMap;
+use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use retain_mut::RetainMut;
 use std::collections::HashMap;
@@ -280,6 +281,15 @@ impl Sorter<'_> {
         eprintln!("Emit: `{}`", idx);
         self.dump_item(idx);
 
+        // `remove_node` should remove edges connected to it, but petgraph@0.5.1 has a
+        // bug. So we manually removes edges before removing node.
+        //
+        // TODO: Report this to upstream and remove hack
+        let dependants = self
+            .graph
+            .neighbors_directed(idx, Dependants)
+            .collect::<Vec<_>>();
+
         // Ensure that we already emitted all non-cyclic deps.
         if cfg!(debug_assertions) {
             let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
@@ -298,10 +308,41 @@ impl Sorter<'_> {
         }
 
         self.orders.push(idx);
+
+        // hack
+        {
+            for &dependant in &dependants {
+                self.graph.remove_edge(idx, dependant);
+            }
+        }
         self.graph.remove_node(idx);
 
+        dbg!(emit_dependants, &dependants, self.free.clone());
         if emit_dependants {
             self.emit_free_items();
+
+            if cfg!(debug_assertions) {
+                for &dependant in &dependants {
+                    if self.free.contains(&dependant) {
+                        let deps_of_dependant: Vec<_> = self
+                            .graph
+                            .neighbors_directed(dependant, Dependancies)
+                            .collect();
+
+                        //
+                        assert!(
+                            self.orders.contains(&dependant),
+                            "Dependant `{}` should be emitter as it in free range \
+                             ({:?});\nDependencies of dependant: {:?}; index = {}",
+                            dependant,
+                            self.free,
+                            deps_of_dependant,
+                            idx
+                        );
+                        assert!(!self.graph.contains_node(dependant));
+                    }
+                }
+            }
         }
     }
 
@@ -374,7 +415,7 @@ impl Sorter<'_> {
                     &mut Default::default(),
                     &mut Default::default(),
                 );
-                self.emit(i, false);
+                self.emit(i, emit_free_dependants);
             }
 
             if emit_free_dependants {
