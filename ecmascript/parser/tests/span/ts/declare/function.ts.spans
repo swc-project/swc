@@ -1,0 +1,60 @@
+warning: Module
+ --> $DIR/tests/span/ts/declare/function.ts:1:1
+  |
+1 | declare function example(): undefined;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/declare/function.ts:1:1
+  |
+1 | declare function example(): undefined;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/declare/function.ts:1:1
+  |
+1 | declare function example(): undefined;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/declare/function.ts:1:1
+  |
+1 | declare function example(): undefined;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: FnDecl
+ --> $DIR/tests/span/ts/declare/function.ts:1:1
+  |
+1 | declare function example(): undefined;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/declare/function.ts:1:18
+  |
+1 | declare function example(): undefined;
+  |                  ^^^^^^^
+
+warning: Function
+ --> $DIR/tests/span/ts/declare/function.ts:1:1
+  |
+1 | declare function example(): undefined;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: TsTypeAnn
+ --> $DIR/tests/span/ts/declare/function.ts:1:27
+  |
+1 | declare function example(): undefined;
+  |                           ^^^^^^^^^^^
+
+warning: TsType
+ --> $DIR/tests/span/ts/declare/function.ts:1:29
+  |
+1 | declare function example(): undefined;
+  |                             ^^^^^^^^^
+
+warning: TsKeywordType
+ --> $DIR/tests/span/ts/declare/function.ts:1:29
+  |
+1 | declare function example(): undefined;
+  |                             ^^^^^^^^^
+

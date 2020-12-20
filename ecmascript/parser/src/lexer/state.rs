@@ -702,3 +702,15 @@ pub(crate) fn lex_tokens_with_target(
 ) -> Vec<Token> {
     with_lexer(syntax, target, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
 }
+
+/// Returns `(tokens, recovered_errors)`. `(tokens)` may contain an error token
+/// if the lexer fails to recover from it.
+#[cfg(test)]
+pub(crate) fn lex_errors(syntax: Syntax, s: &'static str) -> (Vec<Token>, Vec<Error>) {
+    with_lexer(syntax, JscTarget::Es2020, s, |l| {
+        let tokens = l.map(|ts| ts.token).collect();
+        let errors = l.take_errors();
+        Ok((tokens, errors))
+    })
+    .unwrap()
+}

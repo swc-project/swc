@@ -4,3 +4,9 @@ error: Invalid character in identifier
 1 | var \uD83B\uDE00
   |     ^^^^^^
 
+error: Invalid character in identifier
+ --> $DIR/tests/test262-parser/fail/abc46381e4e6bcca.js:1:11
+  |
+1 | var \uD83B\uDE00
+  |           ^^^^^^
+
