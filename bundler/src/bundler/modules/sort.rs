@@ -64,7 +64,7 @@ impl Modules {
             let start = new.len();
             let inner_len = module.body.len();
             if inner_len != 0 {
-                let end = start + inner_len - 1;
+                let end = start + inner_len;
 
                 module_starts.push(start);
                 same_module_ranges.push(start..end);
@@ -218,16 +218,16 @@ impl Modules {
 
             sorter.emit_free_items();
             sorter.emit_items(0..len, true);
-        }
 
-        // Now all dependencies are merged.
-        for i in 0..len {
-            if orders.contains(&i) {
-                continue;
+            // Now all dependencies are merged.
+            for i in 0..len {
+                if sorter.orders.contains(&i) {
+                    continue;
+                }
+                dbg!("ignored", i);
+
+                sorter.emit(i, true);
             }
-            dbg!("ignored", i);
-
-            orders.push(i);
         }
 
         assert_eq!(orders.len(), new.len());
@@ -320,6 +320,9 @@ impl Sorter<'_> {
         // No dependencies
         loop {
             if self.graph.all_edges().count() == 0 {
+                if emit_free_dependants {
+                    self.emit_free_items();
+                }
                 break;
             }
 
@@ -334,9 +337,6 @@ impl Sorter<'_> {
                 if deps.count() != 0 {
                     continue;
                 }
-
-                eprintln!("Emit ({:?}): {}", range, i);
-                self.dump_item(i);
 
                 did_work = true;
                 self.emit(i, emit_free_dependants);
