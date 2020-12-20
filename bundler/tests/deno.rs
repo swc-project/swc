@@ -390,6 +390,7 @@ fn deno_8573() {
     run("tests/deno/deno-8573/entry.ts", &[])
 }
 #[test]
+#[ignore = "Will be fixed by #1268"]
 fn deno_8597() {
     run(
         "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
@@ -502,7 +503,6 @@ fn deno_8597() {
             "Mean",
             "Min",
             "Minimum",
-            "MirrorPad",
             "Mod",
             "MomentumOptimizer",
             "Multiply",
