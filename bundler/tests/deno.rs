@@ -392,7 +392,7 @@ fn deno_8573() {
 #[test]
 fn deno_8597() {
     run(
-        "https://cdn.skypack.dev/@tensorflow/tfjs",
+        "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
         &[
             "Abs",
             "Acos",
@@ -724,7 +724,6 @@ fn deno_8597() {
             "min",
             "minimum",
             "minimumStrict",
-            "mirrorPad",
             "mod",
             "modStrict",
             "model",
