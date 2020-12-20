@@ -164,11 +164,6 @@ impl Modules {
                     match decl {
                         // These declarations does not depend on other nodes.
                         Decl::Fn(_) | Decl::TsInterface(_) | Decl::TsTypeAlias(_) => continue,
-                        Decl::Class(cls) => {
-                            cls.class
-                                .super_class
-                                .visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-                        }
 
                         _ => {
                             item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
