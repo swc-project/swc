@@ -310,39 +310,25 @@ impl Sorter<'_> {
         self.orders.push(idx);
 
         // hack
-        {
+        if emit_dependants {
             for &dependant in &dependants {
-                self.graph.remove_edge(idx, dependant);
+                if self.free.contains(&dependant) {
+                    let deps_of_dependant: Vec<_> = self
+                        .graph
+                        .neighbors_directed(dependant, Dependancies)
+                        .filter(|i| !self.orders.contains(i))
+                        .collect();
+
+                    if deps_of_dependant.len() <= 1 {
+                        self.emit(dependant, emit_dependants);
+                    }
+                }
             }
         }
         self.graph.remove_node(idx);
 
-        dbg!(emit_dependants, &dependants, self.free.clone());
         if emit_dependants {
             self.emit_free_items();
-
-            if cfg!(debug_assertions) {
-                for &dependant in &dependants {
-                    if self.free.contains(&dependant) {
-                        let deps_of_dependant: Vec<_> = self
-                            .graph
-                            .neighbors_directed(dependant, Dependancies)
-                            .collect();
-
-                        //
-                        assert!(
-                            self.orders.contains(&dependant),
-                            "Dependant `{}` should be emitter as it in free range \
-                             ({:?});\nDependencies of dependant: {:?}; index = {}",
-                            dependant,
-                            self.free,
-                            deps_of_dependant,
-                            idx
-                        );
-                        assert!(!self.graph.contains_node(dependant));
-                    }
-                }
-            }
         }
     }
 
