@@ -276,6 +276,7 @@ impl Sorter<'_> {
         if self.orders.contains(&idx) {
             return;
         }
+        eprintln!("Emit: `{}`", idx);
 
         // Ensure that we already emitted all non-cyclic deps.
         if cfg!(debug_assertions) {
@@ -294,7 +295,6 @@ impl Sorter<'_> {
                 }
             }
         }
-        eprintln!("Emit: `{}`", idx);
 
         self.orders.push(idx);
         self.graph.remove_node(idx);
