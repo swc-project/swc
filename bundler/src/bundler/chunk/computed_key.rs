@@ -106,7 +106,7 @@ where
         }
 
         let var_decl = VarDecl {
-            span,
+            span: span.with_ctxt(self.injected_ctxt),
             declare: false,
             kind: VarDeclKind::Const,
             decls: vec![VarDeclarator {

@@ -3,10 +3,8 @@ use crate::debug::print_hygiene;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
 use petgraph::algo::all_simple_paths;
-use petgraph::{
-    graphmap::DiGraphMap,
-    EdgeDirection::{Incoming, Outgoing},
-};
+use petgraph::graphmap::DiGraphMap;
+use petgraph::EdgeDirection::Outgoing as Dependancies;
 use retain_mut::RetainMut;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -186,7 +184,12 @@ impl Modules {
                 if let Some(declarator_indexes) = declared_by.get(&id) {
                     for &declarator_index in declarator_indexes {
                         if declarator_index != idx {
-                            graph.add_edge(declarator_index, idx, kind);
+                            graph.add_edge(idx, declarator_index, kind);
+                            if cfg!(debug_assertions) {
+                                let deps: Vec<_> =
+                                    graph.neighbors_directed(idx, Dependancies).collect();
+                                assert!(deps.contains(&declarator_index));
+                            }
                         }
                     }
                 }
@@ -258,7 +261,7 @@ struct Sorter<'a> {
 }
 
 impl Sorter<'_> {
-    fn dump_item(&mut self, idx: usize) {
+    fn dump_item(&self, idx: usize) {
         match &self._new[idx] {
             ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
                 let ids: Vec<Id> = find_ids(&var.decls);
@@ -284,7 +287,7 @@ impl Sorter<'_> {
 
         // Ensure that we already emitted all non-cyclic deps.
         if cfg!(debug_assertions) {
-            let deps: Vec<_> = self.graph.neighbors_directed(idx, Incoming).collect();
+            let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
             for dep in deps {
                 let cycles: Vec<Vec<_>> =
                     all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
@@ -326,7 +329,7 @@ impl Sorter<'_> {
                     continue;
                 }
 
-                let deps = self.graph.neighbors_directed(i, Incoming);
+                let deps = self.graph.neighbors_directed(i, Dependancies);
 
                 if deps.count() != 0 {
                     continue;
@@ -357,23 +360,26 @@ impl Sorter<'_> {
                     continue;
                 }
 
-                let dependants = self
+                let deps = self
                     .graph
-                    .neighbors_directed(i, Incoming)
-                    .filter(|&entry| self.graph.edge_weight(entry, i) == Some(&Required::Always));
+                    .neighbors_directed(i, Dependancies)
+                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(&Required::Always));
 
-                if dependants.count() != 0 {
+                if deps.count() != 0 {
                     continue;
                 }
 
                 did_work = true;
-                dbg!("dep", i);
+
+                eprintln!("Emit ({:?}, strong): {}", range, i);
+                self.dump_item(i);
+
                 self.orders.push(i);
 
                 // Remove strong dependency
                 for dependancy in self
                     .graph
-                    .neighbors_directed(i, Outgoing)
+                    .neighbors_directed(i, Dependancies)
                     .filter(|&dep| self.graph.edge_weight(i, dep) == Some(&Required::Always))
                     .collect::<Vec<_>>()
                 {
@@ -399,13 +405,14 @@ impl Sorter<'_> {
             let mut did_work = false;
             // Add nodes which does not have any dependencies.
             for i in range.clone() {
-                let dependants = self.graph.neighbors_directed(i, Incoming);
+                let deps = self.graph.neighbors_directed(i, Dependancies);
 
-                if self.orders.contains(&i) || dependants.count() != 0 {
+                if self.orders.contains(&i) || deps.count() != 0 {
                     continue;
                 }
 
-                dbg!("weak", i);
+                eprintln!("Emit ({:?}, weak): {}", range, i);
+                self.dump_item(i);
 
                 did_work = true;
                 self.orders.push(i);
@@ -421,19 +428,6 @@ impl Sorter<'_> {
             if !did_work {
                 break;
             }
-        }
-    }
-
-    fn insert_one_of(&mut self, candidates: &[usize]) {
-        let mut delayed = Default::default();
-        for &idx in candidates {
-            let deps = self.graph.neighbors_directed(idx, Incoming);
-
-            if deps.count() != 0 {
-                continue;
-            }
-
-            self.insert_orders(idx, false, &mut delayed);
         }
     }
 
@@ -456,7 +450,7 @@ impl Sorter<'_> {
 
             for path in &cycles {
                 for &idx in path {
-                    let deps: Vec<_> = self.graph.neighbors_directed(idx, Incoming).collect();
+                    let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
 
                     for dep in deps {
                         let has_cycle =
@@ -471,33 +465,10 @@ impl Sorter<'_> {
             }
         }
 
+        eprintln!("Cycle");
+
         for path in &cycles {
-            // No dependencies
-            loop {
-                if self.graph.all_edges().count() == 0 {
-                    break;
-                }
-
-                let mut did_work = false;
-                for &i in path {
-                    if self.orders.contains(&i) {
-                        continue;
-                    }
-
-                    let deps = self.graph.neighbors_directed(i, Incoming);
-
-                    if deps.count() != 0 {
-                        continue;
-                    }
-
-                    did_work = true;
-                    self.emit(i, true);
-                }
-
-                if !did_work {
-                    break;
-                }
-            }
+            dbg!(&path);
         }
     }
 
@@ -526,6 +497,26 @@ impl Sorter<'_> {
                 eprintln!("Skipping `{}`", idx);
                 continue;
             }
+
+            {
+                let deps = self
+                    .graph
+                    .neighbors_directed(idx, Dependancies)
+                    .collect::<Vec<_>>();
+
+                for dep in deps {
+                    let cycles: Vec<Vec<_>> =
+                        all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
+                    if !cycles.is_empty() {
+                        self.emit_cycles(cycles);
+                        continue;
+                    }
+                    // We jump to another module.
+                    eprintln!("Jumping to dep: `{}`", dep);
+                    self.insert_inner(dep, false, dejavu, delayed, excluded_cycles);
+                }
+            }
+
             let range = self.range_of(idx);
             if let Some(range) = &range {
                 if !ignore_range_start && idx != range.start {
@@ -535,34 +526,12 @@ impl Sorter<'_> {
                         .find(|idx| !self.orders.contains(idx));
 
                     if let Some(goto) = goto {
-                        if !self.visited_goto.insert(goto) {
+                        if self.visited_goto.insert(goto) {
                             // We should process module from start to end.
                             dbg!(goto);
                             self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
                         }
                     }
-                }
-            }
-
-            {
-                let deps = self
-                    .graph
-                    .neighbors_directed(idx, Incoming)
-                    .collect::<Vec<_>>();
-                for dep in deps {
-                    if excluded_cycles.iter().any(|cycle| cycle.contains(&dep)) {
-                        continue;
-                    }
-
-                    let cycles: Vec<Vec<_>> =
-                        all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
-                    if !cycles.is_empty() {
-                        self.emit_cycles(cycles);
-                        continue;
-                    }
-                    eprintln!("Jumpinbg to `{}`", idx);
-                    // We jump to another module.
-                    self.insert_inner(dep, ignore_range_start, dejavu, delayed, excluded_cycles);
                 }
             }
 
