@@ -336,11 +336,7 @@ impl Sorter<'_> {
                 self.dump_item(i);
 
                 did_work = true;
-                self.emit(i, false);
-            }
-
-            if emit_free_dependants {
-                self.emit_free_items();
+                self.emit(i, emit_free_dependants);
             }
 
             if !did_work {
@@ -453,6 +449,7 @@ impl Sorter<'_> {
     }
 
     fn emit_cycles(&mut self, cycles: Vec<Vec<usize>>) {
+        let mut delayed = Default::default();
         {
             eprintln!("Cycles: {:?}", cycles);
             // Emit non-cycle deps.
@@ -461,7 +458,15 @@ impl Sorter<'_> {
                 for &idx in path {
                     let deps: Vec<_> = self.graph.neighbors_directed(idx, Incoming).collect();
 
-                    for dep in deps {}
+                    for dep in deps {
+                        let has_cycle =
+                            all_simple_paths::<Vec<_>, _>(&*self.graph, dep, idx, 0, None).count()
+                                != 0;
+
+                        if !has_cycle {
+                            self.insert_orders(dep, false, &mut delayed);
+                        }
+                    }
                 }
             }
         }
