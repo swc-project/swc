@@ -5,19 +5,14 @@ extern crate test;
 use crate::common::Normalizer;
 use pretty_assertions::assert_eq;
 use std::{
-    env,
     fs::File,
-    io::{self, Read},
+    io::Read,
     path::{Path, PathBuf},
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
-use test::{
-    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
-};
 use testing::StdErr;
-use walkdir::WalkDir;
 
 #[path = "common/mod.rs"]
 mod common;
