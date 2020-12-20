@@ -364,18 +364,17 @@ impl Sorter<'_> {
                 if deps.len() != 0 {
                     continue;
                 }
+                let deps: Vec<_> = self.graph.neighbors_directed(i, Dependancies).collect();
 
                 did_work = true;
 
-                eprintln!("Emit ({:?}, strong): `{}`", range, i);
-                self.dump_item(i);
-
-                self.orders.push(i);
-
-                // Remove strong dependency
-                for dep in deps {
-                    self.graph.remove_edge(i, dep).unwrap();
-                }
+                self.insert_deps(
+                    i,
+                    deps.clone(),
+                    &mut Default::default(),
+                    &mut Default::default(),
+                );
+                self.emit(i, false);
             }
 
             if emit_free_dependants {
@@ -470,6 +469,25 @@ impl Sorter<'_> {
             .cloned()
     }
 
+    fn insert_deps(
+        &mut self,
+        idx: usize,
+        deps: Vec<usize>,
+        dejavu: &mut HashSet<usize>,
+        delayed: &mut HashSet<usize>,
+    ) {
+        for dep in deps {
+            let cycles: Vec<Vec<_>> = all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
+            if !cycles.is_empty() {
+                self.emit_cycles(cycles);
+                continue;
+            }
+            // We jump to another module.
+            eprintln!("Jumping to dep: `{}`", dep);
+            self.insert_inner(dep, false, dejavu, delayed, &[]);
+        }
+    }
+
     /// Insert orders smartly :)
     fn insert_inner(
         &mut self,
@@ -495,17 +513,7 @@ impl Sorter<'_> {
                     .neighbors_directed(idx, Dependancies)
                     .collect::<Vec<_>>();
 
-                for dep in deps {
-                    let cycles: Vec<Vec<_>> =
-                        all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
-                    if !cycles.is_empty() {
-                        self.emit_cycles(cycles);
-                        continue;
-                    }
-                    // We jump to another module.
-                    eprintln!("Jumping to dep: `{}`", dep);
-                    self.insert_inner(dep, false, dejavu, delayed, excluded_cycles);
-                }
+                self.insert_deps(idx, deps, dejavu, delayed)
             }
 
             let range = self.range_of(idx);
