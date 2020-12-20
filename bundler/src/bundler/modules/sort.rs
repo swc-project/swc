@@ -39,7 +39,8 @@ impl Modules {
             let mut modules = take(&mut self.modules);
             for module in &mut modules {
                 module.body.retain_mut(|item| {
-                    if item.span().ctxt == injected_ctxt {
+                    let is_free = item.span().ctxt == injected_ctxt;
+                    if is_free {
                         self.injected.push(item.take());
                         false
                     } else {
@@ -205,6 +206,7 @@ impl Modules {
                 free,
                 _new: &new,
                 checked_deps: Default::default(),
+                visited_goto: Default::default(),
             };
 
             for start_idx in module_starts {
@@ -212,7 +214,7 @@ impl Modules {
             }
 
             sorter.emit_free_items();
-            sorter.emit_items(0..len);
+            sorter.emit_items(0..len, true);
         }
 
         // Now all dependencies are merged.
@@ -248,6 +250,7 @@ struct Sorter<'a> {
     graph: &'a mut StmtDepGraph,
     orders: &'a mut Vec<usize>,
     checked_deps: HashSet<usize>,
+    visited_goto: HashSet<usize>,
     same_module_ranges: &'a [Range<usize>],
     /// Range of injected statements.
     free: Range<usize>,
@@ -307,6 +310,10 @@ impl Sorter<'_> {
     /// Inject dependency-less free statements.
     fn emit_free_items(&mut self) {
         let range = self.free.clone();
+        self.emit_items(range, false)
+    }
+
+    fn emit_items(&mut self, range: Range<usize>, emit_free_dependants: bool) {
         // No dependencies
         loop {
             if self.graph.all_edges().count() == 0 {
@@ -325,37 +332,15 @@ impl Sorter<'_> {
                     continue;
                 }
 
-                did_work = true;
-                self.emit(i, false);
-            }
-
-            if !did_work {
-                break;
-            }
-        }
-    }
-
-    fn emit_items(&mut self, range: Range<usize>) {
-        // No dependencies
-        loop {
-            if self.graph.all_edges().count() == 0 {
-                break;
-            }
-
-            let mut did_work = false;
-            for i in range.clone() {
-                if self.orders.contains(&i) {
-                    continue;
-                }
-
-                let dependancies = self.graph.neighbors_directed(i, Incoming);
-
-                if dependancies.count() != 0 {
-                    continue;
-                }
+                eprintln!("Emit ({:?}): {}", range, i);
+                self.dump_item(i);
 
                 did_work = true;
                 self.emit(i, false);
+            }
+
+            if emit_free_dependants {
+                self.emit_free_items();
             }
 
             if !did_work {
@@ -400,6 +385,10 @@ impl Sorter<'_> {
                 }
             }
 
+            if emit_free_dependants {
+                self.emit_free_items();
+            }
+
             if !did_work {
                 break;
             }
@@ -427,6 +416,10 @@ impl Sorter<'_> {
 
                 // Remove dependency
                 self.graph.remove_node(i);
+            }
+
+            if emit_free_dependants {
+                self.emit_free_items();
             }
 
             if !did_work {
@@ -464,14 +457,11 @@ impl Sorter<'_> {
             eprintln!("Cycles: {:?}", cycles);
             // Emit non-cycle deps.
 
-            let mut delayed = Default::default();
             for path in &cycles {
                 for &idx in path {
                     let deps: Vec<_> = self.graph.neighbors_directed(idx, Incoming).collect();
 
-                    for dep in deps {
-                        self.insert_orders(dep, true, &mut delayed);
-                    }
+                    for dep in deps {}
                 }
             }
         }
@@ -540,9 +530,11 @@ impl Sorter<'_> {
                         .find(|idx| !self.orders.contains(idx));
 
                     if let Some(goto) = goto {
-                        // We should process module from start to end.
-                        dbg!(goto);
-                        self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
+                        if !self.visited_goto.insert(goto) {
+                            // We should process module from start to end.
+                            dbg!(goto);
+                            self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
+                        }
                     }
                 }
             }
