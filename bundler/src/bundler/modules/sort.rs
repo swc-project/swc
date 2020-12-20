@@ -1,5 +1,4 @@
 use super::Modules;
-use crate::debug::print_hygiene;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
 use petgraph::algo::all_simple_paths;
@@ -11,8 +10,6 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::mem::take;
 use std::ops::Range;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -192,7 +189,6 @@ impl Modules {
                 same_module_ranges: &same_module_ranges,
                 free: free.clone(),
                 _new: &new,
-                checked_deps: Default::default(),
                 visited_goto: Default::default(),
             };
 
@@ -238,7 +234,6 @@ impl Modules {
 struct Sorter<'a> {
     graph: &'a mut StmtDepGraph,
     orders: &'a mut Vec<usize>,
-    checked_deps: HashSet<usize>,
     visited_goto: HashSet<usize>,
     same_module_ranges: &'a [Range<usize>],
     /// Range of injected statements.

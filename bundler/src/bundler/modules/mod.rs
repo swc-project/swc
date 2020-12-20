@@ -42,7 +42,7 @@ impl Modules {
         ret
     }
 
-    pub fn into_items(mut self) -> Vec<ModuleItem> {
+    pub fn into_items(self) -> Vec<ModuleItem> {
         // self.sort();
         // self.modules.pop().unwrap().body
         self.prepended
