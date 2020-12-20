@@ -51,12 +51,12 @@ where
         let mut module_items = vec![];
 
         let stmts = {
-            let mut module = module.fold_with(&mut ExportToReturn {
+            let mut module = Module::from(module).fold_with(&mut ExportToReturn {
                 synthesized_ctxt: self.synthesized_ctxt,
                 exports: Default::default(),
             });
 
-            take(&mut module.into_items())
+            take(&mut module.body)
                 .into_iter()
                 .filter_map(|v| match v {
                     ModuleItem::Stmt(s) => Some(s),

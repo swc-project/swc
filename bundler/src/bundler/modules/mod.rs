@@ -150,7 +150,7 @@ impl Modules {
         self
     }
 
-    pub fn visit_with<V>(self, v: &mut V)
+    pub fn visit_with<V>(&self, v: &mut V)
     where
         V: Visit,
     {
