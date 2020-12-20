@@ -296,7 +296,7 @@ impl Sorter<'_> {
             for dep in deps {
                 let cycles: Vec<Vec<_>> =
                     all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
-                if cycles.is_empty() {
+                if !cycles.is_empty() {
                     continue;
                 }
 
