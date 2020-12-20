@@ -109,6 +109,7 @@ impl Modules {
                     //
                     match decl {
                         Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                            eprintln!("`{}` declares {:?}`", idx, Id::from(ident));
                             declared_by.entry(Id::from(ident)).or_default().push(idx);
                         }
                         Decl::Var(vars) => {
@@ -119,6 +120,8 @@ impl Modules {
                                     if var.init.is_none() {
                                         uninitialized_ids.insert(id.clone(), idx);
                                     }
+
+                                    eprintln!("`{}` declares {:?}`", idx, id);
                                     declared_by.entry(id).or_default().push(idx);
                                 }
                             }
@@ -166,21 +169,19 @@ impl Modules {
                         // These declarations does not depend on other nodes.
                         Decl::Fn(_) | Decl::TsInterface(_) | Decl::TsTypeAlias(_) => continue,
 
-                        _ => {
-                            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-                        }
+                        _ => {}
                     }
                 }
-                _ => {
-                    item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-                }
+                _ => {}
             }
+            item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
             for (id, kind) in visitor.required_ids {
                 if let Some(declarator_indexes) = declared_by.get(&id) {
                     for &declarator_index in declarator_indexes {
                         if declarator_index != idx {
                             graph.add_edge(idx, declarator_index, kind);
+                            eprintln!("`{}` depends on `{}: {:?}`", idx, declarator_index, id);
                             if cfg!(debug_assertions) {
                                 let deps: Vec<_> =
                                     graph.neighbors_directed(idx, Dependancies).collect();
@@ -202,7 +203,7 @@ impl Modules {
                 graph: &mut graph,
                 orders: &mut orders,
                 same_module_ranges: &same_module_ranges,
-                free,
+                free: free.clone(),
                 _new: &new,
                 checked_deps: Default::default(),
                 visited_goto: Default::default(),
@@ -216,11 +217,13 @@ impl Modules {
             sorter.emit_items(0..len, true);
 
             // Now all dependencies are merged.
+            eprintln!("Free: {:?}", free);
             for i in 0..len {
                 if sorter.orders.contains(&i) {
                     continue;
                 }
                 dbg!("Left", i);
+                sorter.dump_item(i);
 
                 sorter.insert_orders(i, false, &mut delayed);
             }
@@ -290,6 +293,8 @@ impl Sorter<'_> {
             .neighbors_directed(idx, Dependants)
             .collect::<Vec<_>>();
 
+        dbg!(&dependants);
+
         // Ensure that we already emitted all non-cyclic deps.
         if cfg!(debug_assertions) {
             let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
@@ -319,7 +324,10 @@ impl Sorter<'_> {
                         .filter(|i| !self.orders.contains(i))
                         .collect();
 
-                    if deps_of_dependant.len() == 1 && deps_of_dependant[0] == idx {
+                    dbg!(dependant, &deps_of_dependant);
+                    if dependants.is_empty()
+                        || (deps_of_dependant.len() == 1 && deps_of_dependant[0] == idx)
+                    {
                         self.emit(dependant, emit_dependants);
                     }
                 }
