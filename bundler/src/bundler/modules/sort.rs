@@ -220,9 +220,9 @@ impl Modules {
                 if sorter.orders.contains(&i) {
                     continue;
                 }
-                dbg!("ignored", i);
+                dbg!("Left", i);
 
-                sorter.emit(i, true);
+                sorter.insert_orders(i, false, &mut delayed);
             }
         }
 
@@ -319,7 +319,7 @@ impl Sorter<'_> {
                         .filter(|i| !self.orders.contains(i))
                         .collect();
 
-                    if deps_of_dependant.len() <= 1 {
+                    if deps_of_dependant.len() == 1 && deps_of_dependant[0] == idx {
                         self.emit(dependant, emit_dependants);
                     }
                 }
