@@ -360,30 +360,26 @@ impl Sorter<'_> {
                     continue;
                 }
 
-                let deps = self
+                let deps: Vec<_> = self
                     .graph
                     .neighbors_directed(i, Dependancies)
-                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(&Required::Always));
+                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(&Required::Always))
+                    .collect();
 
-                if deps.count() != 0 {
+                if deps.len() != 0 {
                     continue;
                 }
 
                 did_work = true;
 
-                eprintln!("Emit ({:?}, strong): {}", range, i);
+                eprintln!("Emit ({:?}, strong): `{}`", range, i);
                 self.dump_item(i);
 
                 self.orders.push(i);
 
                 // Remove strong dependency
-                for dependancy in self
-                    .graph
-                    .neighbors_directed(i, Dependancies)
-                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(&Required::Always))
-                    .collect::<Vec<_>>()
-                {
-                    self.graph.remove_edge(i, dependancy).unwrap();
+                for dep in deps {
+                    self.graph.remove_edge(i, dep).unwrap();
                 }
             }
 
