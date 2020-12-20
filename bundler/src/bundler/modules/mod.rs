@@ -5,8 +5,10 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::Fold;
 use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
 
 mod sort;
 #[cfg(test)]
@@ -146,6 +148,17 @@ impl Modules {
         self.injected = self.injected.fold_with(&mut *v);
 
         self
+    }
+
+    pub fn visit_with<V>(self, v: &mut V)
+    where
+        V: Visit,
+    {
+        self.prepended.visit_with(&Invalid { span: DUMMY_SP }, v);
+        self.modules
+            .iter()
+            .for_each(|m| m.visit_with(&Invalid { span: DUMMY_SP }, v));
+        self.injected.visit_with(&Invalid { span: DUMMY_SP }, v);
     }
 
     pub fn retain_mut<F>(&mut self, mut op: F)

@@ -33,17 +33,18 @@ where
         &self,
         ctx: &Ctx,
         id: ModuleId,
-        module: Module,
+        mut module: Modules,
     ) -> Result<Modules, Error> {
-        let span = module.span;
+        let span = DUMMY_SP;
         let var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
         };
+        module.sort();
 
         let is_async = {
             let mut v = TopLevelAwaitFinder { found: false };
-            module.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            module.visit_with(&mut v);
             v.found
         };
 
@@ -55,7 +56,7 @@ where
                 exports: Default::default(),
             });
 
-            take(&mut module.body)
+            take(&mut module.into_items())
                 .into_iter()
                 .filter_map(|v| match v {
                     ModuleItem::Stmt(s) => Some(s),
