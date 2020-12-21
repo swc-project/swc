@@ -383,7 +383,11 @@ impl<'a> Emitter<'a> {
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        let single_quote = is_single_quote(&self.cm, node.span);
+        let single_quote = if node.contains_quote {
+            is_single_quote(&self.cm, node.span)
+        } else {
+            None
+        };
 
         // if let Some(s) = get_text_of_node(&self.cm, node, false) {
         //     self.wr.write_str_lit(node.span, &s)?;
@@ -2550,11 +2554,6 @@ fn escape<'s>(
 /// spans of string literals created from [TplElement] do not have `starting`
 /// quote.
 fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
-    // This is a workaround for TplElement issue.
-    if span.ctxt != SyntaxContext::empty() {
-        return None;
-    }
-
     let start = cm.lookup_byte_offset(span.lo);
     let end = cm.lookup_byte_offset(span.hi);
 
