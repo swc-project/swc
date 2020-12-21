@@ -1,5 +1,4 @@
 {
-  "exclude": [".*[.]js$", ".*[.]map$"],
   "jsc": {
     "parser": {
       "syntax": "typescript",
