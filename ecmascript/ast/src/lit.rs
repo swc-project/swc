@@ -105,7 +105,7 @@ impl arbitrary::Arbitrary for Str {
             span,
             value,
             has_escape: false,
-            contains_quote: false,
+            kind: Default::default(),
         })
     }
 }
