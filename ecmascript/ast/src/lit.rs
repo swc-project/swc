@@ -67,6 +67,7 @@ pub struct Str {
     pub kind: StrKind,
 }
 
+/// THis enum determines how string literal should be printed.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", tag = "type")]
 pub enum StrKind {
