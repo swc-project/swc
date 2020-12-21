@@ -7,7 +7,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{borrow::Cow, fmt::Write, io, sync::Arc};
+use std::{fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -403,7 +403,7 @@ impl<'a> Emitter<'a> {
             }
             StrKind::Synthesized => {
                 let single_quote = false;
-                let value = escape_without_source(&node.value, single_quote);
+                let value = escape_without_source(&node.value, self.wr.target(), single_quote);
 
                 (single_quote, value)
             }
@@ -2428,10 +2428,35 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape_without_source(v: &str, single_quote: bool) -> String {
+fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> String {
     let mut buf = String::with_capacity(v.len());
 
-    for c in v.chars() {}
+    for c in v.chars() {
+        match c {
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\t' => buf.push_str("\\t"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\0' => buf.push_str("\\0"),
+
+            '\\' => buf.push_str("\\\\"),
+
+            '\'' if single_quote => buf.push_str("\\'"),
+            '"' if !single_quote => buf.push_str("\\\""),
+            '\x20'..='\x7e' => {
+                //
+                write!(buf, "{:x}", c as u8);
+            }
+
+            _ => {
+                buf.extend(c.escape_unicode());
+            }
+        }
+    }
+
+    buf
 }
 
 fn escape_with_source<'s>(
@@ -2442,7 +2467,7 @@ fn escape_with_source<'s>(
     single_quote: Option<bool>,
 ) -> String {
     if span.is_dummy() {
-        return escape_without_source(s, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 
     //
@@ -2450,12 +2475,12 @@ fn escape_with_source<'s>(
     let orig = match orig {
         Ok(orig) => orig,
         Err(v) => {
-            return escape_without_source(s, single_quote.unwrap_or(false));
+            return escape_without_source(s, target, single_quote.unwrap_or(false));
         }
     };
 
     if single_quote.is_some() && orig.len() <= 2 {
-        return escape_without_source(s, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 
     let mut orig = &*orig;
@@ -2466,7 +2491,7 @@ fn escape_with_source<'s>(
         orig = &orig[1..orig.len() - 1];
     } else {
         if single_quote.is_some() {
-            return escape_without_source(s, single_quote.unwrap_or(false));
+            return escape_without_source(s, target, single_quote.unwrap_or(false));
         }
     }
 

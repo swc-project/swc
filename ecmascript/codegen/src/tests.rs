@@ -490,11 +490,33 @@ fn dneo_8541_1() {
 }
 
 #[test]
-fn dneo_8541_2() {
+fn denoo_8541_2() {
     test_from_to(
         "React.createElement('span', null, '\\u00b7');",
         "React.createElement('span', null, '\\u00b7');",
     );
+}
+
+#[test]
+fn test_escape_without_source() {
+    fn es2020(src: &str, expected: &str) {
+        super::escape_without_source(src, JscTarget::Es2020, true);
+    }
+
+    es2020("\n", "\\n");
+    es2020("\t", "\\t");
+
+    es2020("'string'", "\\'string\\'");
+
+    es2020("\u{0}", "\\0");
+    es2020("\u{1}", "\\x0");
+
+    es2020("\x20", "\\x20");
+    es2020("\x7e", "\\x7e");
+
+    es2020("\u{1000}", "\\u1000");
+    es2020("\u{ff}", "\\u{ff}");
+    es2020("\u{10ffff}", "\\u{10ffff}");
 }
 
 #[derive(Debug, Clone)]
