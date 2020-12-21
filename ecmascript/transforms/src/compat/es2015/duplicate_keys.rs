@@ -105,6 +105,7 @@ impl<'a> Fold for PropNameFolder<'a> {
                             span,
                             value: ident.sym,
                             has_escape: false,
+                            contains_quote: false,
                         }))),
                     })
                 } else {

@@ -824,6 +824,7 @@ impl RestFolder {
                                 span,
                                 value: format!("{}", value).into(),
                                 has_escape: false,
+                                contains_quote: false,
                             }))),
                         ),
                         PropName::BigInt(BigInt { span, ref value }) => {
@@ -834,6 +835,7 @@ impl RestFolder {
                                     span,
                                     value: format!("{}", value).into(),
                                     has_escape: false,
+                                    contains_quote: false,
                                 }))),
                             )
                         }
@@ -957,6 +959,7 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
                         span,
                         value: value.to_string().into(),
                         has_escape: false,
+                        contains_quote: false,
                     }))),
                     ..v
                 },
