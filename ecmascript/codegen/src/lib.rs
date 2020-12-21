@@ -2447,7 +2447,7 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
             '"' if !single_quote => buf.push_str("\\\""),
             '\x20'..='\x7e' => {
                 //
-                write!(buf, "{:x}", c as u8);
+                let _ = write!(buf, "{:x}", c as u8);
             }
 
             _ => {

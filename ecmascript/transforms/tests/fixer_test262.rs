@@ -313,7 +313,7 @@ impl Fold for Normalizer {
                     value: s.into(),
                     span: n.span,
                     has_escape: false,
-                    kind: false,
+                    kind: Default::default(),
                 })
             }
             _ => name,
