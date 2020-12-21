@@ -834,17 +834,13 @@ impl<'a, I: Tokens> Parser<I> {
                         span: span!(start),
                         value: raw,
                         has_escape,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
+                        kind: StrKind::Normal { kind: false },
                     },
                     cooked.map(|cooked| Str {
                         span: span!(start),
                         value: cooked,
                         has_escape,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
+                        kind: StrKind::Normal { kind: false },
                     }),
                 ),
                 _ => unreachable!(),
@@ -1516,9 +1512,7 @@ impl<'a, I: Tokens> Parser<I> {
                     span: span!(start),
                     value,
                     has_escape,
-                    kind: StrKind::Normal {
-                        contains_quote: true,
-                    },
+                    kind: StrKind::Normal { kind: true },
                 }),
                 _ => unreachable!(),
             },

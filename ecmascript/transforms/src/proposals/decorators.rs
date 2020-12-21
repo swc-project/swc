@@ -428,7 +428,7 @@ impl Decorators {
                             span: method.key.id.span,
                             value: method.key.id.sym,
                             has_escape: false,
-                            contains_quote: false,
+                            kind: false,
                         })));
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }
@@ -439,7 +439,7 @@ impl Decorators {
                                 span: i.span,
                                 value: i.sym,
                                 has_escape: false,
-                                contains_quote: false,
+                                kind: false,
                             }))),
                             _ => prop.key,
                         };

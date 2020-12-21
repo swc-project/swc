@@ -297,7 +297,7 @@ impl Fold for Normalizer {
                 value: i.sym,
                 span: i.span,
                 has_escape: false,
-                contains_quote: false,
+                kind: false,
             }),
             PropName::Num(n) => {
                 let s = if n.value.is_infinite() {
@@ -313,7 +313,7 @@ impl Fold for Normalizer {
                     value: s.into(),
                     span: n.span,
                     has_escape: false,
-                    contains_quote: false,
+                    kind: false,
                 })
             }
             _ => name,

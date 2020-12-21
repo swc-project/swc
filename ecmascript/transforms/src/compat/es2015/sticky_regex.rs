@@ -39,7 +39,7 @@ impl Fold for StickyRegex {
                             span: DUMMY_SP,
                             value: s,
                             has_escape: false,
-                            contains_quote: false,
+                            kind: false,
                         })))
                     };
 

@@ -26,7 +26,7 @@ impl<'a> Fold for ClassNameTdzFolder<'a> {
                                     span: i.span,
                                     value: i.sym.clone(),
                                     has_escape: false,
-                                    contains_quote: false,
+                                    kind: false,
                                 })
                                 .as_arg()],
 

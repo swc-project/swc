@@ -68,7 +68,7 @@ impl Fold for JsonParse {
                                 })
                                 .into(),
                             has_escape: false,
-                            contains_quote: false,
+                            kind: false,
                         })
                         .as_arg()],
                         type_args: Default::default(),

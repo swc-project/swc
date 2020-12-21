@@ -74,9 +74,7 @@ fn escape_in_attr() {
                         span,
                         value: "w < w".into(),
                         has_escape: false,
-                        kind: StrKind::Normal {
-                            contains_quote: true
-                        },
+                        kind: StrKind::Normal { kind: true },
                     }))),
                 })],
                 name: JSXElementName::Ident(Ident::new("div".into(), span)),

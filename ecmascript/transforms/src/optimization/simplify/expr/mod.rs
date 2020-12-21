@@ -102,7 +102,7 @@ impl SimplifyExpr {
                                 .into(),
                             span,
                             has_escape: false,
-                            contains_quote: false,
+                            kind: false,
                         }))
                     }
                 }
@@ -301,7 +301,7 @@ impl SimplifyExpr {
                             span,
                             // TODO
                             has_escape: false,
-                            contains_quote: false,
+                            kind: false,
                         }));
                     }
                 }
@@ -330,7 +330,7 @@ impl SimplifyExpr {
                                         span,
                                         // TODO
                                         has_escape: false,
-                                        contains_quote: false,
+                                        kind: false,
                                     }));
                                 }
                             }
@@ -617,7 +617,7 @@ impl SimplifyExpr {
             span,
             value: val.into(),
             has_escape: false,
-            contains_quote: false,
+            kind: false,
         }))
     }
 
@@ -1100,7 +1100,7 @@ impl Fold for SimplifyExpr {
                             span: e.span(),
                             value: value.into(),
                             has_escape: false,
-                            contains_quote: false,
+                            kind: false,
                         }));
                     }
                     unreachable!()

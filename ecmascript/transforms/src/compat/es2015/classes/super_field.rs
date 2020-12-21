@@ -229,7 +229,7 @@ impl<'a> SuperCalleeFolder<'a> {
                 span,
                 value: value.clone(),
                 has_escape: false,
-                contains_quote: false,
+                kind: false,
             })),
             ref expr => expr.clone(),
         }
@@ -309,7 +309,7 @@ impl<'a> SuperCalleeFolder<'a> {
                 span,
                 value: value.clone(),
                 has_escape: false,
-                contains_quote: false,
+                kind: false,
             })),
             ref e => e.clone(),
         };
