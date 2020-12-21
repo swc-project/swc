@@ -283,6 +283,7 @@ impl Metadata<'_> {
                             span: DUMMY_SP,
                             value: "undefined".into(),
                             has_escape: false,
+                            contains_quote: false,
                         }))),
                     })),
                     op: op!("&&"),
@@ -298,6 +299,7 @@ impl Metadata<'_> {
                             span: DUMMY_SP,
                             value: "function".into(),
                             has_escape: false,
+                            contains_quote: false,
                         }))),
                     })),
                 })),
@@ -310,6 +312,7 @@ impl Metadata<'_> {
                             span: DUMMY_SP,
                             value: design.into(),
                             has_escape: false,
+                            contains_quote: false,
                         }
                         .as_arg(),
                         type_arg,
