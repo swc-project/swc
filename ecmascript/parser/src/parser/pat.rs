@@ -1063,7 +1063,7 @@ mod tests {
                                 }))
                             ),
                             prop(
-                                PropNazme::Str(Str {
+                                PropName::Str(Str {
                                     span,
                                     has_escape: false,
                                     value: " ".into(),
