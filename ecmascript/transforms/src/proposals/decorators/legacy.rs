@@ -480,7 +480,9 @@ impl Legacy {
                         span: i.span,
                         value: i.sym.clone(),
                         has_escape: false,
-                        kind: false,
+                        kind: StrKind::Normal {
+                            contains_quote: false,
+                        },
                     }))),
                     _ => p.key.clone(),
                 };

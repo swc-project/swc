@@ -26,7 +26,9 @@ impl<'a> Fold for ClassNameTdzFolder<'a> {
                                     span: i.span,
                                     value: i.sym.clone(),
                                     has_escape: false,
-                                    kind: false,
+                                    kind: StrKind::Normal {
+                                        contains_quote: false,
+                                    },
                                 })
                                 .as_arg()],
 
