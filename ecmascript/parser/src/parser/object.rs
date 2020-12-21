@@ -52,6 +52,7 @@ impl<'a, I: Tokens> Parser<I> {
                         span: span!(start),
                         value,
                         has_escape,
+                        contains_quote: true,
                     }),
                     _ => unreachable!(),
                 },

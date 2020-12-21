@@ -105,7 +105,7 @@ pub enum Token {
     #[kind(before_expr, starts_expr)]
     Tilde,
 
-    /// String literal.
+    /// String literal. Span of this token contains quote.
     #[kind(starts_expr)]
     Str {
         value: JsWord,
