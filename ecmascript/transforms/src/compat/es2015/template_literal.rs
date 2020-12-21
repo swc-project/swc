@@ -103,7 +103,7 @@ impl Fold for TemplateLiteral {
                                 })) = *expr
                                 {
                                     obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: span.with_hi(r_span.hi()).with_ctxt(str_ctxt),
+                                        span: span.with_hi(r_span.hi()),
                                         value: format!("{}{}", value, r_value).into(),
                                         has_escape: has_escape || r_has_escape,
                                     })));
@@ -111,7 +111,7 @@ impl Fold for TemplateLiteral {
                                     continue;
                                 } else {
                                     obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: span.with_ctxt(str_ctxt),
+                                        span,
                                         value,
                                         has_escape,
                                     })))

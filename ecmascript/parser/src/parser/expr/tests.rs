@@ -349,7 +349,8 @@ fn issue_328() {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: "test".into(),
-                        has_escape: false
+                        has_escape: false,
+                        contains_quote: false,
                     }))),
                 }],
                 type_args: Default::default(),
@@ -379,6 +380,7 @@ hehe.";"#,
             span,
             value: "okokhehe.".into(),
             has_escape: true,
+            contains_quote: true,
         })))
     );
 }
