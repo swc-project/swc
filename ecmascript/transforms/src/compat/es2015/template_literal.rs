@@ -24,6 +24,8 @@ impl Fold for TemplateLiteral {
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        let str_ctxt = self.str_ctxt;
+
         let e = validate!(e);
 
         let e = e.fold_children_with(self);
@@ -42,12 +44,14 @@ impl Fold for TemplateLiteral {
 
                 // This makes result of addition string
                 let mut obj: Box<Expr> = Box::new(
-                    Lit::Str(
-                        quasis[0]
+                    Lit::Str({
+                        let mut v = quasis[0]
                             .cooked
                             .clone()
-                            .unwrap_or_else(|| quasis[0].raw.clone()),
-                    )
+                            .unwrap_or_else(|| quasis[0].raw.clone());
+                        v.span.ctxt = str_ctxt;
+                        v
+                    })
                     .into(),
                 );
 
@@ -70,7 +74,7 @@ impl Fold for TemplateLiteral {
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
                                 let mut s = cooked.unwrap_or_else(|| raw);
-                                s.span.ctxt = self.str_ctxt;
+                                s.span.ctxt = str_ctxt;
                                 Box::new(Lit::Str(s).into())
                             }
                             _ => unreachable!(),
@@ -114,7 +118,7 @@ impl Fold for TemplateLiteral {
                                 })) = *expr
                                 {
                                     obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: span.with_hi(r_span.hi()),
+                                        span: span.with_hi(r_span.hi()).with_ctxt(str_ctxt),
                                         value: format!("{}{}", value, r_value).into(),
                                         has_escape: has_escape || r_has_escape,
                                     })));
@@ -122,7 +126,7 @@ impl Fold for TemplateLiteral {
                                     continue;
                                 } else {
                                     obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span,
+                                        span: span.with_ctxt(str_ctxt),
                                         value,
                                         has_escape,
                                     })))
@@ -234,7 +238,13 @@ impl Fold for TemplateLiteral {
                                                     elems: quasis
                                                         .iter()
                                                         .cloned()
-                                                        .map(|elem| Lit::Str(elem.raw).as_arg())
+                                                        .map(|mut elem| {
+                                                            Lit::Str({
+                                                                elem.raw.span = str_ctxt;
+                                                                elem.raw
+                                                            })
+                                                            .as_arg()
+                                                        })
                                                         .map(Some)
                                                         .collect(),
                                                 }
@@ -250,8 +260,13 @@ impl Fold for TemplateLiteral {
                                                 elems: quasis
                                                     .into_iter()
                                                     .map(|elem| {
-                                                        Lit::Str(elem.cooked.unwrap_or(elem.raw))
-                                                            .as_arg()
+                                                        Lit::Str({
+                                                            let mut v =
+                                                                elem.cooked.unwrap_or(elem.raw);
+                                                            v.span.ctxt = str_ctxt;
+                                                            v
+                                                        })
+                                                        .as_arg()
                                                     })
                                                     .map(Some)
                                                     .collect(),
