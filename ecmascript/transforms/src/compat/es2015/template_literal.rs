@@ -8,16 +8,11 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 pub fn template_literal() -> impl Fold {
     TemplateLiteral {
         added: Default::default(),
-        str_ctxt: SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
     }
 }
 
 struct TemplateLiteral {
     added: Vec<Stmt>,
-    /// Applied to [Str] created by this pass.
-    ///
-    /// This is to workaround codegen issue.
-    str_ctxt: SyntaxContext,
 }
 
 impl Fold for TemplateLiteral {
@@ -43,14 +38,7 @@ impl Fold for TemplateLiteral {
                 // TODO: Optimize
 
                 // This makes result of addition string
-                let mut obj: Box<Expr> = Box::new(
-                    Lit::Str({
-                        let mut v = quasis[0].raw.clone();
-                        v.span.ctxt = str_ctxt;
-                        v
-                    })
-                    .into(),
-                );
+                let mut obj: Box<Expr> = Box::new(Lit::Str(quasis[0].raw.clone()).into());
 
                 let len = quasis.len() + exprs.len();
 
