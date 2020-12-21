@@ -441,7 +441,7 @@ impl Decorators {
                                 span: i.span,
                                 value: i.sym,
                                 has_escape: false,
-                                kind: false,
+                                kind: Default::default(),
                             }))),
                             _ => prop.key,
                         };

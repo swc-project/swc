@@ -176,7 +176,7 @@ where
                     span: text.span,
                     has_escape: text.raw != text.value,
                     value: jsx_text_to_str(text.value),
-                    kind: false,
+                    kind: Default::default(),
                 };
                 if s.value.is_empty() {
                     return None;
