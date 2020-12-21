@@ -1,0 +1,94 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 33,
+    "end": 242,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 33,
+        "end": 54,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 48,
+          "end": 53,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "hasEscape": false
+      },
+      "body": null
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 89,
+        "end": 110,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 104,
+          "end": 109,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "hasEscape": false
+      },
+      "body": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 220,
+        "end": 242,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 227,
+            "end": 230,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 227,
+              "end": 230,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 236,
+          "end": 241,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "hasEscape": false
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

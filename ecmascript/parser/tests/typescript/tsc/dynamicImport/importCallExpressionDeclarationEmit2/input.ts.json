@@ -1,0 +1,140 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 80,
+    "end": 163,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 80,
+        "end": 119,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 96,
+            "end": 99,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 87,
+          "end": 119,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 102,
+            "end": 119,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ReturnStatement",
+              "span": {
+                "start": 104,
+                "end": 117,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 111,
+                  "end": 116,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "hasEscape": false
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 140,
+        "end": 163,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 144,
+            "end": 162,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 144,
+              "end": 146,
+              "ctxt": 0
+            },
+            "value": "p1",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 149,
+              "end": 162,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 149,
+                "end": 155,
+                "ctxt": 0
+              },
+              "value": "import",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 156,
+                    "end": 161,
+                    "ctxt": 0
+                  },
+                  "value": "./0",
+                  "hasEscape": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

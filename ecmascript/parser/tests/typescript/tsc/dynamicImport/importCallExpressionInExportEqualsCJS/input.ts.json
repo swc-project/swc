@@ -1,0 +1,136 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 67,
+    "end": 185,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 67,
+        "end": 79,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 76,
+          "end": 78,
+          "ctxt": 0
+        },
+        "value": 42.0
+      }
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 104,
+        "end": 185,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "FunctionExpression",
+        "identifier": null,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 113,
+          "end": 184,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 130,
+            "end": 184,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 136,
+                "end": 182,
+                "ctxt": 0
+              },
+              "kind": "const",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 142,
+                    "end": 181,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 142,
+                      "end": 151,
+                      "ctxt": 0
+                    },
+                    "value": "something",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "init": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 154,
+                      "end": 181,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 160,
+                        "end": 181,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 160,
+                          "end": 166,
+                          "ctxt": 0
+                        },
+                        "value": "import",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 167,
+                              "end": 180,
+                              "ctxt": 0
+                            },
+                            "value": "./something",
+                            "hasEscape": false
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          ]
+        },
+        "generator": false,
+        "async": true,
+        "typeParameters": null,
+        "returnType": null
+      }
+    }
+  ],
+  "interpreter": null
+}

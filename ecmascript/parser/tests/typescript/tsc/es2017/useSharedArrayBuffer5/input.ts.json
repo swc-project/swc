@@ -1,0 +1,243 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 50,
+    "end": 167,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 50,
+        "end": 89,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 54,
+            "end": 88,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 54,
+              "end": 58,
+              "ctxt": 0
+            },
+            "value": "foge",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 61,
+              "end": 88,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 65,
+                "end": 82,
+                "ctxt": 0
+              },
+              "value": "SharedArrayBuffer",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 83,
+                    "end": 87,
+                    "ctxt": 0
+                  },
+                  "value": 1024.0
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 90,
+        "end": 125,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 94,
+            "end": 124,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 94,
+              "end": 101,
+              "ctxt": 0
+            },
+            "value": "species",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 104,
+              "end": 124,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 104,
+                "end": 108,
+                "ctxt": 0
+              },
+              "value": "foge",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 109,
+                "end": 123,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 109,
+                  "end": 115,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 116,
+                  "end": 123,
+                  "ctxt": 0
+                },
+                "value": "species",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "computed": true
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 126,
+        "end": 167,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 130,
+            "end": 166,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 130,
+              "end": 139,
+              "ctxt": 0
+            },
+            "value": "stringTag",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 142,
+              "end": 166,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 142,
+                "end": 146,
+                "ctxt": 0
+              },
+              "value": "foge",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "property": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 147,
+                "end": 165,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 147,
+                  "end": 153,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 154,
+                  "end": 165,
+                  "ctxt": 0
+                },
+                "value": "toStringTag",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            },
+            "computed": true
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,190 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 16,
+    "end": 147,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 16,
+        "end": 37,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 23,
+          "end": 37,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": true,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 35,
+              "end": 36,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 36,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 38,
+        "end": 66,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 62,
+            "end": 63,
+            "ctxt": 0
+          },
+          "value": "f",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": true,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 45,
+          "end": 66,
+          "ctxt": 0
+        },
+        "body": null,
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 67,
+        "end": 93,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 88,
+            "end": 89,
+            "ctxt": 0
+          },
+          "value": "C",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": true,
+        "span": {
+          "start": 74,
+          "end": 93,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 94,
+        "end": 119,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 101,
+          "end": 119,
+          "ctxt": 0
+        },
+        "declare": true,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 114,
+            "end": 115,
+            "ctxt": 0
+          },
+          "value": "E",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "members": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 120,
+        "end": 147,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsModuleDeclaration",
+        "span": {
+          "start": 127,
+          "end": 147,
+          "ctxt": 0
+        },
+        "declare": true,
+        "global": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 142,
+            "end": 143,
+            "ctxt": 0
+          },
+          "value": "M",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "body": {
+          "type": "TsModuleBlock",
+          "span": {
+            "start": 144,
+            "end": 147,
+            "ctxt": 0
+          },
+          "body": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,46 @@
+# Built files
+/*.js
+/*.d.ts
+native/artifacts.json
+artifacts.json
+*.node
+
+
+target/
+**/*.bk
+core
+*.log
+Cargo.lock
+
+.vscode/*
+!.vscode/settings.json
+
+/.idea
+*.iml
+
+.DS_Store
+
+node_modules/
+
+# Flamegraph
+*.html
+*.svg
+package-lock.json
+*.data
+*.old
+*.stacks
+
+# Coverage datas
+*.zip
+*.info
+
+
+**/*~
+**/node_modules
+**/.DS_Store
+
+pkg/
+
+yarn.lock
+.idea/
+

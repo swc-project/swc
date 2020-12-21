@@ -1,0 +1,1609 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 22,
+    "end": 427,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 22,
+        "end": 45,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 27,
+          "end": 29,
+          "ctxt": 0
+        },
+        "value": "T1",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 36,
+            "end": 43,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 36,
+              "end": 37,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 40,
+              "end": 43,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 41,
+                  "end": 42,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 41,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 41,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 47,
+        "end": 94,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 52,
+          "end": 54,
+          "ctxt": 0
+        },
+        "value": "T2",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 61,
+            "end": 68,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 61,
+              "end": 62,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 65,
+              "end": 68,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 66,
+                  "end": 67,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 66,
+                    "end": 67,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 66,
+                    "end": 67,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 74,
+            "end": 81,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 74,
+              "end": 75,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 78,
+              "end": 81,
+              "ctxt": 0
+            },
+            "value": "2",
+            "hasEscape": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 87,
+            "end": 92,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 87,
+              "end": 88,
+              "ctxt": 0
+            },
+            "value": "c",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 91,
+              "end": 92,
+              "ctxt": 0
+            },
+            "value": 3.0
+          }
+        }
+      ]
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 96,
+        "end": 125,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 101,
+          "end": 103,
+          "ctxt": 0
+        },
+        "value": "T3",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 110,
+            "end": 123,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 110,
+              "end": 111,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 114,
+              "end": 123,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 114,
+                "end": 117,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 115,
+                    "end": 116,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 115,
+                      "end": 116,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 115,
+                      "end": 116,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 120,
+                "end": 123,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 121,
+                    "end": 122,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 121,
+                      "end": 122,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 121,
+                      "end": 122,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 127,
+        "end": 232,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 132,
+          "end": 134,
+          "ctxt": 0
+        },
+        "value": "T4",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 141,
+            "end": 148,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 141,
+              "end": 142,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 145,
+              "end": 148,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 146,
+                  "end": 147,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 146,
+                    "end": 147,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 146,
+                    "end": 147,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 154,
+            "end": 167,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 154,
+              "end": 155,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 158,
+              "end": 167,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 158,
+                "end": 161,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 159,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 159,
+                      "end": 160,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 159,
+                      "end": 160,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 164,
+                "end": 167,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 165,
+                    "end": 166,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 165,
+                      "end": 166,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 165,
+                      "end": 166,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 173,
+            "end": 186,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 173,
+              "end": 174,
+              "ctxt": 0
+            },
+            "value": "c",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 177,
+              "end": 186,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 177,
+                "end": 180,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 178,
+                    "end": 179,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 178,
+                      "end": 179,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 178,
+                      "end": 179,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "right": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 183,
+                "end": 186,
+                "ctxt": 0
+              },
+              "value": "2",
+              "hasEscape": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 192,
+            "end": 205,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 192,
+              "end": 193,
+              "ctxt": 0
+            },
+            "value": "d",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 196,
+              "end": 205,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 196,
+                "end": 199,
+                "ctxt": 0
+              },
+              "value": "2",
+              "hasEscape": false
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 202,
+                "end": 205,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 203,
+                    "end": 204,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 203,
+                      "end": 204,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 203,
+                      "end": 204,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 211,
+            "end": 230,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 211,
+              "end": 212,
+              "ctxt": 0
+            },
+            "value": "e",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 215,
+              "end": 230,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 215,
+                "end": 224,
+                "ctxt": 0
+              },
+              "operator": "+",
+              "left": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 215,
+                  "end": 218,
+                  "ctxt": 0
+                },
+                "value": "2",
+                "hasEscape": false
+              },
+              "right": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 221,
+                  "end": 224,
+                  "ctxt": 0
+                },
+                "expressions": [],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 222,
+                      "end": 223,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 222,
+                        "end": 223,
+                        "ctxt": 0
+                      },
+                      "value": "1",
+                      "hasEscape": false
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 222,
+                        "end": 223,
+                        "ctxt": 0
+                      },
+                      "value": "1",
+                      "hasEscape": false
+                    }
+                  }
+                ]
+              }
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 227,
+                "end": 230,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 228,
+                    "end": 229,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 228,
+                      "end": 229,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 228,
+                      "end": 229,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 234,
+        "end": 312,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 239,
+          "end": 241,
+          "ctxt": 0
+        },
+        "value": "T5",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 248,
+            "end": 255,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 248,
+              "end": 249,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 252,
+              "end": 255,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 253,
+                  "end": 254,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 253,
+                    "end": 254,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 253,
+                    "end": 254,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 261,
+            "end": 274,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 261,
+              "end": 262,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 265,
+              "end": 274,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 265,
+                "end": 268,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 266,
+                    "end": 267,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 266,
+                      "end": 267,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 266,
+                      "end": 267,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 271,
+                "end": 274,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 272,
+                    "end": 273,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 272,
+                      "end": 273,
+                      "ctxt": 0
+                    },
+                    "value": "2",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 272,
+                      "end": 273,
+                      "ctxt": 0
+                    },
+                    "value": "2",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 280,
+            "end": 299,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 280,
+              "end": 281,
+              "ctxt": 0
+            },
+            "value": "c",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 284,
+              "end": 299,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 284,
+                "end": 293,
+                "ctxt": 0
+              },
+              "operator": "+",
+              "left": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 284,
+                  "end": 287,
+                  "ctxt": 0
+                },
+                "expressions": [],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 285,
+                      "end": 286,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 285,
+                        "end": 286,
+                        "ctxt": 0
+                      },
+                      "value": "1",
+                      "hasEscape": false
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 285,
+                        "end": 286,
+                        "ctxt": 0
+                      },
+                      "value": "1",
+                      "hasEscape": false
+                    }
+                  }
+                ]
+              },
+              "right": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 290,
+                  "end": 293,
+                  "ctxt": 0
+                },
+                "expressions": [],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 291,
+                      "end": 292,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 291,
+                        "end": 292,
+                        "ctxt": 0
+                      },
+                      "value": "2",
+                      "hasEscape": false
+                    },
+                    "raw": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 291,
+                        "end": 292,
+                        "ctxt": 0
+                      },
+                      "value": "2",
+                      "hasEscape": false
+                    }
+                  }
+                ]
+              }
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 296,
+                "end": 299,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 297,
+                    "end": 298,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 297,
+                      "end": 298,
+                      "ctxt": 0
+                    },
+                    "value": "3",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 297,
+                      "end": 298,
+                      "ctxt": 0
+                    },
+                    "value": "3",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 305,
+            "end": 310,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 305,
+              "end": 306,
+              "ctxt": 0
+            },
+            "value": "d",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 309,
+              "end": 310,
+              "ctxt": 0
+            },
+            "value": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 314,
+        "end": 356,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 319,
+          "end": 321,
+          "ctxt": 0
+        },
+        "value": "T6",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 328,
+            "end": 333,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 328,
+              "end": 329,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 332,
+              "end": 333,
+              "ctxt": 0
+            },
+            "value": 1.0
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 339,
+            "end": 354,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 339,
+              "end": 340,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 343,
+              "end": 354,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 343,
+                "end": 347,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 344,
+                    "end": 346,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 344,
+                      "end": 346,
+                      "ctxt": 0
+                    },
+                    "value": "12",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 344,
+                      "end": 346,
+                      "ctxt": 0
+                    },
+                    "value": "12",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 348,
+                "end": 354,
+                "ctxt": 0
+              },
+              "value": "length",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 358,
+        "end": 427,
+        "ctxt": 0
+      },
+      "declare": true,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 371,
+          "end": 373,
+          "ctxt": 0
+        },
+        "value": "T7",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 380,
+            "end": 387,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 380,
+              "end": 381,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 384,
+              "end": 387,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 385,
+                  "end": 386,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 385,
+                    "end": 386,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                },
+                "raw": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 385,
+                    "end": 386,
+                    "ctxt": 0
+                  },
+                  "value": "1",
+                  "hasEscape": false
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 393,
+            "end": 406,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 393,
+              "end": 394,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 397,
+              "end": 406,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 397,
+                "end": 400,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 398,
+                    "end": 399,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 398,
+                      "end": 399,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 398,
+                      "end": 399,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 403,
+                "end": 406,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 404,
+                    "end": 405,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 404,
+                      "end": 405,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 404,
+                      "end": 405,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 412,
+            "end": 425,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 412,
+              "end": 413,
+              "ctxt": 0
+            },
+            "value": "c",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 416,
+              "end": 425,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 416,
+                "end": 419,
+                "ctxt": 0
+              },
+              "value": "2",
+              "hasEscape": false
+            },
+            "right": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 422,
+                "end": 425,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 423,
+                    "end": 424,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 423,
+                      "end": 424,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 423,
+                      "end": 424,
+                      "ctxt": 0
+                    },
+                    "value": "1",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,142 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 67,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 27,
+          "end": 30,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 31,
+            "end": 42,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 31,
+              "end": 42,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 34,
+                "end": 42,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 36,
+                  "end": 42,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "optional": false
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 44,
+            "end": 62,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "AssignmentPattern",
+            "span": {
+              "start": 44,
+              "end": 62,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 44,
+                "end": 47,
+                "ctxt": 0
+              },
+              "value": "bar",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "right": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 50,
+                "end": 62,
+                "ctxt": 0
+              },
+              "operator": "??",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 50,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "right": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 57,
+                  "end": 62,
+                  "ctxt": 0
+                },
+                "value": "bar",
+                "hasEscape": false
+              }
+            },
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 18,
+        "end": 67,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 64,
+          "end": 67,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

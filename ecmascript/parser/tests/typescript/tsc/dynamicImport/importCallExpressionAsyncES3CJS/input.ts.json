@@ -1,0 +1,775 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 72,
+    "end": 568,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 72,
+        "end": 148,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 94,
+            "end": 96,
+            "ctxt": 0
+          },
+          "value": "fn",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 79,
+          "end": 148,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 99,
+            "end": 148,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 105,
+                "end": 139,
+                "ctxt": 0
+              },
+              "kind": "const",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 111,
+                    "end": 139,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 111,
+                      "end": 114,
+                      "ctxt": 0
+                    },
+                    "value": "req",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "init": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 117,
+                      "end": 139,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 123,
+                        "end": 139,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 123,
+                          "end": 129,
+                          "ctxt": 0
+                        },
+                        "value": "import",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 130,
+                              "end": 138,
+                              "ctxt": 0
+                            },
+                            "value": "./test",
+                            "hasEscape": false
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          ]
+        },
+        "generator": false,
+        "async": true,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 150,
+        "end": 249,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 163,
+            "end": 166,
+            "ctxt": 0
+          },
+          "value": "cl1",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 157,
+          "end": 249,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 173,
+              "end": 247,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 186,
+                "end": 187,
+                "ctxt": 0
+              },
+              "value": "m",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 173,
+                "end": 247,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 190,
+                  "end": 247,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "VariableDeclaration",
+                    "span": {
+                      "start": 200,
+                      "end": 234,
+                      "ctxt": 0
+                    },
+                    "kind": "const",
+                    "declare": false,
+                    "declarations": [
+                      {
+                        "type": "VariableDeclarator",
+                        "span": {
+                          "start": 206,
+                          "end": 234,
+                          "ctxt": 0
+                        },
+                        "id": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 206,
+                            "end": 209,
+                            "ctxt": 0
+                          },
+                          "value": "req",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "init": {
+                          "type": "AwaitExpression",
+                          "span": {
+                            "start": 212,
+                            "end": 234,
+                            "ctxt": 0
+                          },
+                          "argument": {
+                            "type": "CallExpression",
+                            "span": {
+                              "start": 218,
+                              "end": 234,
+                              "ctxt": 0
+                            },
+                            "callee": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 218,
+                                "end": 224,
+                                "ctxt": 0
+                              },
+                              "value": "import",
+                              "typeAnnotation": null,
+                              "optional": false
+                            },
+                            "arguments": [
+                              {
+                                "spread": null,
+                                "expression": {
+                                  "type": "StringLiteral",
+                                  "span": {
+                                    "start": 225,
+                                    "end": 233,
+                                    "ctxt": 0
+                                  },
+                                  "value": "./test",
+                                  "hasEscape": false
+                                }
+                              }
+                            ],
+                            "typeArguments": null
+                          }
+                        },
+                        "definite": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              "generator": false,
+              "async": true,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": "public",
+            "isAbstract": false,
+            "isOptional": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 251,
+        "end": 352,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 258,
+          "end": 352,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 264,
+              "end": 352,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 264,
+                "end": 267,
+                "ctxt": 0
+              },
+              "value": "obj",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 270,
+                "end": 352,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 276,
+                      "end": 277,
+                      "ctxt": 0
+                    },
+                    "value": "m",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 279,
+                      "end": 350,
+                      "ctxt": 0
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 291,
+                        "end": 350,
+                        "ctxt": 0
+                      },
+                      "stmts": [
+                        {
+                          "type": "VariableDeclaration",
+                          "span": {
+                            "start": 301,
+                            "end": 335,
+                            "ctxt": 0
+                          },
+                          "kind": "const",
+                          "declare": false,
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "span": {
+                                "start": 307,
+                                "end": 335,
+                                "ctxt": 0
+                              },
+                              "id": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 307,
+                                  "end": 310,
+                                  "ctxt": 0
+                                },
+                                "value": "req",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "init": {
+                                "type": "AwaitExpression",
+                                "span": {
+                                  "start": 313,
+                                  "end": 335,
+                                  "ctxt": 0
+                                },
+                                "argument": {
+                                  "type": "CallExpression",
+                                  "span": {
+                                    "start": 319,
+                                    "end": 335,
+                                    "ctxt": 0
+                                  },
+                                  "callee": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 319,
+                                      "end": 325,
+                                      "ctxt": 0
+                                    },
+                                    "value": "import",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "arguments": [
+                                    {
+                                      "spread": null,
+                                      "expression": {
+                                        "type": "StringLiteral",
+                                        "span": {
+                                          "start": 326,
+                                          "end": 334,
+                                          "ctxt": 0
+                                        },
+                                        "value": "./test",
+                                        "hasEscape": false
+                                      }
+                                    }
+                                  ],
+                                  "typeArguments": null
+                                }
+                              },
+                              "definite": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "async": true,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                }
+              ]
+            },
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 354,
+        "end": 487,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 367,
+            "end": 370,
+            "ctxt": 0
+          },
+          "value": "cl2",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 361,
+          "end": 487,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassProperty",
+            "span": {
+              "start": 377,
+              "end": 485,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 384,
+                "end": 385,
+                "ctxt": 0
+              },
+              "value": "p",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "value": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 388,
+                "end": 485,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 398,
+                      "end": 399,
+                      "ctxt": 0
+                    },
+                    "value": "m",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 401,
+                      "end": 479,
+                      "ctxt": 0
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 413,
+                        "end": 479,
+                        "ctxt": 0
+                      },
+                      "stmts": [
+                        {
+                          "type": "VariableDeclaration",
+                          "span": {
+                            "start": 427,
+                            "end": 461,
+                            "ctxt": 0
+                          },
+                          "kind": "const",
+                          "declare": false,
+                          "declarations": [
+                            {
+                              "type": "VariableDeclarator",
+                              "span": {
+                                "start": 433,
+                                "end": 461,
+                                "ctxt": 0
+                              },
+                              "id": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 433,
+                                  "end": 436,
+                                  "ctxt": 0
+                                },
+                                "value": "req",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "init": {
+                                "type": "AwaitExpression",
+                                "span": {
+                                  "start": 439,
+                                  "end": 461,
+                                  "ctxt": 0
+                                },
+                                "argument": {
+                                  "type": "CallExpression",
+                                  "span": {
+                                    "start": 445,
+                                    "end": 461,
+                                    "ctxt": 0
+                                  },
+                                  "callee": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 445,
+                                      "end": 451,
+                                      "ctxt": 0
+                                    },
+                                    "value": "import",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "arguments": [
+                                    {
+                                      "spread": null,
+                                      "expression": {
+                                        "type": "StringLiteral",
+                                        "span": {
+                                          "start": 452,
+                                          "end": 460,
+                                          "ctxt": 0
+                                        },
+                                        "value": "./test",
+                                        "hasEscape": false
+                                      }
+                                    }
+                                  ],
+                                  "typeArguments": null
+                                }
+                              },
+                              "definite": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "async": true,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                }
+              ]
+            },
+            "typeAnnotation": null,
+            "isStatic": false,
+            "decorators": [],
+            "computed": false,
+            "accessibility": "public",
+            "isAbstract": false,
+            "isOptional": false,
+            "readonly": false,
+            "declare": false,
+            "definite": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 489,
+        "end": 568,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 496,
+          "end": 568,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 502,
+              "end": 568,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 502,
+                "end": 503,
+                "ctxt": 0
+              },
+              "value": "l",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 506,
+                "end": 568,
+                "ctxt": 0
+              },
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 518,
+                  "end": 568,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "VariableDeclaration",
+                    "span": {
+                      "start": 524,
+                      "end": 558,
+                      "ctxt": 0
+                    },
+                    "kind": "const",
+                    "declare": false,
+                    "declarations": [
+                      {
+                        "type": "VariableDeclarator",
+                        "span": {
+                          "start": 530,
+                          "end": 558,
+                          "ctxt": 0
+                        },
+                        "id": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 530,
+                            "end": 533,
+                            "ctxt": 0
+                          },
+                          "value": "req",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "init": {
+                          "type": "AwaitExpression",
+                          "span": {
+                            "start": 536,
+                            "end": 558,
+                            "ctxt": 0
+                          },
+                          "argument": {
+                            "type": "CallExpression",
+                            "span": {
+                              "start": 542,
+                              "end": 558,
+                              "ctxt": 0
+                            },
+                            "callee": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 542,
+                                "end": 548,
+                                "ctxt": 0
+                              },
+                              "value": "import",
+                              "typeAnnotation": null,
+                              "optional": false
+                            },
+                            "arguments": [
+                              {
+                                "spread": null,
+                                "expression": {
+                                  "type": "StringLiteral",
+                                  "span": {
+                                    "start": 549,
+                                    "end": 557,
+                                    "ctxt": 0
+                                  },
+                                  "value": "./test",
+                                  "hasEscape": false
+                                }
+                              }
+                            ],
+                            "typeArguments": null
+                          }
+                        },
+                        "definite": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              "async": true,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

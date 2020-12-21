@@ -1,0 +1,107 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 140,
+    "end": 177,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 149,
+          "end": 150,
+          "ctxt": 0
+        },
+        "value": "g",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 151,
+            "end": 154,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 151,
+              "end": 154,
+              "ctxt": 0
+            },
+            "value": "xyz",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 140,
+        "end": 177,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 156,
+          "end": 177,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 162,
+              "end": 175,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 169,
+                "end": 174,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 169,
+                  "end": 172,
+                  "ctxt": 0
+                },
+                "value": "xyz",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 173,
+                  "end": 174,
+                  "ctxt": 0
+                },
+                "value": "p",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "computed": false
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

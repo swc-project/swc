@@ -1,0 +1,63 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 312,
+    "end": 341,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "DoWhileStatement",
+      "span": {
+        "start": 312,
+        "end": 336,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 330,
+          "end": 335,
+          "ctxt": 0
+        },
+        "value": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 315,
+          "end": 322,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 319,
+              "end": 320,
+              "ctxt": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 337,
+        "end": 341,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 337,
+          "end": 341,
+          "ctxt": 0
+        },
+        "value": true
+      }
+    }
+  ],
+  "interpreter": null
+}

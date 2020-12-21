@@ -1,0 +1,218 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 32,
+    "end": 309,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 32,
+        "end": 56,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 47,
+          "end": 55,
+          "ctxt": 0
+        },
+        "value": "jquery",
+        "hasEscape": false
+      },
+      "body": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 85,
+        "end": 110,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 93,
+            "end": 94,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 93,
+              "end": 94,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "exported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 101,
+          "end": 109,
+          "ctxt": 0
+        },
+        "value": "jquery",
+        "hasEscape": false
+      },
+      "typeOnly": false
+    },
+    {
+      "type": "ExportAllDeclaration",
+      "span": {
+        "start": 141,
+        "end": 164,
+        "ctxt": 0
+      },
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 155,
+          "end": 163,
+          "ctxt": 0
+        },
+        "value": "jquery",
+        "hasEscape": false
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 196,
+        "end": 226,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 204,
+            "end": 205,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 204,
+              "end": 205,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 212,
+          "end": 225,
+          "ctxt": 0
+        },
+        "value": "./reExportX",
+        "hasEscape": false
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 227,
+        "end": 262,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportNamespaceSpecifier",
+          "span": {
+            "start": 234,
+            "end": 240,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 239,
+              "end": 240,
+              "ctxt": 0
+            },
+            "value": "$",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 246,
+          "end": 261,
+          "ctxt": 0
+        },
+        "value": "./reExportAll",
+        "hasEscape": false
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 304,
+        "end": 309,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 304,
+          "end": 308,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 304,
+            "end": 305,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 306,
+                "end": 307,
+                "ctxt": 0
+              },
+              "value": "$",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,32 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 22,
+    "end": 43,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 22,
+        "end": 43,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 37,
+          "end": 42,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "hasEscape": false
+      },
+      "body": null
+    }
+  ],
+  "interpreter": null
+}

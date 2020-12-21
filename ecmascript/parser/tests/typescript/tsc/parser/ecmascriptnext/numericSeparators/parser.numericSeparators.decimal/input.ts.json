@@ -1,0 +1,249 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 136,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 0,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": 1000000000.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 14,
+        "end": 23,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 14,
+          "end": 23,
+          "ctxt": 0
+        },
+        "value": 1.10001
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 24,
+        "end": 29,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 24,
+          "end": 29,
+          "ctxt": 0
+        },
+        "value": 10000000000.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 30,
+        "end": 36,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 30,
+          "end": 36,
+          "ctxt": 0
+        },
+        "value": 10000000000.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 37,
+        "end": 43,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 37,
+          "end": 43,
+          "ctxt": 0
+        },
+        "value": 1e-10
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 44,
+        "end": 52,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 44,
+          "end": 52,
+          "ctxt": 0
+        },
+        "value": 1.1e100
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 53,
+        "end": 62,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 53,
+          "end": 62,
+          "ctxt": 0
+        },
+        "value": 1.1e100
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 63,
+        "end": 72,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 63,
+          "end": 72,
+          "ctxt": 0
+        },
+        "value": 1.1e-100
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 73,
+        "end": 81,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 73,
+          "end": 81,
+          "ctxt": 0
+        },
+        "value": 123456.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 82,
+        "end": 90,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 82,
+          "end": 90,
+          "ctxt": 0
+        },
+        "value": 122333.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 91,
+        "end": 98,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 91,
+          "end": 98,
+          "ctxt": 0
+        },
+        "value": 12.34
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 99,
+        "end": 110,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 99,
+          "end": 110,
+          "ctxt": 0
+        },
+        "value": 1.234e57
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 111,
+        "end": 123,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 111,
+          "end": 123,
+          "ctxt": 0
+        },
+        "value": 1.234e57
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 124,
+        "end": 136,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 124,
+          "end": 136,
+          "ctxt": 0
+        },
+        "value": 1.234e-55
+      }
+    }
+  ],
+  "interpreter": null
+}

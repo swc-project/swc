@@ -1,0 +1,141 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 60,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 60,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 0,
+          "end": 59,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 0,
+            "end": 57,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 0,
+              "end": 54,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "ClassExpression",
+              "identifier": null,
+              "span": {
+                "start": 4,
+                "end": 52,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "ClassMethod",
+                  "span": {
+                    "start": 16,
+                    "end": 50,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 16,
+                      "end": 18,
+                      "ctxt": 0
+                    },
+                    "value": "hi",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "function": {
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 16,
+                      "end": 50,
+                      "ctxt": 0
+                    },
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 21,
+                        "end": 50,
+                        "ctxt": 0
+                      },
+                      "stmts": [
+                        {
+                          "type": "ReturnStatement",
+                          "span": {
+                            "start": 31,
+                            "end": 44,
+                            "ctxt": 0
+                          },
+                          "argument": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 38,
+                              "end": 43,
+                              "ctxt": 0
+                            },
+                            "value": "Hi!",
+                            "hasEscape": false
+                          }
+                        }
+                      ]
+                    },
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "kind": "method",
+                  "isStatic": false,
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 55,
+              "end": 57,
+              "ctxt": 0
+            },
+            "value": "hi",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

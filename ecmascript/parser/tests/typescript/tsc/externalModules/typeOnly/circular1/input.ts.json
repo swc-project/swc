@@ -1,0 +1,93 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 38,
+    "end": 118,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 38,
+        "end": 67,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 52,
+            "end": 53,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 52,
+              "end": 53,
+              "ctxt": 0
+            },
+            "value": "A",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "exported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 61,
+          "end": 66,
+          "ctxt": 0
+        },
+        "value": "./b",
+        "hasEscape": false
+      },
+      "typeOnly": true
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 89,
+        "end": 118,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 103,
+            "end": 104,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 103,
+              "end": 104,
+              "ctxt": 0
+            },
+            "value": "A",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "exported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 112,
+          "end": 117,
+          "ctxt": 0
+        },
+        "value": "./a",
+        "hasEscape": false
+      },
+      "typeOnly": true
+    }
+  ],
+  "interpreter": null
+}

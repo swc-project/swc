@@ -1,0 +1,338 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 40,
+    "end": 215,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 49,
+          "end": 58,
+          "ctxt": 0
+        },
+        "value": "function1",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 80,
+            "end": 86,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 80,
+              "end": 86,
+              "ctxt": 0
+            },
+            "value": "key",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 83,
+                "end": 86,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 85,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 85,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 40,
+        "end": 215,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 88,
+          "end": 215,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "SwitchStatement",
+            "span": {
+              "start": 92,
+              "end": 213,
+              "ctxt": 0
+            },
+            "discriminant": {
+              "type": "Identifier",
+              "span": {
+                "start": 100,
+                "end": 103,
+                "ctxt": 0
+              },
+              "value": "key",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "cases": [
+              {
+                "type": "SwitchCase",
+                "span": {
+                  "start": 111,
+                  "end": 158,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 116,
+                    "end": 119,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "hasEscape": false
+                },
+                "consequent": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 127,
+                      "end": 145,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 127,
+                        "end": 144,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 127,
+                          "end": 142,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 127,
+                            "end": 130,
+                            "ctxt": 0
+                          },
+                          "value": "key",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 131,
+                            "end": 142,
+                            "ctxt": 0
+                          },
+                          "value": "toLowerCase",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "computed": false
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    }
+                  },
+                  {
+                    "type": "BreakStatement",
+                    "span": {
+                      "start": 152,
+                      "end": 158,
+                      "ctxt": 0
+                    },
+                    "label": null
+                  }
+                ]
+              },
+              {
+                "type": "SwitchCase",
+                "span": {
+                  "start": 163,
+                  "end": 209,
+                  "ctxt": 0
+                },
+                "test": null,
+                "consequent": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 178,
+                      "end": 196,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 178,
+                        "end": 195,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 178,
+                          "end": 193,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 178,
+                            "end": 181,
+                            "ctxt": 0
+                          },
+                          "value": "key",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 182,
+                            "end": 193,
+                            "ctxt": 0
+                          },
+                          "value": "toLowerCase",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "computed": false
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    }
+                  },
+                  {
+                    "type": "BreakStatement",
+                    "span": {
+                      "start": 203,
+                      "end": 209,
+                      "ctxt": 0
+                    },
+                    "label": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 58,
+          "end": 79,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 59,
+              "end": 78,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 59,
+                "end": 60,
+                "ctxt": 0
+              },
+              "value": "T",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": {
+              "type": "TsUnionType",
+              "span": {
+                "start": 69,
+                "end": 78,
+                "ctxt": 0
+              },
+              "types": [
+                {
+                  "type": "TsLiteralType",
+                  "span": {
+                    "start": 69,
+                    "end": 72,
+                    "ctxt": 0
+                  },
+                  "literal": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 69,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "type": "TsLiteralType",
+                  "span": {
+                    "start": 75,
+                    "end": 78,
+                    "ctxt": 0
+                  },
+                  "literal": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 75,
+                      "end": 78,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "default": null
+          }
+        ]
+      },
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

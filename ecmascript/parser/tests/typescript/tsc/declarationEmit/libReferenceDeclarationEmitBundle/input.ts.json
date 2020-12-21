@@ -1,0 +1,150 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 147,
+    "end": 281,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 147,
+        "end": 186,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 154,
+          "end": 186,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": true,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 168,
+              "end": 185,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 168,
+                "end": 172,
+                "ctxt": 0
+              },
+              "value": "elem",
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 172,
+                  "end": 185,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 174,
+                    "end": 185,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 174,
+                      "end": 185,
+                      "ctxt": 0
+                    },
+                    "value": "HTMLElement",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              },
+              "optional": false
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 239,
+        "end": 248,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 249,
+        "end": 281,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 263,
+            "end": 280,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 263,
+              "end": 267,
+              "ctxt": 0
+            },
+            "value": "elem",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 267,
+                "end": 280,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 269,
+                  "end": 280,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 269,
+                    "end": 280,
+                    "ctxt": 0
+                  },
+                  "value": "HTMLElement",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

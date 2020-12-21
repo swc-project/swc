@@ -1,0 +1,412 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 23,
+    "end": 353,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 23,
+        "end": 75,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 38,
+          "end": 45,
+          "ctxt": 0
+        },
+        "value": "*.foo",
+        "hasEscape": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 46,
+          "end": 75,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 50,
+              "end": 73,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 54,
+                  "end": 72,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 54,
+                    "end": 64,
+                    "ctxt": 0
+                  },
+                  "value": "everywhere",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 64,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 66,
+                        "end": 72,
+                        "ctxt": 0
+                      },
+                      "kind": "string"
+                    }
+                  },
+                  "optional": false
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 101,
+        "end": 158,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 110,
+            "end": 120,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 110,
+              "end": 120,
+              "ctxt": 0
+            },
+            "value": "everywhere",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 122,
+            "end": 129,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 122,
+              "end": 129,
+              "ctxt": 0
+            },
+            "value": "onlyInA",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 131,
+            "end": 142,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 131,
+              "end": 142,
+              "ctxt": 0
+            },
+            "value": "alsoOnlyInA",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 150,
+          "end": 157,
+          "ctxt": 0
+        },
+        "value": "a.foo",
+        "hasEscape": false
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 159,
+        "end": 208,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 174,
+          "end": 181,
+          "ctxt": 0
+        },
+        "value": "a.foo",
+        "hasEscape": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 182,
+          "end": 208,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 186,
+              "end": 206,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 190,
+                  "end": 205,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 190,
+                    "end": 197,
+                    "ctxt": 0
+                  },
+                  "value": "onlyInA",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 197,
+                      "end": 205,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 199,
+                        "end": 205,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "optional": false
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 233,
+        "end": 290,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 242,
+            "end": 252,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 242,
+              "end": 252,
+              "ctxt": 0
+            },
+            "value": "everywhere",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 254,
+            "end": 261,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 254,
+              "end": 261,
+              "ctxt": 0
+            },
+            "value": "onlyInA",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 263,
+            "end": 274,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 263,
+              "end": 274,
+              "ctxt": 0
+            },
+            "value": "alsoOnlyInA",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 282,
+          "end": 289,
+          "ctxt": 0
+        },
+        "value": "b.foo",
+        "hasEscape": false
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 300,
+        "end": 353,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 315,
+          "end": 322,
+          "ctxt": 0
+        },
+        "value": "a.foo",
+        "hasEscape": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 323,
+          "end": 353,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 327,
+              "end": 351,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 331,
+                  "end": 350,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 331,
+                    "end": 342,
+                    "ctxt": 0
+                  },
+                  "value": "alsoOnlyInA",
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 342,
+                      "end": 350,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 344,
+                        "end": 350,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "optional": false
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

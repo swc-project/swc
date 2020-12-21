@@ -1,0 +1,481 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 115,
+    "end": 350,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 115,
+        "end": 147,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 122,
+          "end": 127,
+          "ctxt": 0
+        },
+        "value": "React",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 130,
+          "end": 146,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 138,
+            "end": 145,
+            "ctxt": 0
+          },
+          "value": "react",
+          "hasEscape": false
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 149,
+        "end": 350,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 165,
+            "end": 170,
+            "ctxt": 0
+          },
+          "value": "makeP",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 174,
+              "end": 203,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 174,
+                "end": 203,
+                "ctxt": 0
+              },
+              "value": "Ctor",
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 178,
+                  "end": 203,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 180,
+                    "end": 203,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "TsQualifiedName",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 180,
+                        "end": 185,
+                        "ctxt": 0
+                      },
+                      "value": "React",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 186,
+                        "end": 200,
+                        "ctxt": 0
+                      },
+                      "value": "ComponentClass",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  },
+                  "typeParams": {
+                    "type": "TsTypeParameterInstantiation",
+                    "span": {
+                      "start": 200,
+                      "end": 203,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 201,
+                          "end": 202,
+                          "ctxt": 0
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 201,
+                            "end": 202,
+                            "ctxt": 0
+                          },
+                          "value": "P",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "typeParams": null
+                      }
+                    ]
+                  }
+                }
+              },
+              "optional": false
+            }
+          }
+        ],
+        "decorators": [],
+        "span": {
+          "start": 156,
+          "end": 350,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 205,
+            "end": 350,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ReturnStatement",
+              "span": {
+                "start": 208,
+                "end": 348,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "ClassExpression",
+                "identifier": null,
+                "span": {
+                  "start": 215,
+                  "end": 347,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "body": [
+                  {
+                    "type": "ClassMethod",
+                    "span": {
+                      "start": 262,
+                      "end": 344,
+                      "ctxt": 0
+                    },
+                    "key": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 269,
+                        "end": 275,
+                        "ctxt": 0
+                      },
+                      "value": "render",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "function": {
+                      "params": [],
+                      "decorators": [],
+                      "span": {
+                        "start": 262,
+                        "end": 344,
+                        "ctxt": 0
+                      },
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 291,
+                          "end": 344,
+                          "ctxt": 0
+                        },
+                        "stmts": [
+                          {
+                            "type": "ReturnStatement",
+                            "span": {
+                              "start": 296,
+                              "end": 340,
+                              "ctxt": 0
+                            },
+                            "argument": {
+                              "type": "ParenthesisExpression",
+                              "span": {
+                                "start": 303,
+                                "end": 339,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "JSXElement",
+                                "span": {
+                                  "start": 309,
+                                  "end": 334,
+                                  "ctxt": 0
+                                },
+                                "opening": {
+                                  "type": "JSXOpeningElement",
+                                  "name": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 310,
+                                      "end": 314,
+                                      "ctxt": 0
+                                    },
+                                    "value": "Ctor",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "span": {
+                                    "start": 309,
+                                    "end": 334,
+                                    "ctxt": 0
+                                  },
+                                  "attributes": [
+                                    {
+                                      "type": "SpreadElement",
+                                      "spread": {
+                                        "start": 316,
+                                        "end": 319,
+                                        "ctxt": 0
+                                      },
+                                      "arguments": {
+                                        "type": "MemberExpression",
+                                        "span": {
+                                          "start": 319,
+                                          "end": 329,
+                                          "ctxt": 0
+                                        },
+                                        "object": {
+                                          "type": "ThisExpression",
+                                          "span": {
+                                            "start": 319,
+                                            "end": 323,
+                                            "ctxt": 0
+                                          }
+                                        },
+                                        "property": {
+                                          "type": "Identifier",
+                                          "span": {
+                                            "start": 324,
+                                            "end": 329,
+                                            "ctxt": 0
+                                          },
+                                          "value": "props",
+                                          "typeAnnotation": null,
+                                          "optional": false
+                                        },
+                                        "computed": false
+                                      }
+                                    }
+                                  ],
+                                  "selfClosing": true,
+                                  "typeArguments": null
+                                },
+                                "children": [],
+                                "closing": null
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "generator": false,
+                      "async": false,
+                      "typeParameters": null,
+                      "returnType": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 277,
+                          "end": 290,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsTypeReference",
+                          "span": {
+                            "start": 279,
+                            "end": 290,
+                            "ctxt": 0
+                          },
+                          "typeName": {
+                            "type": "TsQualifiedName",
+                            "left": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 279,
+                                "end": 282,
+                                "ctxt": 0
+                              },
+                              "value": "JSX",
+                              "typeAnnotation": null,
+                              "optional": false
+                            },
+                            "right": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 283,
+                                "end": 290,
+                                "ctxt": 0
+                              },
+                              "value": "Element",
+                              "typeAnnotation": null,
+                              "optional": false
+                            }
+                          },
+                          "typeParams": null
+                        }
+                      }
+                    },
+                    "kind": "method",
+                    "isStatic": false,
+                    "accessibility": "public",
+                    "isAbstract": false,
+                    "isOptional": false
+                  }
+                ],
+                "superClass": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 229,
+                    "end": 248,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 229,
+                      "end": 234,
+                      "ctxt": 0
+                    },
+                    "value": "React",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 235,
+                      "end": 248,
+                      "ctxt": 0
+                    },
+                    "value": "PureComponent",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "isAbstract": false,
+                "typeParams": null,
+                "superTypeParams": {
+                  "type": "TsTypeParameterInstantiation",
+                  "span": {
+                    "start": 248,
+                    "end": 257,
+                    "ctxt": 0
+                  },
+                  "params": [
+                    {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 249,
+                        "end": 250,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 249,
+                          "end": 250,
+                          "ctxt": 0
+                        },
+                        "value": "P",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "typeParams": null
+                    },
+                    {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 252,
+                        "end": 256,
+                        "ctxt": 0
+                      },
+                      "kind": "void"
+                    }
+                  ]
+                },
+                "implements": []
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 170,
+            "end": 173,
+            "ctxt": 0
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 171,
+                "end": 172,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 171,
+                  "end": 172,
+                  "ctxt": 0
+                },
+                "value": "P",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "returnType": null
+      }
+    }
+  ],
+  "interpreter": null
+}

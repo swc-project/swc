@@ -1,0 +1,79 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 8,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 0,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": 3.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 9,
+        "end": 15,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 9,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": 1.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 28,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 16,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": 195.0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 29,
+        "end": 41,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 29,
+          "end": 40,
+          "ctxt": 0
+        },
+        "value": 53.0
+      }
+    }
+  ],
+  "interpreter": null
+}

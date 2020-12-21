@@ -1,0 +1,258 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 132,
+    "end": 227,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 132,
+        "end": 227,
+        "ctxt": 0
+      },
+      "declare": true,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 145,
+          "end": 146,
+          "ctxt": 0
+        },
+        "value": "E",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 153,
+            "end": 159,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 153,
+              "end": 154,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 157,
+              "end": 159,
+              "ctxt": 0
+            },
+            "value": 10.0
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 165,
+            "end": 175,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 165,
+              "end": 166,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 169,
+              "end": 175,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 169,
+                "end": 171,
+                "ctxt": 0
+              },
+              "value": 10.0
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 174,
+                "end": 175,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 181,
+            "end": 186,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 181,
+              "end": 182,
+              "ctxt": 0
+            },
+            "value": "c",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "Identifier",
+            "span": {
+              "start": 185,
+              "end": 186,
+              "ctxt": 0
+            },
+            "value": "b",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 192,
+            "end": 203,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 192,
+              "end": 193,
+              "ctxt": 0
+            },
+            "value": "d",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 196,
+              "end": 203,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 196,
+                "end": 199,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 197,
+                  "end": 198,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 202,
+                "end": 203,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 209,
+            "end": 224,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 209,
+              "end": 210,
+              "ctxt": 0
+            },
+            "value": "e",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 213,
+              "end": 224,
+              "ctxt": 0
+            },
+            "operator": "<<",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 213,
+                "end": 215,
+                "ctxt": 0
+              },
+              "value": 10.0
+            },
+            "right": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 219,
+                "end": 224,
+                "ctxt": 0
+              },
+              "operator": "*",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 219,
+                  "end": 220,
+                  "ctxt": 0
+                },
+                "value": 2.0
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 223,
+                  "end": 224,
+                  "ctxt": 0
+                },
+                "value": 8.0
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

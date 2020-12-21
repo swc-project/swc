@@ -1,0 +1,1965 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 494,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 16,
+        "end": 184,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "I",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 28,
+          "end": 184,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsCallSignatureDeclaration",
+            "span": {
+              "start": 34,
+              "end": 92,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 35,
+                  "end": 68,
+                  "ctxt": 0
+                },
+                "value": "stringParts",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 46,
+                    "end": 68,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 48,
+                      "end": 68,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 48,
+                        "end": 68,
+                        "ctxt": 0
+                      },
+                      "value": "TemplateStringsArray",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                },
+                "optional": false
+              },
+              {
+                "type": "RestElement",
+                "span": {
+                  "start": 70,
+                  "end": 87,
+                  "ctxt": 0
+                },
+                "rest": {
+                  "start": 70,
+                  "end": 73,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 73,
+                    "end": 77,
+                    "ctxt": 0
+                  },
+                  "value": "rest",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 77,
+                    "end": 87,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 79,
+                      "end": 87,
+                      "ctxt": 0
+                    },
+                    "elemType": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 79,
+                        "end": 85,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              }
+            ],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 88,
+                "end": 91,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 90,
+                  "end": 91,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 90,
+                    "end": 91,
+                    "ctxt": 0
+                  },
+                  "value": "I",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "typeParams": null
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 97,
+              "end": 102,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 97,
+                "end": 98,
+                "ctxt": 0
+              },
+              "value": "g",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 98,
+                "end": 101,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 100,
+                  "end": 101,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 100,
+                    "end": 101,
+                    "ctxt": 0
+                  },
+                  "value": "I",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "typeParams": null
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 107,
+              "end": 112,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 107,
+                "end": 108,
+                "ctxt": 0
+              },
+              "value": "h",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 108,
+                "end": 111,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 110,
+                  "end": 111,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 110,
+                    "end": 111,
+                    "ctxt": 0
+                  },
+                  "value": "I",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "typeParams": null
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 117,
+              "end": 127,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 117,
+                "end": 123,
+                "ctxt": 0
+              },
+              "value": "member",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 123,
+                "end": 126,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 125,
+                  "end": 126,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 125,
+                    "end": 126,
+                    "ctxt": 0
+                  },
+                  "value": "I",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "typeParams": null
+          },
+          {
+            "type": "TsMethodSignature",
+            "span": {
+              "start": 132,
+              "end": 162,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 132,
+                "end": 145,
+                "ctxt": 0
+              },
+              "value": "thisIsNotATag",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 146,
+                  "end": 155,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 147,
+                    "end": 155,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 149,
+                      "end": 155,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  }
+                },
+                "optional": false
+              }
+            ],
+            "typeAnn": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 156,
+                "end": 162,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 158,
+                  "end": 162,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            },
+            "typeParams": null
+          },
+          {
+            "type": "TsIndexSignature",
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 168,
+                  "end": 177,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 169,
+                    "end": 177,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 171,
+                      "end": 177,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                },
+                "optional": false
+              }
+            ],
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 178,
+                "end": 181,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 180,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 180,
+                    "end": 181,
+                    "ctxt": 0
+                  },
+                  "value": "I",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "readonly": false,
+            "span": {
+              "start": 167,
+              "end": 182,
+              "ctxt": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 186,
+        "end": 195,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 190,
+            "end": 194,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 190,
+              "end": 191,
+              "ctxt": 0
+            },
+            "value": "f",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 191,
+                "end": 194,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 193,
+                  "end": 194,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 193,
+                    "end": 194,
+                    "ctxt": 0
+                  },
+                  "value": "I",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 197,
+        "end": 204,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 197,
+          "end": 204,
+          "ctxt": 0
+        },
+        "tag": {
+          "type": "Identifier",
+          "span": {
+            "start": 197,
+            "end": 198,
+            "ctxt": 0
+          },
+          "value": "f",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "expressions": [],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 200,
+              "end": 203,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 200,
+                "end": 203,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 200,
+                "end": 203,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            }
+          }
+        ],
+        "typeParameters": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 206,
+        "end": 228,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 206,
+          "end": 227,
+          "ctxt": 0
+        },
+        "tag": {
+          "type": "Identifier",
+          "span": {
+            "start": 206,
+            "end": 207,
+            "ctxt": 0
+          },
+          "value": "f",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "expressions": [
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 214,
+              "end": 215,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 221,
+              "end": 222,
+              "ctxt": 0
+            },
+            "value": 2.0
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 209,
+              "end": 212,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 209,
+                "end": 212,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 209,
+                "end": 212,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 216,
+              "end": 219,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 216,
+                "end": 219,
+                "ctxt": 0
+              },
+              "value": "def",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 216,
+                "end": 219,
+                "ctxt": 0
+              },
+              "value": "def",
+              "hasEscape": false
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 223,
+              "end": 226,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 223,
+                "end": 226,
+                "ctxt": 0
+              },
+              "value": "ghi",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 223,
+                "end": 226,
+                "ctxt": 0
+              },
+              "value": "ghi",
+              "hasEscape": false
+            }
+          }
+        ],
+        "typeParameters": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 230,
+        "end": 244,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 230,
+          "end": 244,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "TaggedTemplateExpression",
+          "span": {
+            "start": 230,
+            "end": 237,
+            "ctxt": 0
+          },
+          "tag": {
+            "type": "Identifier",
+            "span": {
+              "start": 230,
+              "end": 231,
+              "ctxt": 0
+            },
+            "value": "f",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 233,
+                "end": 236,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 233,
+                  "end": 236,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 233,
+                  "end": 236,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              }
+            }
+          ],
+          "typeParameters": null
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 238,
+            "end": 244,
+            "ctxt": 0
+          },
+          "value": "member",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "computed": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 246,
+        "end": 275,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 246,
+          "end": 274,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "TaggedTemplateExpression",
+          "span": {
+            "start": 246,
+            "end": 267,
+            "ctxt": 0
+          },
+          "tag": {
+            "type": "Identifier",
+            "span": {
+              "start": 246,
+              "end": 247,
+              "ctxt": 0
+            },
+            "value": "f",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "expressions": [
+            {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 254,
+                "end": 255,
+                "ctxt": 0
+              },
+              "value": 1.0
+            },
+            {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 261,
+                "end": 262,
+                "ctxt": 0
+              },
+              "value": 2.0
+            }
+          ],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 249,
+                "end": 252,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 249,
+                  "end": 252,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 249,
+                  "end": 252,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              }
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 256,
+                "end": 259,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 256,
+                  "end": 259,
+                  "ctxt": 0
+                },
+                "value": "def",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 256,
+                  "end": 259,
+                  "ctxt": 0
+                },
+                "value": "def",
+                "hasEscape": false
+              }
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 263,
+                "end": 266,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 263,
+                  "end": 266,
+                  "ctxt": 0
+                },
+                "value": "ghi",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 263,
+                  "end": 266,
+                  "ctxt": 0
+                },
+                "value": "ghi",
+                "hasEscape": false
+              }
+            }
+          ],
+          "typeParameters": null
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 268,
+            "end": 274,
+            "ctxt": 0
+          },
+          "value": "member",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "computed": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 277,
+        "end": 295,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 277,
+          "end": 294,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "TaggedTemplateExpression",
+          "span": {
+            "start": 277,
+            "end": 284,
+            "ctxt": 0
+          },
+          "tag": {
+            "type": "Identifier",
+            "span": {
+              "start": 277,
+              "end": 278,
+              "ctxt": 0
+            },
+            "value": "f",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 280,
+                "end": 283,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 280,
+                  "end": 283,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 280,
+                  "end": 283,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              }
+            }
+          ],
+          "typeParameters": null
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 285,
+            "end": 293,
+            "ctxt": 0
+          },
+          "value": "member",
+          "hasEscape": false
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 297,
+        "end": 329,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 297,
+          "end": 328,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "TaggedTemplateExpression",
+          "span": {
+            "start": 297,
+            "end": 318,
+            "ctxt": 0
+          },
+          "tag": {
+            "type": "Identifier",
+            "span": {
+              "start": 297,
+              "end": 298,
+              "ctxt": 0
+            },
+            "value": "f",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "expressions": [
+            {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 305,
+                "end": 306,
+                "ctxt": 0
+              },
+              "value": 1.0
+            },
+            {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 312,
+                "end": 313,
+                "ctxt": 0
+              },
+              "value": 2.0
+            }
+          ],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 300,
+                "end": 303,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 300,
+                  "end": 303,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 300,
+                  "end": 303,
+                  "ctxt": 0
+                },
+                "value": "abc",
+                "hasEscape": false
+              }
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 307,
+                "end": 310,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 307,
+                  "end": 310,
+                  "ctxt": 0
+                },
+                "value": "def",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 307,
+                  "end": 310,
+                  "ctxt": 0
+                },
+                "value": "def",
+                "hasEscape": false
+              }
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 314,
+                "end": 317,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 314,
+                  "end": 317,
+                  "ctxt": 0
+                },
+                "value": "ghi",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 314,
+                  "end": 317,
+                  "ctxt": 0
+                },
+                "value": "ghi",
+                "hasEscape": false
+              }
+            }
+          ],
+          "typeParameters": null
+        },
+        "property": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 319,
+            "end": 327,
+            "ctxt": 0
+          },
+          "value": "member",
+          "hasEscape": false
+        },
+        "computed": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 331,
+        "end": 369,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 331,
+          "end": 368,
+          "ctxt": 0
+        },
+        "tag": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 331,
+            "end": 348,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 331,
+              "end": 341,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "TaggedTemplateExpression",
+              "span": {
+                "start": 331,
+                "end": 338,
+                "ctxt": 0
+              },
+              "tag": {
+                "type": "Identifier",
+                "span": {
+                  "start": 331,
+                  "end": 332,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 334,
+                    "end": 337,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 334,
+                      "end": 337,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 334,
+                      "end": 337,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  }
+                }
+              ],
+              "typeParameters": null
+            },
+            "property": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 339,
+                "end": 340,
+                "ctxt": 0
+              },
+              "value": 0.0
+            },
+            "computed": true
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 342,
+              "end": 348,
+              "ctxt": 0
+            },
+            "value": "member",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "expressions": [
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 355,
+              "end": 356,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 362,
+              "end": 363,
+              "ctxt": 0
+            },
+            "value": 2.0
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 350,
+              "end": 353,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 350,
+                "end": 353,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 350,
+                "end": 353,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 357,
+              "end": 360,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 357,
+                "end": 360,
+                "ctxt": 0
+              },
+              "value": "def",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 357,
+                "end": 360,
+                "ctxt": 0
+              },
+              "value": "def",
+              "hasEscape": false
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 364,
+              "end": 367,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 364,
+                "end": 367,
+                "ctxt": 0
+              },
+              "value": "ghi",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 364,
+                "end": 367,
+                "ctxt": 0
+              },
+              "value": "ghi",
+              "hasEscape": false
+            }
+          }
+        ],
+        "typeParameters": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 371,
+        "end": 430,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 371,
+          "end": 429,
+          "ctxt": 0
+        },
+        "tag": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 371,
+            "end": 409,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 371,
+              "end": 402,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "TaggedTemplateExpression",
+              "span": {
+                "start": 371,
+                "end": 392,
+                "ctxt": 0
+              },
+              "tag": {
+                "type": "Identifier",
+                "span": {
+                  "start": 371,
+                  "end": 372,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "expressions": [
+                {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 379,
+                    "end": 380,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 386,
+                    "end": 387,
+                    "ctxt": 0
+                  },
+                  "value": 2.0
+                }
+              ],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 374,
+                    "end": 377,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 374,
+                      "end": 377,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 374,
+                      "end": 377,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 381,
+                    "end": 384,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 381,
+                      "end": 384,
+                      "ctxt": 0
+                    },
+                    "value": "def",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 381,
+                      "end": 384,
+                      "ctxt": 0
+                    },
+                    "value": "def",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 388,
+                    "end": 391,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 388,
+                      "end": 391,
+                      "ctxt": 0
+                    },
+                    "value": "ghi",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 388,
+                      "end": 391,
+                      "ctxt": 0
+                    },
+                    "value": "ghi",
+                    "hasEscape": false
+                  }
+                }
+              ],
+              "typeParameters": null
+            },
+            "property": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 393,
+                "end": 401,
+                "ctxt": 0
+              },
+              "value": "member",
+              "hasEscape": false
+            },
+            "computed": true
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 403,
+              "end": 409,
+              "ctxt": 0
+            },
+            "value": "member",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "expressions": [
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 416,
+              "end": 417,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 423,
+              "end": 424,
+              "ctxt": 0
+            },
+            "value": 2.0
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 411,
+              "end": 414,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 411,
+                "end": 414,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 411,
+                "end": 414,
+                "ctxt": 0
+              },
+              "value": "abc",
+              "hasEscape": false
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 418,
+              "end": 421,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 418,
+                "end": 421,
+                "ctxt": 0
+              },
+              "value": "def",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 418,
+                "end": 421,
+                "ctxt": 0
+              },
+              "value": "def",
+              "hasEscape": false
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 425,
+              "end": 428,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 425,
+                "end": 428,
+                "ctxt": 0
+              },
+              "value": "ghi",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 425,
+                "end": 428,
+                "ctxt": 0
+              },
+              "value": "ghi",
+              "hasEscape": false
+            }
+          }
+        ],
+        "typeParameters": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 432,
+        "end": 455,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 432,
+          "end": 454,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 432,
+            "end": 447,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 432,
+              "end": 433,
+              "ctxt": 0
+            },
+            "value": "f",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 434,
+              "end": 447,
+              "ctxt": 0
+            },
+            "value": "thisIsNotATag",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 448,
+                "end": 453,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 449,
+                    "end": 452,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 449,
+                      "end": 452,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 449,
+                      "end": 452,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 457,
+        "end": 494,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 457,
+          "end": 493,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 457,
+            "end": 472,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 457,
+              "end": 458,
+              "ctxt": 0
+            },
+            "value": "f",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 459,
+              "end": 472,
+              "ctxt": 0
+            },
+            "value": "thisIsNotATag",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 473,
+                "end": 492,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 479,
+                    "end": 480,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 486,
+                    "end": 487,
+                    "ctxt": 0
+                  },
+                  "value": 2.0
+                }
+              ],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 474,
+                    "end": 477,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 474,
+                      "end": 477,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 474,
+                      "end": 477,
+                      "ctxt": 0
+                    },
+                    "value": "abc",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 481,
+                    "end": 484,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 481,
+                      "end": 484,
+                      "ctxt": 0
+                    },
+                    "value": "def",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 481,
+                      "end": 484,
+                      "ctxt": 0
+                    },
+                    "value": "def",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 488,
+                    "end": 491,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 488,
+                      "end": 491,
+                      "ctxt": 0
+                    },
+                    "value": "ghi",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 488,
+                      "end": 491,
+                      "ctxt": 0
+                    },
+                    "value": "ghi",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,28 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 17,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 17,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 16,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": 0.0
+      }
+    }
+  ],
+  "interpreter": null
+}

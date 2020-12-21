@@ -1,0 +1,48 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 15,
+    "end": 44,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 15,
+        "end": 44,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsModuleDeclaration",
+        "span": {
+          "start": 22,
+          "end": 44,
+          "ctxt": 0
+        },
+        "declare": true,
+        "global": false,
+        "id": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 37,
+            "end": 40,
+            "ctxt": 0
+          },
+          "value": "M",
+          "hasEscape": false
+        },
+        "body": {
+          "type": "TsModuleBlock",
+          "span": {
+            "start": 41,
+            "end": 44,
+            "ctxt": 0
+          },
+          "body": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

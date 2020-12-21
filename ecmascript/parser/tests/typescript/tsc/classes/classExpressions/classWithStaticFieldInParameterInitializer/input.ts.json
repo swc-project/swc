@@ -1,0 +1,135 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 115,
+    "end": 154,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 115,
+        "end": 154,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 115,
+          "end": 153,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 115,
+            "end": 151,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 116,
+              "end": 150,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "AssignmentPattern",
+                "span": {
+                  "start": 117,
+                  "end": 143,
+                  "ctxt": 0
+                },
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 117,
+                    "end": 118,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "right": {
+                  "type": "ClassExpression",
+                  "identifier": null,
+                  "span": {
+                    "start": 121,
+                    "end": 143,
+                    "ctxt": 0
+                  },
+                  "decorators": [],
+                  "body": [
+                    {
+                      "type": "ClassProperty",
+                      "span": {
+                        "start": 129,
+                        "end": 141,
+                        "ctxt": 0
+                      },
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 136,
+                          "end": 137,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 140,
+                          "end": 141,
+                          "ctxt": 0
+                        },
+                        "value": 1.0
+                      },
+                      "typeAnnotation": null,
+                      "isStatic": true,
+                      "decorators": [],
+                      "computed": false,
+                      "accessibility": null,
+                      "isAbstract": false,
+                      "isOptional": false,
+                      "readonly": false,
+                      "declare": false,
+                      "definite": false
+                    }
+                  ],
+                  "superClass": null,
+                  "isAbstract": false,
+                  "typeParams": null,
+                  "superTypeParams": null,
+                  "implements": []
+                },
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 148,
+                "end": 150,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

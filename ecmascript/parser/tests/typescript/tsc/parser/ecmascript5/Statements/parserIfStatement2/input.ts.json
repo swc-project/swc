@@ -1,0 +1,40 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 10,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 0,
+        "end": 10,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "Identifier",
+        "span": {
+          "start": 4,
+          "end": 5,
+          "ctxt": 0
+        },
+        "value": "a",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 7,
+          "end": 10,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

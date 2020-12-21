@@ -1,0 +1,130 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 23,
+    "end": 109,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 38,
+        "end": 82,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "FunctionExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 47,
+            "end": 55,
+            "ctxt": 0
+          },
+          "value": "someFunc",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 38,
+          "end": 82,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 58,
+            "end": 82,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ReturnStatement",
+              "span": {
+                "start": 64,
+                "end": 80,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 71,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "value": "hello!",
+                "hasEscape": false
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 84,
+        "end": 109,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 84,
+          "end": 108,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 84,
+            "end": 101,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 84,
+              "end": 92,
+              "ctxt": 0
+            },
+            "value": "someFunc",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 93,
+              "end": 101,
+              "ctxt": 0
+            },
+            "value": "someProp",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 104,
+            "end": 108,
+            "ctxt": 0
+          },
+          "value": "yo",
+          "hasEscape": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

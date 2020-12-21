@@ -1,0 +1,37 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 7,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 7,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 0,
+          "end": 6,
+          "ctxt": 0
+        },
+        "operator": "void",
+        "argument": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
+          },
+          "value": 0.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

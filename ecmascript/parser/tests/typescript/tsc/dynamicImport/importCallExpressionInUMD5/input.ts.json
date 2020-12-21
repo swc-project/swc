@@ -1,0 +1,246 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 54,
+    "end": 294,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 54,
+        "end": 93,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 70,
+            "end": 73,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 61,
+          "end": 93,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 76,
+            "end": 93,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ReturnStatement",
+              "span": {
+                "start": 78,
+                "end": 91,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 85,
+                  "end": 90,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "hasEscape": false
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 186,
+          "end": 190,
+          "ctxt": 0
+        },
+        "value": "func",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 171,
+        "end": 294,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 193,
+          "end": 294,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 199,
+              "end": 223,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 205,
+                  "end": 222,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 205,
+                    "end": 216,
+                    "ctxt": 0
+                  },
+                  "value": "packageName",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 219,
+                    "end": 222,
+                    "ctxt": 0
+                  },
+                  "value": ".",
+                  "hasEscape": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 228,
+              "end": 292,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 234,
+                  "end": 291,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 234,
+                    "end": 245,
+                    "ctxt": 0
+                  },
+                  "value": "packageJson",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": {
+                  "type": "AwaitExpression",
+                  "span": {
+                    "start": 248,
+                    "end": 291,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 254,
+                      "end": 291,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 254,
+                        "end": 260,
+                        "ctxt": 0
+                      },
+                      "value": "import",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "BinaryExpression",
+                          "span": {
+                            "start": 261,
+                            "end": 290,
+                            "ctxt": 0
+                          },
+                          "operator": "+",
+                          "left": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 261,
+                              "end": 272,
+                              "ctxt": 0
+                            },
+                            "value": "packageName",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "right": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 275,
+                              "end": 290,
+                              "ctxt": 0
+                            },
+                            "value": "/package.json",
+                            "hasEscape": false
+                          }
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  }
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}
