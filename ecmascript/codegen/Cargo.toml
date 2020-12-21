@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0/MIT"
 name = "swc_ecma_codegen"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.41.4"
+version = "0.41.5"
 
 [dependencies]
 bitflags = "1"
