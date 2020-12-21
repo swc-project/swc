@@ -1019,23 +1019,22 @@ impl<'a, I: Input> Lexer<'a, I> {
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
-                    raw.push_str("\\r\\n");
                     self.bump(); // '\r'
                     '\n'
                 } else {
                     match c {
-                        '\n' => raw.push_str("\n"),
-                        '\r' => raw.push_str("\r"),
-                        '\u{2028}' => raw.push_str("\u{2028}"),
-                        '\u{2029}' => raw.push_str("\u{2029}"),
+                        '\n' => '\n',
+                        '\r' => '\n',
+                        '\u{2028}' => '\u{2028}',
+                        '\u{2029}' => '\u{2029}',
                         _ => unreachable!(),
                     }
-                    c
                 };
                 self.bump();
                 if let Some(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
+                raw.push(c);
             } else {
                 self.bump();
                 if let Some(ref mut cooked) = cooked {
