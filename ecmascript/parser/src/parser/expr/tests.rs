@@ -351,7 +351,7 @@ fn issue_328() {
                         value: "test".into(),
                         has_escape: false,
                         kind: StrKind::Normal {
-                            constains_quote: true
+                            contains_quote: true
                         }
                     }))),
                 }],
@@ -383,7 +383,7 @@ hehe.";"#,
             value: "okokhehe.".into(),
             has_escape: true,
             kind: StrKind::Normal {
-                constains_quote: true
+                contains_quote: true
             }
         })))
     );

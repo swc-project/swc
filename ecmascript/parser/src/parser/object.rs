@@ -53,7 +53,7 @@ impl<'a, I: Tokens> Parser<I> {
                         value,
                         has_escape,
                         kind: StrKind::Normal {
-                            constains_quote: true,
+                            contains_quote: true,
                         },
                     }),
                     _ => unreachable!(),
