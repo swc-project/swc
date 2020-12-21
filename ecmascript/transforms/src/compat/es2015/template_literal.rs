@@ -45,10 +45,7 @@ impl Fold for TemplateLiteral {
                 // This makes result of addition string
                 let mut obj: Box<Expr> = Box::new(
                     Lit::Str({
-                        let mut v = quasis[0]
-                            .cooked
-                            .clone()
-                            .unwrap_or_else(|| quasis[0].raw.clone());
+                        let mut v = quasis[0].raw.clone();
                         v.span.ctxt = str_ctxt;
                         v
                     })
@@ -261,8 +258,7 @@ impl Fold for TemplateLiteral {
                                                     .into_iter()
                                                     .map(|elem| {
                                                         Lit::Str({
-                                                            let mut v =
-                                                                elem.cooked.unwrap_or(elem.raw);
+                                                            let mut v = elem.raw;
                                                             v.span.ctxt = str_ctxt;
                                                             v
                                                         })
