@@ -2439,7 +2439,7 @@ fn escape<'s>(
         }
     };
 
-    if orig.len() <= 2 {
+    if single_quote.is_some() && orig.len() <= 2 {
         return Cow::Owned(s.escape_default().to_string());
     }
 
@@ -2450,7 +2450,9 @@ fn escape<'s>(
     {
         orig = &orig[1..orig.len() - 1];
     } else {
-        return Cow::Owned(s.escape_default().to_string());
+        if single_quote.is_some() {
+            return Cow::Owned(s.escape_default().to_string());
+        }
     }
 
     let mut buf = String::with_capacity(s.len());
@@ -2465,7 +2467,6 @@ fn escape<'s>(
             buf.push_str("\\n");
             continue;
         }
-
         if orig_c == '\\' {
             buf.push('\\');
             match orig_iter.next() {
