@@ -100,6 +100,7 @@ impl Fold for Normalizer {
             Str {
                 span,
                 has_escape: false,
+                kind: Default::default(),
                 ..s
             }
         } else {
