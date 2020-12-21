@@ -58,7 +58,11 @@
               "ctxt": 0
             },
             "value": "this is a string",
-            "hasEscape": false
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
           },
           "definite": false
         }

@@ -305,6 +305,7 @@ impl<I: Tokens> Parser<I> {
                     span: lit.span(),
                     value: "".into(),
                     has_escape: false,
+                    kind: Default::default(),
                 }
             }
         };
@@ -591,6 +592,9 @@ impl<I: Tokens> Parser<I> {
                     span,
                     value: v.to_string().into(),
                     has_escape: false,
+                    kind: StrKind::Normal {
+                        contains_quote: false,
+                    },
                 })
             }
             Token::LBracket => {

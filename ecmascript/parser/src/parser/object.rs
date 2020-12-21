@@ -52,6 +52,9 @@ impl<'a, I: Tokens> Parser<I> {
                         span: span!(start),
                         value,
                         has_escape,
+                        kind: StrKind::Normal {
+                            contains_quote: true,
+                        },
                     }),
                     _ => unreachable!(),
                 },

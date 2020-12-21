@@ -68,6 +68,7 @@ impl Fold for JsonParse {
                                 })
                                 .into(),
                             has_escape: false,
+                            kind: Default::default(),
                         })
                         .as_arg()],
                         type_args: Default::default(),

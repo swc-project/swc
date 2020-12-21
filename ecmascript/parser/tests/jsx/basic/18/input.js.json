@@ -84,7 +84,11 @@
                   "ctxt": 0
                 },
                 "value": "attribute",
-                "hasEscape": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
             }
           ],

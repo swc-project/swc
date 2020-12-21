@@ -42,7 +42,11 @@
           "ctxt": 0
         },
         "value": "react",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null

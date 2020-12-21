@@ -176,6 +176,7 @@ where
                     span: text.span,
                     has_escape: text.raw != text.value,
                     value: jsx_text_to_str(text.value),
+                    kind: Default::default(),
                 };
                 if s.value.is_empty() {
                     return None;
@@ -378,6 +379,9 @@ where
                         span,
                         value: i.sym,
                         has_escape: false,
+                        kind: StrKind::Normal {
+                            contains_quote: false,
+                        },
                     })))
                 } else {
                     Box::new(Expr::Ident(i))
@@ -401,6 +405,7 @@ where
                     span,
                     value: format!("{}:{}", ns.sym, name.sym).into(),
                     has_escape: false,
+                    kind: Default::default(),
                 })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
@@ -473,6 +478,9 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                     span,
                     value: i.sym,
                     has_escape: false,
+                    kind: StrKind::Normal {
+                        contains_quote: false,
+                    },
                 })
             } else {
                 PropName::Ident(i)
@@ -482,6 +490,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             span,
             value: format!("{}:{}", ns.sym, name.sym).into(),
             has_escape: false,
+            kind: Default::default(),
         }),
     }
 }

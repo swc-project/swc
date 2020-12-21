@@ -291,6 +291,7 @@ impl swc_bundler::Hook for Hook {
                     span,
                     value: module_record.file_name.to_string().into(),
                     has_escape: false,
+                    kind: Default::default(),
                 }))),
             },
             KeyValueProp {

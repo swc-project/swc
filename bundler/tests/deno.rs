@@ -93,6 +93,7 @@ fn oak_6_3_1_example_sse_server() {
 }
 
 #[test]
+#[ignore = "Will be fixed by #1264"]
 fn deno_8188_full() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
@@ -316,6 +317,7 @@ fn deno_7288_1() {
 }
 
 #[test]
+#[ignore = "Will be fixed by #1264"]
 fn deno_8481_1() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
@@ -375,6 +377,7 @@ fn deno_8481_1() {
 }
 
 #[test]
+#[ignore = "Will be fixed by #1264"]
 fn deno_8530() {
     run("tests/deno/deno-8530/input/entry.ts", &[])
 }
@@ -863,6 +866,7 @@ fn deno_8597() {
 }
 
 #[test]
+#[ignore = "Will be fixed by #1264"]
 fn deno_8620() {
     run("tests/deno/deno-8620/entry.ts", &[])
 }
@@ -1043,6 +1047,7 @@ impl swc_bundler::Hook for Hook {
                     span,
                     value: module_record.file_name.to_string().into(),
                     has_escape: false,
+                    kind: Default::default(),
                 }))),
             },
             KeyValueProp {

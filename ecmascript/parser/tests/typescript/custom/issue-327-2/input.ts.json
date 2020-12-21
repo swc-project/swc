@@ -172,7 +172,11 @@
                         "ctxt": 0
                       },
                       "value": "bas",
-                      "hasEscape": false
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     },
                     "alternate": {
                       "type": "StringLiteral",
@@ -182,7 +186,11 @@
                         "ctxt": 0
                       },
                       "value": "bar",
-                      "hasEscape": false
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
                   }
                 },
@@ -194,7 +202,11 @@
                     "ctxt": 0
                   },
                   "value": "bat",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             },

@@ -69,7 +69,11 @@
                   "ctxt": 0
                 },
                 "value": "key",
-                "hasEscape": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               },
               "right": {
                 "type": "ObjectExpression",

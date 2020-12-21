@@ -20,7 +20,9 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::util::drop_span;
+use swc_ecma_visit::as_folder;
 use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::VisitMut;
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;
@@ -304,7 +306,9 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let actual_src = print(&actual);
             let expected_src = print(&expected);
 
-            if drop_span(actual) == drop_span(expected) {
+            if drop_span(actual.fold_with(&mut as_folder(Normalizer)))
+                == drop_span(expected.fold_with(&mut as_folder(Normalizer)))
+            {
                 return Ok(());
             }
 
@@ -337,4 +341,12 @@ fn fixtures() {
 
     let args: Vec<_> = env::args().collect();
     test_main(&args, tests, Some(test::Options::new()));
+}
+
+struct Normalizer;
+
+impl VisitMut for Normalizer {
+    fn visit_mut_str(&mut self, n: &mut Str) {
+        n.kind = Default::default();
+    }
 }
