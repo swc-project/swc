@@ -789,7 +789,7 @@ impl Fold for FlowHelper<'_> {
                             span,
                             value: "continue".into(),
                             has_escape: false,
-                            kind: false,
+                            kind: Default::default(),
                         }))
                         .into(),
                     ),
@@ -803,7 +803,7 @@ impl Fold for FlowHelper<'_> {
                         span,
                         value: "break".into(),
                         has_escape: false,
-                        kind: false,
+                        kind: Default::default(),
                     })))),
                 });
             }

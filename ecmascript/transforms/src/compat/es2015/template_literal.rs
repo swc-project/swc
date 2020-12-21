@@ -91,7 +91,7 @@ impl Fold for TemplateLiteral {
                                 span,
                                 value,
                                 has_escape,
-                                contains_quote,
+                                kind,
                             })) = *obj
                             {
                                 match *expr {
@@ -105,7 +105,7 @@ impl Fold for TemplateLiteral {
                                             span: span.with_hi(r_span.hi()),
                                             value: format!("{}{}", value, r_value).into(),
                                             has_escape: has_escape || r_has_escape,
-                                            kind: false,
+                                            kind: Default::default(),
                                         })));
                                         continue;
                                     }
@@ -114,7 +114,7 @@ impl Fold for TemplateLiteral {
                                             span,
                                             value,
                                             has_escape,
-                                            contains_quote,
+                                            kind,
                                         })));
                                     }
                                 }

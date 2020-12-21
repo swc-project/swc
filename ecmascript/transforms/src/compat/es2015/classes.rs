@@ -575,7 +575,7 @@ impl Classes {
                     span: DUMMY_SP,
                     value: "use strict".into(),
                     has_escape: false,
-                    kind: false,
+                    kind: Default::default(),
                 })
                 .into_stmt(),
             );

@@ -300,7 +300,7 @@ impl AssignFolder {
                                         span: DUMMY_SP,
                                         value: "Cannot destructure undefined".into(),
                                         has_escape: false,
-                                        kind: false,
+                                        kind: Default::default(),
                                     })
                                     .as_arg()]),
                                     type_args: Default::default(),
