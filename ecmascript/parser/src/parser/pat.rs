@@ -133,12 +133,12 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
             && match *cur!(false)? {
-            Word(Word::Ident(js_word!("public")))
-            | Word(Word::Ident(js_word!("protected")))
-            | Word(Word::Ident(js_word!("private")))
-            | Word(Word::Ident(js_word!("readonly"))) => true,
-            _ => false,
-        }
+                Word(Word::Ident(js_word!("public")))
+                | Word(Word::Ident(js_word!("protected")))
+                | Word(Word::Ident(js_word!("private")))
+                | Word(Word::Ident(js_word!("readonly"))) => true,
+                _ => false,
+            }
             && (peeked_is!(IdentName) || peeked_is!('{') || peeked_is!('['));
         if has_modifier {
             let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"]);
@@ -163,14 +163,14 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!('?') {
                 match pat {
                     Pat::Ident(Ident {
-                                   ref mut optional, ..
-                               })
+                        ref mut optional, ..
+                    })
                     | Pat::Array(ArrayPat {
-                                     ref mut optional, ..
-                                 })
+                        ref mut optional, ..
+                    })
                     | Pat::Object(ObjectPat {
-                                      ref mut optional, ..
-                                  }) => {
+                        ref mut optional, ..
+                    }) => {
                         *optional = true;
                         opt = true;
                     }
@@ -186,30 +186,30 @@ impl<'a, I: Tokens> Parser<I> {
 
             match pat {
                 Pat::Array(ArrayPat {
-                               ref mut type_ann,
-                               ref mut span,
-                               ..
-                           })
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
+                })
                 | Pat::Assign(AssignPat {
-                                  ref mut type_ann,
-                                  ref mut span,
-                                  ..
-                              })
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
+                })
                 | Pat::Ident(Ident {
-                                 ref mut type_ann,
-                                 ref mut span,
-                                 ..
-                             })
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
+                })
                 | Pat::Object(ObjectPat {
-                                  ref mut type_ann,
-                                  ref mut span,
-                                  ..
-                              })
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
+                })
                 | Pat::Rest(RestPat {
-                                ref mut type_ann,
-                                ref mut span,
-                                ..
-                            }) => {
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
+                }) => {
                     let new_type_ann = self.try_parse_ts_type_ann()?;
                     if new_type_ann.is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
@@ -383,7 +383,7 @@ impl<'a, I: Tokens> Parser<I> {
                         right,
                         type_ann: None,
                     }
-                        .into();
+                    .into();
                 }
 
                 let type_ann = if self.input.syntax().typescript() && is!(':') {
@@ -627,8 +627,8 @@ impl<'a, I: Tokens> Parser<I> {
             Expr::Ident(ident) => Ok(ident.into()),
             Expr::Member(..) => Ok(Pat::Expr(expr)),
             Expr::Array(ArrayLit {
-                            elems: mut exprs, ..
-                        }) => {
+                elems: mut exprs, ..
+            }) => {
                 if exprs.is_empty() {
                     return Ok(Pat::Array(ArrayPat {
                         span,
@@ -678,9 +678,9 @@ impl<'a, I: Tokens> Parser<I> {
                     let last = match expr {
                         // Rest
                         Some(ExprOrSpread {
-                                 spread: Some(dot3_token),
-                                 expr,
-                             }) => {
+                            spread: Some(dot3_token),
+                            expr,
+                        }) => {
                             // TODO: is BindingPat correct?
                             let expr_span = expr.span();
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
@@ -747,16 +747,16 @@ impl<'a, I: Tokens> Parser<I> {
         for expr in exprs.drain(..len - 1) {
             match expr {
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                                                    spread: Some(..), ..
-                                                })
+                    spread: Some(..), ..
+                })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
                     if self.syntax().early_errors() {
                         syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                     }
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                                                    spread: None, expr, ..
-                                                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                    spread: None, expr, ..
+                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
                 PatOrExprOrSpread::Pat(pat) => params.push(pat),
             }
         }
@@ -766,9 +766,9 @@ impl<'a, I: Tokens> Parser<I> {
         let last = match expr {
             // Rest
             PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                                                spread: Some(dot3_token),
-                                                expr,
-                                            }) => {
+                spread: Some(dot3_token),
+                expr,
+            }) => {
                 let expr_span = expr.span();
                 self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                     Pat::Rest(RestPat {
@@ -1048,29 +1048,37 @@ mod tests {
                                     span,
                                     has_escape: false,
                                     value: "".into(),
-                                    kind: StrKind::Normal {contains_quote:true}
+                                    kind: StrKind::Normal {
+                                        contains_quote: true
+                                    }
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
                                     has_escape: false,
                                     value: "".into(),
-                                    kind: StrKind::Normal {contains_quote:true}
+                                    kind: StrKind::Normal {
+                                        contains_quote: true
+                                    }
                                 }))
                             ),
                             prop(
-                                PropName::Str(Str {
+                                PropNazme::Str(Str {
                                     span,
                                     has_escape: false,
                                     value: " ".into(),
-                                    kind: StrKind::Normal {contains_quote:true}
+                                    kind: StrKind::Normal {
+                                        contains_quote: true
+                                    }
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
                                     has_escape: false,
                                     value: " ".into(),
-                                    kind: StrKind::Normal {contains_quote:true}
+                                    kind: StrKind::Normal {
+                                        contains_quote: true
+                                    }
                                 }))
                             ),
                             prop(
