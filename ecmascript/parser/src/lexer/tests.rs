@@ -1309,3 +1309,15 @@ fn issue_1272_2_js() {
     assert_eq!(tokens.len(), 1);
     assert_eq!(errors, vec![]);
 }
+
+#[test]
+fn normalize_tpl_carriage_return() {
+    assert_eq!(
+        lex_tokens(Syntax::default(), "`\r\n`"),
+        lex_tokens(Syntax::default(), "`\n`")
+    );
+    assert_eq!(
+        lex_tokens(Syntax::default(), "`\r`"),
+        lex_tokens(Syntax::default(), "`\n`")
+    );
+}
