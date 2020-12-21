@@ -685,7 +685,7 @@ impl Scope {
     }
 }
 
-pub(super) fn make_require_call(mark: Mark, src: JsWord) -> Expr {
+pub(super) fn make_require_call(mark: Mark, src: JsWord, contains_quote: bool) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
@@ -693,6 +693,7 @@ pub(super) fn make_require_call(mark: Mark, src: JsWord) -> Expr {
             span: DUMMY_SP,
             value: src,
             has_escape: false,
+            contains_quote,
         })
         .as_arg()],
 

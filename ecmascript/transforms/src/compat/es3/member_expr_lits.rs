@@ -40,6 +40,7 @@ impl Fold for MemberExprLit {
                             span: $span,
                             value: $sym,
                             has_escape: false,
+                            contains_quote: false,
                         }))),
                         ..e
                     };
