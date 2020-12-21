@@ -301,6 +301,7 @@ impl SimplifyExpr {
                             span,
                             // TODO
                             has_escape: false,
+                            contains_quote: false,
                         }));
                     }
                 }
@@ -329,6 +330,7 @@ impl SimplifyExpr {
                                         span,
                                         // TODO
                                         has_escape: false,
+                                        contains_quote: false,
                                     }));
                                 }
                             }
@@ -1098,6 +1100,7 @@ impl Fold for SimplifyExpr {
                             span: e.span(),
                             value: value.into(),
                             has_escape: false,
+                            contains_quote: false,
                         }));
                     }
                     unreachable!()

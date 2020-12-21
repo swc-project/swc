@@ -176,6 +176,7 @@ where
                     span: text.span,
                     has_escape: text.raw != text.value,
                     value: jsx_text_to_str(text.value),
+                    contains_quote: false,
                 };
                 if s.value.is_empty() {
                     return None;
