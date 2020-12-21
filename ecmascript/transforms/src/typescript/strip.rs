@@ -233,14 +233,14 @@ impl Strip {
                         span,
                         value: format!("{}{}", l.value, r.value).into(),
                         has_escape: l.has_escape || r.has_escape,
-                        kind: false,
+                        kind: Default::default(),
                     }),
                     (TsLit::Number(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
                         TsLit::Str(Str {
                             span,
                             value: format!("{}{}", l.value, r.value).into(),
                             has_escape: r.has_escape,
-                            kind: false,
+                            kind: Default::default(),
                         })
                     }
                     (TsLit::Str(l), TsLit::Number(r)) if expr.op == op!(bin, "+") => {
@@ -248,7 +248,7 @@ impl Strip {
                             span,
                             value: format!("{}{}", l.value, r.value).into(),
                             has_escape: l.has_escape,
-                            kind: false,
+                            kind: Default::default(),
                         })
                     }
                     _ => Err(())?,
@@ -428,7 +428,9 @@ impl Strip {
                                             span: i.span,
                                             value: i.sym,
                                             has_escape: false,
-                                            kind: false,
+                                            kind: StrKind::Normal {
+                                                contains_quote: false,
+                                            },
                                         },
                                     };
                                     let prop = if no_init_required {

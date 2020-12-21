@@ -405,7 +405,7 @@ where
                     span,
                     value: format!("{}:{}", ns.sym, name.sym).into(),
                     has_escape: false,
-                    kind: false,
+                    kind: Default::default(),
                 })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
