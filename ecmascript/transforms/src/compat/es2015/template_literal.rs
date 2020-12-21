@@ -100,12 +100,12 @@ impl Fold for TemplateLiteral {
                                         value: r_value,
                                         has_escape: r_has_escape,
                                         contains_quote: r_contains_quote,
-                                    })) if contains_quote == r_contains_quote => {
+                                    })) => {
                                         obj = Box::new(Expr::Lit(Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
                                             value: format!("{}{}", value, r_value).into(),
                                             has_escape: has_escape || r_has_escape,
-                                            contains_quote,
+                                            contains_quote: false,
                                         })));
                                     }
                                     _ => {
