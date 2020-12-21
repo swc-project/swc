@@ -63,7 +63,7 @@ let obj = {
 // ObjectBindingPattern -> {BindingPropertyList}
     let {simple_prop = 10} = obj // 10
     let {obj_prop = {value: prop2 = 10}, prop3 = [1]} = obj // obj_prop = {value:10},prop2 = 10
-    let {next_obj = {$: prop2 = 10, 'a': prop_3 = 'a', "aa": prop4 = "a", _: prop4 = "_",}} = obj // obj_prop = {value:10},prop2 = 10
+    let {obj1 = {$: num = 10, '': sym = '', " ": quote = " ", _: under = [...tail],}} = obj // obj_prop = {value:10},prop2 = 10
 }
 // ----------------- //
 
@@ -84,6 +84,13 @@ try {
     let err = new MyError("name1", "name2")
     err.code = "code"
     throw err
-} catch ({name1,name2,code,...rest}){
-    console.log(name1,name2,code,rest)
+} catch ({name1, name2, code, ...rest}) {
+    console.log(name1, name2, code, rest)
+}
+
+for (let [, , t] = simple_array; t < 10; t++) {
+// console.log(t)
+}
+for (let {num} = obj; num < 11; num++) {
+    // console.log(num)
 }
