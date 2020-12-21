@@ -959,7 +959,7 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
                         span,
                         value: value.to_string().into(),
                         has_escape: false,
-                        kind: false,
+                        kind: Default::default(),
                     }))),
                     ..v
                 },

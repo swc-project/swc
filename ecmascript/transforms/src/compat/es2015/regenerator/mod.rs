@@ -350,7 +350,7 @@ impl Regenerator {
                 span: DUMMY_SP,
                 value: "end".into(),
                 has_escape: false,
-                kind: false,
+                kind: Default::default(),
             })))),
             cons: vec![ReturnStmt {
                 span: DUMMY_SP,

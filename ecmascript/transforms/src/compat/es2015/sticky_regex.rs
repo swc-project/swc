@@ -39,7 +39,9 @@ impl Fold for StickyRegex {
                             span: DUMMY_SP,
                             value: s,
                             has_escape: false,
-                            kind: false,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
                         })))
                     };
 
