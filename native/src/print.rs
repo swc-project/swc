@@ -9,6 +9,7 @@ use swc::{
     Compiler, TransformOutput,
 };
 use swc_ecma_ast::Program;
+use swc_ecma_parser::JscTarget;
 
 // ----- Printing -----
 
@@ -26,6 +27,12 @@ impl Task for PrintTask {
         self.c
             .print(
                 &self.program,
+                self.options
+                    .config
+                    .as_ref()
+                    .map(|config| &config.jsc)
+                    .map(|jsc| jsc.target)
+                    .unwrap_or(JscTarget::Es2020),
                 self.options
                     .source_maps
                     .clone()
@@ -72,9 +79,13 @@ pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
 
     let options: Options = cx.get_deserialized(1)?;
 
+    // Defaults to es3
+    let codegen_target = options.codegen_target().unwrap_or_default();
+
     let result = {
         c.print(
             &program,
+            codegen_target,
             options
                 .source_maps
                 .clone()

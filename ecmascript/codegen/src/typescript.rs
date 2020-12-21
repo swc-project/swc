@@ -113,7 +113,6 @@ impl<'a> Emitter<'a> {
         match n {
             TsEntityName::TsQualifiedName(n) => {
                 emit!(n);
-                punct!(".");
             }
             TsEntityName::Ident(n) => emit!(n),
         }
@@ -971,5 +970,18 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::tests::assert_min_typescript;
+
+    #[test]
+    fn qualified_type() {
+        assert_min_typescript(
+            "var memory: WebAssembly.Memory;",
+            "var memory:WebAssembly.Memory;",
+        );
     }
 }

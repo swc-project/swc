@@ -75,15 +75,13 @@ impl<'a> CaseHandler<'a> {
 }
 
 impl CaseHandler<'_> {
-    fn with_entry<F>(&mut self, entry: Entry, op: F)
+    fn with_entry<F>(&mut self, entry: Entry, op: F) -> Entry
     where
         F: FnOnce(&mut Self),
     {
         self.leaps.push(entry);
-        let ret = op(self);
-        self.leaps.pop();
-
-        ret
+        op(self);
+        self.leaps.pop().unwrap()
     }
 
     pub fn get_try_locs_list(&mut self) -> Option<ArrayLit> {
@@ -984,17 +982,8 @@ impl CaseHandler<'_> {
 
             Stmt::With(..) => panic!("WithStatement not supported in generator functions"),
 
-            Stmt::Expr(ExprStmt { span, expr, .. }) => {
-                let expr = expr.map(|expr| self.explode_expr(expr, true));
-                match *expr {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"),
-                        ref arg,
-                        ..
-                    }) if arg.is_lit() => {}
-
-                    _ => self.emit(Stmt::Expr(ExprStmt { span, expr })),
-                }
+            Stmt::Expr(ExprStmt { expr, .. }) => {
+                self.explode_expr(*expr, true);
             }
 
             Stmt::Return(ret) => {
@@ -1205,10 +1194,13 @@ impl CaseHandler<'_> {
                             CatchClause { body, ..handler }
                         });
 
-                        folder.with_entry(
+                        try_entry.catch_entry = match folder.with_entry(
                             Entry::Catch(try_entry.catch_entry.clone().unwrap()),
                             |folder| folder.explode_stmts(handler.unwrap().body.stmts),
-                        );
+                        ) {
+                            Entry::Catch(e) => Some(e),
+                            _ => unreachable!(),
+                        };
                     }
 
                     if let Some(finally_loc) = finally_loc {
@@ -1216,10 +1208,13 @@ impl CaseHandler<'_> {
                         folder.update_ctx_prev_loc(Some(&mut loc));
                         try_entry.finally_entry.as_mut().unwrap().first_loc = loc;
 
-                        folder.with_entry(
+                        try_entry.finally_entry = match folder.with_entry(
                             Entry::Finally(try_entry.finally_entry.clone().unwrap()),
                             |folder| folder.explode_stmts(finalizer.unwrap().stmts),
-                        );
+                        ) {
+                            Entry::Finally(e) => Some(e),
+                            _ => unreachable!(),
+                        };
 
                         let callee = folder
                             .ctx
@@ -1247,9 +1242,16 @@ impl CaseHandler<'_> {
                     }
                 });
 
-                self.try_entries.push(try_entry);
+                let after = self.mark(after);
 
-                self.mark(after);
+                match &mut try_entry.finally_entry {
+                    Some(fe) => {
+                        fe.after_loc = after;
+                    }
+                    None => {}
+                }
+
+                self.try_entries.push(try_entry);
             }
 
             Stmt::While(s) => {

@@ -14,6 +14,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
+use swc_ecma_parser::JscTarget;
 
 #[macro_use]
 pub mod macros;
@@ -388,7 +389,13 @@ impl<'a> Emitter<'a> {
         //     self.wr.write_str_lit(node.span, &s)?;
         //     return Ok(());
         // }
-        let value = escape(&self.cm, node.span, &node.value, single_quote);
+        let value = escape(
+            &self.cm,
+            self.wr.target(),
+            node.span,
+            &node.value,
+            single_quote,
+        );
         // let value = node.value.replace("\n", "\\n");
 
         let single_quote = single_quote.unwrap_or(false);
@@ -2412,7 +2419,13 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>) -> Cow<'s, str> {
+fn escape<'s>(
+    cm: &SourceMap,
+    target: JscTarget,
+    span: Span,
+    s: &'s str,
+    single_quote: Option<bool>,
+) -> Cow<'s, str> {
     if span.is_dummy() {
         return Cow::Owned(s.escape_default().to_string());
     }
@@ -2445,6 +2458,14 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>
     let mut s_iter = s.chars();
 
     while let Some(orig_c) = orig_iter.next() {
+        // Javascript literal should not contain newlines
+        if orig_c == '\n' && single_quote.is_some() {
+            s_iter.next();
+            s_iter.next();
+            buf.push_str("\\n");
+            continue;
+        }
+
         if orig_c == '\\' {
             buf.push('\\');
             match orig_iter.next() {
@@ -2463,8 +2484,11 @@ fn escape<'s>(cm: &SourceMap, span: Span, s: &'s str, single_quote: Option<bool>
                         }
                         'u' => match orig_iter.next() {
                             Some('{') => {
+                                buf.push('{');
                                 loop {
-                                    if orig_iter.next() == Some('}') {
+                                    let ch = orig_iter.next();
+                                    buf.extend(ch);
+                                    if ch == Some('}') {
                                         break;
                                     }
                                 }

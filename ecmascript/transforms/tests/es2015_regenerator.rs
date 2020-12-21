@@ -141,9 +141,8 @@ var _default = function _callee() {
                 return 5;
             case 2:
                 x = _ctx.sent;
-                void 0;
                 return _ctx.abrupt('return', 5);
-            case 5:
+            case 4:
             case 'end': return _ctx.stop();
         }
     }, _callee);
@@ -1070,8 +1069,6 @@ function myGenerator() {
                     3
                 ], _ctx.t0, 1);
             case 1:
-                _ctx.t0;
-            case 2:
             case 'end':
                 return _ctx.stop();
         }
@@ -1103,8 +1100,6 @@ export function myGenerator() {
                     3
                 ], _ctx.t0, 1);
             case 1:
-                _ctx.t0;
-            case 2:
             case 'end':
                 return _ctx.stop();
         }
@@ -1217,5 +1212,163 @@ test_exec!(
     expect(v.next()).toEqual({ value: 4, done: false})
     expect(v.next()).toEqual({ value: 6, done: false})
     expect(v.next()).toEqual({ done: true})
+    "
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    issue_1125_1,
+    "
+    async function test() {
+        try {
+            await 1
+        } finally {
+            console.log(2)
+        }
+    }
+    test()
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1125_2,
+    "
+    function _test() {
+        _test = _asyncToGenerator(function* () {
+            try {
+            yield 1;
+            } finally {
+            console.log(2);
+            }
+        });
+        return _test.apply(this, arguments);
+    }
+
+    function test() {
+        return _test.apply(this, arguments);
+    }
+    
+    test();
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    var _marked = regeneratorRuntime.mark(_test);
+
+    function _test() {
+        _test = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while (1) 
+              switch (_ctx.prev = _ctx.next) {
+                case 0:
+                  _ctx.prev = 0;
+                  _ctx.next = 3;
+                  return 1;
+      
+                case 3:
+                  _ctx.prev = 3;
+                  console.log(2);
+                  return _ctx.finish(3);
+      
+                case 6:
+                case 'end':
+                  return _ctx.stop();
+              }
+          }, _callee, null, [[0,, 3, 6]]);
+        }));
+        return _test.apply(this, arguments);
+      }
+      
+      function test() {
+        return _test.apply(this, arguments);
+      }
+      
+      test();
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1125_3,
+    "
+    function* foo() {
+        try {
+            yield 1;
+        } finally {
+            console.log(2);
+        }
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    var _marked = regeneratorRuntime.mark(foo);
+
+    function foo() {
+        return regeneratorRuntime.wrap(function foo$(_ctx) {
+            while (1) 
+            switch (_ctx.prev = _ctx.next) {
+                case 0:
+                _ctx.prev = 0;
+                _ctx.next = 3;
+                return 1;
+
+                case 3:
+                _ctx.prev = 3;
+                console.log(2);
+                return _ctx.finish(3);
+
+                case 6:
+                case 'end':
+                return _ctx.stop();
+            }
+        }, _marked, null, [[0,, 3, 6]]);
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1125_4,
+    "
+    function* foo() {
+        try {
+            yield 1;
+        } catch(e) {
+            console.log(2);
+        }
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    var _marked = regeneratorRuntime.mark(foo);
+
+    function foo() {
+      return regeneratorRuntime.wrap(function foo$(_ctx) {
+        while (1)
+          switch (_ctx.prev = _ctx.next) {
+            case 0:
+              _ctx.prev = 0;
+              _ctx.next = 3;
+              return 1;
+    
+            case 3:
+              _ctx.next = 8;
+              break;
+    
+            case 5:
+              _ctx.prev = 5;
+              _ctx.t0 = _ctx['catch'](0);
+              console.log(2);
+    
+            case 8:
+            case 'end':
+              return _ctx.stop();
+          }
+      }, _marked, null, [[0, 5]]);
+    }
     "
 );

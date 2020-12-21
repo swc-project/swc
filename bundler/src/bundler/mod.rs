@@ -81,6 +81,11 @@ where
     /// [Mark] used while tree shaking
     used_mark: Mark,
     _helper_ctxt: SyntaxContext,
+    /// Used to mark nodes as synthesized.
+    ///
+    /// We can check if a span is a dummy for now, but in future we may improve
+    /// spans.
+    synthesized_ctxt: SyntaxContext,
 
     scope: Scope,
 
@@ -105,6 +110,8 @@ where
             log::debug!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
             log::debug!("Helper ctxt: {:?}", helper_ctxt);
+            let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            log::debug!("Synthesized ctxt: {:?}", synthesized_ctxt);
 
             Bundler {
                 config,
@@ -114,6 +121,7 @@ where
                 resolver,
                 used_mark,
                 _helper_ctxt: helper_ctxt,
+                synthesized_ctxt,
                 scope: Default::default(),
                 hook,
             }

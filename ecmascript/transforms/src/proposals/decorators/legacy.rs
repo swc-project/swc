@@ -4,13 +4,22 @@ use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
     ExprFactory, ModuleItemLike, StmtLike,
 };
+use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod metadata;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum EnumKind {
+    Mixed,
+    Str,
+    Num,
+}
 
 #[derive(Debug)]
 pub(super) struct Legacy {
@@ -18,6 +27,7 @@ pub(super) struct Legacy {
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
+    enums: FxHashMap<Id, EnumKind>,
 }
 
 pub(super) fn new(metadata: bool) -> Legacy {
@@ -26,6 +36,48 @@ pub(super) fn new(metadata: bool) -> Legacy {
         uninitialized_vars: Default::default(),
         initialized_vars: Default::default(),
         exports: Default::default(),
+        enums: Default::default(),
+    }
+}
+
+impl Visit for Legacy {
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl, _: &dyn Node) {
+        let enum_kind = e
+            .members
+            .iter()
+            .map(|member| member.init.as_ref())
+            .map(|init| match init {
+                Some(e) => match &**e {
+                    Expr::Lit(lit) => match lit {
+                        Lit::Str(_) => EnumKind::Str,
+                        Lit::Num(_) => EnumKind::Num,
+                        _ => EnumKind::Mixed,
+                    },
+                    _ => EnumKind::Mixed,
+                },
+                None => EnumKind::Num,
+            })
+            .fold(None, |opt: Option<EnumKind>, item| {
+                //
+                let a = match item {
+                    EnumKind::Mixed => return Some(EnumKind::Mixed),
+                    _ => item,
+                };
+
+                let b = match opt {
+                    Some(EnumKind::Mixed) => return Some(EnumKind::Mixed),
+                    Some(v) => v,
+                    None => return Some(item),
+                };
+                if a == b {
+                    return Some(a);
+                } else {
+                    return Some(EnumKind::Mixed);
+                }
+            });
+        if let Some(kind) = enum_kind {
+            self.enums.insert(e.id.to_id(), kind);
+        }
     }
 }
 
@@ -78,6 +130,10 @@ impl Fold for Legacy {
     }
 
     fn fold_module(&mut self, m: Module) -> Module {
+        // Collect required information.
+        // For example, value type of enum affects codegen
+        m.visit_with(&Invalid { span: DUMMY_SP }, self);
+
         let mut m = m.fold_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
@@ -214,6 +270,7 @@ impl Legacy {
             let i = c.ident.clone();
 
             c = c.fold_with(&mut ParamMetadata).fold_with(&mut Metadata {
+                enums: &self.enums,
                 class_name: i.as_ref(),
             });
         }

@@ -1,0 +1,66 @@
+warning: Module
+ --> $DIR/tests/span/ts/declare/var.ts:1:1
+  |
+1 | declare const a = 1;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/declare/var.ts:1:1
+  |
+1 | declare const a = 1;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/declare/var.ts:1:1
+  |
+1 | declare const a = 1;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/declare/var.ts:1:1
+  |
+1 | declare const a = 1;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDecl
+ --> $DIR/tests/span/ts/declare/var.ts:1:1
+  |
+1 | declare const a = 1;
+  | ^^^^^^^^^^^^^^^^^^^^
+
+warning: VarDeclarator
+ --> $DIR/tests/span/ts/declare/var.ts:1:15
+  |
+1 | declare const a = 1;
+  |               ^^^^^
+
+warning: Pat
+ --> $DIR/tests/span/ts/declare/var.ts:1:15
+  |
+1 | declare const a = 1;
+  |               ^
+
+warning: Ident
+ --> $DIR/tests/span/ts/declare/var.ts:1:15
+  |
+1 | declare const a = 1;
+  |               ^
+
+warning: Expr
+ --> $DIR/tests/span/ts/declare/var.ts:1:19
+  |
+1 | declare const a = 1;
+  |                   ^
+
+warning: Lit
+ --> $DIR/tests/span/ts/declare/var.ts:1:19
+  |
+1 | declare const a = 1;
+  |                   ^
+
+warning: Number
+ --> $DIR/tests/span/ts/declare/var.ts:1:19
+  |
+1 | declare const a = 1;
+  |                   ^
+

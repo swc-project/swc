@@ -44,6 +44,14 @@ impl Task for BundleTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
+        // Defaults to es3
+        let codegen_target = self
+            .config
+            .static_items
+            .config
+            .codegen_target()
+            .unwrap_or_default();
+
         let res = catch_unwind(AssertUnwindSafe(|| {
             let bundler = Bundler::new(
                 self.swc.globals(),
@@ -125,9 +133,13 @@ impl Task for BundleTask {
                             })
                             .unwrap_or(false);
 
-                        let output =
-                            self.swc
-                                .print(&m, SourceMapsConfig::Bool(true), None, minify)?;
+                        let output = self.swc.print(
+                            &m,
+                            codegen_target,
+                            SourceMapsConfig::Bool(true),
+                            None,
+                            minify,
+                        )?;
 
                         Ok((k, output))
                     })

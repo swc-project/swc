@@ -8,8 +8,6 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![cfg(feature = "tty-emitter")]
-
 //! Bindings to acquire a global named lock.
 //!
 //! This is intended to be used to synchronize multiple compiler processes to

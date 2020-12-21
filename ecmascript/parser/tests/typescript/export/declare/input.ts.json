@@ -16,7 +16,7 @@
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 15,
+          "start": 7,
           "end": 31,
           "ctxt": 0
         },
@@ -87,7 +87,7 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 47,
+          "start": 39,
           "end": 66,
           "ctxt": 0
         },

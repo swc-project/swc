@@ -81,7 +81,7 @@ impl AsyncToGenerator {
 impl Fold for Actual {
     noop_fold_type!();
 
-    fn fold_class_method(&mut self, m: ClassMethod) -> ClassMethod {
+    fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;
         }
@@ -91,6 +91,7 @@ impl Fold for Actual {
         let params = m.function.params.clone();
 
         let mut folder = MethodFolder { vars: vec![] };
+        m.function.params.clear();
         let function = m.function.fold_children_with(&mut folder);
         let expr = make_fn_ref(FnExpr {
             ident: None,

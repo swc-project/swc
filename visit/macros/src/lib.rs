@@ -1,7 +1,7 @@
 extern crate proc_macro;
 
 use inflector::Inflector;
-use pmutil::{q, IdentExt, Quote};
+use pmutil::{q, Quote};
 use proc_macro2::Ident;
 use std::{collections::HashSet, mem::replace};
 use swc_macros_common::{call_site, def_site};
@@ -40,15 +40,6 @@ impl Mode {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum MethodMode {
-    Normal,
-    Optional,
-    Either,
-    /// Implements Visit for swc_visit::All<V> where V: VisitAll
-    All,
-}
-
 /// This creates `Visit`. This is extensible visitor generator, and it
 ///
 ///  - works with stable rustc
@@ -72,10 +63,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     let mut types = vec![];
     let mut methods = vec![];
-    let mut ref_methods = vec![];
-    let mut optional_methods = vec![];
-    let mut either_methods = vec![];
-    let mut visit_all_methods = vec![];
 
     for stmts in stmts {
         let item = match stmts {
@@ -83,87 +70,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             _ => unimplemented!("error reporting for something other than Item"),
         };
 
-        let mtd = make_method(mode, item, &mut types, MethodMode::Normal);
+        let mtd = make_method(mode, item, &mut types);
         let mtd = match mtd {
             Some(v) => v,
             None => continue,
         };
 
-        methods.push(mtd.clone());
-
-        {
-            // &'_ mut V, Box<V>
-            let block = match mode {
-                Mode::Visit | Mode::VisitAll => q!(
-                    Vars {
-                        visit: &mtd.sig.ident,
-                    },
-                    ({ (**self).visit(n, _parent) })
-                )
-                .parse(),
-                Mode::Fold | Mode::VisitMut => q!(
-                    Vars {
-                        visit: &mtd.sig.ident,
-                    },
-                    ({ (**self).visit(n) })
-                )
-                .parse(),
-            };
-
-            ref_methods.push(ImplItemMethod {
-                attrs: vec![],
-                vis: Visibility::Inherited,
-                defaultness: None,
-                sig: mtd.sig.clone(),
-                block,
-            });
-        }
-
-        {
-            // Optional
-
-            let mtd = make_method(mode, item, &mut types, MethodMode::Optional).unwrap();
-
-            optional_methods.push(ImplItemMethod {
-                attrs: vec![],
-                vis: Visibility::Inherited,
-                defaultness: None,
-                sig: Signature { ..mtd.sig },
-                block: mtd.default.unwrap(),
-            });
-        }
-
-        {
-            // Either
-
-            let mtd = make_method(mode, item, &mut types, MethodMode::Either).unwrap();
-
-            either_methods.push(ImplItemMethod {
-                attrs: vec![],
-                vis: Visibility::Inherited,
-                defaultness: None,
-                sig: Signature { ..mtd.sig },
-                block: mtd.default.unwrap(),
-            });
-        }
-
-        {
-            // Visit <-> VisitAll using swc_visit::All
-
-            let mtd = make_method(mode, item, &mut types, MethodMode::All).unwrap();
-
-            visit_all_methods.push(ImplItemMethod {
-                attrs: vec![],
-                vis: Visibility::Inherited,
-                defaultness: None,
-                sig: Signature { ..mtd.sig },
-                block: mtd.default.unwrap(),
-            });
-        }
+        methods.push(mtd);
     }
 
     let mut tokens = q!({});
-
+    let mut ref_methods = vec![];
+    let mut optional_methods = vec![];
+    let mut either_methods = vec![];
+    let mut visit_all_methods = vec![];
     {
         let mut new = vec![];
         for ty in &types {
@@ -172,8 +92,15 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         types.extend(new);
     }
 
-    methods.dedup_by_key(|v| v.sig.ident.to_string());
+    // Remove `Box`
+    types.retain(|ty| as_box(ty).is_none());
+    types.sort_by_cached_key(|ty| method_name_as_str(mode, &ty));
+    types.dedup_by_key(|ty| method_name_as_str(mode, &ty));
+
+    let types = types;
+
     methods.sort_by_cached_key(|v| v.sig.ident.to_string());
+    methods.dedup_by_key(|v| v.sig.ident.to_string());
 
     for ty in &types {
         let sig = create_method_sig(mode, ty);
@@ -185,10 +112,131 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         methods.push(TraitItemMethod {
             attrs: vec![],
-            sig: create_method_sig(mode, &ty),
+            sig,
             default: Some(create_method_body(mode, &ty)),
             semi_token: None,
         });
+    }
+
+    methods.sort_by_cached_key(|v| v.sig.ident.to_string());
+
+    for ty in &types {
+        let sig = create_method_sig(mode, ty);
+        let name = sig.ident.clone();
+
+        {
+            // &'_ mut V, Box<V>
+            let block = match mode {
+                Mode::Visit | Mode::VisitAll => {
+                    q!(Vars { visit: &name }, ({ (**self).visit(n, _parent) })).parse()
+                }
+                Mode::Fold | Mode::VisitMut => {
+                    q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse()
+                }
+            };
+
+            ref_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: sig.clone(),
+                block,
+            });
+        }
+
+        {
+            // Either
+
+            either_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: sig.clone(),
+                block: match mode {
+                    Mode::Visit | Mode::VisitAll => q!(
+                        Vars { visit: &name },
+                        ({
+                            match self {
+                                swc_visit::Either::Left(v) => v.visit(n, _parent),
+                                swc_visit::Either::Right(v) => v.visit(n, _parent),
+                            }
+                        })
+                    )
+                    .parse(),
+                    Mode::Fold | Mode::VisitMut => q!(
+                        Vars { fold: &name },
+                        ({
+                            match self {
+                                swc_visit::Either::Left(v) => v.fold(n),
+                                swc_visit::Either::Right(v) => v.fold(n),
+                            }
+                        })
+                    )
+                    .parse(),
+                },
+            });
+        }
+
+        {
+            // Optional
+
+            optional_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: sig.clone(),
+                block: match mode {
+                    Mode::VisitAll | Mode::Visit => q!(
+                        Vars { visit: &name },
+                        ({
+                            if self.enabled {
+                                self.visitor.visit(n, _parent)
+                            }
+                        })
+                    )
+                    .parse(),
+                    Mode::VisitMut => q!(
+                        Vars { visit: &name },
+                        ({
+                            if self.enabled {
+                                self.visitor.visit(n)
+                            }
+                        })
+                    )
+                    .parse(),
+                    Mode::Fold => q!(
+                        Vars { fold: &name },
+                        ({
+                            if self.enabled {
+                                self.visitor.fold(n)
+                            } else {
+                                n
+                            }
+                        })
+                    )
+                    .parse(),
+                },
+            });
+        }
+
+        {
+            // Visit <-> VisitAll using swc_visit::All
+
+            visit_all_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: sig.clone(),
+                block: q!(
+                    Vars { visit: &name },
+                    ({
+                        self.visitor.visit(n, _parent);
+                        visit(self, n, _parent);
+                    })
+                )
+                .parse(),
+            });
+        }
     }
 
     methods.iter_mut().for_each(|v| {
@@ -512,15 +560,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             // Signature of visit_item / fold_item
             let method_sig = method_sig(mode, ty);
             let method_name = method_sig.ident;
-            let node_arg = method_sig
-                .inputs
-                .iter()
-                .nth(1)
-                .expect("visit/fold should accept self as first parameter");
-            let node_type = match node_arg {
-                FnArg::Receiver(_) => unreachable!(),
-                FnArg::Typed(pat) => &pat.ty,
-            };
 
             // Prevent duplicate implementations.
             let s = method_name.to_string();
@@ -640,7 +679,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
-                            Type: node_type,
+                            Type: ty,
                             expr,
                         },
                         {
@@ -900,120 +939,23 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
 }
 
 /// Returns None if it's skipped.
-fn make_method(
-    mode: Mode,
-    e: &Item,
-    types: &mut Vec<Type>,
-    method_mode: MethodMode,
-) -> Option<TraitItemMethod> {
-    fn wrap_optional(mode: Mode, ty: &Ident) -> Block {
-        let ty = Type::Path(TypePath {
-            qself: None,
-            path: Path::from(ty.clone()),
-        });
-        let ident = method_name(mode, &ty);
-
-        match mode {
-            Mode::VisitAll | Mode::Visit => q!(
-                Vars { visit: &ident },
-                ({
-                    if self.enabled {
-                        self.visitor.visit(n, _parent)
-                    }
-                })
-            )
-            .parse(),
-            Mode::VisitMut => q!(
-                Vars { visit: &ident },
-                ({
-                    if self.enabled {
-                        self.visitor.visit(n)
-                    }
-                })
-            )
-            .parse(),
-            Mode::Fold => q!(
-                Vars { fold: &ident },
-                ({
-                    if self.enabled {
-                        self.visitor.fold(n)
-                    } else {
-                        n
-                    }
-                })
-            )
-            .parse(),
-        }
-    }
-
-    fn wrap_either(mode: Mode, ty: &Ident) -> Block {
-        let ty = Type::Path(TypePath {
-            qself: None,
-            path: Path::from(ty.clone()),
-        });
-        let ident = method_name(mode, &ty);
-
-        match mode {
-            Mode::Visit | Mode::VisitAll => q!(
-                Vars { visit: &ident },
-                ({
-                    match self {
-                        swc_visit::Either::Left(v) => v.visit(n, _parent),
-                        swc_visit::Either::Right(v) => v.visit(n, _parent),
-                    }
-                })
-            )
-            .parse(),
-            Mode::Fold | Mode::VisitMut => q!(
-                Vars { fold: &ident },
-                ({
-                    match self {
-                        swc_visit::Either::Left(v) => v.fold(n),
-                        swc_visit::Either::Right(v) => v.fold(n),
-                    }
-                })
-            )
-            .parse(),
-        }
-    }
-
-    fn wrap_visit_all(mode: Mode, ty: &Ident) -> Block {
-        assert_eq!(mode, Mode::VisitAll);
-
-        let ty = Type::Path(TypePath {
-            qself: None,
-            path: Path::from(ty.clone()),
-        });
-        let ident = method_name(mode, &ty);
-
-        q!(
-            Vars { visit: &ident },
-            ({
-                self.visitor.visit(n, _parent);
-                n.visit_children_with(self);
-            })
-        )
-        .parse()
-    }
-
+fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemMethod> {
     Some(match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
-            if method_mode == MethodMode::Normal {
-                types.push(Type::Path(TypePath {
-                    qself: None,
-                    path: type_name.clone().into(),
-                }));
-                for f in &s.fields {
-                    if skip(&f.ty) {
-                        continue;
-                    }
-
-                    types.push(f.ty.clone());
+            types.push(Type::Path(TypePath {
+                qself: None,
+                path: type_name.clone().into(),
+            }));
+            for f in &s.fields {
+                if skip(&f.ty) {
+                    continue;
                 }
+
+                types.push(f.ty.clone());
             }
 
-            let mut block = {
+            let block = {
                 let arm = make_arm_from_struct(mode, &s.ident.clone().into(), &s.fields);
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
@@ -1024,14 +966,6 @@ fn make_method(
                     stmts: vec![q!(Vars { match_expr }, { match_expr }).parse()],
                 }
             };
-
-            if method_mode == MethodMode::Optional {
-                block = wrap_optional(mode, &s.ident);
-            } else if method_mode == MethodMode::Either {
-                block = wrap_either(mode, &s.ident);
-            } else if method_mode == MethodMode::All && mode == Mode::VisitAll {
-                block = wrap_visit_all(mode, &s.ident);
-            }
 
             let sig = method_sig_from_ident(mode, type_name);
 
@@ -1046,19 +980,17 @@ fn make_method(
             //
             let type_name = &e.ident;
 
-            if method_mode == MethodMode::Normal {
-                types.push(
-                    TypePath {
-                        qself: None,
-                        path: e.ident.clone().into(),
-                    }
-                    .into(),
-                );
-            }
+            types.push(
+                TypePath {
+                    qself: None,
+                    path: e.ident.clone().into(),
+                }
+                .into(),
+            );
 
             //
 
-            let mut block = {
+            let block = {
                 let mut arms = vec![];
 
                 for variant in &e.variants {
@@ -1096,14 +1028,6 @@ fn make_method(
                 }
             };
 
-            if method_mode == MethodMode::Optional {
-                block = wrap_optional(mode, &e.ident);
-            } else if method_mode == MethodMode::Either {
-                block = wrap_either(mode, &e.ident);
-            } else if method_mode == MethodMode::All && mode == Mode::VisitAll {
-                block = wrap_visit_all(mode, &e.ident);
-            }
-
             TraitItemMethod {
                 attrs: vec![],
                 sig: method_sig_from_ident(mode, type_name),
@@ -1117,14 +1041,6 @@ fn make_method(
             e
         ),
     })
-}
-
-fn prefix_method_name(mode: Mode, v: &str) -> String {
-    format!("{}_{}", mode.prefix(), v.to_snake_case())
-}
-
-fn method_name(mode: Mode, v: &Type) -> Ident {
-    create_method_sig(mode, v).ident
 }
 
 fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
@@ -1185,9 +1101,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
         Type::Paren(ty) => return create_method_sig(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
-            let ident = last
-                .ident
-                .new_ident_with(|name| prefix_method_name(mode, name));
+            let ident = method_name(mode, ty);
 
             if !last.arguments.is_empty() {
                 if let Some(arg) = as_box(&ty) {
@@ -1207,76 +1121,57 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                     }
                 }
 
-                if last.ident == "Option" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
+                if let Some(arg) = extract_generic("Option", ty) {
+                    let ident = method_name(mode, ty);
 
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    let ident = method_name(mode, arg).new_ident_with(|v| {
-                                        v.replace(
-                                            &format!("{}_", mode.prefix()),
-                                            &format!("{}_opt_", mode.prefix()),
-                                        )
-                                    });
-
-                                    if let Some(item) = extract_vec(arg) {
-                                        match mode {
-                                            Mode::Fold => {
-                                                return mk_exact(
-                                                    mode,
-                                                    ident,
-                                                    &q!(Vars { item }, { Option<Vec<item>> })
-                                                        .parse(),
-                                                );
-                                            }
-                                            Mode::VisitMut => {
-                                                return mk_exact(
-                                                    mode,
-                                                    ident,
-                                                    &q!(Vars { item }, { &mut Option<Vec<item>> })
-                                                        .parse(),
-                                                );
-                                            }
-                                            Mode::Visit | Mode::VisitAll => {
-                                                return mk_exact(
-                                                    mode,
-                                                    ident,
-                                                    &q!(Vars { item }, { Option<&[item]> }).parse(),
-                                                );
-                                            }
-                                        }
-                                    }
-
-                                    match mode {
-                                        Mode::Fold => {
-                                            return mk_exact(
-                                                mode,
-                                                ident,
-                                                &q!(Vars { arg }, { Option<arg> }).parse(),
-                                            );
-                                        }
-                                        Mode::VisitMut => {
-                                            return mk_exact(
-                                                mode,
-                                                ident,
-                                                &q!(Vars { arg }, { &mut Option<arg> }).parse(),
-                                            );
-                                        }
-                                        Mode::Visit | Mode::VisitAll => {
-                                            return mk_exact(
-                                                mode,
-                                                ident,
-                                                &q!(Vars { arg }, { Option<&arg> }).parse(),
-                                            );
-                                        }
-                                    }
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
+                    if let Some(item) = extract_vec(arg) {
+                        match mode {
+                            Mode::Fold => {
+                                return mk_exact(
+                                    mode,
+                                    ident,
+                                    &q!(Vars { item }, { Option<Vec<item>> }).parse(),
+                                );
+                            }
+                            Mode::VisitMut => {
+                                return mk_exact(
+                                    mode,
+                                    ident,
+                                    &q!(Vars { item }, { &mut Option<Vec<item>> }).parse(),
+                                );
+                            }
+                            Mode::Visit | Mode::VisitAll => {
+                                return mk_exact(
+                                    mode,
+                                    ident,
+                                    &q!(Vars { item }, { Option<&[item]> }).parse(),
+                                );
                             }
                         }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                    }
+
+                    match mode {
+                        Mode::Fold => {
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &q!(Vars { arg }, { Option<arg> }).parse(),
+                            );
+                        }
+                        Mode::VisitMut => {
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &q!(Vars { arg }, { &mut Option<arg> }).parse(),
+                            );
+                        }
+                        Mode::Visit | Mode::VisitAll => {
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &q!(Vars { arg }, { Option<&arg> }).parse(),
+                            );
+                        }
                     }
                 }
 
@@ -1287,22 +1182,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let orig_name = method_name(mode, arg);
-                                    let mut ident = orig_name.new_ident_with(|v| {
-                                        let v = v.to_plural();
-                                        if is_option(arg) {
-                                            return v
-                                                .replace("visit_opt_", "visit_opt_vec_")
-                                                .replace("visit_mut_opt_", "visit_mut_opt_vec_")
-                                                .replace("fold_opt_", "fold_opt_vec_");
-                                        }
-                                        return v;
-                                    });
-
-                                    // Rename if name conflicts
-                                    if orig_name == ident.to_string() {
-                                        ident = ident.new_ident_with(|v| format!("{}_vec", v));
-                                    }
+                                    let ident = method_name(mode, ty);
 
                                     match mode {
                                         Mode::Fold => {
@@ -1361,6 +1241,23 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 }
 
 fn create_method_body(mode: Mode, ty: &Type) -> Block {
+    if let Some(ty) = extract_generic("Arc", ty) {
+        match mode {
+            Mode::Visit | Mode::VisitAll => {
+                let visit = method_name(mode, ty);
+
+                return q!(Vars { visit }, ({ _visitor.visit(n, _parent) })).parse();
+            }
+            Mode::VisitMut => {
+                return Block {
+                    brace_token: def_site(),
+                    stmts: vec![],
+                }
+            }
+            Mode::Fold => return q!(({ n })).parse(),
+        }
+    }
+
     match ty {
         Type::Array(_) => unimplemented!("type: array type"),
         Type::BareFn(_) => unimplemented!("type: fn type"),
@@ -1576,28 +1473,20 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 }
 
 fn add_required(types: &mut Vec<Type>, ty: &Type) {
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
-
-            if !last.arguments.is_empty() {
-                if last.ident == "Option" || last.ident == "Vec" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    types.push(arg.clone());
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
-                        }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
-                    }
-                }
-            }
-        }
-        _ => {}
+    if let Some(ty) = extract_generic("Option", ty) {
+        add_required(types, ty);
+        types.push(ty.clone());
+        return;
+    }
+    if let Some(ty) = extract_generic("Vec", ty) {
+        add_required(types, ty);
+        types.push(ty.clone());
+        return;
+    }
+    if let Some(ty) = extract_generic("Arc", ty) {
+        add_required(types, ty);
+        types.push(ty.clone());
+        return;
     }
 }
 
@@ -1658,6 +1547,46 @@ fn is_opt_vec(ty: &Type) -> bool {
         extract_vec(inner).is_some()
     } else {
         false
+    }
+}
+
+fn method_name_as_str(mode: Mode, ty: &Type) -> String {
+    fn suffix(ty: &Type) -> String {
+        // Box<T> has same name as T
+        if let Some(ty) = extract_generic("Box", ty) {
+            return suffix(ty);
+        }
+
+        if let Some(ty) = extract_generic("Arc", ty) {
+            return format!("arc_{}", suffix(ty));
+        }
+        if let Some(ty) = extract_generic("Option", ty) {
+            return format!("opt_{}", suffix(ty));
+        }
+        if let Some(ty) = extract_generic("Vec", ty) {
+            if let Some(ty) = extract_generic("Option", ty) {
+                return format!("opt_vec_{}", suffix(ty).to_plural());
+            }
+            if suffix(ty).to_plural() == suffix(ty) {
+                return format!("{}_vec", suffix(ty).to_plural());
+            }
+            return format!("{}", suffix(ty).to_plural());
+        }
+        type_to_name(&ty).to_snake_case()
+    }
+
+    format!("{}_{}", mode.prefix(), suffix(ty))
+}
+
+fn method_name(mode: Mode, ty: &Type) -> Ident {
+    let span = ty.span();
+    Ident::new(&method_name_as_str(mode, ty), span)
+}
+
+fn type_to_name(ty: &Type) -> String {
+    match ty {
+        Type::Path(ty) => ty.path.segments.last().unwrap().ident.to_string(),
+        _ => unimplemented!("type_to_name for type other than path: {:?}", ty),
     }
 }
 

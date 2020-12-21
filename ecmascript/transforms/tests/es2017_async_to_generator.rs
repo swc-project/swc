@@ -8,6 +8,7 @@ use swc_ecma_transforms::{
         es2017::async_to_generator,
     },
     fixer, resolver,
+    typescript::strip,
 };
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -35,6 +36,10 @@ impl Fold for ParenRemover {
 
 fn syntax() -> Syntax {
     Syntax::default()
+}
+
+fn ts_syntax() -> Syntax {
+    Syntax::Typescript(Default::default())
 }
 
 fn tr() -> impl Fold {
@@ -2228,5 +2233,68 @@ test!(
             obj
         });
     });
+    "
+);
+
+test!(
+    ts_syntax(),
+    |_| chain!(strip(), async_to_generator()),
+    issue_1235_1,
+    "
+    class Service {
+      async is(a: string): Promise<boolean> {
+          return a.toUpperCase() === a;
+      }
+    }
+    (async() => {  await (new Service()).is('ABC'); })();
+    ",
+    "
+    class Service {
+      is(a) {
+        return _asyncToGenerator(function* () {
+          return a.toUpperCase() === a;
+        })();
+      }
+    
+    }
+    
+    _asyncToGenerator(function* () {
+      yield new Service().is('ABC');
+    })();
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1125_1,
+    "
+  async function test() {
+      try {
+          await 1
+      } finally {
+          console.log(2)
+      }
+  }
+  test()
+  ",
+    "
+    function _test() {
+      _test = _asyncToGenerator(function* () {
+        try {
+          yield 1;
+        } finally {
+          console.log(2);
+        }
+      });
+      return _test.apply(this, arguments);
+    }
+
+    function test() {
+      return _test.apply(this, arguments);
+    }
+    
+    
+    test();
     "
 );

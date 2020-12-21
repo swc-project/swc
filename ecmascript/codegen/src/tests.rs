@@ -78,6 +78,17 @@ pub(crate) fn assert_min(from: &str, to: &str) {
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
+/// Clone of the regular `assert_min` function but with TypeScript syntax.
+pub(crate) fn assert_min_typescript(from: &str, to: &str) {
+    let out = parse_then_emit(
+        from,
+        Config { minify: true },
+        Syntax::Typescript(Default::default()),
+    );
+
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
+}
+
 pub(crate) fn assert_pretty(from: &str, to: &str) {
     let out = parse_then_emit(from, Config { minify: false }, Syntax::default());
 
@@ -467,6 +478,22 @@ fn integration_01_reduced_01() {
         "
     `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` + `\"${unexpectedKeys.join('\", \
          \"')}\" found in ${argumentName}. `;",
+    );
+}
+
+#[test]
+fn dneo_8541_1() {
+    test_from_to(
+        "React.createElement('span', null, '\\u{b7}');",
+        "React.createElement('span', null, '\\u{b7}');",
+    );
+}
+
+#[test]
+fn dneo_8541_2() {
+    test_from_to(
+        "React.createElement('span', null, '\\u00b7');",
+        "React.createElement('span', null, '\\u00b7');",
     );
 }
 

@@ -159,3 +159,15 @@ test!(
     console.log(submissions);
     "#
 );
+
+test!(
+    Default::default(),
+    |_| tr(()),
+    assign_01,
+    "
+    a ??= b;
+    ",
+    "
+    a = a !== null && a !== void 0 ? a : b;
+    "
+);

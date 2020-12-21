@@ -1,0 +1,1 @@
+declare function example(): undefined;

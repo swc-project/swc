@@ -1,0 +1,112 @@
+warning: Module
+ --> $DIR/tests/span/ts/declare/module.ts:1:1
+  |
+1 | / declare module "name" {
+2 | |     export class Foo { }
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/declare/module.ts:1:1
+  |
+1 | / declare module "name" {
+2 | |     export class Foo { }
+3 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/span/ts/declare/module.ts:1:1
+  |
+1 | / declare module "name" {
+2 | |     export class Foo { }
+3 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/span/ts/declare/module.ts:1:1
+  |
+1 | / declare module "name" {
+2 | |     export class Foo { }
+3 | | }
+  | |_^
+
+warning: TsModuleDecl
+ --> $DIR/tests/span/ts/declare/module.ts:1:1
+  |
+1 | / declare module "name" {
+2 | |     export class Foo { }
+3 | | }
+  | |_^
+
+warning: TsModuleName
+ --> $DIR/tests/span/ts/declare/module.ts:1:16
+  |
+1 | declare module "name" {
+  |                ^^^^^^
+
+warning: Str
+ --> $DIR/tests/span/ts/declare/module.ts:1:16
+  |
+1 | declare module "name" {
+  |                ^^^^^^
+
+warning: TsNamespaceBody
+ --> $DIR/tests/span/ts/declare/module.ts:1:23
+  |
+1 |   declare module "name" {
+  |  _______________________^
+2 | |     export class Foo { }
+3 | | }
+  | |_^
+
+warning: TsModuleBlock
+ --> $DIR/tests/span/ts/declare/module.ts:1:23
+  |
+1 |   declare module "name" {
+  |  _______________________^
+2 | |     export class Foo { }
+3 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/span/ts/declare/module.ts:2:5
+  |
+2 |     export class Foo { }
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: ModuleDecl
+ --> $DIR/tests/span/ts/declare/module.ts:2:5
+  |
+2 |     export class Foo { }
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: ExportDecl
+ --> $DIR/tests/span/ts/declare/module.ts:2:5
+  |
+2 |     export class Foo { }
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: Decl
+ --> $DIR/tests/span/ts/declare/module.ts:2:12
+  |
+2 |     export class Foo { }
+  |            ^^^^^^^^^^^^^
+
+warning: ClassDecl
+ --> $DIR/tests/span/ts/declare/module.ts:2:12
+  |
+2 |     export class Foo { }
+  |            ^^^^^^^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/span/ts/declare/module.ts:2:18
+  |
+2 |     export class Foo { }
+  |                  ^^^
+
+warning: Class
+ --> $DIR/tests/span/ts/declare/module.ts:2:12
+  |
+2 |     export class Foo { }
+  |            ^^^^^^^^^^^^^
+

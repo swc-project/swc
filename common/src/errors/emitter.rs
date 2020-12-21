@@ -8,40 +8,29 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#[cfg(feature = "tty-emitter")]
 use self::Destination::*;
-#[cfg(feature = "tty-emitter")]
-use super::snippet::{Annotation, Line};
-use super::DiagnosticBuilder;
-#[cfg(feature = "tty-emitter")]
 use super::{
-    snippet::{AnnotationType, MultilineAnnotation, Style, StyledString},
+    snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
-    CodeSuggestion, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
+    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
+};
+use crate::{
+    sync::Lrc,
+    syntax_pos::{MultiSpan, SourceFile, Span},
 };
 #[cfg(feature = "tty-emitter")]
-use crate::sync::Lrc;
-#[cfg(feature = "tty-emitter")]
-use crate::syntax_pos::SourceFile;
-#[cfg(feature = "tty-emitter")]
-use crate::syntax_pos::{MultiSpan, Span};
-#[cfg(feature = "tty-emitter")]
 use atty;
-#[cfg(feature = "tty-emitter")]
-use std::borrow::Cow;
-#[cfg(feature = "tty-emitter")]
-use std::cmp::{min, Reverse};
-#[cfg(feature = "tty-emitter")]
-use std::collections::HashMap;
-use std::io::{self, prelude::*};
-#[cfg(feature = "tty-emitter")]
-use std::ops::Range;
+use std::{
+    borrow::Cow,
+    cmp::{min, Reverse},
+    collections::HashMap,
+    io::{self, prelude::*},
+    ops::Range,
+};
 #[cfg(feature = "tty-emitter")]
 use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
-#[cfg(feature = "tty-emitter")]
 use unicode_width;
 
-#[cfg(feature = "tty-emitter")]
 const ANONYMIZED_LINE_NUM: &str = "LL";
 
 /// Emitter trait for emitting errors.
@@ -55,7 +44,6 @@ pub trait Emitter: crate::sync::Send {
     }
 }
 
-#[cfg(feature = "tty-emitter")]
 impl Emitter for EmitterWriter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let mut primary_span = db.span.clone();
@@ -144,7 +132,6 @@ impl ColorConfig {
     }
 }
 
-#[cfg(feature = "tty-emitter")]
 pub struct EmitterWriter {
     dst: Destination,
     sm: Option<Lrc<SourceMapperDyn>>,
@@ -153,7 +140,6 @@ pub struct EmitterWriter {
     ui_testing: bool,
 }
 
-#[cfg(feature = "tty-emitter")]
 struct FileWithAnnotatedLines {
     file: Lrc<SourceFile>,
     lines: Vec<Line>,
@@ -177,7 +163,9 @@ impl EmitterWriter {
             ui_testing: false,
         }
     }
+}
 
+impl EmitterWriter {
     pub fn new(
         dst: Box<dyn Write + Send>,
         source_map: Option<Lrc<SourceMapperDyn>>,
@@ -1395,17 +1383,14 @@ impl EmitterWriter {
     }
 }
 
-#[cfg(feature = "tty-emitter")]
 fn draw_col_separator(buffer: &mut StyledBuffer, line: usize, col: usize) {
     buffer.puts(line, col, "| ", Style::LineNumber);
 }
 
-#[cfg(feature = "tty-emitter")]
 fn draw_col_separator_no_space(buffer: &mut StyledBuffer, line: usize, col: usize) {
     draw_col_separator_no_space_with_style(buffer, line, col, Style::LineNumber);
 }
 
-#[cfg(feature = "tty-emitter")]
 fn draw_col_separator_no_space_with_style(
     buffer: &mut StyledBuffer,
     line: usize,
@@ -1415,7 +1400,6 @@ fn draw_col_separator_no_space_with_style(
     buffer.putc(line, col, '|', style);
 }
 
-#[cfg(feature = "tty-emitter")]
 fn draw_range(
     buffer: &mut StyledBuffer,
     symbol: char,
@@ -1429,12 +1413,10 @@ fn draw_range(
     }
 }
 
-#[cfg(feature = "tty-emitter")]
 fn draw_note_separator(buffer: &mut StyledBuffer, line: usize, col: usize) {
     buffer.puts(line, col, "= ", Style::LineNumber);
 }
 
-#[cfg(feature = "tty-emitter")]
 fn draw_multiline_line(
     buffer: &mut StyledBuffer,
     line: usize,
@@ -1445,7 +1427,6 @@ fn draw_multiline_line(
     buffer.putc(line, offset + depth - 1, '|', style);
 }
 
-#[cfg(feature = "tty-emitter")]
 fn num_overlap(
     a_start: usize,
     a_end: usize,
@@ -1459,7 +1440,7 @@ fn num_overlap(
     }
     contains(b_start..b_end + extra, a_start) || contains(a_start..a_end + extra, b_start)
 }
-#[cfg(feature = "tty-emitter")]
+
 fn overlaps(a1: &Annotation, a2: &Annotation, padding: usize) -> bool {
     num_overlap(
         a1.start_col,
@@ -1470,7 +1451,6 @@ fn overlaps(a1: &Annotation, a2: &Annotation, padding: usize) -> bool {
     )
 }
 
-#[cfg(feature = "tty-emitter")]
 fn emit_to_destination(
     rendered_buffer: &[Vec<StyledString>],
     lvl: Level,
@@ -1498,6 +1478,7 @@ fn emit_to_destination(
     let _buffer_lock = lock::acquire_global_lock("rustc_errors");
     for (pos, line) in rendered_buffer.iter().enumerate() {
         for part in line {
+            #[cfg(feature = "tty-emitter")]
             dst.apply_style(lvl, part.style)?;
             write!(dst, "{}", part.text)?;
             dst.reset()?;
@@ -1543,7 +1524,6 @@ impl Destination {
         }
     }
 
-    #[cfg(feature = "tty-emitter")]
     fn writable(&mut self) -> WritableDst<'_> {
         match *self {
             #[cfg(feature = "tty-emitter")]
@@ -1607,16 +1587,19 @@ impl<'a> WritableDst<'a> {
     #[cfg(feature = "tty-emitter")]
     fn set_color(&mut self, color: &ColorSpec) -> io::Result<()> {
         match *self {
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Terminal(ref mut t) => t.set_color(color),
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Buffered(_, ref mut t) => t.set_color(color),
             WritableDst::Raw(_) => Ok(()),
         }
     }
 
-    #[cfg(feature = "tty-emitter")]
     fn reset(&mut self) -> io::Result<()> {
         match *self {
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Terminal(ref mut t) => t.reset(),
+            #[cfg(feature = "tty-emitter")]
             WritableDst::Buffered(_, ref mut t) => t.reset(),
             WritableDst::Raw(_) => Ok(()),
         }

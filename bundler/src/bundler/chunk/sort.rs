@@ -236,6 +236,18 @@ struct InitializerFinder {
 impl Visit for InitializerFinder {
     noop_visit_type!();
 
+    fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
+        match pat {
+            Pat::Ident(i) if self.ident == *i => {
+                self.found = true;
+            }
+
+            _ => {
+                pat.visit_children_with(self);
+            }
+        }
+    }
+
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if self.in_complex && self.ident == *i {
             self.found = true;

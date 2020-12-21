@@ -34,6 +34,7 @@ use swc_ecma_transforms::{
 use swc_ecma_visit::FoldWith;
 
 mod builder;
+mod codegen;
 pub mod config;
 
 pub struct Compiler {
@@ -114,7 +115,7 @@ impl Compiler {
                             ),
                             Some(v) => v,
                         };
-                        let encoded = &s[idx + s.len()..];
+                        let encoded = &fm.src[idx + s.len()..];
 
                         let res = base64::decode(encoded.as_bytes())
                             .context("failed to decode base64-encoded source map")?;
@@ -189,6 +190,7 @@ impl Compiler {
     pub fn print<T>(
         &self,
         node: &T,
+        target: JscTarget,
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
@@ -206,16 +208,19 @@ impl Compiler {
                         cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
-                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                            self.cm.clone(),
-                            "\n",
-                            &mut buf,
-                            if source_map.enabled() {
-                                Some(&mut src_map_buf)
-                            } else {
-                                None
-                            },
-                        )),
+                        wr: Box::new(self::codegen::WriterWapper {
+                            target,
+                            inner: swc_ecma_codegen::text_writer::JsWriter::new(
+                                self.cm.clone(),
+                                "\n",
+                                &mut buf,
+                                if source_map.enabled() {
+                                    Some(&mut src_map_buf)
+                                } else {
+                                    None
+                                },
+                            ),
+                        }),
                     };
 
                     node.emit_with(&mut emitter)
@@ -471,7 +476,13 @@ impl Compiler {
                 })
             });
 
-            self.print(&program, config.source_maps, orig, config.minify)
+            self.print(
+                &program,
+                config.target,
+                config.source_maps,
+                orig,
+                config.minify,
+            )
         })
     }
 }
