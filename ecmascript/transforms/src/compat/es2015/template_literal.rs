@@ -107,6 +107,7 @@ impl Fold for TemplateLiteral {
                                             has_escape: has_escape || r_has_escape,
                                             contains_quote: false,
                                         })));
+                                        continue
                                     }
                                     _ => {
                                         obj = Box::new(Expr::Lit(Lit::Str(Str {
@@ -224,7 +225,7 @@ impl Fold for TemplateLiteral {
                                                     elems: quasis
                                                         .iter()
                                                         .cloned()
-                                                        .map(|mut elem| Lit::Str(elem.raw).as_arg())
+                                                        .map(|elem| Lit::Str(elem.raw).as_arg())
                                                         .map(Some)
                                                         .collect(),
                                                 }
