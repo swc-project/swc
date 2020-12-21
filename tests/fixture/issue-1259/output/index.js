@@ -9,7 +9,9 @@ function _taggedTemplateLiteral(strings, raw) {
     }));
 }
 function _templateObject() {
-    var data = _taggedTemplateLiteral(["'#ERROR'"]);
+    var data = _taggedTemplateLiteral([
+        "'#ERROR'"
+    ]);
     _templateObject = function _templateObject() {
         return data;
     };
