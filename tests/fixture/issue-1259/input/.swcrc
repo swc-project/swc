@@ -1,0 +1,18 @@
+{
+  "exclude": [".*[.]js$", ".*[.]map$"],
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": false
+    }
+  },
+  "module": {
+    "type": "commonjs",
+    "strict": false,
+    "strictMode": false,
+    "lazy": false,
+    "noInterop": false
+  }
+}
