@@ -383,26 +383,32 @@ impl<'a> Emitter<'a> {
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        let single_quote = if node.contains_quote {
-            is_single_quote(&self.cm, node.span)
-        } else {
-            None
+        let (single_quote, value) = match node.kind {
+            StrKind::Normal { contains_quote } => {
+                let single_quote = if contains_quote {
+                    is_single_quote(&self.cm, node.span)
+                } else {
+                    None
+                };
+
+                let value = escape_with_source(
+                    &self.cm,
+                    self.wr.target(),
+                    node.span,
+                    &node.value,
+                    single_quote,
+                )
+                .to_string();
+
+                (single_quote.unwrap_or(false), value)
+            }
+            StrKind::Synthesized => {
+                let single_quote = false;
+                let value = escape_without_source(&node.value);
+
+                (single_quote, value)
+            }
         };
-
-        // if let Some(s) = get_text_of_node(&self.cm, node, false) {
-        //     self.wr.write_str_lit(node.span, &s)?;
-        //     return Ok(());
-        // }
-        let value = escape(
-            &self.cm,
-            self.wr.target(),
-            node.span,
-            &node.value,
-            single_quote,
-        );
-        // let value = node.value.replace("\n", "\\n");
-
-        let single_quote = single_quote.unwrap_or(false);
 
         if single_quote {
             punct!("'");
@@ -2423,7 +2429,7 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape<'s>(
+fn escape_with_source<'s>(
     cm: &SourceMap,
     target: JscTarget,
     span: Span,
