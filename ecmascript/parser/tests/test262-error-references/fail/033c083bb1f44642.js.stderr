@@ -1,3 +1,9 @@
+error: Expected unicode escape
+ --> $DIR/tests/test262-parser/fail/033c083bb1f44642.js:1:7
+  |
+1 | \uD800\x62
+  |       ^
+
 error: Invalid character in identifier
  --> $DIR/tests/test262-parser/fail/033c083bb1f44642.js:1:1
   |
