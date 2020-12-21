@@ -122,19 +122,6 @@ where
     idents_to_deglob: HashSet<Id>,
 }
 
-impl RawImports {
-    fn insert(&mut self, import: &ImportDecl) {
-        for prev in self.imports.iter_mut() {
-            if prev.src.value == import.src.value {
-                prev.specifiers.extend(import.specifiers.clone());
-                return;
-            }
-        }
-
-        self.imports.push(import.clone());
-    }
-}
-
 impl<L, R> ImportHandler<'_, '_, L, R>
 where
     L: Load,
@@ -230,7 +217,7 @@ where
                 }
             }
 
-            self.info.insert(&import);
+            self.info.imports.push(import.clone());
             return import;
         }
 
@@ -319,6 +306,17 @@ where
 
                 if use_ns {
                     wrapping_required.push(import.src.value.clone());
+
+                    import.specifiers.retain(|s| match s {
+                        ImportSpecifier::Namespace(_) => true,
+                        _ => false,
+                    });
+
+                    debug_assert_ne!(
+                        import.specifiers,
+                        vec![],
+                        "forced_ns should be modified only if a namespace import specifier exist"
+                    );
                 } else {
                     // De-glob namespace imports
                     import.specifiers.retain(|s| match s {
@@ -366,7 +364,11 @@ where
             }
 
             Expr::Member(mut e) => {
-                e = e.fold_with(self);
+                e.obj = e.obj.fold_with(self);
+
+                if e.computed {
+                    e.prop = e.prop.fold_with(self);
+                }
 
                 match &e.obj {
                     ExprOrSuper::Expr(obj) => {
@@ -375,11 +377,11 @@ where
                                 // Deglob identifier usages.
                                 if self.deglob_phase && self.idents_to_deglob.contains(&i.to_id()) {
                                     match *e.prop {
-                                        Expr::Ident(prop) if prop.sym == i.sym => {
+                                        Expr::Ident(prop) => {
                                             return Expr::Ident(Ident::new(
                                                 prop.sym,
                                                 prop.span.with_ctxt(i.span.ctxt),
-                                            ));
+                                            ))
                                         }
                                         _ => {}
                                     }
@@ -508,7 +510,7 @@ where
                         };
 
                         if self.top_level {
-                            self.info.insert(&decl);
+                            self.info.imports.push(decl);
                             return Expr::Call(e);
                         }
 

@@ -2,26 +2,26 @@
 //!
 //! This module exists because this is way easier than using copying requires
 //! files.
-
-use self::common::*;
-use anyhow::Error;
+use anyhow::{Context, Error};
+use sha1::{Digest, Sha1};
 use std::{
     collections::{HashMap, HashSet},
     env,
-    fs::write,
+    fs::{create_dir_all, read_to_string, write},
+    path::PathBuf,
     process::{Command, Stdio},
 };
 use swc_atoms::js_word;
-use swc_bundler::{Bundler, Load, ModuleRecord};
-use swc_common::{FileName, Span, GLOBALS};
+use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms::{proposals::decorators, react, typescript::strip};
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use testing::assert_eq;
-
-#[path = "common/mod.rs"]
-mod common;
+use url::Url;
 
 #[test]
 fn oak_6_3_1_application() {
@@ -213,12 +213,6 @@ fn deno_8211() {
     );
 }
 
-/// https://github.com/denoland/deno/issues/8211#issuecomment-736498065
-#[test]
-fn deno_8211_1() {
-    run("tests/deno/deno-8211-1/input/entry.ts", &[]);
-}
-
 #[test]
 fn deno_8246() {
     run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",&[
@@ -303,574 +297,6 @@ fn deno_8399_1() {
 #[test]
 fn deno_8399_2() {
     run("tests/deno/issue-8399-2/input.ts", &[]);
-}
-
-#[test]
-fn deno_8486_1() {
-    run("tests/deno/issue-8486-1/input.ts", &["myCLI"]);
-}
-
-#[test]
-fn deno_7288_1() {
-    run("tests/deno/deno-7288-1/input.ts", &[]);
-}
-
-#[test]
-fn deno_8481_1() {
-    run(
-        "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
-        &[
-            "Bench",
-            "Connect",
-            "DataBuffer",
-            "DebugEvents",
-            "DenoBuffer",
-            "Empty",
-            "ErrorCode",
-            "Events",
-            "Heartbeat",
-            "INFO",
-            "JSONCodec",
-            "Kind",
-            "MAX_SIZE",
-            "Metric",
-            "MsgHdrsImpl",
-            "MsgImpl",
-            "MuxSubscription",
-            "NatsConnectionImpl",
-            "NatsError",
-            "Nuid",
-            "Parser",
-            "ProtocolHandler",
-            "QueuedIterator",
-            "Request",
-            "State",
-            "StringCodec",
-            "SubscriptionImpl",
-            "Subscriptions",
-            "TD",
-            "TE",
-            "checkOptions",
-            "connect",
-            "createInbox",
-            "credsAuthenticator",
-            "deferred",
-            "delay",
-            "extractProtocolMessage",
-            "headers",
-            "isIP",
-            "jwtAuthenticator",
-            "nkeyAuthenticator",
-            "nkeys",
-            "nuid",
-            "parseIP",
-            "readAll",
-            "render",
-            "setTransportFactory",
-            "setUrlParseFn",
-            "timeout",
-            "writeAll",
-        ],
-    )
-}
-
-#[test]
-fn deno_8530() {
-    run("tests/deno/deno-8530/input/entry.ts", &[])
-}
-
-#[test]
-#[ignore]
-fn deno_8545() {
-    run("tests/deno/deno-8545/input/entry.ts", &[])
-}
-
-#[test]
-fn deno_8573() {
-    run("tests/deno/deno-8573/entry.ts", &[])
-}
-#[test]
-#[ignore = "Will be fixed by #1268"]
-fn deno_8597() {
-    run(
-        "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
-        &[
-            "Abs",
-            "Acos",
-            "Acosh",
-            "AdadeltaOptimizer",
-            "AdagradOptimizer",
-            "AdamOptimizer",
-            "AdamaxOptimizer",
-            "Add",
-            "AddN",
-            "All",
-            "Any",
-            "ArgMax",
-            "ArgMin",
-            "Asin",
-            "Asinh",
-            "Atan",
-            "Atan2",
-            "Atanh",
-            "AvgPool",
-            "AvgPool3D",
-            "AvgPool3DBackprop",
-            "AvgPoolBackprop",
-            "BatchMatMul",
-            "BatchToSpaceND",
-            "BroadcastTo",
-            "Callback",
-            "CallbackList",
-            "Cast",
-            "Ceil",
-            "ClipByValue",
-            "Complex",
-            "Concat",
-            "Conv2D",
-            "Conv2DBackpropFilter",
-            "Conv2DBackpropInput",
-            "Conv3D",
-            "Conv3DBackpropFilterV2",
-            "Conv3DBackpropInputV2",
-            "Cos",
-            "Cosh",
-            "CropAndResize",
-            "Cumsum",
-            "CustomCallback",
-            "DataStorage",
-            "DepthToSpace",
-            "DepthwiseConv2dNative",
-            "DepthwiseConv2dNativeBackpropFilter",
-            "DepthwiseConv2dNativeBackpropInput",
-            "Diag",
-            "Dilation2D",
-            "Dilation2DBackpropFilter",
-            "Dilation2DBackpropInput",
-            "Div",
-            "ENV",
-            "EarlyStopping",
-            "Elu",
-            "EluGrad",
-            "Environment",
-            "Equal",
-            "Erf",
-            "Exp",
-            "Expm1",
-            "FFT",
-            "Fill",
-            "FlipLeftRight",
-            "Floor",
-            "FloorDiv",
-            "FromPixels",
-            "FusedBatchNorm",
-            "FusedConv2D",
-            "FusedDepthwiseConv2D",
-            "GatherNd",
-            "GatherV2",
-            "GraphModel",
-            "Greater",
-            "GreaterEqual",
-            "History",
-            "IFFT",
-            "Identity",
-            "Imag",
-            "InputSpec",
-            "IsFinite",
-            "IsInf",
-            "IsNan",
-            "KernelBackend",
-            "LRN",
-            "LRNBackprop",
-            "LayerVariable",
-            "LayersModel",
-            "Less",
-            "LessEqual",
-            "LinSpace",
-            "Log",
-            "Log1p",
-            "LogSoftmax",
-            "LogicalAnd",
-            "LogicalNot",
-            "LogicalOr",
-            "Max",
-            "MaxPool",
-            "MaxPool3D",
-            "MaxPool3DBackprop",
-            "MaxPoolBackprop",
-            "MaxPoolWithArgmax",
-            "Maximum",
-            "Mean",
-            "Min",
-            "Minimum",
-            "Mod",
-            "MomentumOptimizer",
-            "Multiply",
-            "Negate",
-            "NonMaxSuppressionV3",
-            "NonMaxSuppressionV4",
-            "NonMaxSuppressionV5",
-            "NotEqual",
-            "OP_SCOPE_SUFFIX",
-            "OneHot",
-            "OnesLike",
-            "Optimizer",
-            "PadV2",
-            "Pool",
-            "Pow",
-            "Prelu",
-            "Prod",
-            "RMSPropOptimizer",
-            "RNN",
-            "Range",
-            "Rank",
-            "Real",
-            "Reciprocal",
-            "Reduction",
-            "Relu",
-            "Relu6",
-            "Reshape",
-            "ResizeBilinear",
-            "ResizeBilinearGrad",
-            "ResizeNearestNeighbor",
-            "ResizeNearestNeighborGrad",
-            "Reverse",
-            "RotateWithOffset",
-            "Round",
-            "Rsqrt",
-            "SGDOptimizer",
-            "ScatterNd",
-            "SelectV2",
-            "Selu",
-            "Sequential",
-            "Sigmoid",
-            "Sign",
-            "Sin",
-            "Sinh",
-            "Slice",
-            "Softmax",
-            "Softplus",
-            "SpaceToBatchND",
-            "SparseToDense",
-            "SplitV",
-            "Sqrt",
-            "Square",
-            "SquaredDifference",
-            "Step",
-            "StridedSlice",
-            "Sub",
-            "Sum",
-            "SymbolicTensor",
-            "Tan",
-            "Tanh",
-            "Tensor",
-            "TensorBuffer",
-            "Tile",
-            "TopK",
-            "Transpose",
-            "Unique",
-            "Unpack",
-            "UnsortedSegmentSum",
-            "Variable",
-            "ZerosLike",
-            "_FusedMatMul",
-            "abs",
-            "acos",
-            "acosh",
-            "add",
-            "addN",
-            "addStrict",
-            "all",
-            "any",
-            "argMax",
-            "argMin",
-            "asin",
-            "asinh",
-            "atan",
-            "atan2",
-            "atanh",
-            "avgPool",
-            "avgPool3d",
-            "backend",
-            "backend_util",
-            "basicLSTMCell",
-            "batchNorm",
-            "batchNorm2d",
-            "batchNorm3d",
-            "batchNorm4d",
-            "batchToSpaceND",
-            "booleanMaskAsync",
-            "broadcastTo",
-            "browser",
-            "buffer",
-            "callbacks",
-            "cast",
-            "ceil",
-            "clipByValue",
-            "clone",
-            "complex",
-            "concat",
-            "concat1d",
-            "concat2d",
-            "concat3d",
-            "concat4d",
-            "constraints",
-            "conv1d",
-            "conv2d",
-            "conv2dTranspose",
-            "conv3d",
-            "conv3dTranspose",
-            "copyRegisteredKernels",
-            "cos",
-            "cosh",
-            "cosineWindow",
-            "cumsum",
-            "customGrad",
-            "data",
-            "default",
-            "deprecationWarn",
-            "depthToSpace",
-            "depthwiseConv2d",
-            "deregisterOp",
-            "device_util",
-            "diag",
-            "dilation2d",
-            "disableDeprecationWarnings",
-            "dispose",
-            "disposeVariables",
-            "div",
-            "divNoNan",
-            "divStrict",
-            "dot",
-            "dropout",
-            "elu",
-            "enableDebugMode",
-            "enableProdMode",
-            "enclosingPowerOfTwo",
-            "engine",
-            "env",
-            "equal",
-            "equalStrict",
-            "erf",
-            "exp",
-            "expandDims",
-            "expm1",
-            "eye",
-            "fft",
-            "fill",
-            "findBackend",
-            "findBackendFactory",
-            "floor",
-            "floorDiv",
-            "fused",
-            "gather",
-            "gatherND",
-            "gather_util",
-            "getBackend",
-            "getGradient",
-            "getKernel",
-            "getKernelsForBackend",
-            "grad",
-            "grads",
-            "greater",
-            "greaterEqual",
-            "greaterEqualStrict",
-            "greaterStrict",
-            "ifft",
-            "imag",
-            "image",
-            "inTopKAsync",
-            "initializers",
-            "input",
-            "io",
-            "irfft",
-            "isFinite",
-            "isInf",
-            "isNaN",
-            "keep",
-            "kernel_impls",
-            "layers",
-            "leakyRelu",
-            "less",
-            "lessEqual",
-            "lessEqualStrict",
-            "lessStrict",
-            "linalg",
-            "linspace",
-            "loadGraphModel",
-            "loadLayersModel",
-            "localResponseNormalization",
-            "log",
-            "log1p",
-            "logSigmoid",
-            "logSoftmax",
-            "logSumExp",
-            "logicalAnd",
-            "logicalNot",
-            "logicalOr",
-            "logicalXor",
-            "losses",
-            "matMul",
-            "math",
-            "max",
-            "maxPool",
-            "maxPool3d",
-            "maxPoolWithArgmax",
-            "maximum",
-            "maximumStrict",
-            "mean",
-            "memory",
-            "metrics",
-            "min",
-            "minimum",
-            "minimumStrict",
-            "mod",
-            "modStrict",
-            "model",
-            "models",
-            "moments",
-            "movingAverage",
-            "mul",
-            "mulStrict",
-            "multiRNNCell",
-            "multinomial",
-            "neg",
-            "nextFrame",
-            "norm",
-            "notEqual",
-            "notEqualStrict",
-            "oneHot",
-            "ones",
-            "onesLike",
-            "op",
-            "outerProduct",
-            "pad",
-            "pad1d",
-            "pad2d",
-            "pad3d",
-            "pad4d",
-            "pool",
-            "pow",
-            "powStrict",
-            "prelu",
-            "print",
-            "prod",
-            "profile",
-            "rand",
-            "randomGamma",
-            "randomNormal",
-            "randomUniform",
-            "range",
-            "ready",
-            "real",
-            "reciprocal",
-            "registerBackend",
-            "registerCallbackConstructor",
-            "registerGradient",
-            "registerKernel",
-            "registerOp",
-            "regularizers",
-            "relu",
-            "relu6",
-            "removeBackend",
-            "reshape",
-            "reverse",
-            "reverse1d",
-            "reverse2d",
-            "reverse3d",
-            "reverse4d",
-            "rfft",
-            "round",
-            "rsqrt",
-            "scalar",
-            "scatterND",
-            "scatter_util",
-            "selu",
-            "separableConv2d",
-            "sequential",
-            "serialization",
-            "setBackend",
-            "setPlatform",
-            "setdiff1dAsync",
-            "sigmoid",
-            "sign",
-            "signal",
-            "sin",
-            "sinh",
-            "slice",
-            "slice1d",
-            "slice2d",
-            "slice3d",
-            "slice4d",
-            "slice_util",
-            "softmax",
-            "softplus",
-            "spaceToBatchND",
-            "sparseToDense",
-            "spectral",
-            "split",
-            "sqrt",
-            "square",
-            "squaredDifference",
-            "squaredDifferenceStrict",
-            "squeeze",
-            "stack",
-            "step",
-            "stridedSlice",
-            "sub",
-            "subStrict",
-            "sum",
-            "sumOutType",
-            "tan",
-            "tanh",
-            "tensor",
-            "tensor1d",
-            "tensor2d",
-            "tensor3d",
-            "tensor4d",
-            "tensor5d",
-            "tensor6d",
-            "tensor_util",
-            "test_util",
-            "tidy",
-            "tile",
-            "time",
-            "topk",
-            "train",
-            "transpose",
-            "truncatedNormal",
-            "unique",
-            "unregisterGradient",
-            "unregisterKernel",
-            "unsortedSegmentSum",
-            "unstack",
-            "upcastType",
-            "util",
-            "valueAndGrad",
-            "valueAndGrads",
-            "variable",
-            "variableGrads",
-            "version",
-            "version_converter",
-            "version_core",
-            "version_layers",
-            "where",
-            "whereAsync",
-            "zeros",
-            "zerosLike",
-        ],
-    )
-}
-
-#[test]
-fn deno_8620() {
-    run("tests/deno/deno-8620/entry.ts", &[])
-}
-
-#[test]
-#[ignore = "Requires newer version of deno"]
-fn deno_8627() {
-    run("tests/deno/deno-8627/input.ts", &[])
 }
 
 #[test]
@@ -988,7 +414,7 @@ fn bundle(url: &str) -> String {
                 globals,
                 cm.clone(),
                 Loader { cm: cm.clone() },
-                NodeResolver,
+                Resolver,
                 swc_bundler::Config {
                     require: false,
                     disable_inliner: false,
@@ -1026,6 +452,128 @@ fn bundle(url: &str) -> String {
     .unwrap();
 
     result
+}
+
+#[derive(Clone)]
+struct Loader {
+    cm: Lrc<SourceMap>,
+}
+
+fn cacl_hash(s: &str) -> String {
+    let mut hasher = Sha1::new();
+    hasher.update(s.as_bytes());
+    let sum = hasher.finalize();
+
+    hex::encode(sum)
+}
+
+/// Load url. This method does caching.
+fn load_url(url: Url) -> Result<String, Error> {
+    let cache_dir = PathBuf::from(env!("OUT_DIR")).join("deno-cache");
+    create_dir_all(&cache_dir).context("failed to create cache dir")?;
+
+    let hash = cacl_hash(&url.to_string());
+
+    let cache_path = cache_dir.join(&hash);
+
+    match read_to_string(&cache_path) {
+        Ok(v) => return Ok(v),
+        _ => {}
+    }
+
+    let resp = reqwest::blocking::get(url.clone())
+        .with_context(|| format!("failed to fetch `{}`", url))?;
+
+    let bytes = resp
+        .bytes()
+        .with_context(|| format!("failed to read data from `{}`", url))?;
+
+    write(&cache_path, &bytes)?;
+
+    return Ok(String::from_utf8_lossy(&bytes).to_string());
+}
+
+impl Load for Loader {
+    fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
+        eprintln!("{}", file);
+
+        let tsx;
+
+        let fm = match file {
+            FileName::Real(path) => {
+                tsx = path.to_string_lossy().ends_with(".tsx");
+                self.cm.load_file(path)?
+            }
+            FileName::Custom(url) => {
+                tsx = url.ends_with(".tsx");
+
+                let url = Url::parse(&url).context("failed to parse url")?;
+
+                let src = load_url(url.clone())?;
+
+                self.cm
+                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
+            }
+            _ => unreachable!("this test only uses url"),
+        };
+
+        let lexer = Lexer::new(
+            Syntax::Typescript(TsConfig {
+                decorators: true,
+                tsx,
+                ..Default::default()
+            }),
+            JscTarget::Es2020,
+            StringInput::from(&*fm),
+            None,
+        );
+
+        let mut parser = Parser::new_from(lexer);
+        let module = parser.parse_module().unwrap();
+        let module = module
+            .fold_with(&mut decorators::decorators(decorators::Config {
+                legacy: true,
+                emit_metadata: false,
+            }))
+            .fold_with(&mut react::react::<SingleThreadedComments>(
+                self.cm.clone(),
+                None,
+                Default::default(),
+            ))
+            .fold_with(&mut strip());
+
+        Ok(ModuleData {
+            fm,
+            module,
+            helpers: Default::default(),
+        })
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Resolver;
+
+impl Resolve for Resolver {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+        match Url::parse(module_specifier) {
+            Ok(v) => return Ok(FileName::Custom(v.to_string())),
+            Err(_) => {}
+        }
+
+        let base_url = match base {
+            FileName::Custom(v) => v,
+            _ => unreachable!("this test only uses url"),
+        };
+        let base_url = Url::parse(&base_url).context("failed to parse url")?;
+
+        let options = Url::options();
+        let base_url = options.base_url(Some(&base_url));
+        let url = base_url
+            .parse(module_specifier)
+            .with_context(|| format!("failed to resolve `{}`", module_specifier))?;
+
+        return Ok(FileName::Custom(url.to_string()));
+    }
 }
 
 struct Hook;

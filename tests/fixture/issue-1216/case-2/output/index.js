@@ -69,10 +69,11 @@ _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 _ctx.t0 = _ctx.sent;
             case 7:
                 obj = _ctx.t0;
+                void 0;
                 console.log({
                     obj: obj
                 });
-            case 9:
+            case 10:
             case "end":
                 return _ctx.stop();
         }

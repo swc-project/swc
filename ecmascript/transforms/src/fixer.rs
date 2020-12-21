@@ -189,16 +189,6 @@ impl VisitMut for Fixer<'_> {
             }
             _ => {}
         }
-
-        match expr.op {
-            op!("??") => match &mut *expr.left {
-                Expr::Bin(..) => {
-                    self.wrap(&mut expr.left);
-                }
-                _ => {}
-            },
-            _ => {}
-        }
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
@@ -1011,6 +1001,4 @@ var store = global[SHARED] || (global[SHARED] = {});
             const item = await (data === null || data === void 0 ? void 0 : data.foo());
         }"
     );
-
-    identical!(deno_8722, "console.log((true || false) ?? true);");
 }

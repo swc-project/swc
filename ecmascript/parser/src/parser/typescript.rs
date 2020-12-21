@@ -2060,7 +2060,6 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(span_of_declare, SyntaxError::TS1038);
         }
 
-        let declare_start = start;
         let ctx = Context {
             in_declare: true,
             ..self.ctx()
@@ -2071,17 +2070,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
-                        Decl::Fn(f) => Decl::Fn(FnDecl {
-                            declare: true,
-                            function: Function {
-                                span: Span {
-                                    lo: declare_start,
-                                    ..f.function.span
-                                },
-                                ..f.function
-                            },
-                            ..f
-                        }),
+                        Decl::Fn(f) => Decl::Fn(FnDecl { declare: true, ..f }),
                         _ => decl,
                     })
                     .map(Some);
@@ -2091,17 +2080,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_class_decl(start, start, decorators)
                     .map(|decl| match decl {
-                        Decl::Class(c) => Decl::Class(ClassDecl {
-                            declare: true,
-                            class: Class {
-                                span: Span {
-                                    lo: declare_start,
-                                    ..c.class.span
-                                },
-                                ..c.class
-                            },
-                            ..c
-                        }),
+                        Decl::Class(c) => Decl::Class(ClassDecl { declare: true, ..c }),
                         _ => decl,
                     })
                     .map(Some);
@@ -2116,10 +2095,6 @@ impl<I: Tokens> Parser<I> {
                     .parse_ts_enum_decl(start, /* is_const */ true)
                     .map(|decl| TsEnumDecl {
                         declare: true,
-                        span: Span {
-                            lo: declare_start,
-                            ..decl.span
-                        },
                         ..decl
                     })
                     .map(From::from)
@@ -2130,10 +2105,6 @@ impl<I: Tokens> Parser<I> {
                     .parse_var_stmt(false)
                     .map(|decl| VarDecl {
                         declare: true,
-                        span: Span {
-                            lo: declare_start,
-                            ..decl.span
-                        },
                         ..decl
                     })
                     .map(From::from)
