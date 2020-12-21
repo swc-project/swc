@@ -81,11 +81,13 @@ impl Fold for Normalizer {
                 span,
                 value: sym,
                 has_escape: false,
+                contains_quote: false,
             }),
             PropName::Num(num) => PropName::Str(Str {
                 span: num.span,
                 value: num.to_string().into(),
                 has_escape: false,
+                contains_quote: false,
             }),
             _ => n,
         }

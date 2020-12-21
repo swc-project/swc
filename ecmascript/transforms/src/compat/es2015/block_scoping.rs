@@ -283,6 +283,7 @@ impl BlockScoping {
                                         span: DUMMY_SP,
                                         value: js_word!("object"),
                                         has_escape: false,
+                                        contains_quote: false,
                                     }))
                                     .into(),
                                 })),
@@ -788,6 +789,7 @@ impl Fold for FlowHelper<'_> {
                             span,
                             value: "continue".into(),
                             has_escape: false,
+                            contains_quote: false,
                         }))
                         .into(),
                     ),
@@ -801,6 +803,7 @@ impl Fold for FlowHelper<'_> {
                         span,
                         value: "break".into(),
                         has_escape: false,
+                        contains_quote: false,
                     })))),
                 });
             }
