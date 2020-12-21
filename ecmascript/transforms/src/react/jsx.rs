@@ -378,6 +378,7 @@ where
                         span,
                         value: i.sym,
                         has_escape: false,
+                        contains_quote: false,
                     })))
                 } else {
                     Box::new(Expr::Ident(i))
@@ -401,6 +402,7 @@ where
                     span,
                     value: format!("{}:{}", ns.sym, name.sym).into(),
                     has_escape: false,
+                    contains_quote: false,
                 })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
@@ -473,6 +475,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                     span,
                     value: i.sym,
                     has_escape: false,
+                    contains_quote: false,
                 })
             } else {
                 PropName::Ident(i)
@@ -482,6 +485,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             span,
             value: format!("{}:{}", ns.sym, name.sym).into(),
             has_escape: false,
+            contains_quote: false,
         }),
     }
 }
