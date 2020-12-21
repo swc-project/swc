@@ -346,6 +346,7 @@ fn prop_name_to_expr(p: PropName) -> Expr {
             value: i.sym,
             span: i.span,
             has_escape: false,
+            contains_quote: false,
         })),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
