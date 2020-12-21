@@ -240,7 +240,7 @@ impl Fold for TemplateLiteral {
                                                         .cloned()
                                                         .map(|mut elem| {
                                                             Lit::Str({
-                                                                elem.raw.span = str_ctxt;
+                                                                elem.raw.span.ctxt = str_ctxt;
                                                                 elem.raw
                                                             })
                                                             .as_arg()
