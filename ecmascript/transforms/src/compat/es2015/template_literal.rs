@@ -19,8 +19,6 @@ impl Fold for TemplateLiteral {
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        let str_ctxt = self.str_ctxt;
-
         let e = validate!(e);
 
         let e = e.fold_children_with(self);
@@ -94,12 +92,14 @@ impl Fold for TemplateLiteral {
                                 span,
                                 value,
                                 has_escape,
+                                contains_quote,
                             })) = *obj
                             {
                                 if let Expr::Lit(Lit::Str(Str {
                                     span: r_span,
                                     value: r_value,
                                     has_escape: r_has_escape,
+                                    contains_quote: r_contains_quote,
                                 })) = *expr
                                 {
                                     obj = Box::new(Expr::Lit(Lit::Str(Str {
@@ -114,6 +114,7 @@ impl Fold for TemplateLiteral {
                                         span,
                                         value,
                                         has_escape,
+                                        contains_quote,
                                     })))
                                 }
                             }
@@ -224,11 +225,7 @@ impl Fold for TemplateLiteral {
                                                         .iter()
                                                         .cloned()
                                                         .map(|mut elem| {
-                                                            Lit::Str({
-                                                                elem.raw.span.ctxt = str_ctxt;
-                                                                elem.raw
-                                                            })
-                                                            .as_arg()
+                                                            Lit::Str( elem.raw ).as_arg()
                                                         })
                                                         .map(Some)
                                                         .collect(),
