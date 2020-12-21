@@ -428,7 +428,9 @@ impl Decorators {
                             span: method.key.id.span,
                             value: method.key.id.sym,
                             has_escape: false,
-                            kind: false,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
                         })));
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }

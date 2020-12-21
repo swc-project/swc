@@ -41,7 +41,7 @@ impl Fold for MemberExprLit {
                             value: $sym,
                             has_escape: false,
                             kind: StrKind::Normal {
-                                constains_quote: false,
+                                contains_quote: false,
                             },
                         }))),
                         ..e

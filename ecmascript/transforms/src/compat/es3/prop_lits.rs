@@ -66,7 +66,9 @@ impl Fold for PropertyLiteral {
                         span,
                         value: sym,
                         has_escape: false,
-                        kind: false,
+                        kind: StrKind::Normal {
+                            contains_quote: false,
+                        },
                     })
                 } else {
                     PropName::Ident(Ident { span, sym, ..i })
