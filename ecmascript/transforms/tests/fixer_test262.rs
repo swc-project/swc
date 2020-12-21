@@ -297,7 +297,9 @@ impl Fold for Normalizer {
                 value: i.sym,
                 span: i.span,
                 has_escape: false,
-                kind: false,
+                kind: StrKind::Normal {
+                    contains_quote: false,
+                },
             }),
             PropName::Num(n) => {
                 let s = if n.value.is_infinite() {
