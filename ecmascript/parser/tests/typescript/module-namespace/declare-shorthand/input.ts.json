@@ -23,7 +23,11 @@
           "ctxt": 0
         },
         "value": "m",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "body": null
     }

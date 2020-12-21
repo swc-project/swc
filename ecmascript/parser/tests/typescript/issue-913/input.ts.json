@@ -43,7 +43,11 @@
           "ctxt": 0
         },
         "value": "../../deps.ts",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null
@@ -84,7 +88,11 @@
           "ctxt": 0
         },
         "value": "../../members.ts",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null
@@ -126,7 +134,11 @@
           "ctxt": 0
         },
         "value": "../../../mod.ts",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null
@@ -187,7 +199,11 @@
                 "ctxt": 0
               },
               "value": "decorators/middleware_test.ts",
-              "hasEscape": false
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
           },
           {
@@ -264,7 +280,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMiddlewareBeforeClass",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -341,7 +361,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "header not specified",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -584,7 +608,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         }
                                                       ],
@@ -805,7 +833,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "'header' not specified.",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -880,7 +912,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "valid",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -1123,7 +1159,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -1136,7 +1176,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -1191,7 +1235,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -1439,7 +1487,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Thor",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ]
@@ -1529,7 +1581,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMultipleMiddlewareBeforeClass",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -1606,7 +1662,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "correct header, custom response and value",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -1849,7 +1909,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -1862,7 +1926,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -1917,7 +1985,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -2165,7 +2237,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Thor",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ]
@@ -2320,7 +2396,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -2337,7 +2417,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "hey",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -2424,7 +2508,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMultipleMiddlewareAfterClass",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -2501,7 +2589,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "response is html, custom header and value",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -2744,7 +2836,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -2757,7 +2853,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -2812,7 +2912,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -3059,7 +3163,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -3211,7 +3319,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Content-Type",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -3228,7 +3340,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "text/html",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -3380,7 +3496,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -3397,7 +3517,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "hey",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -3484,7 +3608,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMiddlewareClass",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -3561,7 +3689,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "custom header and swap to html",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -3804,7 +3936,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -3817,7 +3953,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -3872,7 +4012,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -4119,7 +4263,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -4271,7 +4419,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Content-Type",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -4288,7 +4440,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "text/html",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -4440,7 +4596,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -4457,7 +4617,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "hey",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -4544,7 +4708,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMiddlewareBeforeMethod",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -4621,7 +4789,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "custom header",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -4864,7 +5036,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -4877,7 +5053,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -4932,7 +5112,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -5180,7 +5364,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Thor",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ]
@@ -5270,7 +5458,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMultipleMiddlewareBeforeMethod",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -5347,7 +5539,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "custom header",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -5590,7 +5786,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -5603,7 +5803,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -5658,7 +5862,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -5906,7 +6114,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Thor",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ]
@@ -6061,7 +6273,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -6078,7 +6294,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "hey",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -6165,7 +6385,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMiddlewareAfterMethod",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -6242,7 +6466,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "swap to html",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -6485,7 +6713,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -6498,7 +6730,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -6553,7 +6789,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -6800,7 +7040,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -6952,7 +7196,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Content-Type",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -6969,7 +7217,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "text/html",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -7056,7 +7308,11 @@
                               "ctxt": 0
                             },
                             "value": "ResourceWithMultipleMiddlewareAfterMethod",
-                            "hasEscape": false
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         },
                         {
@@ -7133,7 +7389,11 @@
                                             "ctxt": 0
                                           },
                                           "value": "custom header and swap to html",
-                                          "hasEscape": false
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
                                       },
                                       {
@@ -7376,7 +7636,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "/users/1",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -7389,7 +7653,11 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "get",
-                                                            "hasEscape": false
+                                                            "hasEscape": false,
+                                                            "kind": {
+                                                              "type": "normal",
+                                                              "containsQuote": true
+                                                            }
                                                           }
                                                         },
                                                         {
@@ -7444,7 +7712,11 @@
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "all your base",
-                                                                        "hasEscape": false
+                                                                        "hasEscape": false,
+                                                                        "kind": {
+                                                                          "type": "normal",
+                                                                          "containsQuote": true
+                                                                        }
                                                                       }
                                                                     }
                                                                   ]
@@ -7691,7 +7963,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -7843,7 +8119,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "Content-Type",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -7860,7 +8140,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "text/html",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -8012,7 +8296,11 @@
                                                                 "ctxt": 0
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "hasEscape": false
+                                                              "hasEscape": false,
+                                                              "kind": {
+                                                                "type": "normal",
+                                                                "containsQuote": true
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -8029,7 +8317,11 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "hey",
-                                                        "hasEscape": false
+                                                        "hasEscape": false,
+                                                        "kind": {
+                                                          "type": "normal",
+                                                          "containsQuote": true
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -8439,7 +8731,11 @@
                         "ctxt": 0
                       },
                       "value": "csrf_token",
-                      "hasEscape": false
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
                   }
                 ],
@@ -8550,7 +8846,11 @@
                             "ctxt": 0
                           },
                           "value": "'header' not specified.",
-                          "hasEscape": false
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
                       }
                     ],
@@ -8824,7 +9124,11 @@
                       "ctxt": 0
                     },
                     "value": "Content-Type",
-                    "hasEscape": false
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 },
                 {
@@ -8837,7 +9141,11 @@
                       "ctxt": 0
                     },
                     "value": "text/html",
-                    "hasEscape": false
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 }
               ],
@@ -8898,7 +9206,11 @@
                   "ctxt": 0
                 },
                 "value": "<h1>hey</h1>",
-                "hasEscape": false
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
             }
           }
@@ -9165,7 +9477,11 @@
                       "ctxt": 0
                     },
                     "value": "MYCUSTOM",
-                    "hasEscape": false
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 },
                 {
@@ -9178,7 +9494,11 @@
                       "ctxt": 0
                     },
                     "value": "hey",
-                    "hasEscape": false
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 }
               ],
@@ -9371,7 +9691,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -9384,7 +9708,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -9500,7 +9828,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -9562,7 +9894,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -9754,7 +10090,11 @@
                                 "ctxt": 0
                               },
                               "value": "id",
-                              "hasEscape": false
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
                             }
                           }
                         ],
@@ -10256,7 +10596,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -10269,7 +10613,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -10385,7 +10733,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -10447,7 +10799,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -10639,7 +10995,11 @@
                                 "ctxt": 0
                               },
                               "value": "id",
-                              "hasEscape": false
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
                             }
                           }
                         ],
@@ -11141,7 +11501,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -11154,7 +11518,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -11270,7 +11638,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -11332,7 +11704,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -11753,7 +12129,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -11766,7 +12146,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -11882,7 +12266,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -11944,7 +12332,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -12205,7 +12597,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -12218,7 +12614,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -12334,7 +12734,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -12396,7 +12800,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -12710,7 +13118,11 @@
                                 "ctxt": 0
                               },
                               "value": "id",
-                              "hasEscape": false
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
                             }
                           }
                         ],
@@ -13076,7 +13488,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -13089,7 +13505,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -13205,7 +13625,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -13267,7 +13691,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -13650,7 +14078,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -13663,7 +14095,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -13779,7 +14215,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -13841,7 +14281,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -14169,7 +14613,11 @@
                                 "ctxt": 0
                               },
                               "value": "id",
-                              "hasEscape": false
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
                             }
                           }
                         ],
@@ -14535,7 +14983,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               },
               {
@@ -14548,7 +15000,11 @@
                     "ctxt": 0
                   },
                   "value": "/users/:id/",
-                  "hasEscape": false
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
               }
             ]
@@ -14664,7 +15120,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Thor",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
@@ -14726,7 +15186,11 @@
                                       "ctxt": 0
                                     },
                                     "value": "Hulk",
-                                    "hasEscape": false
+                                    "hasEscape": false,
+                                    "kind": {
+                                      "type": "normal",
+                                      "containsQuote": true
+                                    }
                                   }
                                 }
                               ]
