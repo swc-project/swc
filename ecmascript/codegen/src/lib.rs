@@ -2467,6 +2467,14 @@ fn escape<'s>(
             buf.push_str("\\n");
             continue;
         }
+
+        if single_quote.is_none() && orig_c == '"' {
+            s_iter.next();
+            s_iter.next();
+            buf.push_str("\\\"");
+            continue;
+        }
+
         if orig_c == '\\' {
             buf.push('\\');
             match orig_iter.next() {
