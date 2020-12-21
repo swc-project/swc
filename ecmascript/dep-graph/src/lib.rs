@@ -39,13 +39,10 @@ pub struct DependencyDescriptor {
     /// further processing of supported pragma that impact the dependency.
     pub leading_comments: Vec<Comment>,
     /// The location of the import/export statement.
-    pub line: usize,
     pub col: usize,
+    pub line: usize,
     /// The text specifier associated with the import/export statement.
     pub specifier: JsWord,
-    /// The location of the specifier.
-    pub specifier_line: usize,
-    pub specifier_col: usize,
 }
 
 struct DependencyCollector<'a> {
@@ -58,13 +55,12 @@ struct DependencyCollector<'a> {
 }
 
 impl<'a> DependencyCollector<'a> {
-    fn get_location(&self, span: Span) -> Loc {
-        self.source_map.lookup_char_pos(span.lo)
-    }
-
-    fn get_leading_comments(&self, span: Span) -> Vec<Comment> {
-        self.comments
-            .with_leading(span.lo, |comments| comments.to_vec())
+    fn get_location_and_comments(&self, span: Span) -> (Loc, Vec<Comment>) {
+        let location = self.source_map.lookup_char_pos(span.lo);
+        let leading_comments = self
+            .comments
+            .with_leading(span.lo, |comments| comments.to_vec());
+        (location, leading_comments)
     }
 }
 
@@ -72,9 +68,7 @@ impl<'a> Visit for DependencyCollector<'a> {
     fn visit_import_decl(&mut self, node: &ast::ImportDecl, _parent: &dyn Node) {
         let specifier = node.src.value.clone();
         let span = node.span;
-        let location = self.get_location(span);
-        let leading_comments = self.get_leading_comments(span);
-        let specifier_location = self.get_location(node.src.span);
+        let (location, leading_comments) = self.get_location_and_comments(span);
         let kind = if node.type_only {
             DependencyKind::ImportType
         } else {
@@ -87,8 +81,6 @@ impl<'a> Visit for DependencyCollector<'a> {
             col: location.col_display,
             line: location.line,
             specifier,
-            specifier_col: specifier_location.col_display,
-            specifier_line: specifier_location.line,
         });
     }
 
@@ -96,9 +88,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         if let Some(src) = &node.src {
             let specifier = src.value.clone();
             let span = node.span;
-            let location = self.get_location(span);
-            let leading_comments = self.get_leading_comments(span);
-            let specifier_location = self.get_location(src.span);
+            let (location, leading_comments) = self.get_location_and_comments(span);
             let kind = if node.type_only {
                 DependencyKind::ExportType
             } else {
@@ -111,8 +101,6 @@ impl<'a> Visit for DependencyCollector<'a> {
                 col: location.col_display,
                 line: location.line,
                 specifier,
-                specifier_col: specifier_location.col_display,
-                specifier_line: specifier_location.line,
             });
         }
     }
@@ -120,9 +108,7 @@ impl<'a> Visit for DependencyCollector<'a> {
     fn visit_export_all(&mut self, node: &ast::ExportAll, _parent: &dyn Node) {
         let specifier = node.src.value.clone();
         let span = node.span;
-        let location = self.get_location(span);
-        let leading_comments = self.get_leading_comments(span);
-        let specifier_location = self.get_location(node.src.span);
+        let (location, leading_comments) = self.get_location_and_comments(span);
         self.items.push(DependencyDescriptor {
             kind: DependencyKind::Export,
             is_dynamic: false,
@@ -130,17 +116,13 @@ impl<'a> Visit for DependencyCollector<'a> {
             col: location.col_display,
             line: location.line,
             specifier,
-            specifier_col: specifier_location.col_display,
-            specifier_line: specifier_location.line,
         });
     }
 
     fn visit_ts_import_type(&mut self, node: &ast::TsImportType, _parent: &dyn Node) {
         let specifier = node.arg.value.clone();
         let span = node.span;
-        let location = self.get_location(span);
-        let leading_comments = self.get_leading_comments(span);
-        let specifier_location = self.get_location(node.arg.span);
+        let (location, leading_comments) = self.get_location_and_comments(span);
         self.items.push(DependencyDescriptor {
             kind: DependencyKind::ImportType,
             is_dynamic: false,
@@ -148,8 +130,6 @@ impl<'a> Visit for DependencyCollector<'a> {
             col: location.col_display,
             line: location.line,
             specifier,
-            specifier_col: specifier_location.col_display,
-            specifier_line: specifier_location.line,
         });
     }
 
@@ -189,9 +169,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                 if let ast::Lit::Str(str_) = lit {
                     let specifier = str_.value.clone();
                     let span = node.span;
-                    let location = self.get_location(span);
-                    let leading_comments = self.get_leading_comments(span);
-                    let specifier_location = self.get_location(str_.span);
+                    let (location, leading_comments) = self.get_location_and_comments(span);
                     self.items.push(DependencyDescriptor {
                         kind,
                         is_dynamic,
@@ -199,8 +177,6 @@ impl<'a> Visit for DependencyCollector<'a> {
                         col: location.col_display,
                         line: location.line,
                         specifier,
-                        specifier_col: specifier_location.col_display,
-                        specifier_line: specifier_location.line,
                     });
                 }
             }
@@ -303,9 +279,7 @@ try {
                     leading_comments: Vec::new(),
                     col: 0,
                     line: 1,
-                    specifier: JsWord::from("./test.ts"),
-                    specifier_col: 21,
-                    specifier_line: 1,
+                    specifier: JsWord::from("./test.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -317,9 +291,7 @@ try {
                     }],
                     col: 0,
                     line: 3,
-                    specifier: JsWord::from("./foo.d.ts"),
-                    specifier_col: 25,
-                    specifier_line: 3,
+                    specifier: JsWord::from("./foo.d.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -331,9 +303,7 @@ try {
                     }],
                     col: 0,
                     line: 5,
-                    specifier: JsWord::from("./buzz.ts"),
-                    specifier_col: 22,
-                    specifier_line: 5,
+                    specifier: JsWord::from("./buzz.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportType,
@@ -352,9 +322,7 @@ try {
                     ],
                     col: 0,
                     line: 10,
-                    specifier: JsWord::from("./fizz.d.ts"),
-                    specifier_col: 26,
-                    specifier_line: 10,
+                    specifier: JsWord::from("./fizz.d.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -362,9 +330,7 @@ try {
                     leading_comments: Vec::new(),
                     col: 17,
                     line: 11,
-                    specifier: JsWord::from("path"),
-                    specifier_col: 25,
-                    specifier_line: 11,
+                    specifier: JsWord::from("path")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -372,9 +338,7 @@ try {
                     leading_comments: Vec::new(),
                     col: 6,
                     line: 14,
-                    specifier: JsWord::from("./foo1.ts"),
-                    specifier_col: 13,
-                    specifier_line: 14,
+                    specifier: JsWord::from("./foo1.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -382,9 +346,7 @@ try {
                     leading_comments: Vec::new(),
                     col: 22,
                     line: 17,
-                    specifier: JsWord::from("./foo.ts"),
-                    specifier_col: 29,
-                    specifier_line: 17,
+                    specifier: JsWord::from("./foo.ts")
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -392,9 +354,7 @@ try {
                     leading_comments: Vec::new(),
                     col: 16,
                     line: 23,
-                    specifier: JsWord::from("some_package"),
-                    specifier_col: 24,
-                    specifier_line: 23,
+                    specifier: JsWord::from("some_package")
                 }
             ]
         );

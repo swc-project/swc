@@ -18,7 +18,6 @@ use swc_common::{
     comments::{Comment, Comments},
     BytePos, Span,
 };
-use swc_ecma_ast::op;
 
 pub mod input;
 mod jsx;
@@ -226,7 +225,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 Some('?') => {
                     self.input.bump();
                     self.input.bump();
-                    if self.input.cur() == Some('=') {
+                    if self.syntax.typescript() && self.input.cur() == Some('=') {
                         self.input.bump();
                         return Ok(Some(tok!("??=")));
                     }
@@ -337,11 +336,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                 if self.input.cur() == Some(c) {
                     self.input.bump();
 
-                    if self.input.cur() == Some('=') {
+                    if self.syntax.typescript() && self.input.cur() == Some('=') {
                         self.input.bump();
                         return Ok(Some(AssignOp(match token {
-                            BitAnd => op!("&&="),
-                            BitOr => op!("||="),
+                            BitAnd => AndAssign,
+                            BitOr => OrAssign,
                             _ => unreachable!(),
                         })));
                     }
@@ -432,10 +431,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             // unexpected character
-            c => {
-                self.input.bump();
-                self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
-            }
+            c => self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?,
         };
 
         Ok(Some(token))
@@ -787,7 +783,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         };
 
                         if !valid {
-                            l.emit_error(start, SyntaxError::InvalidIdentChar);
+                            l.error(start, SyntaxError::InvalidIdentChar)?
                         }
                         buf.extend(c);
                     }
@@ -1019,22 +1015,23 @@ impl<'a, I: Input> Lexer<'a, I> {
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
+                    raw.push_str("\\r\\n");
                     self.bump(); // '\r'
                     '\n'
                 } else {
                     match c {
-                        '\n' => '\n',
-                        '\r' => '\n',
-                        '\u{2028}' => '\u{2028}',
-                        '\u{2029}' => '\u{2029}',
+                        '\n' => raw.push_str("\n"),
+                        '\r' => raw.push_str("\r"),
+                        '\u{2028}' => raw.push_str("\u{2028}"),
+                        '\u{2029}' => raw.push_str("\u{2029}"),
                         _ => unreachable!(),
                     }
+                    c
                 };
                 self.bump();
                 if let Some(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
-                raw.push(c);
             } else {
                 self.bump();
                 if let Some(ref mut cooked) = cooked {
