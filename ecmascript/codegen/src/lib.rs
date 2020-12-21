@@ -397,14 +397,13 @@ impl<'a> Emitter<'a> {
                     node.span,
                     &node.value,
                     single_quote,
-                )
-                .to_string();
+                );
 
                 (single_quote.unwrap_or(false), value)
             }
             StrKind::Synthesized => {
                 let single_quote = false;
-                let value = escape_without_source(&node.value);
+                let value = escape_without_source(&node.value, single_quote);
 
                 (single_quote, value)
             }
@@ -2429,15 +2428,21 @@ fn unescape(s: &str) -> String {
     result
 }
 
+fn escape_without_source(v: &str, single_quote: bool) -> String {
+    let mut buf = String::with_capacity(v.len());
+
+    for c in v.chars() {}
+}
+
 fn escape_with_source<'s>(
     cm: &SourceMap,
     target: JscTarget,
     span: Span,
     s: &'s str,
     single_quote: Option<bool>,
-) -> Cow<'s, str> {
+) -> String {
     if span.is_dummy() {
-        return Cow::Owned(s.escape_default().to_string());
+        return escape_without_source(s, single_quote.unwrap_or(false));
     }
 
     //
@@ -2445,12 +2450,12 @@ fn escape_with_source<'s>(
     let orig = match orig {
         Ok(orig) => orig,
         Err(v) => {
-            return Cow::Owned(s.escape_default().to_string());
+            return escape_without_source(s, single_quote.unwrap_or(false));
         }
     };
 
     if single_quote.is_some() && orig.len() <= 2 {
-        return Cow::Owned(s.escape_default().to_string());
+        return escape_without_source(s, single_quote.unwrap_or(false));
     }
 
     let mut orig = &*orig;
@@ -2461,7 +2466,7 @@ fn escape_with_source<'s>(
         orig = &orig[1..orig.len() - 1];
     } else {
         if single_quote.is_some() {
-            return Cow::Owned(s.escape_default().to_string());
+            return escape_without_source(s, single_quote.unwrap_or(false));
         }
     }
 
@@ -2551,7 +2556,7 @@ fn escape_with_source<'s>(
 
     buf.extend(s_iter);
 
-    Cow::Owned(buf)
+    buf
 }
 
 /// Returns [Some] if the span points to a string literal written by user.
