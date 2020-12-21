@@ -240,7 +240,10 @@ impl Fold for TemplateLiteral {
                                                 span: DUMMY_SP,
                                                 elems: quasis
                                                     .into_iter()
-                                                    .map(|elem| Lit::Str(elem.raw).as_arg())
+                                                    .map(|elem| {
+                                                        Lit::Str(elem.cooked.unwrap_or(elem.raw))
+                                                            .as_arg()
+                                                    })
                                                     .map(Some)
                                                     .collect(),
                                             }

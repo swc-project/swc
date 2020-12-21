@@ -90,7 +90,8 @@ obj["var"] = "isKeyword";"#,
         r#"obj["foo"] = "isValid";
 
 obj["const"] = "isKeyword";
-obj["var"] = "isKeyword";"#
+obj["var"] = "isKeyword";"#,
+        ok_if_code_eq
     );
 
     test!(
