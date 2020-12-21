@@ -91,7 +91,7 @@ impl Fold for TemplateLiteral {
                                 span,
                                 value,
                                 has_escape,
-                                contains_quote,
+                                contains_quote: _,
                             })) = *obj
                             {
                                 match *expr {
@@ -99,7 +99,7 @@ impl Fold for TemplateLiteral {
                                         span: r_span,
                                         value: r_value,
                                         has_escape: r_has_escape,
-                                        contains_quote: r_contains_quote,
+                                        contains_quote: _,
                                     })) => {
                                         obj = Box::new(Expr::Lit(Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
