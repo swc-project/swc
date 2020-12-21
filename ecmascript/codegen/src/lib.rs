@@ -2517,7 +2517,7 @@ fn escape<'s>(
                         }
 
                         _ => {
-                            buf.extend(s_iter.next());
+                            s_iter.next();
                         }
                     }
 
