@@ -101,6 +101,7 @@ impl Fold for ObjectLitFolder {
                                     span: ident.span,
                                     value: ident.sym.clone(),
                                     has_escape: false,
+                                    contains_quote: false,
                                 })),
                                 Expr::Ident(ident),
                             ),

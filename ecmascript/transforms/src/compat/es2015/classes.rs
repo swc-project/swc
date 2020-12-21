@@ -575,6 +575,7 @@ impl Classes {
                     span: DUMMY_SP,
                     value: "use strict".into(),
                     has_escape: false,
+                    contains_quote: false,
                 })
                 .into_stmt(),
             );
