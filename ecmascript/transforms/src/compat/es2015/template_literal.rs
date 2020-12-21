@@ -56,8 +56,7 @@ impl Fold for TemplateLiteral {
 
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
-                                let mut s = cooked.unwrap_or_else(|| raw);
-                                s.span.ctxt = str_ctxt;
+                                let s = cooked.unwrap_or_else(|| raw);
                                 Box::new(Lit::Str(s).into())
                             }
                             _ => unreachable!(),
@@ -95,27 +94,28 @@ impl Fold for TemplateLiteral {
                                 contains_quote,
                             })) = *obj
                             {
-                                if let Expr::Lit(Lit::Str(Str {
-                                    span: r_span,
-                                    value: r_value,
-                                    has_escape: r_has_escape,
-                                    contains_quote: r_contains_quote,
-                                })) = *expr
-                                {
-                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: span.with_hi(r_span.hi()),
-                                        value: format!("{}{}", value, r_value).into(),
-                                        has_escape: has_escape || r_has_escape,
-                                    })));
-
-                                    continue;
-                                } else {
-                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span,
-                                        value,
-                                        has_escape,
-                                        contains_quote,
-                                    })))
+                                match *expr {
+                                    Expr::Lit(Lit::Str(Str {
+                                        span: r_span,
+                                        value: r_value,
+                                        has_escape: r_has_escape,
+                                        contains_quote: r_contains_quote,
+                                    })) if contains_quote == r_contains_quote => {
+                                        obj = Box::new(Expr::Lit(Lit::Str(Str {
+                                            span: span.with_hi(r_span.hi()),
+                                            value: format!("{}{}", value, r_value).into(),
+                                            has_escape: has_escape || r_has_escape,
+                                            contains_quote,
+                                        })));
+                                    }
+                                    _ => {
+                                        obj = Box::new(Expr::Lit(Lit::Str(Str {
+                                            span,
+                                            value,
+                                            has_escape,
+                                            contains_quote,
+                                        })));
+                                    }
                                 }
                             }
                         }
@@ -224,9 +224,7 @@ impl Fold for TemplateLiteral {
                                                     elems: quasis
                                                         .iter()
                                                         .cloned()
-                                                        .map(|mut elem| {
-                                                            Lit::Str( elem.raw ).as_arg()
-                                                        })
+                                                        .map(|mut elem| Lit::Str(elem.raw).as_arg())
                                                         .map(Some)
                                                         .collect(),
                                                 }
@@ -241,14 +239,7 @@ impl Fold for TemplateLiteral {
                                                 span: DUMMY_SP,
                                                 elems: quasis
                                                     .into_iter()
-                                                    .map(|elem| {
-                                                        Lit::Str({
-                                                            let mut v = elem.raw;
-                                                            v.span.ctxt = str_ctxt;
-                                                            v
-                                                        })
-                                                        .as_arg()
-                                                    })
+                                                    .map(|elem| Lit::Str(elem.raw).as_arg())
                                                     .map(Some)
                                                     .collect(),
                                             }

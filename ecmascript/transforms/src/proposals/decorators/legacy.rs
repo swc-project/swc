@@ -480,6 +480,7 @@ impl Legacy {
                         span: i.span,
                         value: i.sym.clone(),
                         has_escape: false,
+                        contains_quote: false,
                     }))),
                     _ => p.key.clone(),
                 };

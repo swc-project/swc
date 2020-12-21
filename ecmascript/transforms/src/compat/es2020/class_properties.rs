@@ -381,6 +381,7 @@ impl ClassProperties {
                                     span: i.span,
                                     value: i.sym.clone(),
                                     has_escape: false,
+                                    contains_quote: false,
                                 })))
                             }
                             Expr::Lit(ref lit) if !prop.computed => {
