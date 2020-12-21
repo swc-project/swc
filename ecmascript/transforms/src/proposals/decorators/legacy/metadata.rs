@@ -378,7 +378,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                         span: DUMMY_SP,
                         value: "undefined".into(),
                         has_escape: false,
-                        kind: false,
+                        kind: Default::default(),
                     }))),
                 })),
             }

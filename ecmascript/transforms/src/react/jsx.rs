@@ -379,7 +379,9 @@ where
                         span,
                         value: i.sym,
                         has_escape: false,
-                        kind: false,
+                        kind: StrKind::Normal {
+                            contains_quote: false,
+                        },
                     })))
                 } else {
                     Box::new(Expr::Ident(i))
@@ -476,7 +478,9 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                     span,
                     value: i.sym,
                     has_escape: false,
-                    kind: false,
+                    kind: StrKind::Normal {
+                        contains_quote: false,
+                    },
                 })
             } else {
                 PropName::Ident(i)
@@ -486,7 +490,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             span,
             value: format!("{}:{}", ns.sym, name.sym).into(),
             has_escape: false,
-            kind: false,
+            kind: Default::default(),
         }),
     }
 }
