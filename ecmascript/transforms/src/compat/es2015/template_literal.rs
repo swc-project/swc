@@ -91,7 +91,7 @@ impl Fold for TemplateLiteral {
                                 span,
                                 value,
                                 has_escape,
-                                contains_quote: _,
+                                contains_quote,
                             })) = *obj
                             {
                                 match *expr {
