@@ -18,7 +18,6 @@ use swc_common::{
     comments::{Comment, Comments},
     BytePos, Span,
 };
-use swc_ecma_ast::op;
 
 pub mod input;
 mod jsx;
@@ -226,7 +225,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 Some('?') => {
                     self.input.bump();
                     self.input.bump();
-                    if self.input.cur() == Some('=') {
+                    if self.syntax.typescript() && self.input.cur() == Some('=') {
                         self.input.bump();
                         return Ok(Some(tok!("??=")));
                     }
@@ -337,11 +336,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                 if self.input.cur() == Some(c) {
                     self.input.bump();
 
-                    if self.input.cur() == Some('=') {
+                    if self.syntax.typescript() && self.input.cur() == Some('=') {
                         self.input.bump();
                         return Ok(Some(AssignOp(match token {
-                            BitAnd => op!("&&="),
-                            BitOr => op!("||="),
+                            BitAnd => AndAssign,
+                            BitOr => OrAssign,
                             _ => unreachable!(),
                         })));
                     }

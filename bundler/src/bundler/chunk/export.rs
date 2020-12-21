@@ -10,7 +10,6 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use std::mem::{replace, take};
-use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
@@ -193,111 +192,10 @@ where
                                 }
                                 None => {}
                             },
-                            ImportSpecifier::Default(default) => {
-                                let imported = Ident::new(
-                                    js_word!("default"),
-                                    DUMMY_SP.with_ctxt(import.span.ctxt),
-                                );
-                                vars.push(imported.clone().assign_to(default.local.clone()));
-                            }
                             _ => {}
                         }
                     }
                     import.specifiers.clear();
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
-                    match &mut export.decl {
-                        DefaultDecl::Class(expr) => {
-                            let expr = expr.take();
-                            let export_name = Ident::new(
-                                js_word!("default"),
-                                export.span.with_ctxt(info.export_ctxt()),
-                            );
-
-                            let (init, s) = match expr.ident {
-                                Some(name) => {
-                                    (
-                                        Expr::Ident(name.clone()),
-                                        ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
-                                            // Context of the span is local.
-                                            ident: name,
-                                            declare: false,
-                                            class: expr.class,
-                                        }))),
-                                    )
-                                }
-                                None => (
-                                    Expr::Class(expr),
-                                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
-                                ),
-                            };
-
-                            vars.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(export_name.clone()),
-                                init: Some(Box::new(init)),
-                                definite: false,
-                            });
-
-                            let export_specifier = ExportSpecifier::Named(ExportNamedSpecifier {
-                                span: DUMMY_SP,
-                                orig: export_name.clone(),
-                                exported: Some(export_name.clone()),
-                            });
-                            new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                                NamedExport {
-                                    span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
-                                    specifiers: vec![export_specifier],
-                                    src: None,
-                                    type_only: false,
-                                },
-                            )));
-
-                            stmt = s;
-                        }
-                        DefaultDecl::Fn(expr) => {
-                            let expr = expr.take();
-                            let export_name = Ident::new(
-                                js_word!("default"),
-                                export.span.with_ctxt(info.export_ctxt()),
-                            );
-
-                            let (init, s) = match expr.ident {
-                                Some(name) => (
-                                    Expr::Ident(name.clone()),
-                                    ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                        ident: name,
-                                        declare: false,
-                                        function: expr.function,
-                                    }))),
-                                ),
-                                None => (
-                                    Expr::Fn(expr),
-                                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
-                                ),
-                            };
-
-                            vars.push(init.assign_to(export_name.clone()));
-
-                            let export_specifier = ExportSpecifier::Named(ExportNamedSpecifier {
-                                span: DUMMY_SP,
-                                orig: export_name.clone(),
-                                exported: Some(export_name.clone()),
-                            });
-                            new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                                NamedExport {
-                                    span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
-                                    specifiers: vec![export_specifier],
-                                    src: None,
-                                    type_only: false,
-                                },
-                            )));
-
-                            stmt = s;
-                        }
-                        DefaultDecl::TsInterfaceDecl(_) => {}
-                    }
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
@@ -340,15 +238,12 @@ where
     }
 }
 
-pub(super) struct ExportInjector<'a> {
-    pub ctx: &'a Ctx,
-    pub export_ctxt: SyntaxContext,
-    pub wrapped: bool,
+pub(super) struct ExportInjector {
     pub imported: Vec<ModuleItem>,
     pub source: Source,
 }
 
-impl VisitMut for ExportInjector<'_> {
+impl VisitMut for ExportInjector {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
@@ -403,13 +298,6 @@ impl VisitMut for ExportInjector<'_> {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export))
                     if export.src.value == self.source.src.value =>
                 {
-                    if !self.wrapped {
-                        let export_ctxt = export.span.ctxt;
-                        self.ctx
-                            .transitive_remap
-                            .insert(self.export_ctxt, export_ctxt);
-                    }
-
                     buf.extend(take(&mut self.imported));
                 }
 
