@@ -901,9 +901,32 @@ test!(
     |_| tr(Default::default()),
     codegen_10,
     r#"`The ${argumentName} has unexpected type of "` +
-    matchType +
-    `". Expected argument to be an object with the following ` +
-    `keys: "${reducerKeys.join('", "')}"`"#,
+  matchType +
+  `". Expected argument to be an object with the following ` +
+  `keys: "${reducerKeys.join('", "')}"`"#,
     r#""The ".concat(argumentName, " has unexpected type of \"") + matchType + "\". Expected argument to be an object with the following " + "keys: \"".concat(reducerKeys.join('", "'), "\"")"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1280,
+    "
+    const myVar = T`'Hello'`;
+    ",
+    "
+    function _templateObject() {
+      const data = _taggedTemplateLiteral([
+          \"\\'Hello\\'\"
+      ]);
+      _templateObject = function() {
+          return data;
+      };
+      return data;
+    }
+  
+    const myVar = T(_templateObject());    
+    ",
     ok_if_code_eq
 );
