@@ -89,7 +89,7 @@ try {
 }
 
 for (let [, , t] = simple_array; t < 10; t++) {
-// console.log(t)
+    // console.log(t)
 }
 for (let {num} = obj; num < 11; num++) {
     // console.log(num)
