@@ -74,10 +74,6 @@ jobs:
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
 
-      - name: Download typescript parser test suite
-        run: |
-          git clone --depth 1 https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc
-
       - name: Run fast cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
