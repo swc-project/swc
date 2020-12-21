@@ -918,7 +918,7 @@ test!(
     "
     function _templateObject() {
       const data = _taggedTemplateLiteral([
-          \"\\'Hello\\'\"
+          \"'Hello'\"
       ]);
       _templateObject = function() {
           return data;
