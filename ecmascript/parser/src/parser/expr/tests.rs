@@ -382,7 +382,9 @@ hehe.";"#,
             span,
             value: "okokhehe.".into(),
             has_escape: true,
-            contains_quote: true,
+            kind: StrKind::Normal {
+                contains_quote: true,
+            }
         })))
     );
 }
