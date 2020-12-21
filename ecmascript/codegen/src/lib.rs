@@ -2461,7 +2461,7 @@ fn escape<'s>(
 
     while let Some(orig_c) = orig_iter.next() {
         // Javascript literal should not contain newlines
-        if orig_c == '\n' && single_quote.is_some() {
+        if orig_c == '\n' {
             s_iter.next();
             s_iter.next();
             buf.push_str("\\n");
