@@ -101,7 +101,11 @@
                       "ctxt": 0
                     },
                     "value": "\r\n",
-                    "hasEscape": true
+                    "hasEscape": true,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
                   }
                 }
               ],

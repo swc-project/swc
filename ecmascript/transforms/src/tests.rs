@@ -403,6 +403,13 @@ impl Fold for Normalizer {
 
         n
     }
+
+    fn fold_str(&mut self, s: Str) -> Str {
+        Str {
+            kind: Default::default(),
+            ..s
+        }
+    }
 }
 
 pub(crate) struct HygieneVisualizer;

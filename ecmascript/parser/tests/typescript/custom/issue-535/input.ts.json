@@ -21,7 +21,11 @@
           "ctxt": 0
         },
         "value": "test",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       }
     },
     {
@@ -40,7 +44,11 @@
           "ctxt": 0
         },
         "value": "test",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null
@@ -81,7 +89,11 @@
           "ctxt": 0
         },
         "value": "test",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false,
       "asserts": null

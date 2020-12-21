@@ -824,6 +824,7 @@ impl RestFolder {
                                 span,
                                 value: format!("{}", value).into(),
                                 has_escape: false,
+                                kind: Default::default(),
                             }))),
                         ),
                         PropName::BigInt(BigInt { span, ref value }) => {
@@ -834,6 +835,7 @@ impl RestFolder {
                                     span,
                                     value: format!("{}", value).into(),
                                     has_escape: false,
+                                    kind: Default::default(),
                                 }))),
                             )
                         }
@@ -957,6 +959,7 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
                         span,
                         value: value.to_string().into(),
                         has_escape: false,
+                        kind: Default::default(),
                     }))),
                     ..v
                 },
@@ -1004,6 +1007,9 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                     span: ident.span,
                     value: ident.sym.clone(),
                     has_escape: false,
+                    kind: StrKind::Normal {
+                        contains_quote: false,
+                    },
                 })
                 .as_arg(),
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
@@ -1011,12 +1017,14 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                     span: *span,
                     value: format!("{}", value).into(),
                     has_escape: false,
+                    kind: Default::default(),
                 })
                 .as_arg(),
                 PropName::BigInt(BigInt { span, value }) => Lit::Str(Str {
                     span: *span,
                     value: format!("{}", value).into(),
                     has_escape: false,
+                    kind: Default::default(),
                 })
                 .as_arg(),
                 PropName::Computed(c) => c.expr.clone().as_arg(),
@@ -1025,6 +1033,9 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 span: key.span,
                 value: key.sym.clone(),
                 has_escape: false,
+                kind: StrKind::Normal {
+                    contains_quote: false,
+                },
             })
             .as_arg(),
             ObjectPatProp::Rest(..) => unreachable!("invalid syntax (multiple rest element)"),

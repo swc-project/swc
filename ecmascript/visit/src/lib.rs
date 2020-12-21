@@ -867,6 +867,7 @@ define!({
         pub span: Span,
         pub value: JsWord,
         pub has_escape: bool,
+        pub kind: StrKind,
     }
     pub struct Bool {
         pub span: Span,

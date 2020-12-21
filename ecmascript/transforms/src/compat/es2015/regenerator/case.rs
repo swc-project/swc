@@ -849,6 +849,7 @@ impl CaseHandler<'_> {
                             span: DUMMY_SP,
                             value: ty.into(),
                             has_escape: false,
+                            kind: Default::default(),
                         })
                         .as_arg();
 

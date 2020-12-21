@@ -180,6 +180,7 @@ fn env_map() -> HashMap<JsWord, Expr> {
                 span: DUMMY_SP,
                 value: s,
                 has_escape: false,
+                kind: Default::default(),
             })),
         );
     }

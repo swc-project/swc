@@ -1,23 +1,18 @@
 use crate::util::{is_literal, prepend_stmts, ExprFactory, StmtLike};
 use std::{iter, mem};
 use swc_atoms::js_word;
-use swc_common::{BytePos, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn template_literal() -> impl Fold {
     TemplateLiteral {
         added: Default::default(),
-        str_ctxt: SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
     }
 }
 
 struct TemplateLiteral {
     added: Vec<Stmt>,
-    /// Applied to [Str] created by this pass.
-    ///
-    /// This is to workaround codegen issue.
-    str_ctxt: SyntaxContext,
 }
 
 impl Fold for TemplateLiteral {
@@ -41,15 +36,7 @@ impl Fold for TemplateLiteral {
                 // TODO: Optimize
 
                 // This makes result of addition string
-                let mut obj: Box<Expr> = Box::new(
-                    Lit::Str(
-                        quasis[0]
-                            .cooked
-                            .clone()
-                            .unwrap_or_else(|| quasis[0].raw.clone()),
-                    )
-                    .into(),
-                );
+                let mut obj: Box<Expr> = Box::new(Lit::Str(quasis[0].raw.clone()).into());
 
                 let len = quasis.len() + exprs.len();
 
@@ -69,8 +56,7 @@ impl Fold for TemplateLiteral {
 
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
-                                let mut s = cooked.unwrap_or_else(|| raw);
-                                s.span.ctxt = self.str_ctxt;
+                                let s = cooked.unwrap_or_else(|| raw);
                                 Box::new(Lit::Str(s).into())
                             }
                             _ => unreachable!(),
@@ -105,27 +91,32 @@ impl Fold for TemplateLiteral {
                                 span,
                                 value,
                                 has_escape,
+                                kind,
                             })) = *obj
                             {
-                                if let Expr::Lit(Lit::Str(Str {
-                                    span: r_span,
-                                    value: r_value,
-                                    has_escape: r_has_escape,
-                                })) = *expr
-                                {
-                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: span.with_hi(r_span.hi()),
-                                        value: format!("{}{}", value, r_value).into(),
-                                        has_escape: has_escape || r_has_escape,
-                                    })));
-
-                                    continue;
-                                } else {
-                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                        span,
-                                        value,
-                                        has_escape,
-                                    })))
+                                match *expr {
+                                    Expr::Lit(Lit::Str(Str {
+                                        span: r_span,
+                                        value: r_value,
+                                        has_escape: r_has_escape,
+                                        kind: _,
+                                    })) => {
+                                        obj = Box::new(Expr::Lit(Lit::Str(Str {
+                                            span: span.with_hi(r_span.hi()),
+                                            value: format!("{}{}", value, r_value).into(),
+                                            has_escape: has_escape || r_has_escape,
+                                            kind: Default::default(),
+                                        })));
+                                        continue;
+                                    }
+                                    _ => {
+                                        obj = Box::new(Expr::Lit(Lit::Str(Str {
+                                            span,
+                                            value,
+                                            has_escape,
+                                            kind,
+                                        })));
+                                    }
                                 }
                             }
                         }

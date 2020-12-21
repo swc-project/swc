@@ -32,6 +32,7 @@ macro_rules! quote_str {
             span: $span,
             value: $s.into(),
             has_escape: false,
+            kind: Default::default(),
         }
     }};
 }

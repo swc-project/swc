@@ -1365,6 +1365,7 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
             span: i.span,
             value: i.sym,
             has_escape: false,
+            kind: Default::default(),
         })),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),

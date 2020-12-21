@@ -392,6 +392,10 @@ impl VisitMut for Normalizer {
             _ => {}
         }
     }
+
+    fn visit_mut_str(&mut self, s: &mut Str) {
+        s.kind = Default::default();
+    }
 }
 
 struct HygieneVisualizer;
