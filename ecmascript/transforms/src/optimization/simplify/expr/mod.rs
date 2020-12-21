@@ -102,6 +102,7 @@ impl SimplifyExpr {
                                 .into(),
                             span,
                             has_escape: false,
+                            contains_quote: false,
                         }))
                     }
                 }
@@ -614,6 +615,7 @@ impl SimplifyExpr {
             span,
             value: val.into(),
             has_escape: false,
+            contains_quote: false,
         }))
     }
 
