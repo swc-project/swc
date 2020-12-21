@@ -797,9 +797,21 @@ mod tests {
     fn array_pat(s: &'static str) -> Pat {
         test_parser(s, Syntax::default(), |p| p.parse_array_binding_pat())
     }
+    fn object_pat(s: &'static str) -> Pat {
+        test_parser(s, Syntax::default(), |p| p.parse_binding_pat_or_ident())
+    }
 
     fn ident(s: &str) -> Ident {
         Ident::new(s.into(), span)
+    }
+
+    fn rest() -> Option<Pat> {
+        Some(Pat::Rest(RestPat {
+            span,
+            dot3_token: span,
+            type_ann: None,
+            arg: Box::new(Pat::Ident(ident("tail"))),
+        }))
     }
 
     #[test]
@@ -881,6 +893,188 @@ mod tests {
                     }))
                 ],
                 type_ann: None
+            })
+        );
+    }
+    #[test]
+    fn array_binding_pattern_tail() {
+        assert_eq_ignore_span!(
+            array_pat("[...tail]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![rest()],
+                type_ann: None
+            })
+        );
+    }
+
+    #[test]
+    fn array_binding_pattern_assign() {
+        assert_eq_ignore_span!(
+            array_pat("[,a=1,]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![
+                    None,
+                    Some(Pat::Assign(AssignPat {
+                        type_ann: None,
+                        span,
+                        left: Box::new(Pat::Ident(ident("a"))),
+                        right: Box::new(Expr::Lit(Lit::Num(Number { span, value: 1.0 })))
+                    }))
+                ],
+                type_ann: None
+            })
+        );
+    }
+    #[test]
+    fn array_binding_pattern_tail_with_elems() {
+        assert_eq_ignore_span!(
+            array_pat("[,,,...tail]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![None, None, None, rest()],
+                type_ann: None
+            })
+        );
+    }
+    #[test]
+    fn array_binding_pattern_tail_inside_tail() {
+        assert_eq_ignore_span!(
+            array_pat("[,,,...[...tail]]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![
+                    None,
+                    None,
+                    None,
+                    Some(Pat::Rest(RestPat {
+                        span,
+                        dot3_token: span,
+                        type_ann: None,
+                        arg: Box::new(Pat::Array(ArrayPat {
+                            span,
+                            optional: false,
+                            elems: vec![rest()],
+                            type_ann: None
+                        }))
+                    }))
+                ],
+                type_ann: None
+            })
+        );
+    }
+
+    #[test]
+    fn object_binding_pattern_tail() {
+        assert_eq_ignore_span!(
+            object_pat("{...obj}"),
+            Pat::Object(ObjectPat {
+                span,
+                type_ann: None,
+                optional: false,
+                props: vec![ObjectPatProp::Rest(RestPat {
+                    span,
+                    dot3_token: span,
+                    type_ann: None,
+                    arg: Box::new(Pat::Ident(ident("obj")))
+                })]
+            })
+        );
+    }
+    #[test]
+    fn object_binding_pattern_with_prop() {
+        assert_eq_ignore_span!(
+            object_pat("{prop = 10 }"),
+            Pat::Object(ObjectPat {
+                span,
+                type_ann: None,
+                optional: false,
+                props: vec![ObjectPatProp::Assign(AssignPatProp {
+                    span,
+                    key: ident("prop"),
+                    value: Some(Box::new(Expr::Lit(Lit::Num(Number { span, value: 10.0 }))))
+                })]
+            })
+        );
+    }
+    #[test]
+    fn object_binding_pattern_with_prop_and_label() {
+        fn prop(key: PropName, assign_name: &str, expr: Expr) -> PropOrSpread {
+            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                key,
+                value: Box::new(Expr::Assign(AssignExpr {
+                    span,
+                    op: AssignOp::Assign,
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(ident(assign_name)))),
+                    right: Box::new(expr),
+                })),
+            })))
+        }
+
+        assert_eq_ignore_span!(
+            object_pat(
+                "{obj = {$: num = 10, '': sym = '', \" \": quote = \" \", _: under = [...tail],}}"
+            ),
+            Pat::Object(ObjectPat {
+                span,
+                type_ann: None,
+                optional: false,
+                props: vec![ObjectPatProp::Assign(AssignPatProp {
+                    span,
+                    key: ident("obj"),
+                    value: Some(Box::new(Expr::Object(ObjectLit {
+                        span,
+                        props: vec![
+                            prop(
+                                PropName::Ident(ident("$")),
+                                "num",
+                                Expr::Lit(Lit::Num(Number { span, value: 10.0 }))
+                            ),
+                            prop(
+                                PropName::Str(Str {
+                                    span,
+                                    has_escape: false,
+                                    value: "".into()
+                                }),
+                                "sym",
+                                Expr::Lit(Lit::Str(Str {
+                                    span,
+                                    has_escape: false,
+                                    value: "".into()
+                                }))
+                            ),
+                            prop(
+                                PropName::Str(Str {
+                                    span,
+                                    has_escape: false,
+                                    value: " ".into()
+                                }),
+                                "quote",
+                                Expr::Lit(Lit::Str(Str {
+                                    span,
+                                    has_escape: false,
+                                    value: " ".into()
+                                }))
+                            ),
+                            prop(
+                                PropName::Ident(ident("_")),
+                                "under",
+                                Expr::Array(ArrayLit {
+                                    span,
+                                    elems: vec![Some(ExprOrSpread {
+                                        spread: Some(span),
+                                        expr: Box::new(Expr::Ident(ident("tail")))
+                                    })]
+                                })
+                            ),
+                        ]
+                    })))
+                })]
             })
         );
     }
