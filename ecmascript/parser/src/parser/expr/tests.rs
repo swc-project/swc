@@ -350,7 +350,9 @@ fn issue_328() {
                         span,
                         value: "test".into(),
                         has_escape: false,
-                        contains_quote: false,
+                        kind: StrKind::Normal {
+                            contains_quote: true
+                        }
                     }))),
                 }],
                 type_args: Default::default(),
