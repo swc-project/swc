@@ -45,7 +45,7 @@ impl Fold for PropertyLiteral {
             PropName::Str(Str {
                 value: sym,
                 span,
-                contains_quote,
+                kind,
                 ..
             }) => {
                 if sym.is_reserved_for_es3() || !is_valid_ident(&sym) {
@@ -53,7 +53,7 @@ impl Fold for PropertyLiteral {
                         span,
                         value: sym,
                         has_escape: false,
-                        contains_quote,
+                        kind,
                     })
                 } else {
                     PropName::Ident(Ident::new(sym, span))

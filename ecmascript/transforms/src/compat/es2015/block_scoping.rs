@@ -283,7 +283,7 @@ impl BlockScoping {
                                         span: DUMMY_SP,
                                         value: js_word!("object"),
                                         has_escape: false,
-                                        kind: false,
+                                        kind: Default::default(),
                                     }))
                                     .into(),
                                 })),
