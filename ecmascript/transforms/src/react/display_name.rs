@@ -39,6 +39,7 @@ impl Fold for DisplayName {
                         span: prop.span,
                         value: prop.sym.clone(),
                         has_escape: false,
+                        kind: Default::default(),
                     })))),
                 });
                 return AssignExpr { right, ..expr };
@@ -51,6 +52,7 @@ impl Fold for DisplayName {
                     span: ident.span,
                     value: ident.sym.clone(),
                     has_escape: false,
+                    kind: Default::default(),
                 })))),
             });
 
@@ -70,6 +72,7 @@ impl Fold for DisplayName {
                         span: DUMMY_SP,
                         value: "input".into(),
                         has_escape: false,
+                        kind: Default::default(),
                     })))),
                 }))
             }
@@ -88,6 +91,9 @@ impl Fold for DisplayName {
                             span: i.span,
                             value: i.sym.clone(),
                             has_escape: false,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
                         }))),
                         PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
                         PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
@@ -109,6 +115,9 @@ impl Fold for DisplayName {
                         span: ident.span,
                         value: ident.sym.clone(),
                         has_escape: false,
+                        kind: StrKind::Normal {
+                            contains_quote: false,
+                        },
                     })))),
                 });
 

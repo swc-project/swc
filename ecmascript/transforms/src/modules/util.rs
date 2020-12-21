@@ -693,6 +693,7 @@ pub(super) fn make_require_call(mark: Mark, src: JsWord) -> Expr {
             span: DUMMY_SP,
             value: src,
             has_escape: false,
+            kind: Default::default(),
         })
         .as_arg()],
 

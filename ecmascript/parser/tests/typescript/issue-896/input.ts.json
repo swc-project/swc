@@ -21,7 +21,11 @@
           "ctxt": 0
         },
         "value": "../typings",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       }
     }
   ],

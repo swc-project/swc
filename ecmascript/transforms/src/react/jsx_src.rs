@@ -46,6 +46,7 @@ impl Fold for JsxSrc {
                                         _ => unimplemented!("file name for other than real files"),
                                     },
                                     has_escape: false,
+                                    kind: Default::default(),
                                 }))),
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {

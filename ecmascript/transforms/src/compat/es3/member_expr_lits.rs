@@ -40,6 +40,9 @@ impl Fold for MemberExprLit {
                             span: $span,
                             value: $sym,
                             has_escape: false,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
                         }))),
                         ..e
                     };
@@ -87,7 +90,8 @@ obj["var"] = "isKeyword";"#,
         r#"obj["foo"] = "isValid";
 
 obj["const"] = "isKeyword";
-obj["var"] = "isKeyword";"#
+obj["var"] = "isKeyword";"#,
+        ok_if_code_eq
     );
 
     test!(

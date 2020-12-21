@@ -23,7 +23,11 @@
           "ctxt": 0
         },
         "value": "@dsherret/package",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "body": {
         "type": "TsModuleBlock",
