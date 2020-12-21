@@ -350,7 +350,9 @@ fn issue_328() {
                         span,
                         value: "test".into(),
                         has_escape: false,
-                        kind: StrKind::Normal { kind: true }
+                        kind: StrKind::Normal {
+                            constains_quote: true
+                        }
                     }))),
                 }],
                 type_args: Default::default(),
@@ -380,7 +382,9 @@ hehe.";"#,
             span,
             value: "okokhehe.".into(),
             has_escape: true,
-            kind: StrKind::Normal { kind: true }
+            kind: StrKind::Normal {
+                constains_quote: true
+            }
         })))
     );
 }
