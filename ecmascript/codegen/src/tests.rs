@@ -500,8 +500,17 @@ fn denoo_8541_2() {
 #[test]
 fn test_escape_without_source() {
     fn es2020(src: &str, expected: &str) {
-        super::escape_without_source(src, JscTarget::Es2020, true);
+        assert_eq!(
+            super::escape_without_source(src, JscTarget::Es2020, true),
+            expected
+        )
     }
+
+    es2020("abcde", "abcde");
+    es2020(
+        "\x00\r\n\u{85}\u{2028}\u{2029};",
+        "\\0\\r\\n\\x85\\u2028\\u2029",
+    );
 
     es2020("\n", "\\n");
     es2020("\t", "\\t");
@@ -510,9 +519,6 @@ fn test_escape_without_source() {
 
     es2020("\u{0}", "\\0");
     es2020("\u{1}", "\\x0");
-
-    es2020("\x20", "\\x20");
-    es2020("\x7e", "\\x7e");
 
     es2020("\u{1000}", "\\u1000");
     es2020("\u{ff}", "\\u{ff}");

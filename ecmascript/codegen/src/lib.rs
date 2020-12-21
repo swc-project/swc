@@ -2447,11 +2447,23 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
             '"' if !single_quote => buf.push_str("\\\""),
             '\x20'..='\x7e' => {
                 //
-                let _ = write!(buf, "{:x}", c as u8);
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
             }
 
             _ => {
-                buf.extend(c.escape_unicode());
+                let escaped = c.escape_unicode().to_string();
+
+                if escaped.starts_with('\\') {
+                    buf.push_str("\\u");
+                    if escaped.len() == 8 {
+                        buf.push_str(&escaped[3..=6]);
+                    } else {
+                        buf.push_str(&escaped[2..]);
+                    }
+                }
             }
         }
     }
