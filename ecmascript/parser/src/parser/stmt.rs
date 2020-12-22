@@ -1713,4 +1713,65 @@ export default function waitUntil(callback, options = {}) {
         assert!(trailing.borrow().is_empty());
         assert_eq!(leading.borrow().len(), 1);
     }
+    fn parse_for_head(str: &'static str) -> ForHead {
+        test_parser(str, Syntax::default(), |p| p.parse_for_head())
+    }
+
+    #[test]
+    fn for_array_binding_pattern() {
+        match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
+            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+                v,
+                VarDeclOrExpr::VarDecl(VarDecl {
+                    span,
+                    declare: false,
+                    kind: VarDeclKind::Let,
+                    decls: vec![VarDeclarator {
+                        span,
+                        name: Pat::Array(ArrayPat {
+                            span,
+                            type_ann: None,
+                            optional: false,
+                            elems: vec![None, None, Some(Pat::Ident(Ident::new("t".into(), span)))]
+                        }),
+                        init: Some(Box::new(Expr::Ident(Ident::new(
+                            "simple_array".into(),
+                            span
+                        )))),
+                        definite: false
+                    }]
+                })
+            ),
+            _ => assert!(false),
+        }
+    }
+    #[test]
+    fn for_object_binding_pattern() {
+        match parse_for_head("let {num} = obj; num < 11; num++") {
+            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+                v,
+                VarDeclOrExpr::VarDecl(VarDecl {
+                    span,
+                    declare: false,
+                    kind: VarDeclKind::Let,
+                    decls: vec![VarDeclarator {
+                        span,
+                        name: Pat::Object(ObjectPat {
+                            optional: false,
+                            type_ann: None,
+                            span,
+                            props: vec![ObjectPatProp::Assign(AssignPatProp {
+                                span,
+                                key: Ident::new("num".into(), span),
+                                value: None
+                            })]
+                        }),
+                        init: Some(Box::new(Expr::Ident(Ident::new("obj".into(), span)))),
+                        definite: false
+                    }]
+                })
+            ),
+            _ => assert!(false),
+        }
+    }
 }
