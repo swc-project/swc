@@ -16,8 +16,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
-type StmtDepGraph = DiGraphMap<usize, Required>;
+type StmtDepGraph = self::graph::StmtDepGraph;
 
+mod graph;
 /// Is dependancy between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum Required {
