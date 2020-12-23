@@ -46,7 +46,7 @@ jobs:
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          (cd wasm/pkg && npm publish)
+          (cd wasm/pkg && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
