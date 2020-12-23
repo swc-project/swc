@@ -282,8 +282,7 @@ impl Sorter<'_> {
         if cfg!(debug_assertions) {
             let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
             for dep in deps {
-                let cycles: Vec<Vec<_>> =
-                    all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
+                let cycles = self.graph.all_simple_paths(dep, idx);
                 if !cycles.is_empty() {
                     continue;
                 }
@@ -376,7 +375,7 @@ impl Sorter<'_> {
                 let deps: Vec<_> = self
                     .graph
                     .neighbors_directed(i, Dependancies)
-                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(&Required::Always))
+                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(Required::Always))
                     .collect();
 
                 if deps.len() != 0 {
@@ -413,9 +412,12 @@ impl Sorter<'_> {
             let mut did_work = false;
             // Add nodes which does not have any dependencies.
             for i in range.clone() {
-                let deps = self.graph.neighbors_directed(i, Dependancies);
+                let deps = self
+                    .graph
+                    .neighbors_directed(i, Dependancies)
+                    .collect::<Vec<_>>();
 
-                if self.orders.contains(&i) || deps.count() != 0 {
+                if self.orders.contains(&i) || deps.len() != 0 {
                     continue;
                 }
 
@@ -461,9 +463,7 @@ impl Sorter<'_> {
                     let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
 
                     for dep in deps {
-                        let has_cycle =
-                            all_simple_paths::<Vec<_>, _>(&*self.graph, dep, idx, 0, None).count()
-                                != 0;
+                        let has_cycle = self.graph.all_simple_paths(dep, idx).len() != 0;
 
                         if !has_cycle {
                             self.insert_orders(dep, false, &mut delayed);
@@ -495,7 +495,7 @@ impl Sorter<'_> {
         delayed: &mut HashSet<usize>,
     ) {
         for dep in deps {
-            let cycles: Vec<Vec<_>> = all_simple_paths(&*self.graph, dep, idx, 0, None).collect();
+            let cycles = self.graph.all_simple_paths(dep, idx);
             if !cycles.is_empty() {
                 self.emit_cycles(cycles);
                 continue;

@@ -1,10 +1,49 @@
 use crate::bundler::modules::sort::Required;
+use petgraph::algo::all_simple_paths;
+use petgraph::graphmap::AllEdges;
 use petgraph::graphmap::DiGraphMap;
+use petgraph::Directed;
+use petgraph::EdgeDirection;
 
 /// Used to debug petgraph.
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub(super) struct StmtDepGraph {
     inner: DiGraphMap<usize, Required>,
 }
 
-impl StmtDepGraph {}
+impl StmtDepGraph {
+    pub fn add_node(&mut self, node: usize) {
+        eprintln!("[Graph][Node][Add]{}", node);
+        self.inner.add_node(node);
+    }
+
+    pub fn remove_node(&mut self, node: usize) {
+        eprintln!("[Graph][Node][Remove]{}", node);
+        self.inner.add_node(node);
+    }
+
+    pub fn add_edge(&mut self, a: usize, b: usize, required: Required) {
+        eprintln!("[Graph][Edge]{},{}", a, b);
+        self.inner.add_edge(a, b, required);
+    }
+
+    pub fn all_edges(&self) -> AllEdges<usize, Required, Directed> {
+        self.inner.all_edges()
+    }
+
+    pub fn edge_weight(&self, a: usize, b: usize) -> Option<Required> {
+        self.inner.edge_weight(a, b).cloned()
+    }
+
+    pub fn neighbors_directed<'a>(
+        &'a self,
+        start: usize,
+        dir: EdgeDirection,
+    ) -> impl 'a + Iterator<Item = usize> {
+        self.inner.neighbors_directed(start, dir)
+    }
+
+    pub fn all_simple_paths(&self, from: usize, to: usize) -> Vec<Vec<usize>> {
+        all_simple_paths(&self.inner, from, to, 0, None).collect()
+    }
+}
