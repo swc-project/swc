@@ -17,5 +17,5 @@ app.use(router.allowedMethods());
 console.log(`Now listening on http://0.0.0.0:3000`);
 setTimeout(() => {
     Deno.exit(0);
-}, 5000)
+}, 1000)
 await app.listen("0.0.0.0:58545");
