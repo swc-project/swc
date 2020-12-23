@@ -1,8 +1,6 @@
 use super::Modules;
 use crate::{id::Id, util::MapWithMut};
 use indexmap::IndexSet;
-use petgraph::algo::all_simple_paths;
-use petgraph::graphmap::DiGraphMap;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
 use retain_mut::RetainMut;
