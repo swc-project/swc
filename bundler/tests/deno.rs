@@ -215,12 +215,6 @@ fn deno_8211_1() {
     );
 }
 
-/// https://github.com/denoland/deno/issues/8211#issuecomment-736498065
-#[test]
-fn deno_8211_2() {
-    run("tests/deno/deno-8211-1/input/entry.ts", &[]);
-}
-
 #[test]
 fn deno_8246() {
     run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",&[
