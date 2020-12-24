@@ -12,6 +12,10 @@ pub(super) struct StmtDepGraph {
 }
 
 impl StmtDepGraph {
+    pub fn node_count(&self) -> usize {
+        self.inner.node_count()
+    }
+
     pub fn add_node(&mut self, node: usize) {
         println!("[Graph][Node][Add]{}", node);
         self.inner.add_node(node);

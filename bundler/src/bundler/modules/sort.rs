@@ -6,9 +6,10 @@ use petgraph::EdgeDirection::Outgoing as Dependancies;
 use retain_mut::RetainMut;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::collections::VecDeque;
+use std::iter::from_fn;
 use std::mem::take;
 use std::ops::Range;
-use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -200,39 +201,45 @@ impl Modules {
         // Now graph contains enough information to sort statements.
         let len = new.len();
         let mut orders = vec![];
-        let mut delayed = HashSet::new();
+        orders.extend(iter(
+            &mut graph,
+            &same_module_ranges,
+            free.clone(),
+            &module_starts,
+        ));
+        // let mut delayed = HashSet::new();
 
-        {
-            let mut sorter = Sorter {
-                graph: &mut graph,
-                orders: &mut orders,
-                same_module_ranges: &same_module_ranges,
-                free: free.clone(),
-                _new: &new,
-                visited_goto: Default::default(),
-            };
-
-            for start_idx in module_starts {
-                sorter.insert_orders(start_idx, false, &mut delayed);
-            }
-
-            sorter.emit_free_items();
-            sorter.emit_items(0..len, true);
-
-            // Now all dependencies are merged.
-            eprintln!("Free: {:?}", free);
-            for i in 0..len {
-                if sorter.orders.contains(&i) {
-                    continue;
-                }
-                // dbg!("Left", i);
-                sorter.dump_item(i);
-
-                sorter.insert_orders(i, false, &mut delayed);
-            }
-        }
-
-        assert_eq!(orders.len(), new.len());
+        // {
+        //     let mut sorter = Sorter {
+        //         graph: &mut graph,
+        //         orders: &mut orders,
+        //         same_module_ranges: &same_module_ranges,
+        //         free: free.clone(),
+        //         _new: &new,
+        //         visited_goto: Default::default(),
+        //     };
+        //
+        //     for start_idx in module_starts {
+        //         sorter.insert_orders(start_idx, false, &mut delayed);
+        //     }
+        //
+        //     sorter.emit_free_items();
+        //     sorter.emit_items(0..len, true);
+        //
+        //     // Now all dependencies are merged.
+        //     eprintln!("Free: {:?}", free);
+        //     for i in 0..len {
+        //         if sorter.orders.contains(&i) {
+        //             continue;
+        //         }
+        //         // dbg!("Left", i);
+        //         sorter.dump_item(i);
+        //
+        //         sorter.insert_orders(i, false, &mut delayed);
+        //     }
+        // }
+        //
+        // assert_eq!(orders.len(), new.len());
 
         let mut buf = Vec::with_capacity(new.len());
         for order in orders {
@@ -602,6 +609,117 @@ impl Sorter<'_> {
             }
         }
     }
+}
+
+fn iter<'a>(
+    graph: &'a mut StmtDepGraph,
+    same_module_ranges: &'a [Range<usize>],
+    free: Range<usize>,
+    module_starts: &[usize],
+) -> impl 'a + Iterator<Item = usize> {
+    let len = graph.node_count();
+
+    let mut done = HashSet::new();
+    let mut stack = VecDeque::new();
+    stack.extend(module_starts.iter().copied());
+
+    from_fn(move || {
+        if done.len() == len {
+            return None;
+        }
+
+        // Check for first item.
+        while let Some(idx) = stack.pop_front() {
+            if done.contains(&idx) {
+                continue;
+            }
+
+            // We
+            let deps = graph
+                .neighbors_directed(idx, Dependancies)
+                .collect::<Vec<_>>();
+
+            if !deps.is_empty() {
+                stack.push_front(idx);
+                let mut deps_to_push = vec![];
+                for dep in deps {
+                    // TODO: Move pointer to `dep` depending on the range start / free.
+                    if !done.contains(&dep) && !stack.contains(&dep) && !deps_to_push.contains(&dep)
+                    {
+                        deps_to_push.push(dep);
+                    }
+                }
+
+                if deps_to_push.is_empty() {
+                    graph.remove_node(idx);
+                    done.insert(idx);
+                    return Some(idx);
+                }
+
+                stack.push_front(idx);
+                for dep in deps_to_push {
+                    stack.push_front(dep)
+                }
+
+                continue;
+            }
+
+            let is_free = free.contains(&idx);
+            if is_free {
+                let dependants = graph
+                    .neighbors_directed(idx, Dependants)
+                    .collect::<Vec<_>>();
+
+                for dependant in dependants {
+                    if !done.contains(&dependant) && !stack.contains(&idx) {
+                        stack.push_front(dependant);
+                    }
+                }
+
+                graph.remove_node(idx);
+                done.insert(idx);
+                return Some(idx);
+            }
+
+            let current_range = same_module_ranges
+                .iter()
+                .find(|range| range.contains(&idx))
+                .cloned();
+
+            let current_range = match current_range {
+                Some(v) => v,
+                None => {
+                    // It's not within a module, so explicit ordering is not required.
+                    graph.remove_node(idx);
+                    done.insert(idx);
+                    return Some(idx);
+                }
+            };
+
+            // We should respect original order of statements within a module.
+            for v in current_range {
+                // We should select first statement in module which is not emitted yet.
+                if done.contains(&v) {
+                    continue;
+                }
+                if v >= idx {
+                    break;
+                }
+
+                // We found a preceding statement which is not emitted yet.
+                stack.push_front(idx);
+                graph.remove_node(v);
+                done.insert(v);
+                return Some(v);
+            }
+
+            graph.remove_node(idx);
+            done.insert(idx);
+            return Some(idx);
+        }
+
+        None
+    })
 }
 
 /// Using prototype should be treated as an initialization.
