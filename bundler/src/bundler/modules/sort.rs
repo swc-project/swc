@@ -410,6 +410,7 @@ impl Sorter<'_> {
                     &mut Default::default(),
                     &mut Default::default(),
                 );
+                dbg!();
                 self.emit(i, emit_free_dependants);
             }
 
@@ -513,8 +514,9 @@ impl Sorter<'_> {
         dejavu: &mut HashSet<usize>,
         delayed: &mut HashSet<usize>,
     ) {
-        for dep in deps {
+        for &dep in &deps {
             let cycles = self.graph.all_simple_paths(dep, idx);
+            dbg!(&cycles);
             if !cycles.is_empty() {
                 self.emit_cycles(cycles);
                 continue;
@@ -522,7 +524,10 @@ impl Sorter<'_> {
             // We jump to another module.
             eprintln!("Jumping to dep: `{}`", dep);
             self.insert_inner(dep, false, dejavu, delayed, &[]);
+
+            eprintln!("Done: one dep of `{}`: `{}`", idx, dep);
         }
+        eprintln!("Done: deps of `{}`: `{:?}`", idx, deps);
     }
 
     /// Insert orders smartly :)
@@ -553,9 +558,10 @@ impl Sorter<'_> {
                 self.insert_deps(idx, deps, dejavu, delayed)
             }
 
+            dbg!();
             let range = self.range_of(idx);
             if let Some(range) = &range {
-                if !ignore_range_start && idx != range.start {
+                if !ignore_range_start && idx > range.start {
                     let goto = range
                         .clone()
                         .into_iter()
@@ -564,7 +570,7 @@ impl Sorter<'_> {
                     if let Some(goto) = goto {
                         if self.visited_goto.insert(goto) {
                             // We should process module from start to end.
-                            // dbg!(goto);
+                            dbg!(goto);
                             self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
                         }
                     }
@@ -592,7 +598,7 @@ impl Sorter<'_> {
                     // We successfully processed a module.
                     return;
                 }
-                // dbg!(next_idx);
+                dbg!(next_idx);
                 next = Some(next_idx);
             }
         }
