@@ -141,6 +141,8 @@ impl Modules {
                                 graph.add_edge(idx, declarator_index, Required::Always);
                             }
                         }
+
+                        declared_by.entry(id).or_default().push(idx);
                     }
                 }
             }
