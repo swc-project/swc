@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::mem::take;
 use std::ops::Range;
+use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -127,6 +128,22 @@ impl Modules {
                 }
                 _ => {}
             }
+
+            {
+                // Find extra initializations.
+                let mut v = PrototypeUsageFinter::default();
+                item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+                for id in v.accessed {
+                    if let Some(declarator_indexes) = declared_by.get(&id) {
+                        for &declarator_index in declarator_indexes {
+                            if declarator_index != idx {
+                                graph.add_edge(idx, declarator_index, Required::Always);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         // Handle uninitialized variables
@@ -204,7 +221,7 @@ impl Modules {
                 if sorter.orders.contains(&i) {
                     continue;
                 }
-                dbg!("Left", i);
+                // dbg!("Left", i);
                 sorter.dump_item(i);
 
                 sorter.insert_orders(i, false, &mut delayed);
@@ -242,19 +259,19 @@ struct Sorter<'a> {
 
 impl Sorter<'_> {
     fn dump_item(&self, idx: usize) {
-        match &self._new[idx] {
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                let ids: Vec<Id> = find_ids(&var.decls);
-                eprintln!("({}) Declare: `{:?}`", idx, ids);
-            }
-            ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-                eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
-            }
-            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
-            }
-            _ => {}
-        }
+        // match &self._new[idx] {
+        //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+        //         let ids: Vec<Id> = find_ids(&var.decls);
+        //         eprintln!("({}) Declare: `{:?}`", idx, ids);
+        //     }
+        //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+        //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
+        //     }
+        //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+        //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
+        //     }
+        //     _ => {}
+        // }
     }
 
     // This removes dependencies to other node.
@@ -274,7 +291,7 @@ impl Sorter<'_> {
             .neighbors_directed(idx, Dependants)
             .collect::<Vec<_>>();
 
-        dbg!(&dependants);
+        // dbg!(&dependants);
 
         // Ensure that we already emitted all non-cyclic deps.
         if cfg!(debug_assertions) {
@@ -304,7 +321,7 @@ impl Sorter<'_> {
                         .filter(|i| !self.orders.contains(i))
                         .collect();
 
-                    dbg!(dependant, &deps_of_dependant);
+                    // dbg!(dependant, &deps_of_dependant);
                     if dependants.is_empty()
                         || (deps_of_dependant.len() == 1 && deps_of_dependant[0] == idx)
                     {
@@ -474,7 +491,7 @@ impl Sorter<'_> {
         eprintln!("Cycle");
 
         for path in &cycles {
-            dbg!(&path);
+            // dbg!(&path);
         }
     }
 
@@ -543,7 +560,7 @@ impl Sorter<'_> {
                     if let Some(goto) = goto {
                         if self.visited_goto.insert(goto) {
                             // We should process module from start to end.
-                            dbg!(goto);
+                            // dbg!(goto);
                             self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
                         }
                     }
@@ -571,9 +588,41 @@ impl Sorter<'_> {
                     // We successfully processed a module.
                     return;
                 }
-                dbg!(next_idx);
+                // dbg!(next_idx);
                 next = Some(next_idx);
             }
+        }
+    }
+}
+
+/// Using prototype should be treated as an initialization.
+#[derive(Default)]
+struct PrototypeUsageFinter {
+    accessed: HashSet<Id>,
+}
+
+impl Visit for PrototypeUsageFinter {
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e, self);
+
+        if e.computed {
+            e.prop.visit_with(e, self);
+        }
+
+        match &e.obj {
+            ExprOrSuper::Expr(obj) => match &**obj {
+                Expr::Ident(obj) => match &*e.prop {
+                    Expr::Ident(Ident { sym: prop_sym, .. })
+                        if !e.computed && *prop_sym == *"prototype" =>
+                    {
+                        self.accessed.insert(obj.into());
+                    }
+                    _ => {}
+                },
+                _ => {}
+            },
+
+            _ => {}
         }
     }
 }
