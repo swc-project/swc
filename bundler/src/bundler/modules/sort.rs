@@ -139,10 +139,12 @@ impl Modules {
                         for &declarator_index in declarator_indexes {
                             if declarator_index != idx {
                                 graph.add_edge(idx, declarator_index, Required::Always);
+                                eprintln!("`{}` depends on `{}: {:?}`", idx, declarator_index, id);
                             }
                         }
 
                         declared_by.entry(id).or_default().push(idx);
+                        eprintln!("`{}` declares {:?}`", idx, id);
                     }
                 }
             }
