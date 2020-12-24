@@ -43,6 +43,12 @@ impl StmtDepGraph {
         self.inner.neighbors_directed(start, dir)
     }
 
+    pub fn has_a_path(&self, from: usize, to: usize) -> bool {
+        all_simple_paths::<Vec<_>, _>(&self.inner, from, to, 0, None)
+            .next()
+            .is_some()
+    }
+
     pub fn all_simple_paths(&self, from: usize, to: usize) -> Vec<Vec<usize>> {
         all_simple_paths(&self.inner, from, to, 0, None).collect()
     }

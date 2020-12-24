@@ -301,8 +301,7 @@ impl Sorter<'_> {
         if cfg!(debug_assertions) {
             let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
             for dep in deps {
-                let cycles = self.graph.all_simple_paths(dep, idx);
-                if !cycles.is_empty() {
+                if self.graph.has_a_path(dep, idx) {
                     continue;
                 }
 
@@ -483,7 +482,7 @@ impl Sorter<'_> {
                     let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
 
                     for dep in deps {
-                        let has_cycle = self.graph.all_simple_paths(dep, idx).len() != 0;
+                        let has_cycle = self.graph.has_a_path(dep, idx);
 
                         if !has_cycle {
                             self.insert_orders(dep, false, &mut delayed);
@@ -515,8 +514,8 @@ impl Sorter<'_> {
         delayed: &mut HashSet<usize>,
     ) {
         for &dep in &deps {
+            dbg!(dep, idx);
             let cycles = self.graph.all_simple_paths(dep, idx);
-            dbg!(&cycles);
             if !cycles.is_empty() {
                 self.emit_cycles(cycles);
                 continue;
