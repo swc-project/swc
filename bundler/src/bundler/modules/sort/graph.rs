@@ -13,17 +13,17 @@ pub(super) struct StmtDepGraph {
 
 impl StmtDepGraph {
     pub fn add_node(&mut self, node: usize) {
-        // eprintln!("[Graph][Node][Add]{}", node);
+        eprintln!("[Graph][Node][Add]{}", node);
         self.inner.add_node(node);
     }
 
     pub fn remove_node(&mut self, node: usize) {
-        // eprintln!("[Graph][Node][Remove]{}", node);
+        eprintln!("[Graph][Node][Remove]{}", node);
         self.inner.add_node(node);
     }
 
     pub fn add_edge(&mut self, a: usize, b: usize, required: Required) {
-        // eprintln!("[Graph][Edge]{},{}", a, b);
+        eprintln!("[Graph][Edge]{},{}", a, b);
         self.inner.add_edge(a, b, required);
     }
 
