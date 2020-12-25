@@ -639,6 +639,9 @@ fn iter<'a>(
             }
         }
     }
+    for v in free.clone() {
+        stack.push_back(v);
+    }
 
     from_fn(move || {
         if done.len() == len {
