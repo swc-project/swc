@@ -627,6 +627,18 @@ fn iter<'a>(
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
 
+    for &start in module_starts {
+        let range = same_module_ranges
+            .iter()
+            .find(|range| range.contains(&start))
+            .cloned();
+        if let Some(range) = range {
+            for v in range {
+                stack.push_back(v);
+            }
+        }
+    }
+
     from_fn(move || {
         if done.len() == len {
             return None;

@@ -84,3 +84,28 @@ fn sort_004() {
         ",
     );
 }
+
+#[test]
+fn sort_005() {
+    assert_sorted(
+        &[
+            "use(a);",
+            "
+            const a = new A();
+            export const b = 1;
+            ",
+            "
+            use(b);
+            export class A {}
+            ",
+        ],
+        "
+        export class A {
+        }
+        const a = new A();
+        use(a);
+        export const b = 1;
+        use(b);        
+        ",
+    );
+}
