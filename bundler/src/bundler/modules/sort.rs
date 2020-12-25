@@ -239,7 +239,7 @@ impl Modules {
         //     }
         // }
         //
-        // assert_eq!(orders.len(), new.len());
+        assert_eq!(orders.len(), new.len());
 
         let mut buf = Vec::with_capacity(new.len());
         for order in orders {
@@ -631,13 +631,17 @@ fn iter<'a>(
         // Check for first item.
         while let Some(idx) = stack.pop_front() {
             if done.contains(&idx) {
+                eprintln!("Done: {}", idx);
                 continue;
             }
+            dbg!(idx);
 
             // We
             let deps = graph
                 .neighbors_directed(idx, Dependancies)
                 .collect::<Vec<_>>();
+
+            dbg!(&deps);
 
             if !deps.is_empty() {
                 stack.push_front(idx);
@@ -665,6 +669,9 @@ fn iter<'a>(
             }
 
             let is_free = free.contains(&idx);
+
+            dbg!(is_free);
+
             if is_free {
                 let dependants = graph
                     .neighbors_directed(idx, Dependants)
@@ -686,9 +693,23 @@ fn iter<'a>(
                 .find(|range| range.contains(&idx))
                 .cloned();
 
+            dbg!(&current_range);
+
             let current_range = match current_range {
                 Some(v) => v,
                 None => {
+                    let dependants = graph
+                        .neighbors_directed(idx, Dependants)
+                        .collect::<Vec<_>>();
+
+                    dbg!(&dependants);
+
+                    for dependant in dependants {
+                        if !done.contains(&dependant) && !stack.contains(&idx) {
+                            stack.push_front(dependant);
+                        }
+                    }
+
                     // It's not within a module, so explicit ordering is not required.
                     graph.remove_node(idx);
                     done.insert(idx);
@@ -702,8 +723,26 @@ fn iter<'a>(
                 if done.contains(&v) {
                     continue;
                 }
-                if v >= idx {
+                dbg!(v);
+                if v == idx {
+                    continue;
+                }
+                if v > idx {
+                    // Store next statement.
+                    stack.push_front(v);
                     break;
+                }
+
+                let dependants = graph
+                    .neighbors_directed(idx, Dependants)
+                    .collect::<Vec<_>>();
+
+                dbg!(&dependants);
+
+                for dependant in dependants {
+                    if !done.contains(&dependant) && !stack.contains(&idx) {
+                        stack.push_front(dependant);
+                    }
                 }
 
                 // We found a preceding statement which is not emitted yet.
