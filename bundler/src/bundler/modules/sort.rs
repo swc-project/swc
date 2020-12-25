@@ -623,6 +623,7 @@ fn iter<'a>(
     dbg!(&free);
     dbg!(&module_starts);
 
+    let mut moveds = HashSet::new();
     let mut done = HashSet::new();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
@@ -645,9 +646,9 @@ fn iter<'a>(
         }
 
         // Check for first item.
-        while let Some(idx) = stack.pop_front() {
+        'main: while let Some(mut idx) = stack.pop_front() {
             if done.contains(&idx) {
-                eprintln!("Done: {}", idx);
+                // eprintln!("Done: {}", idx);
                 continue;
             }
             dbg!(idx);
@@ -733,18 +734,21 @@ fn iter<'a>(
             };
 
             // We should respect original order of statements within a module.
-            for v in current_range {
+            for preceding in current_range {
                 // We should select first statement in module which is not emitted yet.
-                if done.contains(&v) {
+                if done.contains(&preceding) {
                     continue;
                 }
-                dbg!(v);
-                if v == idx {
+                dbg!(preceding);
+                if preceding == idx {
                     continue;
                 }
-                if v > idx {
-                    // Store next statement.
-                    stack.push_front(v);
+                if preceding > idx {
+                    break;
+                }
+
+                if !moveds.insert((idx, preceding)) {
+                    // idx = preceding;
                     break;
                 }
 
@@ -762,9 +766,8 @@ fn iter<'a>(
 
                 // We found a preceding statement which is not emitted yet.
                 stack.push_front(idx);
-                graph.remove_node(v);
-                done.insert(v);
-                return Some(v);
+                stack.push_front(preceding);
+                continue 'main;
             }
 
             graph.remove_node(idx);

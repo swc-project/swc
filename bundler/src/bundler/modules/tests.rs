@@ -103,9 +103,9 @@ fn sort_005() {
         export class A {
         }
         const a = new A();
-        use(a);
         export const b = 1;
         use(b);        
+        use(a);
         ",
     );
 }
