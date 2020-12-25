@@ -619,6 +619,10 @@ fn iter<'a>(
 ) -> impl 'a + Iterator<Item = usize> {
     let len = graph.node_count();
 
+    dbg!(&same_module_ranges);
+    dbg!(&free);
+    dbg!(&module_starts);
+
     let mut done = HashSet::new();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
@@ -648,8 +652,7 @@ fn iter<'a>(
                 let mut deps_to_push = vec![];
                 for dep in deps {
                     // TODO: Move pointer to `dep` depending on the range start / free.
-                    if !done.contains(&dep) && !stack.contains(&dep) && !deps_to_push.contains(&dep)
-                    {
+                    if !done.contains(&dep) && !deps_to_push.contains(&dep) {
                         deps_to_push.push(dep);
                     }
                 }
@@ -678,7 +681,7 @@ fn iter<'a>(
                     .collect::<Vec<_>>();
 
                 for dependant in dependants {
-                    if !done.contains(&dependant) && !stack.contains(&idx) {
+                    if !done.contains(&dependant) {
                         stack.push_front(dependant);
                     }
                 }
@@ -705,7 +708,7 @@ fn iter<'a>(
                     dbg!(&dependants);
 
                     for dependant in dependants {
-                        if !done.contains(&dependant) && !stack.contains(&idx) {
+                        if !done.contains(&dependant) {
                             stack.push_front(dependant);
                         }
                     }
@@ -740,7 +743,7 @@ fn iter<'a>(
                 dbg!(&dependants);
 
                 for dependant in dependants {
-                    if !done.contains(&dependant) && !stack.contains(&idx) {
+                    if !done.contains(&dependant) {
                         stack.push_front(dependant);
                     }
                 }
