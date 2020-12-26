@@ -694,28 +694,38 @@ fn iter<'a>(
                     let mut deps_to_push = vec![];
                     for dep in deps {
                         // TODO: Move pointer to `dep` depending on the range start / free.
-                        if !deps_to_push.contains(&dep) {
-                            deps_to_push.push(dep);
+                        if deps_to_push.contains(&dep) {
+                            continue;
                         }
+
+                        if graph.has_a_path(dep, idx) {
+                            match stmts[dep] {
+                                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                    decl: Decl::Fn(..),
+                                    ..
+                                }))
+                                | ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
+
+                                _ => {}
+                            }
+                        }
+
+                        deps_to_push.push(dep);
                     }
 
                     dbg!(&deps_to_push);
 
-                    if deps_to_push.is_empty() {
-                        graph.remove_node(idx);
-                        done.insert(idx);
-                        return Some(idx);
+                    if !deps_to_push.is_empty() {
+                        // We should check idx again after emitting dependencies.
+                        stack.push_front(idx);
+
+                        for dep in deps_to_push {
+                            eprintln!("[Move]{} => {}; kind = dep", idx, dep);
+                            stack.push_front(dep)
+                        }
+
+                        continue;
                     }
-
-                    // We should check idx again after emitting dependencies.
-
-                    stack.push_front(idx);
-                    for dep in deps_to_push {
-                        eprintln!("[Move]{} => {}; kind = dep", idx, dep);
-                        stack.push_front(dep)
-                    }
-
-                    continue;
                 }
             }
             let is_free = free.contains(&idx);
