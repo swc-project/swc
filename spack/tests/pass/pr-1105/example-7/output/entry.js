@@ -7,9 +7,9 @@ const importMeta1 = {
     main: false
 };
 const isMain = importMeta1.main;
+const modUrl = importMeta1.url;
 const isMain1 = isMain;
 const isMain2 = isMain1;
-const modUrl = importMeta1.url;
 const modUrl1 = modUrl;
 const modUrl2 = modUrl1;
 console.log(isMain2, modUrl2);
