@@ -726,8 +726,13 @@ fn iter<'a>(
                             continue;
                         }
 
-                        if can_ignore_weak_deps && graph.has_a_path(dep, idx) {
-                            if can_ignore_deps {
+                        let can_ignore_dep = can_ignore_deps
+                            || (can_ignore_weak_deps
+                                && graph.edge_weight(idx, dep) == Some(Required::Maybe));
+
+                        if can_ignore_dep {
+                            if graph.has_a_path(dep, idx) {
+                                // Just emit idx.
                                 continue;
                             }
                         }
