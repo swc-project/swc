@@ -201,7 +201,6 @@ impl Modules {
         }
 
         // Now graph contains enough information to sort statements.
-        let len = new.len();
         let mut orders = vec![];
         orders.extend(iter(
             &mut graph,
@@ -270,7 +269,7 @@ fn iter<'a>(
         }
 
         // Check for first item.
-        'main: while let Some(mut idx) = stack.pop_front() {
+        'main: while let Some(idx) = stack.pop_front() {
             if done.contains(&idx) {
                 // eprintln!("Done: {}", idx);
                 continue;
@@ -382,7 +381,7 @@ fn iter<'a>(
             }
             let is_free = free.contains(&idx);
 
-            dbg!(is_free);
+            // dbg!(is_free);
 
             if is_free {
                 let dependants = graph
