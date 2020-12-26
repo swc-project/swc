@@ -57,10 +57,6 @@ impl StmtDepGraph {
         }
     }
 
-    pub fn all_edges(&self) -> AllEdges<usize, Required, Directed> {
-        self.inner.all_edges()
-    }
-
     pub fn edge_weight(&self, a: usize, b: usize) -> Option<Required> {
         self.inner.edge_weight(a, b).cloned()
     }
