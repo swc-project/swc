@@ -10,6 +10,7 @@ use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::mem::take;
 use std::ops::Range;
+use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -668,7 +669,7 @@ fn iter<'a>(
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
                     eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
                 }
-                _ => {}
+                item => eprintln!("({}) Stmt: {:?}", idx, item),
             }
 
             let current_range = same_module_ranges
@@ -721,7 +722,7 @@ fn iter<'a>(
 
                 if !deps.is_empty() {
                     let mut deps_to_push = vec![];
-                    for dep in deps {
+                    for dep in deps.iter().rev().copied() {
                         if deps_to_push.contains(&dep) {
                             continue;
                         }
@@ -733,6 +734,12 @@ fn iter<'a>(
                         if can_ignore_dep {
                             if graph.has_a_path(dep, idx) {
                                 // Just emit idx.
+                                continue;
+                            }
+                        }
+
+                        if let Some(range) = &current_range {
+                            if dep > idx && range.contains(&dep) {
                                 continue;
                             }
                         }
@@ -846,10 +853,63 @@ fn iter<'a>(
 /// Using prototype should be treated as an initialization.
 #[derive(Default)]
 struct PrototypeUsageFinter {
+    in_object_assign: bool,
+    in_rhs: bool,
     accessed: HashSet<Id>,
 }
 
 impl Visit for PrototypeUsageFinter {
+    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+        let old = self.in_rhs;
+        e.left.visit_with(e, self);
+
+        self.in_rhs = true;
+        e.right.visit_with(e, self);
+        self.in_rhs = old;
+    }
+
+    fn visit_pat(&mut self, e: &Pat, _: &dyn Node) {
+        let old = self.in_rhs;
+        self.in_rhs = false;
+        e.visit_children_with(self);
+        self.in_rhs = old;
+    }
+
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+        match &e.callee {
+            ExprOrSuper::Super(_) => {}
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Member(callee) => match &callee.obj {
+                    ExprOrSuper::Expr(callee_obj) => match &**callee_obj {
+                        Expr::Ident(Ident {
+                            sym: js_word!("Object"),
+                            ..
+                        }) => match &*callee.prop {
+                            Expr::Ident(Ident { sym: prop_sym, .. })
+                                if !callee.computed && *prop_sym == *"assign" =>
+                            {
+                                let old = self.in_object_assign;
+                                self.in_object_assign = true;
+
+                                e.args.visit_with(e, self);
+                                self.in_object_assign = old;
+
+                                return;
+                            }
+                            _ => {}
+                        },
+                        _ => {}
+                    },
+                    ExprOrSuper::Super(_) => {}
+                },
+
+                _ => {}
+            },
+        }
+
+        e.visit_children_with(self);
+    }
+
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
         e.obj.visit_with(e, self);
 
@@ -857,20 +917,22 @@ impl Visit for PrototypeUsageFinter {
             e.prop.visit_with(e, self);
         }
 
-        match &e.obj {
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Ident(obj) => match &*e.prop {
-                    Expr::Ident(Ident { sym: prop_sym, .. })
-                        if !e.computed && *prop_sym == *"prototype" =>
-                    {
-                        self.accessed.insert(obj.into());
-                    }
+        if !self.in_rhs || self.in_object_assign {
+            match &e.obj {
+                ExprOrSuper::Expr(obj) => match &**obj {
+                    Expr::Ident(obj) => match &*e.prop {
+                        Expr::Ident(Ident { sym: prop_sym, .. })
+                            if !e.computed && *prop_sym == *"prototype" =>
+                        {
+                            self.accessed.insert(obj.into());
+                        }
+                        _ => {}
+                    },
                     _ => {}
                 },
-                _ => {}
-            },
 
-            _ => {}
+                _ => {}
+            }
         }
     }
 }
