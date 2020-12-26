@@ -693,7 +693,6 @@ fn iter<'a>(
                 if !deps.is_empty() {
                     let mut deps_to_push = vec![];
                     for dep in deps {
-                        // TODO: Move pointer to `dep` depending on the range start / free.
                         if deps_to_push.contains(&dep) {
                             continue;
                         }
