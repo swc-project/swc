@@ -108,7 +108,7 @@ impl Modules {
                     //
                     match decl {
                         Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                            eprintln!("`{}` declares {:?}`", idx, Id::from(ident));
+                            // eprintln!("`{}` declares {:?}`", idx, Id::from(ident));
                             declared_by.entry(Id::from(ident)).or_default().push(idx);
                         }
                         Decl::Var(vars) => {
@@ -120,7 +120,7 @@ impl Modules {
                                         uninitialized_ids.insert(id.clone(), idx);
                                     }
 
-                                    eprintln!("`{}` declares {:?}`", idx, id);
+                                    // eprintln!("`{}` declares {:?}`", idx, id);
                                     declared_by.entry(id).or_default().push(idx);
                                 }
                             }
@@ -141,11 +141,12 @@ impl Modules {
                         for &declarator_index in declarator_indexes {
                             if declarator_index != idx {
                                 graph.add_edge(idx, declarator_index, Required::Always);
-                                eprintln!("`{}` depends on `{}: {:?}`", idx, declarator_index, &id);
+                                // eprintln!("`{}` depends on `{}: {:?}`", idx,
+                                // declarator_index, &id);
                             }
                         }
 
-                        eprintln!("`{}` declares {:?}`", idx, id);
+                        // eprintln!("`{}` declares {:?}`", idx, id);
                         declared_by.entry(id).or_default().push(idx);
                     }
                 }
@@ -187,7 +188,7 @@ impl Modules {
                     for &declarator_index in declarator_indexes {
                         if declarator_index != idx {
                             graph.add_edge(idx, declarator_index, kind);
-                            eprintln!("`{}` depends on `{}: {:?}`", idx, declarator_index, id);
+                            // eprintln!("`{}` depends on `{}: {:?}`", idx, declarator_index, id);
                             if cfg!(debug_assertions) {
                                 let deps: Vec<_> =
                                     graph.neighbors_directed(idx, Dependancies).collect();
@@ -211,36 +212,6 @@ impl Modules {
         ));
         // let mut delayed = HashSet::new();
 
-        // {
-        //     let mut sorter = Sorter {
-        //         graph: &mut graph,
-        //         orders: &mut orders,
-        //         same_module_ranges: &same_module_ranges,
-        //         free: free.clone(),
-        //         _new: &new,
-        //         visited_goto: Default::default(),
-        //     };
-        //
-        //     for start_idx in module_starts {
-        //         sorter.insert_orders(start_idx, false, &mut delayed);
-        //     }
-        //
-        //     sorter.emit_free_items();
-        //     sorter.emit_items(0..len, true);
-        //
-        //     // Now all dependencies are merged.
-        //     eprintln!("Free: {:?}", free);
-        //     for i in 0..len {
-        //         if sorter.orders.contains(&i) {
-        //             continue;
-        //         }
-        //         // dbg!("Left", i);
-        //         sorter.dump_item(i);
-        //
-        //         sorter.insert_orders(i, false, &mut delayed);
-        //     }
-        // }
-        //
         assert_eq!(orders.len(), new.len());
 
         let mut buf = Vec::with_capacity(new.len());
@@ -260,359 +231,6 @@ impl Modules {
     }
 }
 
-struct Sorter<'a> {
-    graph: &'a mut StmtDepGraph,
-    orders: &'a mut Vec<usize>,
-    visited_goto: HashSet<usize>,
-    same_module_ranges: &'a [Range<usize>],
-    /// Range of injected statements.
-    free: Range<usize>,
-    _new: &'a [ModuleItem],
-}
-
-impl Sorter<'_> {
-    fn dump_item(&self, idx: usize) {
-        // match &self._new[idx] {
-        //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-        //         let ids: Vec<Id> = find_ids(&var.decls);
-        //         eprintln!("({}) Declare: `{:?}`", idx, ids);
-        //     }
-        //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-        //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
-        //     }
-        //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-        //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
-        //     }
-        //     _ => {}
-        // }
-    }
-
-    // This removes dependencies to other node.
-    fn emit(&mut self, idx: usize, emit_dependants: bool) {
-        if self.orders.contains(&idx) {
-            return;
-        }
-        eprintln!("Emit: `{}`", idx);
-        self.dump_item(idx);
-
-        // `remove_node` should remove edges connected to it, but petgraph@0.5.1 has a
-        // bug. So we manually removes edges before removing node.
-        //
-        // TODO: Report this to upstream and remove hack
-        let dependants = self
-            .graph
-            .neighbors_directed(idx, Dependants)
-            .collect::<Vec<_>>();
-
-        // dbg!(&dependants);
-
-        // Ensure that we already emitted all non-cyclic deps.
-        if cfg!(debug_assertions) {
-            let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
-            for dep in deps {
-                if self.graph.has_a_path(dep, idx) {
-                    continue;
-                }
-
-                if !self.orders.contains(&dep) {
-                    self.dump_item(dep);
-                    unreachable!("`{}` depends on `{}`", idx, dep)
-                }
-            }
-        }
-
-        self.orders.push(idx);
-
-        // hack
-        if emit_dependants {
-            for &dependant in &dependants {
-                if self.free.contains(&dependant) {
-                    let deps_of_dependant: Vec<_> = self
-                        .graph
-                        .neighbors_directed(dependant, Dependancies)
-                        .filter(|i| !self.orders.contains(i))
-                        .collect();
-
-                    // dbg!(dependant, &deps_of_dependant);
-                    if dependants.is_empty()
-                        || (deps_of_dependant.len() == 1 && deps_of_dependant[0] == idx)
-                    {
-                        self.emit(dependant, emit_dependants);
-                    }
-                }
-            }
-        }
-        self.graph.remove_node(idx);
-
-        if emit_dependants {
-            self.emit_free_items();
-        }
-    }
-
-    /// Inject dependency-less free statements.
-    fn emit_free_items(&mut self) {
-        let range = self.free.clone();
-        self.emit_items(range, false)
-    }
-
-    fn emit_items(&mut self, range: Range<usize>, emit_free_dependants: bool) {
-        // No dependencies
-        loop {
-            if self.graph.all_edges().count() == 0 {
-                if emit_free_dependants {
-                    self.emit_free_items();
-                }
-                break;
-            }
-
-            let mut did_work = false;
-            for i in range.clone() {
-                if self.orders.contains(&i) {
-                    continue;
-                }
-
-                let deps = self.graph.neighbors_directed(i, Dependancies);
-
-                if deps.count() != 0 {
-                    continue;
-                }
-
-                did_work = true;
-                self.emit(i, emit_free_dependants);
-            }
-
-            if !did_work {
-                break;
-            }
-        }
-
-        // Strong dependencies
-        loop {
-            if self.graph.all_edges().count() == 0 {
-                break;
-            }
-
-            let mut did_work = false;
-            // Add nodes which does not have any dependencies.
-            for i in range.clone() {
-                if self.orders.contains(&i) {
-                    continue;
-                }
-
-                let deps: Vec<_> = self
-                    .graph
-                    .neighbors_directed(i, Dependancies)
-                    .filter(|&dep| self.graph.edge_weight(i, dep) == Some(Required::Always))
-                    .collect();
-
-                if deps.len() != 0 {
-                    continue;
-                }
-                let deps: Vec<_> = self.graph.neighbors_directed(i, Dependancies).collect();
-
-                did_work = true;
-
-                self.insert_deps(
-                    i,
-                    deps.clone(),
-                    &mut Default::default(),
-                    &mut Default::default(),
-                );
-                dbg!();
-                self.emit(i, emit_free_dependants);
-            }
-
-            if emit_free_dependants {
-                self.emit_free_items();
-            }
-
-            if !did_work {
-                break;
-            }
-        }
-
-        // Weak dependencies
-        loop {
-            if self.graph.all_edges().count() == 0 {
-                break;
-            }
-
-            let mut did_work = false;
-            // Add nodes which does not have any dependencies.
-            for i in range.clone() {
-                let deps = self
-                    .graph
-                    .neighbors_directed(i, Dependancies)
-                    .collect::<Vec<_>>();
-
-                if self.orders.contains(&i) || deps.len() != 0 {
-                    continue;
-                }
-
-                eprintln!("Emit ({:?}, weak): {}", range, i);
-                self.dump_item(i);
-
-                did_work = true;
-                self.orders.push(i);
-
-                // Remove dependency
-                self.graph.remove_node(i);
-            }
-
-            if emit_free_dependants {
-                self.emit_free_items();
-            }
-
-            if !did_work {
-                break;
-            }
-        }
-    }
-
-    /// Insert orders smartly :)
-    fn insert_orders(
-        &mut self,
-        idx: usize,
-        ignore_range_start: bool,
-        delayed: &mut HashSet<usize>,
-    ) {
-        let mut dejavu = HashSet::default();
-        self.insert_inner(idx, ignore_range_start, &mut dejavu, delayed, &[])
-    }
-
-    fn emit_cycles(&mut self, cycles: Vec<Vec<usize>>) {
-        let mut delayed = Default::default();
-        {
-            eprintln!("Cycles: {:?}", cycles);
-            // Emit non-cycle deps.
-
-            for path in &cycles {
-                for &idx in path {
-                    let deps: Vec<_> = self.graph.neighbors_directed(idx, Dependancies).collect();
-
-                    for dep in deps {
-                        let has_cycle = self.graph.has_a_path(dep, idx);
-
-                        if !has_cycle {
-                            self.insert_orders(dep, false, &mut delayed);
-                        }
-                    }
-                }
-            }
-        }
-
-        eprintln!("Cycle");
-
-        for path in &cycles {
-            // dbg!(&path);
-        }
-    }
-
-    fn range_of(&self, idx: usize) -> Option<Range<usize>> {
-        self.same_module_ranges
-            .iter()
-            .find(|range| range.contains(&idx))
-            .cloned()
-    }
-
-    fn insert_deps(
-        &mut self,
-        idx: usize,
-        deps: Vec<usize>,
-        dejavu: &mut HashSet<usize>,
-        delayed: &mut HashSet<usize>,
-    ) {
-        for &dep in &deps {
-            dbg!(dep, idx);
-            let cycles = self.graph.all_simple_paths(dep, idx);
-            if !cycles.is_empty() {
-                self.emit_cycles(cycles);
-                continue;
-            }
-            // We jump to another module.
-            eprintln!("Jumping to dep: `{}`", dep);
-            self.insert_inner(dep, false, dejavu, delayed, &[]);
-
-            eprintln!("Done: one dep of `{}`: `{}`", idx, dep);
-        }
-        eprintln!("Done: deps of `{}`: `{:?}`", idx, deps);
-    }
-
-    /// Insert orders smartly :)
-    fn insert_inner(
-        &mut self,
-        idx: usize,
-        ignore_range_start: bool,
-        dejavu: &mut HashSet<usize>,
-        delayed: &mut HashSet<usize>,
-        excluded_cycles: &[Vec<usize>],
-    ) {
-        let mut next = Some(idx);
-
-        while let Some(idx) = next.take() {
-            eprintln!("Checking `{}`", idx);
-
-            if delayed.contains(&idx) || self.orders.contains(&idx) {
-                eprintln!("Skipping `{}`", idx);
-                continue;
-            }
-
-            {
-                let deps = self
-                    .graph
-                    .neighbors_directed(idx, Dependancies)
-                    .collect::<Vec<_>>();
-
-                self.insert_deps(idx, deps, dejavu, delayed)
-            }
-
-            dbg!();
-            let range = self.range_of(idx);
-            if let Some(range) = &range {
-                if !ignore_range_start && idx > range.start {
-                    let goto = range
-                        .clone()
-                        .into_iter()
-                        .find(|idx| !self.orders.contains(idx));
-
-                    if let Some(goto) = goto {
-                        if self.visited_goto.insert(goto) {
-                            // We should process module from start to end.
-                            dbg!(goto);
-                            self.insert_inner(goto, true, dejavu, delayed, excluded_cycles);
-                        }
-                    }
-                }
-            }
-
-            let range = match range {
-                Some(v) => v,
-                None => {
-                    if !delayed.contains(&idx) {
-                        // Free statements, like injected vars.
-                        self.emit(idx, true);
-                    }
-                    return;
-                }
-            };
-
-            if !delayed.contains(&idx) {
-                self.emit(idx, true);
-
-                let next_idx = idx + 1;
-
-                if !range.contains(&next_idx) {
-                    eprintln!("Not in range: next = `{}`", next_idx);
-                    // We successfully processed a module.
-                    return;
-                }
-                dbg!(next_idx);
-                next = Some(next_idx);
-            }
-        }
-    }
-}
-
 fn iter<'a>(
     graph: &'a mut StmtDepGraph,
     same_module_ranges: &'a [Range<usize>],
@@ -622,9 +240,9 @@ fn iter<'a>(
 ) -> impl 'a + Iterator<Item = usize> {
     let len = graph.node_count();
 
-    dbg!(&same_module_ranges);
-    dbg!(&free);
-    dbg!(&module_starts);
+    // dbg!(&same_module_ranges);
+    // dbg!(&free);
+    // dbg!(&module_starts);
 
     let mut moves = HashSet::new();
     let mut done = HashSet::new();
@@ -657,27 +275,27 @@ fn iter<'a>(
                 // eprintln!("Done: {}", idx);
                 continue;
             }
-            dbg!(idx);
-            match &stmts[idx] {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                    let ids: Vec<Id> = find_ids(&var.decls);
-                    eprintln!("({}) Declare: `{:?}`", idx, ids);
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-                    eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                    eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
-                }
-                item => eprintln!("({}) Stmt: {:?}", idx, item),
-            }
+            // dbg!(idx);
+            // match &stmts[idx] {
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+            //         let ids: Vec<Id> = find_ids(&var.decls);
+            //         eprintln!("({}) Declare: `{:?}`", idx, ids);
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+            //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+            //         eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
+            //     }
+            //     item => eprintln!("({}) Stmt: {:?}", idx, item),
+            // }
 
             let current_range = same_module_ranges
                 .iter()
                 .find(|range| range.contains(&idx))
                 .cloned();
 
-            dbg!(&current_range);
+            // dbg!(&current_range);
 
             let can_ignore_deps = match &stmts[idx] {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -718,7 +336,7 @@ fn iter<'a>(
                     })
                     .collect::<Vec<_>>();
 
-                dbg!(&deps);
+                // dbg!(&deps);
 
                 if !deps.is_empty() {
                     let mut deps_to_push = vec![];
@@ -747,14 +365,14 @@ fn iter<'a>(
                         deps_to_push.push(dep);
                     }
 
-                    dbg!(&deps_to_push);
+                    // dbg!(&deps_to_push);
 
                     if !deps_to_push.is_empty() {
                         // We should check idx again after emitting dependencies.
                         stack.push_front(idx);
 
                         for dep in deps_to_push {
-                            eprintln!("[Move]{} => {}; kind = dep", idx, dep);
+                            // eprintln!("[Move]{} => {}; kind = dep", idx, dep);
                             stack.push_front(dep)
                         }
 
@@ -789,7 +407,7 @@ fn iter<'a>(
                         .neighbors_directed(idx, Dependants)
                         .collect::<Vec<_>>();
 
-                    dbg!(&dependants);
+                    // dbg!(&dependants);
 
                     for dependant in dependants {
                         if !done.contains(&dependant) {
@@ -810,7 +428,7 @@ fn iter<'a>(
                 if done.contains(&preceding) {
                     continue;
                 }
-                dbg!(preceding);
+                // dbg!(preceding);
                 if preceding == idx {
                     continue;
                 }
@@ -827,7 +445,7 @@ fn iter<'a>(
                     .neighbors_directed(idx, Dependants)
                     .collect::<Vec<_>>();
 
-                dbg!(&dependants);
+                // dbg!(&dependants);
 
                 for dependant in dependants {
                     if !done.contains(&dependant) {
