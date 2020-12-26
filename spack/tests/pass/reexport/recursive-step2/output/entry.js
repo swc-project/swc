@@ -1,8 +1,5 @@
 const d = 1;
 const d1 = d;
-const c = d1;
-const b2 = c;
-const __default = b2;
 console.log('d');
 console.log('c');
 console.log('b');
@@ -10,3 +7,6 @@ const b1 = __default;
 console.log('a.js');
 export { b1 as b };
 console.log('entry');
+const c = d1;
+const b2 = c;
+const __default = b2;
