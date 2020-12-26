@@ -726,8 +726,10 @@ fn iter<'a>(
                             continue;
                         }
 
-                        if can_ignore_deps && graph.has_a_path(dep, idx) {
-                            continue;
+                        if can_ignore_weak_deps && graph.has_a_path(dep, idx) {
+                            if can_ignore_deps {
+                                continue;
+                            }
                         }
 
                         deps_to_push.push(dep);
