@@ -6,7 +6,7 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
-    fn into_module_item(self, _name: &'static str) -> ModuleItem {
+    fn into_module_item(self, _name: &str) -> ModuleItem {
         ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Const,

@@ -52,6 +52,9 @@ impl<'a, I: Tokens> Parser<I> {
                         span: span!(start),
                         value,
                         has_escape,
+                        kind: StrKind::Normal {
+                            contains_quote: true,
+                        },
                     }),
                     _ => unreachable!(),
                 },
@@ -128,7 +131,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // Parse as 'MethodDefinition'
 
         if eat!("...") {
-            // spread elemnent
+            // spread element
             let dot3_token = span!(start);
 
             let expr = self.include_in_expr(true).parse_assignment_expr()?;

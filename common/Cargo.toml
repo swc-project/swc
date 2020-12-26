@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.10.6"
+version = "0.10.7"
 
 [features]
 concurrent = ["parking_lot"]
