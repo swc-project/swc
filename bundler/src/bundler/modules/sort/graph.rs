@@ -48,6 +48,15 @@ impl StmtDepGraph {
     }
 
     pub fn has_a_path(&self, from: usize, to: usize) -> bool {
+        if cfg!(debug_assertions) {
+            assert_eq!(self.inner.node_count(), self.inner.nodes().count());
+            assert_eq!(self.inner.edge_count(), self.inner.all_edges().count());
+            for (a, b, _) in self.inner.all_edges() {
+                assert!(self.inner.contains_node(a));
+                assert!(self.inner.contains_node(b));
+            }
+        }
+
         eprintln!(
             "[Graph]all_simple_paths: {} => {}; nodes = {}, edges = {}",
             from,
