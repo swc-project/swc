@@ -206,6 +206,7 @@ impl Modules {
             &same_module_ranges,
             free.clone(),
             &module_starts,
+            &new,
         ));
         // let mut delayed = HashSet::new();
 
@@ -616,6 +617,7 @@ fn iter<'a>(
     same_module_ranges: &'a [Range<usize>],
     free: Range<usize>,
     module_starts: &[usize],
+    stmts: &'a [ModuleItem],
 ) -> impl 'a + Iterator<Item = usize> {
     let len = graph.node_count();
 
@@ -655,6 +657,19 @@ fn iter<'a>(
                 continue;
             }
             dbg!(idx);
+            match &stmts[idx] {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    let ids: Vec<Id> = find_ids(&var.decls);
+                    eprintln!("({}) Declare: `{:?}`", idx, ids);
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+                    eprintln!("({}) Declare: `{:?}`", idx, Id::from(&cls.ident));
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                    eprintln!("({}) Declare: `{:?}`", idx, Id::from(&f.ident));
+                }
+                _ => {}
+            }
 
             let current_range = same_module_ranges
                 .iter()
