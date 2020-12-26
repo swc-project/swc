@@ -53,6 +53,3 @@ lto = true
 [profile.bench]
 codegen-units = 1
 debug = true
-
-[patch.crates-io]
-petgraph = {path = "../petgraph"}
