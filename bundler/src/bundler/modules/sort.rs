@@ -699,12 +699,22 @@ fn iter<'a>(
                         }
 
                         if graph.has_a_path(dep, idx) {
-                            match stmts[dep] {
+                            match &stmts[idx] {
                                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                                     decl: Decl::Fn(..),
                                     ..
                                 }))
                                 | ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => continue,
+
+                                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                    decl: Decl::Class(cls),
+                                    ..
+                                }))
+                                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls)))
+                                    if cls.class.super_class.is_none() =>
+                                {
+                                    continue
+                                }
 
                                 _ => {}
                             }
