@@ -1,1 +1,1 @@
-export * from './tfjs'
+import './tfjs'
