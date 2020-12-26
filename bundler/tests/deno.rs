@@ -408,9 +408,6 @@ fn deno_8573() {
 
 /// Timeout is long because tfjs is so large.
 #[test]
-#[ignore = "Will be fixed by #1268"]
-#[timeout(60000)]
-#[timeout(240000)]
 #[ignore = "Not implemented yet"]
 fn deno_8597() {
     run(
