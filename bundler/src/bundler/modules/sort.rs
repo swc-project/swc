@@ -623,7 +623,7 @@ fn iter<'a>(
     dbg!(&free);
     dbg!(&module_starts);
 
-    let mut moveds = HashSet::new();
+    let mut moves = HashSet::new();
     let mut done = HashSet::new();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
@@ -656,37 +656,53 @@ fn iter<'a>(
             }
             dbg!(idx);
 
+            let current_range = same_module_ranges
+                .iter()
+                .find(|range| range.contains(&idx))
+                .cloned();
+
+            dbg!(&current_range);
+
             // We
-            let deps = graph
-                .neighbors_directed(idx, Dependancies)
-                .collect::<Vec<_>>();
+            {
+                let deps = graph
+                    .neighbors_directed(idx, Dependancies)
+                    .filter(|dep| {
+                        // Exlcude emitted items
+                        !done.contains(dep)
+                    })
+                    .collect::<Vec<_>>();
 
-            dbg!(&deps);
+                dbg!(&deps);
 
-            if !deps.is_empty() {
-                stack.push_front(idx);
-                let mut deps_to_push = vec![];
-                for dep in deps {
-                    // TODO: Move pointer to `dep` depending on the range start / free.
-                    if !done.contains(&dep) && !deps_to_push.contains(&dep) {
-                        deps_to_push.push(dep);
+                if !deps.is_empty() {
+                    let mut deps_to_push = vec![];
+                    for dep in deps {
+                        // TODO: Move pointer to `dep` depending on the range start / free.
+                        if !deps_to_push.contains(&dep) {
+                            deps_to_push.push(dep);
+                        }
                     }
-                }
 
-                if deps_to_push.is_empty() {
-                    graph.remove_node(idx);
-                    done.insert(idx);
-                    return Some(idx);
-                }
+                    dbg!(&deps_to_push);
 
-                stack.push_front(idx);
-                for dep in deps_to_push {
-                    stack.push_front(dep)
-                }
+                    if deps_to_push.is_empty() {
+                        graph.remove_node(idx);
+                        done.insert(idx);
+                        return Some(idx);
+                    }
 
-                continue;
+                    // We should check idx again after emitting dependencies.
+
+                    stack.push_front(idx);
+                    for dep in deps_to_push {
+                        eprintln!("[Move]{} => {}; kind = dep", idx, dep);
+                        stack.push_front(dep)
+                    }
+
+                    continue;
+                }
             }
-
             let is_free = free.contains(&idx);
 
             dbg!(is_free);
@@ -706,13 +722,6 @@ fn iter<'a>(
                 done.insert(idx);
                 return Some(idx);
             }
-
-            let current_range = same_module_ranges
-                .iter()
-                .find(|range| range.contains(&idx))
-                .cloned();
-
-            dbg!(&current_range);
 
             let current_range = match current_range {
                 Some(v) => v,
@@ -750,7 +759,7 @@ fn iter<'a>(
                     break;
                 }
 
-                if !moveds.insert((idx, preceding)) {
+                if !moves.insert((idx, preceding)) {
                     // idx = preceding;
                     break;
                 }
