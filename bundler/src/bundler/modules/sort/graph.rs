@@ -4,6 +4,7 @@ use petgraph::graphmap::AllEdges;
 use petgraph::graphmap::DiGraphMap;
 use petgraph::Directed;
 use petgraph::EdgeDirection;
+use petgraph::EdgeDirection::Incoming;
 use petgraph::EdgeDirection::Outgoing;
 use std::collections::HashSet;
 
@@ -49,6 +50,14 @@ impl StmtDepGraph {
             .collect::<Vec<_>>()
         {
             self.insert_transitives(from, transitive)
+        }
+
+        for transitive in self
+            .inner
+            .neighbors_directed(from, Incoming)
+            .collect::<Vec<_>>()
+        {
+            self.insert_transitives(transitive, to)
         }
     }
 
