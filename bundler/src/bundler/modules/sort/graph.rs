@@ -48,6 +48,13 @@ impl StmtDepGraph {
     }
 
     pub fn has_a_path(&self, from: usize, to: usize) -> bool {
+        eprintln!(
+            "[Graph]all_simple_paths: {} => {}; nodes = {}, edges = {}",
+            from,
+            to,
+            self.inner.node_count(),
+            self.inner.edge_count()
+        );
         all_simple_paths::<Vec<_>, _>(&self.inner, from, to, 0, None)
             .next()
             .is_some()
