@@ -1,7 +1,5 @@
 use crate::bundler::modules::sort::Required;
-use petgraph::graphmap::AllEdges;
 use petgraph::graphmap::DiGraphMap;
-use petgraph::Directed;
 use petgraph::EdgeDirection;
 use petgraph::EdgeDirection::Incoming;
 use petgraph::EdgeDirection::Outgoing;
