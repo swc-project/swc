@@ -697,6 +697,16 @@ fn iter<'a>(
 
                 _ => false,
             };
+            let can_ignore_weak_deps = can_ignore_deps
+                || match &stmts[idx] {
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: Decl::Class(..),
+                        ..
+                    }))
+                    | ModuleItem::Stmt(Stmt::Decl(Decl::Class(..))) => true,
+                    _ => false,
+                };
+
             // We
             {
                 let deps = graph
