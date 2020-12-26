@@ -43,6 +43,10 @@ jobs:
           sed -i'' -e 's/"name": "@swc\/wasm"/"name": "@swc\/wasm-web"/g' package.json
         working-directory: wasm/pkg
 
+      - name: Include *_bg files
+        run: jq '.files += ["wasm_bg.js", "wasm_bg.wasm.d.ts"]' package.json
+        working-directory: wasm/pkg
+
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
