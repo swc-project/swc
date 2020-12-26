@@ -717,7 +717,7 @@ fn iter<'a>(
                         }
 
                         if can_ignore_deps && graph.has_a_path(dep, idx) {
-                            continue
+                            continue;
                         }
 
                         deps_to_push.push(dep);
