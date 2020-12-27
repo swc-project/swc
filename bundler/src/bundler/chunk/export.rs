@@ -573,7 +573,7 @@ fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
                 *n = VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(Ident::new(
-                        "__default".into(),
+                        "default".into(),
                         expr.span().with_ctxt(dep_export_ctxt),
                     )),
                     init: Some(expr),
