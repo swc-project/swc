@@ -1,9 +1,10 @@
 use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn, Invalid};
 use is_macro::Is;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Pat {
     #[tag("Identifier")]
@@ -30,7 +31,7 @@ pub enum Pat {
 }
 
 #[ast_node("ArrayPattern")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrayPat {
     pub span: Span,
@@ -47,7 +48,7 @@ pub struct ArrayPat {
 }
 
 #[ast_node("ObjectPattern")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ObjectPat {
     pub span: Span,
@@ -64,7 +65,7 @@ pub struct ObjectPat {
 }
 
 #[ast_node("AssignmentPattern")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignPat {
     pub span: Span,
@@ -79,7 +80,7 @@ pub struct AssignPat {
 
 /// EsTree `RestElement`
 #[ast_node("RestElement")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct RestPat {
     pub span: Span,
@@ -95,7 +96,7 @@ pub struct RestPat {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ObjectPatProp {
     #[tag("KeyValuePatternProperty")]
@@ -110,7 +111,7 @@ pub enum ObjectPatProp {
 
 /// `{key: value}`
 #[ast_node("KeyValuePatternProperty")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct KeyValuePatProp {
     #[span(lo)]
@@ -121,7 +122,7 @@ pub struct KeyValuePatProp {
 }
 /// `{key}` or `{key = value}`
 #[ast_node("AssignmentPatternProperty")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignPatProp {
     pub span: Span,

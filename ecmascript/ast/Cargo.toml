@@ -20,7 +20,7 @@ num-bigint = {version = "0.2", features = ["serde"]}
 serde = {version = "1.0.88", features = ["derive"]}
 string_enum = {version = "0.3", path = "../../macros/string_enum"}
 swc_atoms = {version = "0.2", path = "../../atoms"}
-swc_common = {version = "0.10.4", path = "../../common"}
+swc_common = {version = "0.10.8", path = "../../common"}
 
 [dev-dependencies]
 serde_json = "1"
