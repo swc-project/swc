@@ -1,7 +1,11 @@
 [package]
 authors = ["강동윤 <kdy1@dudy.kr>"]
+description = "Macros for EqIgnoreSpan and TypeEq."
+documentation = "https://swc.rs/rustdoc/swc_eq_ignore_macros/"
 edition = "2018"
+license = "Apache-2.0/MIT"
 name = "swc_eq_ignore_macros"
+repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
 
 [lib]
@@ -11,4 +15,4 @@ proc-macro = true
 pmutil = "0.5.3"
 proc-macro2 = "1.0.24"
 quote = "1.0.7"
-syn = "1.0.54"
+syn = {version = "1.0.54", features = ["full"]}
