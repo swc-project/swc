@@ -22,6 +22,7 @@ either = "1.5"
 from_variant = {version = "0.1", path = "../macros/from_variant"}
 fxhash = "0.2.1"
 log = "0.4"
+num-bigint = "0.2"
 once_cell = "1"
 owning_ref = "0.4"
 parking_lot = {version = "0.7.1", optional = true}

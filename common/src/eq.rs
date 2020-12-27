@@ -1,6 +1,7 @@
 use crate::BytePos;
 use crate::Span;
 use crate::SyntaxContext;
+use num_bigint::BigInt;
 use std::cell::RefCell;
 use std::cmp::PartialEq;
 use std::rc::Rc;
@@ -204,5 +205,11 @@ where
 {
     fn type_eq(&self, other: &Self) -> bool {
         self.borrow().type_eq(&*other.borrow())
+    }
+}
+
+impl EqIgnoreSpan for BigInt {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self == other
     }
 }

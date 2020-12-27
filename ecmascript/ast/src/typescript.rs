@@ -16,11 +16,11 @@ use serde::{
 };
 use std::fmt;
 use string_enum::StringEnum;
-
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[ast_node("TsTypeAnnotation")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeAnn {
     pub span: Span,
@@ -29,7 +29,7 @@ pub struct TsTypeAnn {
 }
 
 #[ast_node("TsTypeParameterDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeParamDecl {
     pub span: Span,
@@ -38,7 +38,7 @@ pub struct TsTypeParamDecl {
 }
 
 #[ast_node("TsTypeParameter")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeParam {
     pub span: Span,
@@ -52,7 +52,7 @@ pub struct TsTypeParam {
 }
 
 #[ast_node("TsTypeParameterInstantiation")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeParamInstantiation {
     pub span: Span,
@@ -60,7 +60,7 @@ pub struct TsTypeParamInstantiation {
 }
 
 #[ast_node("TsTypeCastExpression")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeCastExpr {
     pub span: Span,
@@ -71,7 +71,7 @@ pub struct TsTypeCastExpr {
 }
 
 #[ast_node("TsParameterProperty")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsParamProp {
     pub span: Span,
@@ -85,7 +85,7 @@ pub struct TsParamProp {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsParamPropParam {
     #[tag("Identifier")]
@@ -96,7 +96,7 @@ pub enum TsParamPropParam {
 }
 
 #[ast_node("TsQualifiedName")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsQualifiedName {
     #[span(lo)]
@@ -106,7 +106,7 @@ pub struct TsQualifiedName {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsEntityName {
@@ -118,7 +118,7 @@ pub enum TsEntityName {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsSignatureDecl {
     #[tag("TsCallSignatureDeclaration")]
@@ -142,7 +142,7 @@ pub enum TsSignatureDecl {
 // ================
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsTypeElement {
     #[tag("TsCallSignatureDeclaration")]
@@ -162,7 +162,7 @@ pub enum TsTypeElement {
 }
 
 #[ast_node("TsCallSignatureDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsCallSignatureDecl {
     pub span: Span,
@@ -174,7 +174,7 @@ pub struct TsCallSignatureDecl {
 }
 
 #[ast_node("TsConstructSignatureDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsConstructSignatureDecl {
     pub span: Span,
@@ -186,7 +186,7 @@ pub struct TsConstructSignatureDecl {
 }
 
 #[ast_node("TsPropertySignature")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsPropertySignature {
     pub span: Span,
@@ -204,7 +204,7 @@ pub struct TsPropertySignature {
 }
 
 #[ast_node("TsMethodSignature")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsMethodSignature {
     pub span: Span,
@@ -220,7 +220,7 @@ pub struct TsMethodSignature {
 }
 
 #[ast_node("TsIndexSignature")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
@@ -236,7 +236,7 @@ pub struct TsIndexSignature {
 // ================
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsType {
     #[tag("TsKeywordType")]
@@ -303,7 +303,7 @@ pub enum TsType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnOrConstructorType {
     #[tag("TsFunctionType")]
@@ -337,14 +337,14 @@ impl From<TsIntersectionType> for TsType {
 }
 
 #[ast_node("TsKeywordType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsKeywordType {
     pub span: Span,
     pub kind: TsKeywordTypeKind,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsKeywordTypeKind {
     #[serde(rename = "any")]
@@ -388,14 +388,14 @@ pub enum TsKeywordTypeKind {
 }
 
 #[ast_node("TsThisType")]
-#[derive(Copy, Eq, Hash)]
+#[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsThisType {
     pub span: Span,
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnParam {
     #[tag("Identifier")]
@@ -412,7 +412,7 @@ pub enum TsFnParam {
 }
 
 #[ast_node("TsFunctionType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsFnType {
     pub span: Span,
@@ -425,7 +425,7 @@ pub struct TsFnType {
 }
 
 #[ast_node("TsConstructorType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsConstructorType {
     pub span: Span,
@@ -437,7 +437,7 @@ pub struct TsConstructorType {
 }
 
 #[ast_node("TsTypeReference")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeRef {
     pub span: Span,
@@ -447,7 +447,7 @@ pub struct TsTypeRef {
 }
 
 #[ast_node("TsTypePredicate")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypePredicate {
     pub span: Span,
@@ -458,7 +458,7 @@ pub struct TsTypePredicate {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsThisTypeOrIdent {
@@ -471,7 +471,7 @@ pub enum TsThisTypeOrIdent {
 
 /// `typeof` operator
 #[ast_node("TsTypeQuery")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeQuery {
     pub span: Span,
@@ -479,7 +479,7 @@ pub struct TsTypeQuery {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsTypeQueryExpr {
     #[tag("TsQualifiedName")]
@@ -490,7 +490,7 @@ pub enum TsTypeQueryExpr {
 }
 
 #[ast_node("TsImportType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsImportType {
     pub span: Span,
@@ -502,7 +502,7 @@ pub struct TsImportType {
 }
 
 #[ast_node("TsTypeLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeLit {
     pub span: Span,
@@ -510,7 +510,7 @@ pub struct TsTypeLit {
 }
 
 #[ast_node("TsArrayType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsArrayType {
     pub span: Span,
@@ -518,7 +518,7 @@ pub struct TsArrayType {
 }
 
 #[ast_node("TsTupleType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTupleType {
     pub span: Span,
@@ -526,7 +526,7 @@ pub struct TsTupleType {
 }
 
 #[ast_node("TsTupleElement")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTupleElement {
     pub span: Span,
@@ -536,7 +536,7 @@ pub struct TsTupleElement {
 }
 
 #[ast_node("TsOptionalType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsOptionalType {
     pub span: Span,
@@ -545,7 +545,7 @@ pub struct TsOptionalType {
 }
 
 #[ast_node("TsRestType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsRestType {
     pub span: Span,
@@ -554,7 +554,7 @@ pub struct TsRestType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsUnionOrIntersectionType {
     #[tag("TsUnionType")]
@@ -565,7 +565,7 @@ pub enum TsUnionOrIntersectionType {
 }
 
 #[ast_node("TsUnionType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsUnionType {
     pub span: Span,
@@ -573,7 +573,7 @@ pub struct TsUnionType {
 }
 
 #[ast_node("TsIntersectionType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsIntersectionType {
     pub span: Span,
@@ -581,7 +581,7 @@ pub struct TsIntersectionType {
 }
 
 #[ast_node("TsConditionalType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsConditionalType {
     pub span: Span,
@@ -592,7 +592,7 @@ pub struct TsConditionalType {
 }
 
 #[ast_node("TsInferType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsInferType {
     pub span: Span,
@@ -600,7 +600,7 @@ pub struct TsInferType {
 }
 
 #[ast_node("TsParenthesizedType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsParenthesizedType {
     pub span: Span,
@@ -609,7 +609,7 @@ pub struct TsParenthesizedType {
 }
 
 #[ast_node("TsTypeOperator")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeOperator {
     pub span: Span,
@@ -618,7 +618,7 @@ pub struct TsTypeOperator {
     pub type_ann: Box<TsType>,
 }
 
-#[derive(StringEnum, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(StringEnum, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsTypeOperatorOp {
     /// `keyof`
@@ -630,7 +630,7 @@ pub enum TsTypeOperatorOp {
 }
 
 #[ast_node("TsIndexedAccessType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsIndexedAccessType {
     pub span: Span,
@@ -640,7 +640,7 @@ pub struct TsIndexedAccessType {
     pub index_type: Box<TsType>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TruePlusMinus {
     True,
@@ -703,7 +703,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 }
 
 #[ast_node("TsMappedType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsMappedType {
     pub span: Span,
@@ -719,7 +719,7 @@ pub struct TsMappedType {
 }
 
 #[ast_node("TsLiteralType")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsLitType {
     pub span: Span,
@@ -728,7 +728,7 @@ pub struct TsLitType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsLit {
     #[tag("NumericLiteral")]
@@ -748,7 +748,7 @@ pub enum TsLit {
 }
 
 #[ast_node("TemplateLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTplLitType {
     pub span: Span,
@@ -763,7 +763,7 @@ pub struct TsTplLitType {
 // // ================
 
 #[ast_node("TsInterfaceDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsInterfaceDecl {
     pub span: Span,
@@ -776,7 +776,7 @@ pub struct TsInterfaceDecl {
 }
 
 #[ast_node("TsInterfaceBody")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsInterfaceBody {
     pub span: Span,
@@ -784,7 +784,7 @@ pub struct TsInterfaceBody {
 }
 
 #[ast_node("TsExpressionWithTypeArguments")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsExprWithTypeArgs {
     pub span: Span,
@@ -795,7 +795,7 @@ pub struct TsExprWithTypeArgs {
 }
 
 #[ast_node("TsTypeAliasDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeAliasDecl {
     pub span: Span,
@@ -808,7 +808,7 @@ pub struct TsTypeAliasDecl {
 }
 
 #[ast_node("TsEnumDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsEnumDecl {
     pub span: Span,
@@ -819,7 +819,7 @@ pub struct TsEnumDecl {
 }
 
 #[ast_node("TsEnumMember")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsEnumMember {
     pub span: Span,
@@ -831,7 +831,7 @@ pub struct TsEnumMember {
 ///
 /// - Invalid: [Ident] with empty symbol.
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsEnumMemberId {
     #[tag("Identifier")]
@@ -842,7 +842,7 @@ pub enum TsEnumMemberId {
 }
 
 #[ast_node("TsModuleDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsModuleDecl {
     pub span: Span,
@@ -857,7 +857,7 @@ pub struct TsModuleDecl {
 /// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as
 /// its body.
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsNamespaceBody {
     #[tag("TsModuleBlock")]
@@ -868,7 +868,7 @@ pub enum TsNamespaceBody {
 }
 
 #[ast_node("TsModuleBlock")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsModuleBlock {
     pub span: Span,
@@ -876,7 +876,7 @@ pub struct TsModuleBlock {
 }
 
 #[ast_node("TsNamespaceDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsNamespaceDecl {
     pub span: Span,
@@ -888,7 +888,7 @@ pub struct TsNamespaceDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsModuleName {
     #[tag("Identifier")]
@@ -899,7 +899,7 @@ pub enum TsModuleName {
 }
 
 #[ast_node("TsImportEqualsDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsImportEqualsDecl {
     pub span: Span,
@@ -910,7 +910,7 @@ pub struct TsImportEqualsDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsModuleRef {
     #[tag("TsQualifiedName")]
@@ -922,7 +922,7 @@ pub enum TsModuleRef {
 }
 
 #[ast_node("TsExternalModuleReference")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsExternalModuleRef {
     pub span: Span,
@@ -934,7 +934,7 @@ pub struct TsExternalModuleRef {
 /// `export =`. But for @babel/parser, `export default` is an ExportDefaultDecl,
 /// so a TsExportAssignment is always `export =`.
 #[ast_node("TsExportAssignment")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsExportAssignment {
     pub span: Span,
@@ -943,7 +943,7 @@ pub struct TsExportAssignment {
 }
 
 #[ast_node("TsNamespaceExportDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsNamespaceExportDecl {
     pub span: Span,
@@ -955,7 +955,7 @@ pub struct TsNamespaceExportDecl {
 // // ================
 
 #[ast_node("TsAsExpression")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsAsExpr {
     pub span: Span,
@@ -966,7 +966,7 @@ pub struct TsAsExpr {
 }
 
 #[ast_node("TsTypeAssertion")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeAssertion {
     pub span: Span,
@@ -977,7 +977,7 @@ pub struct TsTypeAssertion {
 }
 
 #[ast_node("TsNonNullExpression")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsNonNullExpr {
     pub span: Span,
@@ -985,7 +985,7 @@ pub struct TsNonNullExpr {
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Accessibility {
     #[serde(rename = "public")]
@@ -997,7 +997,7 @@ pub enum Accessibility {
 }
 
 #[ast_node("TsConstAssertion")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsConstAssertion {
     pub span: Span,
