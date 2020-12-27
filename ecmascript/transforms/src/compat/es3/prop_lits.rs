@@ -43,13 +43,17 @@ impl Fold for PropertyLiteral {
 
         match n {
             PropName::Str(Str {
-                value: sym, span, ..
+                value: sym,
+                span,
+                kind,
+                ..
             }) => {
                 if sym.is_reserved_for_es3() || !is_valid_ident(&sym) {
                     PropName::Str(Str {
                         span,
                         value: sym,
                         has_escape: false,
+                        kind,
                     })
                 } else {
                     PropName::Ident(Ident::new(sym, span))
@@ -62,6 +66,9 @@ impl Fold for PropertyLiteral {
                         span,
                         value: sym,
                         has_escape: false,
+                        kind: StrKind::Normal {
+                            contains_quote: false,
+                        },
                     })
                 } else {
                     PropName::Ident(Ident { span, sym, ..i })

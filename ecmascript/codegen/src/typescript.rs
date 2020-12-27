@@ -82,7 +82,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_constructor_signature_decl")
+        keyword!("constructor");
+
+        punct!("(");
+        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
+        punct!(")");
     }
 
     #[emitter]
@@ -113,7 +117,6 @@ impl<'a> Emitter<'a> {
         match n {
             TsEntityName::TsQualifiedName(n) => {
                 emit!(n);
-                punct!(".");
             }
             TsEntityName::Ident(n) => emit!(n),
         }
@@ -172,7 +175,11 @@ impl<'a> Emitter<'a> {
     fn emit_ts_export_assignment(&mut self, n: &TsExportAssignment) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_export_assignment")
+        keyword!("export");
+        formatting_space!();
+        punct!("=");
+        formatting_space!();
+        emit!(n.expr);
     }
 
     #[emitter]
@@ -253,10 +260,11 @@ impl<'a> Emitter<'a> {
         self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
         punct!("]");
 
-        punct!(":");
-        formatting_space!();
-        emit!(n.type_ann);
-        semi!();
+        if let Some(type_ann) = &n.type_ann {
+            punct!(":");
+            formatting_space!();
+            emit!(type_ann);
+        }
     }
 
     #[emitter]
@@ -573,7 +581,8 @@ impl<'a> Emitter<'a> {
     fn emit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_non_null_expr")
+        emit!(n.expr);
+        punct!("!")
     }
 
     #[emitter]
@@ -971,5 +980,18 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::tests::assert_min_typescript;
+
+    #[test]
+    fn qualified_type() {
+        assert_min_typescript(
+            "var memory: WebAssembly.Memory;",
+            "var memory:WebAssembly.Memory;",
+        );
     }
 }

@@ -7,7 +7,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{borrow::Cow, fmt::Write, io, sync::Arc};
+use std::{fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -383,22 +383,31 @@ impl<'a> Emitter<'a> {
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        let single_quote = is_single_quote(&self.cm, node.span);
+        let (single_quote, value) = match node.kind {
+            StrKind::Normal { contains_quote } => {
+                let single_quote = if contains_quote {
+                    is_single_quote(&self.cm, node.span)
+                } else {
+                    None
+                };
 
-        // if let Some(s) = get_text_of_node(&self.cm, node, false) {
-        //     self.wr.write_str_lit(node.span, &s)?;
-        //     return Ok(());
-        // }
-        let value = escape(
-            &self.cm,
-            self.wr.target(),
-            node.span,
-            &node.value,
-            single_quote,
-        );
-        // let value = node.value.replace("\n", "\\n");
+                let value = escape_with_source(
+                    &self.cm,
+                    self.wr.target(),
+                    node.span,
+                    &node.value,
+                    single_quote,
+                );
 
-        let single_quote = single_quote.unwrap_or(false);
+                (single_quote.unwrap_or(false), value)
+            }
+            StrKind::Synthesized => {
+                let single_quote = false;
+                let value = escape_without_source(&node.value, self.wr.target(), single_quote);
+
+                (single_quote, value)
+            }
+        };
 
         if single_quote {
             punct!("'");
@@ -654,9 +663,12 @@ impl<'a> Emitter<'a> {
                 _ => true,
             };
 
+        emit!(node.type_params);
+
         if parens {
             punct!("(");
         }
+
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
         if parens {
             punct!(")");
@@ -1605,15 +1617,19 @@ impl<'a> Emitter<'a> {
 
             // Write a trailing comma, if requested.
             let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
-                match self.cm.span_to_snippet(parent_node) {
-                    Ok(snippet) => {
-                        if snippet.len() < 3 {
-                            false
-                        } else {
-                            snippet[..snippet.len() - 1].trim().ends_with(',')
+                if parent_node.is_dummy() {
+                    false
+                } else {
+                    match self.cm.span_to_snippet(parent_node) {
+                        Ok(snippet) => {
+                            if snippet.len() < 3 {
+                                false
+                            } else {
+                                snippet[..snippet.len() - 1].trim().ends_with(',')
+                            }
                         }
+                        _ => false,
                     }
-                    _ => false,
                 }
             };
 
@@ -2419,15 +2435,66 @@ fn unescape(s: &str) -> String {
     result
 }
 
-fn escape<'s>(
+fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> String {
+    let mut buf = String::with_capacity(v.len());
+
+    for c in v.chars() {
+        match c {
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\t' => buf.push_str("\\t"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\0' => buf.push_str("\\0"),
+
+            '\\' => buf.push_str("\\\\"),
+
+            '\'' if single_quote => buf.push_str("\\'"),
+            '"' if !single_quote => buf.push_str("\\\""),
+
+            '\x01'..='\x0f' => {
+                let _ = write!(buf, "\\x0{:x}", c as u8);
+            }
+            '\x10'..='\x1f' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+
+            '\x20'..='\x7e' => {
+                //
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+
+            _ => {
+                let escaped = c.escape_unicode().to_string();
+
+                if escaped.starts_with('\\') {
+                    buf.push_str("\\u");
+                    if escaped.len() == 8 {
+                        buf.push_str(&escaped[3..=6]);
+                    } else {
+                        buf.push_str(&escaped[2..]);
+                    }
+                }
+            }
+        }
+    }
+
+    buf
+}
+
+fn escape_with_source<'s>(
     cm: &SourceMap,
     target: JscTarget,
     span: Span,
     s: &'s str,
     single_quote: Option<bool>,
-) -> Cow<'s, str> {
+) -> String {
     if span.is_dummy() {
-        return Cow::Owned(s.escape_default().to_string());
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 
     //
@@ -2435,12 +2502,12 @@ fn escape<'s>(
     let orig = match orig {
         Ok(orig) => orig,
         Err(v) => {
-            return Cow::Owned(s.escape_default().to_string());
+            return escape_without_source(s, target, single_quote.unwrap_or(false));
         }
     };
 
-    if orig.len() <= 2 {
-        return Cow::Owned(s.escape_default().to_string());
+    if single_quote.is_some() && orig.len() <= 2 {
+        return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 
     let mut orig = &*orig;
@@ -2450,7 +2517,9 @@ fn escape<'s>(
     {
         orig = &orig[1..orig.len() - 1];
     } else {
-        return Cow::Owned(s.escape_default().to_string());
+        if single_quote.is_some() {
+            return escape_without_source(s, target, single_quote.unwrap_or(false));
+        }
     }
 
     let mut buf = String::with_capacity(s.len());
@@ -2459,10 +2528,17 @@ fn escape<'s>(
 
     while let Some(orig_c) = orig_iter.next() {
         // Javascript literal should not contain newlines
-        if orig_c == '\n' && single_quote.is_some() {
+        if orig_c == '\n' {
             s_iter.next();
             s_iter.next();
             buf.push_str("\\n");
+            continue;
+        }
+
+        if single_quote.is_none() && orig_c == '"' {
+            s_iter.next();
+            s_iter.next();
+            buf.push_str("\\\"");
             continue;
         }
 
@@ -2516,7 +2592,7 @@ fn escape<'s>(
                         }
 
                         _ => {
-                            buf.extend(s_iter.next());
+                            s_iter.next();
                         }
                     }
 
@@ -2532,7 +2608,7 @@ fn escape<'s>(
 
     buf.extend(s_iter);
 
-    Cow::Owned(buf)
+    buf
 }
 
 /// Returns [Some] if the span points to a string literal written by user.
@@ -2541,11 +2617,6 @@ fn escape<'s>(
 /// spans of string literals created from [TplElement] do not have `starting`
 /// quote.
 fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
-    // This is a workaround for TplElement issue.
-    if span.ctxt != SyntaxContext::empty() {
-        return None;
-    }
-
     let start = cm.lookup_byte_offset(span.lo);
     let end = cm.lookup_byte_offset(span.hi);
 

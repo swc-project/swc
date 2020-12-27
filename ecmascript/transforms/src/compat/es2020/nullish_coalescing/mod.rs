@@ -1,9 +1,10 @@
 use crate::{
+    ext::MapWithMut,
     perf::Check,
     util::{alias_if_required, undefined, StmtLike},
 };
 use std::mem::replace;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
@@ -69,7 +70,7 @@ impl Fold for NullishCoalescing {
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+        let mut e = e.fold_children_with(self);
 
         match e {
             Expr::Bin(BinExpr {
@@ -101,27 +102,62 @@ impl Fold for NullishCoalescing {
                     Expr::Ident(l.clone())
                 };
 
-                return Expr::Cond(CondExpr {
-                    span,
-                    test: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: Box::new(var_expr),
-                            op: op!("!=="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("&&"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: Box::new(Expr::Ident(l.clone())),
-                            op: op!("!=="),
-                            right: undefined(DUMMY_SP),
-                        })),
-                    })),
-                    cons: Box::new(Expr::Ident(l.clone())),
-                    alt: right,
-                });
+                return make_cond(span, &l, var_expr, right);
+            }
+
+            Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
+                match &mut assign.left {
+                    PatOrExpr::Expr(left) => {
+                        let (alias, aliased) = alias_if_required(&left, "ref$");
+                        if aliased {
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(alias.clone()),
+                                init: None,
+                                definite: false,
+                            });
+                        }
+
+                        let var_expr = if aliased {
+                            Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone()))),
+                                right: left.take(),
+                            })
+                        } else {
+                            Expr::Ident(alias.clone())
+                        };
+
+                        return Expr::Assign(AssignExpr {
+                            span: assign.span,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone()))),
+                            right: Box::new(make_cond(
+                                assign.span,
+                                &alias,
+                                var_expr,
+                                assign.right.take(),
+                            )),
+                        });
+                    }
+                    PatOrExpr::Pat(left) => match &mut **left {
+                        Pat::Ident(i) => {
+                            return Expr::Assign(AssignExpr {
+                                span: assign.span,
+                                op: op!("="),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
+                                right: Box::new(make_cond(
+                                    assign.span,
+                                    &i,
+                                    Expr::Ident(i.clone()),
+                                    assign.right.take(),
+                                )),
+                            });
+                        }
+                        _ => {}
+                    },
+                }
             }
 
             _ => {}
@@ -147,10 +183,42 @@ impl Visit for ShouldWork {
             e.visit_children_with(self)
         }
     }
+
+    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+        if e.op == op!("??=") {
+            self.found = true;
+        } else {
+            e.visit_children_with(self)
+        }
+    }
 }
 
 impl Check for ShouldWork {
     fn should_handle(&self) -> bool {
         self.found
     }
+}
+
+fn make_cond(span: Span, alias: &Ident, var_expr: Expr, init: Box<Expr>) -> Expr {
+    Expr::Cond(CondExpr {
+        span,
+        test: Box::new(Expr::Bin(BinExpr {
+            span: DUMMY_SP,
+            left: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: Box::new(var_expr),
+                op: op!("!=="),
+                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+            })),
+            op: op!("&&"),
+            right: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: Box::new(Expr::Ident(alias.clone())),
+                op: op!("!=="),
+                right: undefined(DUMMY_SP),
+            })),
+        })),
+        cons: Box::new(Expr::Ident(alias.clone())),
+        alt: init,
+    })
 }

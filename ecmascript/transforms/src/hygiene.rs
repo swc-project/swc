@@ -3,7 +3,7 @@ use crate::{
     compat::es2015::classes::native::{is_native, is_native_word},
     scope::{IdentType, ScopeKind},
 };
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
@@ -116,36 +116,39 @@ impl<'a> Hygiene<'a> {
 
         let sym = self.current.change_symbol(sym, ctxt);
         let boxed_sym = sym.to_boxed_str();
-        let scope = self.current.scope_of(&boxed_sym, ctxt);
+        {
+            let scope = self.current.scope_of(&boxed_sym, ctxt);
 
-        // Update symbol list
-        let mut declared_symbols = scope.declared_symbols.borrow_mut();
+            // Update symbol list
+            let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
-        let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym.clone(), ctxt));
+            let is_not_renamed = !scope.ops.borrow().rename.contains_key(&(sym.clone(), ctxt));
 
-        debug_assert!(
-            is_not_renamed,
-            "failed to rename {}{:?}: should not rename an ident multiple time\n{:?}",
-            sym,
-            ctxt,
-            scope.ops.borrow(),
-        );
+            debug_assert!(
+                is_not_renamed,
+                "failed to rename {}{:?}: should not rename an ident multiple time\n{:?}",
+                sym,
+                ctxt,
+                scope.ops.borrow(),
+            );
 
-        let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
-        old.retain(|c| *c != ctxt);
-        //        debug_assert!(old.is_empty() || old.len() == 1);
+            let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
+            old.retain(|c| *c != ctxt);
+            //        debug_assert!(old.is_empty() || old.len() == 1);
 
-        let new = declared_symbols
-            .entry(renamed.clone().into_boxed_str())
-            .or_insert_with(|| Vec::with_capacity(2));
-        new.push(ctxt);
-        debug_assert!(new.len() == 1);
+            let new = declared_symbols
+                .entry(renamed.clone().into_boxed_str())
+                .or_insert_with(|| Vec::with_capacity(2));
+            new.push(ctxt);
+            debug_assert!(new.len() == 1);
 
-        scope
-            .ops
-            .borrow_mut()
-            .rename
-            .insert((sym, ctxt), renamed.into());
+            scope
+                .ops
+                .borrow_mut()
+                .rename
+                .insert((sym, ctxt), renamed.clone().into());
+        }
+        self.current.renamed.insert(renamed.into());
     }
 }
 
@@ -224,6 +227,7 @@ struct Scope<'a> {
     pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Operations>,
+    pub renamed: FxHashSet<JsWord>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -240,6 +244,7 @@ impl<'a> Scope<'a> {
             declared_symbols: Default::default(),
             // children: Default::default(),
             ops: Default::default(),
+            renamed: Default::default(),
         }
     }
 
@@ -267,6 +272,10 @@ impl<'a> Scope<'a> {
         }
 
         if is_native(&sym) {
+            return false;
+        }
+
+        if self.renamed.contains(&(&**sym).into()) {
             return false;
         }
 

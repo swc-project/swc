@@ -23,7 +23,11 @@
           "ctxt": 0
         },
         "value": "hot-new-module",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "body": null
     }

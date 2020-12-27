@@ -13,6 +13,8 @@
 //! Adds methods to generator web sourcemap.
 #![deny(unused)]
 
+pub use self::eq::EqIgnoreSpan;
+pub use self::eq::TypeEq;
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
     pos::{
@@ -27,6 +29,8 @@ pub use ast_node::{ast_node, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
 use serde::Serialize;
 use std::fmt::Debug;
+pub use swc_eq_ignore_macros::EqIgnoreSpan;
+pub use swc_eq_ignore_macros::TypeEq;
 pub use swc_visit::chain;
 
 /// A trait for ast nodes.
@@ -35,6 +39,7 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
 }
 
 pub mod comments;
+mod eq;
 pub mod errors;
 pub mod input;
 pub mod iter;

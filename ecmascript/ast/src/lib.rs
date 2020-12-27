@@ -26,7 +26,7 @@ pub use self::{
         JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
-    lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
+    lit::{BigInt, Bool, Lit, Null, Number, Regex, Str, StrKind},
     module::{Module, ModuleItem, Program, Script},
     module_decl::{
         DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
@@ -64,6 +64,7 @@ pub use self::{
         TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[macro_use]
@@ -85,7 +86,7 @@ mod typescript;
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]
-#[derive(Eq, Hash, Copy)]
+#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Invalid {
     pub span: Span,

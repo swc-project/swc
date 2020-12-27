@@ -184,10 +184,6 @@ impl Fold for ExportToReturn {
                     Some(Stmt::Decl(export.decl))
                 }
 
-                // Ignore export {} specified by user.
-                ModuleDecl::ExportNamed(NamedExport {
-                    span, src: None, ..
-                }) if span.ctxt != self.synthesized_ctxt => None,
                 ModuleDecl::ExportDefaultDecl(export) => match export.decl {
                     DefaultDecl::Class(expr) => {
                         let ident = expr.ident;
@@ -248,7 +244,12 @@ impl Fold for ExportToReturn {
                         }
                     }
 
-                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named));
+                    // Ignore export {} specified by user.
+                    if named.src.is_none() && named.span.ctxt != self.synthesized_ctxt {
+                        None
+                    } else {
+                        return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named));
+                    }
                 }
                 ModuleDecl::TsImportEquals(_) => None,
                 ModuleDecl::TsExportAssignment(_) => None,

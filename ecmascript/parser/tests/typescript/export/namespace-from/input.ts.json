@@ -42,7 +42,11 @@
           "ctxt": 0
         },
         "value": "package",
-        "hasEscape": false
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
       },
       "typeOnly": false
     }
