@@ -1,8 +1,10 @@
 use super::plan::{DepType, Plan};
+use crate::bundler::chunk::export::inject_export;
 use crate::{
     bundler::{
-        chunk::{export::ExportInjector, plan::NormalPlan, sort::sort},
+        chunk::plan::NormalPlan,
         load::{Imports, Source, Specifier, TransformedModule},
+        modules::Modules,
     },
     id::{Id, ModuleId},
     load::Load,
@@ -13,13 +15,12 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use retain_mut::RetainMut;
-use std::{borrow::Cow, collections::HashMap, mem::take};
+use std::collections::HashMap;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
 
 pub(super) struct Ctx {
@@ -41,7 +42,7 @@ where
         module_id: ModuleId,
         is_entry: bool,
         allow_circular: bool,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         self.run(|| {
             let info = self.scope.get_module(module_id).unwrap();
 
@@ -61,6 +62,7 @@ where
 
             let mut module = self
                 .get_module_for_merging(ctx, module_id, is_entry)
+                .map(|module| Modules::from(module, self.injected_ctxt))
                 .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
 
             {
@@ -104,7 +106,9 @@ where
         dep_id: ModuleId,
         src: &Source,
         specifiers: &[Specifier],
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
+        let injected_ctxt = self.injected_ctxt;
+
         log::debug!("Merging {:?} directly", dep_id);
 
         let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -112,8 +116,10 @@ where
 
         // Now we handle imports
         let mut module = if wrapped {
-            let mut module = self.get_module_for_merging(ctx, dep_id, false)?;
-            module = self.wrap_esm(ctx, dep_id, module)?;
+            let mut module: Modules = self
+                .get_module_for_merging(ctx, dep_id, false)
+                .map(|module| Modules::from(module, self.injected_ctxt))?;
+            module = self.wrap_esm(ctx, dep_id, module.into())?.into();
 
             // Inject local_name = wrapped_esm_module_name
             let module_ident = specifiers.iter().find_map(|specifier| match specifier {
@@ -126,11 +132,11 @@ where
             let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
 
             if let Some(module_ident) = &module_ident {
-                module.body.push(
+                module.inject(
                     esm_id
                         .clone()
                         .assign_to(module_ident.clone())
-                        .into_module_item("merge_direct_import"),
+                        .into_module_item(injected_ctxt, "merge_direct_import"),
                 );
             }
 
@@ -164,9 +170,9 @@ where
 
                         let from = esm_id.clone().into_ident().make_member(i.clone());
 
-                        module.body.push(
+                        module.inject(
                             from.assign_to(i.with_ctxt(src.export_ctxt))
-                                .into_module_item("namespace_with_normal"),
+                                .into_module_item(injected_ctxt, "namespace_with_normal"),
                         );
                     }
                     Specifier::Namespace { .. } => continue,
@@ -211,15 +217,15 @@ where
         }));
 
         for var in var_decls {
-            module
-                .body
-                .push(var.into_module_item("from_merge_direct_import"));
+            module.inject(var.into_module_item(injected_ctxt, "from_merge_direct_import"));
         }
 
         Ok(module)
     }
 
-    fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Module, Error> {
+    fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Modules, Error> {
+        let injected_ctxt = self.injected_ctxt;
+
         log::debug!("Merging {:?} transitively", dep_id);
 
         let dep_info = self.scope.get_module(dep_id).unwrap();
@@ -231,9 +237,7 @@ where
         module = module.fold_with(&mut Unexporter);
 
         for var in var_decls {
-            module
-                .body
-                .push(var.into_module_item("from_merge_transitive_import"));
+            module.inject(var.into_module_item(injected_ctxt, "from_merge_transitive_import"));
         }
 
         Ok(module)
@@ -252,12 +256,12 @@ where
     fn transform_indirect_reexports(
         &self,
         _ctx: &Ctx,
-        module: &mut Module,
+        module: &mut Modules,
         deps: Vec<Source>,
     ) -> Result<(), Error> {
         self.run(|| {
             //
-            for stmt in &mut module.body {
+            for stmt in module.iter_mut() {
                 let decl = match stmt {
                     ModuleItem::ModuleDecl(decl) => decl,
                     ModuleItem::Stmt(_) => continue,
@@ -288,11 +292,11 @@ where
         &self,
         ctx: &Ctx,
         is_entry: bool,
-        mut module: Module,
+        mut module: Modules,
         plan: &NormalPlan,
         info: &TransformedModule,
         from_circular: bool,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         self.run(|| -> Result<_, Error> {
             log::debug!(
                 "Normal merging: ({:?}) {} <= {:?}",
@@ -387,15 +391,22 @@ where
 
                 if is_export {
                     assert!(dep_info.is_es6, "export statements are es6-only");
-                    let mut injector = ExportInjector {
-                        imported: take(&mut dep_module.body),
-                        source: source.unwrap().clone(),
+
+                    let res = inject_export(
+                        &mut module,
                         ctx,
-                        export_ctxt: info.export_ctxt(),
-                        // We use id of the entry
-                        wrapped: self.scope.should_be_wrapped_with_a_fn(info.id),
-                    };
-                    module.body.visit_mut_with(&mut injector);
+                        info.export_ctxt(),
+                        self.scope.should_be_wrapped_with_a_fn(info.id),
+                        dep_module,
+                        source.unwrap().clone(),
+                    );
+
+                    match res {
+                        Ok(()) => {}
+                        Err(..) => {
+                            unreachable!("Merging as export when export statement does not exist?")
+                        }
+                    }
 
                     log::debug!(
                         "Merged {} into {} as a reexport",
@@ -411,7 +422,7 @@ where
 
                     match dep.ty {
                         DepType::Transitive => {
-                            module.body.extend(dep_module.body);
+                            module.push_all(dep_module);
 
                             log::debug!(
                                 "Merged {} into {} as a transitive es module",
@@ -431,37 +442,38 @@ where
                     //     &module,
                     // );
 
-                    // Replace import statement / require with module body
-                    let mut injector = Es6ModuleInjector {
-                        imported: take(&mut dep_module.body),
-                        dep_export_ctxt: dep_info.export_ctxt(),
-                        is_direct: match dep.ty {
+                    // Replace import statement with module body
+                    let res = inject_es_module(
+                        &mut module,
+                        dep_module,
+                        dep_info.export_ctxt(),
+                        match dep.ty {
                             DepType::Direct => true,
                             _ => false,
                         },
-                    };
-                    module.body.visit_mut_with(&mut injector);
+                    );
 
-                    if injector.imported.is_empty() {
-                        log::debug!(
-                            "Merged {} into {} as an es module",
-                            dep_info.fm.name,
-                            info.fm.name,
-                        );
-                        // print_hygiene(
-                        //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
-                        //     &self.cm,
-                        //     &entry,
-                        // );
-                        continue;
-                    }
+                    dep_module = match res {
+                        Ok(()) => {
+                            log::debug!(
+                                "Merged {} into {} as an es module",
+                                dep_info.fm.name,
+                                info.fm.name,
+                            );
+                            // print_hygiene(
+                            //     &format!("ES6: {:?} <- {:?}", info.ctxt(), dep_info.ctxt()),
+                            //     &self.cm,
+                            //     &entry,
+                            // );
+                            continue;
+                        }
+                        Err(dep) => dep,
+                    };
 
                     if info.is_es6 && dep_info.is_es6 {
-                        module.body.extend(injector.imported);
+                        module.push_all(dep_module);
                         continue;
                     }
-
-                    dep_module.body = take(&mut injector.imported);
 
                     // print_hygiene(
                     //     &format!("entry: failed to inject: {}; {:?}",
@@ -476,7 +488,7 @@ where
                         is_entry,
                         &mut module,
                         &info,
-                        Cow::Owned(dep_module),
+                        dep_module,
                         &dep_info,
                         &mut targets,
                     )?;
@@ -525,23 +537,29 @@ where
     ///
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
-    fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Module) {
+    fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Modules) {
+        let injected_ctxt = self.injected_ctxt;
+
         {
             // Handle `export *` for non-wrapped modules.
 
-            let mut extra_stmts = vec![];
+            let mut vars = vec![];
 
-            for stmt in entry.body.iter() {
+            for stmt in entry.iter() {
                 match stmt {
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                         let ids: Vec<Id> = find_ids(decl);
 
                         for id in ids {
+                            if *id.sym() == js_word!("default") {
+                                continue;
+                            }
+
                             if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
                                 let reexported = id.clone().with_ctxt(remapped);
-                                extra_stmts.push(
+                                vars.push(
                                     id.assign_to(reexported)
-                                        .into_module_item("export_star_replacer"),
+                                        .into_module_item(injected_ctxt, "export_star_replacer"),
                                 );
                             }
                         }
@@ -551,7 +569,7 @@ where
                 }
             }
 
-            entry.body.extend(extra_stmts);
+            entry.inject_all(vars);
         }
 
         {
@@ -559,12 +577,16 @@ where
             let mut additional_props = HashMap::<_, Vec<_>>::new();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
-                for stmt in entry.body.iter() {
+                for stmt in entry.iter() {
                     match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                             let ids: Vec<Id> = find_ids(decl);
 
                             for id in ids {
+                                if *id.sym() == js_word!("default") {
+                                    continue;
+                                }
+
                                 if ctxts.contains(&id.ctxt()) {
                                     additional_props.entry(module_id).or_default().push(
                                         PropOrSpread::Prop(Box::new(Prop::Shorthand(
@@ -585,7 +607,7 @@ where
                     None => continue,
                 };
 
-                for stmt in &mut entry.body {
+                for stmt in entry.iter_mut() {
                     let var = match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(
                             var
@@ -653,14 +675,16 @@ where
         }
     }
 
-    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Module) {
+    fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
         self.handle_export_stars(ctx, entry);
 
-        sort(&mut entry.body);
+        // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
-        // print_hygiene("done", &self.cm, &entry);
+        entry.sort();
 
-        entry.body.retain_mut(|item| {
+        // print_hygiene("done", &self.cm, &entry.clone().into());
+
+        entry.retain_mut(|item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..)) => return false,
 
@@ -720,78 +744,96 @@ where
         // );
     }
 
-    pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Module) {
-        let mut new = Vec::with_capacity(module.body.len() + 32);
+    pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
+        let injected_ctxt = self.injected_ctxt;
 
-        for stmt in take(&mut module.body) {
-            match &stmt {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    for specifier in &import.specifiers {
-                        match specifier {
-                            ImportSpecifier::Named(named) => match &named.imported {
-                                Some(imported) => {
-                                    new.push(
-                                        imported
-                                            .clone()
-                                            .assign_to(named.local.clone())
-                                            .into_module_item("from_replace_import_specifiers"),
-                                    );
-                                    continue;
+        let mut vars = vec![];
+        module.map_any_items(|stmts| {
+            let mut new = Vec::with_capacity(stmts.len() + 32);
+
+            for stmt in stmts {
+                match &stmt {
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                        for specifier in &import.specifiers {
+                            match specifier {
+                                ImportSpecifier::Named(named) => match &named.imported {
+                                    Some(imported) => {
+                                        vars.push(
+                                            imported
+                                                .clone()
+                                                .assign_to(named.local.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "from_replace_import_specifiers",
+                                                ),
+                                        );
+                                        continue;
+                                    }
+                                    None => {}
+                                },
+                                ImportSpecifier::Default(default) => {
+                                    if let Some((src, _)) = info
+                                        .imports
+                                        .specifiers
+                                        .iter()
+                                        .find(|s| s.0.src.value == import.src.value)
+                                    {
+                                        let imported = Ident::new(
+                                            js_word!("default"),
+                                            DUMMY_SP.with_ctxt(src.export_ctxt),
+                                        );
+                                        vars.push(
+                                            imported
+                                                .assign_to(default.local.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "from_replace_import_specifiers",
+                                                ),
+                                        );
+                                        continue;
+                                    }
                                 }
-                                None => {}
-                            },
-                            ImportSpecifier::Default(default) => {
-                                if let Some((src, _)) = info
-                                    .imports
-                                    .specifiers
-                                    .iter()
-                                    .find(|s| s.0.src.value == import.src.value)
-                                {
-                                    let imported = Ident::new(
-                                        js_word!("default"),
-                                        DUMMY_SP.with_ctxt(src.export_ctxt),
-                                    );
-                                    new.push(
-                                        imported
-                                            .assign_to(default.local.clone())
-                                            .into_module_item("from_replace_import_specifiers"),
-                                    );
-                                    continue;
-                                }
-                            }
-                            ImportSpecifier::Namespace(s) => {
-                                if let Some((src, _)) = info
-                                    .imports
-                                    .specifiers
-                                    .iter()
-                                    .find(|s| s.0.src.value == import.src.value)
-                                {
-                                    let esm_id = self.scope.wrapped_esm_id(src.module_id).expect(
-                                        "If a namespace impoet specifier is preserved, it means \
-                                         failutre of deblobbing and as a result module should be \
-                                         marked as wrpaped esm",
-                                    );
-                                    new.push(
-                                        esm_id.clone().assign_to(s.local.clone()).into_module_item(
-                                            "from_replace_import_specifiers: namespaced",
-                                        ),
-                                    );
-                                    continue;
+                                ImportSpecifier::Namespace(s) => {
+                                    if let Some((src, _)) = info
+                                        .imports
+                                        .specifiers
+                                        .iter()
+                                        .find(|s| s.0.src.value == import.src.value)
+                                    {
+                                        let esm_id =
+                                            self.scope.wrapped_esm_id(src.module_id).expect(
+                                                "If a namespace impoet specifier is preserved, it \
+                                                 means failutre of deblobbing and as a result \
+                                                 module should be marked as wrpaped esm",
+                                            );
+                                        vars.push(
+                                            esm_id
+                                                .clone()
+                                                .assign_to(s.local.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "from_replace_import_specifiers: namespaced",
+                                                ),
+                                        );
+                                        continue;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    // We should remove imports
-                    continue;
+                        // We should remove imports
+                        continue;
+                    }
+                    _ => {}
                 }
-                _ => {}
+
+                new.push(stmt);
             }
 
-            new.push(stmt);
-        }
+            new
+        });
 
-        module.body = new;
+        module.inject_all(vars)
     }
 
     /// If a dependency aliased exports, we handle them at here.
@@ -799,14 +841,16 @@ where
         &self,
         ctx: &Ctx,
         info: &TransformedModule,
-        module: &mut Module,
+        module: &mut Modules,
         _for_circular: bool,
     ) {
+        let injected_ctxt = self.injected_ctxt;
+
         self.replace_import_specifiers(info, module);
 
         let mut vars = vec![];
 
-        for orig_stmt in module.body.iter_mut() {
+        for orig_stmt in module.iter_mut() {
             let mut stmt = orig_stmt.take();
 
             match stmt {
@@ -818,12 +862,10 @@ where
                                     ExportSpecifier::Namespace(ns) => {
                                         let mut lhs = ns.name.clone();
                                         lhs.span = lhs.span.with_ctxt(info.export_ctxt());
-                                        vars.push(
-                                            ns.name
-                                                .clone()
-                                                .assign_to(lhs)
-                                                .into_module_item("import_deps_namespace"),
-                                        );
+                                        vars.push(ns.name.clone().assign_to(lhs).into_module_item(
+                                            injected_ctxt,
+                                            "import_deps_namespace",
+                                        ));
                                     }
                                     ExportSpecifier::Default(default) => {
                                         let mut lhs = default.exported.clone();
@@ -833,12 +875,17 @@ where
                                                 .exported
                                                 .clone()
                                                 .assign_to(lhs)
-                                                .into_module_item("import_deps_default"),
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "import_deps_default",
+                                                ),
                                         );
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
                                         Some(exported) => {
-                                            if named.orig.span.ctxt != info.export_ctxt() {
+                                            if named.orig.span.ctxt != info.export_ctxt()
+                                                && exported.sym != js_word!("default")
+                                            {
                                                 let mut lhs = exported.clone();
                                                 lhs.span = lhs.span.with_ctxt(info.export_ctxt());
                                                 vars.push(
@@ -846,10 +893,13 @@ where
                                                         .orig
                                                         .clone()
                                                         .assign_to(lhs)
-                                                        .into_module_item(&format!(
-                                                            "import_deps_named_alias of {}",
-                                                            info.fm.name
-                                                        )),
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            &format!(
+                                                                "import_deps_named_alias of {}",
+                                                                info.fm.name
+                                                            ),
+                                                        ),
                                                 );
                                             }
                                         }
@@ -862,7 +912,10 @@ where
                                                         .orig
                                                         .clone()
                                                         .assign_to(lhs)
-                                                        .into_module_item("import_deps_named"),
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            "import_deps_named",
+                                                        ),
                                                 );
                                             }
                                         }
@@ -905,7 +958,10 @@ where
                                         init: Some(Box::new(init)),
                                         definite: false,
                                     }
-                                    .into_module_item("import_deps_export_default_decl"),
+                                    .into_module_item(
+                                        injected_ctxt,
+                                        "import_deps_export_default_decl",
+                                    ),
                                 );
 
                                 s
@@ -932,10 +988,10 @@ where
                                     ),
                                 };
 
-                                vars.push(
-                                    init.assign_to(export_name)
-                                        .into_module_item("import_deps_export_default_decl_fn"),
-                                );
+                                vars.push(init.assign_to(export_name).into_module_item(
+                                    injected_ctxt,
+                                    "import_deps_export_default_decl_fn",
+                                ));
                                 s
                             }
                             DefaultDecl::TsInterfaceDecl(_) => {
@@ -948,12 +1004,10 @@ where
                                 | Decl::Fn(FnDecl { ident, .. }) => {
                                     let mut exported = ident.clone();
                                     exported.span.ctxt = info.export_ctxt();
-                                    vars.push(
-                                        ident
-                                            .clone()
-                                            .assign_to(exported)
-                                            .into_module_item("import_deps_export_decl"),
-                                    );
+                                    vars.push(ident.clone().assign_to(exported).into_module_item(
+                                        injected_ctxt,
+                                        "import_deps_export_decl",
+                                    ));
                                 }
                                 Decl::Var(var) => {
                                     let ids: Vec<Ident> = find_ids(var);
@@ -961,10 +1015,10 @@ where
                                     for id in ids {
                                         let mut exported = id.clone();
                                         exported.span.ctxt = info.export_ctxt();
-                                        vars.push(
-                                            id.assign_to(exported)
-                                                .into_module_item("import_deps_export_var_decl"),
-                                        );
+                                        vars.push(id.assign_to(exported).into_module_item(
+                                            injected_ctxt,
+                                            "import_deps_export_var_decl",
+                                        ));
                                     }
                                 }
                                 _ => {}
@@ -975,7 +1029,7 @@ where
                         ModuleDecl::ExportDefaultExpr(mut export) => {
                             vars.push(
                                 VarDeclarator {
-                                    span: DUMMY_SP,
+                                    span: DUMMY_SP.with_ctxt(injected_ctxt),
                                     name: Pat::Ident(Ident::new(
                                         js_word!("default"),
                                         DUMMY_SP.with_ctxt(info.export_ctxt()),
@@ -983,7 +1037,7 @@ where
                                     init: Some(export.expr.take()),
                                     definite: false,
                                 }
-                                .into_module_item("import_deps_export_default_expr"),
+                                .into_module_item(injected_ctxt, "import_deps_export_default_expr"),
                             );
                             ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                         }
@@ -1005,19 +1059,19 @@ where
         }
 
         for var in vars {
-            module.body.push(var)
+            module.inject(var);
         }
     }
 }
 
-fn vars_from_exports(dep_info: &TransformedModule, module: &Module) -> Vec<VarDeclarator> {
+fn vars_from_exports(dep_info: &TransformedModule, module: &Modules) -> Vec<VarDeclarator> {
     // Convert all exports into variables in form of
     //
     // A__export = A__local
 
     let mut vars = vec![];
 
-    for item in &module.body {
+    for item in module.iter() {
         let item = match item {
             ModuleItem::ModuleDecl(item) => item,
             ModuleItem::Stmt(_) => continue,
@@ -1164,29 +1218,36 @@ impl Fold for Unexporter {
     }
 }
 
-struct Es6ModuleInjector {
-    imported: Vec<ModuleItem>,
-    /// Export context of the dependency module.
+/// Returns `Err(dep)` on error.
+fn inject_es_module(
+    entry: &mut Modules,
+    dep: Modules,
     dep_export_ctxt: SyntaxContext,
     is_direct: bool,
-}
+) -> Result<(), Modules> {
+    let injected_ctxt = entry.injected_ctxt;
 
-impl VisitMut for Es6ModuleInjector {
-    noop_visit_mut_type!();
+    let mut vars = vec![];
+    let mut dep = Some(dep);
 
-    fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
-        let items = take(orig);
-        let mut buf = Vec::with_capacity(self.imported.len() + items.len());
+    entry.map_any_items(|items| {
+        if dep.is_none() {
+            return items;
+        }
+
+        let mut buf = vec![];
 
         for item in items {
             //
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span, specifiers, ..
-                })) if span.ctxt == self.dep_export_ctxt => {
-                    buf.extend(take(&mut self.imported));
+                })) if span.ctxt == dep_export_ctxt => {
+                    if let Some(dep) = dep.take() {
+                        buf.extend(dep.into_items());
+                    }
 
-                    if !self.is_direct {
+                    if !is_direct {
                         let decls = specifiers
                             .iter()
                             .filter_map(|specifier| match specifier {
@@ -1196,7 +1257,7 @@ impl VisitMut for Es6ModuleInjector {
                                     ..
                                 }) => {
                                     let mut imported = imported.clone();
-                                    imported.span = imported.span.with_ctxt(self.dep_export_ctxt);
+                                    imported.span = imported.span.with_ctxt(dep_export_ctxt);
 
                                     Some(VarDeclarator {
                                         span: DUMMY_SP,
@@ -1210,7 +1271,7 @@ impl VisitMut for Es6ModuleInjector {
                             .collect::<Vec<_>>();
 
                         for var in decls {
-                            buf.push(var.into_module_item("Es6ModuleInjector"));
+                            vars.push(var.into_module_item(injected_ctxt, "Es6ModuleInjector"));
                         }
                     }
                 }
@@ -1219,7 +1280,14 @@ impl VisitMut for Es6ModuleInjector {
             }
         }
 
-        *orig = buf;
+        buf
+    });
+
+    entry.inject_all(vars);
+
+    match dep {
+        Some(dep) => Err(dep),
+        None => Ok(()),
     }
 }
 
@@ -1260,6 +1328,13 @@ impl VisitMut for DefaultRenamer {
 
         if n.computed {
             n.prop.visit_mut_with(self)
+        }
+    }
+
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if n.orig.sym == js_word!("default") {
+            n.orig.sym = "__default".into();
+            return;
         }
     }
 }

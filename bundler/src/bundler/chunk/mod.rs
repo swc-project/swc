@@ -14,7 +14,6 @@ mod computed_key;
 mod export;
 mod merge;
 mod plan;
-mod sort;
 
 #[derive(Debug)]
 struct InternalEntry {
@@ -74,7 +73,7 @@ where
                     Bundle {
                         kind,
                         id: entry,
-                        module,
+                        module: module.into(),
                     }
                 })
             })

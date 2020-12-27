@@ -1,4 +1,5 @@
 use super::merge::Unexporter;
+use crate::bundler::modules::Modules;
 use crate::{
     bundler::{
         chunk::{merge::Ctx, plan::Dependancy},
@@ -7,12 +8,12 @@ use crate::{
     Bundler, Load, Resolve,
 };
 use anyhow::Error;
-use std::{borrow::Cow, sync::atomic::Ordering};
+use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
-use swc_ecma_utils::{prepend, quote_ident, undefined, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -44,9 +45,9 @@ where
         &self,
         ctx: &Ctx,
         is_entry: bool,
-        entry: &mut Module,
+        entry: &mut Modules,
         info: &TransformedModule,
-        dep: Cow<Module>,
+        dep: Modules,
         dep_info: &TransformedModule,
         targets: &mut Vec<Dependancy>,
     ) -> Result<(), Error> {
@@ -62,7 +63,7 @@ where
             load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.export_ctxt())),
             replaced: false,
         };
-        entry.body.visit_mut_with(&mut v);
+        entry.visit_mut_with(&mut v);
 
         if v.replaced {
             if let Some(idx) = targets.iter().position(|v| v.id == dep_info.id) {
@@ -74,21 +75,18 @@ where
             {
                 info.helpers.require.store(true, Ordering::SeqCst);
 
-                let mut dep = dep.into_owned().fold_with(&mut Unexporter);
-                dep.visit_mut_with(&mut ImportDropper);
+                let mut dep = dep.fold_with(&mut Unexporter);
+                drop_module_decls(&mut dep);
                 dep.visit_mut_with(&mut DefaultHandler {
                     local_ctxt: dep_info.local_ctxt(),
                 });
 
-                prepend(
-                    &mut entry.body,
-                    ModuleItem::Stmt(wrap_module(
-                        SyntaxContext::empty(),
-                        dep_info.local_ctxt(),
-                        load_var,
-                        dep,
-                    )),
-                );
+                entry.prepend(ModuleItem::Stmt(wrap_module(
+                    SyntaxContext::empty(),
+                    dep_info.local_ctxt(),
+                    load_var,
+                    dep.into(),
+                )));
 
                 log::warn!("Injecting load");
             }
@@ -105,7 +103,7 @@ where
                         false,
                         entry,
                         info,
-                        Cow::Borrowed(&dep_info.module),
+                        Modules::from((*dep_info.module).clone(), self.injected_ctxt),
                         &dep_info,
                         targets,
                     )?;
@@ -338,19 +336,11 @@ impl VisitMut for RequireReplacer {
     }
 }
 
-struct ImportDropper;
-
-impl VisitMut for ImportDropper {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
-        match i {
-            ModuleItem::ModuleDecl(..) => {
-                *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-            }
-            ModuleItem::Stmt(_) => {}
-        }
-    }
+fn drop_module_decls(modules: &mut Modules) {
+    modules.retain_mut(|i| match i {
+        ModuleItem::ModuleDecl(..) => false,
+        ModuleItem::Stmt(_) => true,
+    })
 }
 
 struct DefaultHandler {
