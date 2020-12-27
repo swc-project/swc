@@ -1030,7 +1030,7 @@ where
                         ModuleDecl::ExportDefaultExpr(mut export) => {
                             vars.push(
                                 VarDeclarator {
-                                    span: DUMMY_SP,
+                                    span: DUMMY_SP.with_ctxt(injected_ctxt),
                                     name: Pat::Ident(Ident::new(
                                         js_word!("default"),
                                         DUMMY_SP.with_ctxt(info.export_ctxt()),
