@@ -73,7 +73,7 @@
             },
             "value": "r2",
             "typeAnnotation": null,
-            "optional": false
+            "optional": true
           },
           "value": null,
           "typeAnnotation": {

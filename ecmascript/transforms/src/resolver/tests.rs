@@ -16,7 +16,10 @@ struct TsHygiene {
 
 impl VisitMut for TsHygiene {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.type_ann.visit_mut_with(self);
+
         if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
+            println!("ts_hygiene: {} is top-level", i.sym);
             return;
         }
 
@@ -32,12 +35,11 @@ impl VisitMut for TsHygiene {
         }
     }
 
-    fn visit_mut_ts_enum_member_id(&mut self, _: &mut TsEnumMemberId) {}
-
-    /// TODO: Handle tyep parameter correctly
-    fn visit_mut_ts_type_param(&mut self, _: &mut TsTypeParam) {}
-
     fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
+
+    fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
+        q.left.visit_mut_with(self);
+    }
 }
 
 fn tr() -> impl Fold {
@@ -1352,13 +1354,13 @@ const bar = {} as Foo;
 ",
     "
     enum Foo {
-        name,
-        string
+        name__0,
+        string__0
     }
     function foo() {
         enum Foo__2 {
-            name,
-            string
+            name__0,
+            string__0
         }
         const foo__2 = {
         } as Foo__2;
@@ -1534,7 +1536,7 @@ to_ts!(
     "#,
     r#"
     class PartWriter {
-        constructor(private writer__2: Deno.Writer., readonly boundary__2: string, public headers__2: Headers, isFirstBoundary__2: boolean){
+        constructor(private writer__2: Deno.Writer, readonly boundary__2: string, public headers__2: Headers, isFirstBoundary__2: boolean){
             let buf__2 = "";
             if (isFirstBoundary__2) {
                 buf__2 += `--${boundary__2}\r\n`;
@@ -1768,6 +1770,33 @@ to!(
 
     function isAbsolute() {}
     "#
+);
+
+to_ts!(
+    type_checker_001,
+    "
+    const assign = <T, K1 extends keyof T, K2 extends keyof T[K1]>(object: T, key1: K1, key2: K2) \
+     => (value: T[K1][K2]) => object[key1][key2] = value;
+    ",
+    "const assign = <T__2, K1__2 extends keyof T__2, K2__2 extends keyof T__2[K1__2]>(object__2: \
+     T__2, key1__2: K1__2, key2__2: K2__2)=>(value__3: \
+     T__2[K1__2][K2__2])=>object__2[key1__2][key2__2] = value__3"
+);
+
+to_ts!(
+    type_checker_002,
+    "
+    export declare function foo<T>(obj: T): T extends () => infer P ? P : never;
+    export function bar<T>(obj: T) {
+        return foo(obj);
+    }
+    ",
+    "
+    export declare function foo<T__2>(obj__2: T__2): T__2 extends () => infer P ? P : never;
+    export function bar<T__3>(obj__3: T__3) {
+        return foo(obj__3);
+    }
+"
 );
 
 to_ts!(
