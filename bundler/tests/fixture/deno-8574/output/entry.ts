@@ -9,6 +9,41 @@ function lowercaseKeys(object) {
     }, {
     });
 }
+function isObject(o) {
+    return Object.prototype.toString.call(o) === "[object Object]";
+}
+function isPlainObject(o) {
+    var ctor, prot;
+    if (isObject(o) === false) return false;
+    ctor = o.constructor;
+    if (ctor === void 0) return true;
+    prot = ctor.prototype;
+    if (isObject(prot) === false) return false;
+    if (prot.hasOwnProperty("isPrototypeOf") === false) {
+        return false;
+    }
+    return true;
+}
+const isPlainObject1 = isPlainObject;
+const isPlainObject2 = isPlainObject1;
+const isPlainObject3 = isPlainObject1;
+function mergeDeep(defaults, options) {
+    const result = Object.assign({
+    }, defaults);
+    Object.keys(options).forEach((key)=>{
+        if (isPlainObject3(options[key])) {
+            if (!(key in defaults)) Object.assign(result, {
+                [key]: options[key]
+            });
+            else result[key] = mergeDeep(defaults[key], options[key]);
+        } else {
+            Object.assign(result, {
+                [key]: options[key]
+            });
+        }
+    });
+    return result;
+}
 function removeUndefinedProperties(obj) {
     for(const key in obj){
         if (obj[key] === void 0) {
@@ -16,6 +51,32 @@ function removeUndefinedProperties(obj) {
         }
     }
     return obj;
+}
+function merge(defaults, route, options) {
+    if (typeof route === "string") {
+        let [method, url] = route.split(" ");
+        options = Object.assign(url ? {
+            method,
+            url
+        } : {
+            url: method
+        }, options);
+    } else {
+        options = Object.assign({
+        }, route);
+    }
+    options.headers = lowercaseKeys(options.headers);
+    removeUndefinedProperties(options);
+    removeUndefinedProperties(options.headers);
+    const mergedOptions = mergeDeep(defaults || {
+    }, options);
+    if (defaults && defaults.mediaType.previews.length) {
+        mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)
+        ).concat(mergedOptions.mediaType.previews);
+    }
+    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview)=>preview.replace(/-preview/, "")
+    );
+    return mergedOptions;
 }
 function addQueryParameters(url, parameters) {
     const separator = /\?/.test(url) ? "&" : "?";
@@ -133,6 +194,11 @@ function getValues(context, operator, key, modifier) {
     }
     return result;
 }
+function parseUrl(template) {
+    return {
+        expand: expand.bind(null, template)
+    };
+}
 function expand(template, context) {
     var operators = [
         "+",
@@ -170,260 +236,6 @@ function expand(template, context) {
             return encodeReserved(literal);
         }
     });
-}
-const VERSION = "6.0.10";
-function defaultSetTimout() {
-    throw new Error("setTimeout has not been defined");
-}
-function defaultClearTimeout() {
-    throw new Error("clearTimeout has not been defined");
-}
-var cachedSetTimeout = defaultSetTimout;
-var cachedClearTimeout = defaultClearTimeout;
-var globalContext;
-if (typeof window !== "undefined") {
-    globalContext = window;
-} else if (typeof self !== "undefined") {
-    globalContext = self;
-} else {
-    globalContext = {
-    };
-}
-if (typeof globalContext.setTimeout === "function") {
-    cachedSetTimeout = setTimeout;
-}
-if (typeof globalContext.clearTimeout === "function") {
-    cachedClearTimeout = clearTimeout;
-}
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        return setTimeout(fun, 0);
-    }
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        return cachedSetTimeout(fun, 0);
-    } catch (e) {
-        try {
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch (e2) {
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        return clearTimeout(marker);
-    }
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        return cachedClearTimeout(marker);
-    } catch (e) {
-        try {
-            return cachedClearTimeout.call(null, marker);
-        } catch (e2) {
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function() {
-    this.fun.apply(null, this.array);
-};
-var title = "browser";
-var platform = "browser";
-var browser = true;
-var argv = [];
-var version = "";
-var versions = {
-};
-var release = {
-};
-var config = {
-};
-function noop() {
-}
-var on = noop;
-var addListener = noop;
-var once = noop;
-var off = noop;
-var removeListener = noop;
-var removeAllListeners = noop;
-var emit = noop;
-function binding(name) {
-    throw new Error("process.binding is not supported");
-}
-function cwd() {
-    return "/";
-}
-function chdir(dir) {
-    throw new Error("process.chdir is not supported");
-}
-function umask() {
-    return 0;
-}
-var performance = globalContext.performance || {
-};
-var performanceNow = performance.now || performance.mozNow || performance.msNow || performance.oNow || performance.webkitNow || function() {
-    return new Date().getTime();
-};
-function hrtime(previousTimestamp) {
-    var clocktime = performanceNow.call(performance) * 0.001;
-    var seconds = Math.floor(clocktime);
-    var nanoseconds = Math.floor(clocktime % 1 * 1000000000);
-    if (previousTimestamp) {
-        seconds = seconds - previousTimestamp[0];
-        nanoseconds = nanoseconds - previousTimestamp[1];
-        if (nanoseconds < 0) {
-            seconds--;
-            nanoseconds += 1000000000;
-        }
-    }
-    return [
-        seconds,
-        nanoseconds
-    ];
-}
-var startTime = new Date();
-function uptime() {
-    var currentTime = new Date();
-    var dif = currentTime - startTime;
-    return dif / 1000;
-}
-function isObject(o) {
-    return Object.prototype.toString.call(o) === "[object Object]";
-}
-function isPlainObject(o) {
-    var ctor, prot;
-    if (isObject(o) === false) return false;
-    ctor = o.constructor;
-    if (ctor === void 0) return true;
-    prot = ctor.prototype;
-    if (isObject(prot) === false) return false;
-    if (prot.hasOwnProperty("isPrototypeOf") === false) {
-        return false;
-    }
-    return true;
-}
-const isPlainObject1 = isPlainObject;
-const isPlainObject2 = isPlainObject1;
-class Deprecation extends Error {
-    constructor(message){
-        super(message);
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
-        }
-        this.name = "Deprecation";
-    }
-}
-const Deprecation1 = Deprecation;
-const Deprecation2 = Deprecation1;
-function wrappy(fn, cb) {
-    if (fn && cb) return wrappy(fn)(cb);
-    if (typeof fn !== "function") throw new TypeError("need wrapper function");
-    Object.keys(fn).forEach(function(k) {
-        wrapper[k] = fn[k];
-    });
-    return wrapper;
-    function wrapper() {
-        var args = new Array(arguments.length);
-        for(var i = 0; i < args.length; i++){
-            args[i] = arguments[i];
-        }
-        var ret = fn.apply(this, args);
-        var cb2 = args[args.length - 1];
-        if (typeof ret === "function" && ret !== cb2) {
-            Object.keys(cb2).forEach(function(k) {
-                ret[k] = cb2[k];
-            });
-        }
-        return ret;
-    }
-}
-function once1(fn) {
-    var f = function() {
-        if (f.called) return f.value;
-        f.called = true;
-        return f.value = fn.apply(this, arguments);
-    };
-    f.called = false;
-    return f;
-}
-function onceStrict(fn) {
-    var f = function() {
-        if (f.called) throw new Error(f.onceError);
-        f.called = true;
-        return f.value = fn.apply(this, arguments);
-    };
-    var name = fn.name || "Function wrapped with `once`";
-    f.onceError = name + " shouldn't be called more than once";
-    f.called = false;
-    return f;
-}
-const VERSION1 = "5.4.12";
-function getBufferResponse(response) {
-    return response.arrayBuffer();
-}
-const isPlainObject3 = isPlainObject1;
-function mergeDeep(defaults, options) {
-    const result = Object.assign({
-    }, defaults);
-    Object.keys(options).forEach((key)=>{
-        if (isPlainObject3(options[key])) {
-            if (!(key in defaults)) Object.assign(result, {
-                [key]: options[key]
-            });
-            else result[key] = mergeDeep(defaults[key], options[key]);
-        } else {
-            Object.assign(result, {
-                [key]: options[key]
-            });
-        }
-    });
-    return result;
-}
-function merge(defaults, route, options) {
-    if (typeof route === "string") {
-        let [method, url] = route.split(" ");
-        options = Object.assign(url ? {
-            method,
-            url
-        } : {
-            url: method
-        }, options);
-    } else {
-        options = Object.assign({
-        }, route);
-    }
-    options.headers = lowercaseKeys(options.headers);
-    removeUndefinedProperties(options);
-    removeUndefinedProperties(options.headers);
-    const mergedOptions = mergeDeep(defaults || {
-    }, options);
-    if (defaults && defaults.mediaType.previews.length) {
-        mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)
-        ).concat(mergedOptions.mediaType.previews);
-    }
-    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview)=>preview.replace(/-preview/, "")
-    );
-    return mergedOptions;
-}
-function parseUrl(template) {
-    return {
-        expand: expand.bind(null, template)
-    };
 }
 function parse(options) {
     let method = options.method.toUpperCase();
@@ -509,72 +321,53 @@ function withDefaults(oldDefaults, newDefaults) {
         parse
     });
 }
-var wrappy_1 = wrappy;
-const __default = wrappy_1;
-const wrappy2 = __default;
-var once_1 = wrappy2(once1);
-var strict = wrappy2(onceStrict);
-once1.proto = once1(function() {
-    Object.defineProperty(Function.prototype, "once", {
-        value: function() {
-            return once1(this);
-        },
-        configurable: true
-    });
-    Object.defineProperty(Function.prototype, "onceStrict", {
-        value: function() {
-            return onceStrict(this);
-        },
-        configurable: true
-    });
-});
-once_1.strict = strict;
-const __default1 = once_1;
-const once2 = __default1;
-const logOnce = once2((deprecation2)=>console.warn(deprecation2)
-);
-class RequestError extends Error {
-    constructor(message1, statusCode, options){
-        super(message1);
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
+const VERSION = "6.0.10";
+var queue = [];
+var draining = false;
+function defaultSetTimout() {
+    throw new Error("setTimeout has not been defined");
+}
+var cachedSetTimeout = defaultSetTimout;
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        return setTimeout(fun, 0);
+    }
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        return cachedSetTimeout(fun, 0);
+    } catch (e) {
+        try {
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch (e2) {
+            return cachedSetTimeout.call(this, fun, 0);
         }
-        this.name = "HttpError";
-        this.status = statusCode;
-        Object.defineProperty(this, "code", {
-            get () {
-                logOnce(new Deprecation2("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
-                return statusCode;
-            }
-        });
-        this.headers = options.headers || {
-        };
-        const requestCopy = Object.assign({
-        }, options.request);
-        if (options.request.headers.authorization) {
-            requestCopy.headers = Object.assign({
-            }, options.request.headers, {
-                authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
-            });
-        }
-        requestCopy.url = requestCopy.url.replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]").replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
-        this.request = requestCopy;
     }
 }
-const RequestError1 = RequestError;
-const RequestError2 = RequestError1;
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
+var currentQueue;
+var queueIndex = -1;
+function defaultClearTimeout() {
+    throw new Error("clearTimeout has not been defined");
+}
+var cachedClearTimeout = defaultClearTimeout;
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        return clearTimeout(marker);
     }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
     }
-    if (queue.length) {
-        drainQueue();
+    try {
+        return cachedClearTimeout(marker);
+    } catch (e) {
+        try {
+            return cachedClearTimeout.call(null, marker);
+        } catch (e2) {
+            return cachedClearTimeout.call(this, marker);
+        }
     }
 }
 function drainQueue() {
@@ -611,6 +404,75 @@ function nextTick(fun) {
         runTimeout(drainQueue);
     }
 }
+var title = "browser";
+var browser = true;
+var argv = [];
+var version = "";
+var versions = {
+};
+function noop() {
+}
+var on = noop;
+var addListener = noop;
+var once1 = noop;
+var off = noop;
+var removeListener = noop;
+var removeAllListeners = noop;
+var emit = noop;
+function binding(name) {
+    throw new Error("process.binding is not supported");
+}
+function cwd() {
+    return "/";
+}
+function chdir(dir) {
+    throw new Error("process.chdir is not supported");
+}
+function umask() {
+    return 0;
+}
+var globalContext;
+if (typeof window !== "undefined") {
+    globalContext = window;
+} else if (typeof self !== "undefined") {
+    globalContext = self;
+} else {
+    globalContext = {
+    };
+}
+var performance = globalContext.performance || {
+};
+var performanceNow = performance.now || performance.mozNow || performance.msNow || performance.oNow || performance.webkitNow || function() {
+    return new Date().getTime();
+};
+function hrtime(previousTimestamp) {
+    var clocktime = performanceNow.call(performance) * 0.001;
+    var seconds = Math.floor(clocktime);
+    var nanoseconds = Math.floor(clocktime % 1 * 1000000000);
+    if (previousTimestamp) {
+        seconds = seconds - previousTimestamp[0];
+        nanoseconds = nanoseconds - previousTimestamp[1];
+        if (nanoseconds < 0) {
+            seconds--;
+            nanoseconds += 1000000000;
+        }
+    }
+    return [
+        seconds,
+        nanoseconds
+    ];
+}
+var platform = "browser";
+var release = {
+};
+var config = {
+};
+var startTime = new Date();
+function uptime() {
+    var currentTime = new Date();
+    var dif = currentTime - startTime;
+    return dif / 1000;
+}
 var process = {
     nextTick,
     title,
@@ -623,7 +485,7 @@ var process = {
     versions,
     on,
     addListener,
-    once,
+    once: once1,
     off,
     removeListener,
     removeAllListeners,
@@ -661,8 +523,161 @@ var getGlobal = function() {
     }
     throw new Error("unable to locate global object");
 };
+const getUserAgent3 = getUserAgent1;
+const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent3()}`;
+const DEFAULTS = {
+    method: "GET",
+    baseUrl: "https://api.github.com",
+    headers: {
+        accept: "application/vnd.github.v3+json",
+        "user-agent": userAgent
+    },
+    mediaType: {
+        format: "",
+        previews: []
+    }
+};
+const endpoint = withDefaults(null, DEFAULTS);
+if (typeof globalContext.setTimeout === "function") {
+    cachedSetTimeout = setTimeout;
+}
+if (typeof globalContext.clearTimeout === "function") {
+    cachedClearTimeout = clearTimeout;
+}
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function() {
+    this.fun.apply(null, this.array);
+};
+class Deprecation extends Error {
+    constructor(message){
+        super(message);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
+        this.name = "Deprecation";
+    }
+}
+var wrappy_1 = wrappy;
+function wrappy(fn, cb) {
+    if (fn && cb) return wrappy(fn)(cb);
+    if (typeof fn !== "function") throw new TypeError("need wrapper function");
+    Object.keys(fn).forEach(function(k) {
+        wrapper[k] = fn[k];
+    });
+    return wrapper;
+    function wrapper() {
+        var args = new Array(arguments.length);
+        for(var i = 0; i < args.length; i++){
+            args[i] = arguments[i];
+        }
+        var ret = fn.apply(this, args);
+        var cb2 = args[args.length - 1];
+        if (typeof ret === "function" && ret !== cb2) {
+            Object.keys(cb2).forEach(function(k) {
+                ret[k] = cb2[k];
+            });
+        }
+        return ret;
+    }
+}
+const __default = wrappy_1;
+const wrappy2 = __default;
+var once_1 = wrappy2(once2);
+var strict = wrappy2(onceStrict);
+once2.proto = once2(function() {
+    Object.defineProperty(Function.prototype, "once", {
+        value: function() {
+            return once2(this);
+        },
+        configurable: true
+    });
+    Object.defineProperty(Function.prototype, "onceStrict", {
+        value: function() {
+            return onceStrict(this);
+        },
+        configurable: true
+    });
+});
+function once2(fn) {
+    var f = function() {
+        if (f.called) return f.value;
+        f.called = true;
+        return f.value = fn.apply(this, arguments);
+    };
+    f.called = false;
+    return f;
+}
+function onceStrict(fn) {
+    var f = function() {
+        if (f.called) throw new Error(f.onceError);
+        f.called = true;
+        return f.value = fn.apply(this, arguments);
+    };
+    var name = fn.name || "Function wrapped with `once`";
+    f.onceError = name + " shouldn't be called more than once";
+    f.called = false;
+    return f;
+}
+once_1.strict = strict;
+const __default1 = once_1;
+const once21 = __default1;
+const logOnce = once21((deprecation2)=>console.warn(deprecation2)
+);
+const Deprecation1 = Deprecation;
+const Deprecation2 = Deprecation1;
+class RequestError extends Error {
+    constructor(message1, statusCode, options){
+        super(message1);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor);
+        }
+        this.name = "HttpError";
+        this.status = statusCode;
+        Object.defineProperty(this, "code", {
+            get () {
+                logOnce(new Deprecation2("[@octokit/request-error] `error.code` is deprecated, use `error.status`."));
+                return statusCode;
+            }
+        });
+        this.headers = options.headers || {
+        };
+        const requestCopy = Object.assign({
+        }, options.request);
+        if (options.request.headers.authorization) {
+            requestCopy.headers = Object.assign({
+            }, options.request.headers, {
+                authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
+            });
+        }
+        requestCopy.url = requestCopy.url.replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]").replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
+        this.request = requestCopy;
+    }
+}
 var global = getGlobal();
 var nodeFetch = global.fetch.bind(global);
+const RequestError1 = RequestError;
+const RequestError2 = RequestError1;
+const VERSION1 = "5.4.12";
+function getBufferResponse(response) {
+    return response.arrayBuffer();
+}
 function fetchWrapper(requestOptions) {
     if (isPlainObject2(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
@@ -763,21 +778,6 @@ function withDefaults1(oldEndpoint, newDefaults) {
         defaults: withDefaults1.bind(null, endpoint3)
     });
 }
-const getUserAgent3 = getUserAgent1;
-const userAgent = `octokit-endpoint.js/${VERSION} ${getUserAgent3()}`;
-const DEFAULTS = {
-    method: "GET",
-    baseUrl: "https://api.github.com",
-    headers: {
-        accept: "application/vnd.github.v3+json",
-        "user-agent": userAgent
-    },
-    mediaType: {
-        format: "",
-        previews: []
-    }
-};
-const endpoint = withDefaults(null, DEFAULTS);
 const endpoint1 = endpoint;
 const endpoint2 = endpoint1;
 const request = withDefaults1(endpoint2, {

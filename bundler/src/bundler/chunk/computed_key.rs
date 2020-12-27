@@ -1,3 +1,4 @@
+use crate::bundler::modules::Modules;
 use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
 use anyhow::{bail, Error};
 use std::mem::take;
@@ -5,7 +6,7 @@ use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -32,24 +33,25 @@ where
         &self,
         ctx: &Ctx,
         id: ModuleId,
-        module: Module,
-    ) -> Result<Module, Error> {
-        let span = module.span;
+        mut module: Modules,
+    ) -> Result<Modules, Error> {
+        let span = DUMMY_SP;
         let var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
         };
+        module.sort();
 
         let is_async = {
             let mut v = TopLevelAwaitFinder { found: false };
-            module.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            module.visit_with(&mut v);
             v.found
         };
 
         let mut module_items = vec![];
 
         let stmts = {
-            let mut module = module.fold_with(&mut ExportToReturn {
+            let mut module = Module::from(module).fold_with(&mut ExportToReturn {
                 synthesized_ctxt: self.synthesized_ctxt,
                 exports: Default::default(),
             });
@@ -105,7 +107,7 @@ where
         }
 
         let var_decl = VarDecl {
-            span,
+            span: span.with_ctxt(self.injected_ctxt),
             declare: false,
             kind: VarDeclKind::Const,
             decls: vec![VarDeclarator {
@@ -118,11 +120,14 @@ where
 
         module_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
 
-        Ok(Module {
-            span: DUMMY_SP,
-            shebang: None,
-            body: module_items,
-        })
+        Ok(Modules::from(
+            Module {
+                span: DUMMY_SP,
+                shebang: None,
+                body: module_items,
+            },
+            self.injected_ctxt,
+        ))
     }
 }
 

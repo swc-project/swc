@@ -5,6 +5,8 @@
 
 use self::common::*;
 use anyhow::Error;
+use ntest::timeout;
+use std::path::PathBuf;
 use std::{
     collections::{HashMap, HashSet},
     env,
@@ -24,6 +26,7 @@ use testing::assert_eq;
 mod common;
 
 #[test]
+#[timeout(60000)]
 fn oak_6_3_1_application() {
     run(
         "https://deno.land/x/oak@v6.3.1/application.ts",
@@ -36,6 +39,7 @@ fn oak_6_3_1_application() {
 }
 
 #[test]
+#[timeout(60000)]
 fn oak_6_3_1_mod() {
     run(
         "https://deno.land/x/oak@v6.3.1/mod.ts",
@@ -65,6 +69,7 @@ fn oak_6_3_1_mod() {
 }
 
 #[test]
+#[timeout(60000)]
 fn std_0_74_0_http_server() {
     run(
         "https://deno.land/std@0.74.0/http/server.ts",
@@ -81,12 +86,14 @@ fn std_0_74_0_http_server() {
 }
 
 #[test]
+#[timeout(60000)]
 #[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/server.ts", &[]);
 }
 
 #[test]
+#[timeout(60000)]
 #[ignore = "Does not finish by default"]
 fn oak_6_3_1_example_sse_server() {
     run("https://deno.land/x/oak@v6.3.1/examples/sseServer.ts", &[]);
@@ -94,6 +101,7 @@ fn oak_6_3_1_example_sse_server() {
 
 #[test]
 #[ignore = "Will be fixed by #1264"]
+#[timeout(60000)]
 fn deno_8188_full() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
@@ -153,6 +161,7 @@ fn deno_8188_full() {
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8188_01() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-12/nats-base-client/nkeys.ts",
@@ -161,6 +170,7 @@ fn deno_8188_01() {
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8188_02() {
     run(
         "https://raw.githubusercontent.com/nats-io/nkeys.js/v1.0.0-7/modules/esm/mod.ts",
@@ -180,6 +190,7 @@ fn deno_8188_02() {
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8188_03() {
     run(
         "https://raw.githubusercontent.com/nats-io/nkeys.js/v1.0.0-7/modules/esm/deps.ts",
@@ -188,6 +199,7 @@ fn deno_8188_03() {
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8189() {
     run(
         "https://deno.land/x/lz4/mod.ts",
@@ -196,7 +208,8 @@ fn deno_8189() {
 }
 
 #[test]
-fn deno_8211() {
+#[timeout(60000)]
+fn deno_8211_1() {
     run(
         "https://unpkg.com/luxon@1.25.0/src/luxon.js",
         &[
@@ -214,13 +227,8 @@ fn deno_8211() {
     );
 }
 
-/// https://github.com/denoland/deno/issues/8211#issuecomment-736498065
 #[test]
-fn deno_8211_1() {
-    run("tests/deno/deno-8211-1/input/entry.ts", &[]);
-}
-
-#[test]
+#[timeout(60000)]
 fn deno_8246() {
     run("https://raw.githubusercontent.com/nats-io/nats.deno/v1.0.0-11/nats-base-client/internal_mod.ts",&[
         "NatsConnectionImpl",
@@ -276,48 +284,57 @@ fn deno_8246() {
 }
 
 #[test]
+#[timeout(60000)]
 #[ignore = "document is not defined when I use deno run"]
 fn deno_6802() {
     run("tests/deno/issue-6802/input.tsx", &[]);
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8314_1() {
     run("tests/deno/issue-8314/input.ts", &[]);
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8314_2() {
     run("https://dev.jspm.io/ngraph.graph", &["default"]);
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8302() {
     run("tests/deno/issue-8302/input.ts", &["DB", "Empty", "Status"]);
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8399_1() {
     run("tests/deno/issue-8399-1/input.ts", &[]);
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8399_2() {
     run("tests/deno/issue-8399-2/input.ts", &[]);
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_8486_1() {
     run("tests/deno/issue-8486-1/input.ts", &["myCLI"]);
 }
 
 #[test]
+#[timeout(60000)]
 fn deno_7288_1() {
     run("tests/deno/deno-7288-1/input.ts", &[]);
 }
 
 #[test]
 #[ignore = "Will be fixed by #1264"]
+#[timeout(60000)]
 fn deno_8481_1() {
     run(
         "https://raw.githubusercontent.com/nats-io/nats.ws/master/src/mod.ts",
@@ -378,22 +395,20 @@ fn deno_8481_1() {
 
 #[test]
 #[ignore = "Will be fixed by #1264"]
+#[timeout(60000)]
 fn deno_8530() {
     run("tests/deno/deno-8530/input/entry.ts", &[])
 }
 
 #[test]
-#[ignore]
-fn deno_8545() {
-    run("tests/deno/deno-8545/input/entry.ts", &[])
-}
-
-#[test]
+#[timeout(60000)]
 fn deno_8573() {
     run("tests/deno/deno-8573/entry.ts", &[])
 }
+
+/// Timeout is long because tfjs is so large.
 #[test]
-#[ignore = "Will be fixed by #1268"]
+#[ignore = "Not implemented yet"]
 fn deno_8597() {
     run(
         "https://cdn.skypack.dev/@tensorflow/tfjs@2.6.0",
@@ -867,17 +882,20 @@ fn deno_8597() {
 
 #[test]
 #[ignore = "Will be fixed by #1264"]
+#[timeout(60000)]
 fn deno_8620() {
     run("tests/deno/deno-8620/entry.ts", &[])
 }
 
 #[test]
+#[timeout(60000)]
 #[ignore = "Requires newer version of deno"]
 fn deno_8627() {
     run("tests/deno/deno-8627/input.ts", &[])
 }
 
 #[test]
+#[timeout(60000)]
 fn merging_order_01() {
     run(
         "https://deno.land/x/oak@v6.3.1/multipart.ts",
@@ -886,6 +904,7 @@ fn merging_order_01() {
 }
 
 #[test]
+#[timeout(60000)]
 fn reexport_01() {
     run(
         "https://raw.githubusercontent.com/aricart/tweetnacl-deno/import-type-fixes/src/nacl.ts",
@@ -1126,4 +1145,32 @@ impl Visit for ExportCollector {
             _ => {}
         }
     }
+}
+
+#[testing::fixture("deno-exec/**/entry.ts")]
+fn exec(input: PathBuf) {
+    let dir = tempfile::tempdir().expect("failed to crate temp file");
+    let path = dir.path().join("main.js");
+    println!("{}", path.display());
+
+    let src = bundle(&input.to_string_lossy());
+    write(&path, &src).unwrap();
+
+    if env::var("CI").is_ok() {
+        return;
+    }
+
+    let output = Command::new("deno")
+        .arg("run")
+        .arg("--allow-all")
+        .arg("--no-check")
+        .arg(&path)
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .status()
+        .unwrap();
+
+    std::mem::forget(dir);
+
+    assert!(output.success());
 }

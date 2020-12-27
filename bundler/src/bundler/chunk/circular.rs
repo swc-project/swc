@@ -1,16 +1,10 @@
 use super::plan::CircularPlan;
-use crate::{
-    bundler::chunk::{merge::Ctx, sort::sort},
-    id::Id,
-    Bundler, Load, ModuleId, Resolve,
-};
+use crate::bundler::modules::Modules;
+use crate::{bundler::chunk::merge::Ctx, id::Id, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-
-#[cfg(test)]
-mod tests;
 
 /// Circular imports are hard to handle.
 ///
@@ -25,7 +19,7 @@ where
         ctx: &Ctx,
         plan: &CircularPlan,
         entry_id: ModuleId,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         assert!(
             plan.chunks.len() >= 1,
             "# of circular modules should be 2 or greater than 2 including entry. Got {:?}",
@@ -34,11 +28,7 @@ where
 
         if !ctx.merged.insert(entry_id) {
             log::debug!("[circular] skip: {:?}", entry_id);
-            return Ok(Module {
-                span: DUMMY_SP,
-                body: Default::default(),
-                shebang: Default::default(),
-            });
+            return Ok(Modules::empty(self.injected_ctxt));
         }
 
         log::debug!("[circular] Stsrting with: {:?}", entry_id);
@@ -50,7 +40,7 @@ where
             .context("failed to merge dependency of a cyclic module")?;
 
         let mut exports = vec![];
-        for item in entry.body.iter_mut() {
+        for item in entry.iter_mut() {
             match item {
                 ModuleItem::ModuleDecl(decl) => match decl {
                     ModuleDecl::ExportDecl(export) => match &export.decl {
@@ -125,16 +115,14 @@ where
         entry = new_module;
 
         if !exports.is_empty() {
-            entry
-                .body
-                .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                    NamedExport {
-                        span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
-                        specifiers: exports,
-                        src: None,
-                        type_only: false,
-                    },
-                )));
+            entry.inject(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    span: DUMMY_SP.with_ctxt(self.synthesized_ctxt),
+                    specifiers: exports,
+                    src: None,
+                    type_only: false,
+                },
+            )));
         }
 
         // print_hygiene("[circular] done", &self.cm, &entry);
@@ -146,10 +134,10 @@ where
     pub(super) fn merge_circular_modules(
         &self,
         ctx: &Ctx,
-        mut entry: Module,
+        mut entry: Modules,
         entry_id: ModuleId,
         mut deps: Vec<ModuleId>,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         deps.retain(|&dep| {
             if dep == entry_id {
                 return false;
@@ -167,40 +155,26 @@ where
         deps.sort();
 
         self.run(|| {
-            let mut dep_body = vec![];
-
             for dep in deps {
                 let dep_info = self.scope.get_module(dep).unwrap();
                 let mut dep = self
                     .merge_modules(ctx, dep, false, false)
                     .context("failed to merge dependency of a cyclic module")?;
 
-                // print_hygiene("[circular] dep:init 1", &self.cm, &dep);
+                // print_hygiene("[circular] dep:init 1", &self.cm, &dep.clone().into());
 
                 self.handle_import_deps(ctx, &dep_info, &mut dep, true);
 
                 // print_hygiene("[circular] dep:init 2", &self.cm, &dep);
 
-                dep_body.extend(dep.body);
+                entry.prepend_all(dep);
             }
 
-            // dep = dep.fold_with(&mut Unexporter);
+            // print_hygiene("before circular sort", &self.cm, &entry.clone().into());
 
-            // Merge code
-            entry.body = merge_respecting_order(dep_body, entry.body);
+            // entry.sort();
 
             Ok(entry)
         })
     }
-}
-
-fn merge_respecting_order(dep: Vec<ModuleItem>, entry: Vec<ModuleItem>) -> Vec<ModuleItem> {
-    let mut new = Vec::with_capacity(dep.len() + entry.len());
-
-    new.extend(entry);
-    new.extend(dep);
-
-    sort(&mut new);
-
-    new
 }

@@ -1,4 +1,4 @@
-import { Application, Router } from "https://raw.githubusercontent.com/kdy1/oak-bundle-issue/master/deps.ts";
+import { Application, Router } from "./deps.ts";
 
 const app = new Application();
 const router = new Router();
