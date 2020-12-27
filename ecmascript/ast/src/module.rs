@@ -1,10 +1,11 @@
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
 use is_macro::Is;
 use swc_atoms::JsWord;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Program {
     #[tag("Module")]
@@ -14,7 +15,7 @@ pub enum Program {
 }
 
 #[ast_node("Module")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Module {
     pub span: Span,
 
@@ -38,7 +39,7 @@ impl arbitrary::Arbitrary for Module {
 }
 
 #[ast_node("Script")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Script {
     pub span: Span,
 
@@ -62,7 +63,7 @@ impl arbitrary::Arbitrary for Script {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ModuleItem {
     #[tag("ImportDeclaration")]

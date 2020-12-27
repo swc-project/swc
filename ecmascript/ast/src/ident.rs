@@ -1,10 +1,11 @@
 use crate::typescript::TsTypeAnn;
 use swc_atoms::JsWord;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 /// Ident with span.
 #[ast_node("Identifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
@@ -39,7 +40,7 @@ impl arbitrary::Arbitrary for Ident {
 }
 
 #[ast_node("PrivateName")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateName {
     pub span: Span,

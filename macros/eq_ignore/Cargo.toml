@@ -1,0 +1,14 @@
+[package]
+authors = ["강동윤 <kdy1@dudy.kr>"]
+edition = "2018"
+name = "swc_eq_ignore_macros"
+version = "0.1.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+pmutil = "0.5.3"
+proc-macro2 = "1.0.24"
+quote = "1.0.7"
+syn = "1.0.54"

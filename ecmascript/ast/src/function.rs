@@ -5,11 +5,12 @@ use crate::{
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
 use is_macro::Is;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Function {
     pub params: Vec<Param>,
@@ -38,7 +39,7 @@ pub struct Function {
 }
 
 #[ast_node("Parameter")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Param {
     pub span: Span,
@@ -47,7 +48,7 @@ pub struct Param {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ParamOrTsParamProp {
     #[tag("TsParameterProperty")]

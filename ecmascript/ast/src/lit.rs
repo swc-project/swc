@@ -7,10 +7,11 @@ use std::{
     mem,
 };
 use swc_atoms::JsWord;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Lit {
     #[tag("StringLiteral")]
@@ -36,7 +37,7 @@ pub enum Lit {
 }
 
 #[ast_node("BigIntLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct BigInt {
     pub span: Span,
     pub value: BigIntValue,
@@ -53,7 +54,7 @@ impl arbitrary::Arbitrary for BigInt {
 }
 
 #[ast_node("StringLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Str {
     pub span: Span,
 
@@ -68,7 +69,7 @@ pub struct Str {
 }
 
 /// THis enum determines how string literal should be printed.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 #[serde(tag = "type")]
 pub enum StrKind {
     /// Span of string points to original source code, and codegen should use
@@ -120,7 +121,7 @@ impl Str {
 }
 
 #[ast_node("BooleanLiteral")]
-#[derive(Copy, Eq, Hash)]
+#[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Bool {
     pub span: Span,
@@ -128,14 +129,14 @@ pub struct Bool {
 }
 
 #[ast_node("NullLiteral")]
-#[derive(Copy, Eq, Hash)]
+#[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Null {
     pub span: Span,
 }
 
 #[ast_node("RegExpLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Regex {
     pub span: Span,
 
@@ -158,13 +159,14 @@ impl arbitrary::Arbitrary for Regex {
 }
 
 #[ast_node("NumericLiteral")]
-#[derive(Copy)]
+#[derive(Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Number {
     pub span: Span,
     /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.
     ///
     /// If you store `NaN` in this field, a hash map will behave strangely.
+    #[use_eq]
     pub value: f64,
 }
 
