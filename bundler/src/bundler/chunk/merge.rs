@@ -6,7 +6,6 @@ use crate::{
         load::{Imports, Source, Specifier, TransformedModule},
         modules::Modules,
     },
-    debug::print_hygiene,
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
