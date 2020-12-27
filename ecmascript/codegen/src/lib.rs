@@ -663,12 +663,12 @@ impl<'a> Emitter<'a> {
                 _ => true,
             };
 
+        emit!(node.type_params);
+
         if parens {
             punct!("(");
         }
-        emit!(node.type_params);
 
-        punct!("(");
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
         if parens {
             punct!(")");
