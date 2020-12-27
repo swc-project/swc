@@ -12,10 +12,11 @@ use crate::{
 };
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Class {
     pub span: Span,
@@ -44,7 +45,7 @@ pub struct Class {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ClassMember {
     #[tag("Constructor")]
@@ -66,7 +67,7 @@ pub enum ClassMember {
 }
 
 #[ast_node("ClassProperty")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassProp {
     #[serde(default)]
@@ -111,7 +112,7 @@ pub struct ClassProp {
 }
 
 #[ast_node("PrivateProperty")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateProp {
     #[serde(default)]
@@ -155,7 +156,7 @@ pub struct PrivateProp {
 macro_rules! method {
     ($name:ident, $ty:literal, $KEY:ty) => {
         #[ast_node($ty)]
-        #[derive(Eq, Hash)]
+        #[derive(Eq, Hash, EqIgnoreSpan)]
         #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
         pub struct $name {
             #[serde(default)]
@@ -188,7 +189,7 @@ method!(ClassMethod, "ClassMethod", PropName);
 method!(PrivateMethod, "PrivateMethod", PrivateName);
 
 #[ast_node("Constructor")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Constructor {
     pub span: Span,
@@ -208,7 +209,7 @@ pub struct Constructor {
 }
 
 #[ast_node("Decorator")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Decorator {
     pub span: Span,
@@ -217,7 +218,7 @@ pub struct Decorator {
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum MethodKind {
     #[serde(rename = "method")]

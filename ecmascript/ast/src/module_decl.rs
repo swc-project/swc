@@ -7,10 +7,11 @@ use crate::{
     ObjectLit,
 };
 use is_macro::Is;
+use swc_common::EqIgnoreSpan;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
@@ -42,7 +43,7 @@ pub enum ModuleDecl {
 }
 
 #[ast_node("ExportDefaultExpression")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportDefaultExpr {
     pub span: Span,
@@ -52,7 +53,7 @@ pub struct ExportDefaultExpr {
 }
 
 #[ast_node("ExportDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportDecl {
     pub span: Span,
@@ -62,7 +63,7 @@ pub struct ExportDecl {
 }
 
 #[ast_node("ImportDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ImportDecl {
     pub span: Span,
@@ -82,7 +83,7 @@ pub struct ImportDecl {
 
 /// `export * from 'mod'`
 #[ast_node("ExportAllDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportAll {
     pub span: Span,
@@ -94,7 +95,7 @@ pub struct ExportAll {
 /// `export { foo } from 'mod'`
 /// `export { foo as bar } from 'mod'`
 #[ast_node("ExportNamedDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct NamedExport {
     pub span: Span,
@@ -109,7 +110,7 @@ pub struct NamedExport {
 }
 
 #[ast_node("ExportDefaultDeclaration")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportDefaultDecl {
     pub span: Span,
@@ -118,7 +119,7 @@ pub struct ExportDefaultDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum DefaultDecl {
     #[tag("ClassExpression")]
@@ -133,7 +134,7 @@ pub enum DefaultDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ImportSpecifier {
     #[tag("ImportSpecifier")]
@@ -146,7 +147,7 @@ pub enum ImportSpecifier {
 
 /// e.g. `import foo from 'mod.js'`
 #[ast_node("ImportDefaultSpecifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ImportDefaultSpecifier {
     pub span: Span,
@@ -155,7 +156,7 @@ pub struct ImportDefaultSpecifier {
 }
 /// e.g. `import * as foo from 'mod.js'`.
 #[ast_node("ImportNamespaceSpecifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ImportStarAsSpecifier {
     pub span: Span,
@@ -166,7 +167,7 @@ pub struct ImportStarAsSpecifier {
 /// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from
 /// 'mod.js'`
 #[ast_node("ImportSpecifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ImportNamedSpecifier {
     pub span: Span,
@@ -178,7 +179,7 @@ pub struct ImportNamedSpecifier {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ExportSpecifier {
     #[tag("ExportNamespaceSpecifier")]
@@ -193,7 +194,7 @@ pub enum ExportSpecifier {
 
 /// `export * as foo from 'src';`
 #[ast_node("ExportNamespaceSpecifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportNamespaceSpecifier {
     pub span: Span,
@@ -202,7 +203,7 @@ pub struct ExportNamespaceSpecifier {
 }
 
 #[ast_node("ExportDefaultSpecifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportDefaultSpecifier {
     #[span]
@@ -210,7 +211,7 @@ pub struct ExportDefaultSpecifier {
 }
 
 #[ast_node("ExportSpecifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExportNamedSpecifier {
     pub span: Span,
