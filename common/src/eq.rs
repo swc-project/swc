@@ -213,3 +213,8 @@ impl EqIgnoreSpan for BigInt {
         self == other
     }
 }
+impl TypeEq for BigInt {
+    fn type_eq(&self, other: &Self) -> bool {
+        self == other
+    }
+}
