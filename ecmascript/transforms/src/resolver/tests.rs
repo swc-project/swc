@@ -36,6 +36,10 @@ impl VisitMut for TsHygiene {
     }
 
     fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
+
+    fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
+        q.left.visit_mut_with(self);
+    }
 }
 
 fn tr() -> impl Fold {
@@ -1532,7 +1536,7 @@ to_ts!(
     "#,
     r#"
     class PartWriter {
-        constructor(private writer__2: Deno.Writer., readonly boundary__2: string, public headers__2: Headers, isFirstBoundary__2: boolean){
+        constructor(private writer__2: Deno.Writer, readonly boundary__2: string, public headers__2: Headers, isFirstBoundary__2: boolean){
             let buf__2 = "";
             if (isFirstBoundary__2) {
                 buf__2 += `--${boundary__2}\r\n`;
