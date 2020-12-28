@@ -13,8 +13,13 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
             declare: false,
             decls: vec![
                 self.into(),
-                /* Ident::new(name.into(), DUMMY_SP)
-                 *     .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)), */
+                Str {
+                    span: DUMMY_SP,
+                    value: _name.into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }
+                .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)),
             ],
         })))
     }
