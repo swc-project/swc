@@ -17,6 +17,7 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use std::collections::HashMap;
+use std::collections::HashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -546,6 +547,27 @@ where
 
             let mut vars = vec![];
 
+            // We have to exlcude some ids because there are already declared.
+            // See https://github.com/denoland/deno/issues/8725
+            //
+            // Let's say D is a dependency which contains export * from './foo';
+            // If an user import and export from D, the transitive syntax context map
+            // contains a entry from D to foo because it's reexported and
+            // the variable (reexported from D) exist because it's imported.
+            let mut declared_ids = HashSet::new();
+
+            for stmt in entry.iter() {
+                match stmt {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                        if decl.span.ctxt == injected_ctxt {
+                            let ids: Vec<Id> = find_ids(decl);
+                            declared_ids.extend(ids);
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
             for stmt in entry.iter() {
                 match stmt {
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
@@ -558,6 +580,11 @@ where
 
                             if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
                                 let reexported = id.clone().with_ctxt(remapped);
+
+                                if declared_ids.contains(&reexported) {
+                                    continue;
+                                }
+
                                 vars.push(
                                     id.assign_to(reexported)
                                         .into_module_item(injected_ctxt, "export_star_replacer"),
