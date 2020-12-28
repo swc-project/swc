@@ -76,6 +76,7 @@ impl Load for Loader {
             Syntax::Typescript(TsConfig {
                 decorators: true,
                 tsx,
+                dynamic_import: true,
                 ..Default::default()
             }),
             JscTarget::Es2020,
