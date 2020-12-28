@@ -1,5 +1,6 @@
 use crate::id::Id;
 use std::collections::HashMap;
+use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::noop_visit_mut_type;
