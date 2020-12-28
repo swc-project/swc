@@ -393,7 +393,8 @@ impl VisitMut for Dce<'_> {
 
         node.visit_mut_children_with(self);
 
-        if self.is_marked(node.test.span())
+        if self.marking_phase
+            || self.is_marked(node.test.span())
             || self.is_marked(node.cons.span())
             || self.is_marked(node.alt.span())
         {
@@ -612,6 +613,60 @@ impl VisitMut for Dce<'_> {
 
             self.mark(&mut node.test);
             self.mark(&mut node.body);
+        }
+    }
+
+    fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase || self.is_marked(node.arg.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.arg);
+        }
+    }
+
+    fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.is_marked(node.callee.span())
+            || node
+                .args
+                .as_ref()
+                .map(|args| args.iter().any(|arg| self.is_marked(arg.expr.span())))
+                .unwrap_or(false)
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.callee);
+            self.mark(&mut node.args);
+        }
+    }
+
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.is_marked(node.callee.span())
+            || node.args.iter().any(|arg| self.is_marked(arg.expr.span()))
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.callee);
+            self.mark(&mut node.args);
         }
     }
 
