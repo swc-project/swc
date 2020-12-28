@@ -1,0 +1,1 @@
+export * from 'https://raw.githubusercontent.com/nats-io/nats.ws/deno-1.6.0/src/mod.ts'

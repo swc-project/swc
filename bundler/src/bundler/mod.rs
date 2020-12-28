@@ -11,6 +11,7 @@ mod export;
 mod finalize;
 mod helpers;
 mod import;
+mod keywords;
 mod load;
 mod modules;
 mod optimize;
