@@ -1,6 +1,7 @@
 use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use super::*;
 use crate::config::Config;
+use crate::text_writer::omit_trailing_semi;
 use std::{
     fmt::{self, Debug, Display, Formatter},
     io::Write,
@@ -20,10 +21,17 @@ impl Builder {
     where
         F: FnOnce(&mut Emitter<'_>) -> Ret,
     {
+        let writer = text_writer::JsWriter::new(self.cm.clone(), "\n", s, None);
+        let writer: Box<dyn WriteJs> = if self.cfg.minify {
+            Box::new(omit_trailing_semi(writer))
+        } else {
+            Box::new(writer)
+        };
+
         let mut e = Emitter {
             cfg: self.cfg,
             cm: self.cm.clone(),
-            wr: Box::new(text_writer::JsWriter::new(self.cm.clone(), "\n", s, None)),
+            wr: writer,
             comments: Some(&self.comments),
         };
 

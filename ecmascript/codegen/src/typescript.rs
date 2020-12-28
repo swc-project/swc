@@ -467,7 +467,7 @@ impl<'a> Emitter<'a> {
         punct!(":");
         space!();
         emit!(n.type_ann);
-        semi!();
+        formatting_semi!();
 
         self.wr.write_line()?;
         self.wr.decrease_indent()?;
@@ -802,7 +802,7 @@ impl<'a> Emitter<'a> {
 
         emit!(n.type_ann);
 
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -847,7 +847,7 @@ impl<'a> Emitter<'a> {
             TsTypeElement::TsMethodSignature(n) => emit!(n),
             TsTypeElement::TsIndexSignature(n) => emit!(n),
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -991,7 +991,7 @@ mod tests {
     fn qualified_type() {
         assert_min_typescript(
             "var memory: WebAssembly.Memory;",
-            "var memory:WebAssembly.Memory;",
+            "var memory:WebAssembly.Memory",
         );
     }
 }
