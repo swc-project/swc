@@ -14,6 +14,10 @@ pub struct KeywordRenamer {
 impl KeywordRenamer {
     /// Returns `Some(new_ident)` if it should be renamed.
     fn renamed(&mut self, id: &Ident) -> Option<Ident> {
+        if id.sym == js_word!("import") {
+            return None;
+        }
+
         if !id.is_reserved_for_es3() {
             return None;
         }
