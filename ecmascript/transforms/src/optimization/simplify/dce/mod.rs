@@ -526,11 +526,7 @@ impl VisitMut for Dce<'_> {
         }
         node.span = node.span.apply_mark(self.config.used_mark);
 
-        node.visit_mut_children_with(self);
-
-        if self.is_marked(node.arg.span()) {
-            self.mark(&mut node.arg)
-        }
+        self.mark(&mut node.arg)
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
