@@ -1,5 +1,6 @@
 use super::plan::{DepType, Plan};
 use crate::bundler::chunk::export::inject_export;
+use crate::bundler::keywords::KeywordRenamer;
 use crate::debug::print_hygiene;
 use crate::{
     bundler::{
@@ -760,7 +761,7 @@ where
             true
         });
 
-        entry.visit_mut_with(&mut DefaultRenamer);
+        entry.visit_mut_with(&mut KeywordRenamer::default());
 
         // print_hygiene(
         //     "done-clean",
@@ -1320,54 +1321,6 @@ fn inject_es_module(
     match dep {
         Some(dep) => Err(dep),
         None => Ok(()),
-    }
-}
-
-struct DefaultRenamer;
-
-impl VisitMut for DefaultRenamer {
-    noop_visit_mut_type!();
-
-    fn visit_mut_pat(&mut self, n: &mut Pat) {
-        match n {
-            Pat::Ident(n) => {
-                if n.sym == js_word!("default") {
-                    n.sym = "__default".into()
-                }
-                return;
-            }
-            _ => {}
-        }
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Ident(n) => {
-                if n.sym == js_word!("default") {
-                    n.sym = "__default".into()
-                }
-                return;
-            }
-            _ => {}
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-
-        if n.computed {
-            n.prop.visit_mut_with(self)
-        }
-    }
-
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if n.orig.sym == js_word!("default") {
-            n.orig.sym = "__default".into();
-            return;
-        }
     }
 }
 
