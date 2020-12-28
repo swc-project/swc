@@ -1,5 +1,6 @@
 use super::plan::{DepType, Plan};
 use crate::bundler::chunk::export::inject_export;
+use crate::debug::print_hygiene;
 use crate::{
     bundler::{
         chunk::plan::NormalPlan,
@@ -678,7 +679,7 @@ where
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
         self.handle_export_stars(ctx, entry);
 
-        // print_hygiene("before sort", &self.cm, &entry.clone().into());
+        print_hygiene("before sort", &self.cm, &entry.clone().into());
 
         entry.sort();
 
@@ -914,7 +915,11 @@ where
                                                         .assign_to(lhs)
                                                         .into_module_item(
                                                             injected_ctxt,
-                                                            "import_deps_named",
+                                                            &format!(
+                                                                "import_deps: named without \
+                                                                 alias: {}",
+                                                                info.fm.name
+                                                            ),
                                                         ),
                                                 );
                                             }
