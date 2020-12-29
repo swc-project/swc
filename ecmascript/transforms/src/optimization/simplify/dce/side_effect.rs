@@ -267,6 +267,10 @@ impl Visit for SideEffectVisitor<'_> {
         }
     }
 
+    fn visit_tagged_tpl(&mut self, _: &TaggedTpl, _: &dyn Node) {
+        self.found = true;
+    }
+
     fn visit_return_stmt(&mut self, _: &ReturnStmt, _: &dyn Node) {
         self.found = true;
     }

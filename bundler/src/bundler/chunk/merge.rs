@@ -1,5 +1,6 @@
 use super::plan::{DepType, Plan};
 use crate::bundler::chunk::export::inject_export;
+use crate::bundler::keywords::KeywordRenamer;
 use crate::{
     bundler::{
         chunk::plan::NormalPlan,
@@ -16,6 +17,7 @@ use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use std::collections::HashMap;
+use std::collections::HashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -545,6 +547,27 @@ where
 
             let mut vars = vec![];
 
+            // We have to exlcude some ids because there are already declared.
+            // See https://github.com/denoland/deno/issues/8725
+            //
+            // Let's say D is a dependency which contains export * from './foo';
+            // If an user import and export from D, the transitive syntax context map
+            // contains a entry from D to foo because it's reexported and
+            // the variable (reexported from D) exist because it's imported.
+            let mut declared_ids = HashSet::new();
+
+            for stmt in entry.iter() {
+                match stmt {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                        if decl.span.ctxt == injected_ctxt {
+                            let ids: Vec<Id> = find_ids(decl);
+                            declared_ids.extend(ids);
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
             for stmt in entry.iter() {
                 match stmt {
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
@@ -557,6 +580,11 @@ where
 
                             if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
                                 let reexported = id.clone().with_ctxt(remapped);
+
+                                if declared_ids.contains(&reexported) {
+                                    continue;
+                                }
+
                                 vars.push(
                                     id.assign_to(reexported)
                                         .into_module_item(injected_ctxt, "export_star_replacer"),
@@ -732,7 +760,7 @@ where
             true
         });
 
-        entry.visit_mut_with(&mut DefaultRenamer);
+        entry.visit_mut_with(&mut KeywordRenamer::default());
 
         // print_hygiene(
         //     "done-clean",
@@ -914,7 +942,11 @@ where
                                                         .assign_to(lhs)
                                                         .into_module_item(
                                                             injected_ctxt,
-                                                            "import_deps_named",
+                                                            &format!(
+                                                                "import_deps: named without \
+                                                                 alias: {}",
+                                                                info.fm.name
+                                                            ),
                                                         ),
                                                 );
                                             }
@@ -1288,54 +1320,6 @@ fn inject_es_module(
     match dep {
         Some(dep) => Err(dep),
         None => Ok(()),
-    }
-}
-
-struct DefaultRenamer;
-
-impl VisitMut for DefaultRenamer {
-    noop_visit_mut_type!();
-
-    fn visit_mut_pat(&mut self, n: &mut Pat) {
-        match n {
-            Pat::Ident(n) => {
-                if n.sym == js_word!("default") {
-                    n.sym = "__default".into()
-                }
-                return;
-            }
-            _ => {}
-        }
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Ident(n) => {
-                if n.sym == js_word!("default") {
-                    n.sym = "__default".into()
-                }
-                return;
-            }
-            _ => {}
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-
-        if n.computed {
-            n.prop.visit_mut_with(self)
-        }
-    }
-
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if n.orig.sym == js_word!("default") {
-            n.orig.sym = "__default".into();
-            return;
-        }
     }
 }
 

@@ -10,6 +10,18 @@ class BufferFullError extends Error {
         this.name = "BufferFullError";
     }
 }
+class PartialReadError extends Deno.errors.UnexpectedEof {
+    constructor(){
+        super("Encountered UnexpectedEof, data only partially read");
+        this.name = "PartialReadError";
+    }
+}
+class DenoStdInternalError extends Error {
+    constructor(message){
+        super(message);
+        this.name = "DenoStdInternalError";
+    }
+}
 function assert(expr, msg = "") {
     if (!expr) throw new DenoStdInternalError(msg);
 }

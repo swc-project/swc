@@ -516,16 +516,19 @@ where
                         return Expr::Call(e);
                     }
 
-                    ExprOrSuper::Expr(ref e) => match &**e {
-                        Expr::Ident(Ident {
-                            sym: js_word!("import"),
-                            ..
-                        }) => {
-                            self.info.dynamic_imports.push(src.clone());
-                        }
-                        _ => {}
-                    },
-
+                    // TODO: Uncomment this after implementing an option to make swc_bundler
+                    // includes dynamic imports
+                    //
+                    //
+                    // ExprOrSuper::Expr(ref e) => match &**e {
+                    //     Expr::Ident(Ident {
+                    //         sym: js_word!("import"),
+                    //         ..
+                    //     }) => {
+                    //         self.info.dynamic_imports.push(src.clone());
+                    //     }
+                    //     _ => {}
+                    // },
                     _ => {}
                 }
 

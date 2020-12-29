@@ -795,3 +795,44 @@ optimized_out!(
     }
     "
 );
+
+noop!(
+    deno_8736_1,
+    "
+    class DenoStdInternalError1 extends Error {
+        constructor(message){
+            super(message);
+            this.name = 'DenoStdInternalError';
+        }
+    }
+    const DenoStdInternalError = DenoStdInternalError1;
+    function assert2(expr, msg = '') {
+        if (!expr) {
+            throw new DenoStdInternalError(msg);
+        }
+    }
+    const assert1 = assert2;
+    const assert = assert1;
+    const TEST = Deno.env.get('TEST');
+    assert(TEST, 'TEST must be defined!');
+    console.log(`Test is ${TEST}`);
+    "
+);
+
+noop!(
+    deno_8736_2,
+    "
+    class DenoStdInternalError extends Error {
+        constructor(message){
+            super(message);
+            this.name = 'DenoStdInternalError';
+        }
+    }
+    function assert(expr, msg = '') {
+        throw new DenoStdInternalError(msg);
+    }
+    const TEST = Deno.env.get('TEST');
+    assert(TEST, 'TEST must be defined!');
+    console.log(`Test is ${TEST}`);
+    "
+);
