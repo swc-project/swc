@@ -102,8 +102,8 @@ impl Fold for InjectSelf {
             "unimplemented" => i,
 
             //TODO: Collect expect and give that list to unexpected
-            "keyword" | "emit" | "punct" | "semi" | "space" | "formatting_space" | "operator"
-            | "opt" | "opt_leading_space" => {
+            "keyword" | "emit" | "punct" | "semi" | "formatting_semi" | "space"
+            | "formatting_space" | "operator" | "opt" | "opt_leading_space" => {
                 let tokens = if i.tokens.is_empty() {
                     quote_spanned!(span => #parser)
                 } else {

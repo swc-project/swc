@@ -53,7 +53,11 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(write_str_lit(span: Span, s: &str));
     with_semi!(write_str(s: &str));
     with_semi!(write_symbol(span: Span, s: &str));
-    with_semi!(write_punct(s: &'static str));
+
+    fn write_punct(&mut self, s: &'static str) -> Result {
+        self.pending_semi = false;
+        Ok(self.inner.write_punct(s)?)
+    }
 }
 
 impl<W: WriteJs> OmitTrailingSemi<W> {
