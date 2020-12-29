@@ -68,11 +68,23 @@ macro_rules! formatting_space {
     };
 }
 
-macro_rules! semi {
+/// This macro *may* emit a semicolon, if it's required in this context.
+macro_rules! formatting_semi {
     ($emitter:expr) => {
         punct!($emitter, ";")
     };
     ($emitter:expr, ) => {
         punct!($emitter, ";")
+    };
+}
+
+/// This macro *always* emits a semicolon, as it's required by the structure we
+/// emit.
+macro_rules! semi {
+    ($emitter:expr) => {
+        $emitter.wr.write_punct(";")?;
+    };
+    ($emitter:expr, ) => {
+        $emitter.wr.write_punct(";")?;
     };
 }

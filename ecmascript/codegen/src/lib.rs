@@ -129,7 +129,7 @@ impl<'a> Emitter<'a> {
         keyword!("default");
         space!();
         emit!(node.expr);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -145,7 +145,7 @@ impl<'a> Emitter<'a> {
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -210,7 +210,7 @@ impl<'a> Emitter<'a> {
 
         formatting_space!();
         emit!(node.src);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -330,7 +330,7 @@ impl<'a> Emitter<'a> {
             formatting_space!();
             emit!(src);
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -344,7 +344,7 @@ impl<'a> Emitter<'a> {
         keyword!("from");
         space!();
         emit!(node.src);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -948,7 +948,7 @@ impl<'a> Emitter<'a> {
             formatting_space!();
             emit!(body);
         } else {
-            semi!()
+            formatting_semi!()
         }
     }
 
@@ -977,7 +977,7 @@ impl<'a> Emitter<'a> {
             emit!(value);
         }
 
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1020,7 +1020,7 @@ impl<'a> Emitter<'a> {
             emit!(v);
         }
 
-        semi!();
+        formatting_semi!();
     }
 
     fn emit_accesibility(&mut self, n: Option<Accessibility>) -> Result {
@@ -1050,7 +1050,7 @@ impl<'a> Emitter<'a> {
         if let Some(body) = &n.body {
             emit!(body);
         } else {
-            semi!();
+            formatting_semi!();
         }
     }
 
@@ -1129,7 +1129,7 @@ impl<'a> Emitter<'a> {
             formatting_space!();
             emit!(body);
         } else {
-            semi!()
+            formatting_semi!()
         }
     }
 
@@ -1896,7 +1896,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         emit!(e.expr);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1916,7 +1916,7 @@ impl<'a> Emitter<'a> {
     fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
-        punct!(";");
+        semi!();
     }
 
     #[emitter]
@@ -1924,7 +1924,7 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         keyword!("debugger");
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1962,7 +1962,7 @@ impl<'a> Emitter<'a> {
                 punct!(")");
             }
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1983,7 +1983,7 @@ impl<'a> Emitter<'a> {
             space!();
             emit!(label);
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -1993,7 +1993,7 @@ impl<'a> Emitter<'a> {
             space!();
             emit!(label);
         }
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
@@ -2101,7 +2101,7 @@ impl<'a> Emitter<'a> {
         keyword!("throw");
         space!();
         emit!(node.arg);
-        semi!();
+        formatting_semi!();
     }
 
     #[emitter]
