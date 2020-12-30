@@ -1,2 +1,4 @@
-pub mod collector;
-pub mod name_mangler;
+pub mod compress;
+pub mod compute_char_freq;
+pub mod mangle_names;
+pub mod rename;
