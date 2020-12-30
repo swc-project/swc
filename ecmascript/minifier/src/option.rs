@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Options {
-    pub arguments:bool
+    pub arguments: bool,
 }
-

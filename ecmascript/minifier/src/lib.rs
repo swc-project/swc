@@ -1,4 +1,4 @@
-pub use self::options::Optionds;
+pub use self::option::Options;
 
 mod id;
 mod option;
