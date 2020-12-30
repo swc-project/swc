@@ -34,6 +34,46 @@ fn expr(s: &'static str) -> Box<Expr> {
         })
     })
 }
+fn regex_expr() -> Box<Expr> {
+    Box::new(Expr::Assign(AssignExpr {
+        span,
+        left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("re".into(), span)))),
+        op: AssignOp::Assign,
+        right: Box::new(Expr::Lit(Lit::Regex(Regex {
+            span,
+            exp: "w+".into(),
+            flags: "".into(),
+        }))),
+    }))
+}
+#[test]
+fn regex_single_line_comment() {
+    assert_eq_ignore_span!(
+        expr(
+            r#"re = // ... 
+            /w+/"#
+        ),
+        regex_expr()
+    )
+}
+
+#[test]
+fn regex_multi_line_comment() {
+    assert_eq_ignore_span!(expr(r#"re = /* ... *//w+/"#), regex_expr())
+}
+#[test]
+fn regex_multi_line_comment_with_lines() {
+    assert_eq_ignore_span!(
+        expr(
+            r#"re = 
+            /*
+             ...
+             */
+             /w+/"#
+        ),
+        regex_expr()
+    )
+}
 
 #[test]
 fn arrow_assign() {
