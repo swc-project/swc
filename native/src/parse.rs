@@ -52,8 +52,8 @@ impl Task for ParseTask {
         Ok(program)
     }
 
-    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_parse(env, result, &self.c)
+    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_parse(&env, result, &self.c)
     }
 }
 
@@ -82,25 +82,27 @@ impl Task for ParseFileTask {
         })
     }
 
-    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_parse(env, result, &self.c)
+    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_parse(&env, result, &self.c)
     }
 }
 
 #[js_function(2)]
 pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&ctx);
-    let src = ctx.get::<JsString>(0)?;
+    let src = ctx.get::<JsString>(0)?.into_utf8()?;
     let options: ParseOptions = ctx.get_deserialized(1)?;
 
     let fm =
         c.cm.new_source_file(FileName::Anon, src.as_str()?.to_string());
 
-    ctx.env.spawn(ParseTask {
-        c: c.clone(),
-        fm,
-        options,
-    })
+    ctx.env
+        .spawn(ParseTask {
+            c: c.clone(),
+            fm,
+            options,
+        })
+        .map(|t| t.promise_object())
 }
 
 #[js_function(2)]
@@ -108,7 +110,7 @@ pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
     let c = get_compiler(&cx);
 
     c.run(|| {
-        let src = cx.get::<JsString>(0)?.as_str()?.to_string();
+        let src = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
         let options: ParseOptions = cx.get_deserialized(1)?;
 
         let program = {
@@ -130,7 +132,7 @@ pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
 #[js_function(2)]
 pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
     let c = get_compiler(&cx);
-    let path = cx.get::<JsString>(0)?;
+    let path = cx.get::<JsString>(0)?.into_utf8()?;
     let options: ParseOptions = cx.get_deserialized(1)?;
 
     let program = {
@@ -154,8 +156,10 @@ pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
 #[js_function(2)]
 pub fn parse_file(cx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&cx);
-    let path = PathBuf::from(cx.get::<JsString>(0)?.as_str()?);
+    let path = PathBuf::from(cx.get::<JsString>(0)?.into_utf8()?.as_str()?);
     let options: ParseOptions = cx.get_deserialized(1)?;
 
-    cx.env.spawn(ParseFileTask { c, path, options })
+    cx.env
+        .spawn(ParseFileTask { c, path, options })
+        .map(|t| t.promise_object())
 }

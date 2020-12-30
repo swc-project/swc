@@ -1,12 +1,15 @@
 {
-  "name": "@swc/core-linux",
-  "version": "1.2.23",
+  "name": "@swc/core-android-arm64",
+  "version": "1.2.40",
   "os": [
-    "linux"
+    "android"
   ],
-  "main": "swc.linux.node",
+  "cpu": [
+    "arm64"
+  ],
+  "main": "swc.android-arm64.node",
   "files": [
-    "swc.linux.node"
+    "swc.android-arm64.node"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [
@@ -21,11 +24,12 @@
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "homepage": "https://swc.rs",
   "license": "MIT",
-  "cpu": [
-    "x64"
-  ],
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "repository": {
     "type": "git",

@@ -12,7 +12,7 @@ impl<'a> Emitter<'a> {
 
             Decl::Var(ref n) => {
                 emit!(n);
-                semi!(); // VarDecl is also used for for-loops
+                formatting_semi!(); // VarDecl is also used for for-loops
             }
             Decl::TsEnum(ref n) => emit!(n),
             Decl::TsInterface(ref n) => emit!(n),
@@ -113,16 +113,16 @@ mod tests {
             "function* foo(){
             yield getServiceHosts()
         }",
-            "function*foo(){yield getServiceHosts();}",
+            "function*foo(){yield getServiceHosts()}",
         );
     }
 
     #[test]
     fn single_argument_arrow_expression() {
-        assert_min("function* f(){ yield x => x}", "function*f(){yield x=>x;}");
+        assert_min("function* f(){ yield x => x}", "function*f(){yield x=>x}");
         assert_min(
             "function* f(){ yield ({x}) => x}",
-            "function*f(){yield({x})=>x;}",
+            "function*f(){yield({x})=>x}",
         );
     }
 }

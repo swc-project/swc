@@ -54,8 +54,8 @@ impl Task for TransformTask {
             .convert_err()
     }
 
-    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_output(env, result)
+    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_output(&env, result)
     }
 }
 
@@ -66,13 +66,13 @@ where
 {
     let c = get_compiler(&cx);
 
-    let s = cx.get::<JsString>(0)?.as_str()?.to_string();
+    let s = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
     let is_module = cx.get::<JsBoolean>(1)?;
     let options: Options = cx.get_deserialized(2)?;
 
     let task = op(&c, s, is_module.get_value()?, options);
 
-    cx.env.spawn(task)
+    cx.env.spawn(task).map(|t| t.promise_object())
 }
 
 pub fn exec_transform<F>(cx: CallContext, op: F) -> napi::Result<JsObject>
@@ -81,7 +81,7 @@ where
 {
     let c = get_compiler(&cx);
 
-    let s = cx.get::<JsString>(0)?;
+    let s = cx.get::<JsString>(0)?.into_utf8()?;
     let is_module = cx.get::<JsBoolean>(1)?;
     let options: Options = cx.get_deserialized(2)?;
 

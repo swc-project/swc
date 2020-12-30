@@ -2,7 +2,7 @@ use crate::{
     complete_output, get_compiler,
     util::{CtxtExt, MapErr},
 };
-use napi::{CallContext, Env, JsObject, JsString, Task};
+use napi::{CallContext, Env, Error, JsObject, JsString, Status, Task};
 use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
@@ -48,32 +48,38 @@ impl Task for PrintTask {
             .convert_err()
     }
 
-    fn resolve(&self, env: &mut Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_output(env, result)
+    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        complete_output(&env, result)
     }
 }
 
 #[js_function(2)]
 pub fn print(cx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&cx);
-    let program = cx.get::<JsString>(0)?;
-    let program: Program =
-        serde_json::from_str(program.as_str()?).expect("failed to deserialize Program");
+    let program = cx.get::<JsString>(0)?.into_utf8()?;
+    let program: Program = serde_json::from_str(program.as_str()?).map_err(|e| {
+        Error::new(
+            Status::InvalidArg,
+            format!("failed to deserialize Program {}", e),
+        )
+    })?;
 
     let options: Options = cx.get_deserialized(1)?;
 
-    cx.env.spawn(PrintTask {
-        c: c.clone(),
-        program,
-        options,
-    })
+    cx.env
+        .spawn(PrintTask {
+            c: c.clone(),
+            program,
+            options,
+        })
+        .map(|t| t.promise_object())
 }
 
 #[js_function(2)]
 pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&cx);
 
-    let program = cx.get::<JsString>(0)?;
+    let program = cx.get::<JsString>(0)?.into_utf8()?;
     let program: Program =
         serde_json::from_str(&program.as_str()?).expect("failed to deserialize Program");
 
