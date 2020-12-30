@@ -1,6 +1,7 @@
 use crate::option::Options;
 use crate::pass::compress::compressor;
 use crate::pass::compute_char_freq::compute_char_freq;
+use crate::pass::expand_names::name_expander;
 use crate::pass::mangle_names::mangle_names;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::VisitMutWith;
@@ -25,7 +26,8 @@ pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options
 
     if options.rename {
         // toplevel.figure_out_scope(options.mangle);
-        // toplevel.expand_names(options.mangle);
+        // TODO: Pass `options.mangle` to name expander.
+        m.visit_mut_with(&mut name_expander());
     }
 
     if let Some(_t) = timings {
