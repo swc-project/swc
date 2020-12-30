@@ -498,11 +498,8 @@ fn dneo_8541_1() {
 }
 
 #[test]
-fn denoo_8541_2() {
-    test_from_to(
-        "React.createElement('span', null, '\\u00b7');",
-        "React.createElement('span', null, '\\u00b7');",
-    );
+fn deno_8925() {
+    assert_pretty("const 𝒫 = 2;", "const 𝒫 = 2;");
 }
 
 #[test]
@@ -531,6 +528,14 @@ fn test_escape_without_source() {
     es2020("\u{1000}", "\\u1000");
     es2020("\u{ff}", "\\xff");
     es2020("\u{10ffff}", "\\u{10ffff}");
+}
+
+#[test]
+fn deno_8541_2() {
+    test_from_to(
+        "React.createElement('span', null, '\\u00b7');",
+        "React.createElement('span', null, '\\u00b7');",
+    );
 }
 
 #[derive(Debug, Clone)]
