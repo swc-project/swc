@@ -18,6 +18,7 @@ mod id;
 pub mod option;
 pub mod pass;
 pub mod timing;
+mod util;
 
 #[inline]
 pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options) {
