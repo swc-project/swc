@@ -1,12 +1,12 @@
-use std::fs::read_to_string;
 use std::path::PathBuf;
-use swc_common::FileName;
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::Invalid;
+use swc_common::sync::Lrc;
+use swc_common::SourceMap;
+use swc_ecma_ast::*;
+use swc_ecma_codegen::text_writer::JsWriter;
+use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::lexer::input::SourceFileInput;
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
-use swc_ecma_visit::Visit;
 use walkdir::WalkDir;
 
 /// Tests ported from uglifyjs.
@@ -17,7 +17,7 @@ fn uglify_js(path: PathBuf) {}
 #[test]
 #[ignore = "It's a script to update tests and it's not a test"]
 fn update_uglifyjs_tests() {
-    testing::run_test(true, |cm, handler| {
+    testing::run_test(true, |cm, _handler| {
         // Walk uglifyjs test directories.
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR").to_string())
             .join("..")
@@ -43,10 +43,7 @@ fn update_uglifyjs_tests() {
             }
             let rel_path = path.strip_prefix(&root).unwrap().to_path_buf();
 
-            let src = read_to_string(path).expect("failed to read source code of a test?");
-            let src = format!("{{{}}}", src);
-
-            let fm = cm.new_source_file(FileName::Real(path.to_path_buf()), src);
+            let fm = cm.load_file(&path).unwrap();
             let lexer = Lexer::new(
                 Default::default(),
                 Default::default(),
@@ -54,7 +51,7 @@ fn update_uglifyjs_tests() {
                 None,
             );
             let mut parser = Parser::new_from(lexer);
-            let expr = parser.parse_expr().unwrap_or_else(|err| {
+            let file = parser.parse_script().unwrap_or_else(|err| {
                 panic!(
                     "failed to parser test source as object\nFile: {}\nError: {:?}",
                     path.display(),
@@ -62,10 +59,127 @@ fn update_uglifyjs_tests() {
                 )
             });
 
-            expr.visit_with(
-                &Invalid { span: DUMMY_SP },
-                &mut UglifyJsTestGenerator { rel_path },
-            );
+            for test_case in file.body {
+                let test_case = test_case.labeled().expect("Expected a labeled statement");
+                let test_name = test_case.label;
+                let test_def = test_case.body.block().expect("Expected a block statement");
+
+                let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                    .join("tests")
+                    .join("uglifyjs")
+                    .join("compress")
+                    .join(&rel_path)
+                    .join(&*test_name.sym);
+
+                eprintln!("Writing test to  {}", dir.display());
+
+                let _ = std::fs::create_dir_all(&dir);
+
+                let mut input = None;
+                let mut expect = None;
+                let mut expect_exact = None;
+                let mut stdout = None;
+                let mut warnings = None;
+                for test_config in test_def.stmts {
+                    match test_config {
+                        Stmt::Labeled(data) => match &*data.label.sym {
+                            "input" => {
+                                assert_eq!(input, None);
+                                input = Some(data.body);
+                            }
+                            "expect" => {
+                                assert_eq!(expect, None);
+                                expect = Some(print(
+                                    cm.clone(),
+                                    &data
+                                        .body
+                                        .block()
+                                        .unwrap_or_else(|| {
+                                            panic!(
+                                                "Output is not defined for {} -> {}",
+                                                rel_path.display(),
+                                                test_name.sym
+                                            )
+                                        })
+                                        .stmts,
+                                ));
+                            }
+                            "expect_exact" => {
+                                assert_eq!(expect_exact, None);
+                                let expr_stmt = data.body.expect_expr();
+                                match *expr_stmt.expr {
+                                    Expr::Lit(lit) => {
+                                        expect_exact = Some(match lit {
+                                            Lit::Str(s) => s.value.to_string(),
+                                            _ => {
+                                                unreachable!()
+                                            }
+                                        });
+                                    }
+                                    Expr::Array(arr) => {
+                                        let mut buf = String::new();
+                                        for elem in arr.elems {
+                                            let lit = elem.unwrap().expr.expect_lit();
+                                            match lit {
+                                                Lit::Str(s) => {
+                                                    buf.push_str(&s.value);
+                                                    buf.push('\n');
+                                                }
+                                                _ => {
+                                                    unreachable!()
+                                                }
+                                            }
+                                        }
+
+                                        expect_exact = Some(buf);
+                                    }
+                                    _ => unreachable!("{:?}", expr_stmt.expr),
+                                }
+                            }
+                            "expect_stdout" => {
+                                assert_eq!(stdout, None);
+                                stdout = Some(print(cm.clone(), &[data.body]));
+                            }
+
+                            "expect_warnings" => {
+                                assert_eq!(warnings, None);
+                                warnings = Some(print(cm.clone(), &[data.body]));
+                            }
+
+                            "node_version" => {
+                                // ignore
+                            }
+
+                            _ => {
+                                panic!("unknown label: {}", data.label.sym)
+                            }
+                        },
+                        Stmt::Expr(expr_stmt) => match *expr_stmt.expr {
+                            Expr::Assign(_) => {
+                                // TOOD: Auto-gerate options
+                            }
+                            _ => unreachable!("{:?}", expr_stmt.expr),
+                        },
+                        Stmt::Empty(..) => {}
+                        _ => unreachable!("{:?}", test_config),
+                    }
+                }
+
+                let input = input.unwrap().block().unwrap().stmts;
+
+                let input_str = print(cm.clone(), &input);
+
+                std::fs::write(&dir.join("input.js"), input_str).expect("failed to write input.js");
+
+                if let Some(s) = expect {
+                    std::fs::write(&dir.join("output.js"), s).expect("failed to write input.js");
+                }
+
+                if let Some(s) = expect_exact {
+                    std::fs::write(&dir.join("expect_exact.js"), s)
+                        .expect("failed to write input.js");
+                }
+            }
         }
 
         Ok(())
@@ -73,8 +187,21 @@ fn update_uglifyjs_tests() {
     .unwrap();
 }
 
-struct UglifyJsTestGenerator {
-    rel_path: PathBuf,
-}
+fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, n: &[N]) -> String {
+    let mut buf = vec![];
 
-impl Visit for UglifyJsTestGenerator {}
+    {
+        let mut emitter = Emitter {
+            cfg: Default::default(),
+            cm: cm.clone(),
+            comments: None,
+            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+        };
+
+        for n in n {
+            n.emit_with(&mut emitter).unwrap();
+        }
+    }
+
+    String::from_utf8(buf).unwrap()
+}
