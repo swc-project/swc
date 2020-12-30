@@ -1,3 +1,9 @@
+//! Javascript minifier implemented in rust.
+//!
+//! Note: Passes should be visited only with [Module] and it's an error to feed
+//! them something other. Don't call methods like `visit_mut_script` nor
+//! `visit_mut_module_items`.
+
 use crate::option::Options;
 use crate::pass::compress::compressor;
 use crate::pass::compute_char_freq::compute_char_freq;
