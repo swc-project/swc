@@ -12,6 +12,7 @@ use swc_ecma_parser::Parser;
 use walkdir::WalkDir;
 
 /// Tests ported from uglifyjs.
+#[allow(dead_code)]
 #[testing::fixture("uglifyjs/**/input.js")]
 fn uglify_js(path: PathBuf) {}
 
