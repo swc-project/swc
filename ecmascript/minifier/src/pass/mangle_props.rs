@@ -1,7 +1,7 @@
 use super::compute_char_freq::CharFreqInfo;
 use swc_ecma_visit::VisitMut;
 
-pub fn name_mangler(_char_freq_info: CharFreqInfo) -> impl VisitMut {
+pub fn property_mangler() -> impl VisitMut {
     Mangler {}
 }
 

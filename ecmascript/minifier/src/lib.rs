@@ -2,7 +2,8 @@ use crate::option::Options;
 use crate::pass::compress::compressor;
 use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
-use crate::pass::mangle_names::mangle_names;
+use crate::pass::mangle_names::name_mangler;
+use crate::pass::mangle_props::property_mangler;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::VisitMutWith;
 use timing::Timings;
@@ -51,14 +52,19 @@ pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options
 
     if options.mangle.is_some() {
         let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut mangle_names(char_freq_info));
+        m.visit_mut_with(&mut name_mangler(char_freq_info));
     }
 
     if let Some(_t) = timings {
         // TODO: store `properties`
     }
 
-    if options.mangle.map(|o| o.properties).unwrap_or(false) {
-        m.visit_mut_with(&mut mangle_properties());
+    if options
+        .mangle
+        .as_ref()
+        .map(|o| o.properties)
+        .unwrap_or(false)
+    {
+        m.visit_mut_with(&mut property_mangler());
     }
 }
