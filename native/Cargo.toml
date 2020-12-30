@@ -12,14 +12,14 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [build-dependencies]
-napi-build = "0.2.1"
+napi-build = {version = "1.0"}
 
 [dependencies]
 anyhow = "1"
 backtrace = "0.3"
 fxhash = "0.2"
-napi = {version = "0.5.0", features = ["serde-json"]}
-napi-derive = "0.5.0"
+napi = {version = "1.0", features = ["serde-json"]}
+napi-derive = {version = "1.0"}
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
@@ -31,7 +31,7 @@ swc_common = {path = "../common", features = ["tty-emitter", "sourcemap"]}
 swc_ecma_ast = {path = "../ecmascript/ast"}
 swc_ecma_parser = {path = "../ecmascript/parser"}
 
-[target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
+[target.'cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))'.dependencies]
 jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 
 [target.'cfg(windows)'.dependencies]
