@@ -44,7 +44,7 @@ jobs:
         working-directory: wasm/pkg
 
       - name: Include *_bg files
-        run: jq '.files += ["wasm_bg.js", "wasm_bg.wasm.d.ts"]' package.json
+        run: jq '.files += ["wasm_bg.js", "wasm_bg.wasm.d.ts"]' package.json > package.json
         working-directory: wasm/pkg
 
       - name: Publish
