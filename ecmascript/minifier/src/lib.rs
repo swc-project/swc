@@ -32,6 +32,7 @@ pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options
         // TODO: store `rename`
     }
 
+    // Noop.
     if options.rename {
         // toplevel.figure_out_scope(options.mangle);
         // TODO: Pass `options.mangle` to name expander.
