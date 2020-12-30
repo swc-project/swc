@@ -14,7 +14,7 @@ use walkdir::WalkDir;
 /// Tests ported from uglifyjs.
 #[allow(dead_code)]
 #[testing::fixture("uglifyjs/**/input.js")]
-fn uglify_js(path: PathBuf) {}
+fn uglify_js(_path: PathBuf) {}
 
 /// Generate tests using uglify js.
 #[test]
