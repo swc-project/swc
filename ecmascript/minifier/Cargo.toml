@@ -20,3 +20,4 @@ swc_ecma_codegen = {version = "0.42.2", path = "../codegen"}
 swc_ecma_parser = {version = "0.44.1", path = "../parser"}
 swc_ecma_transforms = {version = "0.31.2", path = "../transforms/"}
 testing = {version = "0.10.2", path = "../../testing"}
+walkdir = "2.3.1"
