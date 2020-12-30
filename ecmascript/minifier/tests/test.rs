@@ -68,7 +68,7 @@ fn update_uglifyjs_tests() {
                     .join("tests")
                     .join("uglifyjs")
                     .join("compress")
-                    .join(&rel_path)
+                    .join(&rel_path.with_extension(""))
                     .join(&*test_name.sym);
 
                 eprintln!("Writing test to  {}", dir.display());
@@ -156,6 +156,9 @@ fn update_uglifyjs_tests() {
                         },
                         Stmt::Expr(expr_stmt) => match *expr_stmt.expr {
                             Expr::Assign(_) => {
+                                // TOOD: Auto-gerate options
+                            }
+                            Expr::Seq(_) => {
                                 // TOOD: Auto-gerate options
                             }
                             _ => unreachable!("{:?}", expr_stmt.expr),
