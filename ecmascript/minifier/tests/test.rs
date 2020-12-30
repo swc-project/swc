@@ -1,4 +1,6 @@
 use std::path::PathBuf;
+use swc_common::errors::ColorConfig;
+use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_ecma_ast::*;
@@ -17,7 +19,8 @@ fn uglify_js(path: PathBuf) {}
 #[test]
 #[ignore = "It's a script to update tests and it's not a test"]
 fn update_uglifyjs_tests() {
-    testing::run_test(true, |cm, _handler| {
+    testing::run_test(false, |cm, _| {
+        let handler = Handler::with_tty_emitter(ColorConfig::Always, true, false, Some(cm.clone()));
         // Walk uglifyjs test directories.
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR").to_string())
             .join("..")
@@ -38,7 +41,15 @@ fn update_uglifyjs_tests() {
             }
             let path = entry.path();
             let path_str = path.to_string_lossy();
+            // Useless
             if path_str.contains("tools") || !path_str.ends_with(".js") {
+                continue;
+            }
+            // Parser bug
+            if path_str.contains("async.js")
+                || path_str.contains("const.js")
+                || path_str.contains("let.js")
+            {
                 continue;
             }
             let rel_path = path.strip_prefix(&root).unwrap().to_path_buf();
@@ -52,10 +63,10 @@ fn update_uglifyjs_tests() {
             );
             let mut parser = Parser::new_from(lexer);
             let file = parser.parse_script().unwrap_or_else(|err| {
+                err.into_diagnostic(&handler).emit();
                 panic!(
-                    "failed to parser test source as object\nFile: {}\nError: {:?}",
+                    "failed to parser test source as object\nFile: {}",
                     path.display(),
-                    err
                 )
             });
 
@@ -70,6 +81,13 @@ fn update_uglifyjs_tests() {
                     .join("compress")
                     .join(&rel_path.with_extension(""))
                     .join(&*test_name.sym);
+
+                // codegne issues.
+                if test_name.sym == *"keep_name_of_setter"
+                    || test_name.sym == *"unsafe_object_accessor"
+                {
+                    continue;
+                }
 
                 eprintln!("Writing test to  {}", dir.display());
 
