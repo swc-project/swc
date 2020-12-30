@@ -23,8 +23,19 @@ mod util;
 #[inline]
 pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options) {
     // TODO: reserve_quoted_keys
-    // TODO: enclose
-    // TODO: wrap
+    // if (quoted_props && options.mangle.properties.keep_quoted !== "strict") {
+    //     reserve_quoted_keys(toplevel, quoted_props);
+    // }
+
+    if options.wrap {
+        // TODO: wrap_common_js
+        // toplevel = toplevel.wrap_commonjs(options.wrap);
+    }
+
+    if options.enclose {
+        // TODO: enclose
+        // toplevel = toplevel.wrap_enclose(options.enclose);
+    }
 
     // We don't need validation.
 
@@ -33,7 +44,8 @@ pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options
     }
 
     // Noop.
-    if options.rename {
+    // https://github.com/mishoo/UglifyJS2/issues/2794
+    if options.rename && false {
         // toplevel.figure_out_scope(options.mangle);
         // TODO: Pass `options.mangle` to name expander.
         m.visit_mut_with(&mut name_expander());
@@ -59,6 +71,8 @@ pub fn optimize(m: &mut Module, timings: &mut Option<Timings>, options: &Options
     }
 
     if options.mangle.is_some() {
+        // TODO: base54.reset();
+
         let char_freq_info = compute_char_freq(&m);
         m.visit_mut_with(&mut name_mangler(char_freq_info));
     }

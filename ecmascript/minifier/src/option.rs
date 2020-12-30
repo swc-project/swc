@@ -7,6 +7,8 @@ pub struct Options {
     pub rename: bool,
     pub compress: bool,
     pub mangle: Option<MangleOptions>,
+    pub wrap: bool,
+    pub enclose: bool,
 }
 
 #[derive(Debug, Deserialize)]
