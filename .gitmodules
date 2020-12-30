@@ -1,3 +1,8 @@
 [submodule "ecmascript/test262-parser-tests"]
 	path = ecmascript/parser/tests/test262-parser
 	url = https://github.com/tc39/test262-parser-tests.git
+	shallow = true
+[submodule "vendor/UglifyJS"]
+	path = vendor/UglifyJS
+	url = https://github.com/mishoo/UglifyJS.git
+	shallow = true
