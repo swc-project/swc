@@ -728,35 +728,50 @@ impl VisitMut for Dce<'_> {
         self.visit_mut_stmt_like(n)
     }
 
+    // ---- ---- ----- ---- -----
+    // If Spanned::span is synthesized, we should some work
+
+    // normal!(visit_mut_assign_prop, AssignProp, key, value);
+    // normal!(visit_mut_key_value_pat_prop, KeyValuePatProp, key, value);
+    // normal!(visit_mut_key_value_prop, KeyValueProp, key, value);
+
+    // ---- ---- ----- ---- -----
+    // If an ast node delagates Spanned::span to a field, we don't need to handle it
+    // because of the way Spanned::span works.
+
+    // normal!(visit_mut_class_expr, ClassExpr, ident, class);
+    // normal!(visit_mut_method_prop, MethodProp, key, value);
+    // normal!(
+    //     visit_mut_export_default_specifier,
+    //     ExportDefaultSpecifier,
+    //     exported
+    // );
+    // normal!(visit_mut_fn_expr, FnExpr, ident, function);
+
+    // ---- ---- ----- ---- -----
+    // If an ast node has a span and not a declarations, use general logic.
+
     normal!(visit_mut_array_lit, ArrayLit, [], [elems]);
     normal!(visit_mut_array_pat, ArrayPat, [], [elems]);
     normal!(visit_mut_arrow_expr, ArrowExpr, [body], [params]);
     normal!(visit_mut_assign_expr, AssignExpr, left, right);
     normal!(visit_mut_assign_pat, AssignPat, left, right);
     normal!(visit_mut_assign_pat_prop, AssignPatProp, key, value);
-    normal!(visit_mut_assign_prop, AssignProp, key, value);
     normal!(visit_mut_await_expr, AwaitExpr, arg);
     normal!(visit_mut_catch_clause, CatchClause, param, body);
     normal!(visit_mut_class, Class, [super_class], [decorators, body]);
-    normal!(visit_mut_class_expr, ClassExpr, ident, class);
     normal!(visit_mut_class_method, ClassMethod, key, function);
     normal!(visit_mut_class_prop, ClassProp, [key, value], [decorators]);
     normal!(visit_mut_computed_prop_name, ComputedPropName, expr);
     normal!(visit_mut_cond_expr, CondExpr, test, cons, alt);
     normal!(visit_mut_constructor, Constructor, [key, body], [params]);
     normal!(visit_mut_decorator, Decorator, expr);
-    normal!(
-        visit_mut_export_default_specifier,
-        ExportDefaultSpecifier,
-        exported
-    );
     normal!(visit_mut_export_named_specifier, ExportNamedSpecifier, orig);
     normal!(
         visit_mut_export_namespace_specifier,
         ExportNamespaceSpecifier,
         name
     );
-    normal!(visit_mut_fn_expr, FnExpr, ident, function);
     normal!(visit_mut_function, Function, [body], [param, decorators]);
     normal!(visit_mut_getter_prop, GetterProp, key, body);
     normal!(
@@ -774,60 +789,12 @@ impl VisitMut for Dce<'_> {
         ImportStarAsSpecifier,
         local
     );
-    normal!(visit_mut_key_value_pat_prop, KeyValuePatProp, key, value);
-    normal!(visit_mut_key_value_prop, KeyValueProp, key, value);
-
-    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
-        swc_ecma_visit::visit_mut_method_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
-        swc_ecma_visit::visit_mut_object_lit(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {
-        swc_ecma_visit::visit_mut_object_pat(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
-        swc_ecma_visit::visit_mut_object_pat_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_object_pat_props(&mut self, n: &mut Vec<ObjectPatProp>) {
-        swc_ecma_visit::visit_mut_object_pat_props(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {
-        swc_ecma_visit::visit_mut_opt_chain_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_ts_type_param_decl(&mut self, n: &mut Option<TsTypeParamDecl>) {
-        swc_ecma_visit::visit_mut_opt_ts_type_param_decl(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_param(&mut self, n: &mut Param) {
-        swc_ecma_visit::visit_mut_param(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_param_or_ts_param_prop(&mut self, n: &mut ParamOrTsParamProp) {
-        swc_ecma_visit::visit_mut_param_or_ts_param_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_param_or_ts_param_props(&mut self, n: &mut Vec<ParamOrTsParamProp>) {
-        swc_ecma_visit::visit_mut_param_or_ts_param_props(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_paren_expr(&mut self, n: &mut ParenExpr) {
-        swc_ecma_visit::visit_mut_paren_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_pat(&mut self, n: &mut Pat) {
-        swc_ecma_visit::visit_mut_pat(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
-        swc_ecma_visit::visit_mut_private_method(swc_ecma_visit, n)
-    }
+    normal!(visit_mut_object_lit, ObjectLit, [], [props]);
+    normal!(visit_mut_object_pat, ObjectPat, [], [props]);
+    normal!(visit_mut_opt_chain_expr, OptChainExpr, expr);
+    normal!(visit_mut_param, Param, [pat], [decorators]);
+    normal!(visit_mut_paren_expr, ParenExpr, expr);
+    normal!(visit_mut_private_method, PrivateMethod, key, funciton);
 
     fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
         swc_ecma_visit::visit_mut_private_name(swc_ecma_visit, n)
