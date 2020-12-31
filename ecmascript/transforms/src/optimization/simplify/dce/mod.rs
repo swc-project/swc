@@ -727,12 +727,53 @@ impl VisitMut for Dce<'_> {
         self.visit_mut_stmt_like(n)
     }
 
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(i) => {
+                if self.is_marked(i.span) {
+                    return;
+                }
+                if self.marking_phase || self.included.contains(&i) {
+                    i.span = i.span.apply_mark(self.config.used_mark)
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        match n {
+            PropName::Computed(_) => n.visit_mut_children_with(self),
+            _ => {}
+        }
+    }
+
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if self.is_marked(node.span()) {
+            return;
+        }
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.included(node.ident.span())
+            || self.is_marked(node.ident.span())
+            || self.is_marked(node.class.span())
+        {
+            node.class.span = node.class.span.apply_mark(self.config.used_mark);
+            self.mark(&mut node.ident);
+            self.mark(&mut node.class);
+        }
+    }
+
     // ---- ---- ----- ---- -----
     // If Spanned::span is synthesized, we should some work
 
     // normal!(visit_mut_assign_prop, AssignProp, key, value);
     // normal!(visit_mut_key_value_pat_prop, KeyValuePatProp, key, value);
     // normal!(visit_mut_key_value_prop, KeyValueProp, key, value);
+    // fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {}
 
     // ---- ---- ----- ---- -----
     // If an ast node delagates Spanned::span to a field, we don't need to handle it
@@ -794,111 +835,18 @@ impl VisitMut for Dce<'_> {
     normal!(visit_mut_param, Param, [pat], [decorators]);
     normal!(visit_mut_paren_expr, ParenExpr, expr);
     normal!(visit_mut_private_method, PrivateMethod, key, function);
-
-    fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
-        swc_ecma_visit::visit_mut_private_name(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
-        swc_ecma_visit::visit_mut_private_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_prop(&mut self, n: &mut Prop) {
-        swc_ecma_visit::visit_mut_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_prop_or_spread(&mut self, n: &mut PropOrSpread) {
-        swc_ecma_visit::visit_mut_prop_or_spread(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        swc_ecma_visit::visit_mut_prop_or_spreads(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_regex(&mut self, n: &mut Regex) {
-        swc_ecma_visit::visit_mut_regex(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_rest_pat(&mut self, n: &mut RestPat) {
-        swc_ecma_visit::visit_mut_rest_pat(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        swc_ecma_visit::visit_mut_script(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        swc_ecma_visit::visit_mut_seq_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        swc_ecma_visit::visit_mut_setter_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        swc_ecma_visit::visit_mut_span(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {
-        swc_ecma_visit::visit_mut_spread_element(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        swc_ecma_visit::visit_mut_stmt(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_str(&mut self, n: &mut Str) {
-        swc_ecma_visit::visit_mut_str(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_str_kind(&mut self, n: &mut StrKind) {
-        swc_ecma_visit::visit_mut_str_kind(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_super(&mut self, n: &mut Super) {
-        swc_ecma_visit::visit_mut_super(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
-        swc_ecma_visit::visit_mut_switch_cases(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
-        swc_ecma_visit::visit_mut_tagged_tpl(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
-        swc_ecma_visit::visit_mut_tpl(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_tpl_element(&mut self, n: &mut TplElement) {
-        swc_ecma_visit::visit_mut_tpl_element(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
-        swc_ecma_visit::visit_mut_yield_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        swc_ecma_visit::visit_mut_prop_name(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if self.is_marked(node.span) {
-            return;
-        }
-        node.visit_mut_children_with(self);
-
-        if self.marking_phase
-            || self.included(node.ident.span())
-            || self.is_marked(node.ident.span())
-            || self.is_marked(node.class.span())
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-            self.mark(&mut node.ident);
-            self.mark(&mut node.class);
-        }
-    }
+    normal!(
+        visit_mut_private_prop,
+        PrivateProp,
+        [key, value],
+        [decorators]
+    );
+    normal!(visit_mut_rest_pat, RestPat, arg);
+    normal!(visit_mut_seq_expr, SeqExpr, [], [exprs]);
+    normal!(visit_mut_setter_prop, SetterProp, key, pat, body);
+    normal!(visit_mut_tagged_tpl, TaggedTpl, tag, exprs);
+    normal!(visit_mut_tpl, Tpl, exprs);
+    normal!(visit_mut_yield_expr, YieldExpr, arg);
 }
 
 impl Dce<'_> {
