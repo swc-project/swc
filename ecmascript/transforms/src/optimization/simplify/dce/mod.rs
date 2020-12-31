@@ -22,6 +22,7 @@ macro_rules! preserve {
     };
 }
 
+mod analyzer;
 mod side_effect;
 
 #[derive(Debug)]
