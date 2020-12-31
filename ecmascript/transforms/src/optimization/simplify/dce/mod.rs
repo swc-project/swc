@@ -733,20 +733,6 @@ impl VisitMut for Dce<'_> {
 
     fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 
-    fn visit_mut_prop(&mut self, n: &mut Prop) {
-        match n {
-            Prop::Shorthand(i) => {
-                if self.is_marked(i.span) {
-                    return;
-                }
-                if self.marking_phase || self.included.contains(&i.to_id()) {
-                    i.span = i.span.apply_mark(self.config.used_mark)
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
-    }
-
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         match n {
             PropName::Computed(_) => n.visit_mut_children_with(self),
