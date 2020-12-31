@@ -698,11 +698,40 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
-        swc_ecma_visit::visit_mut_array_lit(swc_ecma_visit, n)
+        if self.is_marked(n.span) {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || n.elems.iter().any(|elem| {
+                elem.map(|elem| self.is_marked(elem.expr.span()))
+                    .unwrap_or(false)
+            })
+        {
+            n.span = n.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut n.elems);
+        }
     }
 
     fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
-        swc_ecma_visit::visit_mut_array_pat(swc_ecma_visit, n)
+        if self.is_marked(n.span) {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || n.elems
+                .iter()
+                .any(|elem| elem.map(|pat| self.is_marked(pat.span())).unwrap_or(false))
+        {
+            n.span = n.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut n.elems);
+        }
     }
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
