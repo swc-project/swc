@@ -203,19 +203,6 @@ impl VisitMut for Dce<'_> {
         }
     }
 
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if self.is_marked(node.span()) {
-            return;
-        }
-
-        if self.marking_phase || self.included.contains(&node.ident.to_id()) {
-            node.class.span = node.class.span.apply_mark(self.config.used_mark);
-            self.mark(&mut node.class);
-        }
-
-        node.visit_mut_children_with(self)
-    }
-
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         if self.is_marked(node.span) {
             return;
@@ -750,14 +737,9 @@ impl VisitMut for Dce<'_> {
     normal!(visit_mut_assign_prop, AssignProp, key, value);
     normal!(visit_mut_await_expr, AwaitExpr, arg);
     normal!(visit_mut_catch_clause, CatchClause, param, body);
-
-    fn visit_mut_class(&mut self, n: &mut Class) {
-        swc_ecma_visit::visit_mut_class(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        swc_ecma_visit::visit_mut_class_expr(swc_ecma_visit, n)
-    }
+    normal!(visit_mut_class, Class, [super_class], [decorators, body]);
+    normal!(visit_mut_class_expr, ClassExpr, ident, class);
+    normal!(visit_mut_class_decl, ClassDecl, ident, class);
 
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
         swc_ecma_visit::visit_mut_class_method(swc_ecma_visit, n)
