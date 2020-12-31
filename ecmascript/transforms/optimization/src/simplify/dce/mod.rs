@@ -745,26 +745,18 @@ impl VisitMut for Dce<'_> {
     normal!(visit_mut_computed_prop_name, ComputedPropName, expr);
     normal!(visit_mut_cond_expr, CondExpr, test, cons, alt);
     normal!(visit_mut_constructor, Constructor, [key, body], [params,]);
-
-    fn visit_mut_decorator(&mut self, n: &mut Decorator) {
-        swc_ecma_visit::visit_mut_decorator(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_export_default_specifier(&mut self, n: &mut ExportDefaultSpecifier) {
-        swc_ecma_visit::visit_mut_export_default_specifier(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        swc_ecma_visit::visit_mut_export_named_specifier(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_export_namespace_specifier(&mut self, n: &mut ExportNamespaceSpecifier) {
-        swc_ecma_visit::visit_mut_export_namespace_specifier(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_export_specifier(&mut self, n: &mut ExportSpecifier) {
-        swc_ecma_visit::visit_mut_export_specifier(swc_ecma_visit, n)
-    }
+    normal!(visit_mut_decorator, Decorator, expr);
+    normal!(
+        visit_mut_export_default_specifier,
+        ExportDefaultSpecifier,
+        exported
+    );
+    normal!(visit_mut_export_named_specifier, ExportNamedSpecifier, orig);
+    normal!(
+        visit_mut_export_namespace_specifier,
+        ExportNamespaceSpecifier,
+        name
+    );
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         swc_ecma_visit::visit_mut_expr(swc_ecma_visit, n)
