@@ -158,7 +158,9 @@ macro_rules! normal {
         [$($array_like_props:ident),*]
     ) => {
         fn $name(&mut self, node: &mut $T) {
+            log::trace!("Visit<{}>: {:?}", stringify!($T), node);
             if self.is_marked(node.span()) {
+                log::trace!("Visit<{}>: Already marked", stringify!($T));
                 return;
             }
 
@@ -172,6 +174,7 @@ macro_rules! normal {
                     || self.has_marked_elem(&node.$array_like_props)
                 )*
             {
+                log::trace!("Visit<{}>: Marking", stringify!($T));
                 node.span = node.span.apply_mark(self.config.used_mark);
 
                 $(
