@@ -740,14 +740,6 @@ impl VisitMut for Dce<'_> {
         swc_ecma_visit::visit_mut_class_expr(swc_ecma_visit, n)
     }
 
-    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
-        swc_ecma_visit::visit_mut_class_member(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
-        swc_ecma_visit::visit_mut_class_members(swc_ecma_visit, n)
-    }
-
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
         swc_ecma_visit::visit_mut_class_method(swc_ecma_visit, n)
     }
