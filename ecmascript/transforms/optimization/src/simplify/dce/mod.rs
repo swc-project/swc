@@ -139,6 +139,10 @@ impl Repeated for Dce<'_> {
     }
 }
 
+/// This is currently overly conservative.
+///
+/// TODO: Skip visiting key if the key of class member or property is not
+/// computed.
 macro_rules! normal {
     (
         $name:ident,
@@ -736,7 +740,7 @@ impl VisitMut for Dce<'_> {
                 if self.is_marked(i.span) {
                     return;
                 }
-                if self.marking_phase || self.included.contains(&i) {
+                if self.marking_phase || self.included.contains(&i.to_id()) {
                     i.span = i.span.apply_mark(self.config.used_mark)
                 }
             }
@@ -758,7 +762,7 @@ impl VisitMut for Dce<'_> {
         node.visit_mut_children_with(self);
 
         if self.marking_phase
-            || self.included(node.ident.span())
+            || self.included.contains(&node.ident.to_id())
             || self.is_marked(node.ident.span())
             || self.is_marked(node.class.span())
         {
@@ -813,7 +817,7 @@ impl VisitMut for Dce<'_> {
         ExportNamespaceSpecifier,
         name
     );
-    normal!(visit_mut_function, Function, [body], [param, decorators]);
+    normal!(visit_mut_function, Function, [body], [params, decorators]);
     normal!(visit_mut_getter_prop, GetterProp, key, body);
     normal!(
         visit_mut_import_default_specifier,
@@ -844,9 +848,9 @@ impl VisitMut for Dce<'_> {
     );
     normal!(visit_mut_rest_pat, RestPat, arg);
     normal!(visit_mut_seq_expr, SeqExpr, [], [exprs]);
-    normal!(visit_mut_setter_prop, SetterProp, key, pat, body);
-    normal!(visit_mut_tagged_tpl, TaggedTpl, tag, exprs);
-    normal!(visit_mut_tpl, Tpl, exprs);
+    normal!(visit_mut_setter_prop, SetterProp, key, param, body);
+    normal!(visit_mut_tagged_tpl, TaggedTpl, [tag], [exprs]);
+    normal!(visit_mut_tpl, Tpl, [], [exprs]);
     normal!(visit_mut_yield_expr, YieldExpr, arg);
 }
 
