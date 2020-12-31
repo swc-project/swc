@@ -162,20 +162,20 @@ macro_rules! normal {
 
             if self.marking_phase
                 $(
-                    || self.is_marked(self.$singluar_props.span())
+                    || self.is_marked(node.$singluar_props.span())
                 )*
                 $(
-                    || self.cotnains_marked_elem(self.$array_like_props.span())
+                    || self.cotnains_marked_elem(node.$array_like_props.span())
                 )*
             {
                 node.span = node.span.apply_mark(self.config.used_mark);
 
                 $(
-                    self.mark(&mut self.$singluar_props);
+                    self.mark(&mut node.$singluar_props);
                 )*
 
                 $(
-                    self.mark(&mut self.$array_like_props);
+                    self.mark(&mut node.$array_like_props);
                 )*
             }
         }
@@ -738,12 +738,11 @@ impl VisitMut for Dce<'_> {
     normal!(visit_mut_catch_clause, CatchClause, param, body);
     normal!(visit_mut_class, Class, [super_class], [decorators, body]);
     normal!(visit_mut_class_expr, ClassExpr, ident, class);
-    normal!(visit_mut_class_decl, ClassDecl, ident, class);
     normal!(visit_mut_class_method, ClassMethod, key, function);
     normal!(visit_mut_class_prop, ClassProp, [key, value], [decorators]);
     normal!(visit_mut_computed_prop_name, ComputedPropName, expr);
     normal!(visit_mut_cond_expr, CondExpr, test, cons, alt);
-    normal!(visit_mut_constructor, Constructor, [key, body], [params,]);
+    normal!(visit_mut_constructor, Constructor, [key, body], [params]);
     normal!(visit_mut_decorator, Decorator, expr);
     normal!(
         visit_mut_export_default_specifier,
@@ -756,25 +755,24 @@ impl VisitMut for Dce<'_> {
         ExportNamespaceSpecifier,
         name
     );
+    normal!(visit_mut_fn_expr, FnExpr, ident, function);
+    normal!(visit_mut_function, Function, [body], [param, decorators]);
 
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        swc_ecma_visit::visit_mut_expr(swc_ecma_visit, n)
-    }
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if self.is_marked(node.span) {
+            return;
+        }
+        node.visit_mut_children_with(self);
 
-    fn visit_mut_expr_or_spread(&mut self, n: &mut ExprOrSpread) {
-        swc_ecma_visit::visit_mut_expr_or_spread(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_expr_or_super(&mut self, n: &mut ExprOrSuper) {
-        swc_ecma_visit::visit_mut_expr_or_super(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        swc_ecma_visit::visit_mut_fn_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        swc_ecma_visit::visit_mut_function(swc_ecma_visit, n)
+        if self.marking_phase
+            || self.included(node.ident.span())
+            || self.is_marked(node.ident.span())
+            || self.is_marked(node.class.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            self.mark(&mut node.ident);
+            self.mark(&mut node.class);
+        }
     }
 
     fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
