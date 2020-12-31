@@ -734,7 +734,18 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        swc_ecma_visit::visit_mut_arrow_expr(swc_ecma_visit, n)
+        if self.is_marked(n.span) {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+
+        if self.marking_phase || self.has_marked_elem(&n.params) || self.is_marked(&n.body) {
+            n.span = n.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut n.params);
+            self.mark(&mut n.body);
+        }
     }
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
@@ -1354,6 +1365,13 @@ impl Dce<'_> {
                 return true;
             }
         }
+    }
+
+    pub fn has_marked_elem<T>(&self, n: &[T]) -> bool
+    where
+        T: Spanned,
+    {
+        n.iter().any(|n| self.is_marked(n.span()))
     }
 
     pub fn should_preserve_export(&self, i: &JsWord) -> bool {
