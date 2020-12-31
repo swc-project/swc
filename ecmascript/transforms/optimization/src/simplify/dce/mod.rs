@@ -986,7 +986,7 @@ impl Dce<'_> {
     //            dropped: false,
     //        };
     //
-    //        let ret = op(&mut  child);
+    //        let ret = op(&mut child);
     //
     //        self.changed |= child.changed;
     //        self.dropped |= child.dropped;
