@@ -810,7 +810,17 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_await_expr(&mut self, n: &mut AwaitExpr) {
-        swc_ecma_visit::visit_mut_await_expr(swc_ecma_visit, n)
+        if self.is_marked(n.span) {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+
+        if self.marking_phase || self.is_marked(&n.arg) {
+            n.span = n.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut n.arg);
+        }
     }
 
     fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
