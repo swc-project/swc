@@ -166,7 +166,7 @@ macro_rules! normal {
                     || self.is_marked(node.$singluar_props.span())
                 )*
                 $(
-                    || self.cotnains_marked_elem(node.$array_like_props.span())
+                    || self.has_marked_elem(&node.$array_like_props)
                 )*
             {
                 node.span = node.span.apply_mark(self.config.used_mark);
@@ -775,18 +775,7 @@ impl VisitMut for Dce<'_> {
         local
     );
     normal!(visit_mut_key_value_pat_prop, KeyValuePatProp, key, value);
-
-    fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
-        swc_ecma_visit::visit_mut_key_value_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_lit(&mut self, n: &mut Lit) {
-        swc_ecma_visit::visit_mut_lit(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_meta_prop_expr(&mut self, n: &mut MetaPropExpr) {
-        swc_ecma_visit::visit_mut_meta_prop_expr(swc_ecma_visit, n)
-    }
+    normal!(visit_mut_key_value_prop, KeyValueProp, key, value);
 
     fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
         swc_ecma_visit::visit_mut_method_prop(swc_ecma_visit, n)
