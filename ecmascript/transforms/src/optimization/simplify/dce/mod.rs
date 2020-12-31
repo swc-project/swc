@@ -154,7 +154,7 @@ macro_rules! normal {
         [$($array_like_props:ident),*]
     ) => {
         fn $name(&mut self, node: &mut $T) {
-            if self.is_marked(node.span) {
+            if self.is_marked(node.span()) {
                 return;
             }
 
@@ -757,131 +757,23 @@ impl VisitMut for Dce<'_> {
     );
     normal!(visit_mut_fn_expr, FnExpr, ident, function);
     normal!(visit_mut_function, Function, [body], [param, decorators]);
-
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if self.is_marked(node.span) {
-            return;
-        }
-        node.visit_mut_children_with(self);
-
-        if self.marking_phase
-            || self.included(node.ident.span())
-            || self.is_marked(node.ident.span())
-            || self.is_marked(node.class.span())
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-            self.mark(&mut node.ident);
-            self.mark(&mut node.class);
-        }
-    }
-
-    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
-        swc_ecma_visit::visit_mut_getter_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
-        swc_ecma_visit::visit_mut_import_default_specifier(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
-        swc_ecma_visit::visit_mut_import_named_specifier(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
-        swc_ecma_visit::visit_mut_import_star_as_specifier(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_attr(&mut self, n: &mut JSXAttr) {
-        swc_ecma_visit::visit_mut_jsx_attr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_attr_name(&mut self, n: &mut JSXAttrName) {
-        swc_ecma_visit::visit_mut_jsx_attr_name(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_attr_or_spread(&mut self, n: &mut JSXAttrOrSpread) {
-        swc_ecma_visit::visit_mut_jsx_attr_or_spread(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_attr_or_spreads(&mut self, n: &mut Vec<JSXAttrOrSpread>) {
-        swc_ecma_visit::visit_mut_jsx_attr_or_spreads(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_attr_value(&mut self, n: &mut JSXAttrValue) {
-        swc_ecma_visit::visit_mut_jsx_attr_value(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_closing_element(&mut self, n: &mut JSXClosingElement) {
-        swc_ecma_visit::visit_mut_jsx_closing_element(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_closing_fragment(&mut self, n: &mut JSXClosingFragment) {
-        swc_ecma_visit::visit_mut_jsx_closing_fragment(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_element(&mut self, n: &mut JSXElement) {
-        swc_ecma_visit::visit_mut_jsx_element(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_element_child(&mut self, n: &mut JSXElementChild) {
-        swc_ecma_visit::visit_mut_jsx_element_child(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_element_children(&mut self, n: &mut Vec<JSXElementChild>) {
-        swc_ecma_visit::visit_mut_jsx_element_children(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
-        swc_ecma_visit::visit_mut_jsx_element_name(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_empty_expr(&mut self, n: &mut JSXEmptyExpr) {
-        swc_ecma_visit::visit_mut_jsx_empty_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_expr(&mut self, n: &mut JSXExpr) {
-        swc_ecma_visit::visit_mut_jsx_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_expr_container(&mut self, n: &mut JSXExprContainer) {
-        swc_ecma_visit::visit_mut_jsx_expr_container(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_fragment(&mut self, n: &mut JSXFragment) {
-        swc_ecma_visit::visit_mut_jsx_fragment(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
-        swc_ecma_visit::visit_mut_jsx_member_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_namespaced_name(&mut self, n: &mut JSXNamespacedName) {
-        swc_ecma_visit::visit_mut_jsx_namespaced_name(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
-        swc_ecma_visit::visit_mut_jsx_object(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
-        swc_ecma_visit::visit_mut_jsx_opening_element(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_opening_fragment(&mut self, n: &mut JSXOpeningFragment) {
-        swc_ecma_visit::visit_mut_jsx_opening_fragment(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_spread_child(&mut self, n: &mut JSXSpreadChild) {
-        swc_ecma_visit::visit_mut_jsx_spread_child(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_jsx_text(&mut self, n: &mut JSXText) {
-        swc_ecma_visit::visit_mut_jsx_text(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
-        swc_ecma_visit::visit_mut_key_value_pat_prop(swc_ecma_visit, n)
-    }
+    normal!(visit_mut_getter_prop, GetterProp, key, body);
+    normal!(
+        visit_mut_import_default_specifier,
+        ImportDefaultSpecifier,
+        local
+    );
+    normal!(
+        visit_mut_import_named_specifier,
+        ImportNamedSpecifier,
+        local
+    );
+    normal!(
+        visit_mut_import_star_as_specifier,
+        ImportStarAsSpecifier,
+        local
+    );
+    normal!(visit_mut_key_value_pat_prop, KeyValuePatProp, key, value);
 
     fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
         swc_ecma_visit::visit_mut_key_value_prop(swc_ecma_visit, n)
@@ -895,32 +787,8 @@ impl VisitMut for Dce<'_> {
         swc_ecma_visit::visit_mut_meta_prop_expr(swc_ecma_visit, n)
     }
 
-    fn visit_mut_method_kind(&mut self, n: &mut MethodKind) {
-        swc_ecma_visit::visit_mut_method_kind(swc_ecma_visit, n)
-    }
-
     fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
         swc_ecma_visit::visit_mut_method_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        swc_ecma_visit::visit_mut_module(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
-        swc_ecma_visit::visit_mut_module_decl(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
-        swc_ecma_visit::visit_mut_module_item(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_null(&mut self, n: &mut Null) {
-        swc_ecma_visit::visit_mut_null(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_number(&mut self, n: &mut Number) {
-        swc_ecma_visit::visit_mut_number(swc_ecma_visit, n)
     }
 
     fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
@@ -939,111 +807,12 @@ impl VisitMut for Dce<'_> {
         swc_ecma_visit::visit_mut_object_pat_props(swc_ecma_visit, n)
     }
 
-    fn visit_mut_opt_accessibility(&mut self, n: &mut Option<Accessibility>) {
-        swc_ecma_visit::visit_mut_opt_accessibility(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_block_stmt(&mut self, n: &mut Option<BlockStmt>) {
-        swc_ecma_visit::visit_mut_opt_block_stmt(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_catch_clause(&mut self, n: &mut Option<CatchClause>) {
-        swc_ecma_visit::visit_mut_opt_catch_clause(swc_ecma_visit, n)
-    }
-
     fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {
         swc_ecma_visit::visit_mut_opt_chain_expr(swc_ecma_visit, n)
     }
 
-    fn visit_mut_opt_expr(&mut self, n: &mut Option<Box<Expr>>) {
-        swc_ecma_visit::visit_mut_opt_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_expr_or_spread(&mut self, n: &mut Option<ExprOrSpread>) {
-        swc_ecma_visit::visit_mut_opt_expr_or_spread(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_expr_or_spreads(&mut self, n: &mut Option<Vec<ExprOrSpread>>) {
-        swc_ecma_visit::visit_mut_opt_expr_or_spreads(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_ident(&mut self, n: &mut Option<Ident>) {
-        swc_ecma_visit::visit_mut_opt_ident(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_js_word(&mut self, n: &mut Option<JsWord>) {
-        swc_ecma_visit::visit_mut_opt_js_word(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_jsx_attr_value(&mut self, n: &mut Option<JSXAttrValue>) {
-        swc_ecma_visit::visit_mut_opt_jsx_attr_value(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_jsx_closing_element(&mut self, n: &mut Option<JSXClosingElement>) {
-        swc_ecma_visit::visit_mut_opt_jsx_closing_element(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_object_lit(&mut self, n: &mut Option<ObjectLit>) {
-        swc_ecma_visit::visit_mut_opt_object_lit(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_pat(&mut self, n: &mut Option<Pat>) {
-        swc_ecma_visit::visit_mut_opt_pat(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_span(&mut self, n: &mut Option<Span>) {
-        swc_ecma_visit::visit_mut_opt_span(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_stmt(&mut self, n: &mut Option<Box<Stmt>>) {
-        swc_ecma_visit::visit_mut_opt_stmt(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_str(&mut self, n: &mut Option<Str>) {
-        swc_ecma_visit::visit_mut_opt_str(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_true_plus_minus(&mut self, n: &mut Option<TruePlusMinus>) {
-        swc_ecma_visit::visit_mut_opt_true_plus_minus(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_ts_entity_name(&mut self, n: &mut Option<TsEntityName>) {
-        swc_ecma_visit::visit_mut_opt_ts_entity_name(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_ts_namespace_body(&mut self, n: &mut Option<TsNamespaceBody>) {
-        swc_ecma_visit::visit_mut_opt_ts_namespace_body(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_ts_type(&mut self, n: &mut Option<Box<TsType>>) {
-        swc_ecma_visit::visit_mut_opt_ts_type(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_ts_type_ann(&mut self, n: &mut Option<TsTypeAnn>) {
-        swc_ecma_visit::visit_mut_opt_ts_type_ann(swc_ecma_visit, n)
-    }
-
     fn visit_mut_opt_ts_type_param_decl(&mut self, n: &mut Option<TsTypeParamDecl>) {
         swc_ecma_visit::visit_mut_opt_ts_type_param_decl(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_ts_type_param_instantiation(
-        &mut self,
-        n: &mut Option<TsTypeParamInstantiation>,
-    ) {
-        swc_ecma_visit::visit_mut_opt_ts_type_param_instantiation(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
-        swc_ecma_visit::visit_mut_opt_var_decl_or_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        swc_ecma_visit::visit_mut_opt_vec_expr_or_spreads(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_opt_vec_pats(&mut self, n: &mut Vec<Option<Pat>>) {
-        swc_ecma_visit::visit_mut_opt_vec_pats(swc_ecma_visit, n)
     }
 
     fn visit_mut_param(&mut self, n: &mut Param) {
@@ -1058,24 +827,12 @@ impl VisitMut for Dce<'_> {
         swc_ecma_visit::visit_mut_param_or_ts_param_props(swc_ecma_visit, n)
     }
 
-    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
-        swc_ecma_visit::visit_mut_params(swc_ecma_visit, n)
-    }
-
     fn visit_mut_paren_expr(&mut self, n: &mut ParenExpr) {
         swc_ecma_visit::visit_mut_paren_expr(swc_ecma_visit, n)
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         swc_ecma_visit::visit_mut_pat(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
-        swc_ecma_visit::visit_mut_pat_or_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_pats(&mut self, n: &mut Vec<Pat>) {
-        swc_ecma_visit::visit_mut_pats(swc_ecma_visit, n)
     }
 
     fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
@@ -1090,16 +847,8 @@ impl VisitMut for Dce<'_> {
         swc_ecma_visit::visit_mut_private_prop(swc_ecma_visit, n)
     }
 
-    fn visit_mut_program(&mut self, n: &mut Program) {
-        swc_ecma_visit::visit_mut_program(swc_ecma_visit, n)
-    }
-
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         swc_ecma_visit::visit_mut_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        swc_ecma_visit::visit_mut_prop_name(swc_ecma_visit, n)
     }
 
     fn visit_mut_prop_or_spread(&mut self, n: &mut PropOrSpread) {
@@ -1162,10 +911,6 @@ impl VisitMut for Dce<'_> {
         swc_ecma_visit::visit_mut_tagged_tpl(swc_ecma_visit, n)
     }
 
-    fn visit_mut_this_expr(&mut self, n: &mut ThisExpr) {
-        swc_ecma_visit::visit_mut_this_expr(swc_ecma_visit, n)
-    }
-
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
         swc_ecma_visit::visit_mut_tpl(swc_ecma_visit, n)
     }
@@ -1174,24 +919,29 @@ impl VisitMut for Dce<'_> {
         swc_ecma_visit::visit_mut_tpl_element(swc_ecma_visit, n)
     }
 
-    fn visit_mut_tpl_elements(&mut self, n: &mut Vec<TplElement>) {
-        swc_ecma_visit::visit_mut_tpl_elements(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
-        swc_ecma_visit::visit_mut_var_decl_or_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
-        swc_ecma_visit::visit_mut_var_decl_or_pat(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
-        swc_ecma_visit::visit_mut_with_stmt(swc_ecma_visit, n)
-    }
-
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         swc_ecma_visit::visit_mut_yield_expr(swc_ecma_visit, n)
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        swc_ecma_visit::visit_mut_prop_name(swc_ecma_visit, n)
+    }
+
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if self.is_marked(node.span) {
+            return;
+        }
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.included(node.ident.span())
+            || self.is_marked(node.ident.span())
+            || self.is_marked(node.class.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            self.mark(&mut node.ident);
+            self.mark(&mut node.class);
+        }
     }
 }
 
