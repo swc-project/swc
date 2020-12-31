@@ -740,34 +740,11 @@ impl VisitMut for Dce<'_> {
     normal!(visit_mut_class, Class, [super_class], [decorators, body]);
     normal!(visit_mut_class_expr, ClassExpr, ident, class);
     normal!(visit_mut_class_decl, ClassDecl, ident, class);
-
-    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
-        swc_ecma_visit::visit_mut_class_method(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
-        swc_ecma_visit::visit_mut_class_prop(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_computed_prop_name(&mut self, n: &mut ComputedPropName) {
-        swc_ecma_visit::visit_mut_computed_prop_name(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
-        swc_ecma_visit::visit_mut_cond_expr(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        swc_ecma_visit::visit_mut_constructor(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_debugger_stmt(&mut self, n: &mut DebuggerStmt) {
-        swc_ecma_visit::visit_mut_debugger_stmt(swc_ecma_visit, n)
-    }
-
-    fn visit_mut_decl(&mut self, n: &mut Decl) {
-        swc_ecma_visit::visit_mut_decl(swc_ecma_visit, n)
-    }
+    normal!(visit_mut_class_method, ClassMethod, key, function);
+    normal!(visit_mut_class_prop, ClassProp, [key, value], [decorators]);
+    normal!(visit_mut_computed_prop_name, ComputedPropName, expr);
+    normal!(visit_mut_cond_expr, CondExpr, test, cons, alt);
+    normal!(visit_mut_constructor, Constructor, [key, body], [params,]);
 
     fn visit_mut_decorator(&mut self, n: &mut Decorator) {
         swc_ecma_visit::visit_mut_decorator(swc_ecma_visit, n)
