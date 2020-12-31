@@ -145,13 +145,13 @@ macro_rules! normal {
         $T:ty,
         $($singluar_props:ident),*
     ) => {
-        normal!($name, $T, $($singluar_props),*, []);
+        normal!($name, $T, [$($singluar_props),*], []);
     };
 
     (
         $name:ident,
         $T:ty,
-        $($singluar_props:ident),*,
+        [$($singluar_props:ident),*],
         [$($array_like_props:ident),*]
     ) => {
         fn $name(&mut self, node: &mut $T) {
@@ -741,88 +741,11 @@ impl VisitMut for Dce<'_> {
         self.visit_mut_stmt_like(n)
     }
 
-    fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase
-            || n.elems.iter().any(|elem| {
-                elem.map(|elem| self.is_marked(elem.expr.span()))
-                    .unwrap_or(false)
-            })
-        {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.elems);
-        }
-    }
-
-    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase
-            || n.elems
-                .iter()
-                .any(|elem| elem.map(|pat| self.is_marked(pat.span())).unwrap_or(false))
-        {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.elems);
-        }
-    }
-
-    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase || self.has_marked_elem(&n.params) || self.is_marked(&n.body) {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.params);
-            self.mark(&mut n.body);
-        }
-    }
-
-    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase || self.is_marked(&n.left) || self.is_marked(&n.right) {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.left);
-            self.mark(&mut n.right);
-        }
-    }
-
-    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase || self.is_marked(&n.left) || self.is_marked(&n.right) {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.left);
-            self.mark(&mut n.right);
-        }
-    }
-
+    normal!(visit_mut_array_lit, ArrayLit, [], [elems]);
+    normal!(visit_mut_array_pat, ArrayPat, [], [elems]);
+    normal!(visit_mut_arrow_expr, ArrowExpr, [body], [params]);
+    normal!(visit_mut_assign_expr, AssignExpr, left, right);
+    normal!(visit_mut_assign_pat, AssignPat, left, right);
     normal!(visit_mut_assign_pat_prop, AssignPatProp, key, value);
     normal!(visit_mut_assign_prop, AssignProp, key, value);
     normal!(visit_mut_await_expr, AwaitExpr, arg);
