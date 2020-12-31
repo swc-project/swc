@@ -139,6 +139,50 @@ impl Repeated for Dce<'_> {
     }
 }
 
+macro_rules! normal {
+    (
+        $name:ident,
+        $T:ty,
+        $($singluar_props:ident),*
+    ) => {
+        normal!($name, $T, $($singluar_props),*, []);
+    };
+
+    (
+        $name:ident,
+        $T:ty,
+        $($singluar_props:ident),*,
+        [$($array_like_props:ident),*]
+    ) => {
+        fn $name(&mut self, node: &mut $T) {
+            if self.is_marked(node.span) {
+                return;
+            }
+
+            node.visit_mut_children_with(self);
+
+            if self.marking_phase
+                $(
+                    || self.is_marked(self.$singluar_props.span())
+                )*
+                $(
+                    || self.cotnains_marked_elem(self.$array_like_props.span())
+                )*
+            {
+                node.span = node.span.apply_mark(self.config.used_mark);
+
+                $(
+                    self.mark(&mut self.$singluar_props);
+                )*
+
+                $(
+                    self.mark(&mut self.$array_like_props);
+                )*
+            }
+        }
+    };
+}
+
 impl VisitMut for Dce<'_> {
     noop_visit_mut_type!();
 
@@ -779,53 +823,10 @@ impl VisitMut for Dce<'_> {
         }
     }
 
-    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase || self.is_marked(&n.key) || self.is_marked(&n.value) {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.key);
-            self.mark(&mut n.value);
-        }
-    }
-
-    fn visit_mut_assign_prop(&mut self, n: &mut AssignProp) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase || self.is_marked(&n.key) || self.is_marked(&n.value) {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.key);
-            self.mark(&mut n.value);
-        }
-    }
-
-    fn visit_mut_await_expr(&mut self, n: &mut AwaitExpr) {
-        if self.is_marked(n.span) {
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
-        if self.marking_phase || self.is_marked(&n.arg) {
-            n.span = n.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut n.arg);
-        }
-    }
-
-    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
-        swc_ecma_visit::visit_mut_catch_clause(swc_ecma_visit, n)
-    }
+    normal!(visit_mut_assign_pat_prop, AssignPatProp, key, value);
+    normal!(visit_mut_assign_prop, AssignProp, key, value);
+    normal!(visit_mut_await_expr, AwaitExpr, arg);
+    normal!(visit_mut_catch_clause, CatchClause, param, body);
 
     fn visit_mut_class(&mut self, n: &mut Class) {
         swc_ecma_visit::visit_mut_class(swc_ecma_visit, n)
