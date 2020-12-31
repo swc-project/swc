@@ -793,7 +793,7 @@ impl VisitMut for Dce<'_> {
     normal!(visit_mut_opt_chain_expr, OptChainExpr, expr);
     normal!(visit_mut_param, Param, [pat], [decorators]);
     normal!(visit_mut_paren_expr, ParenExpr, expr);
-    normal!(visit_mut_private_method, PrivateMethod, key, funciton);
+    normal!(visit_mut_private_method, PrivateMethod, key, function);
 
     fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
         swc_ecma_visit::visit_mut_private_name(swc_ecma_visit, n)
