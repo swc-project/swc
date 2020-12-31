@@ -779,7 +779,18 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
-        swc_ecma_visit::visit_mut_assign_pat_prop(swc_ecma_visit, n)
+        if self.is_marked(n.span) {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+
+        if self.marking_phase || self.is_marked(&n.key) || self.is_marked(&n.value) {
+            n.span = n.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut n.key);
+            self.mark(&mut n.value);
+        }
     }
 
     fn visit_mut_assign_prop(&mut self, n: &mut AssignProp) {
