@@ -626,6 +626,21 @@ impl VisitMut for Dce<'_> {
         }
     }
 
+    fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase || self.is_marked(node.left.span()) || self.is_marked(node.right.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.left);
+            self.mark(&mut node.right);
+        }
+    }
+
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         if self.is_marked(node.span) {
             return;
