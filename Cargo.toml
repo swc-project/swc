@@ -38,7 +38,7 @@ swc_visit = {version = "0.2", path = "./visit"}
 
 [dev-dependencies]
 rayon = "1"
-testing = {path = "./testing"}
+testing = {version = "0.10", path = "./testing"}
 walkdir = "2"
 
 [[example]]
