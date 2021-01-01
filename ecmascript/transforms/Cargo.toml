@@ -37,6 +37,7 @@ smallvec = "1"
 swc_atoms = {version = "0.2.0", path = "../../atoms"}
 swc_common = {version = "0.10.0", path = "../../common"}
 swc_ecma_ast = {version = "0.36.0", path = "../ast"}
+swc_ecma_optimizer = {version = "0.1.0", path = "../optimzer"}
 swc_ecma_parser = {version = "0.44.0", path = "../parser"}
 swc_ecma_transforms_macros = {version = "0.1.1", path = "./macros"}
 swc_ecma_utils = {version = "0.26.0", path = "../utils"}
