@@ -1,28 +1,27 @@
-use swc_ecma_utils::ModuleItemLike;
+use swc_ecma_ast::*;
+
+#[derive(Debug)]
+pub(crate) enum BlockData {
+    ModuleItems(Vec<ModuleItem>),
+    Stmts(Vec<Stmt>),
+}
 
 /// Basic block.
 #[derive(Debug)]
-pub struct Block<T>
-where
-    T: ModuleItemLike,
-{
-    stmts: Vec<T>,
+pub(crate) struct Block {
+    data: BlockData,
 }
 
-impl<T> Default for Block<T>
-where
-    T: ModuleItemLike,
-{
+impl Default for Block {
     fn default() -> Self {
-        Block { stmts: vec![] }
+        Block {
+            data: BlockData::ModuleItems(vec![]),
+        }
     }
 }
 
-impl<T> Block<T>
-where
-    T: ModuleItemLike,
-{
-    pub fn into_inner(self) -> Vec<T> {
-        self.stmts
+impl Block {
+    pub fn into_inner(self) -> BlockData {
+        self.data
     }
 }
