@@ -1,7 +1,6 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 use swc_ecma_ast::*;
-use swc_ecma_utils::Value;
 
 #[derive(Debug, Clone)]
 pub(crate) enum JumpCond<'a> {

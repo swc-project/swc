@@ -11,6 +11,8 @@ use std::rc::Rc;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 
+pub mod traversal;
+
 /// This struct is required for optimizaiotn.
 #[derive(Debug)]
 pub struct ControlFlowGraph<'cfg> {
@@ -22,6 +24,8 @@ pub struct ControlFlowGraph<'cfg> {
     exprs: Vec<ExprData<'cfg>>,
 
     module_items: &'cfg [ModuleItem],
+
+    blocks_by_index: FxHashMap<usize, BlockId>,
 }
 
 /// Public apis.
@@ -42,8 +46,11 @@ impl<'cfg> ControlFlowGraph<'cfg> {
             },
         };
 
-        for stmt in module_items {
-            analyzer.emit_module_item(stmt);
+        let mut blocks_by_index = FxHashMap::default();
+        for (idx, stmt) in module_items.iter().enumerate() {
+            let block_id = analyzer.emit_module_item(stmt);
+
+            blocks_by_index.insert(idx, block_id);
         }
         let last = analyzer.cur_id;
         analyzer.blocks.insert(last, analyzer.cur);
@@ -54,10 +61,13 @@ impl<'cfg> ControlFlowGraph<'cfg> {
             start: cur_id,
             exprs: analyzer.exprs,
             module_items,
+            blocks_by_index,
         }
     }
 
-    pub fn take(self) {}
+    pub fn apply(self, actual: &mut [ModuleItem]) {
+        assert_eq!(actual.len(), self.module_items.len());
+    }
 }
 #[derive(Debug)]
 struct Analyzer<'cfg, 'a> {
