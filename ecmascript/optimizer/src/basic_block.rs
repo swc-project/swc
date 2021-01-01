@@ -9,6 +9,15 @@ where
     stmts: Vec<T>,
 }
 
+impl<T> Default for Block<T>
+where
+    T: ModuleItemLike,
+{
+    fn default() -> Self {
+        Block { stmts: vec![] }
+    }
+}
+
 impl<T> Block<T>
 where
     T: ModuleItemLike,
