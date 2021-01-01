@@ -1,10 +1,11 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Extensions for @swc/core (nodejs)"
+documentation = "https://swc.rs/rustdoc/swc_ecma_ext_transforms/"
 edition = "2018"
+license = "Apache-2.0/MIT"
 name = "swc_ecma_ext_transforms"
-publish = false
-version = "0.0.0"
+version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
