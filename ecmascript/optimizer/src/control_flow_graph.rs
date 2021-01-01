@@ -10,7 +10,6 @@ use std::mem::take;
 use std::rc::Rc;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
-use swc_ecma_utils::Value;
 
 /// This struct is required for optimizaiotn.
 #[derive(Debug)]
@@ -21,11 +20,13 @@ pub struct ControlFlowGraph<'cfg> {
     start: BlockId,
 
     exprs: Vec<ExprData<'cfg>>,
+
+    module_items: &'cfg [ModuleItem],
 }
 
 /// Public apis.
 impl<'cfg> ControlFlowGraph<'cfg> {
-    pub fn anaylze(stmts: &'cfg [ModuleItem]) -> Self {
+    pub fn anaylze(module_items: &'cfg [ModuleItem]) -> Self {
         let mut id_gen = BlockIdGenerator::default();
         let cur_id = id_gen.generate();
         let mut analyzer = Analyzer {
@@ -41,7 +42,7 @@ impl<'cfg> ControlFlowGraph<'cfg> {
             },
         };
 
-        for stmt in stmts {
+        for stmt in module_items {
             analyzer.emit_module_item(stmt);
         }
         let last = analyzer.cur_id;
@@ -52,6 +53,7 @@ impl<'cfg> ControlFlowGraph<'cfg> {
             next: analyzer.next,
             start: cur_id,
             exprs: analyzer.exprs,
+            module_items,
         }
     }
 
