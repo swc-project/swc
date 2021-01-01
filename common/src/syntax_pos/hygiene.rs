@@ -16,11 +16,10 @@
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
 use super::GLOBALS;
+use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use std::{
-    collections::{HashMap, HashSet},
-    fmt,
-};
+use std::fmt;
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
@@ -123,7 +122,7 @@ impl Mark {
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
         HygieneData::with(|data| {
             // Compute the path from a to the root
-            let mut a_path = HashSet::<Mark>::default();
+            let mut a_path = FxHashSet::<Mark>::default();
             while a != Mark::root() {
                 a_path.insert(a);
                 a = data.marks[a.0 as usize].parent;
@@ -143,7 +142,7 @@ impl Mark {
 pub(crate) struct HygieneData {
     marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
-    markings: HashMap<(SyntaxContext, Mark), SyntaxContext>,
+    markings: FxHashMap<(SyntaxContext, Mark), SyntaxContext>,
 }
 
 impl Default for HygieneData {
@@ -167,7 +166,7 @@ impl HygieneData {
                 opaque: SyntaxContext(0),
                 opaque_and_semitransparent: SyntaxContext(0),
             }],
-            markings: HashMap::default(),
+            markings: FxHashMap::default(),
         }
     }
 
