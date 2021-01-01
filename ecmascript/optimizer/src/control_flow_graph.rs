@@ -17,24 +17,50 @@ use swc_ecma_utils::Value;
 pub struct ControlFlowGraph<'cfg> {
     blocks: FxHashMap<BlockId, Block<'cfg>>,
 
-    next: FxHashMap<BlockId, Vec<BlockId>>,
+    next: FxHashMap<BlockId, Vec<(BlockId, JumpCond<'cfg>)>>,
     start: BlockId,
 
-    stmts: &'cfg [ModuleItem],
     exprs: Vec<ExprData<'cfg>>,
 }
 
 /// Public apis.
 impl<'cfg> ControlFlowGraph<'cfg> {
     pub fn anaylze(stmts: &'cfg [ModuleItem]) -> Self {
-        let mut analyzer = Analyzer {};
+        let mut id_gen = BlockIdGenerator::default();
+        let cur_id = id_gen.generate();
+        let mut analyzer = Analyzer {
+            blocks: Default::default(),
+            next: Default::default(),
+            exprs: Default::default(),
+            id_gen: Rc::new(RefCell::new(id_gen)),
+            cur_id,
+            cur: Default::default(),
+            scope: Scope {
+                parent: None,
+                ids_by_label: Default::default(),
+            },
+        };
+
+        for stmt in stmts {
+            analyzer.emit_module_item(stmt);
+        }
+        let last = analyzer.cur_id;
+        analyzer.blocks.insert(last, analyzer.cur);
+
+        Self {
+            blocks: analyzer.blocks,
+            next: analyzer.next,
+            start: cur_id,
+            exprs: analyzer.exprs,
+        }
     }
 
     pub fn take(self) {}
 }
 #[derive(Debug)]
-struct Anaylzer<'cfg, 'a> {
-    next: FxHashMap<BlockId, Vec<(BlockId, Option<JumpCond<'cfg>>)>>,
+struct Analyzer<'cfg, 'a> {
+    blocks: FxHashMap<BlockId, Block<'cfg>>,
+    next: FxHashMap<BlockId, Vec<(BlockId, JumpCond<'cfg>)>>,
     exprs: Vec<ExprData<'cfg>>,
     id_gen: Rc<RefCell<BlockIdGenerator>>,
     cur_id: BlockId,
@@ -43,10 +69,10 @@ struct Anaylzer<'cfg, 'a> {
     scope: Scope<'a>,
 }
 
-impl<'cfg, 'a> Anaylzer<'cfg, 'a> {
+impl<'cfg, 'a> Analyzer<'cfg, 'a> {
     fn with_child<F, Ret>(&mut self, op: F) -> Ret
     where
-        F: FnOnce(&mut Anaylzer) -> Ret,
+        F: FnOnce(&mut Analyzer) -> Ret,
     {
         let child_scope = self.scope.child();
 
@@ -55,8 +81,9 @@ impl<'cfg, 'a> Anaylzer<'cfg, 'a> {
         let exprs = take(&mut self.exprs);
         let cur_id = self.cur_id;
 
-        let (ret, cur_id, cur, next, exprs) = {
-            let mut child = Anaylzer {
+        let (ret, blocks, cur_id, cur, next, exprs) = {
+            let mut child = Analyzer {
+                blocks: Default::default(),
                 id_gen: self.id_gen.clone(),
                 scope: child_scope,
                 cur,
@@ -66,8 +93,17 @@ impl<'cfg, 'a> Anaylzer<'cfg, 'a> {
             };
             let ret = op(&mut child);
 
-            (ret, child.cur_id, child.cur, child.next, child.exprs)
+            (
+                ret,
+                child.blocks,
+                child.cur_id,
+                child.cur,
+                child.next,
+                child.exprs,
+            )
         };
+
+        self.blocks.extend(blocks);
 
         self.cur_id = cur_id;
         self.cur = cur;
@@ -93,14 +129,20 @@ impl<'a> Scope<'a> {
     }
 }
 
-impl<'cfg> Anaylzer<'cfg, '_> {
-    fn jump_cond(&mut self, test: ExprData<'cfg>, to: BlockId, if_true: bool) {
+impl<'cfg> Analyzer<'cfg, '_> {
+    fn jump(&mut self, cond: JumpCond<'cfg>, to: BlockId) {
         let from = self.cur_id;
 
-        self.next
-            .entry(from)
-            .or_default()
-            .push((to, Some(JumpCond::Cond { test, if_true })));
+        let cur = take(&mut self.cur);
+        self.blocks.insert(from, cur);
+
+        self.cur_id = self.id_gen.borrow_mut().generate();
+
+        self.next.entry(from).or_default().push((to, cond));
+    }
+
+    fn jump_cond(&mut self, test: ExprData<'cfg>, to: BlockId, if_true: bool) {
+        self.jump(JumpCond::Cond { test, if_true }, to)
     }
 
     fn jump_if(&mut self, test: ExprData<'cfg>, to: BlockId) {
@@ -109,6 +151,14 @@ impl<'cfg> Anaylzer<'cfg, '_> {
 
     fn jump_if_not(&mut self, test: ExprData<'cfg>, to: BlockId) {
         self.jump_cond(test, to, false);
+    }
+
+    fn emit_module_item(&mut self, item: &'cfg ModuleItem) -> BlockId {
+        match item {
+            // TODO
+            ModuleItem::ModuleDecl(_) => self.cur_id,
+            ModuleItem::Stmt(s) => self.emit_stmt(s),
+        }
     }
 
     /// Add statement to control flow graph.
@@ -142,12 +192,10 @@ impl<'cfg> Anaylzer<'cfg, '_> {
     }
 
     fn emit_if_stmt(&mut self, s: &'cfg IfStmt) {
-        let start = self.cur_id;
-
         let test = self.emit_expr(&s.test);
 
         let cons = self.emit_stmt(&s.cons);
-        self.jump_if(test, cons);
+        self.jump_if(test.clone(), cons);
 
         if let Some(alt) = &s.alt {
             let alt = self.emit_stmt(&alt);
