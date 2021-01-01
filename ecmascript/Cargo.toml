@@ -11,6 +11,7 @@ version = "0.16.1"
 [features]
 codegen = ["swc_ecma_codegen"]
 dep_graph = ["swc_ecma_dep_graph"]
+optimizer = ["swc_ecma_optimizer"]
 parser = ["swc_ecma_parser"]
 transforms = ["swc_ecma_transforms"]
 utils = ["swc_ecma_utils"]
@@ -23,6 +24,7 @@ react = ["swc_ecma_transforms", "swc_ecma_transforms/react"]
 swc_ecma_ast = {version = "0.36.0", path = "./ast"}
 swc_ecma_codegen = {version = "0.42.0", path = "./codegen", optional = true}
 swc_ecma_dep_graph = {version = "0.11.0", path = "./dep-graph", optional = true}
+swc_ecma_optimizer = {version = "0.1.0", path = "./optimizer", optional = true}
 swc_ecma_parser = {version = "0.44.0", path = "./parser", optional = true}
 swc_ecma_transforms = {version = "0.31.0", path = "./transforms", optional = true}
 swc_ecma_utils = {version = "0.26.0", path = "./utils", optional = true}
