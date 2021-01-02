@@ -6,13 +6,20 @@ use crate::block_id::BlockId;
 use crate::block_id::BlockIdGenerator;
 use crate::mutations::Mutations;
 use fxhash::FxHashMap;
+use petgraph::graphmap::DiGraphMap;
 use std::cell::RefCell;
 use std::mem::take;
 use std::rc::Rc;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 
-pub mod traversal;
+pub(crate) mod traversal;
+
+/// Actual `control flow` part of the control flow graph.
+///
+/// This type is used instead of hashmap to reduce work related to implementing
+/// visitors/
+pub(crate) type BlockGraph<'cfg> = DiGraphMap<BlockId, Vec<JumpCond<'cfg>>>;
 
 /// This struct is required for optimizaiotn.
 #[derive(Debug)]
@@ -21,7 +28,7 @@ pub struct ControlFlowGraph<'cfg> {
 
     blocks: FxHashMap<BlockId, Block<'cfg>>,
 
-    next: FxHashMap<BlockId, Vec<(BlockId, JumpCond<'cfg>)>>,
+    next: BlockGraph<'cfg>,
     start: BlockId,
 
     exprs: Vec<ExprData<'cfg>>,
@@ -69,17 +76,11 @@ impl<'cfg> ControlFlowGraph<'cfg> {
             mutations: Default::default(),
         }
     }
-
-    pub fn apply(self, to: &mut Module) {
-        assert_eq!(to.body.len(), self.module_items.len());
-
-        self.mutations.apply(to);
-    }
 }
 #[derive(Debug)]
 struct Analyzer<'cfg, 'a> {
     blocks: FxHashMap<BlockId, Block<'cfg>>,
-    next: FxHashMap<BlockId, Vec<(BlockId, JumpCond<'cfg>)>>,
+    next: BlockGraph<'cfg>,
     exprs: Vec<ExprData<'cfg>>,
     id_gen: Rc<RefCell<BlockIdGenerator>>,
     cur_id: BlockId,
@@ -157,7 +158,11 @@ impl<'cfg> Analyzer<'cfg, '_> {
 
         self.cur_id = self.id_gen.borrow_mut().generate();
 
-        self.next.entry(from).or_default().push((to, cond));
+        if let Some(edge) = self.next.edge_weight_mut(from, to) {
+            edge.push(cond);
+        } else {
+            self.next.add_edge(from, to, vec![cond]);
+        }
     }
 
     fn jump_cond(&mut self, test: ExprData<'cfg>, to: BlockId, if_true: bool) {
