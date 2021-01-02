@@ -1,9 +1,12 @@
 use self::ops::{Operations, Operator};
+use crate::native::is_native;
+use crate::native::is_native_word;
 use crate::scope::IdentType;
 use crate::scope::ScopeKind;
 use fxhash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
+use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::{chain, SyntaxContext};
 use swc_ecma_ast::*;
