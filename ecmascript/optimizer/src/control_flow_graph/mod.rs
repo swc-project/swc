@@ -65,6 +65,8 @@ impl<'cfg> ControlFlowGraph<'cfg> {
         }
         analyzer.bump();
 
+        dbg!(&analyzer.blocks);
+
         Self {
             blocks: analyzer.blocks,
             next: analyzer.next,
@@ -160,8 +162,6 @@ impl<'cfg> Analyzer<'cfg, '_> {
     }
 
     fn jump(&mut self, from: BlockId, cond: JumpCond<'cfg>, to: BlockId) {
-        self.bump();
-
         assert_ne!(
             from, to,
             "control flow grapg: anaylzer: should not jump to itself"
@@ -214,7 +214,10 @@ impl<'cfg> Analyzer<'cfg, '_> {
             Stmt::ForIn(_) => {}
             Stmt::ForOf(_) => {}
             Stmt::Decl(_) => {}
-            Stmt::Expr(_) => {}
+            Stmt::Expr(expr_stmt) => {
+                self.emit_expr(&expr_stmt.expr);
+                self.cur.push(Item::Stmt(s))
+            }
         }
 
         start
@@ -230,6 +233,7 @@ impl<'cfg> Analyzer<'cfg, '_> {
         self.jump_if(start, test.clone(), cons);
 
         if let Some(alt) = &s.alt {
+            self.bump();
             let alt = self.emit_stmt(&alt);
             self.jump_if_not(start, test, alt);
         }
