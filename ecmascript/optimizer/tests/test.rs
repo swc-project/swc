@@ -90,6 +90,7 @@ fn run_test(input: PathBuf, mode: Mode, config: OptimizerConfig) {
                 return Err(());
             }
         };
+        let input = print(cm.clone(), &module);
 
         optimize(&mut module, config);
 
@@ -101,7 +102,7 @@ fn run_test(input: PathBuf, mode: Mode, config: OptimizerConfig) {
                     .compare_to_file(output_path)
                     .unwrap();
             }
-            Mode::Noop => assert_eq!(DebugUsingDisplay(&*output), DebugUsingDisplay(&**fm.src)),
+            Mode::Noop => assert_eq!(DebugUsingDisplay(&*output), DebugUsingDisplay(&*input)),
             Mode::OptimziedOut => assert_eq!(DebugUsingDisplay(&*output), DebugUsingDisplay("")),
         }
 
@@ -124,7 +125,7 @@ fn print(cm: Lrc<SourceMap>, m: &Module) -> String {
         emitter.emit_module(m).unwrap();
     }
 
-    String::from_utf8_lossy(&buf).to_string()
+    String::from_utf8_lossy(&buf).trim().to_string()
 }
 
 #[derive(PartialEq, Eq)]
