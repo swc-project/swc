@@ -20,8 +20,6 @@ pub use swc_ecma_transforms_base::resolver;
 mod macros;
 #[macro_use]
 mod quote;
-#[macro_use]
-pub mod helpers;
 pub mod compat;
 mod const_modules;
 pub mod modules;
