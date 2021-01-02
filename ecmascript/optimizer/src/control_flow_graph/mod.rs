@@ -150,13 +150,24 @@ impl<'a> Scope<'a> {
 }
 
 impl<'cfg> Analyzer<'cfg, '_> {
-    fn jump(&mut self, cond: JumpCond<'cfg>, to: BlockId) {
+    /// Bumps the current id.
+    fn bump(&mut self) {
         let from = self.cur_id;
 
         let cur = take(&mut self.cur);
         self.blocks.insert(from, cur);
 
         self.cur_id = self.id_gen.borrow_mut().generate();
+    }
+
+    fn jump(&mut self, cond: JumpCond<'cfg>, to: BlockId) {
+        let from = self.cur_id;
+        self.bump();
+
+        assert_ne!(
+            from, to,
+            "control flow grapg: anaylzer: should not jump to itself"
+        );
 
         self.next.entry(from).or_default().push((to, cond));
     }
@@ -213,6 +224,8 @@ impl<'cfg> Analyzer<'cfg, '_> {
 
     fn emit_if_stmt(&mut self, s: &'cfg IfStmt) {
         let test = self.emit_expr(&s.test);
+
+        self.bump();
 
         let cons = self.emit_stmt(&s.cons);
         self.jump_if(test.clone(), cons);
