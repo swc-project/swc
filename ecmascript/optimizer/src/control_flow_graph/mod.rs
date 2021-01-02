@@ -19,7 +19,7 @@ pub(crate) mod traversal;
 ///
 /// This type is used instead of hashmap to reduce work related to implementing
 /// visitors/
-pub(crate) type BlockGraph<'cfg> = DiGraphMap<BlockId, Vec<JumpCond<'cfg>>>;
+pub(crate) type BlockGraph<'cfg> = FxHashMap<BlockId, Vec<(BlockId, JumpCond<'cfg>)>>;
 
 /// This struct is required for optimizaiotn.
 #[derive(Debug)]
@@ -158,11 +158,7 @@ impl<'cfg> Analyzer<'cfg, '_> {
 
         self.cur_id = self.id_gen.borrow_mut().generate();
 
-        if let Some(edge) = self.next.edge_weight_mut(from, to) {
-            edge.push(cond);
-        } else {
-            self.next.add_edge(from, to, vec![cond]);
-        }
+        self.next.entry(from).or_default().push((to, cond));
     }
 
     fn jump_cond(&mut self, test: ExprData<'cfg>, to: BlockId, if_true: bool) {

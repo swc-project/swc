@@ -11,7 +11,7 @@ mod control_flow_graph;
 mod dce;
 mod mutations;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Default, Clone, Copy)]
 pub struct OptimizerConfig {
     pub dce: bool,
 }
