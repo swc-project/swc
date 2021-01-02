@@ -10,6 +10,7 @@ version = "0.1.0"
 
 [dependencies]
 fxhash = "0.2.1"
+phf = { version = "0.8.0", features = ["macros"] }
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2", path = "../../../atoms"}
 swc_common = {version = "0.10", path = "../../../common"}
