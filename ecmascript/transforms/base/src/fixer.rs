@@ -675,12 +675,16 @@ fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
 
 #[cfg(test)]
 mod tests {
-    use crate::pass::noop;
+    fn run_test(from: &str, to: &str) {
+        todo!()
+    }
 
     macro_rules! test_fixer {
         ($name:ident, $from:literal, $to:literal) => {
-            // We use noop because fixer is invoked by tests::apply_transform.
-            test!(Default::default(), |_| noop(), $name, $from, $to);
+            #[test]
+            fn $name() {
+                run_test($from, $to);
+            }
         };
     }
 

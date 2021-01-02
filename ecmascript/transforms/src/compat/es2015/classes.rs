@@ -4,7 +4,6 @@ use self::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
         ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
     },
-    native::is_native,
     prop_name::HashKey,
 };
 use crate::util::{
@@ -20,7 +19,6 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 #[macro_use]
 mod macros;
 mod constructor;
-pub(crate) mod native;
 mod prop_name;
 mod super_field;
 

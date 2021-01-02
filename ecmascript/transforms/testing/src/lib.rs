@@ -166,13 +166,8 @@ macro_rules! test_transform {
     }};
 }
 
-pub(crate) fn test_transform<F, P>(
-    syntax: Syntax,
-    tr: F,
-    input: &str,
-    expected: &str,
-    ok_if_code_eq: bool,
-) where
+pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, ok_if_code_eq: bool)
+where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
@@ -237,7 +232,7 @@ pub(crate) fn test_transform<F, P>(
 }
 
 #[derive(PartialEq, Eq)]
-pub(crate) struct DebugUsingDisplay<'a>(pub &'a str);
+pub struct DebugUsingDisplay<'a>(pub &'a str);
 impl<'a> fmt::Debug for DebugUsingDisplay<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(self.0, f)
@@ -275,7 +270,7 @@ macro_rules! exec_tr {
     }};
 }
 
-pub(crate) fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
+pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -409,7 +404,7 @@ impl Fold for Normalizer {
     }
 }
 
-pub(crate) struct HygieneVisualizer;
+pub struct HygieneVisualizer;
 impl Fold for HygieneVisualizer {
     fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {

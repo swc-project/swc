@@ -120,7 +120,7 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = validate!(module)
+        let module = module
             .fold_with(&mut tr)
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
@@ -131,7 +131,7 @@ impl<'a> Tester<'a> {
     }
 
     pub fn print(&mut self, module: &Module) -> String {
-        let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+        let mut buf = vec![];
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
@@ -139,7 +139,7 @@ impl<'a> Tester<'a> {
                 wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
-                    &mut wr,
+                    &mut buf,
                     None,
                 )),
                 comments: None,
@@ -149,8 +149,17 @@ impl<'a> Tester<'a> {
             emitter.emit_module(&module).unwrap();
         }
 
-        let r = wr.0.read().unwrap();
-        let s = String::from_utf8_lossy(&*r);
+        let s = String::from_utf8_lossy(&buf);
         s.to_string()
+    }
+}
+
+pub(crate) struct HygieneVisualizer;
+impl Fold for HygieneVisualizer {
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
+        Ident {
+            sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
+            ..ident
+        }
     }
 }

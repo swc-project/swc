@@ -1,14 +1,7 @@
 use super::*;
-use crate::{
-    compat::{
-        es2015::{block_scoping, classes, destructuring},
-        es2020::class_properties,
-    },
-    modules::common_js::common_js,
-};
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 
 struct TsHygiene {
     top_level_mark: Mark,
@@ -70,15 +63,25 @@ fn ts() -> Syntax {
     })
 }
 
+fn run_test(syntax: Syntax, tr: impl Fold, src: &str, to: &str) {
+    todo!()
+}
+
 macro_rules! to_ts {
     ($name:ident, $src:literal, $to:literal) => {
-        test!(ts(), |_| ts_tr(), $name, $src, $to, ok_if_code_eq);
+        #[test]
+        fn $name() {
+            run_test(ts(), ts_tr(), $src, $to);
+        }
     };
 }
 
 macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
-        test!(syntax(), |_| tr(), $name, $src, $to);
+        #[test]
+        fn $name() {
+            run_test(syntax(), tr(), $src, $to);
+        }
     };
 }
 
