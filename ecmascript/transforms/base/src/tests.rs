@@ -1,12 +1,5 @@
-use crate::helpers::{inject_helpers, HELPERS};
-use std::{
-    fmt,
-    fs::{create_dir_all, remove_dir_all, OpenOptions},
-    io::{self, Write},
-    path::Path,
-    process::Command,
-    sync::{Arc, RwLock},
-};
+use crate::helpers::HELPERS;
+use std::fmt;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
 };
@@ -36,7 +29,7 @@ impl<'a> Tester<'a> {
         F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
-            crate::util::HANDLER.set(handler, || {
+            swc_ecma_utils::HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
                     op(&mut Tester {
                         cm,
@@ -160,6 +153,27 @@ impl Fold for HygieneVisualizer {
         Ident {
             sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
             ..ident
+        }
+    }
+}
+
+struct Normalizer;
+impl Fold for Normalizer {
+    fn fold_pat_or_expr(&mut self, mut n: PatOrExpr) -> PatOrExpr {
+        if let PatOrExpr::Pat(pat) = n {
+            if let Pat::Expr(expr) = *pat {
+                return PatOrExpr::Expr(expr);
+            }
+            n = PatOrExpr::Pat(pat);
+        }
+
+        n
+    }
+
+    fn fold_str(&mut self, s: Str) -> Str {
+        Str {
+            kind: Default::default(),
+            ..s
         }
     }
 }

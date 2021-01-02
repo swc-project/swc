@@ -99,7 +99,10 @@ macro_rules! identical {
 
 macro_rules! identical_no_block {
     ($name:ident, $src:literal) => {
-        test!(syntax(), |_| resolver(), $name, $src, $src);
+        #[test]
+        fn $name() {
+            run_test(syntax(), resolver(), $src, $src);
+        }
     };
 }
 
@@ -238,46 +241,48 @@ to!(
 }"#
 );
 
-test!(
-    ignore,
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
-    babel_issue_1051,
-    r#"foo.func1 = function() {
-  if (cond1) {
-    for (;;) {
-      if (cond2) {
-        function func2() {}
-        function func3() {}
-        func4(function() {
-          func2();
-        });
-        break;
-      }
-    }
-  }
-};"#,
-    r#"foo.func1 = function () {
-  if (cond1) {
-    for (;;) {
-      if (cond2) {
-        var _ret = function () {
-          function func2() {}
-
-          function func3() {}
-
-          func4(function () {
-            func2();
-          });
-          return "break";
-        }();
-
-        if (_ret === "break") break;
-      }
-    }
-  }
-};"#
-);
+#[test]
+#[ignore]
+fn babel_issue_1051() {
+    run_test(
+        Default::default(),
+        tr(),
+        r#"foo.func1 = function() {
+        if (cond1) {
+          for (;;) {
+            if (cond2) {
+              function func2() {}
+              function func3() {}
+              func4(function() {
+                func2();
+              });
+              break;
+            }
+          }
+        }
+      };"#,
+        r#"foo.func1 = function () {
+        if (cond1) {
+          for (;;) {
+            if (cond2) {
+              var _ret = function () {
+                function func2() {}
+      
+                function func3() {}
+      
+                func4(function () {
+                  func2();
+                });
+                return "break";
+              }();
+      
+              if (_ret === "break") break;
+            }
+          }
+        }
+      };"#,
+    );
+}
 
 test!(
     ignore,
