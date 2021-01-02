@@ -6,6 +6,7 @@ pub mod hygiene;
 pub mod helpers;
 #[doc(hidden)]
 pub mod native;
+pub mod pass;
 pub mod resolver;
 mod scope;
 #[cfg(test)]

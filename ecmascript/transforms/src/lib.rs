@@ -13,7 +13,9 @@ pub use self::{
     resolver::{resolver, resolver_with_mark},
 };
 pub use swc_ecma_transforms_base::fixer;
+pub use swc_ecma_transforms_base::helpers;
 pub use swc_ecma_transforms_base::hygiene;
+pub use swc_ecma_transforms_base::pass;
 pub use swc_ecma_transforms_base::resolver;
 
 #[macro_use]
@@ -24,7 +26,6 @@ pub mod compat;
 mod const_modules;
 pub mod modules;
 pub mod optimization;
-pub mod pass;
 mod perf;
 pub mod proposals;
 pub mod react;
