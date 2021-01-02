@@ -284,30 +284,29 @@ fn babel_issue_1051() {
     );
 }
 
-test!(
-    ignore,
-    ::swc_ecma_parser::Syntax::default(),
-    // TODO(kdy1): WTF is this (again)?
-    |_| tr(),
-    babel_issue_2174,
-    r#"if (true) {
-  function foo() {}
-  function bar() {
-    return foo;
-  }
-  for (var x in {}) {}
-}"#,
-    r#"
-if (true) {
-  var foo = function () {};
 
-  var bar = function () {
-    return foo;
-  };
+#[test]
+#[ignore]
+fn babel_issue_2174() {
+    run_test(Default::default(),tr(),"if (true) {
+        function foo() {}
+        function bar() {
+          return foo;
+        }
+        for (var x in {}) {}
+      }","
+      if (true) {
+        var foo = function () {};
+      
+        var bar = function () {
+          return foo;
+        };
+      
+        for (var x in {}) {}
+      }");
+}
 
-  for (var x in {}) {}
-}"#
-);
+
 
 test!(
     ignore,

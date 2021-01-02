@@ -177,3 +177,73 @@ impl Fold for Normalizer {
         }
     }
 }
+
+pub(crate) fn test_transform<F, P>(
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    expected: &str,
+    ok_if_code_eq: bool,
+) where
+    F: FnOnce(&mut Tester) -> P,
+    P: Fold,
+{
+    crate::tests::Tester::run(|tester| {
+        let expected = tester.apply_transform(
+            as_folder(::swc_ecma_utils::DropSpan {
+                preserve_ctxt: true,
+            }),
+            "output.js",
+            syntax,
+            expected,
+        )?;
+
+        println!("----- Actual -----");
+
+        let tr = tr(tester);
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
+        let actual = actual
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer(None))
+            .fold_with(&mut as_folder(DropSpan {
+                preserve_ctxt: false,
+            }));
+
+        if actual == expected {
+            return Ok(());
+        }
+
+        let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+        if actual_src == expected_src {
+            if ok_if_code_eq {
+                return Ok(());
+            }
+            // Diff it
+            println!(">>>>> Code <<<<<\n{}", actual_src);
+            assert_eq!(actual, expected, "different ast was detected");
+            return Err(());
+        }
+
+        println!(">>>>> Orig <<<<<\n{}", input);
+        println!(">>>>> Code <<<<<\n{}", actual_src);
+        if actual_src != expected_src {
+            panic!(
+                r#"assertion failed: `(left == right)`
+            {}"#,
+                ::testing::diff(&actual_src, &expected_src),
+            );
+        }
+
+        Err(())
+    });
+}
