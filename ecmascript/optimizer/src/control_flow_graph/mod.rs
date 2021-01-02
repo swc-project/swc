@@ -63,8 +63,7 @@ impl<'cfg> ControlFlowGraph<'cfg> {
 
             blocks_by_index.insert(idx, block_id);
         }
-        let last = analyzer.cur_id;
-        analyzer.blocks.insert(last, analyzer.cur);
+        analyzer.bump();
 
         Self {
             blocks: analyzer.blocks,
@@ -160,8 +159,7 @@ impl<'cfg> Analyzer<'cfg, '_> {
         self.cur_id = self.id_gen.borrow_mut().generate();
     }
 
-    fn jump(&mut self, cond: JumpCond<'cfg>, to: BlockId) {
-        let from = self.cur_id;
+    fn jump(&mut self, from: BlockId, cond: JumpCond<'cfg>, to: BlockId) {
         self.bump();
 
         assert_ne!(
@@ -172,16 +170,16 @@ impl<'cfg> Analyzer<'cfg, '_> {
         self.next.entry(from).or_default().push((to, cond));
     }
 
-    fn jump_cond(&mut self, test: ExprData<'cfg>, to: BlockId, if_true: bool) {
-        self.jump(JumpCond::Cond { test, if_true }, to)
+    fn jump_cond(&mut self, from: BlockId, test: ExprData<'cfg>, to: BlockId, if_true: bool) {
+        self.jump(from, JumpCond::Cond { test, if_true }, to)
     }
 
-    fn jump_if(&mut self, test: ExprData<'cfg>, to: BlockId) {
-        self.jump_cond(test, to, true);
+    fn jump_if(&mut self, from: BlockId, test: ExprData<'cfg>, to: BlockId) {
+        self.jump_cond(from, test, to, true);
     }
 
-    fn jump_if_not(&mut self, test: ExprData<'cfg>, to: BlockId) {
-        self.jump_cond(test, to, false);
+    fn jump_if_not(&mut self, from: BlockId, test: ExprData<'cfg>, to: BlockId) {
+        self.jump_cond(from, test, to, false);
     }
 
     fn emit_module_item(&mut self, item: &'cfg ModuleItem) -> BlockId {
@@ -223,16 +221,17 @@ impl<'cfg> Analyzer<'cfg, '_> {
     }
 
     fn emit_if_stmt(&mut self, s: &'cfg IfStmt) {
+        let start = self.cur_id;
         let test = self.emit_expr(&s.test);
 
         self.bump();
 
         let cons = self.emit_stmt(&s.cons);
-        self.jump_if(test.clone(), cons);
+        self.jump_if(start, test.clone(), cons);
 
         if let Some(alt) = &s.alt {
             let alt = self.emit_stmt(&alt);
-            self.jump_if_not(test, alt);
+            self.jump_if_not(start, test, alt);
         }
     }
 
