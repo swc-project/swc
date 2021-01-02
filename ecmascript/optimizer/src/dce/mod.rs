@@ -51,14 +51,15 @@ impl<'cfg> Visitor<'cfg> for Marker {
         for (next_id, cond) in next_blocks.iter_mut() {
             match cond {
                 JumpCond::Always => {
+                    always_jump_to = Some(*next_id);
                     break;
                 }
 
                 JumpCond::Cond { test, if_true } => {
                     //
                     if let Known(test_val) = test.ast.as_pure_bool() {
-                        let always_jump = *if_true == test_val;
-                        if always_jump {
+                        let should_jump = *if_true == test_val;
+                        if should_jump {
                             always_jump_to = Some(*next_id);
                             break;
                         }
@@ -67,13 +68,13 @@ impl<'cfg> Visitor<'cfg> for Marker {
             }
         }
 
-        if let Some(always_jump_to) = always_jump_to {
-            next_blocks.clear();
-            next_blocks.push((always_jump_to, JumpCond::Always));
-        }
-
-        for (next, _) in next_blocks {
-            self.reachable.insert(*next);
+        if let Some(next) = always_jump_to {
+            next_blocks.push((next, JumpCond::Always));
+            self.reachable.insert(next);
+        } else {
+            for (next, _) in next_blocks {
+                self.reachable.insert(*next);
+            }
         }
     }
 }
