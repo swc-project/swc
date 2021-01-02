@@ -12,7 +12,10 @@ pub(crate) struct Mutations {
 }
 
 impl Mutations {
-    pub fn apply(self, to: &mut Module) {}
+    pub fn apply(mut self, to: &mut Module) {
+        let mut operator = Operator { m: &mut self };
+        to.visit_mut_with(&mut operator);
+    }
 }
 
 #[derive(Debug, Default)]
