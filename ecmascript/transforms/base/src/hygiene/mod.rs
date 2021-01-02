@@ -1,8 +1,6 @@
 use self::ops::{Operations, Operator};
-use crate::{
-    compat::es2015::classes::native::{is_native, is_native_word},
-    scope::{IdentType, ScopeKind},
-};
+use crate::scope::IdentType;
+use crate::scope::ScopeKind;
 use fxhash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;

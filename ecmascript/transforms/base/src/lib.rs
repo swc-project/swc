@@ -8,3 +8,5 @@ pub mod helpers;
 pub mod native;
 pub mod resolver;
 mod scope;
+#[cfg(test)]
+mod tests;

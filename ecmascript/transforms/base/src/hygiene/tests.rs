@@ -52,7 +52,7 @@ impl Fold for OnceMarker {
 
 fn test<F>(op: F, expected: &str)
 where
-    F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Vec<Stmt>, ()>,
+    F: FnOnce(&mut Tester<'_>) -> Result<Vec<Stmt>, ()>,
 {
     test_module(
         |tester| {

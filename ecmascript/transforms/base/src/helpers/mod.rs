@@ -21,7 +21,7 @@ macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
             let cm = SourceMap::new(FilePathMapping::empty());
-            let code = include_str!(concat!("helpers/_", stringify!($name), ".js"));
+            let code = include_str!(concat!("./_", stringify!($name), ".js"));
             let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
             let lexer = Lexer::new(
                 Default::default(),
