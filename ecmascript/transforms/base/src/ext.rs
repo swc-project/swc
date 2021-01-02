@@ -2,6 +2,7 @@
 //! bump.
 
 use std::{mem::replace, ops::DerefMut};
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
@@ -104,6 +105,8 @@ impl MapWithMut for PatOrExpr {
     }
 }
 
+/// Do not use: This is not a public api and it can be changed without a version
+/// bump.
 pub(crate) trait PatOrExprExt: AsOptExpr {
     fn as_ref(&self) -> &PatOrExpr;
     fn as_mut(&mut self) -> &mut PatOrExpr;
@@ -197,6 +200,8 @@ pub(crate) trait ExprRefExt: ExprExt {
 
 impl<T> ExprRefExt for T where T: ExprExt {}
 
+/// Do not use: This is not a public api and it can be changed without a version
+/// bump.
 pub(crate) trait AsOptExpr {
     fn as_expr(&self) -> Option<&Expr>;
     fn as_expr_mut(&mut self) -> Option<&mut Expr>;
