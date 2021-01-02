@@ -115,22 +115,24 @@ impl<'cfg> Visitor<'cfg> for Remover<'_> {
             return;
         }
 
-        let mut always_jump_to = None;
+        if next_blocks.len() != 1 {
+            let mut always_jump_to = None;
 
-        for (next_id, cond) in next_blocks.iter_mut() {
-            match cond {
-                JumpCond::Always => {
-                    always_jump_to = Some(*next_id);
-                    break;
+            for (next_id, cond) in next_blocks.iter_mut() {
+                match cond {
+                    JumpCond::Always => {
+                        always_jump_to = Some(*next_id);
+                        break;
+                    }
+
+                    _ => {}
                 }
-
-                _ => {}
             }
-        }
 
-        if let Some(next) = always_jump_to {
-            next_blocks.clear();
-            next_blocks.push((next, JumpCond::Always));
+            if let Some(next) = always_jump_to {
+                next_blocks.clear();
+                next_blocks.push((next, JumpCond::Always));
+            }
         }
     }
 }
