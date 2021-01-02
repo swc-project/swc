@@ -1,10 +1,17 @@
+//! Do not use: This is not a public api and it can be changed without a version
+//! bump.
+
 use std::{mem::replace, ops::DerefMut};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
+/// Do not use: This is not a public api and it can be changed without a version
+/// bump.
+///
 /// Helper for migration from [Fold] to [VisitMut]
-pub(crate) trait MapWithMut: Sized {
+#[doc(hidden)]
+pub trait MapWithMut: Sized {
     fn dummy() -> Self;
 
     fn take(&mut self) -> Self {
