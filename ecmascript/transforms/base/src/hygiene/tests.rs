@@ -1,8 +1,10 @@
 use super::*;
 use crate::tests::HygieneVisualizer;
+use crate::tests::Tester;
 use std::collections::HashMap;
 use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
 
 struct Marker {
