@@ -169,31 +169,3 @@ macro_rules! impl_fold_fn {
         }
     };
 }
-
-#[cfg(test)]
-#[allow(dead_code)]
-pub(crate) fn validating(
-    name: &'static str,
-    tr: impl ::swc_ecma_visit::Fold + 'static,
-) -> Box<dyn ::swc_ecma_visit::Fold> {
-    Box::new(swc_common::chain!(
-        tr,
-        crate::debug::validator::Validator { name }
-    )) as Box<_>
-}
-
-/// No-op. Will be removed in future release.
-#[cfg(test)]
-#[allow(unused_macros)]
-macro_rules! validating {
-    ($folder:expr) => {{
-        $folder
-    }};
-}
-
-/// No-op. Will be removed in future release.
-macro_rules! validate {
-    ($e:expr) => {{
-        $e
-    }};
-}

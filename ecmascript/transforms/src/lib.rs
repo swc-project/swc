@@ -18,25 +18,16 @@ pub use swc_ecma_transforms_base::resolver;
 
 #[macro_use]
 mod macros;
-mod ext;
-#[cfg(test)]
-#[macro_use]
-mod tests;
 #[macro_use]
 mod quote;
 #[macro_use]
 pub mod helpers;
 pub mod compat;
 mod const_modules;
-pub mod debug;
 pub mod modules;
 pub mod optimization;
 pub mod pass;
 mod perf;
 pub mod proposals;
 pub mod react;
-pub mod scope;
 pub mod typescript;
-pub mod util {
-    pub use swc_ecma_utils::*;
-}
