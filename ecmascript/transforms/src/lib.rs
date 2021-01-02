@@ -12,6 +12,9 @@ pub use self::{
     hygiene::hygiene,
     resolver::{resolver, resolver_with_mark},
 };
+pub use swc_ecma_transforms_base::fixer;
+pub use swc_ecma_transforms_base::hygiene;
+pub use swc_ecma_transforms_base::resolver;
 
 #[macro_use]
 mod macros;
@@ -23,19 +26,15 @@ mod tests;
 mod quote;
 #[macro_use]
 pub mod helpers;
-#[macro_use]
-mod hygiene;
 pub mod compat;
 mod const_modules;
 pub mod debug;
-mod fixer;
 pub mod modules;
 pub mod optimization;
 pub mod pass;
 mod perf;
 pub mod proposals;
 pub mod react;
-pub mod resolver;
 pub mod scope;
 pub mod typescript;
 pub mod util {
