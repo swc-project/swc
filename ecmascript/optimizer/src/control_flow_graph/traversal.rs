@@ -30,14 +30,15 @@ impl<'cfg> ControlFlowGraph<'cfg> {
 
             if let Some(block) = self.blocks.get_mut(&cur) {
                 let next = self.next.entry(cur).or_default();
-                v.visit_block(&mut self.mutations, cur, block, next);
-                for (next, _) in next {
+                for (next, _) in &*next {
                     if visited.contains(&*next) {
                         continue;
                     }
 
                     stack.push_front(*next);
                 }
+
+                v.visit_block(&mut self.mutations, cur, block, next);
             }
         }
     }
