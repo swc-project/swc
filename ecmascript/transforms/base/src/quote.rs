@@ -1,3 +1,6 @@
+/// Not a public api.
+#[doc(hidden)]
+#[macro_export]
 macro_rules! external_name {
     ("typeof") => {
         "_typeof"
@@ -16,6 +19,9 @@ macro_rules! external_name {
     };
 }
 
+/// Not a public api.
+#[doc(hidden)]
+#[macro_export]
 macro_rules! helper_expr {
     ($field_name:ident, $s:tt) => {{
         helper_expr!(::swc_common::DUMMY_SP, $field_name, $s)
@@ -38,6 +44,9 @@ macro_rules! helper_expr {
     }};
 }
 
+/// Not a public api.
+#[doc(hidden)]
+#[macro_export]
 macro_rules! helper {
     ($field_name:ident, $s:tt) => {{
         helper!(::swc_common::DUMMY_SP, $field_name, $s)
