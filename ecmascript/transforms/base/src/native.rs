@@ -1,3 +1,5 @@
+//! Module to check if an identifier is natvie word.
+
 use phf::phf_set;
 use swc_atoms::{js_word, JsWord};
 
