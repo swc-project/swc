@@ -4,6 +4,7 @@ use crate::basic_block::Item;
 use crate::basic_block::JumpCond;
 use crate::block_id::BlockId;
 use crate::block_id::BlockIdGenerator;
+use crate::mutations::Mutations;
 use fxhash::FxHashMap;
 use std::cell::RefCell;
 use std::mem::take;
@@ -16,6 +17,8 @@ pub mod traversal;
 /// This struct is required for optimizaiotn.
 #[derive(Debug)]
 pub struct ControlFlowGraph<'cfg> {
+    pub(crate) mutations: Box<Mutations>,
+
     blocks: FxHashMap<BlockId, Block<'cfg>>,
 
     next: FxHashMap<BlockId, Vec<(BlockId, JumpCond<'cfg>)>>,
@@ -30,7 +33,8 @@ pub struct ControlFlowGraph<'cfg> {
 
 /// Public apis.
 impl<'cfg> ControlFlowGraph<'cfg> {
-    pub fn anaylze(module_items: &'cfg [ModuleItem]) -> Self {
+    /// The `module` should be `prepared` by calling `ast::prepare`.
+    pub(crate) fn anaylze(module: &'cfg Module) -> Self {
         let mut id_gen = BlockIdGenerator::default();
         let cur_id = id_gen.generate();
         let mut analyzer = Analyzer {
@@ -47,7 +51,7 @@ impl<'cfg> ControlFlowGraph<'cfg> {
         };
 
         let mut blocks_by_index = FxHashMap::default();
-        for (idx, stmt) in module_items.iter().enumerate() {
+        for (idx, stmt) in module.body.iter().enumerate() {
             let block_id = analyzer.emit_module_item(stmt);
 
             blocks_by_index.insert(idx, block_id);
@@ -60,13 +64,16 @@ impl<'cfg> ControlFlowGraph<'cfg> {
             next: analyzer.next,
             start: cur_id,
             exprs: analyzer.exprs,
-            module_items,
+            module_items: &module.body,
             blocks_by_index,
+            mutations: Default::default(),
         }
     }
 
-    pub fn apply(self, actual: &mut [ModuleItem]) {
-        assert_eq!(actual.len(), self.module_items.len());
+    pub fn apply(self, to: &mut Module) {
+        assert_eq!(to.body.len(), self.module_items.len());
+
+        self.mutations.apply(to);
     }
 }
 #[derive(Debug)]
