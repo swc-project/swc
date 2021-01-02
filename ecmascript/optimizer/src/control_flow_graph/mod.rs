@@ -65,8 +65,6 @@ impl<'cfg> ControlFlowGraph<'cfg> {
         }
         analyzer.bump();
 
-        dbg!(&analyzer.blocks);
-
         Self {
             blocks: analyzer.blocks,
             next: analyzer.next,
@@ -194,11 +192,11 @@ impl<'cfg> Analyzer<'cfg, '_> {
     fn emit_stmt(&mut self, s: &'cfg Stmt) -> BlockId {
         let start = self.cur_id;
 
-        match s {
-            Stmt::Debugger(_) => {}
+        self.cur.push(Item::Stmt(s));
 
+        match s {
+            Stmt::Debugger(_) | Stmt::Empty(_) => {}
             Stmt::Block(s) => self.emit_block_stmt(s),
-            Stmt::Empty(_) => self.cur.push(Item::Stmt(s)),
             Stmt::With(_) => {}
             Stmt::Return(_) => {}
             Stmt::Labeled(_) => {}

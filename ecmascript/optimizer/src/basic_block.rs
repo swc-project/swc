@@ -4,6 +4,7 @@ use swc_ecma_ast::*;
 
 #[derive(Debug, Clone)]
 pub(crate) enum JumpCond<'a> {
+    Always,
     Cond { test: ExprData<'a>, if_true: bool },
 }
 
@@ -24,19 +25,19 @@ pub(crate) enum Item<'a> {
 /// Basic block.
 #[derive(Debug)]
 pub(crate) struct Block<'a> {
-    data: Vec<Item<'a>>,
+    pub(crate) items: Vec<Item<'a>>,
 }
 
 impl<'a> Block<'a> {
     pub fn push(&mut self, item: Item<'a>) {
-        self.data.push(item)
+        self.items.push(item)
     }
 }
 
 impl Default for Block<'_> {
     fn default() -> Self {
         Block {
-            data: Default::default(),
+            items: Default::default(),
         }
     }
 }

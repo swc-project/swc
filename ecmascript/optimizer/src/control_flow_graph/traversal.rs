@@ -7,6 +7,8 @@ use crate::block_id::BlockId;
 use crate::mutations::Mutations;
 use std::collections::VecDeque;
 pub(crate) trait Visitor<'cfg> {
+    fn init(&mut self, start: BlockId, mutations: &mut Mutations);
+
     fn visit_block(
         &mut self,
         mutations: &mut Mutations,
@@ -24,6 +26,7 @@ impl<'cfg> ControlFlowGraph<'cfg> {
         let mut visited = FxHashSet::default();
         let mut stack = VecDeque::new();
         stack.push_front(self.start);
+        v.init(self.start, &mut self.mutations);
 
         while let Some(cur) = stack.pop_front() {
             visited.insert(cur);
