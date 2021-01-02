@@ -12,7 +12,7 @@ pub(crate) trait Visitor<'cfg> {
         mutations: &mut Mutations,
         id: BlockId,
         block: &mut Block<'cfg>,
-        next: &mut Vec<(BlockId, JumpCond<'cfg>)>,
+        next_blocks: &mut Vec<(BlockId, JumpCond<'cfg>)>,
     );
 }
 
