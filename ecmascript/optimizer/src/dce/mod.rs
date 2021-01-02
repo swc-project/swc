@@ -69,7 +69,7 @@ impl<'cfg> Visitor<'cfg> for Marker {
         }
 
         if let Some(next) = always_jump_to {
-            next_blocks.push((next, JumpCond::Always));
+            next_blocks.insert(0, (next, JumpCond::Always));
             self.reachable.insert(next);
         } else {
             for (next, _) in next_blocks {
@@ -112,6 +112,25 @@ impl<'cfg> Visitor<'cfg> for Remover<'_> {
 
                 next_blocks.clear();
             }
+            return;
+        }
+
+        let mut always_jump_to = None;
+
+        for (next_id, cond) in next_blocks.iter_mut() {
+            match cond {
+                JumpCond::Always => {
+                    always_jump_to = Some(*next_id);
+                    break;
+                }
+
+                _ => {}
+            }
+        }
+
+        if let Some(next) = always_jump_to {
+            next_blocks.clear();
+            next_blocks.push((next, JumpCond::Always));
         }
     }
 }
