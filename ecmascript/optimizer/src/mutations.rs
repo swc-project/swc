@@ -37,7 +37,7 @@ impl VisitMut for Operator<'_> {
                 _ => {}
             }
             if let Some(ModuleItemMut { drop }) = self.m.module_items.get(&stmt.span().ctxt) {
-                if drop {
+                if *drop {
                     return false;
                 }
             }
@@ -55,7 +55,7 @@ impl VisitMut for Operator<'_> {
                 _ => {}
             }
             if let Some(ModuleItemMut { drop }) = self.m.module_items.get(&stmt.span().ctxt) {
-                if drop {
+                if *drop {
                     return false;
                 }
             }
