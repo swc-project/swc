@@ -230,10 +230,14 @@ impl<'cfg> Analyzer<'cfg, '_> {
         let cons = self.emit_stmt(&s.cons);
         self.jump_if(start, test.clone(), cons);
 
+        self.bump();
+
         if let Some(alt) = &s.alt {
-            self.bump();
             let alt = self.emit_stmt(&alt);
             self.jump_if_not(start, test, alt);
+        } else {
+            let next_line = self.cur_id;
+            self.jump_if_not(start, test, next_line);
         }
     }
 
