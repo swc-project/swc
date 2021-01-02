@@ -6,7 +6,6 @@ use crate::block_id::BlockId;
 use crate::block_id::BlockIdGenerator;
 use crate::mutations::Mutations;
 use fxhash::FxHashMap;
-use petgraph::graphmap::DiGraphMap;
 use std::cell::RefCell;
 use std::mem::take;
 use std::rc::Rc;
