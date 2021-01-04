@@ -155,9 +155,9 @@ to!(
         }
         ",
     "
-        var foo;
+        let foo;
         {
-            var foo1;
+            let foo1;
         }
         "
 );
@@ -175,11 +175,11 @@ to!(
         }
         ",
     "
-        var ConstructorScoping = function ConstructorScoping() {
+        let ConstructorScoping = function ConstructorScoping() {
             _classCallCheck(this, ConstructorScoping);
-            var bar;
+            let bar;
             {
-                var bar1;
+                let bar1;
                 use(bar1);
             }
         }
@@ -202,7 +202,7 @@ to!(
         {
             var foo = 1;
             {
-                var foo1 = 2;
+                let foo1 = 2;
                 use(foo1);
             }
             use(foo);
@@ -1789,12 +1789,12 @@ to!(
     }
     ",
     "
-    var b = 1;
-    var b1 = 2;
+    const b = 1;
+    const b1 = 2;
     {
-        var b2 = 3;
-        var b11 = 4;
-        var b21 = 5;
+        const b2 = 3;
+        const b11 = 4;
+        const b21 = 5;
     }
 
     "
