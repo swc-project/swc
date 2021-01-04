@@ -1,4 +1,5 @@
 use super::*;
+use crate::display_name;
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::Tester;

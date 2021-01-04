@@ -3,6 +3,7 @@ use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::es2017::async_to_generator;
 use swc_ecma_transforms_compat::es2020::class_properties;
+use swc_ecma_transforms_compat::es2020::optional_chaining;
 use swc_ecma_transforms_compat::es2020::typescript_class_properties;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
@@ -3143,7 +3144,10 @@ test!(
 );
 
 test!(
-    syntax(),
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
     |_| chain!(strip(), optional_chaining()),
     issue_1149_1,
     "
