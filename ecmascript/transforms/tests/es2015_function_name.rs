@@ -7,6 +7,8 @@ use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2015::shorthand;
+use swc_ecma_transforms_module::common_js::common_js;
+use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 

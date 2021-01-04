@@ -6,11 +6,11 @@ use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_module::common_js;
-use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_proposal::decorators::Config;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
@@ -2026,7 +2026,7 @@ expect(typeof Parent.prototype.child).toBe("function");
 test!(
     syntax(true),
     |_| chain!(
-        typescript::strip(),
+        strip(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -4265,7 +4265,7 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        typescript::strip(),
+        strip(),
         decorators(Config {
             legacy: true,
             ..Default::default()
@@ -4305,7 +4305,7 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        typescript::strip(),
+        strip(),
         decorators(Config {
             legacy: true,
             ..Default::default()
@@ -4351,7 +4351,7 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        typescript::strip(),
+        strip(),
         decorators(Config {
             legacy: true,
             ..Default::default()
@@ -5939,7 +5939,7 @@ console.log(new Template().events());
 
 // function_name_eval
 test!(
-    syntax(),
+    Default::default(),
     |_| chain!(
         resolver(),
         function_name(),
