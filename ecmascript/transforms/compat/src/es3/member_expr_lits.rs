@@ -1,6 +1,5 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::is_valid_ident;
-use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `transform-member-expression-literals`

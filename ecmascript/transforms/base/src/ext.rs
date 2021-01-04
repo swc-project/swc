@@ -107,7 +107,7 @@ impl MapWithMut for PatOrExpr {
 
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
-pub(crate) trait PatOrExprExt: AsOptExpr {
+pub trait PatOrExprExt: AsOptExpr {
     fn as_ref(&self) -> &PatOrExpr;
     fn as_mut(&mut self) -> &mut PatOrExpr;
 
@@ -202,7 +202,7 @@ impl<T> ExprRefExt for T where T: ExprExt {}
 
 /// Do not use: This is not a public api and it can be changed without a version
 /// bump.
-pub(crate) trait AsOptExpr {
+pub trait AsOptExpr {
     fn as_expr(&self) -> Option<&Expr>;
     fn as_expr_mut(&mut self) -> Option<&mut Expr>;
 }
