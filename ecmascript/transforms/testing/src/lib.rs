@@ -158,17 +158,6 @@ where
     op(tester)
 }
 
-#[macro_export]
-macro_rules! test_transform {
-    ($syntax:expr, $tr:expr, $input:expr, $expected:expr) => {
-        test_transform!($syntax, $tr, $input, $expected, false)
-    };
-
-    ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_code_eq:expr) => {{
-        $crate::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
-    }};
-}
-
 pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, ok_if_code_eq: bool)
 where
     F: FnOnce(&mut Tester) -> P,
@@ -249,21 +238,21 @@ macro_rules! test {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_transform!($syntax, $tr, $input, $expected)
+            $crate::test_transform($syntax, $tr, $input, $expected, false)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform!($syntax, $tr, $input, $expected)
+            $crate::test_transform($syntax, $tr, $input, $expected, false)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform!($syntax, $tr, $input, $expected, true)
+            $crate::test_transform($syntax, $tr, $input, $expected, true)
         }
     };
 }
