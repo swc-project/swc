@@ -268,13 +268,6 @@ macro_rules! test {
     };
 }
 
-#[macro_export]
-macro_rules! exec_tr {
-    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {{
-        crate::tests::exec_tr(stringify!($test_name), $syntax, $tr, $input);
-    }};
-}
-
 pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
@@ -358,7 +351,7 @@ macro_rules! test_exec {
         #[test]
         #[ignore]
         fn $test_name() {
-            exec_tr!($syntax, $tr, $test_name, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $test_name, $input)
         }
     };
 
@@ -369,7 +362,7 @@ macro_rules! test_exec {
                 return;
             }
 
-            exec_tr!($syntax, $tr, $test_name, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $test_name, $input)
         }
     };
 }
