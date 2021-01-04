@@ -40,6 +40,7 @@ swc_ecma_parser = {version = "0.44.0", path = "../parser"}
 swc_ecma_transforms_base = {version = "0.1.0", path = "./base"}
 swc_ecma_transforms_compat = {version = "0.1.0", path = "./compat"}
 swc_ecma_transforms_macros = {version = "0.1.1", path = "./macros"}
+swc_ecma_transforms_module = { path = "./module" }
 swc_ecma_transforms_optimization = {version = "0.1.0", path = "./optimization"}
 swc_ecma_transforms_proposal = {version = "0.1.0", path = "./proposal"}
 swc_ecma_transforms_react = {version = "0.1.0", path = "./react"}
