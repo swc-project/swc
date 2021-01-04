@@ -7,6 +7,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
