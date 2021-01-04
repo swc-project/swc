@@ -5,6 +5,7 @@ use swc_atoms::JsWord;
 use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
+use swc_ecma_utils::drop_span;
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 

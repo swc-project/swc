@@ -1,9 +1,14 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_transforms_base::helpers::inject_helpers;
+use swc_ecma_transforms_base::hygiene::hygiene;
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::common_js::common_js;
+use swc_ecma_transforms_module::import_analysis::import_analyzer;
 use swc_ecma_transforms_module::util::Config;
+use swc_ecma_transforms_module::util::Lazy;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 

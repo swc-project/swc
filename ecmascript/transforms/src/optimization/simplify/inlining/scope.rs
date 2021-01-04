@@ -1,5 +1,4 @@
 use super::{Inlining, Phase};
-use crate::ext::ExprRefExt;
 use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::map::{Entry, IndexMap};
 use std::{
