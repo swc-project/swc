@@ -1,5 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::is_valid_ident;
+use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `transform-member-expression-literals`
@@ -49,7 +50,7 @@ impl Fold for MemberExprLit {
                 } else {
                     return MemberExpr {
                         computed: false,
-                        prop: Box::new(Expr::Ident(quote_ident!($span, $sym))),
+                        prop: Box::new(Expr::Ident(swc_ecma_utils::quote_ident!($span, $sym))),
                         ..e
                     };
                 }
@@ -69,15 +70,12 @@ impl Fold for MemberExprLit {
 
         e
     }
-
-    fn fold_module(&mut self, node: Module) -> Module {
-        validate!(node.fold_children_with(self))
-    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_transforms_testing::test;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

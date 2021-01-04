@@ -1,5 +1,5 @@
-use crate::util::is_valid_ident;
 use swc_ecma_ast::*;
+use swc_ecma_utils::is_valid_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `transform-property-literals`
@@ -39,7 +39,7 @@ impl Fold for PropertyLiteral {
     noop_fold_type!();
 
     fn fold_prop_name(&mut self, n: PropName) -> PropName {
-        let n = validate!(n.fold_children_with(self));
+        let n = n.fold_children_with(self);
 
         match n {
             PropName::Str(Str {
@@ -82,6 +82,7 @@ impl Fold for PropertyLiteral {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_transforms_testing::test;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

@@ -1,6 +1,7 @@
-use crate::perf::Check;
+use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
