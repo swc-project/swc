@@ -19,9 +19,9 @@ pub use swc_ecma_transforms_base::pass;
 pub use swc_ecma_transforms_base::perf;
 pub use swc_ecma_transforms_base::resolver;
 pub use swc_ecma_transforms_compat as compat;
+pub use swc_ecma_transforms_module as modules;
 
 mod const_modules;
-pub mod modules;
 pub mod optimization;
 pub mod proposals;
 pub mod react;
