@@ -1,11 +1,23 @@
 //! Copied from PeepholeIntegrationTest from the google closure compiler.
 
 use swc_common::chain;
+use swc_common::Mark;
+use swc_ecma_parser::EsConfig;
 use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms_base::helpers::inject_helpers;
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015;
+use swc_ecma_transforms_compat::es2016;
+use swc_ecma_transforms_compat::es2017;
+use swc_ecma_transforms_compat::es2018;
+use swc_ecma_transforms_compat::es2020::class_properties;
+use swc_ecma_transforms_compat::es3;
+use swc_ecma_transforms_module::common_js::common_js;
+use swc_ecma_transforms_module::import_analysis::import_analyzer;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_optimization::simplify::simplifier;
+use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_transform;
 use swc_ecma_transforms_typescript::strip;
@@ -512,17 +524,20 @@ test!(
 );
 
 test!(
-    syntax(),
+    Syntax::Es(EsConfig {
+        dynamic_import: true,
+        ..Default::default()
+    }),
     |_| chain!(
         strip(),
         decorators(Default::default()),
         class_properties(),
         simplifier(Default::default()),
-        compat::es2018(),
-        compat::es2017(),
-        compat::es2016(),
-        compat::es2015(Mark::fresh(Mark::root()), Default::default()),
-        compat::es3(true),
+        es2018(),
+        es2017(),
+        es2016(),
+        es2015(Mark::fresh(Mark::root()), Default::default()),
+        es3(true),
         import_analyzer(),
         inject_helpers(),
         common_js(Mark::fresh(Mark::root()), Default::default()),
