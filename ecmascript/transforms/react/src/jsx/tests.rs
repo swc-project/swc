@@ -9,6 +9,7 @@ use crate::{
     tests::Tester,
 };
 use swc_common::{chain, Mark};
+use swc_ecma_transforms_testing::test;
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(

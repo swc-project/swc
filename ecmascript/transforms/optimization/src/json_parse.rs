@@ -123,6 +123,7 @@ fn jsonify(e: Expr) -> Value {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_transforms_testing::test;
 
     struct Normalizer;
     impl Fold for Normalizer {
