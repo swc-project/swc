@@ -5715,3 +5715,63 @@ var obj = {
 
 "#
 );
+
+// function_name_object
+test!(
+    ignore,
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        function_name(),
+        classes(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        })
+    ),
+    function_name_object,
+    r#"
+var obj = {
+f: function () {
+  (function f() {
+    console.log(f);
+  })();
+},
+
+h: function () {
+  console.log(h);
+},
+
+m: function () {
+  doSmth();
+}
+};
+
+"#,
+    r#"
+var obj = {
+f: function f() {
+  (function f() {
+    console.log(f);
+  })();
+},
+h: function (_h) {
+  function h() {
+    return _h.apply(this, arguments);
+  }
+
+  h.toString = function () {
+    return _h.toString();
+  };
+
+  return h;
+}(function () {
+  console.log(h);
+}),
+m: function m() {
+  doSmth();
+}
+};
+
+"#
+);

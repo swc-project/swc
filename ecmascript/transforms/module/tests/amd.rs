@@ -1,7 +1,10 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_compat::es2015::for_of;
+use swc_ecma_transforms_compat::es2015::function_name;
+use swc_ecma_transforms_compat::es2015::shorthand;
 use swc_ecma_transforms_module::amd::amd;
 use swc_ecma_transforms_module::amd::Config;
 use swc_ecma_transforms_module::util;
@@ -1220,6 +1223,46 @@ for(let _i = 0; _i < _foo.array.length; _i++){
   const elm = _foo.array[_i];
   console.log(elm);
 }
+});
+
+"#
+);
+
+// function_name_export_default_arrow_renaming_module_amd
+test!(
+    ignore,
+    Default::default(),
+    |_| chain!(
+        function_name(),
+        shorthand(),
+        arrow(),
+        amd(Default::default())
+    ),
+    function_name_export_default_arrow_renaming_module_amd,
+    r#"
+export default (a) => {
+return { a() { return a } };
+}
+
+"#,
+    r#"
+define(["exports"], function (_exports) {
+"use strict";
+
+Object.defineProperty(_exports, "__esModule", {
+  value: true
+});
+_exports.default = void 0;
+
+var _default = function _default(_a) {
+  return {
+    a: function a() {
+      return _a;
+    }
+  };
+};
+
+_exports.default = _default;
 });
 
 "#
