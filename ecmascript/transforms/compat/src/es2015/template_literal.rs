@@ -1,8 +1,12 @@
-use crate::util::{is_literal, prepend_stmts, ExprFactory, StmtLike};
 use std::{iter, mem};
 use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::is_literal;
+use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn template_literal() -> impl Fold {
@@ -19,10 +23,7 @@ impl Fold for TemplateLiteral {
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = validate!(e);
-
         let e = e.fold_children_with(self);
-        let e = validate!(e);
 
         match e {
             Expr::Tpl(Tpl {
@@ -130,7 +131,7 @@ impl Fold for TemplateLiteral {
                                 span: span.with_hi(expr_span.hi() + BytePos(1)),
                                 callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(validate!(obj)),
+                                    obj: ExprOrSuper::Expr(obj),
                                     prop: Box::new(Expr::Ident(Ident::new(
                                         js_word!("concat"),
                                         expr_span,
@@ -148,7 +149,7 @@ impl Fold for TemplateLiteral {
                                 span: span.with_hi(expr_span.hi() + BytePos(1)),
                                 callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(validate!(obj)),
+                                    obj: ExprOrSuper::Expr(obj),
                                     prop: Box::new(Expr::Ident(Ident::new(
                                         js_word!("concat"),
                                         expr_span,
@@ -182,7 +183,7 @@ impl Fold for TemplateLiteral {
                 //                    }));
                 //                }
 
-                validate!(*obj)
+                *obj
             }
 
             Expr::TaggedTpl(TaggedTpl {
