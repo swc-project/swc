@@ -4,11 +4,16 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
-use crate::util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::member_expr;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::quote_str;
+use swc_ecma_utils::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod config;

@@ -8,7 +8,10 @@ use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::member_expr;
+use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
