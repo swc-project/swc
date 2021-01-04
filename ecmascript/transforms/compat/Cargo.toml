@@ -10,6 +10,8 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+fxhash = "0.2.1"
+indexmap = "1.6.1"
 serde = {version = "1.0.118", features = ["derive"]}
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2.5", path = "../../../atoms"}

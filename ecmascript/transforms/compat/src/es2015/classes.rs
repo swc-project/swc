@@ -6,14 +6,14 @@ use self::{
     },
     prop_name::HashKey,
 };
-use crate::util::{
-    alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
-    ModuleItemLike, StmtLike,
-};
 use fxhash::FxBuildHasher;
 use std::iter;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{
+    alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
+    ModuleItemLike, StmtLike,
+};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[macro_use]

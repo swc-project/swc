@@ -12,6 +12,7 @@ use swc_ecma_utils::{
     contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id,
     StmtLike,
 };
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{
     noop_fold_type, noop_visit_mut_type, Fold, FoldWith, Node, Visit, VisitMut, VisitMutWith,
     VisitWith,
@@ -945,9 +946,11 @@ impl Visit for FunctionFinder {
 #[cfg(test)]
 mod tests {
     use super::block_scoping;
-    use crate::compat::{es2015, es2015::for_of::for_of, es2017::async_to_generator};
+    use crate::{es2015, es2015::for_of::for_of, es2017::async_to_generator};
     use swc_common::{chain, Mark};
     use swc_ecma_parser::Syntax;
+    use swc_ecma_transforms_testing::test;
+    use swc_ecma_transforms_testing::test_exec;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
