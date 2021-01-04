@@ -3,6 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::AsOptExpr;
+use swc_ecma_transforms_base::ext::PatOrExprExt;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, ExprFactory};
