@@ -3,6 +3,8 @@ use crate::display_name;
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_compat::es2015::classes;
+use swc_ecma_transforms_compat::es3::property_literals;
+use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::Tester;
 
