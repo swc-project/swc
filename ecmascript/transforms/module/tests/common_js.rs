@@ -1,20 +1,6 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms::{
-    compat,
-    compat::es2020::class_properties,
-    fixer,
-    helpers::inject_helpers,
-    hygiene,
-    modules::{
-        common_js::{common_js, Config},
-        import_analysis::import_analyzer,
-        util::Lazy,
-    },
-    optimization::simplifier,
-    proposals::decorators,
-    resolver_with_mark, typescript,
-};
+use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
