@@ -10,11 +10,16 @@ use fxhash::FxBuildHasher;
 use std::iter;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::native::is_native;
+use swc_ecma_utils::quote_expr;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
     ModuleItemLike, StmtLike,
 };
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[macro_use]
@@ -204,17 +209,15 @@ impl Fold for Classes {
             _ => n,
         };
 
-        validate!(n.fold_children_with(self))
+        n.fold_children_with(self)
     }
 
     fn fold_expr(&mut self, n: Expr) -> Expr {
-        let n = validate!(n);
-
-        validate!(match n {
+        match n {
             Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children_with(self),
 
             _ => n.fold_children_with(self),
-        })
+        }
     }
 }
 
