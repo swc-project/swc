@@ -16,7 +16,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{es2015, es2016, es2017, es2018, es2020, es3},
     pass::{noop, Optional},
-    util::prepend_stmts,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
