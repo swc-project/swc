@@ -37,10 +37,6 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn ts_syntax() -> Syntax {
-    Syntax::Typescript(Default::default())
-}
-
 fn tr() -> impl Fold {
     chain!(
         ParenRemover,
