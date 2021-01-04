@@ -1,5 +1,5 @@
-use crate::util::is_valid_ident;
 use swc_ecma_ast::*;
+use swc_ecma_utils::is_valid_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// babel: `transform-member-expression-literals`
@@ -29,7 +29,7 @@ impl Fold for MemberExprLit {
     noop_fold_type!();
 
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        let mut e = validate!(e.fold_children_with(self));
+        let mut e = e.fold_children_with(self);
 
         macro_rules! handle {
             ($sym:expr, $span:expr) => {

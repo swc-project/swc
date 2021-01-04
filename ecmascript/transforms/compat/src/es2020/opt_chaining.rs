@@ -1,10 +1,12 @@
 use std::{iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::alias_if_required;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::{prepend, undefined, ExprFactory, StmtLike};
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 
 pub fn optional_chaining() -> impl Fold {
@@ -393,12 +395,12 @@ impl OptChaining {
                     right,
                 }));
 
-                validate!(CondExpr {
+                CondExpr {
                     span,
                     test,
                     cons,
                     alt,
-                })
+                }
             }
 
             Expr::Call(CallExpr {
@@ -499,12 +501,12 @@ impl OptChaining {
                     })),
                 }));
 
-                validate!(CondExpr {
+                CondExpr {
                     span: DUMMY_SP,
                     test,
                     cons,
                     alt,
-                })
+                }
             }
             _ => unreachable!("TsOptChain.expr = {:?}", e.expr),
         }
