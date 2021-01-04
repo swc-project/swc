@@ -79,10 +79,10 @@ impl Helpers {
         }
     }
 
-    pub(crate) const fn mark(&self) -> Mark {
+    pub const fn mark(&self) -> Mark {
         self.mark.0
     }
-    pub(crate) const fn external(&self) -> bool {
+    pub const fn external(&self) -> bool {
         self.external
     }
 }
