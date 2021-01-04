@@ -20,9 +20,9 @@ pub use swc_ecma_transforms_base::perf;
 pub use swc_ecma_transforms_base::resolver;
 pub use swc_ecma_transforms_compat as compat;
 pub use swc_ecma_transforms_module as modules;
+pub use swc_ecma_transforms_proposal as proposals;
 
 mod const_modules;
 pub mod optimization;
-pub mod proposals;
 pub mod react;
 pub mod typescript;
