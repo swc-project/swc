@@ -5173,3 +5173,52 @@ function Decorator() {
 ",
     ok_if_code_eq
 );
+
+// function_name_own_bindings
+test!(
+    // not important
+    ignore,
+    syntax(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_own_bindings,
+    r#"
+var f = function () {
+var f = 2;
+};
+
+var g = function (g) {
+g;
+};
+
+var obj = {
+f: function (f) {
+  f;
+}
+};
+
+"#,
+    r#"
+var f = function f() {
+var f = 2;
+};
+
+var g = function g(_g) {
+_g;
+};
+
+var obj = {
+f: function f(_f) {
+  _f;
+}
+};
+
+"#
+);
