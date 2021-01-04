@@ -264,41 +264,7 @@ impl Fold for ObjectLitFolder {
                 })
             }
 
-            Expr::This(_) => {}
-            Expr::Array(_) => {}
-            Expr::Fn(_) => {}
-            Expr::Unary(_) => {}
-            Expr::Update(_) => {}
-            Expr::Bin(_) => {}
-            Expr::Assign(_) => {}
-            Expr::Member(_) => {}
-            Expr::Cond(_) => {}
-            Expr::Call(_) => {}
-            Expr::New(_) => {}
-            Expr::Seq(_) => {}
-            Expr::Ident(_) => {}
-            Expr::Lit(_) => {}
-            Expr::Tpl(_) => {}
-            Expr::TaggedTpl(_) => {}
-            Expr::Arrow(_) => {}
-            Expr::Class(_) => {}
-            Expr::Yield(_) => {}
-            Expr::MetaProp(_) => {}
-            Expr::Await(_) => {}
-            Expr::Paren(_) => {}
-            Expr::JSXMember(_) => {}
-            Expr::JSXNamespacedName(_) => {}
-            Expr::JSXEmpty(_) => {}
-            Expr::JSXElement(_) => {}
-            Expr::JSXFragment(_) => {}
-            Expr::TsTypeAssertion(_) => {}
-            Expr::TsConstAssertion(_) => {}
-            Expr::TsNonNull(_) => {}
-            Expr::TsTypeCast(_) => {}
-            Expr::TsAs(_) => {}
-            Expr::PrivateName(_) => {}
-            Expr::OptChain(_) => {}
-            Expr::Invalid(_) => {}
+            _ => expr,
         }
     }
 }

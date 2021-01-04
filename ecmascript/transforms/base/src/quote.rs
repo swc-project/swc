@@ -29,6 +29,8 @@ macro_rules! helper_expr {
 
     ($span:expr, $field_name:ident, $s:tt) => {{
         use swc_ecma_utils::quote_ident;
+        use swc_ecma_utils::ExprFactory;
+
         debug_assert!(
             !$s.starts_with("_"),
             "helper! macro should not invoked with '_' prefix"
@@ -55,6 +57,7 @@ macro_rules! helper {
     }};
 
     ($span:expr, $field_name:ident, $s:tt) => {{
+        use swc_ecma_utils::ExprFactory;
         $crate::helper_expr!($span, $field_name, $s).as_callee()
     }};
 }
