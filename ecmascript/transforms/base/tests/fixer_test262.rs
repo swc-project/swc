@@ -11,7 +11,7 @@ use std::{
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms::fixer;
+use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use test::{

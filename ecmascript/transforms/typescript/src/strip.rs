@@ -4,6 +4,7 @@ use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
