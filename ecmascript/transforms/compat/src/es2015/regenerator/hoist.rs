@@ -2,6 +2,8 @@ use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
+use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub(super) type Vars = SmallVec<[Ident; 32]>;

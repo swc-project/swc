@@ -207,7 +207,7 @@ impl Params {
                                 }
                                 .into_stmt();
 
-                                validate!(expr)
+                                expr
                             }],
                         })),
                     }))
