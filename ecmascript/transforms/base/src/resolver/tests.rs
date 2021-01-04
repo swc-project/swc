@@ -35,11 +35,6 @@ impl VisitMut for TsHygiene {
     }
 }
 
-fn tr() -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
-    chain!(resolver_with_mark(mark), block_scoping())
-}
-
 /// Typescript transforms
 fn ts_tr() -> impl Fold {
     let top_level_mark = Mark::fresh(Mark::root());
@@ -80,7 +75,7 @@ macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
         #[test]
         fn $name() {
-            run_test(syntax(), tr(), $src, $to);
+            run_test(syntax(), resolver(), $src, $to);
         }
     };
 }
@@ -246,7 +241,7 @@ to!(
 fn babel_issue_1051() {
     run_test(
         Default::default(),
-        tr(),
+        resolver(),
         r#"foo.func1 = function() {
         if (cond1) {
           for (;;) {
@@ -289,7 +284,7 @@ fn babel_issue_1051() {
 fn babel_issue_2174() {
     run_test(
         Default::default(),
-        tr(),
+        resolver(),
         "if (true) {
         function foo() {}
         function bar() {
@@ -315,7 +310,7 @@ fn babel_issue_2174() {
 fn babel_issue_4363() {
     run_test(
         Default::default(),
-        tr(),
+        resolver(),
         r#"function WithoutCurlyBraces() {
         if (true)
           for (let k in kv) {
@@ -385,7 +380,7 @@ fn babel_issue_4363() {
 fn babel_issue_4946() {
     run_test(
         Default::default(),
-        tr(),
+        resolver(),
         r#"(function foo() {
         let foo = true;
       });"#,
@@ -438,7 +433,7 @@ expect(b()).toBe(2);"#,
     ""
 );
 
-top!(
+to!(
     pass_update,
     r#"let a = 1;
 a++;
@@ -796,9 +791,7 @@ export default function({
 "
 );
 
-test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     issue_369_2,
     "
 function a() {}
@@ -806,7 +799,8 @@ function b() {}
 function foo({a: b}){
 	expect(b).toBe('a')
 }
-foo({a: 'a'})"
+foo({a: 'a'})",
+    ""
 );
 
 identical!(
@@ -1004,7 +998,7 @@ class A extends C {
 fn issue_578_1() {
     run_test(
         syntax(),
-        tr(),
+        resolver(),
         "
     import { myFunction } from './dep.js'
     
