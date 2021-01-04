@@ -5,6 +5,7 @@ use swc_common::{
     Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
+use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::is_literal;
@@ -13,6 +14,7 @@ use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::to_int32;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::BoolType;
+use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::NullType;
 use swc_ecma_utils::NumberType;
 use swc_ecma_utils::ObjectType;
