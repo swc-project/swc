@@ -107,48 +107,6 @@ expect(test.iter().next().value).toBe(test);
 //"#
 //);
 
-// regression_6733
-test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        regenerator(Mark::fresh(Mark::root())),
-        common_js(Mark::fresh(Mark::root()), Default::default())
-    ),
-    regression_6733,
-    r#"
-export default function * () {
-  var x = yield 5;
-  return 5;
-}
-
-"#,
-    r#"
-'use strict';
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-exports.default = void 0;
-var regeneratorRuntime = require('regenerator-runtime');
-var _default = function _callee() {
-    var x;
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                _ctx.next = 2;
-                return 5;
-            case 2:
-                x = _ctx.sent;
-                return _ctx.abrupt('return', 5);
-            case 4:
-            case 'end': return _ctx.stop();
-        }
-    }, _callee);
-};
-exports.default = _default;
-"#
-);
-
 test!(
     syntax(),
     |_| tr(Default::default()),
