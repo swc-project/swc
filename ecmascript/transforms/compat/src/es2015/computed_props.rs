@@ -1,5 +1,7 @@
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
@@ -51,7 +53,6 @@ impl Fold for ObjectLitFolder {
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = validate!(expr);
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -261,7 +262,42 @@ impl Fold for ObjectLitFolder {
                     exprs,
                 })
             }
-            _ => expr,
+
+            Expr::This(_) => {}
+            Expr::Array(_) => {}
+            Expr::Fn(_) => {}
+            Expr::Unary(_) => {}
+            Expr::Update(_) => {}
+            Expr::Bin(_) => {}
+            Expr::Assign(_) => {}
+            Expr::Member(_) => {}
+            Expr::Cond(_) => {}
+            Expr::Call(_) => {}
+            Expr::New(_) => {}
+            Expr::Seq(_) => {}
+            Expr::Ident(_) => {}
+            Expr::Lit(_) => {}
+            Expr::Tpl(_) => {}
+            Expr::TaggedTpl(_) => {}
+            Expr::Arrow(_) => {}
+            Expr::Class(_) => {}
+            Expr::Yield(_) => {}
+            Expr::MetaProp(_) => {}
+            Expr::Await(_) => {}
+            Expr::Paren(_) => {}
+            Expr::JSXMember(_) => {}
+            Expr::JSXNamespacedName(_) => {}
+            Expr::JSXEmpty(_) => {}
+            Expr::JSXElement(_) => {}
+            Expr::JSXFragment(_) => {}
+            Expr::TsTypeAssertion(_) => {}
+            Expr::TsConstAssertion(_) => {}
+            Expr::TsNonNull(_) => {}
+            Expr::TsTypeCast(_) => {}
+            Expr::TsAs(_) => {}
+            Expr::PrivateName(_) => {}
+            Expr::OptChain(_) => {}
+            Expr::Invalid(_) => {}
         }
     }
 }

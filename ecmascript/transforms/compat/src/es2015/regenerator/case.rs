@@ -1,8 +1,5 @@
+use super::leap::{CatchEntry, FinallyEntry, TryEntry};
 use super::leap::{Entry, LeapManager};
-use crate::{
-    compat::es2015::regenerator::leap::{CatchEntry, FinallyEntry, TryEntry},
-    util::{ident::IdentLike, undefined, ExprFactory},
-};
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_atoms::JsWord;
@@ -11,6 +8,9 @@ use swc_common::{
     BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::undefined;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
