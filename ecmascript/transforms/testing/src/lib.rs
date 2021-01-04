@@ -1,3 +1,4 @@
+use std::mem::replace;
 use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
@@ -6,6 +7,7 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
+use swc_common::DUMMY_SP;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
 };
@@ -16,6 +18,8 @@ use swc_ecma_transforms_base::fixer;
 use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
 use swc_ecma_transforms_base::hygiene;
 use swc_ecma_utils::DropSpan;
+use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
 
@@ -120,7 +124,7 @@ impl<'a> Tester<'a> {
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
             }))
-            .fold_with(&mut Normalizer);
+            .fold_with(&mut as_folder(Normalizer));
 
         Ok(module)
     }
@@ -369,23 +373,24 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold for Normalizer {
-    fn fold_pat_or_expr(&mut self, mut n: PatOrExpr) -> PatOrExpr {
-        if let PatOrExpr::Pat(pat) = n {
-            if let Pat::Expr(expr) = *pat {
-                return PatOrExpr::Expr(expr);
-            }
-            n = PatOrExpr::Pat(pat);
-        }
+impl VisitMut for Normalizer {
+    fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
+        node.visit_mut_children_with(self);
 
-        n
+        match node {
+            PatOrExpr::Pat(pat) => match &mut **pat {
+                Pat::Expr(e) => {
+                    let e = replace(e, Box::new(Expr::Invalid(Invalid { span: DUMMY_SP })));
+                    *node = PatOrExpr::Expr(e);
+                }
+                _ => {}
+            },
+            _ => {}
+        }
     }
 
-    fn fold_str(&mut self, s: Str) -> Str {
-        Str {
-            kind: Default::default(),
-            ..s
-        }
+    fn visit_mut_str(&mut self, s: &mut Str) {
+        s.kind = Default::default();
     }
 }
 
