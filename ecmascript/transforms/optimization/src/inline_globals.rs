@@ -85,6 +85,7 @@ impl Fold for InlineGlobals {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_transforms_testing::test;
     use swc_ecma_transforms_testing::Tester;
     use swc_ecma_utils::DropSpan;
     use swc_ecma_visit::as_folder;
