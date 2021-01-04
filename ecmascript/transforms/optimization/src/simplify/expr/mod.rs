@@ -5,9 +5,24 @@ use swc_common::{
     Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
+use swc_ecma_transforms_base::pass::RepeatedJsPass;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::is_literal;
+use swc_ecma_utils::preserve_effects;
+use swc_ecma_utils::prop_name_eq;
+use swc_ecma_utils::to_int32;
+use swc_ecma_utils::undefined;
+use swc_ecma_utils::BoolType;
+use swc_ecma_utils::NullType;
+use swc_ecma_utils::NumberType;
+use swc_ecma_utils::ObjectType;
+use swc_ecma_utils::StringType;
+use swc_ecma_utils::SymbolType;
+use swc_ecma_utils::UndefinedType;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use Value::Known;
+use Value::Unknown;
 
 #[cfg(test)]
 mod tests;
