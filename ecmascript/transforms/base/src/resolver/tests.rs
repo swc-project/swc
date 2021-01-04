@@ -1003,55 +1003,57 @@ class A extends C {
 "
 );
 
-test!(
-    syntax(),
-    |_| tr(),
-    issue_578_1,
-    "
-import { myFunction } from './dep.js'
-
-class SomeClass {
-  constructor(properties) {
-    this.props = properties;
-  }
-  call () {
-    const {myFunction} = this.props
-    if (myFunction) {
-      myFunction()
-    } else {
-      console.log('DID NOT WORK!')
-    }
-  }
-}
-
-let instance = new SomeClass({
-  myFunction: () => {
-    console.log('CORRECT FUNCTION CALLED')
-  }
-});
-
-instance.call()",
-    "import { myFunction } from './dep.js';
-class SomeClass{
-    constructor(properties){
+#[test]
+fn issue_578_1() {
+    run_test(
+        syntax(),
+        tr(),
+        "
+    import { myFunction } from './dep.js'
+    
+    class SomeClass {
+      constructor(properties) {
         this.props = properties;
-    }
-     call() {
-        var { myFunction: myFunction1  } = this.props;
-        if (myFunction1) {
-            myFunction1();
+      }
+      call () {
+        const {myFunction} = this.props
+        if (myFunction) {
+          myFunction()
         } else {
-            console.log('DID NOT WORK!');
+          console.log('DID NOT WORK!')
+        }
+      }
+    }
+    
+    let instance = new SomeClass({
+      myFunction: () => {
+        console.log('CORRECT FUNCTION CALLED')
+      }
+    });
+    
+    instance.call()",
+        "import { myFunction } from './dep.js';
+    class SomeClass{
+        constructor(properties){
+            this.props = properties;
+        }
+         call() {
+            var { myFunction: myFunction1  } = this.props;
+            if (myFunction1) {
+                myFunction1();
+            } else {
+                console.log('DID NOT WORK!');
+            }
         }
     }
+    var instance = new SomeClass({
+        myFunction: ()=>{
+            console.log('CORRECT FUNCTION CALLED');
+        }
+    });
+    instance.call()",
+    );
 }
-var instance = new SomeClass({
-    myFunction: ()=>{
-        console.log('CORRECT FUNCTION CALLED');
-    }
-});
-instance.call()"
-);
 
 test!(
     syntax(),
@@ -1116,17 +1118,19 @@ instance.call();",
     ok_if_code_eq
 );
 
-test!(
-    syntax(),
-    |_| tr(),
-    global_object,
-    "function foo(Object) {
+#[test]
+fn global_object() {
+    run_test(
+        syntax(),
+        resolver(),
+        "function foo(Object) {
         Object.defineProperty()
     }",
-    "function foo(Object1) {
+        "function foo(Object1) {
     Object1.defineProperty();
-}"
-);
+}",
+    );
+}
 
 identical!(
     hoisting,
