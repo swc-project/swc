@@ -17,4 +17,4 @@ swc_ecma_visit = {version = "0.22.0", path = "../../visit"}
 
 [dev-dependencies]
 swc_ecma_transforms_testing = {version = "0.1", path = "../testing"}
-testing = {version = "0.10.2", path = "../../testing"}
+testing = {version = "0.10.2", path = "../../../testing"}
