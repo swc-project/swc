@@ -1,4 +1,5 @@
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::PatOrExprExt;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::noop_fold_type;

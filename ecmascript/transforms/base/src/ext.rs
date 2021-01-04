@@ -189,7 +189,7 @@ impl PatOrExprExt for PatOrExpr {
     }
 }
 
-pub(crate) trait ExprRefExt: ExprExt {
+pub trait ExprRefExt: ExprExt {
     fn as_ident(&self) -> Option<&Ident> {
         match self.as_expr() {
             Expr::Ident(ref i) => Some(i),

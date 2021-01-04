@@ -3,6 +3,7 @@ use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::alias_ident_for;
 use swc_ecma_utils::is_literal;
