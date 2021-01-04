@@ -1,4 +1,3 @@
-#![feature(test)]
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::parameters;

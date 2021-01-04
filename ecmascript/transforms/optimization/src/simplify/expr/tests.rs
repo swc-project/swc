@@ -1,12 +1,13 @@
 use super::SimplifyExpr;
+use swc_ecma_transforms_testing::test_transform;
 
 fn fold(src: &str, expected: &str) {
-    test_transform!(
+    test_transform(
         ::swc_ecma_parser::Syntax::default(),
         |_| SimplifyExpr { changed: false },
         src,
         expected,
-        true
+        true,
     )
 }
 

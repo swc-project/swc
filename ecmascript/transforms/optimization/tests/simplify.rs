@@ -1,27 +1,19 @@
 //! Copied from PeepholeIntegrationTest from the google closure compiler.
 
-#![feature(test)]
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{
-    optimization::{
-        simplifier,
-        simplify::{dce::dce, inlining::inlining},
-    },
-    resolver,
-    typescript::strip,
-};
-
-#[macro_use]
-mod common;
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_optimization::simplify::simplifier;
+use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_transform;
 
 fn test(src: &str, expected: &str) {
-    test_transform!(
+    test_transform(
         ::swc_ecma_parser::Syntax::default(),
         |_| chain!(resolver(), simplifier(Default::default())),
         src,
         expected,
-        true
+        true,
     )
 }
 
