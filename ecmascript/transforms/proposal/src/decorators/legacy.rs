@@ -1,14 +1,17 @@
 use self::metadata::{Metadata, ParamMetadata};
 use super::usage::DecoratorFinder;
-use crate::util::{
-    alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
-    ExprFactory, ModuleItemLike, StmtLike,
-};
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::member_expr;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::{
+    alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
+    ExprFactory, ModuleItemLike, StmtLike,
+};
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 

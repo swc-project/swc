@@ -3,11 +3,14 @@ use serde::Deserialize;
 use std::iter;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
     ExprFactory, IdentExt,
 };
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod legacy;
