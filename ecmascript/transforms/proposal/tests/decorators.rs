@@ -1987,58 +1987,6 @@ expect(el).toEqual(Object.defineProperty({
 "#
 );
 
-test!(
-    Syntax::Typescript(TsConfig {
-        decorators: true,
-        ..Default::default()
-    }),
-    |_| chain!(typescript::strip(), resolver(), transformation()),
-    issue_367,
-    "
-
- // before
-import { bind } from 'some';
-
-class A {
-  @bind
-  public get foo() {
-    return 1;
-  }
-
-  @bind
-  public bar() {
-    return 1;
-  }
-}",
-    "import { bind } from 'some';
-let A = _decorate([], function(_initialize) {
-    class A{
-        constructor(){
-            _initialize(this);
-        }
-    }
-    return {
-        F: A,
-        d: [{
-                kind: 'get',
-                decorators: [bind],
-                key: 'foo',
-                value: function foo() {
-                    return 1;
-                }
-            }, {
-                kind: 'method',
-                decorators: [bind],
-                key: 'bar',
-                value: function bar() {
-                    return 1;
-                }
-            }]
-    };
-});
-"
-);
-
 // legacy_class_constructors_return_new_constructor
 test_exec!(
     syntax(true),
