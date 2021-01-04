@@ -7,8 +7,11 @@ use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_compat::es2015::block_scoped_functions;
 use swc_ecma_transforms_compat::es2015::block_scoping;
+use swc_ecma_transforms_compat::es2015::classes;
+use swc_ecma_transforms_compat::es2015::destructuring;
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_compat::es2015::regenerator;
+use swc_ecma_transforms_compat::es2018::object_rest_spread;
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_module::import_analysis::import_analyzer;
 use swc_ecma_transforms_module::util::Config;
@@ -4314,7 +4317,7 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        tr(),
+        object_rest_spread(),
         destructuring(destructuring::Config { loose: false }),
         common_js(Mark::fresh(Mark::root()), Default::default()),
     ),
