@@ -1,4 +1,6 @@
+use crate::fixer::fixer;
 use crate::helpers::HELPERS;
+use crate::hygiene::hygiene;
 use std::fmt;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
@@ -212,7 +214,8 @@ pub(crate) fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut hygiene())
+            .fold_with(&mut fixer(None))
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,
             }));

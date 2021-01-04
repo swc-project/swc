@@ -58,15 +58,19 @@ fn ts() -> Syntax {
     })
 }
 
-fn run_test(syntax: Syntax, tr: impl Fold, src: &str, to: &str) {
-    crate::tests::test_transform(syntax, |_| tr, src, to, true);
+fn run_test<F, V>(syntax: Syntax, tr: F, src: &str, to: &str)
+where
+    F: FnOnce() -> V,
+    V: Fold,
+{
+    crate::tests::test_transform(syntax, |_| tr(), src, to, true);
 }
 
 macro_rules! to_ts {
     ($name:ident, $src:literal, $to:literal) => {
         #[test]
         fn $name() {
-            run_test(ts(), ts_tr(), $src, $to);
+            run_test(ts(), || ts_tr(), $src, $to);
         }
     };
 }
@@ -75,7 +79,7 @@ macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
         #[test]
         fn $name() {
-            run_test(syntax(), resolver(), $src, $to);
+            run_test(syntax(), || resolver(), $src, $to);
         }
     };
 }
@@ -96,7 +100,7 @@ macro_rules! identical_no_block {
     ($name:ident, $src:literal) => {
         #[test]
         fn $name() {
-            run_test(syntax(), resolver(), $src, $src);
+            run_test(syntax(), || resolver(), $src, $src);
         }
     };
 }
@@ -241,7 +245,7 @@ to!(
 fn babel_issue_1051() {
     run_test(
         Default::default(),
-        resolver(),
+        || resolver(),
         r#"foo.func1 = function() {
         if (cond1) {
           for (;;) {
@@ -284,7 +288,7 @@ fn babel_issue_1051() {
 fn babel_issue_2174() {
     run_test(
         Default::default(),
-        resolver(),
+        || resolver(),
         "if (true) {
         function foo() {}
         function bar() {
@@ -310,7 +314,7 @@ fn babel_issue_2174() {
 fn babel_issue_4363() {
     run_test(
         Default::default(),
-        resolver(),
+        || resolver(),
         r#"function WithoutCurlyBraces() {
         if (true)
           for (let k in kv) {
@@ -380,7 +384,7 @@ fn babel_issue_4363() {
 fn babel_issue_4946() {
     run_test(
         Default::default(),
-        resolver(),
+        || resolver(),
         r#"(function foo() {
         let foo = true;
       });"#,
@@ -396,7 +400,7 @@ fn babel_issue_4946() {
 fn babel_issue_973() {
     run_test(
         Default::default(),
-        resolver(),
+        || resolver(),
         r#"let arr = [];
     for(let i = 0; i < 10; i++) {
       for (let i = 0; i < 10; i++) {
@@ -998,7 +1002,7 @@ class A extends C {
 fn issue_578_1() {
     run_test(
         syntax(),
-        resolver(),
+        || resolver(),
         "
     import { myFunction } from './dep.js'
     
@@ -1050,7 +1054,7 @@ fn issue_578_1() {
 fn global_object() {
     run_test(
         syntax(),
-        resolver(),
+        || resolver(),
         "function foo(Object) {
         Object.defineProperty()
     }",
