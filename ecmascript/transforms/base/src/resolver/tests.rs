@@ -418,18 +418,15 @@ fn babel_issue_973() {
     );
 }
 
-test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     pass_assignment,
     r#"let a = 1;
 a = 2;
-expect(a).toBe(2);"#
+expect(a).toBe(2);"#,
+    ""
 );
 
-test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     pass_call,
     r#"let a = 1;
 
@@ -437,16 +434,16 @@ function b() {
   return a + 1;
 }
 
-expect(b()).toBe(2);"#
+expect(b()).toBe(2);"#,
+    ""
 );
 
-test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+top!(
     pass_update,
     r#"let a = 1;
 a++;
-expect(a).toBe(2);"#
+expect(a).toBe(2);"#,
+    ""
 );
 
 to!(
