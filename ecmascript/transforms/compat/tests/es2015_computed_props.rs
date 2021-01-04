@@ -1,10 +1,7 @@
-#![feature(test)]
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::compat::es2015::computed_properties;
+use swc_ecma_transforms_compat::es2015::computed_properties;
+use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
-
-#[macro_use]
-mod common;
 
 fn syntax() -> Syntax {
     ::swc_ecma_parser::Syntax::default()

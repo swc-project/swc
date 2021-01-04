@@ -1,9 +1,6 @@
-#![feature(test)]
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::compat::es2015::duplicate_keys;
-
-#[macro_use]
-mod common;
+use swc_ecma_transforms_compat::es2015::duplicate_keys;
+use swc_ecma_transforms_testing::test;
 
 fn syntax() -> Syntax {
     Default::default()

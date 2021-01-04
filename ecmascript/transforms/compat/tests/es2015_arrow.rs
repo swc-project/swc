@@ -1,5 +1,5 @@
-#![feature(test)]
-use swc_ecma_transforms::compat::es2015::arrow;
+use swc_ecma_transforms_compat::es2015::arrow;
+use swc_ecma_transforms_testing::test;
 
 test!(
     ::swc_ecma_parser::Syntax::default(),

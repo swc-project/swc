@@ -1,13 +1,10 @@
 #![feature(test)]
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{
-    compat::es2015::for_of::{for_of, Config},
-    modules::{amd::amd, common_js::common_js},
-};
-
-#[macro_use]
-mod common;
+use swc_ecma_transforms_compat::es2015::for_of::for_of;
+use swc_ecma_transforms_compat::es2015::for_of::Config;
+use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_exec;
 
 fn syntax() -> Syntax {
     Default::default()

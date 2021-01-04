@@ -1,22 +1,19 @@
 #![feature(test)]
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{
-    compat::{
-        es2015,
-        es2015::{
-            block_scoping,
-            destructuring::{destructuring, Config},
-            parameters, spread,
-        },
-        es2018::object_rest_spread,
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::{
+    es2015,
+    es2015::{
+        block_scoping,
+        destructuring::{destructuring, Config},
+        parameters, spread,
     },
-    resolver,
+    es2018::object_rest_spread,
 };
+use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
-
-#[macro_use]
-mod common;
 
 fn syntax() -> Syntax {
     Default::default()

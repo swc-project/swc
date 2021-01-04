@@ -1,18 +1,15 @@
 #![feature(test)]
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{
-    compat::{
-        es2015::{arrow, block_scoping, classes, destructuring, parameters},
-        es2017::async_to_generator,
-    },
-    modules::common_js::common_js,
-    resolver,
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::block_scoping;
+use swc_ecma_transforms_compat::es2015::destructuring;
+use swc_ecma_transforms_compat::es2015::parameters;
+use swc_ecma_transforms_compat::{
+    es2015::{arrow, block_scoping, classes, destructuring, parameters},
+    es2017::async_to_generator,
 };
 use swc_ecma_visit::Fold;
-
-#[macro_use]
-mod common;
 
 fn syntax() -> Syntax {
     Default::default()
@@ -22,8 +19,8 @@ fn tr() -> impl Fold {
     chain!(
         resolver(),
         parameters(),
-        swc_ecma_transforms::compat::es2015::destructuring(destructuring::Config { loose: false }),
-        swc_ecma_transforms::compat::es2015::block_scoping(),
+        destructuring(destructuring::Config { loose: false }),
+        block_scoping(),
     )
 }
 
