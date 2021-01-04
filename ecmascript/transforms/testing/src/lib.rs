@@ -165,7 +165,7 @@ macro_rules! test_transform {
     };
 
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_code_eq:expr) => {{
-        crate::tests::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
+        $crate::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
     }};
 }
 
