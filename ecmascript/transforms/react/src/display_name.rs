@@ -1,4 +1,3 @@
-use crate::ext::{AsOptExpr, PatOrExprExt};
 use std::ops::DerefMut;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;

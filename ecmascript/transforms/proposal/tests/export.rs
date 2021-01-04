@@ -4,9 +4,6 @@ use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{compat::es2020::export_namespace_from, proposals::export_default_from};
 use swc_ecma_visit::Fold;
 
-#[macro_use]
-mod common;
-
 fn syntax_default() -> Syntax {
     Syntax::Es(EsConfig {
         export_default_from: true,
