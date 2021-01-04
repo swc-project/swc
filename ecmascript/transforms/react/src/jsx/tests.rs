@@ -1,6 +1,7 @@
 use super::*;
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::Tester;
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(

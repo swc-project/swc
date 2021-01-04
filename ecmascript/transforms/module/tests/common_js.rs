@@ -5,6 +5,7 @@ use swc_ecma_transforms_base::helpers::inject_helpers;
 use swc_ecma_transforms_base::hygiene::hygiene;
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_compat::es2015::block_scoped_functions;
 use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_compat::es2015::regenerator;
@@ -3876,7 +3877,7 @@ test!(
 
         chain!(
             resolver_with_mark(mark),
-            lock_scoped_functions(),
+            block_scoped_functions(),
             block_scoping(),
             common_js(mark, Default::default()),
         )
