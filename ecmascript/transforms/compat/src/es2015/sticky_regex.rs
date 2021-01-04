@@ -1,7 +1,8 @@
-use crate::util::ExprFactory;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
