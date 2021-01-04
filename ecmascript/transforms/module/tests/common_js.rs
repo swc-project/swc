@@ -10,7 +10,9 @@ use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::destructuring;
 use swc_ecma_transforms_compat::es2015::for_of;
+use swc_ecma_transforms_compat::es2015::parameters;
 use swc_ecma_transforms_compat::es2015::regenerator;
+use swc_ecma_transforms_compat::es2015::spread;
 use swc_ecma_transforms_compat::es2018::object_rest_spread;
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_module::import_analysis::import_analyzer;
@@ -4408,7 +4410,7 @@ return Thing;
 test!(
     syntax(),
     |_| chain!(
-        spread(Config {
+        spread(spread::Config {
             ..Default::default()
         }),
         common_js(Mark::fresh(Mark::root()), Default::default())
