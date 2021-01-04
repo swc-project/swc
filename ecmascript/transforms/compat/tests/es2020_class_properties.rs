@@ -1,16 +1,13 @@
 #![feature(test)]
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms::{
-    compat::{
-        es2015::{arrow, block_scoping, classes, function_name},
-        es2016::exponentation,
-        es2017::async_to_generator,
-        es2020::{class_properties, typescript_class_properties},
-        es3::reserved_words,
-    },
-    proposals::decorators,
-    resolver, typescript,
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::{
+    es2015::{arrow, block_scoping, classes, function_name},
+    es2016::exponentation,
+    es2017::async_to_generator,
+    es2020::{class_properties, typescript_class_properties},
+    es3::reserved_words,
 };
 use swc_ecma_visit::Fold;
 

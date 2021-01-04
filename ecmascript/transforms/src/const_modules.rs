@@ -1,5 +1,3 @@
-#![cfg(feature = "const-modules")]
-
 use crate::util::drop_span;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;

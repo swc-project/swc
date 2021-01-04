@@ -2,18 +2,13 @@
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{
-    compat::{
-        es2015::{arrow, destructuring, es2015, function_name, parameters},
-        es2017::async_to_generator,
-    },
-    fixer, resolver,
-    typescript::strip,
-};
+use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_transforms_compat::es2015::arrow;
+use swc_ecma_transforms_compat::es2015::destructuring;
+use swc_ecma_transforms_compat::es2015::function_name;
+use swc_ecma_transforms_compat::es2015::parameters;
+use swc_ecma_transforms_compat::es2017::async_to_generator;
 use swc_ecma_visit::{Fold, FoldWith};
-
-#[macro_use]
-mod common;
 
 struct ParenRemover;
 impl Fold for ParenRemover {

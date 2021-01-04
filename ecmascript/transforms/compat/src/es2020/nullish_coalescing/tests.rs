@@ -1,5 +1,4 @@
 use super::*;
-use crate::typescript::strip;
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_testing::test;
