@@ -1,5 +1,4 @@
 use super::get_prototype_of;
-use crate::util::ExprFactory;
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Mark, DUMMY_SP};

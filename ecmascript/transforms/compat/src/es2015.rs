@@ -74,7 +74,7 @@ pub struct Config {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::resolver;
+    use swc_ecma_transforms_testing::test;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
