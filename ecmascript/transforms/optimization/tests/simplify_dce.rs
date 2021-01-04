@@ -1,4 +1,3 @@
-#![feature(test)]
 use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
@@ -7,8 +6,7 @@ use swc_ecma_transforms::{
     resolver,
     typescript::{self, strip},
 };
-#[macro_use]
-mod common;
+use swc_ecma_transforms_testing::test;
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {

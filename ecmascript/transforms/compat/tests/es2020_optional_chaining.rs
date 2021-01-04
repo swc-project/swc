@@ -704,7 +704,7 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(strip(), tr(())),
+    |_| chain!(strip(), optional_chaining()),
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);

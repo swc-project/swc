@@ -125,17 +125,11 @@ mod tests {
         m
     }
 
-    fn envs(
-        tester: &mut crate::tests::Tester<'_>,
-        values: &[(&str, &str)],
-    ) -> HashMap<JsWord, Expr> {
+    fn envs(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
         mk_map(tester, values, true)
     }
 
-    fn globals(
-        tester: &mut crate::tests::Tester<'_>,
-        values: &[(&str, &str)],
-    ) -> HashMap<JsWord, Expr> {
+    fn globals(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
         mk_map(tester, values, false)
     }
 

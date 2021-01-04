@@ -111,7 +111,8 @@ expect(test.iter().next().value).toBe(test);
 test!(
     syntax(),
     |_| chain!(
-        tr(Default::default()),
+        resolver(),
+        regenerator(Mark::fresh(Mark::root())),
         common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     regression_6733,
