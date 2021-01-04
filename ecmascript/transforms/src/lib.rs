@@ -5,8 +5,6 @@
 #[macro_use]
 extern crate swc_ecma_utils;
 
-#[cfg(feature = "const-modules")]
-pub use self::const_modules::const_modules;
 pub use self::{
     fixer::fixer,
     hygiene::hygiene,
@@ -20,9 +18,10 @@ pub use swc_ecma_transforms_base::perf;
 pub use swc_ecma_transforms_base::resolver;
 pub use swc_ecma_transforms_compat as compat;
 pub use swc_ecma_transforms_module as modules;
+pub use swc_ecma_transforms_optimization as optimization;
+#[cfg(feature = "const-modules")]
+pub use swc_ecma_transforms_optimization::const_modules;
 pub use swc_ecma_transforms_proposal as proposals;
 pub use swc_ecma_transforms_react as react;
 
-mod const_modules;
-pub mod optimization;
 pub mod typescript;
