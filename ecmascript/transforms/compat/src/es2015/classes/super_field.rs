@@ -1,10 +1,12 @@
 use super::get_prototype_of;
-use crate::util::{alias_ident_for, is_rest_arguments, ExprFactory};
 use std::iter;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::alias_ident_for;
+use swc_ecma_utils::is_rest_arguments;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// Process function body.

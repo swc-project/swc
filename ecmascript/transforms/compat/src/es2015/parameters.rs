@@ -1,7 +1,8 @@
-use crate::util::{prepend_stmts, ExprFactory};
 use arrayvec::ArrayVec;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn parameters() -> impl 'static + Fold {
