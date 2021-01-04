@@ -1,4 +1,3 @@
-use crate::util::find_ids;
 use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;

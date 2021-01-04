@@ -1,11 +1,15 @@
-use crate::util::{
-    alias_ident_for, alias_if_required, has_rest_pat, is_literal, prop_name_to_expr, undefined,
-    ExprFactory, StmtLike,
-};
 use serde::Deserialize;
 use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::alias_if_required;
+use swc_ecma_utils::has_rest_pat;
+use swc_ecma_utils::is_literal;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::prop_name_to_expr;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::undefined;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-destructuring`

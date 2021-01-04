@@ -1,5 +1,4 @@
 use self::{case::CaseHandler, hoist::hoist};
-use crate::util::{contains_this_expr, prepend, ExprFactory, StmtLike};
 use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};

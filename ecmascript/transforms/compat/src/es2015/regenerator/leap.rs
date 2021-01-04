@@ -1,5 +1,4 @@
 use super::case::Loc;
-use crate::util::Id;
 use is_macro::Is;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
