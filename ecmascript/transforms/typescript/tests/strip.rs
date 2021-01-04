@@ -1,5 +1,6 @@
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
@@ -3194,4 +3195,37 @@ test!(
     });
     console.log(submissions);
     "#
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        typescript::strip(),
+        decorators(Default::default()),
+        class_properties(),
+        simplifier(Default::default()),
+        compat::es2018(),
+        compat::es2017(),
+        compat::es2016(),
+        compat::es2015(Mark::fresh(Mark::root()), Default::default()),
+        compat::es3(true),
+        import_analyzer(),
+        inject_helpers(),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
+    ),
+    issue_389_3,
+    "
+import Foo from 'foo';
+Foo.bar = true;
+",
+    "
+'use strict';
+var _foo = _interopRequireDefault(require('foo'));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+_foo.default.bar = true;
+"
 );
