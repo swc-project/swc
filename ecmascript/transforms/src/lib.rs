@@ -23,5 +23,4 @@ pub use swc_ecma_transforms_optimization as optimization;
 pub use swc_ecma_transforms_optimization::const_modules;
 pub use swc_ecma_transforms_proposal as proposals;
 pub use swc_ecma_transforms_react as react;
-
-pub mod typescript;
+pub use swc_ecma_transforms_typescript as typescript;
