@@ -1,15 +1,12 @@
-#![feature(test)]
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{
-    compat::{es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator},
-    modules::common_js::common_js,
-    resolver,
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::{
+    es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator,
 };
+use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
-
-#[macro_use]
-mod common;
 
 fn syntax() -> Syntax {
     Syntax::default()
