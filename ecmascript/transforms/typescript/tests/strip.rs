@@ -3144,3 +3144,54 @@ test!(
     const tmp = tt === null || tt === void 0 ? void 0 : tt.map((t) => t).join((v) => v);
     "
 );
+
+test!(
+    Syntax::Typescript(TsConfig {
+        ..Default::default()
+    }),
+    |_| chain!(strip(), nullish_coalescing()),
+    issue_1123_1,
+    r#"
+    interface SuperSubmission {
+        [key: string]: any;
+    }
+      
+    const normalizedQuestionSet: any = {};
+      
+    const submissions: SuperSubmission[] = (
+        normalizedQuestionSet.submissionIds ?? []
+    ).map(
+        (id, index): SuperSubmission => {
+          const submission = normalizedQuestionSet.submissions?.[id];
+      
+          const submissionAnswers = (submission.answers ?? []).map(
+            (answerId) => normalizedQuestionSet.answers?.[answerId]
+          );
+      
+          console.log(id, index);
+      
+          return {
+            type: "super-submission",
+          };
+        }
+      );
+      
+      console.log(submissions);
+    "#,
+    r#"
+    const normalizedQuestionSet = {
+    };
+    var _submissionIds;
+    const submissions = ((_submissionIds = normalizedQuestionSet.submissionIds) !== null && _submissionIds !== void 0 ? _submissionIds : []).map((id, index)=>{
+        const submission = normalizedQuestionSet.submissions?.[id];
+        var _answers;
+        const submissionAnswers = ((_answers = submission.answers) !== null && _answers !== void 0 ? _answers : []).map((answerId)=>normalizedQuestionSet.answers?.[answerId]
+        );
+        console.log(id, index);
+        return {
+            type: "super-submission"
+        };
+    });
+    console.log(submissions);
+    "#
+);
