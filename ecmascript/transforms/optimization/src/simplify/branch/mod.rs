@@ -12,6 +12,7 @@ use swc_ecma_utils::is_literal;
 use swc_ecma_utils::prepend;
 use swc_ecma_utils::preserve_effects;
 use swc_ecma_utils::undefined;
+use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Hoister;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value::Known;

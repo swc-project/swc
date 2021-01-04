@@ -1,16 +1,14 @@
 use self::scope::{Scope, ScopeKind, VarType};
-use crate::{
-    ext::{MapWithMut, PatOrExprExt},
-    pass::RepeatedJsPass,
-    scope::IdentType,
-};
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::pass::RepeatedJsPass;
+use swc_ecma_transforms_base::scope::IdentType;
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
 };

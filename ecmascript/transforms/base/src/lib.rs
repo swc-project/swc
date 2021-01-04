@@ -12,6 +12,6 @@ pub mod pass;
 pub mod perf;
 pub mod quote;
 pub mod resolver;
-mod scope;
+pub mod scope;
 #[cfg(test)]
 mod tests;
