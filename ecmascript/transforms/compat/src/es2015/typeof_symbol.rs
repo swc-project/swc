@@ -1,7 +1,9 @@
-use crate::util::ExprFactory;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub fn typeof_symbol() -> impl Fold {
@@ -120,6 +122,7 @@ fn is_non_symbol_literal(e: &Expr) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_transforms_testing::test;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

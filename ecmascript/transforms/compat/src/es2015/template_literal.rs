@@ -2,9 +2,11 @@ use std::{iter, mem};
 use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::is_literal;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
@@ -311,7 +313,7 @@ impl Fold for TemplateLiteral {
                     function: f,
                 })));
 
-                validate!(Expr::Call(CallExpr {
+                Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: tag.as_callee(),
                     args: iter::once(
@@ -326,7 +328,7 @@ impl Fold for TemplateLiteral {
                     .chain(exprs.into_iter().map(|e| e.as_arg()))
                     .collect(),
                     type_args: Default::default(),
-                }))
+                })
             }
 
             _ => e,
