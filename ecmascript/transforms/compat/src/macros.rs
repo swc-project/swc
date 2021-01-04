@@ -5,16 +5,15 @@ macro_rules! impl_fold_fn {
                 return f;
             }
 
-            let f = validate!(f);
             let f = f.fold_children_with(self);
 
             let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
 
-            validate!(Function {
+            Function {
                 params,
                 body: Some(body),
                 ..f
-            })
+            }
         }
 
         fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
@@ -62,11 +61,11 @@ macro_rules! impl_fold_fn {
                 BlockStmtOrExpr::BlockStmt(body)
             };
 
-            validate!(ArrowExpr {
+            ArrowExpr {
                 params: params.into_iter().map(|param| param.pat).collect(),
                 body,
                 ..f
-            })
+            }
         }
 
         fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
@@ -86,11 +85,11 @@ macro_rules! impl_fold_fn {
             );
             debug_assert!(params.len() == 1);
 
-            validate!(SetterProp {
+            SetterProp {
                 param: params.pop().unwrap().pat,
                 body: Some(body),
                 ..f
-            })
+            }
         }
 
         fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
@@ -103,10 +102,10 @@ macro_rules! impl_fold_fn {
             let (params, body) = self.fold_fn_like(vec![], f.body.unwrap());
             debug_assert_eq!(params, vec![]);
 
-            validate!(GetterProp {
+            GetterProp {
                 body: Some(body),
                 ..f
-            })
+            }
         }
 
         fn fold_catch_clause(&mut self, f: CatchClause) -> CatchClause {
@@ -134,11 +133,11 @@ macro_rules! impl_fold_fn {
                 Some(params.pop().unwrap())
             };
 
-            validate!(CatchClause {
+            CatchClause {
                 param: param.map(|param| param.pat),
                 body,
                 ..f
-            })
+            }
         }
 
         fn fold_constructor(&mut self, f: Constructor) -> Constructor {
@@ -161,11 +160,11 @@ macro_rules! impl_fold_fn {
 
             let (params, body) = self.fold_fn_like(params, f.body.unwrap());
 
-            validate!(Constructor {
+            Constructor {
                 params: params.into_iter().map(ParamOrTsParamProp::Param).collect(),
                 body: Some(body),
                 ..f
-            })
+            }
         }
     };
 }
