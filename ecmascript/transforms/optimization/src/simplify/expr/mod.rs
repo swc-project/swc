@@ -1,4 +1,3 @@
-use crate::{ext::ExprRefExt, pass::RepeatedJsPass, util::*};
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -7,6 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::Value;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]

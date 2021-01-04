@@ -4,6 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{Node, Visit, VisitWith};
 
 pub(super) struct ImportDetector {

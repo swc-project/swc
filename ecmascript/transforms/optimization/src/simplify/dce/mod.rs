@@ -2,6 +2,7 @@ use self::side_effect::{ImportDetector, SideEffectVisitor};
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use std::{any::type_name, borrow::Cow, fmt::Debug, mem::take};
+use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -10,6 +11,7 @@ use swc_common::{
     Mark, Span, Spanned,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::pass::RepeatedJsPass;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
