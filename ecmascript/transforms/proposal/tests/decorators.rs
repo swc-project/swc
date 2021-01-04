@@ -1,5 +1,8 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::classes;
+use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_proposal::decorators::Config;
@@ -5463,6 +5466,34 @@ return Container;
 }();
 
 exports.default = Container;
+
+"#
+);
+
+// function_name_await
+test!(
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_await,
+    r#"
+export {};
+
+var obj = { await: function () {} };
+
+"#,
+    r#"
+export {};
+var obj = {
+await: function _await() {}
+};
 
 "#
 );

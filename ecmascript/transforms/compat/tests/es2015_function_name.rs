@@ -228,34 +228,6 @@ export const y = function y() {};
 //
 //"#);
 
-// function_name_await
-test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-    ),
-    function_name_await,
-    r#"
-export {};
-
-var obj = { await: function () {} };
-
-"#,
-    r#"
-export {};
-var obj = {
-  await: function _await() {}
-};
-
-"#
-);
-
 // function_name_function_assignment
 test!(
     ignore,
