@@ -1,5 +1,3 @@
-#![cfg(feature = "const-modules")]
-#![feature(test)]
 use common::Tester;
 use std::collections::HashMap;
 use swc_ecma_transforms::const_modules;

@@ -1,5 +1,3 @@
-#![cfg(feature = "react")]
-#![feature(test)]
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
