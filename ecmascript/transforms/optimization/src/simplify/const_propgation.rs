@@ -1,4 +1,3 @@
-use crate::ext::MapWithMut;
 use fxhash::FxHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};

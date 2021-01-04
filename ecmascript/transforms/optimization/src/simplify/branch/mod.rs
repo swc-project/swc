@@ -1,7 +1,3 @@
-use crate::{
-    pass::RepeatedJsPass,
-    util::{StmtLike, *},
-};
 use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
@@ -10,6 +6,10 @@ use swc_common::{
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::pass::RepeatedJsPass;
+use swc_ecma_utils::is_literal;
+use swc_ecma_utils::Value::Known;
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]

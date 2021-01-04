@@ -2,6 +2,7 @@ use serde_json::Value;
 use std::usize;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::member_expr;
 use swc_ecma_utils::{calc_literal_cost, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
