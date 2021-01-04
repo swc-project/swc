@@ -1,4 +1,5 @@
 use swc_ecma_ast::*;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// Compile ES2015 shorthand properties to ES5
@@ -68,6 +69,7 @@ impl Fold for Shorthand {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_transforms_testing::test;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

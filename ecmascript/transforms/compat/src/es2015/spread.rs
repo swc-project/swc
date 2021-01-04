@@ -1,12 +1,10 @@
-use crate::{
-    ext::ExprRefExt,
-    util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike},
-};
 use serde::Deserialize;
 use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::prepend;
+use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn spread(c: Config) -> impl Fold {
@@ -73,7 +71,7 @@ impl Fold for ActualFolder {
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = validate!(e.fold_children_with(self));
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Array(ArrayLit { span, elems }) => {
