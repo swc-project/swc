@@ -7,9 +7,6 @@ use swc_ecma_transforms::{
     optimization::simplify::inlining::inlining, resolver, typescript::strip,
 };
 
-#[macro_use]
-mod common;
-
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(

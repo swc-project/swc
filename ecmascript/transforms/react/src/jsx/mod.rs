@@ -1,4 +1,3 @@
-use crate::util::{drop_span, ExprFactory, HANDLER};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -13,6 +12,9 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_utils::drop_span;
+use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 #[cfg(test)]
