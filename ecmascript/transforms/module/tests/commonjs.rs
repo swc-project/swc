@@ -4407,3 +4407,33 @@ var instance = new SomeClass({
 instance.call();",
     ok_if_code_eq
 );
+
+
+// for_of_as_array_for_of_import_commonjs
+test!(
+  syntax(),
+  |_| chain!(
+      for_of(Config { assume_array: true }),
+      common_js(Mark::fresh(Mark::root()), Default::default())
+  ),
+  for_of_as_array_for_of_import_commonjs,
+  r#"
+import { array } from "foo";
+
+for (const elm of array) {
+console.log(elm);
+}
+
+"#,
+  r#"
+"use strict";
+
+var _foo = require("foo");
+
+for(let _i = 0; _i < _foo.array.length; _i++){
+const elm = _foo.array[_i];
+console.log(elm);
+}
+
+"#
+);
