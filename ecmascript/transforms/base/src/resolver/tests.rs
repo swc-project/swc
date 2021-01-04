@@ -284,17 +284,20 @@ fn babel_issue_1051() {
     );
 }
 
-
 #[test]
 #[ignore]
 fn babel_issue_2174() {
-    run_test(Default::default(),tr(),"if (true) {
+    run_test(
+        Default::default(),
+        tr(),
+        "if (true) {
         function foo() {}
         function bar() {
           return foo;
         }
         for (var x in {}) {}
-      }","
+      }",
+        "
       if (true) {
         var foo = function () {};
       
@@ -303,92 +306,94 @@ fn babel_issue_2174() {
         };
       
         for (var x in {}) {}
-      }");
+      }",
+    );
 }
 
-
-
-test!(
-    ignore,
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
-    babel_issue_4363,
-    r#"function WithoutCurlyBraces() {
-  if (true)
-    for (let k in kv) {
-        function foo() { return this }
-        function bar() { return foo.call(this) }
-        console.log(this, k) // => undefined
-    }
+#[test]
+#[ignore]
+fn babel_issue_4363() {
+    run_test(
+        Default::default(),
+        tr(),
+        r#"function WithoutCurlyBraces() {
+        if (true)
+          for (let k in kv) {
+              function foo() { return this }
+              function bar() { return foo.call(this) }
+              console.log(this, k) // => undefined
+          }
+      }
+      
+      function WithCurlyBraces() {
+        if (true) {
+          for (let k in kv) {
+              function foo() { return this }
+              function bar() { return foo.call(this) }
+              console.log(this, k) // => 777
+          }
+        }
+      }"#,
+        r#"function WithoutCurlyBraces() {
+        var _this = this;
+      
+        if (true) {
+          var _loop = function (k) {
+            function foo() {
+              return this;
+            }
+      
+            function bar() {
+              return foo.call(this);
+            }
+      
+            console.log(_this, k); // => undefined
+          };
+      
+          for (var k in kv) {
+            _loop(k);
+          }
+        }
+      }
+      
+      function WithCurlyBraces() {
+        var _this2 = this;
+      
+        if (true) {
+          var _loop2 = function (k) {
+            function foo() {
+              return this;
+            }
+      
+            function bar() {
+              return foo.call(this);
+            }
+      
+            console.log(_this2, k); // => 777
+          };
+      
+          for (var k in kv) {
+            _loop2(k);
+          }
+        }
+      }"#,
+    );
 }
 
-function WithCurlyBraces() {
-  if (true) {
-    for (let k in kv) {
-        function foo() { return this }
-        function bar() { return foo.call(this) }
-        console.log(this, k) // => 777
-    }
-  }
-}"#,
-    r#"function WithoutCurlyBraces() {
-  var _this = this;
-
-  if (true) {
-    var _loop = function (k) {
-      function foo() {
-        return this;
-      }
-
-      function bar() {
-        return foo.call(this);
-      }
-
-      console.log(_this, k); // => undefined
-    };
-
-    for (var k in kv) {
-      _loop(k);
-    }
-  }
+#[test]
+#[ignore = "Cannot represent function expression without parens (in result code)"]
+fn babel_issue_4946() {
+    run_test(
+        Default::default(),
+        tr(),
+        r#"(function foo() {
+        let foo = true;
+      });"#,
+        r#"(function foo() {
+        var foo = true;
+      });"#,
+    );
 }
-
-function WithCurlyBraces() {
-  var _this2 = this;
-
-  if (true) {
-    var _loop2 = function (k) {
-      function foo() {
-        return this;
-      }
-
-      function bar() {
-        return foo.call(this);
-      }
-
-      console.log(_this2, k); // => 777
-    };
-
-    for (var k in kv) {
-      _loop2(k);
-    }
-  }
-}"#
-);
-
-test!(
-    // Cannot represent function expression without parens (in result code)
-    ignore,
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
-    babel_issue_4946,
-    r#"(function foo() {
-  let foo = true;
-});"#,
-    r#"(function foo() {
-  var foo = true;
-});"#
-);
 
 // TODO: try {} catch (a) { let a } should report error
 
