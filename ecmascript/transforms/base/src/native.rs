@@ -9,7 +9,7 @@ macro_rules! native {
             $i:tt
         ),*
     ) => {
-        pub(crate) fn is_native(sym: &str) -> bool {
+        pub fn is_native(sym: &str) -> bool {
             static SET: phf::Set<&'static str> = phf_set! {
                 $(
                     $i,
@@ -20,7 +20,7 @@ macro_rules! native {
         }
 
         /// Faster
-        pub(crate) fn is_native_word(sym: &JsWord) -> bool {
+        pub fn is_native_word(sym: &JsWord) -> bool {
             match *sym{
                 $(
                     js_word!($i) => true,
