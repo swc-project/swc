@@ -3243,7 +3243,12 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(typescript::strip(), resolver(), transformation()),
+    |_| chain!(
+        strip(),
+        resolver(),
+        decorators(Default::default()),
+        class_properties()
+    ),
     issue_367,
     "
 
