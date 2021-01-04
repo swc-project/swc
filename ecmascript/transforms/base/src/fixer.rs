@@ -675,8 +675,10 @@ fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
 
 #[cfg(test)]
 mod tests {
+    use super::fixer;
+
     fn run_test(from: &str, to: &str) {
-        todo!()
+        crate::tests::test_transform(Default::default(), |_| fixer(None), from, to, true);
     }
 
     macro_rules! test_fixer {

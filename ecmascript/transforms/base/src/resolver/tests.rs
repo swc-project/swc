@@ -59,7 +59,7 @@ fn ts() -> Syntax {
 }
 
 fn run_test(syntax: Syntax, tr: impl Fold, src: &str, to: &str) {
-    todo!()
+    crate::tests::test_transform(syntax, |_| tr, src, to, true);
 }
 
 macro_rules! to_ts {
