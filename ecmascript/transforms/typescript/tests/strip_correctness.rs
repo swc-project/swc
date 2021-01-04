@@ -11,6 +11,8 @@ use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
