@@ -1,6 +1,7 @@
-use crate::perf::Check;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 struct OptionalCatchBinding;
@@ -52,6 +53,7 @@ impl Check for ShouldWork {
 #[cfg(test)]
 mod tests {
     use super::optional_catch_binding as tr;
+    use swc_ecma_transforms_testing::test;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
