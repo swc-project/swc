@@ -1,4 +1,3 @@
-use crate::helpers::{inject_helpers, HELPERS};
 use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
@@ -13,6 +12,7 @@ use swc_common::{
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;

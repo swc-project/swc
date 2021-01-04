@@ -19,3 +19,4 @@ swc_ecma_transforms_base = {version = "0.1", path = "../base"}
 swc_ecma_utils = {version = "0.26", path = "../../utils"}
 swc_ecma_visit = {version = "0.22", path = "../../visit"}
 tempfile = "3.1.0"
+testing = {version = "0.10.2", path = "../../../tetsing"}
