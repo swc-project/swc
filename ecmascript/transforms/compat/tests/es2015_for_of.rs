@@ -1,5 +1,3 @@
-#![feature(test)]
-use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2015::for_of::for_of;
 use swc_ecma_transforms_compat::es2015::for_of::Config;
@@ -285,8 +283,6 @@ try {
 }"#,
     ok_if_code_eq
 );
-
-
 
 // for_of_as_array_for_of
 test!(

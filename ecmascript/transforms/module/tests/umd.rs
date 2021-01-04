@@ -1924,3 +1924,60 @@ test!(
     ",
     ok_if_code_eq
 );
+
+// function_name_export_default_arrow_renaming_module_umd
+test!(
+    ignore,
+    syntax(),
+    |tester| chain!(
+        resolver(),
+        function_name(),
+        shorthand(),
+        arrow(),
+        umd(
+            tester.cm.clone(),
+            Mark::fresh(Mark::root()),
+            Default::default()
+        )
+    ),
+    function_name_export_default_arrow_renaming_module_umd,
+    r#"
+export default (a) => {
+return { a() { return a } };
+}
+
+"#,
+    r#"
+(function (global, factory) {
+if (typeof define === "function" && define.amd) {
+  define(["exports"], factory);
+} else if (typeof exports !== "undefined") {
+  factory(exports);
+} else {
+  var mod = {
+    exports: {}
+  };
+  factory(mod.exports);
+  global.input = mod.exports;
+}
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports) {
+"use strict";
+
+Object.defineProperty(_exports, "__esModule", {
+  value: true
+});
+_exports.default = void 0;
+
+var _default = function _default(_a) {
+  return {
+    a: function a() {
+      return _a;
+    }
+  };
+};
+
+_exports.default = _default;
+});
+
+"#
+);

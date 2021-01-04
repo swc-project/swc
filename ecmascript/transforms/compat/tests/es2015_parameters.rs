@@ -2,10 +2,13 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::destructuring;
 use swc_ecma_transforms_compat::es2015::parameters;
+use swc_ecma_transforms_compat::es2015::spread;
+use swc_ecma_transforms_compat::es2017::async_to_generator;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
@@ -720,7 +723,7 @@ function () {
 
 test!(
     syntax(),
-    |_| chain!(swc_ecma_transforms::compat::es2015::arrow(), tr()),
+    |_| chain!(arrow(), tr()),
     rest_binding_deoptimisation,
     r#"const deepAssign = (...args) => args = [];
 "#,
@@ -1209,11 +1212,7 @@ function d(thing) {
 
 test!(
     syntax(),
-    |_| chain!(
-        tr(),
-        classes(),
-        swc_ecma_transforms::compat::es2015::spread(Default::default())
-    ),
+    |_| chain!(tr(), classes(), spread(Default::default())),
     rest_nested_iife,
     r#"function broken(x, ...foo) {
   if (true) {

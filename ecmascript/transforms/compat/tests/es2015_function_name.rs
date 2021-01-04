@@ -2,9 +2,11 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::function_name;
+use swc_ecma_transforms_compat::es2015::shorthand;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 
@@ -207,63 +209,6 @@ function _f() {
   function commit(b) {
     b();
   }
-});
-
-"#
-);
-
-// function_name_export_default_arrow_renaming_module_umd
-test!(
-    ignore,
-    syntax(),
-    |tester| chain!(
-        resolver(),
-        function_name(),
-        shorthand(),
-        arrow(),
-        umd(
-            tester.cm.clone(),
-            Mark::fresh(Mark::root()),
-            Default::default()
-        )
-    ),
-    function_name_export_default_arrow_renaming_module_umd,
-    r#"
-export default (a) => {
-  return { a() { return a } };
-}
-
-"#,
-    r#"
-(function (global, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(["exports"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports);
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports);
-    global.input = mod.exports;
-  }
-})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = function _default(_a) {
-    return {
-      a: function a() {
-        return _a;
-      }
-    };
-  };
-
-  _exports.default = _default;
 });
 
 "#
