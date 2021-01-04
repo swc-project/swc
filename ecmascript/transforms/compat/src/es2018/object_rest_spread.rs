@@ -1,13 +1,18 @@
-use crate::{
-    perf::Check,
-    util::{
-        alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
-    },
-};
 use std::{iter, mem};
 use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::helper_expr;
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_utils::alias_ident_for;
+use swc_ecma_utils::alias_if_required;
+use swc_ecma_utils::is_literal;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::var::VarCollector;
+use swc_ecma_utils::StmtLike;
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-proposal-object-rest-spread`
