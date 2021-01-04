@@ -6,6 +6,7 @@ use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_module::common_js;
+use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_proposal::decorators::Config;
 use swc_ecma_transforms_testing::test;
@@ -5511,7 +5512,7 @@ test!(
     issue_395_syntax(),
     |_| chain!(
         decorators(Default::default()),
-        common_js::common_js(
+        common_js(
             Mark::fresh(Mark::root()),
             common_js::Config {
                 strict: false,
@@ -5878,6 +5879,90 @@ setInterval: function (_setInterval) {
 }(function (fn, ms) {
   setInterval(fn, ms);
 })
+};
+
+"#
+);
+
+// function_name_modules
+test!(
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
+    ),
+    function_name_modules,
+    r#"
+import events from "events";
+
+class Template {
+events() {
+  return events;
+}
+}
+
+console.log(new Template().events());
+
+"#,
+    r#"
+"use strict";
+
+var _events = _interopRequireDefault(require("events"));
+
+let Template =
+/*#__PURE__*/
+function () {
+'use strict';
+function Template() {
+  _classCallCheck(this, Template);
+}
+
+_createClass(Template, [{
+  key: "events",
+  value: function events() {
+    return _events.default;
+  }
+}]);
+return Template;
+}();
+
+console.log(new Template().events());
+
+"#
+);
+
+// function_name_eval
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        function_name(),
+        classes(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        })
+    ),
+    function_name_eval,
+    r#"
+var a = {
+eval: function () {
+  return eval;
+}
+};
+
+"#,
+    r#"
+var a = {
+eval: function _eval() {
+  return eval;
+}
 };
 
 "#
