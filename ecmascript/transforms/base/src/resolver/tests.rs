@@ -1215,8 +1215,6 @@ identical!(
 });"
 );
 
-
-
 identical_ts!(ts_resolver_001, "type A = B;");
 
 identical_ts!(
