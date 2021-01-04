@@ -1,6 +1,7 @@
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2017::async_to_generator;
 use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_compat::es2020::typescript_class_properties;
 use swc_ecma_transforms_proposal::decorators;

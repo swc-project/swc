@@ -1,13 +1,4 @@
 use super::*;
-use crate::{
-    compat::{
-        es2015::{arrow, classes},
-        es3::property_literals,
-    },
-    modules::common_js::common_js,
-    react::display_name,
-    tests::Tester,
-};
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_testing::test;
 
