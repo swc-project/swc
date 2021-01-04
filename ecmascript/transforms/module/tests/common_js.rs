@@ -12,6 +12,7 @@ use swc_ecma_transforms_module::import_analysis::import_analyzer;
 use swc_ecma_transforms_module::util::Config;
 use swc_ecma_transforms_module::util::Lazy;
 use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
