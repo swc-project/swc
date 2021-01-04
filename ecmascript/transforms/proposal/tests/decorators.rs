@@ -5223,3 +5223,125 @@ f: function f(_f) {
 
 "#
 );
+
+// decorators_legacy_interop_strict
+test!(
+    // See: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(),
+    |_| chain!(
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+        classes(),
+    ),
+    decorators_legacy_interop_strict,
+    r#"
+function dec() {}
+
+class A {
+@dec a;
+
+@dec b = 123;
+
+c = 456;
+}
+
+"#,
+    r#"
+var _class, _descriptor, _descriptor2, _temp;
+
+function dec() {}
+
+let A = (_class = (_temp = function A() {
+"use strict";
+
+_classCallCheck(this, A);
+
+_initializerDefineProperty(this, "a", _descriptor, this);
+
+_initializerDefineProperty(this, "b", _descriptor2, this);
+
+_defineProperty(this, "c", 456);
+}, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "a", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: null
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "b", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: function () {
+  return 123;
+}
+})), _class);
+
+"#
+);
+
+// decorators_legacy_interop_local_define_property
+test!(
+    // See: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(),
+    |_| chain!(
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+        classes()
+    ),
+    decorators_legacy_interop_local_define_property,
+    r#"
+function dec() {}
+
+// Create a local function binding so babel has to change the name of the helper
+function _defineProperty() {}
+
+class A {
+@dec a;
+
+@dec b = 123;
+
+c = 456;
+}
+
+"#,
+    r#"
+var _class, _descriptor, _descriptor2, _temp;
+
+function dec() {} // Create a local function binding so babel has to change the name of the helper
+
+
+function _defineProperty() {}
+
+let A = (_class = (_temp = function A() {
+"use strict";
+
+_classCallCheck(this, A);
+
+_initializerDefineProperty(this, "a", _descriptor, this);
+
+_initializerDefineProperty(this, "b", _descriptor2, this);
+
+_defineProperty2(this, "c", 456);
+}, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "a", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: null
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "b", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: function () {
+  return 123;
+}
+})), _class);
+
+"#
+);
