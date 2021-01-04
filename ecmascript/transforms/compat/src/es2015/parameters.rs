@@ -1,7 +1,10 @@
 use arrayvec::ArrayVec;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::member_expr;
 use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
@@ -15,8 +18,6 @@ struct Params;
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
-        let body = validate!(body);
-
         let mut params = vec![];
         let mut decls = vec![];
         let mut unpack_rest = None;
@@ -92,7 +93,7 @@ impl Params {
                             ident.clone().into()
                         } else {
                             // `len - $i`
-                            let bin: Expr = validate!(BinExpr {
+                            let bin: Expr = BinExpr {
                                 span,
                                 left: Box::new(Expr::Ident(ident.clone())),
                                 op: op!(bin, "-"),
@@ -100,7 +101,7 @@ impl Params {
                                     span,
                                     value: i as f64,
                                 }))),
-                            })
+                            }
                             .into();
                             if !min_zero {
                                 return bin;
@@ -222,7 +223,7 @@ impl Params {
             iter.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
-                decls: validate!(decls),
+                decls,
                 declare: false,
             })))
         }
@@ -231,7 +232,7 @@ impl Params {
             iter.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
-                decls: validate!(decls_after_unpack),
+                decls: decls_after_unpack,
                 declare: false,
             })));
         }
