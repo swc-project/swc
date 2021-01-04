@@ -2,6 +2,7 @@ use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::es2020::typescript_class_properties;
+use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
