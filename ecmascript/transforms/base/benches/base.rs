@@ -8,7 +8,7 @@ static GLOBAL: System = System;
 use std::alloc::System;
 use swc_common::{chain, FileName};
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_transforms::helpers;
+use swc_ecma_transforms_base::helpers;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -43,23 +43,23 @@ macro_rules! tr {
 
 #[bench]
 fn resolver(b: &mut Bencher) {
-    tr!(b, || swc_ecma_transforms::resolver());
+    tr!(b, || swc_ecma_transforms_base::resolver::resolver());
 }
 
 #[bench]
 fn fixer(b: &mut Bencher) {
-    tr!(b, || swc_ecma_transforms::fixer(None));
+    tr!(b, || swc_ecma_transforms_base::fixer::fixer(None));
 }
 
 #[bench]
 fn hygiene(b: &mut Bencher) {
-    tr!(b, || swc_ecma_transforms::hygiene());
+    tr!(b, || swc_ecma_transforms_base::hygiene::hygiene());
 }
 
 #[bench]
 fn resolver_with_hygiene(b: &mut Bencher) {
     tr!(b, || chain!(
-        swc_ecma_transforms::resolver(),
-        swc_ecma_transforms::hygiene()
+        swc_ecma_transforms_base::resolver::resolver(),
+        swc_ecma_transforms_base::hygiene::hygiene()
     ));
 }

@@ -4,7 +4,8 @@ extern crate test;
 use swc_common::{FileName, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms::{pass::noop, util::ExprFactory};
+use swc_ecma_transforms_base::pass::noop;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use test::Bencher;
 

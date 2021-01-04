@@ -5,7 +5,6 @@ extern crate test;
 use swc_common::{chain, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms::{compat, helpers, typescript};
 use swc_ecma_visit::{Fold, FoldWith};
 use test::Bencher;
 

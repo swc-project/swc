@@ -319,7 +319,7 @@ export interface AjaxErrorCtor {
    * Internal use only. Do not manually create instances of this type.
    * @internal
    */
-  new (message: string, xhr: XMLHttpRequest, request: AjaxRequest): AjaxError;
+  new(message: string, xhr: XMLHttpRequest, request: AjaxRequest): AjaxError;
 }
 
 const AjaxErrorImpl = (() => {
@@ -381,14 +381,14 @@ function getXHRResponse(xhr: XMLHttpRequest) {
   }
 }
 
-export interface AjaxTimeoutError extends AjaxError {}
+export interface AjaxTimeoutError extends AjaxError { }
 
 export interface AjaxTimeoutErrorCtor {
   /**
    * Internal use only. Do not manually create instances of this type.
    * @internal
    */
-  new (xhr: XMLHttpRequest, request: AjaxRequest): AjaxTimeoutError;
+  new(xhr: XMLHttpRequest, request: AjaxRequest): AjaxTimeoutError;
 }
 
 const AjaxTimeoutErrorImpl = (() => {
