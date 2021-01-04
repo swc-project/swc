@@ -5,9 +5,6 @@ use std::collections::HashMap;
 use swc_ecma_transforms::const_modules;
 use swc_ecma_visit::Fold;
 
-#[macro_use]
-mod common;
-
 fn tr(t: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
     let mut m = HashMap::default();
 

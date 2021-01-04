@@ -9,9 +9,6 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::Fold;
 
-#[macro_use]
-mod common;
-
 fn syntax() -> Syntax {
     Syntax::default()
 }
