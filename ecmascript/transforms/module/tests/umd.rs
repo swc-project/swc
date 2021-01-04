@@ -2,6 +2,8 @@ use swc_common::chain;
 use swc_common::Mark;
 use swc_ecma_parser::EsConfig;
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms_module::umd::Config;
+use swc_ecma_transforms_testing::Tester;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {

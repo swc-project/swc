@@ -1,11 +1,5 @@
 use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms::{
-    optimization::simplify::dce::{self, dce},
-    proposals::decorators,
-    resolver,
-    typescript::{self, strip},
-};
 use swc_ecma_transforms_testing::test;
 
 macro_rules! to {
