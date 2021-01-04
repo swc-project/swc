@@ -8,6 +8,7 @@ use swc_ecma_transforms_compat::es2015::destructuring;
 use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2015::parameters;
 use swc_ecma_transforms_compat::es2017::async_to_generator;
+use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::{Fold, FoldWith};
 
 struct ParenRemover;

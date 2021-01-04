@@ -2,7 +2,6 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
