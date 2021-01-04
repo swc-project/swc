@@ -7,7 +7,6 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::Fold;
 
-
 fn tr() -> impl Fold {
     strip()
 }
@@ -3106,5 +3105,35 @@ test!(
     export type { Type };
     ",
     "
+    "
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        ..Default::default()
+    }),
+    |_| chain!(strip(), async_to_generator()),
+    issue_1235_1,
+    "
+    class Service {
+      async is(a: string): Promise<boolean> {
+          return a.toUpperCase() === a;
+      }
+    }
+    (async() => {  await (new Service()).is('ABC'); })();
+    ",
+    "
+    class Service {
+      is(a) {
+        return _asyncToGenerator(function* () {
+          return a.toUpperCase() === a;
+        })();
+      }
+    
+    }
+    
+    _asyncToGenerator(function* () {
+      yield new Service().is('ABC');
+    })();
     "
 );

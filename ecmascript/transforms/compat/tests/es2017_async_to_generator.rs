@@ -2236,34 +2236,6 @@ test!(
 );
 
 test!(
-    ts_syntax(),
-    |_| chain!(strip(), async_to_generator()),
-    issue_1235_1,
-    "
-    class Service {
-      async is(a: string): Promise<boolean> {
-          return a.toUpperCase() === a;
-      }
-    }
-    (async() => {  await (new Service()).is('ABC'); })();
-    ",
-    "
-    class Service {
-      is(a) {
-        return _asyncToGenerator(function* () {
-          return a.toUpperCase() === a;
-        })();
-      }
-    
-    }
-    
-    _asyncToGenerator(function* () {
-      yield new Service().is('ABC');
-    })();
-    "
-);
-
-test!(
     Syntax::default(),
     |_| async_to_generator(),
     issue_1125_1,
