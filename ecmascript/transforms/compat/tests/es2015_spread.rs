@@ -566,29 +566,6 @@ var arr = ['a',, 'b'].concat(_toConsumableArray(c));
 "#
 );
 
-// regression_6647
-test!(
-    syntax(),
-    |_| chain!(
-        spread(Config {
-            ..Default::default()
-        }),
-        common_js(Mark::fresh(Mark::root()), Default::default())
-    ),
-    regression_6647,
-    r#"
-import a from 'a';
-a.preview(...c);
-
-"#,
-    r#"
-'use strict';
-var _a = _interopRequireDefault(require('a'));
-var _a1;
-(_a1 = _a.default).preview.apply(_a1, _toConsumableArray(c));
-"#
-);
-
 // spread_single
 test_exec!(
     syntax(),
