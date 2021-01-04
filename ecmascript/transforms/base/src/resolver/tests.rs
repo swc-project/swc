@@ -175,9 +175,9 @@ to!(
         }
         ",
     "
-        let ConstructorScoping = function ConstructorScoping() {
+        var ConstructorScoping = function ConstructorScoping() {
             _classCallCheck(this, ConstructorScoping);
-            let bar;
+            var bar;
             {
                 let bar1;
                 use(bar1);
@@ -220,11 +220,11 @@ function foobar() {
     [bar, foo] = [1, 2];
   }
 }"#,
-    r#"var foo = "foo";
+    r#"const foo = "foo";
 
 function foobar() {
-  for (var item of [1, 2, 3]) {
-    var foo1 = "bar";
+  for (let item of [1, 2, 3]) {
+    let foo1 = "bar";
     [bar, foo1] = [1, 2];
   }
 }"#
@@ -236,7 +236,7 @@ to!(
   let foo = "bar";
 }"#,
     r#"function test() {
-  var foo = "bar";
+  let foo = "bar";
 }"#
 );
 
@@ -420,21 +420,31 @@ fn babel_issue_973() {
 to!(
     pass_assignment,
     r#"let a = 1;
-a = 2;
-expect(a).toBe(2);"#,
-    ""
+    a = 2;
+    expect(a).toBe(2);"#,
+    "
+    let a = 1;
+    a = 2;
+    expect(a).toBe(2);
+    "
 );
 
 to!(
     pass_call,
     r#"let a = 1;
 
-function b() {
-  return a + 1;
-}
+    function b() {
+        return a + 1;
+    }
 
-expect(b()).toBe(2);"#,
-    ""
+    expect(b()).toBe(2);"#,
+    "
+    let a = 1;
+    function b() {
+        return a + 1;
+    }
+    expect(b()).toBe(2);
+    "
 );
 
 to!(
@@ -442,7 +452,11 @@ to!(
     r#"let a = 1;
 a++;
 expect(a).toBe(2);"#,
-    ""
+    "
+    let a = 1;
+    a++;
+    expect(a).toBe(2);
+    "
 );
 
 to!(
@@ -451,7 +465,7 @@ to!(
     function foo(a) {
         use(a);
     }"#,
-    r#"var a = 'foo';
+    r#"let a = 'foo';
     function foo(a1) {
         use(a1);
     }"#
@@ -464,9 +478,9 @@ to!(
         let a = 'bar';
         use(a);
     }"#,
-    r#"var a = 'foo';
+    r#"let a = 'foo';
     function foo() {
-        var a1 = 'bar';
+        let a1 = 'bar';
         use(a1);
     }"#
 );
@@ -478,9 +492,9 @@ to!(
         let a = 'bar';
         use({a});
     }"#,
-    r#"var a = 'foo';
+    r#"let a = 'foo';
     function foo() {
-        var a1 = 'bar';
+        let a1 = 'bar';
         use({a: a1});
     }"#
 );
@@ -804,7 +818,18 @@ function foo({a: b}){
 	expect(b).toBe('a')
 }
 foo({a: 'a'})",
-    ""
+    "
+    function a() {
+    }
+    function b() {
+    }
+    function foo({ a: b1  }) {
+        expect(b1).toBe('a');
+    }
+    foo({
+        a: 'a'
+    });
+    "
 );
 
 identical!(
@@ -835,7 +860,7 @@ to!(
   return foo;
 }",
     "function foo(bar) {
-    var { foo: foo1  } = bar;
+    const { foo: foo1  } = bar;
     return foo1;
 }
 "
@@ -1033,7 +1058,7 @@ fn issue_578_1() {
             this.props = properties;
         }
          call() {
-            var { myFunction: myFunction1  } = this.props;
+            const { myFunction: myFunction1  } = this.props;
             if (myFunction1) {
                 myFunction1();
             } else {
@@ -1041,7 +1066,7 @@ fn issue_578_1() {
             }
         }
     }
-    var instance = new SomeClass({
+    let instance = new SomeClass({
         myFunction: ()=>{
             console.log('CORRECT FUNCTION CALLED');
         }
@@ -1601,9 +1626,9 @@ to!(
     }
     ",
     "
-    var b = [];
+    const b = [];
     {
-      var a;
+      let a;
       for (a in b) {
         console.log(a);
       }
@@ -1623,7 +1648,7 @@ to!(
     }, {});
     "#,
     r#"
-    var categories = [
+    const categories = [
         {
             key: "apple"
         },
@@ -1634,8 +1659,8 @@ to!(
             key: "strawberry"
         }
     ];
-    var item = "some item";
-    var catNames = categories.reduce((a, item1)=>{
+    const item = "some item";
+    const catNames = categories.reduce((a, item1)=>{
         return {
             ...a,
             [item1.key.toString()]: item1
@@ -1662,7 +1687,7 @@ to!(
     function isAbsolute() {}
 
     function parse(path) {
-        var isAbsolute1 = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        const isAbsolute1 = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
         if (isAbsolute1) {
         }
     }
@@ -1683,7 +1708,7 @@ to!(
     "#,
     r#"
     function parse(path) {
-        var isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+        const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
         if (isAbsolute) {
         }
     }
