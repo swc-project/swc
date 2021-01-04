@@ -1,6 +1,7 @@
 use super::*;
 use crate::display_name;
 use swc_common::{chain, Mark};
+use swc_ecma_parser::EsConfig;
 use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es3::property_literals;
@@ -1167,4 +1168,71 @@ test!(
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
     "let page = React.createElement('p', null, 'Click ', React.createElement('em', null, 'New \
      melody'), ' listen to a randomly generated melody');"
+);
+
+// regression_2775
+test!(
+    // Module
+    ignore,
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| chain!(
+        classes(),
+        jsx(t.cm.clone(), Some(t.comments.clone()), Default::default())
+    ),
+    regression_2775,
+    r#"
+import React, {Component} from 'react';
+
+export default class RandomComponent extends Component {
+constructor(){
+  super();
+}
+
+render() {
+  return (
+    <div className='sui-RandomComponent'>
+      <h2>Hi there!</h2>
+    </div>
+  );
+}
+}
+
+"#,
+    r#"
+
+
+Object.defineProperty(exports, "__esModule", {
+value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var RandomComponent =
+/*#__PURE__*/
+function (_Component) {
+_inherits(RandomComponent, _Component);
+
+function RandomComponent() {
+  _classCallCheck(this, RandomComponent);
+  return _possibleConstructorReturn(this, _getPrototypeOf(RandomComponent).call(this));
+}
+
+_createClass(RandomComponent, [{
+  key: "render",
+  value: function render() {
+    return _react.default.createElement("div", {
+      className: "sui-RandomComponent"
+    }, _react.default.createElement("h2", null, "Hi there!"));
+  }
+}]);
+return RandomComponent;
+}(_react.Component);
+
+exports.default = RandomComponent;
+
+"#
 );

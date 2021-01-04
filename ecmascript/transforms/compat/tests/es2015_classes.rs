@@ -1,10 +1,12 @@
 use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms::{
-    compat::es2015::{arrow, block_scoping, classes, spread},
-    react::jsx,
-    resolver,
-};
+use swc_ecma_parser::Syntax;
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::arrow;
+use swc_ecma_transforms_compat::es2015::block_scoping;
+use swc_ecma_transforms_compat::es2015::classes;
+use swc_ecma_transforms_compat::es2015::spread;
+use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -2178,73 +2180,6 @@ var Test = function Test() {
   _classCallCheck(this, Test);
   _get(_getPrototypeOf(Test.prototype), "hasOwnProperty", this).call(this, "test");
 };
-
-"#
-);
-
-// regression_2775
-test!(
-    // Module
-    ignore,
-    Syntax::Es(EsConfig {
-        jsx: true,
-        ..Default::default()
-    }),
-    |t| chain!(
-        tr(),
-        jsx(t.cm.clone(), Some(t.comments.clone()), Default::default())
-    ),
-    regression_2775,
-    r#"
-import React, {Component} from 'react';
-
-export default class RandomComponent extends Component {
-  constructor(){
-    super();
-  }
-
-  render() {
-    return (
-      <div className='sui-RandomComponent'>
-        <h2>Hi there!</h2>
-      </div>
-    );
-  }
-}
-
-"#,
-    r#"
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var RandomComponent =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(RandomComponent, _Component);
-
-  function RandomComponent() {
-    _classCallCheck(this, RandomComponent);
-    return _possibleConstructorReturn(this, _getPrototypeOf(RandomComponent).call(this));
-  }
-
-  _createClass(RandomComponent, [{
-    key: "render",
-    value: function render() {
-      return _react.default.createElement("div", {
-        className: "sui-RandomComponent"
-      }, _react.default.createElement("h2", null, "Hi there!"));
-    }
-  }]);
-  return RandomComponent;
-}(_react.Component);
-
-exports.default = RandomComponent;
 
 "#
 );
