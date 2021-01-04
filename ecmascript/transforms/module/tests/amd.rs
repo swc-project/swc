@@ -10,9 +10,6 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::Fold;
 
-#[macro_use]
-mod common;
-
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
         dynamic_import: true,
@@ -1201,16 +1198,15 @@ test!(
   });"
 );
 
-
 // for_of_as_array_for_of_import_amd
 test!(
-  syntax(),
-  |_| chain!(
-      for_of(Config { assume_array: true }),
-      amd(Default::default())
-  ),
-  for_of_as_array_for_of_import_amd,
-  r#"
+    syntax(),
+    |_| chain!(
+        for_of(Config { assume_array: true }),
+        amd(Default::default())
+    ),
+    for_of_as_array_for_of_import_amd,
+    r#"
 import { array } from "foo";
 
 for (const elm of array) {
@@ -1218,7 +1214,7 @@ console.log(elm);
 }
 
 "#,
-  r#"
+    r#"
 define(["foo"], function (_foo) {
 "use strict";
 

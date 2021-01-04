@@ -5,10 +5,6 @@ use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::destructuring;
 use swc_ecma_transforms_compat::es2015::parameters;
-use swc_ecma_transforms_compat::{
-    es2015::{arrow, block_scoping, classes, destructuring, parameters},
-    es2017::async_to_generator,
-};
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;

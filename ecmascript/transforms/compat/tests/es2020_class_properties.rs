@@ -9,6 +9,8 @@ use swc_ecma_transforms_compat::{
     es2020::{class_properties, typescript_class_properties},
     es3::reserved_words,
 };
+use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
