@@ -8,6 +8,7 @@ macro_rules! test_stmt {
             |_| chain!(expr_simplifier(), dead_branch_remover()),
             $l,
             $r,
+            true,
         )
     };
     ($l:expr, $r:expr,) => {

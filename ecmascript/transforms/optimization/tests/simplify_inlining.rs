@@ -36,12 +36,12 @@ macro_rules! identical {
 }
 
 fn test(src: &str, expected: &str) {
-    test_transform!(
+    swc_ecma_transforms_testing::test_transform(
         ::swc_ecma_parser::Syntax::default(),
         |_| chain!(resolver(), inlining(Default::default())),
         src,
         expected,
-        true
+        true,
     )
 }
 
