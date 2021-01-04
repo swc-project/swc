@@ -17,7 +17,8 @@ serde = {version = "1.0.118", features = ["derive"]}
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2", path = "../../../atoms"}
 swc_common = {version = "0.10", path = "../../../common"}
-swc_ecma_ast = {version = "0.36", path = "../../ast/"}
+swc_ecma_ast = {version = "0.36", path = "../../ast"}
+swc_ecma_parser = {version = "0.44", path = "../../parser"}
 swc_ecma_transforms_base = {version = "0.1", path = "../base"}
 swc_ecma_utils = {version = "0.26", path = "../../utils"}
 swc_ecma_visit = {version = "0.22", path = "../../visit"}
