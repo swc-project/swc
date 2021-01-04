@@ -67,13 +67,13 @@ fn common_typescript(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
-        let module = module.fold_with(&mut typescript::strip());
+        let module = module.fold_with(&mut strip());
 
         b.iter(|| {
             let module = module.clone();
 
             let _ = helpers::HELPERS.set(&Default::default(), || {
-                test::black_box(module.fold_with(&mut typescript::strip()));
+                test::black_box(module.fold_with(&mut strip()));
             });
         });
 
