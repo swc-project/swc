@@ -3,11 +3,11 @@ use swc_common::chain;
 
 macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
-        test_transform!(
+        swc_ecma_transforms_testing::test_transform(
             ::swc_ecma_parser::Syntax::default(),
             |_| chain!(expr_simplifier(), dead_branch_remover()),
             $l,
-            $r
+            $r,
         )
     };
     ($l:expr, $r:expr,) => {

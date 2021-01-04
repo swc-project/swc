@@ -1,10 +1,5 @@
-#![feature(test)]
-use strip::strip_with_config;
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{
-    compat::es2020::typescript_class_properties, proposals::decorators, resolver, typescript::strip,
-};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
@@ -3135,5 +3130,17 @@ test!(
     _asyncToGenerator(function* () {
       yield new Service().is('ABC');
     })();
+    "
+);
+
+test!(
+    syntax(),
+    |_| chain!(strip(), optional_chaining()),
+    issue_1149_1,
+    "
+    const tmp = tt?.map((t: any) => t).join((v: any) => v);
+    ",
+    "
+    const tmp = tt === null || tt === void 0 ? void 0 : tt.map((t) => t).join((v) => v);
     "
 );

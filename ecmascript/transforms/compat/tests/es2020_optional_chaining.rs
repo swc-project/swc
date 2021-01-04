@@ -701,15 +701,3 @@ test!(
     const patch = (ref = _obj) === null || ref === void 0 ? void 0 : ref.call(_obj);
     "
 );
-
-test!(
-    syntax(),
-    |_| chain!(strip(), optional_chaining()),
-    issue_1149_1,
-    "
-    const tmp = tt?.map((t: any) => t).join((v: any) => v);
-    ",
-    "
-    const tmp = tt === null || tt === void 0 ? void 0 : tt.map((t) => t).join((v) => v);
-    "
-);

@@ -2,6 +2,8 @@
 
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 
 macro_rules! to {
