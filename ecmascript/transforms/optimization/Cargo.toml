@@ -18,3 +18,6 @@ swc_ecma_ast = { path = "../../ast" }
 swc_ecma_parser = { path = "../../parser" }
 swc_ecma_utils = { path = "../../utils" }
 swc_ecma_visit = { path = "../../visit" }
+
+[dev-dependencies]
+swc_ecma_transforms_testing = { path = "../testing" }

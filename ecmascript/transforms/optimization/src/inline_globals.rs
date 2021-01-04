@@ -89,7 +89,7 @@ mod tests {
     use swc_ecma_visit::as_folder;
 
     fn mk_map(
-        tester: &mut crate::tests::Tester<'_>,
+        tester: &mut Tester<'_>,
         values: &[(&str, &str)],
         is_env: bool,
     ) -> HashMap<JsWord, Expr> {
