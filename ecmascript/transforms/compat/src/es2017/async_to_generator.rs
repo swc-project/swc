@@ -9,6 +9,7 @@ use swc_ecma_utils::contains_ident_ref;
 use swc_ecma_utils::contains_this_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
