@@ -10,3 +10,11 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dashmap = "4.0.1"
+once_cell = "1.5.2"
+swc_atoms = { path = "../../../atoms" }
+swc_common = { path = "../../../common" }
+swc_ecma_ast = { path = "../../ast" }
+swc_ecma_parser = { path = "../../parser" }
+swc_ecma_utils = { path = "../../utils" }
+swc_ecma_visit = { path = "../../visit" }
