@@ -41,6 +41,8 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
+        .parent()
+        .unwrap()
         .join("parser")
         .join("tests")
         .join("typescript");
