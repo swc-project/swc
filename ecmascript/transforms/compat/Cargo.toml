@@ -11,6 +11,7 @@ version = "0.1.0"
 
 [dependencies]
 serde = {version = "1.0.118", features = ["derive"]}
+smallvec = "1.6.0"
 swc_atoms = {version = "0.2.5", path = "../../../atoms"}
 swc_common = {version = "0.10.8", path = "../../../common"}
 swc_ecma_ast = {version = "0.36.2", path = "../../ast"}

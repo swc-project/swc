@@ -1,8 +1,10 @@
-use crate::util::undefined;
 use smallvec::SmallVec;
 use std::{collections::HashMap, mem::replace};
+use swc_atoms::js_word;
 use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::private_ident;
 use swc_ecma_utils::{
     contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id,
     StmtLike,
