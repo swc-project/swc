@@ -4408,16 +4408,15 @@ instance.call();",
     ok_if_code_eq
 );
 
-
 // for_of_as_array_for_of_import_commonjs
 test!(
-  syntax(),
-  |_| chain!(
-      for_of(Config { assume_array: true }),
-      common_js(Mark::fresh(Mark::root()), Default::default())
-  ),
-  for_of_as_array_for_of_import_commonjs,
-  r#"
+    syntax(),
+    |_| chain!(
+        for_of(Config { assume_array: true }),
+        common_js(Mark::fresh(Mark::root()), Default::default())
+    ),
+    for_of_as_array_for_of_import_commonjs,
+    r#"
 import { array } from "foo";
 
 for (const elm of array) {
@@ -4425,7 +4424,7 @@ console.log(elm);
 }
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var _foo = require("foo");
@@ -4434,6 +4433,43 @@ for(let _i = 0; _i < _foo.array.length; _i++){
 const elm = _foo.array[_i];
 console.log(elm);
 }
+
+"#
+);
+
+// regression_t7178
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        tr(),
+        destructuring(destructuring::Config { loose: false }),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
+    ),
+    regression_t7178,
+    r#"
+import props from "props";
+
+console.log(props);
+
+(function(){
+const { ...props } = this.props;
+
+console.log(props);
+})();
+
+"#,
+    r#"
+"use strict";
+
+var _props = _interopRequireDefault(require("props"));
+
+console.log(_props.default);
+
+(function () {
+const props = _extends({}, this.props);
+console.log(props);
+})();
 
 "#
 );

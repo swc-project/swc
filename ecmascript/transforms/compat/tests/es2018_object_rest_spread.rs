@@ -2109,43 +2109,6 @@ expect(order).toEqual(["right", "left"]);
 //
 //"#);
 
-// regression_t7178
-test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        tr(),
-        destructuring(destructuring::Config { loose: false }),
-        common_js(Mark::fresh(Mark::root()), Default::default()),
-    ),
-    regression_t7178,
-    r#"
-import props from "props";
-
-console.log(props);
-
-(function(){
-  const { ...props } = this.props;
-
-  console.log(props);
-})();
-
-"#,
-    r#"
-"use strict";
-
-var _props = _interopRequireDefault(require("props"));
-
-console.log(_props.default);
-
-(function () {
-  const props = _extends({}, this.props);
-  console.log(props);
-})();
-
-"#
-);
-
 // object_spread_expression_exec
 test_exec!(
     // WTF? babel's output is wrong
