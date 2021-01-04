@@ -1,6 +1,7 @@
 use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_optimization::simplify::dce;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_transform;
@@ -21,7 +22,7 @@ macro_rules! to {
 }
 
 fn used(ids: &[&str], src: &str, expected: &str) {
-    test_transform!(
+    test_transform(
         Default::default(),
         |_| {
             let mark = Mark::fresh(Mark::root());
@@ -41,7 +42,7 @@ fn used(ids: &[&str], src: &str, expected: &str) {
         },
         src,
         expected,
-        false
+        false,
     );
 }
 
