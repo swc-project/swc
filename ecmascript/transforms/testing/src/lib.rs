@@ -340,7 +340,7 @@ macro_rules! test_exec {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $test_name, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 
@@ -351,7 +351,7 @@ macro_rules! test_exec {
                 return;
             }
 
-            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $test_name, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 }
