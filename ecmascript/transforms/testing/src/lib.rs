@@ -12,7 +12,9 @@ use swc_common::{
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_transforms_base::fixer;
 use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
+use swc_ecma_transforms_base::hygiene;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
@@ -29,7 +31,7 @@ impl<'a> Tester<'a> {
         F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
-            crate::util::HANDLER.set(handler, || {
+            swc_ecma_utils::HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
                     op(&mut Tester {
                         cm,
@@ -113,7 +115,7 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = validate!(module)
+        let module = module
             .fold_with(&mut tr)
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
@@ -156,6 +158,7 @@ where
     op(tester)
 }
 
+#[macro_export]
 macro_rules! test_transform {
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr) => {
         test_transform!($syntax, $tr, $input, $expected, false)
@@ -171,7 +174,7 @@ where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
-    crate::tests::Tester::run(|tester| {
+    Tester::run(|tester| {
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
@@ -183,7 +186,7 @@ where
 
         println!("----- Actual -----");
 
-        let tr = crate::tests::make_tr("actual", tr, tester);
+        let tr = make_tr("actual", tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -195,8 +198,8 @@ where
         }
 
         let actual = actual
-            .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer(None))
+            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut fixer::fixer(None))
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,
             }));
@@ -265,6 +268,7 @@ macro_rules! test {
     };
 }
 
+#[macro_export]
 macro_rules! exec_tr {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {{
         crate::tests::exec_tr(stringify!($test_name), $syntax, $tr, $input);
@@ -299,11 +303,8 @@ where
         }
 
         let mut module = module
-            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
-            .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut crate::fixer::fixer(None))
-            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
+            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut fixer::fixer(None));
 
         let src_without_helpers = tester.print(&module);
         module = module.fold_with(&mut inject_helpers());
@@ -351,6 +352,7 @@ where
 }
 
 /// Test transformation.
+#[macro_export]
 macro_rules! test_exec {
     (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]

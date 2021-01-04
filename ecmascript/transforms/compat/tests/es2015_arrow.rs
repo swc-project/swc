@@ -1,9 +1,6 @@
 #![feature(test)]
 use swc_ecma_transforms::compat::es2015::arrow;
 
-#[macro_use]
-mod common;
-
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(),
