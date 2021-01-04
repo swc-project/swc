@@ -14,9 +14,6 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::Fold;
 
-#[macro_use]
-mod common;
-
 fn ts() -> Syntax {
     Syntax::Typescript(TsConfig {
         ..Default::default()
@@ -4961,4 +4958,34 @@ class Foo {
 }
 Foo.identifier = 5;
   "
+);
+
+test!(
+    ts(),
+    |_| chain!(resolver(), class_properties()),
+    issue_890_1,
+    "const DURATION = 1000
+
+export class HygieneTest {
+  private readonly duration: number = DURATION
+
+  constructor(duration?: number) {
+    this.duration = duration ?? DURATION
+  }
+
+  getDuration() {
+    return this.duration
+  }
+}",
+    "const DURATION = 1000;
+export class HygieneTest {
+    getDuration() {
+        return this.duration;
+    }
+    constructor(duration: number){
+        _defineProperty(this, 'duration', DURATION);
+        this.duration = duration ?? DURATION;
+    }
+}",
+    ok_if_code_eq
 );
