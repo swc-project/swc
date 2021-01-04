@@ -4469,3 +4469,58 @@ console.log(props);
 
 "#
 );
+
+// regression_4209
+test!(
+    syntax(),
+    |_| chain!(
+        classes(),
+        parameters(),
+        destructuring(Default::default()),
+        block_scoping(),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
+    ),
+    regression_4209,
+    r#"
+import { copy } from './copyPaste';
+
+class Thing {
+handleCopySomething() {
+  copy();
+}
+
+completelyUnrelated(copy = 123) {
+}
+}
+
+"#,
+    r#"
+"use strict";
+
+var _copyPaste = require("./copyPaste");
+
+var Thing =
+/*#__PURE__*/
+function () {
+'use strict';
+function Thing() {
+  _classCallCheck(this, Thing);
+}
+
+_createClass(Thing, [{
+  key: "handleCopySomething",
+  value: function handleCopySomething() {
+    _copyPaste.copy();
+  }
+}, {
+  key: "completelyUnrelated",
+  value: function completelyUnrelated(param) {
+    var copy = param === void 0 ? 123 : param;
+  }
+}]);
+
+return Thing;
+}();
+
+"#
+);
