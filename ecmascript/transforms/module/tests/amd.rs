@@ -1,5 +1,8 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_module::amd::amd;
+use swc_ecma_transforms_module::amd::Config;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
