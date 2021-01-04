@@ -4343,3 +4343,67 @@ export * from './pipes';
     });
     "#
 );
+
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        block_scoping(),
+        classes(),
+        destructuring(Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default())
+    ),
+    issue_578_2,
+    "
+import { myFunction } from './dep.js'
+
+class SomeClass {
+  constructor(properties) {
+    this.props = properties;
+  }
+  call () {
+    const {myFunction} = this.props
+    if (myFunction) {
+      myFunction()
+    } else {
+      console.log('DID NOT WORK!')
+    }
+  }
+}
+
+let instance = new SomeClass({
+  myFunction: () => {
+    console.log('CORRECT FUNCTION CALLED')
+  }
+});
+
+instance.call()",
+    "'use strict';
+var _depJs = require('./dep.js');
+let SomeClass = function() {
+    'use strict';
+    function SomeClass(properties) {
+        _classCallCheck(this, SomeClass);
+        this.props = properties;
+    }
+    _createClass(SomeClass, [{
+            key: 'call',
+            value: function call() {
+                var _props = this.props, myFunction = _props.myFunction;
+                if (myFunction) {
+                    myFunction();
+                } else {
+                    console.log('DID NOT WORK!');
+                }
+            }
+        }]);
+    return SomeClass;
+}();
+var instance = new SomeClass({
+    myFunction: ()=>{
+        console.log('CORRECT FUNCTION CALLED');
+    }
+});
+instance.call();",
+    ok_if_code_eq
+);
