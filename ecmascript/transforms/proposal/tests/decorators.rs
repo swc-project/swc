@@ -5590,3 +5590,128 @@ var _default = Test;
 exports.default = _default;
 "
 );
+
+// function_name_function_assignment
+test!(
+    ignore,
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_function_assignment,
+    r#"
+var foo;
+foo = function() {
+};
+
+var baz;
+baz = function() {
+baz();
+};
+baz = 12;
+
+bar = function() {
+bar();
+};
+
+"#,
+    r#"
+var foo;
+
+foo = function foo() {};
+
+var _baz;
+
+_baz = function baz() {
+_baz();
+};
+
+_baz = 12;
+
+bar = function (_bar) {
+function bar() {
+  return _bar.apply(this, arguments);
+}
+
+bar.toString = function () {
+  return _bar.toString();
+};
+
+return bar;
+}(function () {
+bar();
+});
+
+"#
+);
+
+// function_name_shorthand_property
+test!(
+    // not important
+    ignore,
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_shorthand_property,
+    r#"
+var Utils = {
+get: function() {}
+};
+
+var { get } = Utils;
+
+var bar = {
+get: function(arg) {
+  get(arg, "baz");
+}
+};
+
+var f = function ({ foo = "bar" }) {
+var obj = {
+  // same name as parameter
+  foo: function () {
+    foo;
+  }
+};
+};
+
+"#,
+    r#"
+var Utils = {
+get: function get() {}
+};
+var {
+get: _get
+} = Utils;
+var bar = {
+get: function get(arg) {
+  _get(arg, "baz");
+}
+};
+
+var f = function f({
+foo: _foo = "bar"
+}) {
+var obj = {
+  // same name as parameter
+  foo: function foo() {
+    _foo;
+  }
+};
+};
+
+"#
+);
