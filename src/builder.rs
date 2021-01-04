@@ -5,7 +5,7 @@ use swc_atoms::JsWord;
 use swc_common::{chain, comments::Comments, errors::Handler, Mark, SourceMap};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, const_modules, fixer, helpers, hygiene, modules, pass::Optional,
+    compat, fixer, helpers, hygiene, modules, optimization::const_modules, pass::Optional,
     proposals::import_assertions, typescript,
 };
 

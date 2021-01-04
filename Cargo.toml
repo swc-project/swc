@@ -33,6 +33,7 @@ swc_ecma_ext_transforms = {version = "0.1", path = "./ecmascript/ext-transforms"
 swc_ecma_parser = {version = "0.44", path = "./ecmascript/parser"}
 swc_ecma_preset_env = {version = "0.1", path = "./ecmascript/preset_env"}
 swc_ecma_transforms = {version = "0.31", path = "./ecmascript/transforms"}
+swc_ecma_utils = {version = "0.26", path = "./ecmascript/utils"}
 swc_ecma_visit = {version = "0.22", path = "./ecmascript/visit"}
 swc_visit = {version = "0.2", path = "./visit"}
 
