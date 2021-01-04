@@ -7,6 +7,7 @@ pub mod helpers;
 #[doc(hidden)]
 pub mod native;
 pub mod pass;
+pub mod perf;
 pub mod quote;
 pub mod resolver;
 mod scope;

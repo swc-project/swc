@@ -16,17 +16,15 @@ pub use swc_ecma_transforms_base::fixer;
 pub use swc_ecma_transforms_base::helpers;
 pub use swc_ecma_transforms_base::hygiene;
 pub use swc_ecma_transforms_base::pass;
+pub use swc_ecma_transforms_base::perf;
 pub use swc_ecma_transforms_base::resolver;
+pub use swc_ecma_transforms_compat as compat;
 
 #[macro_use]
 mod macros;
-#[macro_use]
-mod quote;
-pub mod compat;
 mod const_modules;
 pub mod modules;
 pub mod optimization;
-mod perf;
 pub mod proposals;
 pub mod react;
 pub mod typescript;
