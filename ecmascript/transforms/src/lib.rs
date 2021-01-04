@@ -1,8 +1,5 @@
 #![deny(unused)]
 
-#[macro_use]
-extern crate swc_ecma_utils;
-
 pub use self::{
     fixer::fixer,
     hygiene::hygiene,

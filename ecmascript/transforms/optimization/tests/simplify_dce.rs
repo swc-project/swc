@@ -3,8 +3,10 @@ use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_optimization::simplify::dce;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
+use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_transform;
+use swc_ecma_transforms_typescript::strip;
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
@@ -479,7 +481,7 @@ test!(
     }),
     |_| chain!(
         resolver(),
-        typescript::strip(),
+        strip(),
         decorators(decorators::Config {
             legacy: true,
             emit_metadata: false
