@@ -27,7 +27,7 @@ petgraph = "0.5"
 radix_fmt = "1"
 rayon = {version = "1", optional = true}
 relative-path = "1.2"
-retain_mut = "=0.1.1"
+retain_mut = "0.1.2"
 swc_atoms = {version = "0.2.4", path = "../atoms"}
 swc_common = {version = "0.10.0", path = "../common"}
 swc_ecma_ast = {version = "0.36.0", path = "../ecmascript/ast"}
