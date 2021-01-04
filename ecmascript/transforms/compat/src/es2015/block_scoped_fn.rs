@@ -1,6 +1,6 @@
-use crate::util::UsageFinder;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn block_scoped_functions() -> impl Fold {
@@ -27,7 +27,7 @@ impl Fold for BlockScopedFns {
 
             // This is to preserve function Class()
             if stmt.span().is_dummy() {
-                extra_stmts.push(validate!(stmt))
+                extra_stmts.push(stmt)
             } else {
                 match stmt {
                     Stmt::Decl(Decl::Fn(decl)) => {
@@ -50,14 +50,14 @@ impl Fold for BlockScopedFns {
                             declare: false,
                         })))
                     }
-                    _ => extra_stmts.push(validate!(stmt.fold_children_with(self))),
+                    _ => extra_stmts.push(stmt.fold_children_with(self)),
                 }
             }
         }
 
         stmts.append(&mut extra_stmts);
 
-        validate!(stmts)
+        stmts
     }
 }
 

@@ -1,10 +1,7 @@
-use crate::{
-    perf::Check,
-    util::{contains_this_expr, ExprFactory},
-};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_utils::contains_this_expr;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 
@@ -67,7 +64,6 @@ impl Fold for Arrow {
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = validate!(e);
         let e = e.fold_children_with(self);
 
         match e {
