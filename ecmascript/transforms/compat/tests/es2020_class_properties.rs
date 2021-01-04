@@ -4183,32 +4183,6 @@ for(let i = 0; i <= 10; ++i){
 "#
 );
 
-// compile_to_class_constructor_collision_ignores_types
-test!(
-    ts(),
-    |_| chain!(typescript::strip(), class_properties()),
-    compile_to_class_constructor_collision_ignores_types,
-    r#"
-class C {
-    // Output should not use `_initialiseProps`
-    x: T;
-    y = 0;
-    constructor(T) {}
-}
-
-"#,
-    r#"
-class C {
-  // Output should not use `_initialiseProps`
-  constructor(T) {
-    _defineProperty(this, "y", 0);
-  }
-
-}
-
-"#
-);
-
 // private_destructuring_array_pattern_3
 test!(
     syntax(),

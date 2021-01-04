@@ -3,6 +3,7 @@ use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::es2017::async_to_generator;
 use swc_ecma_transforms_compat::es2020::class_properties;
+use swc_ecma_transforms_compat::es2020::nullish_coalescing;
 use swc_ecma_transforms_compat::es2020::optional_chaining;
 use swc_ecma_transforms_compat::es2020::typescript_class_properties;
 use swc_ecma_transforms_proposal::decorators;
@@ -3207,4 +3208,32 @@ test!(
     });
     console.log(submissions);
     "#
+);
+
+// compile_to_class_constructor_collision_ignores_types
+test!(
+    Syntax::Typescript(TsConfig {
+        ..Default::default()
+    }),
+    |_| chain!(strip(), class_properties()),
+    compile_to_class_constructor_collision_ignores_types,
+    r#"
+class C {
+    // Output should not use `_initialiseProps`
+    x: T;
+    y = 0;
+    constructor(T) {}
+}
+
+"#,
+    r#"
+class C {
+  // Output should not use `_initialiseProps`
+  constructor(T) {
+    _defineProperty(this, "y", 0);
+  }
+
+}
+
+"#
 );
