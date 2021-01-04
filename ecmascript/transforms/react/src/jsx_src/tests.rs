@@ -1,5 +1,7 @@
 use super::*;
 use swc_common::{sync::Lrc, FilePathMapping};
+use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_exec;
 
 fn tr() -> impl Fold {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
