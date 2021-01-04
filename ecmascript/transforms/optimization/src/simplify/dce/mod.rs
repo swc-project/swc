@@ -1,5 +1,4 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
-use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use std::{any::type_name, borrow::Cow, fmt::Debug, mem::take};
