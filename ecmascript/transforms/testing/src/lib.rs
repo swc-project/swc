@@ -240,6 +240,7 @@ impl<'a> fmt::Debug for DebugUsingDisplay<'a> {
 }
 
 /// Test transformation.
+#[macro_export]
 macro_rules! test {
     (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
