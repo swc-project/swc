@@ -1,13 +1,5 @@
-#![feature(test)]
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms::{
-    modules::{
-        amd::{amd, Config},
-        util,
-    },
-    resolver,
-};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
