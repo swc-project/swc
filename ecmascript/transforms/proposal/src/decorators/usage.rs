@@ -1,5 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{Decorator, Invalid};
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{Node, Visit, VisitWith};
 
 pub(super) fn has_decorator<T: VisitWith<DecoratorFinder>>(node: &T) -> bool {

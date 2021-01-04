@@ -1,13 +1,7 @@
-use common::Tester;
-use swc_common::{chain, Mark};
-use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms::{
-    modules::{
-        umd::{umd, Config},
-        util,
-    },
-    resolver_with_mark,
-};
+use swc_common::chain;
+use swc_common::Mark;
+use swc_ecma_parser::EsConfig;
+use swc_ecma_parser::Syntax;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
