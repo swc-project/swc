@@ -1,12 +1,9 @@
-use crate::{
-    ext::MapWithMut,
-    perf::Check,
-    util::{alias_if_required, undefined, StmtLike},
-};
 use std::mem::replace;
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_utils::{alias_if_required, undefined, StmtLike};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]

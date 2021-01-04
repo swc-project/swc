@@ -1,12 +1,10 @@
-use crate::{
-    perf::Check,
-    util::{prepend, undefined, ExprFactory, StmtLike},
-};
 use std::{iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::alias_if_required;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::{prepend, undefined, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
 
 pub fn optional_chaining() -> impl Fold {
@@ -25,8 +23,8 @@ impl Fold for OptChaining {
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = match e {
-            Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
-            Expr::Unary(e) => validate!(self.handle_unary(e)),
+            Expr::OptChain(e) => Expr::Cond(self.unwrap(e)),
+            Expr::Unary(e) => self.handle_unary(e),
             Expr::Member(e) => match self.handle_member(e).map(Expr::Cond) {
                 Ok(v) => v,
                 Err(v) => v,
@@ -38,7 +36,7 @@ impl Fold for OptChaining {
             _ => e,
         };
 
-        validate!(e.fold_children_with(self))
+        e.fold_children_with(self)
     }
 
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -122,7 +120,7 @@ impl OptChaining {
                     computed,
                 }) if obj.is_opt_chain() => {
                     let obj = obj.opt_chain().unwrap();
-                    let expr = validate!(self.unwrap(obj));
+                    let expr = self.unwrap(obj);
 
                     return CondExpr {
                         span: DUMMY_SP,
@@ -301,7 +299,7 @@ impl OptChaining {
                     expr: alt,
                 }));
 
-                return validate!(CondExpr { alt, ..obj });
+                return CondExpr { alt, ..obj };
             }
 
             Expr::Call(CallExpr {
@@ -327,11 +325,11 @@ impl OptChaining {
                     expr: alt,
                 }));
 
-                return validate!(CondExpr {
+                return CondExpr {
                     span: DUMMY_SP,
                     alt,
                     ..obj
-                });
+                };
             }
 
             _ => {}
