@@ -1,4 +1,3 @@
-#![feature(test)]
 use common::Tester;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
@@ -10,9 +9,6 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::Fold;
-
-#[macro_use]
-mod common;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {

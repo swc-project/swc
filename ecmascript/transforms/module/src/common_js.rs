@@ -3,12 +3,13 @@ use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
     make_require_call, use_strict, ModulePass, Scope,
 };
-use crate::util::{var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
