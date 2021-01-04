@@ -7,6 +7,7 @@ use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::function_name;
 use swc_ecma_transforms_compat::es2015::shorthand;
+use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
@@ -627,5 +628,313 @@ var j = function j1() {
     ({ y: j  } = 5);
     ;
 };
+"#
+);
+
+// function_name_own_bindings
+test!(
+    // not important
+    ignore,
+    syntax(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_own_bindings,
+    r#"
+var f = function () {
+var f = 2;
+};
+
+var g = function (g) {
+g;
+};
+
+var obj = {
+f: function (f) {
+f;
+}
+};
+
+"#,
+    r#"
+var f = function f() {
+var f = 2;
+};
+
+var g = function g(_g) {
+_g;
+};
+
+var obj = {
+f: function f(_f) {
+_f;
+}
+};
+
+"#
+);
+
+// decorators_legacy_interop_strict
+test!(
+    // See: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(),
+    |_| chain!(
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+        classes(),
+    ),
+    decorators_legacy_interop_strict,
+    r#"
+function dec() {}
+
+class A {
+@dec a;
+
+@dec b = 123;
+
+c = 456;
+}
+
+"#,
+    r#"
+var _class, _descriptor, _descriptor2, _temp;
+
+function dec() {}
+
+let A = (_class = (_temp = function A() {
+"use strict";
+
+_classCallCheck(this, A);
+
+_initializerDefineProperty(this, "a", _descriptor, this);
+
+_initializerDefineProperty(this, "b", _descriptor2, this);
+
+_defineProperty(this, "c", 456);
+}, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "a", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: null
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "b", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: function () {
+return 123;
+}
+})), _class);
+
+"#
+);
+
+// function_name_function_collision
+test!(
+    ignore,
+    syntax(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_function_collision,
+    r#"
+function f() {
+f;
+}
+
+{
+let obj = {
+f: function () {
+  f;
+}
+};
+}
+
+(function b() {
+var obj = {
+b: function () {
+  b;
+}
+};
+
+function commit(b) {
+b();
+}
+});
+
+"#,
+    r#"
+function _f() {
+_f;
+}
+
+{
+let obj = {
+f: function f() {
+  _f;
+}
+};
+}
+
+(function _b() {
+var obj = {
+b: function b() {
+  _b;
+}
+};
+
+function commit(b) {
+b();
+}
+});
+
+"#
+);
+
+// function_name_collisions
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_collisions,
+    r#"
+var obj = {
+search: function({search}) {
+console.log(search);
+}
+};
+
+function search({search}) {
+console.log(search);
+}
+
+"#,
+    r#"
+var obj = {
+search: function search({
+search: search1
+}) {
+console.log(search1);
+}
+};
+
+function search({ search: search1 }) {
+console.log(search1);
+}
+
+"#
+);
+
+// function_name_modules_2
+test!(
+    ignore,
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+        common_js(Mark::fresh(Mark::root()), Default::default())
+    ),
+    function_name_modules_2,
+    r#"
+import last from "lodash/last"
+
+export default class Container {
+last(key) {
+if (!this.has(key)) {
+  return;
+}
+
+return last(this.tokens.get(key))
+}
+}
+
+"#,
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+value: true
+});
+exports.default = void 0;
+
+var _last2 = _interopRequireDefault(require("lodash/last"));
+
+let Container =
+/*#__PURE__*/
+function () {
+function Container() {
+_classCallCheck(this, Container);
+}
+
+_createClass(Container, [{
+key: "last",
+value: function last(key) {
+  if (!this.has(key)) {
+    return;
+  }
+
+  return (0, _last2.default)(this.tokens.get(key));
+}
+}]);
+return Container;
+}();
+
+exports.default = Container;
+
+"#
+);
+
+// function_name_await
+test!(
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_await,
+    r#"
+export {};
+
+var obj = { await: function () {} };
+
+"#,
+    r#"
+export {};
+var obj = {
+await: function _await() {}
+};
+
 "#
 );
