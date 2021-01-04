@@ -397,24 +397,26 @@ fn babel_issue_4946() {
 
 // TODO: try {} catch (a) { let a } should report error
 
-test!(
-    Default::default(),
-    |_| resolver(),
-    babel_issue_973,
-    r#"let arr = [];
-for(let i = 0; i < 10; i++) {
-  for (let i = 0; i < 10; i++) {
-    arr.push(() => i);
-  }
-}
-"#,
-    r#"let arr = [];
-for(let i = 0; i < 10; i++){
-    for(let i1 = 0; i1 < 10; i1++){
-        arr.push(()=>i1);
+#[test]
+fn babel_issue_973() {
+    run_test(
+        Default::default(),
+        resolver(),
+        r#"let arr = [];
+    for(let i = 0; i < 10; i++) {
+      for (let i = 0; i < 10; i++) {
+        arr.push(() => i);
+      }
     }
-}"#
-);
+    "#,
+        r#"let arr = [];
+    for(let i = 0; i < 10; i++){
+        for(let i1 = 0; i1 < 10; i1++){
+            arr.push(()=>i1);
+        }
+    }"#,
+    );
+}
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
