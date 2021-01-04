@@ -1,8 +1,10 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::amd::amd;
 use swc_ecma_transforms_module::amd::Config;
+use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -1197,7 +1199,7 @@ test!(
 test!(
     syntax(),
     |_| chain!(
-        for_of(Config { assume_array: true }),
+        for_of(for_of::Config { assume_array: true }),
         amd(Default::default())
     ),
     for_of_as_array_for_of_import_amd,
