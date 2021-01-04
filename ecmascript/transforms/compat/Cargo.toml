@@ -10,4 +10,11 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+serde = {version = "1.0.118", features = ["derive"]}
+swc_common = {version = "0.10.8", path = "../../../common"}
+swc_ecma_utils = {version = "0.26.0", path = "../../utils"}
+swc_ecma_visit = {version = "0.22.0", path = "../../visit"}
+
+[dev-dependencies]
 swc_ecma_transforms_testing = {version = "0.1", path = "../testing"}
+testing = {version = "0.10.2", path = "../../testing"}
