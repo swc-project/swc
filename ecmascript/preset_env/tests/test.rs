@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
-use swc_ecma_transforms::util::drop_span;
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::as_folder;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMut;
