@@ -5402,3 +5402,67 @@ function search({ search: search1 }) {
 
 "#
 );
+
+// function_name_modules_2
+test!(
+    ignore,
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+        common_js(Mark::fresh(Mark::root()), Default::default())
+    ),
+    function_name_modules_2,
+    r#"
+import last from "lodash/last"
+
+export default class Container {
+last(key) {
+  if (!this.has(key)) {
+    return;
+  }
+
+  return last(this.tokens.get(key))
+}
+}
+
+"#,
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+value: true
+});
+exports.default = void 0;
+
+var _last2 = _interopRequireDefault(require("lodash/last"));
+
+let Container =
+/*#__PURE__*/
+function () {
+function Container() {
+  _classCallCheck(this, Container);
+}
+
+_createClass(Container, [{
+  key: "last",
+  value: function last(key) {
+    if (!this.has(key)) {
+      return;
+    }
+
+    return (0, _last2.default)(this.tokens.get(key));
+  }
+}]);
+return Container;
+}();
+
+exports.default = Container;
+
+"#
+);
