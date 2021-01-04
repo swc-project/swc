@@ -2,6 +2,7 @@ use super::case::Loc;
 use is_macro::Is;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
+use swc_ecma_utils::Id;
 
 #[derive(Debug, Default)]
 pub(super) struct LeapManager {

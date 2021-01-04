@@ -9,9 +9,12 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::member_expr;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::quote_str;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
