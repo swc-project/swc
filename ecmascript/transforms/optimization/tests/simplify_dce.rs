@@ -528,7 +528,7 @@ test!(
     }),
     |_| chain!(
         resolver(),
-        typescript::strip(),
+        strip(),
         decorators(decorators::Config {
             legacy: true,
             emit_metadata: false
