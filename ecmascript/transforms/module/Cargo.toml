@@ -1,9 +1,12 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "rust port of babel and closure compiler."
+documentation = "https://swc.rs/rustdoc/swc_ecma_transforms_optimization/"
 edition = "2018"
+license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_module"
+repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
