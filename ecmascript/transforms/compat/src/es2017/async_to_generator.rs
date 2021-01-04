@@ -1,12 +1,15 @@
-use crate::{
-    compat::es2015::arrow,
-    perf::Check,
-    util::{contains_ident_ref, contains_this_expr, ExprFactory, StmtLike},
-};
+use crate::es2015::arrow;
 use std::iter;
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_utils::contains_ident_ref;
+use swc_ecma_utils::contains_this_expr;
+use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::StmtLike;
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-async-to-generator`
@@ -139,8 +142,6 @@ impl Fold for Actual {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = validate!(expr);
-
         match expr {
             Expr::Paren(ParenExpr { span, expr }) => {
                 return Expr::Paren(ParenExpr {
@@ -251,7 +252,6 @@ impl Fold for Actual {
         }
     }
     fn fold_method_prop(&mut self, prop: MethodProp) -> MethodProp {
-        let prop = validate!(prop);
         let prop = prop.fold_children_with(self);
 
         if !prop.function.is_async {
@@ -400,7 +400,6 @@ impl Fold for MethodFolder {
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = validate!(expr);
         // TODO(kdy): Cache (Reuse declaration for same property)
 
         match expr {
@@ -789,7 +788,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     let expr = if contains_this {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: validate!(expr.make_member(quote_ident!("bind"))).as_callee(),
+            callee: expr.make_member(quote_ident!("bind")).as_callee(),
             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
             type_args: Default::default(),
         })

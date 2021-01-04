@@ -1,5 +1,6 @@
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
@@ -190,6 +191,8 @@ impl Check for ShouldFold {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_transforms_testing::test;
+    use swc_ecma_transforms_testing::test_exec;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
