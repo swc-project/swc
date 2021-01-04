@@ -1,7 +1,6 @@
-#![feature(test)]
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms::{compat::es2020::export_namespace_from, proposals::export_default_from};
+use swc_ecma_transforms_proposal::export_default_from;
 use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {

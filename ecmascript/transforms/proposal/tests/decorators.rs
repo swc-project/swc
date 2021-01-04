@@ -1,5 +1,7 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_transforms_proposal::decorators;
+use swc_ecma_transforms_proposal::decorators::Config;
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {

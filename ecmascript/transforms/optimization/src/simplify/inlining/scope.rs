@@ -8,6 +8,7 @@ use std::{
 };
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
