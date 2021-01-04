@@ -1,4 +1,3 @@
-use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_compat::es2020::optional_chaining;
 use swc_ecma_transforms_testing::test;

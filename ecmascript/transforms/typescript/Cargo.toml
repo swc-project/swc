@@ -26,3 +26,4 @@ swc_ecma_transforms_compat = {path = "../compat"}
 swc_ecma_transforms_module = {path = "../module"}
 swc_ecma_transforms_proposal = {path = "../proposal/"}
 swc_ecma_transforms_testing = {version = "0.1", path = "../testing"}
+walkdir = "2.3.1"

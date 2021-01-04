@@ -3,6 +3,7 @@ use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::test_transform;
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
