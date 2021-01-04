@@ -5,6 +5,9 @@ use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::private_ident;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::quote_str;
+use swc_ecma_utils::undefined;
 use swc_ecma_utils::{
     contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id,
     StmtLike,
