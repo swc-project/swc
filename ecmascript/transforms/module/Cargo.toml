@@ -9,6 +9,7 @@ version = "0.1.0"
 [dependencies]
 Inflector = "0.11.4"
 fxhash = "0.2.1"
+indexmap = "1.6.1"
 serde = {version = "1.0.118", features = ["derive"]}
 swc_atoms = {version = "0.2", path = "../../../atoms"}
 swc_common = {version = "0.10", path = "../../../common"}
