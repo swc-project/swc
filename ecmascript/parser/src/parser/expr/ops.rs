@@ -353,7 +353,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(crate) fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 
-        assert_and_bump!("await");
+        assert_and_bump!(self, "await");
 
         if is!(self, '*') {
             syntax_error!(self, SyntaxError::AwaitStar);

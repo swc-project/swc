@@ -292,7 +292,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseImportType`
     fn parse_ts_import_type(&mut self) -> PResult<TsImportType> {
         let start = cur_pos!(self);
-        assert_and_bump!("import");
+        assert_and_bump!(self, "import");
 
         expect!(self, '(');
 
@@ -413,7 +413,7 @@ impl<I: Tokens> Parser<I> {
             let type_pred_start = cur_pos!(self);
             let has_type_pred_asserts = is!(self, "asserts") && peeked_is!(self, IdentRef);
             if has_type_pred_asserts {
-                assert_and_bump!("asserts");
+                assert_and_bump!(self, "asserts");
                 cur!(false)?;
             }
 
@@ -431,7 +431,7 @@ impl<I: Tokens> Parser<I> {
 
             let type_pred_var = p.parse_ident_name()?;
             let type_ann = if has_type_pred_is {
-                assert_and_bump!("is");
+                assert_and_bump!(self, "is");
                 let pos = cur_pos!(self);
                 Some(p.parse_ts_type_ann(
                     // eat_colon
@@ -508,7 +508,7 @@ impl<I: Tokens> Parser<I> {
 
         self.in_type().parse_with(|p| {
             if eat_colon {
-                assert_and_bump!(':');
+                assert_and_bump!(self, ':');
             }
 
             let type_ann = p.parse_ts_type()?;
@@ -599,7 +599,7 @@ impl<I: Tokens> Parser<I> {
                 })
             }
             Token::LBracket => {
-                assert_and_bump!('[');
+                assert_and_bump!(self, '[');
                 let _ = self.parse_expr()?;
 
                 self.emit_err(span!(self, start), SyntaxError::TS1164);
@@ -1027,7 +1027,7 @@ impl<I: Tokens> Parser<I> {
     fn is_ts_unambiguously_start_of_fn_type(&mut self) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
 
-        assert_and_bump!('(');
+        assert_and_bump!(self, '(');
         if is_one_of!(')', "...") {
             // ( )
             // ( ...
@@ -1155,7 +1155,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         // Note: babel's comment is wrong
-        assert_and_bump!('['); // Skip '['
+        assert_and_bump!(self, '['); // Skip '['
 
         // ',' is for error recovery
         Ok(eat!(self, IdentRef) && is_one_of!(':', ','))
@@ -1644,7 +1644,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        assert_and_bump!('`');
+        assert_and_bump!(self, '`');
 
         let (types, quasis) = self.parse_ts_tpl_type_elements()?;
 
@@ -2117,9 +2117,9 @@ impl<I: Tokens> Parser<I> {
             }
 
             if is!(self, "const") && peeked_is!(self, "enum") {
-                assert_and_bump!("const");
+                assert_and_bump!(self, "const");
                 let _ = cur!(true);
-                assert_and_bump!("enum");
+                assert_and_bump!(self, "enum");
 
                 return p
                     .parse_ts_enum_decl(start, /* is_const */ true)

@@ -83,7 +83,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
         let start = cur_pos!(self);
 
-        assert_and_bump!('[');
+        assert_and_bump!(self, '[');
 
         let mut elems = vec![];
         let mut comma = 0;

@@ -213,7 +213,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_decorator(&mut self) -> PResult<Decorator> {
         let start = cur_pos!(self);
 
-        assert_and_bump!('@');
+        assert_and_bump!(self, '@');
 
         let expr = if eat!(self, '(') {
             let expr = self.parse_expr()?;
@@ -505,9 +505,9 @@ impl<'a, I: Tokens> Parser<I> {
                 if self.syntax().typescript() && is!(self, '<') {
                     let start = cur_pos!(self);
                     if peeked_is!(self, '>') {
-                        assert_and_bump!('<');
+                        assert_and_bump!(self, '<');
                         let start2 = cur_pos!(self);
-                        assert_and_bump!('>');
+                        assert_and_bump!(self, '>');
 
                         self.emit_err(span!(self, start), SyntaxError::TS1098);
                         self.emit_err(span!(self, start2), SyntaxError::TS1092);
@@ -763,7 +763,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if !p.input.syntax().class_props() {
                     syntax_error!(self, span!(self, start), SyntaxError::ClassProperty);
                 }
-                assert_and_bump!('=');
+                assert_and_bump!(self, '=');
                 Some(p.parse_assignment_expr()?)
             } else {
                 None
@@ -837,7 +837,7 @@ impl<'a, I: Tokens> Parser<I> {
         T::Ident: Spanned,
     {
         let start = start_of_async.unwrap_or(cur_pos!(self));
-        assert_and_bump!("function");
+        assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
 
         let is_generator = {

@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<I> {
             && (peeked_is!(self, '{') || !peeked_is!(self, "from") && !peeked_is!(self, ','));
 
         if type_only {
-            assert_and_bump!("type");
+            assert_and_bump!(self, "type");
         }
 
         let mut specifiers = vec![];
@@ -224,7 +224,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let start = cur_pos!(self);
-        assert_and_bump!("export");
+        assert_and_bump!(self, "export");
         let _ = cur!(true);
         let after_export_start = cur_pos!(self);
 
@@ -324,7 +324,7 @@ impl<'a, I: Tokens> Parser<I> {
             if self.input.syntax().typescript() {
                 if is!(self, "abstract") && peeked_is!(self, "class") {
                     let class_start = cur_pos!(self);
-                    assert_and_bump!("abstract");
+                    assert_and_bump!(self, "abstract");
                     let _ = cur!(true);
 
                     let mut class = self.parse_default_class(start, class_start, decorators)?;
@@ -339,12 +339,12 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 if is!(self, "abstract") && peeked_is!(self, "interface") {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1242);
-                    assert_and_bump!("abstract");
+                    assert_and_bump!(self, "abstract");
                 }
 
                 if is!(self, "interface") {
                     let interface_start = cur_pos!(self);
-                    assert_and_bump!("interface");
+                    assert_and_bump!(self, "interface");
                     let decl = self
                         .parse_ts_interface_decl(interface_start)
                         .map(DefaultDecl::from)?;
@@ -400,9 +400,9 @@ impl<'a, I: Tokens> Parser<I> {
             && peeked_is!(self, "enum")
         {
             let start = cur_pos!(self);
-            assert_and_bump!("const");
+            assert_and_bump!(self, "const");
             let _ = cur!(true);
-            assert_and_bump!("enum");
+            assert_and_bump!(self, "enum");
             return self
                 .parse_ts_enum_decl(start, /* is_const */ true)
                 .map(Decl::from)

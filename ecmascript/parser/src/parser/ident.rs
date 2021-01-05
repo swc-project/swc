@@ -20,7 +20,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_private_name(&mut self) -> PResult<PrivateName> {
         let start = cur_pos!(self);
-        assert_and_bump!('#');
+        assert_and_bump!(self, '#');
 
         let hash_end = self.input.prev_span().hi;
         if self.input.cur_pos() - hash_end != BytePos(0) {

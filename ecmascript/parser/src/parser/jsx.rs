@@ -291,7 +291,7 @@ impl<'a, I: Tokens> Parser<I> {
                             if peeked_is!(self, '/') {
                                 bump!(); // JSXTagStart
                                 let _ = cur!(true);
-                                assert_and_bump!('/');
+                                assert_and_bump!(self, '/');
 
                                 closing_element =
                                     p.parse_jsx_closing_element_at(start).map(Some)?;

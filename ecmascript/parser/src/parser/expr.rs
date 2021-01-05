@@ -252,7 +252,7 @@ impl<'a, I: Tokens> Parser<I> {
                         // try parsing `async<T>() => {}`
                         if let Some(res) = self.try_parse_ts(|p| {
                             let start = cur_pos!(self);
-                            assert_and_bump!("async");
+                            assert_and_bump!(self, "async");
                             p.try_parse_ts_generic_async_arrow_fn(start)
                         }) {
                             return Ok(Box::new(Expr::Arrow(res)));
@@ -396,7 +396,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        assert_and_bump!('[');
+        assert_and_bump!(self, '[');
         let mut elems = vec![];
 
         while !eof!() && !is!(self, ']') {
@@ -803,7 +803,7 @@ impl<'a, I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span().lo();
         trace_cur!(parse_tagged_tpl);
 
-        assert_and_bump!('`');
+        assert_and_bump!(self, '`');
 
         let (exprs, quasis) = self.parse_tpl_elements(false)?;
 
@@ -823,7 +823,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(parse_tpl);
         let start = cur_pos!(self);
 
-        assert_and_bump!('`');
+        assert_and_bump!(self, '`');
 
         let (exprs, quasis) = self.parse_tpl_elements(false)?;
 
@@ -896,7 +896,7 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript() {
             if !self.input.had_line_break_before_cur() && is!(self, '!') {
                 self.input.set_expr_allowed(false);
-                assert_and_bump!('!');
+                assert_and_bump!(self, '!');
 
                 let expr = match obj {
                     ExprOrSuper::Super(..) => unimplemented!("super!"),
@@ -1270,7 +1270,7 @@ impl<'a, I: Tokens> Parser<I> {
                         || peeked_is!(self, ')')
                         || peeked_is!(self, '=')
                     {
-                        assert_and_bump!('?');
+                        assert_and_bump!(self, '?');
                         let _ = cur!(false);
                         if arg.spread.is_some() {
                             self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
@@ -1486,7 +1486,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 
-        assert_and_bump!("yield");
+        assert_and_bump!(self, "yield");
         debug_assert!(self.ctx().in_generator);
 
         // Spec says

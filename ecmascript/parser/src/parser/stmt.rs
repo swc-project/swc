@@ -112,8 +112,8 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, "enum") {
-            assert_and_bump!("const");
-            assert_and_bump!("enum");
+            assert_and_bump!(self, "const");
+            assert_and_bump!(self, "enum");
             return self
                 .parse_ts_enum_decl(start, true)
                 .map(Decl::from)
@@ -384,7 +384,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_if_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
 
-        assert_and_bump!("if");
+        assert_and_bump!(self, "if");
 
         expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
@@ -430,7 +430,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let stmt = self.parse_with(|p| {
-            assert_and_bump!("return");
+            assert_and_bump!(self, "return");
 
             let arg = if is!(self, ';') {
                 None
@@ -455,7 +455,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
         let switch_start = cur_pos!(self);
 
-        assert_and_bump!("switch");
+        assert_and_bump!(self, "switch");
 
         expect!(self, '(');
         let discriminant = self.include_in_expr(true).parse_expr()?;
@@ -522,7 +522,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
 
-        assert_and_bump!("throw");
+        assert_and_bump!(self, "throw");
 
         if self.input.had_line_break_before_cur() {
             // TODO: Suggest throw arg;
@@ -538,7 +538,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_try_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
-        assert_and_bump!("try");
+        assert_and_bump!(self, "try");
 
         let block = self.parse_block(false)?;
 
@@ -800,7 +800,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
 
-        assert_and_bump!("do");
+        assert_and_bump!(self, "do");
 
         let ctx = Context {
             is_break_allowed: true,
@@ -823,7 +823,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_while_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
 
-        assert_and_bump!("while");
+        assert_and_bump!(self, "while");
 
         expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
@@ -853,7 +853,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        assert_and_bump!("with");
+        assert_and_bump!(self, "with");
 
         expect!(self, '(');
         let obj = self.include_in_expr(true).parse_expr()?;
@@ -933,7 +933,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_for_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
 
-        assert_and_bump!("for");
+        assert_and_bump!(self, "for");
         let await_start = cur_pos!(self);
         let await_token = if eat!(self, "await") {
             Some(span!(self, await_start))

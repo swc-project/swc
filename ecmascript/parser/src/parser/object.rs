@@ -13,7 +13,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: ParseObject<T>,
     {
         let start = cur_pos!(self);
-        assert_and_bump!('{');
+        assert_and_bump!(self, '{');
 
         let mut props = vec![];
 
