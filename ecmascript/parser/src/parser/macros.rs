@@ -108,7 +108,7 @@ macro_rules! is_one_of {
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &tok!($t);
-        if cfg!(debug_assertions) && !is!(self, $p, $t) {
+        if cfg!(debug_assertions) && !is!($p, $t) {
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
                 TOKEN,
@@ -304,7 +304,7 @@ macro_rules! trace_cur {
 macro_rules! span {
     ($p:expr, $start:expr) => {{
         let start: ::swc_common::BytePos = $start;
-        let end: ::swc_common::BytePos = last_pos!(self$p);
+        let end: ::swc_common::BytePos = last_pos!($p);
         if cfg!(debug_assertions) && start > end {
             unreachable!(
                 "assertion failed: (span.start <= span.end).
