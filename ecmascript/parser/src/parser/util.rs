@@ -185,7 +185,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// Creates a span from `start` to current pos.
     pub(super) fn span(&mut self, start: BytePos) -> Span {
-        let end = last_pos!(self);
+        let end = last_pos!(selfself);
         if cfg!(debug_assertions) && start > end {
             unreachable!(
                 "assertion failed: (span.start <= span.end).

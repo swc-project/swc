@@ -161,7 +161,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, '{');
             let body = p.parse_class_body()?;
             expect!(self, '}');
-            let end = last_pos!();
+            let end = last_pos!(self);
             Ok(T::finish_class(
                 span!(self, start),
                 ident,

@@ -304,7 +304,7 @@ macro_rules! trace_cur {
 macro_rules! span {
     ($p:expr, $start:expr) => {{
         let start: ::swc_common::BytePos = $start;
-        let end: ::swc_common::BytePos = last_pos!($p);
+        let end: ::swc_common::BytePos = last_pos!(self$p);
         if cfg!(debug_assertions) && start > end {
             unreachable!(
                 "assertion failed: (span.start <= span.end).

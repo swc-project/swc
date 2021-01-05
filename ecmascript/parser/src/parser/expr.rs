@@ -719,7 +719,7 @@ impl<'a, I: Tokens> Parser<I> {
         if expr_or_spreads.is_empty() {
             syntax_error!(
                 self,
-                Span::new(expr_start, last_pos!(), Default::default()),
+                Span::new(expr_start, last_pos!(self), Default::default()),
                 SyntaxError::EmptyParenExpr
             );
         }
