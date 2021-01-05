@@ -688,7 +688,7 @@ impl<'a, I: Tokens> Parser<I> {
             //      var a,;
             //
             // NewLine is ok
-            if is_exact!(';') || eof!(self) {
+            if is_exact!(self, ';') || eof!(self) {
                 let prev_span = self.input.prev_span();
                 let span = if prev_span == var_span {
                     Span::new(prev_span.hi, prev_span.hi, Default::default())
