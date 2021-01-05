@@ -107,7 +107,8 @@ impl<'a, I: Tokens> Parser<I> {
                         expr,
                     })
                 }
-                _ => unexpected!(self, 
+                _ => unexpected!(
+                    self,
                     "identifier, string literal, numeric literal or [ for the computed key"
                 ),
             };
@@ -166,7 +167,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         let key = self.parse_prop_name()?;
 
         if self.input.syntax().typescript()
-            && !is_one_of!('(', '[', ':', ',', '?', '=', '*', IdentName)
+            && !is_one_of!(self, '(', '[', ':', ',', '?', '=', '*', IdentName)
             && !(self.input.syntax().typescript() && is!(self, '<'))
             && !(is!(self, '}')
                 && match key {
@@ -222,7 +223,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
         // It means we should check for invalid expressions like { for, }
-        if is_one_of!('=', ',', '}') {
+        if is_one_of!(self, '=', ',', '}') {
             let is_reserved_word = { self.ctx().is_reserved_word(&ident.sym) };
             if is_reserved_word {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
@@ -364,7 +365,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             }
             _ => {
                 if self.input.syntax().typescript() {
-                    unexpected!(self, 
+                    unexpected!(
+                        self,
                         "... , *,  (, [, :, , ?, =, an identifier, public, protected, private, \
                          readonly, <."
                     )

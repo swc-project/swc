@@ -1028,13 +1028,13 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         assert_and_bump!(self, '(');
-        if is_one_of!(')', "...") {
+        if is_one_of!(self, ')', "...") {
             // ( )
             // ( ...
             return Ok(true);
         }
         if self.skip_ts_parameter_start()? {
-            if is_one_of!(':', ',', '?', '=') {
+            if is_one_of!(self, ':', ',', '?', '=') {
                 // ( xxx :
                 // ( xxx ,
                 // ( xxx ?
@@ -1055,7 +1055,7 @@ impl<I: Tokens> Parser<I> {
 
         let _ = self.eat_any_ts_modifier()?;
 
-        if is_one_of!(IdentRef, "this") {
+        if is_one_of!(self, IdentRef, "this") {
             bump!();
             return Ok(true);
         }
@@ -1158,7 +1158,7 @@ impl<I: Tokens> Parser<I> {
         assert_and_bump!(self, '['); // Skip '['
 
         // ',' is for error recovery
-        Ok(eat!(self, IdentRef) && is_one_of!(':', ','))
+        Ok(eat!(self, IdentRef) && is_one_of!(self, ':', ','))
     }
 
     /// `tsTryParseIndexSignature`
@@ -1241,7 +1241,7 @@ impl<I: Tokens> Parser<I> {
 
         let optional = eat!(self, '?');
 
-        if !readonly && is_one_of!('(', '<') {
+        if !readonly && is_one_of!(self, '(', '<') {
             let type_params = self.try_parse_ts_type_params()?;
             expect!(self, '(');
             let params = self.parse_ts_binding_list_for_signature()?;
@@ -1294,7 +1294,7 @@ impl<I: Tokens> Parser<I> {
                 Either::Right(e) => e.into(),
             }
         }
-        if is_one_of!('(', '<') {
+        if is_one_of!(self, '(', '<') {
             return self
                 .parse_ts_signature_member(SignatureParsingMode::TSCallSignatureDeclaration)
                 .map(into_type_elem);
@@ -1399,7 +1399,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         expect!(self, '{');
         let mut readonly = None;
-        if is_one_of!('+', '-') {
+        if is_one_of!(self, '+', '-') {
             readonly = Some(if is!(self, '+') {
                 TruePlusMinus::Plus
             } else {
@@ -1421,7 +1421,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ']');
 
         let mut optional = None;
-        if is_one_of!('+', '-') {
+        if is_one_of!(self, '+', '-') {
             optional = Some(if is!(self, '+') {
                 TruePlusMinus::Plus
             } else {
@@ -1692,7 +1692,8 @@ impl<I: Tokens> Parser<I> {
                 Pat::Array(pat) => TsFnParam::Array(pat),
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
-                _ => unexpected!(self, 
+                _ => unexpected!(
+                    self,
                     "an identifier, [ for an array pattern, { for an object patter or ... for a \
                      rest pattern"
                 ),
@@ -1882,7 +1883,8 @@ impl<I: Tokens> Parser<I> {
         //   switch (self.state.type) {
         //   }
 
-        unexpected!(self, 
+        unexpected!(
+            self,
             "an identifier, void, yield, null, await, break, a string literal, a numeric literal, \
              true, false, `, -, import, this, typeof, {, [, ("
         )
@@ -2134,7 +2136,7 @@ impl<I: Tokens> Parser<I> {
                     .map(From::from)
                     .map(Some);
             }
-            if is_one_of!("const", "var", "let") {
+            if is_one_of!(self, "const", "var", "let") {
                 return p
                     .parse_var_stmt(false)
                     .map(|decl| VarDecl {
@@ -2303,7 +2305,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
     ) -> PResult<Option<ArrowExpr>> {
-        let res = if is_one_of!('<', JSXTagStart) {
+        let res = if is_one_of!(self, '<', JSXTagStart) {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params()?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.

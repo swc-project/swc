@@ -68,7 +68,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript()
-            && (is_one_of!('<', JSXTagStart))
+            && (is_one_of!(self, '<', JSXTagStart))
             && peeked_is!(self, IdentName)
         {
             let res = self.try_parse_ts(|p| {

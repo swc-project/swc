@@ -262,7 +262,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // Parse unary expression
-        if is_one_of!("delete", "void", "typeof", '+', '-', '~', '!') {
+        if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
             let op = match bump!() {
                 tok!("delete") => op!("delete"),
                 tok!("void") => op!("void"),
@@ -330,7 +330,7 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(expr);
         }
 
-        if is_one_of!("++", "--") {
+        if is_one_of!(self, "++", "--") {
             self.check_assign_target(&expr, false);
 
             let start = cur_pos!(self);
@@ -359,7 +359,7 @@ impl<'a, I: Tokens> Parser<I> {
             syntax_error!(self, SyntaxError::AwaitStar);
         }
 
-        if is_one_of!(')', ']') && !self.ctx().in_async {
+        if is_one_of!(self, ')', ']') && !self.ctx().in_async {
             return Ok(Box::new(Expr::Ident(Ident::new(
                 js_word!("await"),
                 span!(self, start),

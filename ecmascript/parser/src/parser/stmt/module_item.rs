@@ -491,7 +491,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             }
             let mut first = true;
-            while is_one_of!(',', IdentName) {
+            while is_one_of!(self, ',', IdentName) {
                 if first {
                     first = false;
                 } else if eat!(self, ',') && is!(self, '}') {
