@@ -271,7 +271,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
         let mut elems = vec![];
-        while !eof!() && !is!(self, '}') {
+        while !eof!(self) && !is!(self, '}') {
             if eat_exact!(';') {
                 let span = self.input.prev_span();
                 elems.push(ClassMember::Empty(EmptyStmt {

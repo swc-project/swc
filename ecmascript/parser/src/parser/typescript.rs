@@ -907,7 +907,7 @@ impl<I: Tokens> Parser<I> {
         if is!(self, "extends") {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1172);
 
-            while !eof!() && !is!(self, '{') {
+            while !eof!(self) && !is!(self, '{') {
                 bump!();
             }
         }

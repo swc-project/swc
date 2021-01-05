@@ -109,7 +109,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
             } else if eat!(self, '{') {
                 let mut first = true;
-                while !eof!() && !is!(self, '}') {
+                while !eof!(self) && !is!(self, '}') {
                     if first {
                         first = false;
                     } else if eat!(self, ',') && is!(self, '}') {

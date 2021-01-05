@@ -495,7 +495,7 @@ impl<'a, I: Tokens> Parser<I> {
                 };
                 expect!(self, ':');
 
-                while !eof!() && !is_one_of!("case", "default", '}') {
+                while !eof!(self) && !is_one_of!("case", "default", '}') {
                     cons.push(p.parse_stmt_list_item(false)?);
                 }
 
@@ -689,7 +689,7 @@ impl<'a, I: Tokens> Parser<I> {
             //      var a,;
             //
             // NewLine is ok
-            if is_exact!(';') || eof!() {
+            if is_exact!(';') || eof!(self) {
                 let prev_span = self.input.prev_span();
                 let span = if prev_span == var_span {
                     Span::new(prev_span.hi, prev_span.hi, Default::default())

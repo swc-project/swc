@@ -88,7 +88,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut elems = vec![];
         let mut comma = 0;
 
-        while !eof!() && !is!(self, ']') {
+        while !eof!(self) && !is!(self, ']') {
             if eat!(self, ',') {
                 comma += 1;
                 continue;
@@ -255,7 +255,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut first = true;
         let mut params = vec![];
 
-        while !eof!() && !is!(self, ')') {
+        while !eof!(self) && !is!(self, ')') {
             if first {
                 first = false;
             } else {
@@ -343,7 +343,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut params = vec![];
         let mut dot3_token = Span::default();
 
-        while !eof!() && !is!(self, ')') {
+        while !eof!(self) && !is!(self, ')') {
             if first {
                 first = false;
             } else {

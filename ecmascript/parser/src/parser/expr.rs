@@ -399,7 +399,7 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!(self, '[');
         let mut elems = vec![];
 
-        while !eof!() && !is!(self, ']') {
+        while !eof!(self) && !is!(self, ']') {
             if is!(self, ',') {
                 expect!(self, ',');
                 elems.push(None);
@@ -536,7 +536,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut first = true;
         let mut expr_or_spreads = vec![];
 
-        while !eof!() && !is!(self, ')') {
+        while !eof!(self) && !is!(self, ')') {
             if first {
                 first = false;
             } else {
@@ -1206,7 +1206,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
-        while !eof!() && !is!(self, ')') {
+        while !eof!(self) && !is!(self, ')') {
             if first {
                 if is!(self, "async") {
                     // https://github.com/swc-project/swc/issues/410
