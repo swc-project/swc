@@ -137,7 +137,7 @@ macro_rules! eat {
     }};
 
     ($p:expr, $t:tt) => {{
-        if is!(self, $t) {
+        if is!($p, $t) {
             bump!($p);
             true
         } else {
