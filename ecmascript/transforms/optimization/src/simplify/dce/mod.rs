@@ -159,7 +159,7 @@ macro_rules! normal {
         [$($array_like_props:ident),*]
     ) => {
         fn $name(&mut self, node: &mut $T) {
-            log::trace!("Visit<{}>: {:?}", stringify!($T), node);
+            log::trace!("Visit<{}>: arking = {}; {:?}", stringify!($T), self.marking_phase, node);
             if self.is_marked(node.span()) {
                 log::trace!("Visit<{}>: Already marked", stringify!($T));
                 return;
@@ -559,33 +559,8 @@ impl VisitMut for Dce<'_> {
         }
     }
 
-    fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        if self.is_marked(node.span) {
-            return;
-        }
-        node.span = node.span.apply_mark(self.config.used_mark);
-
-        self.mark(&mut node.arg)
-    }
-
-    fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        if self.is_marked(node.span) {
-            return;
-        }
-
-        node.visit_mut_children_with(self);
-
-        if self.is_marked(node.block.span())
-            || self.is_marked(node.handler.span())
-            || self.is_marked(node.finalizer.span())
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut node.block);
-            self.mark(&mut node.handler);
-            self.mark(&mut node.finalizer);
-        }
-    }
+    normal!(visit_mut_throw_stmt, ThrowStmt, arg);
+    normal!(visit_mut_try_stmt, TryStmt, block, handler, finalizer);
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
         if self.is_marked(node.span) {
@@ -755,7 +730,6 @@ impl VisitMut for Dce<'_> {
             || self.is_marked(node.ident.span())
             || self.is_marked(node.class.span())
         {
-            node.class.span = node.class.span.apply_mark(self.config.used_mark);
             self.mark(&mut node.ident);
             self.mark(&mut node.class);
         }
