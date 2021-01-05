@@ -470,11 +470,11 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            while is_one_of!(self, "case", "default") {
+            while is_one_of!(p, "case", "default") {
                 let mut cons = vec![];
-                let is_case = is!(self, "case");
-                let case_start = cur_pos!(self);
-                bump!(self);
+                let is_case = is!(p, "case");
+                let case_start = cur_pos!(p);
+                bump!(p);
                 let ctx = Context {
                     in_case_cond: true,
                     ..p.ctx()
@@ -486,15 +486,15 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(Some)?
                 } else {
                     if let Some(previous) = span_of_previous_default {
-                        syntax_error!(self, SyntaxError::MultipleDefault { previous });
+                        syntax_error!(p, SyntaxError::MultipleDefault { previous });
                     }
-                    span_of_previous_default = Some(span!(self, case_start));
+                    span_of_previous_default = Some(span!(p, case_start));
 
                     None
                 };
-                expect!(self, ':');
+                expect!(p, ':');
 
-                while !eof!(self) && !is_one_of!(self, "case", "default", '}') {
+                while !eof!(p) && !is_one_of!(p, "case", "default", '}') {
                     cons.push(p.parse_stmt_list_item(false)?);
                 }
 
@@ -637,12 +637,12 @@ impl<'a, I: Tokens> Parser<I> {
             let res = if is_one_of!(self, "in", "of") {
                 self.ts_look_ahead(|p| {
                     //
-                    if !eat!(self, "of") && !eat!(self, "in") {
+                    if !eat!(p, "of") && !eat!(p, "in") {
                         return Ok(false);
                     }
 
                     p.parse_assignment_expr()?;
-                    expect!(self, ')');
+                    expect!(p, ')');
 
                     Ok(true)
                 })
@@ -894,7 +894,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             p.state.labels.push(l.sym.clone());
 
-            let body = Box::new(if is!(self, "function") {
+            let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
                 match f {
                     Decl::Fn(FnDecl {
@@ -905,7 +905,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 ..
                             },
                         ..
-                    }) => syntax_error!(self, span, SyntaxError::LabelledGenerator),
+                    }) => syntax_error!(p, span, SyntaxError::LabelledGenerator),
                     _ => {}
                 }
 
@@ -922,7 +922,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             Ok(Stmt::Labeled(LabeledStmt {
-                span: span!(self, start),
+                span: span!(p, start),
                 label: l,
                 body,
             }))

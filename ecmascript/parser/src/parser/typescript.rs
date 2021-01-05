@@ -402,22 +402,22 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
-            let return_token_start = cur_pos!(self);
+            let return_token_start = cur_pos!(p);
             if !p.input.eat(return_token) {
-                let cur = format!("{:?}", cur!(self, false).ok());
+                let cur = format!("{:?}", cur!(p, false).ok());
                 let span = p.input.cur_span();
-                syntax_error!(self, span, SyntaxError::Expected(return_token, cur))
+                syntax_error!(p, span, SyntaxError::Expected(return_token, cur))
             }
 
-            let type_pred_start = cur_pos!(self);
-            let has_type_pred_asserts = is!(self, "asserts") && peeked_is!(self, IdentRef);
+            let type_pred_start = cur_pos!(p);
+            let has_type_pred_asserts = is!(p, "asserts") && peeked_is!(p, IdentRef);
             if has_type_pred_asserts {
-                assert_and_bump!(self, "asserts");
-                cur!(self, false)?;
+                assert_and_bump!(p, "asserts");
+                cur!(p, false)?;
             }
 
-            let has_type_pred_is = is!(self, IdentRef)
-                && peeked_is!(self, "is")
+            let has_type_pred_is = is!(p, IdentRef)
+                && peeked_is!(p, "is")
                 && !p.input.has_linebreak_between_cur_and_peeked();
             let is_type_predicate = has_type_pred_asserts || has_type_pred_is;
             if !is_type_predicate {
@@ -430,8 +430,8 @@ impl<I: Tokens> Parser<I> {
 
             let type_pred_var = p.parse_ident_name()?;
             let type_ann = if has_type_pred_is {
-                assert_and_bump!(self, "is");
-                let pos = cur_pos!(self);
+                assert_and_bump!(p, "is");
+                let pos = cur_pos!(p);
                 Some(p.parse_ts_type_ann(
                     // eat_colon
                     false, pos,
@@ -441,14 +441,14 @@ impl<I: Tokens> Parser<I> {
             };
 
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
-                span: span!(self, type_pred_start),
+                span: span!(p, type_pred_start),
                 asserts: has_type_pred_asserts,
                 param_name: TsThisTypeOrIdent::Ident(type_pred_var),
                 type_ann,
             }));
 
             Ok(TsTypeAnn {
-                span: span!(self, return_token_start),
+                span: span!(p, return_token_start),
                 type_ann: node,
             })
         })
