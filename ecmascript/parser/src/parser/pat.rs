@@ -62,7 +62,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let left = self.parse_binding_pat_or_ident()?;
 
-        if eat!('=') {
+        if eat!(self, '=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
 
             if self.ctx().in_declare {
@@ -89,7 +89,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut comma = 0;
 
         while !eof!() && !is!(']') {
-            if eat!(',') {
+            if eat!(self, ',') {
                 comma += 1;
                 continue;
             }
@@ -101,7 +101,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             let start = cur_pos!(self);
 
-            if eat!("...") {
+            if eat!(self, "...") {
                 let dot3_token = span!(start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
@@ -120,7 +120,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         expect!(self, ']');
-        let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!('?');
+        let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
 
         Ok(Pat::Array(ArrayPat {
             span: span!(start),
@@ -160,7 +160,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut opt = false;
 
         if self.input.syntax().typescript() {
-            if eat!('?') {
+            if eat!(self, '?') {
                 match pat {
                     Pat::Ident(Ident {
                         ref mut optional, ..
@@ -221,7 +221,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let pat = if eat!('=') {
+        let pat = if eat!(self, '=') {
             // `=` cannot follow optional parameter.
             if opt {
                 self.emit_err(pat.span(), SyntaxError::TS1015);
@@ -269,7 +269,7 @@ impl<'a, I: Tokens> Parser<I> {
             let decorators = self.parse_decorators(false)?;
             let pat_start = cur_pos!(self);
 
-            if eat!("...") {
+            if eat!(self, "...") {
                 let dot3_token = span!(pat_start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
@@ -351,7 +351,7 @@ impl<'a, I: Tokens> Parser<I> {
                 } else {
                     // We are handling error.
 
-                    eat!(',');
+                    eat!(self, ',');
                 }
 
                 // Handle trailing comma.
@@ -369,12 +369,12 @@ impl<'a, I: Tokens> Parser<I> {
             let decorators = self.parse_decorators(false)?;
             let pat_start = cur_pos!(self);
 
-            let pat = if eat!("...") {
+            let pat = if eat!(self, "...") {
                 dot3_token = span!(pat_start);
 
                 let mut pat = self.parse_binding_pat_or_ident()?;
 
-                if eat!('=') {
+                if eat!(self, '=') {
                     let right = self.parse_assignment_expr()?;
                     self.emit_err(pat.span(), SyntaxError::TS1048);
                     pat = AssignPat {
@@ -401,7 +401,7 @@ impl<'a, I: Tokens> Parser<I> {
                     type_ann,
                 });
 
-                if self.syntax().typescript() && eat!('?') {
+                if self.syntax().typescript() && eat!(self, '?') {
                     self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
                     //
                 }

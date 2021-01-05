@@ -222,8 +222,8 @@ impl<'a, I: Tokens> Parser<I> {
     pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 
-        if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
-            if eat!("const") {
+        if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!(self, '<') {
+            if eat!(self, "const") {
                 expect!(self, '>');
                 let expr = self.parse_unary_expr()?;
                 return Ok(Box::new(Expr::TsConstAssertion(TsConstAssertion {

@@ -19,7 +19,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is!(',') {
             let mut exprs = vec![expr];
-            while eat!(',') {
+            while eat!(self, ',') {
                 exprs.push(self.parse_assignment_expr()?);
             }
             let end = exprs.last().unwrap().span().hi();
@@ -180,7 +180,7 @@ impl<'a, I: Tokens> Parser<I> {
         let test = self.parse_bin_expr()?;
         return_if_arrow!(test);
 
-        if eat!('?') {
+        if eat!(self, '?') {
             let ctx = Context {
                 in_cond_expr: true,
                 include_in_expr: true,
@@ -358,7 +358,7 @@ impl<'a, I: Tokens> Parser<I> {
                     return_type: None,
                     type_params: None,
                 })));
-            } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!("=>") {
+            } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 let params = vec![id.into()];
                 let body = self.parse_fn_body(false, false)?;
 
@@ -441,11 +441,11 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(parse_member_expr_or_new_expr);
 
         let start = cur_pos!(self);
-        if eat!("new") {
+        if eat!(self, "new") {
             let span_of_new = span!(start);
-            if eat!('.') {
+            if eat!(self, '.') {
                 let start_of_target = cur_pos!(self);
-                if eat!("target") {
+                if eat!(self, "target") {
                     let expr = Box::new(Expr::MetaProp(MetaPropExpr {
                         meta: Ident::new(js_word!("new"), span_of_new),
                         prop: Ident::new(js_word!("target"), span!(start_of_target)),
@@ -500,7 +500,7 @@ impl<'a, I: Tokens> Parser<I> {
             })));
         }
 
-        if eat!("super") {
+        if eat!(self, "super") {
             let base = ExprOrSuper::Super(Super { span: span!(start) });
             return self.parse_subscripts(base, true);
         }
@@ -557,7 +557,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        if eat!("...") {
+        if eat!(self, "...") {
             let spread = Some(span!(start));
             self.include_in_expr(true)
                 .parse_assignment_expr()
@@ -965,7 +965,7 @@ impl<'a, I: Tokens> Parser<I> {
         let question_dot_token =
             if self.input.syntax().optional_chaining() && is!('?') && peeked_is!('.') {
                 let start = cur_pos!(self);
-                eat!('?');
+                eat!(self, '?');
                 Some(span!(start))
             } else {
                 None
@@ -987,8 +987,12 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // $obj[name()]
-        if (question_dot_token.is_some() && is!('.') && peeked_is!('[') && eat!('.') && eat!('['))
-            || eat!('[')
+        if (question_dot_token.is_some()
+            && is!('.')
+            && peeked_is!('[')
+            && eat!(self, '.')
+            && eat!(self, '['))
+            || eat!(self, '[')
         {
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(self, ']');
@@ -1006,7 +1010,7 @@ impl<'a, I: Tokens> Parser<I> {
             ));
         }
 
-        if (question_dot_token.is_some() && is!('.') && peeked_is!('(') && eat!('.'))
+        if (question_dot_token.is_some() && is!('.') && peeked_is!('(') && eat!(self, '.'))
             || (!no_call && (is!('(')))
         {
             let args = self.parse_args(is_import(&obj))?;
@@ -1023,7 +1027,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // member expression
         // $obj.name
-        if eat!('.') {
+        if eat!(self, '.') {
             let prop: Box<Expr> = Box::new(self.parse_maybe_private_name().map(|e| match e {
                 Either::Left(p) => Expr::PrivateName(p),
                 Either::Right(i) => Expr::Ident(i),
@@ -1100,7 +1104,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // `super()` can't be handled from parse_new_expr()
-        if eat!("super") {
+        if eat!(self, "super") {
             let obj = ExprOrSuper::Super(Super { span: span!(start) });
             return self.parse_subscripts(obj, false);
         }
@@ -1211,7 +1215,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if self.input.syntax().typescript()
                     && (is!(IdentRef) || (is!("...") && peeked_is!(IdentRef)))
                 {
-                    let spread = if eat!("...") {
+                    let spread = if eat!(self, "...") {
                         Some(self.input.prev_span())
                     } else {
                         None
@@ -1368,7 +1372,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                if eat!('=') {
+                if eat!(self, '=') {
                     let right = self.parse_assignment_expr()?;
                     pat = Pat::Assign(AssignPat {
                         span: span!(pat_start),
@@ -1392,7 +1396,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // https://github.com/swc-project/swc/issues/433
-            if first && eat!("=>") && {
+            if first && eat!(self, "=>") && {
                 debug_assert_eq!(items.len(), 1);
                 match items[0] {
                     PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
@@ -1470,7 +1474,7 @@ impl<'a, I: Tokens> Parser<I> {
                 delegate: false,
             })))
         } else {
-            let has_star = eat!('*');
+            let has_star = eat!(self, '*');
             let arg = self.parse_assignment_expr()?;
 
             Ok(Box::new(Expr::Yield(YieldExpr {

@@ -9,7 +9,7 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().import_meta() && peeked_is!('.') {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(Stmt::Expr(ExprStmt {
                 span: span!(start),
@@ -21,7 +21,7 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().dynamic_import() && peeked_is!('(') {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(Stmt::Expr(ExprStmt {
                 span: span!(start),
@@ -100,19 +100,19 @@ impl<'a, I: Tokens> Parser<I> {
 
         {
             let import_spec_start = cur_pos!(self);
-            if eat!('*') {
+            if eat!(self, '*') {
                 expect!(self, "as");
                 let local = self.parse_imported_binding()?;
                 specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
                     span: span!(import_spec_start),
                     local,
                 }));
-            } else if eat!('{') {
+            } else if eat!(self, '{') {
                 let mut first = true;
                 while !eof!() && !is!('}') {
                     if first {
                         first = false;
-                    } else if eat!(',') && is!('}') {
+                    } else if eat!(self, ',') && is!('}') {
                         break;
                     }
 
@@ -142,7 +142,7 @@ impl<'a, I: Tokens> Parser<I> {
             src
         };
 
-        let asserts = if self.input.syntax().import_assertions() && eat!("assert") {
+        let asserts = if self.input.syntax().import_assertions() && eat!(self, "assert") {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(v),
                 _ => unreachable!(),
@@ -170,7 +170,7 @@ impl<'a, I: Tokens> Parser<I> {
             Ok(&Word(..)) => {
                 let orig_name = self.parse_ident_name()?;
 
-                if eat!("as") {
+                if eat!(self, "as") {
                     let local = self.parse_binding_ident()?;
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi(), Default::default()),
@@ -229,7 +229,7 @@ impl<'a, I: Tokens> Parser<I> {
         let after_export_start = cur_pos!(self);
 
         // "export declare" is equivalent to just "export".
-        let declare = self.input.syntax().typescript() && eat!("declare");
+        let declare = self.input.syntax().typescript() && eat!(self, "declare");
 
         if declare {
             // TODO: Remove
@@ -256,14 +256,14 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() {
-            if eat!("import") {
+            if eat!(self, "import") {
                 // export import A = B
                 return self
                     .parse_ts_import_equals_decl(start, /* is_export */ true)
                     .map(From::from);
             }
 
-            if eat!('=') {
+            if eat!(self, '=') {
                 // `export = x;`
                 let expr = self.parse_expr()?;
                 expect!(self, ';');
@@ -274,7 +274,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .into());
             }
 
-            if eat!("as") {
+            if eat!(self, "as") {
                 // `export as namespace A;`
                 // See `parseNamespaceExportDeclaration` in TypeScript's own parser
                 expect!(self, "namespace");
@@ -292,9 +292,9 @@ impl<'a, I: Tokens> Parser<I> {
         let mut export_ns = None;
         let ns_export_specifier_start = cur_pos!(self);
 
-        let type_only = self.input.syntax().typescript() && eat!("type");
+        let type_only = self.input.syntax().typescript() && eat!(self, "type");
 
-        if eat!('*') {
+        if eat!(self, '*') {
             has_star = true;
             if is!("from") {
                 let src = self.parse_from_clause_and_semi()?;
@@ -303,7 +303,7 @@ impl<'a, I: Tokens> Parser<I> {
                     src,
                 }));
             }
-            if eat!("as") {
+            if eat!(self, "as") {
                 if !self.input.syntax().export_namespace_from() {
                     syntax_error!(span!(start), SyntaxError::ExportNamespaceFrom)
                 }
@@ -320,7 +320,7 @@ impl<'a, I: Tokens> Parser<I> {
         // Some("default") if default is exported from 'src'
         let mut export_default = None;
 
-        if !type_only && export_ns.is_none() && eat!("default") {
+        if !type_only && export_ns.is_none() && eat!(self, "default") {
             if self.input.syntax().typescript() {
                 if is!("abstract") && peeked_is!("class") {
                     let class_start = cur_pos!(self);
@@ -494,7 +494,7 @@ impl<'a, I: Tokens> Parser<I> {
             while is_one_of!(',', IdentName) {
                 if first {
                     first = false;
-                } else if eat!(',') && is!('}') {
+                } else if eat!(self, ',') && is!('}') {
                     break;
                 }
 
@@ -508,7 +508,7 @@ impl<'a, I: Tokens> Parser<I> {
             let src = if is!("from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
-                eat!(';');
+                eat!(self, ';');
                 if has_default || has_ns {
                     syntax_error!(span!(start), SyntaxError::ExportDefaultWithOutFrom);
                 }
@@ -533,7 +533,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let orig = self.parse_ident_name()?;
 
-        let exported = if eat!("as") {
+        let exported = if eat!(self, "as") {
             Some(self.parse_ident_name()?)
         } else {
             None

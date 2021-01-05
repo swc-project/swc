@@ -30,7 +30,7 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         let ns = self.parse_jsx_ident()?;
-        if !eat!(':') {
+        if !eat!(self, ':') {
             return Ok(JSXAttrName::Ident(ns));
         }
 
@@ -51,7 +51,7 @@ impl<'a, I: Tokens> Parser<I> {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
         };
-        while eat!('.') {
+        while eat!(self, '.') {
             let prop = self.parse_jsx_ident()?;
             let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
                 obj: match node {
@@ -151,7 +151,7 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!(self);
 
-        if eat!('{') {
+        if eat!(self, '{') {
             let dot3_start = cur_pos!(self);
             expect!(self, "...");
             let dot3_token = span!(dot3_start);
@@ -161,7 +161,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let name = self.parse_jsx_namespaced_name()?;
-        let value = if eat!('=') {
+        let value = if eat!(self, '=') {
             self.parse_jsx_attr_value().map(Some)?
         } else {
             None
@@ -182,7 +182,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<Either<JSXOpeningFragment, JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
 
-        if eat!(JSXTagEnd) {
+        if eat!(self, JSXTagEnd) {
             return Ok(Either::Left(JSXOpeningFragment { span: span!(start) }));
         }
 
@@ -214,8 +214,8 @@ impl<'a, I: Tokens> Parser<I> {
             let attr = self.parse_jsx_attr()?;
             attrs.push(attr);
         }
-        let self_closing = eat!('/');
-        if !eat!(JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!('>')) {
+        let self_closing = eat!(self, '/');
+        if !eat!(self, JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!(self, '>')) {
             unexpected!("> (jsx closing tag)");
         }
         Ok(JSXOpeningElement {
@@ -234,7 +234,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<Either<JSXClosingFragment, JSXClosingElement>> {
         debug_assert!(self.input.syntax().jsx());
 
-        if eat!(JSXTagEnd) {
+        if eat!(self, JSXTagEnd) {
             return Ok(Either::Left(JSXClosingFragment { span: span!(start) }));
         }
 

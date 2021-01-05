@@ -18,13 +18,13 @@ impl<'a, I: Tokens> Parser<I> {
         let mut props = vec![];
 
         let mut first = true;
-        while !eat!('}') {
+        while !eat!(self, '}') {
             // Handle comma
             if first {
                 first = false;
             } else {
                 expect!(self, ',');
-                if eat!('}') {
+                if eat!(self, '}') {
                     break;
                 }
             }
@@ -85,7 +85,7 @@ impl<'a, I: Tokens> Parser<I> {
                     if p.syntax().typescript() && is!(',') {
                         let mut exprs = vec![expr];
 
-                        while eat!(',') {
+                        while eat!(self, ',') {
                             exprs.push(p.include_in_expr(true).parse_assignment_expr()?);
                         }
 
@@ -130,7 +130,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         let start = cur_pos!(self);
         // Parse as 'MethodDefinition'
 
-        if eat!("...") {
+        if eat!(self, "...") {
             // spread element
             let dot3_token = span!(start);
 
@@ -139,7 +139,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
         }
 
-        if eat!('*') {
+        if eat!(self, '*') {
             let span_of_gen = span!(start);
 
             let name = self.parse_prop_name()?;
@@ -185,7 +185,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // { 'a': a, }
         // { 0: 1, }
         // { a: expr, }
-        if eat!(':') {
+        if eat!(self, ':') {
             let value = self.include_in_expr(true).parse_assignment_expr()?;
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
@@ -214,7 +214,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             _ => unexpected!("identifier"),
         };
 
-        if eat!('?') {
+        if eat!(self, '?') {
             self.emit_err(self.input.prev_span(), SyntaxError::TS1162);
         }
 
@@ -226,7 +226,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
-            if eat!('=') {
+            if eat!(self, '=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
                 return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                     key: ident,
@@ -247,7 +247,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
 
-                let is_generator = ident.sym == js_word!("async") && eat!('*');
+                let is_generator = ident.sym == js_word!("async") && eat!(self, '*');
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
 
@@ -398,7 +398,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             }
         }
 
-        let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!('?');
+        let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
 
         Ok(Pat::Object(ObjectPat {
             span,
@@ -412,7 +412,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
         let start = cur_pos!(self);
 
-        if eat!("...") {
+        if eat!(self, "...") {
             // spread elemnent
             let dot3_token = span!(start);
 
@@ -427,7 +427,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
         }
 
         let key = self.parse_prop_name()?;
-        if eat!(':') {
+        if eat!(self, ':') {
             let value = Box::new(self.parse_binding_element()?);
 
             return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
@@ -437,7 +437,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             _ => unexpected!("an identifier"),
         };
 
-        let value = if eat!('=') {
+        let value = if eat!(self, '=') {
             self.include_in_expr(true)
                 .parse_assignment_expr()
                 .map(Some)?

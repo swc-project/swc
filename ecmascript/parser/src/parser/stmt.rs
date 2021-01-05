@@ -105,7 +105,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let expr = self.parse_await_expr()?;
-            eat!(';');
+            eat!(self, ';');
 
             let span = span!(start);
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
@@ -125,7 +125,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let is_break = is!("break");
                 bump!();
 
-                let label = if eat!(';') {
+                let label = if eat!(self, ';') {
                     None
                 } else {
                     let i = self.parse_label_ident().map(Some)?;
@@ -296,7 +296,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let expr = match *expr {
             Expr::Ident(ident) => {
-                if eat!(':') {
+                if eat!(self, ':') {
                     return self.parse_labelled_stmt(ident);
                 }
                 Box::new(Expr::Ident(ident))
@@ -307,7 +307,7 @@ impl<'a, I: Tokens> Parser<I> {
             if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(ident.span, SyntaxError::InvalidIdentInStrict);
 
-                eat!(';');
+                eat!(self, ';');
 
                 return Ok(Stmt::Expr(ExprStmt {
                     span: span!(start),
@@ -336,7 +336,7 @@ impl<'a, I: Tokens> Parser<I> {
             match *expr {
                 Expr::Ident(ref i) => match i.sym {
                     js_word!("public") | js_word!("static") | js_word!("abstract") => {
-                        if eat!("interface") {
+                        if eat!(self, "interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
                             return self
                                 .parse_ts_interface_decl(start)
@@ -350,7 +350,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if eat!(';') {
+        if eat!(self, ';') {
             Ok(Stmt::Expr(ExprStmt {
                 span: span!(start),
                 expr,
@@ -381,7 +381,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
-        if !eat!(')') {
+        if !eat!(self, ')') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
             let span = span!(start);
@@ -404,7 +404,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.parse_stmt(false).map(Box::new)?
         };
 
-        let alt = if eat!("else") {
+        let alt = if eat!(self, "else") {
             Some(self.parse_stmt(false).map(Box::new)?)
         } else {
             None
@@ -555,7 +555,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
         let start = cur_pos!(self);
 
-        Ok(if eat!("catch") {
+        Ok(if eat!(self, "catch") {
             let param = self.parse_catch_param()?;
 
             self.parse_block(false)
@@ -571,7 +571,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_finally_block(&mut self) -> PResult<Option<BlockStmt>> {
-        Ok(if eat!("finally") {
+        Ok(if eat!(self, "finally") {
             self.parse_block(false).map(Some)?
         } else {
             None
@@ -580,12 +580,12 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
-        if eat!('(') {
+        if eat!(self, '(') {
             let mut pat = self.parse_binding_pat_or_ident()?;
 
             let type_ann_start = cur_pos!(self);
 
-            if self.syntax().typescript() && eat!(':') {
+            if self.syntax().typescript() && eat!(self, ':') {
                 let ctx = Context {
                     in_type: true,
                     ..self.ctx()
@@ -631,7 +631,7 @@ impl<'a, I: Tokens> Parser<I> {
             let res = if is_one_of!("in", "of") {
                 self.ts_look_ahead(|p| {
                     //
-                    if !eat!("of") && !eat!("in") {
+                    if !eat!(self, "of") && !eat!(self, "in") {
                         return Ok(false);
                     }
 
@@ -664,7 +664,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut decls = vec![];
         let mut first = true;
-        while first || eat!(',') {
+        while first || eat!(self, ',') {
             if first {
                 first = false;
             }
@@ -697,12 +697,12 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if !for_loop {
-            if !eat!(';') {
+            if !eat!(self, ';') {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
                 let _ = self.parse_expr();
 
-                while !eat!(';') {
+                while !eat!(self, ';') {
                     bump!();
                 }
             }
@@ -723,7 +723,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let definite = if self.input.syntax().typescript() {
             match name {
-                Pat::Ident(..) => eat!('!'),
+                Pat::Ident(..) => eat!(self, '!'),
                 _ => false,
             }
         } else {
@@ -757,7 +757,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         //FIXME: This is wrong. Should check in/of only on first loop.
         let init = if !for_loop || !is_one_of!("in", "of") {
-            if eat!('=') {
+            if eat!(self, '=') {
                 let expr = self.parse_assignment_expr()?;
                 let expr = self.verify_expr(expr)?;
 
@@ -804,7 +804,7 @@ impl<'a, I: Tokens> Parser<I> {
         let test = self.include_in_expr(true).parse_expr()?;
         expect!(self, ')');
         // We *may* eat semicolon.
-        let _ = eat!(';');
+        let _ = eat!(self, ';');
 
         let span = span!(start);
 
@@ -926,7 +926,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         assert_and_bump!("for");
         let await_start = cur_pos!(self);
-        let await_token = if eat!("await") {
+        let await_token = if eat!(self, "await") {
             Some(span!(await_start))
         } else {
             None
@@ -1139,7 +1139,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
         if self.input.syntax().dynamic_import() && is!("import") {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(ExprStmt {
                 span: span!(start),
@@ -1151,7 +1151,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
         if self.input.syntax().import_meta() && is!("import") && peeked_is!('.') {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(ExprStmt {
                 span: span!(start),
