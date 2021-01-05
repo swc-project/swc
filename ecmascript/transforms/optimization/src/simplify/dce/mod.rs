@@ -159,7 +159,7 @@ macro_rules! normal {
         [$($array_like_props:ident),*]
     ) => {
         fn $name(&mut self, node: &mut $T) {
-            log::trace!("Visit<{}>: arking = {}; {:?}", stringify!($T), self.marking_phase, node);
+            log::trace!("Visit<{}>: marking = {}; {:?}", stringify!($T), self.marking_phase, node);
             if self.is_marked(node.span()) {
                 log::trace!("Visit<{}>: Already marked", stringify!($T));
                 return;
