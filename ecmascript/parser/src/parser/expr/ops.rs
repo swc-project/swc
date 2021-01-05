@@ -97,13 +97,13 @@ impl<'a, I: Tokens> Parser<I> {
                 let _ = cur!(false);
                 bump!(); // const
                 Box::new(Expr::TsConstAssertion(TsConstAssertion {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                 }))
             } else {
                 let type_ann = self.next_then_parse_ts_type()?;
                 Box::new(Expr::TsAs(TsAsExpr {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                     type_ann,
                 }))
@@ -227,7 +227,7 @@ impl<'a, I: Tokens> Parser<I> {
                 expect!(self, '>');
                 let expr = self.parse_unary_expr()?;
                 return Ok(Box::new(Expr::TsConstAssertion(TsConstAssertion {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                 })));
             }
@@ -338,7 +338,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             return Ok(Box::new(Expr::Update(UpdateExpr {
-                span: span!(expr.span().lo()),
+                span: span!(self, expr.span().lo()),
                 prefix: false,
                 op,
                 arg: expr,
@@ -359,13 +359,13 @@ impl<'a, I: Tokens> Parser<I> {
         if is_one_of!(')', ']') && !self.ctx().in_async {
             return Ok(Box::new(Expr::Ident(Ident::new(
                 js_word!("await"),
-                span!(start),
+                span!(self, start),
             ))));
         }
 
         let arg = self.parse_unary_expr()?;
         Ok(Box::new(Expr::Await(AwaitExpr {
-            span: span!(start),
+            span: span!(self, start),
             arg,
         })))
     }

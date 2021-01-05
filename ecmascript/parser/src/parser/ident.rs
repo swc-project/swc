@@ -24,12 +24,12 @@ impl<'a, I: Tokens> Parser<I> {
 
         let hash_end = self.input.prev_span().hi;
         if self.input.cur_pos() - hash_end != BytePos(0) {
-            syntax_error!(span!(start), SyntaxError::SpaceBetweenHashAndIdent);
+            syntax_error!(span!(self, start), SyntaxError::SpaceBetweenHashAndIdent);
         }
 
         let id = self.parse_ident_name()?;
         Ok(PrivateName {
-            span: span!(start),
+            span: span!(self, start),
             id,
         })
     }
@@ -61,7 +61,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => syntax_error!(SyntaxError::ExpectedIdent),
         };
 
-        Ok(Ident::new(w.into(), span!(start)))
+        Ok(Ident::new(w.into(), span!(self, start)))
     }
 
     /// Identifier
@@ -131,7 +131,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         })?;
 
-        Ok(Ident::new(word, span!(start)))
+        Ok(Ident::new(word, span!(self, start)))
     }
 }
 

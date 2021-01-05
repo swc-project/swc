@@ -163,7 +163,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, '}');
             let end = last_pos!();
             Ok(T::finish_class(
-                span!(start),
+                span!(self, start),
                 ident,
                 Class {
                     span: Span::new(class_start, end, Default::default()),
@@ -200,10 +200,11 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if !self.syntax().decorators_before_export() {
-                syntax_error!(span!(start), SyntaxError::DecoratorOnExport);
+                syntax_error!(span!(self, start), SyntaxError::DecoratorOnExport);
             }
         } else if !is!(self, "class") {
-            // syntax_error!(span!(start), SyntaxError::InvalidLeadingDecorator)
+            // syntax_error!(span!(self, start),
+            // SyntaxError::InvalidLeadingDecorator)
         }
 
         Ok(decorators)
@@ -243,7 +244,7 @@ impl<'a, I: Tokens> Parser<I> {
         let expr = self.parse_maybe_decorator_args(expr)?;
 
         Ok(Decorator {
-            span: span!(start),
+            span: span!(self, start),
             expr,
         })
     }
@@ -261,7 +262,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let args = self.parse_args(false)?;
         Ok(Box::new(Expr::Call(CallExpr {
-            span: span!(expr.span().lo()),
+            span: span!(self, expr.span().lo()),
             callee: ExprOrSuper::Expr(expr),
             args,
             type_args: None,
@@ -310,7 +311,7 @@ impl<'a, I: Tokens> Parser<I> {
             if self.is_class_method()? {
                 let key = Either::Right(PropName::Ident(Ident::new(
                     js_word!("declare"),
-                    span!(start),
+                    span!(self, start),
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
@@ -333,7 +334,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 let key = Either::Right(PropName::Ident(Ident::new(
                     js_word!("declare"),
-                    span!(start),
+                    span!(self, start),
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_property(
@@ -355,7 +356,7 @@ impl<'a, I: Tokens> Parser<I> {
         let static_token = {
             let start = cur_pos!(self);
             if eat!(self, "static") {
-                Some(span!(start))
+                Some(span!(self, start))
             } else {
                 None
             }
@@ -452,10 +453,10 @@ impl<'a, I: Tokens> Parser<I> {
             // generator method
             let key = self.parse_class_prop_name()?;
             if readonly {
-                self.emit_err(span!(start), SyntaxError::ReadOnlyMethod);
+                self.emit_err(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
             if is_constructor(&key) {
-                self.emit_err(span!(start), SyntaxError::GeneratorConstructor);
+                self.emit_err(span!(self, start), SyntaxError::GeneratorConstructor);
             }
 
             return self.make_method(
@@ -496,7 +497,7 @@ impl<'a, I: Tokens> Parser<I> {
             // handle a(){} / get(){} / set(){} / async(){}
 
             if readonly {
-                syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
+                syntax_error!(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
             let is_constructor = is_constructor(&key);
 
@@ -508,8 +509,8 @@ impl<'a, I: Tokens> Parser<I> {
                         let start2 = cur_pos!(self);
                         assert_and_bump!('>');
 
-                        self.emit_err(span!(start), SyntaxError::TS1098);
-                        self.emit_err(span!(start2), SyntaxError::TS1092);
+                        self.emit_err(span!(self, start), SyntaxError::TS1098);
+                        self.emit_err(span!(self, start2), SyntaxError::TS1092);
                     } else {
                         let type_params = self.try_parse_ts_type_params()?;
 
@@ -570,7 +571,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 return Ok(ClassMember::Constructor(Constructor {
-                    span: span!(start),
+                    span: span!(self, start),
                     accessibility,
                     key: match key {
                         Either::Right(key) => key,
@@ -626,7 +627,7 @@ impl<'a, I: Tokens> Parser<I> {
                 syntax_error!(key.span(), SyntaxError::AsyncConstructor)
             }
             if readonly {
-                syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
+                syntax_error!(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
 
             // handle async foo(){}
@@ -738,7 +739,7 @@ impl<'a, I: Tokens> Parser<I> {
         is_abstract: bool,
     ) -> PResult<ClassMember> {
         if !self.input.syntax().class_props() {
-            syntax_error!(span!(start), SyntaxError::ClassProperty)
+            syntax_error!(span!(self, start), SyntaxError::ClassProperty)
         }
 
         if is_constructor(&key) {
@@ -760,7 +761,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let value = if is!(self, '=') {
                 if !p.input.syntax().class_props() {
-                    syntax_error!(span!(start), SyntaxError::ClassProperty);
+                    syntax_error!(span!(self, start), SyntaxError::ClassProperty);
                 }
                 assert_and_bump!('=');
                 Some(p.parse_assignment_expr()?)
@@ -774,7 +775,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             Ok(match key {
                 Either::Left(key) => PrivateProp {
-                    span: span!(start),
+                    span: span!(self, start),
                     key,
                     value,
                     is_static,
@@ -789,7 +790,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 .into(),
                 Either::Right(key) => ClassProp {
-                    span: span!(start),
+                    span: span!(self, start),
                     computed: match key {
                         PropName::Computed(..) => true,
                         _ => false,
@@ -843,7 +844,7 @@ impl<'a, I: Tokens> Parser<I> {
             let start = cur_pos!(self);
             if eat!(self, '*') {
                 // if is_async {
-                //     syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
+                //     syntax_error!(span!(self, start), SyntaxError::AsyncGenerator {});
                 // }
                 true
             } else {
@@ -892,7 +893,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            Ok(T::finish_fn(span!(start), ident, f))
+            Ok(T::finish_fn(span!(self, start), ident, f))
         })
     }
 
@@ -961,7 +962,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             Ok(Function {
-                span: span!(start),
+                span: span!(self, start),
                 decorators,
                 type_params,
                 params,
@@ -1049,7 +1050,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         match key {
             Either::Left(key) => Ok(PrivateMethod {
-                span: span!(self, start),
+                span: span!(self, self, start),
 
                 accessibility,
                 is_abstract,
@@ -1062,7 +1063,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             .into()),
             Either::Right(key) => Ok(ClassMethod {
-                span: span!(self, start),
+                span: span!(self, self, start),
 
                 accessibility,
                 is_abstract,

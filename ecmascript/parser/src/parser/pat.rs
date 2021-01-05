@@ -66,11 +66,11 @@ impl<'a, I: Tokens> Parser<I> {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
 
             if self.ctx().in_declare {
-                self.emit_err(span!(start), SyntaxError::TS2371);
+                self.emit_err(span!(self, start), SyntaxError::TS2371);
             }
 
             return Ok(Pat::Assign(AssignPat {
-                span: span!(start),
+                span: span!(self, start),
                 left: Box::new(left),
                 right,
                 type_ann: None,
@@ -102,11 +102,11 @@ impl<'a, I: Tokens> Parser<I> {
             let start = cur_pos!(self);
 
             if eat!(self, "...") {
-                let dot3_token = span!(start);
+                let dot3_token = span!(self, start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
                 let pat = Pat::Rest(RestPat {
-                    span: span!(start),
+                    span: span!(self, start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann: None,
@@ -123,7 +123,7 @@ impl<'a, I: Tokens> Parser<I> {
         let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
 
         Ok(Pat::Array(ArrayPat {
-            span: span!(start),
+            span: span!(self, start),
             elems,
             optional,
             type_ann: None,
@@ -229,11 +229,11 @@ impl<'a, I: Tokens> Parser<I> {
 
             let right = self.parse_assignment_expr()?;
             if self.ctx().in_declare {
-                self.emit_err(span!(start), SyntaxError::TS2371);
+                self.emit_err(span!(self, start), SyntaxError::TS2371);
             }
 
             Pat::Assign(AssignPat {
-                span: span!(start),
+                span: span!(self, start),
                 left: Box::new(pat),
                 type_ann: None,
                 right,
@@ -243,7 +243,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         if has_modifier {
-            self.emit_err(span!(start), SyntaxError::TS2369);
+            self.emit_err(span!(self, start), SyntaxError::TS2369);
             return Ok(pat);
         }
 
@@ -270,7 +270,7 @@ impl<'a, I: Tokens> Parser<I> {
             let pat_start = cur_pos!(self);
 
             if eat!(self, "...") {
-                let dot3_token = span!(pat_start);
+                let dot3_token = span!(self, pat_start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
@@ -281,13 +281,13 @@ impl<'a, I: Tokens> Parser<I> {
                 };
 
                 let pat = Pat::Rest(RestPat {
-                    span: span!(pat_start),
+                    span: span!(self, pat_start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
                 });
                 params.push(ParamOrTsParamProp::Param(Param {
-                    span: span!(param_start),
+                    span: span!(self, param_start),
                     decorators,
                     pat,
                 }));
@@ -317,7 +317,7 @@ impl<'a, I: Tokens> Parser<I> {
         if accessibility == None && !readonly {
             let pat = self.parse_formal_param_pat()?;
             Ok(ParamOrTsParamProp::Param(Param {
-                span: span!(param_start),
+                span: span!(self, param_start),
                 decorators,
                 pat,
             }))
@@ -328,7 +328,7 @@ impl<'a, I: Tokens> Parser<I> {
                 node => syntax_error!(node.span(), SyntaxError::TsInvalidParamPropPat),
             };
             Ok(ParamOrTsParamProp::TsParamProp(TsParamProp {
-                span: span!(param_start),
+                span: span!(self, param_start),
                 accessibility,
                 readonly,
                 decorators,
@@ -370,7 +370,7 @@ impl<'a, I: Tokens> Parser<I> {
             let pat_start = cur_pos!(self);
 
             let pat = if eat!(self, "...") {
-                dot3_token = span!(pat_start);
+                dot3_token = span!(self, pat_start);
 
                 let mut pat = self.parse_binding_pat_or_ident()?;
 
@@ -378,7 +378,7 @@ impl<'a, I: Tokens> Parser<I> {
                     let right = self.parse_assignment_expr()?;
                     self.emit_err(pat.span(), SyntaxError::TS1048);
                     pat = AssignPat {
-                        span: span!(pat_start),
+                        span: span!(self, pat_start),
                         left: Box::new(pat),
                         right,
                         type_ann: None,
@@ -395,7 +395,7 @@ impl<'a, I: Tokens> Parser<I> {
                 };
 
                 let pat = Pat::Rest(RestPat {
-                    span: span!(pat_start),
+                    span: span!(self, pat_start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
@@ -412,7 +412,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             params.push(Param {
-                span: span!(param_start),
+                span: span!(self, param_start),
                 decorators,
                 pat,
             });

@@ -80,7 +80,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 match node.expr {
                     JSXExpr::JSXEmptyExpr(..) => {
-                        syntax_error!(span!(start), SyntaxError::EmptyJSXAttr)
+                        syntax_error!(span!(self, start), SyntaxError::EmptyJSXAttr)
                     }
                     JSXExpr::Expr(..) => Ok(node.into()),
                 }
@@ -97,7 +97,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            _ => syntax_error!(span!(start), SyntaxError::InvalidJSXValue),
+            _ => syntax_error!(span!(self, start), SyntaxError::InvalidJSXValue),
         }
     }
 
@@ -123,7 +123,7 @@ impl<'a, I: Tokens> Parser<I> {
         expect!(self, '}');
 
         Ok(JSXSpreadChild {
-            span: span!(start),
+            span: span!(self, start),
             expr,
         })
     }
@@ -141,7 +141,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
         expect!(self, '}');
         Ok(JSXExprContainer {
-            span: span!(start),
+            span: span!(self, start),
             expr,
         })
     }
@@ -154,7 +154,7 @@ impl<'a, I: Tokens> Parser<I> {
         if eat!(self, '{') {
             let dot3_start = cur_pos!(self);
             expect!(self, "...");
-            let dot3_token = span!(dot3_start);
+            let dot3_token = span!(self, dot3_start);
             let expr = self.parse_assignment_expr()?;
             expect!(self, '}');
             return Ok(SpreadElement { dot3_token, expr }.into());
@@ -168,7 +168,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         Ok(JSXAttr {
-            span: span!(start),
+            span: span!(self, start),
             name,
             value,
         }
@@ -183,7 +183,7 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(JSXOpeningFragment { span: span!(start) }));
+            return Ok(Either::Left(JSXOpeningFragment { span: span!(self, start) }));
         }
 
         let name = self.parse_jsx_element_name()?;
@@ -219,7 +219,7 @@ impl<'a, I: Tokens> Parser<I> {
             unexpected!("> (jsx closing tag)");
         }
         Ok(JSXOpeningElement {
-            span: span!(start),
+            span: span!(self, start),
             name,
             attrs,
             self_closing,
@@ -235,13 +235,13 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(JSXClosingFragment { span: span!(start) }));
+            return Ok(Either::Left(JSXClosingFragment { span: span!(self, start) }));
         }
 
         let name = self.parse_jsx_element_name()?;
         expect!(self, JSXTagEnd);
         Ok(Either::Right(JSXClosingElement {
-            span: span!(start),
+            span: span!(self, start),
             name,
         }))
     }
@@ -318,7 +318,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
             }
-            let span = span!(start);
+            let span = span!(self, start);
 
             Ok(match (opening_element, closing_element) {
                 (Either::Left(opening), Some(Either::Right(closing))) => {
