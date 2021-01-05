@@ -780,7 +780,7 @@ impl VisitMut for Dce<'_> {
         ExportNamespaceSpecifier,
         name
     );
-    normal!(visit_mut_function, Function, [body], [params, decorators]);
+    // normal!(visit_mut_function,Function, [body], [params, decorators]);
     normal!(visit_mut_getter_prop, GetterProp, key, body);
     normal!(
         visit_mut_import_default_specifier,
