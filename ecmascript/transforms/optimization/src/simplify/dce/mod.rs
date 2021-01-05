@@ -139,6 +139,57 @@ impl Repeated for Dce<'_> {
     }
 }
 
+/// This is currently overly conservative.
+///
+/// TODO: Skip visiting key if the key of class member or property is not
+/// computed.
+macro_rules! normal {
+    (
+        $name:ident,
+        $T:ty,
+        $($singluar_props:ident),*
+    ) => {
+        normal!($name, $T, [$($singluar_props),*], []);
+    };
+
+    (
+        $name:ident,
+        $T:ty,
+        [$($singluar_props:ident),*],
+        [$($array_like_props:ident),*]
+    ) => {
+        fn $name(&mut self, node: &mut $T) {
+            log::trace!("Visit<{}>: marking = {}; {:?}", stringify!($T), self.marking_phase, node);
+            if self.is_marked(node.span()) {
+                log::trace!("Visit<{}>: Already marked", stringify!($T));
+                return;
+            }
+
+            node.visit_mut_children_with(self);
+
+            if self.marking_phase
+                $(
+                    || self.is_marked(node.$singluar_props.span())
+                )*
+                $(
+                    || self.has_marked_elem(&node.$array_like_props)
+                )*
+            {
+                log::trace!("Visit<{}>: Marking", stringify!($T));
+                node.span = node.span.apply_mark(self.config.used_mark);
+
+                $(
+                    self.mark(&mut node.$singluar_props);
+                )*
+
+                $(
+                    self.mark(&mut node.$array_like_props);
+                )*
+            }
+        }
+    };
+}
+
 impl VisitMut for Dce<'_> {
     noop_visit_mut_type!();
 
@@ -157,19 +208,6 @@ impl VisitMut for Dce<'_> {
             node.span = node.span.apply_mark(self.config.used_mark);
             self.mark(&mut node.stmts);
         }
-    }
-
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if self.is_marked(node.span()) {
-            return;
-        }
-
-        if self.marking_phase || self.included.contains(&node.ident.to_id()) {
-            node.class.span = node.class.span.apply_mark(self.config.used_mark);
-            self.mark(&mut node.class);
-        }
-
-        node.visit_mut_children_with(self)
     }
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
@@ -521,33 +559,8 @@ impl VisitMut for Dce<'_> {
         }
     }
 
-    fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        if self.is_marked(node.span) {
-            return;
-        }
-        node.span = node.span.apply_mark(self.config.used_mark);
-
-        self.mark(&mut node.arg)
-    }
-
-    fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        if self.is_marked(node.span) {
-            return;
-        }
-
-        node.visit_mut_children_with(self);
-
-        if self.is_marked(node.block.span())
-            || self.is_marked(node.handler.span())
-            || self.is_marked(node.finalizer.span())
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut node.block);
-            self.mark(&mut node.handler);
-            self.mark(&mut node.finalizer);
-        }
-    }
+    normal!(visit_mut_throw_stmt, ThrowStmt, arg);
+    normal!(visit_mut_try_stmt, TryStmt, block, handler, finalizer);
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
         if self.is_marked(node.span) {
@@ -627,6 +640,24 @@ impl VisitMut for Dce<'_> {
         }
     }
 
+    fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.left);
+            self.mark(&mut node.right);
+        }
+    }
+
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         if self.is_marked(node.span) {
             return;
@@ -678,6 +709,112 @@ impl VisitMut for Dce<'_> {
         }
         self.visit_mut_stmt_like(n)
     }
+
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        match n {
+            PropName::Computed(_) => n.visit_mut_children_with(self),
+            _ => {}
+        }
+    }
+
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if self.is_marked(node.span()) {
+            return;
+        }
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.included.contains(&node.ident.to_id())
+            || self.is_marked(node.ident.span())
+            || self.is_marked(node.class.span())
+        {
+            self.mark(&mut node.ident);
+            self.mark(&mut node.class);
+        }
+    }
+
+    // ---- ---- ----- ---- -----
+    // If Spanned::span is synthesized, we should some work
+
+    // normal!(visit_mut_assign_prop, AssignProp, key, value);
+    // normal!(visit_mut_key_value_pat_prop, KeyValuePatProp, key, value);
+    // normal!(visit_mut_key_value_prop, KeyValueProp, key, value);
+    // fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {}
+
+    // ---- ---- ----- ---- -----
+    // If an ast node delagates Spanned::span to a field, we don't need to handle it
+    // because of the way Spanned::span works.
+
+    // normal!(visit_mut_class_expr, ClassExpr, ident, class);
+    // normal!(visit_mut_method_prop, MethodProp, key, value);
+    // normal!(
+    //     visit_mut_export_default_specifier,
+    //     ExportDefaultSpecifier,
+    //     exported
+    // );
+    // normal!(visit_mut_fn_expr, FnExpr, ident, function);
+
+    // ---- ---- ----- ---- -----
+    // If an ast node has a span and not a declarations, use general logic.
+
+    normal!(visit_mut_array_lit, ArrayLit, [], [elems]);
+    normal!(visit_mut_array_pat, ArrayPat, [], [elems]);
+    normal!(visit_mut_arrow_expr, ArrowExpr, [body], [params]);
+    normal!(visit_mut_assign_expr, AssignExpr, left, right);
+    normal!(visit_mut_assign_pat, AssignPat, left, right);
+    normal!(visit_mut_assign_pat_prop, AssignPatProp, key, value);
+    normal!(visit_mut_await_expr, AwaitExpr, arg);
+    normal!(visit_mut_catch_clause, CatchClause, param, body);
+    normal!(visit_mut_class, Class, [super_class], [decorators, body]);
+    normal!(visit_mut_class_method, ClassMethod, key, function);
+    normal!(visit_mut_class_prop, ClassProp, [key, value], [decorators]);
+    normal!(visit_mut_computed_prop_name, ComputedPropName, expr);
+    normal!(visit_mut_cond_expr, CondExpr, test, cons, alt);
+    normal!(visit_mut_constructor, Constructor, [key, body], [params]);
+    normal!(visit_mut_decorator, Decorator, expr);
+    normal!(visit_mut_export_named_specifier, ExportNamedSpecifier, orig);
+    normal!(
+        visit_mut_export_namespace_specifier,
+        ExportNamespaceSpecifier,
+        name
+    );
+    // normal!(visit_mut_function,Function, [body], [params, decorators]);
+    normal!(visit_mut_getter_prop, GetterProp, key, body);
+    normal!(
+        visit_mut_import_default_specifier,
+        ImportDefaultSpecifier,
+        local
+    );
+    normal!(
+        visit_mut_import_named_specifier,
+        ImportNamedSpecifier,
+        local
+    );
+    normal!(
+        visit_mut_import_star_as_specifier,
+        ImportStarAsSpecifier,
+        local
+    );
+    normal!(visit_mut_object_lit, ObjectLit, [], [props]);
+    normal!(visit_mut_object_pat, ObjectPat, [], [props]);
+    normal!(visit_mut_opt_chain_expr, OptChainExpr, expr);
+    normal!(visit_mut_param, Param, [pat], [decorators]);
+    normal!(visit_mut_paren_expr, ParenExpr, expr);
+    normal!(visit_mut_private_method, PrivateMethod, key, function);
+    normal!(
+        visit_mut_private_prop,
+        PrivateProp,
+        [key, value],
+        [decorators]
+    );
+    normal!(visit_mut_rest_pat, RestPat, arg);
+    normal!(visit_mut_seq_expr, SeqExpr, [], [exprs]);
+    normal!(visit_mut_setter_prop, SetterProp, key, param, body);
+    normal!(visit_mut_tagged_tpl, TaggedTpl, [tag], [exprs]);
+    normal!(visit_mut_tpl, Tpl, [], [exprs]);
+    normal!(visit_mut_yield_expr, YieldExpr, arg);
 }
 
 impl Dce<'_> {
@@ -779,6 +916,13 @@ impl Dce<'_> {
         }
     }
 
+    pub fn has_marked_elem<T>(&self, n: &[T]) -> bool
+    where
+        T: Spanned,
+    {
+        n.iter().any(|n| self.is_marked(n.span()))
+    }
+
     pub fn should_preserve_export(&self, i: &JsWord) -> bool {
         self.config.used.is_none()
             || self
@@ -790,9 +934,9 @@ impl Dce<'_> {
                 .any(|exported| exported.0 == *i)
     }
 
-    //    pub fn with_child<T, F>(&mut self, op: F) -> T
+    //    pub fn with_child<T, F>(&mut  self, op: F) -> T
     //    where
-    //        F: for<'any> FnOnce(&mut Dce<'any>) -> T,
+    //        F: for<'any> FnOnce(&mut  Dce<'any>) -> T,
     //    {
     //        let mut child = Dce {
     //            changed: false,
