@@ -415,7 +415,7 @@ impl<'a, I: Tokens> Parser<I> {
             && (is!(self, "var")
                 || is!(self, "const")
                 || (is!(self, "let"))
-                    && peek!()
+                    && peek!(self)
                         .map(|t| {
                             // module code is always in strict mode.
                             t.follows_keyword_let(true)

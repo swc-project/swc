@@ -258,7 +258,7 @@ impl<'a, I: Tokens> Parser<I> {
             // 'let' can start an identifier reference.
             tok!("let") if include_decl => {
                 let strict = self.ctx().strict;
-                let is_keyword = match peek!() {
+                let is_keyword = match peek!(self) {
                     Ok(t) => t.follows_keyword_let(strict),
                     _ => false,
                 };
@@ -991,7 +991,7 @@ impl<'a, I: Tokens> Parser<I> {
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
-            || (is!(self, "let") && peek!()?.follows_keyword_let(strict))
+            || (is!(self, "let") && peek!(self)?.follows_keyword_let(strict))
         {
             let decl = self.parse_var_stmt(true)?;
 
