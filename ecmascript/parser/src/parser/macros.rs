@@ -2,7 +2,6 @@ macro_rules! unexpected {
     ($p:expr, $expected:literal) => {{
         let got = $p.input.dump_cur();
         syntax_error!(
-            self,
             $p,
             $p.input.cur_span(),
             SyntaxError::Unexpected {

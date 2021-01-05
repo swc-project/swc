@@ -1050,7 +1050,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         match key {
             Either::Left(key) => Ok(PrivateMethod {
-                span: span!(self, self, start),
+                span: span!(self, start),
 
                 accessibility,
                 is_abstract,
@@ -1063,7 +1063,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             .into()),
             Either::Right(key) => Ok(ClassMethod {
-                span: span!(self, self, start),
+                span: span!(self, start),
 
                 accessibility,
                 is_abstract,

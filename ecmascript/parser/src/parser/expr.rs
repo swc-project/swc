@@ -384,7 +384,8 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        unexpected!(self, 
+        unexpected!(
+            self,
             "this, import, async, function, [ for array literal, { for object literal, @ for \
              decorator, function, class, null, true, false, number, bigint, string, regexp, ` for \
              template literal, (, or an identifier"
@@ -993,7 +994,7 @@ impl<'a, I: Tokens> Parser<I> {
             ($e:expr) => {{
                 if let Some(question_dot_token) = question_dot_token {
                     Expr::OptChain(OptChainExpr {
-                        span: span!(self, self, start),
+                        span: span!(self, start),
                         question_dot_token,
                         expr: Box::new($e),
                     })
@@ -1036,7 +1037,7 @@ impl<'a, I: Tokens> Parser<I> {
             let args = self.parse_args(is_import(&obj))?;
             return Ok((
                 Box::new(wrap!(Expr::Call(CallExpr {
-                    span: span!(self, self, start),
+                    span: span!(self, start),
                     callee: obj,
                     args,
                     type_args: None,
