@@ -608,7 +608,7 @@ impl<'a, I: Tokens> Parser<I> {
             if let Some(expr) = self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
-                expect!(self, "=>");
+                expect!(p, "=>");
 
                 let params = p
                     .parse_paren_items_as_params(items_ref.clone())?
@@ -618,7 +618,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let body: BlockStmtOrExpr = p.parse_fn_body(async_span.is_some(), false)?;
 
                 Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
-                    span: span!(self, expr_start),
+                    span: span!(p, expr_start),
                     is_async: async_span.is_some(),
                     is_generator: false,
                     params,
@@ -941,21 +941,21 @@ impl<'a, I: Tokens> Parser<I> {
 
                     let type_args = p.parse_ts_type_args()?;
 
-                    if !no_call && is!(self, '(') {
+                    if !no_call && is!(p, '(') {
                         // possibleAsync always false here, because we would have handled it
                         // above. (won't be any undefined arguments)
                         let args = p.parse_args(is_import(&obj))?;
 
                         Ok(Some((
                             Box::new(Expr::Call(CallExpr {
-                                span: span!(self, start),
+                                span: span!(p, start),
                                 callee: obj_ref.clone(),
                                 type_args: Some(type_args),
                                 args,
                             })),
                             true,
                         )))
-                    } else if is!(self, '`') {
+                    } else if is!(p, '`') {
                         p.parse_tagged_tpl(
                             match *obj_ref {
                                 ExprOrSuper::Expr(ref obj) => obj.clone(),
@@ -967,9 +967,9 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(Some)
                     } else {
                         if no_call {
-                            unexpected!(self, "`")
+                            unexpected!(p, "`")
                         } else {
-                            unexpected!(self, "( or `")
+                            unexpected!(p, "( or `")
                         }
                     }
                 });
@@ -1137,7 +1137,7 @@ impl<'a, I: Tokens> Parser<I> {
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts(|p| {
                 let type_args = p.parse_ts_type_args()?;
-                if is!(self, '(') {
+                if is!(p, '(') {
                     Ok(Some(type_args))
                 } else {
                     Ok(None)
