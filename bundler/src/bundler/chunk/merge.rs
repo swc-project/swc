@@ -1,4 +1,5 @@
-use super::plan::{DepType, Plan};
+use super::plan::DepType;
+use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
 use crate::{
@@ -1061,7 +1062,7 @@ where
                         ModuleDecl::ExportDefaultExpr(mut export) => {
                             vars.push(
                                 VarDeclarator {
-                                    span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                    span: DUMMY_SP,
                                     name: Pat::Ident(Ident::new(
                                         js_word!("default"),
                                         DUMMY_SP.with_ctxt(info.export_ctxt()),
