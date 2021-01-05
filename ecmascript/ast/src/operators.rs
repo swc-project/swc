@@ -1,4 +1,3 @@
-use enum_kind::Kind;
 use string_enum::StringEnum;
 use swc_common::EqIgnoreSpan;
 
@@ -7,87 +6,101 @@ use swc_common::EqIgnoreSpan;
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum BinaryOp {
     /// `==`
-    #[kind(precedence = "6")]
     EqEq,
     /// `!=`
-    #[kind(precedence = "6")]
     NotEq,
     /// `===`
-    #[kind(precedence = "6")]
     EqEqEq,
     /// `!==`
-    #[kind(precedence = "6")]
     NotEqEq,
     /// `<`
-    #[kind(precedence = "7")]
     Lt,
     /// `<=`
-    #[kind(precedence = "7")]
     LtEq,
     /// `>`
-    #[kind(precedence = "7")]
     Gt,
     /// `>=`
-    #[kind(precedence = "7")]
     GtEq,
     /// `<<`
-    #[kind(precedence = "8")]
     LShift,
     /// `>>`
-    #[kind(precedence = "8")]
     RShift,
     /// `>>>`
-    #[kind(precedence = "8")]
     ZeroFillRShift,
 
     /// `+`
-    #[kind(precedence = "9")]
     Add,
     /// `-`
-    #[kind(precedence = "9")]
     Sub,
     /// `*`
-    #[kind(precedence = "10")]
     Mul,
     /// `/`
-    #[kind(precedence = "10")]
     Div,
     /// `%`
-    #[kind(precedence = "10")]
     Mod,
 
     /// `|`
-    #[kind(precedence = "3")]
     BitOr,
     /// `^`
-    #[kind(precedence = "4")]
     BitXor,
     /// `&`
-    #[kind(precedence = "5")]
     BitAnd,
 
     /// `||`
-    #[kind(precedence = "1")]
     LogicalOr,
 
     /// `&&`
-    #[kind(precedence = "2")]
     LogicalAnd,
 
     /// `in`
-    #[kind(precedence = "7")]
     In,
     /// `instanceof`
-    #[kind(precedence = "7")]
     InstanceOf,
 
     /// `**`
-    #[kind(precedence = "11")]
     Exp,
 
     /// `??`
-    #[kind(precedence = "1")]
     NullishCoalescing,
+}
+
+impl BinaryOp {
+    pub fn precedence(self) -> u8 {
+        match self {
+            BinaryOp::EqEq => 6,
+            BinaryOp::NotEq => 6,
+            BinaryOp::EqEqEq => 6,
+            BinaryOp::NotEqEq => 6,
+            BinaryOp::Lt => 7,
+            BinaryOp::LtEq => 7,
+            BinaryOp::Gt => 7,
+            BinaryOp::GtEq => 7,
+            BinaryOp::LShift => 8,
+            BinaryOp::RShift => 8,
+            BinaryOp::ZeroFillRShift => 8,
+
+            BinaryOp::Add => 9,
+            BinaryOp::Sub => 9,
+            BinaryOp::Mul => 10,
+            BinaryOp::Div => 10,
+            BinaryOp::Mod => 10,
+
+            BinaryOp::BitOr => 3,
+            BinaryOp::BitXor => 4,
+
+            BinaryOp::BitAnd => 5,
+
+            BinaryOp::LogicalOr => 1,
+
+            BinaryOp::LogicalAnd => 2,
+            BinaryOp::In => 7,
+            BinaryOp::InstanceOf => 7,
+
+            BinaryOp::Exp => 11,
+
+            BinaryOp::NullishCoalescing => 1,
+        }
+    }
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
