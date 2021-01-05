@@ -617,7 +617,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             let start = cur_pos!(self);
             bump!(self);
-            store!(',');
+            store!(self, ',');
             self.emit_err(
                 Span::new(start, start, SyntaxContext::empty()),
                 SyntaxError::TS1005,

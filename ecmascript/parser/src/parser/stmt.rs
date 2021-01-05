@@ -1031,7 +1031,7 @@ impl<'a, I: Tokens> Parser<I> {
                 return self.parse_for_each_head(VarDeclOrPat::VarDecl(decl));
             }
 
-            expect_exact!(';');
+            expect_exact!(self, ';');
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
@@ -1059,7 +1059,7 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
         }
 
-        expect_exact!(';');
+        expect_exact!(self, ';');
 
         let init = self.verify_expr(init)?;
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
@@ -1081,7 +1081,7 @@ impl<'a, I: Tokens> Parser<I> {
             None
         } else {
             let test = self.include_in_expr(true).parse_expr().map(Some)?;
-            expect_exact!(';');
+            expect_exact!(self, ';');
             test
         };
 
