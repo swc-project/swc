@@ -507,13 +507,13 @@ impl<I: Tokens> Parser<I> {
 
         self.in_type().parse_with(|p| {
             if eat_colon {
-                assert_and_bump!(self, ':');
+                assert_and_bump!(p, ':');
             }
 
             let type_ann = p.parse_ts_type()?;
 
             Ok(TsTypeAnn {
-                span: span!(self, start),
+                span: span!(p, start),
                 type_ann,
             })
         })
@@ -543,9 +543,9 @@ impl<I: Tokens> Parser<I> {
 
         self.in_type().parse_with(|p| {
             if !p.input.eat(token) {
-                let got = format!("{:?}", cur!(self, false).ok());
+                let got = format!("{:?}", cur!(p, false).ok());
                 syntax_error!(
-                    self,
+                    p,
                     p.input.cur_span(),
                     SyntaxError::Unexpected {
                         got,
@@ -563,7 +563,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
-            bump!(self);
+            bump!(p);
 
             p.parse_ts_type()
         })
@@ -1221,7 +1221,7 @@ impl<I: Tokens> Parser<I> {
             };
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
-                let key = match *cur!(self, true)? {
+                let key = match *cur!(p, true)? {
                     Token::Num(..) | Token::Str { .. } => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
                         Either::Left(e) => {
@@ -1489,24 +1489,24 @@ impl<I: Tokens> Parser<I> {
 
     fn try_parse_ts_tuple_element_name(&mut self) -> Option<Pat> {
         self.try_parse_ts(|p| {
-            let start = cur_pos!(self);
+            let start = cur_pos!(p);
 
-            let rest = if eat!(self, "...") {
+            let rest = if eat!(p, "...") {
                 Some(p.input.prev_span())
             } else {
                 None
             };
 
             let mut ident = p.parse_ident_name()?;
-            if eat!(self, '?') {
+            if eat!(p, '?') {
                 ident.optional = true;
                 ident.span = ident.span.with_hi(p.input.prev_span().hi);
             }
-            expect!(self, ':');
+            expect!(p, ':');
 
             Ok(Some(if let Some(dot3_token) = rest {
                 Pat::Rest(RestPat {
-                    span: span!(self, start),
+                    span: span!(p, start),
                     dot3_token,
                     arg: Box::new(Pat::Ident(ident)),
                     type_ann: None,
@@ -2077,7 +2077,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            if is!(self, "function") {
+            if is!(p, "function") {
                 return p
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
@@ -2097,7 +2097,7 @@ impl<I: Tokens> Parser<I> {
                     .map(Some);
             }
 
-            if is!(self, "class") {
+            if is!(p, "class") {
                 return p
                     .parse_class_decl(start, start, decorators)
                     .map(|decl| match decl {
@@ -2117,10 +2117,10 @@ impl<I: Tokens> Parser<I> {
                     .map(Some);
             }
 
-            if is!(self, "const") && peeked_is!(self, "enum") {
-                assert_and_bump!(self, "const");
-                let _ = cur!(self, true);
-                assert_and_bump!(self, "enum");
+            if is!(p, "const") && peeked_is!(p, "enum") {
+                assert_and_bump!(p, "const");
+                let _ = cur!(p, true);
+                assert_and_bump!(p, "enum");
 
                 return p
                     .parse_ts_enum_decl(start, /* is_const */ true)
@@ -2135,7 +2135,7 @@ impl<I: Tokens> Parser<I> {
                     .map(From::from)
                     .map(Some);
             }
-            if is_one_of!(self, "const", "var", "let") {
+            if is_one_of!(p, "const", "var", "let") {
                 return p
                     .parse_var_stmt(false)
                     .map(|decl| VarDecl {
@@ -2150,14 +2150,14 @@ impl<I: Tokens> Parser<I> {
                     .map(Some);
             }
 
-            if is!(self, "global") {
+            if is!(p, "global") {
                 return p
                     .parse_ts_ambient_external_module_decl(start)
                     .map(Decl::from)
                     .map(make_decl_declare)
                     .map(Some);
-            } else if is!(self, IdentName) {
-                let value = match *cur!(self, true)? {
+            } else if is!(p, IdentName) {
+                let value = match *cur!(p, true)? {
                     Token::Word(ref w) => w.clone().into(),
                     _ => unreachable!(),
                 };
@@ -2180,7 +2180,7 @@ impl<I: Tokens> Parser<I> {
         value: JsWord,
     ) -> Option<Decl> {
         self.try_parse_ts(|p| {
-            let start = cur_pos!(self);
+            let start = cur_pos!(p);
             let opt = p.parse_ts_decl(start, decorators, value, true)?;
             Ok(match opt {
                 Some(v) => Some(v),
@@ -2308,15 +2308,15 @@ impl<I: Tokens> Parser<I> {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params()?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
-                expect!(self, '(');
+                expect!(p, '(');
                 let params = p
                     .parse_formal_params()?
                     .into_iter()
                     .map(|p| p.pat)
                     .collect();
-                expect!(self, ')');
+                expect!(p, ')');
                 let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
-                expect!(self, "=>");
+                expect!(p, "=>");
 
                 Ok(Some((type_params, params, return_type)))
             })
@@ -2340,7 +2340,7 @@ impl<I: Tokens> Parser<I> {
             let is_async = true;
             let body = p.parse_fn_body(true, false)?;
             Ok(Some(ArrowExpr {
-                span: span!(self, start),
+                span: span!(p, start),
                 body,
                 is_async,
                 is_generator,
@@ -2360,7 +2360,7 @@ impl<I: Tokens> Parser<I> {
             // Temporarily remove a JSX parsing context, which makes us scan different
             // tokens.
             p.ts_in_no_context(|p| {
-                expect!(self, '<');
+                expect!(p, '<');
                 p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
                     p.parse_ts_type()
                 })
