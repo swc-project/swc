@@ -113,7 +113,7 @@ impl<'a, I: Tokens> Parser<I> {
         // Try to parse conditional expression.
         let cond = self.parse_cond_expr()?;
 
-        return_if_arrow!(cond);
+        return_if_arrow!(self, cond);
 
         match *cond {
             // if cond is conditional expression but not left-hand-side expression,
@@ -177,7 +177,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let test = self.parse_bin_expr()?;
-        return_if_arrow!(test);
+        return_if_arrow!(self, test);
 
         if eat!(self, '?') {
             let ctx = Context {
@@ -465,7 +465,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // 'NewExpression' allows new call without paren.
             let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
-            return_if_arrow!(callee);
+            return_if_arrow!(self, callee);
 
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
@@ -513,7 +513,7 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_subscripts(base, true);
         }
         let obj = self.parse_primary_expr()?;
-        return_if_arrow!(obj);
+        return_if_arrow!(self, obj);
 
         self.parse_subscripts(ExprOrSuper::Expr(obj), true)
     }
@@ -1132,7 +1132,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let callee = self.parse_new_expr()?;
-        return_if_arrow!(callee);
+        return_if_arrow!(self, callee);
 
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts(|p| {

@@ -26,7 +26,7 @@ impl<'a, I: Tokens> Parser<I> {
             },
         };
 
-        return_if_arrow!(left);
+        return_if_arrow!(self, left);
         self.parse_bin_op_recursively(left, 0)
     }
 
@@ -322,7 +322,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // UpdateExpression
         let expr = self.parse_lhs_expr()?;
-        return_if_arrow!(expr);
+        return_if_arrow!(self, expr);
 
         // Line terminator isn't allowed here.
         if self.input.had_line_break_before_cur() {
