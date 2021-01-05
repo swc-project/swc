@@ -1,4 +1,10 @@
-#![feature(test)]
+#![cfg(all(
+  feature = "swc_ecma_transforms_compat",
+  feature = "swc_ecma_transforms_module",
+  feature = "swc_ecma_transforms_optimization",
+  feature = "swc_ecma_transforms_proposal",
+))]
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
