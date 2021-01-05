@@ -544,7 +544,11 @@ impl<'a, I: Tokens> Parser<I> {
                 // Handle trailing comma.
                 if is!(self, ')') {
                     if is_dynamic_import {
-                        syntax_error!(span!(self, start), SyntaxError::TrailingCommaInsideImport)
+                        syntax_error!(
+                            self,
+                            span!(self, start),
+                            SyntaxError::TrailingCommaInsideImport
+                        )
                     }
 
                     break;
@@ -640,10 +644,14 @@ impl<'a, I: Tokens> Parser<I> {
         // we parse arrow function at here, to handle it efficiently.
         if has_pattern || return_type.is_some() || is!(self, "=>") {
             if self.input.had_line_break_before_cur() {
-                syntax_error!(span!(self, expr_start), SyntaxError::LineBreakBeforeArrow);
+                syntax_error!(
+                    self,
+                    span!(self, expr_start),
+                    SyntaxError::LineBreakBeforeArrow
+                );
             }
             if !can_be_arrow {
-                syntax_error!(span!(self, expr_start), SyntaxError::ArrowNotAllowed);
+                syntax_error!(self, span!(self, expr_start), SyntaxError::ArrowNotAllowed);
             }
             expect!(self, "=>");
 
@@ -689,7 +697,7 @@ impl<'a, I: Tokens> Parser<I> {
             .map(|item| -> PResult<_> {
                 match item {
                     PatOrExprOrSpread::ExprOrSpread(e) => Ok(e),
-                    _ => syntax_error!(item.span(), SyntaxError::InvalidExpr),
+                    _ => syntax_error!(self, item.span(), SyntaxError::InvalidExpr),
                 }
             })
             .collect::<Result<Vec<_>, _>>()?;
@@ -710,6 +718,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if expr_or_spreads.is_empty() {
             syntax_error!(
+                self,
                 Span::new(expr_start, last_pos!(), Default::default()),
                 SyntaxError::EmptyParenExpr
             );
@@ -723,7 +732,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ExprOrSpread {
                     spread: Some(..),
                     ref expr,
-                } => syntax_error!(expr.span(), SyntaxError::SpreadInParenExpr),
+                } => syntax_error!(self, expr.span(), SyntaxError::SpreadInParenExpr),
                 ExprOrSpread { expr, .. } => expr,
             };
             Ok(Box::new(Expr::Paren(ParenExpr {
@@ -739,7 +748,7 @@ impl<'a, I: Tokens> Parser<I> {
                     ExprOrSpread {
                         spread: Some(..),
                         ref expr,
-                    } => syntax_error!(expr.span(), SyntaxError::SpreadInParenExpr),
+                    } => syntax_error!(self, expr.span(), SyntaxError::SpreadInParenExpr),
                     ExprOrSpread { expr, .. } => exprs.push(expr),
                 }
             }
@@ -1071,9 +1080,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
             ExprOrSuper::Super(..) => {
                 if no_call {
-                    syntax_error!(self.input.cur_span(), SyntaxError::InvalidSuperCall);
+                    syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuperCall);
                 }
-                syntax_error!(self.input.cur_span(), SyntaxError::InvalidSuper);
+                syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
             }
         }
     }
@@ -1269,7 +1278,11 @@ impl<'a, I: Tokens> Parser<I> {
                         match *arg.expr {
                             Expr::Ident(..) => {}
                             _ => {
-                                syntax_error!(arg.span(), SyntaxError::TsBindingPatCannotBeOptional)
+                                syntax_error!(
+                                    self,
+                                    arg.span(),
+                                    SyntaxError::TsBindingPatCannotBeOptional
+                                )
                             }
                         }
                         true
@@ -1334,7 +1347,7 @@ impl<'a, I: Tokens> Parser<I> {
                     if let Some(rest_span) = rest_span {
                         if self.syntax().early_errors() {
                             // Rest pattern must be last one.
-                            syntax_error!(rest_span, SyntaxError::NonLastRestParam);
+                            syntax_error!(self, rest_span, SyntaxError::NonLastRestParam);
                         }
                     }
                     rest_span = Some(span);
@@ -1481,7 +1494,7 @@ impl<'a, I: Tokens> Parser<I> {
         // function because any expressions that are part of FormalParameters are
         // evaluated before the resulting generator object is in a resumable state.
         if self.ctx().in_parameters {
-            syntax_error!(self.input.prev_span(), SyntaxError::YieldParamInGen)
+            syntax_error!(self, self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 
         if is!(self, ';')
@@ -1570,7 +1583,7 @@ impl<'a, I: Tokens> Parser<I> {
         import_ident: Ident,
     ) -> PResult<Box<Expr>> {
         if !self.input.syntax().dynamic_import() {
-            syntax_error!(span!(self, start), SyntaxError::DynamicImport);
+            syntax_error!(self, span!(self, start), SyntaxError::DynamicImport);
         }
 
         let args = self.parse_args(true)?;

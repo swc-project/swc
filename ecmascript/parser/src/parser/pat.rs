@@ -177,6 +177,7 @@ impl<'a, I: Tokens> Parser<I> {
                     _ if self.input.syntax().dts() || self.ctx().in_declare => {}
                     _ => {
                         syntax_error!(
+                            self,
                             self.input.prev_span(),
                             SyntaxError::TsBindingPatCannotBeOptional
                         );
@@ -325,7 +326,7 @@ impl<'a, I: Tokens> Parser<I> {
             let param = match self.parse_formal_param_pat()? {
                 Pat::Ident(i) => TsParamPropParam::Ident(i),
                 Pat::Assign(a) => TsParamPropParam::Assign(a),
-                node => syntax_error!(node.span(), SyntaxError::TsInvalidParamPropPat),
+                node => syntax_error!(self, node.span(), SyntaxError::TsInvalidParamPropPat),
             };
             Ok(ParamOrTsParamProp::TsParamProp(TsParamProp {
                 span: span!(self, param_start),
@@ -603,7 +604,7 @@ impl<'a, I: Tokens> Parser<I> {
                                             value: Some(assign_prop.value),
                                         }))
                                     }
-                                    _ => syntax_error!(prop.span(), SyntaxError::InvalidPat),
+                                    _ => syntax_error!(self, prop.span(), SyntaxError::InvalidPat),
                                 },
 
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
@@ -663,7 +664,7 @@ impl<'a, I: Tokens> Parser<I> {
                             },
                         ) => {
                             if self.syntax().early_errors() {
-                                syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                                syntax_error!(self, expr.span(), SyntaxError::NonLastRestParam)
                             }
                         }
                         Some(ExprOrSpread { expr, .. }) => {
@@ -751,7 +752,7 @@ impl<'a, I: Tokens> Parser<I> {
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
                     if self.syntax().early_errors() {
-                        syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                        syntax_error!(self, expr.span(), SyntaxError::NonLastRestParam)
                     }
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {

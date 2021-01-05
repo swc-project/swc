@@ -374,7 +374,10 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() });
+            syntax_error!(
+                self,
+                SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() }
+            );
         }
     }
 
@@ -484,7 +487,7 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(Some)?
                 } else {
                     if let Some(previous) = span_of_previous_default {
-                        syntax_error!(SyntaxError::MultipleDefault { previous });
+                        syntax_error!(self, SyntaxError::MultipleDefault { previous });
                     }
                     span_of_previous_default = Some(span!(self, case_start));
 
@@ -523,7 +526,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.input.had_line_break_before_cur() {
             // TODO: Suggest throw arg;
-            syntax_error!(SyntaxError::LineBreakInThrow);
+            syntax_error!(self, SyntaxError::LineBreakInThrow);
         }
 
         let arg = self.include_in_expr(true).parse_expr()?;
@@ -774,7 +777,9 @@ impl<'a, I: Tokens> Parser<I> {
                 } else {
                     match name {
                         Pat::Ident(..) => None,
-                        _ => syntax_error!(span!(self, start), SyntaxError::PatVarWithoutInit),
+                        _ => {
+                            syntax_error!(self, span!(self, start), SyntaxError::PatVarWithoutInit)
+                        }
                     }
                 }
             }
@@ -901,7 +906,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 ..
                             },
                         ..
-                    }) => syntax_error!(span, SyntaxError::LabelledGenerator),
+                    }) => syntax_error!(self, span, SyntaxError::LabelledGenerator),
                     _ => {}
                 }
 
@@ -949,7 +954,7 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(match head {
             ForHead::For { init, test, update } => {
                 if let Some(await_token) = await_token {
-                    syntax_error!(await_token, SyntaxError::AwaitForStmt);
+                    syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
                 Stmt::For(ForStmt {
@@ -962,7 +967,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             ForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
-                    syntax_error!(await_token, SyntaxError::AwaitForStmt);
+                    syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
                 Stmt::ForIn(ForInStmt {
@@ -1165,7 +1170,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
             .into());
         }
 
-        syntax_error!(SyntaxError::ImportExportInScript);
+        syntax_error!(self, SyntaxError::ImportExportInScript);
     }
 }
 

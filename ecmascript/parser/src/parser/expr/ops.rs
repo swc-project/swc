@@ -157,11 +157,14 @@ impl<'a, I: Tokens> Parser<I> {
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.
 
-                syntax_error!(SyntaxError::UnaryInExp {
-                    // FIXME: Use display
-                    left: format!("{:?}", left),
-                    left_span: left.span(),
-                })
+                syntax_error!(
+                    self,
+                    SyntaxError::UnaryInExp {
+                        // FIXME: Use display
+                        left: format!("{:?}", left),
+                        left_span: left.span(),
+                    }
+                )
             }
             _ => {}
         }
@@ -353,7 +356,7 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!("await");
 
         if is!(self, '*') {
-            syntax_error!(SyntaxError::AwaitStar);
+            syntax_error!(self, SyntaxError::AwaitStar);
         }
 
         if is_one_of!(')', ']') && !self.ctx().in_async {

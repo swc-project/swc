@@ -184,7 +184,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // 'ImportedBinding'
                 // 'IdentifierName' as 'ImportedBinding'
                 if self.ctx().is_reserved_word(&orig_name.sym) {
-                    syntax_error!(orig_name.span, SyntaxError::ReservedWordInImport)
+                    syntax_error!(self, orig_name.span, SyntaxError::ReservedWordInImport)
                 }
 
                 let local = orig_name;
@@ -305,7 +305,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             if eat!(self, "as") {
                 if !self.input.syntax().export_namespace_from() {
-                    syntax_error!(span!(self, start), SyntaxError::ExportNamespaceFrom)
+                    syntax_error!(self, span!(self, start), SyntaxError::ExportNamespaceFrom)
                 }
                 let _ = cur!(false);
 
@@ -510,7 +510,11 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 eat!(self, ';');
                 if has_default || has_ns {
-                    syntax_error!(span!(self, start), SyntaxError::ExportDefaultWithOutFrom);
+                    syntax_error!(
+                        self,
+                        span!(self, start),
+                        SyntaxError::ExportDefaultWithOutFrom
+                    );
                 }
                 None
             };
@@ -586,7 +590,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
         decorators: Vec<Decorator>,
     ) -> PResult<ModuleItem> {
         if !top_level {
-            syntax_error!(SyntaxError::NonTopLevelImportExport);
+            syntax_error!(self, SyntaxError::NonTopLevelImportExport);
         }
 
         let start = cur_pos!(self);

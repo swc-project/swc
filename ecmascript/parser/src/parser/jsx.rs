@@ -80,7 +80,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 match node.expr {
                     JSXExpr::JSXEmptyExpr(..) => {
-                        syntax_error!(span!(self, start), SyntaxError::EmptyJSXAttr)
+                        syntax_error!(self, span!(self, start), SyntaxError::EmptyJSXAttr)
                     }
                     JSXExpr::Expr(..) => Ok(node.into()),
                 }
@@ -97,7 +97,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            _ => syntax_error!(span!(self, start), SyntaxError::InvalidJSXValue),
+            _ => syntax_error!(self, span!(self, start), SyntaxError::InvalidJSXValue),
         }
     }
 
@@ -183,7 +183,9 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(JSXOpeningFragment { span: span!(self, start) }));
+            return Ok(Either::Left(JSXOpeningFragment {
+                span: span!(self, start),
+            }));
         }
 
         let name = self.parse_jsx_element_name()?;
@@ -235,7 +237,9 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(JSXClosingFragment { span: span!(self, start) }));
+            return Ok(Either::Left(JSXClosingFragment {
+                span: span!(self, start),
+            }));
         }
 
         let name = self.parse_jsx_element_name()?;
@@ -322,10 +326,15 @@ impl<'a, I: Tokens> Parser<I> {
 
             Ok(match (opening_element, closing_element) {
                 (Either::Left(opening), Some(Either::Right(closing))) => {
-                    syntax_error!(closing.span(), SyntaxError::JSXExpectedClosingTagForLtGt);
+                    syntax_error!(
+                        self,
+                        closing.span(),
+                        SyntaxError::JSXExpectedClosingTagForLtGt
+                    );
                 }
                 (Either::Right(opening), Some(Either::Left(closing))) => {
                     syntax_error!(
+                        self,
                         closing.span(),
                         SyntaxError::JSXExpectedClosingTag {
                             tag: get_qualified_jsx_name(&opening.name)
@@ -349,6 +358,7 @@ impl<'a, I: Tokens> Parser<I> {
                         != get_qualified_jsx_name(&opening.name)
                     {
                         syntax_error!(
+                            self,
                             closing.span(),
                             SyntaxError::JSXExpectedClosingTag {
                                 tag: get_qualified_jsx_name(&opening.name)

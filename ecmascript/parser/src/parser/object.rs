@@ -387,7 +387,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
                 if let ObjectPatProp::Rest(ref rest) = p {
                     match *rest.arg {
                         Pat::Ident(..) => {}
-                        _ => syntax_error!(p.span(), SyntaxError::DotsWithoutIdentifier),
+                        _ => syntax_error!(self, p.span(), SyntaxError::DotsWithoutIdentifier),
                     }
                 }
                 continue;
@@ -395,7 +395,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
             if let ObjectPatProp::Rest(..) = p {
                 if self.syntax().early_errors() {
-                    syntax_error!(p.span(), SyntaxError::NonLastRestParam)
+                    syntax_error!(self, p.span(), SyntaxError::NonLastRestParam)
                 }
             }
         }

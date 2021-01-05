@@ -407,7 +407,7 @@ impl<I: Tokens> Parser<I> {
             if !p.input.eat(return_token) {
                 let cur = format!("{:?}", cur!(false).ok());
                 let span = p.input.cur_span();
-                syntax_error!(span, SyntaxError::Expected(return_token, cur))
+                syntax_error!(self, span, SyntaxError::Expected(return_token, cur))
             }
 
             let type_pred_start = cur_pos!(self);
@@ -546,6 +546,7 @@ impl<I: Tokens> Parser<I> {
             if !p.input.eat(token) {
                 let got = format!("{:?}", cur!(false).ok());
                 syntax_error!(
+                    self,
                     p.input.cur_span(),
                     SyntaxError::Unexpected {
                         got,
@@ -1471,7 +1472,11 @@ impl<I: Tokens> Parser<I> {
                     seen_optional_element = true;
                 }
                 _ if seen_optional_element => {
-                    syntax_error!(span!(self, start), SyntaxError::TsRequiredAfterOptional)
+                    syntax_error!(
+                        self,
+                        span!(self, start),
+                        SyntaxError::TsRequiredAfterOptional
+                    )
                 }
                 _ => {}
             }

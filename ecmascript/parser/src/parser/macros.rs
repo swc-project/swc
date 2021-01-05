@@ -2,6 +2,7 @@ macro_rules! unexpected {
     ($p:expr, $expected:literal) => {{
         let got = $p.input.dump_cur();
         syntax_error!(
+            self,
             $p,
             $p.input.cur_span(),
             SyntaxError::Unexpected {
@@ -172,7 +173,12 @@ macro_rules! expect {
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
             let cur = $p.input.dump_cur();
-            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
+            syntax_error!(
+                self,
+                $p,
+                $p.input.cur_span(),
+                SyntaxError::Expected(TOKEN, cur)
+            )
         }
     }};
 }
@@ -182,7 +188,12 @@ macro_rules! expect_exact {
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat_exact!($p, $t) {
             let cur = $p.input.dump_cur();
-            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
+            syntax_error!(
+                self,
+                $p,
+                $p.input.cur_span(),
+                SyntaxError::Expected(TOKEN, cur)
+            )
         }
     }};
 }
@@ -325,7 +336,7 @@ macro_rules! make_error {
 
 macro_rules! syntax_error {
     ($p:expr, $err:expr) => {
-        syntax_error!($p, $p.input.cur_span(), $err)
+        syntax_error!(self, $p, $p.input.cur_span(), $err)
     };
 
     ($p:expr, $span:expr, $err:expr) => {{

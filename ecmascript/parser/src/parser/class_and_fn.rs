@@ -196,14 +196,14 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is!(self, "export") {
             if !allow_export {
-                syntax_error!(self.input.cur_span(), SyntaxError::ExportNotAllowed);
+                syntax_error!(self, self.input.cur_span(), SyntaxError::ExportNotAllowed);
             }
 
             if !self.syntax().decorators_before_export() {
-                syntax_error!(span!(self, start), SyntaxError::DecoratorOnExport);
+                syntax_error!(self, span!(self, start), SyntaxError::DecoratorOnExport);
             }
         } else if !is!(self, "class") {
-            // syntax_error!(span!(self, start),
+            // syntax_error!(self, span!(self, start),
             // SyntaxError::InvalidLeadingDecorator)
         }
 
@@ -497,7 +497,7 @@ impl<'a, I: Tokens> Parser<I> {
             // handle a(){} / get(){} / set(){} / async(){}
 
             if readonly {
-                syntax_error!(span!(self, start), SyntaxError::ReadOnlyMethod);
+                syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
             }
             let is_constructor = is_constructor(&key);
 
@@ -624,10 +624,10 @@ impl<'a, I: Tokens> Parser<I> {
             let is_generator = eat!(self, '*');
             let key = self.parse_class_prop_name()?;
             if is_constructor(&key) {
-                syntax_error!(key.span(), SyntaxError::AsyncConstructor)
+                syntax_error!(self, key.span(), SyntaxError::AsyncConstructor)
             }
             if readonly {
-                syntax_error!(span!(self, start), SyntaxError::ReadOnlyMethod);
+                syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
             }
 
             // handle async foo(){}
@@ -739,14 +739,14 @@ impl<'a, I: Tokens> Parser<I> {
         is_abstract: bool,
     ) -> PResult<ClassMember> {
         if !self.input.syntax().class_props() {
-            syntax_error!(span!(self, start), SyntaxError::ClassProperty)
+            syntax_error!(self, span!(self, start), SyntaxError::ClassProperty)
         }
 
         if is_constructor(&key) {
-            syntax_error!(key.span(), SyntaxError::PropertyNamedConstructor);
+            syntax_error!(self, key.span(), SyntaxError::PropertyNamedConstructor);
         }
         if declare && key.is_left() {
-            syntax_error!(key.span(), SyntaxError::DeclarePrivateIdentifier);
+            syntax_error!(self, key.span(), SyntaxError::DeclarePrivateIdentifier);
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
@@ -761,7 +761,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let value = if is!(self, '=') {
                 if !p.input.syntax().class_props() {
-                    syntax_error!(span!(self, start), SyntaxError::ClassProperty);
+                    syntax_error!(self, span!(self, start), SyntaxError::ClassProperty);
                 }
                 assert_and_bump!('=');
                 Some(p.parse_assignment_expr()?)
@@ -844,7 +844,7 @@ impl<'a, I: Tokens> Parser<I> {
             let start = cur_pos!(self);
             if eat!(self, '*') {
                 // if is_async {
-                //     syntax_error!(span!(self, start), SyntaxError::AsyncGenerator {});
+                //     syntax_error!(self, span!(self, start), SyntaxError::AsyncGenerator {});
                 // }
                 true
             } else {

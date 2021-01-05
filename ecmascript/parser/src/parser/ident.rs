@@ -24,7 +24,11 @@ impl<'a, I: Tokens> Parser<I> {
 
         let hash_end = self.input.prev_span().hi;
         if self.input.cur_pos() - hash_end != BytePos(0) {
-            syntax_error!(span!(self, start), SyntaxError::SpaceBetweenHashAndIdent);
+            syntax_error!(
+                self,
+                span!(self, start),
+                SyntaxError::SpaceBetweenHashAndIdent
+            );
         }
 
         let id = self.parse_ident_name()?;
@@ -58,7 +62,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Word(w) => w,
                 _ => unreachable!(),
             },
-            _ => syntax_error!(SyntaxError::ExpectedIdent),
+            _ => syntax_error!(self, SyntaxError::ExpectedIdent),
         };
 
         Ok(Ident::new(w.into(), span!(self, start)))
@@ -78,7 +82,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
-                _ => syntax_error!(SyntaxError::ExpectedIdent),
+                _ => syntax_error!(self, SyntaxError::ExpectedIdent),
             };
 
             // Spec:
@@ -116,7 +120,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module => {
-                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
+                    syntax_error!(self, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
                 Word::Keyword(Keyword::This) if p.input.syntax().typescript() => {
                     Ok(js_word!("this"))
@@ -126,7 +130,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
                 Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
-                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
+                    syntax_error!(self, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
             }
         })?;
