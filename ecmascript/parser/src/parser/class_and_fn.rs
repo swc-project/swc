@@ -759,23 +759,23 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
-            let value = if is!(self, '=') {
+            let value = if is!(p, '=') {
                 if !p.input.syntax().class_props() {
-                    syntax_error!(self, span!(self, start), SyntaxError::ClassProperty);
+                    syntax_error!(p, span!(p, start), SyntaxError::ClassProperty);
                 }
-                assert_and_bump!(self, '=');
+                assert_and_bump!(p, '=');
                 Some(p.parse_assignment_expr()?)
             } else {
                 None
             };
 
-            if !eat!(self, ';') {
+            if !eat!(p, ';') {
                 p.emit_err(p.input.cur_span(), SyntaxError::TS1005);
             }
 
             Ok(match key {
                 Either::Left(key) => PrivateProp {
-                    span: span!(self, start),
+                    span: span!(p, start),
                     key,
                     value,
                     is_static,
@@ -790,7 +790,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 .into(),
                 Either::Right(key) => ClassProp {
-                    span: span!(self, start),
+                    span: span!(p, start),
                     computed: match key {
                         PropName::Computed(..) => true,
                         _ => false,
@@ -896,7 +896,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            Ok(T::finish_fn(span!(self, start), ident, f))
+            Ok(T::finish_fn(span!(p, start), ident, f))
         })
     }
 
@@ -927,7 +927,7 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            expect!(self, '(');
+            expect!(p, '(');
 
             let arg_ctx = Context {
                 in_parameters: true,
@@ -936,7 +936,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
             let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
 
-            expect!(self, ')');
+            expect!(p, ')');
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(self, ':') {
@@ -965,7 +965,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             Ok(Function {
-                span: span!(self, start),
+                span: span!(p, start),
                 decorators,
                 type_params,
                 params,
