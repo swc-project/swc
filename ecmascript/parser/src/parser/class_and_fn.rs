@@ -80,7 +80,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: MaybeOptionalIdentParser<T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
-            expect!(self, "class");
+            expect!(p, "class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
             if let Some(span) = ident.invalid_class_name() {
@@ -93,15 +93,15 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            let (mut super_class, mut super_type_params) = if eat!(self, "extends") {
+            let (mut super_class, mut super_type_params) = if eat!(p, "extends") {
                 let super_class = p.parse_lhs_expr().map(Some)?;
-                let super_type_params = if p.input.syntax().typescript() && is!(self, '<') {
+                let super_type_params = if p.input.syntax().typescript() && is!(p, '<') {
                     Some(p.parse_ts_type_args()?)
                 } else {
                     None
                 };
 
-                if p.syntax().typescript() && eat!(self, ',') {
+                if p.syntax().typescript() && eat!(p, ',') {
                     let exprs = p.parse_ts_heritage_clause()?;
 
                     for e in &exprs {
@@ -115,16 +115,16 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             // Handle TS1172
-            if eat!(self, "extends") {
+            if eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1172);
 
                 p.parse_lhs_expr()?;
-                if p.input.syntax().typescript() && is!(self, '<') {
+                if p.input.syntax().typescript() && is!(p, '<') {
                     p.parse_ts_type_args()?;
                 }
             };
 
-            let implements = if p.input.syntax().typescript() && eat!(self, "implements") {
+            let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
                 p.parse_ts_heritage_clause()?
             } else {
                 vec![]
@@ -132,7 +132,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             {
                 // Handle TS1175
-                if p.input.syntax().typescript() && eat!(self, "implements") {
+                if p.input.syntax().typescript() && eat!(p, "implements") {
                     p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
 
                     p.parse_ts_heritage_clause()?;
@@ -140,11 +140,11 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // Handle TS1175
-            if p.input.syntax().typescript() && eat!(self, "extends") {
+            if p.input.syntax().typescript() && eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
 
                 let sc = p.parse_lhs_expr()?;
-                let type_params = if p.input.syntax().typescript() && is!(self, '<') {
+                let type_params = if p.input.syntax().typescript() && is!(p, '<') {
                     p.parse_ts_type_args().map(Some)?
                 } else {
                     None
@@ -158,12 +158,12 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            expect!(self, '{');
+            expect!(p, '{');
             let body = p.parse_class_body()?;
-            expect!(self, '}');
-            let end = last_pos!(self);
+            expect!(p, '}');
+            let end = last_pos!(p);
             Ok(T::finish_class(
-                span!(self, start),
+                span!(p, start),
                 ident,
                 Class {
                     span: Span::new(class_start, end, Default::default()),
