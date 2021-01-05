@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.36.2"
+version = "0.36.3"
 
 [features]
 default = []
@@ -14,7 +14,6 @@ fuzzing = ["arbitrary", "swc_common/arbitrary"]
 
 [dependencies]
 arbitrary = {version = "0.4.7", optional = true, features = ["derive"]}
-enum_kind = {version = "0.2", path = "../../macros/enum_kind"}
 is-macro = "0.1"
 num-bigint = {version = "0.2", features = ["serde"]}
 serde = {version = "1.0.88", features = ["derive"]}

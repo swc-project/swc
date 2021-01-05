@@ -1,30 +1,29 @@
 use super::*;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     #[allow(clippy::cognitive_complexity)]
     fn parse_import(&mut self) -> PResult<ModuleItem> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        if self.input.syntax().import_meta() && peeked_is!('.') {
+        if self.input.syntax().import_meta() && peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(Stmt::Expr(ExprStmt {
-                span: span!(start),
+                span: span!(self, start),
                 expr,
             })
             .into());
         }
 
-        if self.input.syntax().dynamic_import() && peeked_is!('(') {
+        if self.input.syntax().dynamic_import() && peeked_is!(self, '(') {
             let expr = self.parse_expr()?;
 
-            eat!(';');
+            eat!(self, ';');
 
             return Ok(Stmt::Expr(ExprStmt {
-                span: span!(start),
+                span: span!(self, start),
                 expr,
             })
             .into());
@@ -42,9 +41,9 @@ impl<'a, I: Tokens> Parser<I> {
             self.set_ctx(ctx);
         }
 
-        expect!("import");
+        expect!(self, "import");
 
-        if self.input.syntax().typescript() && is!(IdentRef) && peeked_is!('=') {
+        if self.input.syntax().typescript() && is!(self, IdentRef) && peeked_is!(self, '=') {
             return self
                 .parse_ts_import_equals_decl(start, false)
                 .map(ModuleDecl::from)
@@ -52,11 +51,11 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // Handle import 'mod.js'
-        let str_start = cur_pos!();
-        if let Ok(&Token::Str { .. }) = cur!(false) {
-            let src = match bump!() {
+        let str_start = cur_pos!(self);
+        if let Ok(&Token::Str { .. }) = cur!(self, false) {
+            let src = match bump!(self) {
                 Token::Str { value, has_escape } => Str {
-                    span: span!(str_start),
+                    span: span!(self, str_start),
                     value,
                     has_escape,
                     kind: StrKind::Normal {
@@ -65,9 +64,9 @@ impl<'a, I: Tokens> Parser<I> {
                 },
                 _ => unreachable!(),
             };
-            expect!(';');
+            expect!(self, ';');
             return Ok(ModuleDecl::Import(ImportDecl {
-                span: span!(start),
+                span: span!(self, start),
                 src,
                 specifiers: vec![],
                 type_only: false,
@@ -77,20 +76,20 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let type_only = self.input.syntax().typescript()
-            && is!("type")
-            && (peeked_is!('{') || !peeked_is!("from") && !peeked_is!(','));
+            && is!(self, "type")
+            && (peeked_is!(self, '{') || !peeked_is!(self, "from") && !peeked_is!(self, ','));
 
         if type_only {
-            assert_and_bump!("type");
+            assert_and_bump!(self, "type");
         }
 
         let mut specifiers = vec![];
 
-        if is!(BindingIdent) {
+        if is!(self, BindingIdent) {
             let local = self.parse_imported_default_binding()?;
             //TODO: Better error reporting
-            if !is!("from") {
-                expect!(',');
+            if !is!(self, "from") {
+                expect!(self, ',');
             }
             specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
                 span: local.span,
@@ -99,50 +98,50 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         {
-            let import_spec_start = cur_pos!();
-            if eat!('*') {
-                expect!("as");
+            let import_spec_start = cur_pos!(self);
+            if eat!(self, '*') {
+                expect!(self, "as");
                 let local = self.parse_imported_binding()?;
                 specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
-                    span: span!(import_spec_start),
+                    span: span!(self, import_spec_start),
                     local,
                 }));
-            } else if eat!('{') {
+            } else if eat!(self, '{') {
                 let mut first = true;
-                while !eof!() && !is!('}') {
+                while !eof!(self) && !is!(self, '}') {
                     if first {
                         first = false;
-                    } else if eat!(',') && is!('}') {
+                    } else if eat!(self, ',') && is!(self, '}') {
                         break;
                     }
 
                     specifiers.push(self.parse_import_specifier()?);
                 }
-                expect!('}');
+                expect!(self, '}');
             }
         }
 
         let src = {
-            expect!("from");
-            let str_start = cur_pos!();
-            let src = match *cur!(true)? {
-                Token::Str { .. } => match bump!() {
+            expect!(self, "from");
+            let str_start = cur_pos!(self);
+            let src = match *cur!(self, true)? {
+                Token::Str { .. } => match bump!(self) {
                     Token::Str { value, has_escape } => Str {
                         value,
                         has_escape,
-                        span: span!(str_start),
+                        span: span!(self, str_start),
                         kind: StrKind::Normal {
                             contains_quote: true,
                         },
                     },
                     _ => unreachable!(),
                 },
-                _ => unexpected!("a string literal"),
+                _ => unexpected!(self, "a string literal"),
             };
             src
         };
 
-        let asserts = if self.input.syntax().import_assertions() && eat!("assert") {
+        let asserts = if self.input.syntax().import_assertions() && eat!(self, "assert") {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(v),
                 _ => unreachable!(),
@@ -151,10 +150,10 @@ impl<'a, I: Tokens> Parser<I> {
             None
         };
 
-        expect!(';');
+        expect!(self, ';');
 
         Ok(ModuleDecl::Import(ImportDecl {
-            span: span!(start),
+            span: span!(self, start),
             specifiers,
             src,
             type_only,
@@ -165,12 +164,12 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
-        let start = cur_pos!();
-        match cur!(false) {
+        let start = cur_pos!(self);
+        match cur!(self, false) {
             Ok(&Word(..)) => {
                 let orig_name = self.parse_ident_name()?;
 
-                if eat!("as") {
+                if eat!(self, "as") {
                     let local = self.parse_binding_ident()?;
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi(), Default::default()),
@@ -184,17 +183,17 @@ impl<'a, I: Tokens> Parser<I> {
                 // 'ImportedBinding'
                 // 'IdentifierName' as 'ImportedBinding'
                 if self.ctx().is_reserved_word(&orig_name.sym) {
-                    syntax_error!(orig_name.span, SyntaxError::ReservedWordInImport)
+                    syntax_error!(self, orig_name.span, SyntaxError::ReservedWordInImport)
                 }
 
                 let local = orig_name;
                 Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                    span: span!(start),
+                    span: span!(self, start),
                     local,
                     imported: None,
                 }))
             }
-            _ => unexpected!("an identifier"),
+            _ => unexpected!(self, "an identifier"),
         }
     }
 
@@ -223,65 +222,65 @@ impl<'a, I: Tokens> Parser<I> {
             self.set_ctx(ctx);
         }
 
-        let start = cur_pos!();
-        assert_and_bump!("export");
-        let _ = cur!(true);
-        let after_export_start = cur_pos!();
+        let start = cur_pos!(self);
+        assert_and_bump!(self, "export");
+        let _ = cur!(self, true);
+        let after_export_start = cur_pos!(self);
 
         // "export declare" is equivalent to just "export".
-        let declare = self.input.syntax().typescript() && eat!("declare");
+        let declare = self.input.syntax().typescript() && eat!(self, "declare");
 
         if declare {
             // TODO: Remove
             if let Some(decl) = self.try_parse_ts_declare(after_export_start, decorators.clone())? {
                 return Ok(ModuleDecl::ExportDecl(ExportDecl {
-                    span: span!(start),
+                    span: span!(self, start),
                     decl,
                 }));
             }
         }
 
-        if self.input.syntax().typescript() && is!(IdentName) {
-            let sym = match *cur!(true)? {
+        if self.input.syntax().typescript() && is!(self, IdentName) {
+            let sym = match *cur!(self, true)? {
                 Token::Word(ref w) => w.clone().into(),
                 _ => unreachable!(),
             };
             // TODO: remove clone
             if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
                 return Ok(ModuleDecl::ExportDecl(ExportDecl {
-                    span: span!(start),
+                    span: span!(self, start),
                     decl,
                 }));
             }
         }
 
         if self.input.syntax().typescript() {
-            if eat!("import") {
+            if eat!(self, "import") {
                 // export import A = B
                 return self
                     .parse_ts_import_equals_decl(start, /* is_export */ true)
                     .map(From::from);
             }
 
-            if eat!('=') {
+            if eat!(self, '=') {
                 // `export = x;`
                 let expr = self.parse_expr()?;
-                expect!(';');
+                expect!(self, ';');
                 return Ok(TsExportAssignment {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                 }
                 .into());
             }
 
-            if eat!("as") {
+            if eat!(self, "as") {
                 // `export as namespace A;`
                 // See `parseNamespaceExportDeclaration` in TypeScript's own parser
-                expect!("namespace");
+                expect!(self, "namespace");
                 let id = self.parse_ident(false, false)?;
-                expect!(';');
+                expect!(self, ';');
                 return Ok(TsNamespaceExportDecl {
-                    span: span!(start),
+                    span: span!(self, start),
                     id,
                 }
                 .into());
@@ -290,28 +289,28 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut has_star = false;
         let mut export_ns = None;
-        let ns_export_specifier_start = cur_pos!();
+        let ns_export_specifier_start = cur_pos!(self);
 
-        let type_only = self.input.syntax().typescript() && eat!("type");
+        let type_only = self.input.syntax().typescript() && eat!(self, "type");
 
-        if eat!('*') {
+        if eat!(self, '*') {
             has_star = true;
-            if is!("from") {
+            if is!(self, "from") {
                 let src = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
-                    span: span!(start),
+                    span: span!(self, start),
                     src,
                 }));
             }
-            if eat!("as") {
+            if eat!(self, "as") {
                 if !self.input.syntax().export_namespace_from() {
-                    syntax_error!(span!(start), SyntaxError::ExportNamespaceFrom)
+                    syntax_error!(self, span!(self, start), SyntaxError::ExportNamespaceFrom)
                 }
-                let _ = cur!(false);
+                let _ = cur!(self, false);
 
                 let name = self.parse_ident_name()?;
                 export_ns = Some(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
-                    span: span!(ns_export_specifier_start),
+                    span: span!(self, ns_export_specifier_start),
                     name,
                 }));
             }
@@ -320,12 +319,12 @@ impl<'a, I: Tokens> Parser<I> {
         // Some("default") if default is exported from 'src'
         let mut export_default = None;
 
-        if !type_only && export_ns.is_none() && eat!("default") {
+        if !type_only && export_ns.is_none() && eat!(self, "default") {
             if self.input.syntax().typescript() {
-                if is!("abstract") && peeked_is!("class") {
-                    let class_start = cur_pos!();
-                    assert_and_bump!("abstract");
-                    let _ = cur!(true);
+                if is!(self, "abstract") && peeked_is!(self, "class") {
+                    let class_start = cur_pos!(self);
+                    assert_and_bump!(self, "abstract");
+                    let _ = cur!(self, true);
 
                     let mut class = self.parse_default_class(start, class_start, decorators)?;
                     match class {
@@ -337,86 +336,86 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                     return Ok(class.into());
                 }
-                if is!("abstract") && peeked_is!("interface") {
+                if is!(self, "abstract") && peeked_is!(self, "interface") {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1242);
-                    assert_and_bump!("abstract");
+                    assert_and_bump!(self, "abstract");
                 }
 
-                if is!("interface") {
-                    let interface_start = cur_pos!();
-                    assert_and_bump!("interface");
+                if is!(self, "interface") {
+                    let interface_start = cur_pos!(self);
+                    assert_and_bump!(self, "interface");
                     let decl = self
                         .parse_ts_interface_decl(interface_start)
                         .map(DefaultDecl::from)?;
                     return Ok(ExportDefaultDecl {
-                        span: span!(start),
+                        span: span!(self, start),
                         decl,
                     }
                     .into());
                 }
             }
 
-            if is!("class") {
-                let class_start = cur_pos!();
+            if is!(self, "class") {
+                let class_start = cur_pos!(self);
                 let decl = self.parse_default_class(start, class_start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
-            } else if is!("async")
-                && peeked_is!("function")
+            } else if is!(self, "async")
+                && peeked_is!(self, "function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
                 let decl = self.parse_default_async_fn(decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
-            } else if is!("function") {
+            } else if is!(self, "function") {
                 let decl = self.parse_default_fn(decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if self.input.syntax().export_default_from()
-                && (is!("from") || (is!(',') && peeked_is!('{')))
+                && (is!(self, "from") || (is!(self, ',') && peeked_is!(self, '{')))
             {
                 export_default = Some(Ident::new("default".into(), self.input.prev_span()))
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
-                expect!(';');
+                expect!(self, ';');
                 return Ok(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    span: span!(start),
+                    span: span!(self, start),
                     expr,
                 }));
             }
         }
 
-        let decl = if !type_only && is!("class") {
-            let class_start = cur_pos!();
+        let decl = if !type_only && is!(self, "class") {
+            let class_start = cur_pos!(self);
             self.parse_class_decl(start, class_start, decorators)?
         } else if !type_only
-            && is!("async")
-            && peeked_is!("function")
+            && is!(self, "async")
+            && peeked_is!(self, "function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             self.parse_async_fn_decl(decorators)?
-        } else if !type_only && is!("function") {
+        } else if !type_only && is!(self, "function") {
             self.parse_fn_decl(decorators)?
         } else if !type_only
             && self.input.syntax().typescript()
-            && is!("const")
-            && peeked_is!("enum")
+            && is!(self, "const")
+            && peeked_is!(self, "enum")
         {
-            let start = cur_pos!();
-            assert_and_bump!("const");
-            let _ = cur!(true);
-            assert_and_bump!("enum");
+            let start = cur_pos!(self);
+            assert_and_bump!(self, "const");
+            let _ = cur!(self, true);
+            assert_and_bump!(self, "enum");
             return self
                 .parse_ts_enum_decl(start, /* is_const */ true)
                 .map(Decl::from)
                 .map(|decl| {
                     ModuleDecl::ExportDecl(ExportDecl {
-                        span: span!(start),
+                        span: span!(self, start),
                         decl,
                     })
                 });
         } else if !type_only
-            && (is!("var")
-                || is!("const")
-                || (is!("let"))
-                    && peek!()
+            && (is!(self, "var")
+                || is!(self, "const")
+                || (is!(self, "let"))
+                    && peek!(self)
                         .map(|t| {
                             // module code is always in strict mode.
                             t.follows_keyword_let(true)
@@ -428,7 +427,7 @@ impl<'a, I: Tokens> Parser<I> {
             // export {};
             // export {} from '';
 
-            if is!("from") {
+            if is!(self, "from") {
                 if let Some(s) = export_ns {
                     let src = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
@@ -443,7 +442,7 @@ impl<'a, I: Tokens> Parser<I> {
             let default = match export_default {
                 Some(default) => Some(default),
                 None => {
-                    if self.input.syntax().export_default_from() && is!(IdentName) {
+                    if self.input.syntax().export_default_from() && is!(self, IdentName) {
                         Some(self.parse_ident(false, false)?)
                     } else {
                         None
@@ -451,7 +450,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             };
 
-            if is!("from") {
+            if is!(self, "from") {
                 if let Some(default) = default {
                     let src = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
@@ -477,10 +476,10 @@ impl<'a, I: Tokens> Parser<I> {
             let has_ns = export_ns.is_some();
             let has_default = default.is_some();
             if has_ns || has_default {
-                expect!(',')
+                expect!(self, ',')
             }
 
-            expect!('{');
+            expect!(self, '{');
             let mut specifiers = vec![];
             if let Some(s) = export_ns {
                 specifiers.push(s)
@@ -491,10 +490,10 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             }
             let mut first = true;
-            while is_one_of!(',', IdentName) {
+            while is_one_of!(self, ',', IdentName) {
                 if first {
                     first = false;
-                } else if eat!(',') && is!('}') {
+                } else if eat!(self, ',') && is!(self, '}') {
                     break;
                 }
 
@@ -503,19 +502,23 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(ExportSpecifier::Named)?,
                 );
             }
-            expect!('}');
+            expect!(self, '}');
 
-            let src = if is!("from") {
+            let src = if is!(self, "from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
-                eat!(';');
+                eat!(self, ';');
                 if has_default || has_ns {
-                    syntax_error!(span!(start), SyntaxError::ExportDefaultWithOutFrom);
+                    syntax_error!(
+                        self,
+                        span!(self, start),
+                        SyntaxError::ExportDefaultWithOutFrom
+                    );
                 }
                 None
             };
             return Ok(ModuleDecl::ExportNamed(NamedExport {
-                span: span!(start),
+                span: span!(self, start),
                 specifiers,
                 src,
                 type_only,
@@ -523,48 +526,48 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         Ok(ModuleDecl::ExportDecl(ExportDecl {
-            span: span!(start),
+            span: span!(self, start),
             decl,
         }))
     }
 
     fn parse_named_export_specifier(&mut self) -> PResult<ExportNamedSpecifier> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let orig = self.parse_ident_name()?;
 
-        let exported = if eat!("as") {
+        let exported = if eat!(self, "as") {
             Some(self.parse_ident_name()?)
         } else {
             None
         };
 
         Ok(ExportNamedSpecifier {
-            span: span!(start),
+            span: span!(self, start),
             orig,
             exported,
         })
     }
 
     fn parse_from_clause_and_semi(&mut self) -> PResult<Str> {
-        expect!("from");
+        expect!(self, "from");
 
-        let str_start = cur_pos!();
-        let src = match *cur!(true)? {
-            Token::Str { .. } => match bump!() {
+        let str_start = cur_pos!(self);
+        let src = match *cur!(self, true)? {
+            Token::Str { .. } => match bump!(self) {
                 Token::Str { value, has_escape } => Str {
                     value,
                     has_escape,
-                    span: span!(str_start),
+                    span: span!(self, str_start),
                     kind: StrKind::Normal {
                         contains_quote: true,
                     },
                 },
                 _ => unreachable!(),
             },
-            _ => unexpected!("a string literal"),
+            _ => unexpected!(self, "a string literal"),
         };
-        expect!(';');
+        expect!(self, ';');
         Ok(src)
     }
 }
@@ -578,7 +581,6 @@ impl IsDirective for ModuleItem {
     }
 }
 
-#[parser]
 impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
     fn handle_import_export(
         &mut self,
@@ -586,13 +588,13 @@ impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
         decorators: Vec<Decorator>,
     ) -> PResult<ModuleItem> {
         if !top_level {
-            syntax_error!(SyntaxError::NonTopLevelImportExport);
+            syntax_error!(self, SyntaxError::NonTopLevelImportExport);
         }
 
-        let start = cur_pos!();
-        let decl = if is!("import") {
+        let start = cur_pos!(self);
+        let decl = if is!(self, "import") {
             self.parse_import()?
-        } else if is!("export") {
+        } else if is!(self, "export") {
             self.parse_export(decorators).map(ModuleItem::from)?
         } else {
             unreachable!(

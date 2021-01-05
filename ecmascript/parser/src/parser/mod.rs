@@ -12,7 +12,6 @@ use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, input::Input, BytePos, Span};
 use swc_ecma_ast::*;
-use swc_ecma_parser_macros::parser;
 #[cfg(test)]
 extern crate test;
 use crate::error::Error;
@@ -59,7 +58,6 @@ impl<'a, I: Input> Parser<Lexer<'a, I>> {
     }
 }
 
-#[parser]
 impl<I: Tokens> Parser<I> {
     pub fn new_from(input: I) -> Self {
         Parser {
@@ -78,7 +76,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub fn parse_script(&mut self) -> PResult<Script> {
-        trace_cur!(parse_script);
+        trace_cur!(self, parse_script);
 
         let ctx = Context {
             module: false,
@@ -86,19 +84,19 @@ impl<I: Tokens> Parser<I> {
         };
         self.set_ctx(ctx);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Script {
-            span: span!(start),
+            span: span!(self, start),
             body,
             shebang,
         })
     }
 
     pub fn parse_typescript_module(&mut self) -> PResult<Module> {
-        trace_cur!(parse_typescript_module);
+        trace_cur!(self, parse_typescript_module);
 
         debug_assert!(self.syntax().typescript());
 
@@ -111,11 +109,11 @@ impl<I: Tokens> Parser<I> {
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Module {
-            span: span!(start),
+            span: span!(self, start),
             body,
             shebang,
         })
@@ -127,7 +125,7 @@ impl<I: Tokens> Parser<I> {
     /// Note: This is not perfect yet. It means, some strict mode violations may
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
         let body: Vec<ModuleItem> = self.parse_block_body(true, true, None)?;
@@ -147,7 +145,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(if has_module_item {
             Program::Module(Module {
-                span: span!(start),
+                span: span!(self, start),
                 body,
                 shebang,
             })
@@ -160,7 +158,7 @@ impl<I: Tokens> Parser<I> {
                 })
                 .collect();
             Program::Script(Script {
-                span: span!(start),
+                span: span!(self, start),
                 body,
                 shebang,
             })
@@ -176,19 +174,19 @@ impl<I: Tokens> Parser<I> {
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Module {
-            span: span!(start),
+            span: span!(self, start),
             body,
             shebang,
         })
     }
 
     fn parse_shebang(&mut self) -> PResult<Option<JsWord>> {
-        match cur!(false) {
-            Ok(&Token::Shebang(..)) => match bump!() {
+        match cur!(self, false) {
+            Ok(&Token::Shebang(..)) => match bump!(self) {
                 Token::Shebang(v) => Ok(Some(v)),
                 _ => unreachable!(),
             },
