@@ -283,14 +283,14 @@ impl<'a, I: Tokens> Parser<I> {
 
             if !self_closing {
                 'contents: loop {
-                    match *cur!(self, true)? {
+                    match *cur!(p, true)? {
                         Token::JSXTagStart => {
-                            let start = cur_pos!(self);
+                            let start = cur_pos!(p);
 
-                            if peeked_is!(self, '/') {
-                                bump!(self); // JSXTagStart
-                                let _ = cur!(self, true);
-                                assert_and_bump!(self, '/');
+                            if peeked_is!(p, '/') {
+                                bump!(p); // JSXTagStart
+                                let _ = cur!(p, true);
+                                assert_and_bump!(p, '/');
 
                                 closing_element =
                                     p.parse_jsx_closing_element_at(start).map(Some)?;
@@ -306,8 +306,8 @@ impl<'a, I: Tokens> Parser<I> {
                             children.push(p.parse_jsx_text().map(JSXElementChild::from)?)
                         }
                         tok!('{') => {
-                            let start = cur_pos!(self);
-                            if peeked_is!(self, "...") {
+                            let start = cur_pos!(p);
+                            if peeked_is!(p, "...") {
                                 children
                                     .push(p.parse_jsx_spread_child().map(JSXElementChild::from)?);
                             } else {
@@ -317,23 +317,23 @@ impl<'a, I: Tokens> Parser<I> {
                                 );
                             }
                         }
-                        _ => unexpected!(self, "< (jsx tag start), jsx text or {"),
+                        _ => unexpected!(p, "< (jsx tag start), jsx text or {"),
                     }
                 }
             }
-            let span = span!(self, start);
+            let span = span!(p, start);
 
             Ok(match (opening_element, closing_element) {
                 (Either::Left(opening), Some(Either::Right(closing))) => {
                     syntax_error!(
-                        self,
+                        p,
                         closing.span(),
                         SyntaxError::JSXExpectedClosingTagForLtGt
                     );
                 }
                 (Either::Right(opening), Some(Either::Left(closing))) => {
                     syntax_error!(
-                        self,
+                        p,
                         closing.span(),
                         SyntaxError::JSXExpectedClosingTag {
                             tag: get_qualified_jsx_name(&opening.name)
@@ -357,7 +357,7 @@ impl<'a, I: Tokens> Parser<I> {
                         != get_qualified_jsx_name(&opening.name)
                     {
                         syntax_error!(
-                            self,
+                            p,
                             closing.span(),
                             SyntaxError::JSXExpectedClosingTag {
                                 tag: get_qualified_jsx_name(&opening.name)

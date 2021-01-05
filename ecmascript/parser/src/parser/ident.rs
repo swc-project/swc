@@ -75,12 +75,12 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let word = self.parse_with(|p| {
-            let w = match cur!(self, true) {
-                Ok(&Word(..)) => match bump!(self) {
+            let w = match cur!(p, true) {
+                Ok(&Word(..)) => match bump!(p) {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
-                _ => syntax_error!(self, SyntaxError::ExpectedIdent),
+                _ => syntax_error!(p, SyntaxError::ExpectedIdent),
             };
 
             // Spec:
@@ -118,7 +118,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module => {
-                    syntax_error!(self, p.input.prev_span(), SyntaxError::ExpectedIdent)
+                    syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
                 Word::Keyword(Keyword::This) if p.input.syntax().typescript() => {
                     Ok(js_word!("this"))
@@ -128,7 +128,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
                 Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
-                    syntax_error!(self, p.input.prev_span(), SyntaxError::ExpectedIdent)
+                    syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
             }
         })?;
