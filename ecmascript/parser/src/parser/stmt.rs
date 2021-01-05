@@ -277,7 +277,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => {}
         }
 
-        if eat_exact!(';') {
+        if eat_exact!(self, ';') {
             return Ok(Stmt::Empty(EmptyStmt {
                 span: span!(self, start),
             }));
@@ -1035,7 +1035,7 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
-        let init = if eat_exact!(';') {
+        let init = if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
         } else {
             self.include_in_expr(false).parse_expr_or_pat()?
@@ -1077,7 +1077,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<ForHead> {
-        let test = if eat_exact!(';') {
+        let test = if eat_exact!(self, ';') {
             None
         } else {
             let test = self.include_in_expr(true).parse_expr().map(Some)?;

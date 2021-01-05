@@ -99,7 +99,7 @@ macro_rules! is_one_of {
     ($p:expr, $($t:tt),+) => {{
         false
         $(
-            || is!(self, $p, $t)
+            || is!($p, $t)
         )*
     }};
 }
@@ -181,7 +181,7 @@ macro_rules! expect {
 macro_rules! expect_exact {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
-        if !eat_exact!($p, $t) {
+        if !eat_exact!(self, $p, $t) {
             let cur = $p.input.dump_cur();
             syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
         }
