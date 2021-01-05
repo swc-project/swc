@@ -657,7 +657,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseModuleBlock`
     fn parse_ts_module_block(&mut self) -> PResult<TsModuleBlock> {
-        trace_cur!(parse_ts_module_block);
+        trace_cur!(self, parse_ts_module_block);
 
         debug_assert!(self.input.syntax().typescript());
 
@@ -755,7 +755,7 @@ impl<I: Tokens> Parser<I> {
     ///
     /// `tsParseType`
     pub(super) fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
-        trace_cur!(parse_ts_type);
+        trace_cur!(self, parse_ts_type);
 
         debug_assert!(self.input.syntax().typescript());
 
@@ -791,7 +791,7 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsParseNonConditionalType`
     fn parse_ts_non_conditional_type(&mut self) -> PResult<Box<TsType>> {
-        trace_cur!(parse_ts_non_conditional_type);
+        trace_cur!(self, parse_ts_non_conditional_type);
 
         debug_assert!(self.input.syntax().typescript());
 
@@ -1578,7 +1578,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         is_fn_type: bool,
     ) -> PResult<TsFnOrConstructorType> {
-        trace_cur!(parse_ts_fn_or_constructor_type);
+        trace_cur!(self, parse_ts_fn_or_constructor_type);
 
         debug_assert!(self.input.syntax().typescript());
 
@@ -1658,7 +1658,7 @@ impl<I: Tokens> Parser<I> {
 
     #[allow(clippy::vec_box)]
     fn parse_ts_tpl_type_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
-        trace_cur!(parse_tpl_elements);
+        trace_cur!(self, parse_tpl_elements);
 
         let mut types = vec![];
 

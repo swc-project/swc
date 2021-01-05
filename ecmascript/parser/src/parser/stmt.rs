@@ -16,7 +16,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
-        trace_cur!(parse_block_body);
+        trace_cur!(self, parse_block_body);
 
         let old_ctx = self.ctx();
 
@@ -58,12 +58,12 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
-        trace_cur!(parse_stmt);
+        trace_cur!(self, parse_stmt);
         self.parse_stmt_like(false, top_level)
     }
 
     fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
-        trace_cur!(parse_stmt_list_item);
+        trace_cur!(self, parse_stmt_list_item);
         self.parse_stmt_like(true, top_level)
     }
 
@@ -73,7 +73,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
-        trace_cur!(parse_stmt_like);
+        trace_cur!(self, parse_stmt_like);
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(true)?;
 
@@ -94,7 +94,7 @@ impl<'a, I: Tokens> Parser<I> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<Stmt> {
-        trace_cur!(parse_stmt_internal);
+        trace_cur!(self, parse_stmt_internal);
 
         if top_level && is!(self, "await") {
             let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();

@@ -71,7 +71,7 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
     pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
-        trace_cur!(parse_ident);
+        trace_cur!(self, parse_ident);
 
         let start = cur_pos!(self);
 

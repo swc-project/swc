@@ -7,7 +7,7 @@ use swc_common::Spanned;
 
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
-        trace_cur!(parse_opt_binding_ident);
+        trace_cur!(self, parse_opt_binding_ident);
 
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
             self.parse_binding_ident().map(Some)
@@ -20,7 +20,7 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// spec: `BindingIdentifier`
     pub(super) fn parse_binding_ident(&mut self) -> PResult<Ident> {
-        trace_cur!(parse_binding_ident);
+        trace_cur!(self, parse_binding_ident);
 
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
@@ -38,7 +38,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
-        trace_cur!(parse_binding_pat_or_ident);
+        trace_cur!(self, parse_binding_pat_or_ident);
 
         match *cur!(true)? {
             tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
@@ -56,7 +56,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// babel: `parseBindingAtom`
     pub(super) fn parse_binding_element(&mut self) -> PResult<Pat> {
-        trace_cur!(parse_binding_element);
+        trace_cur!(self, parse_binding_element);
 
         let start = cur_pos!(self);
         let left = self.parse_binding_pat_or_ident()?;

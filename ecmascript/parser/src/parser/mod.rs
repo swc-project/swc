@@ -77,7 +77,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub fn parse_script(&mut self) -> PResult<Script> {
-        trace_cur!(parse_script);
+        trace_cur!(self, parse_script);
 
         let ctx = Context {
             module: false,
@@ -97,7 +97,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub fn parse_typescript_module(&mut self) -> PResult<Module> {
-        trace_cur!(parse_typescript_module);
+        trace_cur!(self, parse_typescript_module);
 
         debug_assert!(self.syntax().typescript());
 
