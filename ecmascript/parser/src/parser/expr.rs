@@ -80,7 +80,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }) => {
                         *type_params = Some(type_parameters);
                     }
-                    _ => unexpected!(self, "("),
+                    _ => unexpected!(p, "("),
                 }
                 Ok(Some(arrow))
             });
@@ -250,8 +250,8 @@ impl<'a, I: Tokens> Parser<I> {
                     if can_be_arrow && self.input.syntax().typescript() && peeked_is!(self, '<') {
                         // try parsing `async<T>() => {}`
                         if let Some(res) = self.try_parse_ts(|p| {
-                            let start = cur_pos!(self);
-                            assert_and_bump!(self, "async");
+                            let start = cur_pos!(p);
+                            assert_and_bump!(p, "async");
                             p.try_parse_ts_generic_async_arrow_fn(start)
                         }) {
                             return Ok(Box::new(Expr::Arrow(res)));
@@ -470,9 +470,9 @@ impl<'a, I: Tokens> Parser<I> {
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
-                    if !is!(self, '(') {
+                    if !is!(p, '(') {
                         // This will fail
-                        expect!(self, '(');
+                        expect!(p, '(');
                     }
                     Ok(Some(args))
                 })

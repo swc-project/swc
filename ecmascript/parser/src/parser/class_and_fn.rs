@@ -920,7 +920,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            let type_params = if p.syntax().typescript() && is!(self, '<') {
+            let type_params = if p.syntax().typescript() && is!(p, '<') {
                 //
                 Some(p.parse_ts_type_params()?)
             } else {
@@ -939,7 +939,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, ')');
 
             // typescript extension
-            let return_type = if p.syntax().typescript() && is!(self, ':') {
+            let return_type = if p.syntax().typescript() && is!(p, ':') {
                 p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                     .map(Some)?
             } else {
