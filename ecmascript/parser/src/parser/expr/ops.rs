@@ -92,9 +92,9 @@ impl<'a, I: Tokens> Parser<I> {
             let start = left.span().lo();
             let expr = left;
             let node = if peeked_is!(self, "const") {
-                bump!(); // as
+                bump!(self); // as
                 let _ = cur!(self, false);
-                bump!(); // const
+                bump!(self); // const
                 Box::new(Expr::TsConstAssertion(TsConstAssertion {
                     span: span!(self, start),
                     expr,
@@ -141,7 +141,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             return Ok((left, None));
         }
-        bump!();
+        bump!(self);
         trace!(
             "parsing binary op {:?} min_prec={}, prec={}",
             op,
@@ -242,7 +242,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // Parse update expression
         if is!(self, "++") || is!(self, "--") {
-            let op = if bump!() == tok!("++") {
+            let op = if bump!(self) == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
@@ -262,7 +262,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // Parse unary expression
         if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
-            let op = match bump!() {
+            let op = match bump!(self) {
                 tok!("delete") => op!("delete"),
                 tok!("void") => op!("void"),
                 tok!("typeof") => op!("typeof"),
@@ -333,7 +333,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.check_assign_target(&expr, false);
 
             let start = cur_pos!(self);
-            let op = if bump!() == tok!("++") {
+            let op = if bump!(self) == tok!("++") {
                 op!("++")
             } else {
                 op!("--")

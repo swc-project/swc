@@ -49,7 +49,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if end.is_some() {
-            bump!();
+            bump!(self);
         }
 
         self.set_ctx(old_ctx);
@@ -122,7 +122,7 @@ impl<'a, I: Tokens> Parser<I> {
         match cur!(self, true)? {
             tok!("break") | tok!("continue") => {
                 let is_break = is!(self, "break");
-                bump!();
+                bump!(self);
 
                 let label = if eat!(self, ';') {
                     None
@@ -158,7 +158,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("debugger") => {
-                bump!();
+                bump!(self);
                 expect!(self, ';');
                 return Ok(Stmt::Debugger(DebuggerStmt {
                     span: span!(self, start),
@@ -474,7 +474,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let mut cons = vec![];
                 let is_case = is!(self, "case");
                 let case_start = cur_pos!(self);
-                bump!();
+                bump!(self);
                 let ctx = Context {
                     in_case_cond: true,
                     ..p.ctx()
@@ -624,7 +624,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<VarDecl> {
         let start = cur_pos!(self);
-        let kind = match bump!() {
+        let kind = match bump!(self) {
             tok!("const") => VarDeclKind::Const,
             tok!("let") => VarDeclKind::Let,
             tok!("var") => VarDeclKind::Var,
@@ -709,7 +709,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let _ = self.parse_expr();
 
                 while !eat!(self, ';') {
-                    bump!();
+                    bump!(self);
                 }
             }
         }
@@ -1066,7 +1066,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_each_head(&mut self, left: VarDeclOrPat) -> PResult<ForHead> {
-        let of = bump!() == tok!("of");
+        let of = bump!(self) == tok!("of");
         if of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
             Ok(ForHead::ForOf { left, right })

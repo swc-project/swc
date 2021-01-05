@@ -14,7 +14,7 @@ impl<I: Tokens> Parser<I> {
         // This implementation only handles modifiers not handled by @babel/parser
         // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
         // hasLineBreakUpNext() method...
-        bump!();
+        bump!(self);
         Ok(!self.input.had_line_break_before_cur()
             && !is!(self, '(')
             && !is!(self, ')')
@@ -378,7 +378,7 @@ impl<I: Tokens> Parser<I> {
         if !is!(self, '<') && !is!(self, JSXTagStart) {
             unexpected!(self, "< (jsx tag start)")
         }
-        bump!(); // '<'
+        bump!(self); // '<'
 
         let params = self.parse_ts_bracketed_list(
             ParsingContext::TypeParametersOrArguments,
@@ -563,7 +563,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
-            bump!();
+            bump!(self);
 
             p.parse_ts_type()
         })
@@ -582,7 +582,7 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             })?,
             Token::Num(v) => {
-                bump!();
+                bump!(self);
                 let span = span!(self, start);
 
                 // Recover from error
@@ -616,7 +616,7 @@ impl<I: Tokens> Parser<I> {
             None
         } else {
             let start = cur_pos!(self);
-            bump!();
+            bump!(self);
             store!(',');
             self.emit_err(
                 Span::new(start, start, SyntaxContext::empty()),
@@ -907,7 +907,7 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1172);
 
             while !eof!(self) && !is!(self, '{') {
-                bump!();
+                bump!(self);
             }
         }
 
@@ -1055,13 +1055,13 @@ impl<I: Tokens> Parser<I> {
         let _ = self.eat_any_ts_modifier()?;
 
         if is_one_of!(self, IdentRef, "this") {
-            bump!();
+            bump!(self);
             return Ok(true);
         }
 
         if is!(self, '{') {
             let mut brace_stack_counter = 1;
-            bump!();
+            bump!(self);
 
             while brace_stack_counter > 0 {
                 if is!(self, '{') {
@@ -1069,14 +1069,14 @@ impl<I: Tokens> Parser<I> {
                 } else if is!(self, '}') {
                     brace_stack_counter -= 1;
                 }
-                bump!();
+                bump!(self);
             }
             return Ok(true);
         }
 
         if is!(self, '[') {
             let mut bracket_stack_counter = 1;
-            bump!();
+            bump!(self);
 
             while bracket_stack_counter > 0 {
                 if is!(self, '[') {
@@ -1084,7 +1084,7 @@ impl<I: Tokens> Parser<I> {
                 } else if is!(self, ']') {
                     bracket_stack_counter -= 1;
                 }
-                bump!();
+                bump!(self);
             }
             return Ok(true);
         }
@@ -1323,7 +1323,7 @@ impl<I: Tokens> Parser<I> {
     fn is_ts_start_of_construct_signature(&mut self) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
 
-        bump!();
+        bump!(self);
 
         Ok(is!(self, '(') || is!(self, '<'))
     }
@@ -1355,21 +1355,21 @@ impl<I: Tokens> Parser<I> {
     fn is_ts_start_of_mapped_type(&mut self) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
 
-        bump!();
+        bump!(self);
         if eat!(self, '+') || eat!(self, '-') {
             return Ok(is!(self, "readonly"));
         }
         if is!(self, "readonly") {
-            bump!();
+            bump!(self);
         }
         if !is!(self, '[') {
             return Ok(false);
         }
-        bump!();
+        bump!(self);
         if !is!(self, IdentRef) {
             return Ok(false);
         }
-        bump!();
+        bump!(self);
 
         Ok(is!(self, "in"))
     }
@@ -1404,7 +1404,7 @@ impl<I: Tokens> Parser<I> {
             } else {
                 TruePlusMinus::Minus
             });
-            bump!();
+            bump!(self);
             expect!(self, "readonly")
         } else if eat!(self, "readonly") {
             readonly = Some(TruePlusMinus::True);
@@ -1426,7 +1426,7 @@ impl<I: Tokens> Parser<I> {
             } else {
                 TruePlusMinus::Minus
             });
-            bump!(); // +, -
+            bump!(self); // +, -
             expect!(self, '?');
         } else if eat!(self, '?') {
             optional = Some(TruePlusMinus::True);
@@ -1753,7 +1753,7 @@ impl<I: Tokens> Parser<I> {
             | tok!("await")
             | tok!("break") => {
                 if is!(self, "asserts") && peeked_is!(self, "this") {
-                    bump!();
+                    bump!(self);
                     let this_keyword = self.parse_ts_this_type_node()?;
                     return self
                         .parse_ts_this_type_predicate(start, true, this_keyword)
@@ -1795,7 +1795,7 @@ impl<I: Tokens> Parser<I> {
 
                 match kind {
                     Some(kind) if !peeked_is_dot => {
-                        bump!();
+                        bump!(self);
                         return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
                             span: span!(self, start),
                             kind,
@@ -1819,7 +1819,7 @@ impl<I: Tokens> Parser<I> {
             }
             tok!('-') => {
                 let start = cur_pos!(self);
-                bump!();
+                bump!(self);
                 if match *cur!(self, true)? {
                     Token::Num(..) => false,
                     _ => true,
@@ -2205,7 +2205,7 @@ impl<I: Tokens> Parser<I> {
             js_word!("abstract") => {
                 if next || is!(self, "class") {
                     if next {
-                        bump!();
+                        bump!(self);
                     }
                     let mut decl = self.parse_class_decl(start, start, decorators)?;
                     match decl {
@@ -2226,7 +2226,7 @@ impl<I: Tokens> Parser<I> {
             js_word!("enum") => {
                 if next || is!(self, IdentRef) {
                     if next {
-                        bump!();
+                        bump!(self);
                     }
                     return self
                         .parse_ts_enum_decl(start, /* is_const */ false)
@@ -2238,7 +2238,7 @@ impl<I: Tokens> Parser<I> {
             js_word!("interface") => {
                 if next || (is!(self, IdentRef)) {
                     if next {
-                        bump!();
+                        bump!(self);
                     }
 
                     return self
@@ -2250,7 +2250,7 @@ impl<I: Tokens> Parser<I> {
 
             js_word!("module") => {
                 if next {
-                    bump!();
+                    bump!(self);
                 }
 
                 if match *cur!(self, true)? {
@@ -2272,7 +2272,7 @@ impl<I: Tokens> Parser<I> {
             js_word!("namespace") => {
                 if next || is!(self, IdentRef) {
                     if next {
-                        bump!();
+                        bump!(self);
                     }
                     return self
                         .parse_ts_module_or_ns_decl(start)
@@ -2284,7 +2284,7 @@ impl<I: Tokens> Parser<I> {
             js_word!("type") => {
                 if next || is!(self, IdentRef) {
                     if next {
-                        bump!();
+                        bump!(self);
                     }
                     return self
                         .parse_ts_type_alias_decl(start)

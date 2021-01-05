@@ -46,7 +46,7 @@ impl<'a, I: Tokens> Parser<I> {
             let start = cur_pos!(self);
 
             let v = match *cur!(self, true)? {
-                Token::Str { .. } => match bump!() {
+                Token::Str { .. } => match bump!(self) {
                     Token::Str { value, has_escape } => PropName::Str(Str {
                         span: span!(self, start),
                         value,
@@ -57,26 +57,26 @@ impl<'a, I: Tokens> Parser<I> {
                     }),
                     _ => unreachable!(),
                 },
-                Token::Num(_) => match bump!() {
+                Token::Num(_) => match bump!(self) {
                     Token::Num(value) => PropName::Num(Number {
                         span: span!(self, start),
                         value,
                     }),
                     _ => unreachable!(),
                 },
-                Token::BigInt(_) => match bump!() {
+                Token::BigInt(_) => match bump!(self) {
                     Token::BigInt(value) => PropName::BigInt(BigInt {
                         span: span!(self, start),
                         value,
                     }),
                     _ => unreachable!(),
                 },
-                Word(..) => match bump!() {
+                Word(..) => match bump!(self) {
                     Word(w) => PropName::Ident(Ident::new(w.into(), span!(self, start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {
-                    bump!();
+                    bump!(self);
                     let inner_start = cur_pos!(self);
 
                     let mut expr = p.include_in_expr(true).parse_assignment_expr()?;

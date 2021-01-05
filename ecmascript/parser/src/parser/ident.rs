@@ -57,7 +57,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let w = match cur!(self, true) {
-            Ok(&Word(..)) => match bump!() {
+            Ok(&Word(..)) => match bump!(self) {
                 Word(w) => w,
                 _ => unreachable!(),
             },
@@ -77,7 +77,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let word = self.parse_with(|p| {
             let w = match cur!(self, true) {
-                Ok(&Word(..)) => match bump!() {
+                Ok(&Word(..)) => match bump!(self) {
                     Word(w) => w,
                     _ => unreachable!(),
                 },

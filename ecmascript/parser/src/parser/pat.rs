@@ -45,7 +45,7 @@ impl<'a, I: Tokens> Parser<I> {
             tok!('[') => self.parse_array_binding_pat(),
             tok!('{') => self.parse_object(),
             // tok!('(') => {
-            //     bump!();
+            //     bump!(self);
             //     let pat = self.parse_binding_pat_or_ident()?;
             //     expect!(self, ')');
             //     Ok(pat)

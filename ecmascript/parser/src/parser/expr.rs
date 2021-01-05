@@ -156,7 +156,7 @@ impl<'a, I: Tokens> Parser<I> {
                     PatOrExpr::Expr(cond)
                 };
 
-                bump!();
+                bump!(self);
                 let right = self.parse_assignment_expr()?;
                 Ok(Box::new(Expr::Assign(AssignExpr {
                     span: span!(self, start),
@@ -289,7 +289,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 // Regexp
-                Token::Regex(..) => match bump!() {
+                Token::Regex(..) => match bump!(self) {
                     Token::Regex(exp, flags) => {
                         return Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
                             span: span!(self, start),
@@ -841,7 +841,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(self, true)? {
-            Token::Template { .. } => match bump!() {
+            Token::Template { .. } => match bump!(self) {
                 Token::Template {
                     raw,
                     cooked,
@@ -1536,18 +1536,18 @@ impl<'a, I: Tokens> Parser<I> {
 
         let v = match *cur!(self, true)? {
             Word(Word::Null) => {
-                bump!();
+                bump!(self);
                 let span = span!(self, start);
                 Lit::Null(Null { span })
             }
             Word(Word::True) | Word(Word::False) => {
                 let value = is!(self, "true");
-                bump!();
+                bump!(self);
                 let span = span!(self, start);
 
                 Lit::Bool(Bool { span, value })
             }
-            Token::Str { .. } => match bump!() {
+            Token::Str { .. } => match bump!(self) {
                 Token::Str { value, has_escape } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
@@ -1558,14 +1558,14 @@ impl<'a, I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            Token::Num(..) => match bump!() {
+            Token::Num(..) => match bump!(self) {
                 Token::Num(value) => Lit::Num(Number {
                     span: span!(self, start),
                     value,
                 }),
                 _ => unreachable!(),
             },
-            Token::BigInt(..) => match bump!() {
+            Token::BigInt(..) => match bump!(self) {
                 Token::BigInt(value) => Lit::BigInt(BigInt {
                     span: span!(self, start),
                     value,

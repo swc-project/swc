@@ -12,7 +12,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let ctx = self.ctx();
         match *cur!(self, true)? {
-            Token::JSXName { .. } => match bump!() {
+            Token::JSXName { .. } => match bump!(self) {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
                     Ok(Ident::new(name, span))
@@ -132,7 +132,7 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!(self);
-        bump!();
+        bump!(self);
         let expr = if is!(self, '}') {
             self.parse_jsx_empty_expr().map(JSXExpr::JSXEmptyExpr)?
         } else {
@@ -261,7 +261,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let _ = cur!(self, true);
         let start = cur_pos!(self);
-        let forced_jsx_context = match bump!() {
+        let forced_jsx_context = match bump!(self) {
             tok!('<') => true,
             Token::JSXTagStart => false,
             _ => unreachable!(),
@@ -288,7 +288,7 @@ impl<'a, I: Tokens> Parser<I> {
                             let start = cur_pos!(self);
 
                             if peeked_is!(self, '/') {
-                                bump!(); // JSXTagStart
+                                bump!(self); // JSXTagStart
                                 let _ = cur!(self, true);
                                 assert_and_bump!(self, '/');
 
@@ -401,7 +401,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => false,
             }
         });
-        let token = bump!();
+        let token = bump!(self);
         let span = self.input.prev_span();
         match token {
             Token::JSXText { raw } => Ok(JSXText {
