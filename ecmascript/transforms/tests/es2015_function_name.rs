@@ -1,16 +1,23 @@
-#![feature(test)]
+#![cfg(all(
+    feature = "swc_ecma_transforms_compat",
+    feature = "swc_ecma_transforms_module",
+    feature = "swc_ecma_transforms_optimization",
+    feature = "swc_ecma_transforms_proposal",
+))]
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{
-    compat::es2015::{arrow, block_scoping, classes::classes, function_name, shorthand},
-    modules::{amd::amd, common_js::common_js, umd::umd},
-    proposals::decorators,
-    resolver,
-};
+use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015::arrow;
+use swc_ecma_transforms_compat::es2015::block_scoping;
+use swc_ecma_transforms_compat::es2015::classes;
+use swc_ecma_transforms_compat::es2015::function_name;
+use swc_ecma_transforms_compat::es2015::shorthand;
+use swc_ecma_transforms_compat::es2020::class_properties;
+use swc_ecma_transforms_module::common_js::common_js;
+use swc_ecma_transforms_proposal::decorators;
+use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
-
-#[macro_use]
-mod common;
 
 fn syntax() -> Syntax {
     Default::default()
@@ -148,172 +155,6 @@ test!(
 //    return components_Link_extends.apply(this, arguments); }"
 //);
 
-// function_name_function_collision
-test!(
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-    ),
-    function_name_function_collision,
-    r#"
-function f() {
-  f;
-}
-
-{
-  let obj = {
-    f: function () {
-      f;
-    }
-  };
-}
-
-(function b() {
-  var obj = {
-    b: function () {
-      b;
-    }
-  };
-
-  function commit(b) {
-    b();
-  }
-});
-
-"#,
-    r#"
-function _f() {
-  _f;
-}
-
-{
-  let obj = {
-    f: function f() {
-      _f;
-    }
-  };
-}
-
-(function _b() {
-  var obj = {
-    b: function b() {
-      _b;
-    }
-  };
-
-  function commit(b) {
-    b();
-  }
-});
-
-"#
-);
-
-// function_name_export_default_arrow_renaming_module_umd
-test!(
-    ignore,
-    syntax(),
-    |tester| chain!(
-        resolver(),
-        function_name(),
-        shorthand(),
-        arrow(),
-        umd(
-            tester.cm.clone(),
-            Mark::fresh(Mark::root()),
-            Default::default()
-        )
-    ),
-    function_name_export_default_arrow_renaming_module_umd,
-    r#"
-export default (a) => {
-  return { a() { return a } };
-}
-
-"#,
-    r#"
-(function (global, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(["exports"], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports);
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports);
-    global.input = mod.exports;
-  }
-})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = function _default(_a) {
-    return {
-      a: function a() {
-        return _a;
-      }
-    };
-  };
-
-  _exports.default = _default;
-});
-
-"#
-);
-
-// function_name_collisions
-test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-    ),
-    function_name_collisions,
-    r#"
-var obj = {
-  search: function({search}) {
-    console.log(search);
-  }
-};
-
-function search({search}) {
-  console.log(search);
-}
-
-"#,
-    r#"
-var obj = {
-  search: function search({
-    search: search1
-  }) {
-    console.log(search1);
-  }
-};
-
-function search({ search: search1 }) {
-    console.log(search1);
-}
-
-"#
-);
-
 // issues_5004
 test!(
     syntax(),
@@ -329,70 +170,6 @@ export const x = ({
   x
 }) => x;
 export const y = function y() {};
-
-"#
-);
-
-// function_name_modules_2
-test!(
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-        common_js(Mark::fresh(Mark::root()), Default::default())
-    ),
-    function_name_modules_2,
-    r#"
-import last from "lodash/last"
-
-export default class Container {
-  last(key) {
-    if (!this.has(key)) {
-      return;
-    }
-
-    return last(this.tokens.get(key))
-  }
-}
-
-"#,
-    r#"
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _last2 = _interopRequireDefault(require("lodash/last"));
-
-let Container =
-/*#__PURE__*/
-function () {
-  function Container() {
-    _classCallCheck(this, Container);
-  }
-
-  _createClass(Container, [{
-    key: "last",
-    value: function last(key) {
-      if (!this.has(key)) {
-        return;
-      }
-
-      return (0, _last2.default)(this.tokens.get(key));
-    }
-  }]);
-  return Container;
-}();
-
-exports.default = Container;
 
 "#
 );
@@ -460,366 +237,6 @@ exports.default = Container;
 //
 //"#);
 
-// function_name_await
-test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-    ),
-    function_name_await,
-    r#"
-export {};
-
-var obj = { await: function () {} };
-
-"#,
-    r#"
-export {};
-var obj = {
-  await: function _await() {}
-};
-
-"#
-);
-
-// function_name_function_assignment
-test!(
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-    ),
-    function_name_function_assignment,
-    r#"
-var foo;
-foo = function() {
-};
-
-var baz;
-baz = function() {
-  baz();
-};
-baz = 12;
-
-bar = function() {
-  bar();
-};
-
-"#,
-    r#"
-var foo;
-
-foo = function foo() {};
-
-var _baz;
-
-_baz = function baz() {
-  _baz();
-};
-
-_baz = 12;
-
-bar = function (_bar) {
-  function bar() {
-    return _bar.apply(this, arguments);
-  }
-
-  bar.toString = function () {
-    return _bar.toString();
-  };
-
-  return bar;
-}(function () {
-  bar();
-});
-
-"#
-);
-
-// function_name_shorthand_property
-test!(
-    // not important
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-    ),
-    function_name_shorthand_property,
-    r#"
-var Utils = {
-  get: function() {}
-};
-
-var { get } = Utils;
-
-var bar = {
-  get: function(arg) {
-    get(arg, "baz");
-  }
-};
-
-var f = function ({ foo = "bar" }) {
-  var obj = {
-    // same name as parameter
-    foo: function () {
-      foo;
-    }
-  };
-};
-
-"#,
-    r#"
-var Utils = {
-  get: function get() {}
-};
-var {
-  get: _get
-} = Utils;
-var bar = {
-  get: function get(arg) {
-    _get(arg, "baz");
-  }
-};
-
-var f = function f({
-  foo: _foo = "bar"
-}) {
-  var obj = {
-    // same name as parameter
-    foo: function foo() {
-      _foo;
-    }
-  };
-};
-
-"#
-);
-
-// function_name_export_default_arrow_renaming_module_amd
-test!(
-    ignore,
-    syntax(),
-    |_| chain!(
-        function_name(),
-        shorthand(),
-        arrow(),
-        amd(Default::default())
-    ),
-    function_name_export_default_arrow_renaming_module_amd,
-    r#"
-export default (a) => {
-  return { a() { return a } };
-}
-
-"#,
-    r#"
-define(["exports"], function (_exports) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = function _default(_a) {
-    return {
-      a: function a() {
-        return _a;
-      }
-    };
-  };
-
-  _exports.default = _default;
-});
-
-"#
-);
-
-// function_name_object
-test!(
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        function_name(),
-        classes(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        })
-    ),
-    function_name_object,
-    r#"
-var obj = {
-  f: function () {
-    (function f() {
-      console.log(f);
-    })();
-  },
-
-  h: function () {
-    console.log(h);
-  },
-
-  m: function () {
-    doSmth();
-  }
-};
-
-"#,
-    r#"
-var obj = {
-  f: function f() {
-    (function f() {
-      console.log(f);
-    })();
-  },
-  h: function (_h) {
-    function h() {
-      return _h.apply(this, arguments);
-    }
-
-    h.toString = function () {
-      return _h.toString();
-    };
-
-    return h;
-  }(function () {
-    console.log(h);
-  }),
-  m: function m() {
-    doSmth();
-  }
-};
-
-"#
-);
-
-// function_name_export
-test!(
-    // not important
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        function_name(),
-        classes(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        })
-    ),
-    function_name_export,
-    r#"
-export var foo = "yes", foob = "no";
-
-export function whatever() {}
-
-export default function wowzers() {}
-
-var bar = {
-  foo: function () {
-    foo;
-  },
-
-  whatever: function () {
-    whatever;
-  },
-
-  wowzers: function () {
-    wowzers;
-  }
-};
-
-"#,
-    r#"
-var _foo = "yes",
-    foob = "no";
-export { _foo as foo, foob };
-
-function _whatever() {}
-
-export { _whatever as whatever };
-
-function _wowzers() {}
-
-export { _wowzers as default };
-var bar = {
-  foo: function foo() {
-    _foo;
-  },
-  whatever: function whatever() {
-    _whatever;
-  },
-  wowzers: function wowzers() {
-    _wowzers;
-  }
-};
-
-"#
-);
-
-// function_name_global
-test!(
-    // Cost of development is too high.
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        function_name(),
-        classes(),
-    ),
-    function_name_global,
-    r#"
-var test = {
-  setInterval: function(fn, ms) {
-    setInterval(fn, ms);
-  }
-};
-
-"#,
-    r#"
-var test = {
-  setInterval: function (_setInterval) {
-    function setInterval(_x, _x2) {
-      return _setInterval.apply(this, arguments);
-    }
-
-    setInterval.toString = function () {
-      return _setInterval.toString();
-    };
-
-    return setInterval;
-  }(function (fn, ms) {
-    setInterval(fn, ms);
-  })
-};
-
-"#
-);
-
 // function_name_with_arrow_functions_transform
 test!(
     ignore,
@@ -846,90 +263,6 @@ const z = {
     return y(x);
   }
 }.z;
-
-"#
-);
-
-// function_name_modules
-test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-        common_js(Mark::fresh(Mark::root()), Default::default()),
-    ),
-    function_name_modules,
-    r#"
-import events from "events";
-
-class Template {
-  events() {
-    return events;
-  }
-}
-
-console.log(new Template().events());
-
-"#,
-    r#"
-"use strict";
-
-var _events = _interopRequireDefault(require("events"));
-
-let Template =
-/*#__PURE__*/
-function () {
-  'use strict';
-  function Template() {
-    _classCallCheck(this, Template);
-  }
-
-  _createClass(Template, [{
-    key: "events",
-    value: function events() {
-      return _events.default;
-    }
-  }]);
-  return Template;
-}();
-
-console.log(new Template().events());
-
-"#
-);
-
-// function_name_eval
-test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        function_name(),
-        classes(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        })
-    ),
-    function_name_eval,
-    r#"
-var a = {
-  eval: function () {
-    return eval;
-  }
-};
-
-"#,
-    r#"
-var a = {
-  eval: function _eval() {
-    return eval;
-  }
-};
 
 "#
 );
@@ -1249,55 +582,6 @@ test!(
 "#
 );
 
-// function_name_own_bindings
-test!(
-    // not important
-    ignore,
-    syntax(),
-    |_| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(),
-        function_name(),
-    ),
-    function_name_own_bindings,
-    r#"
-var f = function () {
-  var f = 2;
-};
-
-var g = function (g) {
-  g;
-};
-
-var obj = {
-  f: function (f) {
-    f;
-  }
-};
-
-"#,
-    r#"
-var f = function f() {
-  var f = 2;
-};
-
-var g = function g(_g) {
-  _g;
-};
-
-var obj = {
-  f: function f(_f) {
-    _f;
-  }
-};
-
-"#
-);
-
 // function_name_export_default_arrow_renaming_module_es6
 test!(
     ignore,
@@ -1350,5 +634,313 @@ var j = function j1() {
     ({ y: j  } = 5);
     ;
 };
+"#
+);
+
+// function_name_own_bindings
+test!(
+    // not important
+    ignore,
+    syntax(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_own_bindings,
+    r#"
+var f = function () {
+var f = 2;
+};
+
+var g = function (g) {
+g;
+};
+
+var obj = {
+f: function (f) {
+f;
+}
+};
+
+"#,
+    r#"
+var f = function f() {
+var f = 2;
+};
+
+var g = function g(_g) {
+_g;
+};
+
+var obj = {
+f: function f(_f) {
+_f;
+}
+};
+
+"#
+);
+
+// decorators_legacy_interop_strict
+test!(
+    // See: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(),
+    |_| chain!(
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        class_properties(),
+        classes(),
+    ),
+    decorators_legacy_interop_strict,
+    r#"
+function dec() {}
+
+class A {
+@dec a;
+
+@dec b = 123;
+
+c = 456;
+}
+
+"#,
+    r#"
+var _class, _descriptor, _descriptor2, _temp;
+
+function dec() {}
+
+let A = (_class = (_temp = function A() {
+"use strict";
+
+_classCallCheck(this, A);
+
+_initializerDefineProperty(this, "a", _descriptor, this);
+
+_initializerDefineProperty(this, "b", _descriptor2, this);
+
+_defineProperty(this, "c", 456);
+}, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "a", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: null
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "b", [dec], {
+configurable: true,
+enumerable: true,
+writable: true,
+initializer: function () {
+return 123;
+}
+})), _class);
+
+"#
+);
+
+// function_name_function_collision
+test!(
+    ignore,
+    syntax(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_function_collision,
+    r#"
+function f() {
+f;
+}
+
+{
+let obj = {
+f: function () {
+  f;
+}
+};
+}
+
+(function b() {
+var obj = {
+b: function () {
+  b;
+}
+};
+
+function commit(b) {
+b();
+}
+});
+
+"#,
+    r#"
+function _f() {
+_f;
+}
+
+{
+let obj = {
+f: function f() {
+  _f;
+}
+};
+}
+
+(function _b() {
+var obj = {
+b: function b() {
+  _b;
+}
+};
+
+function commit(b) {
+b();
+}
+});
+
+"#
+);
+
+// function_name_collisions
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_collisions,
+    r#"
+var obj = {
+search: function({search}) {
+console.log(search);
+}
+};
+
+function search({search}) {
+console.log(search);
+}
+
+"#,
+    r#"
+var obj = {
+search: function search({
+search: search1
+}) {
+console.log(search1);
+}
+};
+
+function search({ search: search1 }) {
+console.log(search1);
+}
+
+"#
+);
+
+// function_name_modules_2
+test!(
+    ignore,
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+        common_js(Mark::fresh(Mark::root()), Default::default())
+    ),
+    function_name_modules_2,
+    r#"
+import last from "lodash/last"
+
+export default class Container {
+last(key) {
+if (!this.has(key)) {
+  return;
+}
+
+return last(this.tokens.get(key))
+}
+}
+
+"#,
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+value: true
+});
+exports.default = void 0;
+
+var _last2 = _interopRequireDefault(require("lodash/last"));
+
+let Container =
+/*#__PURE__*/
+function () {
+function Container() {
+_classCallCheck(this, Container);
+}
+
+_createClass(Container, [{
+key: "last",
+value: function last(key) {
+  if (!this.has(key)) {
+    return;
+  }
+
+  return (0, _last2.default)(this.tokens.get(key));
+}
+}]);
+return Container;
+}();
+
+exports.default = Container;
+
+"#
+);
+
+// function_name_await
+test!(
+    Default::default(),
+    |_| chain!(
+        resolver(),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+        classes(),
+        function_name(),
+    ),
+    function_name_await,
+    r#"
+export {};
+
+var obj = { await: function () {} };
+
+"#,
+    r#"
+export {};
+var obj = {
+await: function _await() {}
+};
+
 "#
 );

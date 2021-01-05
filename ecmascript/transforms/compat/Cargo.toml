@@ -1,0 +1,32 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "rust port of babel and closure compiler."
+documentation = "https://swc.rs/rustdoc/swc_ecma_transforms_compat/"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_ecma_transforms_compat"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.2.0"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+arrayvec = "0.5.2"
+fxhash = "0.2.1"
+indexmap = "1.6.1"
+is-macro = "0.1.8"
+num-bigint = "0.2"
+ordered-float = "2.0.1"
+serde = {version = "1.0.118", features = ["derive"]}
+smallvec = "1.6.0"
+swc_atoms = {version = "0.2.5", path = "../../../atoms"}
+swc_common = {version = "0.10.8", path = "../../../common"}
+swc_ecma_ast = {version = "0.36.2", path = "../../ast"}
+swc_ecma_transforms_base = {version = "0.1", path = "../base"}
+swc_ecma_transforms_macros = {version = "0.2.0", path = "../macros"}
+swc_ecma_utils = {version = "0.26.0", path = "../../utils"}
+swc_ecma_visit = {version = "0.22.0", path = "../../visit"}
+
+[dev-dependencies]
+swc_ecma_parser = {version = "0.44.1", path = "../../parser"}
+swc_ecma_transforms_testing = {version = "0.1", path = "../testing"}
+testing = {version = "0.10.2", path = "../../../testing"}

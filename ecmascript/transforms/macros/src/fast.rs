@@ -139,7 +139,7 @@ impl Expander {
                     arg
                 },
                 {
-                    if !crate::perf::should_work::<Checker, _>(&arg) {
+                    if !swc_ecma_transforms_base::perf::should_work::<Checker, _>(&arg) {
                         return arg;
                     }
                 }
@@ -151,7 +151,7 @@ impl Expander {
                     arg
                 },
                 {
-                    if !crate::perf::should_work::<Checker, _>(&*arg) {
+                    if !swc_ecma_transforms_base::perf::should_work::<Checker, _>(&*arg) {
                         return;
                     }
                 }

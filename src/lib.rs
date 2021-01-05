@@ -29,7 +29,6 @@ use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
-    util,
 };
 use swc_ecma_visit::FoldWith;
 
@@ -376,7 +375,7 @@ impl Compiler {
     {
         self.run(|| {
             helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                util::HANDLER.set(&self.handler, || op())
+                swc_ecma_utils::HANDLER.set(&self.handler, || op())
             })
         })
     }
@@ -470,7 +469,7 @@ impl Compiler {
             }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                util::HANDLER.set(&self.handler, || {
+                swc_ecma_utils::HANDLER.set(&self.handler, || {
                     // Fold module
                     program.fold_with(&mut pass)
                 })

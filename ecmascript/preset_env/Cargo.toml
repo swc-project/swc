@@ -5,7 +5,7 @@ documentation = "https://swc.rs/rustdoc/swc_ecma_preset_env/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_preset_env"
-version = "0.1.0"
+version = "0.2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -21,7 +21,8 @@ string_enum = {version = "0.3", path = "../../macros/string_enum"}
 swc_atoms = {version = "0.2", path = "../../atoms"}
 swc_common = {version = "0.10", path = "../../common"}
 swc_ecma_ast = {version = "0.36", path = "../ast"}
-swc_ecma_transforms = {version = "0.31", path = "../transforms"}
+swc_ecma_transforms = {version = "0.32.0", path = "../transforms"}
+swc_ecma_utils = {version = "0.26.0", path = "../utils"}
 swc_ecma_visit = {version = "0.22", path = "../visit"}
 walkdir = "2"
 
