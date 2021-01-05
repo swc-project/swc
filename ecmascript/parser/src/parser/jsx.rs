@@ -46,7 +46,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
         debug_assert!(self.input.syntax().jsx());
 
-        let start_pos = cur_pos!();
+        let start_pos = cur_pos!(self);
         let mut node = match self.parse_jsx_namespaced_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
@@ -72,7 +72,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_attr_value(&mut self) -> PResult<JSXAttrValue> {
         debug_assert!(self.input.syntax().jsx());
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         match *cur!(true)? {
             tok!('{') => {
@@ -106,7 +106,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// brace) and finish at the beginning of the next one (right brace).
     pub(super) fn parse_jsx_empty_expr(&mut self) -> PResult<JSXEmptyExpr> {
         debug_assert!(self.input.syntax().jsx());
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         Ok(JSXEmptyExpr {
             span: Span::new(start, start, SyntaxContext::empty()),
@@ -116,11 +116,11 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse JSX spread child
     pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<JSXSpreadChild> {
         debug_assert!(self.input.syntax().jsx());
-        let start = cur_pos!();
-        expect!('{');
-        expect!("...");
+        let start = cur_pos!(self);
+        expect!(self, '{');
+        expect!(self, "...");
         let expr = self.parse_expr()?;
-        expect!('}');
+        expect!(self, '}');
 
         Ok(JSXSpreadChild {
             span: span!(start),
@@ -132,14 +132,14 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_expr_container(&mut self, start: BytePos) -> PResult<JSXExprContainer> {
         debug_assert!(self.input.syntax().jsx());
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         bump!();
         let expr = if is!('}') {
             self.parse_jsx_empty_expr().map(JSXExpr::JSXEmptyExpr)?
         } else {
             self.parse_expr().map(JSXExpr::Expr)?
         };
-        expect!('}');
+        expect!(self, '}');
         Ok(JSXExprContainer {
             span: span!(start),
             expr,
@@ -149,14 +149,14 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parses following JSX attribute name-value pair.
     pub(super) fn parse_jsx_attr(&mut self) -> PResult<JSXAttrOrSpread> {
         debug_assert!(self.input.syntax().jsx());
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         if eat!('{') {
-            let dot3_start = cur_pos!();
-            expect!("...");
+            let dot3_start = cur_pos!(self);
+            expect!(self, "...");
             let dot3_token = span!(dot3_start);
             let expr = self.parse_assignment_expr()?;
-            expect!('}');
+            expect!(self, '}');
             return Ok(SpreadElement { dot3_token, expr }.into());
         }
 
@@ -239,7 +239,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let name = self.parse_jsx_element_name()?;
-        expect!(JSXTagEnd);
+        expect!(self, JSXTagEnd);
         Ok(Either::Right(JSXClosingElement {
             span: span!(start),
             name,
@@ -257,7 +257,7 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         let _ = cur!(true);
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let forced_jsx_context = match bump!() {
             tok!('<') => true,
             Token::JSXTagStart => false,
@@ -282,7 +282,7 @@ impl<'a, I: Tokens> Parser<I> {
                 'contents: loop {
                     match *cur!(true)? {
                         Token::JSXTagStart => {
-                            let start = cur_pos!();
+                            let start = cur_pos!(self);
 
                             if peeked_is!('/') {
                                 bump!(); // JSXTagStart
@@ -303,7 +303,7 @@ impl<'a, I: Tokens> Parser<I> {
                             children.push(p.parse_jsx_text().map(JSXElementChild::from)?)
                         }
                         tok!('{') => {
-                            let start = cur_pos!();
+                            let start = cur_pos!(self);
                             if peeked_is!("...") {
                                 children
                                     .push(p.parse_jsx_spread_child().map(JSXElementChild::from)?);
@@ -379,7 +379,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         });
 
-        let start_pos = cur_pos!();
+        let start_pos = cur_pos!(self);
 
         self.parse_jsx_element_at(start_pos)
     }

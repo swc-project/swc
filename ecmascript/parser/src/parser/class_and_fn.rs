@@ -3,14 +3,12 @@ use crate::{error::SyntaxError, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
-use swc_ecma_parser_macros::parser;
 
-#[parser]
 /// Parser for function expression and function declaration.
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!();
-        expect!("async");
+        let start = cur_pos!(self);
+        expect!(self, "async");
         self.parse_fn(Some(start), vec![])
     }
 
@@ -20,8 +18,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
-        let start = cur_pos!();
-        expect!("async");
+        let start = cur_pos!(self);
+        expect!(self, "async");
         self.parse_fn(Some(start), decorators)
     }
 
@@ -33,8 +31,8 @@ impl<'a, I: Tokens> Parser<I> {
         &mut self,
         decorators: Vec<Decorator>,
     ) -> PResult<ExportDefaultDecl> {
-        let start = cur_pos!();
-        expect!("async");
+        let start = cur_pos!(self);
+        expect!(self, "async");
         self.parse_fn(Some(start), decorators)
     }
 
@@ -82,7 +80,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: MaybeOptionalIdentParser<T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
-            expect!("class");
+            expect!(self, "class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
             if let Some(span) = ident.invalid_class_name() {
@@ -160,9 +158,9 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            expect!('{');
+            expect!(self, '{');
             let body = p.parse_class_body()?;
-            expect!('}');
+            expect!(self, '}');
             let end = last_pos!();
             Ok(T::finish_class(
                 span!(start),
@@ -187,7 +185,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let mut decorators = vec![];
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         while is!('@') {
             decorators.push(self.parse_decorator()?);
@@ -212,13 +210,13 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_decorator(&mut self) -> PResult<Decorator> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!('@');
 
         let expr = if eat!('(') {
             let expr = self.parse_expr()?;
-            expect!(')');
+            expect!(self, ')');
             expr
         } else {
             let mut expr = self
@@ -298,7 +296,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_class_member(&mut self) -> PResult<ClassMember> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let decorators = self.parse_decorators(false)?;
         let declare = self.syntax().typescript() && eat!("declare");
         let accessibility = if self.input.syntax().typescript() {
@@ -355,7 +353,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let static_token = {
-            let start = cur_pos!();
+            let start = cur_pos!(self);
             if eat!("static") {
                 Some(span!(start))
             } else {
@@ -504,10 +502,10 @@ impl<'a, I: Tokens> Parser<I> {
 
             if is_constructor {
                 if self.syntax().typescript() && is!('<') {
-                    let start = cur_pos!();
+                    let start = cur_pos!(self);
                     if peeked_is!('>') {
                         assert_and_bump!('<');
-                        let start2 = cur_pos!();
+                        let start2 = cur_pos!(self);
                         assert_and_bump!('>');
 
                         self.emit_err(span!(start), SyntaxError::TS1098);
@@ -523,12 +521,12 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                expect!('(');
+                expect!(self, '(');
                 let params = self.parse_constructor_params()?;
-                expect!(')');
+                expect!(self, ')');
 
                 if self.syntax().typescript() && is!(':') {
-                    let start = cur_pos!();
+                    let start = cur_pos!(self);
                     let type_ann = self.parse_ts_type_ann(true, start)?;
 
                     self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
@@ -837,12 +835,12 @@ impl<'a, I: Tokens> Parser<I> {
         Self: MaybeOptionalIdentParser<T::Ident>,
         T::Ident: Spanned,
     {
-        let start = start_of_async.unwrap_or(cur_pos!());
+        let start = start_of_async.unwrap_or(cur_pos!(self));
         assert_and_bump!("function");
         let is_async = start_of_async.is_some();
 
         let is_generator = {
-            let start = cur_pos!();
+            let start = cur_pos!(self);
             if eat!('*') {
                 // if is_async {
                 //     syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
@@ -884,13 +882,13 @@ impl<'a, I: Tokens> Parser<I> {
                 is_async,
                 is_generator,
             )?;
-            // expect!('(');
+            // expect!(self, '(');
             // let params_ctx = Context {
             //     in_parameters: true,
             //     ..p.ctx()
             // };
             // let params = p.with_ctx(params_ctx).parse_formal_params()?;
-            // expect!(')');
+            // expect!(self, ')');
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
@@ -925,7 +923,7 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            expect!('(');
+            expect!(self, '(');
 
             let arg_ctx = Context {
                 in_parameters: true,
@@ -934,7 +932,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
             let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
 
-            expect!(')');
+            expect!(self, ')');
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(':') {

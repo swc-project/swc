@@ -220,11 +220,11 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// spec: 'UnaryExpression'
     pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
             if eat!("const") {
-                expect!('>');
+                expect!(self, '>');
                 let expr = self.parse_unary_expr()?;
                 return Ok(Box::new(Expr::TsConstAssertion(TsConstAssertion {
                     span: span!(start),
@@ -270,7 +270,7 @@ impl<'a, I: Tokens> Parser<I> {
                 tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
-            let arg_start = cur_pos!() - BytePos(1);
+            let arg_start = cur_pos!(self) - BytePos(1);
             let arg = match self.parse_unary_expr() {
                 Ok(expr) => expr,
                 Err(err) => {
@@ -330,7 +330,7 @@ impl<'a, I: Tokens> Parser<I> {
         if is_one_of!("++", "--") {
             self.check_assign_target(&expr, false);
 
-            let start = cur_pos!();
+            let start = cur_pos!(self);
             let op = if bump!() == tok!("++") {
                 op!("++")
             } else {
@@ -348,7 +348,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("await");
 

@@ -105,11 +105,11 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         self.state.potential_arrow_start = match *cur!(true)? {
-            Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
+            Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
             _ => None,
         };
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         // Try to parse conditional expression.
         let cond = self.parse_cond_expr()?;
@@ -175,7 +175,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_cond_expr);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let test = self.parse_bin_expr()?;
         return_if_arrow!(test);
@@ -187,7 +187,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ..self.ctx()
             };
             let cons = self.with_ctx(ctx).parse_assignment_expr()?;
-            expect!(':');
+            expect!(self, ':');
             let ctx = Context {
                 in_cond_expr: true,
                 ..self.ctx()
@@ -211,7 +211,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(parse_primary_expr);
 
         let _ = self.input.cur();
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let can_be_arrow = self
             .state
@@ -248,7 +248,7 @@ impl<'a, I: Tokens> Parser<I> {
                     if can_be_arrow && self.input.syntax().typescript() && peeked_is!('<') {
                         // try parsing `async<T>() => {}`
                         if let Some(res) = self.try_parse_ts(|p| {
-                            let start = cur_pos!();
+                            let start = cur_pos!(self);
                             assert_and_bump!("async");
                             p.try_parse_ts_generic_async_arrow_fn(start)
                         }) {
@@ -257,7 +257,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
 
                     if can_be_arrow && peeked_is!('(') {
-                        expect!("async");
+                        expect!(self, "async");
                         let async_span = self.input.prev_span();
                         return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
                     }
@@ -346,7 +346,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // async a => body
                 let arg = self.parse_binding_ident().map(Pat::from)?;
                 let params = vec![arg];
-                expect!("=>");
+                expect!(self, "=>");
                 let body = self.parse_fn_body(true, false)?;
 
                 return Ok(Box::new(Expr::Arrow(ArrowExpr {
@@ -388,14 +388,14 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_array_lit);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!('[');
         let mut elems = vec![];
 
         while !eof!() && !is!(']') {
             if is!(',') {
-                expect!(',');
+                expect!(self, ',');
                 elems.push(None);
                 continue;
             }
@@ -405,11 +405,11 @@ impl<'a, I: Tokens> Parser<I> {
                     .map(Some)?,
             );
             if is!(',') {
-                expect!(',');
+                expect!(self, ',');
             }
         }
 
-        expect!(']');
+        expect!(self, ']');
 
         let span = span!(start);
         Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
@@ -421,11 +421,11 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// `parseImportMetaProperty`
     pub(super) fn parse_import_meta_prop(&mut self, import: Ident) -> PResult<MetaPropExpr> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let meta = import;
 
-        expect!('.');
+        expect!(self, '.');
 
         let prop = if is!("meta") {
             self.parse_ident_name()?
@@ -440,11 +440,11 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(parse_member_expr_or_new_expr);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         if eat!("new") {
             let span_of_new = span!(start);
             if eat!('.') {
-                let start_of_target = cur_pos!();
+                let start_of_target = cur_pos!(self);
                 if eat!("target") {
                     let expr = Box::new(Expr::MetaProp(MetaPropExpr {
                         meta: Ident::new(js_word!("new"), span_of_new),
@@ -466,7 +466,7 @@ impl<'a, I: Tokens> Parser<I> {
                     let args = p.parse_ts_type_args()?;
                     if !is!('(') {
                         // This will fail
-                        expect!('(');
+                        expect!(self, '(');
                     }
                     Ok(Some(args))
                 })
@@ -522,8 +522,8 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(parse_args);
 
-        let start = cur_pos!();
-        expect!('(');
+        let start = cur_pos!(self);
+        expect!(self, '(');
 
         let mut first = true;
         let mut expr_or_spreads = vec![];
@@ -532,7 +532,7 @@ impl<'a, I: Tokens> Parser<I> {
             if first {
                 first = false;
             } else {
-                expect!(',');
+                expect!(self, ',');
                 // Handle trailing comma.
                 if is!(')') {
                     if is_dynamic_import {
@@ -546,7 +546,7 @@ impl<'a, I: Tokens> Parser<I> {
             expr_or_spreads.push(self.include_in_expr(true).parse_expr_or_spread()?);
         }
 
-        expect!(')');
+        expect!(self, ')');
         Ok(expr_or_spreads)
     }
 
@@ -555,7 +555,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(parse_expr_or_spread);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         if eat!("...") {
             let spread = Some(span!(start));
@@ -576,7 +576,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<Box<Expr>> {
         trace_cur!(parse_paren_expr_or_arrow_fn);
 
-        let expr_start = async_span.map(|x| x.lo()).unwrap_or(cur_pos!());
+        let expr_start = async_span.map(|x| x.lo()).unwrap_or(cur_pos!(self));
 
         // At this point, we can't know if it's parenthesized
         // expression or head of arrow function.
@@ -596,7 +596,7 @@ impl<'a, I: Tokens> Parser<I> {
             if let Some(expr) = self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
-                expect!("=>");
+                expect!(self, "=>");
 
                 let params = p
                     .parse_paren_items_as_params(items_ref.clone())?
@@ -637,7 +637,7 @@ impl<'a, I: Tokens> Parser<I> {
             if !can_be_arrow {
                 syntax_error!(span!(expr_start), SyntaxError::ArrowNotAllowed);
             }
-            expect!("=>");
+            expect!(self, "=>");
 
             let params = self
                 .parse_paren_items_as_params(paren_items)?
@@ -767,9 +767,9 @@ impl<'a, I: Tokens> Parser<I> {
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            expect!("${");
+            expect!(self, "${");
             exprs.push(self.include_in_expr(true).parse_expr()?);
-            expect!('}');
+            expect!(self, '}');
             let elem = self.parse_tpl_element(is_tagged)?;
             is_tail = elem.tail;
             quasis.push(elem);
@@ -790,7 +790,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let (exprs, quasis) = self.parse_tpl_elements(false)?;
 
-        expect!('`');
+        expect!(self, '`');
 
         let span = span!(tagged_tpl_start);
         Ok(TaggedTpl {
@@ -804,13 +804,13 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_tpl(&mut self) -> PResult<Tpl> {
         trace_cur!(parse_tpl);
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!('`');
 
         let (exprs, quasis) = self.parse_tpl_elements(false)?;
 
-        expect!('`');
+        expect!(self, '`');
 
         let span = span!(start);
         Ok(Tpl {
@@ -821,7 +821,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(true)? {
             Token::Template { .. } => match bump!() {
@@ -964,7 +964,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let question_dot_token =
             if self.input.syntax().optional_chaining() && is!('?') && peeked_is!('.') {
-                let start = cur_pos!();
+                let start = cur_pos!(self);
                 eat!('?');
                 Some(span!(start))
             } else {
@@ -991,7 +991,7 @@ impl<'a, I: Tokens> Parser<I> {
             || eat!('[')
         {
             let prop = self.include_in_expr(true).parse_expr()?;
-            expect!(']');
+            expect!(self, ']');
             let span = Span::new(obj.span().lo(), self.input.last_pos(), Default::default());
             debug_assert_eq!(obj.span().lo(), span.lo());
 
@@ -1064,7 +1064,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
     /// Parse call, dot, and `[]`-subscript expressions.
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         // parse jsx
         if self.input.syntax().jsx() {
@@ -1126,7 +1126,7 @@ impl<'a, I: Tokens> Parser<I> {
             // Because it's not left-recursive.
             if type_args.is_some() {
                 // This fails with `expected (`
-                expect!('(');
+                expect!(self, '(');
             }
             debug_assert_ne!(
                 cur!(false).ok(),
@@ -1156,7 +1156,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
         if type_args.is_some() {
             // This fails
-            expect!('(');
+            expect!(self, '(');
         }
 
         // This is parsed using production 'NewExpression', which contains
@@ -1172,7 +1172,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<PatOrExprOrSpread>> {
         trace_cur!(parse_args_or_pats);
 
-        expect!('(');
+        expect!(self, '(');
 
         let mut first = true;
         let mut items = vec![];
@@ -1184,28 +1184,28 @@ impl<'a, I: Tokens> Parser<I> {
             if first {
                 if is!("async") {
                     // https://github.com/swc-project/swc/issues/410
-                    self.state.potential_arrow_start = Some(cur_pos!());
+                    self.state.potential_arrow_start = Some(cur_pos!(self));
                     let expr = self.parse_assignment_expr()?;
-                    expect!(')');
+                    expect!(self, ')');
                     return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                         expr,
                         spread: None,
                     })]);
                 }
             } else {
-                expect!(',');
+                expect!(self, ',');
                 // Handle trailing comma.
                 if is!(')') {
                     break;
                 }
             }
 
-            let start = cur_pos!();
+            let start = cur_pos!(self);
             self.state.potential_arrow_start = Some(start);
             let modifier_start = start;
 
             let has_modifier = self.eat_any_ts_modifier()?;
-            let pat_start = cur_pos!();
+            let pat_start = cur_pos!(self);
 
             let mut arg = {
                 if self.input.syntax().typescript()
@@ -1256,7 +1256,7 @@ impl<'a, I: Tokens> Parser<I> {
                         ExprOrSpread { spread: None, .. } => true,
                         _ => false,
                     } {
-                        expect!('?');
+                        expect!(self, '?');
                         let test = arg.expr;
                         let ctx = Context {
                             in_cond_expr: true,
@@ -1264,7 +1264,7 @@ impl<'a, I: Tokens> Parser<I> {
                             ..self.ctx()
                         };
                         let cons = self.with_ctx(ctx).parse_assignment_expr()?;
-                        expect!(':');
+                        expect!(self, ':');
                         let ctx = Context {
                             in_cond_expr: true,
                             ..self.ctx()
@@ -1294,7 +1294,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             if optional || (self.input.syntax().typescript() && is!(':')) {
-                let start = cur_pos!();
+                let start = cur_pos!(self);
 
                 // TODO: `async(...args?: any[]) : any => {}`
                 //
@@ -1410,7 +1410,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .collect();
 
                 let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
-                expect!(')');
+                expect!(self, ')');
                 let span = span!(start);
 
                 return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
@@ -1433,7 +1433,7 @@ impl<'a, I: Tokens> Parser<I> {
             first = false;
         }
 
-        expect!(')');
+        expect!(self, ')');
         Ok(items)
     }
 }
@@ -1450,7 +1450,7 @@ pub(in crate::parser) enum PatOrExprOrSpread {
 #[parser]
 impl<'a, I: Tokens> Parser<I> {
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("yield");
         debug_assert!(self.ctx().in_generator);
@@ -1496,7 +1496,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// 12.2.5 Array Initializer
     pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let v = match *cur!(true)? {
             Word(Word::Null) => {

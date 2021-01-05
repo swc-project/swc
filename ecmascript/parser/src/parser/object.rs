@@ -12,7 +12,7 @@ impl<'a, I: Tokens> Parser<I> {
     where
         Self: ParseObject<T>,
     {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         assert_and_bump!('{');
 
         let mut props = vec![];
@@ -23,7 +23,7 @@ impl<'a, I: Tokens> Parser<I> {
             if first {
                 first = false;
             } else {
-                expect!(',');
+                expect!(self, ',');
                 if eat!('}') {
                     break;
                 }
@@ -44,7 +44,7 @@ impl<'a, I: Tokens> Parser<I> {
             ..ctx
         })
         .parse_with(|p| {
-            let start = cur_pos!();
+            let start = cur_pos!(self);
 
             let v = match *cur!(true)? {
                 Token::Str { .. } => match bump!() {
@@ -78,7 +78,7 @@ impl<'a, I: Tokens> Parser<I> {
                 },
                 tok!('[') => {
                     bump!();
-                    let inner_start = cur_pos!();
+                    let inner_start = cur_pos!(self);
 
                     let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
 
@@ -100,7 +100,7 @@ impl<'a, I: Tokens> Parser<I> {
                         );
                     }
 
-                    expect!(']');
+                    expect!(self, ']');
 
                     PropName::Computed(ComputedPropName {
                         span: span!(start),
@@ -127,7 +127,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
     /// spec: 'PropertyDefinition'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         // Parse as 'MethodDefinition'
 
         if eat!("...") {
@@ -410,7 +410,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
     /// Production 'BindingProperty'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         if eat!("...") {
             // spread elemnent

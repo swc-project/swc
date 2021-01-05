@@ -86,7 +86,7 @@ impl<I: Tokens> Parser<I> {
         };
         self.set_ctx(ctx);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let shebang = self.parse_shebang()?;
 
@@ -111,7 +111,7 @@ impl<I: Tokens> Parser<I> {
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Module {
@@ -127,7 +127,7 @@ impl<I: Tokens> Parser<I> {
     /// Note: This is not perfect yet. It means, some strict mode violations may
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
         let body: Vec<ModuleItem> = self.parse_block_body(true, true, None)?;
@@ -176,7 +176,7 @@ impl<I: Tokens> Parser<I> {
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Module {

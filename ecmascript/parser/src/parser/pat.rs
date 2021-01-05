@@ -48,7 +48,7 @@ impl<'a, I: Tokens> Parser<I> {
             // tok!('(') => {
             //     bump!();
             //     let pat = self.parse_binding_pat_or_ident()?;
-            //     expect!(')');
+            //     expect!(self, ')');
             //     Ok(pat)
             // }
             _ => unexpected!("yield, an identifier, [ or {"),
@@ -59,7 +59,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_binding_element(&mut self) -> PResult<Pat> {
         trace_cur!(parse_binding_element);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let left = self.parse_binding_pat_or_ident()?;
 
         if eat!('=') {
@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!('[');
 
@@ -99,7 +99,7 @@ impl<'a, I: Tokens> Parser<I> {
                 elems.extend(iter::repeat(None).take(cnt));
                 comma = 0;
             }
-            let start = cur_pos!();
+            let start = cur_pos!(self);
 
             if eat!("...") {
                 let dot3_token = span!(start);
@@ -119,7 +119,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        expect!(']');
+        expect!(self, ']');
         let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!('?');
 
         Ok(Pat::Array(ArrayPat {
@@ -151,11 +151,11 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// babel: `parseAssignableListItem`
     pub(super) fn parse_formal_param_pat(&mut self) -> PResult<Pat> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let has_modifier = self.eat_any_ts_modifier()?;
 
-        let pat_start = cur_pos!();
+        let pat_start = cur_pos!(self);
         let mut pat = self.parse_binding_element()?;
         let mut opt = false;
 
@@ -258,23 +258,23 @@ impl<'a, I: Tokens> Parser<I> {
             if first {
                 first = false;
             } else {
-                expect!(',');
+                expect!(self, ',');
                 // Handle trailing comma.
                 if is!(')') {
                     break;
                 }
             }
 
-            let param_start = cur_pos!();
+            let param_start = cur_pos!(self);
             let decorators = self.parse_decorators(false)?;
-            let pat_start = cur_pos!();
+            let pat_start = cur_pos!(self);
 
             if eat!("...") {
                 let dot3_token = span!(pat_start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
                 let type_ann = if self.input.syntax().typescript() && is!(':') {
-                    let cur_pos = cur_pos!();
+                    let cur_pos = cur_pos!(self);
                     Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
                 } else {
                     None
@@ -347,7 +347,7 @@ impl<'a, I: Tokens> Parser<I> {
                 first = false;
             } else {
                 if dot3_token.is_dummy() {
-                    expect!(',');
+                    expect!(self, ',');
                 } else {
                     // We are handling error.
 
@@ -360,14 +360,14 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            let param_start = cur_pos!();
+            let param_start = cur_pos!(self);
 
             if !dot3_token.is_dummy() {
                 self.emit_err(dot3_token, SyntaxError::TS1014);
             }
 
             let decorators = self.parse_decorators(false)?;
-            let pat_start = cur_pos!();
+            let pat_start = cur_pos!(self);
 
             let pat = if eat!("...") {
                 dot3_token = span!(pat_start);
@@ -387,7 +387,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 let type_ann = if self.input.syntax().typescript() && is!(':') {
-                    let cur_pos = cur_pos!();
+                    let cur_pos = cur_pos!(self);
                     let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
                     Some(ty)
                 } else {

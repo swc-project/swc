@@ -75,7 +75,7 @@ impl<'a, I: Tokens> Parser<I> {
         Type: IsDirective + From<Stmt>,
     {
         trace_cur!(parse_stmt_like);
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let decorators = self.parse_decorators(true)?;
 
         if is_one_of!("import", "export") {
@@ -129,7 +129,7 @@ impl<'a, I: Tokens> Parser<I> {
                     None
                 } else {
                     let i = self.parse_label_ident().map(Some)?;
-                    expect!(';');
+                    expect!(self, ';');
                     i
                 };
 
@@ -160,7 +160,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             tok!("debugger") => {
                 bump!();
-                expect!(';');
+                expect!(self, ';');
                 return Ok(Stmt::Debugger(DebuggerStmt { span: span!(start) }));
             }
 
@@ -375,11 +375,11 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_if_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("if");
 
-        expect!('(');
+        expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
         if !eat!(')') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
@@ -420,7 +420,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_return_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let stmt = self.parse_with(|p| {
             assert_and_bump!("return");
@@ -430,7 +430,7 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 p.include_in_expr(true).parse_expr().map(Some)?
             };
-            expect!(';');
+            expect!(self, ';');
             Ok(Stmt::Return(ReturnStmt {
                 span: span!(start),
                 arg,
@@ -446,18 +446,18 @@ impl<'a, I: Tokens> Parser<I> {
 
     #[allow(clippy::cognitive_complexity)]
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
-        let switch_start = cur_pos!();
+        let switch_start = cur_pos!(self);
 
         assert_and_bump!("switch");
 
-        expect!('(');
+        expect!(self, '(');
         let discriminant = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
 
         let mut cases = vec![];
         let mut span_of_previous_default = None;
 
-        expect!('{');
+        expect!(self, '{');
         let ctx = Context {
             is_break_allowed: true,
             ..self.ctx()
@@ -467,7 +467,7 @@ impl<'a, I: Tokens> Parser<I> {
             while is_one_of!("case", "default") {
                 let mut cons = vec![];
                 let is_case = is!("case");
-                let case_start = cur_pos!();
+                let case_start = cur_pos!(self);
                 bump!();
                 let ctx = Context {
                     in_case_cond: true,
@@ -486,7 +486,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                     None
                 };
-                expect!(':');
+                expect!(self, ':');
 
                 while !eof!() && !is_one_of!("case", "default", '}') {
                     cons.push(p.parse_stmt_list_item(false)?);
@@ -503,7 +503,7 @@ impl<'a, I: Tokens> Parser<I> {
         })?;
 
         // eof or rbrace
-        expect!('}');
+        expect!(self, '}');
 
         Ok(Stmt::Switch(SwitchStmt {
             span: span!(switch_start),
@@ -513,7 +513,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("throw");
 
@@ -523,19 +523,19 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let arg = self.include_in_expr(true).parse_expr()?;
-        expect!(';');
+        expect!(self, ';');
 
         let span = span!(start);
         Ok(Stmt::Throw(ThrowStmt { span, arg }))
     }
 
     fn parse_try_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         assert_and_bump!("try");
 
         let block = self.parse_block(false)?;
 
-        let catch_start = cur_pos!();
+        let catch_start = cur_pos!(self);
         let handler = self.parse_catch_clause()?;
         let finalizer = self.parse_finally_block()?;
 
@@ -553,7 +553,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         Ok(if eat!("catch") {
             let param = self.parse_catch_param()?;
@@ -583,7 +583,7 @@ impl<'a, I: Tokens> Parser<I> {
         if eat!('(') {
             let mut pat = self.parse_binding_pat_or_ident()?;
 
-            let type_ann_start = cur_pos!();
+            let type_ann_start = cur_pos!(self);
 
             if self.syntax().typescript() && eat!(':') {
                 let ctx = Context {
@@ -609,7 +609,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Pat::Expr(_) => {}
                 }
             }
-            expect!(')');
+            expect!(self, ')');
             Ok(Some(pat))
         } else {
             Ok(None)
@@ -617,7 +617,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<VarDecl> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let kind = match bump!() {
             tok!("const") => VarDeclKind::Const,
             tok!("let") => VarDeclKind::Let,
@@ -636,7 +636,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
 
                     p.parse_assignment_expr()?;
-                    expect!(')');
+                    expect!(self, ')');
 
                     Ok(true)
                 })
@@ -717,7 +717,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_var_declarator(&mut self, for_loop: bool) -> PResult<VarDeclarator> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let mut name = self.parse_binding_pat_or_ident()?;
 
@@ -789,7 +789,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     #[allow(clippy::cognitive_complexity)]
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("do");
 
@@ -799,10 +799,10 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
-        expect!("while");
-        expect!('(');
+        expect!(self, "while");
+        expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
         // We *may* eat semicolon.
         let _ = eat!(';');
 
@@ -812,13 +812,13 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_while_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("while");
 
-        expect!('(');
+        expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
 
         let ctx = Context {
             is_break_allowed: true,
@@ -842,13 +842,13 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_strict_mode_err(span, SyntaxError::WithInStrict);
         }
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("with");
 
-        expect!('(');
+        expect!(self, '(');
         let obj = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        expect!(self, ')');
 
         let ctx = Context {
             in_function: true,
@@ -861,9 +861,9 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
-        expect!('{');
+        expect!(self, '{');
 
         let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
 
@@ -922,18 +922,18 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         assert_and_bump!("for");
-        let await_start = cur_pos!();
+        let await_start = cur_pos!(self);
         let await_token = if eat!("await") {
             Some(span!(await_start))
         } else {
             None
         };
-        expect!('(');
+        expect!(self, '(');
         let head = self.parse_for_head()?;
-        expect!(')');
+        expect!(self, ')');
         let ctx = Context {
             is_break_allowed: true,
             is_continue_allowed: true,
@@ -979,7 +979,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_head(&mut self) -> PResult<ForHead> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let strict = self.ctx().strict;
 
         if is_one_of!("const", "var") || (is!("let") && peek!()?.follows_keyword_let(strict)) {
@@ -1135,7 +1135,7 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 #[parser]
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         if self.input.syntax().dynamic_import() && is!("import") {
             let expr = self.parse_expr()?;
 

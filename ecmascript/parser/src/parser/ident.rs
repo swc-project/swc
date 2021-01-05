@@ -8,7 +8,7 @@ use swc_ecma_parser_macros::parser;
 #[parser]
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         let is_private = is!('#');
 
         if is_private {
@@ -19,7 +19,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_private_name(&mut self) -> PResult<PrivateName> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
         assert_and_bump!('#');
 
         let hash_end = self.input.prev_span().hi;
@@ -51,7 +51,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// Use this when spec says "IdentifierName".
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let w = match cur!(true) {
             Ok(&Word(..)) => match bump!() {
@@ -70,7 +70,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
         trace_cur!(parse_ident);
 
-        let start = cur_pos!();
+        let start = cur_pos!(self);
 
         let word = self.parse_with(|p| {
             let w = match cur!(true) {
