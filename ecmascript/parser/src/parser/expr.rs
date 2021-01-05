@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }) => {
                         *type_params = Some(type_parameters);
                     }
-                    _ => unexpected!("("),
+                    _ => unexpected!(self, "("),
                 }
                 Ok(Some(arrow))
             });
@@ -384,7 +384,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        unexpected!(
+        unexpected!(self, 
             "this, import, async, function, [ for array literal, { for object literal, @ for \
              decorator, function, class, null, true, false, number, bigint, string, regexp, ` for \
              template literal, (, or an identifier"
@@ -436,7 +436,7 @@ impl<'a, I: Tokens> Parser<I> {
         let prop = if is!(self, "meta") {
             self.parse_ident_name()?
         } else {
-            unexpected!("meta");
+            unexpected!(self, "meta");
         };
 
         Ok(MetaPropExpr { meta, prop })
@@ -460,7 +460,7 @@ impl<'a, I: Tokens> Parser<I> {
                     return self.parse_subscripts(ExprOrSuper::Expr(expr), true);
                 }
 
-                unexpected!("target")
+                unexpected!(self, "target")
             }
 
             // 'NewExpression' allows new call without paren.
@@ -866,7 +866,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ),
                 _ => unreachable!(),
             },
-            _ => unexpected!("template token"),
+            _ => unexpected!(self, "template token"),
         };
         let tail = is!(self, '`');
         Ok(TplElement {
@@ -967,9 +967,9 @@ impl<'a, I: Tokens> Parser<I> {
                         .map(Some)
                     } else {
                         if no_call {
-                            unexpected!("`")
+                            unexpected!(self, "`")
                         } else {
-                            unexpected!("( or `")
+                            unexpected!(self, "( or `")
                         }
                     }
                 });

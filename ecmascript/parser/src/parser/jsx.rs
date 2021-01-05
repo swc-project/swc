@@ -21,7 +21,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => unreachable!(),
             },
             _ if ctx.in_forced_jsx_context => self.parse_ident_ref(),
-            _ => unexpected!("jsx identifier"),
+            _ => unexpected!(self, "jsx identifier"),
         }
     }
 
@@ -218,7 +218,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
         let self_closing = eat!(self, '/');
         if !eat!(self, JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!(self, '>')) {
-            unexpected!("> (jsx closing tag)");
+            unexpected!(self, "> (jsx closing tag)");
         }
         Ok(JSXOpeningElement {
             span: span!(self, start),
@@ -318,7 +318,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 );
                             }
                         }
-                        _ => unexpected!("< (jsx tag start), jsx text or {"),
+                        _ => unexpected!(self, "< (jsx tag start), jsx text or {"),
                     }
                 }
             }

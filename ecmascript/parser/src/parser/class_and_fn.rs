@@ -723,7 +723,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => {}
         }
 
-        unexpected!("* for generator, private key, identifier or async")
+        unexpected!(self, "* for generator, private key, identifier or async")
     }
 
     fn make_property(

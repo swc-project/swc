@@ -137,7 +137,7 @@ impl<'a, I: Tokens> Parser<I> {
                     },
                     _ => unreachable!(),
                 },
-                _ => unexpected!("a string literal"),
+                _ => unexpected!(self, "a string literal"),
             };
             src
         };
@@ -194,7 +194,7 @@ impl<'a, I: Tokens> Parser<I> {
                     imported: None,
                 }))
             }
-            _ => unexpected!("an identifier"),
+            _ => unexpected!(self, "an identifier"),
         }
     }
 
@@ -566,7 +566,7 @@ impl<'a, I: Tokens> Parser<I> {
                 },
                 _ => unreachable!(),
             },
-            _ => unexpected!("a string literal"),
+            _ => unexpected!(self, "a string literal"),
         };
         expect!(self, ';');
         Ok(src)
