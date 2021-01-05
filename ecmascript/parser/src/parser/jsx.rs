@@ -325,11 +325,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             Ok(match (opening_element, closing_element) {
                 (Either::Left(opening), Some(Either::Right(closing))) => {
-                    syntax_error!(
-                        p,
-                        closing.span(),
-                        SyntaxError::JSXExpectedClosingTagForLtGt
-                    );
+                    syntax_error!(p, closing.span(), SyntaxError::JSXExpectedClosingTagForLtGt);
                 }
                 (Either::Right(opening), Some(Either::Left(closing))) => {
                     syntax_error!(
