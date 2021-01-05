@@ -90,7 +90,7 @@ macro_rules! peeked_is {
 /// Returns true on eof.
 macro_rules! eof {
     ($p:expr) => {
-        cur!(self, $p, false).is_err()
+        cur!($p, false).is_err()
     };
 }
 
@@ -114,7 +114,7 @@ macro_rules! assert_and_bump {
                 $p.input.cur()
             );
         }
-        let _ = cur!(self, $p, true)?;
+        let _ = cur!($p, true)?;
         bump!($p);
     }};
 }
