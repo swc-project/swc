@@ -504,7 +504,7 @@ impl<'a, I: Tokens> Parser<I> {
             if is_constructor {
                 if self.syntax().typescript() && is!(self, '<') {
                     let start = cur_pos!(self);
-                    if peeked_is!(self, self, '>') {
+                    if peeked_is!(self, '>') {
                         assert_and_bump!(self, '<');
                         let start2 = cur_pos!(self);
                         assert_and_bump!(self, '>');

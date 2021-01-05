@@ -110,8 +110,7 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
 
-        if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, self, "enum")
-        {
+        if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, "enum") {
             assert_and_bump!(self, "const");
             assert_and_bump!(self, "enum");
             return self
@@ -285,7 +284,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // Handle async function foo() {}
         if is!(self, "async")
-            && peeked_is!(self, self, "function")
+            && peeked_is!(self, "function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             return self.parse_async_fn_decl(decorators).map(From::from);
@@ -1158,7 +1157,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
             .into());
         }
 
-        if self.input.syntax().import_meta() && is!(self, "import") && peeked_is!(self, self, '.') {
+        if self.input.syntax().import_meta() && is!(self, "import") && peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
