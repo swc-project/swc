@@ -9,7 +9,12 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.31.2"
 
 [features]
-# TODO
+compat = ["swc_ecma_transforms_compat"]
+module = ["swc_ecma_transforms_module"]
+optimization = ["swc_ecma_transforms_optimization"]
+proposal = ["swc_ecma_transforms_proposal"]
+react = ["swc_ecma_transforms_react"]
+typescript = ["swc_ecma_transforms_typescript"]
 
 [dependencies]
 swc_atoms = {version = "0.2.0", path = "../../atoms"}
@@ -17,13 +22,12 @@ swc_common = {version = "0.10.0", path = "../../common"}
 swc_ecma_ast = {version = "0.36.0", path = "../ast"}
 swc_ecma_parser = {version = "0.44.0", path = "../parser"}
 swc_ecma_transforms_base = {version = "0.1.0", path = "./base"}
-swc_ecma_transforms_compat = {version = "0.1.0", path = "./compat"}
-swc_ecma_transforms_macros = {version = "0.1.1", path = "./macros"}
-swc_ecma_transforms_module = {version = "0.1", path = "./module"}
-swc_ecma_transforms_optimization = {version = "0.1.0", path = "./optimization"}
-swc_ecma_transforms_proposal = {version = "0.1.0", path = "./proposal"}
-swc_ecma_transforms_react = {version = "0.1.0", path = "./react"}
-swc_ecma_transforms_typescript = {version = "0.1.0", path = "./typescript"}
+swc_ecma_transforms_compat = {version = "0.1.0", path = "./compat", optional = true}
+swc_ecma_transforms_module = {version = "0.1", path = "./module", optional = true}
+swc_ecma_transforms_optimization = {version = "0.1.0", path = "./optimization", optional = true}
+swc_ecma_transforms_proposal = {version = "0.1.0", path = "./proposal", optional = true}
+swc_ecma_transforms_react = {version = "0.1.0", path = "./react", optional = true}
+swc_ecma_transforms_typescript = {version = "0.1.0", path = "./typescript", optional = true}
 swc_ecma_utils = {version = "0.26.0", path = "../utils"}
 swc_ecma_visit = {version = "0.22.0", path = "../visit"}
 unicode-xid = "0.2"
