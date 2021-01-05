@@ -31,4 +31,4 @@ swc_ecma_transforms_module = {version = "0.1", path = "../module"}
 swc_ecma_transforms_proposal = {version = "0.1", path = "../proposal"}
 swc_ecma_transforms_react = {version = "0.1", path = "../react"}
 swc_ecma_transforms_testing = {version = "0.1", path = "../testing"}
-swc_ecma_transforms_typescript = {path = "../typescript"}
+swc_ecma_transforms_typescript = {version = "0.1", path = "../typescript"}
