@@ -1,19 +1,15 @@
-const m = "test";
-if (!m) {
-    throw new Error('b');
-}
 export class Comparator {
     constructor(comp1, optionsOrLoose = {
     }){
     }
     parse(comp) {
-        const m1 = "another";
-        if (!m1) {
+        const m = "another";
+        if (!m) {
             throw new TypeError("Invalid comparator: " + comp);
         }
-        const m11 = m1[1];
-        console.log(m11);
-        if (!m1[2]) {
+        const m1 = m[1];
+        console.log(m1);
+        if (!m[2]) {
             console.log('other');
         }
     }
