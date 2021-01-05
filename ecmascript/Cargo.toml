@@ -19,7 +19,7 @@ visit = ["swc_ecma_visit"]
 compat = ["swc_ecma_transforms/compat"]
 module = ["swc_ecma_transforms/module"]
 optimization = ["swc_ecma_transforms/optimization"]
-proposal = ["swc_ecma_transformsproposal"]
+proposal = ["swc_ecma_transforms/proposal"]
 react = ["swc_ecma_transforms/react"]
 typescript = ["swc_ecma_transforms/typescript"]
 
