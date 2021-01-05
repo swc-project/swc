@@ -35,7 +35,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let pos = {
-            let modifier = match *cur!(true)? {
+            let modifier = match *cur!(self, true)? {
                 Token::Word(Word::Ident(ref w)) => w,
                 _ => return Ok(None),
             };
@@ -135,7 +135,7 @@ impl<I: Tokens> Parser<I> {
                 // }
                 ParsingContext::EnumMembers => {
                     const TOKEN: &Token = &Token::Comma;
-                    let cur = format!("{:?}", cur!(false).ok());
+                    let cur = format!("{:?}", cur!(self, false).ok());
                     self.emit_err(self.input.cur_span(), SyntaxError::Expected(TOKEN, cur));
                     continue;
                 }
@@ -404,7 +404,7 @@ impl<I: Tokens> Parser<I> {
         self.in_type().parse_with(|p| {
             let return_token_start = cur_pos!(self);
             if !p.input.eat(return_token) {
-                let cur = format!("{:?}", cur!(false).ok());
+                let cur = format!("{:?}", cur!(self, false).ok());
                 let span = p.input.cur_span();
                 syntax_error!(self, span, SyntaxError::Expected(return_token, cur))
             }
@@ -413,7 +413,7 @@ impl<I: Tokens> Parser<I> {
             let has_type_pred_asserts = is!(self, "asserts") && peeked_is!(self, IdentRef);
             if has_type_pred_asserts {
                 assert_and_bump!(self, "asserts");
-                cur!(false)?;
+                cur!(self, false)?;
             }
 
             let has_type_pred_is = is!(self, IdentRef)
@@ -543,7 +543,7 @@ impl<I: Tokens> Parser<I> {
 
         self.in_type().parse_with(|p| {
             if !p.input.eat(token) {
-                let got = format!("{:?}", cur!(false).ok());
+                let got = format!("{:?}", cur!(self, false).ok());
                 syntax_error!(
                     self,
                     p.input.cur_span(),
@@ -576,7 +576,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         // Computed property names are grammar errors in an enum, so accept just string
         // literal or identifier.
-        let id = match *cur!(true)? {
+        let id = match *cur!(self, true)? {
             Token::Str { .. } => self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
@@ -716,7 +716,7 @@ impl<I: Tokens> Parser<I> {
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id))
-        } else if match *cur!(true)? {
+        } else if match *cur!(self, true)? {
             Token::Str { .. } => true,
             _ => false,
         } {
@@ -995,7 +995,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         expect!(self, "require");
         expect!(self, '(');
-        match *cur!(true)? {
+        match *cur!(self, true)? {
             Token::Str { .. } => {}
             _ => unexpected!(self, "a string literal"),
         }
@@ -1221,7 +1221,7 @@ impl<I: Tokens> Parser<I> {
             };
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
-                let key = match *cur!(true)? {
+                let key = match *cur!(self, true)? {
                     Token::Num(..) | Token::Str { .. } => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
                         Either::Left(e) => {
@@ -1745,7 +1745,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        match *cur!(true)? {
+        match *cur!(self, true)? {
             Token::Word(Word::Ident(..))
             | tok!("void")
             | tok!("yield")
@@ -1820,7 +1820,7 @@ impl<I: Tokens> Parser<I> {
             tok!('-') => {
                 let start = cur_pos!(self);
                 bump!();
-                if match *cur!(true)? {
+                if match *cur!(self, true)? {
                     Token::Num(..) => false,
                     _ => true,
                 } {
@@ -2119,7 +2119,7 @@ impl<I: Tokens> Parser<I> {
 
             if is!(self, "const") && peeked_is!(self, "enum") {
                 assert_and_bump!(self, "const");
-                let _ = cur!(true);
+                let _ = cur!(self, true);
                 assert_and_bump!(self, "enum");
 
                 return p
@@ -2157,7 +2157,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if is!(self, IdentName) {
-                let value = match *cur!(true)? {
+                let value = match *cur!(self, true)? {
                     Token::Word(ref w) => w.clone().into(),
                     _ => unreachable!(),
                 };
@@ -2253,7 +2253,7 @@ impl<I: Tokens> Parser<I> {
                     bump!();
                 }
 
-                if match *cur!(true)? {
+                if match *cur!(self, true)? {
                     Token::Str { .. } => true,
                     _ => false,
                 } {

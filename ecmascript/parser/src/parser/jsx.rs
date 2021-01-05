@@ -11,7 +11,7 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         let ctx = self.ctx();
-        match *cur!(true)? {
+        match *cur!(self, true)? {
             Token::JSXName { .. } => match bump!() {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
@@ -73,7 +73,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        match *cur!(true)? {
+        match *cur!(self, true)? {
             tok!('{') => {
                 let node = self.parse_jsx_expr_container(start)?;
 
@@ -207,7 +207,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         let mut attrs = vec![];
-        while let Ok(..) = cur!(false) {
+        while let Ok(..) = cur!(self, false) {
             if is!(self, '/') || is!(self, JSXTagEnd) {
                 break;
             }
@@ -259,7 +259,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
 
-        let _ = cur!(true);
+        let _ = cur!(self, true);
         let start = cur_pos!(self);
         let forced_jsx_context = match bump!() {
             tok!('<') => true,
@@ -283,13 +283,13 @@ impl<'a, I: Tokens> Parser<I> {
 
             if !self_closing {
                 'contents: loop {
-                    match *cur!(true)? {
+                    match *cur!(self, true)? {
                         Token::JSXTagStart => {
                             let start = cur_pos!(self);
 
                             if peeked_is!(self, '/') {
                                 bump!(); // JSXTagStart
-                                let _ = cur!(true);
+                                let _ = cur!(self, true);
                                 assert_and_bump!(self, '/');
 
                                 closing_element =
@@ -382,7 +382,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_element(&mut self) -> PResult<Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
         debug_assert!({
-            match *cur!(true)? {
+            match *cur!(self, true)? {
                 Token::JSXTagStart | tok!('<') => true,
                 _ => false,
             }
@@ -396,7 +396,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_text(&mut self) -> PResult<JSXText> {
         debug_assert!(self.input.syntax().jsx());
         debug_assert!({
-            match cur!(false) {
+            match cur!(self, false) {
                 Ok(&Token::JSXText { .. }) => true,
                 _ => false,
             }

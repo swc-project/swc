@@ -11,7 +11,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let left = match self.parse_unary_expr() {
             Ok(v) => v,
-            Err(err) => match cur!(true)? {
+            Err(err) => match cur!(self, true)? {
                 &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
@@ -93,7 +93,7 @@ impl<'a, I: Tokens> Parser<I> {
             let expr = left;
             let node = if peeked_is!(self, "const") {
                 bump!(); // as
-                let _ = cur!(false);
+                let _ = cur!(self, false);
                 bump!(); // const
                 Box::new(Expr::TsConstAssertion(TsConstAssertion {
                     span: span!(self, start),
@@ -113,7 +113,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let ctx = self.ctx();
         // Return left on eof
-        let word = match cur!(false) {
+        let word = match cur!(self, false) {
             Ok(cur) => cur,
             Err(..) => return Ok((left, None)),
         };

@@ -18,7 +18,7 @@ macro_rules! unexpected {
 macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
-        match cur!($p, false) {
+        match cur!(self, $p, false) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.cow()),
             _ => false,
         }
@@ -26,14 +26,14 @@ macro_rules! is {
 
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
-        match cur!($p, false) {
+        match cur!(self, $p, false) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.cow()),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
-        match cur!($p, false) {
+        match cur!(self, $p, false) {
             Ok(&Word(..)) => true,
             _ => false,
         }
@@ -90,7 +90,7 @@ macro_rules! peeked_is {
 /// Returns true on eof.
 macro_rules! eof {
     ($p:expr) => {
-        cur!($p, false).is_err()
+        cur!(self, $p, false).is_err()
     };
 }
 
@@ -114,7 +114,7 @@ macro_rules! assert_and_bump {
                 $p.input.cur()
             );
         }
-        let _ = cur!($p, true)?;
+        let _ = cur!(self, $p, true)?;
         bump!($p);
     }};
 }
@@ -125,7 +125,7 @@ macro_rules! assert_and_bump {
 ///     if token has data like string.
 macro_rules! eat {
     ($p:expr, ';') => {{
-        log::trace!("eat(';'): cur={:?}", cur!($p, false));
+        log::trace!("eat(';'): cur={:?}", cur!(self, $p, false));
         match $p.input.cur() {
             Some(&Token::Semi) => {
                 $p.input.bump();
@@ -195,7 +195,7 @@ macro_rules! store {
     }};
 }
 
-/// cur!($parser, required:bool)
+/// cur!(self, $parser, required:bool)
 macro_rules! cur {
     ($p:expr, $required:expr) => {{
         let pos = $p.input.last_pos();
@@ -236,7 +236,7 @@ macro_rules! peek {
             $p.input.knows_cur(),
             "parser should not call peek() without knowing current token.
 Current token is {:?}",
-            cur!($p, false),
+            cur!(self, $p, false),
         );
 
         let pos = cur_pos!($p);
@@ -295,7 +295,7 @@ macro_rules! return_if_arrow {
 
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
-        // println!("{}: {:?}", stringify!($name), cur!($p, false));
+        // println!("{}: {:?}", stringify!($name), cur!(self, $p, false));
     }};
 }
 

@@ -103,7 +103,7 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_yield_expr();
         }
 
-        self.state.potential_arrow_start = match *cur!(true)? {
+        self.state.potential_arrow_start = match *cur!(self, true)? {
             Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
             _ => None,
         };
@@ -128,7 +128,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
         trace_cur!(self, finish_assignment_expr);
 
-        match cur!(false) {
+        match cur!(self, false) {
             Ok(&Token::AssignOp(op)) => {
                 let left = if op == AssignOpToken::Assign {
                     self.reparse_expr_as_pat(PatType::AssignPat, cond)
@@ -671,7 +671,7 @@ impl<'a, I: Tokens> Parser<I> {
                 type_params: None,
             };
             match arrow_expr.body {
-                BlockStmtOrExpr::BlockStmt(..) => match cur!(false) {
+                BlockStmtOrExpr::BlockStmt(..) => match cur!(self, false) {
                     Ok(&Token::BinOp(..)) => {
                         // ) is required
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
@@ -840,7 +840,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
         let start = cur_pos!(self);
 
-        let (raw, cooked) = match *cur!(true)? {
+        let (raw, cooked) = match *cur!(self, true)? {
             Token::Template { .. } => match bump!() {
                 Token::Template {
                     raw,
@@ -890,7 +890,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// returned bool is true if this method should be called again.
     #[allow(clippy::cognitive_complexity)]
     fn parse_subscript(&mut self, obj: ExprOrSuper, no_call: bool) -> PResult<(Box<Expr>, bool)> {
-        let _ = cur!(false);
+        let _ = cur!(self, false);
         let start = obj.span().lo();
 
         if self.input.syntax().typescript() {
@@ -1098,7 +1098,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Either::Right(r) => Box::new(Box::new(r).into()),
                 }
             }
-            match *cur!(true)? {
+            match *cur!(self, true)? {
                 Token::JSXText { .. } => {
                     return self
                         .parse_jsx_text()
@@ -1155,7 +1155,7 @@ impl<'a, I: Tokens> Parser<I> {
                 expect!(self, '(');
             }
             debug_assert_ne!(
-                cur!(false).ok(),
+                cur!(self, false).ok(),
                 Some(&tok!('(')),
                 "parse_new_expr() should eat paren if it exists"
             );
@@ -1250,7 +1250,7 @@ impl<'a, I: Tokens> Parser<I> {
                     } else {
                         let mut expr = self.parse_bin_expr()?;
 
-                        if let Ok(&Token::AssignOp(..)) = cur!(false) {
+                        if let Ok(&Token::AssignOp(..)) = cur!(self, false) {
                             expr = self.finish_assignment_expr(start, expr)?
                         }
 
@@ -1271,7 +1271,7 @@ impl<'a, I: Tokens> Parser<I> {
                         || peeked_is!(self, '=')
                     {
                         assert_and_bump!(self, '?');
-                        let _ = cur!(false);
+                        let _ = cur!(self, false);
                         if arg.spread.is_some() {
                             self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
                         }
@@ -1498,7 +1498,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if is!(self, ';')
-            || (!is!(self, '*') && !cur!(false).map(Token::starts_expr).unwrap_or(true))
+            || (!is!(self, '*') && !cur!(self, false).map(Token::starts_expr).unwrap_or(true))
         {
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(self, start),
@@ -1534,7 +1534,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!(self);
 
-        let v = match *cur!(true)? {
+        let v = match *cur!(self, true)? {
             Word(Word::Null) => {
                 bump!();
                 let span = span!(self, start);

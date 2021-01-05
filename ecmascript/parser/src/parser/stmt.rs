@@ -22,7 +22,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut stmts = vec![];
         while {
-            let c = cur!(false).ok();
+            let c = cur!(self, false).ok();
             c != end
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;
@@ -119,7 +119,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
-        match cur!(true)? {
+        match cur!(self, true)? {
             tok!("break") | tok!("continue") => {
                 let is_break = is!(self, "break");
                 bump!();
@@ -359,7 +359,7 @@ impl<'a, I: Tokens> Parser<I> {
                 expr,
             }))
         } else {
-            match *cur!(false)? {
+            match *cur!(self, false)? {
                 Token::BinOp(..) => {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let expr = self.parse_bin_op_recursively(expr, 0)?;

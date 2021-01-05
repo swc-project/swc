@@ -52,7 +52,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // Handle import 'mod.js'
         let str_start = cur_pos!(self);
-        if let Ok(&Token::Str { .. }) = cur!(false) {
+        if let Ok(&Token::Str { .. }) = cur!(self, false) {
             let src = match bump!() {
                 Token::Str { value, has_escape } => Str {
                     span: span!(self, str_start),
@@ -124,7 +124,7 @@ impl<'a, I: Tokens> Parser<I> {
         let src = {
             expect!(self, "from");
             let str_start = cur_pos!(self);
-            let src = match *cur!(true)? {
+            let src = match *cur!(self, true)? {
                 Token::Str { .. } => match bump!() {
                     Token::Str { value, has_escape } => Str {
                         value,
@@ -165,7 +165,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
         let start = cur_pos!(self);
-        match cur!(false) {
+        match cur!(self, false) {
             Ok(&Word(..)) => {
                 let orig_name = self.parse_ident_name()?;
 
@@ -224,7 +224,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
         assert_and_bump!(self, "export");
-        let _ = cur!(true);
+        let _ = cur!(self, true);
         let after_export_start = cur_pos!(self);
 
         // "export declare" is equivalent to just "export".
@@ -241,7 +241,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
-            let sym = match *cur!(true)? {
+            let sym = match *cur!(self, true)? {
                 Token::Word(ref w) => w.clone().into(),
                 _ => unreachable!(),
             };
@@ -306,7 +306,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if !self.input.syntax().export_namespace_from() {
                     syntax_error!(self, span!(self, start), SyntaxError::ExportNamespaceFrom)
                 }
-                let _ = cur!(false);
+                let _ = cur!(self, false);
 
                 let name = self.parse_ident_name()?;
                 export_ns = Some(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
@@ -324,7 +324,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if is!(self, "abstract") && peeked_is!(self, "class") {
                     let class_start = cur_pos!(self);
                     assert_and_bump!(self, "abstract");
-                    let _ = cur!(true);
+                    let _ = cur!(self, true);
 
                     let mut class = self.parse_default_class(start, class_start, decorators)?;
                     match class {
@@ -400,7 +400,7 @@ impl<'a, I: Tokens> Parser<I> {
         {
             let start = cur_pos!(self);
             assert_and_bump!(self, "const");
-            let _ = cur!(true);
+            let _ = cur!(self, true);
             assert_and_bump!(self, "enum");
             return self
                 .parse_ts_enum_decl(start, /* is_const */ true)
@@ -553,7 +553,7 @@ impl<'a, I: Tokens> Parser<I> {
         expect!(self, "from");
 
         let str_start = cur_pos!(self);
-        let src = match *cur!(true)? {
+        let src = match *cur!(self, true)? {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => Str {
                     value,

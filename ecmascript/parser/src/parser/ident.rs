@@ -56,7 +56,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
         let start = cur_pos!(self);
 
-        let w = match cur!(true) {
+        let w = match cur!(self, true) {
             Ok(&Word(..)) => match bump!() {
                 Word(w) => w,
                 _ => unreachable!(),
@@ -76,7 +76,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let word = self.parse_with(|p| {
-            let w = match cur!(true) {
+            let w = match cur!(self, true) {
                 Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),

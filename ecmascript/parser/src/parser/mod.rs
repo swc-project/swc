@@ -186,7 +186,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_shebang(&mut self) -> PResult<Option<JsWord>> {
-        match cur!(false) {
+        match cur!(self, false) {
             Ok(&Token::Shebang(..)) => match bump!() {
                 Token::Shebang(v) => Ok(Some(v)),
                 _ => unreachable!(),
