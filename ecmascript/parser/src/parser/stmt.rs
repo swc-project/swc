@@ -429,16 +429,16 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let stmt = self.parse_with(|p| {
-            assert_and_bump!(self, "return");
+            assert_and_bump!(p, "return");
 
-            let arg = if is!(self, ';') {
+            let arg = if is!(p, ';') {
                 None
             } else {
                 p.include_in_expr(true).parse_expr().map(Some)?
             };
-            expect!(self, ';');
+            expect!(p, ';');
             Ok(Stmt::Return(ReturnStmt {
-                span: span!(self, start),
+                span: span!(p, start),
                 arg,
             }))
         });

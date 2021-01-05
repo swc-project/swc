@@ -43,12 +43,12 @@ impl<'a, I: Tokens> Parser<I> {
             ..ctx
         })
         .parse_with(|p| {
-            let start = cur_pos!(self);
+            let start = cur_pos!(p);
 
-            let v = match *cur!(self, true)? {
-                Token::Str { .. } => match bump!(self) {
+            let v = match *cur!(p, true)? {
+                Token::Str { .. } => match bump!(p) {
                     Token::Str { value, has_escape } => PropName::Str(Str {
-                        span: span!(self, start),
+                        span: span!(p, start),
                         value,
                         has_escape,
                         kind: StrKind::Normal {
@@ -57,57 +57,57 @@ impl<'a, I: Tokens> Parser<I> {
                     }),
                     _ => unreachable!(),
                 },
-                Token::Num(_) => match bump!(self) {
+                Token::Num(_) => match bump!(p) {
                     Token::Num(value) => PropName::Num(Number {
-                        span: span!(self, start),
+                        span: span!(p, start),
                         value,
                     }),
                     _ => unreachable!(),
                 },
-                Token::BigInt(_) => match bump!(self) {
+                Token::BigInt(_) => match bump!(p) {
                     Token::BigInt(value) => PropName::BigInt(BigInt {
-                        span: span!(self, start),
+                        span: span!(p, start),
                         value,
                     }),
                     _ => unreachable!(),
                 },
-                Word(..) => match bump!(self) {
-                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(self, start))),
+                Word(..) => match bump!(p) {
+                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {
-                    bump!(self);
-                    let inner_start = cur_pos!(self);
+                    bump!(p);
+                    let inner_start = cur_pos!(p);
 
                     let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
 
-                    if p.syntax().typescript() && is!(self, ',') {
+                    if p.syntax().typescript() && is!(p, ',') {
                         let mut exprs = vec![expr];
 
-                        while eat!(self, ',') {
+                        while eat!(p, ',') {
                             exprs.push(p.include_in_expr(true).parse_assignment_expr()?);
                         }
 
-                        p.emit_err(span!(self, inner_start), SyntaxError::TS1171);
+                        p.emit_err(span!(p, inner_start), SyntaxError::TS1171);
 
                         expr = Box::new(
                             SeqExpr {
-                                span: span!(self, inner_start),
+                                span: span!(p, inner_start),
                                 exprs,
                             }
                             .into(),
                         );
                     }
 
-                    expect!(self, ']');
+                    expect!(p, ']');
 
                     PropName::Computed(ComputedPropName {
-                        span: span!(self, start),
+                        span: span!(p, start),
                         expr,
                     })
                 }
                 _ => unexpected!(
-                    self,
+                    p,
                     "identifier, string literal, numeric literal or [ for the computed key"
                 ),
             };
