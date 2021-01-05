@@ -76,7 +76,7 @@ macro_rules! peeked_is {
     }};
 
     ($p:expr, ';') => {{
-        compile_error!("peeked_is!(';') is invalid");
+        compile_error!("peeked_is!(self, ';') is invalid");
     }};
 
     ($p:expr, $t:tt) => {
@@ -98,7 +98,7 @@ macro_rules! is_one_of {
     ($p:expr, $($t:tt),+) => {{
         false
         $(
-            || is!($p, $t)
+            || is!(self, $p, $t)
         )*
     }};
 }
@@ -107,7 +107,7 @@ macro_rules! is_one_of {
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &tok!($t);
-        if cfg!(debug_assertions) && !is!($p, $t) {
+        if cfg!(debug_assertions) && !is!(self, $p, $t) {
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
                 TOKEN,
@@ -137,7 +137,7 @@ macro_rules! eat {
     }};
 
     ($p:expr, $t:tt) => {{
-        if is!($p, $t) {
+        if is!(self, $t) {
             bump!($p);
             true
         } else {

@@ -134,7 +134,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
         bump!();
-        let expr = if is!('}') {
+        let expr = if is!(self, '}') {
             self.parse_jsx_empty_expr().map(JSXExpr::JSXEmptyExpr)?
         } else {
             self.parse_expr().map(JSXExpr::Expr)?
@@ -199,7 +199,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<JSXOpeningElement> {
         debug_assert!(self.input.syntax().jsx());
 
-        let type_args = if self.input.syntax().typescript() && is!('<') {
+        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
         } else {
             None
@@ -207,7 +207,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut attrs = vec![];
         while let Ok(..) = cur!(false) {
-            if is!('/') || is!(JSXTagEnd) {
+            if is!(self, '/') || is!(self, JSXTagEnd) {
                 break;
             }
 
@@ -284,7 +284,7 @@ impl<'a, I: Tokens> Parser<I> {
                         Token::JSXTagStart => {
                             let start = cur_pos!(self);
 
-                            if peeked_is!('/') {
+                            if peeked_is!(self, '/') {
                                 bump!(); // JSXTagStart
                                 let _ = cur!(true);
                                 assert_and_bump!('/');
@@ -304,7 +304,7 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                         tok!('{') => {
                             let start = cur_pos!(self);
-                            if peeked_is!("...") {
+                            if peeked_is!(self, "...") {
                                 children
                                     .push(p.parse_jsx_spread_child().map(JSXElementChild::from)?);
                             } else {

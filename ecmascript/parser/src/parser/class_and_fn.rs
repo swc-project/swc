@@ -95,7 +95,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let (mut super_class, mut super_type_params) = if eat!(self, "extends") {
                 let super_class = p.parse_lhs_expr().map(Some)?;
-                let super_type_params = if p.input.syntax().typescript() && is!('<') {
+                let super_type_params = if p.input.syntax().typescript() && is!(self, '<') {
                     Some(p.parse_ts_type_args()?)
                 } else {
                     None
@@ -119,7 +119,7 @@ impl<'a, I: Tokens> Parser<I> {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1172);
 
                 p.parse_lhs_expr()?;
-                if p.input.syntax().typescript() && is!('<') {
+                if p.input.syntax().typescript() && is!(self, '<') {
                     p.parse_ts_type_args()?;
                 }
             };
@@ -144,7 +144,7 @@ impl<'a, I: Tokens> Parser<I> {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
 
                 let sc = p.parse_lhs_expr()?;
-                let type_params = if p.input.syntax().typescript() && is!('<') {
+                let type_params = if p.input.syntax().typescript() && is!(self, '<') {
                     p.parse_ts_type_args().map(Some)?
                 } else {
                     None
@@ -187,14 +187,14 @@ impl<'a, I: Tokens> Parser<I> {
         let mut decorators = vec![];
         let start = cur_pos!(self);
 
-        while is!('@') {
+        while is!(self, '@') {
             decorators.push(self.parse_decorator()?);
         }
         if decorators.is_empty() {
             return Ok(decorators);
         }
 
-        if is!("export") {
+        if is!(self, "export") {
             if !allow_export {
                 syntax_error!(self.input.cur_span(), SyntaxError::ExportNotAllowed);
             }
@@ -202,7 +202,7 @@ impl<'a, I: Tokens> Parser<I> {
             if !self.syntax().decorators_before_export() {
                 syntax_error!(span!(start), SyntaxError::DecoratorOnExport);
             }
-        } else if !is!("class") {
+        } else if !is!(self, "class") {
             // syntax_error!(span!(start), SyntaxError::InvalidLeadingDecorator)
         }
 
@@ -249,13 +249,13 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
-        let type_args = if self.input.syntax().typescript() && is!('<') {
+        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
             None
         };
 
-        if type_args.is_none() && !is!('(') {
+        if type_args.is_none() && !is!(self, '(') {
             return Ok(expr);
         }
 
@@ -270,7 +270,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
         let mut elems = vec![];
-        while !eof!() && !is!('}') {
+        while !eof!() && !is!(self, '}') {
             if eat_exact!(';') {
                 let span = self.input.prev_span();
                 elems.push(ClassMember::Empty(EmptyStmt {
@@ -501,9 +501,9 @@ impl<'a, I: Tokens> Parser<I> {
             let is_constructor = is_constructor(&key);
 
             if is_constructor {
-                if self.syntax().typescript() && is!('<') {
+                if self.syntax().typescript() && is!(self, '<') {
                     let start = cur_pos!(self);
-                    if peeked_is!('>') {
+                    if peeked_is!(self, '>') {
                         assert_and_bump!('<');
                         let start2 = cur_pos!(self);
                         assert_and_bump!('>');
@@ -525,7 +525,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let params = self.parse_constructor_params()?;
                 expect!(self, ')');
 
-                if self.syntax().typescript() && is!(':') {
+                if self.syntax().typescript() && is!(self, ':') {
                     let start = cur_pos!(self);
                     let type_ann = self.parse_ts_type_ann(true, start)?;
 
@@ -647,7 +647,7 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
-        let is_next_line_generator = self.input.had_line_break_before_cur() && is!('*');
+        let is_next_line_generator = self.input.had_line_break_before_cur() && is!(self, '*');
         let key_span = key.span();
 
         match key {
@@ -758,7 +758,7 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
-            let value = if is!('=') {
+            let value = if is!(self, '=') {
                 if !p.input.syntax().class_props() {
                     syntax_error!(span!(start), SyntaxError::ClassProperty);
                 }
@@ -818,7 +818,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn is_class_method(&mut self) -> PResult<bool> {
-        Ok(is!('(') || (self.input.syntax().typescript() && is!('<')))
+        Ok(is!(self, '(') || (self.input.syntax().typescript() && is!(self, '<')))
     }
 
     fn is_class_property(&mut self) -> PResult<bool> {
@@ -916,7 +916,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            let type_params = if p.syntax().typescript() && is!('<') {
+            let type_params = if p.syntax().typescript() && is!(self, '<') {
                 //
                 Some(p.parse_ts_type_params()?)
             } else {
@@ -935,7 +935,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, ')');
 
             // typescript extension
-            let return_type = if p.syntax().typescript() && is!(':') {
+            let return_type = if p.syntax().typescript() && is!(self, ':') {
                 p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                     .map(Some)?
             } else {
@@ -974,7 +974,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_class_prop_name(&mut self) -> PResult<Either<PrivateName, PropName>> {
-        if is!('#') {
+        if is!(self, '#') {
             self.parse_private_name().map(Either::Left)
         } else {
             self.parse_prop_name().map(Either::Right)
@@ -985,7 +985,7 @@ impl<'a, I: Tokens> Parser<I> {
     where
         Self: FnBodyParser<T>,
     {
-        if self.ctx().in_declare && self.syntax().typescript() && is!('{') {
+        if self.ctx().in_declare && self.syntax().typescript() && is!(self, '{') {
             //            self.emit_err(
             //                self.ctx().span_of_fn_name.expect("we are not in function"),
             //                SyntaxError::TS1183,
@@ -1199,7 +1199,7 @@ pub(super) trait FnBodyParser<Body> {
 #[parser]
 impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
     fn parse_fn_body_inner(&mut self) -> PResult<BlockStmtOrExpr> {
-        if is!('{') {
+        if is!(self, '{') {
             self.parse_block(false).map(BlockStmtOrExpr::BlockStmt)
         } else {
             self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
@@ -1211,7 +1211,7 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
 impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
     fn parse_fn_body_inner(&mut self) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
-        if self.input.syntax().typescript() && !is!('{') && eat!(self, ';') {
+        if self.input.syntax().typescript() && !is!(self, '{') && eat!(self, ';') {
             return Ok(None);
         }
         self.include_in_expr(true).parse_block(true).map(Some)

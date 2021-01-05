@@ -82,7 +82,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                     let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
 
-                    if p.syntax().typescript() && is!(',') {
+                    if p.syntax().typescript() && is!(self, ',') {
                         let mut exprs = vec![expr];
 
                         while eat!(self, ',') {
@@ -167,8 +167,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         if self.input.syntax().typescript()
             && !is_one_of!('(', '[', ':', ',', '?', '=', '*', IdentName)
-            && !(self.input.syntax().typescript() && is!('<'))
-            && !(is!('}')
+            && !(self.input.syntax().typescript() && is!(self, '<'))
+            && !(is!(self, '}')
                 && match key {
                     PropName::Ident(..) => true,
                     _ => false,
@@ -194,7 +194,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
-        if (self.input.syntax().typescript() && is!('<')) || is!('(') {
+        if (self.input.syntax().typescript() && is!(self, '<')) || is!(self, '(') {
             return self
                 .parse_fn_args_body(
                     // no decorator in an object literal

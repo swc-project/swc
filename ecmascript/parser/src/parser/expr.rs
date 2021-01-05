@@ -17,7 +17,7 @@ impl<'a, I: Tokens> Parser<I> {
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
 
-        if is!(',') {
+        if is!(self, ',') {
             let mut exprs = vec![expr];
             while eat!(self, ',') {
                 exprs.push(self.parse_assignment_expr()?);
@@ -40,7 +40,7 @@ impl<'a, I: Tokens> Parser<I> {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
 
-            if is!(JSXTagStart) {
+            if is!(self, JSXTagStart) {
                 let cur_context = self.input.token_context().current();
                 debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
                 // Only time j_oTag is pushed is right after j_expr.
@@ -69,7 +69,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.input.syntax().typescript()
             && (is_one_of!('<', JSXTagStart))
-            && peeked_is!(IdentName)
+            && peeked_is!(self, IdentName)
         {
             let res = self.try_parse_ts(|p| {
                 let type_parameters = p.parse_ts_type_params()?;
@@ -100,7 +100,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(parse_assignment_expr_base);
 
-        if self.ctx().in_generator && is!("yield") {
+        if self.ctx().in_generator && is!(self, "yield") {
             return self.parse_yield_expr();
         }
 
@@ -228,7 +228,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 tok!("import") => {
                     let import = self.parse_ident_name()?;
-                    if self.input.syntax().import_meta() && is!('.') {
+                    if self.input.syntax().import_meta() && is!(self, '.') {
                         return self
                             .parse_import_meta_prop(import)
                             .map(Expr::MetaProp)
@@ -239,13 +239,14 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 tok!("async") => {
-                    if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked()
+                    if peeked_is!(self, "function")
+                        && !self.input.has_linebreak_between_cur_and_peeked()
                     {
                         // handle `async function` expression
                         return self.parse_async_fn_expr();
                     }
 
-                    if can_be_arrow && self.input.syntax().typescript() && peeked_is!('<') {
+                    if can_be_arrow && self.input.syntax().typescript() && peeked_is!(self, '<') {
                         // try parsing `async<T>() => {}`
                         if let Some(res) = self.try_parse_ts(|p| {
                             let start = cur_pos!(self);
@@ -256,7 +257,7 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
 
-                    if can_be_arrow && peeked_is!('(') {
+                    if can_be_arrow && peeked_is!(self, '(') {
                         expect!(self, "async");
                         let async_span = self.input.prev_span();
                         return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
@@ -314,11 +315,14 @@ impl<'a, I: Tokens> Parser<I> {
 
         let decorators = self.parse_decorators(false)?;
 
-        if is!("class") {
+        if is!(self, "class") {
             return self.parse_class_expr(start, decorators);
         }
 
-        if is!("let") || (self.input.syntax().typescript() && is!(IdentName)) || is!(IdentRef) {
+        if is!(self, "let")
+            || (self.input.syntax().typescript() && is!(self, IdentName))
+            || is!(self, IdentRef)
+        {
             // TODO: Handle [Yield, Await]
             let id = self.parse_ident_name()?;
             match id.sym {
@@ -342,7 +346,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
+            if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
                 // async a => body
                 let arg = self.parse_binding_ident().map(Pat::from)?;
                 let params = vec![arg];
@@ -393,8 +397,8 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!('[');
         let mut elems = vec![];
 
-        while !eof!() && !is!(']') {
-            if is!(',') {
+        while !eof!() && !is!(self, ']') {
+            if is!(self, ',') {
                 expect!(self, ',');
                 elems.push(None);
                 continue;
@@ -404,7 +408,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
-            if is!(',') {
+            if is!(self, ',') {
                 expect!(self, ',');
             }
         }
@@ -427,7 +431,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, '.');
 
-        let prop = if is!("meta") {
+        let prop = if is!(self, "meta") {
             self.parse_ident_name()?
         } else {
             unexpected!("meta");
@@ -461,10 +465,10 @@ impl<'a, I: Tokens> Parser<I> {
             let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
             return_if_arrow!(callee);
 
-            let type_args = if self.input.syntax().typescript() && is!('<') {
+            let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
-                    if !is!('(') {
+                    if !is!(self, '(') {
                         // This will fail
                         expect!(self, '(');
                     }
@@ -474,7 +478,7 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            if !is_new_expr || is!('(') {
+            if !is_new_expr || is!(self, '(') {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args(false).map(Some)?;
 
@@ -528,13 +532,13 @@ impl<'a, I: Tokens> Parser<I> {
         let mut first = true;
         let mut expr_or_spreads = vec![];
 
-        while !eof!() && !is!(')') {
+        while !eof!() && !is!(self, ')') {
             if first {
                 first = false;
             } else {
                 expect!(self, ',');
                 // Handle trailing comma.
-                if is!(')') {
+                if is!(self, ')') {
                     if is_dynamic_import {
                         syntax_error!(span!(start), SyntaxError::TrailingCommaInsideImport)
                     }
@@ -590,7 +594,7 @@ impl<'a, I: Tokens> Parser<I> {
         });
 
         // This is slow path. We handle arrow in conditional expression.
-        if self.syntax().typescript() && self.ctx().in_cond_expr && is!(':') {
+        if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
@@ -621,7 +625,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let return_type = if !self.ctx().in_cond_expr
             && self.input.syntax().typescript()
-            && is!(':')
+            && is!(self, ':')
             && !self.ctx().in_case_cond
         {
             Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
@@ -630,7 +634,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         // we parse arrow function at here, to handle it efficiently.
-        if has_pattern || return_type.is_some() || is!("=>") {
+        if has_pattern || return_type.is_some() || is!(self, "=>") {
             if self.input.had_line_break_before_cur() {
                 syntax_error!(span!(expr_start), SyntaxError::LineBreakBeforeArrow);
             }
@@ -662,7 +666,7 @@ impl<'a, I: Tokens> Parser<I> {
                         let errored_expr =
                             self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
 
-                        if !is!(';') {
+                        if !is!(self, ';') {
                             // ; is required
                             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                         }
@@ -851,7 +855,7 @@ impl<'a, I: Tokens> Parser<I> {
             },
             _ => unexpected!("template token"),
         };
-        let tail = is!('`');
+        let tail = is!(self, '`');
         Ok(TplElement {
             span: span!(start),
             raw,
@@ -877,7 +881,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = obj.span().lo();
 
         if self.input.syntax().typescript() {
-            if !self.input.had_line_break_before_cur() && is!('!') {
+            if !self.input.had_line_break_before_cur() && is!(self, '!') {
                 self.input.set_expr_allowed(false);
                 assert_and_bump!('!');
 
@@ -900,7 +904,7 @@ impl<'a, I: Tokens> Parser<I> {
                     // super() cannot be generic
                     _ => false,
                 }
-            } && is!('<')
+            } && is!(self, '<')
             {
                 let obj_ref = &obj;
                 // tsTryParseAndCatch is expensive, so avoid if not necessary.
@@ -924,7 +928,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                     let type_args = p.parse_ts_type_args()?;
 
-                    if !no_call && is!('(') {
+                    if !no_call && is!(self, '(') {
                         // possibleAsync always false here, because we would have handled it
                         // above. (won't be any undefined arguments)
                         let args = p.parse_args(is_import(&obj))?;
@@ -938,7 +942,7 @@ impl<'a, I: Tokens> Parser<I> {
                             })),
                             true,
                         )))
-                    } else if is!('`') {
+                    } else if is!(self, '`') {
                         p.parse_tagged_tpl(
                             match *obj_ref {
                                 ExprOrSuper::Expr(ref obj) => obj.clone(),
@@ -963,7 +967,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let question_dot_token =
-            if self.input.syntax().optional_chaining() && is!('?') && peeked_is!('.') {
+            if self.input.syntax().optional_chaining() && is!(self, '?') && peeked_is!(self, '.') {
                 let start = cur_pos!(self);
                 eat!(self, '?');
                 Some(span!(start))
@@ -988,8 +992,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         // $obj[name()]
         if (question_dot_token.is_some()
-            && is!('.')
-            && peeked_is!('[')
+            && is!(self, '.')
+            && peeked_is!(self, '[')
             && eat!(self, '.')
             && eat!(self, '['))
             || eat!(self, '[')
@@ -1010,8 +1014,11 @@ impl<'a, I: Tokens> Parser<I> {
             ));
         }
 
-        if (question_dot_token.is_some() && is!('.') && peeked_is!('(') && eat!(self, '.'))
-            || (!no_call && (is!('(')))
+        if (question_dot_token.is_some()
+            && is!(self, '.')
+            && peeked_is!(self, '(')
+            && eat!(self, '.'))
+            || (!no_call && (is!(self, '(')))
         {
             let args = self.parse_args(is_import(&obj))?;
             return Ok((
@@ -1051,7 +1058,7 @@ impl<'a, I: Tokens> Parser<I> {
         match obj {
             ExprOrSuper::Expr(expr) => {
                 // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
-                if is!('`') {
+                if is!(self, '`') {
                     let tpl = self.parse_tagged_tpl(expr, None)?;
                     return Ok((Box::new(Expr::TaggedTpl(tpl)), true));
                 }
@@ -1092,7 +1099,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            if is!('<') && !peeked_is!('!') {
+            if is!(self, '<') && !peeked_is!(self, '!') {
                 // In case we encounter an lt token here it will always be the start of
                 // jsx as the lt sign is not allowed in places that expect an expression
 
@@ -1112,10 +1119,10 @@ impl<'a, I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(callee);
 
-        let type_args = if self.input.syntax().typescript() && is!('<') {
+        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts(|p| {
                 let type_args = p.parse_ts_type_args()?;
-                if is!('(') {
+                if is!(self, '(') {
                     Ok(Some(type_args))
                 } else {
                     Ok(None)
@@ -1142,7 +1149,7 @@ impl<'a, I: Tokens> Parser<I> {
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
 
-        if is!('(') {
+        if is!(self, '(') {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
             let callee = ExprOrSuper::Expr(callee);
@@ -1184,9 +1191,9 @@ impl<'a, I: Tokens> Parser<I> {
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
-        while !eof!() && !is!(')') {
+        while !eof!() && !is!(self, ')') {
             if first {
-                if is!("async") {
+                if is!(self, "async") {
                     // https://github.com/swc-project/swc/issues/410
                     self.state.potential_arrow_start = Some(cur_pos!(self));
                     let expr = self.parse_assignment_expr()?;
@@ -1199,7 +1206,7 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 expect!(self, ',');
                 // Handle trailing comma.
-                if is!(')') {
+                if is!(self, ')') {
                     break;
                 }
             }
@@ -1213,7 +1220,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let mut arg = {
                 if self.input.syntax().typescript()
-                    && (is!(IdentRef) || (is!("...") && peeked_is!(IdentRef)))
+                    && (is!(self, IdentRef) || (is!(self, "...") && peeked_is!(self, IdentRef)))
                 {
                     let spread = if eat!(self, "...") {
                         Some(self.input.prev_span())
@@ -1242,8 +1249,12 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             let optional = if self.input.syntax().typescript() {
-                if is!('?') {
-                    if peeked_is!(',') || peeked_is!(':') || peeked_is!(')') || peeked_is!('=') {
+                if is!(self, '?') {
+                    if peeked_is!(self, ',')
+                        || peeked_is!(self, ':')
+                        || peeked_is!(self, ')')
+                        || peeked_is!(self, '=')
+                    {
                         assert_and_bump!('?');
                         let _ = cur!(false);
                         if arg.spread.is_some() {
@@ -1297,7 +1308,7 @@ impl<'a, I: Tokens> Parser<I> {
                 false
             };
 
-            if optional || (self.input.syntax().typescript() && is!(':')) {
+            if optional || (self.input.syntax().typescript() && is!(self, ':')) {
                 let start = cur_pos!(self);
 
                 // TODO: `async(...args?: any[]) : any => {}`
@@ -1467,7 +1478,9 @@ impl<'a, I: Tokens> Parser<I> {
             syntax_error!(self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 
-        if is!(';') || (!is!('*') && !cur!(false).map(Token::starts_expr).unwrap_or(true)) {
+        if is!(self, ';')
+            || (!is!(self, '*') && !cur!(false).map(Token::starts_expr).unwrap_or(true))
+        {
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(start),
                 arg: None,
@@ -1509,7 +1522,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Lit::Null(Null { span })
             }
             Word(Word::True) | Word(Word::False) => {
-                let value = is!("true");
+                let value = is!(self, "true");
                 bump!();
                 let span = span!(start);
 

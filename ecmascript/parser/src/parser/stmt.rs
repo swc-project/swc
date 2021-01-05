@@ -36,7 +36,7 @@ impl<'a, I: Tokens> Parser<I> {
                     };
                     self.set_ctx(ctx);
 
-                    if self.input.knows_cur() && !is!(';') {
+                    if self.input.knows_cur() && !is!(self, ';') {
                         unreachable!(
                             "'use strict'; directive requires parser.input.cur to be empty or \
                              '}}', but current token was: {:?}",
@@ -97,7 +97,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<Stmt> {
         trace_cur!(parse_stmt_internal);
 
-        if top_level && is!("await") {
+        if top_level && is!(self, "await") {
             let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();
 
             if !valid {
@@ -111,7 +111,7 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
 
-        if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
+        if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, "enum") {
             assert_and_bump!("const");
             assert_and_bump!("enum");
             return self
@@ -122,7 +122,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         match cur!(true)? {
             tok!("break") | tok!("continue") => {
-                let is_break = is!("break");
+                let is_break = is!(self, "break");
                 bump!();
 
                 let label = if eat!(self, ';') {
@@ -280,8 +280,8 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // Handle async function foo() {}
-        if is!("async")
-            && peeked_is!("function")
+        if is!(self, "async")
+            && peeked_is!(self, "function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             return self.parse_async_fn_decl(decorators).map(From::from);
@@ -398,7 +398,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let cons = {
             // Annex B
-            if !self.ctx().strict && is!("function") {
+            if !self.ctx().strict && is!(self, "function") {
                 // TODO: report error?
             }
             self.parse_stmt(false).map(Box::new)?
@@ -425,7 +425,7 @@ impl<'a, I: Tokens> Parser<I> {
         let stmt = self.parse_with(|p| {
             assert_and_bump!("return");
 
-            let arg = if is!(';') {
+            let arg = if is!(self, ';') {
                 None
             } else {
                 p.include_in_expr(true).parse_expr().map(Some)?
@@ -466,7 +466,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             while is_one_of!("case", "default") {
                 let mut cons = vec![];
-                let is_case = is!("case");
+                let is_case = is!(self, "case");
                 let case_start = cur_pos!(self);
                 bump!();
                 let ctx = Context {
@@ -731,7 +731,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         // Typescript extension
-        if self.input.syntax().typescript() && is!(':') {
+        if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
                 Pat::Array(ArrayPat {
@@ -886,7 +886,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             p.state.labels.push(l.sym.clone());
 
-            let body = Box::new(if is!("function") {
+            let body = Box::new(if is!(self, "function") {
                 let f = p.parse_fn_decl(vec![])?;
                 match f {
                     Decl::Fn(FnDecl {
@@ -982,11 +982,12 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let strict = self.ctx().strict;
 
-        if is_one_of!("const", "var") || (is!("let") && peek!()?.follows_keyword_let(strict)) {
+        if is_one_of!("const", "var") || (is!(self, "let") && peek!()?.follows_keyword_let(strict))
+        {
             let decl = self.parse_var_stmt(true)?;
 
             if is_one_of!("of", "in") {
-                let is_in = is!("in");
+                let is_in = is!(self, "in");
 
                 if decl.decls.len() != 1 {
                     for d in decl.decls.iter().skip(1) {
@@ -1033,7 +1034,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // for (a of b)
         if is_one_of!("of", "in") {
-            let is_in = is!("in");
+            let is_in = is!(self, "in");
 
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
 
@@ -1075,7 +1076,7 @@ impl<'a, I: Tokens> Parser<I> {
             test
         };
 
-        let update = if is!(')') {
+        let update = if is!(self, ')') {
             None
         } else {
             self.include_in_expr(true).parse_expr().map(Some)?
@@ -1136,7 +1137,7 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
-        if self.input.syntax().dynamic_import() && is!("import") {
+        if self.input.syntax().dynamic_import() && is!(self, "import") {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -1148,7 +1149,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
             .into());
         }
 
-        if self.input.syntax().import_meta() && is!("import") && peeked_is!('.') {
+        if self.input.syntax().import_meta() && is!(self, "import") && peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');

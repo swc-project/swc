@@ -10,7 +10,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
         trace_cur!(parse_opt_binding_ident);
 
-        if is!(BindingIdent) || (self.input.syntax().typescript() && is!("this")) {
+        if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
             self.parse_binding_ident().map(Some)
         } else {
             Ok(None)
@@ -88,7 +88,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut elems = vec![];
         let mut comma = 0;
 
-        while !eof!() && !is!(']') {
+        while !eof!() && !is!(self, ']') {
             if eat!(self, ',') {
                 comma += 1;
                 continue;
@@ -139,7 +139,7 @@ impl<'a, I: Tokens> Parser<I> {
                 | Word(Word::Ident(js_word!("readonly"))) => true,
                 _ => false,
             }
-            && (peeked_is!(IdentName) || peeked_is!('{') || peeked_is!('['));
+            && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
         if has_modifier {
             let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"]);
         }
@@ -254,13 +254,13 @@ impl<'a, I: Tokens> Parser<I> {
         let mut first = true;
         let mut params = vec![];
 
-        while !eof!() && !is!(')') {
+        while !eof!() && !is!(self, ')') {
             if first {
                 first = false;
             } else {
                 expect!(self, ',');
                 // Handle trailing comma.
-                if is!(')') {
+                if is!(self, ')') {
                     break;
                 }
             }
@@ -273,7 +273,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let dot3_token = span!(pat_start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
-                let type_ann = if self.input.syntax().typescript() && is!(':') {
+                let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
                 } else {
@@ -342,7 +342,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut params = vec![];
         let mut dot3_token = Span::default();
 
-        while !eof!() && !is!(')') {
+        while !eof!() && !is!(self, ')') {
             if first {
                 first = false;
             } else {
@@ -355,7 +355,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 // Handle trailing comma.
-                if is!(')') {
+                if is!(self, ')') {
                     break;
                 }
             }
@@ -386,7 +386,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .into();
                 }
 
-                let type_ann = if self.input.syntax().typescript() && is!(':') {
+                let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
                     Some(ty)

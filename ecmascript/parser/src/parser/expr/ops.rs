@@ -88,11 +88,11 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript()
             && PREC_OF_IN > min_prec
             && !self.input.had_line_break_before_cur()
-            && is!("as")
+            && is!(self, "as")
         {
             let start = left.span().lo();
             let expr = left;
-            let node = if peeked_is!("const") {
+            let node = if peeked_is!(self, "const") {
                 bump!(); // as
                 let _ = cur!(false);
                 bump!(); // const
@@ -239,7 +239,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // Parse update expression
-        if is!("++") || is!("--") {
+        if is!(self, "++") || is!(self, "--") {
             let op = if bump!() == tok!("++") {
                 op!("++")
             } else {
@@ -314,7 +314,7 @@ impl<'a, I: Tokens> Parser<I> {
             })));
         }
 
-        if (self.ctx().in_async || self.syntax().top_level_await()) && is!("await") {
+        if (self.ctx().in_async || self.syntax().top_level_await()) && is!(self, "await") {
             return self.parse_await_expr();
         }
 
@@ -352,7 +352,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         assert_and_bump!("await");
 
-        if is!('*') {
+        if is!(self, '*') {
             syntax_error!(SyntaxError::AwaitStar);
         }
 
