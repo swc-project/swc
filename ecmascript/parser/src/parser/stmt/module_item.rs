@@ -5,7 +5,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 
-        if self.input.syntax().import_meta() && peeked_is!(self, '.') {
+        if self.input.syntax().import_meta() && peeked_is!(self, self, '.') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -17,7 +17,7 @@ impl<'a, I: Tokens> Parser<I> {
             .into());
         }
 
-        if self.input.syntax().dynamic_import() && peeked_is!(self, '(') {
+        if self.input.syntax().dynamic_import() && peeked_is!(self, self, '(') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -43,7 +43,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, "import");
 
-        if self.input.syntax().typescript() && is!(self, IdentRef) && peeked_is!(self, '=') {
+        if self.input.syntax().typescript() && is!(self, IdentRef) && peeked_is!(self, self, '=') {
             return self
                 .parse_ts_import_equals_decl(start, false)
                 .map(ModuleDecl::from)
@@ -77,7 +77,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         let type_only = self.input.syntax().typescript()
             && is!(self, "type")
-            && (peeked_is!(self, '{') || !peeked_is!(self, "from") && !peeked_is!(self, ','));
+            && (peeked_is!(self, self, '{')
+                || !peeked_is!(self, self, "from") && !peeked_is!(self, self, ','));
 
         if type_only {
             assert_and_bump!(self, "type");
@@ -321,7 +322,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if !type_only && export_ns.is_none() && eat!(self, "default") {
             if self.input.syntax().typescript() {
-                if is!(self, "abstract") && peeked_is!(self, "class") {
+                if is!(self, "abstract") && peeked_is!(self, self, "class") {
                     let class_start = cur_pos!(self);
                     assert_and_bump!(self, "abstract");
                     let _ = cur!(self, true);
@@ -336,7 +337,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                     return Ok(class.into());
                 }
-                if is!(self, "abstract") && peeked_is!(self, "interface") {
+                if is!(self, "abstract") && peeked_is!(self, self, "interface") {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1242);
                     assert_and_bump!(self, "abstract");
                 }
@@ -360,7 +361,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let decl = self.parse_default_class(start, class_start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!(self, "async")
-                && peeked_is!(self, "function")
+                && peeked_is!(self, self, "function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
                 let decl = self.parse_default_async_fn(decorators)?;
@@ -369,7 +370,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let decl = self.parse_default_fn(decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if self.input.syntax().export_default_from()
-                && (is!(self, "from") || (is!(self, ',') && peeked_is!(self, '{')))
+                && (is!(self, "from") || (is!(self, ',') && peeked_is!(self, self, '{')))
             {
                 export_default = Some(Ident::new("default".into(), self.input.prev_span()))
             } else {
@@ -387,7 +388,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.parse_class_decl(start, class_start, decorators)?
         } else if !type_only
             && is!(self, "async")
-            && peeked_is!(self, "function")
+            && peeked_is!(self, self, "function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             self.parse_async_fn_decl(decorators)?
@@ -396,7 +397,7 @@ impl<'a, I: Tokens> Parser<I> {
         } else if !type_only
             && self.input.syntax().typescript()
             && is!(self, "const")
-            && peeked_is!(self, "enum")
+            && peeked_is!(self, self, "enum")
         {
             let start = cur_pos!(self);
             assert_and_bump!(self, "const");

@@ -138,7 +138,9 @@ impl<'a, I: Tokens> Parser<I> {
                 | Word(Word::Ident(js_word!("readonly"))) => true,
                 _ => false,
             }
-            && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
+            && (peeked_is!(self, self, IdentName)
+                || peeked_is!(self, self, '{')
+                || peeked_is!(self, self, '['));
         if has_modifier {
             let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"]);
         }

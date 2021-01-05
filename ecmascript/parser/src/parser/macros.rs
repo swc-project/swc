@@ -76,7 +76,7 @@ macro_rules! peeked_is {
     }};
 
     ($p:expr, ';') => {{
-        compile_error!("peeked_is!(self, ';') is invalid");
+        compile_error!("peeked_is!(self, self, ';') is invalid");
     }};
 
     ($p:expr, $t:tt) => {

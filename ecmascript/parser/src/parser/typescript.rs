@@ -410,14 +410,14 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_pred_start = cur_pos!(self);
-            let has_type_pred_asserts = is!(self, "asserts") && peeked_is!(self, IdentRef);
+            let has_type_pred_asserts = is!(self, "asserts") && peeked_is!(self, self, IdentRef);
             if has_type_pred_asserts {
                 assert_and_bump!(self, "asserts");
                 cur!(self, false)?;
             }
 
             let has_type_pred_is = is!(self, IdentRef)
-                && peeked_is!(self, "is")
+                && peeked_is!(self, self, "is")
                 && !p.input.has_linebreak_between_cur_and_peeked();
             let is_type_predicate = has_type_pred_asserts || has_type_pred_is;
             if !is_type_predicate {
@@ -972,7 +972,7 @@ impl<I: Tokens> Parser<I> {
     fn is_ts_external_module_ref(&mut self) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
 
-        Ok(is!(self, "require") && peeked_is!(self, '('))
+        Ok(is!(self, "require") && peeked_is!(self, self, '('))
     }
 
     /// `tsParseModuleReference`
@@ -1752,7 +1752,7 @@ impl<I: Tokens> Parser<I> {
             | tok!("null")
             | tok!("await")
             | tok!("break") => {
-                if is!(self, "asserts") && peeked_is!(self, "this") {
+                if is!(self, "asserts") && peeked_is!(self, self, "this") {
                     bump!();
                     let this_keyword = self.parse_ts_this_type_node()?;
                     return self
@@ -1791,7 +1791,7 @@ impl<I: Tokens> Parser<I> {
                     None
                 };
 
-                let peeked_is_dot = peeked_is!(self, '.');
+                let peeked_is_dot = peeked_is!(self, self, '.');
 
                 match kind {
                     Some(kind) if !peeked_is_dot => {
@@ -2117,7 +2117,7 @@ impl<I: Tokens> Parser<I> {
                     .map(Some);
             }
 
-            if is!(self, "const") && peeked_is!(self, "enum") {
+            if is!(self, "const") && peeked_is!(self, self, "enum") {
                 assert_and_bump!(self, "const");
                 let _ = cur!(self, true);
                 assert_and_bump!(self, "enum");

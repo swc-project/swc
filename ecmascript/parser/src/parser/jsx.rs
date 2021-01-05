@@ -287,7 +287,7 @@ impl<'a, I: Tokens> Parser<I> {
                         Token::JSXTagStart => {
                             let start = cur_pos!(self);
 
-                            if peeked_is!(self, '/') {
+                            if peeked_is!(self, self, '/') {
                                 bump!(); // JSXTagStart
                                 let _ = cur!(self, true);
                                 assert_and_bump!(self, '/');
@@ -307,7 +307,7 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                         tok!('{') => {
                             let start = cur_pos!(self);
-                            if peeked_is!(self, "...") {
+                            if peeked_is!(self, self, "...") {
                                 children
                                     .push(p.parse_jsx_spread_child().map(JSXElementChild::from)?);
                             } else {

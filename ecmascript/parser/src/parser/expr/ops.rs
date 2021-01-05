@@ -91,7 +91,7 @@ impl<'a, I: Tokens> Parser<I> {
         {
             let start = left.span().lo();
             let expr = left;
-            let node = if peeked_is!(self, "const") {
+            let node = if peeked_is!(self, self, "const") {
                 bump!(); // as
                 let _ = cur!(self, false);
                 bump!(); // const

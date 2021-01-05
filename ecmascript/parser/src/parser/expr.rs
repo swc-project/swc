@@ -68,7 +68,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.input.syntax().typescript()
             && (is_one_of!(self, '<', JSXTagStart))
-            && peeked_is!(self, IdentName)
+            && peeked_is!(self, self, IdentName)
         {
             let res = self.try_parse_ts(|p| {
                 let type_parameters = p.parse_ts_type_params()?;
@@ -240,14 +240,17 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 tok!("async") => {
-                    if peeked_is!(self, "function")
+                    if peeked_is!(self, self, "function")
                         && !self.input.has_linebreak_between_cur_and_peeked()
                     {
                         // handle `async function` expression
                         return self.parse_async_fn_expr();
                     }
 
-                    if can_be_arrow && self.input.syntax().typescript() && peeked_is!(self, '<') {
+                    if can_be_arrow
+                        && self.input.syntax().typescript()
+                        && peeked_is!(self, self, '<')
+                    {
                         // try parsing `async<T>() => {}`
                         if let Some(res) = self.try_parse_ts(|p| {
                             let start = cur_pos!(self);
@@ -258,7 +261,7 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
 
-                    if can_be_arrow && peeked_is!(self, '(') {
+                    if can_be_arrow && peeked_is!(self, self, '(') {
                         expect!(self, "async");
                         let async_span = self.input.prev_span();
                         return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
@@ -979,14 +982,16 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let question_dot_token =
-            if self.input.syntax().optional_chaining() && is!(self, '?') && peeked_is!(self, '.') {
-                let start = cur_pos!(self);
-                eat!(self, '?');
-                Some(span!(self, start))
-            } else {
-                None
-            };
+        let question_dot_token = if self.input.syntax().optional_chaining()
+            && is!(self, '?')
+            && peeked_is!(self, self, '.')
+        {
+            let start = cur_pos!(self);
+            eat!(self, '?');
+            Some(span!(self, start))
+        } else {
+            None
+        };
 
         /// Wrap with optional chaining
         macro_rules! wrap {
@@ -1006,7 +1011,7 @@ impl<'a, I: Tokens> Parser<I> {
         // $obj[name()]
         if (question_dot_token.is_some()
             && is!(self, '.')
-            && peeked_is!(self, '[')
+            && peeked_is!(self, self, '[')
             && eat!(self, '.')
             && eat!(self, '['))
             || eat!(self, '[')
@@ -1029,7 +1034,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if (question_dot_token.is_some()
             && is!(self, '.')
-            && peeked_is!(self, '(')
+            && peeked_is!(self, self, '(')
             && eat!(self, '.'))
             || (!no_call && (is!(self, '(')))
         {
@@ -1112,7 +1117,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            if is!(self, '<') && !peeked_is!(self, '!') {
+            if is!(self, '<') && !peeked_is!(self, self, '!') {
                 // In case we encounter an lt token here it will always be the start of
                 // jsx as the lt sign is not allowed in places that expect an expression
 
@@ -1235,7 +1240,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             let mut arg = {
                 if self.input.syntax().typescript()
-                    && (is!(self, IdentRef) || (is!(self, "...") && peeked_is!(self, IdentRef)))
+                    && (is!(self, IdentRef)
+                        || (is!(self, "...") && peeked_is!(self, self, IdentRef)))
                 {
                     let spread = if eat!(self, "...") {
                         Some(self.input.prev_span())
@@ -1265,10 +1271,10 @@ impl<'a, I: Tokens> Parser<I> {
 
             let optional = if self.input.syntax().typescript() {
                 if is!(self, '?') {
-                    if peeked_is!(self, ',')
-                        || peeked_is!(self, ':')
-                        || peeked_is!(self, ')')
-                        || peeked_is!(self, '=')
+                    if peeked_is!(self, self, ',')
+                        || peeked_is!(self, self, ':')
+                        || peeked_is!(self, self, ')')
+                        || peeked_is!(self, self, '=')
                     {
                         assert_and_bump!(self, '?');
                         let _ = cur!(self, false);
