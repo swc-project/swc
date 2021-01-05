@@ -1,8 +1,8 @@
 #![cfg(all(
-  feature = "swc_ecma_transforms_compat",
-  feature = "swc_ecma_transforms_module",
-  feature = "swc_ecma_transforms_optimization",
-  feature = "swc_ecma_transforms_proposal",
+    feature = "swc_ecma_transforms_compat",
+    feature = "swc_ecma_transforms_module",
+    feature = "swc_ecma_transforms_optimization",
+    feature = "swc_ecma_transforms_proposal",
 ))]
 
 use swc_common::{chain, Mark};
