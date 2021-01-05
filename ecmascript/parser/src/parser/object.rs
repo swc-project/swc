@@ -5,7 +5,6 @@ use crate::parser::class_and_fn::is_not_this;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.
     pub(super) fn parse_object<T>(&mut self) -> PResult<T>
@@ -118,7 +117,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 }
 
-#[parser]
 impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
     type Prop = PropOrSpread;
 
@@ -378,7 +376,6 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
     }
 }
 
-#[parser]
 impl<I: Tokens> ParseObject<Pat> for Parser<I> {
     type Prop = ObjectPatProp;
 

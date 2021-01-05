@@ -59,7 +59,6 @@ impl<'a, I: Input> Parser<Lexer<'a, I>> {
     }
 }
 
-#[parser]
 impl<I: Tokens> Parser<I> {
     pub fn new_from(input: I) -> Self {
         Parser {

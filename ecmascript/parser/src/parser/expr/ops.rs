@@ -4,7 +4,6 @@ use crate::token::Keyword;
 use log::trace;
 use swc_common::Spanned;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {

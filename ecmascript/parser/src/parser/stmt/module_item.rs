@@ -1,6 +1,5 @@
 use super::*;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     #[allow(clippy::cognitive_complexity)]
     fn parse_import(&mut self) -> PResult<ModuleItem> {
@@ -582,7 +581,6 @@ impl IsDirective for ModuleItem {
     }
 }
 
-#[parser]
 impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
     fn handle_import_export(
         &mut self,

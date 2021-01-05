@@ -5,7 +5,6 @@ use swc_common::{Span, Spanned, SyntaxContext};
 #[cfg(test)]
 mod tests;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {

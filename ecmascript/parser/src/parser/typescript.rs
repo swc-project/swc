@@ -4,7 +4,6 @@ use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
-#[parser]
 impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
     fn ts_next_token_can_follow_modifier(&mut self) -> PResult<bool> {

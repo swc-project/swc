@@ -5,7 +5,6 @@ use either::Either;
 use swc_atoms::js_word;
 use swc_ecma_parser_macros::parser;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
         let start = cur_pos!(self);

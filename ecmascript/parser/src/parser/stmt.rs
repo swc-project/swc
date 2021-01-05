@@ -5,7 +5,6 @@ use swc_common::Spanned;
 
 mod module_item;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_block_body<Type>(
         &mut self,
@@ -1143,7 +1142,6 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
     ) -> PResult<Type>;
 }
 
-#[parser]
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);

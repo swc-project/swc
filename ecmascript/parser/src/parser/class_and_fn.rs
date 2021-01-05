@@ -1200,7 +1200,6 @@ pub(super) trait FnBodyParser<Body> {
     fn parse_fn_body_inner(&mut self) -> PResult<Body>;
 }
 
-#[parser]
 impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
     fn parse_fn_body_inner(&mut self) -> PResult<BlockStmtOrExpr> {
         if is!(self, '{') {
@@ -1211,7 +1210,6 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
     }
 }
 
-#[parser]
 impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
     fn parse_fn_body_inner(&mut self) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line

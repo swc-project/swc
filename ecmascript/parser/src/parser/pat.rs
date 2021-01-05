@@ -5,7 +5,6 @@ use std::iter;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
         trace_cur!(parse_opt_binding_ident);
@@ -447,7 +446,6 @@ impl PatType {
     }
 }
 
-#[parser]
 impl<'a, I: Tokens> Parser<I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
