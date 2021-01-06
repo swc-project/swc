@@ -47,6 +47,13 @@ impl VisitMut for KeywordRenamer {
         n.value.visit_mut_with(self);
     }
 
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        if let Some(renamed) = self.renamed(&n.key) {
+            n.key = renamed;
+        }
+        n.value.visit_mut_with(self);
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         match n {
             Pat::Ident(n) => {
