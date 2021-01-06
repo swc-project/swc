@@ -842,36 +842,92 @@ where
                         }
                     }
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
-                        // At here, we create two items.
+                        // At here, we create multiple items.
                         //
-                        // One item is `const private_default = expr` and the other is
-                        // `export { private_default as default }`.
+                        // One item is `const local_default = expr` and another one is
+                        // `export { local_default as default }`.
                         //
-                        // Note that we use private syntax context instead of local one.
+                        // To allow using identifier of the declaration in the originsl module, we
+                        // create `const local_default = orig_ident` if original identifier exists.
 
-                        let exported = match export.decl {
+                        let local =
+                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.local_ctxt()));
+
+                        match export.decl {
                             DefaultDecl::Class(c) => {
                                 //
-                                match &c.ident {
+                                match c.ident {
                                     Some(ident) => {
-                                        //
+                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
+                                            ClassDecl {
+                                                ident: ident.clone(),
+                                                class: c.class,
+                                                declare: false,
+                                            },
+                                        ))));
+
+                                        new.push(ident.assign_to(local.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export default decl -> class -> with ident",
+                                        ))
                                     }
-                                    None => {}
+                                    None => {
+                                        let init = Expr::Class(c);
+                                        new.push(init.assign_to(local.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export default decl -> class -> without \
+                                             ident",
+                                        ));
+                                    }
                                 }
                             }
                             DefaultDecl::Fn(f) => {
                                 //
-                                match &f.ident {
-                                    Some(ident) => {}
-                                    None => {}
+                                match f.ident {
+                                    Some(ident) => {
+                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                                            ident: ident.clone(),
+                                            function: f.function,
+                                            declare: false,
+                                        }))));
+
+                                        new.push(ident.assign_to(local.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export default decl -> function -> with \
+                                             ident",
+                                        ))
+                                    }
+                                    None => {
+                                        let init = Expr::Fn(f);
+
+                                        new.push(init.assign_to(local.clone()).into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> export default decl -> function -> \
+                                             without ident",
+                                        ));
+                                    }
                                 }
                             }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
-                        };
+                        }
 
-
-                        // Create `export { private_default as default }`
-                        new.push();
+                        // Create `export { local_default as default }`
+                        let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: local,
+                            exported: Some(Ident::new(
+                                js_word!("default"),
+                                DUMMY_SP.with_ctxt(info.export_ctxt()),
+                            )),
+                        });
+                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span: export.span,
+                                specifiers: vec![specifier],
+                                src: None,
+                                type_only: false,
+                            },
+                        )));
                     }
                     _ => {
                         new.push(item);
