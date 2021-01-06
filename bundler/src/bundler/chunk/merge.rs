@@ -192,30 +192,9 @@ where
             module
         };
 
-        let mut var_decls = vars_from_exports(&dep_info, &module);
+        let var_decls = vars_from_exports(&dep_info, &module);
 
         module = module.fold_with(&mut Unexporter);
-
-        // Handle aliased imports
-        var_decls.extend(specifiers.iter().filter_map(|specifier| match specifier {
-            Specifier::Specific {
-                local,
-                alias: Some(alias),
-            } => {
-                let local = local.clone().into_ident();
-                let alias = alias.clone().with_ctxt(dep_info.export_ctxt()).into_ident();
-
-                Some(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(local),
-                    init: Some(Box::new(Expr::Ident(alias))),
-                    definite: false,
-                })
-            }
-            // TODO
-            Specifier::Namespace { .. } => None,
-            _ => None,
-        }));
 
         for var in var_decls {
             module.inject(var.into_module_item(injected_ctxt, "from_merge_direct_import"));
