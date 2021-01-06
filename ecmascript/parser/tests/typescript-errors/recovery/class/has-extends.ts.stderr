@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/recovery/class/has-extends.ts:1:1
+  |
+1 | class extends Foo {
+  | ^^^^^
+
