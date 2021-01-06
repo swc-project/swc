@@ -70,24 +70,6 @@ where
                         }
                         _ => {}
                     },
-                    ModuleDecl::ExportNamed(export) => {
-                        for specifier in &mut export.specifiers {
-                            match specifier {
-                                ExportSpecifier::Namespace(_) => {}
-                                ExportSpecifier::Default(_) => {}
-                                ExportSpecifier::Named(named) => {
-                                    let mut orig = named.orig.clone();
-                                    orig.span.ctxt = entry_module.export_ctxt();
-
-                                    exports.push(ExportSpecifier::Named(ExportNamedSpecifier {
-                                        span: export.span,
-                                        orig,
-                                        exported: named.exported.clone(),
-                                    }));
-                                }
-                            }
-                        }
-                    }
                     ModuleDecl::ExportDefaultDecl(_) => {}
                     ModuleDecl::ExportDefaultExpr(_) => {}
                     ModuleDecl::ExportAll(_) => {}
