@@ -27,6 +27,8 @@ use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
 
+const DEBUG: bool = cfg!(debug_assertions) && false;
+
 pub(super) struct Ctx {
     pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
@@ -81,19 +83,23 @@ where
                     }
                 };
 
-                // print_hygiene(
-                //     &format!("before merging deps: {}", info.fm.name),
-                //     &self.cm,
-                //     &module,
-                // );
+                if DEBUG {
+                    print_hygiene(
+                        &format!("before merging deps: {}", info.fm.name),
+                        &self.cm,
+                        &module.clone().into(),
+                    );
+                }
 
                 module = self.merge_deps(ctx, is_entry, module, plan, &info, !allow_circular)?;
 
-                // print_hygiene(
-                //     &format!("after merging deps: {}", info.fm.name),
-                //     &self.cm,
-                //     &module,
-                // );
+                if DEBUG {
+                    print_hygiene(
+                        &format!("after merging deps: {}", info.fm.name),
+                        &self.cm,
+                        &module.clone().into(),
+                    );
+                }
             }
 
             if is_entry {
@@ -769,7 +775,7 @@ where
 
             for item in items {
                 match item {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
                         // Imports are easy to handle.
                         for s in &import.specifiers {
                             match s {
@@ -823,6 +829,9 @@ where
                                 }
                             }
                         }
+
+                        import.specifiers.clear();
+                        new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
                     }
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                         // At here, we create multiple items.
