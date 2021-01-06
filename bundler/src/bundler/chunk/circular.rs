@@ -81,7 +81,7 @@ where
 
         // print_hygiene("[circular] entry:init", &self.cm, &entry);
 
-        self.handle_import_deps(ctx, &entry_module, &mut entry, true);
+        // self.handle_import_deps(ctx, &entry_module, &mut entry, true);
 
         // print_hygiene("[circular] entry:reexport", &self.cm, &entry);
 
