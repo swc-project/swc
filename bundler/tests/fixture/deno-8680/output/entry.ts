@@ -4,7 +4,7 @@ const mod = function() {
         instanceof: a
     };
 }();
+const y = mod;
 const __instanceof = mod.instanceof;
 const x = __instanceof;
-const y = mod;
 console.log(x, y);
