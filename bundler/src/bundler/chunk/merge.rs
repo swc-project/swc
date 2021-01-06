@@ -529,7 +529,11 @@ where
                 err: None,
             });
 
-            Ok(Modules::from(entry, self.injected_ctxt))
+            let mut module = Modules::from(entry, self.injected_ctxt);
+
+            self.prepare(&mut module);
+
+            Ok(module)
         })
     }
 
