@@ -1198,7 +1198,7 @@ where
                                                     .into_module_item(
                                                         injected_ctxt,
                                                         &format!(
-                                                            "import_deps_named_alias of {}",
+                                                            "import -> named alias -> prepared: {}",
                                                             info.fm.name
                                                         ),
                                                     ),
@@ -1216,7 +1216,8 @@ where
                                                         .into_module_item(
                                                             injected_ctxt,
                                                             &format!(
-                                                                "import_deps_named_alias of {}",
+                                                                "import -> named alias -> export: \
+                                                                 {}",
                                                                 info.fm.name
                                                             ),
                                                         ),
