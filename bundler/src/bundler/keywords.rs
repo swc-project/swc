@@ -35,6 +35,18 @@ impl KeywordRenamer {
 impl VisitMut for KeywordRenamer {
     noop_visit_mut_type!();
 
+    fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
+        match &mut n.key {
+            PropName::Ident(i) => {
+                if let Some(renamed) = self.renamed(&i) {
+                    *i = renamed;
+                }
+            }
+            _ => n.key.visit_mut_with(self),
+        }
+        n.value.visit_mut_with(self);
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         match n {
             Pat::Ident(n) => {
