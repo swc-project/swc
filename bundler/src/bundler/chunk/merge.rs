@@ -778,7 +778,7 @@ where
     /// Basically one module have two top-level contexts. One is for it's codes
     /// and another is for exporting. This method connects two module by
     /// injecting `const local_A = exported_B_from_foo;`
-    pub(super) fn prepare(&self, module: &mut Modules) {
+    pub(super) fn prepare(&self, info: &TransformedModule, module: &mut Modules, export: bool) {
         let injected_ctxt = self.injected_ctxt;
 
         module.map_any_items(|items| {
@@ -786,15 +786,92 @@ where
 
             for item in items {
                 match item {
-                    // Imports are easy to handle.
                     ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                        for s in import.specifiers {
+                        // Imports are easy to handle.
+                        for s in &import.specifiers {
                             match s {
-                                ImportSpecifier::Named(named) => {}
-                                ImportSpecifier::Default(_) => {}
-                                ImportSpecifier::Namespace(_) => {}
+                                ImportSpecifier::Named(s) => match &s.imported {
+                                    Some(imported) => {
+                                        new.push(
+                                            imported
+                                                .clone()
+                                                .assign_to(s.local.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "prepare -> named import -> aliased",
+                                                ),
+                                        );
+                                    }
+                                    None => {}
+                                },
+                                ImportSpecifier::Default(s) => {
+                                    new.push(
+                                        Ident::new(js_word!("default"), import.span)
+                                            .assign_to(s.local.clone())
+                                            .into_module_item(
+                                                injected_ctxt,
+                                                "prepare -> default import",
+                                            ),
+                                    );
+                                }
+                                ImportSpecifier::Namespace(s) => {
+                                    if let Some((src, _)) = info
+                                        .imports
+                                        .specifiers
+                                        .iter()
+                                        .find(|s| s.0.src.value == import.src.value)
+                                    {
+                                        let esm_id =
+                                            self.scope.wrapped_esm_id(src.module_id).expect(
+                                                "If a namespace impoet specifier is preserved, it \
+                                                 means failutre of deblobbing and as a result \
+                                                 module should be marked as wrpaped esm",
+                                            );
+                                        new.push(
+                                            esm_id
+                                                .clone()
+                                                .assign_to(s.local.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "from_replace_import_specifiers: namespaced",
+                                                ),
+                                        );
+                                    }
+                                }
                             }
                         }
+                    }
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
+                        // At here, we create two items.
+                        //
+                        // One item is `const private_default = expr` and the other is
+                        // `export { private_default as default }`.
+                        //
+                        // Note that we use private syntax context instead of local one.
+
+                        let exported = match export.decl {
+                            DefaultDecl::Class(c) => {
+                                //
+                                match &c.ident {
+                                    Some(ident) => {
+                                        //
+                                    }
+                                    None => {}
+                                }
+                            }
+                            DefaultDecl::Fn(f) => {
+                                //
+                                match &f.ident {
+                                    Some(ident) => {}
+                                    None => {}
+                                }
+                            }
+                            DefaultDecl::TsInterfaceDecl(_) => continue,
+                        };
+
+
+                        // Create `export { private_default as default }`
+                        new.push();
                     }
                     _ => {
                         new.push(item);
