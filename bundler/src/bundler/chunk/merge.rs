@@ -932,7 +932,43 @@ where
                         )));
                     }
 
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {}
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                        // At here, we create two items.
+                        //
+                        // One item is `const local_default = expr` and the
+                        // other is `export { local_default as default }`.
+
+                        // TODO: Check if we really need this.
+
+                        let local =
+                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.local_ctxt()));
+
+                        // Create `const local_default = expr`
+                        new.push(
+                            export
+                                .expr
+                                .assign_to(local.clone())
+                                .into_module_item(injected_ctxt, "prepare -> export default expr"),
+                        );
+
+                        // Create `export { local_default as default }`
+                        let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: local,
+                            exported: Some(Ident::new(
+                                js_word!("default"),
+                                DUMMY_SP.with_ctxt(info.export_ctxt()),
+                            )),
+                        });
+                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span: export.span,
+                                specifiers: vec![specifier],
+                                src: None,
+                                type_only: false,
+                            },
+                        )));
+                    }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {}
 
