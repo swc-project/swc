@@ -1204,7 +1204,9 @@ where
                                                     ),
                                             );
 
-                                            if exported.span.ctxt != info.export_ctxt() {
+                                            if exported.span.ctxt != info.export_ctxt()
+                                                && exported.sym != js_word!("default")
+                                            {
                                                 let mut lhs = exported.clone();
                                                 lhs.span = lhs.span.with_ctxt(info.export_ctxt());
                                                 vars.push(

@@ -256,9 +256,9 @@ pub(super) fn inject_export(
                     }
 
                     if let Some(mut dep) = dep.take() {
-                        if let Some(item) = remove_default_export(&mut dep) {
-                            export_default_stmt = Some(item)
-                        }
+                        // if let Some(item) = remove_default_export(&mut dep) {
+                        //     export_default_stmt = Some(item)
+                        // }
                         buf.extend(dep.into_items());
                     }
                 }
