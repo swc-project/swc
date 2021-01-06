@@ -529,9 +529,7 @@ where
                 err: None,
             });
 
-            let mut module = Modules::from(entry, self.injected_ctxt);
-
-            self.prepare(&mut module);
+            let module = Modules::from(entry, self.injected_ctxt);
 
             Ok(module)
         })
@@ -792,7 +790,7 @@ where
                     ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                         for s in import.specifiers {
                             match s {
-                                ImportSpecifier::Named(_) => {}
+                                ImportSpecifier::Named(named) => {}
                                 ImportSpecifier::Default(_) => {}
                                 ImportSpecifier::Namespace(_) => {}
                             }
