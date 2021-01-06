@@ -131,24 +131,7 @@ where
             module = self.wrap_esm(ctx, dep_id, module.into())?.into();
             self.prepare(&dep_info, &mut module);
 
-            // Inject local_name = wrapped_esm_module_name
-            let module_ident = specifiers.iter().find_map(|specifier| match specifier {
-                Specifier::Namespace {
-                    local, all: true, ..
-                } => Some(local.clone()),
-                _ => None,
-            });
-
             let esm_id = self.scope.wrapped_esm_id(dep_id).unwrap();
-
-            if let Some(module_ident) = &module_ident {
-                module.inject(
-                    esm_id
-                        .clone()
-                        .assign_to(module_ident.clone())
-                        .into_module_item(injected_ctxt, "merge_direct_import"),
-                );
-            }
 
             let plan = ctx.plan.normal.get(&dep_id);
             let default_plan;
