@@ -180,7 +180,11 @@ where
 
             if DEBUG {
                 print_hygiene(
-                    "import: Before handle_import_deps",
+                    &format!(
+                        "import: Before handle_import_deps {:?}:{:?}",
+                        dep_info.local_ctxt(),
+                        dep_info.export_ctxt(),
+                    ),
                     &self.cm,
                     &module.clone().into(),
                 );
@@ -188,7 +192,11 @@ where
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
             if DEBUG {
                 print_hygiene(
-                    "import: After handle_import_deps",
+                    &format!(
+                        "import: After handle_import_deps {:?}:{:?}",
+                        dep_info.local_ctxt(),
+                        dep_info.export_ctxt(),
+                    ),
                     &self.cm,
                     &module.clone().into(),
                 );
