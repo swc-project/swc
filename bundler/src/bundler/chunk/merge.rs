@@ -27,7 +27,7 @@ use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
 
-const DEBUG: bool = cfg!(debug_assertions) && false;
+const DEBUG: bool = cfg!(debug_assertions) && true;
 
 pub(super) struct Ctx {
     pub plan: Plan,
@@ -195,9 +195,21 @@ where
         } else {
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
-            // print_hygiene("import: After meging deps of a dep", &self.cm, &module);
+            if DEBUG {
+                print_hygiene(
+                    "import: Before handle_import_deps",
+                    &self.cm,
+                    &module.clone().into(),
+                );
+            }
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
-            // print_hygiene("import: After handle_import_deps", &self.cm, &module);
+            if DEBUG {
+                print_hygiene(
+                    "import: After handle_import_deps",
+                    &self.cm,
+                    &module.clone().into(),
+                );
+            }
             module
         };
 
@@ -223,7 +235,7 @@ where
 
         let var_decls = vars_from_exports(&dep_info, &module);
 
-        module = module.fold_with(&mut Unexporter);
+        // module = module.fold_with(&mut Unexporter);
 
         for var in var_decls {
             module.inject(var.into_module_item(injected_ctxt, "from_merge_transitive_import"));
@@ -1145,8 +1157,6 @@ where
     ) {
         let injected_ctxt = self.injected_ctxt;
 
-        self.replace_import_specifiers(info, module);
-
         let mut vars = vec![];
 
         for orig_stmt in module.iter_mut() {
@@ -1182,12 +1192,32 @@ where
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
                                         Some(exported) => {
-                                            if named.orig.span.ctxt != info.export_ctxt()    {
+                                            assert_ne!(
+                                                named.orig.span.ctxt, exported.span.ctxt,
+                                                "While handling imports, all named export \
+                                                 specifiers should be modified to reflect syntax \
+                                                 context correctly by previous passes"
+                                            );
+
+                                            vars.push(
+                                                named
+                                                    .orig
+                                                    .clone()
+                                                    .assign_to(exported.clone())
+                                                    .into_module_item(
+                                                        injected_ctxt,
+                                                        &format!(
+                                                            "import_deps_named_alias of {}",
+                                                            info.fm.name
+                                                        ),
+                                                    ),
+                                            );
+
+                                            if exported.span.ctxt != info.export_ctxt() {
                                                 let mut lhs = exported.clone();
                                                 lhs.span = lhs.span.with_ctxt(info.export_ctxt());
                                                 vars.push(
-                                                    named
-                                                        .orig
+                                                    exported
                                                         .clone()
                                                         .assign_to(lhs)
                                                         .into_module_item(
