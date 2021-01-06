@@ -773,6 +773,8 @@ where
         // );
     }
 
+    pub(super) fn normalize(&self, module: &mut Modules) {}
+
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
