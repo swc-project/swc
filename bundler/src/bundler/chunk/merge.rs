@@ -931,6 +931,11 @@ where
                             },
                         )));
                     }
+
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {}
+
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {}
+
                     _ => {
                         new.push(item);
                     }
