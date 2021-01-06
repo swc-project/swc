@@ -1,8 +1,10 @@
 use super::{ident::MaybeOptionalIdentParser, *};
 use crate::lexer::TokenContext;
+use super::*;
 use crate::{error::SyntaxError, Tokens};
 use either::Either;
 use swc_atoms::js_word;
+use swc_common::DUMMY_SP;
 use swc_common::{Spanned, SyntaxContext};
 
 /// Parser for function expression and function declaration.
@@ -78,12 +80,12 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<T>
     where
         T: OutputType,
-        Self: MaybeOptionalIdentParser<T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
+            let ident_required_span = span!(p, start);
 
-            let ident = p.parse_maybe_opt_binding_ident()?;
+            let ident = p.parse_opt_binding_ident()?;
             if let Some(span) = ident.invalid_class_name() {
                 p.emit_err(span, SyntaxError::TS2414);
             }
@@ -168,7 +170,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .parse_class_body()?;
             expect!(p, '}');
             let end = last_pos!(p);
-            Ok(T::finish_class(
+            let (f, err) = T::finish_class(
                 span!(p, start),
                 ident,
                 Class {
@@ -181,7 +183,11 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                     implements,
                 },
-            ))
+            );
+            if let Some(err) = err {
+                p.emit_err(ident_required_span, err);
+            }
+            Ok(f)
         })
     }
 
@@ -929,12 +935,13 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<T>
     where
         T: OutputType,
-        Self: MaybeOptionalIdentParser<T::Ident>,
-        T::Ident: Spanned,
     {
         let start = start_of_async.unwrap_or(cur_pos!(self));
+        let function_token_start = cur_pos!(self);
         assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
+
+        let ident_required_span = span!(self, function_token_start);
 
         let is_generator = {
             let start = cur_pos!(self);
@@ -960,16 +967,20 @@ impl<'a, I: Tokens> Parser<I> {
                 in_generator: is_generator,
                 ..ctx
             })
-            .parse_maybe_opt_binding_ident()?
+            .parse_opt_binding_ident()?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
-            self.parse_maybe_opt_binding_ident()?
+            self.parse_opt_binding_ident()?
         };
         let ctx = Context {
             span_of_fn_name: Some(ident.span()),
             ..ctx
         };
-        let is_constructor = T::is_constructor(&ident);
+
+        let is_constructor = match &ident {
+            Some(i) => i.sym == js_word!("constructor"),
+            _ => false,
+        };
 
         self.with_ctx(ctx).parse_with(|p| {
             let f = p.parse_fn_args_body(
@@ -989,7 +1000,13 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            Ok(T::finish_fn(span!(p, start), ident, f))
+            let (f, err) = T::finish_fn(span!(p, start), ident, f);
+
+            if let Some(err) = err {
+                p.emit_err(ident_required_span, err);
+            }
+
+            Ok(f)
         })
     }
 
@@ -1224,11 +1241,7 @@ impl IsInvalidClassName for Option<Ident> {
     }
 }
 
-trait OutputType {
-    type Ident: IsInvalidClassName;
-
-    fn is_constructor(ident: &Self::Ident) -> bool;
-
+trait OutputType: Sized {
     /// From babel..
     ///
     /// When parsing function expression, the binding identifier is parsed
@@ -1243,76 +1256,98 @@ trait OutputType {
         false
     }
 
-    fn finish_fn(span: Span, ident: Self::Ident, f: Function) -> Self;
-    fn finish_class(span: Span, ident: Self::Ident, class: Class) -> Self;
+    /// Should return error and recover if identifier is required.
+    fn finish_fn(span: Span, ident: Option<Ident>, f: Function) -> (Self, Option<SyntaxError>);
+    /// Should return error and recover if identifier is required.
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> (Self, Option<SyntaxError>);
 }
 
 impl OutputType for Box<Expr> {
-    type Ident = Option<Ident>;
-
-    fn is_constructor(ident: &Self::Ident) -> bool {
-        match *ident {
-            Some(ref i) => i.sym == js_word!("constructor"),
-            _ => false,
-        }
-    }
-
     fn is_fn_expr() -> bool {
         true
     }
 
-    fn finish_fn(_span: Span, ident: Option<Ident>, function: Function) -> Self {
-        Box::new(Expr::Fn(FnExpr { ident, function }))
+    fn finish_fn(
+        _span: Span,
+        ident: Option<Ident>,
+        function: Function,
+    ) -> (Self, Option<SyntaxError>) {
+        (Box::new(Expr::Fn(FnExpr { ident, function })), None)
     }
-    fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Self {
-        Box::new(Expr::Class(ClassExpr { ident, class }))
+    fn finish_class(
+        _span: Span,
+        ident: Option<Ident>,
+        class: Class,
+    ) -> (Self, Option<SyntaxError>) {
+        (Box::new(Expr::Class(ClassExpr { ident, class })), None)
     }
 }
 
 impl OutputType for ExportDefaultDecl {
-    type Ident = Option<Ident>;
-
-    fn is_constructor(ident: &Self::Ident) -> bool {
-        match *ident {
-            Some(ref i) => i.sym == js_word!("constructor"),
-            _ => false,
-        }
+    fn finish_fn(
+        span: Span,
+        ident: Option<Ident>,
+        function: Function,
+    ) -> (Self, Option<SyntaxError>) {
+        (
+            ExportDefaultDecl {
+                span,
+                decl: DefaultDecl::Fn(FnExpr { ident, function }),
+            },
+            None,
+        )
     }
-
-    fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
-        ExportDefaultDecl {
-            span,
-            decl: DefaultDecl::Fn(FnExpr { ident, function }),
-        }
-    }
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
-        ExportDefaultDecl {
-            span,
-            decl: DefaultDecl::Class(ClassExpr { ident, class }),
-        }
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> (Self, Option<SyntaxError>) {
+        (
+            ExportDefaultDecl {
+                span,
+                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+            },
+            None,
+        )
     }
 }
 
 impl OutputType for Decl {
-    type Ident = Ident;
+    fn finish_fn(
+        span: Span,
+        ident: Option<Ident>,
+        function: Function,
+    ) -> (Self, Option<SyntaxError>) {
+        let (ident, err) = match ident {
+            Some(i) => (i, None),
+            None => (
+                Ident::new(js_word!(""), DUMMY_SP),
+                Some(SyntaxError::ExpectedIdent),
+            ),
+        };
 
-    fn is_constructor(i: &Self::Ident) -> bool {
-        i.sym == js_word!("constructor")
+        (
+            Decl::Fn(FnDecl {
+                declare: false,
+                ident,
+                function,
+            }),
+            err,
+        )
     }
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> (Self, Option<SyntaxError>) {
+        let (ident, err) = match ident {
+            Some(i) => (i, None),
+            None => (
+                Ident::new(js_word!(""), DUMMY_SP),
+                Some(SyntaxError::ExpectedIdent),
+            ),
+        };
 
-    fn finish_fn(span: Span, ident: Ident, function: Function) -> Self {
-        Decl::Fn(FnDecl {
-            declare: false,
-            ident,
-            function,
-        })
-    }
-    fn finish_class(span: Span, ident: Ident, class: Class) -> Self {
-        Decl::Class(ClassDecl {
-            declare: false,
-            ident,
-            class,
-        })
+        (
+            Decl::Class(ClassDecl {
+                declare: false,
+                ident,
+                class,
+            }),
+            err,
+        )
     }
 }
 
