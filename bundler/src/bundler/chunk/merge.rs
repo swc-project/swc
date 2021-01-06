@@ -992,6 +992,8 @@ where
                                 let ids: Vec<Ident> = find_ids(&v);
                                 //
 
+                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
+
                                 new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                     NamedExport {
                                         span: export.span,
