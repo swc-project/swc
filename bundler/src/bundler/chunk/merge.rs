@@ -68,6 +68,8 @@ where
                 .get_module_for_merging(ctx, module_id, is_entry)
                 .with_context(|| format!("failed to clone {:?} for merging", module_id))?;
 
+            self.prepare(&info, &mut module);
+
             {
                 let plan = ctx.plan.normal.get(&module_id);
                 let default_plan;
@@ -121,6 +123,7 @@ where
         let mut module = if wrapped {
             let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
             module = self.wrap_esm(ctx, dep_id, module.into())?.into();
+            self.prepare(&dep_info, &mut module);
 
             // Inject local_name = wrapped_esm_module_name
             let module_ident = specifiers.iter().find_map(|specifier| match specifier {
@@ -509,9 +512,7 @@ where
                 err: None,
             });
 
-            let mut module = Modules::from(entry, self.injected_ctxt);
-
-            self.prepare(&info, &mut module);
+            let module = Modules::from(entry, self.injected_ctxt);
 
             Ok(module)
         })
