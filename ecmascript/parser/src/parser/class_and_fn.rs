@@ -90,6 +90,13 @@ impl<'a, I: Tokens> Parser<I> {
                 p.emit_err(span, SyntaxError::TS2414);
             }
 
+            match ident {
+                None if T::is_ident_required() => {
+                    p.emit_err(ident_required_span, SyntaxError::ExpectedIdent);
+                }
+                _ => {}
+            }
+
             let type_params = if p.input.syntax().typescript() {
                 p.try_parse_ts_type_params()?
             } else {
@@ -170,7 +177,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .parse_class_body()?;
             expect!(p, '}');
             let end = last_pos!(p);
-            let (f, err) = T::finish_class(
+            let f = T::finish_class(
                 span!(p, start),
                 ident,
                 Class {
@@ -184,9 +191,7 @@ impl<'a, I: Tokens> Parser<I> {
                     implements,
                 },
             );
-            if let Some(err) = err {
-                p.emit_err(ident_required_span, err);
-            }
+
             Ok(f)
         })
     }
@@ -972,6 +977,13 @@ impl<'a, I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.parse_opt_binding_ident()?
         };
+        match ident {
+            None if T::is_ident_required() => {
+                self.emit_err(ident_required_span, SyntaxError::ExpectedIdent)
+            }
+            _ => {}
+        }
+
         let ctx = Context {
             span_of_fn_name: Some(ident.span()),
             ..ctx
@@ -1000,11 +1012,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            let (f, err) = T::finish_fn(span!(p, start), ident, f);
-
-            if let Some(err) = err {
-                p.emit_err(ident_required_span, err);
-            }
+            let f = T::finish_fn(span!(p, start), ident, f);
 
             Ok(f)
         })
@@ -1242,6 +1250,7 @@ impl IsInvalidClassName for Option<Ident> {
 }
 
 trait OutputType: Sized {
+    fn is_ident_required() -> bool;
     /// From babel..
     ///
     /// When parsing function expression, the binding identifier is parsed
@@ -1256,10 +1265,10 @@ trait OutputType: Sized {
         false
     }
 
-    /// Should return error and recover if identifier is required.
-    fn finish_fn(span: Span, ident: Option<Ident>, f: Function) -> (Self, Option<SyntaxError>);
-    /// Should return error and recover if identifier is required.
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> (Self, Option<SyntaxError>);
+    /// Should recover if identifier is required.
+    fn finish_fn(span: Span, ident: Option<Ident>, f: Function) -> Self;
+    /// Should recover if identifier is required.
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self;
 }
 
 impl OutputType for Box<Expr> {
@@ -1267,53 +1276,39 @@ impl OutputType for Box<Expr> {
         true
     }
 
-    fn finish_fn(
-        _span: Span,
-        ident: Option<Ident>,
-        function: Function,
-    ) -> (Self, Option<SyntaxError>) {
-        (Box::new(Expr::Fn(FnExpr { ident, function })), None)
+    fn finish_fn(_span: Span, ident: Option<Ident>, function: Function) -> Self {
+        Box::new(Expr::Fn(FnExpr { ident, function }))
     }
-    fn finish_class(
-        _span: Span,
-        ident: Option<Ident>,
-        class: Class,
-    ) -> (Self, Option<SyntaxError>) {
-        (Box::new(Expr::Class(ClassExpr { ident, class })), None)
+    fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Self {
+        Box::new(Expr::Class(ClassExpr { ident, class }))
+    }
+
+    fn is_ident_required() -> bool {
+        false
     }
 }
 
 impl OutputType for ExportDefaultDecl {
-    fn finish_fn(
-        span: Span,
-        ident: Option<Ident>,
-        function: Function,
-    ) -> (Self, Option<SyntaxError>) {
-        (
-            ExportDefaultDecl {
-                span,
-                decl: DefaultDecl::Fn(FnExpr { ident, function }),
-            },
-            None,
-        )
+    fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
+        ExportDefaultDecl {
+            span,
+            decl: DefaultDecl::Fn(FnExpr { ident, function }),
+        }
     }
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> (Self, Option<SyntaxError>) {
-        (
-            ExportDefaultDecl {
-                span,
-                decl: DefaultDecl::Class(ClassExpr { ident, class }),
-            },
-            None,
-        )
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
+        ExportDefaultDecl {
+            span,
+            decl: DefaultDecl::Class(ClassExpr { ident, class }),
+        }
+    }
+
+    fn is_ident_required() -> bool {
+        false
     }
 }
 
 impl OutputType for Decl {
-    fn finish_fn(
-        span: Span,
-        ident: Option<Ident>,
-        function: Function,
-    ) -> (Self, Option<SyntaxError>) {
+    fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
         let (ident, err) = match ident {
             Some(i) => (i, None),
             None => (
@@ -1322,16 +1317,13 @@ impl OutputType for Decl {
             ),
         };
 
-        (
-            Decl::Fn(FnDecl {
-                declare: false,
-                ident,
-                function,
-            }),
-            err,
-        )
+        Decl::Fn(FnDecl {
+            declare: false,
+            ident,
+            function,
+        })
     }
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> (Self, Option<SyntaxError>) {
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
         let (ident, err) = match ident {
             Some(i) => (i, None),
             None => (
@@ -1340,14 +1332,15 @@ impl OutputType for Decl {
             ),
         };
 
-        (
-            Decl::Class(ClassDecl {
-                declare: false,
-                ident,
-                class,
-            }),
-            err,
-        )
+        Decl::Class(ClassDecl {
+            declare: false,
+            ident,
+            class,
+        })
+    }
+
+    fn is_ident_required() -> bool {
+        true
     }
 }
 
