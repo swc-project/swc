@@ -32,7 +32,7 @@ async function compile(fileNames: string[], options: ts.CompilerOptions): Promis
         console.log(`${d.code} ${d.file.fileName} (${line + 1},${character + 1}): ${message}`);
     }
 
-    return true;
+    return false;
 }
 
 
