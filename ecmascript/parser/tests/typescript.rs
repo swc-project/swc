@@ -175,11 +175,13 @@ where
 
         let mut p = Parser::new_from(lexer);
 
-        let res = f(&mut p).map_err(|e| e.into_diagnostic(&handler).emit());
+        let res = f(&mut p);
 
         for err in p.take_errors() {
             err.into_diagnostic(&handler).emit();
         }
+
+        let res = res.map_err(|e| e.into_diagnostic(&handler).emit());
 
         if handler.has_errors() {
             return Err(());
