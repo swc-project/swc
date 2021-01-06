@@ -65,8 +65,7 @@ where
 
             let mut module = self
                 .get_module_for_merging(ctx, module_id, is_entry)
-                .map(|module| Modules::from(module, self.injected_ctxt))
-                .with_context(|| format!("Failed to clone {:?} for merging", module_id))?;
+                .with_context(|| format!("failed to clone {:?} for merging", module_id))?;
 
             {
                 let plan = ctx.plan.normal.get(&module_id);
@@ -119,9 +118,7 @@ where
 
         // Now we handle imports
         let mut module = if wrapped {
-            let mut module: Modules = self
-                .get_module_for_merging(ctx, dep_id, false)
-                .map(|module| Modules::from(module, self.injected_ctxt))?;
+            let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
             module = self.wrap_esm(ctx, dep_id, module.into())?.into();
 
             // Inject local_name = wrapped_esm_module_name
@@ -518,7 +515,7 @@ where
         _ctx: &Ctx,
         module_id: ModuleId,
         is_entry: bool,
-    ) -> Result<Module, Error> {
+    ) -> Result<Modules, Error> {
         self.run(|| {
             let info = self.scope.get_module(module_id).unwrap();
 
@@ -532,7 +529,7 @@ where
                 err: None,
             });
 
-            Ok(entry)
+            Ok(Modules::from(entry, self.injected_ctxt))
         })
     }
 
@@ -773,7 +770,39 @@ where
         // );
     }
 
-    pub(super) fn normalize(&self, module: &mut Modules) {}
+    /// This method handles imports and exports.
+    ///
+    ///
+    /// Basically one module have two top-level contexts. One is for it's codes
+    /// and another is for exporting. This method connects two module by
+    /// injecting `const local_A = exported_B_from_foo;`
+    pub(super) fn prepare(&self, module: &mut Modules) {
+        let injected_ctxt = self.injected_ctxt;
+
+        module.map_any_items(|items| {
+            let mut new = Vec::with_capacity(items.len() * 11 / 10);
+
+            for item in items {
+                match item {
+                    // Imports are easy to handle.
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                        for s in import.specifiers {
+                            match s {
+                                ImportSpecifier::Named(_) => {}
+                                ImportSpecifier::Default(_) => {}
+                                ImportSpecifier::Namespace(_) => {}
+                            }
+                        }
+                    }
+                    _ => {
+                        new.push(item);
+                    }
+                }
+            }
+
+            new
+        });
+    }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
