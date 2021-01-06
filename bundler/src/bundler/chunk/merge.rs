@@ -970,7 +970,76 @@ where
                         )));
                     }
 
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {}
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                        // Idea is almost same as above. But we uses symbol of the declaration
+                        // instead of using `default`.
+
+                        let local = match export.decl {
+                            Decl::Class(c) => {
+                                let i = c.ident.clone();
+                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))));
+
+                                i
+                            }
+                            Decl::Fn(f) => {
+                                let i = f.ident.clone();
+                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))));
+
+                                i
+                            }
+                            Decl::Var(v) => {
+                                let ids: Vec<Ident> = find_ids(&v);
+                                //
+
+                                new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                                    NamedExport {
+                                        span: export.span,
+                                        specifiers: ids
+                                            .into_iter()
+                                            .map(|id| {
+                                                let exported = Ident::new(
+                                                    id.sym.clone(),
+                                                    id.span.with_ctxt(info.export_ctxt()),
+                                                );
+
+                                                ExportNamedSpecifier {
+                                                    span: DUMMY_SP,
+                                                    orig: id,
+                                                    exported: Some(exported),
+                                                }
+                                            })
+                                            .map(ExportSpecifier::Named)
+                                            .collect(),
+                                        src: None,
+                                        type_only: false,
+                                    },
+                                )));
+                                continue;
+                            }
+
+                            Decl::TsInterface(_)
+                            | Decl::TsTypeAlias(_)
+                            | Decl::TsEnum(_)
+                            | Decl::TsModule(_) => continue,
+                        };
+
+                        // Create `export { local_ident as exported_ident }`
+                        let exported =
+                            Ident::new(local.sym.clone(), local.span.with_ctxt(info.export_ctxt()));
+                        let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: local,
+                            exported: Some(exported),
+                        });
+                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span: export.span,
+                                specifiers: vec![specifier],
+                                src: None,
+                                type_only: false,
+                            },
+                        )));
+                    }
 
                     _ => {
                         new.push(item);
