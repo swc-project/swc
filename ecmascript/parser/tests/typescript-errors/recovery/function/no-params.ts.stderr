@@ -1,0 +1,12 @@
+error: Expected identifier after this token
+ --> $DIR/tests/typescript-errors/recovery/function/no-params.ts:1:1
+  |
+1 | function {
+  | ^^^^^^^^
+
+error: Expected (, got {
+ --> $DIR/tests/typescript-errors/recovery/function/no-params.ts:1:10
+  |
+1 | function {
+  |          ^
+

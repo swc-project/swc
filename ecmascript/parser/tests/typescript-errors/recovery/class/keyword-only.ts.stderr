@@ -1,0 +1,12 @@
+error: Expected identifier after this token
+ --> $DIR/tests/typescript-errors/recovery/class/keyword-only.ts:1:1
+  |
+1 | class 
+  | ^^^^^
+
+error: Expected {, got <eof>
+ --> $DIR/tests/typescript-errors/recovery/class/keyword-only.ts:1:1
+  |
+1 | class 
+  | ^^^^^
+

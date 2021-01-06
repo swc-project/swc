@@ -1,4 +1,4 @@
-error: Expected ident
+error: Expected identifier after this token
  --> $DIR/tests/typescript-errors/recovery/function/simple.ts:1:1
   |
 1 | function () {
