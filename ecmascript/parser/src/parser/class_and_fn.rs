@@ -92,7 +92,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             match ident {
                 None if T::is_ident_required() => {
-                    p.emit_err(ident_required_span, SyntaxError::ExpectedIdent);
+                    p.emit_err(ident_required_span, SyntaxError::ExpectedIdentAfterThis);
                 }
                 _ => {}
             }
@@ -979,7 +979,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
         match ident {
             None if T::is_ident_required() => {
-                self.emit_err(ident_required_span, SyntaxError::ExpectedIdent)
+                self.emit_err(ident_required_span, SyntaxError::ExpectedIdentAfterThis)
             }
             _ => {}
         }
@@ -1309,12 +1309,9 @@ impl OutputType for ExportDefaultDecl {
 
 impl OutputType for Decl {
     fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
-        let (ident, err) = match ident {
-            Some(i) => (i, None),
-            None => (
-                Ident::new(js_word!(""), DUMMY_SP),
-                Some(SyntaxError::ExpectedIdent),
-            ),
+        let ident = match ident {
+            Some(i) => i,
+            None => Ident::new(js_word!(""), DUMMY_SP),
         };
 
         Decl::Fn(FnDecl {
@@ -1324,12 +1321,9 @@ impl OutputType for Decl {
         })
     }
     fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
-        let (ident, err) = match ident {
-            Some(i) => (i, None),
-            None => (
-                Ident::new(js_word!(""), DUMMY_SP),
-                Some(SyntaxError::ExpectedIdent),
-            ),
+        let ident = match ident {
+            Some(i) => i,
+            None => Ident::new(js_word!(""), DUMMY_SP),
         };
 
         Decl::Class(ClassDecl {

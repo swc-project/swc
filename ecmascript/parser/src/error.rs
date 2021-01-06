@@ -122,6 +122,7 @@ pub enum SyntaxError {
     InvalidExpr,
     NotSimpleAssign,
     ExpectedIdent,
+    ExpectedIdentAfterThis,
     ExpctedSemi,
     DuplicateLabel(JsWord),
     AsyncGenerator,
@@ -231,6 +232,8 @@ impl SyntaxError {
     #[inline(never)]
     pub fn msg(&self) -> Cow<'static, str> {
         match self {
+            SyntaxError::ExpectedIdentAfterThis => "Expected identifier after this token".into(),
+
             SyntaxError::PrivateNameInInterface => {
                 "private names are now allowed in interface".into()
             }
