@@ -1,0 +1,3 @@
+class extends Foo {
+    
+}
