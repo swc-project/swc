@@ -1182,7 +1182,7 @@ where
                                     }
                                     ExportSpecifier::Named(named) => match &named.exported {
                                         Some(exported) => {
-                                            if named.orig.span.ctxt != info.export_ctxt() {
+                                            if named.orig.span.ctxt != info.export_ctxt()    {
                                                 let mut lhs = exported.clone();
                                                 lhs.span = lhs.span.with_ctxt(info.export_ctxt());
                                                 vars.push(
