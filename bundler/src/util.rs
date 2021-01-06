@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
-const TRACK: bool = true;
+const TRACK: bool = false;
 
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
     fn into_module_item(self, injected_ctxt: SyntaxContext, name: &str) -> ModuleItem {
