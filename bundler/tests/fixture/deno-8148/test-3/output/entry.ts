@@ -4,13 +4,10 @@ const mod = function() {
         2,
         3
     ];
-    const a1 = a;
-    const b1 = b;
-    const c1 = c;
     return {
-        a,
-        b,
-        c
+        a: a,
+        b: b,
+        c: c
     };
 }();
 const foo = mod;
