@@ -1,0 +1,6 @@
+error: Abstract methods can only appear within an abstract class
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractInstantiations2/input.ts:3:5
+  |
+3 |     abstract baz(): number;
+  |     ^^^^^^^^
+
