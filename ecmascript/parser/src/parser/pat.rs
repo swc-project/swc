@@ -607,6 +607,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let AssignExpr {
                     span, left, right, ..
                 } = assign_expr;
+                self.verify_rhs_of_assign(&right);
                 Ok(Pat::Assign(AssignPat {
                     span,
                     left: match left {
@@ -779,6 +780,15 @@ impl<'a, I: Tokens> Parser<I> {
 
                 Ok(Pat::Invalid(Invalid { span }))
             }
+        }
+    }
+
+    fn verify_rhs_of_assign(&mut self, rhs: &Expr) {
+        match rhs {
+            Expr::Ident(i) if i.sym == js_word!("await") && self.ctx().in_async => {
+                self.emit_err(i.span, SyntaxError::ExpectedExpr)
+            }
+            _ => {}
         }
     }
 
