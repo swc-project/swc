@@ -130,6 +130,24 @@ impl<'a, I: Tokens> Parser<I> {
     fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
         trace_cur!(self, finish_assignment_expr);
 
+        if eat!(self, "=>") {
+            let left = self.reparse_expr_as_pat(PatType::AssignPat, cond)?;
+            let inner_start = left.span().lo;
+
+            let body = self.parse_fn_body(false, false)?;
+            let expr = Box::new(Expr::Arrow(ArrowExpr {
+                span: span!(self, start),
+                params: vec![left],
+                body,
+                is_async: false,
+                is_generator: false,
+                type_params: None,
+                return_type: None,
+            }));
+            // Call this again to handle a => a => a => a
+            return self.finish_assignment_expr(inner_start, expr);
+        }
+
         match cur!(self, false) {
             Ok(&Token::AssignOp(op)) => {
                 let left = if op == AssignOpToken::Assign {
