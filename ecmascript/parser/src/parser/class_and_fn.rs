@@ -49,10 +49,11 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_class_decl(
         &mut self,
         start: BytePos,
+        is_abstract: bool,
         class_start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<Decl> {
-        self.parse_class(start, class_start, decorators)
+        self.parse_class(start, is_abstract, class_start, decorators)
     }
 
     pub(super) fn parse_class_expr(
@@ -60,28 +61,34 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<Box<Expr>> {
-        self.parse_class(start, start, decorators)
+        self.parse_class(start, false, start, decorators)
     }
 
     pub(super) fn parse_default_class(
         &mut self,
         start: BytePos,
+        is_abstract: bool,
         class_start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<ExportDefaultDecl> {
-        self.parse_class(start, class_start, decorators)
+        self.parse_class(start, is_abstract, class_start, decorators)
     }
 
     fn parse_class<T>(
         &mut self,
         start: BytePos,
+        is_abstract: bool,
         class_start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<T>
     where
         T: OutputType,
     {
-        self.strict_mode().parse_with(|p| {
+        let ctx = Context {
+            in_abstract_class: is_abstract,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx).strict_mode().parse_with(|p| {
             expect!(p, "class");
             let ident_required_span = span!(p, start);
 
@@ -511,6 +518,20 @@ impl<'a, I: Tokens> Parser<I> {
                 SyntaxError::TS1243(js_word!("static"), js_word!("override")),
             );
         }
+        let (is_abstract, readonly) = match modifier {
+            Some("abstract") => {
+                if !self.ctx().in_abstract_class {
+                    self.emit_err(
+                        modifier_span.unwrap(),
+                        SyntaxError::AbstractMemberInNonAbstractClass,
+                    );
+                }
+
+                (true, self.parse_ts_modifier(&["readonly"])?.is_some())
+            }
+            Some("readonly") => (self.parse_ts_modifier(&["abstract"])?.is_some(), true),
+            _ => (false, false),
+        };
 
         if self.input.syntax().typescript()
             && !is_abstract

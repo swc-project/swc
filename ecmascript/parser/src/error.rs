@@ -227,6 +227,8 @@ pub enum SyntaxError {
     TS2703,
     TS4112,
     TSTypeAnnotationAfterAssign,
+
+    AbstractMemberInNonAbstractClass,
 }
 
 impl SyntaxError {
@@ -553,6 +555,9 @@ impl SyntaxError {
                 .into(),
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()
+
+            SyntaxError::AbstractMemberInNonAbstractClass => {
+                "Abstract methods can only appear within an abstract class".into()
             }
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
         }

@@ -2198,7 +2198,7 @@ impl<I: Tokens> Parser<I> {
 
             if is!(p, "class") {
                 return p
-                    .parse_class_decl(start, start, decorators)
+                    .parse_class_decl(start, false, start, decorators)
                     .map(|decl| match decl {
                         Decl::Class(c) => Decl::Class(ClassDecl {
                             declare: true,
@@ -2306,7 +2306,7 @@ impl<I: Tokens> Parser<I> {
                     if next {
                         bump!(self);
                     }
-                    let mut decl = self.parse_class_decl(start, start, decorators)?;
+                    let mut decl = self.parse_class_decl(start, true, start, decorators)?;
                     match decl {
                         Decl::Class(ClassDecl {
                             class:

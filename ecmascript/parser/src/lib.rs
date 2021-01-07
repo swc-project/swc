@@ -387,6 +387,8 @@ pub struct Context {
     /// keyword.
     in_generator: bool,
 
+    in_abstract_class: bool,
+
     is_continue_allowed: bool,
     is_break_allowed: bool,
 
