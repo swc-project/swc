@@ -1,0 +1,6 @@
+error: Expected }, got <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser512084/input.ts:1:11
+  |
+1 | class foo {
+  |           ^
+

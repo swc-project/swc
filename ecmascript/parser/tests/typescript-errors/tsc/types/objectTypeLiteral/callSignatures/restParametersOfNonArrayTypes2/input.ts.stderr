@@ -1,0 +1,6 @@
+error: Rest element must be final element
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2/input.ts:9:11
+  |
+9 | var f2 = (...x: MyThing, ...y: MyThing) => { }
+  |           ^^^
+

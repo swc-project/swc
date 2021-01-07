@@ -1,0 +1,6 @@
+error: 'private' modifier cannot appear on a constructor declaration
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration2/input.ts:2:3
+  |
+2 |   static constructor() { }
+  |   ^^^^^^
+

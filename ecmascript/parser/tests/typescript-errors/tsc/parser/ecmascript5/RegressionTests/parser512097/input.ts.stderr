@@ -1,0 +1,12 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser512097/input.ts:1:14
+  |
+1 | var tt = { aa; }
+  |              ^
+
+error: Expected ,, got ;
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser512097/input.ts:1:14
+  |
+1 | var tt = { aa; }
+  |              ^
+

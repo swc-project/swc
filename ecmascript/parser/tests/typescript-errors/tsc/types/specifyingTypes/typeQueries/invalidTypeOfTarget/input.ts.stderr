@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeQueries/invalidTypeOfTarget/input.ts:1:16
+  |
+1 | var x1: typeof {};
+  |                ^
+

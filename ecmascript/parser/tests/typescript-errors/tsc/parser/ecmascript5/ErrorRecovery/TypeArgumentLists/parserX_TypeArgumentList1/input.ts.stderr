@@ -1,0 +1,6 @@
+error: Expected unicode escape
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/TypeArgumentLists/parserX_TypeArgumentList1/input.ts:1:9
+  |
+1 | Foo<A,B,\ C>(4, 5, 6);
+  |         ^
+

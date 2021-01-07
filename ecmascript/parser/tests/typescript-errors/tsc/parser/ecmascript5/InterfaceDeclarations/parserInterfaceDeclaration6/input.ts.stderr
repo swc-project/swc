@@ -1,0 +1,6 @@
+error: Expected {, got export
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration6/input.ts:1:8
+  |
+1 | export export interface I {
+  |        ^^^^^^
+

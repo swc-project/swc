@@ -1,0 +1,6 @@
+error: Expected ;, got x
+ --> $DIR/tests/typescript-errors/tsc/types/namedTypes/interfaceWithPrivateMember/input.ts:6:13
+  |
+6 |     private x: string;
+  |             ^
+

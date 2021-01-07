@@ -1,0 +1,12 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ObjectLiterals/parserErrorRecovery_ObjectLiteral5/input.ts:2:7
+  |
+2 | return;
+  |       ^
+
+error: Expected ,, got ;
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ObjectLiterals/parserErrorRecovery_ObjectLiteral5/input.ts:2:7
+  |
+2 | return;
+  |       ^
+

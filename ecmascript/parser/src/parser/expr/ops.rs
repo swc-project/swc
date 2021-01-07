@@ -357,6 +357,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_await_expr);
+
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "await");

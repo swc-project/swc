@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncClass_es5/input.ts:4:7
+  |
+4 | async class C {
+  |       ^^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncClass_es5/input.ts:4:1
+  |
+4 | async class C {
+  | ^^^^^
+

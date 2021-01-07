@@ -1,0 +1,6 @@
+error: Expected ], got :
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexMemberDeclarations/parserIndexMemberDeclaration7/input.ts:2:13
+  |
+2 |    public [x: string]: string;
+  |             ^
+

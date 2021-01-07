@@ -1,0 +1,12 @@
+error: Expected identifier after this token
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction2/input.ts:1:1
+  |
+1 | function (a => b;
+  | ^^^^^^^^
+
+error: Expected ,, got =>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEqualsGreaterThanAfterFunction2/input.ts:1:13
+  |
+1 | function (a => b;
+  |             ^^
+

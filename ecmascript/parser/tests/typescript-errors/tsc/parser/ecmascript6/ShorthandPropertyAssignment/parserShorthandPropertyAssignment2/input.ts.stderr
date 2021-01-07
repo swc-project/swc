@@ -1,0 +1,6 @@
+error: Cannot use a reserved word as a shorthand property
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/ShorthandPropertyAssignment/parserShorthandPropertyAssignment2/input.ts:1:11
+  |
+1 | var v = { class };
+  |           ^^^^^
+

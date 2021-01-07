@@ -1,0 +1,6 @@
+error: Expected unicode escape
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/SkippedTokens/parserSkippedTokens13/input.ts:1:10
+  |
+1 | /regexp/ \ ;
+  |          ^
+

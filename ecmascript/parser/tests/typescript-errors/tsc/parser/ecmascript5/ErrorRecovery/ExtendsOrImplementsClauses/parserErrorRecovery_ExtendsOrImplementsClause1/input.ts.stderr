@@ -1,0 +1,6 @@
+error: Expected {, got <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ExtendsOrImplementsClauses/parserErrorRecovery_ExtendsOrImplementsClause1/input.ts:2:1
+  |
+2 | }
+  | ^
+

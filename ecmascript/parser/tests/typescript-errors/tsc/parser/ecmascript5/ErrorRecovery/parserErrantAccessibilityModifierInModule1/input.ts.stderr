@@ -1,0 +1,18 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserErrantAccessibilityModifierInModule1/input.ts:3:5
+  |
+3 |     private y=x;  // property visible only in module
+  |     ^^^^^^^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserErrantAccessibilityModifierInModule1/input.ts:3:13
+  |
+3 |     private y=x;  // property visible only in module
+  |             ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserErrantAccessibilityModifierInModule1/input.ts:3:5
+  |
+3 |     private y=x;  // property visible only in module
+  |     ^^^^^^^
+

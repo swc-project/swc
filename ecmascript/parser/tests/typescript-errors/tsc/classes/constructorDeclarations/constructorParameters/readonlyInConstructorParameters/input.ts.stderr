@@ -1,0 +1,6 @@
+error: A parameter property is only allowed in a constructor implementation
+ --> $DIR/tests/typescript-errors/tsc/classes/constructorDeclarations/constructorParameters/readonlyInConstructorParameters/input.ts:7:26
+  |
+7 |     constructor(readonly public x: number) {}
+  |                          ^^^^^^^^^^^^^^^^
+

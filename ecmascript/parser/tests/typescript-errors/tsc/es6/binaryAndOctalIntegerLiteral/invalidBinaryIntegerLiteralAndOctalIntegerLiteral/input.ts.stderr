@@ -1,0 +1,6 @@
+error: Expected a binary digit
+ --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:2:16
+  |
+2 | var binary = 0b21010;
+  |                ^
+

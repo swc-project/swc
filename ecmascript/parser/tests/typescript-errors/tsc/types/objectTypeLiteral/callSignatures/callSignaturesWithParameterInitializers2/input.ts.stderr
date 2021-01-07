@@ -1,0 +1,18 @@
+error: A parameter initializer is only allowed in a function or constructor implementation
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignaturesWithParameterInitializers2/input.ts:4:14
+  |
+4 | function foo(x = 2);
+  |              ^^^^^
+
+error: A parameter initializer is only allowed in a function or constructor implementation
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignaturesWithParameterInitializers2/input.ts:11:9
+   |
+11 |     foo(x = 2);
+   |         ^^^^^
+
+error: Expected {, got ,
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignaturesWithParameterInitializers2/input.ts:20:15
+   |
+20 |     foo(x = 1), // error
+   |               ^
+

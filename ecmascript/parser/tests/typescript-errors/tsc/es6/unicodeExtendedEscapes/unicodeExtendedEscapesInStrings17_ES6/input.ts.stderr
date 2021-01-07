@@ -1,0 +1,6 @@
+error: Invalid unciode code point
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings17_ES6/input.ts:3:13
+  |
+3 | var x = "\u{r}\u{n}\u{t}";
+  |             ^
+

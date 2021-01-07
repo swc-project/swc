@@ -1,0 +1,6 @@
+error: Expected ,, got ?
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:2:7
+  |
+2 | var {h?} = { h?: 1 };
+  |       ^
+

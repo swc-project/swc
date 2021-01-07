@@ -1,0 +1,12 @@
+error: Type parameter list cannot be empty
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration11/input.ts:2:14
+  |
+2 |   constructor<>() { }
+  |              ^^
+
+error: Type parameters cannot appear on a constructor declaration
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration11/input.ts:2:15
+  |
+2 |   constructor<>() { }
+  |               ^
+

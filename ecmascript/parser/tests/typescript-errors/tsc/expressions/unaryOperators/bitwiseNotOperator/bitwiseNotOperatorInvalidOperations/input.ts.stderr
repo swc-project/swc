@@ -1,0 +1,18 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorInvalidOperations/input.ts:5:10
+  |
+5 | var a = q~;  //expect error
+  |          ^
+
+error: Unexpected token `;`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorInvalidOperations/input.ts:5:11
+  |
+5 | var a = q~;  //expect error
+  |           ^
+
+error: Unexpected token `string literal ()`. Expected yield, an identifier, [ or {
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorInvalidOperations/input.ts:8:27
+  |
+8 | var mul = ~[1, 2, "abc"], "";  //expect error
+  |                           ^^
+

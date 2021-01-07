@@ -1,0 +1,6 @@
+error: A 'continue' statement can only jump to a label of an enclosing iteration statement
+ --> $DIR/tests/typescript-errors/tsc/statements/continueStatements/invalidSwitchContinueStatement/input.ts:5:9
+  |
+5 |         continue;
+  |         ^^^^^^^^^
+

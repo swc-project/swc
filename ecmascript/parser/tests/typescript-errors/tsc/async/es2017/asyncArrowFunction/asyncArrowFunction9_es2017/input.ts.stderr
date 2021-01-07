@@ -1,0 +1,6 @@
+error: Unexpected token `=>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/tsc/async/es2017/asyncArrowFunction/asyncArrowFunction9_es2017/input.ts:3:28
+  |
+3 | var foo = async (a = await => await): Promise<void> => {
+  |                            ^^
+

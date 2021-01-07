@@ -1,0 +1,6 @@
+error: Unexpected character '¬'
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ClassElements/parserErrorRecovery_ClassElement3/input.ts:2:4
+  |
+2 |    ¬
+  |    ^
+

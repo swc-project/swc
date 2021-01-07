@@ -1,0 +1,6 @@
+error: Expected =>, got {
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser509669/input.ts:2:17
+  |
+2 |  return ():void {};
+  |                 ^
+

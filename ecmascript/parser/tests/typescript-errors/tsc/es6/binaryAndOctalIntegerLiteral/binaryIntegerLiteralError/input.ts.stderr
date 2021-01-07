@@ -1,0 +1,12 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/binaryIntegerLiteralError/input.ts:2:17
+  |
+2 | var bin1 = 0B1102110;
+  |                 ^^^^
+
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/binaryIntegerLiteralError/input.ts:3:17
+  |
+3 | var bin1 = 0b11023410;
+  |                 ^^^^^
+

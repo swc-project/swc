@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncDeclare_es5/input.ts:4:9
+  |
+4 | declare async function foo(): Promise<void>;
+  |         ^^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncDeclare_es5/input.ts:4:1
+  |
+4 | declare async function foo(): Promise<void>;
+  | ^^^^^^^
+

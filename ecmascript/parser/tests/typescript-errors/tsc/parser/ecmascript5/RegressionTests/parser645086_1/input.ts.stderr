@@ -1,0 +1,6 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser645086_1/input.ts:1:13
+  |
+1 | var v = /[]/]/
+  |             ^
+

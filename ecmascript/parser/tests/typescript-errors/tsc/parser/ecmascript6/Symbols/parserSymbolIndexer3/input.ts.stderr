@@ -1,0 +1,6 @@
+error: Expected ], got :
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/Symbols/parserSymbolIndexer3/input.ts:3:14
+  |
+3 |     static [s: symbol]: string;
+  |              ^
+

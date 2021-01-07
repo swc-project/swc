@@ -1,0 +1,6 @@
+error: Expected =>, got M
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncModule_es5/input.ts:4:14
+  |
+4 | async module M {
+  |              ^
+

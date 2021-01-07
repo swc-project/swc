@@ -1,0 +1,13 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement1/input.ts:4:10
+  |
+4 |     case 2:
+  |          ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement1/input.ts:3:8
+  |
+3 | /        1 + 
+4 | |     case 2:
+  | |________^
+

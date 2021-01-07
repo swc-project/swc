@@ -1,0 +1,6 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression2/input.ts:1:15
+  |
+1 | a = () => { } || a
+  |               ^^
+

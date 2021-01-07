@@ -1,0 +1,6 @@
+error: Unexpected token `Foo`. Expected * for generator, private key, identifier or async
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberFunctionDeclarations/parserMemberFunctionDeclaration4/input.ts:2:12
+  |
+2 |     export Foo() { }
+  |            ^^^
+

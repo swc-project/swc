@@ -1,0 +1,18 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserPublicBreak1/input.ts:1:1
+  |
+1 | public break;
+  | ^^^^^^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserPublicBreak1/input.ts:1:8
+  |
+1 | public break;
+  |        ^^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserPublicBreak1/input.ts:1:1
+  |
+1 | public break;
+  | ^^^^^^
+

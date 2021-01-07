@@ -1,0 +1,6 @@
+error: Trailing comma is not allowed
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration8/input.ts:1:4
+  |
+1 | var ;
+  |    ^
+

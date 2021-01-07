@@ -1,0 +1,6 @@
+error: Expected >, got is
+  --> $DIR/tests/typescript-errors/tsc/expressions/typeAssertions/typeAssertions/input.ts:44:14
+   |
+44 | if(<numOrStr is string>(numOrStr === undefined)) { // Error
+   |              ^^
+

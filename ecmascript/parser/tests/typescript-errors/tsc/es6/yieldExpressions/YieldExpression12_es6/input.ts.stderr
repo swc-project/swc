@@ -1,0 +1,18 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldExpression12_es6/input.ts:4:6
+  |
+4 |      yield foo
+  |      ^^^^^
+
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldExpression12_es6/input.ts:4:12
+  |
+4 |      yield foo
+  |            ^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldExpression12_es6/input.ts:4:6
+  |
+4 |      yield foo
+  |      ^^^^^
+

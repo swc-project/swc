@@ -1,0 +1,6 @@
+error: A 'continue' statement can only jump to a label of an enclosing iteration statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/ContinueStatements/parser_continueNotInIterationStatement4/input.ts:4:5
+  |
+4 |     continue TWO;
+  |     ^^^^^^^^^^^^^
+

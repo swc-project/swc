@@ -1,0 +1,12 @@
+error: Return statement is not allowed here
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ModuleElements/parserErrorRecovery_ModuleElement1/input.ts:1:1
+  |
+1 | return foo;
+  | ^^^^^^^^^^^
+
+error: Unexpected token `}`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ModuleElements/parserErrorRecovery_ModuleElement1/input.ts:2:1
+  |
+2 | }
+  | ^
+

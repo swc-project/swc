@@ -1,0 +1,6 @@
+error: Invalid unciode escape
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings24_ES6/input.ts:3:10
+  |
+3 | var x = "\u{00000000000067
+  |          ^^^^^^^^^^^^^^^^^
+

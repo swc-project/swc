@@ -1,0 +1,6 @@
+error: Unexpected token `)`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Fuzz/parser0_004152/input.ts:2:45
+  |
+2 |     private position = new DisplayPosition([), 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0], NoMove, 0);
+  |                                             ^
+

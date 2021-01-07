@@ -1,0 +1,6 @@
+error: A `set` accessor must have a corresponding `get` accessor
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration13/input.ts:3:4
+  |
+3 |    set Foo() { }
+  |    ^^^
+

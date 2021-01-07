@@ -1,0 +1,6 @@
+error: Unexpected token `)`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/tsc/async/es6/asyncArrowFunction/asyncArrowFunction7_es6/input.ts:6:29
+  |
+6 |   var foo = async (a = await): Promise<void> => {
+  |                             ^
+

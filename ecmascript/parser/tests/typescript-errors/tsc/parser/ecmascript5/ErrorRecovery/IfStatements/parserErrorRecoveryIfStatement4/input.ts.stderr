@@ -1,0 +1,6 @@
+error: Unexpected token `}`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement4/input.ts:4:3
+  |
+4 |   }
+  |   ^
+

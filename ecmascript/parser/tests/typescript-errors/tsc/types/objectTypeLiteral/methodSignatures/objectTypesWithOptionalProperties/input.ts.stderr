@@ -1,0 +1,12 @@
+error: An object member cannot be declared optional
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties/input.ts:24:6
+   |
+24 |     x?: 1 // error
+   |      ^
+
+error: Unexpected token `:`. Expected ... , *,  (, [, :, , ?, =, an identifier, public, protected, private, readonly, <.
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties/input.ts:24:7
+   |
+24 |     x?: 1 // error
+   |       ^
+
