@@ -193,7 +193,6 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         };
     });
     module.exports = load1();
-    const progress = module.exports;
 });
 var { default: progress  } = load();
 console.log(progress);
