@@ -14,6 +14,6 @@ class Comparator1 {
         }
     }
 }
-export { Comparator1 as Comparator };
 const x = new Comparator1('boo');
 x.parse('test');
+export { Comparator1 as Comparator };
