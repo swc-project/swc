@@ -337,6 +337,13 @@ impl<'a, I: Tokens> Parser<I> {
                     return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
                 }
 
+                Token::Hash => {
+                    // Recover from the error.
+                    let name = self.parse_private_name()?;
+                    self.emit_err(name.span, SyntaxError::ExpectedExpr);
+                    return Ok(Box::new(Expr::PrivateName(name)));
+                }
+
                 _ => {}
             },
             None => {}
