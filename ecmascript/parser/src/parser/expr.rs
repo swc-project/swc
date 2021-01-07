@@ -27,6 +27,7 @@ impl<'a, I: Tokens> Parser<I> {
                     if eat!(self, ';') {
                         break;
                     }
+                    bump!(self);
                 }
 
                 Ok(Box::new(Expr::Invalid(Invalid { span })))
