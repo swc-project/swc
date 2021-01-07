@@ -159,7 +159,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 });
         }
 
-        let has_modifiers = self.eat_any_ts_modifier()?;
+        let modifier = self.parse_any_ts_modifier()?;
         let modifiers_span = self.input.prev_span();
 
         let key = self.parse_prop_name()?;
@@ -244,8 +244,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         match ident.sym {
             js_word!("get") | js_word!("set") | js_word!("async") => {
-                if has_modifiers {
-                    self.emit_err(modifiers_span, SyntaxError::TS1042);
+                if let Some((modifier, span)) = modifier {
+                    self.emit_err(modifiers_span, SyntaxError::InvalidModifier { modifier });
                 }
 
                 let is_generator = ident.sym == js_word!("async") && eat!(self, '*');

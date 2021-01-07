@@ -182,7 +182,9 @@ pub enum SyntaxError {
     TS1030(JsWord),
     TS1031,
     TS1038,
-    TS1042,
+    InvalidModifier {
+        modifier: &'static str,
+    },
     TS1047,
     TS1048,
     TS1056,
@@ -473,7 +475,9 @@ impl SyntaxError {
             SyntaxError::TS1038 => {
                 "`declare` modifier not allowed for code already in an ambient context".into()
             }
-            SyntaxError::TS1042 => "`async` modifier cannot be used here".into(),
+            SyntaxError::InvalidModifier { modifier } => {
+                format!("`{}` modifier cannot be used here.", modifier).into()
+            }
             SyntaxError::TS1047 => "A rest parameter cannot be optional".into(),
             SyntaxError::TS1048 => "A rest parameter cannot have an initializer".into(),
             SyntaxError::TS1085 => "Legacy octal literals are not available when targeting \

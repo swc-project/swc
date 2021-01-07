@@ -142,6 +142,26 @@ impl<'a, I: Tokens> Parser<I> {
         }))
     }
 
+    pub(super) fn parse_any_ts_modifier(&mut self) -> PResult<Option<(&'static str, Span)>> {
+        let has_modifier = self.syntax().typescript()
+            && match *cur!(self, false)? {
+                Word(Word::Ident(js_word!("public")))
+                | Word(Word::Ident(js_word!("protected")))
+                | Word(Word::Ident(js_word!("private")))
+                | Word(Word::Ident(js_word!("readonly"))) => true,
+                _ => false,
+            }
+            && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
+        if has_modifier {
+            let start = cur_pos!(self);
+            let modifier =
+                self.parse_ts_modifier(&["public", "protected", "private", "readonly"])?;
+            return Ok(Some((modifier.unwrap(), span!(self, start))));
+        }
+
+        return Ok(None);
+    }
+
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
             && match *cur!(self, false)? {
