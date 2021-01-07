@@ -230,6 +230,7 @@ pub enum SyntaxError {
 
     AbstractMemberInNonAbstractClass,
     StaticWithAbstract,
+    DecoratorNotAllowed,
 }
 
 impl SyntaxError {
@@ -564,6 +565,7 @@ impl SyntaxError {
             SyntaxError::StaticWithAbstract => {
                 "'static' modifier cannot be used with 'abstract' modifier.".into()
             }
+            SyntaxError::DecoratorNotAllowed => "Decorators are not valid here".into(),
         }
     }
 }

@@ -863,6 +863,18 @@ impl<'a, I: Tokens> Parser<I> {
         is_abstract: bool,
         is_override: bool,
     ) -> PResult<ClassMember> {
+        match &key {
+            Either::Left(key) => {
+                // Private method cannot have decorators on it.
+                if !decorators.is_empty() {
+                    for dec in &decorators {
+                        self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                    }
+                }
+            }
+            Either::Right(_) => {}
+        }
+
         if !self.input.syntax().class_props() {
             syntax_error!(self, span!(self, start), SyntaxError::ClassProperty)
         }
@@ -1200,6 +1212,17 @@ impl<'a, I: Tokens> Parser<I> {
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
         trace_cur!(self, make_method);
+        match &key {
+            Either::Left(key) => {
+                // Private method cannot have decorators on it.
+                if !decorators.is_empty() {
+                    for dec in &decorators {
+                        self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                    }
+                }
+            }
+            Either::Right(_) => {}
+        }
 
         let is_static = static_token.is_some();
         let ctx = Context {
