@@ -1,4 +1,5 @@
 use crate::bundler::modules::Modules;
+use crate::debug::print_hygiene;
 use crate::{
     bundler::{
         chunk::merge::Ctx,
@@ -10,12 +11,9 @@ use crate::{
 use anyhow::{Context, Error};
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use retain_mut::RetainMut;
-use std::mem::replace;
-use swc_atoms::js_word;
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 impl<L, R> Bundler<'_, L, R>
@@ -147,6 +145,12 @@ where
                 }
             }
 
+            print_hygiene(
+                &format!("dep: before unexport"),
+                &self.cm,
+                &dep.clone().into(),
+            );
+
             if !specifiers.is_empty() {
                 unexprt_as_var(&mut dep, dep_info.export_ctxt());
 
@@ -154,8 +158,7 @@ where
                     exports: &specifiers,
                 });
 
-                // print_hygiene(&format!("dep: unexport"), &self.cm,
-                // &dep.clone().into());
+                print_hygiene(&format!("dep: unexport"), &self.cm, &dep.clone().into());
             }
 
             // TODO: Add varaible based on specifers
