@@ -1,0 +1,12 @@
+error: Abstract methods can only appear within an abstract class
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMethodInNonAbstractClass/input.ts:2:5
+  |
+2 |     abstract foo();
+  |     ^^^^^^^^
+
+error: Abstract methods can only appear within an abstract class
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMethodInNonAbstractClass/input.ts:6:5
+  |
+6 |     abstract foo() {}
+  |     ^^^^^^^^
+
