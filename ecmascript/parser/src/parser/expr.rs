@@ -646,11 +646,7 @@ impl<'a, I: Tokens> Parser<I> {
         // we parse arrow function at here, to handle it efficiently.
         if has_pattern || return_type.is_some() || is!(self, "=>") {
             if self.input.had_line_break_before_cur() {
-                syntax_error!(
-                    self,
-                    span!(self, expr_start),
-                    SyntaxError::LineBreakBeforeArrow
-                );
+                self.emit_err(span!(self, expr_start), SyntaxError::LineBreakBeforeArrow);
             }
             if !can_be_arrow {
                 syntax_error!(self, span!(self, expr_start), SyntaxError::ArrowNotAllowed);
