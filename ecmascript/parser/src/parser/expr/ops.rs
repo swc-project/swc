@@ -362,7 +362,8 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!(self, "await");
 
         if is!(self, '*') {
-            syntax_error!(self, SyntaxError::AwaitStar);
+            let span = span!(self, start);
+            self.emit_err(span, SyntaxError::AwaitStar);
         }
 
         if is_one_of!(self, ')', ']') && !self.ctx().in_async {
