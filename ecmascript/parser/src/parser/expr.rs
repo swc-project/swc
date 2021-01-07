@@ -1202,6 +1202,7 @@ impl<'a, I: Tokens> Parser<I> {
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
         while !eof!(self) && !is!(self, ')') {
+            trace_cur!(self, parse_args_or_pats_element);
             if first {
                 if is!(self, "async") {
                     // https://github.com/swc-project/swc/issues/410
