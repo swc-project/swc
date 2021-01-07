@@ -5,6 +5,10 @@ use crate::{parser::expr::PatOrExprOrSpread, token::AssignOpToken};
 use std::iter;
 use swc_atoms::js_word;
 use swc_common::Spanned;
+use swc_common::DUMMY_SP;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
@@ -784,11 +788,15 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn verify_rhs_of_assign(&mut self, rhs: &Expr) {
-        match rhs {
-            Expr::Ident(i) if i.sym == js_word!("await") && self.ctx().in_async => {
-                self.emit_err(i.span, SyntaxError::ExpectedExprAfterThis)
-            }
-            _ => {}
+        let mut visitor = AssignRhsVerifier {
+            ctx: self.ctx(),
+            errors: vec![],
+        };
+
+        rhs.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+
+        for (span, err) in visitor.errors {
+            self.emit_err(span, err);
         }
     }
 
@@ -1158,5 +1166,24 @@ mod tests {
                 })]
             })
         );
+    }
+}
+
+struct AssignRhsVerifier {
+    ctx: Context,
+    errors: Vec<(Span, SyntaxError)>,
+}
+
+impl Visit for AssignRhsVerifier {
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match e {
+            Expr::Ident(i) if i.sym == js_word!("await") && self.ctx.in_async => {
+                self.errors
+                    .push((i.span, SyntaxError::ExpectedExprAfterThis));
+            }
+            _ => {}
+        }
     }
 }
