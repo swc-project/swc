@@ -773,6 +773,10 @@ where
     pub(super) fn prepare(&self, info: &TransformedModule, module: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
+        if !info.is_es6 {
+            return;
+        }
+
         module.map_any_items(|items| {
             let mut new = Vec::with_capacity(items.len() * 11 / 10);
 
