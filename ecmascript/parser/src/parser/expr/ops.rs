@@ -324,7 +324,10 @@ impl<'a, I: Tokens> Parser<I> {
             })));
         }
 
-        if (self.ctx().in_async || self.syntax().top_level_await()) && is!(self, "await") {
+        if (self.ctx().in_async || self.syntax().top_level_await())
+            && is!(self, "await")
+            && !peeked_is!(self, "=>")
+        {
             return self.parse_await_expr();
         }
 
@@ -371,7 +374,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // If current token is `=>`, it will result in an error while reparsing if an
         // `async` token exists.
-        if is_one_of!(self, ')', ']', "=>") {
+        if is_one_of!(self, ')', ']') {
             if self.ctx().in_async {
                 let span = span!(self, start);
                 self.emit_err(span, SyntaxError::ExpectedExprAfterThis);
