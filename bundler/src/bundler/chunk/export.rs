@@ -255,7 +255,7 @@ pub(super) fn inject_export(
                 {
                     if !wrapped {
                         let export_ctxt = export.span.ctxt;
-                        ctx.transitive_remap.insert(entry_export_ctxt, export_ctxt);
+                        ctx.transitive_remap.insert(export_ctxt, entry_export_ctxt);
                     }
 
                     if let Some(mut dep) = dep.take() {
