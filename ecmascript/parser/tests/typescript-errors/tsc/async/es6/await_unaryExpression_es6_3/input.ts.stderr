@@ -1,0 +1,12 @@
+error: Not a variable
+ --> $DIR/tests/typescript-errors/tsc/async/es6/await_unaryExpression_es6_3/input.ts:4:7
+  |
+4 |     ++await 42; // Error
+  |       ^^^^^^^^
+
+error: Not a variable
+ --> $DIR/tests/typescript-errors/tsc/async/es6/await_unaryExpression_es6_3/input.ts:8:7
+  |
+8 |     --await 42; // Error
+  |       ^^^^^^^^
+
