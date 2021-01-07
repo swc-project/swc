@@ -1,6 +1,0 @@
-error: Expected ], got ,
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature11/input.ts:4:20
-  |
-4 |         [p2: string, p3: number];
-  |                    ^
-

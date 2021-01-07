@@ -1,6 +1,0 @@
-error: Unexpected eof
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ExportAssignments/parserExportAssignment3/input.ts:1:9
-  |
-1 | export =
-  |         ^
-

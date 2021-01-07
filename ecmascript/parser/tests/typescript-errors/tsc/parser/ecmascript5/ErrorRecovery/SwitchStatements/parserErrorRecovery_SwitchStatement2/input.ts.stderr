@@ -1,6 +1,0 @@
-error: Expected }, got class
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/SwitchStatements/parserErrorRecovery_SwitchStatement2/input.ts:5:1
-  |
-5 | class D {
-  | ^^^^^
-

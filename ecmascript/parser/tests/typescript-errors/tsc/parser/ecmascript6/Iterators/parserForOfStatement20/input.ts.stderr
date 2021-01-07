@@ -1,6 +1,0 @@
-error: Unexpected initializer in for in/of loop
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/Iterators/parserForOfStatement20/input.ts:2:10
-  |
-2 | for (var of = 0 in of) { }
-  |          ^^
-

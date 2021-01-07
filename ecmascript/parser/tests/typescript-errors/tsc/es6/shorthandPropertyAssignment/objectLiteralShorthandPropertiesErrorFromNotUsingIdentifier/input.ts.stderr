@@ -1,6 +1,0 @@
-error: Unexpected token `,`. Expected identifier
- --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:3:20
-  |
-3 |     "stringLiteral",
-  |                    ^
-

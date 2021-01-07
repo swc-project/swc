@@ -1,6 +1,0 @@
-error: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/expressions/typeGuards/typePredicateOnVariableDeclaration02/input.ts:3:10
-  |
-3 | var y: z is number;
-  |          ^^
-

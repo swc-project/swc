@@ -1,6 +1,0 @@
-error: Expected (, got {
- --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringWithEmbeddedYieldKeyword/input.ts:1:15
-  |
-1 | function* gen {
-  |               ^
-

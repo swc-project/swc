@@ -1,6 +1,0 @@
-error: Expected one variable binding
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/Iterators/parserForOfStatement3/input.ts:2:13
-  |
-2 | for (var a, b of X) {
-  |             ^
-

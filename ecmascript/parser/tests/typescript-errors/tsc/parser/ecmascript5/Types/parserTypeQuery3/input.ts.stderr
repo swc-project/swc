@@ -1,6 +1,0 @@
-error: Expected an identifier
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Types/parserTypeQuery3/input.ts:1:17
-  |
-1 | var v: typeof A.
-  |                 ^
-

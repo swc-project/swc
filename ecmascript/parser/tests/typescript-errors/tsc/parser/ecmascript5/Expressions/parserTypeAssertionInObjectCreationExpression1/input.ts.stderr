@@ -1,6 +1,0 @@
-error: Expression expected
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Expressions/parserTypeAssertionInObjectCreationExpression1/input.ts:1:5
-  |
-1 | new <T>Foo()
-  |     ^
-

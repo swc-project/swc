@@ -1,6 +1,0 @@
-error: Classes may not have a non-static field named 'constructor'
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration8/input.ts:3:10
-  |
-3 |   public constructor;
-  |          ^^^^^^^^^^^
-

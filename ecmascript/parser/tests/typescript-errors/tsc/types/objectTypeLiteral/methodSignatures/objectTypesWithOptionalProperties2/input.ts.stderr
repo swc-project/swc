@@ -1,6 +1,0 @@
-error: Expected ;, got ?
- --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties2/input.ts:4:8
-  |
-4 |     x()?: number; // error
-  |        ^
-

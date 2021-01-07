@@ -1,6 +1,0 @@
-error: 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/StrictMode/parserStrictMode13/input.ts:4:7
-  |
-4 | catch(eval) {
-  |       ^^^^
-

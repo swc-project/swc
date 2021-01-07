@@ -1,6 +1,0 @@
-error: Unexpected token `intI`. Expected * for generator, private key, identifier or async
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/AccessibilityAfterStatic/parserAccessibilityAfterStatic10/input.ts:3:15
-  |
-3 | static public intI<T>() {}
-  |               ^^^^
-

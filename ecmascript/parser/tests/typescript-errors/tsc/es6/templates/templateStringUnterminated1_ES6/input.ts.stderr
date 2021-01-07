@@ -1,6 +1,0 @@
-error: Unexpected eof
- --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringUnterminated1_ES6/input.ts:2:2
-  |
-2 | `
-  |  ^
-

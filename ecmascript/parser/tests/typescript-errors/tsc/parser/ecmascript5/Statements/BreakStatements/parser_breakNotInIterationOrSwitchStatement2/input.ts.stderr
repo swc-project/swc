@@ -1,6 +1,0 @@
-error: A 'break' statement can only be used within an enclosing iteration or switch statement
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/BreakStatements/parser_breakNotInIterationOrSwitchStatement2/input.ts:3:5
-  |
-3 |     break;
-  |     ^^^^^^
-

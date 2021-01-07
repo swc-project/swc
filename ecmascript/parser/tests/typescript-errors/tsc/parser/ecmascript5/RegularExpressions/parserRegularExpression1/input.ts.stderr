@@ -1,6 +1,0 @@
-error: Return statement is not allowed here
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegularExpressions/parserRegularExpression1/input.ts:1:1
-  |
-1 | return /(#?-?\d*\.\d\w*%?)|(@?#?[\w-?]+%?)/g;
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-

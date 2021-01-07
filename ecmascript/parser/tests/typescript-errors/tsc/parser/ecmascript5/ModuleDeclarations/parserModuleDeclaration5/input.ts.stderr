@@ -1,6 +1,0 @@
-error: `declare` modifier not allowed for code already in an ambient context
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration5/input.ts:3:5
-  |
-3 |     declare module M3 {
-  |     ^^^^^^^
-

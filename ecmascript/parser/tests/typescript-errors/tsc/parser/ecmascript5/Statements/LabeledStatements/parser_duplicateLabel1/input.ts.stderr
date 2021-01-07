@@ -1,6 +1,0 @@
-error: Label target is already declared
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/LabeledStatements/parser_duplicateLabel1/input.ts:2:1
-  |
-2 | target:
-  | ^^^^^^
-

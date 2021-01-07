@@ -1,6 +1,0 @@
-error: Unexpected eof
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/TupleTypes/TupleType4/input.ts:1:9
-  |
-1 | var v: [
-  |         ^
-

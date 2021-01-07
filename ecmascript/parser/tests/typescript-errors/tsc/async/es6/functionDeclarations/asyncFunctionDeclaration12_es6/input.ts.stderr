@@ -1,6 +1,0 @@
-error: Expected (, got await
- --> $DIR/tests/typescript-errors/tsc/async/es6/functionDeclarations/asyncFunctionDeclaration12_es6/input.ts:3:24
-  |
-3 | var v = async function await(): Promise<void> { }
-  |                        ^^^^^
-

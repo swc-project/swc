@@ -1,6 +1,0 @@
-error: Expected (, got ;
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ObjectTypes/parserObjectType5/input.ts:3:7
-  |
-3 |    <T>;
-  |       ^
-

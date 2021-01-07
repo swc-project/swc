@@ -1,6 +1,0 @@
-error: Unexpected token `:`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
-  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS12.11_A3_T4/input.ts:16:9
-   |
-16 |     case:
-   |         ^
-

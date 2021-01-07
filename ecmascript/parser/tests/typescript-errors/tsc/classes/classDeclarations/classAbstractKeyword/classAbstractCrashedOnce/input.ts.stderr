@@ -1,6 +1,0 @@
-error: Expected ident
- --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractCrashedOnce/input.ts:8:5
-  |
-8 |     }
-  |     ^
-

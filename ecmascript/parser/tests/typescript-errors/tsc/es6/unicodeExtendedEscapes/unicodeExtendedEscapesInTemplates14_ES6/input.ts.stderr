@@ -1,6 +1,0 @@
-error: Invalid unciode code point
- --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates14_ES6/input.ts:4:13
-  |
-4 | var x = `\u{-DDDD}`;
-  |             ^
-

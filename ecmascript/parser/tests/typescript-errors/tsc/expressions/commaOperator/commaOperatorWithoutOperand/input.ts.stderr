@@ -1,6 +1,0 @@
-error: Unexpected token `,`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
-  --> $DIR/tests/typescript-errors/tsc/expressions/commaOperator/commaOperatorWithoutOperand/input.ts:17:2
-   |
-17 | (, ANY);
-   |  ^
-

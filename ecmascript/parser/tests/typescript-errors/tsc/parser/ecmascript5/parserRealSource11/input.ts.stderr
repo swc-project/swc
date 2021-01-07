@@ -1,6 +1,0 @@
-error: Unexpected token `]`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
-   --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserRealSource11/input.ts:193:41
-    |
-193 |         public members: AST[] = new AST[];
-    |                                         ^
-

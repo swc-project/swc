@@ -1,6 +1,0 @@
-error: interface name is invalid
- --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractWithInterface/input.ts:1:1
-  |
-1 | abstract interface I {}
-  | ^^^^^^^^
-

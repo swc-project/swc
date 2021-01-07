@@ -1,6 +1,0 @@
-error: Expected ], got =
- --> $DIR/tests/typescript-errors/tsc/es6/destructuring/restElementWithInitializer1/input.ts:2:11
-  |
-2 | var [...x = a] = a;  // Error, rest element cannot have initializer
-  |           ^
-

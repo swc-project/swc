@@ -1,6 +1,0 @@
-error: Unexpected eof
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserUnterminatedGeneric1/input.ts:2:54
-  |
-2 |         all(promises: IPromise < any > []): IPromise<
-  |                                                      ^
-

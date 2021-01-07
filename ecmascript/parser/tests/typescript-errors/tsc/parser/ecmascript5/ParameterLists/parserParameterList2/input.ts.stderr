@@ -1,6 +1,0 @@
-error: Parameter cannot have question mark and initializer
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ParameterLists/parserParameterList2/input.ts:2:5
-  |
-2 |   F(A?= 0) { }
-  |     ^
-

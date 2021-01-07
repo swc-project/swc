@@ -1,6 +1,0 @@
-error: Invalid use of 'arguments' in strict mode
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/StrictMode/parserStrictMode4/input.ts:2:1
-  |
-2 | arguments = 1;
-  | ^^^^^^^^^
-

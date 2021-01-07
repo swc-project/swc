@@ -1,6 +1,0 @@
-error: Unterminated regexp literal
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MissingTokens/parserMissingToken2/input.ts:1:1
-  |
-1 | / b;
-  | ^^^^
-

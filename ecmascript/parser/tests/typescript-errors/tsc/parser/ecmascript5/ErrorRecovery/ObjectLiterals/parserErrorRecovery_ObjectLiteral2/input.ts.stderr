@@ -1,6 +1,0 @@
-error: Unexpected token `return`. Expected ... , *,  (, [, :, , ?, =, an identifier, public, protected, private, readonly, <.
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ObjectLiterals/parserErrorRecovery_ObjectLiteral2/input.ts:2:1
-  |
-2 | return;
-  | ^^^^^^
-

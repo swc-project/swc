@@ -1,6 +1,0 @@
-error: Unexpected token `x`. Expected * for generator, private key, identifier or async
- --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classBody/classBodyWithStatements/input.ts:2:9
-  |
-2 |     var x = 1;
-  |         ^
-

@@ -1,6 +1,0 @@
-error: Unexpected token `metal`. Expected meta
-  --> $DIR/tests/typescript-errors/tsc/es2019/importMeta/importMeta/input.ts:23:23
-   |
-23 | export let y = import.metal;
-   |                       ^^^^^
-

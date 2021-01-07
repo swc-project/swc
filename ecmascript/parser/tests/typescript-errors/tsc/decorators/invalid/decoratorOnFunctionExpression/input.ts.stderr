@@ -1,6 +1,0 @@
-error: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/decorators/invalid/decoratorOnFunctionExpression/input.ts:3:26
-  |
-3 | var F = @dec function () {
-  |                          ^
-

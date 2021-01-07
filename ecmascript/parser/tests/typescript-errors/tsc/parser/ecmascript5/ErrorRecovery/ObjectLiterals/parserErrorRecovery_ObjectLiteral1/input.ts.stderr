@@ -1,6 +1,0 @@
-error: Expected ,, got b
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ObjectLiterals/parserErrorRecovery_ObjectLiteral1/input.ts:1:16
-  |
-1 | var v = { a: 1 b: 2 }
-  |                ^
-

@@ -1,6 +1,0 @@
-error: Unterminated string constant
-  --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript5/scannerStringLiterals/input.ts:11:1
-   |
-11 | "Should error because of end of file.
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-

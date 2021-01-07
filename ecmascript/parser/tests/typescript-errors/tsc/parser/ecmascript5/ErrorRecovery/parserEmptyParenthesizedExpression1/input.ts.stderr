@@ -1,6 +1,0 @@
-error: Parenthized expression cannot be empty
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserEmptyParenthesizedExpression1/input.ts:2:4
-  |
-2 |    ().toString();
-  |    ^^
-

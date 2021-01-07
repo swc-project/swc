@@ -1,6 +1,0 @@
-error: Expected one variable binding
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/parserES5ForOfStatement7/input.ts:2:25
-  |
-2 | for (var a: number = 1, b: string = "" of X) {
-  |                         ^
-

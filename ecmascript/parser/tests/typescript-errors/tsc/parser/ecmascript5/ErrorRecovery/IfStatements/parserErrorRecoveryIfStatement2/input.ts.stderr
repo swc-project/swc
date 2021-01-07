@@ -1,6 +1,0 @@
-error: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement2/input.ts:4:3
-  |
-4 |   }
-  |   ^
-

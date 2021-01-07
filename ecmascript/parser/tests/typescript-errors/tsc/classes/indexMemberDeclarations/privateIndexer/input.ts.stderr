@@ -1,6 +1,0 @@
-error: Expected ], got :
- --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer/input.ts:4:15
-  |
-4 |     private [x: string]: string;
-  |               ^
-

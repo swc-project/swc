@@ -1,6 +1,0 @@
-error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/StrictMode/parserStrictMode2/input.ts:5:1
-  |
-5 | static();
-  | ^^^^^^
-

@@ -1,6 +1,0 @@
-error: Unexpected token `bigint literal`. Expected a numeric literal
-  --> $DIR/tests/typescript-errors/tsc/types/literal/templateLiteralTypes1/input.ts:19:42
-   |
-19 | type TS1 = ToString<'abc' | 42 | true | -1234n>;
-   |                                          ^^^^^
-

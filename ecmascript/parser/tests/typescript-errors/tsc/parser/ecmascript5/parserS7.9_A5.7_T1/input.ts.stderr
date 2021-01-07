@@ -1,7 +1,0 @@
-error: Invalid left-hand side in 'for...in' statement
-  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserS7.9_A5.7_T1/input.ts:17:1
-   |
-17 | / ++
-18 | | y
-   | |_^
-

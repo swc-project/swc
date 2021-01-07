@@ -1,6 +1,0 @@
-error: Expected ,, got this
-   --> $DIR/tests/typescript-errors/tsc/types/thisType/thisTypeInFunctionsNegative/input.ts:170:26
-    |
-170 | function modifiers(async this: C): number { return this.n; }
-    |                          ^^^^
-

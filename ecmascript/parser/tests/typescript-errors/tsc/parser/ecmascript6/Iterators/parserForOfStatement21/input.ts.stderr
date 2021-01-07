@@ -1,6 +1,0 @@
-error: Variable declaration list cannot be empty
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/Iterators/parserForOfStatement21/input.ts:2:9
-  |
-2 | for (var of of) { }
-  |         ^
-

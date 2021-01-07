@@ -1,6 +1,0 @@
-error: Expected {, got is
-  --> $DIR/tests/typescript-errors/tsc/expressions/typeGuards/typeGuardFunctionErrors/input.ts:18:57
-   |
-18 | function hasTypeGuardTypeInsideTypeGuardType(x): x is x is A {
-   |                                                         ^^
-

@@ -1,6 +1,0 @@
-error: Unexpected line break between arrow head and arrow
- --> $DIR/tests/typescript-errors/tsc/es6/arrowFunction/disallowLineTerminatorBeforeArrow/input.ts:1:10
-  |
-1 | var f1 = ()
-  |          ^^
-

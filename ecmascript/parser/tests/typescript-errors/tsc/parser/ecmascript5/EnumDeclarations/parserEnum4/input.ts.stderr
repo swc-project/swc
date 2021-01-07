@@ -1,6 +1,0 @@
-error: Expected {, got enum
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/EnumDeclarations/parserEnum4/input.ts:3:12
-  |
-3 |     export enum SignatureFlags {
-  |            ^^^^
-

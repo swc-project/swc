@@ -1,6 +1,0 @@
-error: A rest parameter must be last in a parameter list
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ParameterLists/parserParameterList1/input.ts:2:6
-  |
-2 |    F(...A, B) { }
-  |      ^^^
-

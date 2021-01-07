@@ -1,6 +1,0 @@
-error: Unexpected token `numeric literal`. Expected yield, an identifier, [ or {
- --> $DIR/tests/typescript-errors/tsc/es6/variableDeclarations/VariableDeclaration13_es6/input.ts:6:5
-  |
-6 | let[0] = 100;
-  |     ^
-

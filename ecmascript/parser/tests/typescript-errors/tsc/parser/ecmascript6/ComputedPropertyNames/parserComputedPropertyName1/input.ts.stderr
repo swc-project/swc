@@ -1,6 +1,0 @@
-error: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName1/input.ts:2:15
-  |
-2 | var v = { [e] };
-  |               ^
-

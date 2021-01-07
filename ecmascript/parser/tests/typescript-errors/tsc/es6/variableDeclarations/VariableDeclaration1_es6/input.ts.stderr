@@ -1,6 +1,0 @@
-error: Trailing comma is not allowed
- --> $DIR/tests/typescript-errors/tsc/es6/variableDeclarations/VariableDeclaration1_es6/input.ts:2:6
-  |
-2 | const
-  |      ^
-

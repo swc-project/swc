@@ -1,6 +1,0 @@
-error: A 'break' statement can only jump to a label of an enclosing statement
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/BreakStatements/parser_breakTarget6/input.ts:2:3
-  |
-2 |   break target;
-  |   ^^^^^^^^^^^^^
-

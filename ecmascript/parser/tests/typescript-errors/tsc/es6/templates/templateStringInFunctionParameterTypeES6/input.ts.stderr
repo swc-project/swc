@@ -1,6 +1,0 @@
-error: Unexpected token ```. Expected yield, an identifier, [ or {
- --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringInFunctionParameterTypeES6/input.ts:2:12
-  |
-2 | function f(`hello`);
-  |            ^
-

@@ -1,6 +1,0 @@
-error: Expected ,, got ;
- --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classHeritageSpecification/classExtendsEveryObjectType2/input.ts:1:31
-  |
-1 | class C2 extends { foo: string; } { } // error
-  |                               ^
-

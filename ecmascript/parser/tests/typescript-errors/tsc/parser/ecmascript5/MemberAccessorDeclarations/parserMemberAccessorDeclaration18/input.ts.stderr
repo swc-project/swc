@@ -1,6 +1,0 @@
-error: Rest pattern is not allowed in setter
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration18/input.ts:3:12
-  |
-3 |    set Foo(...a) { }
-  |            ^^^^
-

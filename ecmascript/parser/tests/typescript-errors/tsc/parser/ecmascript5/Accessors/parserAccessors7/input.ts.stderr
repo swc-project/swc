@@ -1,6 +1,0 @@
-error: A `set` accessor must have a corresponding `get` accessor
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Accessors/parserAccessors7/input.ts:2:15
-  |
-2 | var v = { get foo(v: number) { } };
-  |               ^^^
-

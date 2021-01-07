@@ -1,6 +1,0 @@
-error: Unexpected token `]`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
-   --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parserRealSource10/input.ts:127:43
-    |
-127 |     export var tokenTable = new TokenInfo[];
-    |                                           ^
-

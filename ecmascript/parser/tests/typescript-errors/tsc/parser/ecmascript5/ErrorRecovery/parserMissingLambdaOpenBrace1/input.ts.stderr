@@ -1,6 +1,0 @@
-error: Expected ,, got index
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserMissingLambdaOpenBrace1/input.ts:4:17
-  |
-4 |             var index = 0;
-  |                 ^^^^^
-

@@ -1,6 +1,0 @@
-error: Return statement is not allowed here
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/parserReturnStatement1.d/input.ts:1:1
-  |
-1 | return;
-  | ^^^^^^^
-

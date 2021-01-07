@@ -1,6 +1,0 @@
-error: Expected ident
- --> $DIR/tests/typescript-errors/tsc/expressions/optionalChaining/taggedTemplateChain/taggedTemplateChain/input.ts:2:4
-  |
-2 | a?.`b`;
-  |    ^
-

@@ -1,6 +1,0 @@
-error: Unexpected token `[`. Expected * for generator, private key, identifier or async
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexMemberDeclarations/parserIndexMemberDeclaration10/input.ts:2:18
-  |
-2 |    static static [x: string]: string;
-  |                  ^
-

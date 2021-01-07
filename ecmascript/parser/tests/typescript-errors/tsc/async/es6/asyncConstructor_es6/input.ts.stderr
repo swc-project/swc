@@ -1,6 +1,0 @@
-error: Constructor can't be an async function
- --> $DIR/tests/typescript-errors/tsc/async/es6/asyncConstructor_es6/input.ts:4:9
-  |
-4 |   async constructor() {    
-  |         ^^^^^^^^^^^
-

@@ -1,6 +1,0 @@
-error: An implementation cannot be declared in ambient contexts
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration2/input.ts:1:24
-  |
-1 | declare function Foo() {
-  |                        ^
-

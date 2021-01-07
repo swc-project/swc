@@ -1,6 +1,0 @@
-error: Expected ;, got (
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser519458/input.ts:1:21
-  |
-1 | import rect = module("rect"); var bar = new rect.Rect();
-  |                     ^
-

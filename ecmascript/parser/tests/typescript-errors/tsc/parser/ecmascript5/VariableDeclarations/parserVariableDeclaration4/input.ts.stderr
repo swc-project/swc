@@ -1,6 +1,0 @@
-error: `declare` modifier not allowed for code already in an ambient context
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration4/input.ts:2:4
-  |
-2 |    declare var v;
-  |    ^^^^^^^
-

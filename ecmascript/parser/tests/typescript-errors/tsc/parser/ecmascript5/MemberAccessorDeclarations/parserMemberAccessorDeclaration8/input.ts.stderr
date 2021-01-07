@@ -1,6 +1,0 @@
-error: Unexpected token `get`. Expected * for generator, private key, identifier or async
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration8/input.ts:3:19
-  |
-3 |     static static get Foo() { }
-  |                   ^^^
-

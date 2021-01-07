@@ -1,6 +1,0 @@
-error: Jump target cannot cross function boundary
- --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Statements/ContinueStatements/parser_continueTarget6/input.ts:2:3
-  |
-2 |   continue target;
-  |   ^^^^^^^^^^^^^^^^
-
