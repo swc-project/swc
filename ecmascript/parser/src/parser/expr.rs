@@ -27,6 +27,7 @@ impl<'a, I: Tokens> Parser<I> {
                     if eat!(self, ';') {
                         break;
                     }
+                    trace_cur!(self, parse_expr__recover);
                     bump!(self);
                 }
 
