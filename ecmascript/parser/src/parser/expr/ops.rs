@@ -368,7 +368,12 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(span, SyntaxError::AwaitStar);
         }
 
-        if is_one_of!(self, ')', ']') && !self.ctx().in_async {
+        if is_one_of!(self, ')', ']') {
+            if self.ctx().in_async {
+                let span = span!(self, start);
+                self.emit_err(span, SyntaxError::ExpectedExpr);
+            }
+
             return Ok(Box::new(Expr::Ident(Ident::new(
                 js_word!("await"),
                 span!(self, start),
