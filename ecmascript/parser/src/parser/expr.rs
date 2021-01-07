@@ -653,7 +653,12 @@ impl<'a, I: Tokens> Parser<I> {
             }
             expect!(self, "=>");
 
+            let ctx = Context {
+                in_async: self.ctx().in_async || async_span.is_some(),
+                ..self.ctx()
+            };
             let params = self
+                .with_ctx(ctx)
                 .parse_paren_items_as_params(paren_items)?
                 .into_iter()
                 .collect();
