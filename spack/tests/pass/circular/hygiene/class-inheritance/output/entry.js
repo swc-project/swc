@@ -10,7 +10,7 @@ const C1 = C;
 const C2 = C1;
 class B extends C2 {
     a() {
-        return new A3();
+        return new A2();
     }
 }
 const B1 = B;
@@ -20,5 +20,5 @@ class A extends B2 {
 const B3 = B1;
 const A1 = A;
 const A2 = A1;
-console.log(A2, 'Loaded!');
 const A3 = A1;
+console.log(A3, 'Loaded!');

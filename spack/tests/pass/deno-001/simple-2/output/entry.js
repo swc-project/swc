@@ -2,9 +2,10 @@ function deferred() {
 }
 const deferred1 = deferred;
 const deferred2 = deferred1;
+const deferred3 = deferred2;
 class ServerRequest {
     constructor(){
-        this.done = deferred2();
+        this.done = deferred3();
     }
 }
 const ServerRequest1 = ServerRequest;
@@ -18,8 +19,7 @@ async function readRequest(conn, bufr) {
 }
 const readRequest1 = readRequest;
 const readRequest2 = readRequest1;
-const deferred3 = deferred;
-const deferred4 = deferred3;
+const deferred4 = deferred1;
 class MuxAsyncIterator {
     constructor(){
         this.signal = deferred4();
@@ -27,7 +27,8 @@ class MuxAsyncIterator {
 }
 const MuxAsyncIterator1 = MuxAsyncIterator;
 const MuxAsyncIterator2 = MuxAsyncIterator1;
-console.log(deferred2, writeResponse2, readRequest2, MuxAsyncIterator2);
+const MuxAsyncIterator3 = MuxAsyncIterator2;
+console.log(deferred3, writeResponse2, readRequest2, MuxAsyncIterator3);
 async function listenAndServe(addr, handler) {
 }
 const listenAndServe1 = listenAndServe;

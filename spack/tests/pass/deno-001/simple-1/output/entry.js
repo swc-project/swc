@@ -247,6 +247,7 @@ function deferred() {
 }
 const deferred1 = deferred;
 const deferred2 = deferred1;
+const deferred3 = deferred2;
 class ServerRequest {
     /**
      * Value of Content-Length header.
@@ -312,7 +313,7 @@ class ServerRequest {
         this.finalized = true;
     }
     constructor(){
-        this.done = deferred2();
+        this.done = deferred3();
         this._contentLength = undefined;
         this._body = null;
         this.finalized = false;
@@ -335,8 +336,7 @@ async function readRequest(conn, bufr) {
     fixLength(req);
     return req;
 }
-const deferred3 = deferred;
-const deferred4 = deferred3;
+const deferred4 = deferred1;
 function fixLength(req) {
     const contentLength = req.headers.get("Content-Length");
     if (contentLength) {
@@ -410,6 +410,7 @@ const readRequest2 = readRequest1;
 var tmp1 = Symbol.asyncIterator;
 const MuxAsyncIterator1 = MuxAsyncIterator;
 const MuxAsyncIterator2 = MuxAsyncIterator1;
+const MuxAsyncIterator3 = MuxAsyncIterator2;
 class Server {
     close() {
         this.closing = true;
@@ -487,7 +488,7 @@ class Server {
         yield* this.iterateHttpRequests(conn);
     }
     [tmp1]() {
-        const mux = new MuxAsyncIterator2();
+        const mux = new MuxAsyncIterator3();
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         return mux.iterate();
     }
