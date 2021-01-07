@@ -783,6 +783,17 @@ where
             for item in items {
                 match item {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
+                        if let Some((src, _)) = info
+                            .imports
+                            .specifiers
+                            .iter()
+                            .find(|s| s.0.src.value == import.src.value)
+                        {
+                            if !self.scope.get_module(src.module_id).unwrap().is_es6 {
+                                continue;
+                            }
+                        }
+
                         // Imports are easy to handle.
                         for s in &import.specifiers {
                             match s {
