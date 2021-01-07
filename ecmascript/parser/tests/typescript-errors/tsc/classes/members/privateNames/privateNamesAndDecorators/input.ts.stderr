@@ -1,0 +1,12 @@
+error: Decorators are not valid here
+ --> $DIR/tests/typescript-errors/tsc/classes/members/privateNames/privateNamesAndDecorators/input.ts:4:5
+  |
+4 |     @dec                // Error
+  |     ^^^^
+
+error: Decorators are not valid here
+ --> $DIR/tests/typescript-errors/tsc/classes/members/privateNames/privateNamesAndDecorators/input.ts:6:5
+  |
+6 |     @dec                // Error
+  |     ^^^^
+
