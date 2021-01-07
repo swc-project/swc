@@ -8,7 +8,9 @@ class A extends Common3 {
 class B extends Common2 {
 }
 const __default = B;
-const B1 = __default;
-const __default1 = A;
-const A1 = __default1;
+const __default1 = __default;
+const B1 = __default1;
+const __default2 = A;
+const __default3 = __default2;
+const A1 = __default3;
 console.log(A1, B1);
