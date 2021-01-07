@@ -25,6 +25,14 @@ impl<'a, I: Tokens> Parser<I> {
 
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
+        self.verify_binding_ident(&ident);
+
+        Ok(ident)
+    }
+
+    /// Emit an error and recover from the error if `ident` is invalid for
+    /// binding identifier in current context.
+    fn verify_binding_ident(&mut self, ident: &Ident) {
         if ident.sym == js_word!("arguments") || ident.sym == js_word!("eval") {
             self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
@@ -654,7 +662,11 @@ impl<'a, I: Tokens> Parser<I> {
                     type_ann: None,
                 }))
             }
-            Expr::Ident(ident) => Ok(ident.into()),
+            Expr::Ident(ident) => {
+                self.verify_binding_ident(&ident);
+
+                Ok(ident.into())
+            }
             Expr::Member(..) => Ok(Pat::Expr(expr)),
             Expr::Array(ArrayLit {
                 elems: mut exprs, ..
