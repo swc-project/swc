@@ -1,4 +1,4 @@
-error: Expected an expression
+error: Expected an expression after this
  --> $DIR/tests/typescript-errors/tsc/async/es5/asyncArrowFunction/asyncArrowFunction6_es5/input.ts:5:22
   |
 5 | var foo = async (a = await): Promise<void> => {
