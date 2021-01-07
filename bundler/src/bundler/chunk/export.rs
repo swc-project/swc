@@ -258,10 +258,7 @@ pub(super) fn inject_export(
                         ctx.transitive_remap.insert(export_ctxt, entry_export_ctxt);
                     }
 
-                    if let Some(mut dep) = dep.take() {
-                        // if let Some(item) = remove_default_export(&mut dep) {
-                        //     export_default_stmt = Some(item)
-                        // }
+                    if let Some(dep) = dep.take() {
                         buf.extend(dep.into_items());
                     }
                 }
@@ -340,8 +337,6 @@ pub(super) fn inject_export(
 /// =>
 /// export { foo#7 as foo#5 } where #5 is mark of current entry.
 fn unexprt_as_var(modules: &mut Modules, dep_export_ctxt: SyntaxContext) {
-    let injected_ctxt = modules.injected_ctxt;
-
     modules.map_items_mut(|n| {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
