@@ -1,11 +1,10 @@
 use crate::bundler::modules::Modules;
-use crate::debug::print_hygiene;
 use crate::{
     bundler::{
         chunk::merge::Ctx,
-        load::{Source, Specifier, TransformedModule},
+        load::{Source, Specifier},
     },
-    util::{ExprExt, MapWithMut, VarDeclaratorExt},
+    util::{ExprExt, VarDeclaratorExt},
     Bundler, Load, ModuleId, Resolve,
 };
 use anyhow::{Context, Error};
@@ -65,68 +64,6 @@ where
                 .merge_modules(ctx, dep_id, false, true)
                 .context("failed to get module for merging")?;
 
-            // print_hygiene(
-            //     &format!(
-            //         "reexport: load dep: {} ({:?}, {:?})",
-            //         dep_info.fm.name,
-            //         dep_info.local_ctxt(),
-            //         dep_info.export_ctxt()
-            //     ),
-            //     &self.cm,
-            //     &dep,
-            // );
-
-            self.handle_reexport(&dep_info, &mut dep);
-
-            // print_hygiene(
-            //     &format!("dep: handle reexport"),
-            //     &self.cm,
-            //     &dep.clone().into(),
-            // );
-
-            // for stmt in &mut dep.body {
-            //     let decl = match stmt {
-            //         ModuleItem::ModuleDecl(decl) => decl,
-            //         ModuleItem::Stmt(_) => continue,
-            //     };
-
-            //     match decl {
-            //         ModuleDecl::ExportDecl(_) => {}
-            //         ModuleDecl::ExportNamed(export) => {
-            //             for specifier in &mut export.specifiers {
-            //                 match specifier {
-            //                     ExportSpecifier::Namespace(ns) => {}
-            //                     ExportSpecifier::Default(default) => {}
-            //                     ExportSpecifier::Named(named) => match &mut
-            // named.exported {                         Some(exported) => {
-            //                             if exported.span.ctxt != dep_info.local_ctxt() {
-            //                                 continue;
-            //                             }
-
-            //                             exported.span =
-            //
-            // exported.span.with_ctxt(dep_info.export_ctxt());
-            // }                         None => {
-            //                             if named.orig.span.ctxt != dep_info.local_ctxt()
-            // {                                 continue;
-            //                             }
-
-            //                             named.exported = Some(Ident::new(
-            //                                 named.orig.sym.clone(),
-            //
-            // named.orig.span.with_ctxt(dep_info.export_ctxt()),
-            // ));                         }
-            //                     },
-            //                 }
-            //             }
-            //         }
-            //         ModuleDecl::ExportDefaultDecl(_) => {}
-            //         ModuleDecl::ExportDefaultExpr(_) => {}
-            //         ModuleDecl::ExportAll(_) => {}
-            //         _ => {}
-            //     }
-            // }
-
             if let Some(module_name) = self.scope.wrapped_esm_id(dep_info.id) {
                 dep = self.wrap_esm(ctx, dep_info.id, dep.into())?;
 
@@ -145,11 +82,11 @@ where
                 }
             }
 
-            print_hygiene(
-                &format!("dep: before unexport"),
-                &self.cm,
-                &dep.clone().into(),
-            );
+            // print_hygiene(
+            //     &format!("dep: before unexport"),
+            //     &self.cm,
+            //     &dep.clone().into(),
+            // );
 
             if !specifiers.is_empty() {
                 unexprt_as_var(&mut dep, dep_info.export_ctxt());
@@ -158,7 +95,8 @@ where
                     exports: &specifiers,
                 });
 
-                print_hygiene(&format!("dep: unexport"), &self.cm, &dep.clone().into());
+                // print_hygiene(&format!("dep: unexport"), &self.cm,
+                // &dep.clone().into());
             }
 
             // TODO: Add varaible based on specifers
@@ -166,22 +104,6 @@ where
             Ok(dep)
         })
     }
-
-    /// # ExportDecl
-    ///
-    /// For exported declarations, We should inject named exports.
-    ///
-    /// ```ts
-    /// export const b__9 = 1;
-    /// console.log(b__9);
-    /// ```
-    ///
-    /// ```ts
-    /// const b__9 = 1;
-    /// export { b__9 as b__10 };
-    /// console.log(b__9);
-    /// ```
-    fn handle_reexport(&self, info: &TransformedModule, module: &mut Modules) {}
 }
 
 pub(super) fn inject_export(
