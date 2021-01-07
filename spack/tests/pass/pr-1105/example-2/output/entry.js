@@ -6,9 +6,8 @@ const mod = function() {
     class C {
     }
     const __default = C;
-    const c1 = c;
     return {
-        c,
+        c: c,
         default: __default
     };
 }();

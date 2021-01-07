@@ -1,4 +1,5 @@
 const __default = class {
 };
-const A = __default;
+const __default1 = __default;
+const A = __default1;
 console.log(A);
