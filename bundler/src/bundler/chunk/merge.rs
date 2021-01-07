@@ -790,6 +790,7 @@ where
                             .find(|s| s.0.src.value == import.src.value)
                         {
                             if !self.scope.get_module(src.module_id).unwrap().is_es6 {
+                                new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
                                 continue;
                             }
                         }
