@@ -917,7 +917,7 @@ where
                         });
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
-                                span: export.span,
+                                span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
@@ -955,7 +955,7 @@ where
                         });
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
-                                span: export.span,
+                                span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
@@ -988,7 +988,7 @@ where
 
                                 new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                     NamedExport {
-                                        span: export.span,
+                                        span: export.span.with_ctxt(injected_ctxt),
                                         specifiers: ids
                                             .into_iter()
                                             .map(|id| {
@@ -1028,7 +1028,7 @@ where
                         });
                         new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
-                                span: export.span,
+                                span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
