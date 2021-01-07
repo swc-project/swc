@@ -13,6 +13,28 @@ impl<'a, I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
+        let start = cur_pos!(self);
+        let expr = self.parse_expr_inner();
+
+        match expr {
+            Ok(v) => Ok(v),
+            // Perform error recovery.
+            Err(err) => {
+                let span = span!(self, start);
+                self.emit_error(err);
+
+                loop {
+                    if eat!(self, ';') {
+                        break;
+                    }
+                }
+
+                Ok(Box::new(Expr::Invalid(Invalid { span })))
+            }
+        }
+    }
+
+    fn parse_expr_inner(&mut self) -> PResult<Box<Expr>> {
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
 
