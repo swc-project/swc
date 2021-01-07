@@ -1,2 +1,3 @@
 const b = 1;
-export const foo = b;
+const foo1 = b;
+export { foo1 as foo };
