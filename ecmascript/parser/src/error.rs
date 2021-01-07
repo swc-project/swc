@@ -229,6 +229,7 @@ pub enum SyntaxError {
     TSTypeAnnotationAfterAssign,
 
     AbstractMemberInNonAbstractClass,
+    StaticWithAbstract,
 }
 
 impl SyntaxError {
@@ -560,6 +561,9 @@ impl SyntaxError {
                 "Abstract methods can only appear within an abstract class".into()
             }
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
+            SyntaxError::StaticWithAbstract => {
+                "'static' modifier cannot be used with 'abstract' modifier.".into()
+            }
         }
     }
 }

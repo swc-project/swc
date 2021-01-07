@@ -527,6 +527,10 @@ impl<'a, I: Tokens> Parser<I> {
                     );
                 }
 
+                if let Some(static_token) = static_token {
+                    self.emit_err(static_token, SyntaxError::StaticWithAbstract);
+                }
+
                 (true, self.parse_ts_modifier(&["readonly"])?.is_some())
             }
             Some("readonly") => (self.parse_ts_modifier(&["abstract"])?.is_some(), true),
