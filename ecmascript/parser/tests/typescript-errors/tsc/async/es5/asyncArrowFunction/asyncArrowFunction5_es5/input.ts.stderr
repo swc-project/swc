@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncArrowFunction/asyncArrowFunction5_es5/input.ts:5:18
+  |
+5 | var foo = async (await): Promise<void> => {
+  |                  ^^^^^
+
