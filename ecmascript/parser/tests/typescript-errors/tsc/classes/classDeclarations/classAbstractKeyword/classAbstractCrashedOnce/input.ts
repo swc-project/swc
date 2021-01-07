@@ -8,3 +8,4 @@ class bar extends foo {
     }
 }
 var x = new bar();
+const '' = ''

@@ -1,0 +1,12 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractCrashedOnce/input.ts:8:5
+  |
+8 |     }
+  |     ^
+
+error: Unexpected token `string literal ()`. Expected yield, an identifier, [ or {
+  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractCrashedOnce/input.ts:11:7
+   |
+11 | const '' = ''
+   |       ^^
+
