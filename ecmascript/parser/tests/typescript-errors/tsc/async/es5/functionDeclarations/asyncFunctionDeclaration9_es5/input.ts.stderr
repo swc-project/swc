@@ -1,0 +1,6 @@
+error: Expected an expression after this
+ --> $DIR/tests/typescript-errors/tsc/async/es5/functionDeclarations/asyncFunctionDeclaration9_es5/input.ts:5:14
+  |
+5 |   var v = { [await]: foo }
+  |              ^^^^^
+

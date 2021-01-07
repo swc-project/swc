@@ -1,0 +1,6 @@
+error: Expected an expression after this
+ --> $DIR/tests/typescript-errors/tsc/async/es6/asyncArrowFunction/asyncArrowFunction6_es6/input.ts:4:22
+  |
+4 | var foo = async (a = await): Promise<void> => {
+  |                      ^^^^^
+
