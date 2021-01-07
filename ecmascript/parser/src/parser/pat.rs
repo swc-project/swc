@@ -539,7 +539,11 @@ impl<'a, I: Tokens> Parser<I> {
                     Expr::Paren(..) => {
                         return Ok(Pat::Expr(expr));
                     }
-                    Expr::Ident(i) => return Ok(i.into()),
+                    Expr::Ident(i) => {
+                        self.verify_binding_ident(&i);
+
+                        return Ok(i.into());
+                    }
                     _ => {
                         return Ok(Pat::Expr(expr));
                     }
@@ -568,7 +572,12 @@ impl<'a, I: Tokens> Parser<I> {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
                     match *expr {
-                        Expr::Ident(i) => return Ok(i.into()),
+                        Expr::Ident(i) => {
+                            return {
+                                self.verify_binding_ident(&i);
+                                Ok(i.into())
+                            }
+                        }
                         _ => {
                             return Ok(Pat::Expr(expr));
                         }
