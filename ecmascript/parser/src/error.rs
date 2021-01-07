@@ -122,6 +122,7 @@ pub enum SyntaxError {
     InvalidExpr,
     NotSimpleAssign,
     ExpectedExpr,
+    ExpectedExprAfterThis,
     ExpectedIdent,
     ExpectedIdentAfterThis,
     ExpctedSemi,
@@ -234,6 +235,7 @@ impl SyntaxError {
     pub fn msg(&self) -> Cow<'static, str> {
         match self {
             SyntaxError::ExpectedExpr => "Expected an expression".into(),
+            SyntaxError::ExpectedExprAfterThis => "Expected an expression after this".into(),
             SyntaxError::ExpectedIdentAfterThis => "Expected identifier after this token".into(),
 
             SyntaxError::PrivateNameInInterface => {

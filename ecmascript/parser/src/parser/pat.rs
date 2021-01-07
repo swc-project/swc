@@ -786,7 +786,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn verify_rhs_of_assign(&mut self, rhs: &Expr) {
         match rhs {
             Expr::Ident(i) if i.sym == js_word!("await") && self.ctx().in_async => {
-                self.emit_err(i.span, SyntaxError::ExpectedExpr)
+                self.emit_err(i.span, SyntaxError::ExpectedExprAfterThis)
             }
             _ => {}
         }

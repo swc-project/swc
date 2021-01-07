@@ -373,7 +373,7 @@ impl<'a, I: Tokens> Parser<I> {
         if is_one_of!(self, ')', ']', "=>") {
             if self.ctx().in_async {
                 let span = span!(self, start);
-                self.emit_err(span, SyntaxError::ExpectedExpr);
+                self.emit_err(span, SyntaxError::ExpectedExprAfterThis);
             }
 
             return Ok(Box::new(Expr::Ident(Ident::new(
