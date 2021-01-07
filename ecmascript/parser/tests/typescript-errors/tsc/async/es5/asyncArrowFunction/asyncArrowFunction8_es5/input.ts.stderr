@@ -1,0 +1,6 @@
+error: Expected an expression
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncArrowFunction/asyncArrowFunction8_es5/input.ts:6:14
+  |
+6 |   var v = { [await]: foo }
+  |              ^^^^^
+
