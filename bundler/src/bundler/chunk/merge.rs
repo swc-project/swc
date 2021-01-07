@@ -27,7 +27,7 @@ use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
 
-const DEBUG: bool = cfg!(debug_assertions) && false;
+const DEBUG: bool = cfg!(debug_assertions) && true;
 
 pub(super) struct Ctx {
     pub plan: Plan,
