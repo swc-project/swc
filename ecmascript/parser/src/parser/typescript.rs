@@ -2323,6 +2323,10 @@ impl<I: Tokens> Parser<I> {
             }
 
             js_word!("enum") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 if next || is!(self, IdentRef) {
                     if next {
                         bump!(self);
@@ -2335,6 +2339,10 @@ impl<I: Tokens> Parser<I> {
             }
 
             js_word!("interface") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 if next || (is!(self, IdentRef)) {
                     if next {
                         bump!(self);
@@ -2348,6 +2356,10 @@ impl<I: Tokens> Parser<I> {
             }
 
             js_word!("module") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 if next {
                     bump!(self);
                 }
@@ -2369,6 +2381,10 @@ impl<I: Tokens> Parser<I> {
             }
 
             js_word!("namespace") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 if next || is!(self, IdentRef) {
                     if next {
                         bump!(self);
@@ -2381,6 +2397,10 @@ impl<I: Tokens> Parser<I> {
             }
 
             js_word!("type") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 if next || is!(self, IdentRef) {
                     if next {
                         bump!(self);
