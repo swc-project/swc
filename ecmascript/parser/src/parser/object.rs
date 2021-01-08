@@ -398,9 +398,9 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
                 continue;
             }
 
-            if let ObjectPatProp::Rest(..) = p {
+            if let ObjectPatProp::Rest(rest) = p {
                 if self.syntax().early_errors() {
-                    self.emit_err(p.span(), SyntaxError::NonLastRestParam)
+                    self.emit_err(rest.dot3_token, SyntaxError::NonLastRestParam)
                 }
             }
         }

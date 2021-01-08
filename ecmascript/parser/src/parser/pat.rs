@@ -737,15 +737,12 @@ impl<'a, I: Tokens> Parser<I> {
 
                 for expr in exprs.drain(..idx_of_rest_not_allowed) {
                     match expr {
-                        Some(
-                            expr
-                            @
-                            ExprOrSpread {
-                                spread: Some(..), ..
-                            },
-                        ) => {
+                        Some(ExprOrSpread {
+                            spread: Some(spread_span),
+                            ..
+                        }) => {
                             if self.syntax().early_errors() {
-                                self.emit_err(expr.span(), SyntaxError::NonLastRestParam)
+                                self.emit_err(spread_span, SyntaxError::NonLastRestParam)
                             }
                         }
                         Some(ExprOrSpread { expr, .. }) => {
@@ -842,11 +839,15 @@ impl<'a, I: Tokens> Parser<I> {
         for expr in exprs.drain(..len - 1) {
             match expr {
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                    spread: Some(..), ..
+                    spread: Some(span_of_dots),
+                    ..
                 })
-                | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
+                | PatOrExprOrSpread::Pat(Pat::Rest(RestPat {
+                    dot3_token: span_of_dots,
+                    ..
+                })) => {
                     if self.syntax().early_errors() {
-                        self.emit_err(expr.span(), SyntaxError::NonLastRestParam)
+                        self.emit_err(span_of_dots, SyntaxError::NonLastRestParam)
                     }
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
