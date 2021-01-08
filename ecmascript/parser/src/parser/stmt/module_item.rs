@@ -620,6 +620,10 @@ impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
 
         let start = cur_pos!(self);
         let decl = if is!(self, "import") {
+            for dec in decorators {
+                self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+            }
+
             self.parse_import()?
         } else if is!(self, "export") {
             self.parse_export(decorators).map(ModuleItem::from)?

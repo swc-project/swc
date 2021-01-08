@@ -1230,7 +1230,15 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 }
 
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
-    fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
+    fn handle_import_export(
+        &mut self,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<Stmt> {
+        for dec in decorators {
+            self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+        }
+
         let start = cur_pos!(self);
         if self.input.syntax().dynamic_import() && is!(self, "import") {
             let expr = self.parse_expr()?;
