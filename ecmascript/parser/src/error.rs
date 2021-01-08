@@ -241,6 +241,8 @@ pub enum SyntaxError {
 
     GetterShouldNotHaveTypeParam,
     SetterShouldNotHaveTypeParam,
+
+    ExtendsMustPrecedeImplements,
 }
 
 impl SyntaxError {
@@ -301,6 +303,7 @@ impl SyntaxError {
             SyntaxError::GetterShouldNotHaveTypeParam => Some(1094),
             SyntaxError::SetterShouldNotHaveTypeParam => Some(1094),
             SyntaxError::InvalidModifier { .. } => Some(1042),
+            SyntaxError::ExtendsMustPrecedeImplements => Some(1173),
 
             _ => None,
         }
@@ -652,6 +655,9 @@ impl SyntaxError {
             }
             SyntaxError::SetterShouldNotHaveTypeParam => {
                 "An accessor cannot have type parameters".into()
+            }
+            SyntaxError::ExtendsMustPrecedeImplements => {
+                "'extends' clause must precede 'implements' clause".into()
             }
         }
     }

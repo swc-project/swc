@@ -160,6 +160,10 @@ impl<'a, I: Tokens> Parser<I> {
             if p.input.syntax().typescript() && eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1173);
                 p.emit_err(p.input.prev_span(), SyntaxError::ImplementsAlreadySeen);
+                p.emit_err(
+                    p.input.prev_span(),
+                    SyntaxError::ExtendsMustPrecedeImplements,
+                );
 
                 let sc = p.parse_lhs_expr()?;
                 let type_params = if p.input.syntax().typescript() && is!(p, '<') {
