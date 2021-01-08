@@ -329,6 +329,9 @@ impl SyntaxError {
             },
 
             SyntaxError::ExpectedComma => Some(1005),
+
+            // It's not actaully ts1005, but it's better than ts1005, so we just use 1005 as a code.
+            SyntaxError::ReservedWordInObjShorthandOrPat => Some(1005),
             _ => None,
         }
     }
