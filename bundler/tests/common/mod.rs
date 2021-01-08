@@ -63,6 +63,8 @@ impl Load for Loader {
             }
             FileName::Custom(url) => {
                 tsx = url.ends_with(".tsx");
+                // Hack for jszip, which depends on invalid url.
+                let url = url.replace("https://deno.land/std@v", "https://deno.land/std@");
 
                 let url = Url::parse(&url).context("failed to parse url")?;
 
