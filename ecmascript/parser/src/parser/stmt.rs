@@ -972,7 +972,24 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, '{');
 
-        let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
+        let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')));
+
+        let stmts = match stmts {
+            Ok(stmts) => stmts,
+            Err(err) => {
+                self.emit_error(err);
+
+                loop {
+                    if eat!(self, '}') {
+                        break;
+                    }
+
+                    bump!(self);
+                }
+
+                vec![]
+            }
+        };
 
         let span = span!(self, start);
         Ok(BlockStmt { span, stmts })
