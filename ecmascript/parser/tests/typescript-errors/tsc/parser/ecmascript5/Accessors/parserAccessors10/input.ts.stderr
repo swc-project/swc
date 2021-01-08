@@ -1,4 +1,4 @@
-error: `public` modifier cannot be used here.
+error[1042]: `public` modifier cannot be used here.
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Accessors/parserAccessors10/input.ts:3:3
   |
 3 |   public get foo() { }
