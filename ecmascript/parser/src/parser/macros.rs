@@ -297,6 +297,8 @@ macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
         // println!("{}: {:?}", stringify!($name), $p.input.cur());
         eprintln!("{}: {:?}", stringify!($name), cur!($p, false));
+        let cur = $p.input.cur();
+        eprintln!("{}: {:?}", stringify!($name), cur);
     }};
 }
 
