@@ -432,17 +432,15 @@ impl<'a, I: Tokens> Parser<I> {
                                 .map(Stmt::from);
                         }
                     }
-                    js_word!("async") => {
+                    js_word!("async") if self.syntax().typescript() => {
                         // Try to recover errors.
-                        if is!(self, "class") {
+                        if let Some(decl) = self.try_parse_ts_declare(start, decorators)? {
                             self.emit_err(
                                 i.span,
                                 SyntaxError::InvalidModifier { modifier: "async" },
                             );
-                            let class_start = cur_pos!(self);
-                            return self
-                                .parse_class_decl(start, false, class_start, decorators)
-                                .map(Stmt::Decl);
+
+                            return Ok(Stmt::Decl(decl));
                         }
                     }
                     _ => {}
