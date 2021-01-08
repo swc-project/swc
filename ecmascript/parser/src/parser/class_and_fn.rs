@@ -712,6 +712,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             if readonly.is_some() {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
+            if readonly {
+                self.emit_err(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
             let is_constructor = is_constructor(&key);
 
