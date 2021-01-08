@@ -234,7 +234,6 @@ pub enum SyntaxError {
     TSTypeAnnotationAfterAssign,
 
     AbstractMemberInNonAbstractClass,
-    StaticWithAbstract,
     DecoratorNotAllowed,
 
     GetterShouldNotHaveParam,

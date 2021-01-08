@@ -445,6 +445,7 @@ impl<'a, I: Tokens> Parser<I> {
         let static_token = {
             if self.syntax().typescript() && is!(self, "abstract") && peeked_is!(self, "static") {
                 assert_and_bump!(self, "abstract");
+                let _ = cur!(self, false);
 
                 self.emit_err(
                     self.input.cur_span(),
@@ -596,7 +597,10 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if let Some(static_token) = static_token {
-                    self.emit_err(static_token, SyntaxError::StaticWithAbstract);
+                    self.emit_err(
+                        static_token,
+                        SyntaxError::InvalidModifierUsedWithAbstract { modifier: "static" },
+                    );
                 }
 
                 (true, self.parse_ts_modifier(&["readonly"])?.is_some())
