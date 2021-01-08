@@ -1,34 +1,34 @@
-error[1029]: 'public' modifier must precede 'abstract' modifier.
+error[1029]: 'public' modifier must precede 'abstract' modifier
  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:8:14
   |
 8 |     abstract public foo_bb();
   |              ^^^^^^
 
-error[1029]: 'protected' modifier must precede 'abstract' modifier.
+error[1029]: 'protected' modifier must precede 'abstract' modifier
  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:9:14
   |
 9 |     abstract protected foo_cc();
   |              ^^^^^^^^^
 
-error[1029]: 'private' modifier must precede 'abstract' modifier.
+error[1029]: 'private' modifier must precede 'abstract' modifier
   --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:10:14
    |
 10 |     abstract private foo_dd();
    |              ^^^^^^^
 
-error[1243]: 'static' modifier cannot be used with 'abstract' modifier.
+error[1243]: 'static' modifier cannot be used with 'abstract' modifier
   --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:12:14
    |
 12 |     abstract static foo_d();
    |              ^^^^^^
 
-error[1243]: 'static' modifier cannot be used with 'abstract' modifier.
+error[1243]: 'static' modifier cannot be used with 'abstract' modifier
   --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:13:5
    |
 13 |     static abstract foo_e();
    |     ^^^^^^
 
-error[1243]: 'async' modifier cannot be used with 'abstract' modifier.
+error[1243]: 'async' modifier cannot be used with 'abstract' modifier
   --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractMixedWithModifiers/input.ts:15:14
    |
 15 |     abstract async foo_f();
