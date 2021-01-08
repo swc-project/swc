@@ -575,6 +575,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// Parse `NewExpression`.
     /// Parse `NewExpresion`.   
+    /// Parse `NewExpresion`.
     /// This includes `MemberExpression`.
     pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);
