@@ -1,0 +1,36 @@
+error[1014]: A rest parameter must be last in a parameter list
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2/input.ts:9:11
+  |
+9 | var f2 = (...x: MyThing, ...y: MyThing) => { }
+  |           ^^^
+
+error[1014]: A rest parameter must be last in a parameter list
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2/input.ts:17:9
+   |
+17 |     foo(...x: MyThing, ...y: MyThing);
+   |         ^^^
+
+error[1014]: A rest parameter must be last in a parameter list
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2/input.ts:27:21
+   |
+27 |     a: function foo(...x: MyThing, ...y: MyThing) { },
+   |                     ^^^
+
+error[1014]: A rest parameter must be last in a parameter list
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2/input.ts:36:11
+   |
+36 | var f4 = (...x: MyThing2<string>, ...y: MyThing2<string>) => { }
+   |           ^^^
+
+error[1014]: A rest parameter must be last in a parameter list
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2/input.ts:44:9
+   |
+44 |     foo(...x: MyThing2<string>, ...y: MyThing2<string>);
+   |         ^^^
+
+error[1014]: A rest parameter must be last in a parameter list
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParametersOfNonArrayTypes2/input.ts:54:21
+   |
+54 |     a: function foo(...x: MyThing2<string>, ...y: MyThing2<string>) { },
+   |                     ^^^
+

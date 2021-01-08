@@ -1,0 +1,18 @@
+error[1014]: A rest parameter must be last in a parameter list
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParameterWithoutAnnotationIsAnyArray/input.ts:5:11
+  |
+5 | var f2 = (...x, ...y) => { }
+  |           ^^^
+
+error[1014]: A rest parameter must be last in a parameter list
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParameterWithoutAnnotationIsAnyArray/input.ts:13:9
+   |
+13 |     foo(...x, ...y);
+   |         ^^^
+
+error[1014]: A rest parameter must be last in a parameter list
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/restParameterWithoutAnnotationIsAnyArray/input.ts:23:21
+   |
+23 |     a: function foo(...x, ...y) { },
+   |                     ^^^
+
