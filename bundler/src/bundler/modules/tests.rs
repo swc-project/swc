@@ -111,7 +111,7 @@ fn sort_005() {
 }
 
 #[test]
-fn deno_jszip() {
+fn deno_jszip_01() {
     assert_sorted(
         &[
             "use(a);",
@@ -124,6 +124,32 @@ fn deno_jszip() {
         const a = {};
         a.foo = 1;
         use(a)
+        ",
+    );
+}
+
+#[test]
+fn deno_jszip_02() {
+    assert_sorted(
+        &[
+            "X()",
+            "
+            const Q = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof self ? \
+             self : global;
+            ",
+            "
+            function X() {
+                console.log(Q.A)
+            }
+            ",
+        ],
+        "
+        const Q = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof self ? \
+         self : global;
+        function X() {
+            console.log(Q.A)
+        }
+        X()
         ",
     );
 }
