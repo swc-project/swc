@@ -551,6 +551,29 @@ impl<'a, I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
     ) -> PResult<ClassMember> {
         let is_static = static_token.is_some();
+        if self.syntax().typescript()
+            && is_static
+            && is_one_of!(self, "private", "protected", "public")
+            && peeked_is!(self, IdentName)
+        {
+            let accesss_modifier_span = self.input.cur_span();
+
+            let modifier = self.parse_ident_name()?.sym;
+
+            self.emit_err(
+                accesss_modifier_span,
+                SyntaxError::AccessibilityModifierShouldPrecedeStatic {
+                    accessibility: modifier,
+                },
+            )
+        }
+
+        let modifier = self.parse_ts_modifier(&["abstract", "readonly"])?;
+        let modifier_span = if let Some(..) = modifier {
+            Some(self.input.prev_span())
+        } else {
+            None
+        };
 
         let mut is_abstract = false;
         let mut is_override = false;
