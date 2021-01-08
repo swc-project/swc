@@ -256,3 +256,28 @@ fn sort_007() {
         ",
     );
 }
+
+#[test]
+fn sort_008() {
+    assert_sorted_with_free(
+        &[
+            "
+            var e, o = e = {};
+            o.env = {}
+            var T = e;
+            ",
+            "
+            use(h);
+            ",
+        ],
+        "
+        const h = T;
+        ",
+        "
+        var e, o = e = {};
+        o.env = {}
+        var T = e;
+        use(h);
+        ",
+    );
+}
