@@ -1,6 +1,12 @@
+#![allow(unused)]
+
+use std::path::Path;
 use swc_common::Span;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_parser::{lexer::Lexer, JscTarget, PResult, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_visit::Fold;
+use swc_ecma_visit::FoldWith;
+use testing::StdErr;
 
 pub struct Normalizer {
     pub drop_span: bool,
@@ -129,5 +135,62 @@ impl Fold for Normalizer {
         });
 
         node
+    }
+}
+
+pub fn with_ts_parser<F, Ret>(
+    treat_error_as_bug: bool,
+    file_name: &Path,
+    no_early_errors: bool,
+    f: F,
+) -> Result<Ret, StdErr>
+where
+    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
+{
+    let fname = file_name.display().to_string();
+    let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
+        let fm = cm
+            .load_file(file_name)
+            .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
+
+        let lexer = Lexer::new(
+            Syntax::Typescript(TsConfig {
+                dts: fname.ends_with(".d.ts"),
+                tsx: fname.contains("tsx"),
+                dynamic_import: true,
+                decorators: true,
+                import_assertions: true,
+                no_early_errors,
+                ..Default::default()
+            }),
+            JscTarget::Es2015,
+            (&*fm).into(),
+            None,
+        );
+
+        let mut p = Parser::new_from(lexer);
+
+        let res = f(&mut p);
+
+        for err in p.take_errors() {
+            err.into_diagnostic(&handler).emit();
+        }
+
+        let res = res.map_err(|e| e.into_diagnostic(&handler).emit());
+
+        if handler.has_errors() {
+            return Err(());
+        }
+
+        res
+    });
+
+    output
+}
+
+pub fn is_backtrace_enabled() -> bool {
+    match ::std::env::var("RUST_BACKTRACE") {
+        Ok(val) => val == "1" || val == "full",
+        _ => false,
     }
 }

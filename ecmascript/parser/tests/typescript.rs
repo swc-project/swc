@@ -2,13 +2,11 @@
 
 extern crate test;
 
+use crate::common::is_backtrace_enabled;
+use crate::common::with_ts_parser;
 use crate::common::Normalizer;
 use pretty_assertions::assert_eq;
-use std::{
-    fs::File,
-    io::Read,
-    path::{Path, PathBuf},
-};
+use std::{fs::File, io::Read, path::PathBuf};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
@@ -98,7 +96,7 @@ fn spec(file: PathBuf) {
         );
     }
 
-    with_parser(is_backtrace_enabled(), &file, true, |p| {
+    with_ts_parser(is_backtrace_enabled(), &file, true, |p| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
