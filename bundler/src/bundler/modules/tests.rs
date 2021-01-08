@@ -28,6 +28,33 @@ fn assert_sorted(src: &[&str], res: &str) {
     });
 }
 
+fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
+    suite().run(|t| {
+        let mut modules = Modules::empty(t.bundler.injected_ctxt);
+
+        let free: Module = drop_span(t.parse(free));
+        modules.inject_all(free.body);
+
+        for src in src {
+            let actual: Module = drop_span(t.parse(src));
+            modules.push_all(Modules::from(actual, t.bundler.injected_ctxt));
+        }
+
+        modules.sort();
+        let actual: Module = modules.into();
+
+        let expected = drop_span(t.parse(res));
+
+        if actual == expected {
+            return Ok(());
+        }
+
+        print_hygiene("actual", &t.cm, &actual);
+        print_hygiene("expected", &t.cm, &expected);
+        panic!()
+    });
+}
+
 #[test]
 fn sort_001() {
     assert_sorted(
@@ -192,6 +219,36 @@ fn sort_006() {
         const b, a = b = {};
         a.env = {};
         use(b);
+        ",
+    );
+}
+
+#[test]
+fn sort_007() {
+    assert_sorted_with_free(
+        &[
+            "
+            var e, o = e= {};
+            var T = e;
+            e.env = {};
+            ",
+            "
+            if (h$1.env.NODE_DEBUG) {
+            }
+            ",
+        ],
+        "
+        const h325 = T;
+        const h$1 = h325;
+        ",
+        "
+        var e, o = e = {};
+        var T = e;
+        e.env = {};
+        const h325 = T;
+        const h$1 = h325;
+        if (h$1.env.NODE_DEBUG) {
+        }
         ",
     );
 }
