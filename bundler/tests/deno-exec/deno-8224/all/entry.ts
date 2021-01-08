@@ -16,5 +16,5 @@ import * as signal from 'https://deno.land/std/signal/mod.ts ';
 
 console.log(
     oak, dsoReflect, path, uuid, fs, flagTypes, valueTypes,
-    args, datetime, log, base64Url, bytes, sha256, jszip, singal
+    args, datetime, log, base64Url, bytes, sha256, jszip, signal
 )
