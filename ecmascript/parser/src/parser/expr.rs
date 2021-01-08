@@ -59,6 +59,14 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
+        // Recover from invalid decorators.
+        if is!(self, '@') {
+            let decorators = self.parse_decorators()?;
+            for dec in decorators {
+                self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+            }
+        }
+
         if self.input.syntax().typescript() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
