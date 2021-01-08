@@ -1384,7 +1384,7 @@ impl<'a, I: Tokens> Parser<I> {
                     if let Some(rest_span) = rest_span {
                         if self.syntax().early_errors() {
                             // Rest pattern must be last one.
-                            syntax_error!(self, rest_span, SyntaxError::NonLastRestParam);
+                            self.emit_err(rest_span, SyntaxError::NonLastRestParam);
                         }
                     }
                     rest_span = Some(span);

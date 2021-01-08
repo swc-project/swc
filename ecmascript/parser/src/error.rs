@@ -311,6 +311,7 @@ impl SyntaxError {
             SyntaxError::TsInvalidParamPropPat => Some(1187),
             SyntaxError::IndexSignatureMustBeStringOrNunmber => Some(1023),
             SyntaxError::ExpectedBlock => Some(1005),
+            SyntaxError::NonLastRestParam => Some(1014),
 
             _ => None,
         }
@@ -409,7 +410,9 @@ impl SyntaxError {
             SyntaxError::CommaAfterRestElement => {
                 "Trailing comma isn't permitted after a rest element".into()
             }
-            SyntaxError::NonLastRestParam => "Rest element must be final element".into(),
+            SyntaxError::NonLastRestParam => {
+                "A rest parameter must be last in a parameter list".into()
+            }
             SyntaxError::SpreadInParenExpr => {
                 "Parenthesized expression cannot contain spread operator".into()
             }
