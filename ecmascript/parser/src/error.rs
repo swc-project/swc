@@ -299,6 +299,7 @@ impl SyntaxError {
             SyntaxError::SetterShouldHaveOneParam => Some(1049),
             SyntaxError::GetterShouldNotHaveTypeParam => Some(1094),
             SyntaxError::SetterShouldNotHaveTypeParam => Some(1094),
+            SyntaxError::InvalidModifier { .. } => Some(1042),
 
             _ => None,
         }
