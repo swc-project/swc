@@ -104,7 +104,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            let class = self.parse_class_trailing(class_start, decorators)?;
+            let class = p.parse_class_trailing(class_start, decorators)?;
             let f = T::finish_class(span!(p, start), ident, class);
 
             Ok(f)
