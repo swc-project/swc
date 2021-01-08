@@ -233,6 +233,12 @@ pub enum SyntaxError {
     AbstractMemberInNonAbstractClass,
     StaticWithAbstract,
     DecoratorNotAllowed,
+
+    GetterShouldNotHaveParam,
+    SetterShouldHaveOneParam,
+
+    GetterShouldNotHaveTypeParam,
+    SetterShouldNotHaveTypeParam,
 }
 
 impl SyntaxError {
@@ -567,9 +573,21 @@ impl SyntaxError {
             }
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
             SyntaxError::StaticWithAbstract => {
-                "'static' modifier cannot be used with 'abstract' modifier.".into()
+                "'static' modifier cannot be used with 'abstract' modifier".into()
             }
             SyntaxError::DecoratorNotAllowed => "Decorators are not valid here".into(),
+            SyntaxError::GetterShouldNotHaveParam => {
+                "A 'get' accessor cannot have parameters".into()
+            }
+            SyntaxError::SetterShouldHaveOneParam => {
+                "A 'set' accessor must have exactly one parameter".into()
+            }
+            SyntaxError::GetterShouldNotHaveTypeParam => {
+                "An accessor cannot have type parameters".into()
+            }
+            SyntaxError::SetterShouldNotHaveTypeParam => {
+                "An accessor cannot have type parameters".into()
+            }
         }
     }
 }

@@ -262,7 +262,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 let params = p.parse_formal_params()?;
 
                                 if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                                    p.emit_err(key_span, SyntaxError::TS1094);
+                                    p.emit_err(key_span, SyntaxError::GetterShouldNotHaveParam);
                                 }
 
                                 Ok(params)
@@ -278,7 +278,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                  ..
                              }| {
                                 if type_params.is_some() {
-                                    self.emit_err(type_params.unwrap().span(), SyntaxError::TS1094);
+                                    self.emit_err(
+                                        type_params.unwrap().span(),
+                                        SyntaxError::GetterShouldNotHaveTypeParam,
+                                    );
                                 }
 
                                 if self.input.syntax().typescript()
@@ -304,7 +307,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 let params = p.parse_formal_params()?;
 
                                 if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                    p.emit_err(key_span, SyntaxError::TS1094);
+                                    p.emit_err(key_span, SyntaxError::SetterShouldHaveOneParam);
                                 }
 
                                 if !params.is_empty() {
@@ -332,7 +335,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                  ..
                              }| {
                                 if type_params.is_some() {
-                                    self.emit_err(type_params.unwrap().span(), SyntaxError::TS1094);
+                                    self.emit_err(
+                                        type_params.unwrap().span(),
+                                        SyntaxError::SetterShouldNotHaveTypeParam,
+                                    );
                                 }
 
                                 // debug_assert_eq!(params.len(), 1);
