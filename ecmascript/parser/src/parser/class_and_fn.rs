@@ -443,6 +443,15 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let static_token = {
+            if self.syntax().typescript() && is!(self, "abstract") && peeked_is!(self, "static") {
+                assert_and_bump!(self, "abstract");
+
+                self.emit_err(
+                    self.input.cur_span(),
+                    SyntaxError::InvalidModifierUsedWithAbstract { modifier: "static" },
+                );
+            }
+
             let start = cur_pos!(self);
             if eat!(self, "static") {
                 Some(span!(self, start))
@@ -809,8 +818,15 @@ impl<'a, I: Tokens> Parser<I> {
             _ => false,
         } && !self.input.had_line_break_before_cur()
         {
-            let async_span = key.span();
             // Handle async foo(){}
+            let async_span = key.span();
+
+            if self.syntax().typescript() && is_abstract {
+                self.emit_err(
+                    key.span(),
+                    SyntaxError::InvalidModifierUsedWithAbstract { modifier: "async" },
+                );
+            }
 
             let is_generator = eat!(self, '*');
             let mut key = self.parse_class_prop_name()?;

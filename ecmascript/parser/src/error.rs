@@ -249,6 +249,9 @@ pub enum SyntaxError {
     AccessibilityModifierShouldPrecedeAbstract {
         accessibility: JsWord,
     },
+    InvalidModifierUsedWithAbstract {
+        modifier: &'static str,
+    },
 }
 
 impl SyntaxError {
@@ -316,6 +319,7 @@ impl SyntaxError {
             SyntaxError::ExpectedBlock => Some(1005),
             SyntaxError::NonLastRestParam => Some(1014),
             SyntaxError::AccessibilityModifierShouldPrecedeAbstract { .. } => Some(1029),
+            SyntaxError::InvalidModifierUsedWithAbstract { .. } => Some(1243),
 
             _ => None,
         }
@@ -682,6 +686,11 @@ impl SyntaxError {
             SyntaxError::AccessibilityModifierShouldPrecedeAbstract { accessibility } => format!(
                 "'{}' modifier must precede 'abstract' modifier.",
                 accessibility
+            )
+            .into(),
+            SyntaxError::InvalidModifierUsedWithAbstract { modifier } => format!(
+                "'{}' modifier cannot be used with 'abstract' modifier.",
+                modifier
             )
             .into(),
         }
