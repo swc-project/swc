@@ -1,0 +1,48 @@
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:37:26
+   |
+37 | var ResultIsNumber11 = --{};
+   |                          ^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:42:24
+   |
+42 | var ResultIsNumber15 = {}--;
+   |                        ^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:67:3
+   |
+67 | --ANY1--;
+   |   ^^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:68:3
+   |
+68 | --ANY1++;
+   |   ^^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:69:3
+   |
+69 | ++ANY1--;
+   |   ^^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:70:3
+   |
+70 | --ANY2[0]--;
+   |   ^^^^^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:71:3
+   |
+71 | --ANY2[0]++;
+   |   ^^^^^^^^^
+
+error[2406]: Not a variable
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/decrementOperator/decrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:72:3
+   |
+72 | ++ANY2[0]--;
+   |   ^^^^^^^^^
+
