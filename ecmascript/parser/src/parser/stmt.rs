@@ -25,6 +25,7 @@ impl<'a, I: Tokens> Parser<I> {
             let c = cur!(self, false).ok();
             c != end
         } {
+            trace_cur!(self, parse_block_body__item);
             let stmt = self.parse_stmt_like(true, top_level)?;
             if allow_directives {
                 allow_directives = false;
