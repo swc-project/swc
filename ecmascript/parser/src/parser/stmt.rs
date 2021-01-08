@@ -111,6 +111,10 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, "enum") {
+            for dec in decorators {
+                self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+            }
+
             assert_and_bump!(self, "const");
             assert_and_bump!(self, "enum");
             return self
@@ -121,6 +125,10 @@ impl<'a, I: Tokens> Parser<I> {
 
         match cur!(self, true)? {
             tok!("break") | tok!("continue") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 let is_break = is!(self, "break");
                 bump!(self);
 
@@ -158,6 +166,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("debugger") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 bump!(self);
                 expect!(self, ';');
                 return Ok(Stmt::Debugger(DebuggerStmt {
@@ -166,10 +178,18 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("do") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_do_stmt();
             }
 
             tok!("for") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_for_stmt();
             }
 
@@ -191,23 +211,43 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("if") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_if_stmt();
             }
 
             tok!("return") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_return_stmt();
             }
 
             tok!("switch") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_switch_stmt();
             }
 
             tok!("throw") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_throw_stmt();
             }
 
             // Error recovery
             tok!("catch") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 let span = self.input.cur_span();
                 self.emit_err(span, SyntaxError::TS1005);
 
@@ -222,6 +262,10 @@ impl<'a, I: Tokens> Parser<I> {
 
             // Error recovery
             tok!("finally") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 let span = self.input.cur_span();
                 self.emit_err(span, SyntaxError::TS1005);
 
@@ -234,23 +278,43 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("try") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_try_stmt();
             }
 
             tok!("with") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_with_stmt();
             }
 
             tok!("while") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_while_stmt();
             }
 
             tok!("var") => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 let v = self.parse_var_stmt(false)?;
                 return Ok(Stmt::Decl(Decl::Var(v)));
             }
 
             tok!("const") if include_decl => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 let v = self.parse_var_stmt(false)?;
                 return Ok(Stmt::Decl(Decl::Var(v)));
             }
@@ -264,12 +328,20 @@ impl<'a, I: Tokens> Parser<I> {
                 };
 
                 if is_keyword {
+                    for dec in decorators {
+                        self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                    }
+
                     let v = self.parse_var_stmt(false)?;
                     return Ok(Stmt::Decl(Decl::Var(v)));
                 }
             }
 
             tok!('{') => {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 return self.parse_block(false).map(Stmt::Block);
             }
 
@@ -277,6 +349,10 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if eat_exact!(self, ';') {
+            for dec in decorators {
+                self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+            }
+
             return Ok(Stmt::Empty(EmptyStmt {
                 span: span!(self, start),
             }));
@@ -300,6 +376,10 @@ impl<'a, I: Tokens> Parser<I> {
         let expr = match *expr {
             Expr::Ident(ident) => {
                 if eat!(self, ':') {
+                    for dec in decorators {
+                        self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                    }
+
                     return self.parse_labelled_stmt(ident);
                 }
                 Box::new(Expr::Ident(ident))
@@ -308,6 +388,10 @@ impl<'a, I: Tokens> Parser<I> {
         };
         if let Expr::Ident(ref ident) = *expr {
             if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
+                for dec in decorators {
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
+                }
+
                 self.emit_strict_mode_err(ident.span, SyntaxError::InvalidIdentInStrict);
 
                 eat!(self, ';');
