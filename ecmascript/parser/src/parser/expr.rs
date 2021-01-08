@@ -48,8 +48,28 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     ///`parseMaybeAssign` (overridden)
+    ///`parseMaybeAssign` (overrided), with error recovery.
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
+
+        let start = cur_pos!(self);
+        let expr = self.parse_assignment_expr_inner();
+
+        match expr {
+            Ok(v) => Ok(v),
+            // Perform error recovery.
+            Err(err) => {
+                let span = span!(self, start);
+                self.emit_error(err);
+
+                Ok(Box::new(Expr::Invalid(Invalid { span })))
+            }
+        }
+    }
+
+    ///`parseMaybeAssign` (overrided)
+    fn parse_assignment_expr_inner(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_assignment_expr_inner);
 
         // Recover from invalid decorators.
         if is!(self, '@') {
