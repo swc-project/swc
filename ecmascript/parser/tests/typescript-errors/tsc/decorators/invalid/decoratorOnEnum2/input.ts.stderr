@@ -1,0 +1,6 @@
+error: Decorators are not valid here
+ --> $DIR/tests/typescript-errors/tsc/decorators/invalid/decoratorOnEnum2/input.ts:4:5
+  |
+4 |     @dec A
+  |     ^^^^
+
