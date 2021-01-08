@@ -1,0 +1,102 @@
+error[1029]: 'private' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:23:12
+   |
+23 |     static private privateProperty;
+   |            ^^^^^^^
+
+error[1029]: 'private' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:24:12
+   |
+24 |     static private privateMethod() { }
+   |            ^^^^^^^
+
+error[1029]: 'private' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:25:12
+   |
+25 |     static private get privateGetter() { return 0; }
+   |            ^^^^^^^
+
+error[1029]: 'private' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:26:12
+   |
+26 |     static private set privateSetter(a: number) { }
+   |            ^^^^^^^
+
+error[1029]: 'protected' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:28:12
+   |
+28 |     static protected protectedProperty;
+   |            ^^^^^^^^^
+
+error[1029]: 'protected' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:29:12
+   |
+29 |     static protected protectedMethod() { }
+   |            ^^^^^^^^^
+
+error[1029]: 'protected' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:30:12
+   |
+30 |     static protected get protectedGetter() { return 0; }
+   |            ^^^^^^^^^
+
+error[1029]: 'protected' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:31:12
+   |
+31 |     static protected set protectedSetter(a: number) { }
+   |            ^^^^^^^^^
+
+error[1029]: 'public' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:33:12
+   |
+33 |     static public publicProperty;
+   |            ^^^^^^
+
+error[1029]: 'public' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:34:12
+   |
+34 |     static public publicMethod() { }
+   |            ^^^^^^
+
+error[1029]: 'public' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:35:12
+   |
+35 |     static public get publicGetter() { return 0; }
+   |            ^^^^^^
+
+error[1029]: 'public' modifier must precede 'static' modifier
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:36:12
+   |
+36 |     static public set publicSetter(a: number) { }
+   |            ^^^^^^
+
+error: Unexpected token `protected`. Expected * for generator, private key, identifier or async
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:41:20
+   |
+41 |     private public protected property;
+   |                    ^^^^^^^^^
+
+error: Unexpected token `method`. Expected * for generator, private key, identifier or async
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:42:22
+   |
+42 |     public protected method() { }
+   |                      ^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:5
+   |
+43 |     private protected get getter() { return 0; }
+   |     ^^^^^^^
+
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:13
+   |
+43 |     private protected get getter() { return 0; }
+   |             ^^^^^^^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/classes/propertyMemberDeclarations/accessibilityModifiers/input.ts:43:5
+   |
+43 |     private protected get getter() { return 0; }
+   |     ^^^^^^^
+
