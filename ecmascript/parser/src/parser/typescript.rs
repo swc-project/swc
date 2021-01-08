@@ -629,6 +629,16 @@ impl<I: Tokens> Parser<I> {
 
                 TsEnumMemberId::Ident(Ident::new(js_word!(""), span!(self, start)))
             }
+            tok!('@') => {
+                let decorators = self.parse_decorators(true)?;
+
+                for dec in decorators {
+                    self.emit_err(dec.span,SyntaxError::DecoratorNotAllowed);
+                }
+
+                // Call this again to eat enum member after decorators.
+                return self.parse_ts_enum_member();
+            }
             _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
         };
 
