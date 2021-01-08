@@ -633,7 +633,7 @@ impl<I: Tokens> Parser<I> {
                 let decorators = self.parse_decorators(true)?;
 
                 for dec in decorators {
-                    self.emit_err(dec.span,SyntaxError::DecoratorNotAllowed);
+                    self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
                 }
 
                 // Call this again to eat enum member after decorators.
@@ -1217,6 +1217,23 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
         id.id.span = span!(self, ident_start);
+        match &*type_ann.type_ann {
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsNumberKeyword,
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsStringKeyword,
+                ..
+            }) => {}
+            _ => {
+                self.emit_err(
+                    type_ann.type_ann.span(),
+                    SyntaxError::IndexSignatureMustBeStringOrNunmber,
+                );
+            }
+        }
+        id.span = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');

@@ -243,6 +243,8 @@ pub enum SyntaxError {
     SetterShouldNotHaveTypeParam,
 
     ExtendsMustPrecedeImplements,
+
+    IndexSignatureMustBeStringOrNunmber,
 }
 
 impl SyntaxError {
@@ -306,6 +308,7 @@ impl SyntaxError {
             SyntaxError::ExtendsMustPrecedeImplements => Some(1173),
             SyntaxError::PatVarWithoutInit => Some(1182),
             SyntaxError::TsInvalidParamPropPat => Some(1187),
+            SyntaxError::IndexSignatureMustBeStringOrNunmber => Some(1023),
 
             _ => None,
         }
@@ -661,6 +664,9 @@ impl SyntaxError {
 
             SyntaxError::TsInvalidParamPropPat => {
                 "A parameter property may not be declared using a binding pattern.".into()
+            }
+            SyntaxError::IndexSignatureMustBeStringOrNunmber => {
+                "An index signature parameter type must be either 'string' or 'number'.".into()
             }
         }
     }
