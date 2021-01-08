@@ -818,7 +818,10 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if match key {
-            Either::Right(PropName::Ident(ref i)) => i.sym == js_word!("async"),
+            Either::Right(PropName::Ident(Ident {
+                sym: js_word!("async"),
+                ..
+            })) => true,
             _ => false,
         } && !self.input.had_line_break_before_cur()
         {
