@@ -342,7 +342,29 @@ impl<'a, I: Tokens> Parser<I> {
                 continue;
             }
 
-            elems.push(self.parse_class_member()?);
+            let member = self.parse_class_member();
+            let member = match member {
+                Ok(v) => v,
+                Err(err) => {
+                    self.emit_error(err);
+                    // We rely on the error recovery logic in the block statement parser.
+                    //
+                    // If the invalid class member is a method and has a body, block statement
+                    // parser will eat sufficient ammount of `}` and as a result checking for `}`
+                    // (for class end) or `;` is enough.
+
+                    loop {
+                        if is_exact!(self, ';') || is!(self, '}') {
+                            break;
+                        }
+
+                        bump!(self);
+                    }
+                    continue;
+                }
+            };
+
+            elems.push(member);
         }
         Ok(elems)
     }
