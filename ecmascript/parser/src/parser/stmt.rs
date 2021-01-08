@@ -979,9 +979,19 @@ impl<'a, I: Tokens> Parser<I> {
             Err(err) => {
                 self.emit_error(err);
 
+                let mut cnt = 1;
+
                 loop {
                     if eat!(self, '}') {
-                        break;
+                        cnt -= 1;
+                        if cnt == 0 {
+                            break;
+                        }
+                    }
+
+                    if eat!(self, '{') {
+                        cnt += 1;
+                        continue;
                     }
 
                     bump!(self);
