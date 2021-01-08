@@ -108,7 +108,7 @@ impl Modules {
                     //
                     match decl {
                         Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                            eprintln!("`{}` declares {:?}`", idx, Id::from(ident));
+                            // eprintln!("`{}` declares {:?}`", idx, Id::from(ident));
                             declared_by.entry(Id::from(ident)).or_default().push(idx);
                         }
                         Decl::Var(vars) => {
@@ -120,7 +120,7 @@ impl Modules {
                                         uninitialized_ids.insert(id.clone(), idx);
                                     }
 
-                                    eprintln!("`{}` declares {:?}`", idx, id);
+                                    // eprintln!("`{}` declares {:?}`", idx, id);
                                     declared_by.entry(id).or_default().push(idx);
                                 }
                             }
@@ -138,31 +138,31 @@ impl Modules {
 
                 for id in v.accessed {
                     if let Some(declarator_indexes) = declared_by.get(&id) {
-                        let idx_decl = match &item {
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                                let ids: Vec<Id> = find_ids(&var.decls);
-                                format!("`{:?}`", ids)
-                            }
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                                format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
-                            }
-                            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                                format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
-                            }
-                            _ => String::from(""),
-                        };
+                        // let idx_decl = match &item {
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                        //         let ids: Vec<Id> = find_ids(&var.decls);
+                        //         format!("`{:?}`", ids)
+                        //     }
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                        //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                        //     }
+                        //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                        //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                        //     }
+                        //     _ => String::from(""),
+                        // };
 
                         for &declarator_index in declarator_indexes {
                             if declarator_index != idx {
                                 graph.add_edge(idx, declarator_index, Required::Always);
-                                eprintln!(
-                                    "`{}` ({}) depends on `{}`: {:?}",
-                                    idx, idx_decl, declarator_index, &id
-                                );
+                                // eprintln!(
+                                //     "`{}` ({}) depends on `{}`: {:?}",
+                                //     idx, idx_decl, declarator_index, &id
+                                // );
                             }
                         }
 
-                        eprintln!("`{}` declares {:?}`", idx, id);
+                        // eprintln!("`{}` declares {:?}`", idx, id);
                         declared_by.entry(id).or_default().push(idx);
                     }
                 }
@@ -203,25 +203,25 @@ impl Modules {
                 if let Some(declarator_indexes) = declared_by.get(&id) {
                     for &declarator_index in declarator_indexes {
                         if declarator_index != idx {
-                            let idx_decl = match &item {
-                                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                                    let ids: Vec<Id> = find_ids(&var.decls);
-                                    format!("`{:?}`", ids)
-                                }
-                                ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                                    format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
-                                }
-                                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                                    format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
-                                }
-                                _ => String::from(""),
-                            };
+                            // let idx_decl = match &item {
+                            //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                            //         let ids: Vec<Id> = find_ids(&var.decls);
+                            //         format!("`{:?}`", ids)
+                            //     }
+                            //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
+                            //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                            //     }
+                            //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+                            //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                            //     }
+                            //     _ => String::from(""),
+                            // };
 
                             graph.add_edge(idx, declarator_index, kind);
-                            eprintln!(
-                                "`{}` ({}) depends on `{}`: {:?}",
-                                idx, idx_decl, declarator_index, &id
-                            );
+                            // eprintln!(
+                            //     "`{}` ({}) depends on `{}`: {:?}",
+                            //     idx, idx_decl, declarator_index, &id
+                            // );
                             if cfg!(debug_assertions) {
                                 let deps: Vec<_> =
                                     graph.neighbors_directed(idx, Dependancies).collect();
@@ -307,20 +307,20 @@ fn iter<'a>(
                 // eprintln!("Done: {}", idx);
                 continue;
             }
-            dbg!(idx);
-            match &stmts[idx] {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                    let ids: Vec<Id> = find_ids(&var.decls);
-                    eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-                    eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                    eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
-                }
-                _ => eprintln!("(`{}`) Stmt", idx,),
-            }
+            // dbg!(idx);
+            // match &stmts[idx] {
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+            //         let ids: Vec<Id> = find_ids(&var.decls);
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, ids);
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&cls.ident));
+            //     }
+            //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
+            //         eprintln!("(`{}`) Declare: `{:?}`", idx, Id::from(&f.ident));
+            //     }
+            //     _ => eprintln!("(`{}`) Stmt", idx,),
+            // }
 
             let current_range = same_module_ranges
                 .iter()
