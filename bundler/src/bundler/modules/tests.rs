@@ -277,6 +277,7 @@ fn sort_008() {
         var e, o = e = {};
         o.env = {}
         var T = e;
+        const h = T;
         use(h);
         ",
     );
