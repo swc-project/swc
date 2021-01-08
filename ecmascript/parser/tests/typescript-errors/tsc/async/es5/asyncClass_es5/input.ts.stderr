@@ -1,0 +1,6 @@
+error[1042]: `async` modifier cannot be used here.
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncClass_es5/input.ts:4:1
+  |
+4 | async class C {
+  | ^^^^^
+
