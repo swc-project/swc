@@ -562,6 +562,35 @@ where
 
             for stmt in entry.iter() {
                 match stmt {
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                        for s in &export.specifiers {
+                            match s {
+                                ExportSpecifier::Namespace(_) => {}
+                                ExportSpecifier::Default(_) => {}
+                                ExportSpecifier::Named(named) => match &named.exported {
+                                    Some(exported) => {
+                                        let id: Id = exported.into();
+                                        if declared_ids.contains(&id) {
+                                            continue;
+                                        }
+
+                                        vars.push(
+                                            named
+                                                .orig
+                                                .clone()
+                                                .assign_to(exported.clone())
+                                                .into_module_item(
+                                                    injected_ctxt,
+                                                    "finalize -> export to var",
+                                                ),
+                                        );
+                                    }
+                                    None => {}
+                                },
+                            }
+                        }
+                    }
+
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
                         let ids: Vec<Id> = find_ids(decl);
 
