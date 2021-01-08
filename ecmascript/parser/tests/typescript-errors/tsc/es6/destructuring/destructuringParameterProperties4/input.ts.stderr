@@ -1,4 +1,4 @@
-error[1187]: A parameter property may not be declared using a binding pattern.
+error[1187]: A parameter property may not be declared using a binding pattern
  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterProperties4/input.ts:4:41
   |
 4 |     constructor(private k: T, protected [a, b, c]: [T, U, V]) {

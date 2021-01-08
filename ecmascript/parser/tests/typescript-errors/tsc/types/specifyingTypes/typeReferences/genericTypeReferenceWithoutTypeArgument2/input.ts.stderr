@@ -1,4 +1,4 @@
-error[1023]: An index signature parameter type must be either 'string' or 'number'.
+error[1023]: An index signature parameter type must be either 'string' or 'number'
   --> $DIR/tests/typescript-errors/tsc/types/specifyingTypes/typeReferences/genericTypeReferenceWithoutTypeArgument2/input.ts:12:14
    |
 12 | var d: { [x: I]: I };
