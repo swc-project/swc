@@ -4,3 +4,9 @@ error[1187]: A parameter property may not be declared using a binding pattern
 5 |     constructor(public [{ x1, x2, x3 }, y, z]: TupleType1) {
   |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Unexpected token `bar`. Expected * for generator, private key, identifier or async
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterProperties5/input.ts:7:13
+  |
+7 |         var bar: any = this.x1 || this.x2 || this.x3 || this.y || this.z;
+  |             ^^^
+
