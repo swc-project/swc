@@ -1,4 +1,4 @@
-error: Computed property names are not allowed in enums
+error[1164]: Computed property names are not allowed in enums
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ComputedPropertyNames/parserES5ComputedPropertyName6/input.ts:3:3
   |
 3 |   [e] = 1

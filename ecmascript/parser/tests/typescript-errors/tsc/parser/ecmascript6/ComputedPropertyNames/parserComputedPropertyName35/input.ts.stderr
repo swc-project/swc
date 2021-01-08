@@ -1,4 +1,4 @@
-error: A comma expression is not allowed in a computed property name
+error[1171]: A comma expression is not allowed in a computed property name
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName35/input.ts:3:6
   |
 3 |     [0, 1]: { }

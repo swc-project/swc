@@ -1,4 +1,4 @@
-error: A 'set' accessor must have exactly one parameter
+error[1049]: A 'set' accessor must have exactly one parameter
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Accessors/parserAccessors9/input.ts:2:15
   |
 2 | var v = { set foo(a, b) { } }

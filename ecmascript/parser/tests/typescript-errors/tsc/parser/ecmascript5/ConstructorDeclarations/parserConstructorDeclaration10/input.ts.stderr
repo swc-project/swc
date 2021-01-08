@@ -1,4 +1,4 @@
-error: Type annotation cannot appear on a constructor declaration
+error[1093]: Type annotation cannot appear on a constructor declaration
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration10/input.ts:2:18
   |
 2 |   constructor(): number { }

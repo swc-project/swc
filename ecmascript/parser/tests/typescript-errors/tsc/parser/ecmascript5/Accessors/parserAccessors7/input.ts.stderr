@@ -1,4 +1,4 @@
-error: A 'get' accessor cannot have parameters
+error[1054]: A 'get' accessor cannot have parameters
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Accessors/parserAccessors7/input.ts:2:15
   |
 2 | var v = { get foo(v: number) { } };
