@@ -177,3 +177,21 @@ fn deno_jszip_03() {
         ",
     );
 }
+
+#[test]
+fn sort_006() {
+    assert_sorted(
+        &[
+            "use(b)",
+            "
+            const b, a = b = {};
+            a.env = {};
+            ",
+        ],
+        "
+        const b, a = b = {};
+        a.env = {};
+        use(b);
+        ",
+    );
+}
