@@ -1,0 +1,12 @@
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/octalIntegerLiteralError/input.ts:2:19
+  |
+2 | var oct1 = 0O13334823;
+  |                   ^^^
+
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/octalIntegerLiteralError/input.ts:3:18
+  |
+3 | var oct2 = 0o34318592;
+  |                  ^^^^
+
