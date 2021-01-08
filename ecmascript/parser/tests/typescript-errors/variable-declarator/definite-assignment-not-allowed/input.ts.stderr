@@ -4,3 +4,15 @@ error[1182]: Destructuring bindings require initializers
 1 | let {}! = {};
   |     ^^
 
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:7
+  |
+1 | let {}! = {};
+  |       ^
+
+error: Unexpected token `=`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+ --> $DIR/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:9
+  |
+1 | let {}! = {};
+  |         ^
+
