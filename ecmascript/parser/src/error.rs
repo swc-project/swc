@@ -305,6 +305,7 @@ impl SyntaxError {
             SyntaxError::InvalidModifier { .. } => Some(1042),
             SyntaxError::ExtendsMustPrecedeImplements => Some(1173),
             SyntaxError::PatVarWithoutInit => Some(1182),
+            SyntaxError::TsInvalidParamPropPat => Some(1187),
 
             _ => None,
         }
@@ -462,9 +463,6 @@ impl SyntaxError {
                 .into(),
             SyntaxError::TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
-            }
-            SyntaxError::TsInvalidParamPropPat => {
-                "Typescript parameter property must be identifer or assignment pattern".into()
             }
             SyntaxError::SpaceBetweenHashAndIdent => {
                 "Unexpected space between # and identifier".into()
@@ -659,6 +657,10 @@ impl SyntaxError {
             }
             SyntaxError::ExtendsMustPrecedeImplements => {
                 "'extends' clause must precede 'implements' clause".into()
+            }
+
+            SyntaxError::TsInvalidParamPropPat => {
+                "A parameter property may not be declared using a binding pattern.".into()
             }
         }
     }

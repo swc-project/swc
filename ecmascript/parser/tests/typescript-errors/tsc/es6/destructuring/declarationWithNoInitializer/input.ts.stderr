@@ -1,4 +1,4 @@
-error: Destructuring bindings require initializers
+error[1182]: Destructuring bindings require initializers
  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/declarationWithNoInitializer/input.ts:1:5
   |
 1 | var [a, b];          // Error, no initializer
