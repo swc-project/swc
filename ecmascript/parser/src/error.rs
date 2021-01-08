@@ -3,6 +3,7 @@
 use crate::token::Token;
 use std::{borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
+use swc_common::errors::DiagnosticId;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span, Spanned,
@@ -242,6 +243,67 @@ pub enum SyntaxError {
 }
 
 impl SyntaxError {
+    /// Returns typescript error code.
+    #[cold]
+    #[inline(never)]
+    fn code(&self) -> Option<usize> {
+        match self {
+            SyntaxError::TS1003 => Some(1003),
+            SyntaxError::TS1005 => Some(1005),
+            SyntaxError::TS1009 => Some(1009),
+            SyntaxError::TS1014 => Some(1014),
+            SyntaxError::TS1015 => Some(1015),
+            SyntaxError::TS1031 => Some(1031),
+            SyntaxError::TS1038 => Some(1038),
+            SyntaxError::TS1047 => Some(1047),
+            SyntaxError::TS1048 => Some(1048),
+            SyntaxError::TS1056 => Some(1056),
+            SyntaxError::TS1085 => Some(1085),
+            SyntaxError::TS1089 => Some(1089),
+            SyntaxError::TS1092 => Some(1092),
+            SyntaxError::TS1096 => Some(1096),
+            SyntaxError::TS1098 => Some(1098),
+            SyntaxError::TS1100 => Some(1100),
+            SyntaxError::TS1102 => Some(1102),
+            SyntaxError::TS1105 => Some(1105),
+            SyntaxError::TS1107 => Some(1007),
+            SyntaxError::TS1109 => Some(1109),
+            SyntaxError::TS1110 => Some(1110),
+            SyntaxError::TS1114 => Some(1114),
+            SyntaxError::TS1115 => Some(1115),
+            SyntaxError::TS1116 => Some(1116),
+            SyntaxError::TS1123 => Some(1123),
+            SyntaxError::TS1141 => Some(1141),
+            SyntaxError::TS1162 => Some(1162),
+            SyntaxError::TS1164 => Some(1164),
+            SyntaxError::TS1171 => Some(1171),
+            SyntaxError::TS1172 => Some(1172),
+            SyntaxError::TS1174 => Some(1174),
+            SyntaxError::TS1175 => Some(1175),
+            SyntaxError::TS1183 => Some(1183),
+            SyntaxError::TS1093 => Some(1093),
+            SyntaxError::TS1094 => Some(1094),
+            SyntaxError::TS1196 => Some(1196),
+            SyntaxError::TS1242 => Some(1242),
+            SyntaxError::TS2369 => Some(2369),
+            SyntaxError::TS2371 => Some(2371),
+            SyntaxError::TS2406 => Some(2406),
+            SyntaxError::TS2410 => Some(2410),
+            SyntaxError::TS2414 => Some(2414),
+            SyntaxError::TS2427 => Some(2427),
+            SyntaxError::TS2452 => Some(2452),
+            SyntaxError::TS2483 => Some(2483),
+            SyntaxError::TS2491 => Some(2491),
+            SyntaxError::TS2703 => Some(2703),
+            SyntaxError::GetterShouldNotHaveParam => Some(1054),
+            SyntaxError::SetterShouldHaveOneParam => Some(1049),
+            SyntaxError::GetterShouldNotHaveTypeParam => Some(1094),
+            SyntaxError::SetterShouldNotHaveTypeParam => Some(1094),
+
+            _ => None,
+        }
+    }
+
     #[cold]
     #[inline(never)]
     pub fn msg(&self) -> Cow<'static, str> {
@@ -601,7 +663,13 @@ impl Error {
         let kind = self.into_kind();
         let msg = kind.msg();
 
-        let mut db = handler.struct_err(&msg);
+        let code = kind.code().map(|v| v.to_string()).map(DiagnosticId::Error);
+
+        let mut db = if let Some(code) = code {
+            handler.struct_err_with_code(&msg, code)
+        } else {
+            handler.struct_err(&msg)
+        };
         db.set_span(span);
 
         match kind {
