@@ -23,14 +23,6 @@ impl<'a, I: Tokens> Parser<I> {
                 let span = span!(self, start);
                 self.emit_error(err);
 
-                loop {
-                    if eat!(self, ';') {
-                        break;
-                    }
-                    trace_cur!(self, parse_expr__recover);
-                    bump!(self);
-                }
-
                 Ok(Box::new(Expr::Invalid(Invalid { span })))
             }
         }
