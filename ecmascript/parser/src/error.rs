@@ -246,6 +246,9 @@ pub enum SyntaxError {
     ExtendsMustPrecedeImplements,
 
     IndexSignatureMustBeStringOrNunmber,
+    AccessibilityModifierShouldPrecedeAbstract {
+        accessibility: JsWord,
+    },
 }
 
 impl SyntaxError {
@@ -312,6 +315,7 @@ impl SyntaxError {
             SyntaxError::IndexSignatureMustBeStringOrNunmber => Some(1023),
             SyntaxError::ExpectedBlock => Some(1005),
             SyntaxError::NonLastRestParam => Some(1014),
+            SyntaxError::AccessibilityModifierShouldPrecedeAbstract { .. } => Some(1243),
 
             _ => None,
         }
@@ -675,6 +679,11 @@ impl SyntaxError {
                 "An index signature parameter type must be either 'string' or 'number'".into()
             }
             SyntaxError::ExpectedBlock => "Expected '{'".into(),
+            SyntaxError::AccessibilityModifierShouldPrecedeAbstract { accessibility } => format!(
+                "'{}' modifier cannot be used with 'abstract' modifier",
+                accessibility
+            )
+            .into(),
         }
     }
 }

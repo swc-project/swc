@@ -365,6 +365,27 @@ impl<'a, I: Tokens> Parser<I> {
         let decorators = self.parse_decorators(false)?;
         let declare = self.syntax().typescript() && eat!(self, "declare");
         let accessibility = if self.input.syntax().typescript() {
+            if is!(self, "abstract")
+                && (peeked_is!(self, "public")
+                    || peeked_is!(self, "protected")
+                    || peeked_is!(self, "private"))
+            {
+                assert_and_bump!(self, "abstract");
+                let accessibility_modifier = match cur!(self, true)? {
+                    Token::Word(Word::Ident(v)) => v.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                };
+
+                self.emit_err(
+                    self.input.cur_span(),
+                    SyntaxError::AccessibilityModifierShouldPrecedeAbstract {
+                        accessibility: accessibility_modifier,
+                    },
+                );
+            }
+
             self.parse_access_modifier()?
         } else {
             None
