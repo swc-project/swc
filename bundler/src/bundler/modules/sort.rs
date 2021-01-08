@@ -133,7 +133,7 @@ impl Modules {
 
             {
                 // Find extra initializations.
-                let mut v = PrototypeUsageFinter::default();
+                let mut v = FieldInitFinter::default();
                 item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
 
                 for id in v.accessed {
@@ -469,13 +469,13 @@ fn iter<'a>(
 
 /// Using prototype should be treated as an initialization.
 #[derive(Default)]
-struct PrototypeUsageFinter {
+struct FieldInitFinter {
     in_object_assign: bool,
     in_rhs: bool,
     accessed: HashSet<Id>,
 }
 
-impl Visit for PrototypeUsageFinter {
+impl Visit for FieldInitFinter {
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         let old = self.in_rhs;
         e.left.visit_with(e, self);
