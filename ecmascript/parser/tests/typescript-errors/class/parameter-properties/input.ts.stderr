@@ -1,4 +1,4 @@
-error: Parameter cannot have question mark and initializer
+error[1015]: Parameter cannot have question mark and initializer
   --> $DIR/tests/typescript-errors/class/parameter-properties/input.ts:10:16
    |
 10 |         public y?: number = 0) {}

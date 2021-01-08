@@ -1,4 +1,4 @@
-error: `abstract` modifier can only appear on a class or method declaration
+error[1242]: `abstract` modifier can only appear on a class or method declaration
  --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classAbstractKeyword/classAbstractConstructor/input.ts:2:5
   |
 2 |     abstract constructor() {}

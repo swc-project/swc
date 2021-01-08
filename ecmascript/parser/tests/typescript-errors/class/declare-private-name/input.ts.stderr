@@ -1,4 +1,4 @@
-error: `declare` modifier cannot appear on a class element
+error[1031]: `declare` modifier cannot appear on a class element
  --> $DIR/tests/typescript-errors/class/declare-private-name/input.ts:2:5
   |
 2 |     declare #name;

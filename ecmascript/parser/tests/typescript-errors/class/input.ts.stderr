@@ -1,4 +1,4 @@
-error: Expected a semicolon
+error[1005]: Expected a semicolon
  --> $DIR/tests/typescript-errors/class/input.ts:2:5
   |
 2 |   x?!: number;
