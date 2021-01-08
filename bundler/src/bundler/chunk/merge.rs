@@ -531,7 +531,7 @@ where
     ///
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
-    fn handle_export_stars(&self, ctx: &Ctx, entry: &mut Modules) {
+    fn handle_reexport_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
         let injected_ctxt = self.injected_ctxt;
 
         {
@@ -696,7 +696,7 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, entry: &mut Modules) {
-        self.handle_export_stars(ctx, entry);
+        self.handle_reexport_of_entry(ctx, entry);
 
         // print_hygiene("before sort", &self.cm, &entry.clone().into());
 
