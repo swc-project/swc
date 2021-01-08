@@ -844,6 +844,14 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
 
+            if self.syntax().typescript() && is!(self, "abstract") && peeked_is!(self, IdentName) {
+                assert_and_bump!(self, "abstract");
+                self.emit_err(
+                    self.input.prev_span(),
+                    SyntaxError::InvalidModifierUsedWithAbstract { modifier: "async" },
+                );
+            }
+
             let is_key_accessor = match key {
                 Either::Right(PropName::Ident(Ident {
                     sym: js_word!("get"),
