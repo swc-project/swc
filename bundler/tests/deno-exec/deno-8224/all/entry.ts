@@ -12,7 +12,7 @@ import * as base64Url from 'https://deno.land/std/encoding/base64url.ts';
 import * as bytes from 'https://deno.land/std/bytes/mod.ts';
 import * as sha256 from 'https://deno.land/std/hash/sha256.ts';
 import * as jszip from 'https://deno.land/x/jszip/mod.ts';
-import * as signal from 'https://deno.land/std/signal/mod.ts ';
+import * as signal from 'https://deno.land/std/signal/mod.ts';
 
 console.log(
     oak, dsoReflect, path, uuid, fs, flagTypes, valueTypes,
