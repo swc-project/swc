@@ -475,10 +475,46 @@ struct FieldInitFinter {
     accessed: HashSet<Id>,
 }
 
+impl FieldInitFinter {
+    fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
+        match lhs {
+            PatOrExpr::Expr(e) => {
+                self.check_lhs_expr_of_assign(&e);
+            }
+            PatOrExpr::Pat(pat) => match &**pat {
+                Pat::Expr(e) => {
+                    self.check_lhs_expr_of_assign(&e);
+                }
+                _ => {}
+            },
+        }
+    }
+    fn check_lhs_expr_of_assign(&mut self, lhs: &Expr) {
+        match lhs {
+            Expr::Member(m) => {
+                let obj = match &m.obj {
+                    ExprOrSuper::Super(_) => return,
+                    ExprOrSuper::Expr(obj) => &**obj,
+                };
+
+                match obj {
+                    Expr::Ident(i) => {
+                        self.accessed.insert(i.into());
+                    }
+                    Expr::Member(..) => self.check_lhs_expr_of_assign(&obj),
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
 impl Visit for FieldInitFinter {
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         let old = self.in_rhs;
         e.left.visit_with(e, self);
+        self.check_lhs_of_assign(&e.left);
 
         self.in_rhs = true;
         e.right.visit_with(e, self);
