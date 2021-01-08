@@ -24,6 +24,10 @@ async function compile(fileNames: string[], options: ts.CompilerOptions): Promis
 
     for (const d of allDiagnostics) {
         if (!d.file) continue;
+
+        // Relation between async function and Promise<T> should be handled by the type checker.
+        if (d.code === 1064) continue
+
         // Parse failure
         if (1000 <= d.code && d.code < 2000) return true;
 
