@@ -220,7 +220,7 @@ pub enum SyntaxError {
     TS1242,
     TS1243(JsWord, JsWord),
     TS2369,
-    TS2371,
+    ParameterDefaultInAmbientContext,
     TS2406,
     TS2410,
     TS2414,
@@ -291,7 +291,7 @@ impl SyntaxError {
             SyntaxError::TS1196 => Some(1196),
             SyntaxError::TS1242 => Some(1242),
             SyntaxError::TS2369 => Some(2369),
-            SyntaxError::TS2371 => Some(2371),
+            SyntaxError::ParameterDefaultInAmbientContext => Some(2371),
             SyntaxError::TS2406 => Some(2406),
             SyntaxError::TS2410 => Some(2410),
             SyntaxError::TS2414 => Some(2414),
@@ -616,8 +616,9 @@ impl SyntaxError {
             SyntaxError::TS2369 => {
                 "A parameter property is only allowed in a constructor implementation".into()
             }
-            SyntaxError::TS2371 => "A parameter initializer is only allowed in a function or \
-                                    constructor implementation"
+            SyntaxError::ParameterDefaultInAmbientContext => "A parameter initializer is only \
+                                                              allowed in a function or \
+                                                              constructor implementation"
                 .into(),
             SyntaxError::TS2406 => "Not a variable".into(),
             SyntaxError::TS2410 => "The 'with' statement is not supported. All symbols in a \

@@ -78,7 +78,7 @@ impl<'a, I: Tokens> Parser<I> {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
 
             if self.ctx().in_declare {
-                self.emit_err(span!(self, start), SyntaxError::TS2371);
+                self.emit_err(span!(self, start), SyntaxError::ParameterDefaultInAmbientContext);
             }
 
             return Ok(Pat::Assign(AssignPat {
@@ -271,7 +271,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let right = self.parse_assignment_expr()?;
             if self.ctx().in_declare {
-                self.emit_err(span!(self, start), SyntaxError::TS2371);
+                self.emit_err(span!(self, start), SyntaxError::ParameterDefaultInAmbientContext);
             }
 
             Pat::Assign(AssignPat {

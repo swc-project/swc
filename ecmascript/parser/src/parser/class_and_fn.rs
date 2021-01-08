@@ -689,7 +689,7 @@ impl<'a, I: Tokens> Parser<I> {
                         };
 
                         if let Some(span) = span {
-                            self.emit_err(span, SyntaxError::TS2371)
+                            self.emit_err(span, SyntaxError::ParameterDefaultInAmbientContext)
                         }
                     }
                 }
@@ -1153,7 +1153,7 @@ impl<'a, I: Tokens> Parser<I> {
                     };
 
                     if let Some(span) = span {
-                        p.emit_err(span, SyntaxError::TS2371)
+                        p.emit_err(span, SyntaxError::ParameterDefaultInAmbientContext)
                     }
                 }
             }
