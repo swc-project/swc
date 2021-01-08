@@ -109,3 +109,21 @@ fn sort_005() {
         ",
     );
 }
+
+#[test]
+fn deno_jszip() {
+    assert_sorted(
+        &[
+            "use(a);",
+            "
+            const a = {};
+            a.foo = 1;
+            ",
+        ],
+        "
+        const a = {};
+        a.foo = 1;
+        use(a)
+        ",
+    );
+}
