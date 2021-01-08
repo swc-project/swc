@@ -304,6 +304,7 @@ impl SyntaxError {
             SyntaxError::SetterShouldNotHaveTypeParam => Some(1094),
             SyntaxError::InvalidModifier { .. } => Some(1042),
             SyntaxError::ExtendsMustPrecedeImplements => Some(1173),
+            SyntaxError::PatVarWithoutInit => Some(1182),
 
             _ => None,
         }
