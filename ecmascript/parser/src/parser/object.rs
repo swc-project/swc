@@ -23,6 +23,10 @@ impl<'a, I: Tokens> Parser<I> {
             if first {
                 first = false;
             } else {
+                if eat_exact!(self, ';') {
+                    self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+                    continue;
+                }
                 expect!(self, ',');
                 if eat!(self, '}') {
                     break;

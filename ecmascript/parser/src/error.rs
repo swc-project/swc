@@ -251,6 +251,7 @@ pub enum SyntaxError {
     InvalidModifierUsedWithAbstract {
         modifier: &'static str,
     },
+    ExpectedComma,
 }
 
 impl SyntaxError {
@@ -327,6 +328,7 @@ impl SyntaxError {
                 _ => None,
             },
 
+            SyntaxError::ExpectedComma => Some(1005),
             _ => None,
         }
     }
@@ -699,6 +701,7 @@ impl SyntaxError {
                 modifier
             )
             .into(),
+            SyntaxError::ExpectedComma => "Expected ','".into(),
         }
     }
 }
