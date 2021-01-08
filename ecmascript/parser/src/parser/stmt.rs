@@ -871,15 +871,13 @@ impl<'a, I: Tokens> Parser<I> {
                 // Destructuring bindings require initializers, but
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
-                    None
                 } else {
                     match name {
-                        Pat::Ident(..) => None,
-                        _ => {
-                            syntax_error!(self, span!(self, start), SyntaxError::PatVarWithoutInit)
-                        }
+                        Pat::Ident(..) => {}
+                        _ => self.emit_err(span!(self, start), SyntaxError::PatVarWithoutInit),
                     }
                 }
+                None
             }
         } else {
             // e.g. for(let a;;)
