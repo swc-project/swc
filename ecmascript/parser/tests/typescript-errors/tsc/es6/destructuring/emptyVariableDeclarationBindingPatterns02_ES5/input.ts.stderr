@@ -4,3 +4,9 @@ error[1182]: Destructuring bindings require initializers
 5 |     var {};
   |         ^^
 
+error[1182]: Destructuring bindings require initializers
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/emptyVariableDeclarationBindingPatterns02_ES5/input.ts:6:9
+  |
+6 |     let {};
+  |         ^^
+
