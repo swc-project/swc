@@ -153,3 +153,27 @@ fn deno_jszip_02() {
         ",
     );
 }
+
+#[test]
+fn deno_jszip_03() {
+    assert_sorted(
+        &[
+            "const v = X()",
+            "
+            const Q = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof self ? \
+             self : global;
+            function X() {
+                console.log(Q.A)
+            }
+            ",
+        ],
+        "
+        const Q = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof self ? \
+         self : global;
+        function X() {
+            console.log(Q.A)
+        }
+        const v = X() 
+        ",
+    );
+}
