@@ -1,7 +1,8 @@
 //! Parser for object literal.
 
+use crate::parser::pat::is_not_this;
+
 use super::*;
-use crate::parser::class_and_fn::is_not_this;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 

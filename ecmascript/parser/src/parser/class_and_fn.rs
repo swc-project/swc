@@ -755,10 +755,12 @@ impl<'a, I: Tokens> Parser<I> {
             _ => false,
         } && !self.input.had_line_break_before_cur()
         {
-            // handle async foo(){}
+            let async_span = key.span();
+            // Handle async foo(){}
 
             let is_generator = eat!(self, '*');
-            let key = self.parse_class_prop_name()?;
+            let mut key = self.parse_class_prop_name()?;
+            let mut kind = MethodKind::Method;
             if is_constructor(&key) {
                 self.emit_err(key.span(), SyntaxError::AsyncConstructor)
             }
@@ -768,9 +770,52 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
 
-            // handle async foo(){}
+            let is_key_accessor = match key {
+                Either::Right(PropName::Ident(Ident {
+                    sym: js_word!("get"),
+                    ..
+                }))
+                | Either::Right(PropName::Ident(Ident {
+                    sym: js_word!("set"),
+                    ..
+                })) => true,
+                _ => false,
+            };
+
+            // Handle async get foo(){}
+            if is_key_accessor && is!(self, IdentName) {
+                self.emit_err(
+                    async_span,
+                    SyntaxError::InvalidModifier { modifier: "async" },
+                );
+                let is_getter = match key {
+                    Either::Right(PropName::Ident(Ident {
+                        sym: js_word!("get"),
+                        ..
+                    })) => true,
+                    _ => false,
+                };
+
+                key = self
+                    .parse_ident_name()
+                    .map(PropName::Ident)
+                    .map(Either::Right)?;
+                kind = if is_getter {
+                    MethodKind::Getter
+                } else {
+                    MethodKind::Setter
+                };
+            }
+
+            let key_span = key.span();
+
+            // Handle async foo(){}
             return self.make_method(
-                |p| p.parse_unique_formal_params(),
+                |p| match kind {
+                    MethodKind::Method => p.parse_unique_formal_params(),
+                    MethodKind::Getter => p.parse_getter_params(key_span),
+                    MethodKind::Setter => p.parse_setter_params(key_span),
+                },
                 MakeMethodArgs {
                     start,
                     static_token,
@@ -780,7 +825,7 @@ impl<'a, I: Tokens> Parser<I> {
                     is_optional,
                     is_override,
                     decorators,
-                    kind: MethodKind::Method,
+                    kind,
                     is_async: true,
                     is_generator,
                 },
@@ -805,15 +850,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 return match i.sym {
                     js_word!("get") => self.make_method(
-                        |p| {
-                            let params = p.parse_formal_params()?;
-
-                            if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                                p.emit_err(key_span, SyntaxError::GetterShouldNotHaveParam);
-                            }
-
-                            Ok(params)
-                        },
+                        |p| p.parse_getter_params(key_span),
                         MakeMethodArgs {
                             decorators,
                             start,
@@ -829,21 +866,7 @@ impl<'a, I: Tokens> Parser<I> {
                         },
                     ),
                     js_word!("set") => self.make_method(
-                        |p| {
-                            let params = p.parse_formal_params()?;
-
-                            if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                p.emit_err(key_span, SyntaxError::SetterShouldHaveOneParam);
-                            }
-
-                            if !params.is_empty() {
-                                if let Pat::Rest(..) = params[0].pat {
-                                    p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
-                                }
-                            }
-
-                            Ok(params)
-                        },
+                        |p| p.parse_setter_params(key_span),
                         MakeMethodArgs {
                             decorators,
                             start,

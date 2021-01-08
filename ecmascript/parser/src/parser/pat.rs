@@ -391,6 +391,21 @@ impl<'a, I: Tokens> Parser<I> {
 
         if cnt != 1 {
             self.emit_err(key_span, SyntaxError::TS1094);
+    pub(super) fn parse_getter_params(&mut self, key_span: Span) -> PResult<Vec<Param>> {
+        let params = self.parse_formal_params()?;
+
+        if params.iter().filter(|p| is_not_this(p)).count() != 0 {
+            self.emit_err(key_span, SyntaxError::GetterShouldNotHaveParam);
+        }
+
+        Ok(params)
+    }
+
+    pub(super) fn parse_setter_params(&mut self, key_span: Span) -> PResult<Vec<Param>> {
+        let params = self.parse_formal_params()?;
+
+        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+            self.emit_err(key_span, SyntaxError::SetterShouldHaveOneParam);
         }
 
         if !params.is_empty() {
@@ -404,6 +419,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         Ok(params.into_iter().next().unwrap())
+        Ok(params)
     }
 
     pub(super) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
@@ -1212,5 +1228,15 @@ impl Visit for AssignRhsVerifier {
             }
             _ => {}
         }
+    }
+}
+
+pub(crate) fn is_not_this(p: &Param) -> bool {
+    match p.pat {
+        Pat::Ident(Ident {
+            sym: js_word!("this"),
+            ..
+        }) => false,
+        _ => true,
     }
 }
