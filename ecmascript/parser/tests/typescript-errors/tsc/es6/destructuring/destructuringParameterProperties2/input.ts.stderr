@@ -1,0 +1,6 @@
+error[1187]: A parameter property may not be declared using a binding pattern
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterProperties2/input.ts:2:44
+  |
+2 |     constructor(private k: number, private [a, b, c]: [number, string, boolean]) {
+  |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
