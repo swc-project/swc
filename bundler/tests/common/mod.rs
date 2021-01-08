@@ -7,6 +7,8 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_bundler::{Load, ModuleData, Resolve};
+use swc_common::errors::ColorConfig;
+use swc_common::errors::Handler;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{react, typescript::strip};
@@ -85,7 +87,12 @@ impl Load for Loader {
         );
 
         let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().unwrap();
+        let module = parser.parse_module().unwrap_or_else(|err| {
+            let handler =
+                Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(self.cm.clone()));
+            err.into_diagnostic(&handler).emit();
+            panic!("failed to parse")
+        });
         let module = module
             .fold_with(&mut strip())
             .fold_with(&mut react::react::<SingleThreadedComments>(
