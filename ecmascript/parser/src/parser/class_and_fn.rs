@@ -1078,8 +1078,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         // let prev_in_generator = self.ctx().in_generator;
         let ctx = Context {
-            in_async: is_async,
-            in_generator: is_generator,
+            in_async: self.ctx().in_async || is_async,
+            in_generator: self.ctx().in_generator || is_generator,
             ..self.ctx()
         };
 
