@@ -599,11 +599,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // Handle trailing comma.
                 if is!(self, ')') {
                     if is_dynamic_import {
-                        syntax_error!(
-                            self,
-                            span!(self, start),
-                            SyntaxError::TrailingCommaInsideImport
-                        )
+                        self.emit_err(span!(self, start), SyntaxError::TrailingCommaInsideImport)
                     }
 
                     break;
@@ -702,7 +698,7 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(span!(self, expr_start), SyntaxError::LineBreakBeforeArrow);
             }
             if !can_be_arrow {
-                syntax_error!(self, span!(self, expr_start), SyntaxError::ArrowNotAllowed);
+                self.emit_err(span!(self, expr_start), SyntaxError::ArrowNotAllowed);
             }
             expect!(self, "=>");
 
