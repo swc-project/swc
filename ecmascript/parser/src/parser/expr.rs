@@ -11,7 +11,7 @@ mod verifier;
 
 impl<'a, I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_expr);
+        // trace_cur!(self, parse_expr);
 
         let start = cur_pos!(self);
         let expr = self.parse_expr_inner();
@@ -50,7 +50,7 @@ impl<'a, I: Tokens> Parser<I> {
     ///`parseMaybeAssign` (overridden)
     ///`parseMaybeAssign` (overrided), with error recovery.
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_assignment_expr);
+        // trace_cur!(self, parse_assignment_expr);
 
         let start = cur_pos!(self);
         let expr = self.parse_assignment_expr_inner();
