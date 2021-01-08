@@ -459,7 +459,7 @@ fn iter<'a>(
             };
 
             // We should respect original order of statements within a module.
-            for preceding in current_range {
+            for preceding in current_range.clone() {
                 // We should select first statement in module which is not emitted yet.
                 if done.contains(&preceding) {
                     continue;
@@ -493,6 +493,14 @@ fn iter<'a>(
                 stack.push_front(idx);
                 stack.push_front(preceding);
                 continue 'main;
+            }
+
+            // Prefer inserting module as a whole.
+            let next = idx + 1;
+            if current_range.contains(&next) {
+                if !done.contains(&next) {
+                    stack.push_front(next);
+                }
             }
 
             graph.remove_node(idx);
