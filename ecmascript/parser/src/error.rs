@@ -315,7 +315,7 @@ impl SyntaxError {
             SyntaxError::IndexSignatureMustBeStringOrNunmber => Some(1023),
             SyntaxError::ExpectedBlock => Some(1005),
             SyntaxError::NonLastRestParam => Some(1014),
-            SyntaxError::AccessibilityModifierShouldPrecedeAbstract { .. } => Some(1243),
+            SyntaxError::AccessibilityModifierShouldPrecedeAbstract { .. } => Some(1029),
 
             _ => None,
         }
@@ -680,7 +680,7 @@ impl SyntaxError {
             }
             SyntaxError::ExpectedBlock => "Expected '{'".into(),
             SyntaxError::AccessibilityModifierShouldPrecedeAbstract { accessibility } => format!(
-                "'{}' modifier cannot be used with 'abstract' modifier",
+                "'{}' modifier must precede 'abstract' modifier.",
                 accessibility
             )
             .into(),
