@@ -1,0 +1,6 @@
+error: An implementation cannot be declared in ambient contexts
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Accessors/parserAccessors5/input.ts:3:13
+  |
+3 |   get foo() { return 0; }
+  |             ^
+
