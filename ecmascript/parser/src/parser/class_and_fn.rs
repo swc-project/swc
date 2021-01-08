@@ -750,7 +750,7 @@ impl<'a, I: Tokens> Parser<I> {
             let is_generator = eat!(self, '*');
             let key = self.parse_class_prop_name()?;
             if is_constructor(&key) {
-                syntax_error!(self, key.span(), SyntaxError::AsyncConstructor)
+                self.emit_err(key.span(), SyntaxError::AsyncConstructor)
             }
             if readonly.is_some() {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
