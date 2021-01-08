@@ -404,7 +404,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if self.input.syntax().typescript() {
-                if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
+                if let Some(decl) = self.parse_ts_expr_stmt(decorators.clone(), ident.clone())? {
                     return Ok(Stmt::Decl(decl));
                 }
             }
@@ -430,6 +430,19 @@ impl<'a, I: Tokens> Parser<I> {
                                 .parse_ts_interface_decl(start)
                                 .map(Decl::from)
                                 .map(Stmt::from);
+                        }
+                    }
+                    js_word!("async") => {
+                        // Try to recover errors.
+                        if is!(self, "class") {
+                            self.emit_err(
+                                i.span,
+                                SyntaxError::InvalidModifier { modifier: "async" },
+                            );
+                            let class_start = cur_pos!(self);
+                            return self
+                                .parse_class_decl(start, false, class_start, decorators)
+                                .map(Stmt::Decl);
                         }
                     }
                     _ => {}
