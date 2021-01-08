@@ -61,7 +61,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // Recover from invalid decorators.
         if is!(self, '@') {
-            let decorators = self.parse_decorators()?;
+            let decorators = self.parse_decorators(false)?;
             for dec in decorators {
                 self.emit_err(dec.span, SyntaxError::DecoratorNotAllowed);
             }
