@@ -1,0 +1,6 @@
+error[1049]: A 'set' accessor must have exactly one parameter
+  --> $DIR/tests/typescript-errors/tsc/es6/computedProperties/computedPropertyNames50_ES5/input.ts:12:9
+   |
+12 |     set [1 + 1]() {
+   |         ^^^^^^^
+
