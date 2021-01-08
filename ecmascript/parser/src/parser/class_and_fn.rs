@@ -133,7 +133,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // Handle TS1172
             if eat!(p, "extends") {
-                p.emit_err(p.input.prev_span(), SyntaxError::TS1172);
+                p.emit_err(p.input.prev_span(), SyntaxError::ExtendsAlreadySeen);
 
                 p.parse_lhs_expr()?;
                 if p.input.syntax().typescript() && is!(p, '<') {
@@ -150,7 +150,7 @@ impl<'a, I: Tokens> Parser<I> {
             {
                 // Handle TS1175
                 if p.input.syntax().typescript() && eat!(p, "implements") {
-                    p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
+                    p.emit_err(p.input.prev_span(), SyntaxError::ImplementsAlreadySeen);
 
                     p.parse_ts_heritage_clause()?;
                 }
@@ -159,6 +159,7 @@ impl<'a, I: Tokens> Parser<I> {
             // Handle TS1173
             if p.input.syntax().typescript() && eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1173);
+                p.emit_err(p.input.prev_span(), SyntaxError::ImplementsAlreadySeen);
 
                 let sc = p.parse_lhs_expr()?;
                 let type_params = if p.input.syntax().typescript() && is!(p, '<') {

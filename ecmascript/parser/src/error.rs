@@ -210,8 +210,9 @@ pub enum SyntaxError {
     TS1171,
     TS1172,
     TS1173,
+    ExtendsAlreadySeen,
     TS1174,
-    TS1175,
+    ImplementsAlreadySeen,
     TS1183,
     TS1093,
     TS1094,
@@ -277,9 +278,9 @@ impl SyntaxError {
             SyntaxError::TS1162 => Some(1162),
             SyntaxError::TS1164 => Some(1164),
             SyntaxError::TS1171 => Some(1171),
-            SyntaxError::TS1172 => Some(1172),
+            SyntaxError::ExtendsAlreadySeen => Some(1172),
             SyntaxError::TS1174 => Some(1174),
-            SyntaxError::TS1175 => Some(1175),
+            SyntaxError::ImplementsAlreadySeen => Some(1175),
             SyntaxError::TS1183 => Some(1183),
             SyntaxError::TS1093 => Some(1093),
             SyntaxError::TS1094 => Some(1094),
@@ -586,8 +587,9 @@ impl SyntaxError {
             }
             SyntaxError::TS1172 => "`extends` clause already seen.".into(),
             SyntaxError::TS1173 => "'extends' clause must precede 'implements' clause.".into(),
+            SyntaxError::ExtendsAlreadySeen => "`extends` clause already seen.".into(),
             SyntaxError::TS1174 => "Classes can only extend a single class".into(),
-            SyntaxError::TS1175 => "`implements` clause already seen".into(),
+            SyntaxError::ImplementsAlreadySeen => "`implements` clause already seen".into(),
             SyntaxError::TS1183 => {
                 "An implementation cannot be declared in ambient contexts".into()
             }

@@ -936,7 +936,7 @@ impl<I: Tokens> Parser<I> {
         //
         //     interface I extends A extends B {}
         if is!(self, "extends") {
-            self.emit_err(self.input.cur_span(), SyntaxError::TS1172);
+            self.emit_err(self.input.cur_span(), SyntaxError::ExtendsAlreadySeen);
 
             while !eof!(self) && !is!(self, '{') {
                 bump!(self);
