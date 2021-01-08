@@ -1,0 +1,6 @@
+error[1042]: `async` modifier cannot be used here.
+ --> $DIR/tests/typescript-errors/tsc/async/es6/asyncEnum_es6/input.ts:3:1
+  |
+3 | async enum E {  
+  | ^^^^^
+
