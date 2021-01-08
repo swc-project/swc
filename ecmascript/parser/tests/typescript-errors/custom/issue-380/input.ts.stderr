@@ -4,3 +4,15 @@ error: Unexpected token `.`. Expected this, import, async, function, [ for array
 3 |         import(../foo/bar)
   |                ^
 
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:16
+  |
+3 |         import(../foo/bar)
+  |                ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:16
+  |
+3 |         import(../foo/bar)
+  |                ^
+
