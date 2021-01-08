@@ -320,6 +320,13 @@ impl SyntaxError {
             SyntaxError::AccessibilityModifierShouldPrecedeAbstract { .. } => Some(1029),
             SyntaxError::InvalidModifierUsedWithAbstract { .. } => Some(1243),
 
+            SyntaxError::ExpectedDigit { radix } => match radix {
+                2 => Some(1177),
+                8 => Some(1178),
+                16 => Some(1125),
+                _ => None,
+            },
+
             _ => None,
         }
     }
