@@ -1,0 +1,6 @@
+error: Decorators are not valid here
+ --> $DIR/tests/typescript-errors/tsc/decorators/invalid/decoratorOnImportEquals1/input.ts:8:5
+  |
+8 |     @dec
+  |     ^^^^
+
