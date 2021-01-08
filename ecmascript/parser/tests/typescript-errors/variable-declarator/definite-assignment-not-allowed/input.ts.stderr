@@ -1,4 +1,4 @@
-error: Destructuring bindings require initializers
+error[1182]: Destructuring bindings require initializers
  --> $DIR/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:5
   |
 1 | let {}! = {};

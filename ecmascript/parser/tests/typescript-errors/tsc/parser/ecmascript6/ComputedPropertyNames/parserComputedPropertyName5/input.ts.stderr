@@ -1,4 +1,4 @@
-error: `public` modifier cannot be used here.
+error[1042]: `public` modifier cannot be used here.
  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName5/input.ts:2:11
   |
 2 | var v = { public get [e]() { } };
