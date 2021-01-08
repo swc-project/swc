@@ -100,6 +100,7 @@ pub enum SyntaxError {
     ReservedWordInImport,
     AssignProperty,
     Expected(&'static Token, String),
+    ExpectedBlock,
     ExpectedSemiForExprStmt {
         expr: Span,
     },
@@ -309,6 +310,7 @@ impl SyntaxError {
             SyntaxError::PatVarWithoutInit => Some(1182),
             SyntaxError::TsInvalidParamPropPat => Some(1187),
             SyntaxError::IndexSignatureMustBeStringOrNunmber => Some(1023),
+            SyntaxError::ExpectedBlock => Some(1005),
 
             _ => None,
         }
@@ -664,11 +666,12 @@ impl SyntaxError {
             }
 
             SyntaxError::TsInvalidParamPropPat => {
-                "A parameter property may not be declared using a binding pattern.".into()
+                "A parameter property may not be declared using a binding pattern".into()
             }
             SyntaxError::IndexSignatureMustBeStringOrNunmber => {
-                "An index signature parameter type must be either 'string' or 'number'.".into()
+                "An index signature parameter type must be either 'string' or 'number'".into()
             }
+            SyntaxError::ExpectedBlock => "Expected '{'".into(),
         }
     }
 }
