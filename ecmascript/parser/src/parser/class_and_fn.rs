@@ -557,6 +557,16 @@ impl<'a, I: Tokens> Parser<I> {
             // generator method
             let key = self.parse_class_prop_name()?;
             if readonly.is_some() {
+            let key = self.parse_class_prop_name();
+            let key = match key {
+                Ok(v) => v,
+                Err(err) => {
+                    let span = err.span();
+                    self.emit_error(err);
+                    Either::Right(PropName::Ident(Ident::new(js_word!(""), span)))
+                }
+            };
+            if readonly {
                 self.emit_err(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
             if is_constructor(&key) {
