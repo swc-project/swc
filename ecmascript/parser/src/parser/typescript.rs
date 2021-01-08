@@ -2199,6 +2199,15 @@ impl<I: Tokens> Parser<I> {
             ..self.ctx()
         };
 
+        {
+            let invalid_modifier_span = self.input.cur_span();
+            if eat!(self, "async") {
+                self.emit_err(
+                    invalid_modifier_span,
+                    SyntaxError::InvalidModifier { modifier: "async" },
+                )
+            }
+        }
         self.with_ctx(ctx).parse_with(|p| {
             if is!(p, "function") {
                 return p
