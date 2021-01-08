@@ -3,6 +3,7 @@ use crate::bundler::tests::suite;
 use crate::debug::print_hygiene;
 use swc_ecma_ast::Module;
 use swc_ecma_utils::drop_span;
+use testing::assert_eq;
 
 fn assert_sorted(src: &[&str], res: &str) {
     suite().run(|t| {
@@ -24,6 +25,8 @@ fn assert_sorted(src: &[&str], res: &str) {
 
         print_hygiene("actual", &t.cm, &actual);
         print_hygiene("expected", &t.cm, &expected);
+
+        assert_eq!(actual, expected);
         panic!()
     });
 }
@@ -41,7 +44,7 @@ fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
         }
 
         modules.sort();
-        let actual: Module = modules.into();
+        let actual: Module = drop_span(modules.into());
 
         let expected = drop_span(t.parse(res));
 
@@ -51,6 +54,7 @@ fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
 
         print_hygiene("actual", &t.cm, &actual);
         print_hygiene("expected", &t.cm, &expected);
+        assert_eq!(actual, expected);
         panic!()
     });
 }
