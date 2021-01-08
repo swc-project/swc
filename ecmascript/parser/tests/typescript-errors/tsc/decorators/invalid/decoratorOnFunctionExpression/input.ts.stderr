@@ -1,0 +1,6 @@
+error: Decorators are not valid here
+ --> $DIR/tests/typescript-errors/tsc/decorators/invalid/decoratorOnFunctionExpression/input.ts:3:9
+  |
+3 | var F = @dec function () {
+  |         ^^^^
+
