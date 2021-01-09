@@ -389,13 +389,19 @@ fn iter<'a>(
                             continue;
                         }
 
+                        if is_free {
+                            debug_assert!(
+                                !graph.has_a_path(dep, idx),
+                                "Free items cannot not have cycles"
+                            );
+                        }
+
                         let can_ignore_dep = can_ignore_deps
                             || (can_ignore_weak_deps
                                 && graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
                         if can_ignore_dep {
                             if graph.has_a_path(dep, idx) {
-                                debug_assert!(!is_free, "Free items cannot not have cycles");
                                 // Just emit idx.
                                 continue;
                             }
