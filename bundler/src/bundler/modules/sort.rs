@@ -394,13 +394,6 @@ fn iter<'a>(
                             continue;
                         }
 
-                        if is_free {
-                            debug_assert!(
-                                !graph.has_a_path(dep, idx),
-                                "Free items cannot not have cycles"
-                            );
-                        }
-
                         let can_ignore_dep = can_ignore_deps
                             || (can_ignore_weak_deps
                                 && graph.edge_weight(idx, dep) == Some(Required::Maybe));
@@ -786,8 +779,10 @@ impl Visit for RequirementCalculartor {
         let in_var_decl = self.in_var_decl;
         self.in_var_decl = true;
 
-        let ids: Vec<Id> = find_ids(&var.name);
-        self.excluded.extend(ids);
+        if self.in_weak {
+            let ids: Vec<Id> = find_ids(&var.name);
+            self.excluded.extend(ids);
+        }
 
         var.visit_children_with(self);
 
