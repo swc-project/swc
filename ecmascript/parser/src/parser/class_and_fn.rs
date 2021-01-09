@@ -1172,28 +1172,28 @@ impl<'a, I: Tokens> Parser<I> {
 
         let ident_required_span = span!(self, function_token_start);
 
-        let is_generator = {
+        let generator = {
             let start = cur_pos!(self);
             if eat!(self, '*') {
                 // if is_async {
                 //     syntax_error!(self, span!(self, start), SyntaxError::AsyncGenerator {});
                 // }
-                true
+                Some(self.input.prev_span())
             } else {
-                false
+                None
             }
         };
 
         let ctx = Context {
             in_async: is_async,
-            in_generator: is_generator,
+            in_generator: generator.is_some(),
             ..self.ctx()
         };
 
         let ident = if T::is_fn_expr() {
             //
             self.with_ctx(Context {
-                in_generator: is_generator,
+                in_generator: generator.is_some(),
                 ..ctx
             })
             .parse_opt_binding_ident()?
@@ -1224,8 +1224,14 @@ impl<'a, I: Tokens> Parser<I> {
                 start,
                 |p| p.parse_formal_params(),
                 is_async,
-                is_generator,
+                generator.is_some(),
             )?;
+
+            if f.body.is_none() {
+                if let Some(generator) = generator {
+                    p.emit_err(generator, SyntaxError::GeneratorInOverload);
+                }
+            }
             // expect!(self, '(');
             // let params_ctx = Context {
             //     in_parameters: true,
