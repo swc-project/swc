@@ -108,7 +108,7 @@ impl Modules {
                     //
                     match decl {
                         Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                            eprintln!("`{}` declares {:?}`", idx, Id::from(ident));
+                            eprintln!("Decl: `{}` declares {:?}`", idx, Id::from(ident));
                             declared_by.entry(Id::from(ident)).or_default().push(idx);
                         }
                         Decl::Var(vars) => {
@@ -120,7 +120,7 @@ impl Modules {
                                         uninitialized_ids.insert(id.clone(), idx);
                                     }
 
-                                    eprintln!("`{}` declares {:?}`", idx, id);
+                                    eprintln!("Decl: `{}` declares {:?}`", idx, id);
                                     declared_by.entry(id).or_default().push(idx);
                                 }
                             }
