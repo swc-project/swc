@@ -16,3 +16,15 @@ error: Unexpected token `}`. Expected an identifier
 6 | var {1} = { 1 };
   |       ^
 
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:6:15
+  |
+6 | var {1} = { 1 };
+  |               ^
+
+error: Unexpected token `}`. Expected an identifier
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringObjectBindingPatternAndAssignment3/input.ts:7:12
+  |
+7 | var {"prop"} = { "prop": 1 };
+  |            ^
+
