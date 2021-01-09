@@ -128,7 +128,8 @@ impl<'a, I: Tokens> Parser<I> {
                 Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
                 Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
-                    syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
+                    p.emit_err(p.input.prev_span(), SyntaxError::ExpectedIdent);
+                    Ok(w.into())
                 }
             }
         })?;
