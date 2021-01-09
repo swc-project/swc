@@ -257,6 +257,7 @@ pub enum SyntaxError {
     ExpectedComma,
     ExpectedRSquareBracket,
     InvalidReadonly,
+    ExpectedRParen,
 }
 
 impl SyntaxError {
@@ -337,9 +338,9 @@ impl SyntaxError {
             SyntaxError::ExpectedComma => Some(1005),
 
             // It's not actaully ts1005, but it's better than ts1005, so we just use 1005 as a code.
-            SyntaxError::ReservedWordInObjShorthandOrPat | SyntaxError::ExpectedRSquareBracket => {
-                Some(1005)
-            }
+            SyntaxError::ReservedWordInObjShorthandOrPat
+            | SyntaxError::ExpectedRSquareBracket
+            | SyntaxError::ExpectedRParen => Some(1005),
 
             SyntaxError::InvalidReadonly => Some(1354),
 
@@ -725,6 +726,7 @@ impl SyntaxError {
             SyntaxError::InvalidReadonly => {
                 "'readonly' type modifier is only permitted on array and tuple literal types".into()
             }
+            SyntaxError::ExpectedRParen => "Expected ')'".into(),
         }
     }
 }

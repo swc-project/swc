@@ -610,6 +610,10 @@ impl<'a, I: Tokens> Parser<I> {
 
         while !eof!(self) && !is!(self, ')') {
             trace_cur!(self, parse_args__element);
+            if is!(self, '.') {
+                self.emit_err(span!(self, start), SyntaxError::ExpectedExpr);
+                break;
+            }
 
             if first {
                 first = false;
@@ -626,6 +630,19 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             expr_or_spreads.push(self.include_in_expr(true).parse_expr_or_spread()?);
+        }
+
+        let mut first = true;
+        loop {
+            if is!(self, ')') || eof!(self) {
+                break;
+            }
+            if first {
+                self.emit_err(self.input.cur_span(), SyntaxError::ExpectedRParen);
+                first = false;
+            }
+
+            bump!(self);
         }
 
         expect!(self, ')');

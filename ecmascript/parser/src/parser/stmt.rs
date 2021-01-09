@@ -1004,6 +1004,9 @@ impl<'a, I: Tokens> Parser<I> {
                 let mut cnt = 1;
 
                 loop {
+                    if eof!(self) {
+                        break;
+                    }
                     if eat!(self, '}') {
                         cnt -= 1;
                         if cnt == 0 {
