@@ -404,9 +404,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             }
 
             if let ObjectPatProp::Rest(rest) = p {
-                if self.syntax().early_errors() {
-                    self.emit_err(rest.dot3_token, SyntaxError::NonLastRestParam)
-                }
+                self.emit_err(rest.dot3_token, SyntaxError::NonLastRestParam)
             }
         }
 
@@ -439,6 +437,10 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
         }
 
         let key = self.parse_prop_name()?;
+        if eat!(self, '?') {
+            self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+        }
+
         if eat!(self, ':') {
             let value = Box::new(self.parse_binding_element()?);
 
