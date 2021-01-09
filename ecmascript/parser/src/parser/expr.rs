@@ -480,11 +480,21 @@ impl<'a, I: Tokens> Parser<I> {
                 elems.push(None);
                 continue;
             }
+            if eat_exact!(self, ';') {
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+                continue;
+            }
+
             elems.push(
                 self.include_in_expr(true)
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
+            if eat_exact!(self, ';') {
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedComma);
+                continue;
+            }
+
             if is!(self, ',') {
                 expect!(self, ',');
             }
