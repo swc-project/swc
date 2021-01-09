@@ -221,7 +221,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         };
 
         if eat!(self, '?') {
-            self.emit_err(self.input.prev_span(), SyntaxError::TS1162);
+            self.emit_err(
+                self.input.prev_span(),
+                SyntaxError::ObjectMemberCannotBeOptional,
+            );
         }
 
         // `ident` from parse_prop_name is parsed as 'IdentifierName'

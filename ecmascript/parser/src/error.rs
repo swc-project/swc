@@ -207,7 +207,7 @@ pub enum SyntaxError {
     TS1116,
     TS1123,
     TS1141,
-    TS1162,
+    ObjectMemberCannotBeOptional,
     TS1164,
     TS1171,
     TS1172,
@@ -294,7 +294,7 @@ impl SyntaxError {
             SyntaxError::TS1116 => Some(1116),
             SyntaxError::TS1123 => Some(1123),
             SyntaxError::TS1141 => Some(1141),
-            SyntaxError::TS1162 => Some(1162),
+            SyntaxError::ObjectMemberCannotBeOptional => Some(1162),
             SyntaxError::TS1164 => Some(1164),
             SyntaxError::TS1171 => Some(1171),
             SyntaxError::ExtendsAlreadySeen => Some(1172),
@@ -630,7 +630,7 @@ impl SyntaxError {
                 "A 'break' statement can only jump to a label of an enclosing statement".into()
             }
             SyntaxError::TS1123 => "Variable declaration list cannot be empty".into(),
-            SyntaxError::TS1162 => "An object member cannot be declared optional".into(),
+            SyntaxError::ObjectMemberCannotBeOptional => "An object member cannot be declared optional".into(),
             SyntaxError::TS1164 => "Computed property names are not allowed in enums".into(),
             SyntaxError::TS1171 => {
                 "A comma expression is not allowed in a computed property name".into()
