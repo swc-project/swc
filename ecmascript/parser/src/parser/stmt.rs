@@ -732,8 +732,15 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
+        let start = cur_pos!(self);
         if eat!(self, '(') {
-            let mut pat = self.parse_binding_pat_or_ident()?;
+            let mut pat = self.parse_binding_pat_or_ident().unwrap_or_else(|err| {
+                self.emit_error(err);
+
+                Pat::Invalid(Invalid {
+                    span: span!(self, start),
+                })
+            });
 
             let type_ann_start = cur_pos!(self);
 
