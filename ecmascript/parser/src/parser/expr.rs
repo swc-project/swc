@@ -455,6 +455,8 @@ impl<'a, I: Tokens> Parser<I> {
         let mut elems = vec![];
 
         while !eof!(self) && !is!(self, ']') {
+            trace_cur!(self, parse_array_lit__element);
+
             if is!(self, ',') {
                 expect!(self, ',');
                 elems.push(None);
@@ -594,6 +596,8 @@ impl<'a, I: Tokens> Parser<I> {
         let mut expr_or_spreads = vec![];
 
         while !eof!(self) && !is!(self, ')') {
+            trace_cur!(self, parse_args__element);
+
             if first {
                 first = false;
             } else {
