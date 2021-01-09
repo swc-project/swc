@@ -1075,7 +1075,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 ..
                             },
                         ..
-                    }) => syntax_error!(p, span, SyntaxError::LabelledGenerator),
+                    }) => p.emit_err(span, SyntaxError::LabelledGenerator),
                     _ => {}
                 }
 
