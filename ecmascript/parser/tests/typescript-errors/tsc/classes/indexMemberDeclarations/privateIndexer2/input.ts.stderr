@@ -4,15 +4,3 @@ error: Expected ], got :
 4 |     private [x: string]: string;
   |               ^
 
-error[1005]: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:4:15
-  |
-4 |     private [x: string]: string;
-  |               ^
-
-error: Unexpected token `:`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
- --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer2/input.ts:4:15
-  |
-4 |     private [x: string]: string;
-  |               ^
-

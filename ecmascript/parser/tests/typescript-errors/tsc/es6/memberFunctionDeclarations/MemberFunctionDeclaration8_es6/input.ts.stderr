@@ -4,3 +4,9 @@ error: Unexpected character '¬'
 5 |     if (a) ¬ * bar;
   |            ^
 
+error[1109]: Expression expected
+ --> $DIR/tests/typescript-errors/tsc/es6/memberFunctionDeclarations/MemberFunctionDeclaration8_es6/input.ts:5:14
+  |
+5 |     if (a) ¬ * bar;
+  |              ^
+

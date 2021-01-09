@@ -4,45 +4,21 @@ error[1177]: Expected a binary digit
 2 | var binary = 0b21010;
   |                ^
 
-error[1005]: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:2:16
-  |
-2 | var binary = 0b21010;
-  |                ^^^^^
-
 error[1177]: Expected a binary digit
  --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:3:17
   |
 3 | var binary1 = 0B21010;
   |                 ^
 
-error[1005]: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:3:17
-  |
-3 | var binary1 = 0B21010;
-  |                 ^^^^^
-
 error[1178]: Expected an octal digit
  --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:4:15
   |
 4 | var octal = 0o81010;
   |               ^
 
-error[1005]: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:4:15
-  |
-4 | var octal = 0o81010;
-  |               ^^^^^
-
 error[1178]: Expected an octal digit
  --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:5:15
   |
 5 | var octal = 0O91010;
   |               ^
-
-error[1005]: Expected a semicolon
- --> $DIR/tests/typescript-errors/tsc/es6/binaryAndOctalIntegerLiteral/invalidBinaryIntegerLiteralAndOctalIntegerLiteral/input.ts:5:15
-  |
-5 | var octal = 0O91010;
-  |               ^^^^^
 

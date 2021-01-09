@@ -1,4 +1,4 @@
-error[1222]: Generators are not allowed in an ambient context.
+error[1222]: Generators are not allowed in an ambient context
  --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorInAmbientContext4.d/input.ts:3:14
   |
 3 |     function *generator(): any;

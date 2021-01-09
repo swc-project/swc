@@ -4,7 +4,7 @@ error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'pu
 3 |      yield foo
   |      ^^^^^
 
-error[1163]: A 'yield' expression is only allowed in a generator body.
+error[1163]: A 'yield' expression is only allowed in a generator body
  --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldExpression15_es6/input.ts:3:6
   |
 3 |      yield foo

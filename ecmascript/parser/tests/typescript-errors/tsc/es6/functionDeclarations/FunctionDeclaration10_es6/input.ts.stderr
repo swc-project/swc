@@ -4,9 +4,3 @@ error: 'yield' cannot be used as a parameter within generator
 2 | function * foo(a = yield => yield) {
   |                    ^^^^^
 
-error: Expected ,, got =>
- --> $DIR/tests/typescript-errors/tsc/es6/functionDeclarations/FunctionDeclaration10_es6/input.ts:2:26
-  |
-2 | function * foo(a = yield => yield) {
-  |                          ^^
-
