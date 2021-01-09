@@ -1,0 +1,6 @@
+error[1023]: An index signature parameter type must be either 'string' or 'number'
+ --> $DIR/tests/typescript-errors/tsc/es6/Symbols/symbolProperty17/input.ts:4:9
+  |
+4 |     [s: symbol]: string;
+  |         ^^^^^^
+
