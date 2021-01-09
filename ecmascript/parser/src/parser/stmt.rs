@@ -482,6 +482,17 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => {}
             }
 
+            match &*expr {
+                Expr::Invalid(..) => {
+                    return Ok(ExprStmt {
+                        span: span!(self, start),
+                        expr,
+                    }
+                    .into());
+                }
+                _ => {}
+            }
+
             syntax_error!(
                 self,
                 SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() }
