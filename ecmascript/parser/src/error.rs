@@ -255,6 +255,7 @@ pub enum SyntaxError {
         modifier: &'static str,
     },
     ExpectedComma,
+    ExpectedRSquareBracket,
 }
 
 impl SyntaxError {
@@ -335,7 +336,9 @@ impl SyntaxError {
             SyntaxError::ExpectedComma => Some(1005),
 
             // It's not actaully ts1005, but it's better than ts1005, so we just use 1005 as a code.
-            SyntaxError::ReservedWordInObjShorthandOrPat => Some(1005),
+            SyntaxError::ReservedWordInObjShorthandOrPat | SyntaxError::ExpectedRSquareBracket => {
+                Some(1005)
+            }
             _ => None,
         }
     }
@@ -714,6 +717,7 @@ impl SyntaxError {
                 accessibility
             )
             .into(),
+            SyntaxError::ExpectedRSquareBracket => "Expected ']'".into(),
         }
     }
 }
