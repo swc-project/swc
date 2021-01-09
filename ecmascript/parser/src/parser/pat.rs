@@ -126,14 +126,31 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!(self, "...") {
                 let dot3_token = span!(self, start);
 
-                let pat = self.parse_binding_pat_or_ident()?;
-                let pat = Pat::Rest(RestPat {
+                let mut pat = self.parse_binding_pat_or_ident()?;
+                pat = Pat::Rest(RestPat {
                     span: span!(self, start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann: None,
                 });
+
+                // Error recovery
+                if eat!(self, '=') {
+                    self.emit_err(
+                        self.input.prev_span(),
+                        SyntaxError::RestElementWithinitializer,
+                    );
+                    let init = self.parse_expr()?;
+                    pat = Pat::Assign(AssignPat {
+                        span: span!(self, start),
+                        left: Box::new(pat),
+                        right: init,
+                        type_ann: None,
+                    });
+                }
+
                 elems.push(Some(pat));
+
                 // Trailing comma isn't allowed
                 break;
             } else {

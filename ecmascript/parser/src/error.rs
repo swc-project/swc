@@ -260,6 +260,7 @@ pub enum SyntaxError {
     InvalidReadonly,
     ExpectedLParen,
     ExpectedRParen,
+    RestElementWithinitializer,
 }
 
 impl SyntaxError {
@@ -350,6 +351,8 @@ impl SyntaxError {
             SyntaxError::ExpectedIdentButGotKeyword => Some(1359),
 
             SyntaxError::ReturnNotAllowed => Some(1108),
+
+            SyntaxError::RestElementWithinitializer => Some(1186),
 
             _ => None,
         }
@@ -630,7 +633,9 @@ impl SyntaxError {
                 "A 'break' statement can only jump to a label of an enclosing statement".into()
             }
             SyntaxError::TS1123 => "Variable declaration list cannot be empty".into(),
-            SyntaxError::ObjectMemberCannotBeOptional => "An object member cannot be declared optional".into(),
+            SyntaxError::ObjectMemberCannotBeOptional => {
+                "An object member cannot be declared optional".into()
+            }
             SyntaxError::TS1164 => "Computed property names are not allowed in enums".into(),
             SyntaxError::TS1171 => {
                 "A comma expression is not allowed in a computed property name".into()
@@ -739,6 +744,9 @@ impl SyntaxError {
             SyntaxError::ExpectedRParen => "Expected ')'".into(),
             SyntaxError::ExpectedIdentButGotKeyword => {
                 "Expected an identifier, but found keyword".into()
+            }
+            SyntaxError::RestElementWithinitializer => {
+                "A rest element cannot have an initializer".into()
             }
         }
     }
