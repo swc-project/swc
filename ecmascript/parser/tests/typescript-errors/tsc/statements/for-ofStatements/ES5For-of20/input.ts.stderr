@@ -1,0 +1,6 @@
+error[1155]: 'const' declarations must be initialized
+ --> $DIR/tests/typescript-errors/tsc/statements/for-ofStatements/ES5For-of20/input.ts:4:15
+  |
+4 |         const v;
+  |               ^
+
