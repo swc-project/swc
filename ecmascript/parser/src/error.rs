@@ -264,6 +264,7 @@ pub enum SyntaxError {
 
     ExpectedPropertyName,
     YieldNotAllowed,
+    GeneratorInOverload,
 }
 
 impl SyntaxError {
@@ -358,6 +359,7 @@ impl SyntaxError {
 
             SyntaxError::RestElementWithinitializer => Some(1186),
             SyntaxError::YieldNotAllowed => Some(1163),
+            SyntaxError::GeneratorInOverload => Some(1222),
 
             _ => None,
         }
@@ -756,6 +758,9 @@ impl SyntaxError {
             SyntaxError::ExpectedPropertyName => "Expected a property name".into(),
             SyntaxError::YieldNotAllowed => {
                 "A 'yield' expression is only allowed in a generator body.".into()
+            }
+            SyntaxError::GeneratorInOverload => {
+                "An overload signature cannot be declared as a generator.".into()
             }
         }
     }

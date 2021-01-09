@@ -438,6 +438,8 @@ impl<'a, I: Tokens> Parser<I> {
                         is_override: false,
                         is_async: false,
                         is_generator: false,
+                        async_token: None,
+                        generator: None,
                         static_token: None,
                         key,
                         kind: MethodKind::Method,
@@ -506,6 +508,8 @@ impl<'a, I: Tokens> Parser<I> {
                         is_override: false,
                         is_async: false,
                         is_generator: false,
+                        async_token: None,
+                        generator: None,
                         static_token: None,
                         key,
                         kind: MethodKind::Method,
@@ -670,6 +674,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if eat!(self, '*') {
+            let generator = self.input.prev_span();
             // generator method
             let key = self.parse_class_prop_name()?;
             if readonly.is_some() {
@@ -694,8 +699,8 @@ impl<'a, I: Tokens> Parser<I> {
                 MakeMethodArgs {
                     start,
                     decorators,
-                    is_async: false,
-                    is_generator: true,
+                    async_token: None,
+                    generator: Some(generator),
                     accessibility,
                     is_abstract,
                     is_override,
@@ -846,8 +851,8 @@ impl<'a, I: Tokens> Parser<I> {
                         static_token,
                         kind: MethodKind::Method,
                         key,
-                        is_async: false,
-                        is_generator: false,
+                        async_token: None,
+                        generator: None,
                     },
                 );
             }
@@ -886,7 +891,11 @@ impl<'a, I: Tokens> Parser<I> {
                 );
             }
 
-            let is_generator = eat!(self, '*');
+            let generator = if eat!(self, '*') {
+                Some(self.input.prev_span())
+            } else {
+                None
+            };
             let mut key = self.parse_class_prop_name()?;
             let mut kind = MethodKind::Method;
             if is_constructor(&key) {
@@ -962,8 +971,8 @@ impl<'a, I: Tokens> Parser<I> {
                     is_override,
                     decorators,
                     kind,
-                    is_async: true,
-                    is_generator,
+                    async_token: Some(async_span),
+                    generator,
                 },
             );
         }
@@ -991,8 +1000,8 @@ impl<'a, I: Tokens> Parser<I> {
                             decorators,
                             start,
                             is_abstract,
-                            is_async: false,
-                            is_generator: false,
+                            async_token: None,
+                            generator: None,
                             is_optional,
                             is_override,
                             accessibility,
@@ -1011,6 +1020,8 @@ impl<'a, I: Tokens> Parser<I> {
                             is_override,
                             is_async: false,
                             is_generator: false,
+                            async_token: None,
+                            generator: None,
                             accessibility,
                             static_token,
                             key,
@@ -1384,8 +1395,8 @@ impl<'a, I: Tokens> Parser<I> {
             is_override,
             key,
             kind,
-            is_async,
-            is_generator,
+            async_token,
+            generator,
         }: MakeMethodArgs,
     ) -> PResult<ClassMember>
     where
@@ -1410,8 +1421,20 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         let function = self.with_ctx(ctx).parse_with(|p| {
-            p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
+            p.parse_fn_args_body(
+                decorators,
+                start,
+                parse_args,
+                async_token.is_some(),
+                generator.is_some(),
+            )
         })?;
+
+        if self.syntax().typescript() && function.body.is_none() {
+            if let Some(generator) = generator {
+                self.emit_err(generator, SyntaxError::GeneratorInOverload);
+            }
+        }
 
         match kind {
             MethodKind::Getter | MethodKind::Setter
@@ -1634,8 +1657,8 @@ struct MakeMethodArgs {
     is_override: bool,
     key: Either<PrivateName, PropName>,
     kind: MethodKind,
-    is_async: bool,
-    is_generator: bool,
+    async_token: Option<Span>,
+    generator: Option<Span>,
 }
 
 #[cfg(test)]
