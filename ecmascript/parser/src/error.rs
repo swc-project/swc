@@ -184,7 +184,7 @@ pub enum SyntaxError {
     TS1029(JsWord, JsWord),
     TS1030(JsWord),
     TS1031,
-    TS1038,
+    DeclareButAlreadyInAmbientContext,
     InvalidModifier {
         modifier: &'static str,
     },
@@ -280,7 +280,7 @@ impl SyntaxError {
             SyntaxError::TS1014 => Some(1014),
             SyntaxError::TS1015 => Some(1015),
             SyntaxError::TS1031 => Some(1031),
-            SyntaxError::TS1038 => Some(1038),
+            SyntaxError::DeclareButAlreadyInAmbientContext => Some(1038),
             SyntaxError::TS1047 => Some(1047),
             SyntaxError::TS1048 => Some(1048),
             SyntaxError::TS1056 => Some(1056),
@@ -604,7 +604,7 @@ impl SyntaxError {
             }
             SyntaxError::TS1030(word) => format!("'{}' modifier already seen.", word).into(),
             SyntaxError::TS1031 => "`declare` modifier cannot appear on a class element".into(),
-            SyntaxError::TS1038 => {
+            SyntaxError::DeclareButAlreadyInAmbientContext => {
                 "`declare` modifier not allowed for code already in an ambient context".into()
             }
             SyntaxError::InvalidModifier { modifier } => {

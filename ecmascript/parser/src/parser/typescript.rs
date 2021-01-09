@@ -2222,7 +2222,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Option<Decl>> {
         if self.ctx().in_declare {
             let span_of_declare = span!(self, start);
-            self.emit_err(span_of_declare, SyntaxError::TS1038);
+            self.emit_err(span_of_declare, SyntaxError::DeclareButAlreadyInAmbientContext);
         }
 
         let declare_start = start;
