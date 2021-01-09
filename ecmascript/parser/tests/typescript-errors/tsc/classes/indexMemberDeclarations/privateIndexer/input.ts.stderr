@@ -1,0 +1,18 @@
+error: Expected ], got :
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer/input.ts:4:15
+  |
+4 |     private [x: string]: string;
+  |               ^
+
+error: Expected ], got :
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer/input.ts:8:15
+  |
+8 |     private [x: number]: string;
+  |               ^
+
+error: Expected ], got :
+  --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/privateIndexer/input.ts:12:15
+   |
+12 |     private [x: string]: T;
+   |               ^
+
