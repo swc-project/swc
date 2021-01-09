@@ -870,7 +870,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             let d = self.with_ctx(ctx).parse_var_declarator(for_loop)?;
 
-            if !for_loop && kind == VarDeclKind::Const && d.init.is_none() {
+            if !for_loop && kind == VarDeclKind::Const && d.init.is_none() && !self.ctx().in_declare
+            {
                 self.emit_err(d.name.span(), SyntaxError::ConstMustBeInitialized);
             }
 
