@@ -1,0 +1,12 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorTypeCheck57/input.ts:4:13
+  |
+4 |         x = yield 0;
+  |             ^^^^^
+
+error[1005]: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorTypeCheck57/input.ts:4:19
+  |
+4 |         x = yield 0;
+  |                   ^
+

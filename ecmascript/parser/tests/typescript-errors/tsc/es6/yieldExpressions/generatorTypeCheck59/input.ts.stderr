@@ -1,0 +1,12 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorTypeCheck59/input.ts:4:11
+  |
+4 |         @(yield "")
+  |           ^^^^^
+
+error: Expected ), got string literal ()
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/generatorTypeCheck59/input.ts:4:17
+  |
+4 |         @(yield "")
+  |                 ^^
+
