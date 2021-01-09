@@ -12,7 +12,6 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
-use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
@@ -572,28 +571,12 @@ impl VisitMut for Dce<'_> {
         self.mark(&mut node.arg);
     }
 
-    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
-        if self.is_marked(node.span) {
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        if self.is_marked(d.span) {
             return;
         }
 
-        let should_preserve_initializer = node
-            .init
-            .as_ref()
-            .map(|e| e.may_have_side_effects() && self.is_marked(e.span()))
-            .unwrap_or(false);
-
-        let ids: Vec<Id> = find_ids(&node.name);
-
-        if self.marking_phase
-            || should_preserve_initializer
-            || ids.iter().any(|id| self.included.contains(id))
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut node.name);
-            self.mark(&mut node.init);
-        }
+        d.visit_mut_children_with(self);
     }
 
     fn visit_mut_var_decl(&mut self, mut var: &mut VarDecl) {
@@ -608,10 +591,17 @@ impl VisitMut for Dce<'_> {
                 return true;
             }
 
-            if self.decl_dropping_phase {
-                return false;
+            if !self.should_include(&decl.name) {
+                if self.decl_dropping_phase {
+                    return false;
+                }
+                return true;
             }
-            return true;
+
+            decl.span = decl.span.apply_mark(self.config.used_mark);
+            self.mark(&mut decl.init);
+            self.mark(&mut decl.name);
+            true
         });
 
         if var.decls.is_empty() || !self.decl_dropping_phase {
