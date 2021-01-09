@@ -1,0 +1,12 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldExpression17_es6/input.ts:2:23
+  |
+2 | var v = { get foo() { yield foo; } }
+  |                       ^^^^^
+
+error[1163]: A 'yield' expression is only allowed in a generator body.
+ --> $DIR/tests/typescript-errors/tsc/es6/yieldExpressions/YieldExpression17_es6/input.ts:2:23
+  |
+2 | var v = { get foo() { yield foo; } }
+  |                       ^^^^^
+
