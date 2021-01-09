@@ -788,11 +788,9 @@ impl<'a, I: Tokens> Parser<I> {
         // It was not head of arrow function.
 
         if expr_or_spreads.is_empty() {
-            syntax_error!(
-                self,
-                Span::new(expr_start, last_pos!(self), Default::default()),
-                SyntaxError::EmptyParenExpr
-            );
+            let span = Span::new(expr_start, last_pos!(self), Default::default());
+            self.emit_err(span, SyntaxError::EmptyParenExpr);
+            return Ok(Expr::Invalid(Invalid { span })).map(Box::new);
         }
 
         // TODO: Verify that invalid expression like {a = 1} does not exists.
