@@ -169,6 +169,13 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         let key = self.parse_prop_name()?;
 
+        if eat!(self, '?') {
+            self.emit_err(
+                self.input.prev_span(),
+                SyntaxError::ObjectMemberCannotBeOptional,
+            );
+        }
+
         if self.input.syntax().typescript()
             && !is_one_of!(self, '(', '[', ':', ',', '?', '=', '*', IdentName)
             && !(self.input.syntax().typescript() && is!(self, '<'))
@@ -219,13 +226,6 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             // TODO
             _ => unexpected!(self, "identifier"),
         };
-
-        if eat!(self, '?') {
-            self.emit_err(
-                self.input.prev_span(),
-                SyntaxError::ObjectMemberCannotBeOptional,
-            );
-        }
 
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
         // It means we should check for invalid expressions like { for, }
