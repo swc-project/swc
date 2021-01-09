@@ -225,7 +225,11 @@ impl<'a, I: Tokens> Parser<I> {
                 },
             );
         expect!(self, '{');
-        let body = self.parse_class_body()?;
+        let ctx = Context {
+            in_generator: false,
+            ..self.ctx()
+        };
+        let body = self.with_ctx(ctx).parse_class_body()?;
         expect!(self, '}');
         let end = last_pos!(self);
 
