@@ -349,6 +349,8 @@ impl SyntaxError {
 
             SyntaxError::ExpectedIdentButGotKeyword => Some(1359),
 
+            SyntaxError::ReturnNotAllowed => Some(1108),
+
             _ => None,
         }
     }
@@ -472,7 +474,9 @@ impl SyntaxError {
 
             SyntaxError::PatVarWithoutInit => "Destructuring bindings require initializers".into(),
             SyntaxError::WithInStrict => "With statement are not allowed in strict mode".into(),
-            SyntaxError::ReturnNotAllowed => "Return statement is not allowed here".into(),
+            SyntaxError::ReturnNotAllowed => {
+                "A 'return' statement can only be used within a function body.".into()
+            }
             SyntaxError::TooManyVarInForInHead => "Expected one variable binding".into(),
             SyntaxError::VarInitializerInForInHead => {
                 "Unexpected initializer in for in/of loop".into()
