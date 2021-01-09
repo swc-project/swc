@@ -1,0 +1,84 @@
+error: Unexpected token `,`. Expected identifier
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:3:20
+  |
+3 |     "stringLiteral",
+  |                    ^
+
+error: Unexpected token `,`. Expected identifier
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:4:7
+  |
+4 |     42,
+  |       ^
+
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:5:10
+  |
+5 |     get e,
+  |          ^
+
+error[1005]: Expected '{'
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:5:10
+  |
+5 |     get e,
+  |          ^
+
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:6:10
+  |
+6 |     set f,
+  |          ^
+
+error[1005]: Expected '{'
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:6:10
+  |
+6 |     set f,
+  |          ^
+
+error[1005]: Cannot use a reserved word as a shorthand property
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:7:5
+  |
+7 |     this,
+  |     ^^^^
+
+error[1005]: Cannot use a reserved word as a shorthand property
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:8:5
+  |
+8 |     super,
+  |     ^^^^^
+
+error[1005]: Cannot use a reserved word as a shorthand property
+ --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:9:5
+  |
+9 |     var,
+  |     ^^^
+
+error[1005]: Cannot use a reserved word as a shorthand property
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:10:5
+   |
+10 |     class,
+   |     ^^^^^
+
+error[1005]: Cannot use a reserved word as a shorthand property
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:11:5
+   |
+11 |     typeof
+   |     ^^^^^^
+
+error[1005]: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:15:6
+   |
+15 |     a.b,
+   |      ^
+
+error[1005]: Expected ','
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:15:6
+   |
+15 |     a.b,
+   |      ^
+
+error[1005]: Cannot use a reserved word as a shorthand property
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNotUsingIdentifier/input.ts:20:11
+   |
+20 | var v = { class };  // error
+   |           ^^^^^
+
