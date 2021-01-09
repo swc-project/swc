@@ -403,7 +403,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
-                if is!(self, "interface") && peeked_is!(self, IdentName) {
+                if self.syntax().typescript()
+                    && is_one_of!(self, "interface", "module")
+                    && peeked_is!(self, IdentName)
+                {
                     syntax_error!(self, SyntaxError::ExpectedIdent);
                 }
 

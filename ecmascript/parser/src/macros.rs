@@ -371,6 +371,7 @@ macro_rules! tok {
     ("set") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("set")))
     
+
     ("public") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("public")))
     };
@@ -379,6 +380,12 @@ macro_rules! tok {
     };
     ("private") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("private")))
+    };
+    ("private") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("private")))
+    };
+    ("module") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("module")))
     };
 }
 
