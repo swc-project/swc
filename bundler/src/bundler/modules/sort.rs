@@ -502,8 +502,10 @@ fn iter<'a>(
             // Prefer inserting module as a whole.
             let next = idx + 1;
             if current_range.contains(&next) {
-                if !done.contains(&next) {
-                    stack.push_front(next);
+                if moves.insert((idx, next)) {
+                    if !done.contains(&next) {
+                        stack.push_front(next);
+                    }
                 }
             }
 
