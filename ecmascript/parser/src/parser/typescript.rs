@@ -2014,6 +2014,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseArrayTypeOrHigher`
     fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_array_type_or_higher);
+    fn parse_ts_array_type_or_higher(&mut self, readonly: Option<Span>) -> PResult<Box<TsType>> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut ty = self.parse_ts_non_array_type()?;
@@ -2029,10 +2030,18 @@ impl<I: Tokens> Parser<I> {
                 expect!(self, ']');
                 ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
                     span: span!(self, ty.span().lo()),
-                    readonly,
+                    readonly: readonly.is_some(),
                     obj_type: ty,
                     index_type,
                 }))
+            }
+        }
+        if let Some(readonly) = readonly {
+            match &*ty {
+                TsType::TsArrayType(..) | TsType::TsTupleType(..) => {}
+                _ => {
+                    self.emit_err(readonly,SyntaxError::InvalidReadonly);
+                }
             }
         }
 
@@ -2104,6 +2113,11 @@ impl<I: Tokens> Parser<I> {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
                     let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
+                    let readonly = if readonly {
+                        Some(self.input.prev_span())
+                    } else {
+                        None
+                    };
                     self.parse_ts_array_type_or_higher(readonly)
                 }
             }

@@ -256,6 +256,7 @@ pub enum SyntaxError {
     },
     ExpectedComma,
     ExpectedRSquareBracket,
+    InvalidReadonly,
 }
 
 impl SyntaxError {
@@ -339,6 +340,9 @@ impl SyntaxError {
             SyntaxError::ReservedWordInObjShorthandOrPat | SyntaxError::ExpectedRSquareBracket => {
                 Some(1005)
             }
+
+            SyntaxError::InvalidReadonly => Some(1354),
+
             _ => None,
         }
     }
@@ -718,6 +722,9 @@ impl SyntaxError {
             )
             .into(),
             SyntaxError::ExpectedRSquareBracket => "Expected ']'".into(),
+            SyntaxError::InvalidReadonly => {
+                "'readonly' type modifier is only permitted on array and tuple literal types".into()
+            }
         }
     }
 }
