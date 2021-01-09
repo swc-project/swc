@@ -86,8 +86,18 @@ impl<'a, I: Tokens> Parser<I> {
             return self.handle_import_export(top_level, decorators);
         }
 
-        self.parse_stmt_internal(start, include_decl, top_level, decorators)
-            .map(From::from)
+        Ok(self
+            .parse_stmt_internal(start, include_decl, top_level, decorators)
+            .unwrap_or_else(|err| {
+                let span = err.span();
+                self.emit_error(err);
+
+                Stmt::Expr(ExprStmt {
+                    span,
+                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                })
+            })
+            .into())
     }
 
     /// `parseStatementContent`
