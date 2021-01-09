@@ -4,7 +4,7 @@ error: Expected identifier after this token
 1 | function {
   | ^^^^^^^^
 
-error: Expected (, got {
+error[1005]: Expected '('
  --> $DIR/tests/typescript-errors/recovery/function/no-params.ts:1:10
   |
 1 | function {
