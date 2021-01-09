@@ -360,8 +360,8 @@ impl SyntaxError {
 
             SyntaxError::RestElementWithinitializer => Some(1186),
             SyntaxError::YieldNotAllowed => Some(1163),
-            SyntaxError::GeneratorInOverloadOfClassMethod => Some(1222),
-            SyntaxError::GeneratorInOverloadInAmbientContext => Some(1221),
+            SyntaxError::GeneratorInOverloadOfClassMethod => Some(1221),
+            SyntaxError::GeneratorInOverloadInAmbientContext => Some(1222),
 
             _ => None,
         }
