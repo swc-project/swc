@@ -19,10 +19,6 @@ impl<'a, I: Tokens> Parser<I> {
             })));
         }
 
-        self.parse_expr_inner()
-    }
-
-    fn parse_expr_inner(&mut self) -> PResult<Box<Expr>> {
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
 
@@ -63,7 +59,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     ///`parseMaybeAssign` (overrided)
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_assignment_expr_inner);
+        trace_cur!(self, parse_assignment_expr);
 
         // Recover from invalid decorators.
         if is!(self, '@') {
