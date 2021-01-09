@@ -1,0 +1,6 @@
+error[1359]: Expected an identifier, but found keyword
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/objectBindingPatternKeywordIdentifiers04/input.ts:2:16
+  |
+2 | var { "while": while } = { while: 1 }
+  |                ^^^^^
+
