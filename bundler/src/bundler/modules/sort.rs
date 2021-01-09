@@ -363,6 +363,16 @@ fn iter<'a>(
                 let deps = graph
                     .neighbors_directed(idx, Dependancies)
                     .filter(|dep| {
+                        let declared_in_same_module = match &current_range {
+                            Some(v) => v.contains(&dep),
+                            None => false,
+                        };
+
+                        // We have logic to handle items declared in same module.
+                        if declared_in_same_module {
+                            return false;
+                        }
+
                         // Exlcude emitted items
                         !done.contains(dep)
                     })
@@ -381,19 +391,9 @@ fn iter<'a>(
                             || (can_ignore_weak_deps
                                 && graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
-                        let declared_in_same_module = match &current_range {
-                            Some(v) => v.contains(&dep),
-                            None => false,
-                        };
-                        if can_ignore_dep && !declared_in_same_module {
+                        if can_ignore_dep {
                             if graph.has_a_path(dep, idx) {
                                 // Just emit idx.
-                                continue;
-                            }
-                        }
-
-                        if let Some(range) = &current_range {
-                            if dep > idx && range.contains(&dep) {
                                 continue;
                             }
                         }
