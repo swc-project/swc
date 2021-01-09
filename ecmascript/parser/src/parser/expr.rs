@@ -1047,8 +1047,8 @@ impl<'a, I: Tokens> Parser<I> {
                         if is!(p, '.') {
                             p.emit_err(p.input.cur_span(), SyntaxError::ExpectedLParen);
                             return Ok(Some((
-                                match obj {
-                                    ExprOrSuper::Expr(obj) => obj,
+                                match obj_ref {
+                                    ExprOrSuper::Expr(obj) => obj.clone(),
                                     _ => unreachable!(),
                                 },
                                 true,

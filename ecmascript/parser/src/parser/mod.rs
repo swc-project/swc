@@ -8,6 +8,7 @@ use crate::{
     token::{Token, Word},
     Context, JscTarget, Syntax,
 };
+use std::cell::RefCell;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, input::Input, BytePos, Span};
@@ -40,7 +41,7 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Clone)]
 pub struct Parser<I: Tokens> {
     /// [false] while backtracking
-    emit_err: bool,
+    errors_for_backtraing: Option<RefCell<Vec<Error>>>,
     state: State,
     input: Buffer<I>,
 }
@@ -61,7 +62,7 @@ impl<'a, I: Input> Parser<Lexer<'a, I>> {
 impl<I: Tokens> Parser<I> {
     pub fn new_from(input: I) -> Self {
         Parser {
-            emit_err: true,
+            errors_for_backtraing: None,
             state: Default::default(),
             input: Buffer::new(input),
         }
@@ -200,7 +201,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_err(&self, span: Span, error: SyntaxError) {
-        if !self.emit_err || !self.syntax().early_errors() {
+        if !self.syntax().early_errors() {
             return;
         }
 
@@ -211,7 +212,11 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_error(&self, error: Error) {
-        if !self.emit_err || !self.syntax().early_errors() {
+        if !self.syntax().early_errors() {
+            return;
+        }
+        if let Some(errors) = &self.errors_for_backtraing {
+            errors.borrow_mut().push(error);
             return;
         }
 

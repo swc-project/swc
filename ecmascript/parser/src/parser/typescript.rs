@@ -471,13 +471,20 @@ impl<I: Tokens> Parser<I> {
             return Ok(false);
         }
         let prev_emit_err = self.emit_err;
+        let errors_for_backtraing = self.errors_for_backtraing.take();
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        cloned.errors_for_backtraing = Some(Default::default());
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
                 self.emit_err = prev_emit_err;
+                if let Some(errors) = self.errors_for_backtraing.take() {
+                    for error in errors.into_inner() {
+                        self.emit_error(error);
+                    }
+                }
+
                 Ok(res)
             }
             Err(err) => Ok(false),
@@ -495,9 +502,10 @@ impl<I: Tokens> Parser<I> {
         }
         trace_cur!(self, try_parse_ts);
         let prev_emit_err = self.emit_err;
+        let errors_for_backtraing = self.errors_for_backtraing.take();
 
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        cloned.errors_for_backtraing = Some(Default::default());
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) => {
@@ -505,6 +513,12 @@ impl<I: Tokens> Parser<I> {
                 trace_cur!(self, try_parse_ts__success_value);
 
                 self.emit_err = prev_emit_err;
+                if let Some(errors) = self.errors_for_backtraing.take() {
+                    for error in errors.into_inner() {
+                        self.emit_error(error)
+                    }
+                }
+                self.errors_for_backtraing = errors_for_backtraing;
                 Some(res)
             }
             Ok(None) => {
@@ -1048,9 +1062,13 @@ impl<I: Tokens> Parser<I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
+        let errors_for_backtraing = self.errors_for_backtraing.take();
+
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        cloned.errors_for_backtraing = Some(Default::default());
         let res = op(&mut cloned);
+        // We drop errors occured while backtracking.
+        self.errors_for_backtraing = errors_for_backtraing;
         res
     }
 
@@ -2040,7 +2058,7 @@ impl<I: Tokens> Parser<I> {
             match &*ty {
                 TsType::TsArrayType(..) | TsType::TsTupleType(..) => {}
                 _ => {
-                    self.emit_err(readonly,SyntaxError::InvalidReadonly);
+                    self.emit_err(readonly, SyntaxError::InvalidReadonly);
                 }
             }
         }
