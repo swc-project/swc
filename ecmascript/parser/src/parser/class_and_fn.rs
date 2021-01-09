@@ -1303,7 +1303,15 @@ impl<'a, I: Tokens> Parser<I> {
                     // in_generator: prev_in_generator,
                     ..p.ctx()
                 };
-                let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
+                let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p));
+                let params = match params {
+                    Ok(v) => v,
+                    Err(err) => {
+                        p.emit_error(err);
+
+                        vec![]
+                    }
+                };
 
                 expect!(p, ')');
                 params
