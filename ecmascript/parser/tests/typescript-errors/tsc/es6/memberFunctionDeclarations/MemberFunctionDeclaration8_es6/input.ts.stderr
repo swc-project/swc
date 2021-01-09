@@ -1,0 +1,6 @@
+error: Unexpected character '¬'
+ --> $DIR/tests/typescript-errors/tsc/es6/memberFunctionDeclarations/MemberFunctionDeclaration8_es6/input.ts:5:12
+  |
+5 |     if (a) ¬ * bar;
+  |            ^
+

@@ -1,0 +1,12 @@
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/es6/memberFunctionDeclarations/MemberFunctionDeclaration6_es6/input.ts:4:1
+  |
+4 | }
+  | ^
+
+error[1221]: An overload signature cannot be declared as a generator.
+ --> $DIR/tests/typescript-errors/tsc/es6/memberFunctionDeclarations/MemberFunctionDeclaration6_es6/input.ts:3:4
+  |
+3 |    *foo
+  |    ^
+
