@@ -704,7 +704,11 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         Ok(if eat!(self, "catch") {
-            let param = self.parse_catch_param()?;
+            let param = self.parse_catch_param().unwrap_or_else(|err| {
+                self.emit_error(err);
+
+                None
+            });
 
             self.parse_block(false)
                 .map(|body| CatchClause {
