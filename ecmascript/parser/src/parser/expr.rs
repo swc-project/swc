@@ -11,13 +11,7 @@ mod verifier;
 
 impl<'a, I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
-        // trace_cur!(self, parse_expr);
-        if is!(self, ';') {
-            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
-            return Ok(Box::new(Expr::Invalid(Invalid {
-                span: self.input.cur_span(),
-            })));
-        }
+        trace_cur!(self, parse_expr);
 
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
