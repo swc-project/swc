@@ -126,6 +126,7 @@ pub enum SyntaxError {
     ExpectedExpr,
     ExpectedExprAfterThis,
     ExpectedIdent,
+    ExpectedIdentButGotKeyword,
     ExpectedIdentAfterThis,
     ExpctedSemi,
     DuplicateLabel(JsWord),
@@ -345,6 +346,8 @@ impl SyntaxError {
             | SyntaxError::ExpectedLParen => Some(1005),
 
             SyntaxError::InvalidReadonly => Some(1354),
+
+            SyntaxError::ExpectedIdentButGotKeyword => Some(1359),
 
             _ => None,
         }
@@ -730,6 +733,9 @@ impl SyntaxError {
             }
             SyntaxError::ExpectedLParen => "Expected '('".into(),
             SyntaxError::ExpectedRParen => "Expected ')'".into(),
+            SyntaxError::ExpectedIdentButGotKeyword => {
+                "Expected an identifier, but found keyword".into()
+            }
         }
     }
 }
