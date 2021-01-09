@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/async/es2017/functionDeclarations/asyncFunctionDeclaration12_es2017/input.ts:3:24
+  |
+3 | var v = async function await(): Promise<void> { }
+  |                        ^^^^^
+
