@@ -852,7 +852,13 @@ impl<'a, I: Tokens> Parser<I> {
                 break;
             }
 
-            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop)?);
+            let d = self.with_ctx(ctx).parse_var_declarator(for_loop)?;
+
+            if !for_loop && kind == VarDeclKind::Const {
+                self.emit_err(d.name.span(),SyntaxError::ConstMustBeInitialized);
+            }
+
+            decls.push(d);
         }
 
         if !for_loop {
