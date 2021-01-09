@@ -39,7 +39,14 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            let prop = self.parse_object_prop()?;
+            let prop = self.parse_object_prop();
+            let prop = match prop {
+                Ok(v) => v,
+                Err(err) => {
+                    self.emit_error(err);
+                    continue;
+                }
+            };
             props.push(prop);
         }
 
