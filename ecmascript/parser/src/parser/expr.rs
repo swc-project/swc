@@ -465,7 +465,7 @@ impl<'a, I: Tokens> Parser<I> {
             trace_cur!(self, parse_array_lit__element);
 
             // Error recovery.
-            if eat!(self, ')') {
+            if eat!(self, ')') || is!(self, '}') {
                 self.emit_err(self.input.prev_span(), SyntaxError::ExpectedRSquareBracket);
                 break;
             }
