@@ -27,8 +27,6 @@ use swc_ecma_utils::{find_ids, prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
 
-const DEBUG: bool = cfg!(debug_assertions) && false;
-
 pub(super) struct Ctx {
     pub plan: Plan,
     pub merged: CHashSet<ModuleId>,
@@ -83,23 +81,19 @@ where
                     }
                 };
 
-                if DEBUG {
-                    print_hygiene(
-                        &format!("before merging deps: {}", info.fm.name),
-                        &self.cm,
-                        &module.clone().into(),
-                    );
-                }
+                // print_hygiene(
+                //     &format!("before merging deps: {}", info.fm.name),
+                //     &self.cm,
+                //     &module.clone().into(),
+                // );
 
                 module = self.merge_deps(ctx, is_entry, module, plan, &info, !allow_circular)?;
 
-                if DEBUG {
-                    print_hygiene(
-                        &format!("after merging deps: {}", info.fm.name),
-                        &self.cm,
-                        &module.clone().into(),
-                    );
-                }
+                // print_hygiene(
+                //     &format!("after merging deps: {}", info.fm.name),
+                //     &self.cm,
+                //     &module.clone().into(),
+                // );
             }
 
             if is_entry {
@@ -178,29 +172,25 @@ where
         } else {
             let mut module = self.merge_modules(ctx, dep_id, false, true)?;
 
-            if DEBUG {
-                print_hygiene(
-                    &format!(
-                        "import: Before handle_import_deps {:?}:{:?}",
-                        dep_info.local_ctxt(),
-                        dep_info.export_ctxt(),
-                    ),
-                    &self.cm,
-                    &module.clone().into(),
-                );
-            }
+            // print_hygiene(
+            //     &format!(
+            //         "import: Before handle_import_deps {:?}:{:?}",
+            //         dep_info.local_ctxt(),
+            //         dep_info.export_ctxt(),
+            //     ),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
             self.handle_import_deps(ctx, &dep_info, &mut module, false);
-            if DEBUG {
-                print_hygiene(
-                    &format!(
-                        "import: After handle_import_deps {:?}:{:?}",
-                        dep_info.local_ctxt(),
-                        dep_info.export_ctxt(),
-                    ),
-                    &self.cm,
-                    &module.clone().into(),
-                );
-            }
+            // print_hygiene(
+            //     &format!(
+            //         "import: After handle_import_deps {:?}:{:?}",
+            //         dep_info.local_ctxt(),
+            //         dep_info.export_ctxt(),
+            //     ),
+            //     &self.cm,
+            //     &module.clone().into(),
+            // );
             module
         };
 
