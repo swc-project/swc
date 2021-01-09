@@ -465,9 +465,14 @@ impl<'a, I: Tokens> Parser<I> {
             trace_cur!(self, parse_array_lit__element);
 
             // Error recovery.
-            if eat!(self, ')') || is!(self, '}') {
+            if eat!(self, ')') {
                 self.emit_err(self.input.prev_span(), SyntaxError::ExpectedRSquareBracket);
                 break;
+            }
+            if is!(self, '}') {
+                self.emit_err(self.input.prev_span(), SyntaxError::ExpectedRSquareBracket);
+                let span = span!(self, start);
+                return Ok(Box::new(Expr::Array(ArrayLit { span, elems })));
             }
 
             if is!(self, ',') {
