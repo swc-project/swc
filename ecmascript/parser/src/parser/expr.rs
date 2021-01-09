@@ -19,19 +19,7 @@ impl<'a, I: Tokens> Parser<I> {
             })));
         }
 
-        let start = cur_pos!(self);
-        let expr = self.parse_expr_inner();
-
-        match expr {
-            Ok(v) => Ok(v),
-            // Perform error recovery.
-            Err(err) => {
-                let span = span!(self, start);
-                self.emit_error(err);
-
-                Ok(Box::new(Expr::Invalid(Invalid { span })))
-            }
-        }
+        self.parse_expr_inner()
     }
 
     fn parse_expr_inner(&mut self) -> PResult<Box<Expr>> {
