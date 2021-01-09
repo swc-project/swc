@@ -403,6 +403,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
+                if is!(self, "interface") && peeked_is!(self, IdentName) {
+                    syntax_error!(self, SyntaxError::ExpectedIdent);
+                }
+
                 // async a => body
                 let arg = self.parse_binding_ident().map(Pat::from)?;
                 let params = vec![arg];
