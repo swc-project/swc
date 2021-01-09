@@ -1,0 +1,12 @@
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Generics/parserMemberAccessExpression1/input.ts:3:7
+  |
+3 | Foo<T>.Bar();
+  |       ^
+
+error[1005]: Expected '('
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Generics/parserMemberAccessExpression1/input.ts:4:7
+  |
+4 | Foo<T>.Bar<T>();
+  |       ^
+
