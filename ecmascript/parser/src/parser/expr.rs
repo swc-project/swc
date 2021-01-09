@@ -1282,6 +1282,10 @@ impl<'a, I: Tokens> Parser<I> {
                         spread: None,
                     })]);
                 }
+                if is!(self, ')') {
+                    self.emit_err(self.input.cur_span(), SyntaxError::ExpectedExpr);
+                    break;
+                }
             } else {
                 expect!(self, ',');
                 // Handle trailing comma.
