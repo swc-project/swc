@@ -59,7 +59,7 @@ impl<'a, I: Tokens> Parser<I> {
             Ok(v) => Ok(v),
             // Perform error recovery.
             Err(err) => {
-                let span = span!(self, start);
+                let span = err.span();
                 self.emit_error(err);
 
                 Ok(Box::new(Expr::Invalid(Invalid { span })))
