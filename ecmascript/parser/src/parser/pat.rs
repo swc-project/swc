@@ -14,6 +14,11 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
 
+        if self.ctx().in_async && is!(self, "await") {
+            self.emit_err(self.input.cur_span(), SyntaxError::ExpectedIdent);
+            return self.parse_ident_name().map(Some);
+        }
+
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
             self.parse_binding_ident().map(Some)
         } else {
