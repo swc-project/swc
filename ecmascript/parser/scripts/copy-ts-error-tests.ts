@@ -27,6 +27,8 @@ async function compile(fileNames: string[], options: ts.CompilerOptions): Promis
 
         // Relation between async function and Promise<T> should be handled by the type checker.
         if (d.code === 1064) continue
+        // any / unknown restriction of a catch parameter should be handled by the type checker.
+        if (d.code === 1196) continue
 
         // Parse failure
         if (1000 <= d.code && d.code < 2000) return true;
