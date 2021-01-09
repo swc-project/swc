@@ -1,4 +1,4 @@
-class Comparator1 {
+class Comparator {
     constructor(comp1, optionsOrLoose = {
     }){
     }
@@ -14,6 +14,7 @@ class Comparator1 {
         }
     }
 }
-const x = new Comparator1('boo');
+const x = new Comparator('boo');
 x.parse('test');
-export { Comparator1 as Comparator };
+const Comparator1 = Comparator;
+export { Comparator as Comparator };
