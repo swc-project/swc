@@ -1,22 +1,10 @@
-error: Unexpected token `.`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
- --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:16
+error: Expected an expression
+ --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:15
   |
 3 |         import(../foo/bar)
-  |                ^
+  |               ^
 
-error: Expected ,, got .
- --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:16
-  |
-3 |         import(../foo/bar)
-  |                ^
-
-error: Expected ';', '}' or <eof>
- --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:16
-  |
-3 |         import(../foo/bar)
-  |                ^
-  |
-note: This is the expression part of an expression statement
+error[1005]: Expected ')'
  --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:16
   |
 3 |         import(../foo/bar)
