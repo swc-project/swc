@@ -37,9 +37,12 @@ impl VisitMut for KeywordRenamer {
 
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         match n {
-            Prop::Shorthand(n) => {
-                if let Some(renamed) = self.renamed(&n) {
-                    *n = renamed;
+            Prop::Shorthand(i) => {
+                if let Some(renamed) = self.renamed(&i) {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value: Box::new(Expr::Ident(renamed)),
+                    });
                 }
             }
             _ => {
