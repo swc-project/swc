@@ -376,7 +376,7 @@ impl SyntaxError {
             SyntaxError::ExpectedIdentAfterThis => "Expected identifier after this token".into(),
 
             SyntaxError::PrivateNameInInterface => {
-                "private names are now allowed in interface".into()
+                "private names are not allowed in interface".into()
             }
             SyntaxError::TopLevelAwait => "top level await requires target to es2017 or higher \
                                            and topLevelAwait:true for ecmascript"
@@ -583,6 +583,7 @@ impl SyntaxError {
                 "The operand of a delete operator must be a property reference.".into()
             }
             SyntaxError::DeclNotAllowed => "Declaration is now allowed".into(),
+            SyntaxError::DeclNotAllowed => "Declatation is not allowed".into(),
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),
             SyntaxError::ArrowNotAllowed => "An arrow function is not allowed here".into(),
